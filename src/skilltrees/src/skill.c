@@ -6,9 +6,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-#include "skilltrees/effect.h"
 #include "skilltrees/skill.h"
-
 
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
@@ -74,8 +72,16 @@ int skill_free(skill_t* skill) {
 /* See skill.h */
 int skill_execute(skill_t* skill, chiventure_ctx_t* ctx) 
 {
-    assert(skill != NULL);
-    assert(skill -> skill_effect != NULL);
+    if(skill == NULL)
+    {
+        fprintf(stderr, "Error: NULL skill provided \n");
+        return FAILURE;
+    }
+    if(skill -> skill_effect == NULL)
+    {
+        fprintf(stderr, "Error: NULL effect in skill");
+        return FAILURE;
+    }
     effect_t* skill_effect = skill->skill_effect;
     int check = 0;
     effect_type_t type = skill_effect->effect_type;
@@ -92,7 +98,7 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
     }
     if (type == ITEM_ATTRIBUTE_MOD)
     {
-        execute_item_att_effect(skill_effect->data.i_a);
+        execute_item_attr_effect(skill_effect->data.i_a);
         assert(check==0);
         return check;
     }

@@ -5,7 +5,8 @@
 #ifndef INCLUDE_STDST_H_
 #define INCLUDE_STDST_H_
 
-#include "effect.h"
+#include "common/common.h"
+#include "skilltrees/effect.h"
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
 /* ============================= */
@@ -27,31 +28,18 @@
  * chiventure team a range of 1000 IDs (e.g. rpg-battle is entitled to sid_t
  * 2000-2999).
  */
-typedef enum sid {
-    // Example 1
-    UNLOCK_DOOR = 1000,
 
-    // Example 2
-    DEFUSE_BOMB = 1001,
-
-    // Example 3
-    CHOP_TREE = 1002,
-
-    // Example 4
-    INNER_PEACE = 1003,
-
-} sid_t;
-
-/* Skill type */
-typedef enum skill_type {
-    // Denotes active skill
-    ACTIVE,
-
-    // Denotes passive skill
-    PASSIVE,
-
-} skill_type_t;
-
+/*
+ * Skill effect function type
+ *
+ * Parameters:
+ *  - Contained within a string for function pointer uniformity. Each skill
+ *    effect function can read the string for parameters using sscanf.
+ *
+ * Returns:
+ *  - A string describing the consequence of the skill execution, for the CLI
+ */
+typedef char* (*skill_effect_t)(char*);
 
 /* An INDIVIDUAL skill, belonging to a player */
 typedef struct skill {

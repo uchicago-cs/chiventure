@@ -5,6 +5,7 @@
 #ifndef INCLUDE_SKILLTREE_H_
 #define INCLUDE_SKILLTREE_H_
 
+#include "skilltrees/skilltrees_common.h"
 #include "skilltrees/skill.h"
 #include "skilltrees/inventory.h"
 
@@ -58,14 +59,16 @@ struct skill_node {
     // The number of prerequisite skill nodes
     unsigned int num_prereq_skills;
 
+    // The level that of the character that a player must be to achieve the skill_node
+    // This is an ADDITIONAL pre_req to the lists of skill_nodes preceding the tree
+    unsigned int prereq_level;
+
     // The size of the skill node, for the graphics team
     unsigned int size;
 
 };
 
-/* Skill tree, contains a number of skill nodes. 
- * Games can have multiple skill trees if the creator wishes. 
- * For Example: 1 for knight player class, 1 for elementalist etc.*/
+/* Skill tree, contains all skill nodes in a game */
 typedef struct skill_tree {
     // The tree ID that uniquely identifies the skill tree
     tid_t tid;
@@ -88,13 +91,15 @@ typedef struct skill_tree {
  *  - skill: The skill represented by the skill node
  *  - nprepreqs: The number of prerequisite skills to acquire the skill
  *  - size: The size of the skill node, for the graphics team
+ *  - prereq_level: The minimum level of the player required to acquire skill
  *
  * Returns:
  *  - A pointer to the skill node, or NULL if a skill node cannot be
  *    allocated
  */
  skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
-                              unsigned int size);
+                            unsigned int prereq_level,
+                            unsigned int size);
 
 /*
  * Frees the resources associated with a skill node.
@@ -113,11 +118,13 @@ int skill_node_free(skill_node_t* node);
  * Parameters:
  *  - node: A skill node
  *  - prereq: A prerequisite skill node
+ *  - preq_level: Prerequisite level
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int node_prereq_add(skill_node_t* node, skill_node_t* prereq);
+int node_prereq_add(skill_node_t* node, skill_node_t* prereq,
+                    unsigned int prereqlevel);
 
 /*
  * Removes a prerequisite from a skill node.
@@ -198,18 +205,44 @@ int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node);
  * Parameters:
  *  - tree: A skill tree
  *  - sid: A skill ID
- *  - num_prereq_skills: An out-parameter. The number of prerequisite skills in
- *    the list
- *
+
  * Returns:
  *  - A pointer to the list of all prerequisite skills, NULL if there are none
  *    or an error occurs.
- *  - To distinguish between no prerequisites and errors, the out-parameter
- *    `num_prereq_skills` is updated to 0 when there are no prerequisites, and
- *    is updated to -1 if an error has occurred
+*/
+skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid);
+
+
+
+/*
+ *  Returns number of prerequisite skill for a given skill
+ *
+ *  Parameters:
+ *  - tree: a skill tree
+ *  - sid: a skill ID
+ *
+ *  Returns:   
+ * - Integer of the number of prerequisite skills
+ *
+ *
  */
-skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
-                                int* num_prereq_skills);
+
+unsigned int get_number_skill_prereqs(skill_tree_t* tree, sid_t sid);
+
+
+/*
+ *  Returns number of prerequisite skill for a given skill
+ *
+ *  Parameters:
+ *  - tree: a skill tree
+ *  - sid: a skill ID
+ *
+ *  Returns:   
+ * - Integer of the prereq level
+ *
+ */
+
+unsigned int get_prereq_level(skill_tree_t* tree, sid_t sid);
 
 /*
  * Returns prerequisite skills already acquired by a player for a given skill.
@@ -220,6 +253,7 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
  *  - sid: A skill ID
  *  - num_acquired_prereqs: An out-parameter. The number of acquired prerequisite skills in
  *              the list
+ *  - prereq_level: An out-paramter. The level that is a prerequisite to earn a skill
  *
  * Returns:
  *  - A pointer to the list of acquired prerequisite skills, NULL if there are
@@ -230,6 +264,7 @@ skill_node_t** get_all_skill_prereqs(skill_tree_t* tree, sid_t sid,
  */
 skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
                                      skill_inventory_t* inventory, sid_t sid,
+                                     unsigned int* prereq_level,
                                      int* num_acquired_prereqs);
 
 /*
@@ -241,6 +276,7 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
  *  - sid: The ID of the skill we want to check for prerequisites.
  *  - num_acquired_prereqs: An out-parameter. The number of missing prerequisite skills in
  *              the list
+ *  - prereqlevel: an out-parameter, the prerequisite level to level the skill
  *
  * Returns:
  *  - A pointer to the list of missing prerequisite skills, NULL if there are
@@ -251,7 +287,10 @@ skill_t** get_acquired_skill_prereqs(skill_tree_t* tree,
  */
 skill_t** skill_prereqs_missing(skill_tree_t* tree,
                                 skill_inventory_t* inventory, sid_t sid,
+                                unsigned int* prereqlevel,
                                 int* nmissing);
+
+
 
 /*
  * Adds a skill to an inventory, if the inventory contains all its prerequisite

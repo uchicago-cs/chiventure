@@ -4,15 +4,27 @@
 #include "skilltrees/effect.h"
 
 
-// See effect.h
+/* See effect.h */
 player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx)
 {
-    assert(ctx != NULL);
+    if(ctx == NULL)
+    {
+        fprintf(stderr, "Error: Null context object passed \n");
+        return NULL;
+    }
     player_stat_effect_t* new_stat_effect = (player_stat_effect_t*)malloc(sizeof(player_stat_effect_t));
-    assert(new_stat_effect != NULL);
+    if(new_stat_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for new player stat effect \n");
+        return NULL;
+    }
     new_stat_effect->player_stat_effect_name = player_stat_effect_name;
     new_stat_effect->stats = (stats_t**)malloc(num_stats*sizeof(stats_t*));
-    assert(new_stat_effect->stats != NULL);
+    if(new_stat_effect->stats == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for statistics in the effect \n");
+        return NULL;
+    }
     stats_hash_t* sh = ctx ->game->curr_player->player_stats;
     stats_t* curr;
     for(int i = 0; i < num_stats; i++)
@@ -21,7 +33,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
         
         if(curr == NULL)
         {
-            fprintf(stderr, "Given player statistic does not exist. \n");
+            fprintf(stderr, "Error: Given player statistic does not exist. \n");
             return NULL;
         }
         else
@@ -35,7 +47,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
     return new_stat_effect;
 }
 
-// See effect.h
+/* See effect.h */
 move_effect_t* define_move_effect(move_t* move)
 {
     move_effect_t* new_move_effect = (move_effect_t*)malloc(sizeof(move_effect_t));
@@ -44,8 +56,8 @@ move_effect_t* define_move_effect(move_t* move)
     return new_move_effect;
 }
 
-//See effect.h
-item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod) 
+/* See effect.h */
+item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod) 
 {
     assert(item != NULL);
     attribute_t* attr = get_attribute(item, att_id);
@@ -54,70 +66,97 @@ item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, enum attri
         fprintf(stderr, "Attribute not found \n");
         return NULL;
     }
-    item_att_effect_t* item_att_effect = (item_att_effect_t*)malloc(sizeof(item_att_effect_t));
-    item_att_effect -> item = item;
-    item_att_effect -> att_id = att_id;
-    item_att_effect -> att_tag = att_tag;
+    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t));
+    item_attr_effect -> item = item;
+    item_attr_effect -> att_id = att_id;
+    item_attr_effect -> att_tag = att_tag;
     
     if (att_tag == DOUBLE)
-    item_att_effect -> attribute_mod.double_val = attribute_mod.double_val;
+    item_attr_effect -> attribute_mod.double_val = attribute_mod.double_val;
     if (att_tag == BOOLE)
-    item_att_effect -> attribute_mod.bool_val = attribute_mod.bool_val;
+    item_attr_effect -> attribute_mod.bool_val = attribute_mod.bool_val;
     if (att_tag == CHARACTER)
-    item_att_effect -> attribute_mod.char_val = attribute_mod.char_val;
+    item_attr_effect -> attribute_mod.char_val = attribute_mod.char_val;
     if (att_tag == STRING)
-    item_att_effect -> attribute_mod.str_val = attribute_mod.str_val;
+    item_attr_effect -> attribute_mod.str_val = attribute_mod.str_val;
     if (att_tag == INTEGER)
-    item_att_effect -> attribute_mod.int_val = attribute_mod.int_val;
+    item_attr_effect -> attribute_mod.int_val = attribute_mod.int_val;
 
-    return item_att_effect;
+    return item_attr_effect;
 }
 
-// See effect.h
+/* See effect.h */
 item_stat_effect_t* define_item_stat_effect()
 {
     //TODO
     return NULL;
 }
 
-// See effect.h
+/* See effect.h */
 effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
 {
-    assert(player_stat_effect != NULL);
+    if(player_stat_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL player stat effect");
+        return NULL;
+    }
     effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
+    if(new_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
     new_effect->effect_type = PLAYER_STATISTIC_MOD;
     new_effect->data.s = player_stat_effect;
     return new_effect;
 }
 
-// See effect.h
+/* See effect.h */
 effect_t* make_move_effect(move_effect_t* move_effect)
 {
-    assert(move_effect != NULL);
+    if(move_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL move effect");
+        return NULL;
+    }
     effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
+    if(new_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
     new_effect->effect_type = MOVE_UNLOCK;
     new_effect->data.m = move_effect;
     return new_effect;
 }
 
-// See effect.h
-effect_t* make_item_att_effect(item_att_effect_t* item_att_effect)
+/* See effect.h */
+effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
 {
-    assert(item_att_effect != NULL);
-    effect_t* new_att_effect = (effect_t*)malloc(sizeof(effect_t));
-    new_att_effect->effect_type = ITEM_ATTRIBUTE_MOD;
-    new_att_effect->data.i_a = item_att_effect;
-    return new_att_effect;
+    if(item_attr_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL item attribute effect");
+        return NULL;
+    }
+    effect_t* new_attr_effect = (effect_t*)malloc(sizeof(effect_t));
+    if(new_attr_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
+    new_attr_effect->effect_type = ITEM_ATTRIBUTE_MOD;
+    new_attr_effect->data.i_a = item_attr_effect;
+    return new_attr_effect;
 }
 
-// See effect.h
+/* See effect.h */
 effect_t* make_item_stat_effect(item_stat_effect_t* item_stat_effect)
 {
     //TODO 
     return NULL;
 }
 
-// See effect.h
+/* See effect.h */
 int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chiventure_ctx_t* ctx)
 {
     assert(ctx != NULL);
@@ -147,26 +186,28 @@ int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chivent
     }
 }
 
-// See effect.h
+/* See effect.h */
 int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 {
     assert(ctx != NULL);
     assert(effect != NULL);
-    //ctx->game->curr_player->moves currently hasn't been implemented. We are working with battles to do so.
+    /* ctx->game->curr_player->moves currently hasn't been implemented. 
+     * We are working with battles to do so.
+     */
     //add_move(ctx->game->curr_player->moves, effect->move);
     return SUCCESS;
 }
 
-// See effect.h
-int execute_item_att_effect(item_att_effect_t* item_att_effect)
+/* See effect.h */
+int execute_item_attr_effect(item_attr_effect_t* item_attr_effect)
 {
-    assert(item_att_effect != NULL);
-    item_t* item = item_att_effect -> item;
-    char* attr_id = item_att_effect -> att_id;
-    enum attribute_tag att_tag = item_att_effect -> att_tag;
+    assert(item_attr_effect != NULL);
+    item_t* item = item_attr_effect -> item;
+    char* attr_id = item_attr_effect -> att_id;
+    enum attribute_tag att_tag = item_attr_effect -> att_tag;
     if (att_tag == DOUBLE)
     {
-        double mod = item_att_effect -> attribute_mod.double_val;
+        double mod = item_attr_effect -> attribute_mod.double_val;
         int check = set_double_attr(item, attr_id, mod);
         if (check == FAILURE)
         {
@@ -176,7 +217,7 @@ int execute_item_att_effect(item_att_effect_t* item_att_effect)
     }
     if (att_tag == BOOLE)
     {
-        bool mod = item_att_effect -> attribute_mod.bool_val;
+        bool mod = item_attr_effect -> attribute_mod.bool_val;
         int check = set_bool_attr(item, attr_id, mod);
         if (check == FAILURE)
         {
@@ -186,7 +227,7 @@ int execute_item_att_effect(item_att_effect_t* item_att_effect)
     }
     if (att_tag == CHARACTER)
     {
-        char mod = item_att_effect -> attribute_mod.char_val;
+        char mod = item_attr_effect -> attribute_mod.char_val;
         int check = set_char_attr(item, attr_id, mod);
         if (check == FAILURE)
         {
@@ -196,7 +237,7 @@ int execute_item_att_effect(item_att_effect_t* item_att_effect)
     }
     if (att_tag == STRING)
     {
-        char* mod = item_att_effect -> attribute_mod.str_val;
+        char* mod = item_attr_effect -> attribute_mod.str_val;
         int check = set_str_attr(item, attr_id, mod);
         if (check == FAILURE)
         {
@@ -206,7 +247,7 @@ int execute_item_att_effect(item_att_effect_t* item_att_effect)
     }
     if (att_tag == INTEGER)
     {
-        int mod = item_att_effect -> attribute_mod.int_val;
+        int mod = item_attr_effect -> attribute_mod.int_val;
         int check = set_char_attr(item, attr_id, mod);
         if (check == FAILURE)
         {
@@ -217,6 +258,7 @@ int execute_item_att_effect(item_att_effect_t* item_att_effect)
     return SUCCESS;
 }
 
+/* See effect.h */
 int execute_item_stat_effect(item_stat_effect_t* item_stat_effect)
 {
     //TODO

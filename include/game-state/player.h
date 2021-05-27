@@ -10,7 +10,11 @@
 #include "stats.h"
 #include "item.h"
 #include "playerclass/class.h"
+#include "skilltrees/skilltrees_enums.h"
 
+// Forward declaration for skilltrees
+
+typedef struct skill skill_t;
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
@@ -37,11 +41,8 @@ typedef struct player {
     both the maximum and current health if health is a feature of the current game */
     stats_hash_t *player_stats;
 
-    /* The current combat skills known to the player */
-    skill_inventory_t *player_combat_skills;
-
-    /* The current noncombat skills known to the player */
-    skill_inventory_t *player_noncombat_skills;
+    /* The current skills known to the player */
+    skill_inventory_t *player_skills;
 
     /* All of the effects the player is currently experiencing */
     effects_hash_t *player_effects;
@@ -230,5 +231,125 @@ bool item_in_inventory(player_t *player, item_t *item);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int assign_stats_player(player_t *plyr, stats_hash_t *sh);
+
+/*
+ * Adds a skill to a player's respective skill inventory
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  skill: pointer to an already existing skill that is being added to the
+ *         player's skill inventory
+ * 
+ * Returns:
+ *  SUCCESS on successful addition of skill, FAILURE if an error occurs
+ * 
+ * Note: Same return value as inventory_skill_add()
+ */
+int player_add_skill(player_t *player, skill_t *skill);
+
+/*
+ * Remove a skill from a player's respective skill inventory
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  skill: pointer to an already existing skill that is being removed from the
+ *         player's skill inventory
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs
+ * 
+ * Note: Same return value as inventory_skill_remove()
+ */
+int player_remove_skill(player_t *player, skill_t *skill);
+
+/*
+ * Searches for a skill in a player's respective skill inventory.
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  sid: The skill ID that uniquely identifies the skill
+ *  type: The skill type, either active or passive
+ * 
+ * Returns:
+ *  The position of the skill in the skill inventory, -1 if the 
+ *  skill is not in the skill inventory.
+ *  
+ *  Note: Same return value as inventory_has_skill()
+ */
+int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
+
+/*
+ * Changes the base value of a given player's stat by the specified amount
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  stat: the name/key of the stat
+ *  change: the value to add to the stat. 
+ *  If the value is greater than the local max, the value is set to the local max
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ * Note: Same return value as change_stat()
+ */
+int player_change_stat(player_t *player, char *stat, double change);
+
+/*
+ * Changes the max value of a given player's stat by the specified amount
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  stat: the name/key of the stat
+ *  change: the value to add to the stats max
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ *  
+ * Note: Same return value as change_stat_max()
+ */
+int player_change_stat_max(player_t *player, char *stat, double change);
+
+/* 
+ * Gets the specified player stat from a player's stats hash table
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  stat: the name/key of the stat
+ * 
+ * Returns:
+ *  double value of the player's stat. It the value is greater than the global
+ *  max, the value is the global max
+ * 
+ * Note: Same return value as get_stat_current()
+ */
+double player_get_stat_current(player_t *player, char *stat);
+
+/*
+ * Adds a specified stat to a player's stat hash table
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  s: Pointer to the stat to be added
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ * Note: Same return value as add_stat()
+ */
+int player_add_stat(player_t *player, stats_t *s);
+
+/*
+ * Adds a specified effect to the player's effects hash table
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  effect: Pointer to the effect to be added
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ * Note: Same return value as add_stat_effect()
+ */
+int player_add_stat_effect(player_t *player, stat_effect_t *effect);
 
 #endif

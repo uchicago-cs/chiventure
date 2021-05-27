@@ -1,17 +1,21 @@
+#include <stdlib.h>
 #include "npc/npc.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
+
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             int health, class_t *class, npc_mov_t *movement)
+             class_t *class, npc_mov_t *movement, bool will_fight)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
-    npc->health = health;
+    npc->dialogue = NULL;
     npc->inventory = NULL;
     npc->class = class;
+    npc->will_fight = will_fight;
+    npc->npc_battle = NULL;
     npc->movement = movement;
 
     return SUCCESS;
@@ -19,7 +23,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               int health, class_t *class, npc_mov_t *movement)
+               class_t *class, npc_mov_t *movement, bool will_fight)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -30,8 +34,8 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
 
-    int check = npc_init(npc, npc_id, short_desc, long_desc, health, class,
-    movement); 
+    int check = npc_init(npc, npc_id, short_desc, long_desc, 
+                         class, movement, will_fight); 
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
         npc->long_desc == NULL || check != SUCCESS)
@@ -55,14 +59,35 @@ int npc_free(npc_t *npc)
     {
         npc_mov_free(npc->movement);
     }
+    if (npc->npc_battle != NULL)
+    {
+        npc_battle_free(npc->npc_battle);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    free(npc->class);
     delete_all_items(&npc->inventory);
+    class_free(npc->class);
     free(npc);
 
     return SUCCESS;
+}
+
+// "CHECK" FUNCTIONS ----------------------------------------------------------
+
+/* See npc.h */
+bool check_npc_battle(npc_t *npc)
+{
+    assert(npc != NULL);
+
+    if (npc->will_fight == true && npc->npc_battle == NULL) 
+    {
+        return false;
+    } 
+    else 
+    {
+        return true;
+    }
 }
 
 // "GET" FUNCTIONS ------------------------------------------------------------
@@ -87,12 +112,6 @@ char *get_ldesc_npc(npc_t *npc)
 }
 
 /* See npc.h */
-int get_npc_health(npc_t *npc)
-{
-    return npc->health;
-}
-
-/* See npc.h */
 item_hash_t *get_npc_inv_hash(npc_t *npc)
 {
     return npc->inventory;
@@ -113,24 +132,30 @@ item_list_t *get_npc_inv_list(npc_t *npc)
     return head;
 }
 
-// "SET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
-int change_npc_health(npc_t *npc, int change, int max)
+npc_battle_t *get_npc_battle(npc_t *npc)
 {
-    if ((npc->health + change) < 0)
-    {
-        npc->health = 0;
-    }
-    if ((npc->health + change) < max)
-    {
-        npc->health += change;
-    }
-    else
-    {
-        npc->health = max;
-    }
-    return npc->health;
+    assert(npc != NULL);
+
+    return npc->npc_battle;
 }
+
+/* See npc.h */
+int get_npc_health(npc_t *npc)
+{
+    assert(npc != NULL);
+
+    if (npc->npc_battle == NULL) 
+    {
+        return -1;
+    } 
+    else 
+    {
+        return npc->npc_battle->health;
+    }
+}
+
+// "SET" FUNCTIONS ------------------------------------------------------------
 
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
@@ -152,11 +177,55 @@ int remove_item_from_npc(npc_t *npc, item_t *item)
     return rc;
 }
 
-
 /* See npc.h */
 int add_convo_to_npc(npc_t *npc, convo_t *c)
 {
     assert(npc != NULL && c != NULL);
 
     npc->dialogue = c;
+}
+
+/* See npc.h */
+int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
+                      difficulty_t ai, hostility_t hostility_level,
+                      int surrender_level)
+{
+    assert(npc != NULL);
+
+    npc_battle_t *npc_battle = npc_battle_new(health, stats, moves, ai,
+                                              hostility_level, surrender_level);
+    assert(npc_battle != NULL);
+
+    npc->npc_battle = npc_battle;
+}
+
+/* See npc.h */
+int change_npc_health(npc_t *npc, int change, int max)
+{
+    assert(npc->npc_battle != NULL);
+
+    if ((npc->npc_battle->health + change) < 0)
+    {
+        npc->npc_battle->health = 0;
+    }
+    else if ((npc->npc_battle->health + change) < max)
+    {
+        npc->npc_battle->health += change;
+    }
+    else
+    {
+        npc->npc_battle->health = max;
+    }
+    return npc->npc_battle->health;
+}
+
+int delete_all_npcs(npc_hash_t *npcs)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        HASH_DEL(npcs, current_npc);
+        npc_free(current_npc);
+    }
+    return SUCCESS;
 }
