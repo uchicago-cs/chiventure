@@ -223,7 +223,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
         wscrl(win->w, y - height + 2);
         y = height - 2;
     }
-    mvwprintw(win->w, y, 2, "> ");
+    mvwprintw(win->w, y, 0, "  > ");
 }
 
 /* see print_functions.h */
