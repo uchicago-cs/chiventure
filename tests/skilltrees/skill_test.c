@@ -81,30 +81,33 @@ Test(skill_tests, skill_execute_test)
 
 void check_level_up(skill_t* skill, int expected) 
 {
-cr_assert_eq(skill_level_up(skill), expected, "Error: failed test skill_level_up_test");
+  cr_assert_eq(skill_level_up(skill), expected, "Error: failed test skill_level_up_test");
 }
 
 /* Tests skill_level_up when return value is 0 */
-
-Test(skill_tests, skill_level_up_0) {
-    skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, effect_defuse_bomb);
-    check_level_up(skill, 0);
+Test(skill_tests, skill_level_up_0)
+{
+  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    2, 5, effect_defuse_bomb);
+  check_level_up(skill, 0);
 }
 
 /* Tests skill_level_up when return value is 1 */
-
-Test(skill_tests, skill_level_up_1) {
-    skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      1, 5, effect_defuse_bomb);
-    check_level_up(skill, 1);
+Test(skill_tests, skill_level_up_1)
+{
+  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    1, 5, effect_defuse_bomb);
+  check_level_up(skill, 1);
 }
 
 /* Tests skill_level_up when return value is -1 */
-
-Test(skill_tests, skill_level_up_minus_1) {
-    skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      0, 5, effect_defuse_bomb);
-    check_level_up(skill, -1);
+Test(skill_tests, skill_level_up_minus_1)
+{
+  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    0, 5, effect_defuse_bomb);
+  check_level_up(skill, -1);
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6bf0babeeb2da9ea1f65911fabdf6979b4c02c88
