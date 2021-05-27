@@ -77,7 +77,7 @@ int consume_battle_item(combatant_t *c, battle_item_t *item);
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_battle_item(combatant_t *c,int id);
+int use_battle_item(combatant_t *c,char *name);
 
 /* Removes a battle item from a combatant's list of battle items
  *

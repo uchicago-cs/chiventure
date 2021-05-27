@@ -144,7 +144,7 @@ int battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item)
         return FAILURE;
     }
 
-    int usage = use_battle_item(ctx->game->battle->player, item->id));
+    int usage = use_battle_item(ctx->game->battle->player, item->name);
     if (usage == FAILURE) 
     {
         return FAILURE;

@@ -12,7 +12,7 @@
 #include "ui/ui.h"
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
-#include "battle_move_maker.h"
+#include "battle/battle_move_maker.h"
 #include "battle/battle_moves.h"
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"
@@ -21,6 +21,17 @@
 #include <time.h>
 
 const char *banner = "BATTLE MODE DEMO";
+
+class_t *make_bard2()
+{
+    return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
+}
+
+/* initializes a dummy wizard class */
+class_t *make_wizard2()
+{
+    return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
+}
 
 /* Defines an CLI operation for starting a fight */
 char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -39,10 +50,10 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
-    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard(), NULL, true);
+    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
-    battle_player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, p_item);
+    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, NULL, p_item);
 
     chiventure_ctx_battle_t *battle_ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));

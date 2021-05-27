@@ -48,7 +48,7 @@ int main()
     while(ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
 
-        int res = battle_flow(ctx, test_move_bard(), "Goblin");
+        int res = battle_flow_move(ctx, test_move_bard(), "Goblin");
         if(res == FAILURE)
         {
             fprintf(stderr, "Uh oh, the battle flow loop had an error\n");

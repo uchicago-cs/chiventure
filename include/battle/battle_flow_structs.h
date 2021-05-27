@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_common.h"
-#include "battle/battle_logic.h" 
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
 #include "common/common.h"

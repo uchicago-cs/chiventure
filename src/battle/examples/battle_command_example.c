@@ -26,27 +26,7 @@ class_t *make_bard()
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
 }
 
-/* This ensures that the user's inputted move exists
- * Parameters:
- *  ctx: main structure of the game
- * Returns:
- *  a pointer to the found move or NULL for no move 
- */ 
-move_t *find_player_move(chiventure_ctx_battle_t *ctx, char *move_name)
-{
-    move_t *temp;
-    move_t *player_move = NULL;
 
-    DL_FOREACH(ctx->game->battle->player->moves, temp)
-    {
-        if (strncmp(temp->info, move_name, MAX_MOVE_INFO_LEN) == 0)
-        {
-            player_move = temp;
-            return player_move;
-        }
-    }
-    return NULL;
-}
 
 /* Helper function to print the result of a turn
  * Parameters:
@@ -172,7 +152,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
 
         printf("\nBeginning call to battle_flow() function\n");
         // calling the function which is the heart of the battle
-        res = battle_flow(ctx, player_move, args[4]);
+        res = battle_flow_move(ctx, player_move, args[4]);
 
         // prints result of attacks
         int battle_res = print_battle_result(ctx, player_move);
@@ -210,7 +190,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     // handles the command USE <battle_item>
     else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
-        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, atoi(args[1]));
+        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, args[1]);
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
         {
@@ -223,7 +203,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
-        res = use_battle_item(ctx->game->battle->player, atoi(args[1]));
+        res = use_battle_item(ctx->game->battle->player, args[1]);
         if (res == FAILURE) 
         {
             return FAILURE;
