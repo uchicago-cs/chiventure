@@ -25,6 +25,8 @@ def single_line_warnings(message, category, filename, lineno, file=None, line=No
 warnings.formatwarning = single_line_warnings
 
 def collect_flags(flags: list) -> dict:
+    """Transforms a list of flags into a dictionary mapping flags to options"""
+
     flags_dict = {}
     for f in flags:
         name = f
@@ -82,6 +84,7 @@ def main():
     with open(args[0]) as f:
         file_str = f.read()
 
+        # boolean debug
         debug = "debug" in flags
         
         # replace None with "intermediate" and "all" with all options
