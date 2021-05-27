@@ -7,12 +7,24 @@
 /* See effect.h */
 player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx)
 {
-    assert(ctx != NULL);
+    if(ctx == NULL)
+    {
+        fprintf(stderr, "Error: Null context object passed \n");
+        return NULL;
+    }
     player_stat_effect_t* new_stat_effect = (player_stat_effect_t*)malloc(sizeof(player_stat_effect_t));
-    assert(new_stat_effect != NULL);
+    if(new_stat_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for new player stat effect \n");
+        return NULL;
+    }
     new_stat_effect->player_stat_effect_name = player_stat_effect_name;
     new_stat_effect->stats = (stats_t**)malloc(num_stats*sizeof(stats_t*));
-    assert(new_stat_effect->stats != NULL);
+    if(new_stat_effect->stats == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for statistics in the effect \n");
+        return NULL;
+    }
     stats_hash_t* sh = ctx ->game->curr_player->player_stats;
     stats_t* curr;
     for(int i = 0; i < num_stats; i++)
@@ -21,7 +33,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
         
         if(curr == NULL)
         {
-            fprintf(stderr, "Given player statistic does not exist. \n");
+            fprintf(stderr, "Error: Given player statistic does not exist. \n");
             return NULL;
         }
         else
