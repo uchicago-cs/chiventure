@@ -1,3 +1,6 @@
+# for compatibility with python 3.7 and 3.8
+from __future__ import annotations
+
 from dsl_parser import export_dict
 import sys
 from to_wdl import parsed_dict_to_json

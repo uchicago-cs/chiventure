@@ -1,3 +1,6 @@
+# for compatibility with python 3.7 and 3.8
+from __future__ import annotations
+
 from lark.lexer import Token
 from lark import Lark, Transformer
 from pathlib import Path
