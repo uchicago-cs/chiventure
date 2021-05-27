@@ -150,7 +150,7 @@ void check_conns(game_t *g, char *origin, char *dir, char *dest)
 
     // compare the values of to_id and dest
     int rc = strncmp(to_id, dest, strlen(dest));
-    cr_assert_eq(rc, SUCCESS, "failed to parse connections");
+    cr_assert_eq(rc, SUCCESS, "failed to parse connection");
 }
 
 /*
