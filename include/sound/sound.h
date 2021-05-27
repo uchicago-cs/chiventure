@@ -12,7 +12,10 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 
+typedef enum {BACKGROUND, SOUND_EFFECT} SoundType;
+
 typedef struct{
+    SoundType type;
     // path to sound file
     char* path;
     // duration of sound
@@ -33,8 +36,10 @@ void play_audio(sound_t *name);
  * EXISTING CODE FROM SDL2 LIBRARIES TO LOAD AND 
  * PLAY MUSIC
  */
-void load_audio_demo();
-void play_audio_demo(Mix_Music *backgroundSound,SDL_Window *window, SDL_Renderer *renderer);
+
+void load_audio_demo(SoundType type);
+void play_audio_demo_bgm(Mix_Music *backgroundSound,SDL_Window *window, SDL_Renderer *renderer);
+void play_audio_demo_effect(Mix_Chunk *soundEffect,SDL_Window *window, SDL_Renderer *renderer);
 
 
 
