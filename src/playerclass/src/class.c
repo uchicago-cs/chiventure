@@ -238,33 +238,48 @@ skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t*
  *  - note that the skills in the combined inventory are not deepcopied.
  */
 skill_inventory_t* multiclass_inventory(skill_inventory_t* base_inventory, skill_inventory_t* second_inventory) {
+    /* Safely unpack inventory sizes (Handling NULL) */
+    unsigned int base_max_active = base_inventory == NULL ? 0 : base_inventory->max_active;
+    unsigned int base_max_passive = base_inventory == NULL ? 0 : base_inventory->max_passive;
+    unsigned int second_max_active = second_inventory == NULL ? 0 : second_inventory->max_active;
+    unsigned int second_max_passive = second_inventory == NULL ? 0 : second_inventory->max_passive;
+
+    unsigned int base_curr_active = base_inventory == NULL ? 0 : base_inventory->num_active;
+    unsigned int base_curr_passive = base_inventory == NULL ? 0 : base_inventory->num_passive;
+    unsigned int second_curr_active = second_inventory == NULL ? 0 : second_inventory->num_active;
+    unsigned int second_curr_passive = second_inventory == NULL ? 0 : second_inventory->num_passive;
+
+    /* Calculate new inventory sizes */
     unsigned int max_active;
     unsigned int max_passive;
-    if (base_inventory->max_active >= second_inventory->max_active) {
-        max_active = base_inventory->max_active;
+    if (base_max_active >= second_max_active) {
+        max_active = base_max_active;
     }
     else {
-        max_active = second_inventory->max_active;
+        max_active = second_max_active;
     }
-    if (base_inventory->max_passive >= second_inventory->max_passive) {
-        max_passive = base_inventory->max_passive;
+    if (base_max_passive >= second_max_passive) {
+        max_passive = base_max_passive;
     }
     else {
-        max_passive = second_inventory->max_passive;
+        max_passive = second_max_passive;
     }
+
+    /* Generate new inventories */
     skill_inventory_t* new_inventory = inventory_new(max_active, max_passive);
-    for (int i = 0; i < base_inventory->num_active; i++) {
+    for (int i = 0; i < base_curr_active; i++) {
         inventory_skill_add(new_inventory, base_inventory->active[i]);
     }
-    for (int i = 0; i < second_inventory->num_active; i++) {
+    for (int i = 0; i < second_curr_active; i++) {
         inventory_skill_add(new_inventory, second_inventory->active[i]);
     }
-    for (int i = 0; i < base_inventory->num_passive; i++) {
+    for (int i = 0; i < base_curr_passive; i++) {
         inventory_skill_add(new_inventory, base_inventory->passive[i]);
     }
-    for (int i = 0; i < second_inventory->num_passive; i++) {
+    for (int i = 0; i < second_curr_passive; i++) {
         inventory_skill_add(new_inventory, second_inventory->passive[i]);
     }
+    
     return new_inventory;
 }
 
