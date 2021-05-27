@@ -87,7 +87,7 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
             return FAILURE;
         }
     }
-    
+
     if (check != NULL)
     {
         /* Same item id, not same memory address */
@@ -121,6 +121,16 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
     }
     
     return head;
+}
+
+/* See item.h */
+item_t *get_item_in_hash(item_hash_t *ht, char *id)
+{
+    item_t *item;
+
+    HASH_FIND(hh, ht, id, strnlen(id, MAX_ID_LEN), item);
+
+    return item;
 }
 
 /* See item.h */

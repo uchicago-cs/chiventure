@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "wdl/parse.h"
 #include "game-state/item.h"
+#include "wdl/validate.h"
 
 /*
  * get_game_action()
@@ -39,10 +39,15 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 int load_actions(obj_t *item_obj, item_t *i)
 {
     // getting a list of actions from item
-    obj_t *action_ls = get_item_actions(item_obj);
+    obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
     if (action_ls == NULL)
     {
-        fprintf(stderr, "action fails type checking, or action list is empty\n");
+        fprintf(stderr, "action list is empty\n");
+        return FAILURE;
+    }
+    else if (list_type_check(action_ls, action_type_check) == FAILURE)
+    {
+        fprintf(stderr, "object actions failed typechecking\n");
         return FAILURE;
     }
 
@@ -78,16 +83,15 @@ int load_actions(obj_t *item_obj, item_t *i)
 int load_items(obj_t *doc, game_t *g)
 {
     // we use extract_objects() instead of obj_list_attr() because the former does type checking
-    obj_t *items_obj = extract_objects(doc, "ITEMS");
+    obj_t *items_obj = obj_get_attr(doc, "ITEMS", false);
     if (items_obj == NULL)
+    {
+        fprintf(stderr, "items not found\n");
+        return FAILURE;
+    }
+    else if (list_type_check(items_obj, item_type_check) == FAILURE)
     {
         fprintf(stderr, "items fail type checking\n");
-    }
-
-    // if items list is empty then return -1
-    if (items_obj == NULL)
-    {
-        fprintf(stderr, "items list is empty\n");
         return FAILURE;
     }
 

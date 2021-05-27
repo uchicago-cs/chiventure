@@ -1,7 +1,10 @@
 /* Implementations of the mode struct */
 #include <string.h>
+#include <stdlib.h>
 
 #include "game-state/mode.h"
+#include "cli/parser.h"
+#include "game-state/game.h"
 
 
 /* see mode.h */
@@ -62,3 +65,46 @@ int load_normal_mode(game_t *g)
 
     return SUCCESS;
 }
+
+
+/* see mode.h */
+int run_conversation_mode(char *input, cli_callback callback_func, 
+                          void *callback_args, chiventure_ctx_t *ctx)
+{
+    char **parsed_input = parse(input);
+    if (parsed_input == NULL)
+    {
+        return FAILURE;
+    }
+    
+    int option, num_options, rc;
+    option = atoi(parsed_input[0]);
+
+    npc_t *npc = get_npc(ctx->game, ctx->game->mode->mode_ctx);
+    num_options = npc->dialogue->cur_node->num_edges;
+
+    if ((option <= 0) || (option > num_options) || 
+        parsed_input[1] != NULL) 
+    {
+        return callback_func(ctx, "Enter a valid dialogue option.", callback_args);
+    }
+
+    int end_convo;
+    char *outstring = run_conversation_step(npc->dialogue, option, &end_convo, ctx->game);
+
+    assert(end_convo != -1); //checking for conversation error
+
+    /* Print npc dialogue and dialogue options */
+    rc = callback_func(ctx, outstring, callback_args);
+
+    free(outstring);
+
+    /* If conversation over, switches back to normal mode */
+    if (end_convo)
+    {
+        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+    }
+
+    return SUCCESS;
+}
+

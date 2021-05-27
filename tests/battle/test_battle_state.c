@@ -31,7 +31,7 @@ Test(battle_state, combatant_new)
                      "set_player() didn't set class short description");
 
     cr_assert_null(c->class_type->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(c->class_type->stats, "set_player() didn't set class stats");
+    cr_assert_null(c->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 /* Tests combatant_init() */

@@ -15,6 +15,8 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
     strncpy(new_room->short_desc, short_desc, strlen(short_desc)+1);
     strncpy(new_room->long_desc, long_desc, strlen(long_desc)+1);
 
+    new_room->npcs = npcs_in_room_new(room_id);
+
     return SUCCESS;
 }
 
@@ -54,6 +56,7 @@ int room_free(room_t *room)
     free(room->long_desc);
     delete_all_paths(room->paths);
     delete_all_items(&room->items);
+    npcs_in_room_free(room->npcs);
     free(room);
     return SUCCESS;
 }
@@ -216,4 +219,13 @@ item_list_t *get_all_items_in_room(room_t *room)
     head = get_all_items_in_hash(&(room->items));
     
     return head;
+}
+
+/* See room.h */
+npc_t *get_npc_in_room(room_t *room, char *npc_id)
+{
+    npc_t *npc;
+    HASH_FIND(hh, room->npcs->npc_list, npc_id,
+              strnlen(npc_id, MAX_ID_LEN), npc);
+    return npc;
 }
