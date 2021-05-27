@@ -96,7 +96,7 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
     strncat(new_shortdesc, "Multiclass of ", 15);
     strncat(new_shortdesc, base_class->name, strlen(base_class->name));
     strncat(new_shortdesc, ", ", 3);
-    strncat(new_shortdesc, second_class->name, strlen(base_class->name));
+    strncat(new_shortdesc, second_class->name, strlen(second_class->name));
     for (int i = 0; i < base_class->num_parent_class; i++) {
         strncat(new_shortdesc, ", ", 3);
         strncat(new_shortdesc, base_class->parent_class_names[i], strlen(base_class->parent_class_names[i]));
@@ -121,7 +121,7 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
  *  - a pointer to a string with the new longdesc.
  */
 char* multiclass_longdesc(class_t* base_class, class_t* second_class) {
-    char* new_longdesc = (char*) malloc(MAX_LONG_DESC_LEN + 1);
+    char* new_longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
     strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
     strncat(new_longdesc, "\n\n", 3);
     strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
