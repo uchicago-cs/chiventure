@@ -73,6 +73,23 @@ int npc_free(npc_t *npc)
     return SUCCESS;
 }
 
+// "CHECK" FUNCTIONS ----------------------------------------------------------
+
+/* See npc.h */
+bool check_npc_battle(npc_t *npc)
+{
+    assert(npc != NULL);
+
+    if (npc->will_fight == true && npc->npc_battle == NULL) 
+    {
+        return false;
+    } 
+    else 
+    {
+        return true;
+    }
+}
+
 // "GET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
 char *get_sdesc_npc(npc_t *npc)
@@ -92,12 +109,6 @@ char *get_ldesc_npc(npc_t *npc)
         return NULL;
     }
     return npc->long_desc;
-}
-
-/* See npc.h */
-int get_npc_health(npc_t *npc)
-{	
-    return npc->npc_battle->health;
 }
 
 /* See npc.h */
@@ -121,26 +132,30 @@ item_list_t *get_npc_inv_list(npc_t *npc)
     return head;
 }
 
-// "SET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
-int change_npc_health(npc_t *npc, int change, int max)
+npc_battle_t *get_npc_battle(npc_t *npc)
 {
-    assert(npc->npc_battle != NULL);
+    assert(npc != NULL);
 
-    if ((npc->npc_battle->health + change) < 0)
-    {
-        npc->npc_battle->health = 0;
-    }
-    if ((npc->npc_battle->health + change) < max)
-    {
-        npc->npc_battle->health += change;
-    }
-    else
-    {
-        npc->npc_battle->health = max;
-    }
-    return npc->npc_battle->health;
+    return npc->npc_battle;
 }
+
+/* See npc.h */
+int get_npc_health(npc_t *npc)
+{
+    assert(npc != NULL);
+
+    if (npc->npc_battle == NULL) 
+    {
+        return -1;
+    } 
+    else 
+    {
+        return npc->npc_battle->health;
+    }
+}
+
+// "SET" FUNCTIONS ------------------------------------------------------------
 
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
@@ -162,17 +177,6 @@ int remove_item_from_npc(npc_t *npc, item_t *item)
     return rc;
 }
 
-bool item_in_npc_inventory(npc_t *npc, item_t *item)
-{
-    item_t *check;
-    HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),
-              check);
-    if(check != NULL){
-        return true;
-    }
-    return false;
-}
-
 /* See npc.h */
 int add_convo_to_npc(npc_t *npc, convo_t *c)
 {
@@ -182,6 +186,39 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
 }
 
 /* See npc.h */
+int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
+                      difficulty_t ai, hostility_t hostility_level,
+                      int surrender_level)
+{
+    assert(npc != NULL);
+
+    npc_battle_t *npc_battle = npc_battle_new(health, stats, moves, ai,
+                                              hostility_level, surrender_level);
+    assert(npc_battle != NULL);
+
+    npc->npc_battle = npc_battle;
+}
+
+/* See npc.h */
+int change_npc_health(npc_t *npc, int change, int max)
+{
+    assert(npc->npc_battle != NULL);
+
+    if ((npc->npc_battle->health + change) < 0)
+    {
+        npc->npc_battle->health = 0;
+    }
+    else if ((npc->npc_battle->health + change) < max)
+    {
+        npc->npc_battle->health += change;
+    }
+    else
+    {
+        npc->npc_battle->health = max;
+    }
+    return npc->npc_battle->health;
+}
+
 int delete_all_npcs(npc_hash_t *npcs)
 {
     npc_t *current_npc, *tmp;

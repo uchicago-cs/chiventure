@@ -4,6 +4,8 @@
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
 #include "item.h"
+#include "npc/npc.h"
+#include "npc/rooms-npc.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
@@ -51,6 +53,10 @@ typedef struct path {
 typedef struct path path_hash_t;
 
 // ROOM STRUCT DEFINITION -----------------------------------------------------
+/* Forward declarations */
+typedef struct npcs_in_room npcs_in_room_t;
+typedef struct npc npc_t;
+
 /* This struct represents a single room.
  * It contains:
  *      the room_id
@@ -66,6 +72,7 @@ typedef struct room {
     char *long_desc;
     item_hash_t *items;
     path_hash_t *paths;
+    npcs_in_room_t *npcs;
 } room_t;
 
 /* This typedef is to distinguish between room_t pointers which are
@@ -256,17 +263,28 @@ item_t* get_item_in_room(room_t* room, char* item_id);
  */
 item_list_t *get_all_items_in_room(room_t *room);
 
-// /*
-//  * Removes an action from list of conditions, called when action's completed
-//  * 
-//  * Parameters:
-//  * - path
-//  * - action_type_t: completed action that acts as condition for path
-//  *
-//  * Returns:
-//  * int SUCCESS when action's removed from linked list
-//  */
-// int remove_condition(path_t *path, list_action_type_t *a);
+/* 
+ * Retrieves the pointer to an npc contained within a room
+ * Parameters:
+ *   pointer to room
+ *   string of npc's id
+ *
+ * Returns:
+ *   pointer to npc, NULL if not found
+ */
+npc_t *get_npc_in_room(room_t *room, char *npc_id);
+
+/*
+ * Removes an action from list of conditions, called when action's completed
+ * 
+ * Parameters:
+ * - path
+ * - action_type_t: completed action that acts as condition for path
+ *
+ * Returns:
+ * int SUCCESS when action's removed from linked list
+ */
+int remove_condition(path_t *path, list_action_type_t *a);
 
 /* Deletes a hashtable of rooms
  * Implemented with macros provided by uthash.h

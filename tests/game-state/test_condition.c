@@ -26,7 +26,8 @@ Test(condition, new_attr_condition)
     "correctly mark condition as attribute");
     
     item_free(item);
-    free_condition(condition);
+    free(condition->condition.attribute_type);
+    free(condition);
 }
 
 /* Checks that inventory_condition_new() properly mallocs and inits a new condition struct */
@@ -155,7 +156,7 @@ Test(condition, free_condition_on_level)
 }
 
 /* Checks if delete_condition_llist() frees the condition list from memory */
-Test(condition, delete_condition_llist)
+Test(condition, condition_free)
 {
     player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
@@ -172,7 +173,6 @@ Test(condition, delete_condition_llist)
     int res = delete_condition_llist(conditions);
 
     cr_assert_eq(res, SUCCESS, "delete_condition_llist() failed");
-
     player_free(player);
     item_free(item);
 }
@@ -234,6 +234,8 @@ Test(condition, valid_condition)
 
     player_free(player);
     game_free(game);
-    free_condition(condition_1);
-    free_condition(condition_2);
+    free(condition_1->condition.inventory_type);
+    free(condition_2->condition.inventory_type);
+    free(condition_1);
+    free(condition_2);
 }

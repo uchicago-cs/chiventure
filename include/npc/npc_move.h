@@ -13,6 +13,10 @@ typedef struct room room_hash_t;
 
 typedef struct room_wrapped_for_llist room_list_t;
 
+/* Forward declaration */
+typedef struct room_wrapped_for_llist room_list_t;
+
+
 /* 
  * Struct to encapsulate the time an NPC should stay in that particular room 
  *  and the room details
