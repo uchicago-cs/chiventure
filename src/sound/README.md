@@ -30,6 +30,7 @@ int load_wav(sound_t *sound);
 
 // This function must be able to play the sound from the SDL queue
 int play_sound(sound_t *sound);
+```
 
 ## Sandbox Demo
 Sandbox demo plays the sound file differently to the current sound module. There are multiple ways of playing sound using SDL library, and it would be the next team's task to modularize it effectively. 
