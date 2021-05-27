@@ -11,7 +11,7 @@ typedef struct command_list command_list_t;
 /*
  * CLI context struct.  Contains the following fields:
  *  - command_history: list of previous commands
- *  - lookup 
+ *  - lookup: hashtable of action entries 
  */
 typedef struct cli_ctx {
     command_list_t *command_history;
@@ -24,7 +24,7 @@ typedef struct cli_ctx {
  * Crates a new CLI context struct
  *
  * Parameters:
- * - 
+ * - None
  *
  * Returns:
  * - The created CLI context struct upon SUCCESS

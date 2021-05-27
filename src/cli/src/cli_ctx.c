@@ -22,5 +22,20 @@ cli_ctx_t *cli_ctx_new()
 int free_cli_ctx(cli_ctx_t *cli_ctx)
 {
 
-    return 0;
+
+    assert(cli_ctx != NULL);
+
+    command_list_t *command_history = cli_ctx->command_history;
+    command_list_t *temp = new_command_list(NULL);
+    command_list_t *elt = new_command_list(NULL);
+
+    LL_FOREACH_SAFE(command_history, elt, temp)
+    {
+        LL_DELETE(command_history, elt);
+        free(elt);
+    }
+
+    free(cli_ctx);
+
+    return SUCCESS;
 }

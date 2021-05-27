@@ -16,8 +16,6 @@ chiventure_ctx_t* chiventure_ctx_new(game_t *game)
         return NULL;
     }
 
-    ctx->cli_ctx = cli_ctx_new();
-
     rc = chiventure_ctx_init(ctx, game);
     if (rc != SUCCESS)
     {
@@ -51,6 +49,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
     ctx->game->curr_player = player1;
 
     ctx->obj_store = NULL;
+    ctx->cli_ctx = cli_ctx_new();
 
     return SUCCESS;
 }
@@ -61,7 +60,7 @@ int chiventure_ctx_free(chiventure_ctx_t *ctx)
     assert(ctx != NULL);
 
     /* Add calls to component-specific freeing functions here */
-
+    free_cli_ctx(ctx->cli_ctx);
     free(ctx);
 
     return SUCCESS;
