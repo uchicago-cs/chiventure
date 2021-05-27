@@ -66,12 +66,10 @@ int skill_free(skill_t* skill);
  *
  * Parameters:
  *  - skill: A skill
- *  - args: Arguments for the skill effect function, contained in a
- *          space-separated string
- *
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
  * Returns:
- *  - A string that describes the consequence(s) of the skill execution for the
- *    CLI
+ * 0 if success
+ * 1 if failure
  */
 int skill_execute(skill_t* skill, chiventure_ctx_t* ctx);
 
