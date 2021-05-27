@@ -10,6 +10,8 @@
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_default_objects.h"
 
+
+
 /*
  * This tests to ensure that a target exists within a list of targets
  */
@@ -448,7 +450,6 @@ Test(battle_logic, uses_battle_item_correctly)
     cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
     cr_assert_eq(p->stats->defense, 15, "use_battle_item() failed for defense!");
     cr_assert_eq(p->stats->strength, 15, "use_battle_item() failed for strength!");
-    cr_assert_eq(i1->quantity, 0, "use_battle_item() failed for battle_item quantity!");
 }
 
 /*
@@ -530,7 +531,7 @@ Test(battle_logic, award_xp)
                      "set_player() didn't set class short description");
 
     cr_assert_null(p->class_type->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(p->class_type->stats, "set_player() didn't set class stats");
+    cr_assert_null(p->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 /*
@@ -560,4 +561,107 @@ Test(stat_changes, add_item_node)
 
     free(i1);
     stat_changes_free_all(sc);
+}
+
+Test(battle_logic, remove_single_item)
+{
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    i1->id = 100;
+    i1->attack = 0;
+    i1->defense = 0;
+    i1->hp = 10;
+    i1->quantity = 1;
+
+    stat_t *pstats = calloc(1, sizeof(stat_t));
+    pstats->hp = 10;
+    pstats->max_hp = 20;
+    pstats->defense = 15;
+    pstats->strength = 15;
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
+    cr_assert_not_null(p, "combatant_new() failed");
+
+    int res = use_battle_item(p, 100);
+
+    cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
+    cr_assert_null(p->items, "remove_battle_item() failed");
+
+    combatant_free(p);
+}
+
+Test(battle_logic, remove_item_of_multiple)
+{
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    i1->id = 100;
+    i1->attack = 0;
+    i1->defense = 0;
+    i1->hp = 10;
+    i1->quantity = 1;
+
+    battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
+    i2->id = 101;
+    i2->attack = 0;
+    i2->defense = 0;
+    i2->hp = 15;
+    i2->quantity = 1;
+
+    i1->next = i2;
+    i2->prev = i1;
+
+    stat_t *pstats = calloc(1, sizeof(stat_t));
+    pstats->hp = 10;
+    pstats->max_hp = 20;
+    pstats->defense = 15;
+    pstats->strength = 15;
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
+    cr_assert_not_null(p, "combatant_new() failed");
+
+    int res1 = use_battle_item(p, 100);
+    cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
+    cr_assert_eq(p->items, i2, "remove_battle_item() failed");
+    cr_assert_null(p->items->next, "remove_battle_item() failed");
+
+    int res2 = use_battle_item(p, 101);
+    cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
+    cr_assert_null(p->items, "remove_battle_item() failed");
+
+    combatant_free(p);
+}
+
+Test(battle_logic, remove_last_item_of_multiple)
+{
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    i1->id = 100;
+    i1->attack = 0;
+    i1->defense = 0;
+    i1->hp = 10;
+    i1->quantity = 1;
+
+    battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
+    i2->id = 101;
+    i2->attack = 0;
+    i2->defense = 0;
+    i2->hp = 15;
+    i2->quantity = 1;
+
+    i1->next = i2;
+    i2->prev = i1;
+
+    stat_t *pstats = calloc(1, sizeof(stat_t));
+    pstats->hp = 10;
+    pstats->max_hp = 20;
+    pstats->defense = 15;
+    pstats->strength = 15;
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
+    cr_assert_not_null(p, "combatant_new() failed");
+
+    int res2 = use_battle_item(p, 101);
+    cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
+    cr_assert_eq(p->items, i1, "remove_battle_item() failed");
+    cr_assert_null(p->items->next, "remove_battle_item() failed");
+
+    int res1 = use_battle_item(p, 100);
+    cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
+    cr_assert_null(p->items, "remove_battle_item() failed");
+
+    combatant_free(p);
 }

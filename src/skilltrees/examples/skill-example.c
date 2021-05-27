@@ -1,8 +1,5 @@
 /*
  * Skill examples for battle demo
- * This file must be updated to work with the new implementation of 
- * skill effects once it is completed.  It will not work currently.  
- *
  */
 
 #include <stdio.h>

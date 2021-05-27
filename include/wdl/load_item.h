@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "parse.h"
 #include "game-state/game.h"
 #include "load_room.h"
+#include "wdl_common.h"
 
 /* load_items
  * accesses the document object and obtain list of items to parse into the
