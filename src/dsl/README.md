@@ -11,6 +11,7 @@ DSL is an as-yet unnamed domain-specific language that allows users to write hum
 Sample DSL files can be found in the `examples/dsl` directory, and their corresponding `.wdl` equivalents in the `examples/wdl` directory. Current examples include:
 
 * **`connected-rooms.dsl`**, a concise DSL implementation of the [`connected-rooms.wdl`](https://github.com/uchicago-cs/chiventure/blob/dev/tests/wdl/examples/wdl/connected-rooms.wdl) example
+* **`connected-vars.dsl`**, a stripped-down version of the `connected-rooms` example written in 11 lines using variables
 * **`distaff.dsl`**, a DSL implementation of the `distaff.yaml` game (the game has since been removed from the `dev` branch)
 * `long-example.dsl`, a, well, *long* example DSL file designed to showcase the DSL parser's flexibility and versatility
 * **`min.dsl`**, essentially the minimum possible DSL file
