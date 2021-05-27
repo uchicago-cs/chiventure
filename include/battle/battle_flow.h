@@ -12,6 +12,8 @@
 #include "battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
@@ -21,13 +23,13 @@
  *
  * Parameters:
  *  - ctx = the current chiventure context
- *  - npc_enemies = pointer to list of enemy/ies (stub for enemy NPCs)
+ *  - npc_enemy = pointer to the npc enemy
  *  - env = environment for the battle
  *
  * Returns:
  *  - SUCCESS if initialized, FAILURE if error
  */
-int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies,
+int start_battle(chiventure_ctx_battle_t *ctx, npc_t *npc_enemy,
                   environment_t env);
 
 /*
@@ -46,27 +48,27 @@ combatant_t *set_battle_player(battle_player_t *ctx_player);
  * Sets up all enemy combatant structs for a new battle
  *
  * Parameters:
- *  - npc_enemies = pointer to list of enemy/ies (stub for enemy NPCs)
+ *  - npc_enemy = pointer to the npc enemy
  *
  * Returns:
  *  - pointer to list of enemy's/enemies' combatant_t structs initialized for
  *  a new battle
  */
-combatant_t *set_enemies(npc_enemy_t *npc_enemies);
+combatant_t *set_enemy(npc_t *npc_enemy);
 
 /*
  * Sets up battle struct for a new battle
  *
  * Parameters:
  *  - ctx_player = pointer to battle_player_t battle_player in battle_game_t struct
- *  - npc_enemies = pointer to list of enemy/ies (NPC enemy stub)
+ *  - npc_enemy = pointer to the npc enemy
  *  - env = the environment for the battle
  *
  * Returns:
  *  - A pointer to new battle struct initialized for a new battle
  *
  */
-battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies,
+battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
                       environment_t env);
 
 /*
@@ -90,5 +92,21 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies,
  *    aka whether it is in progress or if there was a victor
  */
 int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
+
+/*
+ * Helper function for battle_flow
+ * Allows the enemy to make their move
+ * This includes:
+ *      - choosing the enemy's move (if available)
+ *      - handling enemy's move (if available)
+ *      - check battle status
+ * 
+ * Parameters: 
+ *  - ctx: current chiventure battle context
+ * 
+ * Returns:
+ *  - Always SUCCESS
+ */
+int enemy_make_move(chiventure_ctx_battle_t *ctx);
 
 #endif

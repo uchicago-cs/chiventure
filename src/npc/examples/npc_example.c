@@ -8,7 +8,7 @@
  *             the created NPC. Someday, we hope chiventure will allow the look
  *             operation to take an NPC and return its description, though at
  *             the moment it is only compatible with items.
- *  - ENGAGE/TALK/HOUSE/MESSY:
+ *  - TALK:
  *             These are CLI-level operations that print a player quip (except
  *             on Root) and return an NPC dialogue to be printed to the CLI.
  *             They utlize the backend of the dialogue module while printing to
@@ -30,7 +30,7 @@ convo_t *create_sample_convo()
     // Starting to build the conversation structure
     convo_t *c = convo_new();
 
-    // Creating the nodes
+    // Nodes
     add_node(c, "1", "NPC: What do you want?");
     add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
         "around and get outta my house. You can't come and go as you wish.");
@@ -46,19 +46,19 @@ convo_t *create_sample_convo()
     add_node(c, "4", "As his arm flashes behind his back, the robber raises "
         "a knife to you.");
 
-    // Adding the edges
-    add_edge(c, "I just want to talk.", "1", "2a");
-    add_edge(c, "I think I'll have a quick look around.", "1", "2b");
-    add_edge(c, "<Leave>", "1", "2c");
-    add_edge(c, "Seemed abandoned to me.", "2a", "3a");
+    // Edges
+    add_edge(c, "I just want to talk.", "1", "2a", NULL);
+    add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL);
+    add_edge(c, "<Leave>", "1", "2c", NULL);
+    add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL);
     add_edge(c, "I'm not trying to take your home, I just thought it would be "
-        "a place to rest in some shade for a bit.", "2a", "3a");
-    add_edge(c, "<Leave>", "2a", "2c");
-    add_edge(c, "I'm Leo.", "2b", "2a");
+             "a place to rest in some shade for a bit.", "2a", "3a", NULL);
+    add_edge(c, "<Leave>", "2a", "2c", NULL);
+    add_edge(c, "I'm Leo.", "2b", "2a", NULL);
     add_edge(c, "The owner? With the state of this place, I'd have pegged you "
-        "for more of a burglar, heh.", "2b", "4");
-    add_edge(c, "<Leave>", "3a", "2c");
-    add_edge(c, "Give it your best shot.", "3a", "4");
+             "for more of a burglar, heh.", "2b", "4", NULL);
+    add_edge(c, "<Leave>", "3a", "2c", NULL);
+    add_edge(c, "Give it your best shot.", "3a", "4", NULL);
 
     return c;
 }
@@ -79,23 +79,6 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 }
 
-/* Returns the node in the convo at the given index (starting at 0) */
-node_t *get_node_ex(convo_t *c, int index)
-{
-    node_list_t *curr = c->all_nodes;
-    int count = 0;
-    while (curr != NULL)
-    {
-        if (count == index)
-        {
-            return curr->node;
-        }
-        count++;
-        curr = curr->next;
-    }
-    return NULL;
-}
-
 /* Defines a new CLI operation that observes Jim and his house */
 char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -106,18 +89,6 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
            "In steps a shabby man, alarmed by the unexpected guest. "
            "He looks upset with you. Would you like to talk?";
 }
-    
-/* Defines a new CLI operation that starts a conversation with Jim */
-/* char *engage_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
-   
-    convo_t *c;
-    c = create_sample_convo();
-    
-    node_t *n = get_node(c, 0);
-    return n->npc_dialogue;
-} */
 
 /* Defines a new CLI operation that continues the conversation with Jim */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -127,50 +98,12 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     convo_t *c;
     c = create_sample_convo();
 
-    node_t *n1 = get_node_ex(c, 0);
-    print_to_cli(ctx, n1->npc_dialogue);
-    print_to_cli(ctx, "\n");
+    int rc;
 
-    char buf[255];
-    edge_list_t *curr_edge = n1->edges;
-    while (curr_edge != NULL) {
-        sprintf(buf, "%d. %s", curr_edge->option_number, curr_edge->edge->quip);
-        print_to_cli(ctx, buf);
-        curr_edge = curr_edge->next;
-    }
-    
-    return "\n";
+    char *ret_str = start_conversation(c, &rc, NULL);
+
+    return ret_str;
 }
-
-/* Defines a new CLI operation that continues the conversation with Jim */
-/* char *house_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
-   
-    convo_t *c;
-    c = create_sample_convo();
-
-    node_t *n1 = get_node(c, 1);
-    print_to_cli(ctx, n1->edges->quip);
-    
-    node_t *n2 = get_node(c, 3);
-    return n2->dialogue;
-} */
-
-/* Defines a new CLI operation that continues the conversation with Jim */
-/* char *messy_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
-   
-    convo_t *c;
-    c = create_sample_convo();
-
-    node_t *n1 = get_node(c, 3);
-    print_to_cli(ctx, n1->edges->quip);
-    
-    node_t *n2 = get_node(c, 4);
-    return n2->dialogue;
-} */
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
@@ -178,6 +111,8 @@ chiventure_ctx_t *create_sample_ctx()
     chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
 
     game_t *game = game_new("Welcome to Chiventure!");
+
+    load_normal_mode(game);
 
     /* Create the initial room */
     room_t *room1 = room_new("room1", "This is room 1", 
@@ -206,7 +141,7 @@ chiventure_ctx_t *create_sample_ctx()
                          "Jim is a shabby man who lives in a shabby house.", 
                          "Jim looks just as suspicious as his house. His "
                          "beard appears to be half shaved, and his eyes "
-                         "constantly dart all around.", 20, NULL, NULL);
+                         "constantly dart all around.", NULL, NULL, 0);
     //add_npc_to_game(game, jim);
     convo_t *c = create_sample_convo();
     add_convo_to_npc(jim, c);
