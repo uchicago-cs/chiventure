@@ -1,5 +1,5 @@
 add_library(battle
-            examples/battle_move_maker.c
+            src/battle_move_maker.c
             src/battle_ai.c
             src/battle_logic.c
             src/battle_state.c
@@ -9,7 +9,8 @@ add_library(battle
             src/battle_state.c
             ../playerclass/examples/class-list.c
             src/battle_print.c
-            src/battle_state.c)
+            src/battle_state.c
+            src/battle_default_objects.c)
 
 target_include_directories(battle PRIVATE src/)
 

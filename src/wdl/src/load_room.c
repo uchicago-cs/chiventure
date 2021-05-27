@@ -21,7 +21,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
     HASH_ITER(hh, rooms_obj->data.obj.attr, curr, tmp)
     {
         // get id, short_desc, and long_desc
-        char *id = obj_get_str(curr, "id");
+        char *id = curr->id;
         char *short_desc = obj_get_str(curr, "short_desc");
         char *long_desc = obj_get_str(curr, "long_desc");
 
@@ -53,8 +53,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     HASH_ITER(hh, rooms_obj->data.obj.attr, curr, tmp)
     {
         // obtain room id
-        char *id = obj_get_str(curr, "id");
-        id = case_insensitize2(id);
+        char *id = case_insensitize2(curr->id);
         // get list of connections for the room
         obj_t *connections = connections_get_list(curr);
 
@@ -65,8 +64,8 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
             return FAILURE;
         }
         // iterate through connections list
-        obj_t *conn_curr, *conn_tmp;
-        HASH_ITER(hh, connections->data.obj.attr, conn_curr, conn_tmp)
+        obj_t *conn_curr;
+        DL_FOREACH(connections->data.lst, conn_curr)
         {
             // get id of room we are going to and direction
             char *to = obj_get_str(conn_curr, "to");

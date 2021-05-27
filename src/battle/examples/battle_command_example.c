@@ -1,9 +1,12 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
-#include "battle_move_maker.h"
+#include "battle/battle_move_maker.h"
 #include "battle/battle_moves.h"
 #include "battle/battle_print.h"
 #include "battle/battle_state.h"
+#include "battle/battle_logic.h"
+#include "battle/battle_default_objects.h"
+#include <time.h>
 
 #define MAX_COMMAND_LINE_LENGTH (100)
 #define MAX_COMMAND_LENGTH (100)
@@ -106,7 +109,29 @@ int print_moves(chiventure_ctx_battle_t *ctx)
     return SUCCESS;
 }
 
-/* this function reads the user's input and converts that into an action
+/* Prints out the avaliable battle_items for the player
+ * Parameter:
+ *  ctx: the main structure of the game
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_battle_items(chiventure_ctx_battle_t *ctx)
+{
+    battle_item_t *temp;
+    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
+    DL_FOREACH(ctx->game->battle->player->items, temp)
+    {
+        printf("Name: %s\n", temp->name);
+        printf("ID: %d\n", temp->id);
+        printf("Description: %s\n", temp->description);
+        printf("Quantity: %d\n", temp->quantity);
+        printf("Attack: %d, Defense: %d, HP: %d\n", 
+                temp->attack, temp->defense, temp->hp);
+    }
+    return SUCCESS;
+}
+
+/* Reads the user's input and converts that into an action
  * Parameters:
  *  args: array of strings that display the user's input
  *  ctx: the main structure of the game
@@ -160,14 +185,55 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
         printf("\n");
         return res;
     }
+    // handles the command ITEM LIST
+    else if ((strncmp(args[0], "ITEM", MAX_COMMAND_LENGTH) == 0) 
+            && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
+    {
+        printf("Determined command as ITEM LIST\n\n");
+        res = print_battle_items(ctx);
+        printf("\n");
+        return res;
+    }
     // handles the command HELP
     else if (strncmp(args[0], "HELP", MAX_COMMAND_LENGTH) == 0)
     {
         // prints out possible commands for the user to use
         printf("Here are the possible commands!\n");
         printf("MOVE USE <move_name> ON <enemy_name>\n");
-        printf("MOVE INFO <move_name>\n\n");
+        printf("MOVE LIST\n");
+        printf("ITEM LIST\n");
+        printf("USE <item_id>\n\n");
         return SUCCESS;
+    }
+    // handles the command USE <battle_item>
+    else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
+    {
+        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, atoi(args[1]));
+        printf("Determined command as USE %s\n\n", item->name);
+        if (item == NULL)
+        {
+            printf("Couldn't find the battle item you were looking for!\n");
+            return FAILURE;
+        }
+        if (item->quantity <= 0)
+        {
+            printf("Sorry, you don't have any more of that battle item!\n");
+            return FAILURE;
+        }
+
+        res = use_battle_item(ctx->game->battle->player, atoi(args[1]));
+        if (res == FAILURE) 
+        {
+            return FAILURE;
+        } 
+        else 
+        {
+            stat_t *player_stats = ctx->game->battle->player->stats;
+            printf("New HP is %d\n", player_stats->hp);
+            printf("New Strength is %d\n", player_stats->strength);
+            printf("New Defense is %d\n\n", player_stats->defense);
+            return res;
+        }
     }
     else
     {
@@ -237,37 +303,44 @@ int continue_battle(chiventure_ctx_battle_t *ctx)
 // where everything is called
 int main()
 {
+    srand(time(0)); // sets seed
     printf("\nbeginning to create the player and enemy...\n");
-    // this creates the stats of the player to begin the battle
-    stat_t *p_stats = (stat_t *)calloc(1, sizeof(stat_t));
-    p_stats->hp = 50;
-    p_stats->strength = 20;
-    p_stats->defense = 12;
-    p_stats->xp = 100;
-    p_stats->level = 5;
-    p_stats->speed = 10;
+    // creates the stats of the player to begin the battle
+    stat_t *p_stats = get_random_stat();
+    printf("\nPlayer stats:\n");
+    printf("HP: %d\n", p_stats->hp);
+    printf("Strength: %d\n", p_stats->strength);
+    printf("Defense: %d\n", p_stats->defense);
+    printf("XP: %d\n", p_stats->xp);
+    printf("Level: %d\n", p_stats->level);
+    printf("Speed: %d\n", p_stats->speed);
+    
+    // creates the stats of the enemy to begin the battle
+    stat_t *e_stats = get_random_stat();
+    printf("\nEnemy stats:\n");
+    printf("HP: %d\n", e_stats->hp);
+    printf("Strength: %d\n", e_stats->strength);
+    printf("Defense: %d\n", e_stats->defense);
+    printf("XP: %d\n", e_stats->xp);
+    printf("Level: %d\n", e_stats->level);
+    printf("Speed: %d\n\n", e_stats->speed);
 
-    // this creates the stats of the enemy to begin the battle
-    stat_t *e_stats = (stat_t *)calloc(1, sizeof(stat_t));
-    e_stats->hp = 30;
-    e_stats->strength = 14;
-    e_stats->defense = 9;
-    e_stats->xp = 100;
-    e_stats->level = 5;
-    e_stats->speed = 9;
+    // creates consumable for the player
+    battle_item_t *p_item = get_random_default_consumable();
+    printf("item created for the player!\n");
 
     // this creates the player and enemy so that they are inside of ctx
     npc_enemy_t *e = NULL;
     DL_APPEND(e, make_npc_enemy("Goblin", make_bard(), e_stats, NULL, NULL, BATTLE_AI_GREEDY));
     printf("enemy created!\n");
-    player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, NULL);
+    battle_player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, p_item);
     printf("player created!\n\n");
 
     chiventure_ctx_battle_t *ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
 
     // new_game creates a game that is then attached to ctx
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
     printf("game has been created folks!\n\n");
     ctx->game = g;
 

@@ -5,7 +5,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
-find_package(LibYAML REQUIRED)
 find_package(JSON-C REQUIRED)
 find_package(LibZIP REQUIRED)
 

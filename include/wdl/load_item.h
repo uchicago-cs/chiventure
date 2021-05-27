@@ -35,13 +35,13 @@ int load_items(obj_t *doc, game_t *g );
  * loads actions into the given item
  *
  * parameters:
- * - obj: the document object
+ * - item_obj: the item object
  * - i: an item pointer
  *
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
  */
-int load_actions(obj_t *doc, item_t *i);
+int load_actions(obj_t *item_obj, item_t *i);
 
 #endif /* INCLUDE_LOAD_ITEM_H */
