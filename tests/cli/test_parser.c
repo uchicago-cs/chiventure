@@ -6,41 +6,32 @@
 #include <ctype.h>
 #include "cli/parser.h"
 
-int compare_list_cmds(char** str, int size, char** expected_words)
+
+void check_comparison(char** str, int size, char** expected_words)
 {
-        tokenized_cmds* words = parse_r(str)
-        tokenized_cmds* temp;
-        int i = 0;
-        LL_FOREACH(words,temp)
+    tokenized_cmds* words = parse_r(str)
+    tokenized_cmds* temp;
+    int i = 0;
+    LL_FOREACH(words,temp)
+    {
+        if (i < size)
         {
-            if (i < size)
+            if (temp->cmds == NULL)
             {
-                if strcmp((expected_words[i], temp->cmds) == 0)
-                {
-                    continue;
-                }
-                else 
-                {
-                    return 0;
-                }
+                cr_assert_null(temp->cmds, "parse() should point to NULL for empty tokens");
             }
-            else 
+            else
             {
-                return 0;
-            }
+                cr_assert_str_eq(temp->cmds, expected_words[i], "parse() did not create first token");
+            } 
         }
-        return 1;          
+        i++;
+    }          
 }
 
-void check_comparison(char** str, int size, char** expected_words, int expected)
+Test(parse_r, check_couple_list)
 {
-    int check = compare_list_cmds(words, size, expected_words)
-    cr_assert_eq(check, expected, "got %d but expected %d");
-}
-
-Test(parse_r, check_overlap_does_not_intersect)
-{
-    check_circle_overlap(3.0, 4.0, 14.0, 18.0, 5.0, 8.0, 0);
+    check_comparison("LOOK AND PUSH", 2, {"LOOK", "PUSH"})
 }
 
 
