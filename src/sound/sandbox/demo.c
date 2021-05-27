@@ -25,7 +25,7 @@ void load_audio_demo()
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2, 2048);
 
-    Mix_Music *backgroundSound = Mix_LoadMUS("Spring Village.wav");
+    Mix_Music *backgroundSound = Mix_LoadMUS("sound_library/Boss Fight.wav");
 
     SDL_Window *window = SDL_CreateWindow("This is a music window", SDL_WINDOWPOS_UNDEFINED, 
                                             SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_HIDDEN);
