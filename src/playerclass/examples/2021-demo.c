@@ -6,6 +6,9 @@
 
 #include "playerclass/class_structs.h"
 #include "playerclass/class_prefabs.h"
+#include "zip.h"
+#include "libobj/load.h"
+#include "wdl/load_game.h"
 
 
 /* A helper function for printing a class. */
@@ -130,12 +133,44 @@ void prompt(char* message, char* input) {
     }
 }
 
+#define CLASSES_WDL_PATH "../tests/wdl/examples/wdl/classes.wdl"
+
+/* Helper function appropriated from WDL tests to load in a file */
+static obj_t *get_doc_obj()
+{
+    char zip_name[10 * (MAXLEN_ID + 1)] = {0};
+    strcat(zip_name, "./");
+    strcat(zip_name, "zip_default.zip");
+
+    // Create the zip
+    int error = 0;
+    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
+
+    // Add DEFAULT.json to the zip
+    char *data_name = "DEFAULT.json";
+    char *data_path = CLASSES_WDL_PATH; // Edited to load the example file with classes
+
+    zip_error_t err = {0};
+    zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
+
+    zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
+
+    // Write and save to disk
+    int rc = zip_close(zip);
+    zip_error_t *close = zip_get_error(zip);
+
+    int open_status;
+    zip = zip_open(zip_name, 0, &open_status);
+
+    // Read the zip into an obj
+    obj_t *obj = obj_new("doc");
+    rc = load_obj_store_from_zip(obj, zip);
+
+    return obj;
+}
+
 /* The following functions are demo functions.  Feel free to loop and prompt for 
  * input, just remember to make it possible to escape these functions. */
-
-void demo_WDL() {
-
-}
 
 void demo_prefab_classes() {
     /* This was just code I had lying around. You don't necessarily need to use
@@ -156,6 +191,27 @@ void demo_prefab_classes() {
     }
 }
 
+void demo_WDL() {
+    /* This is basically an interactive version of the tests, showing the different 
+     * kinds of classes you can laod */
+    obj_t *obj_store = get_doc_obj();
+    game_t *game = load_game(obj_store);
+
+    printf("Game successfully loaded from WDL File: %s\n", CLASSES_WDL_PATH);
+
+    prompt("Loading Knight class, fully defined in the file...", NULL);
+    print_class(find_class(&game->all_classes, "Knight"));
+    
+    prompt("Loading Rogue class, partially defined in the file...", NULL);
+    print_class(find_class(&game->all_classes, "Rogue"));
+    
+    prompt("Loading Monk class, a prefab class declared in the file...", NULL);
+    print_class(find_class(&game->all_classes, "Monk"));
+    
+    prompt("Loading Warrior class, a partially overwritten prefab class declared in the file...", NULL);
+    print_class(find_class(&game->all_classes, "Warrior"));
+}
+
 void demo_multiclasses() {
     
 }
@@ -167,15 +223,15 @@ void demo_item_interactions() {
 /* main function for the 2021-demo executable. */
 int main() {
     /* We decided to break up the ~10 minute demo into 2-3 minute mini demos */
-    printf("* * Entering WDL mini-demo * *\n");
-    demo_WDL();
-
-    printf("* * Entering prefab mini-demo * *\n");
+    printf("***Entering prefab mini-demo***\n");
     demo_prefab_classes();
 
-    printf("* * Entering multiclass mini-demo * *\n");
+    printf("***Entering WDL mini-demo***\n");
+    demo_WDL();
+
+    printf("***Entering multiclass mini-demo***\n");
     demo_multiclasses();
 
-    printf("* * Entering item interactions mini-demo * *\n");
+    printf("***Entering item interactions mini-demo***\n");
     demo_item_interactions();
 }
