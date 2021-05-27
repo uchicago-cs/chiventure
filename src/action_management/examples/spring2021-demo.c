@@ -13,21 +13,37 @@ const char *banner = "This is the 2021 Action-Management team demo";
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
-  chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
-
   game_t *game = game_new("Welcome to Chiventure!");
 
-  /* Free default game and replace it with ours */
-  game_free(ctx->game);
-  ctx->game = game;
+  /* Create two rooms (room1 and room2). room1 is the initial room */
+  room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
+  room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
+  add_room_to_game(game, room1);
+  add_room_to_game(game, room2);
+  game->curr_room = room1;
+  create_connection(game, "room1", "room2", "NORTH");
 
+
+  /* Create context */
+  chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+  game = ctx->game;
+  
   return ctx;
 }
 
-char *raiseDmg()
+char *raiseDmg(custom_action_t *CA)
 {
-  return NULL;
+  return "7";
 }
+
+char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+  //  int num =  get_attribute(get_sdesc_item(get_item_in_hash(ctx->game->curr_player->inventory, "7")), "Dmg")->attribute_value.int_val;
+  // char *str;
+  //sprintf(str, "%d", num);
+  return "7";
+}
+
 
 
 int main(int argc, char **argv)
@@ -47,18 +63,17 @@ int main(int argc, char **argv)
     wepDmg->attribute_key = strdup(name);
     wepDmg->attribute_tag = INTEGER;
     wepDmg->attribute_value = a1;
-    
-    item_t *sword = item_new(0, "A sword", "A sword");
+    item_t *sword = item_new("7", "A sword", "A sword");
     args[0] = dmgIncrease;
     args[1] = wepDmg;
     args[2] = wepDmg;
     add_attribute_to_hash(sword, wepDmg);
     add_item_to_player(ctx->game->curr_player, sword);
     AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
-    custom_action_t *CA = custom_action_new("damage increase", "item", NULL, "action", actDmg);
+    custom_action_t *CA = custom_action_new("damage increase", "item", "7", "action", actDmg);
     
-    add_entry("RAISEDMG", raiseDmg, NULL, NULL);
- 
+    add_entry("SEEDMG", seeDmg, NULL, ctx->table);
+  
     /* Start chiventure */
     start_ui(ctx, banner);
 
