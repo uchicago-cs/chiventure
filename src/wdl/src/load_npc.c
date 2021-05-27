@@ -27,7 +27,8 @@ int load_npc_inventory(obj_t *inventory_lst_obj, npc_t *npc, game_t *g)
         return FAILURE;
     }
 
-    // add items to NPC's inventory
+    // check if each item is currently in the game, and if so, add them to the
+    // NPC's inventory
     DL_FOREACH(inventory_lst_obj->data.lst, curr)
     {
         item_id = obj_get_str(curr, "item_id");
@@ -75,14 +76,15 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
         return FAILURE;
     }
 
-    // add actions to node
+    // add the actions to the node
     DL_FOREACH(actions_obj->data.lst, curr)
     {
         action = obj_get_str(curr, "action");
         action_id = obj_get_str(curr, "action_id");
 
         if (strcmp(action, "GIVE_ITEM") == 0) {
-            // check if the item is in the NPC's inventory
+            // check if the item is present in the NPC's inventory, and if so,
+            // add the GIVE_ITEM flag to the node
             if (item_in_npc_inventory(npc, action_id) == false) {
                 fprintf(stderr, "[Node actions] The item you intend to give "
                         "to the player is missing from the NPC's inventory. "
@@ -209,7 +211,7 @@ int load_npcs(obj_t *doc, game_t *g)
         return FAILURE;
     }
 
-    // iterate through hash table of NPCs
+    // iterate through the hash table of NPCs
     obj_t *curr, *tmp;
     HASH_ITER(hh, npcs_obj->data.obj.attr, curr, tmp)
     {

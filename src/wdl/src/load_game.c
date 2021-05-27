@@ -19,7 +19,7 @@ game_t *load_game(obj_t *obj_store)
     // player
     player_t *p = player_new("player");
     add_player_to_game(game, p);
-    game->curr_player = p;
+    set_curr_player(game, p);
 
     // call functions that parse items, actions, rooms, NPCs, classes and game
     // attributes into a game pointer

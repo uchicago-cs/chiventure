@@ -138,7 +138,7 @@ int do_node_actions(node_t *n, game_t *game)
                 //   npc_t *npc = get_npc(game, game->mode->mode_ctx);
                 // That is, we get the NPC struct from game->all_items rather
                 // than game->curr_room->npcs->npc_list. However, as NPC
-                // structs cannot currently exist in two hash tables, we will
+                // structs cannot currently belong to two hash tables, we will
                 // have to use this workaround.
                 npc_t *npc = get_npc_in_room(game->curr_room,
                                              game->mode->mode_ctx);
