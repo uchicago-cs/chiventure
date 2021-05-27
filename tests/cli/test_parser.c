@@ -42,22 +42,6 @@ Test(parse_r, check_overlap_does_not_intersect)
 {
     check_circle_overlap(3.0, 4.0, 14.0, 18.0, 5.0, 8.0, 0);
 }
-/* this test should return 2 since the 2 circles inputted are
- * overlapping 
- */
-Test(circle, check_overlap_intersects)
-{
-    check_circle_overlap(10.0, 3.0, 1.0, 2.0, 5.0, 8.0, 2);
-}
-
-/* this test should return 1 since the 2 circles inputted are
- * just touching
- */
-
-Test(circle, check_overlap_at_singular_point)
-{
-    check_circle_overlap(8.0, 4.0, 18.0, 4.0, 4.0, 6.0, 1);
-}
 
 
 //Tests the parsing of an empty input, which should return NULL.
