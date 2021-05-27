@@ -213,7 +213,21 @@ void demo_WDL() {
 }
 
 void demo_multiclasses() {
-    
+    game_t* game = game_new("The playerclass demo game!");
+
+    prompt("Loading Wizard class, a prefab class...", NULL);
+    class_t* wizard_class = class_prefab_new(game, "Wizard");
+    class_prefab_add_skills(wizard_class);
+    print_class(wizard_class);
+
+    prompt("Loading Knight class, a prefab class...", NULL);
+    class_t* knight_class = class_prefab_new(game, "Knight");
+    class_prefab_add_skills(knight_class);
+    print_class(knight_class);
+
+    prompt("Creating a new multiclass called Hexblade from Wizard and Knight...", NULL);
+    class_t* hexblade_class = multiclass(base_class, second_class, "Hexblade");
+    print_class(hexblade_class);
 }
 
 void demo_item_interactions() {
