@@ -348,19 +348,27 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     c->cur_node = cur_edge->edge->to;
 
-    // Step 2: Execute actions (item, quest, battle, etc.), if any
+    // Step 2: Disable edge if the node it leads to has an action
+    // NOTE: This is a temporary solution that prevents issues like being able
+    //       to receive multiple copies of items, starting the same quest twice.
+    //       This SHOULD be changed / made more complex in the future.
+    if (c->cur_node->actions != NULL) {
+        cur_edge->availability = EDGE_DISABLED;
+    }
+
+    // Step 3: Execute actions (item, quest, battle, etc.), if any
     if (do_node_actions(c->cur_node, game) != SUCCESS) {
         *rc = -1;
         return NULL;
     }
 
-    // Step 3: Recheck the availability of each edge, count total avail. edges
+    // Step 4: Recheck the availability of each edge, count total avail. edges
     if (update_edge_availabilities(c->cur_node) != SUCCESS) {
         *rc = -1;
         return NULL;
     }
 
-    // Step 4: Prepare return code and return string
+    // Step 5: Prepare return code and return string
     if (c->cur_node->num_available_edges == 0) *rc = 1;
     else *rc = 0;
 

@@ -104,6 +104,18 @@ int main()
 
     rc = -1;
 
+    printf("Stranger: (again)\n");
+    while (rc != 1) {
+        if (rc < 0) ret_str = start_conversation(c1, &rc, g);
+        else ret_str = run_conversation_step(c1, player_response, &rc, g);
+        printf("%s", ret_str);
+        if (rc != 1) scanf("%d", &player_response);
+        printf("\n");
+        free(ret_str);
+    }
+
+    rc = -1;
+
     printf("\nSteve the 'Smith:\n");
     while (rc != 1) {
         if (rc < 0) ret_str = start_conversation(c2, &rc, g);
