@@ -6,7 +6,8 @@ add_executable(${TEST_EXE}
         skill_test.c
         skilltree_test.c
         skilltrees_common_test.c
-        main.c)
+        main.c
+        )
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
 
