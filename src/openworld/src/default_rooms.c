@@ -30,7 +30,7 @@ roomspec_t *make_default_room(char *bucket,
                               char *sh_desc, char *l_desc)
 {
 
-    roomspec_t *hash = NULL;
+    rspec_hash_t *hash = NULL;
     int rc;
 
     assert(bucket != NULL);

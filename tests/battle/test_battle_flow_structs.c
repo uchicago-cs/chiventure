@@ -26,7 +26,7 @@ Test(battle_flow_structs, new_ctx_player)
                      "set_player() didn't set class short description");
 
     cr_assert_null(ctx_player->class_type->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(ctx_player->class_type->stats, "set_player() didn't set class stats");
+    cr_assert_null(ctx_player->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 /* Tests make_npc_enemy() with 1 enemy */

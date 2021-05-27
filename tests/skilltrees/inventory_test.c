@@ -133,7 +133,6 @@ Test(inventory_test, deep_copy_inventory_with_skills)
 }
 
 /* Tests inventory_skill_add for an active skill, that is valid. */
-/*
 Test(inventory_tests, inventory_skill_add_active_safe)
 {
     skill_inventory_t* inventory = inventory_new(1,1);
@@ -146,9 +145,8 @@ Test(inventory_tests, inventory_skill_add_active_safe)
     cr_assert_eq(inventory->active[0]->sid,1000,
         "Error: failed test inventory_skill_add_active_safe");
 }
-*/
+
 /*Tests inventory_skill_add for an active skill, when active inventory full. */
-/*
 Test(inventory_tests, inventory_skill_add_active_full)
 {
     skill_inventory_t* inventory = inventory_new(1,1);
@@ -160,9 +158,8 @@ Test(inventory_tests, inventory_skill_add_active_full)
     int ret = inventory_skill_add(inventory, tree);
     cr_assert_eq(ret,FAILURE,"Error: failed test inventory_skill_add_active_full");
 }
-*/
+
 /* Tests inventory_skill_add on a passive skill, that is valid. */
-/*
 Test(inventory_tests, inventory_skill_add_passive_safe)
 {
     skill_inventory_t* inventory = inventory_new(1,1);
@@ -173,9 +170,8 @@ Test(inventory_tests, inventory_skill_add_passive_safe)
     int ret = inventory_skill_add(inventory, bomb);
     cr_assert_eq(ret,SUCCESS,"Error: failed test inventory_skill_add_passive_safe");
 }
-*/
+
 /*Tests inventory_skill_add on a passive skill, when passive inventory full.*/
-/*
 Test(inventory_tests, inventory_skill_add_passive_full)
 {
     skill_inventory_t* inventory = inventory_new(1,1);
@@ -187,9 +183,8 @@ Test(inventory_tests, inventory_skill_add_passive_full)
     int ret = inventory_skill_add(inventory, tree);
     cr_assert_eq(ret,FAILURE,"Error: failed test inventory_skill_add_passive_full");
 }
-*/
+
 /* Tests inventory_skill_add for an invalid skill type. */
-/*
 Test(inventory_tests, inventory_skill_add_invalid)
 {
     skill_inventory_t* inventory = inventory_new(1,1);
@@ -198,9 +193,8 @@ Test(inventory_tests, inventory_skill_add_invalid)
     int ret = inventory_skill_add(inventory, peace);
     cr_assert_eq(ret,FAILURE,"Error: failed test inventory_skill_add_invalid");
 }
-*/
+
 /*Tests inventory_has_skill on passive skill it does not have. */
-/*
 Test(inventory_tests, inventory_has_skill_has_not_passive)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -211,9 +205,8 @@ Test(inventory_tests, inventory_has_skill_has_not_passive)
   cr_assert_eq(ret, -1,
     "Error: failed test inventory_has_skill_has_passive\n");
 }
-*/
+
 /* Tests inventory_has_skill when it has an active, but is checking for a passive. */
-/*
 Test(inventory_tests, inventory_has_skill_has_not_active)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -224,9 +217,8 @@ Test(inventory_tests, inventory_has_skill_has_not_active)
   cr_assert_eq(ret, -1,
     "Error: failed test inventory_has_skill_has_active\n");
 }
-*/
+
 /* Tests inventory_has_skill on active skill it does not have. */
-/*
 Test(inventory_tests, inventory_has_skill_has_not)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -236,9 +228,8 @@ Test(inventory_tests, inventory_has_skill_has_not)
   cr_assert_eq(ret, -1,
     "Error: failed test inventory_has_skill_has_not\n");
 }
-*/
+
 /* Tests inventory_skill_remove on a skill it does not have. */
-/*
 Test(inventory_tests, inventory_skill_remove_has_not)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -248,11 +239,10 @@ Test(inventory_tests, inventory_skill_remove_has_not)
   cr_assert_eq(ret, FAILURE,
     "Error: failed test inventory_has_skill_has_not\n");
 }
-*/
+
 /*Tests after this line fail and are skipped.*/
 
 /* Tests inventory_has_skill on active skill that inventory has. */
-/*
 Test(inventory_tests, inventory_has_skill_has_active)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -263,9 +253,8 @@ Test(inventory_tests, inventory_has_skill_has_active)
 
   cr_assert_eq(ret, 0, "Error: failed test inventory_has_skill_has_active\n");
 }
-*/
+
 /* Tests inventory_has_skill on a passive skill it has. */
-/*
 Test(inventory_tests, inventory_has_skill_has_passive)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -276,9 +265,8 @@ Test(inventory_tests, inventory_has_skill_has_passive)
   cr_assert_eq(ret, 0,
     "Error: failed test inventory_has_skill_has_passive\n");
 }
-*/
+
 /* Tests inventory_skill_remove on a pasive skill that is had. */
-/*
 Test(inventory_tests, inventory_skill_remove_has_passive)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -289,9 +277,8 @@ Test(inventory_tests, inventory_skill_remove_has_passive)
   cr_assert_eq(ret, SUCCESS,
     "Error: failed test inventory_has_skill_has_passive\n");
 }
-*/
+
 /* Tests inventory_skill_remove on an active skill that is had. */
-/*
 Test(inventory_tests, inventory_skill_remove_has_active)
 {
   skill_inventory_t* inventory = inventory_new(1,1);
@@ -302,4 +289,3 @@ Test(inventory_tests, inventory_skill_remove_has_active)
   cr_assert_eq(ret, SUCCESS,
     "Error: failed test inventory_has_skill_has_active\n");
 }
-*/
