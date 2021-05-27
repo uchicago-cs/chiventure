@@ -150,7 +150,7 @@ void check_conns(game_t *g, char *origin, char *dir, char *dest)
 
     // compare the values of to_id and dest
     int rc = strncmp(to_id, dest, strlen(dest));
-    cr_assert_eq(rc, SUCCESS, "failed to parse connection");
+    cr_assert_eq(rc, SUCCESS, "failed to parse connections");
 }
 
 /*
@@ -207,7 +207,7 @@ Test(rooms, add_connections_A_B)
     game_t *g = add_conns_check();
 
     // check connection from room A to room B
-    check_conns(g, "room_A", "SOUTH", "room_B");
+    check_conns(g, "room_a", "south", "room_b");
 }
 
 /* check connection from room B to room C */
@@ -217,7 +217,7 @@ Test(rooms, add_connections_B_C)
     game_t *g = add_conns_check();
 
     // check connection from room B to room C
-    check_conns(g, "room_B", "WEST", "room_C");
+    check_conns(g, "room_b", "west", "room_c");
 }
 
 /* check connection from room C to room A */
@@ -227,5 +227,5 @@ Test(rooms, add_connections_C_A)
     game_t *g = add_conns_check();
 
     // check connection from room B to room C
-    check_conns(g, "room_C", "NORTH", "room_A");
+    check_conns(g, "room_c", "north", "room_a");
 }
