@@ -4,7 +4,6 @@
 #include <stdarg.h>
 
 #include "playerclass/class_prefabs.h"
-<<<<<<< HEAD
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
 #include "common/ctx.h"
@@ -14,8 +13,6 @@
 #include "skilltrees/skill.h"
 #include "skilltrees/skilltree.h" 
 #include "skilltrees/inventory.h"
-=======
->>>>>>> 01b82415209275f45e4bbbb14192f8a25b985e8a
 
 /* Rudimentary id system for prefab classes (internal) */
 

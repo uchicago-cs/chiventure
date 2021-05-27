@@ -6,11 +6,6 @@
 #define CLASS_STRUCTS_H
 
 #include "common/utlist.h"
-<<<<<<< HEAD
-=======
-#include "skilltrees/inventory.h"
-#include "skilltrees/skilltree.h"
->>>>>>> 01b82415209275f45e4bbbb14192f8a25b985e8a
 #include "game-state/stats.h"
 #include "libobj/obj.h"
 

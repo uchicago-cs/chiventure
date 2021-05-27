@@ -6,7 +6,7 @@
 #define INCLUDE_STDST_H_
 
 #include "common/common.h"
-
+#include "skilltrees/effect.h"
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
 /* ============================= */
@@ -28,30 +28,6 @@
  * chiventure team a range of 1000 IDs (e.g. rpg-battle is entitled to sid_t
  * 2000-2999).
  */
-typedef enum sid {
-    // Example 1
-    UNLOCK_DOOR = 1000,
-
-    // Example 2
-    DEFUSE_BOMB = 1001,
-
-    // Example 3
-    CHOP_TREE = 1002,
-
-    // Example 4
-    INNER_PEACE = 1003,
-
-} sid_t;
-
-/* Skill type */
-typedef enum skill_type {
-    // Denotes active skill
-    ACTIVE,
-
-    // Denotes passive skill
-    PASSIVE,
-
-} skill_type_t;
 
 /*
  * Skill effect function type

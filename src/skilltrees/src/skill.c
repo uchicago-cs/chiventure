@@ -34,11 +34,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-<<<<<<< HEAD
                effect_t* skill_effect) {
-=======
-               skill_effect_t effect) {
->>>>>>> 01b82415209275f45e4bbbb14192f8a25b985e8a
     assert(skill != NULL);
 
     skill->sid = sid;
@@ -57,11 +53,7 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
     skill->xp = xp;
     skill->max_level = max_level;
     skill->min_xp = min_xp;
-<<<<<<< HEAD
     skill->skill_effect = skill_effect;
-=======
-    skill->effect = effect;
->>>>>>> 01b82415209275f45e4bbbb14192f8a25b985e8a
 
     return SUCCESS;
 }
