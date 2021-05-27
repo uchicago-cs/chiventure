@@ -28,7 +28,7 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
     new_action->success_str = calloc(1, MAX_MSG_LEN * sizeof(char));
     new_action->fail_str = calloc(1, MAX_MSG_LEN * sizeof(char));
 
-    int check = game_action_init(new_action, action_name, success_str, fail_str);
+    int check = game_action_init(new_action, case_insensitize2(action_name), success_str, fail_str);
 
     if (new_action == NULL || new_action->action_name == NULL)
     {
