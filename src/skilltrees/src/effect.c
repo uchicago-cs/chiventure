@@ -95,8 +95,17 @@ item_stat_effect_t* define_item_stat_effect()
 /* See effect.h */
 effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
 {
-    assert(player_stat_effect != NULL);
+    if(player_stat_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL player stat effect");
+        return NULL;
+    }
     effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
+    if(new_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
     new_effect->effect_type = PLAYER_STATISTIC_MOD;
     new_effect->data.s = player_stat_effect;
     return new_effect;
@@ -105,8 +114,17 @@ effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
 /* See effect.h */
 effect_t* make_move_effect(move_effect_t* move_effect)
 {
-    assert(move_effect != NULL);
+    if(move_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL move effect");
+        return NULL;
+    }
     effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
+    if(new_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
     new_effect->effect_type = MOVE_UNLOCK;
     new_effect->data.m = move_effect;
     return new_effect;
@@ -115,8 +133,17 @@ effect_t* make_move_effect(move_effect_t* move_effect)
 /* See effect.h */
 effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
 {
-    assert(item_attr_effect != NULL);
+    if(item_attr_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL item attribute effect");
+        return NULL;
+    }
     effect_t* new_attr_effect = (effect_t*)malloc(sizeof(effect_t));
+    if(new_attr_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
     new_attr_effect->effect_type = ITEM_ATTRIBUTE_MOD;
     new_attr_effect->data.i_a = item_attr_effect;
     return new_attr_effect;
