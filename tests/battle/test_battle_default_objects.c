@@ -88,10 +88,10 @@ Test(battle_default_objects, default_weapon)
         // SWORD
         cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
         cr_assert_eq(test_weapon->durability, 100, "get_random_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_weapon->name, "SWORD", "get_random_weapon() did not set name correctly");
+        cr_assert_str_eq(test_weapon->name, "Sword", "get_random_weapon() did not set name correctly");
         cr_assert_str_eq(test_weapon->description, "Reduces enemy's HP by 20", "get_random_weapon() did not set description correctly");
         cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
-        cr_assert_eq(test_weapon->attack, -30, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->attack, 0, "get_random_weapon() did not set attack correctly");
         cr_assert_eq(test_weapon->defense, 0, "get_random_weapon() did not set defense correctly");
         cr_assert_eq(test_weapon->hp, -20, "get_random_weapon() did not set hp correctly");
         cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
@@ -102,10 +102,10 @@ Test(battle_default_objects, default_weapon)
         // HAMMER
         cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
         cr_assert_eq(test_weapon->durability, 80, "get_random_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_weapon->name, "HAMMER", "get_random_weapon() did not set name correctly");
+        cr_assert_str_eq(test_weapon->name, "Hammer", "get_random_weapon() did not set name correctly");
         cr_assert_str_eq(test_weapon->description, "Reduces enemy's HP by 10", "get_random_weapon() did not set description correctly");
         cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
-        cr_assert_eq(test_weapon->attack, -20, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->attack, 0, "get_random_weapon() did not set attack correctly");
         cr_assert_eq(test_weapon->defense, 0, "get_random_weapon() did not set defense correctly");
         cr_assert_eq(test_weapon->hp, -10, "get_random_weapon() did not set hp correctly");
         cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
@@ -116,10 +116,10 @@ Test(battle_default_objects, default_weapon)
         // SLIME
         cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
         cr_assert_eq(test_weapon->durability, 60, "get_random_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_weapon->name, "SLIME", "get_random_weapon() did not set name correctly");
+        cr_assert_str_eq(test_weapon->name, "Slime", "get_random_weapon() did not set name correctly");
         cr_assert_str_eq(test_weapon->description, "Reduces enemy's ATTACK by 5", "get_random_weapon() did not set description correctly");
         cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
-        cr_assert_eq(test_weapon->attack, 0, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->attack, -5, "get_random_weapon() did not set attack correctly");
         cr_assert_eq(test_weapon->defense, -2, "get_random_weapon() did not set defense correctly");
         cr_assert_eq(test_weapon->hp, 0, "get_random_weapon() did not set hp correctly");
         cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
@@ -130,10 +130,10 @@ Test(battle_default_objects, default_weapon)
         // SLEEPING GAS
         cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
         cr_assert_eq(test_weapon->durability, 40, "get_random_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_weapon->name, "SLEEPING GAS", "get_random_weapon() did not set name correctly");
+        cr_assert_str_eq(test_weapon->name, "Sleeping gas", "get_random_weapon() did not set name correctly");
         cr_assert_str_eq(test_weapon->description, "Reduces enemy's ATTACK by 10", "get_random_weapon() did not set description correctly");
         cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
-        cr_assert_eq(test_weapon->attack, 0, "get_random_weapon() did not set attack correctly");
+        cr_assert_eq(test_weapon->attack, -10, "get_random_weapon() did not set attack correctly");
         cr_assert_eq(test_weapon->defense, -5, "get_random_weapon() did not set defense correctly");
         cr_assert_eq(test_weapon->hp, 0, "get_random_weapon() did not set hp correctly");
         cr_assert_null(test_weapon->next, "get_random_weapon() did not set item->next correctly");
@@ -144,7 +144,7 @@ Test(battle_default_objects, default_weapon)
         // SQUID INK
         cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
         cr_assert_eq(test_weapon->durability, 30, "get_random_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_weapon->name, "SQUID INK", "get_random_weapon() did not set name correctly");
+        cr_assert_str_eq(test_weapon->name, "Squid ink", "get_random_weapon() did not set name correctly");
         cr_assert_str_eq(test_weapon->description, "Reduces enemy's DEFENSE by 10", "get_random_weapon() did not set description correctly");
         cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
         cr_assert_eq(test_weapon->attack, 0, "get_random_weapon() did not set attack correctly");
@@ -158,7 +158,7 @@ Test(battle_default_objects, default_weapon)
         // LAUGHING GAS
         cr_assert_eq(test_weapon->is_weapon, true, "get_random_weapon() did not set is_weapon correctly"); 
         cr_assert_eq(test_weapon->durability, 20, "get_random_weapon() did not set durability correctly");   
-        cr_assert_str_eq(test_weapon->name, "LAUGHING GAS", "get_random_weapon() did not set name correctly");
+        cr_assert_str_eq(test_weapon->name, "Laughing gas", "get_random_weapon() did not set name correctly");
         cr_assert_eq(test_weapon->battle, true, "get_random_weapon() did not set durability correctly");
         cr_assert_str_eq(test_weapon->description, "Reduces enemy's DEFENSE by 15", "get_random_weapon() did not set description correctly");
         cr_assert_eq(test_weapon->attack, 0, "get_random_weapon() did not set attack correctly");

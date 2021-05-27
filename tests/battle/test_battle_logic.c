@@ -580,7 +580,10 @@ Test(battle_logic, remove_single_item)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = use_battle_item(p, 100);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+
+    int res = use_battle_item(p, battle, 100);
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
@@ -615,12 +618,15 @@ Test(battle_logic, remove_item_of_multiple)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res1 = use_battle_item(p, 100);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+
+    int res1 = use_battle_item(p, battle, 100);
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i2, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
-    int res2 = use_battle_item(p, 101);
+    int res2 = use_battle_item(p, battle, 101);
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
@@ -654,12 +660,15 @@ Test(battle_logic, remove_last_item_of_multiple)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res2 = use_battle_item(p, 101);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+
+    int res2 = use_battle_item(p, battle, 101);
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i1, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
-    int res1 = use_battle_item(p, 100);
+    int res1 = use_battle_item(p, battle, 100);
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
