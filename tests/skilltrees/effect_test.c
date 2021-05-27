@@ -147,10 +147,6 @@ Test(effect_tests, execute_player_stat_effect_test)
     cr_assert_eq(health_boost->durations[0], 5, "Error: First Duration is wrong");
     cr_assert_eq(health_boost->durations[1], 5, "Error: Second Duration is wrong");
     cr_assert_eq(health_boost->num_stats, 2, "Number of stats is wrong");
-    effect_t* stat_effect = make_player_stat_effect(health_boost);
-    cr_assert_not_null(stat_effect, "Error: returns a null effect");
-    cr_assert_not_null(stat_effect->data.s, "Error: did not copy over the effect correctly");
-    cr_assert_eq(stat_effect->effect_type, PLAYER_STATISTIC_MOD, "Error: Enum value not correct");
     int check = execute_player_stat_effect(health_boost, ctx);
     cr_assert_eq(check, SUCCESS, "Error:  Failure of execute_player_stat");
     stats_hash_t* player_stats = ctx->game->curr_player->player_stats;
@@ -213,5 +209,14 @@ Test(effect_tests, execute_item_att_effect_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_item(ctx);
-    
+    attribute_value_t mod;
+    mod.bool_val = false;
+    enum attribute_tag att_tag = BOOLE;
+    item_att_effect_t* disarm_bomb = define_item_att_effect(bomb, "ARMED", att_tag, mod);
+    cr_assert_not_null(disarm_bomb, "Error : Returned NULL effect");
+    cr_assert_eq(disarm_bomb->att_tag, BOOLE, "Error : Have not set tag correctly");
+    cr_assert_eq(disarm_bomb->attribute_mod.bool_val, false, "Error : Did not set value correctly");
+    int check = execute_item_att_effect(disarm_bomb);
+    cr_assert_eq(check, SUCCESS, "Error: Did not execute correctly");
+    item_t* bomb = disarm_bomb->item;
 }
