@@ -15,14 +15,14 @@
 
 /* load_npcs
  * accesses the document object and obtain list of NPCs to parse into the
- * game_state structs and adds to the inputted game pointer
+ * game struct
  * 
  * parameters:
  * - obj: the document object
  * - g: a game pointer as a return parameter
  *
  * side effects:
- * - adds NPCs into the inputted game pointer and 
+ * - adds NPCs into the inputted game pointer (currently not possible) and 
  *   their respective rooms
  *
  * returns:

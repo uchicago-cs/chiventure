@@ -16,8 +16,13 @@ game_t *load_game(obj_t *obj_store)
     int rc;
     game_t *game = create_game(obj_store);
 
-    // call functions that parse items, actions, rooms, and game attributes
-    // into a game pointer
+    // player
+    player_t *p = player_new("player");
+    add_player_to_game(game, p);
+    game->curr_player = p;
+
+    // call functions that parse items, actions, rooms, NPCs, classes and game
+    // attributes into a game pointer
     rc = add_rooms_to_game(obj_store, game);
     if(rc != SUCCESS)
     {

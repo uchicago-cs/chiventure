@@ -12,19 +12,15 @@
 #include "validate.h"
 
 /* build_conditions
- * converts a conditions object into a condition struct, which it returns
+ * converts a conditions object into a condition list, which it returns
  * 
  * parameters:
- * - conditions_obj: the document object
- * - g: a game pointer as a return parameter
- *
- * side effects:
- * - adds NPCs into the inputted game pointer and 
- *   their respective rooms
+ * - conditions_obj: the conditions object
+ * - g: the game
  *
  * returns:
- * - SUCCESS for successful parse
- * - FAILURE for unsuccessful parse
+ * - the condition list
+ * - NULL if unsuccessful
  */
 condition_t *build_conditions(obj_t *conditions_obj, game_t *g);
 

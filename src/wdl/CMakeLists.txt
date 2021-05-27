@@ -4,6 +4,7 @@ add_library(wdl
             src/load_room.c
             src/load_npc.c
             src/load_class.c
+            src/load_condition.c
             src/validate.c)
 
 target_include_directories(wdl PRIVATE src/)

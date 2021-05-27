@@ -372,9 +372,8 @@ int npc_type_check(obj_t *obj)
     // fields to verify
     int short_ver = (obj_get_type(obj, "short_desc") == TYPE_STR);
     int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
-    int dialogue = (obj_get_type(obj, "dialogue") != TYPE_ERROR);
 
-    return !(short_ver && long_ver && dialogue);
+    return !(short_ver && long_ver);
 }
 
 /* See validate.h */
@@ -425,6 +424,15 @@ int node_action_type_check(obj_t *obj)
     int action_id = (obj_get_type(obj, "action_id") == TYPE_STR);
 
     return !(action && action_id);
+}
+
+// The following functions regard condition type checking
+
+int conditions_type_check(obj_t *obj)
+{
+    int type = (obj_get_type(obj, "type") == TYPE_STR);
+
+    return !type;
 }
 
 

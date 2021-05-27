@@ -29,13 +29,19 @@ int main()
     g->mode = game_mode_new(NORMAL, NULL, "stranger"); // mode is needed for
                                                        // the GIVE_ITEM action
                                                        // to work properly
+    add_player_to_game(g, p);
     add_npc_to_game(g, stranger);
+    add_item_to_game(g, item1);
+    add_item_to_game(g, item2);
     add_item_to_npc(stranger, item1);
     add_item_to_npc(stranger, item2);
 
+    game_free(g);
+
     // Step 2: Create the conditions
-    condition_t *cond = inventory_condition_new(p, item1);
-    cond->next = inventory_condition_new(p, item2);
+    condition_t *cond = NULL;
+    LL_APPEND(cond, inventory_condition_new(p, item1));
+    LL_APPEND(cond, inventory_condition_new(p, item2));
 
     // Step 3: Conversation 1
     convo_t *c1 = convo_new();
