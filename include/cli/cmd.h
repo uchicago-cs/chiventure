@@ -21,7 +21,7 @@ typedef struct lookup_entry
 /* Command data type */
 typedef struct
 {
-    char **tokens;    //should be of TOKEN_LIST_SIZE
+    tokenized_cmds *tokens;    //originally an array of strings changed the data type to fit the functionality we want for parse
     operation *func_of_cmd;
 } cmd;
 
