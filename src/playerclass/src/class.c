@@ -197,14 +197,27 @@ effects_hash_t* multiclass_effects(effects_hash_t* base_effects, effects_hash_t*
  *  - note that the nodes in the combined trees are not deepcopied.
  */
 skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t* second_tree) {
-    unsigned int num_nodes = base_tree->num_nodes + second_tree->num_nodes;
-    tid_t tid = 1000; // TID is placeholder
-    skill_tree_t* new_tree = skill_tree_new(tid, name, num_nodes); 
-    for (int i = 0; i < base_tree->num_nodes; i++) {
-        skill_tree_node_add(new_tree, base_tree->nodes[i]);
+    if (base_tree == NULL && second_tree == NULL){
+        return NULL;
     }
-    for (int i = 0; i < second_tree->num_nodes; i ++) {
-        skill_tree_node_add(new_tree, second_tree->nodes[i]);
+    unsigned int num_nodes;
+    if (base_tree == NULL){
+        int num_nodes = second_tree->num_nodes;
+    }
+    else if (second_tree == NULL){
+        int num_nodes = base_tree->num_nodes;
+    }
+    tid_t tid = 1000; // TID is placeholder
+    skill_tree_t* new_tree = skill_tree_new(tid, name, num_nodes);
+    if (base_tree != NULL){
+        for (int i = 0; i < base_tree->num_nodes; i++) {
+            skill_tree_node_add(new_tree, base_tree->nodes[i]);
+        }
+    }
+    if (second_tree != NULL){
+        for (int i = 0; i < second_tree->num_nodes; i ++) {
+            skill_tree_node_add(new_tree, second_tree->nodes[i]);
+        }
     }
     return new_tree;
 }
