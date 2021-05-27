@@ -10,7 +10,9 @@ base_path = Path(__file__).parent.parent
 
 # Formats warning messages
 def single_line_warnings(message, category, filename, lineno, file=None, line=None):
-    return f' %s:%s: %s:%s \n' % (filename, lineno, category.__name__, message)
+    path = Path(filename)
+    short_path = Path(*path.parts[-2:])
+    return f' %s:%s\t %s: %s \n' % (short_path, lineno, category.__name__, message)
 warnings.formatwarning = single_line_warnings
 
 def main():
