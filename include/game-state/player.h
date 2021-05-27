@@ -89,16 +89,19 @@ int delete_all_players(player_hash_t* players);
 
 /*
  * Sets an allocated player_t object's player_class field to given class_t class
+ *          Makes deep copies of the given class's "starting_skills",
+ *          "base_stats", and "effects fields" and updates the corresponding
+ *          fields in the player struct
  *
  * Parameters:
- *  plyr: A player. Must point to already allocated memory.
+ *  player: A player. Must point to already allocated memory.
  *  player_class: The player's class. Contains starting fields for
  *                skills and stats
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_set_class(player_t *plyr, class_t *player_class);
+int player_set_class(player_t *player, class_t *player_class);
 
 /*
  * Sets an allocated player_t's race field to the given string
