@@ -18,27 +18,49 @@ void load_audio(sound_t *name, sound_t *source)
 
 
 
-void load_audio_demo() 
+void load_audio_demo(SoundType type) 
 {
 
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
+    SDL_Init(SDL_INIT_AUDIO);
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2, 2048);
 
-    Mix_Music *backgroundSound = Mix_LoadMUS("sound_library/Boss Fight.wav");
-
     SDL_Window *window = SDL_CreateWindow("This is a music window", SDL_WINDOWPOS_UNDEFINED, 
-                                            SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_HIDDEN);
+                                            SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_HIDDEN); //SDL_WINDOW_HIDDEN HIDES THE WINDOW
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);
+    
+    if (type == BACKGROUND) {
+        Mix_Music *backgroundSound = Mix_LoadMUS("sound_library/Spring Village.mp3");
 
-    play_audio_demo(backgroundSound, window, renderer);
+        /*SDL_Window *window = SDL_CreateWindow("This is a music window", SDL_WINDOWPOS_UNDEFINED, 
+                                            SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_HIDDEN); //SDL_WINDOW_HIDDEN HIDES THE WINDOW
+
+        SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0); */
+
+        play_audio_demo_bgm(backgroundSound, window, renderer);
+    }
+    else {
+        Mix_Chunk *soundEffect = Mix_LoadWAV("sound_library/Sword Slash.wav");
+
+        /*SDL_Window *window = SDL_CreateWindow("This is a music window", SDL_WINDOWPOS_UNDEFINED, 
+                                            SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_HIDDEN); //SDL_WINDOW_HIDDEN HIDES THE WINDOW
+
+        SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 0);*/
+
+        play_audio_demo_effect(soundEffect, window, renderer);
+    }
+    
+    
+
 
     return;
 }
 
-void play_audio_demo(Mix_Music *backgroundSound, SDL_Window *window,
+void play_audio_demo_bgm(Mix_Music *backgroundSound, SDL_Window *window,
                     SDL_Renderer *renderer)
 {
     Mix_PlayMusic(backgroundSound, -1);
@@ -58,13 +80,49 @@ void play_audio_demo(Mix_Music *backgroundSound, SDL_Window *window,
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    Mix_FreeMusic(backgroundSound);
+    Mix_CloseAudio();
+    SDL_Quit();
+
+}
+
+void play_audio_demo_effect(Mix_Chunk *soundEffect, SDL_Window *window,
+                    SDL_Renderer *renderer)
+{
+    
+    bool running = true;
+    SDL_Event event;
+    while(running)
+    {
+        while(SDL_PollEvent(&event))
+        {
+            if(event.type == SDL_QUIT)
+            {
+                running = false;
+            }
+            
+            else if(event.type == SDL_KEYUP)
+            {
+                if(event.key.keysym.sym == SDLK_1)
+                {
+                    Mix_PlayChannel(-1, soundEffect, 0);
+                }
+            }
+        }
+    }
+
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    Mix_FreeChunk(soundEffect);
     Mix_CloseAudio();
     SDL_Quit();
 
 }
 
 int main() {
+    sound_t *sound_file = malloc(sizeof(sound_t));
+    sound_file->type = BACKGROUND;
 
-    load_audio_demo();
+    load_audio_demo(sound_file->type);
     
 }
