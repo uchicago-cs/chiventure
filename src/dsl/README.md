@@ -62,6 +62,12 @@ python src/parse.py <dsl file> <optional destination>
 ```
 ###### By default, the output file will be stored in `examples/wdl/<input-file-name>.wdl`, unless a destination parameter is specified.
 
+If it only contains supported features, you can then run your newly created game in Chiventure. From the `src/dsl` directory, assuming you've built Chiventure: 
+
+```
+../../build/chiventure examples/wdl/<filename>.wdl
+```
+
 #### Debugging Mode
 
 A verbose debugging mode can be enabled using the `--debug` flag:
