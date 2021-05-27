@@ -1,5 +1,3 @@
-// STRING: (LETTER|DIGIT)+
-
 _STRING_INNER: /(.|\n)*?/
 _STRING_ESC_INNER: _STRING_INNER /(?<!\\)(\\\\)*?/
 ESCAPED_STRING : "\"" _STRING_ESC_INNER "\""
