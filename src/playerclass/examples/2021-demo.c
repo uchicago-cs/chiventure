@@ -220,13 +220,13 @@ void demo_multiclasses() {
     class_prefab_add_skills(wizard_class);
     print_class(wizard_class);
 
-    prompt("Loading Knight class, a prefab class...", NULL);
-    class_t* knight_class = class_prefab_new(game, "Knight");
-    class_prefab_add_skills(knight_class);
-    print_class(knight_class);
+    prompt("Loading Warrior class, a prefab class...", NULL);
+    class_t* warrior_class = class_prefab_new(game, "Warrior");
+    class_prefab_add_skills(warrior_class);
+    print_class(warrior_class);
 
-    prompt("Creating a new multiclass called Hexblade from Wizard and Knight...", NULL);
-    class_t* hexblade_class = multiclass(wizard_class, knight_class, "Hexblade");
+    prompt("Creating a new multiclass called Hexblade from Wizard and Warrior...", NULL);
+    class_t* hexblade_class = multiclass(wizard_class, warrior_class, "Hexblade");
     print_class(hexblade_class);
 }
 
@@ -238,10 +238,10 @@ void demo_item_interactions() {
 int main() {
     /* We decided to break up the ~10 minute demo into 2-3 minute mini demos */
     printf("***Entering prefab mini-demo***\n");
-    demo_prefab_classes();
+    // demo_prefab_classes();
 
     printf("***Entering WDL mini-demo***\n");
-    demo_WDL();
+    // demo_WDL();
 
     printf("***Entering multiclass mini-demo***\n");
     demo_multiclasses();
