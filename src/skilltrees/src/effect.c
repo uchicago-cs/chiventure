@@ -4,7 +4,7 @@
 #include "skilltrees/effect.h"
 
 
-// See effect.h
+/* See effect.h */
 player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx)
 {
     assert(ctx != NULL);
@@ -35,7 +35,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
     return new_stat_effect;
 }
 
-// See effect.h
+/* See effect.h */
 move_effect_t* define_move_effect(move_t* move)
 {
     move_effect_t* new_move_effect = (move_effect_t*)malloc(sizeof(move_effect_t));
@@ -44,7 +44,7 @@ move_effect_t* define_move_effect(move_t* move)
     return new_move_effect;
 }
 
-//See effect.h
+/* See effect.h */
 item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod) 
 {
     assert(item != NULL);
@@ -73,14 +73,14 @@ item_att_effect_t* define_item_att_effect(item_t* item, char* att_id, enum attri
     return item_att_effect;
 }
 
-// See effect.h
+/* See effect.h */
 item_stat_effect_t* define_item_stat_effect()
 {
     //TODO
     return NULL;
 }
 
-// See effect.h
+/* See effect.h */
 effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
 {
     assert(player_stat_effect != NULL);
@@ -90,7 +90,7 @@ effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
     return new_effect;
 }
 
-// See effect.h
+/* See effect.h */
 effect_t* make_move_effect(move_effect_t* move_effect)
 {
     assert(move_effect != NULL);
@@ -100,7 +100,7 @@ effect_t* make_move_effect(move_effect_t* move_effect)
     return new_effect;
 }
 
-// See effect.h
+/* See effect.h */
 effect_t* make_item_att_effect(item_att_effect_t* item_att_effect)
 {
     assert(item_att_effect != NULL);
@@ -110,14 +110,14 @@ effect_t* make_item_att_effect(item_att_effect_t* item_att_effect)
     return new_att_effect;
 }
 
-// See effect.h
+/* See effect.h */
 effect_t* make_item_stat_effect(item_stat_effect_t* item_stat_effect)
 {
     //TODO 
     return NULL;
 }
 
-// See effect.h
+/* See effect.h */
 int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chiventure_ctx_t* ctx)
 {
     assert(ctx != NULL);
@@ -147,17 +147,19 @@ int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chivent
     }
 }
 
-// See effect.h
+/* See effect.h */
 int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 {
     assert(ctx != NULL);
     assert(effect != NULL);
-    //ctx->game->curr_player->moves currently hasn't been implemented. We are working with battles to do so.
+    /* ctx->game->curr_player->moves currently hasn't been implemented. 
+     * We are working with battles to do so.
+     */
     //add_move(ctx->game->curr_player->moves, effect->move);
     return SUCCESS;
 }
 
-// See effect.h
+/* See effect.h */
 int execute_item_att_effect(item_att_effect_t* item_att_effect)
 {
     assert(item_att_effect != NULL);
@@ -217,6 +219,7 @@ int execute_item_att_effect(item_att_effect_t* item_att_effect)
     return SUCCESS;
 }
 
+/* See effect.h */
 int execute_item_stat_effect(item_stat_effect_t* item_stat_effect)
 {
     //TODO
