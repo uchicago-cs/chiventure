@@ -11,6 +11,7 @@
 typedef struct battle_item {
     int id;
     bool is_weapon;
+    int effectiveness_decrement;
     int quantity;
     int durability;
     char* name;
