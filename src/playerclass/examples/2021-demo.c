@@ -238,10 +238,10 @@ void demo_item_interactions() {
 int main() {
     /* We decided to break up the ~10 minute demo into 2-3 minute mini demos */
     printf("***Entering prefab mini-demo***\n");
-    // demo_prefab_classes();
+    demo_prefab_classes();
 
     printf("***Entering WDL mini-demo***\n");
-    // demo_WDL();
+    demo_WDL();
 
     printf("***Entering multiclass mini-demo***\n");
     demo_multiclasses();
