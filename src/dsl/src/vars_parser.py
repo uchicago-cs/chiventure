@@ -99,8 +99,8 @@ class SimplifyTree(Transformer):
         return ("var", s[0])
 
     def assignment_inner(self, s: list[Token]) -> str:
-        """Extracts the string from a singleton list of tokens and labels it"""
-        return ("string", str(s[0]))
+        """Concatenates the strings in all tokens and labels it"""
+        return ("string", ''.join([str(t) for t in s]))
 
     def escaped_char(self, s: list[Token]) -> tuple[str, str]:
         """Extracts the escaped character from a singleton token list and labels
