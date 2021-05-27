@@ -8,12 +8,13 @@
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
 
+
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
-/* Tests set_player() */
-Test(battle_flow, set_player)
+/* Tests set_battle_player() */
+Test(battle_flow, set_battle_player)
 {
     combatant_t *comb_player;
 
@@ -21,10 +22,10 @@ Test(battle_flow, set_player)
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
 
-    player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
+    battle_player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
                                            NULL, NULL, NULL);
 
-    comb_player = set_player(ctx_player);
+    comb_player = set_battle_player(ctx_player);
 
     cr_assert_not_null(comb_player, "set_player() failed");
     cr_assert_str_eq(comb_player->name, "set_player_Name", "set_player() didn't set name");
@@ -32,16 +33,16 @@ Test(battle_flow, set_player)
     cr_assert_eq(comb_player->next, NULL, "set_player() didn't set next");
     cr_assert_eq(comb_player->prev, NULL, "set_player() didn't set prev");
 
-    cr_assert_str_eq(comb_player->class->name, "Bard",
+    cr_assert_str_eq(comb_player->class_type->name, "Bard",
                      "set_player() didn't set class name");
-    cr_assert_str_eq(comb_player->class->shortdesc, "Music boi",
+    cr_assert_str_eq(comb_player->class_type->shortdesc, "Music boi",
                      "set_player() didn't set class short description");
-    cr_assert_str_eq(comb_player->class->longdesc,
+    cr_assert_str_eq(comb_player->class_type->longdesc,
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(comb_player->class->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(comb_player->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_player->class_type->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(comb_player->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 /* Tests set_enemies() with 1 enemy */
@@ -63,16 +64,16 @@ Test(battle_flow, set_one_enemy)
     cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
     cr_assert_not_null(comb_enemy->prev, "set_enemies() didn't set prev");
 
-    cr_assert_str_eq(comb_enemy->class->name, "Bard",
+    cr_assert_str_eq(comb_enemy->class_type->name, "Bard",
                      "set_player() didn't set class name");
-    cr_assert_str_eq(comb_enemy->class->shortdesc, "Music boi",
+    cr_assert_str_eq(comb_enemy->class_type->shortdesc, "Music boi",
                      "set_player() didn't set class short description");
-    cr_assert_str_eq(comb_enemy->class->longdesc,
+    cr_assert_str_eq(comb_enemy->class_type->longdesc,
                      "Charismatic, always has a joke or song ready",
                      "set_player() didn't set class short description");
 
-    cr_assert_null(comb_enemy->class->attributes, "set_player() didn't set class attribute");
-    cr_assert_null(comb_enemy->class->stats, "set_player() didn't set class stats");
+    cr_assert_null(comb_enemy->class_type->attributes, "set_player() didn't set class attribute");
+    cr_assert_null(comb_enemy->class_type->base_stats, "set_player() didn't set class stats");
 }
 
 
@@ -111,7 +112,7 @@ Test(battle_flow, set_two_enemies)
 /* Tests set_battle() */
 Test(battle_flow, set_battle)
 {
-    player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
     npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -141,8 +142,8 @@ Test(battle_flow, set_battle)
 Test(battle_flow, start_battle)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
-    player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
+    battle_game_t *g = new_battle_game();
+    battle_player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
@@ -159,14 +160,14 @@ Test(battle_flow, start_battle)
 Test(battle_flow, return_success_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -194,14 +195,14 @@ Test(battle_flow, return_success_battle_flow)
 Test(battle_flow, do_damage_battle_flow)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
     pstats->defense = 30;
     pstats->level = 1;
     pstats->strength = 200;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -250,14 +251,14 @@ Test(battle_flow, do_damage_battle_flow)
 Test(battle_flow, battle_over_by_player)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 40;
     pstats->level = 1;
     pstats->strength = 200;
     pstats->defense = 30;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -306,18 +307,18 @@ Test(battle_flow, battle_over_by_player)
 }
 
 /*
- * Testing if the player is determiend as the winner if the enemy is defeated
+ * Testing if the battle_player is determiend as the winner if the enemy is defeated
  */
 Test(battle_flow, battle_over_by_enemy)
 {
     chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
-    game_t *g = new_game();
+    battle_game_t *g = new_battle_game();
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
     pstats->level = 5;
     pstats->strength = 150;
     pstats->defense = 20;
-    player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
@@ -353,3 +354,4 @@ Test(battle_flow, battle_over_by_enemy)
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow() failed: enemy was not declared the winner");
 }
+

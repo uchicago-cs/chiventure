@@ -73,4 +73,15 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type);
  */
 int AST_block_free(AST_block_t *ast);
 
+/* Executes a given AST block (the essential element
+ * of a custom action)
+ * 
+ * Parameters: 
+ * - block: A pointer to the AST block to be executed
+ * 
+ * Returns:
+ * - Integer value of SUCCESS or FAILURE
+ */
+int run_ast_block(AST_block_t *block);
+
 #endif /* INCLUDE_AST_BLOCK_H */

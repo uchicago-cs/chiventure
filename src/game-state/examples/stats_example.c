@@ -220,7 +220,7 @@ char *print_player_stats(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-    return display_stats(game->curr_player->player_class->stats);
+    return display_stats(game->curr_player->player_class->base_stats);
 }
 
 char *print_player_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -281,7 +281,7 @@ char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     stats_t *stat = stats_new(global, 100);
-    add_stat(&game->curr_player->player_class->stats, stat);
+    add_stat(&game->curr_player->player_class->base_stats, stat);
     return "The stat has been added.";
 
 }
@@ -326,7 +326,7 @@ char *upgrade_command(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "You must identify a stat to upgrade\n";
     }
 
-    int rc = change_stat_max(game->curr_player->player_class->stats, tokens[1], 100);
+    int rc = change_stat_max(game->curr_player->player_class->base_stats, tokens[1], 100);
 
     if (rc == FAILURE)
     {

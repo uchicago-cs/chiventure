@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
-#include "common/load_objects.h"
 #include <wdl/load_game.h>
 #include <ui/ui_ctx.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "ui/gui.h"
+#include "libobj/load.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"
@@ -39,7 +39,7 @@ const char *banner_small =
 int main(int argc, char **argv)
 {
 
-    wdl_ctx_t *wdl_ctx = NULL;
+    obj_t *obj_store = NULL;
     game_t *game = NULL;
     /*Boolean to see if gui is trying to be used*/
     bool graphical = false;
@@ -54,15 +54,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            wdl_ctx = load_wdl(argv[1]);
-            game = load_objects(wdl_ctx);
-
-            /*Helps prevent errors when there is no loaded game*/
-            if (!game)
-            {
-                fprintf(stderr, "Could not load game: %s\n", argv[1]);
-                exit(1);
-            }
+            obj_store = load_obj_store(argv[1]);
         }
     }
 
@@ -72,14 +64,7 @@ int main(int argc, char **argv)
         if(!strcmp(argv[1], "--gui"))
         {
             graphical = true;
-            wdl_ctx = load_wdl(argv[2]);
-            game = load_objects(wdl_ctx);
-
-            if (!game)
-            {
-                fprintf(stderr, "Could not load game: %s\n", argv[1]);
-                exit(1);
-            }
+            obj_store = load_obj_store(argv[2]);
         }
         else
         {
@@ -87,15 +72,37 @@ int main(int argc, char **argv)
             exit(1);
         }
     }
+    // Else: load the obj_store using some other method
+
+    /* Take an object store and, assuming it is a valid WDL set of objects, load it into in-game
+    * data structures. Other components could add calls inside load_game to load their feature-specific
+    * data structures */
+    if (obj_store != NULL)
+    {
+        game = load_game(obj_store);
+
+        /*Helps prevent errors when there is no loaded game*/
+        if (!game)
+        {
+            fprintf(stderr, "Could not load game: %s\n", argv[1]);
+            exit(1);
+        }
+    }
 
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+    ctx->obj_store = obj_store;
 
     /* Add calls to component-specific initializations here */
 
     if (graphical)
-    {   
-        /*If graphical is true the user will be using GUI*/
-        run_gui(ctx);
+    {  
+	#ifdef GUI_AVAILABLE
+            /*If graphical is true the user will be using GUI*/
+    	    run_gui(ctx);
+	#else
+    	    fprintf(stderr, "Cannot run GUI because chiventure was built without graphics support.\n");
+    	    exit(1);
+	#endif
     }
     else 
     {
@@ -119,6 +126,8 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+
 
 
 

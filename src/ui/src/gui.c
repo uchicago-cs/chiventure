@@ -4,7 +4,6 @@
 #include "action_management/actionmanagement.h"
 #include "ui/gui.h"
 #include "raylib.h"
-// #include "ui/draw_images.h"
 
 
 void run_gui(chiventure_ctx_t *ctx)
