@@ -73,7 +73,7 @@ edge_list_t *create_edge_list_element(edge_t *e)
 
 /* See dialogue.h */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
-             condition_t *cond)
+             condition_t *conditions)
 {
     assert(c->num_nodes >= 2);
 
@@ -84,7 +84,8 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
 
     // Create edge
     edge_t *e;
-    if ((e = edge_new(quip, from_node, to_node, cond)) == NULL) return FAILURE;
+    if ((e = edge_new(quip, from_node, to_node, conditions)) == NULL)
+        return FAILURE;
 
     edge_list_t *c_elt, *n_elt;
 
@@ -133,7 +134,14 @@ int do_node_actions(node_t *n, game_t *game)
         switch(cur_action->action) {
 
             case GIVE_ITEM: ;
-                npc_t *npc = get_npc(game, game->mode->mode_ctx);
+                // Ideally, this function would look like:
+                //   npc_t *npc = get_npc(game, game->mode->mode_ctx);
+                // That is, we get the NPC struct from game->all_items rather
+                // than game->curr_room->npcs->npc_list. However, as NPC
+                // structs cannot currently exist in two hash tables, we will
+                // have to use this workaround.
+                npc_t *npc = get_npc_in_room(game->curr_room,
+                                             game->mode->mode_ctx);
                 item_t *item = get_item_in_hash(npc->inventory,
                                                 cur_action->action_id);
                 if (item == NULL) return FAILURE;
@@ -143,7 +151,10 @@ int do_node_actions(node_t *n, game_t *game)
                 break;
 
             case TAKE_ITEM:
-                npc = get_npc(game, game->mode->mode_ctx);
+                // Ideally, this function would look like:
+                //   npc = get_npc(game, game->mode->mode_ctx);
+                // See GIVE_ITEM
+                npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
                 item = get_item_in_hash(game->curr_player->inventory,
                                                 cur_action->action_id);
                 if (item == NULL) return FAILURE;
@@ -188,10 +199,10 @@ int update_edge_availabilities(node_t *n)
 
     while (cur_edge != NULL) {
         if (cur_edge->availability != EDGE_DISABLED) {
-            if (cur_edge->edge->condition != NULL) {
+            if (cur_edge->edge->conditions != NULL) {
                 // true = 1 = EDGE_AVAILABLE, false = 0 = EDGE_UNAVAILABLE
                 cur_edge->availability =
-                    all_conditions_met(cur_edge->edge->condition);
+                    all_conditions_met(cur_edge->edge->conditions);
             }
             if (cur_edge->availability) num_avail_edges++;
         }
@@ -427,7 +438,7 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id)
 
 /* See dialogue.h */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
-              condition_t *cond)
+              condition_t *conditions)
 {
     assert(e != NULL);
     assert(quip != NULL);
@@ -437,18 +448,18 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
     if ((e->quip = strdup(quip)) == NULL) return FAILURE;
     e->from = from;
     e->to = to;
-    e->condition = cond;
+    e->conditions = conditions;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *cond)
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions)
 {
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
 
-    if (edge_init(e, quip, from, to, cond) != SUCCESS) {
+    if (edge_init(e, quip, from, to, conditions) != SUCCESS) {
         edge_free(e);
         return NULL;
     }
@@ -461,7 +472,7 @@ int edge_free(edge_t *e)
 {
     if (e != NULL) {
         free(e->quip);
-        delete_condition_llist(e->condition);
+        delete_condition_llist(e->conditions);
         free(e);
     }
 

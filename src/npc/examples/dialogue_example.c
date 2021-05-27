@@ -19,6 +19,7 @@ int main()
     // Step 1: Setting up the game, player, and item
     game_t *g = game_new("game");
     player_t *p = player_new("player");
+    room_t *r = room_new("room", "short", "long");
     npc_t *stranger = npc_new("stranger", "short", "long", NULL, NULL, 0);
     item_t *item1 = item_new("scimitar_handle", "a handle of a curved sword",
                              "looks intricate");
@@ -26,17 +27,20 @@ int main()
                              "looks sharp");
 
     g->curr_player = p;
+    g->curr_room = r;
     g->mode = game_mode_new(NORMAL, NULL, "stranger"); // mode is needed for
                                                        // the GIVE_ITEM action
                                                        // to work properly
     add_player_to_game(g, p);
-    add_npc_to_game(g, stranger);
+    // This code should be uncommented once NPC structs can support two
+    // hash tables
+    // add_npc_to_game(g, stranger); 
+    add_room_to_game(g, r);
+    add_npc_to_room(r->npcs, stranger);
     add_item_to_game(g, item1);
     add_item_to_game(g, item2);
     add_item_to_npc(stranger, item1);
     add_item_to_npc(stranger, item2);
-
-    game_free(g);
 
     // Step 2: Create the conditions
     condition_t *cond = NULL;

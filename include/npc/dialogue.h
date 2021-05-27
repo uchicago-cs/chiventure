@@ -52,13 +52,13 @@ typedef struct node node_t;
  *  - quip: dialogue option text
  *  - from: source node
  *  - to: destination node
- *  - condition: criteria determining an edge's availability, NULL if none
+ *  - conditions: conditions determining an edge's availability, NULL if none
  *    Note: conditions come from game-state/condition.h
  */
 typedef struct edge {
     char *quip;
     node_t *from, *to;
-    condition_t *condition;
+    condition_t *conditions;
 } edge_t;
 
 /* A doubly-linked list containing edges and their "availabilities."
@@ -149,7 +149,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  *  - quip: a string (max. 250 chars) representing the dialogue option text
  *  - from_id: source node's ID
  *  - to_id: destination node's ID
- *  - cond: criteria determining the edge's availability, NULL if none
+ *  - conditions: conditions determining the edge's availability, NULL if none
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -157,7 +157,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  *    to_id could not be found; (3) memory allocation errors;
  */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
-             condition_t *cond);
+             condition_t *conditions);
 
 
 /**********************************************
@@ -266,14 +266,14 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id);
  *  - quip: the dialogue option associated with the edge
  *  - from: source node
  *  - to: destination node
- *  - cond: criteria determining the edge's availability, NULL if none
+ *  - conditions: criteria determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
-              condition_t *cond);
+              condition_t *conditions);
 
 /* Allocates a new edge on the heap.
  * 
@@ -281,13 +281,13 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
  *  - quip: the dialogue option associated with the edge
  *  - from: source node
  *  - to: destination node
- *  - cond: criteria determining the edge's availability, NULL if none
+ *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
  *
  * Returns:
  *  - pointer to the new edge
  */
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *cond);
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions);
 
 /* Frees resources associated with an edge.
  *
