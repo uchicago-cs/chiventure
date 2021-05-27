@@ -218,5 +218,6 @@ Test(effect_tests, execute_item_att_effect_test)
     cr_assert_eq(disarm_bomb->attribute_mod.bool_val, false, "Error : Did not set value correctly");
     int check = execute_item_att_effect(disarm_bomb);
     cr_assert_eq(check, SUCCESS, "Error: Did not execute correctly");
-    item_t* bomb = disarm_bomb->item;
+    attribute_t* arm_status = get_attribute(bomb, "ARMED");
+    cr_assert_eq(arm_status->attribute_value.bool_val, 0, "Error: Did not change value");
 }
