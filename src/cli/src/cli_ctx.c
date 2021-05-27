@@ -21,9 +21,6 @@ cli_ctx_t *cli_ctx_new()
 
 int free_cli_ctx(cli_ctx_t *cli_ctx)
 {
-<<<<<<< HEAD
-
-
     assert(cli_ctx != NULL);
 
     command_list_t *command_history = cli_ctx->command_history;
@@ -38,13 +35,6 @@ int free_cli_ctx(cli_ctx_t *cli_ctx)
 
     free(cli_ctx);
 
-=======
-    if(cli_ctx == NULL || cli_ctx->command_history == NULL)
-    {
-        return SUCCESS;
-    }
-    free(cli_ctx);
->>>>>>> 4d12b0b4b416b0a3d097ab6344500e327533c8fd
     return SUCCESS;
 }
 
