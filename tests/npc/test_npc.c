@@ -389,16 +389,16 @@ Test (npc, change_npc_health)
     cr_assert_eq(npc->npc_battle->health, 100,
 		 "change_npc_health didn't change health in npc_battle struct");
 
-    int health2 = change_npc_health(npc, 3, 100);
-    cr_assert_eq(health2, 83,
-                 "change_npc_health() didn't increase health correctly");
-    cr_assert_eq(npc->npc_battle->health, 83,
+    int health2 = change_npc_health(npc, -20, 100);
+    cr_assert_eq(health2, 80,
+                 "change_npc_health() didn't decrease health correctly");
+    cr_assert_eq(npc->npc_battle->health, 80,
                  "change_npc_health didn't change health in npc_battle struct");
 
-    int health3 = change_npc_health(npc, -3, 100);
-    cr_assert_eq(health3, 77,
-                 "change_npc_health() didn't decrease health correctly");
-    cr_assert_eq(npc->npc_battle->health, 77,
+    int health3 = change_npc_health(npc, 3, 100);
+    cr_assert_eq(health3, 83,
+                 "change_npc_health() didn't increase health correctly");
+    cr_assert_eq(npc->npc_battle->health, 83,
                  "change_npc_health didn't change health in npc_battle struct");
 
     int health4 = change_npc_health(npc, -90, 100);
@@ -453,13 +453,15 @@ Test(npc, check_npc_battle)
     cr_assert_eq(check_npc_battle(npc2), false,
                  "check_npc_battle failed; will_fight=true, npc_battle=NULL");
 
-    stat_t *stats = create_enemy_stats();
-    move_t *moves = create_enemy_moves();
+    stat_t *stats1 = create_enemy_stats();
+    move_t *moves1 = create_enemy_moves();
+    stat_t *stats2 = create_enemy_stats();
+    move_t *moves2 = create_enemy_moves();
 
-    int res = add_battle_to_npc(npc1, 80, stats, moves, BATTLE_AI_GREEDY,
+    int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
                                 HOSTILE, 25);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
-    res = add_battle_to_npc(npc2, 80, stats, moves, BATTLE_AI_GREEDY,
+    res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
                                 HOSTILE, 25);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
