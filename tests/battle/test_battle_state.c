@@ -5,6 +5,8 @@
 #include "battle/battle_state.h"
 #include "common/utlist.h"
 
+
+
 /* Tests combatant_new() */
 Test(battle_state, combatant_new)
 {
