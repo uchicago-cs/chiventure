@@ -8,39 +8,6 @@
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
 
-char* bombname;
-char** bombstatname;
-double* bombmodifications;
-int* bombdurations;
-int bombnum_stats;
-
-player_stat_effect_t bombskilleffect = define_player_stat_effect(bombname, bombstatname, 
-            bombmodifications, bombdurations, bombnim_stats, ctx);
-
-
-
-/* Tests inventory_new. */
-Test(inventory_tests, inventory_new_test)
-{
-    skill_inventory_t* inventory = inventory_new(3,4);
-    cr_assert_eq(inventory->num_active, 0,
-        "Error: failed test inventory_new_test on inventory->num_active\n");
-    cr_assert_eq(inventory->max_active, 3,
-        "Error: failed test inventory_new_test on inventory->max_active\n");
-    cr_assert_eq(inventory->num_passive, 0,
-        "Error: failed test inventory_new_test on inventory->num_passive\n");
-    cr_assert_eq(inventory->max_passive, 4,
-        "Error: failed test inventory_new_test on inventory->max_passive\n");
-}
-
-/* Tests inventory_free. */
-Test(inventory_tests, inventory_free_test)
-{
-    skill_inventory_t* inventory = inventory_new(3,4);
-    int ret = inventory_free(inventory);
-    cr_assert_eq(ret, SUCCESS, "Error: failed test inventory_free\n");
-}
-
 /* Tests inventory_skill_add for an active skill, that is valid. */
 /*
 Test(inventory_tests, inventory_skill_add_active_safe)
