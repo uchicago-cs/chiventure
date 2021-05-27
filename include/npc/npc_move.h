@@ -6,6 +6,7 @@
 
 /* Forward declaration */
 typedef struct room_wrapped_for_llist room_list_t;
+typedef struct game game_t;
 
 /* 
  * Struct to encapsulate the time an NPC should stay in that particular room 
