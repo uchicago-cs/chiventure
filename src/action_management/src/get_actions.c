@@ -4,7 +4,6 @@
 #include "common/utlist.h"
 #include "action_management/actionmanagement.h"
 
-
 static action_type_t valid_actions[] =
 {
     // KIND 1
