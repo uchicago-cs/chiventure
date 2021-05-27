@@ -265,7 +265,7 @@ skill_inventory_t* multiclass_inventory(skill_inventory_t* base_inventory, skill
         max_passive = second_max_passive;
     }
 
-    /* Generate new inventories */
+    /* Generate new inventory */
     skill_inventory_t* new_inventory = inventory_new(max_active, max_passive);
     for (int i = 0; i < base_curr_active; i++) {
         inventory_skill_add(new_inventory, base_inventory->active[i]);
