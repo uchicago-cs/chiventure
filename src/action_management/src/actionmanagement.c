@@ -494,7 +494,7 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
     } else{
         int cost = strlen(item->short_desc);
         item_list_t *player_inventory;
-        player_inventory = get_all_items_in_hash(c->game->curr_player->inventory);
+        player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
         bool can_buy = false;
         while(player_inventory != NULL){
             if(strlen(player_inventory->item->short_desc) >= cost){
