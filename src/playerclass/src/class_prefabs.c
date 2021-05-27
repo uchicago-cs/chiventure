@@ -4,6 +4,7 @@
 #include <stdarg.h>
 
 #include "playerclass/class_prefabs.h"
+<<<<<<< HEAD
 #include "playerclass/class.h"
 #include "playerclass/class_structs.h"
 #include "common/ctx.h"
@@ -13,6 +14,8 @@
 #include "skilltrees/skill.h"
 #include "skilltrees/skilltree.h" 
 #include "skilltrees/inventory.h"
+=======
+>>>>>>> 01b82415209275f45e4bbbb14192f8a25b985e8a
 
 /* Rudimentary id system for prefab classes (internal) */
 
@@ -23,7 +26,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     "ranger",
     "rogue",
     "warrior",
-    "wizard",
+    "wizard"
 };
 
 /* Number of predefined default classes (see above). */
@@ -62,7 +65,7 @@ int get_class_name_index(char* name) {
  * hashtable if necessary.
  *
  * Parameters: 
- *  - ctx: The chiventure context object (it contains the global stat hashtable, 
+ *  - game: The chiventure game struct (it contains the global stat hashtable, 
  *         but that can be NULL).
  *  - stats: A pointer to a possibly NULL stats_hash_t pointer. The new stat is
  *           added, and the intermediate pointer updated if necessary.
@@ -75,11 +78,11 @@ int get_class_name_index(char* name) {
  *  - SUCCESS on success. stats and the global hashtable now contain the stat.
  *  - FAILURE on failure.
  */
-int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats, 
-                       char *stat_name, double stat_val, double stat_max) {
+int check_and_add_stat(game_t* game, stats_hash_t** stats, char *stat_name, 
+                       double stat_val, double stat_max) {
                     
-    if (ctx == NULL) {
-        fprintf(stderr, "Ctx (chiventure_ctx_t*) is NULL \n");
+    if (game == NULL) {
+        fprintf(stderr, "game (game_t*) is NULL \n");
         return FAILURE;
 
     } else if (stats == NULL) {
@@ -92,10 +95,10 @@ int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats,
     }
 
     stats_global_t *global_stat;
-    HASH_FIND_STR(ctx->game->curr_stats, stat_name, global_stat);
+    HASH_FIND_STR(game->curr_stats, stat_name, global_stat);
     if (global_stat == NULL) {
         global_stat = stats_global_new(stat_name, stat_max);
-        HASH_ADD_KEYPTR(hh, ctx->game->curr_stats, stat_name, strlen(stat_name), global_stat);
+        HASH_ADD_STR(game->curr_stats, name, global_stat);
     }
 
     add_stat(stats, stats_new(global_stat, stat_val));
@@ -107,7 +110,7 @@ int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats,
  * hashtable if necessary.
  *
  * Parameters: 
- *  - ctx: The chiventure context object (it contains the global stat hashtable, 
+ *  - ctx: The chiventure game struct (it contains the global stat hashtable, 
  *         but that can be NULL).
  *  - stats: A pointer to a possibly NULL stats_hash_t pointer. The new stats
  *           are added, and the intermediate pointer updated if necessary.
@@ -118,7 +121,7 @@ int check_and_add_stat(chiventure_ctx_t* ctx, stats_hash_t** stats,
  *  - SUCCESS on success. stats and the global hashtable now contain the stats.
  *  - FAILURE on failure.
  */
-int set_stats_hashtable(chiventure_ctx_t* ctx, stats_hash_t** stats,
+int set_stats_hashtable(game_t* game, stats_hash_t** stats,
                         double max_health, 
                         double speed,
                         double physical_defense, 
@@ -127,23 +130,23 @@ int set_stats_hashtable(chiventure_ctx_t* ctx, stats_hash_t** stats,
                         double magic_defense,
                         double magic_attack,
                         double max_mana) {
-    if (ctx == NULL || stats == NULL)
+    if (game == NULL || stats == NULL)
         return FAILURE;
 
-    check_and_add_stat(ctx, stats, "max_health", max_health, 100);
-    check_and_add_stat(ctx, stats, "speed", speed, 100);
-    check_and_add_stat(ctx, stats, "physical_defense", physical_defense, 100);
-    check_and_add_stat(ctx, stats, "physical_attack", physical_attack, 100);
-    check_and_add_stat(ctx, stats, "ranged_attack", ranged_attack, 100);
-    check_and_add_stat(ctx, stats, "magic_defense", magic_defense, 100);
-    check_and_add_stat(ctx, stats, "magic_attack", magic_attack, 100);
-    check_and_add_stat(ctx, stats, "max_mana", max_mana, 100);
+    check_and_add_stat(game, stats, "max_health", max_health, 100);
+    check_and_add_stat(game, stats, "speed", speed, 100);
+    check_and_add_stat(game, stats, "physical_defense", physical_defense, 100);
+    check_and_add_stat(game, stats, "physical_attack", physical_attack, 100);
+    check_and_add_stat(game, stats, "ranged_attack", ranged_attack, 100);
+    check_and_add_stat(game, stats, "magic_defense", magic_defense, 100);
+    check_and_add_stat(game, stats, "magic_attack", magic_attack, 100);
+    check_and_add_stat(game, stats, "max_mana", max_mana, 100);
     
     return SUCCESS;
 }
 
 /* See class_prefabs.h */
-class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
+class_t* class_prefab_new(game_t* game, char* class_name) {
     char temp_name[MAX_NAME_LEN + 1]; 
     strncpy(temp_name, class_name, MAX_NAME_LEN);
     /* make temp_name lowercase */
@@ -170,7 +173,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
         short_desc = "A skilled musician and magician.";
         long_desc = "The Bard combines their skill as a magician and musician to support their allies or vanquish their foes.";
-        set_stats_hashtable(ctx, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
+        set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
     }
 
     /* Monk stats:
@@ -186,7 +189,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
         short_desc = "An elite martial artist.";
         long_desc = "The Monk is an expert of unarmed combat, and, through their training-- "
                     "in accordance with their strict spirituality--have learned how to defend themselves from attackers.";
-        set_stats_hashtable(ctx, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
+        set_stats_hashtable(game, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
     }
 
     /* Ranger stats:
@@ -202,7 +205,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
         short_desc = "A master hunter.";
         long_desc = "The ranger is the embodiment of an apex predator: while they may tend to lurk away "
                     "from civilisation in the wild, they are a skilled killer and have no qualms about doing so.";
-        set_stats_hashtable(ctx, &stats, 10, 20, 10, 15, 25, 10, 10, 10);
+        set_stats_hashtable(game, &stats, 10, 20, 10, 15, 25, 10, 10, 10);
     }
 
     /* Rogue stats:
@@ -218,7 +221,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
         short_desc = "A sibling of the shadows.";
         long_desc = "The Rogue embodies stealth. They are feared by many, and for good reason. "
                     "They use their exceptional speed and agility to surprise their enemies and attack when least expected.";
-        set_stats_hashtable(ctx, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
+        set_stats_hashtable(game, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
     /* Warrior stats:
@@ -233,7 +236,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         short_desc = "A mighty warrior.";
         long_desc = "An elite, battle-hardened fighter who excels in physical combat.";
-        set_stats_hashtable(ctx, &stats, 20, 15, 20, 25, 10, 10, 5, 5);
+        set_stats_hashtable(game, &stats, 20, 15, 20, 25, 10, 10, 5, 5);
     }
 
     /* Wizard stats:
@@ -249,7 +252,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
         short_desc = "A learned wizard.";
         long_desc = "The Wizard is a master of the arcane; a formidable wielder of magic, "
                     "and an academic whose studies delve into its secrets.";
-        set_stats_hashtable(ctx, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
+        set_stats_hashtable(game, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
     }
 
     else {
@@ -258,7 +261,7 @@ class_t* class_prefab_new(chiventure_ctx_t* ctx, char *class_name) {
         return NULL;
     }
 
-    return class_new(temp_name, short_desc, long_desc, attributes, stats, effects);
+    return class_new(class_name, short_desc, long_desc, attributes, stats, effects);
 }
 
 /* Skill related functions */
@@ -296,9 +299,8 @@ const unsigned int UI_NODE_SIZE = 75;
  *  - EXIT_FAILURE otherwise.
  */
 int class_allocate_skills(class_t* class, int max_skills_in_tree, 
-                      int max_active_skills, int max_passive_skills) {
-    class->combat = inventory_new(max_active_skills, max_passive_skills);
-    class->noncombat = inventory_new(max_active_skills, max_passive_skills);
+                          int max_active_skills, int max_passive_skills) {
+    class->starting_skills = inventory_new(max_active_skills, max_passive_skills);
     
     /* tree ID needs to be unique across all chiventure code.  Our team has been
      * assigned the range 3000-3999.  Default classes start at 3000. There is
@@ -317,8 +319,8 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
                         "in class_allocate_skills\n");
         return EXIT_FAILURE;
     }
-    if (class->combat == NULL || class->noncombat == NULL) {
-        fprintf(stderr, "Could not allocate memory for skill inventories"
+    if (class->starting_skills == NULL) {
+        fprintf(stderr, "Could not allocate memory for skill inventory"
                         "in class_allocate_skills\n");
         return EXIT_FAILURE;
     }
@@ -333,6 +335,7 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - class: A pointer to the class. Must not be NULL.
  *  - skill: A pointer to the skill being added. Must not be NULL.
  *  - prereq_count: The number of prereqs the skill has.
+ *  - prereq_level: The pre_req level required to level the skill.
  *  - is_starting: true if the skill is a starting skill for the class.
  *  - (...): Indices of the skills that are prereqs to this skill (note that 
  *           skills are added in order, starting at index 0).
@@ -341,25 +344,26 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - SUCCESS on success.
  *  - FAILURE on failure.
  */
-int add_skill(class_t* class, skill_t* skill, int prereq_count, bool is_starting, ...) {
+int add_skill(class_t* class, skill_t* skill, int prereq_count, 
+                unsigned int prereq_level, bool is_starting, ...) {
     if (class == NULL || skill == NULL)
         return FAILURE;
 
-    skill_node_t* node = skill_node_new(skill, prereq_count, UI_NODE_SIZE);
+    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, UI_NODE_SIZE);
 
     /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
     va_list prereq_p;
     va_start(prereq_p, is_starting);
     for (int i = 0; i < prereq_count; i++) {
         int index = va_arg(prereq_p, int);
-        node_prereq_add(node, class->skilltree->nodes[index]);
+        node_prereq_add(node, class->skilltree->nodes[index], prereq_level);
     }
     va_end(prereq_p);
 
     skill_tree_node_add(class->skilltree, node);
 
     if (is_starting)
-        inventory_skill_acquire(class->skilltree, class->combat, skill);
+        inventory_skill_acquire(class->skilltree, class->starting_skills, skill);
     return SUCCESS;
 } 
 
@@ -431,9 +435,9 @@ int class_prefab_add_skills(class_t* class) {
                                      NULL);
 
         /* Add skills to tree */
-        add_skill(class, skill_0, 0, true);
-        add_skill(class, skill_1, 1, false, 0);
-        add_skill(class, skill_2, 1, false, 1);
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
     }
         
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {

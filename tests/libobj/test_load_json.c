@@ -123,7 +123,7 @@ Test(test_load_json, load_obj_json)
         "    ]"
         "}";
 
-    int rc = load_obj_json(obj, json_str);
+    int rc = load_obj_store_from_json(obj, json_str);
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     cr_assert_str_eq("A red sign.", obj_get_str(obj, "short_desc"),

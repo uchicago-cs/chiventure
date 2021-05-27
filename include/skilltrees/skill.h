@@ -6,7 +6,6 @@
 #define INCLUDE_SKILL_H_
 
 #include "skilltrees/skilltrees_common.h"
-#include "skilltrees/effect.h"
 
 /*
  * Allocates a new skill in the heap.
@@ -18,7 +17,7 @@
  *  - desc: The description of the skill
  *  - max_level: The maximum level to which the skill can be upgraded
  *  - min_xp: The minimum number of experience points needed to level up
- *  - skill_effects: Pointer to the head of a linked list of effects that a skill has
+ *  - effect: The skill effect
  *
  * Returns:
  *  - A pointer to the skill, or NULL if a skill cannot be allocated
@@ -40,7 +39,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
  *  - xp: The player's current experience points associated with the skill
  *  - max_level: The maximum level to which the skill can be upgraded
  *  - min_xp: The minimum number of experience points needed to level up
- *  - skill_effects: Pointer to the head of a linked list of effects that a skill has.
+ *  - effect: The skill effect
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs
@@ -62,14 +61,16 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
 int skill_free(skill_t* skill);
 
 /*
- * Executes the effects of a skill.
+ * Executes the effect of a skill.
  *
  * Parameters:
  *  - skill: A skill
+ *  - args: Arguments for the skill effect function, contained in a
+ *          space-separated string
  *
  * Returns:
- *  0 if success
- *  1 if failure
+ *  - A string that describes the consequence(s) of the skill execution for the
+ *    CLI
  */
 int skill_execute(skill_t* skill, chiventure_ctx_t* ctx);
 
