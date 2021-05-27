@@ -25,6 +25,28 @@ Test(parse, single)
     cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
 }
 
+//Tests that case-insensitive parsing works on an all lowercase word.
+Test(parse, single)
+{
+    char str[] = "look";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_null(words[1], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
+}
+
+//Tests that case-insensitive parsing works on a mixed case word.
+Test(parse, single)
+{
+    char str[] = "LoOk";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_null(words[1], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
+}
+
 //Tests the parsing of two words.
 Test(parse, two_words)
 {

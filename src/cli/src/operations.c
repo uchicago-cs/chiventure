@@ -142,23 +142,6 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     int valid_path;
 
-    /* The following while loop is only necessary because case insensitivity is
-     * currently being implemented in the parser by making all letters caps. Once
-     * the changes in the cli/case_insensitivity branch are implemented it will no 
-     * longer be necessary.
-     * NOTE: If cli/case_insensitivity hasn't been implemented by the end of 
-     * Sprint 4 (05/28/2021), then this message should be modified to reflect that
-     */
-    int i = 0;
-    char ch;
-    while(tokens[1][i])
-    {
-        ch = tolower(tokens[1][i]);
-        tokens[1][i] = ch;
-        i++;
-    }
-
-
     valid_path = access(tokens[1], F_OK);
 
     if (valid_path == -1) //Triggers if file does not exist
