@@ -6,14 +6,12 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
-#include "skilltrees/effect.h"
 #include "skilltrees/skill.h"
-
 
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   effects_linked_list_t* skill_effects) {
+                   skill_effect_t effect) {
     skill_t* skill;
     int rc;
 
@@ -28,7 +26,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
         return NULL;
     }
 
-    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effects);
+    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, effect);
     if (rc) {
         fprintf(stderr, "skill_new: initialization failed\n");
         return NULL;
@@ -41,7 +39,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               effects_linked_list_t* skill_effects) {
+               skill_effect_t effect) {
     assert(skill != NULL);
 
     skill->sid = sid;
@@ -60,7 +58,7 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
     skill->xp = xp;
     skill->max_level = max_level;
     skill->min_xp = min_xp;
-    skill->skill_effects = skill_effects;
+    skill->effect = effect;
 
     return SUCCESS;
 }
@@ -77,37 +75,10 @@ int skill_free(skill_t* skill) {
 }
 
 /* See skill.h */
-int skill_execute(skill_t* skill) 
-{
-    assert(skill != NULL);
-    assert(skill -> skill_effects != NULL);
-    effects_linked_list_t* ll = skill->skill_effects;
-    assert(ll->head != NULL);
-    effect_node_t* curr = ll->head;
-    effect_node_t* next = curr->next;
-    int check = 0;
-    for(int i = 0 ; i < ll -> num_effects; i++) //recurse through linked list
-    {
-        effect_t* effect = curr->data;
-        effect_type_t type = effect -> effect_type;
-        if (type == STATISTIC_MOD)
-        {
-            check = execute_stat_mod_effect(effect->data.s);
-            assert(check==0);
-        }
-        if (type == DAMAGE)
-        {
-            check = execute_damage_effect(effect->data.d);
-            assert(check==0);
-        }
-        if (type == ATTRIBUTE_MOD)
-        {
-            execute_att_effect(effect->data.a);
-            assert(check==0);
-        }
-        curr=curr->next;
-    }
-    return 0;
+char* skill_execute(skill_t* skill, char* args) {
+    assert(skill != NULL && args != NULL);
+
+    return (*(skill->effect))(args);
 }
 
 /* See skill.h */

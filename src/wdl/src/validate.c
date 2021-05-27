@@ -16,9 +16,10 @@ int list_type_check(obj_t *ls, int(*validate)(obj_t*))
     int result = SUCCESS;
 
     obj_t *curr, *tmp;
-    HASH_ITER(hh, ls, curr, tmp)
+    HASH_ITER(hh, ls->data.obj.attr, curr, tmp)
     {
-        result = (result && (*validate)(curr));
+        // This is an OR because SUCCESS == 0
+        result = (result || (*validate)(curr));
     }
 
     return result;
@@ -40,6 +41,62 @@ void list_print(obj_t *ls, void (*print)(obj_t*))
     }
 
     return;
+}
+
+// The following are helper functions.
+
+/*
+ * A helper function for checking that objects don't have illegal (or mispelled) 
+ * attributes.
+ * 
+ * Parameters:
+ *  - obj: The object
+ *  - legal_attributes: An array of legal attribute names.
+ *  - attribute_count: The number of attributes in legal_attributes
+ * 
+ * Returns:
+ *  - true if the object only contains legal attributes.
+ *  - false otherwise, and an error message is sent about the offending attribute.
+ * 
+ *  - Note that attributes may be optional; this function does not care if a 
+ *    legal attribute is missing.
+ */
+bool check_attributes(obj_t* obj, const char* const* legal_attributes, int attribute_count) {
+    obj_t *attr, *tmp;
+    HASH_ITER(hh, obj->data.obj.attr, attr, tmp) {
+        bool found_match = false;
+        for (int i = 0; i < attribute_count; i++) {
+            if (strncmp(legal_attributes[i], attr->id, MAXLEN_ID) == 0) {
+                found_match = true;
+                break;
+            }
+        }
+        if (!found_match) {
+            fprintf(stderr, "Object %s has illegal attribute named \"%s\".\n",
+                    obj->id, attr->id);
+            return false;
+        }
+    }
+
+    return true;
+}
+
+/*
+ * A helper function for checking types.
+ * 
+ * Parameters:
+ *  - obj: The object
+ *  - attribute_name: The attribute in question
+ *  - expected_type: The type expected from the attribute
+ * 
+ * Returns:
+ *  - true if the attribute has the right type, or if it does not exist, or if
+ *    it exists but has NULL.
+ *  - false otherwise.
+ */
+bool is_type_or_nonexistent(obj_t* obj, char* attribute_name, type_t expected_type) {
+    type_t attr_type = obj_get_type(obj, attribute_name);
+    return attr_type == expected_type || attr_type == TYPE_ERROR || attr_type == TYPE_NONE;
 }
 
 // The following functions regard room type checking
@@ -155,7 +212,7 @@ int room_type_check(obj_t *obj)
     int long_ver = (obj_get_type(obj, "long_desc") == TYPE_STR);
 
     // verify each attribute
-    int connections_ver = connection_type_check(obj);
+    int connections_ver = (connection_type_check(obj) == SUCCESS);
 
     return !(short_ver && long_ver && connections_ver);
 }
@@ -186,6 +243,71 @@ int game_type_check(obj_t *obj)
     return !(start_ver && intro_ver);
 }
 
+// the following functions regard class type checking
+
+const int CLASS_ATTRIBUTES_N = 8;
+const char* const CLASS_ATTRIBUTES[8] = {
+    "prefab", 
+    "short_desc", 
+    "long_desc", 
+    "attributes", 
+    "base_stats", 
+    "effects", 
+    "skill_tree", 
+    "starting_skills"
+};
+
+/* See validate.h */
+int class_type_check(obj_t *obj)
+{
+    if (!check_attributes(obj, CLASS_ATTRIBUTES, CLASS_ATTRIBUTES_N)) {
+        fprintf(stderr, "Class object had invalid attribute.\n");
+        return FAILURE;
+    }
+
+    /* Missing fields (TYPE_ERROR or TYPE_NONE) are fine, we fill them in later */
+    if (!is_type_or_nonexistent(obj, "prefab", TYPE_BOOL)) {
+        fprintf(stderr, "Class's prefab field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "short_desc", TYPE_STR)) {
+        fprintf(stderr, "Class's short_desc field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "long_desc", TYPE_STR)) {
+        fprintf(stderr, "Class's long_desc field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "attributes", TYPE_OBJ)) {
+        fprintf(stderr, "Class's attributes field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "base_stats", TYPE_OBJ)) {
+        fprintf(stderr, "Class's base_stats field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "effects", TYPE_OBJ)) {
+        fprintf(stderr, "Class's effects field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "skilltree", TYPE_OBJ)) {
+        fprintf(stderr, "Class's skilltree field was wrong type.\n");
+        return FAILURE;
+    }
+
+    if (!is_type_or_nonexistent(obj, "starting_skills", TYPE_OBJ)) {
+        fprintf(stderr, "Class's starting_skills field was wrong type.\n");
+        return FAILURE;
+    }
+
+    return SUCCESS;
+}
 
 // the following functions regard action type checking
 
@@ -237,7 +359,7 @@ int action_type_check(obj_t *obj)
 {
     // fields to verify
     int action_type = (obj_get_type(obj, "action") == TYPE_STR);
-    int action_valid = action_validate(obj_get_str(obj, "action"));
+    int action_valid = (action_validate(obj_get_str(obj, "action")) == SUCCESS);
 
     return !(action_type && action_valid);
 }
