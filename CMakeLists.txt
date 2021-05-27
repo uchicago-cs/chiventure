@@ -27,6 +27,7 @@ endif()
 find_package(raylib 3.0 QUIET)
 if (raylib_FOUND)
     message(STATUS "Found raylib: ${raylib_LIBRARY}")
+    add_compile_definitions(GUI_AVAILABLE)
 endif()
 
 set(CHIVENTURE_MODULES action_management battle cli common custom-actions game-state libobj quests npc openworld playerclass skilltrees ui wdl)

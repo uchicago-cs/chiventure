@@ -2,6 +2,7 @@
 #define _DIALOGUE_H
 
 #include "game-state/game.h"
+#include "game-state/condition.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
