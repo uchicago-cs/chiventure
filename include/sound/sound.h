@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <math.h>
 #include "common/uthash.h"
-#include <SDL.h>
+#include <SDL/SDL.h>
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
@@ -16,22 +16,46 @@
 typedef enum {BACKGROUND, SOUND_EFFECT} SoundType;
 
 /* This represents our sound data structure */
-typedef struct{
-    SoundType type;
-    // path to sound file
-    char* path;
-    // duration of sound
-    double duration;
-    // name of sound
-    char* name;
-    // id for finding it in hash table
-    int id; 
-    // makes struct hashable
-    UT_hash_handle hh; 
-} sound_t;
+ typedef struct{
+     // name of sound
+     char* name;
+     // wav file information
+     SDL_AudioSpec wavSpec;
+     uint32_t wavLength;
+     uint8_t *wavBuffer;
+     //below for hash table
+     int id; 
+     // makes struct hashable
+     UT_hash_handle hh; 
+ } sound_t;
 
-void load_audio(sound_t *name, sound_t *source);
-void play_audio(sound_t *name);
+/*
+loads wav on the SDL audio queue
+Inputs: 
+- sound: sound struct 
+returns: 
+- 0 on success 1 on failure
+*/
+int load_wav(sound_t *sound);
+
+/*
+frees sound 
+Inputs: 
+- sound_t* sound to free 
+*/
+int sound_free(sound_t* sound); 
+
+
+/*
+Plays sound 
+Input: 
+delay (int): time to delay before playing the sound when the function is called
+sound: (char*) the hash id of the sound
+Returns:
+- 0 on success 1 on failure
+*/
+int play_sound(sound_t* sound, int delay); 
+
 
 /* THE FOLLOWING CODE IS FOR DEMO PURPOSES. THIS 
  * USES EXISTING DATA STRUCTURES AND FUNCTIONS FROM 
