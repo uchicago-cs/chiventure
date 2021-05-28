@@ -447,23 +447,6 @@ char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 }
 
 
-char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
-    {
-        print_to_cli(ctx, tokens[0]);
-        return "Error! We need a loaded room to check items.\n";
-    }
-    npc_t *npc_tmp, *npc_elt;
-    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
-    {
-        print_to_cli(ctx, npc_elt->short_desc);
-    }
-    return "These are the NPCs in the room";
-}
-
-
 char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     toggle_map(ctx);

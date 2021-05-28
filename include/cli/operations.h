@@ -163,19 +163,6 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
-/* 
- *
- * Parameters:
- *  - tokens: parsed input string
- *  - ctx: pointer to a chiventure context struct
- *
- * Returns:
- * - lists NPCs that are in the room a player 
- * is currently in as a list
- */
-char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
-
 /* Error Operations that returns an error message with suggestion as string
  *
  * Parameters:
