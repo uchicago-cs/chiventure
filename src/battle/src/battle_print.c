@@ -116,7 +116,46 @@ char *print_start_turn(battle_t *b)
 
     print_hp(b, string);
 
-    snprintf(string, BATTLE_BUFFER_SIZE, "1: Use a Move\n2: Use an Item\n");
+    
 
     return string;
+}
+
+/* Prints out the avaliable moves for the player
+ * Parameter:
+ *  ctx: the main structure of the game
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_moves(chiventure_ctx_battle_t *ctx)
+{
+    move_t *temp;
+    printf("\nMOVES LIST:\n");
+    DL_FOREACH(ctx->game->battle->player->moves, temp)
+    {
+        printf("%s\n", temp->info);
+    }
+    return SUCCESS;
+}
+
+/* Prints out the avaliable battle_items for the player
+ * Parameter:
+ *  ctx: the main structure of the game
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_battle_items(chiventure_ctx_battle_t *ctx)
+{
+    battle_item_t *temp;
+    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
+    DL_FOREACH(ctx->game->battle->player->items, temp)
+    {
+        printf("Name: %s\n", temp->name);
+        printf("ID: %d\n", temp->id);
+        printf("Description: %s\n", temp->description);
+        printf("Quantity: %d\n", temp->quantity);
+        printf("Attack: %d, Defense: %d, HP: %d\n", 
+                temp->attack, temp->defense, temp->hp);
+    }
+    return SUCCESS;
 }
