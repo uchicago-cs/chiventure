@@ -120,6 +120,7 @@ int lookup_t_init(lookup_t **t)
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
+    add_entry("TALK", talk_operation, NULL, t);
 
     add_action_entries(t);
 
@@ -287,3 +288,4 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
         }
     }
 }
+

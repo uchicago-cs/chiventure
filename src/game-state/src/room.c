@@ -216,7 +216,7 @@ item_list_t *get_all_items_in_room(room_t *room)
 npc_t *get_npc_in_room(room_t *room, char *npc_id)
 {
     npc_t *npc;
-    HASH_FIND(hh, room->npcs->npc_list, npc_id,
+    HASH_FIND(hh_room, room->npcs->npc_list, npc_id,
               strnlen(npc_id, MAX_ID_LEN), npc);
     return npc;
 }
