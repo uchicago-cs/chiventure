@@ -4,6 +4,8 @@
 #include <string.h>
 #include "battle/battle_print.h"
 
+
+
 /* see battle_print.h */
 char *print_start_battle(battle_t *b)
 {
@@ -117,20 +119,20 @@ char *print_start_turn(battle_t *b)
     print_hp(b, string);
 
     snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
-    snprintf(string, BATTLE_BUFFER_SIZE, print_moves(b));
+    print_moves(b,string);
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    snprintf(string, BATTLE_BUFFER_SIZE, print_battle_items(b));
+    print_battle_items(b,string);
 
     return string;
 }
 
 /* see battle_print.h */
-char *print_moves(battle_t *b)
+char *print_moves(battle_t *b, char* moves)
 {
     move_t *temp;
     
-    char *moves = "\nMOVES LIST:\n";
+    strcat(moves,"\nMOVES LIST:\n");
     DL_FOREACH(b->player->moves, temp)
     {
         strcat(moves, temp->info);
@@ -140,40 +142,43 @@ char *print_moves(battle_t *b)
 }
 
 /* see battle_print.h */
-char *print_battle_items(battle_t *b)
+char *print_battle_items(battle_t *b, char* items)
 {
+    char *store = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     battle_item_t *temp;
-    char *items = "\nAVAILABLE BATTLE ITEMS LIST:\n";
+    strcat(items,"\nAVAILABLE BATTLE ITEMS LIST:\n");
     DL_FOREACH(b->player->items, temp)
     {
-        strcat(items, "Name: ");
-        strcat(items, temp->name);
-        strcat(items, "\n");
-        strcat(items, "ID: ");
-        char *id;
-        itoa(temp->id, id, 10);
-        strcat(items, id);
-        strcat(items, "\n");
-        strcat(items, "Description: ");
-        strcat(items, temp->description);
-        strcat(items, "\n");
-        strcat(items, "Quantity: ");
-        char *quantity;
-        itoa(temp->quantity, id, 10);
-        strcat(items, quantity);
-        strcat(items, "\n");
-        strcat(items, "Attack: ");
-        char *attack;
-        itoa(temp->attack, attack, 10);
-        strcat(items, attack);
-        char *defense;
-        itoa(temp->defense, defense, 10);
-        strcat(items, ", Defense: ");
-        strcat(items, defense);
-        char *hp;
-        itoa(temp->hp, hp, 10);
-        strcat(items, ", HP: ");
-        strcat(items, hp);
+        sprintf(store,"Name: %s\n, Description: %s\n, Attack: %d\n , Defense: %d, HP: %d\n",
+        temp->name,temp->description, temp->attack, temp->defense, temp->hp);
+        strcat(items,store );
+        // strcat(items, temp->name);
+        // strcat(items, "\n");
+        // strcat(items, "ID: ");
+        // char *id;
+        // itoa(temp->id, id, 10);
+        // strcat(items, id);
+        // strcat(items, "\n");
+        // strcat(items, "Description: ");
+        // strcat(items, temp->description);
+        // strcat(items, "\n");
+        // strcat(items, "Description: ");
+        // char *quantity;
+        // itoa(temp->quantity, id, 10);
+        // strcat(items, quantity);
+        // strcat(items, "\n");
+        // strcat(items, "Attack: ");
+        // char *attack;
+        // itoa(temp->attack, attack, 10);
+        // strcat(items, attack);
+        // char *defense;
+        // itoa(temp->defense, defense, 10);
+        // strcat(items, ", Defense: ");
+        // strcat(items, defense);
+        // char *hp;
+        // itoa(temp->hp, hp, 10);
+        // strcat(items, ", HP: ");
+        // strcat(items, hp);
     }
     return items;
 }
