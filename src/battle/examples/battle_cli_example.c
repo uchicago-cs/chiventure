@@ -10,6 +10,7 @@
 #include "common/ctx.h"
 #include "cli/operations.h"
 #include "ui/ui.h"
+#include "ui/print_functions.h"
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_move_maker.h"
@@ -72,9 +73,9 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // prints the beginning of the battle 
     char *start = print_start_battle(battle_ctx->game->battle);
-    callback_func(ctx, start, callback_args);
+    int start_rc = cli_ui_callback(ctx, start, NULL);
     char *turn_start = print_start_turn(battle_ctx->game->battle);
-    callback_func(ctx, turn_start, callback_args);
+    int turn_start_rc = cli_ui_callback(ctx, turn_start, NULL);
 
     if (!rc)
     {
