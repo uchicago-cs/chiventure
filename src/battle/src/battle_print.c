@@ -39,7 +39,7 @@ int print_hp(battle_t* b, char* string)
 
     n = snprintf(temp, BATTLE_BUFFER_SIZE, "ENEMY HP\n");
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
-    slen += n; */
+    slen += n;
 
     calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     char *player_hp_string;
@@ -124,7 +124,7 @@ char *print_start_turn(battle_t *b)
     print_hp(b, string);
 
     snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
-    char *moves = print_moves(b);
+    char *moves = print_moves(b,string);
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
     print_battle_items(b,string);
@@ -133,30 +133,58 @@ char *print_start_turn(battle_t *b)
 }
 
 /* see battle_print.h */
-int print_moves(battle_t *b)
+char *print_moves(battle_t *b, char* moves)
 {
     move_t *temp;
-    printf("\nMOVES LIST:\n");
+    
+    strcat(moves,"\nMOVES LIST:\n");
     DL_FOREACH(b->player->moves, temp)
     {
-        printf("%s\n", temp->info);
+        strcat(moves, temp->info);
+        strcat(moves, "\n");
     }
-    return SUCCESS;
+    return moves;
 }
 
 /* see battle_print.h */
-int print_battle_items(battle_t *b)
+char *print_battle_items(battle_t *b, char* items)
 {
+    
     battle_item_t *temp;
-    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
+    strcat(items,"\n AVAILABLE BATTLE ITEMS LIST:\n");
     DL_FOREACH(b->player->items, temp)
     {
-        printf("Name: %s\n", temp->name);
-        printf("ID: %d\n", temp->id);
-        printf("Description: %s\n", temp->description);
-        printf("Quantity: %d\n", temp->quantity);
-        printf("Attack: %d, Defense: %d, HP: %d\n", 
-                temp->attack, temp->defense, temp->hp);
+        char *store = calloc(BATTLE_BUFFER_SIZE, sizeof(char));
+        sprintf(store,"Name: %s\n, Description: %s\n, Attack: %d\n , Defense: %d, HP: %d\n",
+        temp->name,temp->description, temp->attack, temp->defense, temp->hp);
+        strcat(items,store);
+        // strcat(items, temp->name);
+        // strcat(items, "\n");
+        // strcat(items, "ID: ");
+        // char *id;
+        // itoa(temp->id, id, 10);
+        // strcat(items, id);
+        // strcat(items, "\n");
+        // strcat(items, "Description: ");
+        // strcat(items, temp->description);
+        // strcat(items, "\n");
+        // strcat(items, "Description: ");
+        // char *quantity;
+        // itoa(temp->quantity, id, 10);
+        // strcat(items, quantity);
+        // strcat(items, "\n");
+        // strcat(items, "Attack: ");
+        // char *attack;
+        // itoa(temp->attack, attack, 10);
+        // strcat(items, attack);
+        // char *defense;
+        // itoa(temp->defense, defense, 10);
+        // strcat(items, ", Defense: ");
+        // strcat(items, defense);
+        // char *hp;
+        // itoa(temp->hp, hp, 10);
+        // strcat(items, ", HP: ");
+        // strcat(items, hp);
     }
-    return SUCCESS;
+    return items;
 }
