@@ -15,7 +15,7 @@ cmake ..
 
 #### Dependencies
 
-chiventure depends on `LibYAML` (Yaml), `Curses`, and `criterion`. CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
+chiventure depends on `JSON-C`, `Curses`, and `criterion`. CMake will warn if any of these are not installed with an error of the form "Could NOT find `<library>`"
 
 If you are missing any of the libraries, see [docs/dependencies.md](/docs/dependencies.md) for information on how to install them
 
@@ -28,7 +28,7 @@ To run chiventure with a WDL file, run:
 
 To try a sample game, from inside the build directory, run 
 ```
-./chiventure ../tests/wdl/examples/connected_rooms.wdl
+./chiventure ../tests/wdl/examples/wdl/connected-rooms.wdl
 ```
 
 Once inside chiventure, you can type `HELP` for the list of available commands.

@@ -16,7 +16,7 @@ Test(item, new)
     "test item for item_new()");
 
     cr_assert_not_null(new_item, "item_new() test 1 has failed!");
-
+    item_free(new_item);
 }
 
 /* Checks initialization of new item */
@@ -28,6 +28,7 @@ Test(item, init)
     "The purpose of this item is testing");
 
     cr_assert_eq(check, SUCCESS, "item_new() test 1 has failed!");
+    item_free(empty_item);
 }
 
 /* Checks freeing of item struct */
@@ -60,6 +61,7 @@ Test(item, get_sdesc_item)
 return short description");
   cr_assert_eq(null_ret, NULL, "get_sdesc_item() failed to return NULL\
  for NULL item");
+  item_free(new_item);
 }
 
 /* Checks return of long description of item */
@@ -75,6 +77,7 @@ Test(item, get_ldesc_item)
 return long description");
   cr_assert_eq(null_ret, NULL, "get_ldesc_item() failed to return NULL\
  for NULL item");
+  item_free(new_item);
 }
 
 /* Checks that add_item_to_hash adds item to an item hashtable as expected. */
@@ -87,6 +90,7 @@ Test(item, add_item_to_hash)
     rc = add_item_to_hash(&ht, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_hash failed to "
                  "add an item to hashtable");
+    delete_all_items(&ht);
 }
 
 /* Checks that add_item_to_hash properly adds duplicate items
@@ -121,6 +125,7 @@ Test(item, add_item_to_hash_duplicate_items)
     }
     cr_assert_eq(count, 2, "add_item_to_hash did not add items with same "
                  "item ids correctly.");
+    delete_all_items(&ht);
 }
 
 /* Checks that get_all_items_in_hash returns the expected 
@@ -150,6 +155,9 @@ Test(item, get_all_items_in_hash)
     
     cr_assert_eq(count, 2, "get_all_items_in_hash did not include all items "
                  "in returned list.");
+    delete_all_items(&ht);
+    delete_item_llist(list);
+
 }
 
 /* Checks that get_all_items_in_hash returns a linked list
@@ -176,6 +184,7 @@ Test(item, get_all_items_in_hash_duplicate_items)
                  "items to linked list");
     
     add_item_to_hash(&ht, test_item3);
+    delete_item_llist(list);
     list = get_all_items_in_hash(&ht);
     count = 0;
     
@@ -185,6 +194,8 @@ Test(item, get_all_items_in_hash_duplicate_items)
     }
     cr_assert_eq(count, 3, "get_all_items_in_hash did not include all items "
                  "in returned list");
+    delete_all_items(&ht);
+    delete_item_llist(list);
 }
 
 /* Checks that remove_item_from_hash properly removes items 
@@ -215,6 +226,10 @@ Test(item, remove_item_from_hash)
     rc = remove_item_from_hash(&ht, test_item1);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
+    delete_all_items(&ht);
+    item_free(test_item1);
+    delete_item_llist(list);
+    item_free(test_item2);
 }
 
 /* Checks that remove_item_from_hash properly removes
@@ -233,6 +248,7 @@ Test(item, remove_item_from_hash_duplicate_items_head)
     rc = remove_item_from_hash(&ht, head);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
                  "remove an item from hashtable");
+
     HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
     cr_assert_not_null(check, "remove_item_from_hash removed both "
                        "duplicate items from hashtable");
@@ -242,6 +258,27 @@ Test(item, remove_item_from_hash_duplicate_items_head)
                  "remove a duplicate item id from hashtable");
     cr_assert_eq(head->next, NULL, "remove_item_from_hash failed to "
                  "update the removed item");
+    
+    /* Since remove_item_from_hash does not free associated item, manual free */
+    rc = item_free(head);
+    cr_assert_eq(rc, SUCCESS, "item_free failed to free associated item");
+
+    delete_all_items(&ht);
+}
+
+Test(item, delete_all_items_duplicate_item_in_hash)
+{
+    item_hash_t *ht = NULL;
+    item_t *head = item_new("item", "short", "long");
+    item_t *last = item_new("item", "short", "long");
+    item_t *check = NULL;
+    int rc;
+    
+    add_item_to_hash(&ht, last);
+    add_item_to_hash(&ht, head);
+
+    rc = delete_all_items(&ht);
+    cr_assert_eq(rc, SUCCESS, "delete_all_items failed to free all associated resources");
 }
 
 /* Checks that remove_item_from_hash does not remove
@@ -262,6 +299,8 @@ Test(item, remove_item_from_hash_duplicate_items_nonexistant)
     cr_assert_not_null(check, "remove_item_from_hash did not properly handle "
                        "case where duplicate item not in hash was passed to "
                        "be removed");
+    delete_all_items(&ht);
+    item_free(last);
 }
 
 /* Checks that remove_item_from_hash properly removes
@@ -287,6 +326,8 @@ Test(item, remove_item_from_hash_duplicate_items_last)
                  "duplicate item from hashtable");
     cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
                  "remove a duplicate item id from hashtable");
+    delete_all_items(&ht);
+    item_free(last);
 }
 
 /* Checks that remove_item_from_hash properly removes
@@ -316,6 +357,8 @@ Test(item, remove_item_from_hash_duplicate_items_middle)
                  "duplicate item from middle of list properly");
     cr_assert_eq(middle->next, NULL, "remove_item_from_hash failed to "
                  "update the removed item");
+    delete_all_items(&ht);
+    item_free(middle);
 }
 
 /* Checks that add_effect_to_items() adds a sat effect to an item */
@@ -328,6 +371,9 @@ Test(item, add_effect_to_item)
 
     cr_assert_eq(rc, SUCCESS, "add_effect_to_game failed");
     cr_assert_not_null(item->stat_effects, "effect not added to stat_effects");
+    item_free(item);
+    free(global->name);
+    free(global);
 }
 
 // TESTS FOR ADD_ATRR_TO_HASH --------------------------------------------------
@@ -339,15 +385,16 @@ Test(attribute, add_attr_to_hash_success)
     "item for testing add_attr_to_hash");
 
     attribute_t *test_attr = malloc(sizeof(attribute_t));
-    test_attr->attribute_key = (char*)malloc(100);
-    test_attr->attribute_key = "test_attr";
+    
+    char *tmp = "test_attr";
+    test_attr->attribute_key = strndup(tmp, 100);
     test_attr->attribute_tag = STRING;
     test_attr->attribute_value.str_val = "test";
 
     int test = add_attribute_to_hash(test_item, test_attr);
 
     cr_assert_eq(test, SUCCESS, "add_attr_to_hash() test failed!");
-
+    item_free(test_item);
 }
 
 /* Checks if adding same attribute to item hash twice fails */
@@ -357,8 +404,8 @@ Test(attribute, add_attr_to_hash_failure)
     "item for testing add_attr_to_hash");
 
     attribute_t *test_attr = malloc(sizeof(attribute_t));
-    test_attr->attribute_key = (char*)malloc(100);
-    test_attr->attribute_key = "test_attr";
+        char *tmp = "test_attr";
+    test_attr->attribute_key = strndup(tmp, 100);
     test_attr->attribute_tag = STRING;
     test_attr->attribute_value.str_val = "test";
 
@@ -368,6 +415,7 @@ Test(attribute, add_attr_to_hash_failure)
     int test = add_attribute_to_hash(test_item, test_attr);
     cr_assert_eq(test, FAILURE,
         "add_attr_to_hash() test failed: duplicate attribute added");
+    item_free(test_item);
 
 }
 
@@ -391,7 +439,70 @@ Test(attribute, get_attribute)
     cr_assert_str_eq(my_attr->attribute_key, "door", "get_attr(): wrong key!");
     cr_assert_str_eq(my_attr->attribute_value.str_val, "locked",
     "get_attr(): wrong value!");
+    item_free(test_item);
 
+}
+
+// TESTS FOR TYPE-SPECIFIC ATTR_NEW() FUNCTIONS --------------------------------
+
+Test(attribute, str_attr_new)
+{
+    attribute_t *test_attr = str_attr_new("Attribute_Test_Name", "Attribute_Test_Value");
+
+    cr_assert_not_null(test_attr, "str_attr_new: null attribute returned");
+
+    cr_assert_str_eq(test_attr->attribute_value.str_val, "Attribute_Test_Value", 
+                     "str_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, int_attr_new)
+{
+    attribute_t *test_attr = int_attr_new("Attribute_Test_Name", 0);
+
+    cr_assert_not_null(test_attr, "int_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.int_val, 0, 
+                 "int_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, double_attr_new)
+{
+    attribute_t *test_attr = double_attr_new("Attribute_Test_Name", 0.0);
+
+    cr_assert_not_null(test_attr, "double_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.double_val, 0.0, 
+                 "double_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, char_attr_new)
+{
+    attribute_t *test_attr = char_attr_new("Attribute_Test_Name", 'a');
+
+    cr_assert_not_null(test_attr, "char_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.char_val, 'a', 
+                 "char_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
+}
+
+Test(attribute, bool_attr_new)
+{
+    attribute_t *test_attr = bool_attr_new("Attribute_Test_Name", true);
+
+    cr_assert_not_null(test_attr, "bool_attr_new: null attribute returned");
+
+    cr_assert_eq(test_attr->attribute_value.bool_val, true, 
+                     "int_attr_new: Attribute value not correctly set");
+
+    attribute_free(test_attr);
 }
 
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS --------------------------------
@@ -410,7 +521,7 @@ Test(attribute, set_str_attr)
     char* test_str = test_attr->attribute_value.str_val;
     cr_assert_str_eq(test_str, "Attribute_Test_Value",
     "change_str_attr: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new integer attribute and adding it to an item */
@@ -428,7 +539,7 @@ Test(attribute, set_int_attr)
     cr_assert_not_null(test_attr, "set_int_attribute: null attribute returned");
     int test_int = test_attr->attribute_value.int_val;
     cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new double attribute and adding it to an item */
@@ -448,7 +559,7 @@ Test(attribute, set_double_attr)
     double test_double = test_attr->attribute_value.double_val;
     cr_assert_float_eq(test_double, 2.0, 0.001,
         "change_double_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new character attribute and adding it to an item */
@@ -467,7 +578,7 @@ Test(attribute, set_char_attr)
         "change_char_attribute: null attribute returned");
     char test_char = test_attr->attribute_value.char_val;
     cr_assert_eq(test_char, 'a', "change_char_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new boolean attribute and adding it to an item */
@@ -486,7 +597,7 @@ Test(attribute, set_bool_attr)
         "change_bool_attribute: null attribute returned");
     bool test_bool = test_attr->attribute_value.bool_val;
     cr_assert_eq(test_bool, true, "change_bool_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 // TESTS FOR TYPE-SPECIFIC SET_ATTR() FUNCTIONS CHANGING ATTR VALUE ------------------------
@@ -510,7 +621,7 @@ Test(attribute, change_str_attr)
     char* test_str = test_attr->attribute_value.str_val;
     cr_assert_str_eq(test_str, "Attribute_Test_Value_2",
     "change_str_attr: changed to the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new str attribute and if change to non-str is blocked */
@@ -534,7 +645,7 @@ Test(attribute, change_str_attr_fail)
     char* test_str = test_attr->attribute_value.str_val;
     cr_assert_str_eq(test_str, "Attribute_Test_Value",
     "change_str_attr: changed to a non-string type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new string attribute and changing its value */
@@ -555,7 +666,7 @@ Test(attribute, change_int_attr)
     cr_assert_not_null(test_attr, "set_int_attribute: null attribute returned");
     int test_int = test_attr->attribute_value.int_val;
     cr_assert_eq(test_int, 3, "set_int_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new int attribute and if change to non-int is blocked */
@@ -577,7 +688,7 @@ Test(attribute, change_int_attr_fail)
     cr_assert_not_null(test_attr, "change_int_attr: null attribute returned");
     int test_int = test_attr->attribute_value.int_val;
     cr_assert_eq(test_int, 5, "change_int_attr: changed to a non-integer type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new double attribute and changing its value */
@@ -600,7 +711,7 @@ Test(attribute, change_double_attr)
     double test_double = test_attr->attribute_value.double_val;
     cr_assert_float_eq(test_double, 2.5, 0.0001,
         "change_double_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new dbl attribute and if change to non-dbl is blocked */
@@ -626,7 +737,7 @@ Test(attribute, change_double_attr_fail)
     double test_double = test_attr->attribute_value.double_val;
     cr_assert_eq(test_double, 5.0,
         "change_double_attr: changed to a non-double type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new character attribute and changing its value */
@@ -648,7 +759,7 @@ Test(attribute, change_char_attr)
         "change_char_attribute: null attribute returned");
     char test_char = test_attr->attribute_value.char_val;
     cr_assert_eq(test_char, 'b', "change_char_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new char attribute and if change to non-char is blocked */
@@ -672,7 +783,7 @@ Test(attribute, change_char_attr_fail)
     char test_char = test_attr->attribute_value.char_val;
     cr_assert_eq(test_char, 'x',
     "change_char_attr: changed to a non-char type");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new boolean attribute and changing its value */
@@ -699,7 +810,7 @@ Test(attribute, change_bool_attr)
     bool test_bool = test_attr->attribute_value.bool_val;
     cr_assert_eq(test_bool, false,
         "change_bool_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks creation of new bool attribute and if change to non-bool is blocked */
@@ -725,7 +836,7 @@ Test(attribute, change_bool_attr_fail)
     bool test_bool = test_attr->attribute_value.bool_val;
     cr_assert_eq(test_bool, true,
         "change_bool_attr: changed to a non-bool type");
-
+    item_free(test_item);
 }
 
 
@@ -744,7 +855,7 @@ Test(attribute, get_str_attr)
     char* test_str = get_str_attr(test_item, "Attribute_Test_Name");
     cr_assert_str_eq(test_str, "Attribute_Test_Value",
     "change_str_attr: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of integer attribute value */
@@ -760,7 +871,7 @@ Test(attribute, get_int_attr)
         "set_int_attribute: no elements added to hash");
     int test_int = get_int_attr(test_item, "Attribute_Test_Name");
     cr_assert_eq(test_int, 2, "set_int_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of double attribute value */
@@ -777,7 +888,7 @@ Test(attribute, get_double_attr)
     double test_double = get_double_attr(test_item, "Attribute_Test_Name");
     cr_assert_float_eq(test_double, 2.0, 0.001,
         "change_double_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of character attribute value */
@@ -793,7 +904,7 @@ Test(attribute, get_char_attr)
         "change_char_attribute: no elements added to hash");
     char test_char = get_char_attr(test_item, "Attribute_Test_Name");
     cr_assert_eq(test_char, 'a', "change_char_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 /* Checks retrieval of boolean attribute value */
@@ -809,7 +920,7 @@ Test(attribute, get_bool_attr)
         "change_bool_attribute: no elements added to hash");
     bool test_bool = get_bool_attr(test_item, "Attribute_Test_Name");
     cr_assert_eq(test_bool, true, "change_bool_attribute: set the wrong value");
-
+    item_free(test_item);
 }
 
 
@@ -826,6 +937,7 @@ Test(attribute, get_non_str_attr) {
     char *check = get_str_attr(test_item, "Attribute_Test_Name");
 
     cr_assert_null(check, "get_non_str_attr() test: incorrect finding");
+    item_free(test_item);
 }
 
 /* Checks if retrieval of non-int attribute using get_int_attr is blocked */
@@ -841,8 +953,7 @@ Test(attribute, get_non_int_attr) {
     int check = get_int_attr(test_item, "Attribute_Test_Name");
 
     cr_assert_eq(check, -1, "get_non_int_attr() test: incorrect finding");
-
-
+    item_free(test_item);
 }
 
 /* checks if retrieval of non-double attribute using get_double_attr is blocked */
@@ -859,6 +970,7 @@ Test(attribute, get_non_double_attr) {
 
     cr_assert_float_eq(check, -1.0, 0.001,
         "change_double_attr: incorrect finding");
+    item_free(test_item);
 }
 
 /* Checks if retrieval of non-character attribute using get_char_attr is blocked */
@@ -874,6 +986,7 @@ Test(attribute, get_non_char_attr) {
     char check = get_char_attr(test_item, "Attribute_Test_Name");
 
     cr_assert_eq(check, '~', "get_non_char_attr() test: incorrect finding");
+    item_free(test_item);
 }
 
 /* Checks if retrieval of non-boolean attribute using get_bool_attr is blocked */
@@ -890,6 +1003,7 @@ Test(attribute, get_non_bool_attr) {
     bool check = get_bool_attr(test_item, "Attribute_Test_Name");
 
     cr_assert_null(check, "get_non_bool_attr() test: incorrect finding");
+    item_free(test_item);
 }
 
 // TEST FOR ATTRIBUTES_EQUAL()-------------------------------------------------
@@ -907,6 +1021,8 @@ Test(attribute, equal)
     int equal = attributes_equal(item1, item2, "test_attr");
 
     cr_assert_eq(equal, SUCCESS, "attributes_equal() test failed!");
+    item_free(item1);
+    item_free(item2);
 
 }
 
@@ -923,7 +1039,8 @@ Test(attribute, not_equal)
     int equal = attributes_equal(item1, item2, "test_attr");
 
     cr_assert_eq(equal, FAILURE, "attributes_equal() test failed!");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 /* checks that function catches if one of the attributes being compared
@@ -940,7 +1057,8 @@ Test(attribute, null_attr)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: neither of the attributes are NULL");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 /* the following tests check that function catches if the attributes being compared are of different types  */
@@ -959,7 +1077,8 @@ Test(attribute_equal, str_to_int)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // str + char
@@ -976,7 +1095,8 @@ Test(attribute_equal, str_to_char)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // str + double
@@ -993,7 +1113,8 @@ Test(attribute_equal, str_to_double)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // str + bool
@@ -1010,7 +1131,8 @@ Test(attribute_equal, str_to_bool)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // int + char
@@ -1027,7 +1149,8 @@ Test(attribute_equal, int_to_char)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // int + double
@@ -1044,7 +1167,8 @@ Test(attribute_equal, int_to_double)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // int + bool
@@ -1061,7 +1185,8 @@ Test(attribute_equal, int_to_bool)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // char + double
@@ -1078,7 +1203,8 @@ Test(attribute_equal, char_to_double)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // char + bool
@@ -1095,7 +1221,8 @@ Test(attribute_equal, char_to_bool)
 
     cr_assert_eq(equal, -1,
         "attributes_equal() test failed: attributes are of the same type");
-
+    item_free(item1);
+    item_free(item2);
 }
 
 // TEST FOR ATTRIBUTE_FREE() --------------------------------------------------
@@ -1131,7 +1258,8 @@ Test(attribute, deletion)
     int test = delete_all_attributes(test_item->attributes);
 
     cr_assert_eq(test, SUCCESS, "delete_all_attributes() test failed!");
-
+    test_item->attributes = NULL;
+    item_free(test_item);
 }
 
 /* Checks deletion of all items within a room struct */
@@ -1159,14 +1287,14 @@ Test(item, deletion_in_room)
     int del_items = delete_all_items(&test_room->items);
     cr_assert_eq(del_items, SUCCESS,
         "del_all_items test: items were not successfully deleted!");
-
+    room_free(test_room);
 
 }
 
 /* Checks deletion of all items within a player struct */
 Test(item, deletion_in_player)
 {
-    player_t *test_player = player_new("test_player", 100);
+    player_t *test_player = player_new("test_player");
     item_t *test_item1 = item_new("hat", "fedora", "Indiana Jones vibes");
     item_t *test_item2 = item_new("lightsaber", "weapon",
     "star wars vibes, it's a crossover episode");
@@ -1187,7 +1315,7 @@ Test(item, deletion_in_player)
     int del_items = delete_all_items(&test_player->inventory);
     cr_assert_eq(del_items, SUCCESS,
         "del_all_items test: items were not successfully deleted!");
-
+    player_free(test_player);
 
 }
 
@@ -1199,10 +1327,10 @@ Test(attribute_list, add_to_new_list)
     attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
 
 
-    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    char *tmp = "Queen";
     test_attr1->attribute_tag = INTEGER;
     test_attr1->attribute_value.int_val = 5;
-    test_attr1->attribute_key = "Queen";
+    test_attr1->attribute_key = strdup(tmp);
 
     attribute_list_t* test_head = create_list_attribute();
 
@@ -1211,28 +1339,27 @@ Test(attribute_list, add_to_new_list)
     cr_assert_eq(add_attribute, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    delete_attribute_llist(test_head);      
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
 }
 
 Test(attribute_list, add_attribute_to_list)
 {
     attribute_t* test_attr = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr->attribute_key = malloc(sizeof(char)*10);
+    char *n = "Knight";
     test_attr->attribute_tag = INTEGER;
     test_attr->attribute_value.int_val = 5;
-    test_attr->attribute_key = "Knight";
+    test_attr->attribute_key = strdup(n);
 
     attribute_list_t* test_head = malloc(sizeof(attribute_list_t));
     test_head->next = NULL;
     test_head->attribute = test_attr;
 
     attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    char *q = "Queen";
     test_attr1->attribute_tag = INTEGER;
     test_attr1->attribute_value.int_val = 5;
-    test_attr1->attribute_key = "Queen";
+    test_attr1->attribute_key = strdup(q);
 
     int add_attribute = add_attribute_to_list(test_head, test_attr1);
 
@@ -1240,16 +1367,17 @@ Test(attribute_list, add_attribute_to_list)
         "add_attribute_to_list test: attribute Queen not added");
 
     delete_attribute_llist(test_head);
+    attribute_free(test_attr);
+    attribute_free(test_attr1);
 }
 
 Test(attribute_list, remove_from_one_attribute_list)
 {
     attribute_t* test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    char *q = "Queen";
     test_attr1->attribute_tag = INTEGER;
     test_attr1->attribute_value.int_val = 5;
-    test_attr1->attribute_key = "Queen";
+    test_attr1->attribute_key = strdup(q);
 
     attribute_list_t* test_head = create_list_attribute();
 
@@ -1258,25 +1386,26 @@ Test(attribute_list, remove_from_one_attribute_list)
     cr_assert_eq(add_attribute, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    int remove_attribute = remove_attribute_from_list(test_head, test_attr1);
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr1->attribute_key);
 
     cr_assert_eq(remove_attribute, SUCCESS,
         "remove_from_one_attribute_list test: attribute Queen not removed");
     
     /* Check if we can still use test_head */
     attribute_t *test_attr2 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr2->attribute_key = malloc(sizeof(char)*10);
+    char *k = "King";
     test_attr2->attribute_tag = INTEGER;
     test_attr2->attribute_value.int_val = 5;
-    test_attr2->attribute_key =  "King";
+    test_attr2->attribute_key =  strdup(k);
 
     int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
 
     cr_assert_eq(add_attribute2, SUCCESS,
                 "add_attribute_to_list after removing last attribute test: Fail");
 
-    delete_attribute_llist(test_head);      
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
 }
 
 Test(attribute_list, remove_attribute_from_list)
@@ -1285,18 +1414,16 @@ Test(attribute_list, remove_attribute_from_list)
     attribute_list_t* test_head = create_list_attribute();
 
     attribute_t *test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    char *n = "Knight";
     test_attr1->attribute_tag = INTEGER;
     test_attr1->attribute_value.int_val = 5;
-    test_attr1->attribute_key =  "Knight";
+    test_attr1->attribute_key =  strdup(n);
 
     attribute_t *test_attr2 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr2->attribute_key = malloc(sizeof(char)*10);
+    char *q = "Queen";
     test_attr2->attribute_tag = INTEGER;
     test_attr2->attribute_value.int_val = 5;
-    test_attr2->attribute_key =  "Queen";
+    test_attr2->attribute_key =  strdup(q);
 
     int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
     int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
@@ -1306,12 +1433,14 @@ Test(attribute_list, remove_attribute_from_list)
     cr_assert_eq(add_attribute2, SUCCESS,
         "add_attribute_to_list test: attribute Queen not added");
 
-    int remove_attribute = remove_attribute_from_list(test_head, test_attr2);
+    int remove_attribute = remove_attribute_from_list(test_head, test_attr2->attribute_key);
   
     cr_assert_eq(remove_attribute, SUCCESS,
         "remove_attirubte_from_list test: attribute Queen not removed");
 
-    delete_attribute_llist(test_head);    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
 
 }
 
@@ -1320,25 +1449,22 @@ Test(attribute_list, list_contains_attribute)
     attribute_list_t* test_head = create_list_attribute();
 
     attribute_t *test_attr1 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr1->attribute_key = malloc(sizeof(char)*10);
+    char *n = "Knight";
     test_attr1->attribute_tag = INTEGER;
     test_attr1->attribute_value.int_val = 5;
-    test_attr1->attribute_key =  "Knight";
+    test_attr1->attribute_key =  strdup(n);
 
     attribute_t *test_attr2 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr2->attribute_key = malloc(sizeof(char)*10);
+    char *q = "Queen";
     test_attr2->attribute_tag = INTEGER;
     test_attr2->attribute_value.int_val = 5;
-    test_attr2->attribute_key =  "Queen";
+    test_attr2->attribute_key =  strdup(q);
 
     attribute_t *test_attr3 = (attribute_t*)malloc(sizeof(attribute_t));
-
-    test_attr3->attribute_key = malloc(sizeof(char)*10);
+    char *k = "King";
     test_attr3->attribute_tag = INTEGER;
     test_attr3->attribute_value.int_val = 5;
-    test_attr3->attribute_key =  "King";
+    test_attr3->attribute_key =  strdup(k);
 
     int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
     int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
@@ -1356,6 +1482,186 @@ Test(attribute_list, list_contains_attribute)
     cr_assert_eq(contain_attribute, true,
         "list_contains_attribute test: attribute King not found");
     
-    delete_attribute_llist(test_head); 
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
 
 }
+
+// Tests for getting attributes from a list ------------------------------------
+
+/* Checks retrieval of a string attribute from a list of attributes */
+Test(attribute_list, list_get_str_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = str_attr_new("Knight", "Sword");
+    attribute_t *test_attr2 = str_attr_new("Queen", "Scepter");
+    attribute_t *test_attr3 = str_attr_new("King", "Crown");
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    char* result_n = list_get_str_attr(test_head, "Knight");
+    char* result_q = list_get_str_attr(test_head, "Queen");
+    char* result_k = list_get_str_attr(test_head, "King");
+
+    cr_assert_not_null(result_n, "list_get_str_attr returned null for the Knight attribute");
+    cr_assert_not_null(result_q, "list_get_str_attr returned null for the Queen attribute");
+    cr_assert_not_null(result_k, "list_get_str_attr returned null for the King attribute");
+
+    cr_assert_eq(result_n, "Sword", "list_get_str_attr returned the incorrect string for the Knight attribute");
+    cr_assert_eq(result_q, "Scepter", "list_get_str_attr returned the incorrect string for the Queen attribute");
+    cr_assert_eq(result_k, "Crown", "list_get_str_attr returned the incorrect string for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+/* Checks retrieval of an integer attribute from a list of attributes */
+Test(attribute_list, list_get_int_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = int_attr_new("Knight", 1);
+    attribute_t *test_attr2 = int_attr_new("Queen", 3);
+    attribute_t *test_attr3 = int_attr_new("King", 5);
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    int result_n = list_get_int_attr(test_head, "Knight");
+    int result_q = list_get_int_attr(test_head, "Queen");
+    int result_k = list_get_int_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 1, "list_get_int_attr returned the incorrect int for the Knight attribute");
+    cr_assert_eq(result_q, 3, "list_get_int_attr returned the incorrect int for the Queen attribute");
+    cr_assert_eq(result_k, 5, "list_get_int_attr returned the incorrect int for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+/* Checks retrieval of a double attribute from a list of attributes */
+Test(attribute_list, list_get_double_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = double_attr_new("Knight", 1.0);
+    attribute_t *test_attr2 = double_attr_new("Queen", 3.0);
+    attribute_t *test_attr3 = double_attr_new("King", 5.0);
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    double result_n = list_get_double_attr(test_head, "Knight");
+    double result_q = list_get_double_attr(test_head, "Queen");
+    double result_k = list_get_double_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 1.0, "list_get_double_attr returned the incorrect double for the Knight attribute");
+    cr_assert_eq(result_q, 3.0, "list_get_double_attr returned the incorrect double for the Queen attribute");
+    cr_assert_eq(result_k, 5.0, "list_get_double_attr returned the incorrect double for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+/* Checks retrieval of a char attribute from a list of attributes */
+Test(attribute_list, list_get_char_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = char_attr_new("Knight", 'n');
+    attribute_t *test_attr2 = char_attr_new("Queen", 'q');
+    attribute_t *test_attr3 = char_attr_new("King", 'k');
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    char result_n = list_get_char_attr(test_head, "Knight");
+    char result_q = list_get_char_attr(test_head, "Queen");
+    char result_k = list_get_char_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 'n', "list_get_char_attr returned the incorrect char for the Knight attribute");
+    cr_assert_eq(result_q, 'q', "list_get_char_attr returned the incorrect char for the Queen attribute");
+    cr_assert_eq(result_k, 'k', "list_get_char_attr returned the incorrect char for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+
+/* Checks retrieval of a boolean attribute from a list of attributes */
+Test(attribute_list, list_get_bool_attr)
+{
+    attribute_list_t* test_head = create_list_attribute();
+
+    attribute_t *test_attr1 = bool_attr_new("Knight", true);
+    attribute_t *test_attr2 = bool_attr_new("Queen", false);
+    attribute_t *test_attr3 = bool_attr_new("King", true);
+
+    int add_attribute1 = add_attribute_to_list(test_head, test_attr1);
+    int add_attribute2 = add_attribute_to_list(test_head, test_attr2);
+    int add_attribute3 = add_attribute_to_list(test_head, test_attr3);
+
+    cr_assert_eq(add_attribute1, SUCCESS,
+        "add_attribute_to_list test: attribute Knight not added");
+    cr_assert_eq(add_attribute2, SUCCESS,
+        "add_attribute_to_list test: attribute Queen not added");
+    cr_assert_eq(add_attribute3, SUCCESS,
+        "add_attribute_to_list test: attribute King not added");
+    
+    bool result_n = list_get_bool_attr(test_head, "Knight");
+    bool result_q = list_get_bool_attr(test_head, "Queen");
+    bool result_k = list_get_bool_attr(test_head, "King");
+
+    cr_assert_eq(result_n, 1, "list_get_bool_attr returned the incorrect bool for the Knight attribute");
+    cr_assert_eq(result_q, 0, "list_get_bool_attr returned the incorrect bool for the Queen attribute");
+    cr_assert_eq(result_k, 1, "list_get_bool_attr returned the incorrect bool for the King attribute");
+    
+    delete_attribute_llist(test_head);
+    attribute_free(test_attr1);
+    attribute_free(test_attr2);
+    attribute_free(test_attr3);
+}
+

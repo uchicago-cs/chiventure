@@ -83,7 +83,7 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
             return FAILURE;
         }
     }
-    
+
     if (check != NULL)
     {
         /* Same item id, not same memory address */
@@ -120,6 +120,16 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
 }
 
 /* See item.h */
+item_t *get_item_in_hash(item_hash_t *ht, char *id)
+{
+    item_t *item;
+
+    HASH_FIND(hh, ht, id, strnlen(id, MAX_ID_LEN), item);
+
+    return item;
+}
+
+/* See item.h */
 int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 {
     item_t *check;
@@ -133,7 +143,7 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
             /* Multiple identical item ids;
              * item to delete is head of linked list */
             HASH_DEL(*ht, old_item);
-            add_item_to_hash(ht, old_item->next);
+	        add_item_to_hash(ht, old_item->next);
             old_item->next = NULL;
         }
         else if (check == old_item)
@@ -208,126 +218,178 @@ attribute_t *get_attribute(item_t *item, char* attr_name)
     return return_value;
 }
 
+// TYPE-SPECIFIC ATTRIBUTE INITIALIZING FUNCTIONS -------------------------------------------
+/* see item.h */
+attribute_t* str_attr_new(char* attr_name, char* value)
+{
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+
+    if (new_attribute == NULL) {
+        fprintf(stderr, "Failed to allocate memory for new attribute");
+        return NULL;
+    }
+
+    new_attribute->attribute_tag = STRING;
+    new_attribute->attribute_value.str_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
+
+    return new_attribute;
+}
+
+
+/* see item.h */
+attribute_t* int_attr_new(char* attr_name, int value)
+{
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+
+    if (new_attribute == NULL) {
+        fprintf(stderr, "Failed to allocate memory for new attribute");
+        return NULL;
+    }
+
+    new_attribute->attribute_tag = INTEGER;
+    new_attribute->attribute_value.int_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
+
+    return new_attribute;
+}
+
+
+/* see item.h */
+attribute_t* double_attr_new(char* attr_name, double value)
+{
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+
+    if (new_attribute == NULL) {
+        fprintf(stderr, "Failed to allocate memory for new attribute");
+        return NULL;
+    }
+
+    new_attribute->attribute_tag = DOUBLE;
+    new_attribute->attribute_value.double_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
+
+    return new_attribute;
+}
+
+
+/* see item.h */
+attribute_t* char_attr_new(char* attr_name, char value)
+{
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+
+    if (new_attribute == NULL) {
+        fprintf(stderr, "Failed to allocate memory for new attribute");
+        return NULL;
+    }
+
+    new_attribute->attribute_tag = CHARACTER;
+    new_attribute->attribute_value.char_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
+
+    return new_attribute;
+}
+
+
+/* see item.h */
+attribute_t* bool_attr_new(char* attr_name, bool value)
+{
+    attribute_t* new_attribute = malloc(sizeof(attribute_t));
+
+    if (new_attribute == NULL) {
+        fprintf(stderr, "Failed to allocate memory for new attribute");
+        return NULL;
+    }
+    
+    new_attribute->attribute_tag = BOOLE;
+    new_attribute->attribute_value.bool_val = value;
+    new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
+
+    return new_attribute;
+}
+
+
+// TYPE-SPECIFIC SET_ATTR FUNCTIONS -------------------------------------------
 
 /* see item.h */
 int set_str_attr(item_t* item, char* attr_name, char* value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_tag = STRING;
-        new_attribute->attribute_value.str_val = value;
-        new_attribute->attribute_key = strndup(attr_name, 100);
+    if (res == NULL) {
+        attribute_t* new_attribute = str_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    }
-    else if (res != NULL && res->attribute_tag != STRING)
-    {
+    } else if (res != NULL && res->attribute_tag != STRING) {
         return FAILURE; // skeleton for not overriding type
-    }
-    else
-    {
+    } else {
         res->attribute_value.str_val = value;
         return SUCCESS;
     }
 }
 
-// TYPE-SPECIFIC SET_ATTR FUNCTIONS -------------------------------------------
+
 /* see item.h */
 int set_int_attr(item_t* item, char* attr_name, int value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_tag = INTEGER;
-        new_attribute->attribute_value.int_val = value;
-        new_attribute->attribute_key = strndup(attr_name, 100);
+    if (res == NULL) {
+        attribute_t* new_attribute = int_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    }
-    else if (res != NULL && res->attribute_tag != INTEGER)
-    {
+    } else if (res != NULL && res->attribute_tag != INTEGER) {
         return FAILURE; // skeleton for not overriding type
-    }
-    else
-    {
+    } else {
         res->attribute_value.int_val = value;
         return SUCCESS;
     }
 }
 
+
 /* see item.h */
 int set_double_attr(item_t* item, char* attr_name, double value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_tag = DOUBLE;
-        new_attribute->attribute_value.double_val = value;
-        new_attribute->attribute_key = strndup(attr_name, 100);
+    if (res == NULL) {
+        attribute_t* new_attribute = double_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    }
-    else if (res != NULL && res->attribute_tag != DOUBLE)
-    {
+    } else if (res != NULL && res->attribute_tag != DOUBLE) {
         return FAILURE; // skeleton for not overriding type
-    }
-    else
-    {
+    } else {
         res->attribute_value.double_val = value;
         return SUCCESS;
     }
-
 }
+
 
 /* see item.h */
 int set_char_attr(item_t* item, char* attr_name, char value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_tag = CHARACTER;
-        new_attribute->attribute_value.char_val = value;
-        new_attribute->attribute_key = strndup(attr_name, 100);
+    if (res == NULL) {
+        attribute_t* new_attribute = char_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    }
-    else if (res != NULL && res->attribute_tag != CHARACTER)
-    {
+    } else if (res != NULL && res->attribute_tag != CHARACTER) {
         return FAILURE; // skeleton for not overriding type
-    }
-
-    else
-    {
+    } else {
         res->attribute_value.char_val = value;
         return SUCCESS;
     }
 }
 
+
 /* see item.h */
 int set_bool_attr(item_t* item, char* attr_name, bool value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL)
-    {
-        attribute_t* new_attribute = malloc(sizeof(attribute_t));
-        new_attribute->attribute_tag = BOOLE;
-        new_attribute->attribute_value.bool_val = value;
-        new_attribute->attribute_key = strndup(attr_name, 100);
+    if (res == NULL) {
+        attribute_t* new_attribute = bool_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    }
-    else if (res != NULL && res->attribute_tag != BOOLE)
-    {
+    } else if (res != NULL && res->attribute_tag != BOOLE) {
         return FAILURE; // skeleton for not overriding type
-    }
-
-    else
-    {
+    } else {
         res->attribute_value.bool_val = value;
         return SUCCESS;
     }
@@ -522,6 +584,7 @@ int item_free(item_t *item)
     free(item->item_id);
     free(item->short_desc);
     free(item->long_desc);
+    delete_attribute_llist(item->class_multipliers);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
     if (item->stat_effects != NULL) {
@@ -537,8 +600,16 @@ int delete_all_items(item_hash_t** items)
     item_t *current_item, *tmp;
     HASH_ITER(hh, *items, current_item, tmp)
     {
-      	remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
-	item_free(current_item);             /* free it */
+      	item_t* iter = current_item;
+
+        while(iter != NULL)
+        {
+            current_item = iter;
+            iter = current_item->next;
+
+            remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
+            item_free(current_item);             /* free it */ 
+        }
     }
     *items = NULL;
     return SUCCESS;
@@ -615,6 +686,8 @@ bool list_contains_attribute(attribute_list_t *head, char* attr_name)
     like->attribute->attribute_key = attr_name;
     
     LL_SEARCH(head->next, tmp, like, attr_cmp);
+    free(like->attribute);
+    free(like);
 
     if (tmp)
         return true;
@@ -646,10 +719,11 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
 }
 
 /* See item.h */
-int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
+int remove_attribute_from_list(attribute_list_t *head, char *attr_name)
 {
-    if (attr == NULL || head->next == NULL)
+    if (!list_contains_attribute(head, attr_name))
     {
+        printf("\nNot Recognized\n");
         return FAILURE;
     }
     
@@ -657,9 +731,11 @@ int remove_attribute_from_list(attribute_list_t *head, attribute_t *attr)
     attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
 
     like->attribute = calloc(1, sizeof(attribute_t));
-    like->attribute->attribute_key = attr->attribute_key;
+    like->attribute->attribute_key = attr_name;
 
     LL_SEARCH(head->next, tmp, like, attr_cmp);
+    free(like->attribute);
+    free(like);
 
     if (tmp)
     {
@@ -681,4 +757,122 @@ int delete_item_llist(item_list_t *head)
         free(elt);
     }
     return SUCCESS;
+}
+
+
+
+
+// Functions to get attributes from a list ------------------------------------
+
+/* see item.h */
+attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
+{
+    /* Return NULL on invalid inputs */
+    if (attr_name == NULL || head == NULL || head->next == NULL)
+    {
+        return NULL;
+    }
+
+    attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
+    if (like == NULL) {
+        fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
+        return NULL;
+    }
+    like->attribute = calloc(1, sizeof(attribute_t));
+    if (like == NULL) {
+        fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
+        return NULL;
+    }
+    like->attribute->attribute_key = attr_name;
+    
+    attribute_list_t *output;
+    LL_SEARCH(head->next, output, like, attr_cmp);
+
+    free(like->attribute);
+    free(like);
+
+    /* If no attribute is found, return NULL */
+    if (output == NULL)
+        return NULL;
+
+    return output->attribute;
+}
+
+/* see item.h */
+char* list_get_str_attr(attribute_list_t *head, char* attr_name)
+{
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        return NULL;
+    }
+    if(res->attribute_tag != STRING)
+    {
+        return NULL; //attribute is not type string
+    }
+    return res->attribute_value.str_val;
+}
+
+/* see item.h */
+int list_get_int_attr(attribute_list_t *head, char* attr_name)
+{
+
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        // value returned if search fails, open to alternative
+        return -1;
+    }
+    if(res->attribute_tag != INTEGER)
+    {
+        return -1; //attribute is not type integer
+    }
+    return res->attribute_value.int_val;
+}
+
+/* see item.h */
+double list_get_double_attr(attribute_list_t *head, char* attr_name)
+{
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        // value returned if search fails, open to alternative
+        return -1.0;
+    }
+    if (res->attribute_tag != DOUBLE)
+    {
+        return -1.0; //attribute is not type double
+    }
+    return res->attribute_value.double_val;
+}
+
+/* see item.h */
+char list_get_char_attr(attribute_list_t *head, char* attr_name)
+{
+
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        return '~';
+    }
+    if (res->attribute_tag != CHARACTER)
+    {
+        return '~'; //attribute is not type character
+    }
+    return res->attribute_value.char_val;
+}
+
+/* see item.h */
+bool list_get_bool_attr(attribute_list_t *head, char* attr_name)
+{
+    attribute_t* res = list_get_attribute(head, attr_name);
+    if (res == NULL)
+    {
+        return NULL;
+    }
+    if (res->attribute_tag != BOOLE)
+    {
+        return NULL; //attribute is not type boolean
+    }
+    return res->attribute_value.bool_val;
 }

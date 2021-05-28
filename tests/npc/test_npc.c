@@ -25,18 +25,29 @@ class_t* generate_test_class()
 
 }
 
+/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
+npc_mov_t *generate_test_npc_mov()
+{
+    npc_mov_t *npc_mov;
+    room_t *test_room;
+    test_room = room_new("test_room", "test", "test test");
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+}
+
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)
 {
     class_t* c;
     npc_t *npc;
+    npc_mov_t *movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
     c = generate_test_class();
+    movement = generate_test_npc_mov();
 
-    npc = npc_new(npc_id, "man", "tall man", 20, c);
+    npc = npc_new(npc_id, "man", "tall man", c, movement, false);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
@@ -46,9 +57,15 @@ Test(npc, new)
                  "npc_new didn't set short_desc");
     cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
                  "npc_new didn't set long_desc");
-    cr_assert_eq(npc->health, 20, "npc_new() didn't set health"); 
     cr_assert_str_eq(npc->class->shortdesc,
                      c->shortdesc, "npc_new didn't set short description for class");
+    cr_assert_str_eq(npc->movement->track, movement->track,
+                     "npc_new didn't set current room id");
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id, 
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+                     "npc_new didn't set npc_path");
+    cr_assert_eq(npc->will_fight, false, 
+                      "npc_new didn't set will_fight");
 }
 
 
@@ -57,17 +74,19 @@ Test(npc, init)
 {
     class_t* c;
     npc_t *npc;
+    npc_mov_t *movement = generate_test_npc_mov();
     int res;
   
     char *npc_id2 = "test";
 
-    npc = npc_new(npc_id2, "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id2, "woman", "short woman", NULL, movement, false);
   
     c = generate_test_class();
+    movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
-    res = npc_init(npc, npc_id, "man", "tall man", 20, c); 
+    res = npc_init(npc, npc_id, "man", "tall man", c, movement, false); 
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
@@ -77,9 +96,15 @@ Test(npc, init)
                  "npc_init didn't set short_desc");
     cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
                  "npc_init didn't set long_desc");
-    cr_assert_eq(npc->health, 20, "npc_init didn't set health"); 
     cr_assert_str_eq(npc->class->shortdesc,
                      c->shortdesc, "npc_init didn't set short description for class");
+    cr_assert_str_eq(npc->movement->track, movement->track,
+                     "npc_new didn't set current room id");
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id, 
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+                     "npc_new didn't set npc_path");
+    cr_assert_eq(npc->will_fight, false, 
+                      "npc_init didn't set will_fight");
 }
 
 
@@ -90,7 +115,7 @@ Test(npc, free)
     int res;
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id, "woman", "short woman", NULL, NULL, false);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
@@ -108,7 +133,7 @@ Test(npc, get_sdesc_npc)
     
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "woman", "short woman", 30, NULL);
+    npc = npc_new(npc_id, "woman", "short woman", NULL, NULL, false);
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_eq(strncmp(npc->short_desc, "woman", MAX_SDESC_LEN), 0, 
@@ -129,7 +154,7 @@ Test(npc, get_ldesc_npc)
     
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "man", "tall man", 30, NULL);
+    npc = npc_new(npc_id, "man", "tall man", NULL, NULL, false);
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
@@ -142,47 +167,6 @@ Test(npc, get_ldesc_npc)
                  "get_ldesc_npc() didn't get npc's long_desc");
 }
 
-/* Checks that get_health() returns the health of the npc */
-Test(npc, get_npc_health)
-{
-    npc_t *npc;
-    int health;
-
-    char *npc_id = "npc_22";
-
-    npc = npc_new(npc_id, "short", "long", 20, NULL);
-
-    health = get_npc_health(npc);
-
-    cr_assert_not_null(npc, "npc_new() failed");
-
-    cr_assert_eq(health, 20, "get_npc_health() returned incorrect health");
-}
-
-/* Checks that an npc's health is changed by change_npc_health()
-   both positively and negatively with a set maximum */
-Test(npc, change_npc_health) 
-{
-    npc_t *npc;
-    int health1, health2, health3;
-
-    char *npc_id = "npc_22";
-
-    npc = npc_new(npc_id, "short", "long", 99, NULL); 
-    health1 = change_npc_health(npc, 2, 100); 
-    health2 = change_npc_health(npc, -20, 100);
-    health3 = change_npc_health(npc, 3, 83);
-
-    cr_assert_not_null(npc, "npc_new() failed");
-
-    cr_assert_eq(health1, 100,
-                 "change_npc_health() increased health past max");
-    cr_assert_eq(health2, 80,
-                 "change_npc_health() did not properly reduce health");
-    cr_assert_eq(health3, 83,
-                 "change_npc_health() did not properly add health");
-}
-
 /* Checks that get_inventory() returns the npc's inventory */
 Test(npc, add_to_and_get_inventory)
 {
@@ -193,8 +177,8 @@ Test(npc, add_to_and_get_inventory)
     char *npc_id1 = "npc_1";
     char *npc_id2 = "npc_2";
 
-    npc1 = npc_new(npc_id1, "short", "long", 20, NULL);
-    npc2 = npc_new(npc_id2, "short", "long", 21, NULL);
+    npc1 = npc_new(npc_id1, "short", "long", NULL, NULL, false);
+    npc2 = npc_new(npc_id2, "short", "long", NULL, NULL, false);
     new_item = item_new("test_item", "item for npc testing",
                         "item for testing get_npc_inventory()");
     add_item_to_npc(npc2, new_item);
@@ -240,7 +224,7 @@ Test(npc, add_to_and_get_inventory)
 Test(npc, add_item_to_npc)
 {
     char *npc_id = "1";
-    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, false);
     item_t *new_item = item_new("test_item", "item for npc testing",
                                 "item for testing add_item_to_npc");
     item_t *dup_item = item_new("test_item", "item for npc testing",
@@ -261,7 +245,7 @@ Test(npc, add_item_to_npc)
 Test(npc, remove_item_from_npc)
 {
     char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", 100, NULL);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, false);
     item_t *test_item = item_new("item", "short", "long");
     item_t *dup_item = item_new("item", "short", "long");
     item_list_t *item_list;
