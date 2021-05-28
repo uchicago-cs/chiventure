@@ -71,18 +71,3 @@ ROOM computer lab
    action: TURNON
     TURNON success: "You found the DSL file!"
     TURNON fail: "You’re not interested in the contents of the files. It looks boring anyways."
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
