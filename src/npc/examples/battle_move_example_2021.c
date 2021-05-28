@@ -25,7 +25,6 @@ const char *banner =
     "     |   /                         EXAMPLE PROGRAM - NPC_1 TEAM                                 /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
-// Making the npcs -------------------------------------------------------------
 
 /* Creates a sample class. Taken from test_class.c */
 class_t* generate_test_class()
@@ -103,37 +102,6 @@ DL_APPEND(head, rock_throw);
 return head;
 }
 
-/* Creates an example "friendly" npc to battle */
-npc_t* friendly_npc()
-{
-class_t* c = generate_test_class();
-npc_mov_t* m = generate_test_npc_mov();
-npc_t* npc = npc_new("friendly", "friendly npc", "friendly npc", c, m,
-true);
-
-stat_t* stats = create_enemy_stats();
-move_t* moves = create_enemy_moves();
-
-add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-CONDITIONAL_FRIENDLY, 99);
-}
-
-/* Creates an example "friendly" npc to battle */
-npc_t* hostile_npc()
-{
-class_t* c = generate_test_class();
-npc_mov_t* m = generate_test_npc_mov();
-npc_t* npc = npc_new("hostile", "hostile npc", "hostile npc", c, m,
-true);
-
-stat_t* stats = create_enemy_stats();
-move_t* moves = create_enemy_moves();
-
-add_battle_to_npc(npc, 10, stats, moves, BATTLE_AI_GREEDY,
-HOSTILE, 0);
-}
-
-
 /* Creates a sample convo */
 convo_t *create_sample_convo()
 {
@@ -173,7 +141,6 @@ convo_t *create_sample_convo()
     return c;
 }
 
-
 /* Makes sure the game is loaded */
 char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -201,8 +168,7 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
            "He looks upset with you. Would you like to talk?";
 }
 
-
-/* Defines a new CLI operation that continues the conversation with Jim */
+/* Defines a new CLI operation that prints a list of npcs in a room, or says that there are none. */
 char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
@@ -254,20 +220,43 @@ chiventure_ctx_t *create_sample_ctx()
                              "It towers over everything but you.");
     add_item_to_room(room1, clock);
 
-    /* Create one npc */
-    char *npc_id = "jim";
-    npc_mov_t *movement = npc_mov_new(NPC_MOV_DEFINITE, room1);
-    npc_t *jim = npc_new(npc_id, 
-                         "Jim is a shabby man who lives in a shabby house.", 
-                         "Jim looks just as suspicious as his house. His "
-                         "beard appears to be half shaved, and his eyes "
-                         "constantly dart all around.", NULL, movement, false);
-    //add_npc_to_game(game, jim);
-    convo_t *c = create_sample_convo();
-    add_convo_to_npc(jim, c);
+    /* Create a friendly npc */
+    char *npc_id1 = "Friendly Fiona";
+    class_t *class1 = generate_test_class();
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, room1);
+    npc_t *friendly_fiona = npc_new(npc_id1, 
+                                    "Friendly Fiona is a friendly woman named" 
+				    "Fiona.", "Friendly Fiona won't fight you" 
+				    "unless you attack her first, and she'll"
+				    "surrender quickly", class1, movement1, true);
+    /* Add battle info to friendly npc */
+    stat_t *stats1 = create_enemy_stats();
+    move_t *moves1 = create_enemy_moves();
+    add_battle_to_npc(friendly_fiona, 100, stats1, moves1, BATTLE_AI_GREEDY,
+		      CONDITIONAL_FRIENDLY, 98);
+    
+    /* Create a hostile npc */
+    char *npc_id2 = "Hostile Harry";
+    class_t *class2 = generate_test_class();
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, room1);
+    npc_t *hostile_harry = npc_new(npc_id2,
+                                   "Hostile Harry is a hostile man named"
+                                   "Harry.", "Hostile Harry will attack you"
+                                   "first, and he won't surrender until he"
+                                   "literally dies", class2, movement2, true);
+    /* Add battle info to hostile npc */
+    stat_t *stats2 = create_enemy_stats();
+    move_t *moves2 = create_enemy_moves();
+    add_battle_to_npc(hostile_harry, 10, stats, moves, BATTLE_AI_GREEDY,
+                      HOSTILE, 0);
+    
+    /* Add the npcs to the game */
+    add_npc_to_game(game, friendly_fiona);
+    add_npc_to_game(game, hostile_harry);
 
-    /* add npc to room1 */
-    add_npc_to_room(room1->npcs, jim);
+    /* Add the npcs to room1 */
+    add_npc_to_room(room1->npcs, friendly_fiona);
+    add_npc_to_room(room1->npcs, hostile_harry);
     
     /* Free default game and replace it with ours */
     game_free(ctx->game);
