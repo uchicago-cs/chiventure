@@ -17,8 +17,8 @@ char *print_start_battle(battle_t *b)
                     "Let the battle begin!\n",
                     enemy_name);
 
-    int rc = print_hp(b, string);
-    assert(rc == SUCCESS);
+    //int rc = print_hp(b, string);
+    //assert(rc == SUCCESS);
 
     return string;
 }
@@ -37,16 +37,16 @@ int print_hp(battle_t* b, char* string)
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
     slen += n;
 
-    n = snprintf(temp, BATTLE_BUFFER_SIZE, "ENEMY HP\n");
-    strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
-    slen += n;
+    // n = snprintf(temp, BATTLE_BUFFER_SIZE, "ENEMY HP\n");
+    // strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+    // slen += n;
 
-    calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-    char *player_hp_string;
-    sprintf(player_hp_string,"\n-- Your HP: %d\n", player_hp);
-    strcat(string, player_hp_string);
-    char *enemy_hp = ("ENEMY HP\n");
-    strcat(string, enemy_hp);
+    // calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    // char *player_hp_string;
+    // sprintf(player_hp_string,"\n-- Your HP: %d\n", player_hp);
+    // strcat(string, player_hp_string);
+    // char *enemy_hp = ("ENEMY HP\n");
+    // strcat(string, enemy_hp);
 
     combatant_t *enemies = b->enemy;
     combatant_t *enemy_elt;
@@ -117,17 +117,35 @@ char *print_start_turn(battle_t *b)
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
 
+   // char *movestring = calloc(200,sizeof(char));
+    //char *itemstring = calloc(200,sizeof(char));
+    //char *movestring = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+   // char *itemstring = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    snprintf(string, BATTLE_BUFFER_SIZE, "Your turn!\n\n");
+   // snprintf(string, BATTLE_BUFFER_SIZE, "Your turn!\n\n");
 
-    print_hp(b, string);
+    //print_hp(b, string);
 
-    snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
-    char *moves = print_moves(b,string);
+    snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use a Move, type 'Use [insert move name here]'\n\n"
+                                         "To use an Item, type 'Consume [insert item name here]'\n");
+    print_moves(b,string);
 
-    snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    print_battle_items(b,string);
+   // snprintf(movestring, BATTLE_BUFFER_SIZE, "\n\n\n");
+   // print_battle_items(b,itemstring);
+
+    // if (((strlen(movestring) + strlen(itemstring)) > 100)) {
+    //     string = realloc(string, (250 + strlen(movestring) + strlen(itemstring) * sizeof(char)));
+    // }
+    //  if (((strlen(itemstring)+ strlen(string)) > 200)) {
+    //     string = realloc(string, (250 + strlen(itemstring) + strlen(string)) * sizeof(char));
+    // }
+    
+    //strcat(string, movestring);
+    //strcat(string, itemstring);
+    
+    //free(movestring);
+    //free(itemstring);
 
     return string;
 }
@@ -136,12 +154,36 @@ char *print_start_turn(battle_t *b)
 char *print_moves(battle_t *b, char* moves)
 {
     move_t *temp;
+    int slen = strnlen(moves, BATTLE_BUFFER_SIZE + 1);
+    int n;
     
-    strcat(moves,"\nMOVES LIST:\n");
+    char temp2[BATTLE_BUFFER_SIZE + 1];
+
+    n = snprintf(temp2,BATTLE_BUFFER_SIZE,"AVAILABLE MOVES:\n");
+    strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
+    slen += n;
+
     DL_FOREACH(b->player->moves, temp)
     {
-        strcat(moves, temp->info);
-        strcat(moves, "\n");
+        //char *store = calloc(BATTLE_BUFFER_SIZE, sizeof(char));
+        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name:%s\nDescription:%s\nAttack:%d\nDamage:%d\nDefense:%d\n",
+        temp->name,temp->info, temp->attack, temp->damage, temp->defense);
+        strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
+    }
+
+    n = snprintf(temp2,BATTLE_BUFFER_SIZE,"AVAILABLE BATTLE ITEMS:\n");
+    strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
+    slen += n;
+
+    battle_item_t *temp3;
+    DL_FOREACH(b->player->items, temp3)
+    {
+        //char *store = calloc(BATTLE_BUFFER_SIZE, sizeof(char));
+        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "\nItem Name:%s\nDescription:%s\nAttack:%d\nDefense:%d\nHP:%d\n",
+        temp3->name,temp3->description, temp3->attack, temp3->defense, temp3->hp);
+        strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
     }
     return moves;
 }
@@ -151,13 +193,22 @@ char *print_battle_items(battle_t *b, char* items)
 {
     
     battle_item_t *temp;
-    strcat(items,"\n AVAILABLE BATTLE ITEMS LIST:\n");
+    int slen = strnlen(items, BATTLE_BUFFER_SIZE + 1);
+    int n;
+    
+    char temp2[BATTLE_BUFFER_SIZE + 1];
+
+    n = snprintf(temp2,BATTLE_BUFFER_SIZE,"AVAILABLE BATTLE ITEMS:\n");
+    strncat(items, temp2, BATTLE_BUFFER_SIZE - slen);
+    slen += n;
+
     DL_FOREACH(b->player->items, temp)
     {
-        char *store = calloc(BATTLE_BUFFER_SIZE, sizeof(char));
-        sprintf(store,"Name: %s\n, Description: %s\n, Attack: %d\n , Defense: %d, HP: %d\n",
+        //char *store = calloc(BATTLE_BUFFER_SIZE, sizeof(char));
+        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Name: %s\nDescription: %s\nAttack: %d\nDefense: %d\nHP: %d\n",
         temp->name,temp->description, temp->attack, temp->defense, temp->hp);
-        strcat(items,store);
+        strncat(items, temp2, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
         // strcat(items, temp->name);
         // strcat(items, "\n");
         // strcat(items, "ID: ");

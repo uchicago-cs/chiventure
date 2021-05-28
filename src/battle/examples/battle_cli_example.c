@@ -37,7 +37,7 @@ class_t *make_wizard2()
 /* Defines an CLI operation for starting a fight */
 char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    int rc;
+    //int rc;
 
     srand(time(0)); // sets seed
     // creates the stats of the player to begin the battle
@@ -54,7 +54,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
-    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, NULL, p_item);
+    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats,NULL, p_item);
 
     chiventure_ctx_battle_t *battle_ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
@@ -69,7 +69,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
-    start_battle(battle_ctx, e, ENV_GRASS);
+    int rc = start_battle(battle_ctx, e, ENV_GRASS);
 
     // prints the beginning of the battle 
     char *start = print_start_battle(battle_ctx->game->battle);

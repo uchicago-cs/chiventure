@@ -140,7 +140,6 @@ int run_battle_mode (char *input, cli_callback callback_func,
         if (item == NULL) {
             return callback_func(ctx, "That Item does not exist.", callback_args);
         }
-
         rc = battle_flow_item(battle_ctx, item);
     } else {
         return callback_func(ctx, "Enter a valid battle command.", callback_args);
