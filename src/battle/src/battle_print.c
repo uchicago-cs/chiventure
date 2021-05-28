@@ -130,7 +130,6 @@ char *print_start_turn(battle_t *b)
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use a Move, type 'Use [insert move name here]'\n\n"
                                          "To use an Item, type 'Consume [insert item name here]'\n");
     print_moves(b,string);
-    print_battle_items(b, string);
 
    // snprintf(movestring, BATTLE_BUFFER_SIZE, "\n\n\n");
    // print_battle_items(b,itemstring);
