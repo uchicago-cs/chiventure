@@ -5,9 +5,6 @@
 #ifndef INCLUDE_LOAD_CONDITION_H
 #define INCLUDE_LOAD_CONDITION_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
 #include "wdl_common.h"
 #include "validate.h"
 

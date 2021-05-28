@@ -283,7 +283,7 @@ int delete_all_items_from_game(item_hash_t* all_items)
     item_t *current_item, *tmp;
     HASH_ITER(hh_all_items, all_items, current_item, tmp)
     {
-        item_t* iter = current_item;
+        item_t *iter = current_item;
 
         while(iter != NULL)
         {

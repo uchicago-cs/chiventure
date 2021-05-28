@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "wdl/load_condition.h"
 
 /* build_item_condition

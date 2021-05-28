@@ -266,7 +266,7 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id);
  *  - quip: the dialogue option associated with the edge
  *  - from: source node
  *  - to: destination node
- *  - conditions: criteria determining the edge's availability, NULL if none
+ *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
  *
  * Returns:

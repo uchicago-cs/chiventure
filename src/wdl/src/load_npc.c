@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "wdl/load_npc.h"
 
 /* load_npc_inventory
