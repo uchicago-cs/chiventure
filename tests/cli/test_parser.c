@@ -92,9 +92,9 @@ Test(parse_r, more_than_four_words)
 {
     char* expecting_words[5];
     expecting_words[0] = "LOOK PUSH ";
-    expecting_words[1] = "DESTROY ";
-    expecting_words[2] = "EAT ";
-    expecting_words[3] = "DRINK ";
+    expecting_words[1] = " DESTROY ";
+    expecting_words[2] = " EAT ";
+    expecting_words[3] = " DRINK ";
     expecting_words[4] = "SLEEP";
     char str[] = "LOOK PUSH AND DESTROY AND EAT AND DRINK AND SLEEP";
     check_comparison(str, 5, expecting_words);
