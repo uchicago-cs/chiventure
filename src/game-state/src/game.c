@@ -4,6 +4,7 @@
 #include "game-state/item.h"
 #include "game-state/mode.h"
 #include "npc/npc.h"
+#include "battle/battle_flow_structs.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -158,6 +159,17 @@ int add_effect_to_game(game_t *game, effects_global_t *effect)
 }
 
 /* See game.h */
+int add_battle_ctx_to_game(game_t *game, chiventure_ctx_battle_t *battle_ctx){
+    if (battle_ctx == NULL) {
+        return FAILURE;
+    }
+    
+    game->battle_ctx = battle_ctx;
+
+    return SUCCESS;
+}
+
+/* See game.h */
 bool end_conditions_met(game_t *game)
 {
     if(game->end_conditions == NULL){
@@ -280,6 +292,9 @@ int game_free(game_t *game)
     delete_all_npcs(game->all_npcs);
     delete_condition_llist(game->end_conditions);
     delete_all_items(&(game->all_items));
+    if (game-> battle_ctx != NULL) {
+        free(game->battle_ctx);
+    }
     game_mode_free(game->mode);
     free(game->start_desc);
     free(game);

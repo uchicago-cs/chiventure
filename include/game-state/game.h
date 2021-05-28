@@ -10,6 +10,7 @@
 #include "stats.h"
 #include "mode.h"
 #include "npc/npc.h"
+#include "battle/battle_flow_structs.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -26,6 +27,7 @@ typedef struct room room_hash_t;
 typedef struct room_wrapped_for_llist room_list_t;
 typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
+typedef struct battle_ctx chiventure_ctx_battle_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -78,6 +80,9 @@ typedef struct game {
 
     /* time when game started */
     //int time_start;
+
+    /* pointer to the current battle context */
+    chiventure_ctx_battle_t *battle_ctx;
 } game_t;
 
 
@@ -218,6 +223,17 @@ int add_stat_to_game(game_t *game, stats_global_t *gs);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_effect_to_game(game_t *game, effects_global_t *effect);
+
+/* Adds a battle context to the given game
+ * 
+ * Parameters:
+ *  game struct
+ *  battle context struct
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_battle_ctx_to_game(game_t *game, chiventure_ctx_battle_t *battle_ctx);
 
 /* Checks if all end conditions in a given game have been met
  * 
