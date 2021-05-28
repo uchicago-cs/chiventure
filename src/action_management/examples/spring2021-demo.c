@@ -31,17 +31,34 @@ chiventure_ctx_t *create_sample_ctx()
   return ctx;
 }
 
-char *raiseDmg(custom_action_t *CA)
+char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  return "7";
+  attribute_t **args = malloc(sizeof(attribute_t*) *3);
+  attribute_t *dmgIncrease = malloc(sizeof(attribute_t));
+  char *name = "Dmg";
+  attribute_value_t a1;
+  a1.int_val = 3;
+  dmgIncrease->attribute_key = strdup(name);
+  dmgIncrease->attribute_tag = INTEGER;
+  dmgIncrease->attribute_value = a1;
+
+  attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "7"), "Dmg");
+  args[0] = dmgIncrease;
+  args[1] = wepDmg;
+  args[2] = wepDmg;
+  AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
+  custom_action_t *CA = custom_action_new("damage increase", "item", "7", "action", actDmg);
+  
+  do_custom_action(CA);
+  return "Damage Raised";
 }
 
 char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  //  int num =  get_attribute(get_sdesc_item(get_item_in_hash(ctx->game->curr_player->inventory, "7")), "Dmg")->attribute_value.int_val;
-  // char *str;
-  //sprintf(str, "%d", num);
-  return "7";
+  int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "7"), "Dmg")->attribute_value.int_val;
+  char *str;
+  sprintf(str, "%d", num);
+  return str;
 }
 
 
@@ -49,31 +66,21 @@ char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
-    attribute_t **args = malloc(sizeof(attribute_t*) *3);
-    attribute_t *dmgIncrease = malloc(sizeof(attribute_t));
     char *name = "Dmg";
-    attribute_value_t a1, a2;
-    a1.int_val = 3;
-    a2.int_val = 30;
-    dmgIncrease->attribute_key = strdup(name);
-    dmgIncrease->attribute_tag = INTEGER;
-    dmgIncrease->attribute_value = a2;
+    attribute_value_t a1;
+    a1.int_val = 30;
     
     attribute_t *wepDmg = malloc(sizeof(attribute_t));
     wepDmg->attribute_key = strdup(name);
     wepDmg->attribute_tag = INTEGER;
     wepDmg->attribute_value = a1;
     item_t *sword = item_new("7", "A sword", "A sword");
-    args[0] = dmgIncrease;
-    args[1] = wepDmg;
-    args[2] = wepDmg;
     add_attribute_to_hash(sword, wepDmg);
     add_item_to_player(ctx->game->curr_player, sword);
-    AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
-    custom_action_t *CA = custom_action_new("damage increase", "item", "7", "action", actDmg);
-    
+ 
     add_entry("SEEDMG", seeDmg, NULL, ctx->table);
-  
+    add_entry("RAISEDMG", raiseDmg, NULL, ctx->table);
+    
     /* Start chiventure */
     start_ui(ctx, banner);
 
