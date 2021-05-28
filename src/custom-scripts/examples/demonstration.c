@@ -65,7 +65,7 @@ int main(int argc, char **argv)
     /* Monkeypatch the CLI to add a new "kind 1" action
      * (i.e., an action that operates on an item) */
     action_type_t taste_action = {"TASTE", ITEM};
-    add_entry(taste_action.c_name, kind1_action_operation, &taste_action, ctx->table);
+    add_entry(taste_action.c_name, kind1_action_operation, &taste_action, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
