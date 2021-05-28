@@ -58,7 +58,7 @@ Test(battle_default_objects, default_consumables)
     {
         // Strength Up
         cr_assert_eq(test_item->durability, 0, "get_random_default_consumable() did not set durability correctly");   
-        cr_assert_str_eq(test_item->name, "Strength Up", "get_random_default_consumable() did not set name correctly");
+        cr_assert_str_eq(test_item->name, "STRENGTH UP ", "get_random_default_consumable() did not set name correctly");
         cr_assert_str_eq(test_item->description, "Adds 5 to your strength!", "get_random_default_consumable() did not set description correctly");
         cr_assert_eq(test_item->battle, true, "get_random_default_consumable() did not set durability correctly");
         cr_assert_eq(test_item->attack, 5, "get_random_default_consumable() did not set attack correctly");

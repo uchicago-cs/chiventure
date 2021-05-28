@@ -169,9 +169,11 @@ Test(battle_flow_move_, return_success_battle_flow_move)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
-    int res = battle_flow_move(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow_move() returned FAILURE");
+    char *res = battle_flow_move(ctx, move, "Enemy");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 }
 
 /* this tests to see if battle_flow_move does damage to the enemy */
@@ -207,6 +209,7 @@ Test(battle_flow_move, do_damage_battle_flow_move)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
@@ -216,8 +219,10 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     int expected_player_hp = player->stats->hp -
                       damage(player, give_move(player, enemy, enemy->ai), enemy);
 
-    int res = battle_flow_move(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow_movefailed!");
+    char *res = battle_flow_move(ctx, move, "Enemy");
+    
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     cr_assert_eq(enemy->stats->hp,
                  expected_enemy_hp, 
@@ -266,6 +271,7 @@ Test(battle_flow_move, battle_over_by_player)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
@@ -273,8 +279,9 @@ Test(battle_flow_move, battle_over_by_player)
     int expected_hp = player->stats->hp -
                       damage(player, give_move(player, enemy,enemy->ai), enemy);
 
-    int res = battle_flow_move(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow_move() failed");
+    char *res = battle_flow_move(ctx, move, "Enemy");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
@@ -285,7 +292,7 @@ Test(battle_flow_move, battle_over_by_player)
                   damage(player, give_move(player, enemy,enemy->ai), enemy);
 
     res = battle_flow_move(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow_move() failed");
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
@@ -327,6 +334,7 @@ Test(battle_flow_move, battle_over_by_enemy)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
@@ -334,11 +342,13 @@ Test(battle_flow_move, battle_over_by_enemy)
     int expected_hp = enemy->stats->hp -
                       2 * damage(enemy, move, player);  
 
-    int res = battle_flow_move(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow_move() failed");
+    char *res = battle_flow_move(ctx, move, "Enemy");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     res = battle_flow_move(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow_move() failed");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  expected_hp,
