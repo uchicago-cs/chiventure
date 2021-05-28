@@ -83,4 +83,20 @@ char *print_battle_winner(battle_status_t status, int xp);
  *
  */
 char *print_start_turn(battle_t* b);
+
+/* Prints out the avaliable battle_items for the player
+ * Parameter:
+ *  - b = pointer to the battle
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_battle_items(battle_t *b);
+
+/* Prints out the avaliable moves for the player
+ * Parameter:
+ *  - b = pointer to the battle
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_moves(battle_t *b);
  #endif
