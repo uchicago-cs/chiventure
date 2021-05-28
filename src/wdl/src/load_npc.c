@@ -245,10 +245,17 @@ int load_npcs(obj_t *doc, game_t *g)
             }
         }
 
+        // load class
+        // to do
+
+        // load movement
+        // to do
+
+        // load battle
+        // to do
+
         // add NPC to the game
-        // NOTE: this is commented out because the NPC struct cannot currently
-        //       support belonging to two hash tables
-        // add_npc_to_game(g, npc);
+        add_npc_to_game(g, npc);
 
         // add NPC to the room they are assigned
         char *in = obj_get_str(curr, "in");

@@ -134,12 +134,6 @@ int do_node_actions(node_t *n, game_t *game)
         switch(cur_action->action) {
 
             case GIVE_ITEM: ;
-                // Ideally, this function would look like:
-                //   npc_t *npc = get_npc(game, game->mode->mode_ctx);
-                // That is, we get the NPC struct from game->all_items rather
-                // than game->curr_room->npcs->npc_list. However, as NPC
-                // structs cannot currently belong to two hash tables, we will
-                // have to use this workaround.
                 npc_t *npc = get_npc_in_room(game->curr_room,
                                              game->mode->mode_ctx);
                 item_t *item = get_item_in_hash(npc->inventory,
@@ -151,9 +145,6 @@ int do_node_actions(node_t *n, game_t *game)
                 break;
 
             case TAKE_ITEM:
-                // Ideally, this function would look like:
-                //   npc = get_npc(game, game->mode->mode_ctx);
-                // See GIVE_ITEM
                 npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
                 item = get_item_in_hash(game->curr_player->inventory,
                                                 cur_action->action_id);

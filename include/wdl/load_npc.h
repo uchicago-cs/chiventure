@@ -19,8 +19,7 @@
  * - g: a game pointer as a return parameter
  *
  * side effects:
- * - adds NPCs into the inputted game pointer (currently not possible) and 
- *   their respective rooms
+ * - adds NPCs into the inputted game pointer and their respective rooms
  *
  * returns:
  * - SUCCESS for successful parse
