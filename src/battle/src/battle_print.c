@@ -4,8 +4,6 @@
 #include <string.h>
 #include "battle/battle_print.h"
 
-
-
 /* see battle_print.h */
 char *print_start_battle(battle_t *b)
 {
@@ -15,10 +13,9 @@ char *print_start_battle(battle_t *b)
 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    char *battle_begin = ("You have encountered %s!\n\n
-                    Let the battle begin!\n",
+    snprintf(string, BATTLE_BUFFER_SIZE, "You have encountered %s!\n\n"
+                    "Let the battle begin!\n",
                     enemy_name);
-    strcat(string, battle_begin);
 
     int rc = print_hp(b, string);
     assert(rc == SUCCESS);
@@ -31,23 +28,18 @@ int print_hp(battle_t* b, char* string)
 {
     int player_hp = b->player->stats->hp;
 
-    /* int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
+    int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
     int n;
 
     char temp[BATTLE_BUFFER_SIZE + 1];
-    
+
     n = snprintf(temp, BATTLE_BUFFER_SIZE, "-- Your HP: %d\n", player_hp);
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
     slen += n;
 
     n = snprintf(temp, BATTLE_BUFFER_SIZE, "ENEMY HP\n");
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
-    slen += n; */
-
-    char *player_hp_string = ("\n-- Your HP: %d\n", player_hp);
-    strcat(string, player_hp_string);
-    char *enemy_hp = ("ENEMY HP\n");
-    strcat(string, enemy_hp);
+    slen += n;
 
     combatant_t *enemies = b->enemy;
     combatant_t *enemy_elt;
@@ -56,11 +48,9 @@ int print_hp(battle_t* b, char* string)
         char* name = enemy_elt->name;
         int enemy_hp = enemy_elt->stats->hp;
 
-        enemy_hp = ("-- %s's HP: %d\n", name, enemy_hp);
-        strcat(string, enemy_hp);
-        /* n = snprintf(temp, BATTLE_BUFFER_SIZE, "-- %s's HP: %d\n", name, enemy_hp);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "-- %s's HP: %d\n", name, enemy_hp);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
-        slen += n; */
+        slen += n;
     }
 
     return SUCCESS;
@@ -88,12 +78,8 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    /* snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s! It did %d damage.\n",
-             combatant_name, move_name, dmg); */
-
-    char *enemey_damage = ("%s used %s! It did %d damage.\n",
+    snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s! It did %d damage.\n",
              combatant_name, move_name, dmg);
-    strcat(string, enemy_damage);
 
     int rc = print_hp(b, string);
     assert(rc == SUCCESS);
@@ -105,18 +91,13 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 char *print_battle_winner(battle_status_t status, int xp)
 {
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-    char *winner;
 
     if (status == BATTLE_VICTOR_PLAYER)
     {
-        //snprintf(string, BATTLE_BUFFER_SIZE, "You've won! You gain %d XP!\n",xp);
-        winner = ("You've won! You gain %d XP!\n",xp);
-        strcat(string, winner);
+        snprintf(string, BATTLE_BUFFER_SIZE, "You've won! You gain %d XP!\n",xp);
     } else if (status == BATTLE_VICTOR_ENEMY)
     {
-        //snprintf(string, BATTLE_BUFFER_SIZE, "You have been defeated!\n");
-        winner = ("You have been defeated!\n");
-        strcat(string, winner);
+        snprintf(string, BATTLE_BUFFER_SIZE, "You have been defeated!\n");
     }
 
     return string;
@@ -131,86 +112,44 @@ char *print_start_turn(battle_t *b)
 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    //snprintf(string, BATTLE_BUFFER_SIZE, "Your turn!\n\n");
-    strcat(string, "Your turn!\n\n")
+    snprintf(string, BATTLE_BUFFER_SIZE, "Your turn!\n\n");
 
     print_hp(b, string);
 
-<<<<<<< HEAD
     snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
-    print_moves(b,string);
+    char *moves = print_moves(b);
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    print_battle_items(b,string);
-=======
-    /* snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
-    snprintf(string, BATTLE_BUFFER_SIZE, print_moves(b));
-
-    snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    snprintf(string, BATTLE_BUFFER_SIZE, print_battle_items(b)); */
-
-    strcat(string, "To use a Move, type 'Use [insert move name here]'\n");
-    strcat(string, print_moves(b));
-
-    strcat(string, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    strcat(string, print_battle_items(b));
->>>>>>> 60dbe7112f1c96ca78bd26be9c2edb9956b0ed3d
+    char *items = print_battle_items(b);
 
     return string;
 }
 
 /* see battle_print.h */
-char *print_moves(battle_t *b, char* moves)
+int print_moves(battle_t *b)
 {
     move_t *temp;
-    
-    strcat(moves,"\nMOVES LIST:\n");
+    printf("\nMOVES LIST:\n");
     DL_FOREACH(b->player->moves, temp)
     {
-        strcat(moves, temp->info);
-        strcat(moves, "\n");
+        printf("%s\n", temp->info);
     }
-    return moves;
+    return SUCCESS;
 }
 
 /* see battle_print.h */
-char *print_battle_items(battle_t *b, char* items)
+int print_battle_items(battle_t *b)
 {
-    char *store = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     battle_item_t *temp;
-    strcat(items,"\nAVAILABLE BATTLE ITEMS LIST:\n");
+    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
     DL_FOREACH(b->player->items, temp)
     {
-        sprintf(store,"Name: %s\n, Description: %s\n, Attack: %d\n , Defense: %d, HP: %d\n",
-        temp->name,temp->description, temp->attack, temp->defense, temp->hp);
-        strcat(items,store );
-        // strcat(items, temp->name);
-        // strcat(items, "\n");
-        // strcat(items, "ID: ");
-        // char *id;
-        // itoa(temp->id, id, 10);
-        // strcat(items, id);
-        // strcat(items, "\n");
-        // strcat(items, "Description: ");
-        // strcat(items, temp->description);
-        // strcat(items, "\n");
-        // strcat(items, "Description: ");
-        // char *quantity;
-        // itoa(temp->quantity, id, 10);
-        // strcat(items, quantity);
-        // strcat(items, "\n");
-        // strcat(items, "Attack: ");
-        // char *attack;
-        // itoa(temp->attack, attack, 10);
-        // strcat(items, attack);
-        // char *defense;
-        // itoa(temp->defense, defense, 10);
-        // strcat(items, ", Defense: ");
-        // strcat(items, defense);
-        // char *hp;
-        // itoa(temp->hp, hp, 10);
-        // strcat(items, ", HP: ");
-        // strcat(items, hp);
+        printf("Name: %s\n", temp->name);
+        printf("ID: %d\n", temp->id);
+        printf("Description: %s\n", temp->description);
+        printf("Quantity: %d\n", temp->quantity);
+        printf("Attack: %d, Defense: %d, HP: %d\n", 
+                temp->attack, temp->defense, temp->hp);
     }
-    return items;
+    return SUCCESS;
 }
