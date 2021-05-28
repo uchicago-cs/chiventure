@@ -84,11 +84,9 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
  *  - target: name of target
  *
  * Returns:
- *  - Success or failure and modifies the status
- *    variable within the ctx_battle will as seen fit
- *    aka whether it is in progress or if there was a victor
+ *  - A string consisting of the output from the turn
  */
-int battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
+char *battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
 
 /*
  * Carries out one iteration of the battle flow loop when an item is used
@@ -101,11 +99,9 @@ int battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
  *  - item: pointer to the battle_player's item
  *
  * Returns:
- *  - Success or failure and modifies the status
- *    variable within the ctx_battle will as seen fit
- *    aka whether it is in progress or if there was a victor
+ *  - A string consisting of the output from the turn
  */
-int battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item);
+char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item);
 
 /*
  * Helper function for battle_flow functions
@@ -119,8 +115,8 @@ int battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item);
  *  - ctx: current chiventure battle context
  * 
  * Returns:
- *  - Always SUCCESS
+ *  - A string consisting of the output from the turn
  */
-int enemy_make_move(chiventure_ctx_battle_t *ctx);
+char *enemy_make_move(chiventure_ctx_battle_t *ctx);
 
 #endif

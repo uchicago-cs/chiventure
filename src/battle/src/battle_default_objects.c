@@ -55,7 +55,7 @@ battle_item_t *get_random_default_consumable()
     assert(rv_item != NULL);
 
     int rand = randnum(1, 4); 
-    char* name_array[]= {"Elixir of Life", "Healing Potion", "Defense Up", "Strength Up"};
+    char* name_array[]= {"ELIXIR OF LIFE ", "HEALING POTION ", "DEFENSE UP ", "STRENGTH UP "};
     char* description_array[] = {"Adds 50 to your HP!", "Adds 20 to your HP!", 
                                  "Adds 5 to your defense!", "Adds 5 to your strength!"};
     int hp_array[] = {50, 20, 0, 0};

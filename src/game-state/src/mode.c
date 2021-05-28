@@ -121,10 +121,11 @@ int run_battle_mode (char *input, cli_callback callback_func,
         return FAILURE;
     }
 
-    int rc;    
+    char *string;    
+    int rc;
     chiventure_ctx_battle_t *battle_ctx = ctx->game->battle_ctx;
 
-    if (strcmp(parsed_input[0], "Use") == 0) {
+    if (strcmp(parsed_input[0], "USE") == 0) {
         input += 4;
         move_t *move = find_player_move(battle_ctx, input);
 
@@ -132,22 +133,34 @@ int run_battle_mode (char *input, cli_callback callback_func,
             return callback_func(ctx, "That Move does not exist.", callback_args);
         }
 
-        rc = battle_flow_move(battle_ctx, move, battle_ctx->game->battle->enemy->name);
-    } else if (strcmp(parsed_input[0], "Consume") == 0) {
-        input += 8;
-        battle_item_t *item = find_battle_item(battle_ctx->game->player->items, input);
+        string = battle_flow_move(battle_ctx, move, battle_ctx->game->battle->enemy->name);
+
+    } else if (strcmp(parsed_input[0], "CONSUME") == 0) {
+        char *stringed_input = calloc(100, sizeof(char));
+        for(int i = 1; parsed_input[i] != NULL; i++) {
+            strncat(stringed_input, parsed_input[i], 100);
+            strncat(stringed_input, " ", 100);
+        }
+
+        battle_item_t *item = find_battle_item(battle_ctx->game->player->items, stringed_input);
+        free(stringed_input);
 
         if (item == NULL) {
             return callback_func(ctx, "That Item does not exist.", callback_args);
         }
-        rc = battle_flow_item(battle_ctx, item);
+        string = battle_flow_item(battle_ctx, item);
+
     } else {
         return callback_func(ctx, "Enter a valid battle command.", callback_args);
     }
 
+    callback_func(ctx, string, callback_args);
+    free(string);
+
     if (battle_ctx->status != BATTLE_IN_PROGRESS) {
         char *battle_over = print_battle_winner (battle_ctx->status, 42);
         callback_func(ctx, battle_over, callback_args);
+        free(battle_over);
         
         rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
     }

@@ -54,7 +54,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
-    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats,NULL, p_item);
+    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, get_random_default_move(), p_item);
 
     chiventure_ctx_battle_t *battle_ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));

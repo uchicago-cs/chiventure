@@ -1,5 +1,6 @@
 #include "battle/battle_logic.h"
 #include "common/utlist.h"
+#include <ctype.h>
 
 /* check battle_logic.h */
 combatant_t* check_target(battle_t *b, char *target)
@@ -72,7 +73,7 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
     battle_item_t *temp;
 
     DL_FOREACH(inventory, temp)
-    {
+    {        
         if (strncmp(temp->name, input, 100) == 0)
         {
             return temp;
