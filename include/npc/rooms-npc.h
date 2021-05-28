@@ -108,4 +108,5 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  *  SUCCESS on success, FAILURE if an error occurs or if NPC is cannot be moved
  */
 int npc_one_move(npc_t *npc, npcs_in_room_t *old_npc_room, npcs_in_room_t *new_npc_room);
+
 #endif

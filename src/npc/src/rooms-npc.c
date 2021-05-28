@@ -92,9 +92,9 @@ int npc_one_move(npc_t *npc, npcs_in_room_t *old_npc_room, npcs_in_room_t *new_n
     assert(npc->movement->mov_type == NPC_MOV_INDEFINITE || npc->movement->mov_type == NPC_MOV_DEFINITE );
 
     if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
-      move_npc_indefinite(npc->movement);
+        move_npc_indefinite(npc->movement);
     else
-      move_npc_definite(npc->movement);
+        move_npc_definite(npc->movement);
 
     add_npc_to_room(new_npc_room,npc);
     delete_npc_from_room(old_npc_room,npc);
