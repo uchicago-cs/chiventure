@@ -50,7 +50,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     battle_item_t *p_item = get_random_default_consumable();
 
     // this creates the player and enemy so that they are inside of ctx
-    move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
+    move_t *e_move = get_random_default_move();
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
