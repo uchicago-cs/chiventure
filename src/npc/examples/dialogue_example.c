@@ -11,7 +11,7 @@
  * to be run through and then executes functions to explore it
  */
 int main()
-{
+{   
     system("clear");
 
     printf("\nWelcome to Chiventure's 'Dialogue Module' Mockup!\n\n\n");
@@ -141,6 +141,7 @@ int main()
     // Step 7: Free allocated memory
     convo_free(c1);
     convo_free(c2);
+    game_free(g);
 
     return 0;
 }

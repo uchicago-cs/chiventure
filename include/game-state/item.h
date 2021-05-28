@@ -525,9 +525,10 @@ int item_init(item_t *new_item, char *item_id,
               char *short_desc, char *long_desc);
 
 /* this has to be in the interface as room and player modules use this */
-/* delete_all_items() deletes and frees all items in a hash table
- * NOTE: This function does not free the individual item structs. The freeing
- *       of the structs is done by delete_all_items_from_game() (in game.c)
+/* delete_all_items() deletes all items in a hash table
+ * NOTE: This function does not free the individual item structs, nor deal
+ *       the linked lists. The freeing of the structs is done by
+ *       delete_all_items_from_game() (in game.c)
  *
  * Parameters:
  *  Pointer to hash table of items

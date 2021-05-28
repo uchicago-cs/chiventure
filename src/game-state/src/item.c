@@ -197,7 +197,7 @@ int add_item_to_all_items_hash(item_hash_t **all_items, item_t *item)
     if (check != NULL)
     {
         /* Same item id, not same memory address */
-        HASH_DEL(*all_items, check);
+        HASH_DELETE(hh_all_items, *all_items, check);
         item->next = check;
     }
     
@@ -677,20 +677,8 @@ int item_free(item_t *item)
 /* See common.h*/
 int delete_all_items(item_hash_t** items)
 {
-    item_t *current_item, *tmp;
-    HASH_ITER(hh, *items, current_item, tmp)
-    {
-      	item_t* iter = current_item;
+    if (items != NULL) HASH_CLEAR(hh, *items);
 
-        while(iter != NULL)
-        {
-            current_item = iter;
-            iter = current_item->next;
-
-            remove_item_from_hash(items, current_item); /* deletes (items advances to next) */
-        }
-    }
-    *items = NULL;
     return SUCCESS;
 }
 
