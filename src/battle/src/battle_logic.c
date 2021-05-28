@@ -144,8 +144,6 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
             {
                 temp->next->prev = temp->prev;
             }
-            free(temp->name);
-            free(temp->description);
             free(temp);
         }
     }
