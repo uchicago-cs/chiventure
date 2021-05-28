@@ -2,13 +2,14 @@
 #include <string.h>
 
 #include "cli/cmd.h"
+#include "cli/cmdlist.h"
 #include "cli/operations.h"
+#include "common/utlist.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
 
 /* === hashtable helper constructors === */
-
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
     lookup_t *t = malloc(sizeof(lookup_t));
@@ -109,8 +110,8 @@ int lookup_t_init(lookup_t **t)
 
     add_entry("QUIT", quit_operation, NULL, t);
     add_entry("HELP", help_operation, NULL, t);
+    add_entry("HIST", hist_operation, NULL, t);
     add_entry("CREDITS", credits_operation, NULL, t);
-    //add_entry("HIST", hist_operation, t);
     add_entry("LOOK",look_operation, NULL, t);
     add_entry("INV", inventory_operation, NULL, t);
     add_entry("MAP", map_operation, NULL, t);
@@ -119,6 +120,7 @@ int lookup_t_init(lookup_t **t)
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
+    add_entry("TALK", talk_operation, NULL, t);
 
     add_action_entries(t);
 
@@ -232,11 +234,19 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 /* See cmd.h */
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
+
+    if (s != NULL) 
+    {
+        command_list_t *new_command = new_command_list(s);
+        LL_APPEND(ctx->command_history, new_command);
+    }
+    
     char **parsed_input = parse(s);
-    if(parsed_input == NULL)
+    if (parsed_input == NULL)
     {
         return NULL;
     }
+    
     lookup_t **table = ctx->table;
     return cmd_from_tokens(parsed_input, table);
 }
@@ -278,3 +288,4 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
         }
     }
 }
+

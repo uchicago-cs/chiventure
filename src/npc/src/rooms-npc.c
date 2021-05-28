@@ -37,7 +37,7 @@ int npcs_in_room_free(npcs_in_room_t *npcs_in_room)
     assert(npcs_in_room != NULL);
 
     free(npcs_in_room->room_id);
-    free(npcs_in_room->npc_list);
+    HASH_CLEAR(hh_room, npcs_in_room->npc_list);
     free(npcs_in_room);
 
     return SUCCESS;
@@ -55,14 +55,14 @@ int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room)
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
              check);
 
     if (check != NULL)
     {
         return FAILURE;
     }
-    HASH_ADD_KEYPTR(hh, npcs_in_room->npc_list, npc->npc_id,
+    HASH_ADD_KEYPTR(hh_room, npcs_in_room->npc_list, npc->npc_id,
                     strlen(npc->npc_id), npc);
     npcs_in_room->num_of_npcs++;
 
@@ -73,14 +73,14 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
              check);
 
     if (check == NULL)
     {
         return FAILURE;
     }
-    HASH_DELETE(hh, npcs_in_room->npc_list, check);
+    HASH_DELETE(hh_room, npcs_in_room->npc_list, check);
     npcs_in_room->num_of_npcs--;
 
     return SUCCESS;

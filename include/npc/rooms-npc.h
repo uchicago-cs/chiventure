@@ -4,9 +4,13 @@
 #include "npc/npc.h"
 
 
-/*
- * Struct for adding and handling npcs in rooms
- *
+/* Forward declaration */
+typedef struct npc npc_t;
+typedef struct npc npc_hash_t;
+
+/* 
+ * Struct for adding and handling npcs in rooms 
+ * 
  * Components:
  *  room_id: The name of the room
  *  npc_list: Hash table storing the npcs in the room
@@ -51,6 +55,7 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
 
 /*
  * Frees resources associated with an npcs_in_room struct
+ * Deletes npc_list hashtable, but does not free npcs in hash table
  *
  * Parameters:
  *  npcs_in_room: The npcs_in_room struct to be freed

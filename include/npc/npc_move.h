@@ -5,8 +5,13 @@
 #include "game-state/game.h"
 
 
-/*
- * Struct to encapsulate the time an NPC should stay in that particular room
+/* Forward declaration */
+typedef struct room_wrapped_for_llist room_list_t;
+typedef struct game game_t;
+
+
+/* 
+ * Struct to encapsulate the time an NPC should stay in that particular room 
  *  and the room details
  *
  * Components:
@@ -245,4 +250,5 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  *
  */
 int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
+
 #endif
