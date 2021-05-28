@@ -57,7 +57,7 @@ Test(parse_r, two_words_r)
 {
     char* expecting_words[2];
     expecting_words[0] = "LOOK ";
-    expecting_words[1] = "PUSH";
+    expecting_words[1] = " PUSH";
     char str[] = "LOOK AND PUSH";
     check_comparison(str, 2, expecting_words);
 }
@@ -82,7 +82,7 @@ Test(parse_r, two_three_words)
 {
     char* expecting_words[2];
     expecting_words[0] = "LOOK PUSH ";
-    expecting_words[1] = "DESTROY";
+    expecting_words[1] = " DESTROY";
     char str[] = "LOOK PUSH AND DESTROY";
     check_comparison(str, 2, expecting_words);
 }
