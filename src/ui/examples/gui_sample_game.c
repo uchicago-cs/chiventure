@@ -214,6 +214,8 @@ int main() {
             DrawRectangle(tempX, posY, map_room_width, map_room_height, colors[1]);
 
             room_t *east = find_room_from_dir(curr_room, "EAST");
+            // draw rooms above and below the room that is east of the current room
+            // northeast and southeast rooms to the current room
             if (find_room_from_dir(east, "NORTH") != NULL)
             {
                 int tempY = posY - map_room_height;
@@ -232,6 +234,8 @@ int main() {
             DrawRectangle(tempX, posY, map_room_width, map_room_height, colors[2]);
 
             room_t *west = find_room_from_dir(curr_room, "WEST");
+            // draw rooms above and below the room that is west of the current room
+            // northwest and southwest rooms to the current room
             if (find_room_from_dir(west, "NORTH") != NULL)
             {
                 int tempY = posY - map_room_height;
@@ -249,6 +253,8 @@ int main() {
             DrawRectangle(posX, tempY, map_room_width, map_room_height, colors[3]);
 
             room_t *south = find_room_from_dir(curr_room, "SOUTH");
+            // draw rooms next to the room that is south of the current room
+            // southeast and southwest rooms to the current room
             if (find_room_from_dir(south, "EAST") != NULL)
             {
                 int tempX = posX + map_room_width;
@@ -266,6 +272,8 @@ int main() {
             DrawRectangle(posX, tempY, map_room_width, map_room_height, colors[4]);
 
             room_t *north = find_room_from_dir(curr_room, "NORTH");
+            // draw rooms next to the room that is north of the current room
+            // northeast and northwest rooms to the current room
             if (find_room_from_dir(north, "WEST") != NULL)
             {
                 int tempX = posX + map_room_width;
