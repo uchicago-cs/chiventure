@@ -25,7 +25,7 @@ int randnum(int min, int max);
 /*
  * Generates a random consumable item from a list of previously-initialized consumables
  *
- * Parameters: none
+ * Parameters: nonest
  * Returns:
  * - a pointer to a default item
  */
