@@ -145,7 +145,7 @@ int do_branch_block(branch_block_t *block)
              * First conditional represents the if statement,
              *    the rest of the conditionals represent elif statements
              */
-                if (eval_conditional_block(block->conditionals[i]) == 0)
+                if (eval_conditional_block(block->conditionals[i]))
                 {
                     return run_ast_block(block->actions[i]);
                 }
@@ -176,7 +176,7 @@ int do_branch_block(branch_block_t *block)
 	       */
 	        loop = block->conditionals[1];
 	    }
-	    if (eval_conditional_block(block->conditionals[0]) == 0)
+	    if (eval_conditional_block(block->conditionals[0]))
 	    {
 	      /*
 	       * As with normal while loops, this can infinite loop
@@ -190,7 +190,7 @@ int do_branch_block(branch_block_t *block)
 		  {
 		      return FAILURE;
 		  }
-		} while(eval_conditional_block(loop) == 0);
+		} while(eval_conditional_block(loop));
 		return SUCCESS;
 	    }
     } 
