@@ -15,8 +15,8 @@ char *print_start_battle(battle_t *b)
 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    char *battle_begin = ("You have encountered %s!\n\n
-                    Let the battle begin!\n",
+    char *battle_begin = ("You have encountered %s!\n\n 
+                        Let the battle begin!\n",
                     enemy_name);
     strcat(string, battle_begin);
 
@@ -44,7 +44,9 @@ int print_hp(battle_t* b, char* string)
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
     slen += n; */
 
-    char *player_hp_string = ("\n-- Your HP: %d\n", player_hp);
+    calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    char *player_hp_string;
+    sprintf(player_hp_string,"\n-- Your HP: %d\n", player_hp);
     strcat(string, player_hp_string);
     char *enemy_hp = ("ENEMY HP\n");
     strcat(string, enemy_hp);
@@ -136,25 +138,11 @@ char *print_start_turn(battle_t *b)
 
     print_hp(b, string);
 
-<<<<<<< HEAD
     snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
     print_moves(b,string);
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
     print_battle_items(b,string);
-=======
-    /* snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
-    snprintf(string, BATTLE_BUFFER_SIZE, print_moves(b));
-
-    snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    snprintf(string, BATTLE_BUFFER_SIZE, print_battle_items(b)); */
-
-    strcat(string, "To use a Move, type 'Use [insert move name here]'\n");
-    strcat(string, print_moves(b));
-
-    strcat(string, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    strcat(string, print_battle_items(b));
->>>>>>> 60dbe7112f1c96ca78bd26be9c2edb9956b0ed3d
 
     return string;
 }
