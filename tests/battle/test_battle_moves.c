@@ -5,6 +5,7 @@
 #include "battle/battle_moves.h"
 
 
+
 /* Tests move_init */
 Test(move, init)
 {
