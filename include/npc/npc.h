@@ -19,7 +19,8 @@ typedef struct convo convo_t;
 /* A non-playable character in game */
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
-    UT_hash_handle hh;
+    /* Second hash handle is for storing npcs in specific rooms */
+    UT_hash_handle hh, hh_room;
 
     /* NPC identifier */
     char *npc_id;

@@ -55,6 +55,7 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
 
 /*
  * Frees resources associated with an npcs_in_room struct
+ * Deletes npc_list hashtable, but does not free npcs in hash table
  *
  * Parameters:
  *  npcs_in_room: The npcs_in_room struct to be freed
