@@ -160,3 +160,100 @@ Test(npc_battle, free)
     cr_assert_eq(res, SUCCESS, "npc_battle_free() failed");
 
 }
+
+
+/* Checks that transfer_all_npc_items() removes items from a dead npc and 
+   transfers them to the room */
+Test(npc_battle, transfer_all_npc_items_dead)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
+    room_t *room = room_new("test_room", "room for testing",
+    "testing if memory is correctly allocated for new rooms");
+
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(test_item1, "item_new() 1 failed");
+    cr_assert_not_null(test_item2, "item_new() 2 failed");
+    cr_assert_not_null(room, "room_new() failed");
+
+    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    add_item_to_npc(npc, test_item1);
+    add_item_to_npc(npc, test_item2);
+
+    cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
+    cr_assert_not_null(npc->inventory, "add_item_to_npc() failed to add item");
+
+    int rc = transfer_all_npc_items(npc, room);
+
+    cr_assert_eq(rc, SUCCESS, "transfer_all_npc_items() failed");
+    cr_assert_not_null(room->items, 
+                       "transfer_all_npc_items() failed to add room items");
+    cr_assert_null(npc->inventory, 
+                   "transfer_all_npc_items() failed to remove npc items");
+
+}
+
+/* Checks that transfer_all_npc_items() does not remove items from a living npc 
+   and transfer them to the room */
+Test(npc_battle, transfer_all_npc_items_alive)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
+    room_t *room = room_new("test_room", "room for testing",
+    "testing if memory is correctly allocated for new rooms");
+
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(test_item1, "item_new() 1 failed");
+    cr_assert_not_null(test_item2, "item_new() 2 failed");
+    cr_assert_not_null(room, "room_new() failed");
+
+    add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    add_item_to_npc(npc, test_item1);
+    add_item_to_npc(npc, test_item2);
+
+    cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
+    cr_assert_not_null(npc->inventory, "add_item_to_npc() failed to add item");
+
+    int rc = transfer_all_npc_items(npc, room);
+
+    cr_assert_eq(rc, FAILURE, "transfer_all_npc_items() failed");
+    cr_assert_null(room->items, 
+                       "transfer_all_npc_items() added room items");
+    cr_assert_not_null(npc->inventory, 
+                   "transfer_all_npc_items() removed npc items");
+
+}
+
+/* Checks that transfer_all_npc_items() works when the npc has an empty 
+   inventory */
+Test(npc_battle, transfer_all_npc_items_empty_inventory)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
+    room_t *room = room_new("test_room", "room for testing",
+    "testing if memory is correctly allocated for new rooms");
+
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(room, "room_new() failed");
+
+    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+
+    cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
+    cr_assert_null(npc->inventory, "npc->inventory not NULL");
+
+    int rc = transfer_all_npc_items(npc, room);
+
+    cr_assert_eq(rc, SUCCESS, "transfer_all_npc_items() failed");
+    cr_assert_null(room->items, 
+                       "transfer_all_npc_items() added room items");
+    cr_assert_null(npc->inventory, 
+                   "transfer_all_npc_items() still has npc items");
+
+}
