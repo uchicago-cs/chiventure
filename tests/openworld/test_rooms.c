@@ -40,7 +40,7 @@ Test(room, copy_book)
 /* testing make_default_room for school */
 Test(room, make_default_school)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     cr_assert_not_null(hash, "make_default_room failed");
 
     roomspec_t *r1, *r2, *r3, *r4, *r5, *r6;
@@ -92,7 +92,7 @@ Test(room, make_default_school)
 /* testing make_default_room for farmhouse */
 Test(room, make_default_farm)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     cr_assert_not_null(hash, "make_default_room failed");
 
     roomspec_t *r1, *r2, *r3, *r4, *r5, *r6;
@@ -144,7 +144,7 @@ Test(room, make_default_farm)
 /* testing make_default_room for castle */
 Test(room, make_default_castle)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     cr_assert_not_null(hash, "make_default_room failed");
 
     roomspec_t *r1, *r2, *r3, *r4, *r5, *r6;
@@ -197,7 +197,7 @@ Test(room, make_default_castle)
 /* testing make_default_room for undef bucket, bogus sh_desc, l_desc */
 Test(room, make_default_undef_bogus)
 {
-    roomspec_t *hash = make_default_room("pharmacy", "short bogus",
+    rspec_hash_t *hash = make_default_room("pharmacy", "short bogus",
                                          "long bogus");
     cr_assert_not_null(hash, "make_default_room failed");
 

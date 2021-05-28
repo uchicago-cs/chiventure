@@ -27,6 +27,10 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     signal(SIGINT, SIG_IGN);
 
     int ch;
+    int *quitval; 
+    quitval = malloc(sizeof(int));
+    *quitval = 1;
+    
 
     // starts curses mode
     setlocale(LC_ALL, "");
@@ -79,13 +83,12 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     wrefresh(info->w);
 
     // prints the score and number of moves in the info window
-    window_print(ctx, cli);
+    window_print(ctx, cli, quitval);
 
     // refreshes both windows to show the above changes
     wrefresh(cli->w);
-
     // sample game loop. uses ctrl+D key to exit
-    while ((ch = wgetch(cli->w)) != 4)
+    while ((ch = wgetch(cli->w)) != 4 && *quitval)
     {
 
         height = LINES / 2;
@@ -137,7 +140,7 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
         else if (isalnum(ch))
         {
             ungetch(ch);
-            window_print(ctx, cli);
+            window_print(ctx, cli, quitval);
 
         }
         curr_page = ui_ctx->curr_page;
@@ -170,6 +173,8 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
 
     // End curses mode
     endwin();
+
+    free(quitval);
 
     /* Free UI context */
     ui_ctx_free(ctx->ui_ctx);

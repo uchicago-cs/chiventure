@@ -5,7 +5,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR})
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
-find_package(LibYAML REQUIRED)
 find_package(JSON-C REQUIRED)
 find_package(LibZIP REQUIRED)
 
@@ -28,7 +27,11 @@ endif()
 find_package(raylib 3.0 QUIET)
 if (raylib_FOUND)
     message(STATUS "Found raylib: ${raylib_LIBRARY}")
+    add_compile_definitions(GUI_AVAILABLE)
 endif()
+
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
 
 set(CHIVENTURE_MODULES action_management battle cli common custom-actions game-state libobj quests sound npc openworld playerclass skilltrees ui wdl)
 

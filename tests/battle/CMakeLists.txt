@@ -9,6 +9,7 @@ add_executable(${TEST_EXE}
         test_battle_move_maker.c
         test_battle_print.c
         test_battle_state.c
+        test_battle_default_objects.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
