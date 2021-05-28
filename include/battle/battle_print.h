@@ -70,4 +70,17 @@ char *print_start_battle(battle_t *b);
  *
  */
 char *print_battle_winner(battle_status_t status, int xp);
+
+/*
+ * Stores the message to be printed at the start of the turn in the return
+ * string. Message prompts player to either use a move or item
+ *
+ * Parameters:
+ *  - b = pointer to the battle
+ *
+ * Returns:
+ *  - malloced string with the message about the turn
+ *
+ */
+char *print_start_turn(battle_t* b);
  #endif

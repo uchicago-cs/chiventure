@@ -102,3 +102,21 @@ char *print_battle_winner(battle_status_t status, int xp)
 
     return string;
 }
+
+/* see battle_print.h */
+char *print_start_turn(battle_t *b)
+{
+    char *enemy_name = b->enemy->name;
+    int player_hp = b->player->stats->hp;
+    int enemy_hp = b->enemy->stats->hp;
+
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+
+    snprintf(string, BATTLE_BUFFER_SIZE, "Your turn!\n\n");
+
+    print_hp(b, string);
+
+    snprintf(string, BATTLE_BUFFER_SIZE, "1: Use a Move\n2: Use an Item\n");
+
+    return string;
+}
