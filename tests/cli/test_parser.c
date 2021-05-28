@@ -30,7 +30,7 @@ void check_comparison(char* str, int size, char** expected_words)
             }
             else
             {
-                cr_assert_str_eq(temp->cmds, expected_words[i], "parse() did not create first token");
+                cr_assert_str_eq(temp->cmds, expected_words[i], "Expected token %i to be '%s', got '%s' instead", i, expected_words[i], temp->cmds);
             } 
         }
         i++;
@@ -56,7 +56,7 @@ Test(parse_r, single_input_r)
 Test(parse_r, two_words_r)
 {
     char* expecting_words[2];
-    expecting_words[0] = "LOOK";
+    expecting_words[0] = "LOOK ";
     expecting_words[1] = "PUSH";
     char str[] = "LOOK AND PUSH";
     check_comparison(str, 2, expecting_words);
@@ -66,8 +66,8 @@ Test(parse_r, two_words_r)
 Test(parse_r, three_words_r)
 {
     char* expecting_words[3];
-    expecting_words[0] = "LOOK";
-    expecting_words[1] = "PUSH";
+    expecting_words[0] = "LOOK ";
+    expecting_words[1] = "PUSH ";
     expecting_words[2] = "DESTROY";
     char str[] = "LOOK AND PUSH AND DESTROY";
     check_comparison(str, 3, expecting_words);
@@ -81,7 +81,7 @@ Test(parse_r, three_words_r)
 Test(parse_r, two_three_words)
 {
     char* expecting_words[2];
-    expecting_words[0] = "LOOK PUSH";
+    expecting_words[0] = "LOOK PUSH ";
     expecting_words[1] = "DESTROY";
     char str[] = "LOOK PUSH AND DESTROY";
     check_comparison(str, 2, expecting_words);
@@ -91,10 +91,10 @@ Test(parse_r, two_three_words)
 Test(parse_r, more_than_four_words)
 {
     char* expecting_words[5];
-    expecting_words[0] = "LOOK PUSH";
-    expecting_words[1] = "DESTROY";
-    expecting_words[2] = "EAT";
-    expecting_words[3] = "DRINK";
+    expecting_words[0] = "LOOK PUSH ";
+    expecting_words[1] = "DESTROY ";
+    expecting_words[2] = "EAT ";
+    expecting_words[3] = "DRINK ";
     expecting_words[4] = "SLEEP";
     char str[] = "LOOK PUSH AND DESTROY AND EAT AND DRINK AND SLEEP";
     check_comparison(str, 5, expecting_words);
@@ -104,10 +104,10 @@ Test(parse_r, more_than_four_words)
 Test(parse_r, multiple_ands)
 {
     char* expecting_words[5];
-    expecting_words[0] = "LOOK PUSH";
-    expecting_words[1] = "DESTROY";
-    expecting_words[2] = "EAT";
-    expecting_words[3] = "DRINK";
+    expecting_words[0] = "LOOK PUSH ";
+    expecting_words[1] = "DESTROY ";
+    expecting_words[2] = "EAT ";
+    expecting_words[3] = "DRINK ";
     expecting_words[4] = "SLEEP";
     char str[] = "LOOK PUSH AND AND DESTROY AND EAT AND DRINK AND AND AND SLEEP";
     check_comparison(str, 5, expecting_words);
