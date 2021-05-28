@@ -27,7 +27,6 @@ typedef struct room room_hash_t;
 typedef struct room_wrapped_for_llist room_list_t;
 typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
-typedef struct battle_ctx chiventure_ctx_battle_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game

@@ -5,6 +5,9 @@
 #include "game-state/mode.h"
 #include "cli/parser.h"
 #include "game-state/game.h"
+#include "battle/battle_flow.h"
+#include "battle/battle_logic.h"
+#include "battle/battle_print.h"
 
 
 /* see mode.h */
@@ -109,7 +112,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
 }
 
 /* see mode.h */
-int run_battle_mode(char *input, cli_callback callback_func, 
+int run_battle_mode (char *input, cli_callback callback_func, 
                           void *callback_args, chiventure_ctx_t *ctx)
 {
     char **parsed_input = parse(input);
@@ -117,8 +120,35 @@ int run_battle_mode(char *input, cli_callback callback_func,
     {
         return FAILURE;
     }
-    
-    //This is all we have so far
+
+    int rc;    
+    chiventure_ctx_battle_t *battle_ctx = ctx->game->battle_ctx;
+
+    if (strcmp(parsed_input[0], "Use") == 0) {
+        input += 4;
+        move_t *move = find_player_move(battle_ctx, input);
+
+        if (move == NULL) {
+            return callback_func(ctx, "That Move does not exist.", callback_args);
+        }
+
+        rc = battle_flow_move(battle_ctx, move, battle_ctx->game->battle->enemy->name);
+    } else if (strcmp(parsed_input[0], "Consume") == 0) {
+        input += 8;
+        battle_item_t *item = find_battle_item(battle_ctx->game->player->items, input);
+
+        if (item == NULL) {
+            return callback_func(ctx, "That Item does not exist.", callback_args);
+        }
+
+        rc = battle_flow_item(battle_ctx, item);
+    } else {
+        return callback_func(ctx, "Enter a valid battle command.", callback_args);
+    }
+
+    if (battle_ctx->status != BATTLE_IN_PROGRESS) {
+        char *battle_over = print_battle_winner (battle_ctx->status, 42);
+    }
 
     return SUCCESS;
 }
