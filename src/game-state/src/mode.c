@@ -5,6 +5,8 @@
 #include "game-state/mode.h"
 #include "cli/parser.h"
 #include "game-state/game.h"
+#include "battle/battle_flow.h"
+#include "battle/battle_logic.h"
 
 
 /* see mode.h */
@@ -130,7 +132,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
         }
 
         rc = battle_flow_move(battle_ctx, move, battle_ctx->game->battle->enemy->name);
-    } elseif (strcmp(parsed_input[0], "Consume") == 0) {
+    } else if (strcmp(parsed_input[0], "Consume") == 0) {
         input += 8;
         battle_item_t *item = find_battle_item(battle_ctx->game->player->items, input);
 
