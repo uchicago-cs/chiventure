@@ -54,8 +54,12 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
 
     /* we use buff for the room name instead */
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
-    /* instead of taking all the items, just take a few of them */
-    res->items = random_items(roomspec);
+    
+    item_hash_t *items = random_items(roomspec);
+    item_t *current, *tmp;
+    HASH_ITER(hh, items, current, tmp) {
+        add_item_to_room(res, current);
+    }
 
     res->paths = NULL;
     return res;
