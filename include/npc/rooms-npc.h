@@ -31,7 +31,7 @@ typedef struct npcs_in_room npcs_in_room_hash_t;
  * Initializes the struct that holds the npcs inside a certain room
  *
  * Parameters:
- *  npcs_in_room: the npcs in a certain room; must point to already 
+ *  npcs_in_room: the npcs in a certain room; must point to already
  *                allocated memory
  *  room: the room that the npc will start in
  *
@@ -55,6 +55,7 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
 
 /*
  * Frees resources associated with an npcs_in_room struct
+ * Deletes npc_list hashtable, but does not free npcs in hash table
  *
  * Parameters:
  *  npcs_in_room: The npcs_in_room struct to be freed
@@ -81,7 +82,7 @@ int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room);
  *
  * Parameters:
  *  npcs_in_room_t: Pointer to the npcs_in_room struct
- *  npc_t: Pointer to an NPC 
+ *  npc_t: Pointer to an NPC
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs or if NPC is already in the
@@ -93,12 +94,24 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  *
  * Parameters:
  *  npcs_in_room_t: Pointer to the npcs_in_room struct
- *  npc_t: Pointer to an NPC 
+ *  npc_t: Pointer to an NPC
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs or if NPC is not
  *      in the room
  */
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
+
+
+/* Moves an npc one step down its definite/indefinite path, deletes it from it's old room, and adds it to its new one
+ *
+ * Parameters:
+ *  npc_t: Pointer to an NPC
+ *  npcs_in_room_t: Pointers to the old and new npcs_in_room structs
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs or if NPC is cannot be moved
+ */
+int npc_one_move(npc_t *npc, npcs_in_room_t *old_npc_room, npcs_in_room_t *new_npc_room);
 
 #endif
