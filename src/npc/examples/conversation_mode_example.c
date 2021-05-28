@@ -89,7 +89,11 @@ convo_t *create_oak_conversation()
     return c;
 }
 
-/* Defines an CLI operation for talking to an npc */
+/*
+ * This monkey patch talk operation is replaced with the 
+ * operation now implemented in operations.h
+ */
+/* Defines an CLI operation for talking to an npc 
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     char *npc_id = "Oak"; //change to "Steve" for conversation with Steve.
@@ -106,6 +110,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     return str;
 }
+ */
 
 /*
  * Creates a chiventure context with a sample game and npc.
@@ -128,7 +133,7 @@ chiventure_ctx_t *create_sample_ctx()
      */
 
     /* Creating merchant npc */
-    char *npc_id = "Steve";
+    char *npc_id = "STEVE";
     npc_t *steve = npc_new(npc_id,
                          "Steve is a merchant.",
                          "Steve is the best merchant in town.",
@@ -138,9 +143,10 @@ chiventure_ctx_t *create_sample_ctx()
 
     add_convo_to_npc(steve, c);
     add_npc_to_game(game, steve);
+    add_npc_to_room(room2->npcs, steve);
 
     /* Create Professor oak */
-    char *oak_id = "Oak";
+    char *oak_id = "OAK";
     npc_t *oak = npc_new(oak_id, "Oak is a Pokemon Prof!",
                                  "Professor Oak studies Pokemon in Pallet Town",
                                  NULL, NULL, 0);
@@ -148,6 +154,7 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *starting_speech = create_oak_conversation();
     add_convo_to_npc(oak, starting_speech);
     add_npc_to_game(game, oak);
+    add_npc_to_room(room1->npcs, oak);
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
@@ -158,6 +165,7 @@ chiventure_ctx_t *create_sample_ctx()
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
+
 
     /* Monkeypatching in a talk action to support dialogue */
     add_entry("TALK", talk_operation, NULL, ctx->cli_ctx->table);

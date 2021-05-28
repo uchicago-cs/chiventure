@@ -4,6 +4,8 @@
 #include <unistd.h>
 
 #include "cli/operations.h"
+#include "npc/npc.h"
+#include "npc/dialogue.h"
 #include "ui/print_functions.h"
 #include "cli/shell.h"
 #include "wdl/load_game.h"
@@ -526,4 +528,38 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "The color palette has been changed";
     }
     return "I don't have that palette yet. You must make do with the current style.";
+}
+
+/* See cmd.h */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL || tokens[2] == NULL)
+    {
+        return "You must identify an NPC to talk to.";
+    }
+
+    int rc;
+
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[2]);
+
+    if (npc == NULL)
+    {
+        return "No one by that name wants to talk.";
+    }
+
+    if (npc->dialogue == NULL)
+    {
+        return "This person has nothing to say.";
+    }
+
+    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
+
+    assert(rc != -1); //checking for conversation error
+
+    if (rc == 0)
+    {
+        set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+    }
+
+    return str;
 }
