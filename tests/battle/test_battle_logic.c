@@ -377,7 +377,7 @@ Test(battle_logic, consume_an_battle_item)
  */
 Test(battle_logic, uses_battle_item_correctly)
 {
-    battle_item_t *head = NULL;
+   // battle_item_t *head = NULL;
     battle_item_t *i1;
     battle_item_t *i2;
 
@@ -388,6 +388,8 @@ Test(battle_logic, uses_battle_item_correctly)
     i1->hp = 10;
     i1->quantity = 1;
     i1->name = "item1";
+    i1->next = i2;
+    i1->prev = NULL;
 
     i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
@@ -396,15 +398,17 @@ Test(battle_logic, uses_battle_item_correctly)
     i2->hp = 20;
     i2->quantity = 2;
     i2->name = "item2";
-    DL_APPEND(head, i1);
-    DL_APPEND(head, i2);
+    i2->next = NULL;
+    i2->prev = i1;
+    //DL_APPEND(head, i1);
+    //DL_APPEND(head, i2);
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 15;
     pstats->max_hp = 25;
     pstats->defense = 15;
     pstats->strength = 15;
-    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head, BATTLE_AI_NONE);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
     int res = use_battle_item(p, "item1");

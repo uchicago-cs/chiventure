@@ -80,7 +80,7 @@ int print_battle_result(chiventure_ctx_battle_t *ctx, move_t *player_move)
  * Returns:
  *  Always SUCCESS
  */ 
-int print_moves(chiventure_ctx_battle_t *ctx)
+int print_moves2(chiventure_ctx_battle_t *ctx)
 {
     move_t *temp;
     printf("\nMOVES LIST:\n");
@@ -97,7 +97,7 @@ int print_moves(chiventure_ctx_battle_t *ctx)
  * Returns:
  *  Always SUCCESS
  */ 
-int print_battle_items(chiventure_ctx_battle_t *ctx)
+int print_battle_items2(chiventure_ctx_battle_t *ctx)
 {
     battle_item_t *temp;
     printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
@@ -163,7 +163,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as MOVE LIST\n\n");
-        res = print_moves(ctx);
+        res = print_moves2(ctx);
         printf("\n");
         return res;
     }
@@ -172,7 +172,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as ITEM LIST\n\n");
-        res = print_battle_items(ctx);
+        res = print_battle_items2(ctx);
         printf("\n");
         return res;
     }
