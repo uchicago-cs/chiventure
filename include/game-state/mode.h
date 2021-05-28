@@ -93,6 +93,18 @@ int game_mode_free(game_mode_t *mode);
  */
 int load_normal_mode(game_t *g);
 
+/*
+ * Sets game's already allocated mode struct to the specified mode.
+ *
+ * Parameters:
+ * g: the game pointer
+ * curr_mode: the mode_type to switch to
+ * mode_ctx: identifier for mode's context
+ *
+ * Returns:
+ * SUCCESS if mode successfully set, FAILURE if an error occurs
+ */
+int set_game_mode(game_t *g, mode_type_t curr_mode, char *mode_ctx);
 
 /*
  * Mode operation function for conversation mode.
