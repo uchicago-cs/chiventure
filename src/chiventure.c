@@ -95,9 +95,14 @@ int main(int argc, char **argv)
     /* Add calls to component-specific initializations here */
 
     if (graphical)
-    {   
-        /*If graphical is true the user will be using GUI*/
-        start_gui(ctx);
+    {  
+	#ifdef GUI_AVAILABLE
+            /*If graphical is true the user will be using GUI*/
+    	    run_gui(ctx);
+	#else
+    	    fprintf(stderr, "Cannot run GUI because chiventure was built without graphics support.\n");
+    	    exit(1);
+	#endif
     }
     else 
     {
@@ -121,6 +126,8 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+
 
 
 
