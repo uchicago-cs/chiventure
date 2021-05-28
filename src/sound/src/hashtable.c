@@ -1,10 +1,3 @@
-
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <assert.h>
-#include <math.h>
-#include "common/uthash.h"
 #include "sound/sound.h"
 
 sound_t *users = NULL;

@@ -7,7 +7,7 @@
 #include <assert.h>
 #include <math.h>
 #include "common/uthash.h"
-#include "SDL/SDL.h"
+#include "SDL.h"
 #include "SDL_mixer.h"
 #include "SDL_ttf.h"
 #include "SDL_image.h"
@@ -17,6 +17,8 @@ typedef enum {BACKGROUND, SOUND_EFFECT} SoundType;
 
 /* This represents our sound data structure */
  typedef struct{
+     // type of sound
+     SoundType type;
      // name of sound
      char* name;
      // wav file information
