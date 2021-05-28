@@ -502,6 +502,7 @@ Test(battle_logic, award_xp)
 Test(stat_changes, add_item_node)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
@@ -556,6 +557,7 @@ Test(battle_logic, remove_single_item)
 
 Test(battle_logic, remove_item_of_multiple)
 {
+    
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
