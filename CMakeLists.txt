@@ -30,6 +30,9 @@ if (raylib_FOUND)
     add_compile_definitions(GUI_AVAILABLE)
 endif()
 
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
+
 set(CHIVENTURE_MODULES action_management battle cli common custom-actions game-state libobj quests sound npc openworld playerclass skilltrees ui wdl)
 
 list(APPEND CHIVENTURE_MODULES ${OPTIONAL_MODULES})
