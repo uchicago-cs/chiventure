@@ -117,39 +117,53 @@ char *print_start_turn(battle_t *b)
     print_hp(b, string);
 
     snprintf(string, BATTLE_BUFFER_SIZE, "To use a Move, type 'Use [insert move name here]'\n");
-    int moves = print_moves(b);
+    snprintf(string, BATTLE_BUFFER_SIZE, print_moves(b));
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use an Item, type 'Consume [insert item name here]'\n");
-    int items = print_battle_items(b);
+    snprintf(string, BATTLE_BUFFER_SIZE, print_battle_items(b));
 
     return string;
 }
 
 /* see battle_print.h */
-int print_moves(battle_t *b)
+char *print_moves(battle_t *b)
 {
     move_t *temp;
-    printf("\nMOVES LIST:\n");
+    
+    char *moves = "\nMOVES LIST:\n";
     DL_FOREACH(b->player->moves, temp)
     {
-        printf("%s\n", temp->info);
+        strcat(moves, temp->info);
+        strcat(moves, "\n");
     }
-    return SUCCESS;
+    return moves;
 }
 
 /* see battle_print.h */
-int print_battle_items(battle_t *b)
+char *print_battle_items(battle_t *b)
 {
     battle_item_t *temp;
-    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
+    char *items = "\nAVAILABLE BATTLE ITEMS LIST:\n";
     DL_FOREACH(b->player->items, temp)
     {
-        printf("Name: %s\n", temp->name);
-        printf("ID: %d\n", temp->id);
-        printf("Description: %s\n", temp->description);
-        printf("Quantity: %d\n", temp->quantity);
-        printf("Attack: %d, Defense: %d, HP: %d\n", 
-                temp->attack, temp->defense, temp->hp);
+        strcat(items, "Name: ");
+        strcat(items, temp->name);
+        strcat(items, "\n");
+        strcat(items, "ID: ");
+        strcat(items, temp->id);
+        strcat(items, "\n");
+        strcat(items, "Description: ");
+        strcat(items, temp->description);
+        strcat(items, "\n");
+        strcat(items, "Quantity: ");
+        strcat(items, temp->quantity);
+        strcat(items, "\n");
+        strcat(items, "Attack: ");
+        strcat(items, temp->attack);
+        strcat(items, ", Defense: ");
+        strcat(items, temp->defense);
+        strcat(items, ", HP: ");
+        strcat(items, temp->hp);
     }
-    return SUCCESS;
+    return items;
 }
