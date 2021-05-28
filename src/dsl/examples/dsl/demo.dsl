@@ -3,8 +3,6 @@
 
 # A game in a tower starting from the ground level. 
 # The goal is to pick up the DSL file for Chiventure.
-# You are currently inside a room with a locked door, so you must first figure out
-# how to unlock the door first. 
 
 
 GAME START lobby END computer lab
