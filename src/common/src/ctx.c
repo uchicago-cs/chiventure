@@ -60,7 +60,7 @@ int chiventure_ctx_free(chiventure_ctx_t *ctx)
     assert(ctx != NULL);
 
     /* Add calls to component-specific freeing functions here */
-    free_cli_ctx(ctx->cli_ctx);
+    assert(free_cli_ctx(ctx->cli_ctx) == SUCCESS);
     free(ctx);
 
     return SUCCESS;
