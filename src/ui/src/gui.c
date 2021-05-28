@@ -112,13 +112,7 @@ void run_gui(chiventure_ctx_t *ctx)
         /* Loading just one image is a temporary solution
          In the future, we will use a more generic path so that we can load
          game-specific images */
-        char filename[100] = "../../../../src/ui/examples/";
-
-        strcat(filename, ctx->game->curr_room->room_id);
-
-      	strcat(filename, ".png");
-
-        Image room = LoadImage(filename);   
+        Image room = LoadImage("../src/ui/src/chiventure.png");      
 
         ImageResize(&room, width, height);
             
