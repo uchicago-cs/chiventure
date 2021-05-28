@@ -111,6 +111,9 @@ npc_mov_t* m = generate_test_npc_mov();
 npc_t* npc = npc_new("friendly", "friendly npc", "friendly npc", c, m,
 true);
 
+stat_t* stats = create_enemy_stats();
+move_t* moves = create_enemy_moves();
+
 add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
 CONDITIONAL_FRIENDLY, 99);
 }
@@ -122,6 +125,9 @@ class_t* c = generate_test_class();
 npc_mov_t* m = generate_test_npc_mov();
 npc_t* npc = npc_new("hostile", "hostile npc", "hostile npc", c, m,
 true);
+
+stat_t* stats = create_enemy_stats();
+move_t* moves = create_enemy_moves();
 
 add_battle_to_npc(npc, 10, stats, moves, BATTLE_AI_GREEDY,
 HOSTILE, 0);
