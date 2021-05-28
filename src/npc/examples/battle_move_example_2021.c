@@ -22,7 +22,7 @@ const char *banner =
     "     |     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  |\n"
     "     |     _________________________________________________________________________________|_____\n"
     "     |    /                                                                                      /\n"
-    "     |   /                         EXAMPLE PROGRAM - NPC_1 TEAM                                 /\n"
+    "     |   /                         EXAMPLE PROGRAM - NPC_1 TEAM 2021                            /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
 /* Creates a sample convo */
@@ -102,12 +102,21 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to check items.\n";
     }
+
     npc_t *npc_tmp, *npc_elt;
+    int i = 0;
     HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
-    {
+    {   
+        i++;
         print_to_cli(ctx, npc_elt->npc_id);
     }
-    return "These are the NPCs in the room";
+
+    if (i >= 1) {
+        return "These are the NPCs in the room";
+    }
+    else {
+        return "There are no NPC in the room";
+    }
 }
 
 /* Creates a sample in-memory game */
