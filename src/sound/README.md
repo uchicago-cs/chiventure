@@ -1,0 +1,3 @@
+Residual Backlog Issues from Sound Team Spring 2021:
+Implement play/load sound function:
+Play sound within src/sound/sound.c appears to be working, but the sound_init() function does not incorporate the given variables correctly. This doesn’t seem to be an issue when playing a sound, so perhaps sound_init() is unnecessary. Additionally, to play the sound we are able to use SDL_OpenAudioDevice(), SDL_QueueAudio(), SDL_delay() functionally while also ending and closing the sound file with SDL_CloseAudioDevice(), SDL_FreeWAV(), and SDL_Quit().
