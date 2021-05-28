@@ -7,6 +7,7 @@
 #include "game-state/game.h"
 #include "battle/battle_flow.h"
 #include "battle/battle_logic.h"
+#include "battle/battle_print.h"
 
 
 /* see mode.h */
