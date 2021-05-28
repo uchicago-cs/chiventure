@@ -86,17 +86,17 @@ char *print_start_turn(battle_t* b);
 
 /* Prints out the avaliable battle_items for the player
  * Parameter:
- *  ctx: the main structure of the game
+ *  - b = pointer to the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int print_battle_items(chiventure_ctx_battle_t *ctx);
+int print_battle_items(battle_t *b);
 
 /* Prints out the avaliable moves for the player
  * Parameter:
- *  ctx: the main structure of the game
+ *  - b = pointer to the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int print_moves(chiventure_ctx_battle_t *ctx);
+int print_moves(battle_t *b);
  #endif
