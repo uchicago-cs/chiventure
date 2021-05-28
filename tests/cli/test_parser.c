@@ -48,7 +48,8 @@ Test(parse_r, single_input_r)
 {
     char* expecting_words[1];
     expecting_words[0] = "LOOK";
-    check_comparison("LOOK", 1, expecting_words);
+    char str[] = "LOOK";
+    check_comparison(str, 1, expecting_words);
 }
 
 //Tests the parsing of an input of 2 words connected by AND which should return the 2 words.
@@ -57,7 +58,8 @@ Test(parse_r, two_words_r)
     char* expecting_words[2];
     expecting_words[0] = "LOOK";
     expecting_words[1] = "PUSH";
-    check_comparison("LOOK AND PUSH", 2, expecting_words);
+    char str[] = "LOOK AND PUSH";
+    check_comparison(str, 2, expecting_words);
 }
 
 //Tests the parsing of an input of 3 words connected by AND which should return 3 words.
@@ -67,7 +69,8 @@ Test(parse_r, three_words_r)
     expecting_words[0] = "LOOK";
     expecting_words[1] = "PUSH";
     expecting_words[2] = "DESTROY";
-    check_comparison("LOOK AND PUSH AND DESTROY", 3, expecting_words);
+    char str[] = "LOOK AND PUSH AND DESTROY";
+    check_comparison(str, 3, expecting_words);
 }
 
 /*
@@ -80,20 +83,21 @@ Test(parse_r, two_three_words)
     char* expecting_words[2];
     expecting_words[0] = "LOOK PUSH";
     expecting_words[1] = "DESTROY";
-    check_comparison("LOOK PUSH AND DESTROY", 2, expecting_words);
+    char str[] = "LOOK PUSH AND DESTROY";
+    check_comparison(str, 2, expecting_words);
 }
 
 //Tests the parsing of an input of words more than the TOKEN_LIST_SIZE connected by AND.
 Test(parse_r, more_than_four_words)
 {
-    
     char* expecting_words[5];
     expecting_words[0] = "LOOK PUSH";
     expecting_words[1] = "DESTROY";
     expecting_words[2] = "EAT";
     expecting_words[3] = "DRINK";
     expecting_words[4] = "SLEEP";
-    check_comparison("LOOK PUSH AND DESTROY AND EAT AND DRINK AND SLEEP", 5, expecting_words);
+    char str[] = "LOOK PUSH AND DESTROY AND EAT AND DRINK AND SLEEP";
+    check_comparison(str, 5, expecting_words);
 }
 
 //Tests the parsing of input with many "AND" between each word.
@@ -105,7 +109,8 @@ Test(parse_r, multiple_ands)
     expecting_words[2] = "EAT";
     expecting_words[3] = "DRINK";
     expecting_words[4] = "SLEEP";
-    check_comparison("LOOK PUSH AND AND DESTROY AND EAT AND DRINK AND AND AND SLEEP", 5, expecting_words);
+    char str[] = "LOOK PUSH AND AND DESTROY AND EAT AND DRINK AND AND AND SLEEP";
+    check_comparison(str, 5, expecting_words);
 }
 
 
