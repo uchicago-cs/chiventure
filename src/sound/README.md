@@ -36,6 +36,14 @@ int play_sound(sound_t *sound);
 
 ## Sandbox Demo
 Sandbox demo plays the sound file differently to the current sound module. There are multiple ways of playing sound using SDL library, and it would be the next team's task to modularize it effectively. Within the sound.h file, there are demo load and play functions that use the provided library functions from SDL2 and SDL2 mixer. 
+From the sandbox directory, you can run 
+```
+make clean
+make
+./demo
+```
+
+This should build a demo program that opens a window. Once the window opens, background music will play. Anytime key 1 is pressed, a sword slash effect will be played. Pressing q will pause the background music and play a music chunk of Wap by Cardi B. 
 
 
 ## Major Drawbacks
