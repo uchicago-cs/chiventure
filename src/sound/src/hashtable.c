@@ -23,11 +23,11 @@ sound_t *find_user(int user_id) {
 int main(){
     sound_t* sound;
     sound->id = 1;
-    sound->duration = 5;
+    sound->wavLength = 5;
     add_user(sound->id, "first");
     sound_t* rv = find_user(sound->id);
     printf("%d", rv->id);
-    printf("%f", rv->duration);
+    printf("%f", rv->wavLength);
 }
 
 
