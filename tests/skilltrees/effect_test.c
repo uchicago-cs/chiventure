@@ -10,7 +10,7 @@
 /* Creating a context object and some basic hash tables so that we can test our functions.
    Also adding a player to the ctx object. */
 
-chiventure_ctx_t* create_player_and_stats (){
+chiventure_ctx_t* create_player_and_stats() {
     /* Creation of things to be used for testing */
     game_t* game = game_new("TEST GAME");
     chiventure_ctx_t* ctx = chiventure_ctx_new(game);
