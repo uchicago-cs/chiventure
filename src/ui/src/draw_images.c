@@ -20,10 +20,10 @@ void draw_room_gui(int width, int height, int pos_x, int pos_y, room_t *curr_roo
         
     ImageResize(&room, width, height);
 
-    // Image converted to texture, uploaded to GPU memory (VRAM)
+    /* Image converted to texture, uploaded to GPU memory (VRAM) */
     Texture2D texture = LoadTextureFromImage(room);
     
-    // Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM
+    /* Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM */
     UnloadImage(room);   
 
     DrawTexture(texture, pos_x, pos_y, WHITE);
@@ -54,23 +54,23 @@ void draw_map(int width, int height, room_t *curr_room)
     colors[6] = ORANGE;
     colors[7] = DARKGREEN;
 
-    // map background
+    /* map background */
     DrawRectangle(map_topX, map_topY, map_width, map_height, BLACK);
 
     int posX = map_topX + map_width / 2 - map_room_width / 2;
     int posY = map_topY + map_height / 2 - map_room_height / 2;
-    // current room
+    /* draw current room */
     DrawRectangle(posX, posY, map_room_width, map_room_height, colors[0]);
 
-    //draw surrounding rooms around current room
+    /* draw surrounding rooms around current room */
     if (find_room_from_dir(curr_room, "EAST") != NULL)
     {
         int tempX = posX + map_room_width;
         DrawRectangle(tempX, posY, map_room_width, map_room_height, colors[1]);
 
         room_t *east = find_room_from_dir(curr_room, "EAST");
-        // draw rooms above and below the room that is east of the current room
-        // northeast and southeast rooms to the current room
+        /* draw rooms above and below the room that is east of the current room
+        northeast and southeast rooms to the current room */
         if (find_room_from_dir(east, "NORTH") != NULL)
         {
             int tempY = posY - map_room_height;
@@ -88,8 +88,8 @@ void draw_map(int width, int height, room_t *curr_room)
         DrawRectangle(tempX, posY, map_room_width, map_room_height, colors[2]);
 
         room_t *west = find_room_from_dir(curr_room, "WEST");
-        // draw rooms above and below the room that is west of the current room
-        // northwest and southwest rooms to the current room
+        /* draw rooms above and below the room that is west of the current room
+        northwest and southwest rooms to the current room */
         if (find_room_from_dir(west, "NORTH") != NULL)
         {
             int tempY = posY - map_room_height;
@@ -107,8 +107,8 @@ void draw_map(int width, int height, room_t *curr_room)
         DrawRectangle(posX, tempY, map_room_width, map_room_height, colors[3]);
 
         room_t *south = find_room_from_dir(curr_room, "SOUTH");
-        // draw rooms next to the room that is south of the current room
-        // southeast and southwest rooms to the current room
+        /* draw rooms next to the room that is south of the current room
+        southeast and southwest rooms to the current room */
         if (find_room_from_dir(south, "EAST") != NULL)
         {
             int tempX = posX + map_room_width;
@@ -126,8 +126,8 @@ void draw_map(int width, int height, room_t *curr_room)
         DrawRectangle(posX, tempY, map_room_width, map_room_height, colors[4]);
 
         room_t *north = find_room_from_dir(curr_room, "NORTH");
-        // draw rooms next to the room that is north of the current room
-        // northeast and northwest rooms to the current room
+        /* draw rooms next to the room that is north of the current room
+        northeast and northwest rooms to the current room */
         if (find_room_from_dir(north, "WEST") != NULL)
         {
             int tempX = posX + map_room_width;
@@ -140,7 +140,7 @@ void draw_map(int width, int height, room_t *curr_room)
         }
     }
 
-    //draws player position as ball in the middle of map screen and inside current room
+    /* draws player position as ball in the middle of map screen and inside current room */
     DrawCircle(map_topX + map_width / 2, map_topY + map_height / 2, ball_rad, WHITE);
 }
 
