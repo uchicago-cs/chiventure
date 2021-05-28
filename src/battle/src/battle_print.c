@@ -150,20 +150,30 @@ char *print_battle_items(battle_t *b)
         strcat(items, temp->name);
         strcat(items, "\n");
         strcat(items, "ID: ");
-        strcat(items, temp->id);
+        char *id;
+        itoa(temp->id, id, 10);
+        strcat(items, id);
         strcat(items, "\n");
         strcat(items, "Description: ");
         strcat(items, temp->description);
         strcat(items, "\n");
         strcat(items, "Quantity: ");
-        strcat(items, temp->quantity);
+        char *quantity;
+        itoa(temp->quantity, id, 10);
+        strcat(items, quantity);
         strcat(items, "\n");
         strcat(items, "Attack: ");
-        strcat(items, temp->attack);
+        char *attack;
+        itoa(temp->attack, attack, 10);
+        strcat(items, attack);
+        char *defense;
+        itoa(temp->defense, defense, 10);
         strcat(items, ", Defense: ");
-        strcat(items, temp->defense);
+        strcat(items, defense);
+        char *hp;
+        itoa(temp->hp, hp, 10);
         strcat(items, ", HP: ");
-        strcat(items, temp->hp);
+        strcat(items, hp);
     }
     return items;
 }
