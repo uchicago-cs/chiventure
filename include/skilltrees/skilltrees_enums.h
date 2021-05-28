@@ -13,7 +13,6 @@ typedef enum sid {
 
     // Example 4
     INNER_PEACE = 1003,
-
 } sid_t;
 
 /* Skill type */
