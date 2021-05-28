@@ -61,7 +61,30 @@ char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   return str;
 }
 
-
+void print_player(player_t *player, int specific_field)
+{
+    char *lvl_str;
+    char *xp_str;
+    // 0 is for player_id
+    if (specific_field == 0)
+    {
+        printf(player->player_id);
+        // 1 is for level
+    } elseif (specific_field == 1) {
+        sprintf(lvl_str, "%d", player->level);
+        printf(lvl_str);
+        // 2 is for xp
+    } elseif (specific_field == 2) {
+        sprintf(xp_str, "%d", player->xp);
+        printf(xp_str);
+        // 3 is for playe_race
+    } elseif (specific_field == 3) {
+        printf(player->player_race);
+        // 4 v
+    } elseif (specific_field == 4) {
+        
+    }
+}
 
 int main(int argc, char **argv)
 {
