@@ -9,7 +9,7 @@
   "ROOMS": {
     "computer lab": {
       "short_desc": "A computer lab.",
-      "long_desc": "A computer lab with a row of computers that are all turned off except the last one on the right. It seems like someone was here recently.",
+      "long_desc": "A computer lab with only one computer. It has been turned off.",
       "connections": [
         {
           "direction": "EAST",
@@ -105,7 +105,7 @@
       "actions": [
         {
           "action": "TURNON",
-          "text_success": "You found the DSL file! Congrats",
+          "text_success": "You found the DSL file!",
           "text_fail": "You\u00e2\u0080\u0099re not interested in the contents of the files. It looks boring anyways."
         }
       ],
