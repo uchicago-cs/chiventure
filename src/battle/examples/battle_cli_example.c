@@ -72,7 +72,9 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // prints the beginning of the battle 
     char *start = print_start_battle(battle_ctx->game->battle);
+    callback_func(ctx, "%s", start, callback_args);
     char *turn_start = print_start_turn(battle_ctx->game->battle);
+    callback_func(ctx, "%s", turn_start, callback_args);
 
     if (!rc)
     {
