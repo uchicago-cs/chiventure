@@ -55,22 +55,50 @@ char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
   attribute_t **args = malloc(sizeof(attribute_t*) *3);
   attribute_t *dmgIncrease = malloc(sizeof(attribute_t));
+  attribute_t *dmgCap = malloc(sizeof(attribute_t));
   char *name = "Dmg";
-  attribute_value_t a1;
+  attribute_value_t a1, a2;
   a1.int_val = 3;
+  a2.int_val = 15;
   dmgIncrease->attribute_key = strdup(name);
   dmgIncrease->attribute_tag = INTEGER;
   dmgIncrease->attribute_value = a1;
+
+  dmgCap->attribute_key = strdup(name);
+  dmgCap->attribute_tag = INTEGER;
+  dmgCap->attribute_value = a2;
 
   attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "A sword"), "Dmg");
   args[0] = dmgIncrease;
   args[1] = wepDmg;
   args[2] = wepDmg;
   AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
-  custom_action_t *CA = custom_action_new("damage increase", "item", "A sword", "action", actDmg);
+
+  attribute_t **args2 = malloc(sizeof(attribute_t*) * 3);
+  args2[0] = wepDmg;
+  args2[1] = wepDmg;
+  args2[2] = wepDmg;
+  AST_block_t *actDmg2 = AST_action_block_new(ADDITION, 3, args2);
+
+  AST_block_t **actions = malloc(sizeof(AST_block_t*) * 2);
+  actions[0] = actDmg2;
+  actions[1] = actDmg;
   
+  conditional_block_t *cond = conditional_block_new(LTB, wepDmg, dmgCap);
+  
+  AST_block_t *branch = AST_branch_block_new(1, &cond, IFELSE, 2, actions);
+  custom_action_t *CA = custom_action_new("damage increase", "item", "A sword", "action", branch);
+
   do_custom_action(CA);
-  return "Damage Raised";
+  char *str = malloc(sizeof(char) * 128);
+  custom_action_free(CA);
+  attribute_free(dmgCap);
+  attribute_free(dmgIncrease);
+  free(args);
+  free(args2);
+  free(actions);
+  sprintf(str, "Your damage is now %d", wepDmg->attribute_value.int_val);
+  return str;
 }
 
 char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -150,7 +178,7 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
     char *name = "Dmg";
     attribute_value_t a1;
-    a1.int_val = 30;
+    a1.int_val = 7;
     
     attribute_t *wepDmg = malloc(sizeof(attribute_t));
     wepDmg->attribute_key = strdup(name);
