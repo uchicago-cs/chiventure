@@ -1,32 +1,33 @@
 #ifndef DRAW_IMAGES_H
 #define DRAW_IMAGES_H
 
-#include "common/ctx.h"
-#include "ui/ui_ctx.h"
+#include "game-state/room.h"
 
-
-/* draw_room
+/* draw_room_gui
  * Draws a room based on its room number for the split screen in chiventure
  *
  * Parameters:
+ *    - width: integer that defines the width of the split screen
+ *    - height: integer that defines the height of the split screen
  *    - pos_x: integer that defines the x-coordinate of the center of the image
  *    - pos_y: integer that defines the x-coordinate of the center of the image
- *    - room_number: integer that defines the room
- *    - room_number: integer that defines the room
+ *    - curr_room: room_t that defines the current room the player is in
  *
  * No value is returned
  */
-void draw_room_gui(int width, int height, int pos_x, int  pos_y, room_t *curr_room);
-/* draw_object
- * Draws an object based on its item ID
+void draw_room_gui(int width, int height, int pos_x, int pos_y, room_t *curr_room);
+
+/* draw_map
+ * Draws the map in the top left corner of the split screen that updates the center room
+ * when the player moves rooms
  *
  * Parameters:
- *    - item_id: a string that defines each item
+ *    - width: integer that defines the width of the split screen
+ *    - height: integer that defines the height of the split screen
+ *    - curr_room: room_t that defines the current room the player is in
  *
  * No value is returned
  */
-void draw_object(char *item_id);
-
 void draw_map(int width, int height, room_t *curr_room);
 
 #endif
