@@ -12,6 +12,7 @@
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
+    command_name = case_insensitize2(command_name);
     lookup_t *t = malloc(sizeof(lookup_t));
     char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
     strcpy(newname, command_name);
@@ -109,18 +110,18 @@ int lookup_t_init(lookup_t **t)
 {
     assert(t != NULL);
 
-    add_entry("quit", quit_operation, NULL, t);
-    add_entry("help", help_operation, NULL, t);
-    add_entry("hist", hist_operation, NULL, t);
-    add_entry("credits", credits_operation, NULL, t);
-    add_entry("look",look_operation, NULL, t);
-    add_entry("inv", inventory_operation, NULL, t);
-    add_entry("map", map_operation, NULL, t);
-    add_entry("switch", switch_operation, NULL, t);
-    add_entry("load_wdl", load_wdl_operation, NULL, t);
-    add_entry("name", name_operation, NULL, t);
-    add_entry("palette", palette_operation, NULL, t);
-    add_entry("items", items_in_room_operation, NULL, t);
+    add_entry("QUIT", quit_operation, NULL, t);
+    add_entry("HELP", help_operation, NULL, t);
+    add_entry("HIST", hist_operation, NULL, t);
+    add_entry("CREDITS", credits_operation, NULL, t);
+    add_entry("LOOK",look_operation, NULL, t);
+    add_entry("INV", inventory_operation, NULL, t);
+    add_entry("MAP", map_operation, NULL, t);
+    add_entry("SWITCH", switch_operation, NULL, t);
+    add_entry("LOAD_WDL", load_wdl_operation, NULL, t);
+    add_entry("NAME", name_operation, NULL, t);
+    add_entry("PALETTE", palette_operation, NULL, t);
+    add_entry("ITEMS", items_in_room_operation, NULL, t);
 
     add_action_entries(t);
 
