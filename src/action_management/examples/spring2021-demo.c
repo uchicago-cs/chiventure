@@ -7,7 +7,23 @@
 #include "game-state/game.h"
 #include "../src/custom-actions/include/interface.h"
 
-const char *banner = "This is the 2021 Action-Management team demo";
+/* This demo uses monkeypatching to showcase changes to custom-actions
+and the player module */
+
+
+/* Ascii art generated from 
+https://patorjk.com/software/taag/#p=display&h=2&v=0&f=Poison&t=Actn-Mgmt%0A */
+const char *banner =   
+"\n\n @@@@@@    @@@@@@@  @@@@@@@  @@@  @@@             @@@@@@@@@@    @@@@@@@@  @@@@@@@@@@   @@@@@@@  \n"
+"@@@@@@@@  @@@@@@@@  @@@@@@@  @@@@ @@@             @@@@@@@@@@@  @@@@@@@@@  @@@@@@@@@@@  @@@@@@@  \n"
+"@@!  @@@  !@@         @@!    @@!@!@@@             @@! @@! @@!  !@@        @@! @@! @@!    @@!    \n"
+"!@!  @!@  !@!         !@!    !@!!@!@!             !@! !@! !@!  !@!        !@! !@! !@!    !@!    \n"
+"@!@!@!@!  !@!         @!!    @!@ !!@!  @!@!@!@!@  @!! !!@ @!@  !@! @!@!@  @!! !!@ @!@    @!!    \n"
+"!!!@!!!!  !!!         !!!    !@!  !!!  !!!@!@!!!  !@!   ! !@!  !!! !!@!!  !@!   ! !@!    !!!    \n"
+"!!:  !!!  :!!         !!:    !!:  !!!             !!:     !!:  :!!   !!:  !!:     !!:    !!:    \n"
+":!:  !:!  :!:         :!:    :!:  !:!             :!:     :!:  :!:   !::  :!:     :!:    :!:    \n"
+"::   :::   ::: :::     ::     ::   ::             :::     ::    ::: ::::  :::     ::      ::    \n"
+" :   : :   :: :: :     :     ::    :               :      :     :: :: :    :      :       :  \n";
 
 
 /* Creates a sample in-memory game */
@@ -23,6 +39,10 @@ chiventure_ctx_t *create_sample_ctx()
   game->curr_room = room1;
   create_connection(game, "room1", "room2", "NORTH");
 
+
+  player_t *player = player_new("test");
+  add_player_to_game(game, player);
+  game->curr_player = player;
 
   /* Create context */
   chiventure_ctx_t *ctx = chiventure_ctx_new(game);
@@ -42,12 +62,12 @@ char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   dmgIncrease->attribute_tag = INTEGER;
   dmgIncrease->attribute_value = a1;
 
-  attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "7"), "Dmg");
+  attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "A sword"), "Dmg");
   args[0] = dmgIncrease;
   args[1] = wepDmg;
   args[2] = wepDmg;
   AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
-  custom_action_t *CA = custom_action_new("damage increase", "item", "7", "action", actDmg);
+  custom_action_t *CA = custom_action_new("damage increase", "item", "A sword", "action", actDmg);
   
   do_custom_action(CA);
   return "Damage Raised";
@@ -55,35 +75,74 @@ char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "7"), "Dmg")->attribute_value.int_val;
+  int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "A sword"), "Dmg")->attribute_value.int_val;
   char *str;
   sprintf(str, "%d", num);
   return str;
 }
 
-void print_player(player_t *player, int specific_field)
+char *print_player_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    char *lvl_str;
-    char *xp_str;
-    // 0 is for player_id
-    if (specific_field == 0)
+    player_t *player = ctx->game->curr_player;
+    char *str;
+
+    double strength = player_get_stat_current(player, "strength");
+
+    if (strength == -1)
     {
-        printf(player->player_id);
-        // 1 is for level
-    } elseif (specific_field == 1) {
-        sprintf(lvl_str, "%d", player->level);
-        printf(lvl_str);
-        // 2 is for xp
-    } elseif (specific_field == 2) {
-        sprintf(xp_str, "%d", player->xp);
-        printf(xp_str);
-        // 3 is for playe_race
-    } elseif (specific_field == 3) {
-        printf(player->player_race);
-        // 4 v
-    } elseif (specific_field == 4) {
-        
+        return "To you, strength is a foreign concept.";
+    } else
+    {
+        sprintf(str, "Your strength is %.2f.", strength);
+
+        return str;
     }
+}
+
+char *learn_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    player_t *player = ctx->game->curr_player;
+
+    double strength = player_get_stat_current(player, "strength");
+    if (strength != -1)
+    {
+        return "You already have the strength stat.";
+    }
+
+
+    stats_global_t *strength_stat = stats_global_new("strength", 100);
+    stats_t *s = stats_new(strength_stat, 100);
+
+    int added = player_add_stat(player, s);
+
+    return "Knowledge is power. You now have the strength stat.";
+}
+
+char *change_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL)
+    {
+        return "Please give a strength value.";
+    }
+
+    char *str = malloc(100);
+    player_t *player = ctx->game->curr_player;
+
+    double strength = player_get_stat_current(player, "strength");
+
+    if (strength == -1)
+    {
+        return "You do not know strength.";
+    }
+
+    double change = atoi(tokens[1]) + 0.0;
+
+    int rc = player_change_stat(player, "strength", change);
+    strength = player_get_stat_current(player, "strength");
+
+    sprintf(str, "You have gained %.2f strength.", change);
+
+    return str;
 }
 
 int main(int argc, char **argv)
@@ -97,13 +156,17 @@ int main(int argc, char **argv)
     wepDmg->attribute_key = strdup(name);
     wepDmg->attribute_tag = INTEGER;
     wepDmg->attribute_value = a1;
-    item_t *sword = item_new("7", "A sword", "A sword");
+    item_t *sword = item_new("A sword", "A sword", "A sword");
     add_attribute_to_hash(sword, wepDmg);
     add_item_to_player(ctx->game->curr_player, sword);
  
     add_entry("SEEDMG", seeDmg, NULL, ctx->table);
     add_entry("RAISEDMG", raiseDmg, NULL, ctx->table);
-    
+
+    add_entry("MYSTRENGTH", print_player_strength, NULL, ctx->table);
+    add_entry("LEARNSTRENGTH", learn_strength, NULL, ctx->table);
+    add_entry("CHANGESTRENGTH", change_strength, NULL, ctx->table);
+
     /* Start chiventure */
     start_ui(ctx, banner);
 
