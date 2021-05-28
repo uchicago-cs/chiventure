@@ -2,6 +2,7 @@
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
 #include "game-state/game.h"
+#include "game-state/mode.h"
 #include "action_management/actionmanagement.h"
 #include "ui/print_functions.h"
 #include "checkpointing/save.h"
@@ -252,5 +253,16 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * A string notifying them if the color was changed or not.
  */
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Initiates Dialogue between NPC and Player
+ * 
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * The NPC's response and player's dialogue options.
+ */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

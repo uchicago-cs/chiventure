@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include "game-state/item.h"
 
-#define TRUE 0
-#define FALSE 1
+#define FALSE 0
+#define TRUE 1
 #define SUCCEEDS 2
 #define FAILS 3
 
