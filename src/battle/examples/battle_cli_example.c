@@ -64,12 +64,15 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     battle_ctx->game->player = p;
 
+    int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
+
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
     start_battle(battle_ctx, e, ENV_GRASS);
 
     // prints the beginning of the battle 
     char *start = print_start_battle(battle_ctx->game->battle);
+    char *turn_start = print_start_turn(battle_ctx->game->battle);
 
     if (!rc)
     {
