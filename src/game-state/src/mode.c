@@ -148,7 +148,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
 
     if (battle_ctx->status != BATTLE_IN_PROGRESS) {
         char *battle_over = print_battle_winner (battle_ctx->status, 42);
-        callback_func(ctx, "%s", battle_over, callback_args);
+       // callback_func(ctx, battle_over, callback_args);
     }
 
     return SUCCESS;
