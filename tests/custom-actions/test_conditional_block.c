@@ -598,9 +598,9 @@ Test(conditional_block_t, eval_cond_eq)
   conditional = conditional_block_new(conditional_type, left, right);
   cr_assert_not_null(conditional, "conditional_block_new() failed");
 
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 and 2 were equal");
+  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thought that 1 and 2 were equal");
   right->attribute_value = attribute_value1;
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thought that 1 and 1 were not equal");
+  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 and 1 were not equal");
   attribute_free(left);
   attribute_free(right);
   conditional_block_free(conditional);
@@ -635,13 +635,13 @@ Test(conditional_block_t, eval_cond_LTGT)
   conditional = conditional_block_new(conditional_type, left, right);
   cr_assert_not_null(conditional, "conditional_block_new() failed");
 
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thought that 1 was greater than or equal to 2");
+  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 was greater than or equal to 2");
   right->attribute_value = attribute_value1;
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Less than did not properly evaluate equality");
+  cr_assert_eq(eval_conditional_block(conditional), 0, "Less than did not properly evaluate equality");
   conditional->conditional_type = GTB;
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Greater than did not properly evaluate equality");
+  cr_assert_eq(eval_conditional_block(conditional), 0, "Greater than did not properly evaluate equality");
   right->attribute_value = attribute_value2;
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thoguht that 1 was greater than 2");
+  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thoguht that 1 was greater than 2");
   attribute_free(left);
   attribute_free(right);
   conditional_block_free(conditional);
@@ -676,13 +676,13 @@ Test(conditional_block_t, eval_cond_LTEGTE)
   conditional = conditional_block_new(conditional_type, left, right);
   cr_assert_not_null(conditional, "conditional_block_new() failed");
 
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thought that 1 was greater than or equal to 2");
+  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 was greater than or equal to 2");
   right->attribute_value = attribute_value1;
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Less than equal did not properly evaluate equality");
+  cr_assert_eq(eval_conditional_block(conditional), 1, "Less than equal did not properly evaluate equality");
   conditional->conditional_type = GTEB;
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Greater than equal did not properly evaluate equality");
+  cr_assert_eq(eval_conditional_block(conditional), 1, "Greater than equal did not properly evaluate equality");
   right->attribute_value = attribute_value2;
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thoguht that 1 was greater than 2");
+  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thoguht that 1 was greater than 2");
   attribute_free(right);
   attribute_free(left);
   conditional_block_free(conditional);
