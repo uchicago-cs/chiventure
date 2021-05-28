@@ -27,7 +27,7 @@ ITEM toilet IN alcatraz cell
     
 # testing: generating room short description by default, 'long description' synonym
 ROOM prison hallway
-    long description: "The prison hallway is dark and foreboding, but hell, you knew that already, you live here. Honestly, you're kind of a fan of Hallway B (that's its official name): even though it's dark and brutalistr and home to a rat colony, it' isn't Hallway C. Everyone knows Hallway C is haunted, and you'd sooner die than have to live there. Not that it matters, rumor has it, if you move there you'll be dead within a week. Or was it 'undead'? Nevermind, that seems like an unimportant disctinction. You don't have time to contemplate it. You're in Hallway B after hours, without permission. Better keep both eyes open."
+    long description: "The prison hallway is dark and foreboding, but hell, you knew that already, you live here. Honestly, you're kind of a fan of Hallway B (that's its official name): even though it's dark and brutalist and home to a rat colony, it isn't Hallway C. Everyone knows Hallway C is haunted, and you'd sooner die than have to live there. Not that it matters, rumor has it, if you move there you'll be dead within a week. Or was it 'undead'? Nevermind, that seems like an unimportant distinction. You don't have time to contemplate it. You're in Hallway B after hours, without permission. Better keep both eyes open."
 
                                         # testing: generating both item descriptions by default, screwy indentation and line breaks
                                         ITEM guard badge IN prison hallway
