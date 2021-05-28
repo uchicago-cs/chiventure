@@ -39,6 +39,10 @@ jobs:
         run: |
           sudo tar xvzf raylib-3.0.0-Linux-amd64.tar.gz --strip-components=1 -C /usr/local/
 
+      - name: Install SDL
+        run: |
+          sudo apt-get install libsdl2-dev libsdl2-mixer-dev libsdl2-net-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-gfx-dev
+
       - name: Build chiventure
         run: |
           cmake -B build/
