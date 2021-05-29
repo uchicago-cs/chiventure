@@ -155,7 +155,7 @@ Test(npcs_in_room, npc_one_move_definite)
 	
 	cr_assert_eq(test_npc1->movement->track, "test_room", 
 					"npc not in correct initial room\n"
-					"npc room: %s"
+					"npc room: %s \n"
 					"should be in room: %s",
 					test_npc1->movement->track, "test_room");
 
@@ -189,7 +189,7 @@ Test(npcs_in_room, npc_one_move_indefinite)
 
 	cr_assert_eq(test_npc1->movement->track, "test_room",
                     "npc not in correct initial room\n"
-                    "npc room: %s"
+                    "npc room: %s \n"
                     "should be in room: %s",
                     test_npc1->movement->track, "test_room");
 
