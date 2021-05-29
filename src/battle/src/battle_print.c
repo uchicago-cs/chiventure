@@ -133,8 +133,8 @@ char *print_moves(battle_t *b, char* moves)
     DL_FOREACH(b->player->moves, temp)
     {
         
-        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name:%s\nAttack:%d\nDamage:%d\nDefense:%d\n\n",
-        temp->info, temp->attack, temp->damage, temp->defense);
+        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name:%s\nDamage:%d\nDefense:%d\n\n",
+        temp->info, temp->damage, temp->defense);
         strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
@@ -162,8 +162,9 @@ int *print_battle_items(battle_t *b, char *string)
         char* name = item->name;
         int attack = item->attack;
         int defense = item->defense;
+        int hp = item->hp;
 
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\nAttack: %d\nDefense: %d\n", name, attack,defense);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\nAttack: %d\nDefense: %d\nHP: %d\n", name, attack,defense, hp);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
