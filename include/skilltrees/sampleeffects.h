@@ -15,7 +15,7 @@ item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation"
 enum attribute_tag bombatt_tag = BOOLE;
 attribute_value_t bombmod;
 bombmod.bool_val = false;
-item_attr_effect_t* itemdefusebombeffect = define_item_att_effect(bombitem, "ARMED", bombtag, bombmod);
+item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombtag, bombmod);
 
 effect_t* defusebombeffect = make_item_attr_effect(itemdefusebombeffect);
 
@@ -25,7 +25,7 @@ enum attribute_tag choptree_tag = BOOLE;
 attribute_value_t choptreemod;
 choptreemod.bool_val = false;
 
-item_attr_effect_t* itemchoptreeeffect = define_item_att_effect(choptreeitem, "CHOP", choptree_tag, choptreemod);
+item_attr_effect_t* itemchoptreeeffect = define_item_attr_effect(choptreeitem, "CHOP", choptree_tag, choptreemod);
 
 effect_t* choptreeeffect = make_item_attr_effect(itemdefusebombeffect);
 
