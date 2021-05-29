@@ -6,6 +6,7 @@
 
 #include "playerclass/class_structs.h"
 #include "playerclass/class_prefabs.h"
+#include "playerclass/class_item.h"
 #include "zip.h"
 #include "libobj/load.h"
 #include "wdl/load_game.h"
@@ -231,7 +232,37 @@ void demo_multiclasses() {
 }
 
 void demo_item_interactions() {
-    
+    /* This is a basic implementation, appropriating ideas from pc-demo.c */
+    game_t* game = game_new("The playerclass demo game!");
+
+    class_t* wizard = class_prefab_new(game, "Wizard");
+    class_t* bard = class_prefab_new(game, "Bard");
+
+    item_t* wand = item_new("wand", " ", " ");
+    item_t* sword = item_new("sword", " ", " ");
+    item_t* guitar = item_new("guitar", " "," ");
+
+    /* Item Restrictions */
+    prompt("Adding item restrictions: Wizard can't use a sword. Bard can't use a wand.", NULL);
+    add_item_restriction(sword, wizard);
+    add_item_restriction(wand, bard);
+
+    prompt("Checking item restrictions...", NULL);
+
+    printf("Can the Wizard use the Sword? %s\n", is_restricted(sword, wizard) ? "NO" : "YES");
+    printf("Can the Wizard use the Wand? %s\n", is_restricted(sword, bard) ? "NO" : "YES");
+    printf("Can the Bard use the Sword? %s\n", is_restricted(wand, wizard) ? "NO" : "YES");
+    printf("Can the Bard use the Wand? %s\n", is_restricted(wand, bard) ? "NO" : "YES");
+
+    /* Item modifiers */
+    prompt("Adding Item modifiers. The Bard is naturally good at using the guitar. The Wizard is naturally bad.", NULL);
+    add_item_multiplier(guitar, wizard, .6);
+    add_item_multiplier(guitar, bard, 1.5);
+
+    prompt("Checking item multipliers...", NULL);
+
+    printf("How good is the Wizard at guitar: %.2f\n", get_class_item_multiplier(guitar, wizard));
+    printf("How good is the Bard at guitar: %.2f\n", get_class_item_multiplier(guitar, bard));
 }
 
 /* main function for the 2021-demo executable. */
@@ -239,7 +270,7 @@ int main() {
     /* We decided to break up the ~10 minute demo into 2-3 minute mini demos */
     printf("***Entering prefab mini-demo***\n");
     demo_prefab_classes();
-
+    
     printf("***Entering WDL mini-demo***\n");
     demo_WDL();
 
