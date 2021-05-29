@@ -39,6 +39,7 @@ Test(skill_test, skill_new_test)
 
 Test(skill_test, skill_init_test)
 {
+  testmethod();
   skill_t* skill = malloc(sizeof(skill_t));
   skill_init(skill, 1000, ACTIVE, "defuse bomb", "defuses a bomb",
       1, 0, 2, 5, defusebombeffect);
@@ -58,7 +59,7 @@ Test(skill_test, skill_init_test)
       "Error: failed test skill_new_test on skill->max_level\n");
   cr_assert_eq(skill->min_xp, 5,
       "Error: failed test skill_new_test on skill->min_xp\n");
-  cr_assert_eq(skill->skill_effect->effecttype, ITEM_ATTRIBUTE_MOD,
+  cr_assert_eq(skill->skill_effect->effect_type, ITEM_ATTRIBUTE_MOD,
       "Error: failed test skill_new_test on skill->effect\n");
 }
 
@@ -66,6 +67,7 @@ Test(skill_test, skill_init_test)
 
 Test(skill_test, skill_free_test)
 {
+  testmethod();
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
   int ret = skill_free(skill);
@@ -76,6 +78,7 @@ Test(skill_test, skill_free_test)
 
 Test(skill_test, skill_execute_test)
 {
+  testmethod();
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
   cr_assert_eq(skill_execute(skill, ctx), 0,
