@@ -50,7 +50,7 @@ Test(skilltree_test, skill_node_new_test)
         "Error: failed test on node->skill->max_level\n");
     cr_assert_eq(node->skill->min_xp, 5,
         "Error: failed test skill_node_new_test on node->skill->min_xp\n");
-
+}
 /* Tests skill_node_free. */
 
 Test(skilltree_test, skill_node_free_test)
