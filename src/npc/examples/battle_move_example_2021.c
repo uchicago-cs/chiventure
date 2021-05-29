@@ -133,7 +133,10 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
     {   
         i++;
-        print_to_cli(ctx, npc_elt->npc_id);
+	if (npc_elt->npc_battle->health > 0) 
+	{
+            print_to_cli(ctx, npc_elt->npc_id);
+	}
     }
 
     if (i >= 1) {
@@ -192,27 +195,35 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     npc_t *npc_tmp, *npc_elt;
     HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
     {
-        if (npc_elt->npc_battle->health == 0) {
-	        continue;
-	    } else if (npc_elt->npc_battle->health == 1) {
+        if (npc_elt->npc_battle->health == 0) 
+	{
+	    continue;
+	} 
+	else if (npc_elt->npc_battle->health == 1) 
+	{
             change_npc_health(npc_elt, -1, 100);
-            transfer_all_npc_items(npc_elt, game->curr_room);
+            int res = transfer_all_npc_items(npc_elt, game->curr_room);
             char message1[1000];
             sprintf(message1, "You killed %s. They've dropped their items, "
                     "which you can now take.", npc_elt->npc_id);
             print_to_cli(ctx, message1);
-	    } else if (npc_elt->npc_battle->health <= npc_elt->npc_battle->surrender_level) { 
+	} 
+	else if (npc_elt->npc_battle->health <= 
+		 npc_elt->npc_battle->surrender_level) 
+	{ 
             char message2[1000];
             sprintf(message2, "%s has surrendered. You can no longer attack"
                     " them.", npc_elt->npc_id);
             print_to_cli(ctx, message2);
-	    } else {
+	} 
+	else 
+	{
             change_npc_health(npc_elt, -1, 100);
             char message3[1000];
             sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
                     npc_elt->npc_id, npc_elt->npc_battle->health);
             print_to_cli(ctx, message3);
-	    }
+	}
     }
     return "\n";
 }
@@ -255,10 +266,10 @@ chiventure_ctx_t *create_sample_ctx()
     npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
     extend_path_definite(movement1, arena);
     friendly_fiona = npc_new(npc_id1, 
-                             "Friendly Fiona is a friendly woman named" 
-				             "Fiona.", "Friendly Fiona won't fight you" 
-				             "unless you attack her first, and she'll"
-			                 "surrender quickly", class1, movement1, true);
+                             "Friendly Fiona is a friendly woman named Fiona.", 
+			     "Friendly Fiona won't fight you unless you attack"
+			     " her first, and she'll surrender quickly", class1,
+			     movement1, true);
     /* Add battle info to friendly npc */
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
