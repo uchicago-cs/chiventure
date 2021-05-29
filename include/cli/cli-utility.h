@@ -19,7 +19,7 @@
  *   -  input: the string being lower-cased
  * 
  */
-void case_insensitize1(char *input);
+void case_insensitize(char *input);
 
 
 /*
