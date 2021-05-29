@@ -25,6 +25,13 @@ const char* banner =
     "     |  /                                                                                      /\n"
     "     \\_/______________________________________________________________________________________/\n";
 /* ========================================================================== */
+/* Declare skill tree ======================================================= */
+/* ========================================================================== */
+skill_tree_t* skill_treedemo;
+
+
+
+/* ========================================================================== */
 /* Functions ================================================================ */
 /* ========================================================================== */
 /*
@@ -118,14 +125,32 @@ void main(){
     effect_t* attribute_effect = make_item_attr_effect(slay_dragon);
     skill_t*  attribute_skill = skill_new(1, PASSIVE, "Attribute Skill", "Slays Dragon", 10, 10, attribute_effect);
 
-    // Initialize skill nodes
 
-    // Initialize skill tree
+    //Initialize skill nodes
+    skillnode_t* stat_node = skill_node_new(stat_skill, 0, 14, 0);
+    skillnode_t* attribute_node = skill_node_new(attribute_skill, 0, 19, 0); 
+    //14 and 19 are the prereq_levels
+
+    //Initialize Skill Trees
+    node_prereq_add(stat_node, attribute_node); //attribute node is a prereq to unlock stat_node
+
+    skill_treedemo = skill_tree_new(1, "Skill Tree For Demo! ", 2); 
+
+    skill_tree_node_add(skill_tree, stat_node);
+    skill_tree_node_add(skill_tree, attribute_node);
+
+    printf("Stat Node added into our skill tree, you must be level %d to unlock this stat skill", 
+            skill_treedemo->nodes[0]->prereq_level);
+    printf("Attribute_node added as a prerequisite to Stat Node, you must be level %d to unlock attribute skill",
+            skill_treedemo->nodes[1]->prereq_level);
+
+    printf("Your current level is " ) //Is there a way to access player level here? So I can code in
+                                        // whether player is high enough level for that skill
+
 
     // Initialize skill inventory
 
     //Operations should
-    //Level up in the "level up room."" Try to unlock a skill but get told your level is too low.
     //Enter the "stat skill room" and level up. Player can now unlock and execute new statistic modifying skill
     //Enter the "attribute skill room" and level up. Player cna now unlock and execute new attribute modifying skill.
 
