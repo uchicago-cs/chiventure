@@ -129,9 +129,9 @@ Test(skilltree_test, node_prereq_add_full)
         3, 6, choptreeeffect);
     skill_t* peace = skill_new(1002, ACTIVE, "inner peace", "maintains inner peace",
         4, 7, effect_inner_peace);
-    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 44, 34);
-    skill_node_t* tree_node = skill_node_new(tree, 0, 76, 92, 22);
-    skill_node_t* peace_node = skill_node_new(peace, 1, 76, 18, 12);
+    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 34);
+    skill_node_t* tree_node = skill_node_new(tree, 0, 76, 22);
+    skill_node_t* peace_node = skill_node_new(peace, 1, 76, 12);
     node_prereq_add(peace_node,bomb_node, 12);
     int ret = node_prereq_add(peace_node,tree_node, 12);
     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_full\n");
@@ -198,7 +198,7 @@ Test(skilltree_test, skill_tree_node_add_safe)
     skill_tree_t* tree = skill_tree_new(1002, "this tree", 2);
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
-    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 22, 21);
+    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 21);
     cr_assert_eq(tree->num_nodes, 0, "Error: Failed getting tree->num_nodes\n");
     int ret = skill_tree_node_add(tree, bomb_node);
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_safe\n");
@@ -220,8 +220,8 @@ Test(skilltree_test, skill_tree_node_add_full)
         2, 5, defusebombeffect);
     skill_t* peace = skill_new(1001, ACTIVE, "inner peace", "maintains inner peace",
         4, 7, innerpeace);
-    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 44, 22);
-    skill_node_t* peace_node = skill_node_new(peace, 0, 76, 59, 5);
+    skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 22);
+    skill_node_t* peace_node = skill_node_new(peace, 0, 76, 5);
     skill_tree_node_add(tree,bomb_node);
     int ret = skill_tree_node_add(tree,peace_node);
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_node_add_full\n");
@@ -241,9 +241,9 @@ Test(skilltree_test, skill_tree_node_remove_safe)
         3, 6, choptreeeffect);
     skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
         4, 7, innerpeace);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 11, 74);
-    skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 82, 33);
-    skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 33, 5);
+    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 74);
+    skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 33);
+    skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 5);
 
     skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
     skill_tree_node_add(tree, bomb_node);
@@ -268,9 +268,9 @@ Test(skilltree_test, skill_tree_node_remove_missing)
         3, 6, choptreeeffect);
     skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
         4, 7, innerpeace);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 82, 22);
-    skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 33, 9);
-    skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 8, 738);
+    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22);
+    skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 9);
+    skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 738);
 
     skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
     skill_tree_node_add(tree, bomb_node);
@@ -294,9 +294,9 @@ Test(skilltree_test, skill_tree_has_node_has)
       3, 6, choptreeeffect);
   skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
       4, 7, innerpeace);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22, 32); 
-  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 22, 11);
-  skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 18, 40);
+  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 32); 
+  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 11);
+  skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 40);
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
   skill_tree_node_add(tree, bomb_node);
@@ -320,9 +320,9 @@ Test(skilltree_test, skill_tree_has_node_has_not)
       3, 6, choptreeeffect);
   skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
       4, 7, innerpeace);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 18, 33);
-  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 73, 11);
-  skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 29, 88);
+  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75,  33);
+  skill_node_t* chop_node = skill_node_new(skill2, 0, 76,  11);
+  skill_node_t* inner_node = skill_node_new(skill3, 0, 77, 88);
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
   skill_tree_node_add(tree, bomb_node);
@@ -541,8 +541,8 @@ Test(skilltree_test, inventory_skill_acquire_has)
         2, 5, defusebombeffect);
     skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
         3, 6, choptreeeffect);
-    skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 47);
-    skill_node_t* chop_node = skill_node_new(skill2, 1, 7665, 31);
+    skill_node_t* bomb_node = skill_node_new(skill1, 0, 12, 47);
+    skill_node_t* chop_node = skill_node_new(skill2, 1,14,  31);
 
     node_prereq_add(chop_node, bomb_node, 14);
 
