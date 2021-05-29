@@ -44,8 +44,6 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
         load_normal_mode(ctx->game);
     }
 
-    ctx->table = table;
-
     ctx->obj_store = NULL;
     ctx->cli_ctx = cli_ctx_new();
 
