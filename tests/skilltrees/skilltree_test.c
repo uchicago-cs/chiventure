@@ -30,7 +30,7 @@ Test(skilltree_tests, skill_node_new_test)
     cr_assert_eq(node->num_prereq_skills, 0,
         "Error: failed test skill_node_new on node->num_prereq_skills\n");
 
-    cr_asserg_Eq(node->prereq_level, 24,
+    cr_assert_eq(node->prereq_level, 24,
         "Error: failed test skill_node_new on node->prereq_level\n");
     cr_assert_eq(node->size, 76,
         "Error: failed test skill_node_new on node->size\n");
@@ -50,8 +50,6 @@ Test(skilltree_tests, skill_node_new_test)
         "Error: failed test on node->skill->max_level\n");
     cr_assert_eq(node->skill->min_xp, 5,
         "Error: failed test skill_node_new_test on node->skill->min_xp\n");
-    cr_assert_str_eq((node->skill->effect)("haha"),"Bomb defused!",
-        "Error: failed test skill_node_new_test on node->skill->effect\n");} //what is this doing? 
 
 /* Tests skill_node_free. */
 
@@ -63,7 +61,7 @@ Test(skilltree_tests, skill_node_free_test)
     effect_t* choptreeeffect;
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
-    skill_node_t* node = skill_node_new(skill, 4, 76, 44, 38);
+    skill_node_t* node = skill_node_new(skill, 4, 76, 38);
     int ret = skill_node_free(node);
     cr_assert_eq(ret, 0, "Error: failed test skill_node_free_test\n");
 }
@@ -113,7 +111,7 @@ Test(skilltree_tests, node_prereq_add_safe)
         4, 7, innerpeace);
     skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 33);
     skill_node_t* peace_node = skill_node_new(peace, 1, 76, 29);
-    int ret = node_prereq_add(peace_node,bomb_node);
+    int ret = node_prereq_add(peace_node,bomb_node, 5);
     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_safe\n");
 }
 
@@ -134,8 +132,8 @@ Test(skilltree_tests, node_prereq_add_full)
     skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 44, 34);
     skill_node_t* tree_node = skill_node_new(tree, 0, 76, 92, 22);
     skill_node_t* peace_node = skill_node_new(peace, 1, 76, 18, 12);
-    node_prereq_add(peace_node,bomb_node);
-    int ret = node_prereq_add(peace_node,tree_node);
+    node_prereq_add(peace_node,bomb_node, 12);
+    int ret = node_prereq_add(peace_node,tree_node, 12);
     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_add_full\n");
 }
 
@@ -157,8 +155,8 @@ Test(skilltree_tests, node_prereq_remove_safe)
     skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 23);
     skill_node_t* inner_node = skill_node_new(skill3, 2, 76, 9182);
 
-    node_prereq_add(inner_node, bomb_node);
-    node_prereq_add(inner_node, chop_node);
+    node_prereq_add(inner_node, bomb_node, 14);
+    node_prereq_add(inner_node, chop_node, 14);
 
     int ret = node_prereq_remove(inner_node, bomb_node);
     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_remove_safe\n");
@@ -182,7 +180,7 @@ Test(skilltree_tests, node_prereq_remove_missing)
     skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 72);
     skill_node_t* inner_node = skill_node_new(skill3, 2, 76, 91);
 
-    node_prereq_add(inner_node, chop_node);
+    node_prereq_add(inner_node, chop_node, 15);
 
     int ret = node_prereq_remove(inner_node, bomb_node);
     cr_assert_eq(ret, 1, "Error: failed test node_prereq_remove_missing\n");
@@ -352,8 +350,8 @@ Test(skilltree_tests, get_all_skill_prereqs_safe)
   skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 19);
   skill_node_t* inner_node = skill_node_new(skill3, 2, 77, 4);
 
-  node_prereq_add(inner_node, bomb_node);
-  node_prereq_add(inner_node, chop_node);
+  node_prereq_add(inner_node, bomb_node, 19);
+  node_prereq_add(inner_node, chop_node, 14);
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 3);
   skill_tree_node_add(tree, bomb_node);
@@ -438,7 +436,7 @@ Test(skilltree_tests, get_acquired_skill_prereqs_safe)
   skill_node_t* bomb_node = skill_node_new(skill1, 1, 23, 75);
   skill_node_t* chop_node = skill_node_new(skill2, 0, 82, 76);
 
-  node_prereq_add(bomb_node, chop_node);
+  node_prereq_add(bomb_node, chop_node, 7);
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
   skill_tree_node_add(tree, bomb_node);
@@ -498,7 +496,7 @@ Test(skilltree_tests, skill_prereqs_missing_some)
   skill_node_t* bomb_node = skill_node_new(skill1, 1, 75,2);
   skill_node_t* chop_node = skill_node_new(skill2, 0, 76,88);
 
-  node_prereq_add(bomb_node, chop_node);
+  node_prereq_add(bomb_node, chop_node, 59);
   cr_assert_eq(bomb_node->prereqs[0]->skill->sid, 1001,
                "Error: failed test skill_prereqs_missing_some\n");
 
@@ -546,7 +544,7 @@ Test(skilltree_tests, inventory_skill_acquire_has)
     skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 47);
     skill_node_t* chop_node = skill_node_new(skill2, 1, 7665, 31);
 
-    node_prereq_add(chop_node, bomb_node);
+    node_prereq_add(chop_node, bomb_node, 14);
 
     skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
     skill_tree_node_add(tree, bomb_node);
@@ -578,7 +576,7 @@ Test(skilltree_tests, inventory_skill_acquire_has_not)
   skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 1);
   skill_node_t* chop_node = skill_node_new(skill2, 1, 7665, 19);
 
-  node_prereq_add(chop_node, bomb_node);
+  node_prereq_add(chop_node, bomb_node, 25);
 
   skill_tree_t* tree = skill_tree_new(1001, "this tree", 1);
   skill_tree_node_add(tree, bomb_node);
