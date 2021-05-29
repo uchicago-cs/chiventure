@@ -1,7 +1,6 @@
 #include <stdlib.h>
 
 #include "common/ctx.h"
-#include "cli/cmd.h"
 
 
 /* See ctx.h */
@@ -40,8 +39,6 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
         ctx->game = game_new("No game has been loaded! Use the LOAD_WDL command to load a game.");
     }
 
-    lookup_t **table = lookup_t_new();
-
     if (ctx->game->mode == NULL)
     {
         load_normal_mode(ctx->game);
@@ -51,7 +48,8 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
     add_player_to_game(ctx->game, player1);
     ctx->game->curr_player = player1;
 
-    ctx->table = table;
+    ctx->obj_store = NULL;
+    ctx->cli_ctx = cli_ctx_new();
 
     return SUCCESS;
 }
@@ -62,7 +60,7 @@ int chiventure_ctx_free(chiventure_ctx_t *ctx)
     assert(ctx != NULL);
 
     /* Add calls to component-specific freeing functions here */
-
+    assert(free_cli_ctx(ctx->cli_ctx) == SUCCESS);
     free(ctx);
 
     return SUCCESS;

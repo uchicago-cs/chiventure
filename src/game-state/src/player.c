@@ -56,8 +56,7 @@ player_t* player_new(char *player_id)
 
     plyr->player_class = NULL;
     plyr->player_stats = NULL;
-    plyr->player_combat_skills = NULL;
-    plyr->player_noncombat_skills = NULL;
+    plyr->player_skills = NULL;
     plyr->player_effects = NULL;
     plyr->player_race = NULL;
     plyr->inventory = NULL;
@@ -144,7 +143,7 @@ int add_item_to_player(player_t *player, item_t *item)
         stats_t *s;
         HASH_ITER(hh, item->stat_effects, current, tmp) {
             LL_FOREACH(current->stat_list, elt) {
-                HASH_FIND(hh, player->player_class->stats, elt->stat->key, 
+                HASH_FIND(hh, player->player_class->base_stats, elt->stat->key, 
                           strlen(elt->stat->key), s);
                 if (s != NULL) {
                     apply_effect(&player->player_class->effects, current, &s,
@@ -155,7 +154,7 @@ int add_item_to_player(player_t *player, item_t *item)
     }
 
     rc = add_item_to_hash(&(player->inventory), item);
-    
+
     return rc;
 }
 
@@ -192,61 +191,31 @@ bool item_in_inventory(player_t *player, item_t *item)
 }
 
 /* See player.h */
-int player_add_combat_skill(player_t *player, skill_t *skill)
+int player_add_skill(player_t *player, skill_t *skill)
 {
     int rc;
 
-    rc = inventory_skill_add(player->player_combat_skills, skill);
+    rc = inventory_skill_add(player->player_skills, skill);
 
     return rc;
 }
 
 /* See player.h */
-int player_add_noncombat_skill(player_t *player, skill_t *skill)
+int player_remove_skill(player_t *player, skill_t *skill)
 {
     int rc;
 
-    rc = inventory_skill_add(player->player_noncombat_skills, skill);
+    rc = inventory_skill_remove(player->player_skills, skill);
 
     return rc;
 }
 
 /* See player.h */
-int player_remove_combat_skill(player_t *player, skill_t *skill)
+int player_has_skill(player_t *player, sid_t sid, skill_type_t type)
 {
     int rc;
 
-    rc = inventory_skill_remove(player->player_combat_skills, skill);
-
-    return rc;
-}
-
-/* See player.h */
-int player_remove_noncombat_skill(player_t *player, skill_t *skill)
-{
-    int rc;
-
-    rc = inventory_skill_remove(player->player_noncombat_skills, skill);
-
-    return rc;
-}
-
-/* See player.h */
-int player_has_combat_skill(player_t *player, sid_t sid, skill_type_t type)
-{
-    int rc;
-
-    rc = inventory_has_skill(player->player_combat_skills, sid, type);
-
-    return rc;
-}
-
-/* See player.h */
-int player_has_noncombat_skill(player_t *player, sid_t sid, skill_type_t type)
-{
-    int rc;
-
-    rc = inventory_has_skill(player->player_noncombat_skills, sid, type);
+    rc = inventory_has_skill(player->player_skills, sid, type);
 
     return rc;
 }

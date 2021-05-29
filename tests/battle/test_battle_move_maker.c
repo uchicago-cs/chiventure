@@ -8,6 +8,7 @@
 #include "playerclass/class.h"
 #include "battle/battle_default_objects.h"
 
+
 Test(class_moves, bard)
 {
     class_t* test_class = class_new("Bard", "Music boi",

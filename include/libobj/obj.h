@@ -129,6 +129,14 @@ int obj_free_all(obj_t *obj);
 obj_t *obj_get_attr(obj_t *obj, char *id, bool create);
 
 /*
+ * Convenience function to retrieve objects, typically from an object store.
+ * This function will just call obj_get_attr with 'create' set to false.
+ *
+ * See that function for more details.
+ */
+obj_t *obj_get(obj_t *obj, char *id);
+
+/*
  * Adds an attribute to an object
  *   - Uses dot notation to place attributes ("attr.sub_attr.sub_sub_attr")
  *   - Will create intermediate objects if the obj does not 

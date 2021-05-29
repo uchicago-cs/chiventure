@@ -69,6 +69,16 @@ int consume_battle_item(combatant_t *c, battle_item_t *item);
  */
 int use_battle_item(combatant_t *c,int id);
 
+/* Removes a battle item from a combatant's list of battle items
+ *
+ * Parameters:
+ * - c: the combatant
+ * - item: the battle item to remove
+ * Returns:
+ * - SUCCESS or FAILURE
+ */
+int remove_battle_item(combatant_t *c, battle_item_t *item);
+
 /* Awards xp to the battle_player 
  * Parameters:
  *  - stats: stats of the battle_player
