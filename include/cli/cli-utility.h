@@ -31,4 +31,4 @@ void case_insensitize1(char *input);
  * Returns:
  *   - A lowercased version of the string
  */
-char* case_insensitize2(char *input);
+char* case_insensitized_string(char *input);

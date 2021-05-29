@@ -7,7 +7,7 @@
 path_t *path_new(room_t *dest, char *direction)
 {
 
-    direction = case_insensitize2(direction);
+    direction = case_insensitized_string(direction);
 
     path_t *path = malloc(sizeof(path_t));
     memset(path, 0, sizeof(path_t));

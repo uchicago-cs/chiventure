@@ -12,7 +12,7 @@
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
-    command_name = case_insensitize2(command_name);
+    command_name = case_insensitized_string(command_name);
     lookup_t *t = malloc(sizeof(lookup_t));
     char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
     strcpy(newname, command_name);

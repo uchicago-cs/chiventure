@@ -7,7 +7,7 @@
 
 
 /* See cli-utility.h */
-void case_insensitize1(char *input)
+void case_insensitize(char *input)
 {
     int i = 0;
     char c;
@@ -21,7 +21,7 @@ void case_insensitize1(char *input)
 
 
 /* See cli-utility.h */
-char* case_insensitize2(char *input)
+char* case_insensitized_string(char *input)
 {
     int len = strlen(input);
     char* output = malloc(sizeof(char) * len + 1);

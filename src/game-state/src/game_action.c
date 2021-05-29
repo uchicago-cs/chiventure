@@ -28,7 +28,7 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
     new_action->success_str = calloc(1, MAX_MSG_LEN * sizeof(char));
     new_action->fail_str = calloc(1, MAX_MSG_LEN * sizeof(char));
 
-    int check = game_action_init(new_action, case_insensitize2(action_name), success_str, fail_str);
+    int check = game_action_init(new_action, case_insensitized_string(action_name), success_str, fail_str);
 
     if (new_action == NULL || new_action->action_name == NULL)
     {
@@ -51,7 +51,7 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 /* see game_action.h */
 game_action_t *get_action(item_t *item, char *action_name)
 {
-    action_name = case_insensitize2(action_name);
+    action_name = case_insensitized_string(action_name);
     game_action_t *action;
     HASH_FIND(hh, item->actions, action_name, strlen(action_name), action);
     if (action == NULL)
