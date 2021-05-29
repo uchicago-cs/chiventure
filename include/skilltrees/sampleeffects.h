@@ -16,7 +16,8 @@
 item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation");
 
 enum attribute_tag bombatt_tag = BOOLE;
-attribute_value_t bombmod.bool_val = false;
+attribute_value_t bombmod;
+bombmod.bool_val = false;
 item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombatt_tag, bombmod);
 
 effect_t* defusebombeffect = make_item_attr_effect(itemdefusebombeffect);
