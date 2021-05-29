@@ -103,6 +103,25 @@ char *battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char *target)
  */
 char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item);
 
+
+
+/*
+ * Carries out one iteration of the battle flow loop when the user asks for 
+ * a list of items or moves 
+ *     This includes:
+ *         - receiving battle_player's input
+ *         - listing out all the players items or moves
+ *
+ * Parameters:
+ *  - ctx: current chiventure battle context
+ *  - label: player input either "items or moves"
+ *
+ * Returns:
+ *  - A string consisting of the list output
+ *  - Does not change the turn
+ */
+char *battle_flow_list(chiventure_ctx_battle_t *ctx, char* label);
+
 /*
  * Helper function for battle_flow functions
  * Allows the enemy to make their move

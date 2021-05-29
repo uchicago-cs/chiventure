@@ -169,6 +169,26 @@ char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item)
     return string;
 }
 
+/* see battle_flow.h */
+char *battle_flow_list(chiventure_ctx_battle_t *ctx, char* label)
+{
+    if (strcmp(label, "ITEMS") == 0) {
+        battle_t *b = ctx->game->battle;
+
+        char *string = calloc(500, sizeof(char));
+        print_battle_items(b, string);
+
+        return string;
+    }
+    else {
+        battle_t *b = ctx->game->battle;
+
+        char *string = calloc(500, sizeof(char));
+        print_moves(b, string);
+
+        return string;
+    }
+}
 
 /* see battle_flow.h */
 char *enemy_make_move(chiventure_ctx_battle_t *ctx) 
@@ -199,3 +219,4 @@ char *enemy_make_move(chiventure_ctx_battle_t *ctx)
 
     return string;
 }
+

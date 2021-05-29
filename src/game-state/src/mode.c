@@ -176,6 +176,9 @@ int run_battle_mode (char *input, cli_callback callback_func,
         }
         string = battle_flow_item(battle_ctx, item);
 
+    } else if (strcmp(parsed_input[0], "LIST") == 0){
+                string = battle_flow_list(battle_ctx, parsed_input[1]);
+
     } else {
         return callback_func(ctx, "Enter a valid battle command.", callback_args);
     }

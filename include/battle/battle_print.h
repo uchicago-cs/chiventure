@@ -90,7 +90,7 @@ char *print_start_turn(battle_t* b);
  * Returns:
  *  A string containing the available items
  */ 
-char *print_battle_items(battle_t *b, char* items);
+int *print_battle_items(battle_t *b, char *string);
 
 /* Returns a string for the avaliable moves for the player
  * Parameter:

@@ -48,13 +48,23 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // creates consumable for the player
     battle_item_t *p_item = get_random_default_consumable();
+    battle_item_t *p_item2 = get_random_default_consumable();
+    p_item->next = p_item2;
+    p_item2->prev = p_item;
+
+    move_t *p_move = get_random_default_move();
+    move_t *p_move2 = get_random_default_move();
+    p_move->next = p_move2;
+    p_move2->prev = p_move;
+
+
 
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = get_random_default_move();
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
-    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, get_random_default_move(), p_item);
+    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item);
 
     chiventure_ctx_battle_t *battle_ctx =
         (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
@@ -79,7 +89,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (!rc)
     {
-        //This doesn't work yet, we need to figure lots of stuff out first
+        
         game_mode_init(ctx->game->mode, BATTLE, 
                        run_battle_mode, "Goblin");
     }
@@ -95,7 +105,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
-    room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll fight a Goblin in The Room.");
+    room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Goblin in The Room.");
     add_room_to_game(game, room1);
     game->curr_room = room1;
 
