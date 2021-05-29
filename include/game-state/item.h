@@ -4,7 +4,6 @@
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
 #include "game-state/stats.h"
-#include "cli/cli-utility.h"
 
 #define ITER_ALL_ITEMS_IN_ROOM(room, curr_item) item_list_t *ITTMP_ITEMRM; \
 LL_FOREACH_SAFE(get_all_items_in_hash(&((room)->items)), (curr_item), ITTMP_ITEMRM)

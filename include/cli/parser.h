@@ -1,7 +1,7 @@
 #ifndef _CLI_INCLUDE_PARSER_H
 #define _CLI_INCLUDE_PARSER_H
 
-#include "cli-utility.h"
+#include "cli/util.h"
 
 /*
  * used to store the tokenized strings of cmd line

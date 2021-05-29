@@ -1,4 +1,4 @@
-#include "cli/cli-utility.h"
+#include "cli/util.h"
 
 // This is specifically for functions meant to be used
 // across the entire game state, either for formatting
@@ -6,7 +6,7 @@
 
 
 
-/* See cli-utility.h */
+/* See util.h */
 void case_insensitize(char *input)
 {
     int i = 0;
@@ -20,7 +20,7 @@ void case_insensitize(char *input)
 }
 
 
-/* See cli-utility.h */
+/* See util.h */
 char* case_insensitized_string(char *input)
 {
     int len = strlen(input);

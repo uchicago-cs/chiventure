@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include "wdl/load_room.h"
-#include "cli/cli-utility.h"
+#include "cli/util.h"
 #include "wdl/validate.h"
 
 /* see load_rooms.h */
@@ -58,7 +58,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     HASH_ITER(hh, rooms_obj->data.obj.attr, curr, tmp)
     {
         // obtain room id
-        char *id = case_insensitized_string(curr->id);
+        char *id = curr->id;
         // get list of connections for the room
         obj_t *connections = connections_get_list(curr);
 
@@ -74,9 +74,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
         {
             // get id of room we are going to and direction
             char *to = obj_get_str(conn_curr, "to");
-            to = case_insensitized_string(to);
             char *direction = obj_get_str(conn_curr, "direction");
-            direction = case_insensitized_string(direction);
 
             // add connection to room in game
             int result = create_connection(g, id, to, direction);

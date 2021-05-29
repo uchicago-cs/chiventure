@@ -4,6 +4,7 @@
 #include "game-state/item.h"
 #include "game-state/mode.h"
 #include "npc/npc.h"
+#include "cli/util.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -225,9 +226,10 @@ player_t *get_player(game_t *game, char *player_id)
 /* See game.h */
 room_t *find_room_from_game(game_t *game, char* room_id)
 {
-    room_id = case_insensitized_string(room_id);
+    char *room_id_case = case_insensitized_string(room_id);
     room_t *r;
-    HASH_FIND(hh, game->all_rooms, room_id, strnlen(room_id, MAX_ID_LEN), r);
+    HASH_FIND(hh, game->all_rooms, room_id_case, strnlen(room_id_case, MAX_ID_LEN), r);
+    free(room_id_case);
     return r;
 }
 

@@ -1,4 +1,5 @@
 #include "game-state/game_action.h"
+#include "cli/util.h"
 
 #define BUFFER_SIZE 100
 
@@ -12,6 +13,7 @@ int game_action_init(game_action_t *new_action, char *act_name,
         return FAILURE;
     }
     strncpy(new_action->action_name, act_name, strlen(act_name));
+    case_insensitize(new_action->action_name);
     new_action->conditions = NULL; //by UTLIST rules
     new_action->effects = NULL;    //by UTLIST rules
     strncpy(new_action->success_str, success_str, strlen(success_str));
@@ -28,7 +30,7 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
     new_action->success_str = calloc(1, MAX_MSG_LEN * sizeof(char));
     new_action->fail_str = calloc(1, MAX_MSG_LEN * sizeof(char));
 
-    int check = game_action_init(new_action, case_insensitized_string(action_name), success_str, fail_str);
+    int check = game_action_init(new_action, action_name, success_str, fail_str);
 
     if (new_action == NULL || new_action->action_name == NULL)
     {
@@ -51,9 +53,10 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 /* see game_action.h */
 game_action_t *get_action(item_t *item, char *action_name)
 {
-    action_name = case_insensitized_string(action_name);
+    char *action_name_case = case_insensitized_string(action_name);
     game_action_t *action;
-    HASH_FIND(hh, item->actions, action_name, strlen(action_name), action);
+    HASH_FIND(hh, item->actions, action_name_case, strlen(action_name_case), action);
+    free(action_name_case);
     if (action == NULL)
     {
         return NULL;

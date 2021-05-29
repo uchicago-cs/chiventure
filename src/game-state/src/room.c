@@ -3,6 +3,7 @@
 #include "game-state/item.h"
 #include "game-state/room.h"
 #include "game-state/path.h"
+#include "cli/util.h"
 
 
 /* See room.h */
@@ -12,6 +13,7 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
     assert(new_room != NULL);
 
     strncpy(new_room->room_id, room_id, strlen(room_id)+1);
+    case_insensitize(new_room->room_id);
     strncpy(new_room->short_desc, short_desc, strlen(short_desc)+1);
     strncpy(new_room->long_desc, long_desc, strlen(long_desc)+1);
 
@@ -22,9 +24,6 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
 
 room_t *room_new(char *room_id, char *short_desc, char *long_desc)
 {
-
-    room_id = case_insensitized_string(room_id);
-
     room_t *room = malloc(sizeof(room_t));
     memset(room, 0, sizeof(room_t));
     room->room_id = malloc(MAX_ID_LEN);
@@ -130,9 +129,10 @@ path_t *path_search(room_t *room, char* direction)
         return NULL; //cannot search path in NULL room
     }
 
-    direction = case_insensitized_string(direction);
+    char *direction_case = case_insensitized_string(direction);
 
-    HASH_FIND(hh, room->paths, direction, strlen(direction), path);
+    HASH_FIND(hh, room->paths, direction_case, strlen(direction_case), path);
+    free(direction_case);
     return path;
 }
 
@@ -182,10 +182,10 @@ path_t *list_paths(room_t *room)
 /* see room.h */
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
-    item_id = case_insensitized_string(item_id);
+    char *item_id_case = case_insensitized_string(item_id);
     
     item_t* return_value;
-    HASH_FIND(hh, room->items, item_id, strlen(item_id), return_value);
+    HASH_FIND(hh, room->items, item_id_case, strlen(item_id_case), return_value);
     return return_value;
     //if it is NULL, return_value will be equal to NULL by default
 }
@@ -204,10 +204,11 @@ room_t *find_room_from_path(path_t *path)
 /* See room.h */
 room_t *find_room_from_dir(room_t *curr, char* direction)
 {
-    direction = case_insensitized_string(direction);
+    char *direction_case = case_insensitized_string(direction);
     
-    path_t *path = path_search(curr, direction);
+    path_t *path = path_search(curr, direction_case);
     room_t *room_adj = find_room_from_path(path);
+    free(direction_case);
     return room_adj;
 }
 

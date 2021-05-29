@@ -1,5 +1,5 @@
 add_library(cli
-            src/cli-utility.c
+            src/util.c
             src/cmd.c
             src/cmdlist.c
             src/operations.c
