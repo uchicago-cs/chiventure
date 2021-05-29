@@ -11,23 +11,11 @@ void add_user(int user_id, char *name) {
     HASH_ADD_INT(users, id, s);  /* id: name of key field */
 }
 
-
-
 sound_t *find_user(int user_id) {
     sound_t *s;
 
     HASH_FIND_INT(users, &user_id, s);
     return s;
-}
-
-int main(){
-    sound_t* sound;
-    sound->id = 1;
-    sound->wavLength = 5;
-    add_user(sound->id, "first");
-    sound_t* rv = find_user(sound->id);
-    printf("%d", rv->id);
-    printf("%f", rv->wavLength);
 }
 
 
