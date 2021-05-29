@@ -150,7 +150,6 @@ void main(){
 
     // Initialize skill inventory
 
-    //Operations should
     //Enter the "stat skill room" and level up. Player can now unlock and execute new statistic modifying skill
     //Enter the "attribute skill room" and level up. Player cna now unlock and execute new attribute modifying skill.
 
