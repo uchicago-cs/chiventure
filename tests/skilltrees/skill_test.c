@@ -7,7 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
-#include "skilltrees/sampleeffects.h"
+#include "sampleeffects.c"
 
 /* Rewrote the test with new effect implementation */
 
