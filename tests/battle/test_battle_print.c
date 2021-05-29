@@ -98,7 +98,7 @@ Test(battle_print, print_player_move)
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
     move->damage = 60;
-    move->name = "Punch";
+    move->info = "Punch";
     b->player->moves = move;
     b->enemy->stats->hp = 21;
 
@@ -145,7 +145,7 @@ Test(battle_print, print_enemy_move)
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
     move->damage = 99;
-    move->name = "Laugh";
+    move->info = "Laugh";
     b->player->moves = move;
     b->player->stats->hp = 42;
     char* string = print_battle_move(b, ENEMY, move);
