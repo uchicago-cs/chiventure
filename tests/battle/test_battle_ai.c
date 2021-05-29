@@ -13,7 +13,7 @@ class_t *create_test_class()
 }
 
 /* Creates + initializes a move*/
-move_t *create_move(int id, item_t* item, bool attack, int damage, int defense)
+move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
  {
      move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
@@ -28,11 +28,11 @@ move_t *create_move(int id, item_t* item, bool attack, int damage, int defense)
      return move;
  }
 
-/* Creates + initializes an item*/
- item_t *create_item(int id, int quantity, int durability, char* description,
+/* Creates + initializes a battle_item*/
+ battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
             bool battle, int attack, int defense, int hp)
  {
-     item_t* item = (item_t*) calloc(1, sizeof(item_t));
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
      item->id = id;
      item->quantity = quantity;
@@ -63,8 +63,8 @@ stat_t* create_enemy_stats()
     return test_stats;
 }
 
-/* Creates example hardcoded stats for the player*/
-stat_t* create_player_stats()
+/* Creates example hardcoded stats for the battle_player*/
+stat_t* create_battle_player_stats()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
 
@@ -80,16 +80,16 @@ stat_t* create_player_stats()
     return test_stats;
 }
 
-/* Creates example hardcoded items for the player*/
-item_t* create_player_items()
+/* Creates example hardcoded battle_items for the player*/
+battle_item_t* create_player_battle_items()
 {
-    item_t *head, *dagger, *tea_leaves, *medicine;
+    battle_item_t *head, *dagger, *tea_leaves, *medicine;
     head = NULL;
-    dagger = create_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
+    dagger = create_battle_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
     true, 20, 5, 0);
-    tea_leaves = create_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
+    tea_leaves = create_battle_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
     0, 0, 10);
-    medicine = create_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
+    medicine = create_battle_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
     DL_APPEND(head, dagger);
     DL_APPEND(head, tea_leaves);
     DL_APPEND(head, medicine);
@@ -97,15 +97,15 @@ item_t* create_player_items()
 }
 
 /* Creates example hardcoded items for the enemy*/
-item_t* create_enemy_items()
+battle_item_t* create_enemy_battle_items()
 {
-    item_t *head, *mace, *diamond_sword, *force_shield;
+    battle_item_t *head, *mace, *diamond_sword, *force_shield;
     head = NULL;
-    mace = create_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true,
+    mace = create_battle_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true,
         0, -30, 0);
-    diamond_sword = create_item(5, 1, 50, "Brings quick death to those who dare battle you...",
+    diamond_sword = create_battle_item(5, 1, 50, "Brings quick death to those who dare battle you...",
         true, 20, 0, 0);
-    force_shield = create_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move",
+    force_shield = create_battle_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move",
         true, 0, 30, 5);
     DL_APPEND(head, mace);
     DL_APPEND(head, diamond_sword);
@@ -127,8 +127,8 @@ move_t* create_enemy_moves()
     return head;
 }
 
-/* Creates example hardcoded stats for the player*/
-move_t* create_player_moves()
+/* Creates example hardcoded stats for the battle_player*/
+move_t* create_battle_player_moves()
 {
     move_t *head, *fire_blast, *punch, *blaze_kick;
     head = NULL;
@@ -162,29 +162,29 @@ combatant_t* new_enemy()
 {
     char* name = "Skeleton";
     bool is_friendly = false;
-    class_t *class = create_test_class();
+    class_t *c_type = create_test_class();
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
-    item_t *items = create_enemy_items();
+    battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_GREEDY);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
 
 }
 
-/* Creates sandbox player*/
-combatant_t* new_player()
+/* Creates sandbox battle_player*/
+combatant_t* new_battle_player()
 {
     char* name = "Steve";
     bool is_friendly = true;
 
-    class_t *class = create_test_class();
-    stat_t *stats = create_player_stats();
-    move_t *moves = create_player_moves();
-    item_t *items = create_player_items();
+    class_t *c_type = create_test_class();
+    stat_t *stats = create_battle_player_stats();
+    move_t *moves = create_battle_player_moves();
+    battle_item_t *items = create_player_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, class, stats, moves, items, BATTLE_AI_NONE);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_NONE);
 }
 
 /* Called by test functions to check give_move returns properly*/
@@ -199,7 +199,7 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
 /* Ensures give_move returns a random move when enum is BATTLE_AI_RANDOM*/
 Test(battle_ai, give_move_random)
 {
-    check_give_move(new_player(),
+    check_give_move(new_battle_player(),
             new_enemy(),
             BATTLE_AI_RANDOM,
             expected_move_random());
@@ -208,7 +208,7 @@ Test(battle_ai, give_move_random)
 /* Ensures give_move returns the hardest move when enum is BATTLE_AI_BEST*/
 Test(battle_ai, give_move_greedy)
 {
-    check_give_move(new_player(),
+    check_give_move(new_battle_player(),
             new_enemy(),
             BATTLE_AI_GREEDY,
             expected_move_greedy());
@@ -220,7 +220,7 @@ Test(battle_ai, find_random)
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
 
-    player = new_player();
+    player = new_battle_player();
     enemy = new_enemy();
 
     expected_move = expected_move_random();
@@ -238,7 +238,7 @@ Test(battle_ai, find_greedy)
     combatant_t *player, *enemy;
     move_t *expected_move, *actual_move;
 
-    player = new_player();
+    player = new_battle_player();
     enemy = new_enemy();
 
     expected_move = expected_move_greedy();
@@ -256,7 +256,7 @@ Test(battle_ai, damage)
     combatant_t *player, *enemy;
     move_t* move;
 
-    player = new_player();
+    player = new_battle_player();
     enemy = new_enemy();
     move = expected_move_greedy();
 
