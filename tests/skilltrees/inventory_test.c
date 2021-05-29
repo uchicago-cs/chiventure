@@ -71,15 +71,15 @@ Test(inventory_test, deep_copy_inventory_with_skills)
     cr_assert_not_null(inventory, "inventory_new() failed to create inventory struct");
 
     /* Add two skills for both Passive and Active field */
-    skill_t* activ1 = (skill_t*)malloc(sizeof(skill_t));
-    skill_t* activ2 = (skill_t*)malloc(sizeof(skill_t));
-    skill_t* pass1 = (skill_t*)malloc(sizeof(skill_t));
-    skill_t* pass2 = (skill_t*)malloc(sizeof(skill_t));
+    skill_t* activ1 = skill_new(UNLOCK_DOOR, ACTIVE, "activ1", "activ1", 10, 3, NULL);
+    skill_t* activ2 = skill_new(UNLOCK_DOOR, ACTIVE, "activ2", "activ2", 10, 3, NULL);
+    skill_t* pass1 = skill_new(UNLOCK_DOOR, PASSIVE, "pass1", "pass1", 10, 3, NULL);
+    skill_t* pass2 = skill_new(UNLOCK_DOOR, PASSIVE, "pass2", "pass2", 10, 3, NULL);
 
-    activ1->type = ACTIVE;
-    activ2->type = ACTIVE;
-    pass1->type = PASSIVE;
-    pass2->type = PASSIVE;
+    cr_assert_not_null(activ1, "skill_new failed to create activ1");
+    cr_assert_not_null(activ2, "skill_new failed to create activ2");
+    cr_assert_not_null(pass1, "skill_new failed to create pass1");
+    cr_assert_not_null(pass2, "skill_new failed to create pass2");
 
     ret_val = inventory_skill_add(inventory, activ1);
     cr_assert_eq(ret_val, SUCCESS, "inventory_skill_add() failed to add activ1");

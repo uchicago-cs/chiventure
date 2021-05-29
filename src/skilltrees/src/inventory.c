@@ -84,8 +84,10 @@ skill_inventory_t* copy_inventory(skill_inventory_t* original)
 
     skill_inventory_t* copy = inventory_new(original->max_active, original->max_passive);
     if (copy == NULL)
+    {
+        fprintf(stderr, "Failed to allocate memory for skill inventory copy");
         return NULL;
-
+    }
 
     /* Fill Array of Active Skills */
     for (int i = 0; i < original->num_active; i++)
