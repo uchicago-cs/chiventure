@@ -414,8 +414,8 @@ Test(skilltree_test, get_acquired_skill_prereqs_no_prereqs)
     skill_inventory_t* inventory = inventory_new(3,4);
     inventory_skill_add(inventory, skill1);
 
-    unsigned int* prereq = 54;
-    get_acquired_skill_prereqs(tree, inventory, 1000, 54, out);
+    unsigned int* prereq;
+    get_acquired_skill_prereqs(tree, inventory, 1000, prereq, out);
 
     cr_assert_eq(*out, 0,
       "Error: failed test get_acquired_skill_prereqs_no_prereqs\n");
@@ -447,7 +447,7 @@ Test(skilltree_test, get_acquired_skill_prereqs_safe)
   skill_inventory_t* inventory = inventory_new(3,4);
   inventory_skill_add(inventory, skill2);
 
-  unsigned int* prereq = 54; 
+  unsigned int* prereq; 
   skill_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, prereq, out);
   int ret = (acqed[0] == skill2);
   cr_assert_eq(acqed[0]->sid, 1001,
@@ -476,7 +476,7 @@ Test(skilltree_test, skill_prereqs_missing_none)
     skill_inventory_t* inventory = inventory_new(3,4);
     inventory_skill_add(inventory, skill1);
 
-    unsigned int* prereq = 54;
+    unsigned int* prereq;
     skill_prereqs_missing(tree, inventory, 1000, prereq, out);
 
     cr_assert_eq(*out, 0,
@@ -524,7 +524,7 @@ Test(skilltree_test, skill_prereqs_missing_some)
 
   skill_inventory_t* inventory = inventory_new(3,4);
 
-  unsigned int* prereq = 54; 
+  unsigned int* prereq; 
   skill_t** acqed = skill_prereqs_missing(tree, inventory, 1000,prereq, out);
   int ret = (acqed[0] == skill2);
   cr_assert_eq(ret, true,
