@@ -1,15 +1,4 @@
 #include "sound/sound.h"
-#include "sound/demo.h"
-
-/*void play_audio(sound_t *name)
-{
-    return null
-}
-
-void load_audio(sound_t *name, sound_t *source)
-{
-    return null;
-} */
 
 /*THE FOLLOWING CODE IS FOR DEMO PURPOSES IN SPRINT 4 */
 
@@ -33,62 +22,43 @@ void load_audio_demo(SoundType type)
     SDL_SetRenderDrawColor(renderer, 255, 128, 0, 0);
     
 
-    /* The purpose of this code chunk is to differentiate between sound effects and background music;
-        depending on the sound type, either the Mix_Chunk or Mix_Music data structures from the SDL 
-        Library will be used; this resulted in two separate play functions since Mix_Chunks and Mix_Music
-        data structures are played through two different functions in SDL
-
-
-    if (type == BACKGROUND) {
-        Mix_Music *backgroundSound = Mix_LoadMUS("sound_library/Spring Village.mp3");
-        Mix_Chunk *soundEffect = Mix_LoadWAV("sound_library/Sword Slash.wav");
-        Mix_Chunk *wap = Mix_LoadWAV("sound_library/Wap.wav");
-
-        play_audio_demo_bgm(backgroundSound, soundEffect, window, renderer);
-    }
-    else {
-        Mix_Chunk *soundEffect = Mix_LoadWAV("sound_library/Sword Slash.wav");
-        play_audio_demo_effect(soundEffect, window, renderer);
-    }*/
-    
-
     //Mix Music and MixChunk are data structures in the SDL, this is how we load (.wav//mp3 formats)
     //The parameter take is the file pathway to the audio file
     Mix_Music *backgroundSound = Mix_LoadMUS("sound_library/Spring Village.mp3");
 
     Mix_Chunk *soundEffect = Mix_LoadWAV("sound_library/Sword Slash.wav");
-    if(!soundEffect) {
+    if (!soundEffect) {
         printf("MixPlayChannel: %s\n", Mix_GetError()); //Gets error if an audio cannot be loaded properly
     }
 
     Mix_Chunk *wap = Mix_LoadWAV("sound_library/Wap.wav");
-    if(!wap) {
+    if (!wap) {
         printf("MixPlayChannel: %s\n", Mix_GetError()); //Gets error if an audio cannot be loaded properly
     }
     
     Mix_PlayMusic(backgroundSound, -1); //SDL function that plays music, takes in Mix_Music struct
     bool running = true;                //Setting to -1 plays music in an infinite loop
     SDL_Event event;
-    while(running)
+    while (running)
     {
-        while(SDL_PollEvent(&event))    //Determines if there is a pending event
+        while (SDL_PollEvent(&event))    //Determines if there is a pending event
         {
-            if(event.type == SDL_QUIT)  
+            if (event.type == SDL_QUIT)  
             {
                 running = false;
             }
-            else if(event.type == SDL_KEYDOWN)  // Triggers an event if a key is pressed
+            else if (event.type == SDL_KEYDOWN)  // Triggers an event if a key is pressed
             {
-                if(event.key.keysym.sym == SDLK_1)  //Pressing the 1 key plays the chunk
+                if (event.key.keysym.sym == SDLK_1)  //Pressing the 1 key plays the chunk
                 {
                     Mix_PlayChannel(-1, soundEffect, 0); //Mix_PlayChannel is the function that plays Mix_Chunks
                 }
-                else if(event.key.keysym.sym == SDLK_q) //Pressing q initiates the sequence of events
+                else if (event.key.keysym.sym == SDLK_q) //Pressing q initiates the sequence of events
                 {
                     Mix_PauseMusic();
                     int y = Mix_PlayChannel(-1, wap, 0);
                     Mix_Volume(y, 100);
-                    if(Mix_PlayChannel(-1,wap,0) == -1) {
+                    if (Mix_PlayChannel(-1,wap,0) == -1) {
                         printf("MixplayChannel: %s\n", Mix_GetError());
                     }
                 }
@@ -107,75 +77,6 @@ void load_audio_demo(SoundType type)
 
     return;
 }
-
-/* The purpose of the function was to play larger audio files like background music
-
-void play_audio_demo_bgm(Mix_Music *backgroundSound, SDL_Window *window,
-                    SDL_Renderer *renderer)
-{
-    Mix_PlayMusic(backgroundSound, -1);
-    bool running = true;
-    SDL_Event event;
-    while(running)
-    {
-        while(SDL_PollEvent(&event))
-        {
-            if(event.type == SDL_QUIT)
-            {
-                running = false;
-            }
-            else if(event.type == SDL_KEYUP)
-            {
-                if(event.key.keysym.sym == SDLK_1)
-                {
-                    Mix_PlayChannel(-1, soundEffect, 0);
-                }
-            }
-        }
-    }
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    Mix_FreeMusic(backgroundSound);
-    Mix_CloseAudio();
-    SDL_Quit();
-} */
-
-/* The purpose of the function was to play smaller audio chunks such as
-    sound effects
-
-void play_audio_demo_effect(Mix_Chunk *soundEffect, SDL_Window *window,
-                    SDL_Renderer *renderer)
-{
-    
-    bool running = true;
-    SDL_Event event;
-    while(running)
-    {
-        while(SDL_PollEvent(&event))
-        {
-            if(event.type == SDL_QUIT)
-            {
-                running = false;
-            }
-            
-            else if(event.type == SDL_KEYUP)
-            {
-                if(event.key.keysym.sym == SDLK_1)
-                {
-                    Mix_PlayChannel(-1, soundEffect, 0);
-                }
-            }
-        }
-    }
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    Mix_FreeChunk(soundEffect);
-    Mix_CloseAudio();
-    SDL_Quit();
-
-} */
 
 int main() {
     sound_t *sound_file = malloc(sizeof(sound_t));
