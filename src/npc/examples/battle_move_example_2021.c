@@ -197,7 +197,7 @@ chiventure_ctx_t *create_sample_ctx()
     /* Add battle info to hostile npc */
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
-    add_battle_to_npc(hostile_harry, 10, stats, moves, BATTLE_AI_GREEDY,
+    add_battle_to_npc(hostile_harry, 10, stats2, moves2, BATTLE_AI_GREEDY,
                       HOSTILE, 0);
 	
 	/* Add items to hostile npc */
@@ -232,8 +232,7 @@ int main(int argc, char **argv)
     /* Monkeypatch the CLI to add the new operations
      * (not handled by action management, as that code
      * currently only supports items) */
-    add_entry("OBSERVE", observe_operation, NULL, ctx->table);
-    add_entry("NPC", npcs_in_room_operation, NULL, ctx->table);
+    add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
