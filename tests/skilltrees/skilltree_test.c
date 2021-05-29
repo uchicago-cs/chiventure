@@ -14,7 +14,7 @@
  */
 /* Tests skill_node_new. */
 
-Test(skilltree_tests, skill_node_new_test)
+Test(skilltree_test, skill_node_new_test)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -53,7 +53,7 @@ Test(skilltree_tests, skill_node_new_test)
 
 /* Tests skill_node_free. */
 
-Test(skilltree_tests, skill_node_free_test)
+Test(skilltree_test, skill_node_free_test)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -68,7 +68,7 @@ Test(skilltree_tests, skill_node_free_test)
 
 
 /* Tests skill_tree_new. */
-Test(skilltree_tests, skill_tree_new_test)
+Test(skilltree_test, skill_tree_new_test)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -84,7 +84,7 @@ Test(skilltree_tests, skill_tree_new_test)
 }
 
 /* Tests skill_tree_free. */
-Test(skilltree_tests, skill_tree_free_test)
+Test(skilltree_test, skill_tree_free_test)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -99,7 +99,7 @@ Test(skilltree_tests, skill_tree_free_test)
 
 /* Tests node_prereq_add on a valid case. */
 
-Test(skilltree_tests, node_prereq_add_safe)
+Test(skilltree_test, node_prereq_add_safe)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -117,7 +117,7 @@ Test(skilltree_tests, node_prereq_add_safe)
 
 /* Tests node_prereq_add when the prereq list is full. */
 
-Test(skilltree_tests, node_prereq_add_full)
+Test(skilltree_test, node_prereq_add_full)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -139,7 +139,7 @@ Test(skilltree_tests, node_prereq_add_full)
 
 /* Tests node_prereq_remove on a valid case. */
 
-Test(skilltree_tests, node_prereq_remove_safe)
+Test(skilltree_test, node_prereq_remove_safe)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -164,7 +164,7 @@ Test(skilltree_tests, node_prereq_remove_safe)
 */
 /* Tests node_prereq_remove on a prereq that doesn't exist. */
 
-Test(skilltree_tests, node_prereq_remove_missing)
+Test(skilltree_test, node_prereq_remove_missing)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -189,7 +189,7 @@ Test(skilltree_tests, node_prereq_remove_missing)
 
 /* Tests skill_tree_node_add on a valid case. */
 
-Test(skilltree_tests, skill_tree_node_add_safe)
+Test(skilltree_test, skill_tree_node_add_safe)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -209,7 +209,7 @@ Test(skilltree_tests, skill_tree_node_add_safe)
 
 /* Tests skill_tree_node_add when the skill tree is full. */
 
-Test(skilltree_tests, skill_tree_node_add_full)
+Test(skilltree_test, skill_tree_node_add_full)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -229,7 +229,7 @@ Test(skilltree_tests, skill_tree_node_add_full)
 
 /* Tests skill_tree_node_remove in a valid case. */
 
-Test(skilltree_tests, skill_tree_node_remove_safe)
+Test(skilltree_test, skill_tree_node_remove_safe)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -256,7 +256,7 @@ Test(skilltree_tests, skill_tree_node_remove_safe)
 
 /* Tests skill_tree_node_remove on a node that is missing. */
 
-Test(skilltree_tests, skill_tree_node_remove_missing)
+Test(skilltree_test, skill_tree_node_remove_missing)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -282,7 +282,7 @@ Test(skilltree_tests, skill_tree_node_remove_missing)
 */
 /* Tests skill_tree_has_node with a node that exists. */
 
-Test(skilltree_tests, skill_tree_has_node_has)
+Test(skilltree_test, skill_tree_has_node_has)
 {
   testmethod();
   effect_t* defusebombeffect;
@@ -308,7 +308,7 @@ Test(skilltree_tests, skill_tree_has_node_has)
 */
 /* Tests skill_tree_has_node on a node that it doesn't have. */
 
-Test(skilltree_tests, skill_tree_has_node_has_not)
+Test(skilltree_test, skill_tree_has_node_has_not)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -334,7 +334,7 @@ Test(skilltree_tests, skill_tree_has_node_has_not)
 */
 /* Tests get_all_skill_prereqs on a valid case. */
 
-Test(skilltree_tests, get_all_skill_prereqs_safe)
+Test(skilltree_test, get_all_skill_prereqs_safe)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -367,7 +367,7 @@ Test(skilltree_tests, get_all_skill_prereqs_safe)
 */
 /* Tests get_all_skill_prereqs for empty prereq list. */
 
-Test(skilltree_tests, get_all_skill_prereqs_empty)
+Test(skilltree_test, get_all_skill_prereqs_empty)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -397,7 +397,7 @@ Test(skilltree_tests, get_all_skill_prereqs_empty)
 */
 /* Tests get_acquired_skill_prereqs with no prereqs. */
 
-Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
+Test(skilltree_test, get_acquired_skill_prereqs_no_prereqs)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -423,7 +423,7 @@ Test(skilltree_tests, get_acquired_skill_prereqs_no_prereqs)
 
 /* Tests get_acquired_skill_prereqs on a valid case. */
 
-Test(skilltree_tests, get_acquired_skill_prereqs_safe)
+Test(skilltree_test, get_acquired_skill_prereqs_safe)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -457,7 +457,7 @@ Test(skilltree_tests, get_acquired_skill_prereqs_safe)
 
 /* Tests skill_prereqs_missing on a case with no missing prereqs. */
 
-Test(skilltree_tests, skill_prereqs_missing_none)
+Test(skilltree_test, skill_prereqs_missing_none)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -483,7 +483,7 @@ Test(skilltree_tests, skill_prereqs_missing_none)
 
 /* Tests skill_prereqs_missing on a case with missing prereqs. */
 
-Test(skilltree_tests, skill_prereqs_missing_some)
+Test(skilltree_test, skill_prereqs_missing_some)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -531,7 +531,7 @@ Test(skilltree_tests, skill_prereqs_missing_some)
 */
 /* Tests inventory_skill_acquire on a skill with satisfied prereqs. */
 
-Test(skilltree_tests, inventory_skill_acquire_has)
+Test(skilltree_test, inventory_skill_acquire_has)
 {
     testmethod();
     effect_t* defusebombeffect;
@@ -563,7 +563,7 @@ Test(skilltree_tests, inventory_skill_acquire_has)
 */
 /* Tests inventory_skill_acquire on a skill with missing prereqs. */
 
-Test(skilltree_tests, inventory_skill_acquire_has_not)
+Test(skilltree_test, inventory_skill_acquire_has_not)
 {
     testmethod();
     effect_t* defusebombeffect;
