@@ -16,6 +16,7 @@
 Test(skill_test, skill_new_test)
 {
     testmethod();
+    effect_t* defusebombeffect;
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
     cr_assert_eq(skill->sid,1000,
@@ -40,6 +41,7 @@ Test(skill_test, skill_new_test)
 Test(skill_test, skill_init_test)
 {
   testmethod();
+  effect_t* defusebombeffect;
   skill_t* skill = malloc(sizeof(skill_t));
   skill_init(skill, 1000, ACTIVE, "defuse bomb", "defuses a bomb",
       1, 0, 2, 5, defusebombeffect);
@@ -68,6 +70,7 @@ Test(skill_test, skill_init_test)
 Test(skill_test, skill_free_test)
 {
   testmethod();
+  effect_t* defusebombeffect;
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
   int ret = skill_free(skill);
@@ -78,8 +81,10 @@ Test(skill_test, skill_free_test)
 Test(skill_test, skill_execute_test)
 {
   testmethod();
+  effect_t* defusebombeffect;
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
+  chiventure_ctx_t* ctx;
   cr_assert_eq(skill_execute(skill, ctx), 0,
       "Error: failed test skill_new_test on skill->effect\n");
 }

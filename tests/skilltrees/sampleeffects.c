@@ -47,4 +47,4 @@ void testmethod()
                                                                         innerpeace_mod, innerpeace_duration, 2, ctx);
 
     effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
-    }
+}
