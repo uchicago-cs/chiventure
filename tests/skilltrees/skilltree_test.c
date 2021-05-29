@@ -128,7 +128,7 @@ Test(skilltree_test, node_prereq_add_full)
     skill_t* tree = skill_new(1001, ACTIVE, "chop tree", "chops a bomb",
         3, 6, choptreeeffect);
     skill_t* peace = skill_new(1002, ACTIVE, "inner peace", "maintains inner peace",
-        4, 7, effect_inner_peace);
+        4, 7, innerpeace);
     skill_node_t* bomb_node = skill_node_new(bomb, 0, 76, 34);
     skill_node_t* tree_node = skill_node_new(tree, 0, 76, 22);
     skill_node_t* peace_node = skill_node_new(peace, 1, 76, 12);
