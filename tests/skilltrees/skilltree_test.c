@@ -161,7 +161,7 @@ Test(skilltree_test, node_prereq_remove_safe)
     int ret = node_prereq_remove(inner_node, bomb_node);
     cr_assert_eq(ret, SUCCESS, "Error: failed test node_prereq_remove_safe\n");
 }
-*/
+
 /* Tests node_prereq_remove on a prereq that doesn't exist. */
 
 Test(skilltree_test, node_prereq_remove_missing)
@@ -279,7 +279,7 @@ Test(skilltree_test, skill_tree_node_remove_missing)
     int ret = skill_tree_node_remove(tree, inner_node);
     cr_assert_eq(ret, 1, "Error: failed test skill_tree_node_remove_missing\n");
 }
-*/
+
 /* Tests skill_tree_has_node with a node that exists. */
 
 Test(skilltree_test, skill_tree_has_node_has)
@@ -305,7 +305,7 @@ Test(skilltree_test, skill_tree_has_node_has)
   int ret = skill_tree_has_node(tree, 1000);
   cr_assert_eq(ret, 0, "Error: failed test skill_tree_has_node_has\n");
 }
-*/
+
 /* Tests skill_tree_has_node on a node that it doesn't have. */
 
 Test(skilltree_test, skill_tree_has_node_has_not)
@@ -331,7 +331,7 @@ Test(skilltree_test, skill_tree_has_node_has_not)
   int ret = skill_tree_has_node(tree, 1002);
   cr_assert_eq(ret, -1, "Error: failed test skill_tree_has_node_has_not\n");
 }
-*/
+
 /* Tests get_all_skill_prereqs on a valid case. */
 
 Test(skilltree_test, get_all_skill_prereqs_safe)
@@ -364,7 +364,7 @@ Test(skilltree_test, get_all_skill_prereqs_safe)
   cr_assert_eq(ret, inner_node->prereqs,
     "Error: failed test get_all_skill_prereqs_safe\n");
 }
-*/
+
 /* Tests get_all_skill_prereqs for empty prereq list. */
 
 Test(skilltree_test, get_all_skill_prereqs_empty)
@@ -394,7 +394,7 @@ Test(skilltree_test, get_all_skill_prereqs_empty)
     cr_assert_eq(*out, 0,
       "Error: failed test get_all_skill_prereqs_empty\n");
 }
-*/
+
 /* Tests get_acquired_skill_prereqs with no prereqs. */
 
 Test(skilltree_test, get_acquired_skill_prereqs_no_prereqs)
@@ -528,7 +528,7 @@ Test(skilltree_test, skill_prereqs_missing_some)
   cr_assert_eq(ret, true,
     "Error: failed test skill_prereqs_missing_some\n");
 }
-*/
+
 /* Tests inventory_skill_acquire on a skill with satisfied prereqs. */
 
 Test(skilltree_test, inventory_skill_acquire_has)
@@ -560,7 +560,7 @@ Test(skilltree_test, inventory_skill_acquire_has)
     cr_assert_neq(-1, inventory_has_skill(inventory, 1001, ACTIVE),
       "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
 }
-*/
+
 /* Tests inventory_skill_acquire on a skill with missing prereqs. */
 
 Test(skilltree_test, inventory_skill_acquire_has_not)
