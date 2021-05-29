@@ -63,7 +63,7 @@ void help_text(chiventure_ctx_t *ctx)
         "PALETTE [\"DEFAULT\"/\"NIGHT\"/\"BRIGHT\"/\"PAIN\"]\n"
         " -Makes the color of the UI change to that theme!\n"
         "CREDITS"
-        "   -Prints a system message listing contributors\n"
+        "   -Prints a message listing contributors to Chiventure\n"
         "QUIT\n"
         "	-Quits the game\n"
         "   -Can also use CTRL + D to quit\n\n";
