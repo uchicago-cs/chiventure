@@ -3,16 +3,21 @@
 
 #include "wdl/load_room.h"
 #include "cli/cli-utility.h"
+#include "wdl/validate.h"
 
 /* see load_rooms.h */
 int add_rooms_to_game(obj_t *doc, game_t *g)
 {
     // extract room object
-    obj_t *rooms_obj = extract_objects(doc, "ROOMS");
-    // if rooms list is empty then return 1
+    obj_t *rooms_obj = obj_get_attr(doc, "ROOMS", false);
     if (rooms_obj == NULL)
     {
         fprintf(stderr, "rooms list is empty\n");
+        return FAILURE;
+    }
+    else if (list_type_check(rooms_obj, room_type_check) == FAILURE)
+    {
+        fprintf(stderr, "rooms failed typechecking\n");
         return FAILURE;
     }
 
@@ -21,7 +26,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
     HASH_ITER(hh, rooms_obj->data.obj.attr, curr, tmp)
     {
         // get id, short_desc, and long_desc
-        char *id = obj_get_str(curr, "id");
+        char *id = curr->id;
         char *short_desc = obj_get_str(curr, "short_desc");
         char *long_desc = obj_get_str(curr, "long_desc");
 
@@ -39,7 +44,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
 int add_connections_to_rooms(obj_t *doc, game_t *g)
 {
     // extract room object
-    obj_t *rooms_obj = extract_objects(doc, "ROOMS");
+    obj_t *rooms_obj = obj_get_attr(doc, "ROOMS", false);
 
     // if rooms list is empty then return 1
     if (rooms_obj == NULL)
@@ -53,7 +58,7 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
     HASH_ITER(hh, rooms_obj->data.obj.attr, curr, tmp)
     {
         // obtain room id
-        char *id = obj_get_str(curr, "id");
+        char *id = curr->id;
         id = case_insensitize2(id);
         // get list of connections for the room
         obj_t *connections = connections_get_list(curr);
@@ -65,8 +70,8 @@ int add_connections_to_rooms(obj_t *doc, game_t *g)
             return FAILURE;
         }
         // iterate through connections list
-        obj_t *conn_curr, *conn_tmp;
-        HASH_ITER(hh, connections->data.obj.attr, conn_curr, conn_tmp)
+        obj_t *conn_curr;
+        DL_FOREACH(connections->data.lst, conn_curr)
         {
             // get id of room we are going to and direction
             char *to = obj_get_str(conn_curr, "to");

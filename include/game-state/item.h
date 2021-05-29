@@ -18,6 +18,30 @@ typedef struct player player_t;
 /* Forward declaration. Full typedef can be found in condition.h */
 typedef struct condition condition_list_t;
 
+// ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
+// values will be loaded from WDL/provided by action management
+typedef union attribute_value {
+    double double_val;
+    char char_val;
+    bool bool_val;
+    char* str_val;
+    int int_val;
+} attribute_value_t;
+
+enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
+
+typedef struct attribute {
+    UT_hash_handle hh;
+    char* attribute_key; // attribute name
+    enum attribute_tag attribute_tag;
+    attribute_value_t attribute_value;
+} attribute_t;
+
+typedef struct attribute_wrapped_for_llist {
+    struct attribute_wrapped_for_llist *next;
+    attribute_t *attribute;
+} attribute_list_t;
+
 // ITEM STRUCTURE DEFINITION + BASIC FUNCTIONS --------------------------------
 
 /* This typedef is to distinguish between attribute_t pointers which are
@@ -29,11 +53,12 @@ typedef struct attribute attribute_hash_t;
 typedef struct game_action game_action_hash_t;
 
 typedef struct item {
-    UT_hash_handle hh; //makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
+    UT_hash_handle hh; // makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
     char *item_id;
     char *short_desc;
     char *long_desc;
     game_action_hash_t *actions;
+    attribute_list_t *class_multipliers; // a linked list of all player class multipliers
     attribute_hash_t *attributes; // a hashtable for all attributes
     effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
     struct item *next; // points to item w/ identical id, if it exists
@@ -123,13 +148,23 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item);
  */ 
 item_list_t *get_all_items_in_hash(item_hash_t **ht);
 
+/* Function to get an item from an item hashtable
+ *
+ * Parameters:
+ *  pointer to hashtable of items
+ *  id of the item
+ *
+ * Returns:
+ *  pointer to the item, or NULL if it does not exist
+ */ 
+item_t *get_item_in_hash(item_hash_t *ht, char *id);
 
 /* Removes an item from a hashtable of items
  * Note that the memory associated with this item is not freed
  * 
  * Parameters:
  *  pointer to hashtable of items (pointer necessary for uthash to work)
- *  item to add to hashtable
+ *  item to remove from hashtable
  * 
  * Return:
  *  SUCCESS if successful, FAILURE if failed
@@ -146,30 +181,6 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item);
  *  SUCCESS if successful, FAILURE if failed
  */ 
  int add_effect_to_item(item_t *item, stat_effect_t *effect);
-
-// ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
-// values will be loaded from WDL/provided by action management
-typedef union attribute_value {
-    double double_val;
-    char char_val;
-    bool bool_val;
-    char* str_val;
-    int int_val;
-} attribute_value_t;
-
-enum attribute_tag {DOUBLE, BOOLE, CHARACTER, STRING, INTEGER};
-
-typedef struct attribute {
-    UT_hash_handle hh;
-    char* attribute_key; // attribute name
-    enum attribute_tag attribute_tag;
-    attribute_value_t attribute_value;
-} attribute_t;
-
-typedef struct attribute_wrapped_for_llist {
-    struct attribute_wrapped_for_llist *next;
-    attribute_t *attribute;
-} attribute_list_t;
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
 typedef struct game_action_effect{
@@ -232,6 +243,51 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name);
 // ATTRIBUTE ADDITION & REPLACEMENT FUNCTIONS ---------------------------------
 // the following functions allow their users to add attributes to the given
 // item or replace (read: change) attributes associated
+
+/* str_attr_new() creates a new string-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* str_attr_new(char* attr_name, char* value);
+
+/* int_attr_new() creates a new integer-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* int_attr_new(char* attr_name, int value);
+
+/* double_attr_new() creates a new double-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* double_attr_new(char* attr_name, double value);
+
+/* char_attr_new() creates a new char-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* char_attr_new(char* attr_name, char value);
+
+/* bool_attr_new() creates a new bool-specific attribute
+ * Parameters:
+ *  Name of the attribute (char*)
+ *  The value to add to the attribute
+ * Returns:
+ *  Pointer to the new attribute, NULL if memory was unable to be allocated
+ */
+attribute_t* bool_attr_new(char* attr_name, bool value);
 
 /* set_str_attr() sets the value of an attribute of an item to the given string
  * Parameters:
@@ -372,6 +428,48 @@ attribute_list_t *get_all_attributes(item_t *item);
  */
 int delete_attribute_llist(attribute_list_t *head);
 
+/* create_list_attribute: creates an empty attribute_list_t 
+ * 
+ * Returns: A pointer to the created attribute_list_t
+ */
+attribute_list_t* create_list_attribute();
+
+/*
+ * Function to check if a linked list (utlist) contains a specific attribute
+ * 
+ * Parameters:
+ *  linked list of pointers to attributes
+ *  name of a specific attribute
+ *
+ * Returns:
+ *  false for does not contain, true for contains
+ */
+bool list_contains_attribute(attribute_list_t *head, char *attr_name);
+
+/*
+ * Function to add an attribute to a linked listed (utlist) of attributes
+ *
+ * Paramaters:
+ *  Linked list of pointers to attributes
+ *  An attribute to add to the list
+ * 
+ * Returns:
+ *  FAILURE if it failed to add the attribute, SUCCESS if it adds/the list contains the attribute
+ */
+int add_attribute_to_list(attribute_list_t *head, attribute_t *attr);
+
+/*
+ * Function to remove an attribute from a linked listed (utlist) of attributes
+ *
+ * Parameters:
+ *  Linked list of pointers to attributes
+ *  (char*) The attribute key of the attribute to be removed
+ * 
+ * Returns:
+ *  FAILURE it failed to remove the element from the list
+ *  SUCCESS if the element was removed from the list
+ */
+int remove_attribute_from_list(attribute_list_t *head, char *attr_name);
 
 /*
  * Function to delete a linked list (utlist) retrieved from get_all_items()
@@ -438,5 +536,65 @@ int delete_all_attributes(attribute_hash_t *attributes);
 */
 int game_action_init(game_action_t *new_action, char *act_name, 
              char* success_str, char* fail_str);
+
+
+/* list_get_attribute() returns a pointer to an attribute if it exists
+ * Parameters:
+ *  a pointer to a attribute_list
+ *  attribute name
+ * Returns:
+ *  NULL if attribute does not exist, pointer to attribute if it does
+ */
+attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_str_attr() returns the string value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the string value associated with the attribute
+ */
+char* list_get_str_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_int_attr() returns the int value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the int value associated with the attribute
+ */
+int list_get_int_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_double_attr() returns the double value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the double value associated with the attribute
+ */
+double list_get_double_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_char_attr() returns the char value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the char value associated with the attribute
+ */
+char list_get_char_attr(attribute_list_t *head, char* attr_name);
+
+
+/* list_get_bool_attr() returns the bool value of an attribute of an item
+ * Parameters:
+ *  a pointer to the attribute_list
+ *  the attribute name
+ * Returns:
+ *  the bool value associated with the attribute
+ */
+bool list_get_bool_attr(attribute_list_t *head, char* attr_name);
 
 #endif

@@ -2,6 +2,7 @@
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
 #include "game-state/game.h"
+#include "game-state/mode.h"
 #include "action_management/actionmanagement.h"
 #include "ui/print_functions.h"
 #include "checkpointing/save.h"
@@ -27,6 +28,22 @@
  * This is to keep the type of operation consistent, since it
  * is used in the lookup_t struct
  */
+
+
+
+/*
+ * Displays course authors of chiventure
+ *
+ * Input:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct, unused
+ *
+ * Returns:
+ *  - system message listing contributors
+ *
+ */
+char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 
 /*
  * Quits the game
@@ -81,7 +98,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-/* Checks that a specified filetype is a .dat file
+/* Checks that a specified filetype is a .wdl file
  *
  * Parameters:
  * - A string of the filename
@@ -90,7 +107,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * Returns:
  * - true if proper filename, false if not
  */
-bool validate_filename(char *filename);
+bool validate_wdl_filename(char *filename);
 
 /*
  * If the input action is valid (checks by calling validate_action), go through
@@ -135,14 +152,27 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
-/* Error Operations that returns an error message as string
+/* 
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * - lists items that are in the room a player 
+ * is currently in as a list
+ */
+char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+
+/* Error Operations that returns an error message with suggestion as string
  *
  * Parameters:
  *  - tokens: parsed input string
  *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
- * - Said error message as a string
+ * - Said error message with suggestion as a string
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
@@ -225,5 +255,16 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * A string notifying them if the color was changed or not.
  */
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Initiates Dialogue between NPC and Player
+ * 
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * The NPC's response and player's dialogue options.
+ */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */
