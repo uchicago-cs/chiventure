@@ -237,32 +237,41 @@ void demo_item_interactions() {
 
     class_t* wizard = class_prefab_new(game, "Wizard");
     class_t* bard = class_prefab_new(game, "Bard");
+    class_t* warrior = class_prefab_new(game, "Warrior");
 
     item_t* wand = item_new("wand", " ", " ");
     item_t* sword = item_new("sword", " ", " ");
     item_t* guitar = item_new("guitar", " "," ");
 
     /* Item Restrictions */
-    prompt("Adding item restrictions: Wizard can't use a sword. Bard can't use a wand.", NULL);
+    prompt("Adding Item restriction: The Wizard can't use a sword.", NULL);
     add_item_restriction(sword, wizard);
-    add_item_restriction(wand, bard);
 
-    prompt("Checking item restrictions...", NULL);
+    bool allowed_sword = is_restricted(sword, wizard);
+    prompt("You are now playing with class Wizard. Your task is to find a weapon to defeat your archenemy.", NULL);
+    printf("You find a sword lying on a rock, and you are %s to use it.\n", 
+           allowed_sword? "unable": "able");
 
-    printf("Can the Wizard use the Sword? %s\n", is_restricted(sword, wizard) ? "NO" : "YES");
-    printf("Can the Wizard use the Wand? %s\n", is_restricted(sword, bard) ? "NO" : "YES");
-    printf("Can the Bard use the Sword? %s\n", is_restricted(wand, wizard) ? "NO" : "YES");
-    printf("Can the Bard use the Wand? %s\n", is_restricted(wand, bard) ? "NO" : "YES");
+    prompt("Switching to class Bard...", NULL);
+
+    allowed_sword = is_restricted(sword, bard);
+    printf("%s You are now %s to use the sword.\n", allowed_sword? "Failure.": "Success!", allowed_sword? "unable": "able");
+    printf("The sword %s been added to the inventory, and you continue onwards.", allowed_sword? "hasn't": "has");
+    prompt("", NULL);
 
     /* Item modifiers */
-    prompt("Adding Item modifiers. The Bard is naturally good at using the guitar. The Wizard is naturally bad.", NULL);
-    add_item_multiplier(guitar, wizard, .6);
-    add_item_multiplier(guitar, bard, 1.5);
+    prompt("Adding Item multipliers: The Bard is naturally bad at using the wand. The Wizard is naturally good.", NULL);
+    add_item_multiplier(wand, wizard, 1.5);
+    add_item_multiplier(wand, bard, 0.5);
+    add_item_restriction(wand, warrior);
 
-    prompt("Checking item multipliers...", NULL);
-
-    printf("How good is the Wizard at guitar: %.2f\n", get_class_item_multiplier(guitar, wizard));
-    printf("How good is the Bard at guitar: %.2f\n", get_class_item_multiplier(guitar, bard));
+    prompt("You encounter an evil Goblin. To move forward, you must charm the Goblin by casting a spell.", NULL);
+    double mult = get_class_item_multiplier(wand, bard);
+    printf("You attempt to cast the spell, but you can only use the wand at %.2fx its effectiveness.\n", mult);
+    prompt("You have failed to charm the evil Goblin.", NULL);
+    prompt("Switching to class Wizard...", NULL);
+    mult = get_class_item_multiplier(wand, wizard);
+    printf("Wow! You used the wand at %.2fx its effectiveness and charmed the Goblin.\n", mult);
 }
 
 /* main function for the 2021-demo executable. */
@@ -272,7 +281,7 @@ int main() {
     demo_prefab_classes();
     
     printf("***Entering WDL mini-demo***\n");
-    demo_WDL();
+    //demo_WDL();
 
     printf("***Entering multiclass mini-demo***\n");
     demo_multiclasses();
