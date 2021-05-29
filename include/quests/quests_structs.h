@@ -7,6 +7,9 @@
 #include "common/utlist.h"
 #include "npc/npc.h"
 
+/* Forward declaration */
+typedef struct npc npc_t;
+
 /*
  * This struct represents the mission.
  * 

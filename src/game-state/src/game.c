@@ -111,32 +111,13 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 /* See game.h */
 quest_t *get_quest(game_t* game, char *quest_id)
 {
-	quest_t *q;
-	HASH_FIND(hh, game->all_quests, quest_id,  
-		    strnlen(quest_id, MAX_ID_LEN), q);
-
-	return q;
+	return get_quest_from_hash(quest_id, game->all_quests);
 }
 
 /* See game.h */
 int add_quest_to_game(game_t *game, quest_t *quest)
 {
-	quest_t *check;
-
-	char buffer[MAX_ID_LEN];
-	sprintf(buffer, "%ld", quest->quest_id); //need to convert quest_ids to char *
-	
-	check = get_quest(game, buffer);
-
-	if (check != NULL) 
-	{
-		return FAILURE; //quest id is already in the hash table
-	}
-
-	HASH_ADD_KEYPTR(hh, game->all_quests, buffer,
-		            strnlen(buffer, MAX_ID_LEN), quest);
-
-	return SUCCESS;
+	return add_quest_to_hash(quest, game->all_quests);
 }
 
 /* See game.h */

@@ -180,6 +180,28 @@ int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
  */
 int is_quest_completed(quest_t *quest);
 
+/* Gets a quest from the given hash table
+ *
+ * Parameters:
+ *  quest id string
+ *  pointer to quest hash table
+ *
+ * Returns:
+ *  quest struct if successful, NULL if quest is not found
+ */
+quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
+
+/* Adds a quest to the given hash table
+ *
+ * Parameters:
+ *  pointer to quest struct
+ *  pointer to quest hash table
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table);
+
 /* Checks a quest's status.
  *
  * Parameter:
