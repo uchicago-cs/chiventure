@@ -102,8 +102,18 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  */
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
 
+/* Moves an npc one step down its path
+ *
+ * Parameters:
+ *  - npc_t: Pointer to NPC
+ *
+ *  Returns:
+ *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
+ */
+int npc_one_move(npc_t *npc);
 
-/* Moves an npc one step down its definite/indefinite path, deletes it from it's old room, and adds it to its new one
+/* Moves an npc one step down its definite/indefinite path, 
+ * deletes it from it's old room, and adds it to its new one
  *
  * Parameters:
  *  npc_t: Pointer to an NPC
@@ -111,7 +121,12 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs or if NPC is cannot be moved
+ *
+ *  NOTE:
+ *   - This function is only useful if the npcs_in_room structs for the current
+ *   and next rooms are already known. If not, call npc_one_move
  */
-int npc_one_move(npc_t *npc, npcs_in_room_t *old_npc_room, npcs_in_room_t *new_npc_room);
+int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room, 
+		npcs_in_room_t *new_npc_room);
 
 #endif
