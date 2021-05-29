@@ -2,7 +2,6 @@
 #include <string.h>
 
 #include "wdl/load_room.h"
-#include "cli/cli-utility.h"
 #include "wdl/validate.h"
 
 /* see load_rooms.h */

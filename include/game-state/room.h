@@ -3,7 +3,6 @@
 
 #include "game_state_common.h"
 #include "item.h"
-#include "cli/cli-utility.h"
 #include "npc/npc.h"
 #include "npc/rooms-npc.h"
 

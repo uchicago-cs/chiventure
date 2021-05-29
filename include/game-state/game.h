@@ -8,7 +8,6 @@
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
-#include "cli/cli-utility.h"
 #include "mode.h"
 #include "npc/npc.h"
 

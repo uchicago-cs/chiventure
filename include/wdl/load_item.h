@@ -10,7 +10,6 @@
 #include <stdbool.h>
 #include "game-state/game.h"
 #include "load_room.h"
-#include "cli/cli-utility.h"
 #include "wdl_common.h"
 
 /* load_items
