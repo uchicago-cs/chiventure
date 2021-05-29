@@ -15,7 +15,9 @@
 //just item_stat and player_stat_effect
 //define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod)
 
-item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation") ;
+void testmethod()
+{
+    item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation") ;
 enum attribute_tag bombatt_tag = BOOLE ;
 attribute_value_t bombmod;
 bombmod.bool_val = false;
@@ -42,3 +44,4 @@ int innerpeace_duration[] = {8, 8};
 player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
                                                                     innerpeace_mod, innerpeace_duration, 2, ctx);
 effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
+}
