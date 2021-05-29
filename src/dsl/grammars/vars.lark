@@ -1,0 +1,39 @@
+?start: (assignment | reference | other)* -> start
+
+assignment.10: "$" CNAME "=" (triple_quotes | escaped_string_with_vars)
+
+_TRIPLE_QUOTES: "\"\"\""
+triple_quotes.10: _TRIPLE_QUOTES (assignment_inner|var)+ _TRIPLE_QUOTES
+
+// matches up to triple quotes
+assignment_inner.5: WS_INLINE? /[^\$\{\}]+?(?=("""|\{))/
+
+
+escaped_string_with_vars: "\"" (escaped_char|escaped_inner|var)+ "\""
+escaped_char: "\\" /./
+
+//doesn't match brackets (vars) or backslashes (escaped characters)
+escaped_inner.5: WS_INLINE? /[^\{\}\"\\]+/ -> assignment_inner
+
+var: "{" phrase "}"
+
+
+
+reference.5: "$" CNAME _replacement?
+_replacement.10: "{" _keyvals? "}"
+_keyvals: keyval ("," keyval)*
+
+keyval: CNAME ":" (phrase | ESCAPED_STRING)
+
+phrase: STRING+
+
+// matches anything other than $ because $ denotes variables
+other: /[^\$]+/
+
+%import common.CNAME
+%import .util.ESCAPED_STRING
+%import .util._STRING_ESC_INNER
+%import .util.STRING
+
+%import common.WS_INLINE
+%ignore WS_INLINE
