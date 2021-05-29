@@ -1,5 +1,11 @@
-#include <effects.h>
-#include <sampleeffects.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "skilltrees/skilltree.h"
+#include "skilltrees/skill.h"
+#include "skilltrees/skilltrees_common.h"
+#include "skilltrees/inventory.h"
+#include "skilltrees/effect.h"
 
 //just item_stat and player_stat_effect
 //define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod)
@@ -22,22 +28,3 @@ choptreemod.bool_val = false;
 item_att_effect_t* itemchoptreeeffect = define_item_att_effect(choptreeitem, "CHOP", choptree_tag, choptreemod);
 
 effect_t* choptreeeffect = make_item_att_effect(itemdefusebombeffect);
-
-
-
-
-
-
-
-char* innerpeace_stats[] = {"current_health", "peace_level"};
-
-double innerpeace_mod[] = {250, 15};
-
-int innerpeace_duration[] = {8, 8};
-
-player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
-                                                                    innerpeace_mod, innerpeace_duration, 2, ctx);
-effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
-
-
-

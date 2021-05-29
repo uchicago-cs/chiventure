@@ -70,7 +70,7 @@ Test(skill_tests, skill_free_test)
   int ret = skill_free(skill);
   cr_assert_eq(ret, 0, "Error: failed test skill_free_test\n");
 }
-*/
+
 /* Tests skill_execute. */
 
 Test(skill_tests, skill_execute_test)
@@ -80,4 +80,5 @@ Test(skill_tests, skill_execute_test)
   cr_assert_str_eq(skill_execute(skill, "haha"),"Bomb defused!",
       "Error: failed test skill_new_test on skill->effect\n");
 }
-*/
+
+/*
