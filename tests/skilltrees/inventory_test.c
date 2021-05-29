@@ -7,6 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
+#include "skilltrees/sampleeffects.h"
 
 
 /* Tests inventory_skill_add for an active skill, that is valid. */
@@ -127,14 +128,7 @@ Test(inventory_tests, inventory_skill_remove_has_not)
   cr_assert_eq(ret, FAILURE,
     "Error: failed test inventory_has_skill_has_not\n");
 }
-<<<<<<< HEAD
-=======
-*/
 
-
-
-
->>>>>>> ce48f475af680568858a11f40f0684629ecc277b
 /*Tests after this line fail and are skipped.*/
 
 /* Tests inventory_has_skill on active skill that inventory has. */

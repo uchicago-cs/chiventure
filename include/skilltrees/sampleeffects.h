@@ -16,30 +16,23 @@
 //just item_stat and player_stat_effect
 //define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod)
 
-item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation") ;
-enum attribute_tag bombatt_tag = BOOLE ;
-attribute_value_t bombmod;
-bombmod.bool_val = false;
-item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombatt_tag, bombmod);
+item_t* bombitem;
 
-effect_t* defusebombeffect = make_item_attr_effect(itemdefusebombeffect);
+
+effect_t* defusebombeffect;
 
 //chop tree effect
-item_t* choptreeitem = item_new("Axe", "An armed Axe", "Use this to cut down trees!");
-enum attribute_tag choptree_tag = BOOLE;
-attribute_value_t choptreemod;
-choptreemod.bool_val = false;
+item_t* choptreeitem;
 
-item_attr_effect_t* itemchoptreeeffect = define_item_attr_effect(choptreeitem, "CHOP", choptree_tag, choptreemod);
+item_attr_effect_t* itemchoptreeeffect;
 
-effect_t* choptreeeffect = make_item_attr_effect(itemdefusebombeffect);
+effect_t* choptreeeffect;
 
-char* innerpeace_stats[] = {"current_health", "peace_level"};
+char* innerpeace_stats[];
 
-double innerpeace_mod[] = {250, 15};
+double innerpeace_mod[];
 
-int innerpeace_duration[] = {8, 8};
+int innerpeace_duration[];
 
-player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
-                                                                    innerpeace_mod, innerpeace_duration, 2, ctx);
-effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
+player_stat_effect_t* playerstatpeace;
+effect_t* innerpeace;
