@@ -102,45 +102,6 @@ DL_APPEND(head, rock_throw);
 return head;
 }
 
-/* Creates a sample convo */
-convo_t *create_sample_convo()
-{
-    // Starting to build the conversation structure
-    convo_t *c = convo_new();
-
-    // Nodes
-    add_node(c, "1", "NPC: What do you want?");
-    add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
-        "around and get outta my house. You can't come and go as you wish.");
-    add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
-        "around the place without consulting the owner!! Shouldn't I at "
-        "least know who you are?!");
-    add_node(c, "2c", "As soon as your eyes glance to the doorway, the man's "
-        "hands are at your back ushering you away. The door snaps shut and "
-        "you hear the distinct click of a lock turning.");
-    add_node(c, "3a", "NPC: Yes, well, just because the door's unlocked and I'm "
-        "a bit messy don't make it public property. Now take off and leave, "
-        "or else I'm gonna force you to.");
-    add_node(c, "4", "As his arm flashes behind his back, the robber raises "
-        "a knife to you.");
-
-    // Edges
-    add_edge(c, "I just want to talk.", "1", "2a", NULL);
-    add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL);
-    add_edge(c, "<Leave>", "1", "2c", NULL);
-    add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL);
-    add_edge(c, "I'm not trying to take your home, I just thought it would be "
-             "a place to rest in some shade for a bit.", "2a", "3a", NULL);
-    add_edge(c, "<Leave>", "2a", "2c", NULL);
-    add_edge(c, "I'm Leo.", "2b", "2a", NULL);
-    add_edge(c, "The owner? With the state of this place, I'd have pegged you "
-             "for more of a burglar, heh.", "2b", "4", NULL);
-    add_edge(c, "<Leave>", "3a", "2c", NULL);
-    add_edge(c, "Give it your best shot.", "3a", "4", NULL);
-
-    return c;
-}
-
 /* Makes sure the game is loaded */
 char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -155,17 +116,6 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "I do not know what you mean.";
     }
-}
-
-/* Defines a new CLI operation that observes Jim and his house */
-char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
-
-    return "As the door creaks open, a strong musty scent smacks "
-           "you in the face, filled with tones of mildew and copper. "
-           "In steps a shabby man, alarmed by the unexpected guest. "
-           "He looks upset with you. Would you like to talk?";
 }
 
 /* Defines a new CLI operation that prints a list of npcs in a room, or says that there are none. */
