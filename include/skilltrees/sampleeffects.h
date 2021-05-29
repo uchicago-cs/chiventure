@@ -7,7 +7,9 @@
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
 #include "common/ctx.h"
-
+#include "common/uthash.h"
+#include "game-state/stats.h"
+#include "game-state/item.h"
 
 
 //just item_stat and player_stat_effect
