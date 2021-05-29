@@ -132,3 +132,34 @@ Test (npcs_in_room, npcs_in_room_get_number)
 
     cr_assert_eq(npcs_in_room->num_of_npcs,2,"npcs_in_room_get_number() failed.");
 }
+
+Test(npcs_in_room, npc_one_move_definite)
+{
+    room_t *test_room;
+    test_room = room_new("test_room", "test", "test test");
+	room_t *test_room2;
+    test_room2 = room_new("test_room2", "test", "test test");
+
+	npcs_in_room_t *npcs_in_room;
+    npcs_in_room = npcs_in_room_new("test_room");
+    char *npc_id1 = "test_npc1";
+    npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+	
+	
+	int rc_extend = extend_path_definite(test_npc1_mov, test_room2);
+
+	cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
+
+	npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 
+					NULL, test_npc1_mov, false);
+	
+	cr_assert_eq(test_npc1->movement->track, "test_room", 
+					"npc not in correct initial room");
+
+	int rc_move = npc_one_move(test_npc1);
+
+	cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
+
+	cr_assert_eq(test_npc1->movement->track, "test_room2",
+					"npc did not move from npc_one_move()");
+}
