@@ -508,14 +508,11 @@ Test(dialogue, give_one_item)
     g->mode = game_mode_new(NORMAL, NULL, "npc");
     add_item_to_npc(npc, i);
 
-    // TEMPORARY CODE (until NPCs can support two hash tables)
     room_t *r = room_new("room", "short", "long");
     g->curr_room = r;
     add_room_to_game(g, r);
     add_npc_to_room(r->npcs, npc);
-
-    // CORRECT CODE
-    // add_npc_to_game(g, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
 
@@ -546,14 +543,11 @@ Test(dialogue, give_two_items)
     add_item_to_npc(npc, i1);
     add_item_to_npc(npc, i2);
 
-    // TEMPORARY CODE (until NPCs can support two hash tables)
     room_t *r = room_new("room", "short", "long");
     g->curr_room = r;
     add_room_to_game(g, r);
     add_npc_to_room(r->npcs, npc);
-
-    // CORRECT CODE
-    // add_npc_to_game(g, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
 
@@ -587,14 +581,11 @@ Test(dialogue, give_one_then_one_item)
     add_item_to_npc(npc, i1);
     add_item_to_npc(npc, i2);
 
-    // TEMPORARY CODE (until NPCs can support two hash tables)
     room_t *r = room_new("room", "short", "long");
     g->curr_room = r;
     add_room_to_game(g, r);
     add_npc_to_room(r->npcs, npc);
-
-    // CORRECT CODE
-    // add_npc_to_game(g, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
@@ -632,14 +623,11 @@ Test(dialogue, take_one_item)
     g->mode = game_mode_new(NORMAL, NULL, "npc");
     add_item_to_player(p, i);
 
-    // TEMPORARY CODE (until NPCs can support two hash tables)
     room_t *r = room_new("room", "short", "long");
     g->curr_room = r;
     add_room_to_game(g, r);
     add_npc_to_room(r->npcs, npc);
-
-    // CORRECT CODE
-    // add_npc_to_game(g, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
 
