@@ -15,6 +15,7 @@
 /* Test skill_new. */
 Test(skill_test, skill_new_test)
 {
+    testmethod();
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
     cr_assert_eq(skill->sid,1000,
@@ -33,7 +34,7 @@ Test(skill_test, skill_new_test)
         "Error: failed test skill_new_test on skill->max_level\n");
     cr_assert_eq(skill->min_xp, 5,
         "Error: failed test skill_new_test on skill->min_xp\n");
-
+}
 /* Test skill_init. */
 
 Test(skill_test, skill_init_test)
