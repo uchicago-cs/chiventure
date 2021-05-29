@@ -7,7 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
-#include "skilltreees/sampleeffects.h"
+#include "skilltrees/sampleeffects.h"
 
 /* Tests array_element_add on a valid case. */
 
