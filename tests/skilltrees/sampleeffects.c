@@ -43,6 +43,6 @@ void testmethod()
 
     player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
                                                                         innerpeace_mod, innerpeace_duration, 2, ctx);
-                                                                        
+
     effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
     }
