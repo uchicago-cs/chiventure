@@ -281,7 +281,7 @@ int main() {
     demo_prefab_classes();
     
     printf("***Entering WDL mini-demo***\n");
-    //demo_WDL();
+    demo_WDL();
 
     printf("***Entering multiclass mini-demo***\n");
     demo_multiclasses();
