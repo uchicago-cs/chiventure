@@ -7,7 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
-#include "skilltrees/sampleeffects.c"
+#include "sampleeffects.c"
 
 /* Rewrote the test with new effect implementation */
 
@@ -70,7 +70,7 @@ Test(skill_tests, skill_free_test)
   int ret = skill_free(skill);
   cr_assert_eq(ret, 0, "Error: failed test skill_free_test\n");
 }
-
+*/
 /* Tests skill_execute. */
 
 Test(skill_tests, skill_execute_test)
@@ -80,5 +80,4 @@ Test(skill_tests, skill_execute_test)
   cr_assert_eq(skill_execute(skill, ctx), 0,
       "Error: failed test skill_new_test on skill->effect\n");
 }
-
-/*
+*/

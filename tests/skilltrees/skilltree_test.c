@@ -7,7 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
-#include "skilltreees/sampleeffects.c"
+#include "sampleeffects.c"
 
 /*Similar to skill_test.c, these tests must be rewritten to work with the new implementation of effects.  As the implementation nears completion, we will rewrite them.
  *Currently, these tests too will have to commented out.
