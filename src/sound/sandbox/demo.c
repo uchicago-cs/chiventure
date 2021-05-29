@@ -1,4 +1,4 @@
-#include "sound/sound.h"
+#include "sound/demo.h"
 
 /*THE FOLLOWING CODE IS FOR DEMO PURPOSES IN SPRINT 4 */
 

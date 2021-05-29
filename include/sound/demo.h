@@ -12,6 +12,25 @@
 #include "SDL_ttf.h"
 #include "SDL_image.h"
 
+/* This is a enumeration type to differentiate audio types */
+typedef enum {BACKGROUND, SOUND_EFFECT} SoundType;
+
+/* This represents our sound data structure */
+typedef struct {
+    // type of sound
+    SoundType type;
+    // name of sound
+    char* name;
+    // wav file information
+    SDL_AudioSpec wavSpec;
+    uint32_t wavLength;
+    uint8_t *wavBuffer;
+    //below for hash table
+    int id;
+    // makes struct hashable
+    UT_hash_handle hh;
+} sound_t;
+
 /* THE FOLLOWING CODE IS FOR DEMO PURPOSES. THIS
  * USES EXISTING DATA STRUCTURES AND FUNCTIONS FROM
  * THE SDL2 LIBRARIES TO LOAD AND PLAY MUSIC
