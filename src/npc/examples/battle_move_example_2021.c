@@ -25,154 +25,82 @@ const char *banner =
     "     |   /                         EXAMPLE PROGRAM - NPC_1 TEAM                                 /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
-// Making the npcs -------------------------------------------------------------
 
 /* Creates a sample class. Taken from test_class.c */
 class_t* generate_test_class()
 {
-class_t* c;
-char *name, *shortdesc, *longdesc;
+	class_t* c;
+	char *name, *shortdesc, *longdesc;
 
-name = "Warrior";
-shortdesc = "Mechanically, the warrior focuses on up-close physical "
-"damage with weapons and survives enemy attacks "
-"using heavy armor.\n";
-longdesc = "The warrior is the ultimate armor and weapons expert,"
-" relying on physical strength and years of training to "
-"deal with any obstacle. Mechanically, the warrior focuses "
-"on up-close physical damage with weapons and survives enemy "
-"attacks using heavy armor.\n";
+	name = "Warrior";
+	shortdesc = "Mechanically, the warrior focuses on up-close physical "
+	"damage with weapons and survives enemy attacks "
+	"using heavy armor.\n";
+	longdesc = "The warrior is the ultimate armor and weapons expert,"
+	" relying on physical strength and years of training to "
+	"deal with any obstacle. Mechanically, the warrior focuses "
+	"on up-close physical damage with weapons and survives enemy "
+	"attacks using heavy armor.\n";
 
-c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+	c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
 }
 
 /* Creates a sample npc_mov struct. Taken from test_npc_move.c */
 npc_mov_t *generate_test_npc_mov()
 {
-npc_mov_t *npc_mov;
-room_t *test_room;
-test_room = room_new("test_room", "test", "test test");
-npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+	npc_mov_t *npc_mov;
+	room_t *test_room;
+	test_room = room_new("test_room", "test", "test test");
+	npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
 }
 
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t* create_enemy_stats()
 {
-stat_t* test_stats = calloc(1, sizeof(stat_t));
+	stat_t* test_stats = calloc(1, sizeof(stat_t));
 
-test_stats->speed = 50;
-test_stats->defense = 20;
-test_stats->strength = 150;
-test_stats->dexterity = 10;
-test_stats->hp = 200;
-test_stats->max_hp = 200;
-test_stats->xp = 0;
-test_stats->level = 5;
+	test_stats->speed = 50;
+	test_stats->defense = 20;
+	test_stats->strength = 150;
+	test_stats->dexterity = 10;
+	test_stats->hp = 200;
+	test_stats->max_hp = 200;
+	test_stats->xp = 0;
+	test_stats->level = 5;
 
-return test_stats;
+	return test_stats;
 }
 
 /* Creates + initializes a move. Taken from test_battle_ai.c */
 move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
 int defense)
 {
-move_t* move = (move_t*) calloc(1, sizeof(move_t));
+	move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
-move->id = id;
+	move->id = id;
 
-move->item = item;
+	move->item = item;
 
-move->attack = attack;
-move->damage = damage;
-move->defense = defense;
+	move->attack = attack;
+	move->damage = damage;
+	move->defense = defense;
 
-return move;
+	return move;
 }
 
 /* Creates example moves. Taken from test_battle_ai.c */
 move_t* create_enemy_moves()
 {
-move_t *head, *earthquake, *poke, *rock_throw;
-head = NULL;
-earthquake = create_move_(1, NULL, true, 100, 0);
-poke = create_move_(2, NULL, true, 40, 0);
-rock_throw = create_move_(3, NULL, true, 90, 0);
-DL_APPEND(head, earthquake);
-DL_APPEND(head, poke);
-DL_APPEND(head, rock_throw);
-return head;
+	move_t *head, *earthquake, *poke, *rock_throw;
+	head = NULL;
+	earthquake = create_move_(1, NULL, true, 100, 0);
+	poke = create_move_(2, NULL, true, 40, 0);
+	rock_throw = create_move_(3, NULL, true, 90, 0);
+	DL_APPEND(head, earthquake);
+	DL_APPEND(head, poke);
+	DL_APPEND(head, rock_throw);
+	return head;
 }
-
-/* Creates an example "friendly" npc to battle */
-npc_t* friendly_npc()
-{
-class_t* c = generate_test_class();
-npc_mov_t* m = generate_test_npc_mov();
-npc_t* npc = npc_new("friendly", "friendly npc", "friendly npc", c, m,
-true);
-
-stat_t* stats = create_enemy_stats();
-move_t* moves = create_enemy_moves();
-
-add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-CONDITIONAL_FRIENDLY, 99);
-}
-
-/* Creates an example "friendly" npc to battle */
-npc_t* hostile_npc()
-{
-class_t* c = generate_test_class();
-npc_mov_t* m = generate_test_npc_mov();
-npc_t* npc = npc_new("hostile", "hostile npc", "hostile npc", c, m,
-true);
-
-stat_t* stats = create_enemy_stats();
-move_t* moves = create_enemy_moves();
-
-add_battle_to_npc(npc, 10, stats, moves, BATTLE_AI_GREEDY,
-HOSTILE, 0);
-}
-
-
-/* Creates a sample convo */
-convo_t *create_sample_convo()
-{
-    // Starting to build the conversation structure
-    convo_t *c = convo_new();
-
-    // Nodes
-    add_node(c, "1", "NPC: What do you want?");
-    add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
-        "around and get outta my house. You can't come and go as you wish.");
-    add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
-        "around the place without consulting the owner!! Shouldn't I at "
-        "least know who you are?!");
-    add_node(c, "2c", "As soon as your eyes glance to the doorway, the man's "
-        "hands are at your back ushering you away. The door snaps shut and "
-        "you hear the distinct click of a lock turning.");
-    add_node(c, "3a", "NPC: Yes, well, just because the door's unlocked and I'm "
-        "a bit messy don't make it public property. Now take off and leave, "
-        "or else I'm gonna force you to.");
-    add_node(c, "4", "As his arm flashes behind his back, the robber raises "
-        "a knife to you.");
-
-    // Edges
-    add_edge(c, "I just want to talk.", "1", "2a", NULL);
-    add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL);
-    add_edge(c, "<Leave>", "1", "2c", NULL);
-    add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL);
-    add_edge(c, "I'm not trying to take your home, I just thought it would be "
-             "a place to rest in some shade for a bit.", "2a", "3a", NULL);
-    add_edge(c, "<Leave>", "2a", "2c", NULL);
-    add_edge(c, "I'm Leo.", "2b", "2a", NULL);
-    add_edge(c, "The owner? With the state of this place, I'd have pegged you "
-             "for more of a burglar, heh.", "2b", "4", NULL);
-    add_edge(c, "<Leave>", "3a", "2c", NULL);
-    add_edge(c, "Give it your best shot.", "3a", "4", NULL);
-
-    return c;
-}
-
 
 /* Makes sure the game is loaded */
 char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -190,19 +118,7 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 }
 
-/* Defines a new CLI operation that observes Jim and his house */
-char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    check_game(tokens, ctx);
-
-    return "As the door creaks open, a strong musty scent smacks "
-           "you in the face, filled with tones of mildew and copper. "
-           "In steps a shabby man, alarmed by the unexpected guest. "
-           "He looks upset with you. Would you like to talk?";
-}
-
-
-/* Defines a new CLI operation that continues the conversation with Jim */
+/* Defines a new CLI operation that prints a list of npcs in a room, or says that there are none. */
 char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
@@ -254,20 +170,52 @@ chiventure_ctx_t *create_sample_ctx()
                              "It towers over everything but you.");
     add_item_to_room(room1, clock);
 
-    /* Create one npc */
-    char *npc_id = "jim";
-    npc_mov_t *movement = npc_mov_new(NPC_MOV_DEFINITE, room1);
-    npc_t *jim = npc_new(npc_id, 
-                         "Jim is a shabby man who lives in a shabby house.", 
-                         "Jim looks just as suspicious as his house. His "
-                         "beard appears to be half shaved, and his eyes "
-                         "constantly dart all around.", NULL, movement, false);
-    //add_npc_to_game(game, jim);
-    convo_t *c = create_sample_convo();
-    add_convo_to_npc(jim, c);
+    /* Create a friendly npc */
+    char *npc_id1 = "Friendly Fiona";
+    class_t *class1 = generate_test_class();
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, room1);
+    npc_t *friendly_fiona = npc_new(npc_id1, 
+                                    "Friendly Fiona is a friendly woman named" 
+				    "Fiona.", "Friendly Fiona won't fight you" 
+				    "unless you attack her first, and she'll"
+				    "surrender quickly", class1, movement1, true);
+    /* Add battle info to friendly npc */
+    stat_t *stats1 = create_enemy_stats();
+    move_t *moves1 = create_enemy_moves();
+    add_battle_to_npc(friendly_fiona, 100, stats1, moves1, BATTLE_AI_GREEDY,
+		      CONDITIONAL_FRIENDLY, 98);
+    
+    /* Create a hostile npc */
+    char *npc_id2 = "Hostile Harry";
+    class_t *class2 = generate_test_class();
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, room1);
+    npc_t *hostile_harry = npc_new(npc_id2,
+                                   "Hostile Harry is a hostile man named"
+                                   "Harry.", "Hostile Harry will attack you"
+                                   "first, and he won't surrender until he"
+                                   "literally dies", class2, movement2, true);
+    /* Add battle info to hostile npc */
+    stat_t *stats2 = create_enemy_stats();
+    move_t *moves2 = create_enemy_moves();
+    add_battle_to_npc(hostile_harry, 10, stats, moves, BATTLE_AI_GREEDY,
+                      HOSTILE, 0);
+	
+	/* Add items to hostile npc */
+	item_t *elixir = item_new("ELIXIR","This is an elixir.",
+                   "This is an elixir. Effects: energize and stun.");
+    add_item_to_npc(hostile_harry, elixir);
 
-    /* add npc to room1 */
-    add_npc_to_room(room1->npcs, jim);
+    item_t *potion = item_new("POTION","This is a health potion.",
+                   "This potion will increase your health. Feel free to take it.");
+    add_item_to_npc(hostile_harry, potion);
+    
+    /* Add the npcs to the game */
+    add_npc_to_game(game, friendly_fiona);
+    add_npc_to_game(game, hostile_harry);
+
+    /* Add the npcs to room1 */
+    add_npc_to_room(room1->npcs, friendly_fiona);
+    add_npc_to_room(room1->npcs, hostile_harry);
     
     /* Free default game and replace it with ours */
     game_free(ctx->game);
