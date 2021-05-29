@@ -144,7 +144,7 @@ void main(){
     printf("Attribute_node added as a prerequisite to Stat Node, you must be level %d to unlock attribute skill",
             skill_treedemo->nodes[1]->prereq_level);
 
-    printf("Your current level is " ) //Is there a way to access player level here? So I can code in
+    printf("Your current level is %d \n", get_level(ctx->game->curr_player)); //Is there a way to access player level here? So I can code in
                                         // whether player is high enough level for that skill
 
 
