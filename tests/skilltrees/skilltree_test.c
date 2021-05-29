@@ -390,8 +390,8 @@ Test(skilltree_test, get_all_skill_prereqs_empty)
     skill_node_t** ret = get_all_skill_prereqs(tree, 1002);
     cr_assert_null(ret,
       "Error: failed test get_all_skill_prereqs_empty\n");
-    cr_assert_eq(*out, 0,
-      "Error: failed test get_all_skill_prereqs_empty\n");
+    //cr_assert_eq(*out, 0,
+   //  "Error: failed test get_all_skill_prereqs_empty\n");
 }
 
 /* Tests get_acquired_skill_prereqs with no prereqs. */
@@ -414,7 +414,7 @@ Test(skilltree_test, get_acquired_skill_prereqs_no_prereqs)
     skill_inventory_t* inventory = inventory_new(3,4);
     inventory_skill_add(inventory, skill1);
 
-    get_acquired_skill_prereqs(tree, inventory, 1000, out);
+    get_acquired_skill_prereqs(tree, inventory, 1000, 25, out);
 
     cr_assert_eq(*out, 0,
       "Error: failed test get_acquired_skill_prereqs_no_prereqs\n");
@@ -446,7 +446,7 @@ Test(skilltree_test, get_acquired_skill_prereqs_safe)
   skill_inventory_t* inventory = inventory_new(3,4);
   inventory_skill_add(inventory, skill2);
 
-  skill_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, out);
+  skill_t** acqed = get_acquired_skill_prereqs(tree, inventory, 1000, 36, out);
   int ret = (acqed[0] == skill2);
   cr_assert_eq(acqed[0]->sid, 1001,
    "Error: failed test get_acquired_skill_prereqs_safe\n");
