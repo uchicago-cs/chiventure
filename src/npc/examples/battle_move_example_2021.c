@@ -25,9 +25,14 @@ const char *banner =
     "     |   /                         EXAMPLE PROGRAM - NPC_1 TEAM 2021                            /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
+/* Global variables for this example game */
+room_t *lobby;
+room_t *arena;
+npc_t *friendly_fiona;
+npc_t *hostile_harry;
 
 /* Creates a sample class. Taken from test_class.c */
-class_t* generate_test_class()
+class_t* generate_sample_class()
 {
 	class_t* c;
 	char *name, *shortdesc, *longdesc;
@@ -45,14 +50,6 @@ class_t* generate_test_class()
 	c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
 }
 
-/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
-npc_mov_t *generate_test_npc_mov()
-{
-	npc_mov_t *npc_mov;
-	room_t *test_room;
-	test_room = room_new("test_room", "test", "test test");
-	npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
-}
 
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t* create_enemy_stats()
@@ -125,7 +122,7 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if(game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
-        return "Error! We need a loaded room to check items.\n";
+        return "Error! We need a loaded room to check NPCs.\n";
     }
 
     npc_t *npc_tmp, *npc_elt;
@@ -140,9 +137,44 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         return "These are the NPCs in the room";
     }
     else {
-        return "There are no NPC in the room";
+        return "There is no NPC in the room";
     }
 }
+
+/* a mokey-patched version of moving from lobby to arena */
+char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to move.\n";
+    }
+
+    move_room(game, arena);
+    add_npc_to_room(arena->npcs, friendly_fiona);
+    add_npc_to_room(arena->npcs, hostile_harry);
+    delete_npc_from_room(lobby->npcs, friendly_fiona);
+    delete_npc_from_room(lobby->npcs, hostile_harry);
+
+    return "You are in the arena now";
+}
+
+
+/* a mokey-patched version of moving back from arena to lobby */
+char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to move.\n";
+    }
+
+    move_room(game, lobby);
+    return "You are back to the lobby";
+}
+
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
@@ -153,41 +185,39 @@ chiventure_ctx_t *create_sample_ctx()
 
     load_normal_mode(game);
 
-    /* Create the initial room */
-    room_t *room1 = room_new("room1", "This is room 1", 
-                             "The first room in this house is disheveled, "
-                             "yet seems to be stacked with valuables. "
-                             "You spot a faberge egg and an antique "
-                             "clock, for starters.");
+    /* Initialize the lobby room */
+    lobby = room_new("lobby", "This is lobby", 
+                     "Fiona and Harry are in the lobby, "
+                     "try talk to them, you can also request "
+                     "to have a battle with them in the arena.");
 
     /* Initialize npcs_in_room_t field in room_t */
-    npcs_in_room_t *npcs = npcs_in_room_new("room1");
-    room1->npcs = npcs;
+    lobby->npcs = npcs_in_room_new("lobby");
 
-    add_room_to_game(game, room1);
-    game->curr_room = room1;
+    add_room_to_game(game, lobby);
+    game->curr_room = lobby;
 
-    /* Create two items */
-    item_t *egg = item_new("EGG", "It is a faberge egg.",
-                           "The jewelled artifact shimmers through a thick "
-                           "layer of dust. It looks far too expensive for "
-                           "its surroundings.");
-    add_item_to_room(room1, egg);
+    /* Initialize the arena */
+    arena = room_new("arena", "This is arena", 
+                     "Here is the arena you can engage in "
+                     "battles with NPCs here.");
 
-    item_t *clock = item_new("CLOCK", "It is an antique grandfather clock.",
-                             "The clocks hands are stuck at precisely 8:52. "
-                             "It towers over everything but you.");
-    add_item_to_room(room1, clock);
+    /* Initialize npcs_in_room_t field in room_t */
+    arena->npcs = npcs_in_room_new("arena");
+
+    add_room_to_game(game, arena);
+    
 
     /* Create a friendly npc */
     char *npc_id1 = "Friendly Fiona";
-    class_t *class1 = generate_test_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, room1);
-    npc_t *friendly_fiona = npc_new(npc_id1, 
-                                    "Friendly Fiona is a friendly woman named" 
-				    "Fiona.", "Friendly Fiona won't fight you" 
-				    "unless you attack her first, and she'll"
-				    "surrender quickly", class1, movement1, true);
+    class_t *class1 = generate_sample_class();
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
+    extend_path_definite(movement1, arena);
+    friendly_fiona = npc_new(npc_id1, 
+                             "Friendly Fiona is a friendly woman named" 
+				             "Fiona.", "Friendly Fiona won't fight you" 
+				             "unless you attack her first, and she'll"
+			                 "surrender quickly", class1, movement1, true);
     /* Add battle info to friendly npc */
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
@@ -196,13 +226,14 @@ chiventure_ctx_t *create_sample_ctx()
     
     /* Create a hostile npc */
     char *npc_id2 = "Hostile Harry";
-    class_t *class2 = generate_test_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, room1);
-    npc_t *hostile_harry = npc_new(npc_id2,
-                                   "Hostile Harry is a hostile man named"
-                                   "Harry.", "Hostile Harry will attack you"
-                                   "first, and he won't surrender until he"
-                                   "literally dies", class2, movement2, true);
+    class_t *class2 = generate_sample_class();
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
+    extend_path_definite(movement2, arena);
+    hostile_harry = npc_new(npc_id2,
+                            "Hostile Harry is a hostile man named"
+                            "Harry.", "Hostile Harry will attack you"
+                            "first, and he won't surrender until he"
+                            "literally dies", class2, movement2, true);
     /* Add battle info to hostile npc */
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
@@ -211,20 +242,20 @@ chiventure_ctx_t *create_sample_ctx()
 	
 	/* Add items to hostile npc */
 	item_t *elixir = item_new("ELIXIR","This is an elixir.",
-                   "This is an elixir. Effects: energize and stun.");
+                              "This is an elixir. Effects: energize and stun.");
     add_item_to_npc(hostile_harry, elixir);
 
     item_t *potion = item_new("POTION","This is a health potion.",
-                   "This potion will increase your health. Feel free to take it.");
+                              "This potion will increase your health. Feel free to take it.");
     add_item_to_npc(hostile_harry, potion);
     
     /* Add the npcs to the game */
     add_npc_to_game(game, friendly_fiona);
     add_npc_to_game(game, hostile_harry);
 
-    /* Add the npcs to room1 */
-    add_npc_to_room(room1->npcs, friendly_fiona);
-    add_npc_to_room(room1->npcs, hostile_harry);
+    /* Add the npcs to lobby */
+    add_npc_to_room(lobby->npcs, friendly_fiona);
+    add_npc_to_room(lobby->npcs, hostile_harry);
     
     /* Free default game and replace it with ours */
     game_free(ctx->game);
@@ -242,6 +273,8 @@ int main(int argc, char **argv)
      * (not handled by action management, as that code
      * currently only supports items) */
     add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ARENA", move_to_arena_operation, NULL, ctx->cli_ctx->table);
+    add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

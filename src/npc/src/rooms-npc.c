@@ -156,8 +156,8 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room, npcs_in_room_t
     else
         move_npc_definite(npc->movement);
 
-    add_npc_to_room(new_npc_room,npc);
-    delete_npc_from_room(old_npc_room,npc);
+    add_npc_to_room(new_npc_room, npc);
+    delete_npc_from_room(old_npc_room, npc);
 
     return SUCCESS;
 }
