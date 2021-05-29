@@ -153,7 +153,7 @@ char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item)
     strcpy(item_name, item->name);
 
     int usage = use_battle_item(ctx->game->battle->player, item->name);
-    snprintf(string, 150, "You used the %s!\n", item_name);
+    snprintf(string, 150, "You used the %s\n", item_name);
 
     if (usage == FAILURE) 
     {

@@ -133,7 +133,7 @@ char *print_moves(battle_t *b, char* moves)
     DL_FOREACH(b->player->moves, temp)
     {
         
-        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name:%s\nDamage:%d\nDefense:%d\n\n",
+        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name: %s\nDamage: %d\nDefense: %d\n\n",
         temp->info, temp->damage, temp->defense);
         strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
         slen += n;
