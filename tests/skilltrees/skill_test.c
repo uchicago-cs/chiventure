@@ -58,7 +58,7 @@ Test(skill_test, skill_init_test)
       "Error: failed test skill_new_test on skill->max_level\n");
   cr_assert_eq(skill->min_xp, 5,
       "Error: failed test skill_new_test on skill->min_xp\n");
-  cr_assert_eq((skill->skill_effect->effecttype, ITEM_ATTRIBUTE_MOD,
+  cr_assert_eq(skill->skill_effect->effecttype, ITEM_ATTRIBUTE_MOD,
       "Error: failed test skill_new_test on skill->effect\n");
 }
 
@@ -81,4 +81,3 @@ Test(skill_test, skill_execute_test)
   cr_assert_eq(skill_execute(skill, ctx), 0,
       "Error: failed test skill_new_test on skill->effect\n");
 }
-*/
