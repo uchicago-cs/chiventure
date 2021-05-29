@@ -192,6 +192,7 @@ Test(effect_tests, define_item_attr_effect_correct_vals)
     /* Running define_item_attr_effect and making sure it gives the correct values */
     item_attr_effect_t* disarm_bomb = define_item_attr_effect(bomb, "ARMED", att_tag, mod);
     cr_assert_not_null(disarm_bomb, "Error: Returned NULL effect");
+    
     cr_assert_eq(disarm_bomb->att_tag, BOOLE, "Error : Have not set tag correctly");
     cr_assert_eq(disarm_bomb->attribute_mod.bool_val, false, "Error : Did not set value correctly");
 }

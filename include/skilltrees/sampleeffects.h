@@ -16,7 +16,6 @@
 //define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod)
 
 item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation");
-
 enum attribute_tag bombatt_tag = BOOLE;
 attribute_value_t bombmod;
 bombmod.bool_val = false;
