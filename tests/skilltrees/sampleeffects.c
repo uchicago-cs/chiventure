@@ -18,30 +18,31 @@
 void testmethod()
 {
     item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation") ;
-enum attribute_tag bombatt_tag = BOOLE ;
-attribute_value_t bombmod;
-bombmod.bool_val = false;
-item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombatt_tag, bombmod);
+    enum attribute_tag bombatt_tag = BOOLE ;
+    attribute_value_t bombmod;
+    bombmod.bool_val = false;
+    item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombatt_tag, bombmod);
 
-effect_t* defusebombeffect = make_item_attr_effect(itemdefusebombeffect);
+    effect_t* defusebombeffect = make_item_attr_effect(itemdefusebombeffect);
 
-//chop tree effect
-item_t* choptreeitem = item_new("Axe", "An armed Axe", "Use this to cut down trees!");
-enum attribute_tag choptree_tag = BOOLE;
-attribute_value_t choptreemod;
-choptreemod.bool_val = false;
+    //chop tree effect
+    item_t* choptreeitem = item_new("Axe", "An armed Axe", "Use this to cut down trees!");
+    enum attribute_tag choptree_tag = BOOLE;
+    attribute_value_t choptreemod;
+    choptreemod.bool_val = false;
 
-item_attr_effect_t* itemchoptreeeffect = define_item_attr_effect(choptreeitem, "CHOP", choptree_tag, choptreemod);
+    item_attr_effect_t* itemchoptreeeffect = define_item_attr_effect(choptreeitem, "CHOP", choptree_tag, choptreemod);
 
-effect_t* choptreeeffect = make_item_attr_effect(itemdefusebombeffect);
+    effect_t* choptreeeffect = make_item_attr_effect(itemdefusebombeffect);
 
-char* innerpeace_stats[] = {"current_health", "peace_level"};
+    char* innerpeace_stats[2] = {"current_health", "peace_level"};
 
-double innerpeace_mod[] = {250, 15};
+    double innerpeace_mod[2] = {250, 15};
 
-int innerpeace_duration[] = {8, 8};
+    int innerpeace_duration[2] = {8, 8};
 
-player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
-                                                                    innerpeace_mod, innerpeace_duration, 2, ctx);
-effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
-}
+    player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
+                                                                        innerpeace_mod, innerpeace_duration, 2, ctx);
+                                                                        
+    effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
+    }
