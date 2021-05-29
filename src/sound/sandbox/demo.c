@@ -1,4 +1,5 @@
 #include "sound/sound.h"
+#include "sound/demo.h"
 
 /*void play_audio(sound_t *name)
 {
