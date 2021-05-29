@@ -107,7 +107,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     command_list_t *temp = new_command_list(NULL);
 
     print_to_cli(ctx, "Start of command history: \n");
-    LL_FOREACH(ctx->command_history, temp)
+    LL_FOREACH(ctx->cli_ctx->command_history, temp)
     {
         if (temp->command != NULL) 
         {
@@ -249,7 +249,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         print_to_cli(ctx, tokens[0]);
         return ( "Error! We need a loaded room to do the above action. \n");
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
     if(tokens[1] == NULL)
     {
@@ -297,7 +297,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
     if(tokens[1] == NULL)
     {
@@ -332,7 +332,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
     if(tokens[1] == NULL || tokens[3] == NULL)
     {
@@ -484,15 +484,15 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     capitalize(tokens[1]);
     capitalize(tokens[2]);
-    if(find_entry(tokens[1], (ctx->table)) == NULL)
+    if(find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
     }
-    if(find_entry(tokens[2],(ctx->table)) != NULL)
+    if(find_entry(tokens[2],(ctx->cli_ctx->table)) != NULL)
     {
         return "You can't change the meaning of a word that's already defined!";
     }
-    add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (find_action(tokens[1],(ctx->table))), (ctx->table));
+    add_entry(tokens[2],(find_operation(tokens[1],(ctx->cli_ctx->table))), (find_action(tokens[1],(ctx->cli_ctx->table))), (ctx->cli_ctx->table));
     return "The two words are now synonyms!";
 }
 
