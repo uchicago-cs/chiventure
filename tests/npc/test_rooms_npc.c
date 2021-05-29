@@ -164,7 +164,7 @@ Test(npcs_in_room, npc_one_move_definite)
 	cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
 
 
-	cr_assert_eq(test_npc1->movement->track, "test_room2",
+	cr_assert_str_eq(test_npc1->movement->track, "test_room2",
 					"npc did not move from npc_one_move()");
 }
 
@@ -198,6 +198,6 @@ Test(npcs_in_room, npc_one_move_indefinite)
 
     cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
 
-    cr_assert_eq(test_npc1->movement->track, "test_room2",
+    cr_assert_str_eq(test_npc1->movement->track, "test_room2",
                                         "npc did not move from npc_one_move()");
 }
