@@ -70,7 +70,6 @@ action_type_t *find_action(char *command_name, lookup_t **table)
 
 void delete_entry(char *command_name, lookup_t **table)
 {
-    case_insensitize1(command_name);
     lookup_t *t = find_entry(command_name, table);
     HASH_DEL(*table, t);
     free(t->name);

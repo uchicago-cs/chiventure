@@ -51,7 +51,6 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 /* see game_action.h */
 game_action_t *get_action(item_t *item, char *action_name)
 {
-    action_name = case_insensitize2(action_name);
     game_action_t *action;
     HASH_FIND(hh, item->actions, action_name, strlen(action_name), action);
     if (action == NULL)

@@ -6,9 +6,6 @@
 /* See room.h */
 path_t *path_new(room_t *dest, char *direction)
 {
-
-    direction = case_insensitize2(direction);
-
     path_t *path = malloc(sizeof(path_t));
     memset(path, 0, sizeof(path_t));
     path->direction = malloc(MAX_ID_LEN * sizeof(char));

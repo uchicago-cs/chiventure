@@ -225,7 +225,6 @@ player_t *get_player(game_t *game, char *player_id)
 /* See game.h */
 room_t *find_room_from_game(game_t *game, char* room_id)
 {
-    room_id = case_insensitize2(room_id);
     room_t *r;
     HASH_FIND(hh, game->all_rooms, room_id, strnlen(room_id, MAX_ID_LEN), r);
     return r;

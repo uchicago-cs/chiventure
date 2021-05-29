@@ -59,7 +59,7 @@ int load_actions(obj_t *item_obj, item_t *i)
     obj_t *curr;
     DL_FOREACH(action_ls->data.lst, curr)
     {
-        temp = get_game_action(case_insensitize2(obj_get_str(curr, "action")), val_actions);
+        temp = get_game_action(obj_get_str(curr, "action"), val_actions);
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
@@ -118,7 +118,7 @@ int load_items(obj_t *doc, game_t *g)
         }
 
         //retrieve the pointer for the room that the item is located in
-        room_t *item_room = find_room_from_game(g, case_insensitize2(in));
+        room_t *item_room = find_room_from_game(g, in);
 
         // add item to room
         add_item_to_room(item_room, item);

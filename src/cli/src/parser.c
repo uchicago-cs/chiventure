@@ -100,7 +100,16 @@ char **parse(char *input)
         return NULL;
     }
 
-    case_insensitize1(input);
+    //Changes the input to be all caps, for compatibility with commands/objects/directions
+    int i = 0;
+    char ch;
+
+    while(input[i])
+    {
+        ch = toupper(input[i]);
+        input[i] = ch;
+        i++;
+    }
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
