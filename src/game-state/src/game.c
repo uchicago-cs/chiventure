@@ -12,6 +12,10 @@ game_t *game_new(char *desc)
     memset(game, 0, sizeof(game_t));
     game->start_desc = strndup(desc, MAX_START_DESC_LEN);
 
+    player_t *player1 = player_new("player1");
+    add_player_to_game(game, player1);
+    set_curr_player(game, player1);
+
     /* read from the file using interface from WDL team */
 
     return game;
