@@ -49,9 +49,9 @@
             "in": "Bedroom",
             "actions": []
         },
-        "LUNCH BOX": {
-            "short_desc": "ASH's lunch box",
-            "long_desc": "Made with love from Mom",
+        "ENCYCLOPEDIA": {
+            "short_desc": "A big book",
+            "long_desc": "Contains information about the world and the Pokemon that inhabit it",
             "in": "npc",
             "actions": []
         }
@@ -63,29 +63,29 @@
             "in": "Living Room",
             "inventory": [
                 {
-                    "item_id": "LUNCH BOX"
+                    "item_id": "ENCYCLOPEDIA"
                 }
             ],
             "dialogue": {
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "Good morning sweetie. Here, take your lunch box."
+                        "npc_dialogue": "Good morning sweetie. Can you help me take this book to Prof. Oak?"
                     },
                     {
                         "id": "2",
-                        "npc_dialogue": "You're welcome.",
+                        "npc_dialogue": "Thanks sweetie.",
                         "actions": [
                             {
                                 "action": "GIVE_ITEM",
-                                "action_id": "LUNCH BOX"
+                                "action_id": "ENCYCLOPEDIA"
                             }
                         ]
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Thanks, Mom",
+                        "quip": "Okay",
                         "from_id": "1",
                         "to_id": "2"
                     }
