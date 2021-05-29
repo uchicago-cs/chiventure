@@ -134,6 +134,7 @@ void prompt(char* message, char* input) {
     }
 }
 
+/* This path expects that we are at the root of the build directory */
 #define CLASSES_WDL_PATH "../tests/wdl/examples/wdl/classes.wdl"
 
 /* Helper function appropriated from WDL tests to load in a file */
@@ -197,6 +198,14 @@ void demo_WDL() {
      * kinds of classes you can laod */
     obj_t *obj_store = get_doc_obj();
     game_t *game = load_game(obj_store);
+
+    /* If the game is NULL, then the WDL example file could not be found. */
+    if (game == NULL) {
+        printf("ERROR! Game object is NULL.\nMake sure to run this executable " 
+               "in root of the build directory so it can properly find the "
+               "example WDL file.\nAborting demo_WDL().\n");
+        return;
+    }
 
     printf("Game successfully loaded from WDL File: %s\n", CLASSES_WDL_PATH);
 
@@ -273,6 +282,14 @@ void demo_item_interactions() {
     mult = get_class_item_multiplier(wand, wizard);
     printf("Wow! You used the wand at %.2fx its effectiveness and charmed the Goblin.\n", mult);
 }
+
+
+/* Due to having to locate the example WDL file, it is critical that this executable 
+ * is run from from a specific location: the root of the build/ directory. Running it anywhere else will cause 
+ * it to fail to find the WDL file, leading to segfaults. 
+ * 
+ * I prefer to use the command: 
+ * $ make examples && src/playerclass/examples/2021-demo */
 
 /* main function for the 2021-demo executable. */
 int main() {
