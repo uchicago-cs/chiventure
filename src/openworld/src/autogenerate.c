@@ -195,6 +195,26 @@ item_hash_t *random_items(roomspec_t *room)
 }
 
 /* See autogenerate.h */
+int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
+{
+    item_hash_t *current = NULL;
+    item_hash_t *tmp = NULL;
+
+    int i = 0;
+
+    HASH_ITER(hh, src, current, tmp) {
+        if (i == num_iters) {
+            copy_item_to_hash(dst, src, current->item_id);
+            return SUCCESS;
+        }
+        i++;
+    }
+
+    return FAILURE;
+}
+
+
+/* See autogenerate.h */
 item_hash_t *generate_items(roomspec_t *rspec)
 {
     if (rspec == NULL) {
@@ -240,36 +260,18 @@ item_hash_t *generate_items(roomspec_t *rspec)
         } else {
             spawn_num = 0;
         }
-        spawn_num = (spawn_num < MAX_RAND_ITEMS - total_count)? spawn_num : MAX_RAND_ITEMS - total_count;
+        spawn_num = (spawn_num < (MAX_RAND_ITEMS - total_count)) ? 
+                     spawn_num : (MAX_RAND_ITEMS - total_count);
 
         for (int i = 0; i < spawn_num; i++) {
             copy_item_to_hash(&new_items, rspec->items, curr->item_id);
         }
-        total_count += spawn_num; // note that spawn_num could be 0
+        total_count += spawn_num; 
     }
 
     return new_items;
 }
 
-
-/* See autogenerate.h */
-int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
-{
-    item_hash_t *current = NULL;
-    item_hash_t *tmp = NULL;
-
-    int i = 0;
-
-    HASH_ITER(hh, src, current, tmp) {
-        if (i == num_iters) {
-            copy_item_to_hash(dst, src, current->item_id);
-            return SUCCESS;
-        }
-        i++;
-    }
-
-    return FAILURE;
-}
 
 
 /* See autogenerate.h */

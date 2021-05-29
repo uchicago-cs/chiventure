@@ -76,7 +76,6 @@ room_t* roomspec_to_room(roomspec_t *roomspec);
  * - SUCCESS: if an open direction is available
  * - FAILURE: otherwise
  */
-
 int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_direction_to_new);
 
 /** room_generate
@@ -169,7 +168,24 @@ roomspec_t *random_room_lookup(speclist_t *spec);
 */
 item_hash_t *random_items(roomspec_t *room);
 
-/** generate_items
+/*
+* random_item_lookup
+* Iterate through the src item hash table num_iters times and copy that
+* item to the dst item hash. This is a helper function for random_items.
+*
+* parameters:
+* - item_hash_t *dst is where you want to store the item you just found
+* - item_hash_t *src is where you're looking up the item
+* - num_iters is how many times you'll iterate through src to settle on an item.
+*
+* returns:
+* - SUCCESS if items allowed in a room could be found (SUCCESS)
+* - FAILURE if items allowed in a room could not be found (FAILURE)
+*/
+int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
+
+
+/* generate_items
  * Generates an item hash according to the item_hash and itemspec_hash 
  * specified in in the given roomspec.
  * 
@@ -189,21 +205,6 @@ item_hash_t *random_items(roomspec_t *room);
  */
 item_hash_t *generate_items(roomspec_t *rspec);
 
-/*
-* random_item_lookup
-* Iterate through the src item hash table num_iters times and copy that
-* item to the dst item hash. This is a helper function for random_items.
-*
-* parameters:
-* - item_hash_t *dst is where you want to store the item you just found
-* - item_hash_t *src is where you're looking up the item
-* - num_iters is how many times you'll iterate through src to settle on an item.
-*
-* returns:
-* - SUCCESS if items allowed in a room could be found (SUCCESS)
-* - FAILURE if items allowed in a room could not be found (FAILURE)
-*/
-int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
 
 /* map_level_to_difficulty
