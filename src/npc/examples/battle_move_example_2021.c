@@ -282,13 +282,14 @@ chiventure_ctx_t *create_sample_ctx()
                       HOSTILE, 0);
 
     /* Add items to hostile npc */
-    item_t *elixir = item_new("ELIXIR","This is an elixir.",
-                              "This is an elixir. Effects: energize and stun.");
-    add_item_to_npc(hostile_harry, elixir);
     item_t *potion = item_new("POTION","This is a health potion.",
                               "This potion will increase your health. Feel"
 			                  " free to take it.");
     add_item_to_npc(hostile_harry, potion);
+    item_t *elixir = item_new("ELIXIR","This is an elixir.",
+                              "This is an elixir. Effects: energize and stun.");
+    add_item_to_npc(hostile_harry, elixir);
+    
     
     /* Add the npcs to the game */
     add_npc_to_game(game, friendly_fiona);
