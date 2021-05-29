@@ -63,11 +63,11 @@ char *level_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     speclist_t *spec3 = speclist_new(roomspec3);
 
     speclist_t *spec = NULL;
-    DL_APPEND(spec, spec0);
-    DL_APPEND(spec, spec1);
-    DL_APPEND(spec, spec2);
     DL_APPEND(spec, spec3);
-
+    DL_APPEND(spec, spec2);
+    DL_APPEND(spec, spec1);
+    DL_APPEND(spec, spec0);
+    
     /* Create levelspec */
     int thresholds[4] = {1, 2, 3, 4};
     levelspec_t *levelspec = levelspec_new(4, thresholds);
@@ -107,9 +107,14 @@ char *level_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *recursive_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     /* This operation has to be called with one parameter */
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "I do not know what you mean.";
+    }
+
+    if (tokens[1] == NULL)
+    {
+        return "Please specify the generation radius.";
     }
 
     int radius = atoi(tokens[1]);
