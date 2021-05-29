@@ -6,6 +6,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
+#include "common/ctx.h"
 
 //just item_stat and player_stat_effect
 //define_item_att_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod)
@@ -13,9 +14,8 @@
 item_t* bombitem = item_new("BOMB", "An armed bomb", "5 seconds till detonation");
 
 enum attribute_tag bombatt_tag = BOOLE;
-attribute_value_t bombmod;
-bombmod.bool_val = false;
-item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombtag, bombmod);
+attribute_value_t bombmod.bool_val = false
+item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombatt_tag, bombmod);
 
 effect_t* defusebombeffect = make_item_attr_effect(itemdefusebombeffect);
 
