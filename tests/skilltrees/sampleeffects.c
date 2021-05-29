@@ -24,11 +24,6 @@ item_att_effect_t* itemchoptreeeffect = define_item_att_effect(choptreeitem, "CH
 effect_t* choptreeeffect = make_item_att_effect(itemdefusebombeffect);
 
 
-
-
-
-
-
 char* innerpeace_stats[] = {"current_health", "peace_level"};
 
 double innerpeace_mod[] = {250, 15};
