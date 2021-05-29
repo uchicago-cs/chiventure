@@ -41,6 +41,8 @@ void testmethod()
 
     int innerpeace_duration[2] = {8, 8};
 
+    chiventure_ctx_t* ctx;
+
     player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
                                                                         innerpeace_mod, innerpeace_duration, 2, ctx);
 
