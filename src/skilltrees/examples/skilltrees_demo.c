@@ -153,16 +153,16 @@ void main(){
     //Operations should
     //Enter the "stat skill room" and level up. Player can now unlock and execute new statistic modifying skill
         //leveling up in the stat skill room done using following function:
-        int skill_level_up(stat_skill);
+        skill_level_up(stat_skill);
         //stat_skill xp points then leveled up using following function:
             //for ex., xp is 50 points here
-        int skill_xp_up(stat_skill, 50);
+        skill_xp_up(stat_skill, 50);
     //Enter the "attribute skill room" and level up. Player cna now unlock and execute new attribute modifying skill.
         //leveling up in the "attribute skill room" done using following function:
-        int skill_level_up(attribute_skill);
+        skill_level_up(attribute_skill);
         //attribute_skill xp points then leveled up using following function:
             //for ex., xp is 50 points here
-        int skill_xp_up(attribute_skill, 50);
+        skill_xp_up(attribute_skill, 50);
 
 
     // Start UI for example chiventure context
