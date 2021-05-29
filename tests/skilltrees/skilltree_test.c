@@ -23,7 +23,7 @@ Test(skilltree_tests, skill_node_new_test)
 
 
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, defusebombeffect;
+        2, 5, defusebombeffect);
     skill_node_t* node = skill_node_new(skill, 0, 24, 76);
     cr_assert_eq(node->prereqs,NULL,
         "Error: failed test skill_node_new on node->prereqs\n");
@@ -47,8 +47,7 @@ Test(skilltree_tests, skill_node_new_test)
     cr_assert_eq(node->skill->xp, 0,
         "Error: failed test skill_node_new_test on node->skill->xp\n");
     cr_assert_eq(node->skill->max_level, 2,
-        "Error: failed test 
-        _test on node->skill->max_level\n");
+        "Error: failed test on node->skill->max_level\n");
     cr_assert_eq(node->skill->min_xp, 5,
         "Error: failed test skill_node_new_test on node->skill->min_xp\n");
     cr_assert_str_eq((node->skill->effect)("haha"),"Bomb defused!",
@@ -594,4 +593,4 @@ Test(skilltree_tests, inventory_skill_acquire_has_not)
   cr_assert_eq(-1, inventory_has_skill(inventory, 1001, ACTIVE),
     "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
 }
-*/
+
