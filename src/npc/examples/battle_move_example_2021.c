@@ -202,7 +202,7 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 	else if (npc_elt->npc_battle->health == 1) 
 	{
             change_npc_health(npc_elt, -1, 100);
-            int res = transfer_all_npc_items(npc_elt, game->curr_room);
+            transfer_all_npc_items(npc_elt, game->curr_room);
             char message1[1000];
             sprintf(message1, "You killed %s. They've dropped their items, "
                     "which you can now take.", npc_elt->npc_id);
