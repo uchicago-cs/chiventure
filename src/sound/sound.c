@@ -6,8 +6,11 @@
 #include "sound.h"
 #include "SDL/SDL.h"
 
+int load_wav(sound_t *sound)
+{
+    return 0;
+}
 
-<<<<<<< HEAD
 int sound_init(char* path, double duration, char* name, int id, UT_hash_handle hh)
 {
     if( SDL_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
@@ -16,16 +19,6 @@ int sound_init(char* path, double duration, char* name, int id, UT_hash_handle h
         success = false;
     }
     return SUCCESS;
-=======
-int load_wav(sound_t *sound)
-{
-    /*
-    uint32_t wavLength = sound->wavLength;
-    uint8_t *wavBuffer = sound->wavBuffer;
-    SDL_LoadWAV(sound->name, &(sound->wavSpec), &wavBuffer, &wavLength);
-    */
-    return 0;
->>>>>>> 11c37048538ee017e7d074cfe77595c915191024
 }
 
 int sound_free(sound_t *sound)
