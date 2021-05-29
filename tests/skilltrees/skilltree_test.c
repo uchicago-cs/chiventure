@@ -357,10 +357,10 @@ Test(skilltree_test, get_all_skill_prereqs_safe)
   skill_tree_node_add(tree, bomb_node);
   skill_tree_node_add(tree, chop_node);
   skill_tree_node_add(tree, inner_node);
-  int* out = malloc(sizeof(int));
 
 
-  skill_node_t** ret = get_all_skill_prereqs(tree, 1002, out);
+
+  skill_node_t** ret = get_all_skill_prereqs(tree, 1002);
   cr_assert_eq(ret, inner_node->prereqs,
     "Error: failed test get_all_skill_prereqs_safe\n");
 }
@@ -386,9 +386,8 @@ Test(skilltree_test, get_all_skill_prereqs_empty)
     skill_tree_node_add(tree, bomb_node);
     skill_tree_node_add(tree, chop_node);
     skill_tree_node_add(tree, inner_node);
-    int* out = malloc(sizeof(int));
 
-    skill_node_t** ret = get_all_skill_prereqs(tree, 1002, out);
+    skill_node_t** ret = get_all_skill_prereqs(tree, 1002);
     cr_assert_null(ret,
       "Error: failed test get_all_skill_prereqs_empty\n");
     cr_assert_eq(*out, 0,
@@ -510,8 +509,8 @@ Test(skilltree_test, skill_prereqs_missing_some)
   int res2 = skill_tree_has_node(tree, 1001);
   cr_assert_eq(1, res2, "Error: failed test skill_prereqs_missing_some\n");
 
-  int* out_prereqs = malloc(sizeof(int));
-  skill_node_t** skill_list = get_all_skill_prereqs(tree, 1000, out_prereqs);
+
+  skill_node_t** skill_list = get_all_skill_prereqs(tree, 1000);
   cr_assert_eq(1, (*out_prereqs),
                "Error: failed test skill_prereqs_missing_some\n");
   cr_assert_neq(NULL, skill_list,
