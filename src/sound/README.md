@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-Residual Backlog Issues from Sound Team Spring 2021:
-Implement play/load sound function:
-Play sound within src/sound/sound.c appears to be working, but the sound_init() function does not incorporate the given variables correctly. This doesn’t seem to be an issue when playing a sound, so perhaps sound_init() is unnecessary. Additionally, to play the sound we are able to use SDL_OpenAudioDevice(), SDL_QueueAudio(), SDL_delay() functionally while also ending and closing the sound file with SDL_CloseAudioDevice(), SDL_FreeWAV(), and SDL_Quit().
 =======
 # Sound Library for Chiventure
 
@@ -89,7 +85,7 @@ More information can be found in the references [page](https://github.com/uchica
 
 ## Current Status
 The basic design is provided. However, the current version of sound module contains many compiler errors that the team was unfortunately not able to complete due to the lack of time. We are hoping that the next team could pick up from where we have left.
->>>>>>> 11c37048538ee017e7d074cfe77595c915191024
+
 ## Residual Backlog Issues from Sound Team Spring 2021:
 Implement play/load sound function:
 Play sound within src/sound/sound.c appears to be working, but the sound_init() function does not incorporate the given variables correctly. This doesn’t seem to be an issue when playing a sound, so perhaps sound_init() is unnecessary. Additionally, to play the sound we are able to use SDL_OpenAudioDevice(), SDL_QueueAudio(), SDL_delay() functionally while also ending and closing the sound file with SDL_CloseAudioDevice(), SDL_FreeWAV(), and SDL_Quit().
