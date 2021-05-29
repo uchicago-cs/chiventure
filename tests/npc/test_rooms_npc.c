@@ -153,7 +153,7 @@ Test(npcs_in_room, npc_one_move_definite)
 	npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 
 					NULL, test_npc1_mov, false);
 	
-	cr_assert_eq(test_npc1->movement->track, "test_room", 
+	cr_assert_str_eq(test_npc1->movement->track, "test_room", 
 					"npc not in correct initial room\n"
 					"npc room: %s \n"
 					"should be in room: %s",
@@ -162,6 +162,7 @@ Test(npcs_in_room, npc_one_move_definite)
 	int rc_move = npc_one_move(test_npc1);
 
 	cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
+
 
 	cr_assert_eq(test_npc1->movement->track, "test_room2",
 					"npc did not move from npc_one_move()");
@@ -187,7 +188,7 @@ Test(npcs_in_room, npc_one_move_indefinite)
     npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc",
                                         NULL, test_npc1_mov, false);
 
-	cr_assert_eq(test_npc1->movement->track, "test_room",
+	cr_assert_str_eq(test_npc1->movement->track, "test_room",
                     "npc not in correct initial room\n"
                     "npc room: %s \n"
                     "should be in room: %s",
