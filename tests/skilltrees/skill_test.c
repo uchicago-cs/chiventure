@@ -73,7 +73,6 @@ Test(skill_test, skill_free_test)
   int ret = skill_free(skill);
   cr_assert_eq(ret, 0, "Error: failed test skill_free_test\n");
 }
-*/
 /* Tests skill_execute. */
 
 Test(skill_test, skill_execute_test)
