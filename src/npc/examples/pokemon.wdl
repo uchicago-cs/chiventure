@@ -217,18 +217,12 @@
                         "npc_dialogue": "The wild Pidgey attacks!"
                     },
                     {
-                        "id": "5a",
+                        "id": "4",
                         "npc_dialogue": "Got away safely!"
                     },
                     {
                         "id": "2a",
                         "npc_dialogue": "Pidgey broke free! Pidgey used sand attack!"
-                        "actions": [
-                            {
-                                "action": "TAKE_ITEM",
-                                "action_id": "POKEBALL"
-                            }
-                        ]
                     },
                     {
                         "id": "2b",
@@ -253,17 +247,17 @@
                     {
                         "quip": "Run Away!",
                         "from_id": "1",
-                        "to_id": "5a"
+                        "to_id": "4"
                     },
                     {
                         "quip": "Run Away!",
                         "from_id": "2b",
-                        "to_id": "5a"
+                        "to_id": "4"
                     },
                     {
                         "quip": "Run Away!",
                         "from_id": "2a",
-                        "to_id": "5a"
+                        "to_id": "4"
                     },
                     {
                         "quip": "Squirtle, use water gun!",
@@ -299,6 +293,72 @@
                         ]
                     },
                     {
+                        "quip": "Squirtle, use water gun!",
+                        "from_id": "2b",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "SQUIRTLE"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "Bulbasaur, use vine whip!",
+                        "from_id": "2b",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "BULBASAUR"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "Charmander, use ember!",
+                        "from_id": "2b",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "CHARMANDER"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "Squirtle, use water gun!",
+                        "from_id": "2a",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "SQUIRTLE"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "Bulbasaur, use vine whip!",
+                        "from_id": "2a",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "BULBASAUR"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "Charmander, use ember!",
+                        "from_id": "2a",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "CHARMANDER"
+                            }
+                        ]
+                    },
+                    {
                         "quip": "I'll throw a Pokeball!",
                         "from_id": "1",
                         "to_id": "2a",
@@ -306,6 +366,17 @@
                             {
                                 "type": "INVENTORY",
                                 "item_id": "POKEBALL",
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "I'll throw a Pokeball!",
+                        "from_id": "2a",
+                        "to_id": "2a",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "POKEBALL"
                             }
                         ]
                     },
@@ -320,17 +391,6 @@
                             }
                         ]
                     },
-                    {
-                        "quip": "",
-                        "from_id": "1",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "CHARMANDER"
-                            }
-                        ]
-                    }
                 ]
             }
         }
