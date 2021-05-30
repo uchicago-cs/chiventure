@@ -73,7 +73,7 @@ int add_action(item_t *item, char *action_name, char *success_str, char *fail_st
         return FAILURE;
     }
     game_action_t *action = game_action_new(action_name, success_str, fail_str);
-    HASH_ADD_KEYPTR(hh, item->actions, action_name, strlen(action_name), action);
+    HASH_ADD_KEYPTR(hh, item->actions, action->action_name, strlen(action->action_name), action);
     return SUCCESS;
 }
 
