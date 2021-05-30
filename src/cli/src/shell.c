@@ -25,6 +25,7 @@ void help_text(chiventure_ctx_t *ctx)
         "   -CLOSE [OBJ]\n"
         "   -PUSH [OBJ]\n"
         "   -PULL [OBJ]\n"
+        "   -TALK TO [NPC]\n"
         "   -TURNON [OBJ]\n"
         "   -TURNOFF [OBJ]\n"
         "   -TAKE [OBJ]\n"
