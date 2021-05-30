@@ -111,7 +111,7 @@ void print_class(class_t* class) {
  * 
  * Parameters:
  *  - message: The message that will be printed out as a prompt (newline is added).
- *  - buffer: Pointer to memory to store the input, or NULL (in which case input is ignored).
+ *  - input: Pointer to memory to store the input, or NULL (in which case input is ignored).
  * 
  * Returns:
  *  - Nothing.
