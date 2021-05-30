@@ -97,7 +97,32 @@
             "long_desc": "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
             "in": "npc",
             "actions": []
+        },
+        "CHARMANDER": {
+            "short_desc": "A fire pokemon",
+            "long_desc": "Prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
+            "in": "Lab",
+            "actions": []
+        },
+        "BULBASAUR": {
+            "short_desc": "A Grass Pokemon",
+            "long_desc": "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.",
+            "in": "Lab",
+            "actions": []
+        },
+        "SQUIRTLE": {
+            "short_desc": "A water pokemon",
+            "long_desc": "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth.",
+            "in": "Lab",
+            "actions": []
+        },
+        "POKEBALL": {
+            "short_desc": "A pokeball",
+            "long_desc": "A pokeball used to capture pokemon",
+            "in": "npc",
+            "actions": []
         }
+
     },
     "NPCS": {
         "MOM": {
@@ -139,6 +164,11 @@
             "short_desc": "Kanto's premier Pokemon expert",
             "long_desc": "Enjoys exploring human-Pokemon relationships",
             "in": "Lab",
+            "inventory": [
+                {
+                    "item_id": "POKEBALL"
+                }
+            ],
             "dialogue": {
                 "nodes": [
                     {
