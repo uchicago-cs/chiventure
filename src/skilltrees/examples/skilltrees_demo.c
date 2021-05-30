@@ -93,8 +93,10 @@ chiventure_ctx_t* create_example_ctx() {
     /*Initializing class */
     class_t* test_class = class_new("TEST", "", "", NULL, NULL, NULL);
     test_class->skilltree = skill_tree_new(1001, "TEST Tree", 2);
+    player->level = 1;
     player->player_class = test_class;
     player->player_skills = inventory_new(5,5);
+    player -> player_effects = (effects_hash_t*)malloc(sizeof(effects_hash_t));
     add_player_to_game(game, player);
     set_curr_player(game, player);
 
@@ -238,7 +240,7 @@ void create_attr_skill(chiventure_ctx_t* ctx)
     skill_t*  attribute_skill = skill_new(1, ACTIVE, "Attribute Skill", "Slays Dragon", 10, 10, attribute_effect);
     
     /* Showcase leveling functionality */
-    skill_node_t* attr_node = skill_node_new(attribute_skill, 0, 1, 0); 
+    skill_node_t* attr_node = skill_node_new(attribute_skill, 0, 3, 0); 
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, attr_node);
 }
 
