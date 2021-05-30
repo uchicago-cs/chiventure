@@ -1,7 +1,21 @@
 /*
- * This example program runs a full instance of chiventure with an in-memory game.
- * The CLI is monkey-patched to accept functions that serve to showcase the movement
- * and battle functionalities of the NPC.
+ * This example program runs a full instance of chiventure with an in-memory 
+ * game. The CLI is monkey-patched to accept functions that serve to showcase 
+ * the movement and battle functionalities of the NPC, which unfortunately, we 
+ * didn't have time to integrate with the UI/CLI.
+ *
+ *  - ATTACK: This is a CLI operation that allows the player to attack all of 
+ *            the npcs present in a room at once. It removes 1 point of HP from
+ *            every npc whose health is greater than their surrender level. If 
+ *            an npc is killed i.e. it's health is 0, then the player is 
+ *            informed that they can pick up the npc's items. If an npc 
+ *            surrenders, i.e. it's health is less than or equal to it's 
+ *            surrender level, then the player attacking will not remove that 
+ *            npc's health, and the player will be informed that the npc has 
+ *            surrendered. While this exact functionality (attacking all npcs
+ *            at once) probably won't be added to chiventure, it showcases 
+ *            how we hope the surrender and dead-npc-looting and dead npc 
+ *            looting functionalities can be used in battles in the future.
  */
 
 #include <stdio.h>
@@ -107,7 +121,7 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     game_t *game = ctx->game;
     if (game == NULL || game->curr_room == NULL)
     {
-        return "Room not found! Error! Look for Jim if you're not in a room!\n";
+        return "Room not found! Error!\n";
     }
 
     /* This operation has to be called with one parameter */
@@ -189,41 +203,47 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if(game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
-        return "Error! We need a loaded room to move.\n";
+        return "Error! We need a loaded room to attack.\n";
     }
-
-    npc_t *npc_tmp, *npc_elt;
-    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
+    if (game->curr_room == arena)
     {
-        if (npc_elt->npc_battle->health == 0) 
-	{
-	    continue;
-	} 
-	else if (npc_elt->npc_battle->health == 1) 
-	{
-            change_npc_health(npc_elt, -1, 100);
-            transfer_all_npc_items(npc_elt, game->curr_room);
-            char message1[1000];
-            sprintf(message1, "You killed %s. They've dropped their items, "
-                    "which you can now take.", npc_elt->npc_id);
-            print_to_cli(ctx, message1);
-	} 
-	else if (npc_elt->npc_battle->health <= 
-		 npc_elt->npc_battle->surrender_level) 
-	{ 
-            char message2[1000];
-            sprintf(message2, "%s has surrendered. You can no longer attack"
-                    " them.", npc_elt->npc_id);
-            print_to_cli(ctx, message2);
-	} 
-	else 
-	{
-            change_npc_health(npc_elt, -1, 100);
-            char message3[1000];
-            sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
-                    npc_elt->npc_id, npc_elt->npc_battle->health);
-            print_to_cli(ctx, message3);
-	}
+        npc_t *npc_tmp, *npc_elt;
+        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
+        {
+            if (npc_elt->npc_battle->health == 0) 
+	    {
+	        continue;
+	    } 
+	    else if (npc_elt->npc_battle->health == 1) 
+	    {
+                change_npc_health(npc_elt, -1, 100);
+                transfer_all_npc_items(npc_elt, game->curr_room);
+                char message1[1000];
+                sprintf(message1, "You killed %s. They've dropped their items, "
+                        "which you can now take.", npc_elt->npc_id);
+                print_to_cli(ctx, message1);
+	    } 
+	    else if (npc_elt->npc_battle->health <= 
+		     npc_elt->npc_battle->surrender_level) 
+	    { 
+                char message2[1000];
+                sprintf(message2, "%s has surrendered. You can no longer attack"
+                        " them.", npc_elt->npc_id);
+                print_to_cli(ctx, message2);
+	    } 
+	    else 
+	    {
+                change_npc_health(npc_elt, -1, 100);
+                char message3[1000];
+                sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
+                        npc_elt->npc_id, npc_elt->npc_battle->health);
+                print_to_cli(ctx, message3);
+	    }
+        }   
+    }
+    else 
+    {
+        print_to_cli(ctx, "You can't attack unless you're in the arena.");
     }
     return "\n";
 }
@@ -239,9 +259,9 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Initialize the lobby room */
     lobby = room_new("lobby", "This is lobby", 
-                     "Fiona and Harry are in the lobby, "
-                     "try talk to them, you can also request "
-                     "to have a battle with them in the arena.");
+                     "Fiona and Harry are in the lobby. "
+                     "You can attack them if you move to "
+		     "the arena.");
 
     /* Initialize npcs_in_room_t field in room_t */
     lobby->npcs = npcs_in_room_new("lobby");
