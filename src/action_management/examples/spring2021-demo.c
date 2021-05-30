@@ -164,10 +164,6 @@ char *change_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     double change = atoi(tokens[1]) + 0.0;
-
-    int rc = player_change_stat(player, "strength", change);
-    strength = player_get_stat_current(player, "strength");
-
     sprintf(str, "You have gained %.2f strength.", change);
 
     return str;
