@@ -113,15 +113,13 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 /* See game.h */
 quest_t *get_quest(game_t* game, char *quest_id)
 {
-	quest_hash_t* ht = game->all_quests;
-	return get_quest_from_hash(quest_id, ht);
+	return get_quest_from_hash(quest_id, game->all_quests);
 }
 
 /* See game.h */
 int add_quest_to_game(game_t *game, quest_t *quest)
 {
-	quest_hash_t* ht = game->all_quests;
-	return add_quest_to_hash(quest, ht);
+	return add_quest_to_hash(quest, game->all_quests);
 }
 
 /* See game.h */
