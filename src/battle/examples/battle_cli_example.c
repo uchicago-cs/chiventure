@@ -49,11 +49,21 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     // creates consumable for the player
     battle_item_t *p_item = get_random_default_consumable();
     battle_item_t *p_item2 = get_random_default_consumable();
+
+    while (p_item2->id == p_item->id) {
+        p_item2 = get_random_default_consumable();
+    }
+
     p_item->next = p_item2;
     p_item2->prev = p_item;
 
     move_t *p_move = get_random_default_move();
     move_t *p_move2 = get_random_default_move();
+
+    while (p_move2->id == p_move->id) {
+        p_move2 = get_random_default_move();
+    }
+
     p_move->next = p_move2;
     p_move2->prev = p_move;
 
