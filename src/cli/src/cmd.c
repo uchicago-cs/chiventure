@@ -120,6 +120,7 @@ int lookup_t_init(lookup_t **t)
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
+    add_entry("TALK", talk_operation, NULL, t);
 
     add_action_entries(t);
 
@@ -237,7 +238,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
     if (s != NULL) 
     {
         command_list_t *new_command = new_command_list(s);
-        LL_APPEND(ctx->command_history, new_command);
+        LL_APPEND(ctx->cli_ctx->command_history, new_command);
     }
     
     char **parsed_input = parse(s);
@@ -246,7 +247,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
         return NULL;
     }
     
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
     return cmd_from_tokens(parsed_input, table);
 }
 
@@ -287,3 +288,4 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
         }
     }
 }
+

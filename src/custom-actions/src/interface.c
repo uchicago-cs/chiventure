@@ -9,23 +9,6 @@
 #include <stdio.h>
 #include "interface.h"
 
-/* PRIVATE HELPER FUNCTIONS */
-
-
-/* Given an branch block and its corresponding arguments, 
- * attempt to execute the given block.
- * 
- * Parameters: 
- * - block: A pointer to the branch block to be executed
- * 
- * Returns:
- * - Integer of if the block being run was successful
- */
-int do_branch_block(branch_block_t *block)
-{
-  //To be implemented in issue 1068
-  return 0;
-}
 
 // Interface-showing functions
 
