@@ -117,8 +117,8 @@
             "actions": [
                 {
                     "action": "TAKE",
-                    "text_success": "You take Bulbsaur",
-                    "text_fail": "You cannot take Bulbsaur"
+                    "text_success": "You take Bulbasaur",
+                    "text_fail": "You cannot take Bulbasaur"
                 }
             ]
         },
