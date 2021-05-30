@@ -159,7 +159,7 @@ int add_effect_to_game(game_t *game, effects_global_t *effect)
 }
 
 /* See game.h */
-int add_battle_ctx_to_game(game_t *game, chiventure_ctx_battle_t *battle_ctx){
+int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx){
     if (battle_ctx == NULL) {
         return FAILURE;
     }

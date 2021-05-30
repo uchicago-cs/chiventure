@@ -76,8 +76,8 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     e->npc_battle = npc_b;
     battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item);
 
-    chiventure_ctx_battle_t *battle_ctx =
-        (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *battle_ctx =
+        (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
 
     // new_game creates a game that is then attached to ctx
     battle_game_t *g = new_battle_game();

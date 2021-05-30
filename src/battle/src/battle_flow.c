@@ -6,7 +6,7 @@
 #include "battle/battle_print.h"
 
 /* see battle_flow.h */
-int start_battle(chiventure_ctx_battle_t *ctx, npc_t *npc_enemy, environment_t env)
+int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)
 {
     battle_game_t *g = ctx->game;
     battle_player_t *player = g->player;
@@ -88,7 +88,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy, environment_
 }
 
 /* see battle_flow.h */
-char *battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
+char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
 {
     battle_t *b = ctx->game->battle;
 
@@ -133,7 +133,7 @@ char *battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
     return string;
 }
 
-char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item)
+char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 {
     battle_t *b = ctx->game->battle;
     char *string = calloc(150, sizeof(char));
@@ -170,7 +170,7 @@ char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item)
 }
 
 /* see battle_flow.h */
-char *battle_flow_list(chiventure_ctx_battle_t *ctx, char* label)
+char *battle_flow_list(battle_ctx_t *ctx, char* label)
 {
     if (strcmp(label, "ITEMS") == 0) {
         battle_t *b = ctx->game->battle;
@@ -191,7 +191,7 @@ char *battle_flow_list(chiventure_ctx_battle_t *ctx, char* label)
 }
 
 /* see battle_flow.h */
-char *enemy_make_move(chiventure_ctx_battle_t *ctx) 
+char *enemy_make_move(battle_ctx_t *ctx) 
 {
     battle_t *b = ctx->game->battle;
     b->turn = ENEMY;

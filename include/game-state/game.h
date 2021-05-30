@@ -81,7 +81,7 @@ typedef struct game {
     //int time_start;
 
     /* pointer to the current battle context */
-    chiventure_ctx_battle_t *battle_ctx;
+    battle_ctx_t *battle_ctx;
 } game_t;
 
 
@@ -232,7 +232,7 @@ int add_effect_to_game(game_t *game, effects_global_t *effect);
  * Returns: 
  *  SUCCESS if successful, FAILURE if failed
  */ 
-int add_battle_ctx_to_game(game_t *game, chiventure_ctx_battle_t *battle_ctx);
+int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx);
 
 /* Checks if all end conditions in a given game have been met
  * 

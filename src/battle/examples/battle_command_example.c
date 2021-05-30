@@ -30,12 +30,12 @@ class_t *make_bard()
 
 /* Helper function to print the result of a turn
  * Parameters:
- *  ctx: main structure of the game
+ *  ctx: main structure of the battle
  *  player_move: the name of the player's move
  * Returns:
  *  Always returns SUCCESS
  */ 
-int print_battle_result(chiventure_ctx_battle_t *ctx, move_t *player_move)
+int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
 {
     char *action_string;
     // everything below allows us to print what just happened
@@ -76,11 +76,11 @@ int print_battle_result(chiventure_ctx_battle_t *ctx, move_t *player_move)
 
 /* Prints out the avaliable moves for the player
  * Parameter:
- *  ctx: the main structure of the game
+ *  ctx: the main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int print_moves2(chiventure_ctx_battle_t *ctx)
+int print_moves2(battle_ctx_t *ctx)
 {
     move_t *temp;
     printf("\nMOVES LIST:\n");
@@ -93,11 +93,11 @@ int print_moves2(chiventure_ctx_battle_t *ctx)
 
 /* Prints out the avaliable battle_items for the player
  * Parameter:
- *  ctx: the main structure of the game
+ *  ctx: the main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int print_battle_items2(chiventure_ctx_battle_t *ctx)
+int print_battle_items2(battle_ctx_t *ctx)
 {
     battle_item_t *temp;
     printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
@@ -116,11 +116,11 @@ int print_battle_items2(chiventure_ctx_battle_t *ctx)
 /* Reads the user's input and converts that into an action
  * Parameters:
  *  args: array of strings that display the user's input
- *  ctx: the main structure of the game
+ *  ctx: the main structure of the battle
  * Returns:
  *  SUCCESS or FAILURE
  */
-int read_move(char **args, chiventure_ctx_battle_t *ctx)
+int read_move(char **args, battle_ctx_t *ctx)
 {
     int res;
 
@@ -246,11 +246,11 @@ int parse_command(char **out, char *input)
 
 /* Allows a battle to continue with taking input from the user via command line
  * Parameter:
- *  ctx: main structure of the game
+ *  ctx: main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int continue_battle(chiventure_ctx_battle_t *ctx)
+int continue_battle(battle_ctx_t *ctx)
 {
     char buf[MAX_COMMAND_LENGTH + 1] = {0};
     char **args = calloc(MAX_ARGS, sizeof(char *));
@@ -324,8 +324,8 @@ int main()
     battle_player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, p_item);
     printf("player created!\n\n");
 
-    chiventure_ctx_battle_t *ctx =
-        (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx =
+        (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
 
     // new_game creates a game that is then attached to ctx
     battle_game_t *g = new_battle_game();

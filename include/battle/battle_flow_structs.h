@@ -30,12 +30,12 @@ typedef struct battle_game {
  * is an enum that gives the current status of the battle_game 
  * (see logic.h for details)
  */
-typedef struct chiventure_ctx_battle {
+typedef struct battle_ctx {
     // would have UI context here
     battle_game_t *game;
     // would have lookup table here
     battle_status_t status;
-} chiventure_ctx_battle_t;
+} battle_ctx_t;
 
 /* Stub for the player_new function in player.h game-state module
  *

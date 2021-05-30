@@ -149,7 +149,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
 
     char *string;    
     int rc;
-    chiventure_ctx_battle_t *battle_ctx = ctx->game->battle_ctx;
+    battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
 
     if (strcmp(parsed_input[0], "USE") == 0) {
         input += 4;

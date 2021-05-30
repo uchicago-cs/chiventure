@@ -51,12 +51,12 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input);
 
 /* This ensures that the user's inputted move exists.
  * Parameters:
- *  ctx: main structure of the game
+ *  ctx: main structure of the battle
  *  move_name: name of the desired move
  * Returns:
  *  a pointer to the found move or NULL for no move 
  */ 
-move_t *find_player_move(chiventure_ctx_battle_t *ctx, char *move_name);
+move_t *find_player_move(battle_ctx_t *ctx, char *move_name);
 
 /*
  * Consumes a battle_item for the said combatant
