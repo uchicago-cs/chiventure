@@ -132,7 +132,7 @@ Test(test_load_wdz, zip_simple)
 
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip);
+    rc = load_obj_store_from_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "GAME.intro");
@@ -182,7 +182,7 @@ Test(test_load_wdz, zip_nested)
 
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip);
+    rc = load_obj_store_from_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "ITEMS.blue_lever.short_desc");
@@ -232,7 +232,7 @@ Test(test_load_wdz, zip_default)
 
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip);
+    rc = load_obj_store_from_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "ITEMS.SIGN.short_desc");
@@ -310,7 +310,7 @@ Test(test_load_wdz, zip_multiple)
 
     // Read the zip into an obj
     obj_t *obj = obj_new("test");
-    rc = load_obj_zip(obj, zip);
+    rc = load_obj_store_from_zip(obj, zip);
     cr_assert_neq(rc, EXIT_FAILURE, "Could not load object from zip");
 
     char *str = obj_get_str(obj, "GAME.intro");

@@ -143,6 +143,8 @@ void list_print(obj_t *ls, void(*print)(obj_t*));
  */
 int game_type_check(obj_t *obj);
 
+int class_type_check(obj_t *obj);
+
 int room_type_check(obj_t *obj);
 
 int item_type_check(obj_t *obj);
@@ -150,5 +152,15 @@ int item_type_check(obj_t *obj);
 int player_type_check(obj_t *obj);
 
 int action_type_check(obj_t *obj);
+
+int npc_type_check(obj_t *obj);
+
+int inventory_type_check(obj_t *obj);
+
+int dialogue_type_check(obj_t *obj);
+
+int node_action_type_check(obj_t *obj);
+
+int conditions_type_check(obj_t *obj);
 
 #endif /* INCLUDE_VALIDATE_H */

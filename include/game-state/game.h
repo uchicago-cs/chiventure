@@ -5,6 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "npc/npc.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -21,6 +22,10 @@ typedef struct stats_global stats_global_t;
 typedef struct stats_global stats_global_hash_t;
 typedef struct effects_global effects_global_t;
 typedef struct effects_global effects_global_hash_t;
+typedef struct room room_hash_t;
+typedef struct room_wrapped_for_llist room_list_t;
+typedef struct npc npc_t;
+typedef struct npc npc_hash_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -39,6 +44,10 @@ typedef struct game {
     /* an iteratable hashtable of items */
     /* using the macros provided in uthash.h */
     item_hash_t *all_items;
+
+    /* an interatable hashtable of npcs */
+    /* using the macros provided in uthash.h */
+    npc_hash_t *all_npcs;
 
     /* pointer to current room struct */
     room_t *curr_room;
@@ -60,6 +69,9 @@ typedef struct game {
     
     /* an iteratable hashtable of effects */
     effects_global_hash_t *all_effects;
+
+    /* pointer to all classes in the game */
+    class_hash_t *all_classes;
 
     /* starting string description to be presented at beginning of game */
     char *start_desc;
@@ -151,6 +163,17 @@ int add_room_to_game(game_t *game, room_t *room);
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_item_to_game(game_t *game, item_t *item);
+
+/* Adds an npc to the given game
+ *
+ * Parameters:
+ *  pointer to game struct
+ *  pointer to npc struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_npc_to_game(game_t *game, npc_t *npc);
 
 /* Adds the final room to the given game
  *
@@ -287,6 +310,17 @@ room_t *find_room_from_game(game_t *game, char* room_id);
  *  pointer to item or NULL if not found
  */
 item_t *get_item_from_game(game_t *game, char *item_id);
+
+/*
+* Function to find npc from all_npcs
+* Parameters:
+*  pointer to game
+*  npc id (a string, i.e. char*)
+*
+* Returns
+*  pointer to npc or NULL if not found
+*/
+npc_t *get_npc(game_t *game, char *npc_id);
 
 /*
  * Function to get a linked list (utlist) of all the rooms in the game

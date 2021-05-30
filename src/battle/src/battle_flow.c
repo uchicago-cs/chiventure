@@ -5,13 +5,12 @@
 #include "battle/battle_flow.h"
 
 /* see battle_flow.h */
-int start_battle(chiventure_ctx_battle_t *ctx, npc_enemy_t *npc_enemies, environment_t env)
+int start_battle(chiventure_ctx_battle_t *ctx, npc_t *npc_enemy, environment_t env)
 {
     battle_game_t *g = ctx->game;
     battle_player_t *player = g->player;
-
     // Set battle_player, enemies, and battle structs for a new battle
-    battle_t *b = set_battle(player, npc_enemies, env);
+    battle_t *b = set_battle(player, npc_enemy, env);
 
     g->battle = b;
     ctx->status = BATTLE_IN_PROGRESS;
@@ -39,40 +38,44 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
 }
 
 /* see battle_flow.h */
-combatant_t *set_enemies(npc_enemy_t *npc_enemies)
+combatant_t *set_enemy(npc_t *npc_enemy)
 {
-    combatant_t *head = NULL;
+    if (npc_enemy->npc_battle == NULL)
+    {
+        return NULL;
+    }
+
     combatant_t *comb_enemy;
 
-    npc_enemy_t *enemy_elt;
-    DL_FOREACH(npc_enemies, enemy_elt)
-    {
-        char* name = enemy_elt->npc_id;
-        bool is_friendly = false;
-        class_t *c_type = enemy_elt->class_type;
-        stat_t *stats = enemy_elt->stats;
-        move_t *moves = enemy_elt->moves;
-        battle_item_t *items = enemy_elt->items;
-        difficulty_t ai = enemy_elt->ai;
+    char* name = npc_enemy->npc_id;
+    bool is_friendly = false;
+    class_t *c_type = npc_enemy->class;
+    stat_t *stats = npc_enemy->npc_battle->stats;
+    move_t *moves = npc_enemy->npc_battle->moves;
+    battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
+    difficulty_t ai = npc_enemy->npc_battle->ai;
+    
+    comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
+    assert(comb_enemy != NULL);
 
-        comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
-
-        assert(comb_enemy != NULL);
-
-        DL_APPEND(head, comb_enemy);
-    }
-    return head;
+    return comb_enemy;
 }
 
 /* see battle_flow.h */
-battle_t *set_battle(battle_player_t *ctx_player, npc_enemy_t *npc_enemies, environment_t env)
+battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy, environment_t env)
 {
     combatant_t *comb_player  = set_battle_player(ctx_player);
-    combatant_t *comb_enemies = set_enemies(npc_enemies);
+    combatant_t *comb_enemies = set_enemy(npc_enemy);
 
     /* Builds a move list using player class module */
-    build_moves(comb_player);
-    build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
+    if (comb_player->moves == NULL)
+    {
+        build_moves(comb_player);
+    }
+    if (comb_enemies->moves == NULL)
+    {
+        build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
+    }
     
     turn_t turn = PLAYER;
 
@@ -121,18 +124,23 @@ int battle_flow(chiventure_ctx_battle_t *ctx, move_t *move, char* target)
         return SUCCESS;
     }
 
+    int res = enemy_make_move(ctx);
+
+    return res;
+}
+
+/* see battle_flow.h */
+int enemy_make_move(chiventure_ctx_battle_t *ctx) 
+{
+    battle_t *b = ctx->game->battle;
+
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
     move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
-
+    int dmg;
     if(enemy_move != NULL)
     {
         dmg = damage(b->player, enemy_move, b->enemy);
-        b->player->stats->hp -= dmg;
-    }
-    else
-    {
-        dmg = damage(b->player, move, b->enemy);
         b->player->stats->hp -= dmg;
     }
     

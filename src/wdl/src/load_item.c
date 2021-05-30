@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#include "wdl/parse.h"
 #include "game-state/item.h"
+#include "wdl/validate.h"
 
 /*
  * get_game_action()
@@ -37,10 +37,15 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 int load_actions(obj_t *item_obj, item_t *i)
 {
     // getting a list of actions from item
-    obj_t *action_ls = get_item_actions(item_obj);
+    obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
     if (action_ls == NULL)
     {
-        fprintf(stderr, "action fails type checking, or action list is empty\n");
+        fprintf(stderr, "action list is empty\n");
+        return FAILURE;
+    }
+    else if (list_type_check(action_ls, action_type_check) == FAILURE)
+    {
+        fprintf(stderr, "object actions failed typechecking\n");
         return FAILURE;
     }
 
@@ -76,16 +81,15 @@ int load_actions(obj_t *item_obj, item_t *i)
 int load_items(obj_t *doc, game_t *g)
 {
     // we use extract_objects() instead of obj_list_attr() because the former does type checking
-    obj_t *items_obj = extract_objects(doc, "ITEMS");
+    obj_t *items_obj = obj_get_attr(doc, "ITEMS", false);
     if (items_obj == NULL)
+    {
+        fprintf(stderr, "items not found\n");
+        return FAILURE;
+    }
+    else if (list_type_check(items_obj, item_type_check) == FAILURE)
     {
         fprintf(stderr, "items fail type checking\n");
-    }
-
-    // if items list is empty then return -1
-    if (items_obj == NULL)
-    {
-        fprintf(stderr, "items list is empty\n");
         return FAILURE;
     }
 
@@ -104,18 +108,20 @@ int load_items(obj_t *doc, game_t *g)
         /* in parameter yet to implemented by game-state
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
-        //load actions into item
+        // load actions into item
         if(load_actions(curr, item) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;
         }
 
-        //retrieve the pointer for the room that the item is located in
-        room_t *item_room = find_room_from_game(g, in);
+        add_item_to_game(g, item);
 
-        // add item to room
-        add_item_to_room(item_room, item);
+        // add item to its room, unless it is meant to be an NPC-held item
+        if (strcmp(in, "npc") != 0) {
+            room_t *item_room = find_room_from_game(g, in);
+            add_item_to_room(item_room, item);
+        }
     }
     return SUCCESS;
 }
