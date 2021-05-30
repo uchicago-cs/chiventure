@@ -6,14 +6,14 @@ _TRIPLE_QUOTES: "\"\"\""
 triple_quotes.10: _TRIPLE_QUOTES (assignment_inner|var)+ _TRIPLE_QUOTES
 
 // matches up to triple quotes
-assignment_inner: /[^\$\{\}]+?(?=("""|\{))/
+assignment_inner.5: WS_INLINE? /[^\$\{\}]+?(?=("""|\{))/
 
 
 escaped_string_with_vars: "\"" (escaped_char|escaped_inner|var)+ "\""
 escaped_char: "\\" /./
 
 //doesn't match brackets (vars) or backslashes (escaped characters)
-escaped_inner.5: /[^\{\}\"\\]+/ -> assignment_inner
+escaped_inner.5: WS_INLINE? /[^\{\}\"\\]+/ -> assignment_inner
 
 var: "{" phrase "}"
 
