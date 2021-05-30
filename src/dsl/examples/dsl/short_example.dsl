@@ -13,3 +13,5 @@ ROOM room B
       BREAK condition: "Door is in front of you."
 		BREAK success: "You break the door."
       BREAK fail: "You can't break the door."
+
+ROOM room C
