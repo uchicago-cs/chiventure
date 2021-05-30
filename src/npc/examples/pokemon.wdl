@@ -113,11 +113,11 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "Good morning, sweetie. Can you help me take this book to Prof. Oak?"
+                        "npc_dialogue": "Good morning sweetie."
                     },
                     {
                         "id": "2",
-                        "npc_dialogue": "Thanks, sweetie.",
+                        "npc_dialogue": "Oh, since you're heading out, can you help me take this book to Prof. OAK? Thanks sweetie.",
                         "actions": [
                             {
                                 "action": "GIVE_ITEM",
@@ -128,7 +128,7 @@
                 ],
                 "edges": [
                     {
-                        "quip": "Okay",
+                        "quip": "Morning Mom.",
                         "from_id": "1",
                         "to_id": "2"
                     }
@@ -172,7 +172,7 @@
                 ],
                 "edges": [
                     {
-                        "quip": "Good",
+                        "quip": "Good.",
                         "from_id": "1",
                         "to_id": "2"
                     },
