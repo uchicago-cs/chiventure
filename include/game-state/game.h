@@ -5,8 +5,8 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "quests/quests_state.h"
 #include "quests/quests_structs.h"
-#include "quests/quest_t"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -28,6 +28,8 @@ typedef struct room room_hash_t;
 typedef struct room_wrapped_for_llist room_list_t;
 typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
+typedef struct quest quest_t;
+typedef struct quest quest_hash_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game

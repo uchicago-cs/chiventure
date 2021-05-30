@@ -4,6 +4,8 @@
 #include "game-state/item.h"
 #include "game-state/mode.h"
 #include "npc/npc.h"
+#include "quests/quests_state.h"
+#include "quests/quests_structs.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -111,13 +113,15 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 /* See game.h */
 quest_t *get_quest(game_t* game, char *quest_id)
 {
-	return get_quest_from_hash(quest_id, game->all_quests);
+	quest_hash_t* ht = game->all_quests;
+	return get_quest_from_hash(quest_id, ht);
 }
 
 /* See game.h */
 int add_quest_to_game(game_t *game, quest_t *quest)
 {
-	return add_quest_to_hash(quest, game->all_quests);
+	quest_hash_t* ht = game->all_quests;
+	return add_quest_to_hash(quest, ht);
 }
 
 /* See game.h */
