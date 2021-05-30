@@ -33,7 +33,7 @@
         },
         "Pallet Town": {
             "short_desc": "A small town in southwestern Kanto",
-            "long_desc": "Your house is located to the South, Prof. OAK's lab is to the North, and Route 1 is to the West.",
+            "long_desc": "Your house is to the South, Prof. OAK's lab is to the North, and Route 1 is to the West.",
             "connections": [
                 {
                     "to": "Living Room",
