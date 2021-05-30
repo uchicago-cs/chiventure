@@ -91,6 +91,12 @@
             "long_desc": "Contains information about the world and the Pokemon that inhabit it",
             "in": "npc",
             "actions": []
+        },
+        "PIDGEY": {
+            "short_desc": "Pidgey",
+            "long_desc": "The bird pokemon",
+            "in": "npc",
+            "actions": []
         }
     },
     "NPCS": {
@@ -133,16 +139,19 @@
             "short_desc": "sd",
             "long_desc": "ld",
             "in": "Lab",
-            "inventory": [],
             "dialogue": {
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "Do you have the ENCYCLOPEDIA?"
+                        "npc_dialogue": "Hello ASH. How are you?"
                     },
                     {
-                        "id": "2a",
-                        "npc_dialogue": "Thanks",
+                        "id": "2",
+                        "npc_dialogue": "Have a good day."
+                    },
+                    {
+                        "id": "3",
+                        "npc_dialogue": "Oh! Thank you. ... <Starter pokemon>",
                         "actions": [
                             {
                                 "action": "TAKE_ITEM",
@@ -151,16 +160,27 @@
                         ]
                     },
                     {
-                        "id": "2b",
-                        "npc_dialogue": "Talk to your Mom"
+                        "id": "4",
+                        "npc_dialogue": "Wonderful! ... <Directs player to end the game>",
+                        "actions": [
+                            {
+                                "action": "TAKE_ITEM",
+                                "action_id": "PIDGEY"
+                            }
+                        ]
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Yes",
+                        "quip": "Good",
                         "from_id": "1",
-                        "to_id": "2a",
-                        conditions: [
+                        "to_id": "2"
+                    },
+                    {
+                        "quip": "I have an ENCYCLOPEDIA that belongs to you.",
+                        "from_id": "1",
+                        "to_id": "3",
+                        "conditions": [
                             {
                                 "type": "INVENTORY",
                                 "item_id": "ENCYCLOPEDIA"
@@ -168,9 +188,15 @@
                         ]
                     },
                     {
-                        "quip": "No",
+                        "quip": "I've caught the PIDGEY you asked for!",
                         "from_id": "1",
-                        "to_id": "2b"
+                        "to_id": "4",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "PIDGEY"
+                            }
+                        ]
                     }
                 ]
             }
