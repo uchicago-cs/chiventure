@@ -65,7 +65,7 @@
         },
         "Route 1": {
             "short_desc": "Route 1",
-            "long_desc": "The route is filled with grass, which seem to rustle with Pokemon. Pallet Town is to the East.",
+            "long_desc": "You walk into the tall grass. A wild Pidgey appears! Try talking to it!",
             "connections": [
                 {
                     "to": "Pallet Town",
@@ -195,6 +195,139 @@
                             {
                                 "type": "INVENTORY",
                                 "item_id": "PIDGEY"
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "PIDGEY": {
+            "short_desc": "The tiny bird pokemon",
+            "long_desc": "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
+            "in": "Route 1",
+            "inventory": [
+                {
+                    "item_id": "PIDGEY"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "The wild Pidgey attacks!"
+                    },
+                    {
+                        "id": "5a",
+                        "npc_dialogue": "Got away safely!"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Pidgey broke free! Pidgey used sand attack!"
+                        "actions": [
+                            {
+                                "action": "TAKE_ITEM",
+                                "action_id": "POKEBALL"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "Pidgey looks hurt! Pidgey used gust!"
+                    },
+                    {
+                        "id": "3",
+                        "npc_dialogue": "The wild Pidgey was caught!",
+                        "actions": [
+                            {
+                                "action": "TAKE_ITEM",
+                                "action_id": "POKEBALL"
+                            },
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "PIDGEY"
+                            }
+                        ]
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Run Away!",
+                        "from_id": "1",
+                        "to_id": "5a"
+                    },
+                    {
+                        "quip": "Run Away!",
+                        "from_id": "2b",
+                        "to_id": "5a"
+                    },
+                    {
+                        "quip": "Run Away!",
+                        "from_id": "2a",
+                        "to_id": "5a"
+                    },
+                    {
+                        "quip": "Squirtle, use water gun!",
+                        "from_id": "1",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "SQUIRTLE"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "Bulbasaur, use vine whip!",
+                        "from_id": "1",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "BULBASAUR"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "Charmander, use ember!",
+                        "from_id": "1",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "CHARMANDER"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "I'll throw a Pokeball!",
+                        "from_id": "1",
+                        "to_id": "2a",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "POKEBALL",
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "I'll throw a Pokeball!",
+                        "from_id": "2b",
+                        "to_id": "3",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "POKEBALL"
+                            }
+                        ]
+                    },
+                    {
+                        "quip": "",
+                        "from_id": "1",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "CHARMANDER"
                             }
                         ]
                     }
