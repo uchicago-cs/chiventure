@@ -84,7 +84,7 @@ chiventure_ctx_t* create_example_ctx() {
     class_t* test_class = class_new("TEST", "", "", NULL, NULL, NULL);
     test_class->skilltree = skill_tree_new(1001, "TEST Tree", 2);
     player->player_class = test_class;
-    player->inventory = inventory_new(5,5);
+    player->player_skills = inventory_new(5,5);
     add_player_to_game(game, player);
     set_curr_player(game, player);
 
@@ -117,8 +117,6 @@ void add_item(chiventure_ctx_t* ctx)
     room_t* room;
     HASH_FIND_STR(ctx->game->all_rooms, "Dragon's Lair", room);
     add_item_to_room(room, dragon);
-
-    return dragon;
 }
 
 void create_player_skill(chiventure_ctx_t* ctx)
@@ -144,7 +142,7 @@ char* create_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chivent
     return "Created a statistic modifying effect!";
 }
 
-int add_skill(chiventure_ctx_t* ctx, int sid)
+int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
 {
     player_t* player = ctx->game->curr_player;
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
@@ -201,7 +199,7 @@ int execute_skill(chiventure_ctx_t* ctx, int sid)
 
 char* add_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-    int check = add_player_stat_skill(ctx, 0);
+    int check = add_skill_to_player(ctx, 0);
     if(check == FAILURE)
     {
         return "Could not add skill!";
@@ -236,7 +234,7 @@ char* create_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_
 
 char* add_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-    int check = add_skill(ctx, 1);
+    int check = add_skill_to_player(ctx, 1);
     if(check == FAILURE)
     {
         return "Could not add skill!";
