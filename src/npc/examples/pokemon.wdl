@@ -68,7 +68,7 @@
         },
         "Route 1": {
             "short_desc": "Route 1",
-            "long_desc": "You walk into the tall grass. A wild Pidgey appears! Try talking to it!",
+            "long_desc": "You walk into the tall grass. A wild PIDGEY appears! Try talking to it!",
             "connections": [
                 {
                     "to": "Pallet Town",
@@ -210,38 +210,20 @@
         "CHARMANDER": {
             "short_desc": "A fire pokemon",
             "long_desc": "Prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
-            "in": "Lab",
-            "actions": [
-                {
-                    "action": "TAKE",
-                    "text_success": "You take Charmander",
-                    "text_fail": "You cannot take Charmander"
-                }
-            ]
-        },
-        "BULBASAUR": {
-            "short_desc": "A Grass Pokemon",
-            "long_desc": "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.",
-            "in": "Lab",
-            "actions": [
-                {
-                    "action": "TAKE",
-                    "text_success": "You take Bulbasaur",
-                    "text_fail": "You cannot take Bulbasaur"
-                }
-            ]
+            "in": "npc",
+            "actions": []
         },
         "SQUIRTLE": {
             "short_desc": "A water pokemon",
             "long_desc": "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth.",
-            "in": "Lab",
-            "actions": [
-                {
-                    "action": "TAKE",
-                    "text_success": "You take Squirtle",
-                    "text_fail": "You cannot take Squirtle"
-                }
-            ]
+            "in": "npc",
+            "actions": []
+        },
+        "BULBASAUR": {
+            "short_desc": "A grass Pokemon",
+            "long_desc": "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.",
+            "in": "npc",
+            "actions": []
         },
         "POKEBALL": {
             "short_desc": "A pokeball",
@@ -271,24 +253,33 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "Good morning sweetie."
+                        "npc_dialogue": "Good morning sweetie. What will you be doing today?"
                     },
                     {
-                        "id": "2",
-                        "npc_dialogue": "Oh, since you're heading out, can you help me take this book to Prof. OAK? Thanks sweetie.",
+                        "id": "2a",
+                        "npc_dialogue": "Oh, since you're heading there, can you help me return this book to Prof. OAK? I borrowed it some time ago. Thanks sweetie.",
                         "actions": [
                             {
                                 "action": "GIVE_ITEM",
                                 "action_id": "ENCYCLOPEDIA"
                             }
                         ]
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "Be safe!",
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Morning Mom.",
+                        "quip": "I'm heading to Prof. OAK's lab. He says he has something for me.",
                         "from_id": "1",
-                        "to_id": "2"
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "Finding wild pokemon!",
+                        "from_id": "1",
+                        "to_id": "2b"
                     }
                 ]
             }
@@ -297,7 +288,17 @@
             "short_desc": "Kanto's premier Pokemon expert",
             "long_desc": "Enjoys exploring human-Pokemon relationships",
             "in": "Lab",
-            "inventory": [],
+            "inventory": [
+                {
+                    "item_id": "CHARMANDER"
+                },
+                {
+                    "item_id": "SQUIRTLE"
+                },
+                {
+                    "item_id": "BULBASAUR"
+                }
+            ],
             "dialogue": {
                 "nodes": [
                     {
