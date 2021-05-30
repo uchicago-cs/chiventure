@@ -147,7 +147,7 @@
                     },
                     {
                         "id": "2",
-                        "npc_dialogue": "Have a nice day."
+                        "npc_dialogue": "Have a nice day!"
                     },
                     {
                         "id": "3",
@@ -161,7 +161,7 @@
                     },
                     {
                         "id": "4",
-                        "npc_dialogue": "Wonderful! ... <Directs player to end the game>",
+                        "npc_dialogue": "Wonderful, you're on your way to becoming a great Pokemon trainer! Type GO END to complete your journey.",
                         "actions": [
                             {
                                 "action": "TAKE_ITEM",
