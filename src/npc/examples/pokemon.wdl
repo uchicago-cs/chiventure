@@ -207,10 +207,6 @@
                             {
                                 "action": "TAKE_ITEM",
                                 "action_id": "ENCYCLOPEDIA"
-                            },
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "CHARMANDER"
                             }
                         ]
                     },
