@@ -9,7 +9,10 @@
     "ROOMS": {
         "Bedroom": {
             "short_desc": "ASH's bedroom",
-            "long_desc": "This is your bedroom. There's a bed and stairs leading downstairs.",
+            "long_desc": "This is your bedroom.
+    There's a bed in the SE corner with a TV in front of it.
+    There's also a plant in the NW corner of the room.
+    There are stairs leading downstairs.",
             "connections": [
                 {
                     "to": "Living Room",
@@ -84,7 +87,113 @@
             "short_desc": "ASH's bed", 
             "long_desc": "Looks comfortable",
             "in": "Bedroom",
-            "actions": []
+            "actions": [
+                {
+                    "action": "PUSH",
+                    "text_success": "You pushed the bed. \nIt looks good here.",
+                    "text_fail": "You cannot push the bed."
+                },
+                {
+                    "action": "PULL",
+                    "text_success": "You pull the bed. \nIt looks better here.",
+                    "text_fail": "You cannot pull this bed"
+                }
+            ]
+        },
+        "COOKIE": {
+            "short_desc": "A Cookie", 
+            "long_desc": "There's a cookie on the floor. It looks dusty.",
+            "in": "Bedroom",
+            "actions": [
+                {
+                    "action": "PUSH",
+                    "text_success": "The cookie slides across the floor and gets dirtier.",
+                    "text_fail": "You cannot push the cookie."
+                },
+                {
+                    "action": "PULL",
+                    "text_success": "You weirdly pull the cookie towards you. \n It looks extra dusty.",
+                    "text_fail": "You cannot pull the cookie."
+                },
+                {
+                    "action": "EAT",
+                    "text_success": "You stuff that disgusting cookie into your mouth and instantly spit it out.",
+                    "text_fail": "You cannot eat the cookie."
+                },
+                {
+                    "action": "CONSUME",
+                    "text_success": "You stuff that disgusting cookie into your mouth and instantly spit it out.",
+                    "text_fail": "You cannot consume the cookie."
+                }
+            ]
+        },
+        "PLANT": {
+            "short_desc": "A house plant", 
+            "long_desc": "Looks like it needs some water.",
+            "in": "Bedroom",
+            "actions": [{
+                    "action": "PUSH",
+                    "text_success": "You pushed the plant. \nIt didn't like that.",
+                    "text_fail": "You cannot push the plant."
+                },
+                {
+                    "action": "PULL",
+                    "text_success": "You pull the plant. \nIt liked that.",
+                    "text_fail": "You cannot pull the plant"
+                }
+            ]
+        },
+        "TV": {
+            "short_desc": "A TV", 
+            "long_desc": "It's a 20 inch CRT TV with an SNES connected to it.",
+            "in": "Bedroom",
+            "actions": [{
+                    "action": "PUSH",
+                    "text_success": "The TV is too heavy for you to push.",
+                    "text_fail": "You cannot push the TV."
+                },
+                {
+                    "action": "PULL",
+                    "text_success": "The TV is too heavy for you to pull.",
+                    "text_fail": "You cannot pull the TV"
+                },
+                {
+                    "action": "TURNON",
+                    "text_success": "The TV is on, there is static on the screen.",
+                    "text_fail": "You cannot turn on the TV"
+                },
+                {
+                    "action": "TURNOFF",
+                    "text_success": "The TV is off, the screen is black.",
+                    "text_fail": "You cannot turn off the TV"
+                }
+            ]
+        },
+        "SNES": {
+            "short_desc": "A SNES", 
+            "long_desc": "Just a SNES, the controller is missing.",
+            "in": "Bedroom",
+            "actions": [{
+                    "action": "PUSH",
+                    "text_success": "You pushed the SNES. \nIt said thank you.",
+                    "text_fail": "You cannot push the SNES."
+                },
+                {
+                    "action": "PULL",
+                    "text_success": "You pull the SNES.",
+                    "text_fail": "You cannot pull the SNES"
+                },
+                {
+                    "action": "TURNON",
+                    "text_success": "The SNES is on, but there is no game.",
+                    "text_fail": "You cannot turn on the SNES"
+                },
+                {
+                    "action": "TURNOFF",
+                    "text_success": "The SNES is off.",
+                    "text_fail": "You cannot turn off the SNES"
+                }
+            ]
         },
         "ENCYCLOPEDIA": {
             "short_desc": "A big book",
