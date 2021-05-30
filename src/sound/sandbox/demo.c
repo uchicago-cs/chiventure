@@ -23,15 +23,15 @@ void load_audio_demo(SoundType type)
     
 
     //Mix Music and MixChunk are data structures in the SDL, this is how we load (.wav//mp3 formats)
-    //The parameter take is the file pathway to the audio file
-    Mix_Music *backgroundSound = Mix_LoadMUS("sound_library/Spring Village.mp3");
+    //The parameter take is the file pathway to the audio file 
+    Mix_Music *backgroundSound = Mix_LoadMUS("../../../../sound_library/Spring Village.mp3");
 
-    Mix_Chunk *soundEffect = Mix_LoadWAV("sound_library/Sword Slash.wav");
+    Mix_Chunk *soundEffect = Mix_LoadWAV("../../../../sound_library/Sword Slash.wav");
     if (!soundEffect) {
         printf("MixPlayChannel: %s\n", Mix_GetError()); //Gets error if an audio cannot be loaded properly
     }
 
-    Mix_Chunk *wap = Mix_LoadWAV("sound_library/Wap.wav");
+    Mix_Chunk *wap = Mix_LoadWAV("../../../../sound_library/Wap.wav");
     if (!wap) {
         printf("MixPlayChannel: %s\n", Mix_GetError()); //Gets error if an audio cannot be loaded properly
     }
