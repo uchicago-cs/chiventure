@@ -102,25 +102,49 @@
             "short_desc": "A fire pokemon",
             "long_desc": "Prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
             "in": "Lab",
-            "actions": []
+            "actions": [
+                {
+                    "action": "TAKE",
+                    "text_success": "You take Charmander",
+                    "text_fail": "You cannot take Charmander"
+                }
+            ]
         },
         "BULBASAUR": {
             "short_desc": "A Grass Pokemon",
             "long_desc": "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.",
             "in": "Lab",
-            "actions": []
+            "actions": [
+                {
+                    "action": "TAKE",
+                    "text_success": "You take Bulbsaur",
+                    "text_fail": "You cannot take Bulbsaur"
+                }
+            ]
         },
         "SQUIRTLE": {
             "short_desc": "A water pokemon",
             "long_desc": "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth.",
             "in": "Lab",
-            "actions": []
+            "actions": [
+                {
+                    "action": "TAKE",
+                    "text_success": "You take Squirtle",
+                    "text_fail": "You cannot take Squirtle"
+                }
+            ]
         },
         "POKEBALL": {
             "short_desc": "A pokeball",
             "long_desc": "A pokeball used to capture pokemon",
-            "in": "npc",
-            "actions": []
+            "in": "Lab",
+            "actions": [
+                {
+                    "action": "TAKE",
+                    "text_success": "You take the pokeball",
+                    "text_fail": "You cannot take the pokeball"
+                }
+            ]
         }
 
     },
@@ -164,11 +188,7 @@
             "short_desc": "Kanto's premier Pokemon expert",
             "long_desc": "Enjoys exploring human-Pokemon relationships",
             "in": "Lab",
-            "inventory": [
-                {
-                    "item_id": "POKEBALL"
-                }
-            ],
+            "inventory": [],
             "dialogue": {
                 "nodes": [
                     {
