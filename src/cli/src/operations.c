@@ -9,6 +9,7 @@
 #include "wdl/load_game.h"
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
+#include "cli/util.h"
 
 #define NUM_ACTIONS 29
 #define BUFFER_SIZE (100)

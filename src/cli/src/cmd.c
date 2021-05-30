@@ -8,6 +8,7 @@
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
+#include "cli/util.h"
 
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)

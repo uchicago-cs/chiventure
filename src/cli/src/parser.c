@@ -4,6 +4,7 @@
 
 #include "cli/parser.h"
 #include "common/utlist.h"
+#include "cli/util.h"
 
 /*
  * - input: 

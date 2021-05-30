@@ -6,7 +6,6 @@
 #include "ui/print_functions.h"
 #include "checkpointing/save.h"
 #include "checkpointing/load.h"
-#include "cli/util.h"
 
 /*
  * We list all demanded operations over here.
