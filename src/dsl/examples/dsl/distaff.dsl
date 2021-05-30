@@ -16,6 +16,7 @@ ROOM room A
    short desc: "A dungeon room."
    long desc: "You shudder to think of the unspeakable horrors that have taken place in these dungeons. You wouldn't want to be fly on the wall here, but mostly because of how damp and moldy the walls are."
    connections: SOUTH TO room B
+   extra property: "value"
 
    ITEM sconce
       short desc: "A sconce holding a candle"
@@ -25,8 +26,6 @@ long desc: "It looks a bit loose."
 ROOM room B
    short desc: "A dungeon room."
    long desc: "The walls are damp and moldy and, yet, the scent of freshly
-   # intentional line break
-   
    cut lavender flowers pervades the air."
    connections: NORTH TO room A
                  EAST TO room C
