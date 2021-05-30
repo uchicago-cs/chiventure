@@ -54,20 +54,23 @@ chiventure_ctx_t* create_example_ctx() {
                                   "See how you can use the new effects system to create a skill"
                                   "that lets you kill it!");
     room_t* design_room = room_new("Skill Design Room", "", "Make an effect that can kill a dragon!  Good Luck!");
-    room_t* level_up_room = room_new("Level Up Room", "", "Level Up to Level 5 to unlock your created skill !");
+    room_t* level_up_room = room_new("Level Up Room", "", "Level Up to Level 2 to unlock and add your created skills !");
     room_t* kill_room = room_new("Dragon's Lair", "", "Kill the dragon!");
+    room_t* win_room = room_new("Win Room","", "You Win !");
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
     add_room_to_game(game, design_room);
     add_room_to_game(game, level_up_room);
     add_room_to_game(game, kill_room);
+    add_room_to_game(game, win_room);
 
     create_connection(game, "Start Room", "Skill Design Room", "NORTH");
     create_connection(game, "Skill Design Room", "Start Room", "SOUTH");
     create_connection(game, "Skill Design Room", "Level Up Room", "NORTH");
     create_connection(game, "Level Up Room", "Skill Design Room", "SOUTH");
-
+    create_connection(game, "Level Up Room", "Dragon's Lair", "NORTH");
+    create_connection(game, "Dragon's Lair", "Level Up Room", "South");
 
     /* Set initial room */
     game->curr_room = start_room;
@@ -98,7 +101,7 @@ chiventure_ctx_t* create_example_ctx() {
     return ctx;
 }
 
-item_t* add_item(chiventure_ctx_t* ctx)
+void add_item(chiventure_ctx_t* ctx)
 {
     /* Creating item and attribute */
     game_t* game = ctx -> game;
@@ -109,6 +112,11 @@ item_t* add_item(chiventure_ctx_t* ctx)
     /* Adding things to hash tables */
     add_attribute_to_hash(dragon, is_alive);
     add_item_to_hash(&(game->all_items), dragon);
+
+    /* Add dragon to room */
+    room_t* room;
+    HASH_FIND_STR(ctx->game->all_rooms, "Dragon's Lair", room);
+    add_item_to_room(room, dragon);
 
     return dragon;
 }
@@ -169,11 +177,26 @@ int add_skill(chiventure_ctx_t* ctx, int sid)
      return SUCCESS;
 }
 
-void execute_player_stat_effect(chiventure_ctx_t* ctx)
+int execute_skill(chiventure_ctx_t* ctx, int sid)
 {
-    skill_node_t* skill_node = ctx->game->curr_player->player_class->skilltree->nodes[0];
-    /* Execute the effect as it is passive */
+    player_t* player = ctx->game->curr_player;
+    skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
+    skill_t* skill = skill_node->skill;
+    
+    /*Find the correct skill */
+    int i = 1;
+    while ((skill->sid != sid)&&(i<=1))
+    {
+        skill_node = player->player_class->skilltree->nodes[i];
+        skill = skill_node->skill;
+    }
+    if(skill->sid != sid)
+    {
+        return FAILURE;
+    }
+    /* Execute the effect */
     skill_execute(skill_node->skill, ctx);
+    return SUCCESS;
 }
 
 char* add_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
@@ -185,7 +208,7 @@ char* add_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t*
     }
     else
     {
-        execute_player_stat_effect(ctx);
+        execute_skill(ctx, 0);
         return "Added skill!";
     }
 }
@@ -224,14 +247,25 @@ char* add_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* 
     }
 }
 
-void execute_attr_skill(chiventure_ctx_t* ctx)
+char* execute_attr_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
+    int check = execute_skill(ctx, 1);
+    if (check == SUCCESS)
+    {
+        return "Killed Dragon!  Go to next room to celebrate";
+        create_connection(ctx->game, "Dragon's Lair", "Win Room", "NORTH");
 
+    }
+    else
+    {
+        return "Oh no....";
+    }
 }
 
 char* level_up_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-
+    ctx->game->curr_player->level+=1;
+    return "Leveled Up!";
 }
 
 char* design_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
@@ -307,7 +341,7 @@ char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx){
 void main(){
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
-    item_t* dragon = add_item(ctx);
+    add_item(ctx);
 
     add_entry("DESIGN", design_operation, NULL, ctx->table);
     add_entry("SKILLS", skills_operation, NULL, ctx->table);
@@ -317,6 +351,7 @@ void main(){
     add_entry("ADD HEALTH BOOST", add_player_stat_operation, NULL, ctx->table);
     add_entry("ADD SLAY DRAGON", add_attr_skill_operation, NULL, ctx->table);
     add_entry("LEVEL UP", level_up_operation, NULL, ctx->table);
+    add_entry("KILL DRAGON", execute_attr_operation, NULL, ctx->table);
     // Start UI for example chiventure context
     start_ui(ctx, banner);
 }
