@@ -63,6 +63,12 @@ chiventure_ctx_t* create_example_ctx() {
     add_room_to_game(game, level_up_room);
     add_room_to_game(game, kill_room);
 
+    create_connection(game, "Start Room", "Skill Design Room", "NORTH");
+    create_connection(game, "Skill Design Room", "Start Room", "SOUTH");
+    create_connection(game, "Skill Design Room", "Level Up Room", "NORTH");
+    create_connection(game, "Level Up Room", "Skill Design Room", "SOUTH");
+
+
     /* Set initial room */
     game->curr_room = start_room;
 
@@ -120,55 +126,127 @@ void create_player_skill(chiventure_ctx_t* ctx)
     skill_t* stat_skill = skill_new(0, PASSIVE, "Stat Skill", "Modifies statistics", 10, 5, stat_effect);
     
     /* Showcase leveling functionality */
-    skill_node_t* stat_node = skill_node_new(stat_skill, 0, 19, 0); 
+    skill_node_t* stat_node = skill_node_new(stat_skill, 0, 2, 0); 
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
 }
 
-char* player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+char* create_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     create_player_skill(ctx);
-   
-    
     return "Created a statistic modifying effect!";
 }
 
-int add_player_stat_skill(chiventure_ctx_t* ctx)
+int add_skill(chiventure_ctx_t* ctx, int sid)
 {
     player_t* player = ctx->game->curr_player;
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
+    if (skill_node == NULL)
+    {
+        print_to_cli(ctx, "Skills not made yet !");
+        return FAILURE;
+    }
+    skill_t* skill = skill_node->skill;
+    
+    /*Find the correct skill */
+    int i = 1;
+    while ((skill->sid != sid)&&(i<=1))
+    {
+        skill_node = player->player_class->skilltree->nodes[i];
+        i +=1;
+        skill = skill_node->skill;
+    }
+    
+    /* Check the level */
     if(player->level<skill_node->prereq_level)
     {
         print_to_cli(ctx, "Level too low!");
         return FAILURE;
     }
+
     /* Add to inventory */
     inventory_skill_add(ctx->game->curr_player->player_skills, skill_node -> skill);
+    
+     return SUCCESS;
+}
 
+void execute_player_stat_effect(chiventure_ctx_t* ctx)
+{
+    skill_node_t* skill_node = ctx->game->curr_player->player_class->skilltree->nodes[0];
     /* Execute the effect as it is passive */
     skill_execute(skill_node->skill, ctx);
-    return SUCCESS;
 }
 
 char* add_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-    int check = add_player_stat_skill(ctx);
+    int check = add_player_stat_skill(ctx, 0);
     if(check == FAILURE)
     {
-        return "Could not add skill!"
+        return "Could not add skill!";
     }
     else
     {
-        return "Added skill!"
+        execute_player_stat_effect(ctx);
+        return "Added skill!";
     }
+}
+
+void create_attr_skill(chiventure_ctx_t* ctx)
+{
+    attribute_value_t mod;
+    mod.bool_val = false;
+    enum attribute_tag att_tag = BOOLE;
+    item_t* dragon = get_item_in_hash(ctx->game->all_items, "DRAGON");
+    item_attr_effect_t* slay_dragon = define_item_attr_effect(dragon, "ARMED", att_tag, mod);
+    effect_t* attribute_effect = make_item_attr_effect(slay_dragon);
+    skill_t*  attribute_skill = skill_new(1, ACTIVE, "Attribute Skill", "Slays Dragon", 10, 10, attribute_effect);
+    
+    /* Showcase leveling functionality */
+    skill_node_t* attr_node = skill_node_new(attribute_skill, 0, 1, 0); 
+    skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, attr_node);
+}
+
+char* create_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    create_attr_skill(ctx);
+    return "Created Attribute modifying skill!";
+}
+
+char* add_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    int check = add_skill(ctx, 1);
+    if(check == FAILURE)
+    {
+        return "Could not add skill!";
+    }
+    else
+    {
+        return "Added skill!";
+    }
+}
+
+void execute_attr_skill(chiventure_ctx_t* ctx)
+{
+
+}
+
+char* level_up_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+
 }
 
 char* design_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-    print_to_cli(ctx, "Enter the type of effect you want to add!");
+    print_to_cli(ctx, "Enter the type of effect you want to design!");
     print_to_cli(ctx, "Options are:  Statistic Modify and Attribute Modify");
-    return "Design Operation!";
+    return "";
 }
 
+char* add_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    print_to_cli(ctx, "Enter the type of skill you want to add to your inventory!");
+    print_to_cli(ctx, "Options are: Add Health Boost and Add Slay Dragon");
+    return "";
+}
 /*
  * Prints all skills contained in a skill inventory to the CLI
  *
@@ -221,7 +299,7 @@ void current_skills_as_strings(chiventure_ctx_t* ctx){
  * Returns:
  *  - An empty string (current_skills_as_strings() prints all that is necessary)
  */
-char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx){
     current_skills_as_strings(ctx);
     return "";
 }
@@ -229,52 +307,16 @@ char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 void main(){
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
-   
     item_t* dragon = add_item(ctx);
-    attribute_value_t mod;
-    mod.bool_val = false;
-    enum attribute_tag att_tag = BOOLE;
-    item_attr_effect_t* slay_dragon = define_item_attr_effect(dragon, "ARMED", att_tag, mod);
-    effect_t* attribute_effect = make_item_attr_effect(slay_dragon);
-    skill_t*  attribute_skill = skill_new(1, ACTIVE, "Attribute Skill", "Slays Dragon", 10, 10, attribute_effect);
 
-
-    //Initialize skill nodes
-    
-    skill_node_t* attribute_node = skill_node_new(attribute_skill, 0, 14, 0); 
-
-
-
-   
-    skill_tree_node_add(skill_treedemo, attribute_node);
-
-    printf("Stat Node added into our skill tree, you must be level %d to unlock this stat skill", 
-            skill_treedemo->nodes[0]->prereq_level);
-    printf("Attribute_node added as a prerequisite to Stat Node, you must be level %d to unlock attribute skill",
-            skill_treedemo->nodes[1]->prereq_level);
-
-    player_t* player = ctx->game->curr_player;
-    printf("Your current level is %d \n", get_level(player));
-
-
-    // Initialize skill inventory
-
-        change_xp(player, 50);
-    /* Enter the "stat skill room" and level up. Player can now unlock and execute new statistic modifying skill
-     * leveling up in the stat skill room done using following function:
-     */
-        change_level(player, 14);
-
-    /* Enter the "attribute skill room" and level up. Player cna now unlock and execute new attribute modifying skill.
-     * leveling up in the "attribute skill room" done using following function:
-     */
-        change_level(player, 19);
-
-
+    add_entry("DESIGN", design_operation, NULL, ctx->table);
+    add_entry("SKILLS", skills_operation, NULL, ctx->table);
+    add_entry("STATISTIC MODIFY", create_player_stat_effect_operation, NULL, ctx->table);
+    add_entry("ATTRIBUTE MODIFY", create_attr_skill_operation, NULL, ctx->table);
+    add_entry("ADD", add_operation, NULL, ctx->table);
+    add_entry("ADD HEALTH BOOST", add_player_stat_operation, NULL, ctx->table);
+    add_entry("ADD SLAY DRAGON", add_attr_skill_operation, NULL, ctx->table);
+    add_entry("LEVEL UP", level_up_operation, NULL, ctx->table);
     // Start UI for example chiventure context
     start_ui(ctx, banner);
-
-    // Free memory
-
-    return 0;
 }
