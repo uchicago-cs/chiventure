@@ -1,7 +1,7 @@
 {
     "GAME": {
         "start": "Bedroom",
-        "intro": "Welcome to Pokemon Red! Your name is ASH. A world of dreams and adventures with Pokemon awaits!",
+        "intro": "Welcome to Pokemon Red! Your name is ASH. A world of dreams and adventures with Pokemon awaits!\n \n(HINT: type 'look' to start, and 'talk to <NPC>' to interact with NPCs, use 'HELP' for more information)",
         "end": {
             "in_room": "End Room"
         }
@@ -18,8 +18,8 @@
             ]
         },
         "Living Room": {
-            "short_desc": "sd",
-            "long_desc": "ld",
+            "short_desc": "ASH's living room",
+            "long_desc": "Your MOM is here. There is an exit to the North, and stairs leading upstairs.",
             "connections": [
                 {
                     "to": "Bedroom",
@@ -32,8 +32,8 @@
             ]
         },
         "Pallet Town": {
-            "short_desc": "sd",
-            "long_desc": "ld",
+            "short_desc": "A small town in southwestern Kanto",
+            "long_desc": "Your house is located to the South, Prof. OAK's lab is to the North, and Route 1 is to the West.",
             "connections": [
                 {
                     "to": "Living Room",
@@ -50,8 +50,8 @@
             ]
         },
         "Lab": {
-            "short_desc": "sd",
-            "long_desc": "ld",
+            "short_desc": "Prof. OAK's lab",
+            "long_desc": "Prof. OAK is here. There is an exit to the South.",
             "connections": [
                 {
                     "to": "Pallet Town",
@@ -64,8 +64,8 @@
             ]
         },
         "Route 1": {
-            "short_desc": "sd",
-            "long_desc": "ld",
+            "short_desc": "Route 1",
+            "long_desc": "The route is filled with grass, which seem to rustle with Pokemon. Pallet Town is to the East.",
             "connections": [
                 {
                     "to": "Pallet Town",
@@ -74,8 +74,8 @@
             ]
         },
         "End Room": {
-            "short_desc": "sd",
-            "long_desc": "ld",
+            "short_desc": "end",
+            "long_desc": "end",
             "connections": []
         }
     },
@@ -93,8 +93,8 @@
             "actions": []
         },
         "PIDGEY": {
-            "short_desc": "Pidgey",
-            "long_desc": "The bird pokemon",
+            "short_desc": "The tiny bird pokemon",
+            "long_desc": "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
             "in": "npc",
             "actions": []
         }
@@ -136,8 +136,8 @@
             }
         },
         "OAK": {
-            "short_desc": "sd",
-            "long_desc": "ld",
+            "short_desc": "Kanto's premier Pokemon expert",
+            "long_desc": "Enjoys exploring human-Pokemon relationships",
             "in": "Lab",
             "dialogue": {
                 "nodes": [
@@ -147,7 +147,7 @@
                     },
                     {
                         "id": "2",
-                        "npc_dialogue": "Have a good day."
+                        "npc_dialogue": "Have a nice day."
                     },
                     {
                         "id": "3",
