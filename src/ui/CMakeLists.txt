@@ -8,6 +8,7 @@ add_library(ui
             src/window.c)
 
 if (raylib_FOUND)
+    target_sources(ui PRIVATE src/gui.c)
     target_link_libraries(ui raylib)
 endif()
 

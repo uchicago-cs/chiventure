@@ -5,6 +5,7 @@
 #include <ui/ui_ctx.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
+#include "ui/gui.h"
 #include "libobj/load.h"
 
 const char *banner =
