@@ -235,7 +235,7 @@ int move_npc_definite(npc_mov_t *npc_mov);
  * 1 npc has reached the end of the path, reverse_path is called, but
  *   the move is not implemented
  * 2 successful move to the next room
-*/
+ */
 int move_npc_indefinite(npc_mov_t *npc_mov);
 
 /*
