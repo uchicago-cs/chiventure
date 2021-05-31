@@ -94,25 +94,29 @@ void check_level_up(skill_t* skill, int expected)
 }
 
 /* Tests skill_level_up when return value is 0 */
+/*
 Test(skill_tests, skill_level_up_0)
 {
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
     2, 5, effect_defuse_bomb);
   check_level_up(skill, 0);
 }
-
+*/
 /* Tests skill_level_up when return value is 1 */
+/*
 Test(skill_tests, skill_level_up_1)
 {
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
     1, 5, effect_defuse_bomb);
   check_level_up(skill, 1);
 }
-
+*/
 /* Tests skill_level_up when return value is -1 */
+/*
 Test(skill_tests, skill_level_up_minus_1)
 {
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
     0, 5, effect_defuse_bomb);
   check_level_up(skill, -1);
 }
+*/
