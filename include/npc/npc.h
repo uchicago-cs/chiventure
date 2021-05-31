@@ -188,6 +188,22 @@ item_list_t *get_npc_inv_list(npc_t *npc);
  * Returns:
  *  a pointer to the npc's npc_battle struct or NULL
  */
+item_list_t *get_npc_inv_list(npc_t *npc);
+
+/*
+ * Checks if an item is in the NPC's inventory.
+ *
+ * Parameters:
+ *  npc: the npc
+ *  item_id: the item's ID
+ *
+ * Returns:
+ *  true if the item is in the NPC's inventory, false otherwise
+ */
+bool item_in_npc_inventory(npc_t *npc, char *item_id);
+
+
+// "SET" FUNCTIONS ------------------------------------------------------------
 npc_battle_t *get_npc_battle(npc_t *npc);
 
 /*
