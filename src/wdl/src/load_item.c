@@ -2,6 +2,7 @@
 
 #include "game-state/item.h"
 #include "wdl/validate.h"
+#include "cli/util.h"
 
 /*
  * get_game_action()
@@ -32,7 +33,7 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 
     if (curr == NULL)
         return NULL;
-
+  
     return curr->act;
 }
 
@@ -60,20 +61,24 @@ int load_actions(obj_t *item_obj, item_t *i)
     obj_t *curr;
     DL_FOREACH(action_ls->data.lst, curr)
     {
-        temp = get_game_action(obj_get_str(curr, "action"), val_actions);
+        char *action = case_insensitized_string(obj_get_str(curr, "action"));
+        
+        temp = get_game_action(action, val_actions);
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
+            add_action(i, action, obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
         }
         else if(obj_get_str(curr, "text_success") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), "Action failed");
+            add_action(i, action, obj_get_str(curr, "text_success"), "Action failed");
         }
         else
         {
-            add_action(i, obj_get_str(curr, "action"), "Action succeeded", obj_get_str(curr, "text_fail"));
+            add_action(i, action, "Action succeeded", obj_get_str(curr, "text_fail"));
         }
+
+        free(action);
     }
 
     return SUCCESS;

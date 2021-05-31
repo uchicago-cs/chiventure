@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "game-state/game_action.h"
 #include "game-state/room.h"
+#include "cli/util.h"
 
 /* See room.h */
 path_t *path_new(room_t *dest, char *direction)
@@ -13,7 +14,8 @@ path_t *path_new(room_t *dest, char *direction)
     path->through = NULL;
     // will need a function to add item pointer to through
     strncpy(path->direction, direction, MAX_ID_LEN);
-
+    case_insensitize(path->direction);
+    
     return path;
 }
 

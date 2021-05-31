@@ -19,7 +19,29 @@ Test(parse, single)
 {
     char str[] = "LOOK";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"LOOK", "parse() did not create first token");
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_null(words[1], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
+}
+
+//Tests that case-insensitive parsing works on an all lowercase word.
+Test(parse, insensitivity1)
+{
+    char str[] = "look";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_null(words[1], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
+}
+
+//Tests that case-insensitive parsing works on a mixed case word.
+Test(parse, insensitivity2)
+{
+    char str[] = "LoOk";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
     cr_assert_null(words[1], "parse() should point to NULL for empty tokens");
     cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
     cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
@@ -30,8 +52,8 @@ Test(parse, two_words)
 {
     char str[] = "LOOK AT";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"LOOK", "parse() did not create first token");
-    cr_assert_str_eq(words[1], "AT", "parse() did not create second token");
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
     cr_assert_null(words[2],"parse() should point to NULL for empty tokens");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
@@ -41,9 +63,9 @@ Test(parse, three_words)
 {
     char str[] = "LOOK AT ME";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"LOOK", "parse() did not create first token");
-    cr_assert_str_eq(words[1], "AT", "parse() did not create second token");
-    cr_assert_str_eq(words[2], "ME", "parse() did not create third token");
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
@@ -52,10 +74,10 @@ Test(parse, four_words)
 {
     char str[] = "LOOK AT ME NOT";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"LOOK", "parse() did not create first token");
-    cr_assert_str_eq(words[1], "AT", "parse() did not create second token");
-    cr_assert_str_eq(words[2], "ME", "parse() did not create third token");
-    cr_assert_str_eq(words[3], "NOT", "parse() did not create fourth token");
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
+    cr_assert_str_eq(words[3], "not", "parse() did not create fourth token");
 }
 
 //Tests the parsing of five words. (Having more words than 4 causes the parser to return NULL)
@@ -71,8 +93,8 @@ Test(parse, many_spaces)
 {
     char str[] = "LOOK    AT        ME              ";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"LOOK", "parse() did not create first token");
-    cr_assert_str_eq(words[1], "AT", "parse() did not create second token");
-    cr_assert_str_eq(words[2], "ME", "parse() did not create third token");
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
