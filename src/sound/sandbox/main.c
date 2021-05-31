@@ -1,27 +1,17 @@
-#ifdef WIN32
-#include "SDL/include/SDL.h"
-#undef main
-#include "SDL/SDL_mixer.h"
-#include "SDL/SDL_image.h"
-#endif
-#ifndef WIN32
-#include "SDL.h"
-#include "SDL_mixer.h"
-#include "SDL_image.h"
-
-#endif
+#include "sound/sound.h"
 
 #define NUM_WAVEFORMS 2
+
 const char* _waveFileNames[] =
 {
-"Kick-Drum-1.wav",
-"Snare-Drum-1.wav",
+    "../../../../sound_library/Kick-Drum-1.wav",
+    "../../../../sound_library/Snare-Drum-1.wav",
 };
 
 #define NUM_MUSIC 1
 const char* _mp3FileNames[] =
 {
-"Cardi-B-ft.-Megan-Thee-Stallion-–-Wap.mp3"
+    "../../../../sound_library/Cardi-B-ft.-Megan-Thee-Stallion-–-Wap.mp3"
 };
 
 Mix_Chunk* _chunks[NUM_WAVEFORMS];
@@ -29,7 +19,7 @@ Mix_Chunk* _chunks[NUM_WAVEFORMS];
 Mix_Music* _music[NUM_MUSIC];
 
 // Initializes the application data
-int Init(void) 
+int Init(void)
 {
     memset(_chunks, 0, sizeof(Mix_Chunk*) * NUM_WAVEFORMS);
     memset(_music, 0, sizeof(Mix_Music*) * NUM_MUSIC);
@@ -78,12 +68,11 @@ int main(int argc, char** argv)
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO );
     atexit(SDL_Quit);
 
-    SDL_Window* window = SDL_CreateWindow("Sounds",
-										  SDL_WINDOWPOS_UNDEFINED,
-										  SDL_WINDOWPOS_UNDEFINED,
-										  256,
-										  256,
- 										  SDL_WINDOW_RESIZABLE);
+    SDL_CreateWindow("Sounds", SDL_WINDOWPOS_UNDEFINED,
+                     SDL_WINDOWPOS_UNDEFINED,
+                     256,
+                     256,
+                     SDL_WINDOW_RESIZABLE);
 
     // Application specific Initialize of data structures
     if (Init() == false)
@@ -101,36 +90,36 @@ int main(int argc, char** argv)
         {
             switch (Event.type)
             {
-                case SDL_KEYDOWN:
-                    switch (Event.key.keysym.sym)
-                    {
-                        case 'q':
-                            Mix_PlayChannel(-1, _chunks[0], 0);
-                            break;
-                        case 'w':
-                            Mix_PlayChannel(-1, _chunks[1], 0);
-                            break;
-			case 'e':
-                            Mix_PlayMusic(_music[0], 1);
-                            break;
-                        default:
-                            break;
-                    }
+            case SDL_KEYDOWN:
+                switch (Event.key.keysym.sym)
+                {
+                case 'q':
+                    Mix_PlayChannel(-1, _chunks[0], 0);
                     break;
-
-                case SDL_QUIT:
-                    done = true;
+                case 'w':
+                    Mix_PlayChannel(-1, _chunks[1], 0);
                     break;
-
+                case 'e':
+                    Mix_PlayMusic(_music[0], 1);
+                    break;
                 default:
                     break;
+                }
+                break;
+
+            case SDL_QUIT:
+                done = true;
+                break;
+
+            default:
+                break;
             }
             if( !done ) gotEvent = SDL_PollEvent(&Event);
         }
 #ifndef WIN32
-		//usleep(1000);
+        //usleep(1000);
 #else
-		Sleep(1);
+        Sleep(1);
 #endif
     }
 

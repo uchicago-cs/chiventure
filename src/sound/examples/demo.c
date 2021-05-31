@@ -1,4 +1,5 @@
-#include "sound/demo.h"
+#include "demo.h"
+#include "sound/sound.h"
 
 /*THE FOLLOWING CODE IS FOR DEMO PURPOSES IN SPRINT 4 */
 
@@ -31,7 +32,7 @@ void load_audio_demo(SoundType type)
         printf("MixPlayChannel: %s\n", Mix_GetError()); //Gets error if an audio cannot be loaded properly
     }
 
-    Mix_Chunk *wap = Mix_LoadWAV("../../../../sound_library/Wap.wav");
+    Mix_Chunk *wap = Mix_LoadWAV("../../../../sound_library/Boss Fight.wav");
     if (!wap) {
         printf("MixPlayChannel: %s\n", Mix_GetError()); //Gets error if an audio cannot be loaded properly
     }
