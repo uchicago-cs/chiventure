@@ -4,6 +4,7 @@
 
 #include "cli/parser.h"
 #include "common/utlist.h"
+#include "cli/util.h"
 
 /*
  * - input: 
@@ -100,16 +101,7 @@ char **parse(char *input)
         return NULL;
     }
 
-    //Changes the input to be all caps, for compatibility with commands/objects/directions
-    int i = 0;
-    char ch;
-
-    while(input[i])
-    {
-        ch = toupper(input[i]);
-        input[i] = ch;
-        i++;
-    }
+    case_insensitize(input);
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
