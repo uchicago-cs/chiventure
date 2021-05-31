@@ -22,13 +22,13 @@ mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet)
 }
 
 /* Refer to quests_state.h */
-achievement_t *achievement_new(mission_t *mission)
+achievement_t *achievement_new(mission_t *mission, char *id)
 {
     achievement_t *achievement;
     int rc;
     achievement = malloc(sizeof(achievement_t));
 
-    rc = achievement_init(achievement,mission);
+    rc = achievement_init(achievement,mission, id);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize achievement struct!\n");
@@ -38,20 +38,22 @@ achievement_t *achievement_new(mission_t *mission)
 }
 
 /* Refer to quests_state.h */
-quest_t *quest_new(long quest_id, achievement_llist_t *achievement_list,
-                   item_t *reward) 
+quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
+                   item_t *reward)
 {
     quest_t *q;
     int rc;
     q = calloc(1, sizeof(quest_t));
 
-    if(q == NULL){
+    if(q == NULL)
+    {
         fprintf(stderr, "\nCould not allocate memory for quest!\n");
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, achievement_list, reward, 0);
-    if(rc != SUCCESS){
+    rc = quest_init(q, quest_id, achievement_tree, reward, 0);
+    if(rc != SUCCESS)
+    {
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
     }
@@ -72,24 +74,25 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
 }
 
 /* Refer to quests_state.h */
-int achievement_init(achievement_t *achievement, mission_t *mission)
+int achievement_init(achievement_t *achievement, mission_t *mission, char *id)
 {
     assert(achievement != NULL);
 
     achievement->mission = mission;
     achievement->completed = 0;
+    achievement->id = id;
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int quest_init(quest_t *q, long quest_id, achievement_llist_t *achievement_list,
-                item_t *reward, int status)
+int quest_init(quest_t *q, long quest_id, achievement_tree_t *achievement_tree,
+               item_t *reward, int status)
 {
     assert(q != NULL);
 
     q->quest_id = quest_id;
-    q->achievement_list = achievement_list;
+    q->achievement_tree = achievement_tree;
     q->reward = reward;
     q->status = status;
 
@@ -123,24 +126,128 @@ int quest_free(quest_t *q)
 {
     assert(q != NULL);
 
-    free(q->achievement_list);
+    free(q->achievement_tree);
     free(q->reward);
     free(q);
 
     return SUCCESS;
 }
 
+/*
+ * Helper function to compare two achievements.
+ *
+ * Parameters:
+ * - a1, a2: the two achievements to be compared
+ *
+ * Returns:
+ * - 0 if the achievements are the same
+ * - 1 otherwise
+ */
+int compare_achievements(achievement_t *a1, achievement_t *a2)
+{
+    if (strcmp(a1->id, a2->id) == 0)
+    {
+        return 0;
+    }
+    return 1;
+}
+
+/*
+ * Helper function used to find the bottom node on the left side of a tree
+ *
+ * Parameters:
+ * - t: a pointer to a tree
+ *
+ * Returns:
+ * - a pointer to the tree with no children on the left side of the tree
+ */
+achievement_tree_t *get_bottom_node(achievement_tree_t *t)
+{
+    assert(t != NULL);
+    achievement_tree_t *tmp = t;
+    if(tmp->lmostchild != NULL)
+    {
+        get_bottom_node(tmp->lmostchild);
+    }
+    return tmp;
+}
+
+/*
+ * Helper function that finds an achievement tree given its string ID.
+ * It's called find_parent() because of its use to find parent nodes
+ * in add_achievement_to_quest().
+ *
+ * Parameters:
+ * - tree: a pointer to an achievement tree
+ * - id: the string identifier of the achievement being searched for
+ *
+ * Returns:
+ * - NULL if achievement cannot be found
+ * - The achievement tree being searched for
+ */ 
+achievement_tree_t *find_parent(achievement_tree_t *tree, char *id)
+{
+
+    assert(tree != NULL);
+
+    achievement_tree_t *cur = malloc(sizeof(achievement_tree_t));
+    cur = tree;
+
+    while(cur = get_bottom_node(cur))
+    {
+        if(!(strcmp(cur->achievement->id, id)))
+        {
+            return cur;
+        }
+        else if(cur->rsibling != NULL)
+        {
+            cur = cur->rsibling;
+        }
+        else if(cur->parent->rsibling != NULL)
+        {
+            cur = cur->parent->rsibling;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+}
+
 /* Refer to quests_state.h */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add)
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
 {
     assert(quest != NULL);
 
-    achievement_llist_t *achievement_to_add_llist;
-    achievement_to_add_llist = malloc(sizeof(achievement_llist_t));
-    achievement_to_add_llist->next = NULL;
-    achievement_to_add_llist->achievement = achievement_to_add;
-    
-    LL_APPEND(quest->achievement_list,achievement_to_add_llist);
+    achievement_tree_t *tree = malloc(sizeof(achievement_tree_t));
+    if (quest->achievement_tree == NULL)
+    {
+        tree->achievement = achievement_to_add;
+        tree->parent = NULL;
+        tree->rsibling = NULL;
+        tree->lmostchild = NULL;
+        quest->achievement_tree = tree;
+        return SUCCESS;
+    }
+    tree = find_parent(quest->achievement_tree, parent_id);
+    assert(tree != NULL);
+
+    if (tree->lmostchild->achievement == NULL)
+    {
+        tree->lmostchild = malloc(sizeof(achievement_tree_t));
+        tree->lmostchild->achievement = achievement_to_add;
+        tree->lmostchild->parent = find_parent(quest->achievement_tree, parent_id);
+    }
+    else
+    {
+        while (tree->rsibling != NULL)
+        {
+            tree = tree->rsibling;
+        }
+        tree->rsibling = malloc(sizeof(achievement_tree_t));
+        tree->rsibling->achievement = achievement_to_add;
+        tree->rsibling->parent = find_parent(quest->achievement_tree, parent_id);
+    }
 
     return SUCCESS;
 }
@@ -165,22 +272,60 @@ int fail_quest(quest_t *quest)
     return SUCCESS;
 }
 
-/* Refer to quests_state.h */
-int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
+/*
+ * Traverses the achievement tree to find the achievement with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the achievement tree to be traversed
+ * - id: pointer to a string identifier for the desired achievement
+ *
+ * Returns:
+ * - pointer to the desired achievement, OR
+ * - NULL if achievement cannot be found along a valid path
+ *
+ * Note: Achievements must be completed in order according to this
+ *       traversal. Only one achievement on each level can be completed,
+ *       so this "locks" a user into a path once they've begun
+ *       completing achievements.
+ */
+achievement_t *find_achievement(achievement_tree_t *tree, char *id)
 {
-    achievement_llist_t *head = quest->achievement_list;
-    achievement_llist_t *incomplete_achievement = malloc(sizeof(achievement_llist_t));
+    achievement_t *achievement = tree->achievement;
 
-    LL_SEARCH_SCALAR(head,incomplete_achievement,
-                    achievement->completed,0);
+    assert(achievement != NULL);
 
-
-    mission_t* mission = incomplete_achievement->achievement->mission;
-
-    if (((strcmp(mission->item_to_collect->item_id,item_collected->item_id)) == 0) &&
-        ((strcmp(mission->npc_to_meet->npc_id, npc_met->npc_id)) == 0))
+    if (strcmp(achievement->id, id) == 0)
     {
-        quest->achievement_list->achievement->completed = 1;
+        if (achievement->completed == 1) return NULL;
+        return achievement;
+    }
+    else if (achievement->completed == 1)
+    {
+        if (tree->lmostchild != NULL)
+        {
+            return find_achievement(tree->lmostchild, id);
+        }
+        return NULL;
+    }
+    else if (tree->rsibling != NULL)
+    {
+        return find_achievement(tree->rsibling, id);
+    }
+    return NULL;
+}
+
+/* Refer to quests_state.h */
+int complete_achievement(quest_t *quest, char *id)
+{
+    achievement_tree_t *tree = quest->achievement_tree;
+
+    achievement_t *achievement = find_achievement(tree, id);
+
+    if (((strcmp(achievement->id,id)) == 0) &&
+            (achievement->completed == 0))
+    {
+        quest->achievement_tree->achievement->completed = 1;
         return SUCCESS;
     }
     else
@@ -189,23 +334,34 @@ int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met)
     }
 }
 
+
+
 /* Refer to quests_state.h */
 int is_quest_completed(quest_t *quest)
 {
-    achievement_llist_t *head = quest->achievement_list;
-    achievement_llist_t *incomplete_achievement;
+    assert (quest != NULL);
+    achievement_tree_t *tmp = malloc(sizeof(achievement_tree_t));
+    tmp = quest->achievement_tree;
 
-    LL_SEARCH_SCALAR(head,incomplete_achievement,
-                    achievement->completed,0);
-
-    if(incomplete_achievement == NULL)
+    while(tmp = get_bottom_node(tmp))
     {
-        quest->status = 2;
-        return 1;
-    }
-    else
-    {
-        return 0;
+        if(tmp->achievement->completed == 1)
+        {
+            quest->status = 2;
+            return 1;
+        }
+        else if(tmp->rsibling != NULL)
+        {
+            tmp = tmp->rsibling;
+        }
+        else if(tmp->parent->rsibling != NULL)
+        {
+            tmp = tmp->parent->rsibling;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
 
