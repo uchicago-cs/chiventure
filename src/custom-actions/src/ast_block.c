@@ -118,7 +118,9 @@ int AST_block_free(AST_block_t *ast)
 int AST_cmp(AST_block_t* AST1, AST_block_t* AST2)
 {
     if (AST1 == AST2)
+    {
         return 0;
+    }
     else return 1;
 }
 
@@ -127,15 +129,9 @@ int list_how_many_AST_block(AST_block_t* head)
 {
     assert(head != NULL);
 
-    int ret_val = 1;
-    AST_block_t* curr = head;
-
-    while(curr->next != NULL)
-    {
-        ret_val += 1;
-        curr = curr->next;
-    }
-    
+    int ret_val;
+    AST_block_t* elt = malloc(sizeof(AST_block_t));
+    LL_COUNT(head, elt, ret_val);
     return ret_val;
 }
 
@@ -151,8 +147,10 @@ bool list_contains_AST_block(AST_block_t* head, AST_block_t* compare)
     
     LL_SEARCH(head, tmp, compare, AST_cmp);
 
-    if (tmp)
+    if (tmp != NULL)
+    {
         return true;
+    }
     else return false;
 }
 
@@ -191,9 +189,9 @@ int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
     }
 
     /* Move Pointers around to accomodate new AST_block */
-    add->next = curr;
+    LL_PREPEND(curr, add);
 
-    prev->next = add;
+    LL_PREPEND(add, prev);
 
     return SUCCESS;
 }
@@ -217,20 +215,15 @@ int list_remove_AST_block(AST_block_t* head, AST_block_t* del)
     assert(del != NULL);
 
     if (list_contains_AST_block(head, del) == false)
-        return FAILURE;
-
-    AST_block_t *elt, *tmp;
-    LL_FOREACH_SAFE(head, elt, tmp)
     {
-        if (AST_cmp(elt, del) == 0)
-        {
-            LL_DELETE(head, elt);
-            
-            /* Set 'next' pointer to NULL do avoid recursive freeing from AST_block_free */
-            elt->next = NULL;
-            AST_block_free(elt);
-        }
+	return FAILURE;
     }
+    
+    LL_DELETE(head, del);
 
+    /* Set 'next' pointer to NULL do avoid recursive freeing from AST_block_free */
+    del->next = NULL;
+    AST_block_free(del);
+    
     return SUCCESS;
 }
