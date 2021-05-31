@@ -9,10 +9,7 @@
     "ROOMS": {
         "Bedroom": {
             "short_desc": "ASH's bedroom",
-            "long_desc": "This is your bedroom.
-    There's a bed in the SE corner with a TV in front of it.
-    There's also a plant in the NW corner of the room.
-    There are stairs leading downstairs.",
+            "long_desc": "This is your bedroom. There are stairs leading downstairs.",
             "connections": [
                 {
                     "to": "Living Room",
@@ -97,49 +94,6 @@
                     "action": "PULL",
                     "text_success": "You pull the bed. \nIt looks better here.",
                     "text_fail": "You cannot pull this bed"
-                }
-            ]
-        },
-        "COOKIE": {
-            "short_desc": "A Cookie", 
-            "long_desc": "There's a cookie on the floor. It looks dusty.",
-            "in": "Bedroom",
-            "actions": [
-                {
-                    "action": "PUSH",
-                    "text_success": "The cookie slides across the floor and gets dirtier.",
-                    "text_fail": "You cannot push the cookie."
-                },
-                {
-                    "action": "PULL",
-                    "text_success": "You weirdly pull the cookie towards you. \n It looks extra dusty.",
-                    "text_fail": "You cannot pull the cookie."
-                },
-                {
-                    "action": "EAT",
-                    "text_success": "You stuff that disgusting cookie into your mouth and instantly spit it out.",
-                    "text_fail": "You cannot eat the cookie."
-                },
-                {
-                    "action": "CONSUME",
-                    "text_success": "You stuff that disgusting cookie into your mouth and instantly spit it out.",
-                    "text_fail": "You cannot consume the cookie."
-                }
-            ]
-        },
-        "PLANT": {
-            "short_desc": "A house plant", 
-            "long_desc": "Looks like it needs some water.",
-            "in": "Bedroom",
-            "actions": [{
-                    "action": "PUSH",
-                    "text_success": "You pushed the plant. \nIt didn't like that.",
-                    "text_fail": "You cannot push the plant."
-                },
-                {
-                    "action": "PULL",
-                    "text_success": "You pull the plant. \nIt liked that.",
-                    "text_fail": "You cannot pull the plant"
                 }
             ]
         },
@@ -228,7 +182,7 @@
         "POKEBALL": {
             "short_desc": "A pokeball",
             "long_desc": "A pokeball used to capture pokemon",
-            "in": "Lab",
+            "in": "npc",
             "actions": [
                 {
                     "action": "TAKE",
@@ -314,8 +268,7 @@
                     },
                     {
                         "id": "3",
-                        "npc_dialogue": "Oh! Thank you. By the way, your mother tells me you're going off to explore more of the Kanto region soon. She has asked me to help prepare you to go off on your own.
-                        Outside of pallet town, pokemon lurk around every corner. It's dangerous to go alone, please take one of these pokemon. Would you like a Bulbasaur, Squirtle, or Charmander?",
+                        "npc_dialogue": "Oh! Thank you. By the way, your mother tells me you're going off to explore more of the Kanto region soon.\nShe has asked me to help prepare you to go off on your own. Outside of pallet town, pokemon lurk around every corner.\nIt's dangerous to go alone, please take one of these pokemon. Would you like a Bulbasaur, Squirtle, or Charmander?",
                         "actions": [
                             {
                                 "action": "TAKE_ITEM",
@@ -335,7 +288,7 @@
                     },
                     {
                         "id": "6a",
-                        "npc_dialogue": "Here is your Bulbasaur! You should also learn what to do when confronting pokemon in the wild. Go catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
+                        "npc_dialogue": "Here is your Bulbasaur! You should also learn what to do when confronting pokemon in the wild.\nGo catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
                         "actions": [
                             {
                                 "action": "GIVE_ITEM",
@@ -349,7 +302,7 @@
                     },
                     {
                         "id": "6b",
-                        "npc_dialogue": "Here is your Squirtle! You should also learn what to do when confronting pokemon in the wild. Go catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
+                        "npc_dialogue": "Here is your Squirtle! You should also learn what to do when confronting pokemon in the wild.\nGo catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
                         "actions": [
                             {
                                 "action": "GIVE_ITEM",
@@ -363,7 +316,7 @@
                     },
                     {
                         "id": "6c",
-                        "npc_dialogue": "Here is your Charmander! You should also learn what to do when confronting pokemon in the wild. Go catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
+                        "npc_dialogue": "Here is your Charmander! You should also learn what to do when confronting pokemon in the wild.\nGo catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
                         "actions": [
                             {
                                 "action": "GIVE_ITEM",
