@@ -13,8 +13,9 @@
 the modified parameters of the respective functions that they're testing. */
 
 /* Test skill_new. */
-Test(skill_tests, skill_new_test)
+Test(skill_test, skill_new_test)
 {
+    effect_t* defusebombeffect;
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
     cr_assert_eq(skill->sid,1000,
@@ -36,8 +37,9 @@ Test(skill_tests, skill_new_test)
 }
 /* Test skill_init. */
 
-Test(skill_tests, skill_init_test)
+Test(skill_test, skill_init_test)
 {
+  effect_t* defusebombeffect;
   skill_t* skill = malloc(sizeof(skill_t));
   skill_init(skill, 1000, ACTIVE, "defuse bomb", "defuses a bomb",
       1, 0, 2, 5, defusebombeffect);
@@ -57,30 +59,32 @@ Test(skill_tests, skill_init_test)
       "Error: failed test skill_new_test on skill->max_level\n");
   cr_assert_eq(skill->min_xp, 5,
       "Error: failed test skill_new_test on skill->min_xp\n");
-  cr_assert_eq((skill->skill_effect->effecttype, ITEM_ATTRIBUTE_MOD,
+  cr_assert_eq(skill->skill_effect->effect_type, ITEM_ATTRIBUTE_MOD,
       "Error: failed test skill_new_test on skill->effect\n");
 }
 
 /* Tests skill_free. */
 
-Test(skill_tests, skill_free_test)
+Test(skill_test, skill_free_test)
 {
+  effect_t* defusebombeffect;
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
   int ret = skill_free(skill);
   cr_assert_eq(ret, 0, "Error: failed test skill_free_test\n");
 }
-*/
 /* Tests skill_execute. */
 
-Test(skill_tests, skill_execute_test)
+Test(skill_test, skill_execute_test)
 {
+  effect_t* defusebombeffect;
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
+  chiventure_ctx_t* ctx;
   cr_assert_eq(skill_execute(skill, ctx), 0,
       "Error: failed test skill_new_test on skill->effect\n");
 }
-*/
+
 
 /* Main function to test skill_level_up. */
 void check_level_up(skill_t* skill, int expected) 
