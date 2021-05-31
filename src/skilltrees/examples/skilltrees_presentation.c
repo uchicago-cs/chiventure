@@ -170,7 +170,7 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
     if ((strcmp(tokens[1], "IMPLEMENTATION"))) {
         return "You cannot learn that.";
     }
-    add_entry("IMPLEMENT", implementation_operation, NULL, ctx->table);
+    add_entry("IMPLEMENT", implementation_operation, NULL, ctx->cli_ctx->table);
 
     // Acquire skill (add skill to player inventory) if skill is "learned"
     inventory_skill_acquire(skill_tree, inventory, implementation_skill);
@@ -193,7 +193,7 @@ void test_level_up(chiventure_ctx_t* ctx) {
     if (test_skill->level == 2) {
         // If Implementation Skill is at Level 2, allow LEARN action
         print_to_cli(ctx, "FYI, use SKILLS to see your skill inventory.");
-        add_entry("LEARN", learn_operation, NULL, ctx->table);
+        add_entry("LEARN", learn_operation, NULL, ctx->cli_ctx->table);
         add_action(implementation_item, "LEARN", "Now that your tests are "
                    "complete, begin implementation!", "Test at least once "
                    "before considering implementation!");
@@ -240,7 +240,7 @@ void design_level_up(chiventure_ctx_t* ctx) {
                           "NORTH");
         create_connection(ctx->game, "Implementation Room", "Design Room",
                           "SOUTH");
-        add_entry("TEST", test_operation, NULL, ctx->table);
+        add_entry("TEST", test_operation, NULL, ctx->cli_ctx->table);
         inventory_skill_acquire(skill_tree, inventory, test_skill);
     }
 }
@@ -355,8 +355,8 @@ int main(int argc, char **argv) {
     inventory_skill_acquire(skill_tree, inventory, design_skill);
 
     // Add DESIGN and SKILLS operation
-    add_entry("DESIGN", design_operation, NULL, ctx->table);
-    add_entry("SKILLS", skills_operation, NULL, ctx->table);
+    add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
+    add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
 
     // Start UI for example chiventure context
     start_ui(ctx, banner);

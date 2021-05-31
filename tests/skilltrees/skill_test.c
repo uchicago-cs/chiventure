@@ -10,6 +10,9 @@
 
 
 
+/* Some of the tests are currently commented out because they need to be modified according to
+the modified parameters of the respective functions that they're testing. */
+
 /* Test skill_new. */
 /*
 Test(skill_tests, skill_new_test)
@@ -83,3 +86,33 @@ Test(skill_tests, skill_execute_test)
       "Error: failed test skill_new_test on skill->effect\n");
 }
 */
+/* Main function to test skill_level_up. */
+
+void check_level_up(skill_t* skill, int expected) 
+{
+  cr_assert_eq(skill_level_up(skill), expected, "Error: failed test skill_level_up_test");
+}
+
+/* Tests skill_level_up when return value is 0 */
+Test(skill_tests, skill_level_up_0)
+{
+  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    2, 5, effect_defuse_bomb);
+  check_level_up(skill, 0);
+}
+
+/* Tests skill_level_up when return value is 1 */
+Test(skill_tests, skill_level_up_1)
+{
+  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    1, 5, effect_defuse_bomb);
+  check_level_up(skill, 1);
+}
+
+/* Tests skill_level_up when return value is -1 */
+Test(skill_tests, skill_level_up_minus_1)
+{
+  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    0, 5, effect_defuse_bomb);
+  check_level_up(skill, -1);
+}
