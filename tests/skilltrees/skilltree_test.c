@@ -16,10 +16,10 @@
 
 Test(skilltree_test, skill_node_new_test)
 {
+
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
-
 
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);

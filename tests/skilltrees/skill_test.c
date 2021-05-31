@@ -11,7 +11,6 @@
 
 /* Rewrote the test with new effect implementation */
 
-
 /* Test skill_new. */
 Test(skill_test, skill_new_test)
 {

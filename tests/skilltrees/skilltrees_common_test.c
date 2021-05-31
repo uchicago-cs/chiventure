@@ -19,7 +19,6 @@ Test(stdst_tests, array_element_add_safe)
     list[2] = effect_defuse_bomb("haha");
     list[3] = NULL;
     list[4] = NULL;*/
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
