@@ -160,8 +160,9 @@ int main(int argc, char **argv)
     /* Monkeypatch the CLI to add the new operations
      * (not handled by action management, as that code
      * currently only supports items) */
-    add_entry("OBSERVE", observe_operation, NULL, ctx->table);
-    add_entry("TALK", sample_talk_operation, NULL, ctx->table);
+
+    add_entry("OBSERVE", observe_operation, NULL, ctx->cli_ctx->table);
+    add_entry("TALK", sample_talk_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
