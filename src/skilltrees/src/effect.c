@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <assert.h>
 #include "skilltrees/effect.h"
 
@@ -59,37 +60,49 @@ move_effect_t* define_move_effect(move_t* move)
 /* See effect.h */
 item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod) 
 {
-    assert(item != NULL);
+    if(item == NULL)
+    {
+        fprintf(stderr, "Item not found \n");
+        return NULL;
+    }
     attribute_t* attr = get_attribute(item, att_id);
     if (attr == NULL)
     {
         fprintf(stderr, "Attribute not found \n");
         return NULL;
     }
-    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t));
+    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t*));
+    if (item_attr_effect == NULL)
+    {
+        fprintf(stderr, "Malloc Failed \n");
+    }
     item_attr_effect -> item = item;
+    if(item_attr_effect -> item == NULL)
+    {
+        fprintf(stderr, "Failed to set item properly \n");
+    }
     item_attr_effect -> att_id = att_id;
     item_attr_effect -> att_tag = att_tag;
     
     if (att_tag == DOUBLE)
     {
-        item_attr_effect -> attribute_mod.double_val = attribute_mod.double_val;
+        (item_attr_effect -> attribute_mod.double_val) = attribute_mod.double_val;
     }
     if (att_tag == BOOLE)
     {
-        item_attr_effect -> attribute_mod.bool_val = attribute_mod.bool_val;
+        (item_attr_effect -> attribute_mod.bool_val) = attribute_mod.bool_val;
     }
     if (att_tag == CHARACTER)
     {
-        item_attr_effect -> attribute_mod.char_val = attribute_mod.char_val;
+        (item_attr_effect -> attribute_mod.char_val) = attribute_mod.char_val;
     }
     if (att_tag == STRING)
     {
-        item_attr_effect -> attribute_mod.str_val = attribute_mod.str_val;
+        (item_attr_effect -> attribute_mod.str_val) = attribute_mod.str_val;
     }
     if (att_tag == INTEGER)
     {
-        item_attr_effect -> attribute_mod.int_val = attribute_mod.int_val;
+        (item_attr_effect -> attribute_mod.int_val) = attribute_mod.int_val;
     }
 
     return item_attr_effect;
