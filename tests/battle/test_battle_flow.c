@@ -118,7 +118,7 @@ Test(battle_flow_move, set_battle)
 /* Tests start_battle() */
 Test(battle_flow_move, start_battle)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
     battle_player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
     g->player = ctx_player;
@@ -139,7 +139,7 @@ Test(battle_flow_move, start_battle)
 /* this tests to see if it returns a ctx_battle */
 Test(battle_flow_move_, return_success_battle_flow_move)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -179,7 +179,7 @@ Test(battle_flow_move_, return_success_battle_flow_move)
 /* this tests to see if battle_flow_move does damage to the enemy */
 Test(battle_flow_move, do_damage_battle_flow_move)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -241,7 +241,7 @@ Test(battle_flow_move, do_damage_battle_flow_move)
  */
 Test(battle_flow_move, battle_over_by_player)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -307,7 +307,7 @@ Test(battle_flow_move, battle_over_by_player)
  */
 Test(battle_flow_move, battle_over_by_enemy)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;

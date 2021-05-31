@@ -49,11 +49,21 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     // creates consumable for the player
     battle_item_t *p_item = get_random_default_consumable();
     battle_item_t *p_item2 = get_random_default_consumable();
+
+    while (p_item2->id == p_item->id) {
+        p_item2 = get_random_default_consumable();
+    }
+
     p_item->next = p_item2;
     p_item2->prev = p_item;
 
     move_t *p_move = get_random_default_move();
     move_t *p_move2 = get_random_default_move();
+
+    while (p_move2->id == p_move->id) {
+        p_move2 = get_random_default_move();
+    }
+
     p_move->next = p_move2;
     p_move2->prev = p_move;
 
@@ -66,8 +76,8 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     e->npc_battle = npc_b;
     battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item);
 
-    chiventure_ctx_battle_t *battle_ctx =
-        (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *battle_ctx =
+        (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
 
     // new_game creates a game that is then attached to ctx
     battle_game_t *g = new_battle_game();

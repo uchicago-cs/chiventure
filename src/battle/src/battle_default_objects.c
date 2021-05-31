@@ -63,7 +63,7 @@ battle_item_t *get_random_default_consumable()
     int defense_array[] = {0, 0, 5, 0};
 
     rv_item->id = rand;
-    rv_item->quantity = randnum(1, 3);
+    rv_item->quantity = 1;
     rv_item->durability = 0; 
 
     // sets name
@@ -98,7 +98,7 @@ move_t *get_random_default_move()
     char* info = (char*)calloc(info_len + 1, sizeof(char));
     strncpy(info, name_array[rand - 1], info_len + 1);
     bool attack = true;
-    int damage = rand * 10;
+    int damage = rand * 5 + 40;
     int defense = rand * 10 + 5;
 
     move_t *rv_move = move_new(info, id, item, attack, damage, defense);

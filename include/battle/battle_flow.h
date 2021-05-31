@@ -22,14 +22,14 @@
  * blocks, but for now, this will be ignored and a stub used instead.
  *
  * Parameters:
- *  - ctx = the current chiventure context
+ *  - ctx = the current battle context
  *  - npc_enemy = pointer to the npc enemy
  *  - env = environment for the battle
  *
  * Returns:
  *  - SUCCESS if initialized, FAILURE if error
  */
-int start_battle(chiventure_ctx_battle_t *ctx, npc_t *npc_enemy,
+int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy,
                   environment_t env);
 
 /*
@@ -86,7 +86,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
  * Returns:
  *  - A string consisting of the output from the turn
  */
-char *battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char *target);
+char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char *target);
 
 /*
  * Carries out one iteration of the battle flow loop when an item is used
@@ -101,7 +101,7 @@ char *battle_flow_move(chiventure_ctx_battle_t *ctx, move_t *move, char *target)
  * Returns:
  *  - A string consisting of the output from the turn
  */
-char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item);
+char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item);
 
 
 
@@ -120,7 +120,7 @@ char *battle_flow_item(chiventure_ctx_battle_t *ctx, battle_item_t *item);
  *  - A string consisting of the list output
  *  - Does not change the turn
  */
-char *battle_flow_list(chiventure_ctx_battle_t *ctx, char* label);
+char *battle_flow_list(battle_ctx_t *ctx, char* label);
 
 /*
  * Helper function for battle_flow functions
@@ -136,6 +136,6 @@ char *battle_flow_list(chiventure_ctx_battle_t *ctx, char* label);
  * Returns:
  *  - A string consisting of the output from the turn
  */
-char *enemy_make_move(chiventure_ctx_battle_t *ctx);
+char *enemy_make_move(battle_ctx_t *ctx);
 
 #endif

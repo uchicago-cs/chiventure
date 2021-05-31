@@ -84,11 +84,12 @@ char *print_battle_winner(battle_status_t status, int xp);
  */
 char *print_start_turn(battle_t* b);
 
-/* Returns a string for the avaliable battle_items for the player
+/* Concatenates a string for the avaliable battle_items for the player
  * Parameter:
  *  - b = pointer to the battle
+ *  - string = the string the list will be concatenated to
  * Returns:
- *  A string containing the available items
+ *  SUCCESS if it succeeds
  */ 
 int *print_battle_items(battle_t *b, char *string);
 

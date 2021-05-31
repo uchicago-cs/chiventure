@@ -51,7 +51,7 @@ turn_t goes_first(battle_t *b)
 }
 
 /* see battle_logic.h */
-move_t *find_player_move(chiventure_ctx_battle_t *ctx, char *move_name)
+move_t *find_player_move(battle_ctx_t *ctx, char *move_name)
 {
     move_t *temp;
     move_t *player_move = NULL;
@@ -144,7 +144,7 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
             {
                 temp->next->prev = temp->prev;
             }
-            free(temp);
+            free(item);
         }
     }
     return SUCCESS;
