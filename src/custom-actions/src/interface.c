@@ -9,6 +9,18 @@
 #include <stdio.h>
 #include "interface.h"
 
+
+// Interface-showing functions
+
+/* See interface.h */
+int do_custom_action(custom_action_t *action)
+{
+    if(action == NULL) return FAILURE;
+    return run_ast_block(action->head);
+}
+
+
+
 /*
  * A list of all custom actions. This is a placeholder which will eventually
  * be replaced by a list inside of game-state/game.h.

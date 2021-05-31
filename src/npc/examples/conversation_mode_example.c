@@ -27,11 +27,11 @@ convo_t *create_steve_conversation()
     add_node(c, "3a", "One longsword coming up.");
     add_node(c, "3b", "One scimitar coming up.");
     add_node(c, "2b", "Ah, I see you prefer the path of defence. Clever choice.");
-    add_edge(c, "Sword", "1", "2a");
-    add_edge(c, "Shield", "1", "2b");
-    add_edge(c, "Longsword", "2a", "3a");
-    add_edge(c, "Scimitar", "2a", "3b");
-    add_edge(c, "I change my mind: I want a shield", "2a", "2b");
+    add_edge(c, "Sword", "1", "2a", NULL);
+    add_edge(c, "Shield", "1", "2b", NULL);
+    add_edge(c, "Longsword", "2a", "3a", NULL);
+    add_edge(c, "Scimitar", "2a", "3b", NULL);
+    add_edge(c, "I change my mind: I want a shield", "2a", "2b", NULL);
 
     return c;
 }
@@ -67,36 +67,40 @@ convo_t *create_oak_conversation()
                       "own Pokemon legend is about to unfold! A world of dreams and\n"
                       "adventures with Pokemon awaits! Let's go!");
 
-    add_edge(c, "I'm excited to play Pokemon!", "1", "1.5");
-    add_edge(c, "Red", "1.5", "2a");
-    add_edge(c, "Ash", "1.5", "2b");
-    add_edge(c, "Misty", "1.5", "2c");
+    add_edge(c, "I'm excited to play Pokemon!", "1", "1.5", NULL);
+    add_edge(c, "Red", "1.5", "2a", NULL);
+    add_edge(c, "Ash", "1.5", "2b", NULL);
+    add_edge(c, "Misty", "1.5", "2c", NULL);
 
-    add_edge(c, "Yes", "2a", "3a");
-    add_edge(c, "Yes", "2b", "3b");
-    add_edge(c, "Yes", "2c", "3c");
-    add_edge(c, "No", "2a", "1.5");
-    add_edge(c, "No", "2b", "1.5");
-    add_edge(c, "No", "2c", "1.5");
+    add_edge(c, "Yes", "2a", "3a", NULL);
+    add_edge(c, "Yes", "2b", "3b", NULL);
+    add_edge(c, "Yes", "2c", "3c", NULL);
+    add_edge(c, "No", "2a", "1.5", NULL);
+    add_edge(c, "No", "2b", "1.5", NULL);
+    add_edge(c, "No", "2c", "1.5", NULL);
 
-    add_edge(c, "Blue", "3a", "4a");
-    add_edge(c, "Gary", "3a", "4b");
-    add_edge(c, "Blue", "3b", "4a");
-    add_edge(c, "Gary", "3b", "4b");
-    add_edge(c, "Blue", "3c", "4a");
-    add_edge(c, "Gary", "3c", "4b");
+    add_edge(c, "Blue", "3a", "4a", NULL);
+    add_edge(c, "Gary", "3a", "4b", NULL);
+    add_edge(c, "Blue", "3b", "4a", NULL);
+    add_edge(c, "Gary", "3b", "4b", NULL);
+    add_edge(c, "Blue", "3c", "4a", NULL);
+    add_edge(c, "Gary", "3c", "4b", NULL);
 
     return c;
 }
 
-/* Defines an CLI operation for talking to an npc */
+/*
+ * This monkey patch talk operation is replaced with the 
+ * operation now implemented in operations.h
+ */
+/* Defines an CLI operation for talking to an npc 
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     char *npc_id = "Oak"; //change to "Steve" for conversation with Steve.
     int rc;
     npc_t *npc = get_npc(ctx->game, npc_id);
 
-    char* str = start_conversation(npc->dialogue, &rc);
+    char* str = start_conversation(npc->dialogue, &rc, ctx->game);
 
     if (!rc)
     {
@@ -106,6 +110,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     return str;
 }
+ */
 
 /*
  * Creates a chiventure context with a sample game and npc.
@@ -128,26 +133,28 @@ chiventure_ctx_t *create_sample_ctx()
      */
 
     /* Creating merchant npc */
-    char *npc_id = "Steve";
+    char *npc_id = "STEVE";
     npc_t *steve = npc_new(npc_id,
                          "Steve is a merchant.",
                          "Steve is the best merchant in town.",
-                         25, NULL, NULL);
+                         NULL, NULL, 0);
 
     convo_t *c = create_steve_conversation();
 
     add_convo_to_npc(steve, c);
     add_npc_to_game(game, steve);
+    add_npc_to_room(room2->npcs, steve);
 
     /* Create Professor oak */
-    char *oak_id = "Oak";
+    char *oak_id = "OAK";
     npc_t *oak = npc_new(oak_id, "Oak is a Pokemon Prof!",
                                  "Professor Oak studies Pokemon in Pallet Town",
-                                 20, NULL, NULL);
+                                 NULL, NULL, 0);
 
     convo_t *starting_speech = create_oak_conversation();
     add_convo_to_npc(oak, starting_speech);
     add_npc_to_game(game, oak);
+    add_npc_to_room(room1->npcs, oak);
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
@@ -159,8 +166,9 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
 
+
     /* Monkeypatching in a talk action to support dialogue */
-    add_entry("TALK", talk_operation, NULL, ctx->table);
+    add_entry("TALK", talk_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
