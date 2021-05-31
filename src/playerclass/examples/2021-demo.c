@@ -23,39 +23,48 @@ void print_class(class_t* class) {
     }
 
     /* Name */
-    if (class->name != NULL) 
+    if (class->name != NULL) {
         printf("Name: %s\n", class->name);
-    else
+    }
+    else {
         printf("Name: NULL.\n");
+    }
 
     /* Multiclass info */
     if (class->num_parent_class > 0) {
         printf("Multiclass with parents: \n");
-        for (int i = 0; i < class->num_parent_class; i++) 
+        for (int i = 0; i < class->num_parent_class; i++) {
             printf("    %s\n", class->parent_class_names[i]);
+        }
     }
-    else
+    else {
         printf("Basic Class\n");
+    }
 
     /* Short Description */
-    if (class->shortdesc != NULL)
+    if (class->shortdesc != NULL) {
         printf("Short Description: %s\n", class->shortdesc);
-    else
+    }
+    else {
         printf("Short Description: NULL\n");
+    }
 
     /* Long Description */
-    if (class->longdesc != NULL)
+    if (class->longdesc != NULL) {
         printf("Long Description: %s\n", class->longdesc);
-    else
+    }
+    else {
         printf("Long Description: NULL\n");
+    }
 
     /* Attributes */
     if (class->attributes != NULL) {
         printf("Attributes:\n");
         dump_obj(class->attributes);
     }
-    else
+    else {
         printf("Attributes: NULL\n");
+    }
 
     /* Stats */
     if (class->base_stats != NULL) {
@@ -65,8 +74,9 @@ void print_class(class_t* class) {
             printf("    %s: %.2f / %.2f\n", stat->key, stat->val, stat->global->max);
         }
     }
-    else
+    else {
         printf("Base Stats: NULL\n");
+    }
 
     /* Effects */
     if (class->effects != NULL) {
@@ -77,8 +87,9 @@ void print_class(class_t* class) {
             printf("    %s", effect->key);
         }
     }
-    else
+    else {
         printf("Effects: NULL\n");
+    }
 
     /* Skill Tree */
     if (class->skilltree != NULL) {
@@ -88,19 +99,23 @@ void print_class(class_t* class) {
             printf("    %s\n", class->skilltree->nodes[i]->skill->name);
         }
     }
-    else
+    else {
         printf("Skill Tree: NULL\n");
+    }
     
     /* Starting Skills */
     if (class->starting_skills != NULL) {
         printf("Starting Skills: \n");
-        for (int i = 0; i < class->starting_skills->num_active; i++)
+        for (int i = 0; i < class->starting_skills->num_active; i++) {
             printf("    %s\n", class->starting_skills->active[i]->name);
-        for (int i = 0; i < class->starting_skills->num_passive; i++) 
+        }
+        for (int i = 0; i < class->starting_skills->num_passive; i++) {
             printf("    %s\n", class->starting_skills->passive[i]->name);
+        }
     }
-    else
+    else {
         printf("Starting Skills: NULL\n");
+    }
 
     printf("------------------------------------------------------------\n");
 }
@@ -124,8 +139,9 @@ void prompt(char* message, char* input) {
 
         /* Delete trailing newline */
         char* ch_ptr = input;
-        while (*ch_ptr != '\n')
+        while (*ch_ptr != '\n') {
             ch_ptr += sizeof(char);
+        }
         *ch_ptr = '\0'; 
     }
     else {
@@ -181,11 +197,13 @@ void demo_prefab_classes() {
     char class_name[BUFFER_SIZE];
     while (true) {
         prompt("Pick a prefab class:", class_name);
-        if (class_name[0] == '\0')
+        if (class_name[0] == '\0') {
             break;
+        }
         class_t* class = class_prefab_new(game, class_name);
-        if (class != NULL)
+        if (class != NULL) {
             class_prefab_add_skills(class);
+        }
         print_class(class);
     }
 }
