@@ -133,6 +133,16 @@ int quest_free(quest_t *q)
     return SUCCESS;
 }
 
+/*
+ * Helper function to compare two achievements.
+ *
+ * Parameters:
+ * - a1, a2: the two achievements to be compared
+ *
+ * Returns:
+ * - 0 if the achievements are the same
+ * - 1 otherwise
+ */
 int compare_achievements(achievement_t *a1, achievement_t *a2)
 {
     if (strcmp(a1->id, a2->id) == 0)
@@ -146,7 +156,7 @@ int compare_achievements(achievement_t *a1, achievement_t *a2)
  * Helper function used to find the bottom node on the left side of a tree
  *
  * Parameters:
- * - a pointer to a tree
+ * - t: a pointer to a tree
  *
  * Returns:
  * - a pointer to the tree with no children on the left side of the tree
@@ -162,6 +172,19 @@ achievement_tree_t *get_bottom_node(achievement_tree_t *t)
     return tmp;
 }
 
+/*
+ * Helper function that finds an achievement tree given its string ID.
+ * It's called find_parent() because of its use to find parent nodes
+ * in add_achievement_to_quest().
+ *
+ * Parameters:
+ * - tree: a pointer to an achievement tree
+ * - id: the string identifier of the achievement being searched for
+ *
+ * Returns:
+ * - NULL if achievement cannot be found
+ * - The achievement tree being searched for
+ */ 
 achievement_tree_t *find_parent(achievement_tree_t *tree, char *id)
 {
 
@@ -186,12 +209,10 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id)
         }
         else
         {
-            return NULL; //error printing??
+            return NULL;
         }
     }
 }
-
-
 
 /* Refer to quests_state.h */
 int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
