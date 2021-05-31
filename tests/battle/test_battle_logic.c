@@ -358,8 +358,6 @@ Test(battle_logic, use_battle_weapon)
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = player;
     battle->enemy = enemy;
-    //battle->environment = NULL;
-    //battle->turn = NULL;
     
     int expected_hp = battle->enemy->stats->hp + weapon->hp;
     int expected_strength = battle->enemy->stats->strength + weapon->attack;
@@ -370,8 +368,6 @@ Test(battle_logic, use_battle_weapon)
     cr_assert_eq(battle->enemy->stats->strength, expected_strength, "consume_battle_weapon() does correctly set enemy strength after use");
     cr_assert_eq(battle->enemy->stats->defense, expected_defense, "consume_battle_weapon() does correctly set enemy defense after use");
     cr_assert_eq(player->items->durability, expected_durability, "consume_battle_weapon() does correctly set item durablity after use");
-
-
 }
 
 /*
@@ -443,7 +439,6 @@ Test(battle_logic, uses_battle_item_correctly)
 
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
-    //battle_t *battle = set_battle(p, NULL, NULL);
     int res = use_battle_item(p, battle, 100);
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");

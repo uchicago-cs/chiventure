@@ -84,16 +84,16 @@ int use_battle_item(combatant_t *c, battle_t *battle, int id)
     
     battle_item_t *item = find_battle_item(c->items, id);
     
-    if(item == NULL || item->quantity == 0)
+    if (item == NULL || item->quantity == 0)
     {
         return FAILURE;
     }
 
-    if(item->is_weapon)
+    if (item->is_weapon)
     {
         consume_battle_item(battle->enemy, item);
         item->durability -= 10;
-    }else
+    } else
     {
         consume_battle_item(c, item);
         item->quantity -= 1;
