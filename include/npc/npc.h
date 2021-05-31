@@ -19,6 +19,7 @@ typedef enum hostility hostility_t;
 typedef struct npc_mov npc_mov_t;
 typedef struct convo convo_t;
 
+
 /* A non-playable character in game */
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
