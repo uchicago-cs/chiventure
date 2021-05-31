@@ -121,7 +121,8 @@ Test(npc_battle, init)
 
     npc_battle = npc_battle_new(100, stats1, moves1, BATTLE_AI_GREEDY,
                                 HOSTILE, 25);
-
+    cr_assert_not_null(npc_battle, "npc_battle_new() failed");
+    
     int res = npc_battle_init(npc_battle, 5, stats2, moves2, BATTLE_AI_NONE,
 		              FRIENDLY, 0);
 
