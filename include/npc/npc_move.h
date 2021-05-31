@@ -231,7 +231,10 @@ int move_npc_definite(npc_mov_t *npc_mov);
  * npc_mov: The NPC movement struct
  *
  * Returns:
- * SUCCESS, OR FAILURE
+ * 0 if move in unsuccessful
+ * 1 npc has reached the end of the path, reverse_path is called, but
+ *   the move is not implemented
+ * 2 successful move to the next room
 */
 int move_npc_indefinite(npc_mov_t *npc_mov);
 
@@ -247,7 +250,6 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  *  - returns SUCCESS on success, returns FAILURE on failure
  *  - Updates npc_mov to have a new, randomly generated movement path.
  *    Maintains the same type of movement (indefinite / definite)
- *
  */
 int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
 
