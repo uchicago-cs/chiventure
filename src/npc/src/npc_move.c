@@ -190,7 +190,8 @@ int reverse_path(npc_mov_t *npc_mov)
 int get_npc_num_rooms(npc_mov_t *npc_mov)
 {
 	room_t *curr_room;
-    room_list_t *elt;
+  room_list_t *elt;
+
 	int count = 0;
 
 	if(npc_mov->mov_type == NPC_MOV_DEFINITE)
@@ -325,10 +326,11 @@ int auto_gen_movement(npc_mov_t *npc_mov, game_t *game)
             int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
             int time_in_room = (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
             rc = extend_path_indefinite(npc_mov, room_to_add, time_in_room);
-	    }
-		if(rc == FAILURE) {
-			return rc;
-		}
+	      }
+
+        if(rc == FAILURE) {
+          return rc;
+        }
     }
 
     return rc;
