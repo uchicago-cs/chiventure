@@ -10,7 +10,7 @@
 void load_audio_demo(SoundType type) 
 {
     //This initializes the all SDL2 assets
-    SDL_Init(SDL_INIT_EVERYTHING); 
+    SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_VIDEO); 
 
     //Basic Audio Format, future teams may want to experiment with this
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2, 2048);
@@ -20,7 +20,10 @@ void load_audio_demo(SoundType type)
                                             SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL); //SDL_WINDOW_HIDDEN HIDES THE WINDOW
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    SDL_SetRenderDrawColor(renderer, 255, 128, 0, 0);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    IMG_Init(IMG_INIT_PNG);
+
+    SDL_Texture *texture = IMG_LoadTexture(renderer, "../../../../sound_library/chiventure.png");
     
 
     //Mix Music and MixChunk are data structures in the SDL, this is how we load (.wav//mp3 formats)
@@ -42,6 +45,8 @@ void load_audio_demo(SoundType type)
     SDL_Event event;
     while (running)
     {
+        SDL_RenderCopy(renderer, texture, NULL, NULL);
+        SDL_RenderPresent(renderer);
         while (SDL_PollEvent(&event))    //Determines if there is a pending event
         {
             if (event.type == SDL_QUIT)  
@@ -65,6 +70,7 @@ void load_audio_demo(SoundType type)
                 }
             }
         }
+        
     }
 
     SDL_DestroyRenderer(renderer); //Closes the window
