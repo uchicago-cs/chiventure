@@ -36,10 +36,6 @@ Test(skill_tests, skill_new_test)
     cr_assert_str_eq((skill->effect)("haha"),"Bomb defused!",
         "Error: failed test skill_new_test on skill->effect\n");
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 65115a5fcb9a10341b44877946324293404659e1
 */
 /* Test skill_init. */
 /*
