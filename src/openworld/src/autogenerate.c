@@ -228,10 +228,7 @@ item_hash_t *generate_items(roomspec_t *rspec)
         if (total_count == MAX_RAND_ITEMS)
             break;
 
-        double spawn_chance = 1;
-        unsigned int max_num = 1; // the max possible item spawn quantity
-        unsigned int min_num = 1; // the min possible item spawn quantity 
-        /* ^^
+        /*
         Default values are set to 1 to mimic the behavior of random_items 
         (the previous item generation function that was called by roomspec_to_room);
         random_items spawns 1 instance of each item specified in the roomspec item hash. 
@@ -240,6 +237,9 @@ item_hash_t *generate_items(roomspec_t *rspec)
         random_items() picks a random subset of the item hash, while generate_items 
         iterates through the item hash and picks items in a consistent order.
         */
+        double spawn_chance = 1;
+        unsigned int max_num = 1; // the max possible item spawn quantity
+        unsigned int min_num = 1; // the min possible item spawn quantity 
 
         itemspec_t *itemspec;
         HASH_FIND_STR(rspec->itemspecs, curr->item_id, itemspec);
@@ -248,14 +248,14 @@ item_hash_t *generate_items(roomspec_t *rspec)
             max_num = itemspec->max_num; 
             min_num = itemspec->min_num;
         }
-        int num_quantities = max_num - min_num + 1;
-        /* ^^
+        /*
         Computes the number of possible item spawn quantities;
         e.g. [2, 4] has 4 - 2 + 1 = 3 possible values: 2, 3, and 4.
         */
+        int num_quantities = max_num - min_num + 1;
 
         int spawn_num = min_num;
-        if (((double) rand()) / RAND_MAX <= spawn_chance) {
+        if ((((double) rand()) / RAND_MAX) <= spawn_chance) {
             spawn_num += rand() % num_quantities;
         } else {
             spawn_num = 0;
