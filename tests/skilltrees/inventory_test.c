@@ -14,6 +14,11 @@
 
 Test(inventory_tests, inventory_skill_add_active_safe)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
@@ -29,6 +34,11 @@ Test(inventory_tests, inventory_skill_add_active_safe)
 
 Test(inventory_tests, inventory_skill_add_active_full)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
@@ -44,6 +54,11 @@ Test(inventory_tests, inventory_skill_add_active_full)
 
 Test(inventory_tests, inventory_skill_add_passive_safe)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
@@ -58,6 +73,11 @@ Test(inventory_tests, inventory_skill_add_passive_safe)
 
 Test(inventory_tests, inventory_skill_add_passive_full)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
@@ -72,6 +92,11 @@ Test(inventory_tests, inventory_skill_add_passive_full)
 
 Test(inventory_tests, inventory_skill_add_invalid)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* peace = skill_new(1001, 32, "inner peace", "maintains inner peace",
         4, 7, innerpeace);
@@ -83,6 +108,11 @@ Test(inventory_tests, inventory_skill_add_invalid)
 
 Test(inventory_tests, inventory_has_skill_has_not_passive)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
@@ -96,6 +126,11 @@ Test(inventory_tests, inventory_has_skill_has_not_passive)
 
 Test(inventory_tests, inventory_has_skill_has_not_active)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
@@ -109,6 +144,11 @@ Test(inventory_tests, inventory_has_skill_has_not_active)
 
 Test(inventory_tests, inventory_has_skill_has_not)
 {
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
+
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
@@ -121,6 +161,10 @@ Test(inventory_tests, inventory_has_skill_has_not)
 
 Test(inventory_tests, inventory_skill_remove_has_not)
 {
+  testmethod();
+  effect_t* defusebombeffect;
+  effect_t* innerpeace;
+  effect_t* choptreeeffect;  
   skill_inventory_t* inventory = inventory_new(1,1);
   skill_t* bomb = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
