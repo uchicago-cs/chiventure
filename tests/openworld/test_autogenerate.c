@@ -12,10 +12,10 @@
 Test(autogenerate, path_exists_in_direction_none)
 {
     room_t *room = room_new("string1", "string2", "string3");
-    cr_assert_eq(false, path_exists_in_direction(room, "NORTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "EAST"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "SOUTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "north"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "east"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 }
 
 /* Checks that room with a path in a given direction is determined as such */
@@ -25,18 +25,18 @@ Test(autogenerate, path_exists_in_direction_one_true)
     room_t *dest_room = room_new("string1", "string2", "string3");
 
     // Path to dest_room
-    path_t* path1 = path_new(dest_room, "NORTH");
+    path_t* path1 = path_new(dest_room, "north");
 
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
 
-    cr_assert_eq(true, path_exists_in_direction(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(false, path_exists_in_direction(room, "EAST"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "SOUTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_direction(room, "east"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 }
 
 /* Checks that room with a path in a different direction is determined as such, i.e.
-* if the existing direction is different from all valid directions (NORTH, EAST, SOUTH, WEST) */
+* if the existing direction is different from all valid directions (north, east, south, west) */
 Test(autogenerate, path_exists_in_direction_false)
 {
     room_t *room = room_new("string1", "string2", "string3");
@@ -47,10 +47,10 @@ Test(autogenerate, path_exists_in_direction_false)
 
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
 
-    cr_assert_eq(false, path_exists_in_direction(room, "NORTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "EAST"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "SOUTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_direction(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "north"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "east"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 }
 
 /* Checks that room with paths in every direction returns true, so long as
@@ -64,10 +64,10 @@ Test(autogenerate, path_exists_in_direction_one_all_true)
     room_t *dest_room4 = room_new("string1", "string2", "string3");
 
     // Paths to destination rooms (dest_roomX, where X is a number 1 <= X <= 4)
-    path_t* path1 = path_new(dest_room1, "NORTH");
-    path_t* path2 = path_new(dest_room2, "EAST");
-    path_t* path3 = path_new(dest_room3, "SOUTH");
-    path_t* path4 = path_new(dest_room4, "WEST");
+    path_t* path1 = path_new(dest_room1, "north");
+    path_t* path2 = path_new(dest_room2, "east");
+    path_t* path3 = path_new(dest_room3, "south");
+    path_t* path4 = path_new(dest_room4, "west");
 
     // Add all the paths to the test room
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
@@ -76,10 +76,10 @@ Test(autogenerate, path_exists_in_direction_one_all_true)
     cr_assert_eq(SUCCESS, add_path_to_room(room, path4), "Could not add path to room");
 
     // Valid directions tests
-    cr_assert_eq(true, path_exists_in_direction(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_direction(room, "EAST"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_direction(room, "SOUTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_direction(room, "WEST"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "east"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "south"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "west"), "Expected true but got false");
 
     // Invalid direction test
     cr_assert_eq(false, path_exists_in_direction(room, "NOT A DIRECTION"), "Expected false but got true");
@@ -94,25 +94,25 @@ Test(autogenerate, path_exists_in_direction_mid)
     room_t *dest_room3 = room_new("string1", "string2", "string3");
 
     // 2 paths
-    path_t* path1 = path_new(dest_room1, "NORTH");
-    path_t* path2 = path_new(dest_room2, "EAST");
+    path_t* path1 = path_new(dest_room1, "north");
+    path_t* path2 = path_new(dest_room2, "east");
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
     cr_assert_eq(SUCCESS, add_path_to_room(room, path2), "Could not add path to room");
 
     // Valid directions tests
-    cr_assert_eq(true, path_exists_in_direction(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_direction(room, "EAST"), "Expected true but got false");
-    cr_assert_eq(false, path_exists_in_direction(room, "SOUTH"), "Expected true but got false");
-    cr_assert_eq(false, path_exists_in_direction(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "east"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 
     // Add a third path
-    path_t* path3 = path_new(dest_room3, "SOUTH");
+    path_t* path3 = path_new(dest_room3, "south");
     cr_assert_eq(SUCCESS, add_path_to_room(room, path3), "Could not add path to room");
-    cr_assert_eq(true, path_exists_in_direction(room, "SOUTH"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "south"), "Expected true but got false");
 
     // The first two paths should remain (should still get true)
-    cr_assert_eq(true, path_exists_in_direction(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_direction(room, "EAST"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "east"), "Expected true but got false");
 
     // Invalid direction test
     cr_assert_eq(false, path_exists_in_direction(room, "NOT A DIRECTION"), "Expected false but got true");
@@ -185,8 +185,8 @@ Test(autogenerate, roomspec_to_room3)
    forward-reverse direction pairs */
 Test(autogenerate, pick_random_direction_correct_dir_pairs)
 {
-    char *directions[4] = {"NORTH", "EAST", "SOUTH", "WEST"}; // only compass directions
-    char *reverse_directions[4] = {"SOUTH", "WEST", "NORTH", "EAST"};
+    char *directions[4] = {"north", "east", "south", "west"}; // only compass directions
+    char *reverse_directions[4] = {"south", "west", "north", "east"};
 
     room_t *room = room_new("room with no outward paths", "", "");
 
@@ -209,22 +209,22 @@ Test(autogenerate, pick_random_direction_correct_dir_pairs)
    directions from new to curr. */
 Test(autogenerate, pick_random_direction_only_open_paths)
 {
-    room_t *center_room = room_new("room with only NORTH and EAST available", "", "");
+    room_t *center_room = room_new("room with only north and east available", "", "");
 
     room_t *room_north = room_new("room north", "", "");
-    path_t *path_north = path_new(room_north, "NORTH");
+    path_t *path_north = path_new(room_north, "north");
     assert(!add_path_to_room(center_room, path_north));
 
     room_t *room_east = room_new("room east", "", "");
-    path_t *path_east = path_new(room_east, "EAST");
+    path_t *path_east = path_new(room_east, "east");
     assert(!add_path_to_room(center_room, path_east));
 
 
     char direction_to_new[6], direction_to_curr[6];
     for (int i = 0; i < 100; i++) {
         pick_random_direction(center_room, direction_to_curr, direction_to_new);
-        cr_assert_str_neq("NORTH", direction_to_new, "NORTH is unavailable!");
-        cr_assert_str_neq("EAST", direction_to_new, "EAST is unavailable!");
+        cr_assert_str_neq("north", direction_to_new, "north is unavailable!");
+        cr_assert_str_neq("east", direction_to_new, "east is unavailable!");
     }
 }
 
@@ -241,7 +241,7 @@ Test(autogenerate, room_generate_success_one)
     g->curr_room = roomspec_to_room(random_room_lookup(spec));
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(g->curr_room, "NORTH");
+    path_t* path_to_room = path_new(g->curr_room, "north");
 
     roomspec_t *room2 = random_room_lookup(spec);
     cr_assert_not_null(room2, "sample_roomspec should not be NULL");
@@ -252,7 +252,7 @@ Test(autogenerate, room_generate_success_one)
     room_t *sample_room2 = roomspec_to_room(room2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
@@ -314,7 +314,7 @@ Test(autogenerate, room_generate_success_two)
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
 
     roomspec_t *sample_roomspec = random_room_lookup(spec);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
@@ -325,7 +325,7 @@ Test(autogenerate, room_generate_success_two)
     room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
@@ -383,7 +383,7 @@ Test(autogenerate, room_generate_success_three)
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
 
     roomspec_t *sample_roomspec = random_room_lookup(spec);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
@@ -397,7 +397,7 @@ Test(autogenerate, room_generate_success_three)
     room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
@@ -449,10 +449,10 @@ Test(autogenerate, invalid_multi_room)
     room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -490,10 +490,10 @@ Test(autogenerate, valid_multi_room1)
     room_t *sample_room2 = roomspec_to_room(sample2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -534,10 +534,10 @@ Test(autogenerate, valid_multi_room2)
     room_t *sample_room2 = roomspec_to_room(sample2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -598,10 +598,10 @@ Test(autogenerate, valid_multi_room3)
     room_t *sample_room2 = roomspec_to_room(sample2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -1545,7 +1545,7 @@ Test(autogenerate, recursive_gen_rad0)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST"};
+    char *directions[] = {"north", "east"};
     cr_assert_eq(SUCCESS, 
                  recursive_generate(g, context, sample_room1, 0, directions, 2, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
@@ -1576,7 +1576,7 @@ Test(autogenerate, recursive_gen_rad1)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST", "SOUTH"};
+    char *directions[] = {"north", "east", "south"};
     cr_assert_eq(SUCCESS, 
                  recursive_generate(g, context, sample_room1, 1, directions, 3, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
@@ -1607,7 +1607,7 @@ Test(autogenerate, recursive_gen_rad2)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    char *directions[] = {"north", "east", "south", "west"};
     cr_assert_eq(SUCCESS, 
                   recursive_generate(g, context, sample_room1, 2, directions, 4, ""),
                   "recursive_generate() returned FAILURE instead of SUCCESS");
@@ -1638,7 +1638,7 @@ Test(autogenerate, recursive_gen_rad3)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    char *directions[] = {"north", "east", "south", "west"};
     cr_assert_eq(SUCCESS, 
                   recursive_generate(g, context, sample_room1, 3, directions, 4, ""),
                   "recursive_generate() returned FAILURE instead of SUCCESS");
@@ -1653,9 +1653,9 @@ Test(autogenerate, recursive_gen_rad3)
 
 /* Checks that recursive_generate generates 12 rooms given:
    - radius: 2
-   - direction_to_parent: "SOUTH" 
+   - direction_to_parent: "south" 
    Starts with 1 room in all_rooms hash, expect 13 rooms at the end, 
-   and none in the SOUTH direction. */
+   and none in the south direction. */
 Test(autogenerate, recursive_gen_block_south)
 {
     rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
@@ -1670,11 +1670,11 @@ Test(autogenerate, recursive_gen_block_south)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    char *directions[] = {"north", "east", "south", "west"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, context, sample_room1, 2, directions, 4, "SOUTH"),
+                 recursive_generate(g, context, sample_room1, 2, directions, 4, "south"),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
-    cr_assert_eq(false, path_exists_in_direction(sample_room1, "SOUTH"), "recursive_gen generated path in SOUTH, " 
+    cr_assert_eq(false, path_exists_in_direction(sample_room1, "south"), "recursive_gen generated path in south, " 
                                                                    "despite it being labelled as direction_to_parent");
 
     room_t *curr_room, *tmp_room;
