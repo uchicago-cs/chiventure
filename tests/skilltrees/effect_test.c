@@ -1,72 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <criterion/criterion.h>
-#include "skilltrees/effect.h"
-#include "common/ctx.h"
-#include "common/uthash.h"
-#include "game-state/stats.h"
-#include "game-state/item.h"
+#include "test_init.h"
 
-/* Creating a context object and some basic hash tables so that we can test our functions.
-   Also adding a player to the ctx object. */
-
-chiventure_ctx_t* create_player_and_stats (){
-    /* Creation of things to be used for testing */
-    game_t* game = game_new("TEST GAME");
-    chiventure_ctx_t* ctx = chiventure_ctx_new(game);
-    player_t* player = player_new("TEST CHARACTER");
-    stats_global_t *gs_health = stats_global_new("max_health", 100);
-    stats_t* gs_health_stat = stats_new(gs_health, 100);
-    stats_global_t *player_health = stats_global_new("current_health", 50);
-    stats_t* player_health_stat = stats_new(player_health, 50);
-
-    /* Setting values */
-    game->curr_stats = NULL;
-    game->all_players = NULL;
-    game->curr_player = player;
-    player -> player_effects = (effects_hash_t*)malloc(sizeof(effects_hash_t));
-
-    /* Adding to hash table */
-    HASH_ADD_KEYPTR(hh, game->curr_stats, gs_health->name, strlen(gs_health->name), gs_health);
-    HASH_ADD_KEYPTR(hh, player->player_stats, gs_health_stat->key, strlen(gs_health_stat->key), gs_health_stat);
-    HASH_ADD_KEYPTR(hh, game->curr_stats, player_health->name, strlen(player_health->name), player_health);
-    HASH_ADD_KEYPTR(hh, player->player_stats, player_health_stat->key, strlen(player_health_stat->key), player_health_stat);
-    HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
-   
-    /*Checking if everything works*/
-    stats_global_t* stat_test;
-    HASH_FIND_STR(game->curr_stats, "max_health", stat_test);
-    cr_assert_eq(100, stat_test->max);
-
-    player_hash_t*  player_test;
-    HASH_FIND_STR(game->all_players, "TEST CHARACTER", player_test);
-    
-    return ctx;
-}
-
-/* Also adding an item to the game so that we can test item attribute effects */
-item_t* add_item (chiventure_ctx_t* ctx)
-{
-    /* Creating item and attribute */
-    game_t* game = ctx -> game;
-    game->all_items = NULL;
-    item_t* bomb = item_new("BOMB", "An armed bomb", "5 seconds till detonation");
-    attribute_t* is_armed = bool_attr_new("ARMED", true);
-    
-    /* Adding things to hash tables */
-    int check = add_attribute_to_hash(bomb, is_armed);
-    cr_assert_eq(check, SUCCESS, "Error: Failed to add attribute to item");
-    check = add_item_to_hash(&(game->all_items), bomb);
-    cr_assert_eq(check, SUCCESS, "Error: Failed to add item to hash");
-    
-    /* Checking if the bomb is added to the item hash and is armed */
-    item_t* item_test;
-    HASH_FIND_STR(game->all_items, "BOMB", item_test);
-    cr_assert_not_null(item_test, "Error : Bomb not found");
-    attribute_t* attr_test = get_attribute(item_test, "ARMED");
-    cr_assert_eq(attr_test->attribute_value.bool_val, true, "Error : Bomb not armed");
-    return bomb;
-}
 
 /* Tests for move unlock effects */
 Test(effect_tests, define_move_effect_test)
@@ -189,6 +126,7 @@ Test(effect_tests, define_item_attr_effect_correct_vals)
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;
     
+    cr_assert_not_null(bomb, "Bomb itself is null");
     /* Running define_item_attr_effect and making sure it gives the correct values */
     item_attr_effect_t* disarm_bomb = define_item_attr_effect(bomb, "ARMED", att_tag, mod);
     cr_assert_not_null(disarm_bomb, "Error: Returned NULL effect");
@@ -199,8 +137,7 @@ Test(effect_tests, define_item_attr_effect_correct_vals)
 
 // This test checks if define_item_att_effect works correctly if the inputted value is not correct
 Test(effect_tests, define_item_attr_effect_invalid_vals)
-{
-    /* Creating values to run define_item_attr_effect */
+{    /* Creating values to run define_item_attr_effect */
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_item(ctx);
     attribute_value_t mod;

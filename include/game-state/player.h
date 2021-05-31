@@ -12,9 +12,9 @@
 #include "playerclass/class.h"
 #include "skilltrees/skilltrees_enums.h"
 
-// Forward declaration for skilltrees
-
+/* Forward declaration for skilltrees */
 typedef struct skill skill_t;
+
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/

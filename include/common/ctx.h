@@ -8,11 +8,12 @@
 
 #include "common.h"
 #include "game-state/game.h"
-#include "cli/cmd.h"
-#include "cli/cmdlist.h"
+#include "cli/cli_ctx.h"
+
 
 // Forward declaration
 typedef struct ui_ctx ui_ctx_t;
+typedef struct cli_ctx cli_ctx_t;
 typedef struct lookup_entry lookup_t;
 typedef struct game game_t;
 
@@ -21,9 +22,8 @@ typedef struct chiventure_ctx {
     /* Add component-specific structs here */
 
     ui_ctx_t *ui_ctx;
-    command_list_t *command_history;
+    cli_ctx_t *cli_ctx;
     game_t *game;
-    lookup_t **table;
     obj_t *obj_store;
 } chiventure_ctx_t;
 
