@@ -102,28 +102,6 @@ int AST_block_free(AST_block_t *ast)
 
 //---------------To add List Functionality for AST_blocks----------------------
 
-/* AST_cmp: Helper function that takes two AST_blocks and compares if they are 
- *          the same
- *
- * Parameters:
- *          - AST1: Pointer to one AST_block
- *          - AST2: Pointer to a seperate AST_block
- *
- * Returns:
- *          - 2 possible int value: 0 for when AST_blocks are the same
- *                                  1 otherwise
- * Note: The value for same MUST be 0 for this helper to be successfully used 
- *       in LL_<function>
- */
-int AST_cmp(AST_block_t* AST1, AST_block_t* AST2)
-{
-    if (AST1 == AST2)
-    {
-        return 0;
-    }
-    else return 1;
-}
-
 /* See ast_block.h */
 int list_how_many_AST_block(AST_block_t* head)
 {
@@ -132,80 +110,24 @@ int list_how_many_AST_block(AST_block_t* head)
     int ret_val;
     AST_block_t* elt = malloc(sizeof(AST_block_t));
     LL_COUNT(head, elt, ret_val);
+    free(elt);
     return ret_val;
-}
-
-/* See ast_block.h */
-bool list_contains_AST_block(AST_block_t* head, AST_block_t* compare)
-{
-    if (head == NULL || compare == NULL)
-    {
-        return false;
-    }
-
-    AST_block_t* tmp;
-    
-    LL_SEARCH(head, tmp, compare, AST_cmp);
-
-    if (tmp != NULL)
-    {
-        return true;
-    }
-    else return false;
-}
-
-/* See ast_block.h */
-int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place)
-{
-    if (head == NULL || add == NULL || num_to_place < 0)
-        return FAILURE;
-
-    if (list_contains_AST_block(head, add) == true)
-        return FAILURE;
-        
-    /* Case where adding an AST_block_t as the new 'head'/beginning of the linked list */
-    if (num_to_place == 0)
-    {
-        LL_PREPEND(head, add);
-        return SUCCESS;
-    }
-
-    /* Case where adding an AST_block_t as the 'tail'/end of the linked list */
-    if (num_to_place >= list_how_many_AST_block(head))
-    {
-        LL_APPEND(head, add);
-        return SUCCESS;
-    }
-
-    /* General case where adding an AST_block_t somewhere within linked list */
-    AST_block_t* curr = head;
-    AST_block_t* prev;
-
-    /* Get to the place in linked list specified by num_to_place */
-    for (int i = 0; i < num_to_place; i++)
-    {
-        prev = curr;
-        curr = curr->next;
-    }
-
-    /* Move Pointers around to accomodate new AST_block */
-    LL_PREPEND(curr, add);
-
-    LL_PREPEND(add, prev);
-
-    return SUCCESS;
 }
 
 /* See ast_block.h */
 int append_list_AST_block(AST_block_t* head, AST_block_t* add)
 {
-  return list_add_AST_block(head, add, list_how_many_AST_block(head));
+    assert(head != NULL);
+    LL_APPEND(head, add);
+    return SUCCESS;
 }
 
 /* See ast_block.h */
 int prepend_list_AST_block(AST_block_t* head, AST_block_t* add)
 {
-  return list_add_AST_block(head, add, 0);
+    assert(head != NULL);
+    LL_PREPEND(head, add);
+    return SUCCESS;
 }
 
 /* See ast_block.h */
@@ -213,11 +135,6 @@ int list_remove_AST_block(AST_block_t* head, AST_block_t* del)
 {
     assert(head != NULL);
     assert(del != NULL);
-
-    if (list_contains_AST_block(head, del) == false)
-    {
-	return FAILURE;
-    }
     
     LL_DELETE(head, del);
 

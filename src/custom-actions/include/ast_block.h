@@ -82,54 +82,37 @@ int AST_block_free(AST_block_t *ast);
  */
 int list_how_many_AST_block(AST_block_t* head);
 
-/* list_contains_AST_block: Function to check if an AST_block_t exists already
- *                          in a linked list
- *
- * Inputs:
- *      - head: the AST_block to search (potentially having other AST_blocks linked)
- *      - compare: The specific AST_block used for comparison
- * 
- * Returns: false for does not contain, true for contains
- */
-bool list_contains_AST_block(AST_block_t* head, AST_block_t* compare);
-
-/* list_add_AST_block: Function to add in an AST_block in a SPECIFIC place in
- *                     the linked list
- *
+/*
+ * Appends the add to the end of the list
  * Input:
  *      - head: The first AST_block_t 
  *      - add : The AST_block_t that is trying to be added in linked list
- *      - num_to_place: The number specifying where to input the new AST_block_t
- *                      in the current list. Note: 0 denotes adding it as the FIRST
- *                      AST_block, 1 as the second, and so forth
  * 
  * Returns: SUCCESS if successfully added, FAILURE otherwise
- */
-int list_add_AST_block(AST_block_t* head, AST_block_t* add, int num_to_place);
-
-/*
- * A wrapper function for list_add_AST_block
- * Appends the add to the end of the list
- * Defaults num_to_place input as the length of the list
- *   Otherwise, same input and output
+ *
+ * Note: Adding the same block twice can cause errors
  */
 int append_list_AST_block(AST_block_t*head, AST_block_t* add);
 
 /*
- * A wrapper function for list_add_AST_block
  * Prepends the add to the start of the list
- * Defaults num_to_place input as 0
- *   Otherwise, same input and output
+ * Input:
+ *      - head: The first AST_block_t
+ *      - add : The AST_block_t that is trying to be added in linked list
+ *
+ * Returns: SUCCESS if successfully added, FAILURE otherwise
+ *
+ * Note: Adding the same block twice can cause errors
  */
 int prepend_list_AST_block(AST_block_t* head, AST_block_t* add);
 
 /* list_remove_AST_block: Deletes a certain block_type from linked list
  *
  * Input:
- *      - head: The AST_block containing linked list to iterate through
+ *      - head: The AST_block containing linked list
  *      - del: The specific AST_block that wants to be deleted from list
  * 
- * Return: SUCCESS if successfully added, FAILURE otherwise
+ * Return: SUCCESS 
  */
 int list_remove_AST_block(AST_block_t* head, AST_block_t* del);
 
