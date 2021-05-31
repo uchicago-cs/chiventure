@@ -175,12 +175,9 @@ static obj_t *get_doc_obj()
  * input, just remember to make it possible to escape these functions. */
 
 void demo_prefab_classes() {
-    /* This was just code I had lying around. You don't necessarily need to use
-     * it, it might be better to forgo user input (except for pauses) */
-
     game_t* game = game_new("The playerclass demo game!");
 
-    /* Runs until you input NULL. */
+    /* Runs until you input nothing. */
     char class_name[BUFFER_SIZE];
     while (true) {
         prompt("Pick a prefab class:", class_name);
