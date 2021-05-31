@@ -16,7 +16,6 @@
 
 Test(skilltree_test, skill_node_new_test)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -55,7 +54,6 @@ Test(skilltree_test, skill_node_new_test)
 
 Test(skilltree_test, skill_node_free_test)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -70,7 +68,6 @@ Test(skilltree_test, skill_node_free_test)
 /* Tests skill_tree_new. */
 Test(skilltree_test, skill_tree_new_test)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -86,7 +83,6 @@ Test(skilltree_test, skill_tree_new_test)
 /* Tests skill_tree_free. */
 Test(skilltree_test, skill_tree_free_test)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -101,7 +97,6 @@ Test(skilltree_test, skill_tree_free_test)
 
 Test(skilltree_test, node_prereq_add_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -119,7 +114,6 @@ Test(skilltree_test, node_prereq_add_safe)
 
 Test(skilltree_test, node_prereq_add_full)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -141,7 +135,6 @@ Test(skilltree_test, node_prereq_add_full)
 
 Test(skilltree_test, node_prereq_remove_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -166,7 +159,6 @@ Test(skilltree_test, node_prereq_remove_safe)
 
 Test(skilltree_test, node_prereq_remove_missing)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -191,7 +183,6 @@ Test(skilltree_test, node_prereq_remove_missing)
 
 Test(skilltree_test, skill_tree_node_add_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -211,7 +202,6 @@ Test(skilltree_test, skill_tree_node_add_safe)
 
 Test(skilltree_test, skill_tree_node_add_full)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -231,7 +221,6 @@ Test(skilltree_test, skill_tree_node_add_full)
 
 Test(skilltree_test, skill_tree_node_remove_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -258,7 +247,6 @@ Test(skilltree_test, skill_tree_node_remove_safe)
 
 Test(skilltree_test, skill_tree_node_remove_missing)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -284,7 +272,6 @@ Test(skilltree_test, skill_tree_node_remove_missing)
 
 Test(skilltree_test, skill_tree_has_node_has)
 {
-  testmethod();
   effect_t* defusebombeffect;
   effect_t* innerpeace;
   effect_t* choptreeeffect;  
@@ -310,7 +297,6 @@ Test(skilltree_test, skill_tree_has_node_has)
 
 Test(skilltree_test, skill_tree_has_node_has_not)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -336,7 +322,6 @@ Test(skilltree_test, skill_tree_has_node_has_not)
 
 Test(skilltree_test, get_all_skill_prereqs_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -369,7 +354,6 @@ Test(skilltree_test, get_all_skill_prereqs_safe)
 
 Test(skilltree_test, get_all_skill_prereqs_empty)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -398,7 +382,6 @@ Test(skilltree_test, get_all_skill_prereqs_empty)
 
 Test(skilltree_test, get_acquired_skill_prereqs_no_prereqs)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -425,7 +408,6 @@ Test(skilltree_test, get_acquired_skill_prereqs_no_prereqs)
 
 Test(skilltree_test, get_acquired_skill_prereqs_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -460,7 +442,6 @@ Test(skilltree_test, get_acquired_skill_prereqs_safe)
 
 Test(skilltree_test, skill_prereqs_missing_none)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -487,7 +468,6 @@ Test(skilltree_test, skill_prereqs_missing_none)
 
 Test(skilltree_test, skill_prereqs_missing_some)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -535,7 +515,6 @@ Test(skilltree_test, skill_prereqs_missing_some)
 
 Test(skilltree_test, inventory_skill_acquire_has)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -567,7 +546,6 @@ Test(skilltree_test, inventory_skill_acquire_has)
 
 Test(skilltree_test, inventory_skill_acquire_has_not)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
