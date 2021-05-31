@@ -246,7 +246,7 @@ item_t *get_item_from_game(game_t *game, char *item_id)
 npc_t *get_npc(game_t *game, char *npc_id)
 {
     npc_t *n;
-    HASH_FIND(hh, game->all_npcs, npc_id,
+    HASH_FIND(hh, game->all_npcs, case_insensitized_string(npc_id),
               strnlen(npc_id, MAX_ID_LEN), n);
     return n;
 }
