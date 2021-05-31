@@ -14,7 +14,6 @@
 
 Test(inventory_tests, inventory_skill_add_active_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -34,7 +33,6 @@ Test(inventory_tests, inventory_skill_add_active_safe)
 
 Test(inventory_tests, inventory_skill_add_active_full)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -54,7 +52,6 @@ Test(inventory_tests, inventory_skill_add_active_full)
 
 Test(inventory_tests, inventory_skill_add_passive_safe)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -73,7 +70,6 @@ Test(inventory_tests, inventory_skill_add_passive_safe)
 
 Test(inventory_tests, inventory_skill_add_passive_full)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -92,7 +88,6 @@ Test(inventory_tests, inventory_skill_add_passive_full)
 
 Test(inventory_tests, inventory_skill_add_invalid)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -108,7 +103,6 @@ Test(inventory_tests, inventory_skill_add_invalid)
 
 Test(inventory_tests, inventory_has_skill_has_not_passive)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -126,7 +120,6 @@ Test(inventory_tests, inventory_has_skill_has_not_passive)
 
 Test(inventory_tests, inventory_has_skill_has_not_active)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -144,7 +137,6 @@ Test(inventory_tests, inventory_has_skill_has_not_active)
 
 Test(inventory_tests, inventory_has_skill_has_not)
 {
-    testmethod();
     effect_t* defusebombeffect;
     effect_t* innerpeace;
     effect_t* choptreeeffect;
@@ -161,7 +153,6 @@ Test(inventory_tests, inventory_has_skill_has_not)
 
 Test(inventory_tests, inventory_skill_remove_has_not)
 {
-  testmethod();
   effect_t* defusebombeffect;
   effect_t* innerpeace;
   effect_t* choptreeeffect;  
