@@ -73,7 +73,7 @@ edge_list_t *create_edge_list_element(edge_t *e)
 
 /* See dialogue.h */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
-             condition_t *cond)
+             condition_t *conditions)
 {
     assert(c->num_nodes >= 2);
 
@@ -84,7 +84,8 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
 
     // Create edge
     edge_t *e;
-    if ((e = edge_new(quip, from_node, to_node, cond)) == NULL) return FAILURE;
+    if ((e = edge_new(quip, from_node, to_node, conditions)) == NULL)
+        return FAILURE;
 
     edge_list_t *c_elt, *n_elt;
 
@@ -133,7 +134,8 @@ int do_node_actions(node_t *n, game_t *game)
         switch(cur_action->action) {
 
             case GIVE_ITEM: ;
-                npc_t *npc = get_npc(game, game->mode->mode_ctx);
+                npc_t *npc = get_npc_in_room(game->curr_room,
+                                             game->mode->mode_ctx);
                 item_t *item = get_item_in_hash(npc->inventory,
                                                 cur_action->action_id);
                 if (item == NULL) return FAILURE;
@@ -143,7 +145,7 @@ int do_node_actions(node_t *n, game_t *game)
                 break;
 
             case TAKE_ITEM:
-                npc = get_npc(game, game->mode->mode_ctx);
+                npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
                 item = get_item_in_hash(game->curr_player->inventory,
                                                 cur_action->action_id);
                 if (item == NULL) return FAILURE;
@@ -188,10 +190,10 @@ int update_edge_availabilities(node_t *n)
 
     while (cur_edge != NULL) {
         if (cur_edge->availability != EDGE_DISABLED) {
-            if (cur_edge->edge->condition != NULL) {
+            if (cur_edge->edge->conditions != NULL) {
                 // true = 1 = EDGE_AVAILABLE, false = 0 = EDGE_UNAVAILABLE
                 cur_edge->availability =
-                    all_conditions_met(cur_edge->edge->condition);
+                    all_conditions_met(cur_edge->edge->conditions);
             }
             if (cur_edge->availability) num_avail_edges++;
         }
@@ -337,19 +339,27 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     c->cur_node = cur_edge->edge->to;
 
-    // Step 2: Execute actions (item, quest, battle, etc.), if any
+    // Step 2: Disable edge if the node it leads to has an action
+    // NOTE: This is a temporary solution that prevents issues like being able
+    //       to receive multiple copies of items, starting the same quest twice.
+    //       This SHOULD be changed / made more complex in the future.
+    if (c->cur_node->actions != NULL) {
+        cur_edge->availability = EDGE_DISABLED;
+    }
+
+    // Step 3: Execute actions (item, quest, battle, etc.), if any
     if (do_node_actions(c->cur_node, game) != SUCCESS) {
         *rc = -1;
         return NULL;
     }
 
-    // Step 3: Recheck the availability of each edge, count total avail. edges
+    // Step 4: Recheck the availability of each edge, count total avail. edges
     if (update_edge_availabilities(c->cur_node) != SUCCESS) {
         *rc = -1;
         return NULL;
     }
 
-    // Step 4: Prepare return code and return string
+    // Step 5: Prepare return code and return string
     if (c->cur_node->num_available_edges == 0) *rc = 1;
     else *rc = 0;
 
@@ -427,7 +437,7 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id)
 
 /* See dialogue.h */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
-              condition_t *cond)
+              condition_t *conditions)
 {
     assert(e != NULL);
     assert(quip != NULL);
@@ -437,18 +447,18 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
     if ((e->quip = strdup(quip)) == NULL) return FAILURE;
     e->from = from;
     e->to = to;
-    e->condition = cond;
+    e->conditions = conditions;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *cond)
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions)
 {
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
 
-    if (edge_init(e, quip, from, to, cond) != SUCCESS) {
+    if (edge_init(e, quip, from, to, conditions) != SUCCESS) {
         edge_free(e);
         return NULL;
     }
@@ -461,7 +471,7 @@ int edge_free(edge_t *e)
 {
     if (e != NULL) {
         free(e->quip);
-        delete_condition_llist(e->condition);
+        delete_condition_llist(e->conditions);
         free(e);
     }
 
