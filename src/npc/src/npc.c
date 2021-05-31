@@ -34,6 +34,8 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
 
+    npc_id = case_insensitized_string(npc_id);
+
     int check = npc_init(npc, npc_id, short_desc, long_desc, 
                          class, movement, will_fight); 
 
