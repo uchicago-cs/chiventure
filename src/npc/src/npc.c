@@ -136,7 +136,8 @@ item_list_t *get_npc_inv_list(npc_t *npc)
 bool item_in_npc_inventory(npc_t *npc, char *item_id)
 {
     item_t *check;
-    HASH_FIND(hh, npc->inventory, item_id, strnlen(item_id, MAX_ID_LEN), check);
+    HASH_FIND(hh, npc->inventory, case_insensitized_string(item_id),
+              strnlen(item_id, MAX_ID_LEN), check);
     if (check != NULL){
         return true;
     }

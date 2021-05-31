@@ -237,7 +237,7 @@ room_t *find_room_from_game(game_t *game, char* room_id)
 item_t *get_item_from_game(game_t *game, char *item_id)
 {
     item_t *i;
-    HASH_FIND(hh_all_items, game->all_items, item_id,
+    HASH_FIND(hh_all_items, game->all_items, case_insensitized_string(item_id),
               strnlen(item_id, MAX_ID_LEN), i);
     return i;
 }
