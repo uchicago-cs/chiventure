@@ -179,13 +179,18 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
         print_battle_items(b, string);
 
         return string;
-    }
-    else {
+    } if (strcmp(label, "MOVES") == 0) {
         battle_t *b = ctx->game->battle;
 
         char *string = calloc(500, sizeof(char));
         print_moves(b, string);
 
+        return string;
+    } else {
+             
+        char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        snprintf(string, BATTLE_BUFFER_SIZE, "Please enter a valid battle command!");
+        
         return string;
     }
 }

@@ -110,7 +110,7 @@ char *print_start_turn(battle_t *b)
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use a Move, type 'Use [insert move name here]'\n\n"
                                          "To use an Item, type 'Consume [insert item name here]'\n\n"
-                                         "To see the list available items, type 'List Moves'\n\n"
+                                         "To see the list available moves, type 'List Moves'\n\n"
                                          "To see the list available items, type 'List Items'\n");
     //print_moves(b,string);
 
@@ -163,8 +163,9 @@ int *print_battle_items(battle_t *b, char *string)
         int attack = item->attack;
         int defense = item->defense;
         int hp = item->hp;
+        int quantity = item->quantity;
 
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\nAttack: %d\nDefense: %d\nHP: %d\n", name, attack,defense, hp);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\nAttack: %d\nDefense: %d\nHP: %d\nQuantity: %d\n", name, attack,defense, hp,quantity);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
