@@ -7,7 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
-#include "skilltrees/sampleeffects.h"
+#include "sampleeffects.c"
 
 /* Tests array_element_add on a valid case. */
 
@@ -19,6 +19,10 @@ Test(stdst_tests, array_element_add_safe)
     list[2] = effect_defuse_bomb("haha");
     list[3] = NULL;
     list[4] = NULL;*/
+    testmethod();
+    effect_t* defusebombeffect;
+    effect_t* innerpeace;
+    effect_t* choptreeeffect;
 
     void** array = malloc(sizeof(void*) * 5);
     array[0] = defusebombeffect;
@@ -36,6 +40,7 @@ Test(stdst_tests, array_element_add_safe)
 
 Test(stdst_tests, array_element_add_full)
 {
+
     void** array = malloc(sizeof(void*) * 5);
     for(int i = 0; i < 5; i++){
         array[i] = malloc(sizeof(int));
@@ -50,6 +55,7 @@ Test(stdst_tests, array_element_add_full)
 
 Test(stdst_tests, list_has_skill_doesnt)
 {
+
     skill_t** list = malloc(sizeof(skill_t*) * 2);
     for(int i = 0; i < 2; i++){
       skill_t* skill = malloc(sizeof(skill_t));
@@ -70,6 +76,7 @@ Test(stdst_tests, list_has_skill_doesnt)
 
 Test(stdst_tests, list_has_skill_does)
 {
+
     skill_t** list = malloc(sizeof(skill_t*) * 2);
     for(int i = 0; i < 2; i++){
       skill_t* skill = malloc(sizeof(skill_t));
