@@ -55,7 +55,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     /* we use buff for the room name instead */
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     /* instead of taking all the items, just take a few of them */
-    res->items = random_items(roomspec);
+    res->items = generate_items(roomspec);
 
     res->paths = NULL;
     return res;
@@ -212,6 +212,66 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 
     return FAILURE;
 }
+
+
+/* See autogenerate.h */
+item_hash_t *generate_items(roomspec_t *rspec)
+{
+    if (rspec == NULL) {
+        return NULL;
+    }
+
+    int total_count = 0;
+    item_t *curr, *tmp;
+    item_hash_t *new_items = NULL;
+    HASH_ITER(hh, rspec->items, curr, tmp) {
+        if (total_count == MAX_RAND_ITEMS)
+            break;
+
+        /*
+        Default values are set to 1 to mimic the behavior of random_items 
+        (the previous item generation function that was called by roomspec_to_room);
+        random_items spawns 1 instance of each item specified in the roomspec item hash. 
+         
+        Note that the behavior is still slightly different: 
+        random_items() picks a random subset of the item hash, while generate_items 
+        iterates through the item hash and picks items in a consistent order.
+        */
+        double spawn_chance = 1;
+        unsigned int max_num = 1; // the max possible item spawn quantity
+        unsigned int min_num = 1; // the min possible item spawn quantity 
+
+        itemspec_t *itemspec;
+        HASH_FIND_STR(rspec->itemspecs, curr->item_id, itemspec);
+        if (itemspec) {
+            spawn_chance = itemspec->spawn_chance;
+            max_num = itemspec->max_num; 
+            min_num = itemspec->min_num;
+        }
+        /*
+        Computes the number of possible item spawn quantities;
+        e.g. [2, 4] has 4 - 2 + 1 = 3 possible values: 2, 3, and 4.
+        */
+        int num_quantities = max_num - min_num + 1;
+
+        int spawn_num = min_num;
+        if ((((double) rand()) / RAND_MAX) <= spawn_chance) {
+            spawn_num += rand() % num_quantities;
+        } else {
+            spawn_num = 0;
+        }
+        spawn_num = (spawn_num < (MAX_RAND_ITEMS - total_count)) ? 
+                     spawn_num : (MAX_RAND_ITEMS - total_count);
+
+        for (int i = 0; i < spawn_num; i++) {
+            copy_item_to_hash(&new_items, rspec->items, curr->item_id);
+        }
+        total_count += spawn_num; 
+    }
+
+    return new_items;
+}
+
 
 
 /* See autogenerate.h */

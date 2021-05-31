@@ -22,7 +22,7 @@
 #include "gen_structs.h"
 #include "default_rooms.h"
 
-#define MAX_RAND_ITEMS (6)
+#define MAX_RAND_ITEMS (100)
 
 /*
 * path_exists_in_direction
@@ -76,7 +76,6 @@ room_t* roomspec_to_room(roomspec_t *roomspec);
  * - SUCCESS: if an open direction is available
  * - FAILURE: otherwise
  */
-
 int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_direction_to_new);
 
 /** room_generate
@@ -184,6 +183,28 @@ item_hash_t *random_items(roomspec_t *room);
 * - FAILURE if items allowed in a room could not be found (FAILURE)
 */
 int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
+
+
+/* generate_items
+ * Generates an item hash according to the item_hash and itemspec_hash 
+ * specified in in the given roomspec.
+ * 
+ * If the corresponding itemspec for an item is not defined,
+ * generate_items resorts to default behavior: 
+ * generate 1 item with 100% probability
+ * 
+ * parameter:
+ * - rspec: A single roomspec.
+ * 
+ * returns:
+ * - NULL if failure 
+ *   (or if item_hash is empty,
+ *    or if generate_items() decided not to spawn items,
+ *    or if item_spec specified that no items should be added)
+ * - item_hash_t* new item hash
+ */
+item_hash_t *generate_items(roomspec_t *rspec);
+
 
 
 /* map_level_to_difficulty
