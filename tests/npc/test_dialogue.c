@@ -294,6 +294,7 @@ Test(dialogue, add_edge_bidirectional)
                  "add_edge failed to add edge to Node 1");
     cr_assert_eq(strcmp(c->all_nodes->next->node->edges->edge->quip, "Q2"), 0,
                  "add_edge failed to add edge to Node 2");
+
 }
 
 
@@ -489,7 +490,6 @@ Test(dialogue, two_conditionals)
                  "Expected:\n%s for the return string of start_conversation "
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
-
 
 /*** Actions ***/
 
