@@ -27,17 +27,15 @@ const char *banner = "THIS IS AN OPENWORLD EXAMPLE PROGRAM";
 /* ==== Placeholder sample struct variables ====
 These will be initialized in initialize_sample_structs() */
 
-/* ROOMSPECS */
+/* ROOMSPECS
+   Pre-declaring roomspecs like this is important as we need to preserve 
+   num_built between function calls in order to generate unique rooms. */
 roomspec_t *rspec_lvl0 = NULL;
 roomspec_t *rspec_lvl1 = NULL;
 roomspec_t *rspec_lvl2 = NULL;
 roomspec_t *rspec_lvl3 = NULL;
 
-/* SPECLISTS */
-speclist_t *specnode0 = NULL;
-speclist_t *specnode1 = NULL;
-speclist_t *specnode2 = NULL;
-speclist_t *specnode3 = NULL;
+/* SPECLIST */
 speclist_t *speclist = NULL;
 
 /* GENCONTEXT */
@@ -61,10 +59,10 @@ void initialize_sample_structs()
     rspec_lvl3 = roomspec_new("level 3 room #", "A level 3 room.", "A room of difficulty level 3.", NULL);
 
     /* Initialize speclist (nodes and final list) */
-    specnode0 = speclist_new(rspec_lvl0);
-    specnode1 = speclist_new(rspec_lvl1);
-    specnode2 = speclist_new(rspec_lvl2);
-    specnode3 = speclist_new(rspec_lvl3);
+    speclist_t *specnode0 = speclist_new(rspec_lvl0);
+    speclist_t *specnode1 = speclist_new(rspec_lvl1);
+    speclist_t *specnode2 = speclist_new(rspec_lvl2);
+    speclist_t *specnode3 = speclist_new(rspec_lvl3);
     DL_APPEND(speclist, specnode0);
     DL_APPEND(speclist, specnode1);
     DL_APPEND(speclist, specnode2);
