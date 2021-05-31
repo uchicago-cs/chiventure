@@ -67,7 +67,7 @@ Test (npcs_in_room, add_npc_to_room)
     cr_assert_eq(check1, SUCCESS, "add_npc_to_room() failed");
 
     npc_t *check2;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
              check2);
 
     cr_assert_not_null(check2, "add_npc_to_room() failed,"
@@ -104,7 +104,7 @@ Test (npcs_in_room, delete_npc_from_room)
     cr_assert_eq(check2, SUCCESS, "delete_npc_from_room() failed");
 
     npc_t *check3;
-    HASH_FIND(hh, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
+    HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
              check3);
 
     cr_assert_null(check3, "delete_npc_from_room() failed,"
