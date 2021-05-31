@@ -4,6 +4,7 @@
 #include "game-state/item.h"
 #include "game-state/mode.h"
 #include "npc/npc.h"
+#include "cli/util.h"
 #include "quests/quests_state.h"
 #include "quests/quests_structs.h"
 
