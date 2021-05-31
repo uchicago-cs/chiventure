@@ -19,7 +19,7 @@
         },
         "Living Room": {
             "short_desc": "ASH's living room",
-            "long_desc": "Your MOM is here. There is an exit to the North, and stairs leading upstairs.",
+            "long_desc": "Your MOM is here. There is an exit to the East, and stairs leading upstairs.",
             "connections": [
                 {
                     "to": "Bedroom",
@@ -27,35 +27,35 @@
                 },
                 {
                     "to": "Pallet Town",
-                    "direction": "NORTH"
+                    "direction": "EAST"
                 }
             ]
         },
         "Pallet Town": {
             "short_desc": "A small town in southwestern Kanto",
-            "long_desc": "Your house is to the South, Prof. OAK's lab is to the North, and Route 1 is to the West.",
+            "long_desc": "Your house is to the West, Prof. OAK's lab is to the South, and Route 1 is to the North.",
             "connections": [
                 {
                     "to": "Living Room",
-                    "direction": "SOUTH"
+                    "direction": "WEST"
                 },
                 {
                     "to": "Lab",
-                    "direction": "NORTH"
+                    "direction": "SOUTH"
                 },
                 {
                     "to": "Route 1",
-                    "direction": "WEST"
+                    "direction": "NORTH"
                 }
             ]
         },
         "Lab": {
             "short_desc": "Prof. OAK's lab",
-            "long_desc": "Prof. OAK is here. There is an exit to the South.",
+            "long_desc": "Prof. OAK is here. There is an exit to the North.",
             "connections": [
                 {
                     "to": "Pallet Town",
-                    "direction": "SOUTH"
+                    "direction": "NORTH"
                 },
                 {
                     "to": "End Room",
@@ -69,7 +69,7 @@
             "connections": [
                 {
                     "to": "Pallet Town",
-                    "direction": "EAST"
+                    "direction": "SOUTH"
                 }
             ]
         },
