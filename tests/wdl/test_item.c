@@ -85,7 +85,7 @@ void item_check(char *room, char *item)
     {
         rc = possible_action(i, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
-    }    
+    }
 }
 
 Test(items, check_chair)
