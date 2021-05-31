@@ -297,6 +297,9 @@
                 },
                 {
                     "item_id": "BULBASAUR"
+                },
+                {
+                    "item_id": "POKEBALL"
                 }
             ],
             "dialogue": {
@@ -311,7 +314,8 @@
                     },
                     {
                         "id": "3",
-                        "npc_dialogue": "Oh! Thank you. ... <Starter pokemon>",
+                        "npc_dialogue": "Oh! Thank you. By the way, your mother tells me you're going off to explore more of the Kanto region soon. She has asked me to help prepare you to go off on your own.
+                        Outside of pallet town, pokemon lurk around every corner. It's dangerous to go alone, please take one of these pokemon. Would you like a Bulbasaur, Squirtle, or Charmander?",
                         "actions": [
                             {
                                 "action": "TAKE_ITEM",
@@ -328,8 +332,50 @@
                                 "action_id": "PIDGEY"
                             }
                         ]
+                    },
+                    {
+                        "id": "6a",
+                        "npc_dialogue": "Here is your Bulbasaur! You should also learn what to do when confronting pokemon in the wild. Go catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
+                        "actions": [
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "BULBASAUR"
+                            },
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "POKEBALL"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "6b",
+                        "npc_dialogue": "Here is your Squirtle! You should also learn what to do when confronting pokemon in the wild. Go catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
+                        "actions": [
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "SQUIRTLE"
+                            },
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "POKEBALL"
+                            }
+                        ]
+                    },
+                    {
+                        "id": "6c",
+                        "npc_dialogue": "Here is your Charmander! You should also learn what to do when confronting pokemon in the wild. Go catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
+                        "actions": [
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "CHARMANDER"
+                            },
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "POKEBALL"
+                            }
+                        ]
                     }
-                ],
+                ],                    
                 "edges": [
                     {
                         "quip": "Good.",
@@ -357,6 +403,21 @@
                                 "item_id": "PIDGEY"
                             }
                         ]
+                    },
+                    {
+                        "quip": "I'll take Bulbasaur.",
+                        "from_id": "3",
+                        "to_id": "6a"
+                    },
+                    {
+                        "quip": "I'll take Squirtle.",
+                        "from_id": "3",
+                        "to_id": "6b"
+                    },
+                    {
+                        "quip": "I'll take Charmander.",
+                        "from_id": "3",
+                        "to_id": "6c"
                     }
                 ]
             }
