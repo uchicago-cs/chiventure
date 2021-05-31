@@ -92,22 +92,22 @@ void test_eq(double d1, double d2, int exp1, bool b1, bool b2, int exp2,
 /* Testing check_eq() for each type of attribute when true */
 Test(custom_actions_cond, equals)
 {
-    test_eq(2.0, 2.0, 0,
-            true, true, 0,
-            'a', 'a', 0,
-            "hi", "hi", 0,
-            4, 4, 0);
+    test_eq(2.0, 2.0, 1,
+            true, true, 1,
+            'a', 'a', 1,
+            "hi", "hi", 1,
+            4, 4, 1);
 }
 
 
 /* Testing check_eq() for each type of attribute when false */
 Test(custom_actions_cond, not_equals)
 {
-    test_eq(1.0, 2.0, 1,
-            true, false, 1,
-            'a', 'b', 1,
-            "hi", "ho", 1,
-            4, 3, 1);
+    test_eq(1.0, 2.0, 0,
+            true, false, 0,
+            'a', 'b', 0,
+            "hi", "ho", 0,
+            4, 3, 0);
 }
 
 
@@ -225,70 +225,70 @@ void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
 /* Testing check_lt() for each attribute type when true */
 Test(custom_actions_cond, less_than)
 {
-    test_comp(1.0, 2.0, 0,
-              'a', 'b', 0,
-              2, 3, 0, LT);
+    test_comp(1.0, 2.0, 1,
+              'a', 'b', 1,
+              2, 3, 1, LT);
 }
 
 
 /* Testing check_lt() for each attribute type when false */
 Test(custom_actions_cond, not_less_than)
 {
-    test_comp(1.0, 1.0, 1,
-              'b', 'a', 1,
-              3, 2, 1, LT);
+    test_comp(1.0, 1.0, 0,
+              'b', 'a', 0,
+              3, 2, 0, LT);
 }
 
 
 /* Testing check_gt() for each attribute type when true */
 Test(custom_actions_cond, greater_than)
 {
-    test_comp(2.0, 1.0, 0,
-              'b', 'a', 0,
-              3, 2, 0, GT);
+    test_comp(2.0, 1.0, 1,
+              'b', 'a', 1,
+              3, 2, 1, GT);
 }
 
 
 /* Testing check_gt() for each attribute type when false */
 Test(custom_actions_cond, not_greater_than)
 {
-    test_comp(1.0, 2.0, 1,
-              'a', 'b', 1,
-              2, 3, 1, GT);
+    test_comp(1.0, 2.0, 0,
+              'a', 'b', 0,
+              2, 3, 0, GT);
 }
 
 
 /* Testing check_lte() for each attribute type when true */
 Test(custom_actions_cond, less_than_eq)
 {
-    test_comp(1.0, 2.0, 0,
-              'a', 'a', 0,
-              2, 2, 0, LTE);
+    test_comp(1.0, 2.0, 1,
+              'a', 'a', 1,
+              2, 2, 1, LTE);
 }
 
 
 /* Testing check_lte() for each attribute type when false */
 Test(custom_actions_cond, not_less_than_eq)
 {
-    test_comp(2.0, 1.0, 1,
-              'b', 'a', 1,
-              3, 2, 1, LTE);
+    test_comp(2.0, 1.0, 0,
+              'b', 'a', 0,
+              3, 2, 0, LTE);
 }
 
 
 /* Testing check_gte() for each attribute type when true */
 Test(custom_actions_cond, greater_than_eq)
 {
-    test_comp(2.0, 1.0, 0,
-              'b', 'a', 0,
-              2, 2, 0, GTE);
+    test_comp(2.0, 1.0, 1,
+              'b', 'a', 1,
+              2, 2, 1, GTE);
 }
 
 
 /* Testing check_gte() for each attribute type when false */
 Test(custom_actions_cond, not_greater_than_eq)
 {
-    test_comp(1.0, 2.0, 1,
-              'a', 'b', 1,
-              2, 3, 1, GTE);
+    test_comp(1.0, 2.0, 0,
+              'a', 'b', 0,
+              2, 3, 0, GTE);
 }

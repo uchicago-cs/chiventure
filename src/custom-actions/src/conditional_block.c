@@ -10,6 +10,7 @@
 #include "game-state/item.h" 
 #include "conditional_block.h"
 #include "ast_block.h"
+#include "custom-actions-cond.h"
 
 /* See conditional_block.h */
 conditional_block_t* conditional_block_new(conditional_type_t conditional_type, 
@@ -93,4 +94,30 @@ int conditional_block_free(conditional_block_t *conditional)
     free(conditional);
 
     return SUCCESS; 
+}
+
+/* See conditional_block.h */
+int eval_conditional_block(conditional_block_t *block)
+{
+  switch(block->conditional_type) {
+  case EQ:
+    return check_eq(block->left, block->right);
+    break;
+  case LTB: // functioning like case LT
+    return check_lt(block->left, block->right);
+    break;
+  case GTB: // once conditional_block struct changed
+    return check_gt(block->left, block->right);
+    break;
+  case LTEB: // functioning like case LTE at the moment
+    return check_lte(block->left, block->right);
+    break;
+  case GTEB: // once conditional_block struct changed
+    return check_gte(block->left, block->right);
+    break;
+  case IN:
+    return FAILURE;
+    // return check_in(block->left,block->right); but check_in not yet implemented
+    break;
+  }
 }

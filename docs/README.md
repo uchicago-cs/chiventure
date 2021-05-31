@@ -14,3 +14,4 @@
 - [npc.md](/docs/npc.md)- documentation on the NPC module
 - [skilltrees.md](/docs/skilltrees.md)- documentation on the skill trees module
 - [wdl.md](/docs/wdl.md)- documentation on the WDL module
+- [playerclass.md](/docs/playerclass.md)- documentation on the player class module
