@@ -30,8 +30,9 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
         curr = curr->next;
     }
 
-    if(curr == NULL)
+    if (curr == NULL)
         return NULL;
+
     return curr->act;
 }
 

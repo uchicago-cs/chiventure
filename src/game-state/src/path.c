@@ -2,7 +2,6 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 
-
 /* See room.h */
 path_t *path_new(room_t *dest, char *direction)
 {

@@ -4,7 +4,6 @@
 #include "game-state/room.h"
 #include "game-state/path.h"
 
-
 /* See room.h */
 int room_init(room_t *new_room, char *room_id, char *short_desc,
               char *long_desc)

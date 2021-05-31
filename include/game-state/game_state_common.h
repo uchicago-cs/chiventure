@@ -36,8 +36,4 @@
 #define ROOM_SRC_NULL 2
 #define ROOM_DEST_NULL 3
 
-
-
-
-
 #endif

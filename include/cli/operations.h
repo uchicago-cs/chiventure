@@ -7,7 +7,6 @@
 #include "ui/print_functions.h"
 #include "checkpointing/save.h"
 #include "checkpointing/load.h"
-
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.

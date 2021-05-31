@@ -5,7 +5,6 @@
 #include "game-state/game_action.h"
 
 
-
 // BASIC ITEM FUNCTIONS -------------------------------------------------------
 /* see common-item.h*/
 int item_init(item_t *new_item, char *item_id, char *short_desc,
