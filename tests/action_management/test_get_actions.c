@@ -47,15 +47,15 @@ Test(get_actions, search_success)
     head = get_supported_actions();
 
     action_type_t *open, *consume, *go, *walk, *use, *use_on, *pick_up, *drink, *eat;
-    open = search_supported_actions(head, "OPEN");
-    consume = search_supported_actions(head, "CONSUME");
-    go = search_supported_actions(head, "GO");
-    walk = search_supported_actions(head, "WALK");
-    use = search_supported_actions(head, "USE");
-    use_on = search_supported_actions(head, "USE_ON");
-    pick_up = search_supported_actions(head, "PICKUP");
-    drink = search_supported_actions(head, "DRINK");
-    eat = search_supported_actions(head, "EAT");
+    open = search_supported_actions(head, "open");
+    consume = search_supported_actions(head, "consume");
+    go = search_supported_actions(head, "go");
+    walk = search_supported_actions(head, "walk");
+    use = search_supported_actions(head, "use");
+    use_on = search_supported_actions(head, "use_on");
+    pick_up = search_supported_actions(head, "pickup");
+    drink = search_supported_actions(head, "drink");
+    eat = search_supported_actions(head, "eat");
 
     cr_assert_neq(open, NULL,
                   "search_supported_actions returned a null for query \"open\".\n");

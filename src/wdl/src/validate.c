@@ -332,7 +332,7 @@ int action_validate(char *str)
 
     while (curr != NULL)
     {
-        if (strcmp(curr->act->c_name, str) == 0)
+        if (strcasecmp(curr->act->c_name, str) == 0)
         {
             return SUCCESS;
         }

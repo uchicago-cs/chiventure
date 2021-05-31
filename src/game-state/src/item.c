@@ -3,6 +3,7 @@
 
 #include "game-state/item.h"
 #include "game-state/game_action.h"
+#include "cli/util.h"
 
 
 // BASIC ITEM FUNCTIONS -------------------------------------------------------
@@ -13,6 +14,7 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
 
     assert(new_item != NULL);
     strcpy(new_item->item_id, item_id);
+    case_insensitize(new_item->item_id);
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
     new_item->stat_effects = NULL;
@@ -25,6 +27,9 @@ item_t *item_new(char *item_id, char *short_desc, char *long_desc)
 {
     item_t *new_item = malloc(sizeof(item_t));
     memset(new_item, 0, sizeof(item_t));
+
+    item_id = case_insensitized_string(item_id);
+
     new_item->item_id = malloc(MAX_ID_LEN * sizeof(char)); // tentative size allocation
     new_item->short_desc = malloc(MAX_SDESC_LEN * sizeof(char));
     new_item->long_desc = malloc(MAX_LDESC_LEN * sizeof(char));
