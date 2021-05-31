@@ -265,8 +265,9 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
         int is_given_difficulty = roomspec_is_given_difficulty(roomlevels, 
                                                                curr->spec, 
                                                                difficulty_level);
-        if (is_given_difficulty == SUCCESS) { 
-            DL_APPEND(filtered_speclist, curr);    
+        if (is_given_difficulty == SUCCESS) {
+            speclist_t *curr_copy = speclist_new(curr->spec); 
+            DL_APPEND(filtered_speclist, curr_copy);    
         }
     }
 
@@ -301,6 +302,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
                                                     filtered_speclist);
 
     int result = multi_room_generate(game, filtered_context, room_id, num_rooms); 
+    speclist_free(filtered_speclist);
 
     return result;
 }
