@@ -7,7 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
 #include "skilltrees/effect.h"
-#include "skilltrees/sampleeffects.c"
+#include "sampleeffects.c"
 
 
 /* Tests inventory_skill_add for an active skill, that is valid. */
