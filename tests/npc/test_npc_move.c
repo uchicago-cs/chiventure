@@ -15,9 +15,9 @@ Test (npc_mov, new)
     cr_assert_not_null(npc_mov, "npc_mov_new() failed");
 
     cr_assert_eq(npc_mov->mov_type, NPC_MOV_DEFINITE,
-                "npc_mov_new() did not set mov_type");
+                 "npc_mov_new() did not set mov_type");
     cr_assert_str_eq(npc_mov->track, "test_room",
-                "npc_mov_new() did not set track");
+                     "npc_mov_new() did not set track");
 }
 
 
@@ -34,9 +34,9 @@ Test (npc_mov, init)
     cr_assert_eq(check, SUCCESS, "npc_mov_init() failed");
 
     cr_assert_eq(npc_mov->mov_type, NPC_MOV_DEFINITE,
-                "npc_mov_new() did not set mov_type");
+                 "npc_mov_new() did not set mov_type");
     cr_assert_str_eq(npc_mov->track, "test_room",
-                "npc_mov_new() did not set track");
+                     "npc_mov_new() did not set track");
 }
 
 
@@ -70,15 +70,15 @@ Test(npc_mov, register_npc_room_time)
 
 
     HASH_FIND(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
-                 test_room->room_id, strlen(test_room->room_id),
-                 check2);
+              test_room->room_id, strlen(test_room->room_id),
+              check2);
 
     cr_assert_not_null(check2, "register_npc_room_time() failed");
 
     cr_assert_str_eq(check2->room_id, "test_room",
-                "register_npc_room_time() did not set room_id");
+                     "register_npc_room_time() did not set room_id");
     cr_assert_eq(check2->time, time,
-                "register_npc_room_time() did not set time");
+                 "register_npc_room_time() did not set time");
 }
 
 
@@ -116,19 +116,19 @@ Test(npc_mov, extend_path_indefinite)
 /* Tests get_npc_num_rooms function for definite move */
 Test(npc_mov, get_npc_num_rooms_def)
 {
-	room_t *test_room = room_new("test room", "test", "test test");
-	npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
-	room_t *room_to_add = room_new("room_to_add", "add", "added room");
+    room_t *test_room = room_new("test room", "test", "test test");
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+    room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
-	int check = extend_path_definite(npc_mov, room_to_add);
+    int check = extend_path_definite(npc_mov, room_to_add);
 
-	cr_assert_eq(check, SUCCESS, "extend_path_def() failed");
+    cr_assert_eq(check, SUCCESS, "extend_path_def() failed");
 
-	int get = get_npc_num_rooms(npc_mov);
+    int get = get_npc_num_rooms(npc_mov);
 
-	cr_assert_eq(get, 2, "number of rooms in NPC path is %d. "
-			         "get_npc_num_rooms() returned %d.",
-			         2, get);
+    cr_assert_eq(get, 2, "number of rooms in NPC path is %d. "
+                 "get_npc_num_rooms() returned %d.",
+                 2, get);
 }
 
 
@@ -136,18 +136,18 @@ Test(npc_mov, get_npc_num_rooms_def)
 Test(npc_mov, get_npc_num_rooms_indef)
 {
     room_t *test_room = room_new("test room", "test", "test test");
-	npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
-	room_t *room_to_add = room_new("room_to_add", "add", "added room");
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
+    room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
-	int check = extend_path_indefinite(npc_mov, room_to_add, 10);
+    int check = extend_path_indefinite(npc_mov, room_to_add, 10);
 
-	cr_assert_eq(check, SUCCESS, "extend_path_indef() failed");
+    cr_assert_eq(check, SUCCESS, "extend_path_indef() failed");
 
-	int get = get_npc_num_rooms(npc_mov);
+    int get = get_npc_num_rooms(npc_mov);
 
-	cr_assert_eq(get, 2, "number of rooms in NPC path is %d. "
-		           "get_npc_num_rooms() returned %d",
-			         2, get);
+    cr_assert_eq(get, 2, "number of rooms in NPC path is %d. "
+                 "get_npc_num_rooms() returned %d",
+                 2, get);
 }
 
 
@@ -184,12 +184,12 @@ Test(npc_mov, move_npc_definite)
     cr_assert_eq(check2, 2, "move_npc_def() failed");
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
-                    "move_npc_def() failed to move once");
-  
+                     "move_npc_def() failed to move once");
+
     check2 = move_npc_definite(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"room_to_add2",
-                    "move_npc_def() failed to move twice");
+                     "move_npc_def() failed to move twice");
 }
 
 /* Tests move_npc_indefinite function */
@@ -213,12 +213,12 @@ Test(npc_mov, move_npc_indefinite)
     cr_assert_eq(check2, 2, "move_npc_indefinite() failed");
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
-                    "move_npc_indefinite() failed to move once");
+                     "move_npc_indefinite() failed to move once");
 
     check2 = move_npc_indefinite(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"room_to_add2",
-                    "move_npc_indefinite() failed to move twice");
+                     "move_npc_indefinite() failed to move twice");
 }
 
 /* Tests reverse_path function */
@@ -248,7 +248,7 @@ Test(npc_mov, reverse_path)
     check2 = move_npc_definite(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"test_room",
-                    "reverse_path() failed to track room");
+                     "reverse_path() failed to track room");
 }
 
 
@@ -272,29 +272,35 @@ Test(npc_mov, auto_gen_movement_definite)
     rc = auto_gen_movement(npc_mov, game);
     room_list_t *elt;
 
-    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt) {
+    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
+    {
         cnt++;
         curr_room = elt->room;
-        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
-            "ldesc does not correspond");
+                             "ldesc does not correspond");
         }
     }
 
     num_rooms_in_npc = get_npc_num_rooms(npc_mov);
     cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, "
-		             "but there should be %d rooms in npc_mov",
+                 "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
     cr_assert_eq(delete_room_llist
-							   (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
-							   SUCCESS, "delete llist failed");
-  
+                 (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
+                 SUCCESS, "delete llist failed");
+
     game_free(game);
 }
 
@@ -314,33 +320,40 @@ Test(npc_mov, auto_gen_movement_indefinite)
     room_t *curr_room;
 
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
 
     rc = auto_gen_movement(npc_mov, game);
     room_list_t *elt;
 
-    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt) {
+    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
+    {
         cnt++;
         curr_room = elt->room;
-        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
-            "ldesc does not correspond");
+                             "ldesc does not correspond");
         }
     }
 
     num_rooms_in_npc = get_npc_num_rooms(npc_mov);
-    cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, but there should be %d rooms in npc_mov",
+    cr_assert_eq(cnt, num_rooms_in_npc, 
+                 "room_count returns %d, but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
     cr_assert_eq(delete_room_llist
-				         (npc_mov->npc_mov_type.npc_mov_indefinite->npc_path),
-				         SUCCESS, "delete llist failed");
+                 (npc_mov->npc_mov_type.npc_mov_indefinite->npc_path),
+                 SUCCESS, "delete llist failed");
 
     game_free(game);
 }

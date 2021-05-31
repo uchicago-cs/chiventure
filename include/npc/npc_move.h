@@ -210,6 +210,19 @@ int reverse_path(npc_mov_t *npc_mov);
  */
 int get_npc_num_rooms(npc_mov_t *npc_mov);
 
+/* Compares the room_id of the current rooms between two
+ *   room_list_t structs
+ *
+ * Paramters:
+ * room1, room2: Two room_list structs
+ * 
+ * Returns:
+ * 0 if the room_id of the current rooms in both
+ *   room_list_t structs are the same, otherwise it
+ *   will return a non-zero number
+ */
+int room_id_cmp(room_list_t *room1, room_list_t *room2);
+
 /*
  * Moves the npc to the next room for npcs with definite movement
  *

@@ -196,14 +196,16 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
 
 	if(npc_mov->mov_type == NPC_MOV_DEFINITE)
 	{
-        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt) {
+        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
+        {
             count++;
             curr_room = elt->room;
         }
 	}
 	else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
 	{
-        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt) {
+        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
+        {
             count++;
             curr_room = elt->room;
         }
@@ -212,7 +214,7 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
 	return count;
 }
 
-/* Helper function for move_npc_def function */
+/* See npc_move.h */
 int room_id_cmp(room_list_t *room1, room_list_t *room2)
 {
     return (strcmp(room1->room->room_id, room2->room->room_id));
