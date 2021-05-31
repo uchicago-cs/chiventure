@@ -140,13 +140,16 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 
     if (ctx == NULL)
     {
-        return "FAILURE\n";
+        snprintf(string, 150, "FAILURE\n");
+        return string;
     }
     if (item == NULL){
-        return "FAILURE\n";
+        snprintf(string, 150, "FAILURE\n");
+        return string;
     }
     if (item->quantity <= 0){
-        return "FAILURE";
+       snprintf(string, 150, "FAILURE\n");
+        return string;
     }
 
     char *item_name;
@@ -157,7 +160,8 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 
     if (usage == FAILURE) 
     {
-        return "FAILURE";
+        snprintf(string, 150, "That item is Unavailable.\n");
+        return string;
     } 
 
     if(battle_over(b) == BATTLE_IN_PROGRESS){
