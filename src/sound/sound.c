@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
-#include "../../include/common/uthash.h"
+#include "common/uthash.h"
 #include "sound.h"
 #include "SDL/SDL.h"
 

@@ -1,3 +1,7 @@
+/* The following code was adapted from 
+https://gigi.nullneuron.net/gigilabs/playing-a-wav-file-using-sdl2/
+to gain an understanding of basic SDL Library functions */
+
 #include "sound/sound.h"
 
 #define NUM_WAVEFORMS 2
