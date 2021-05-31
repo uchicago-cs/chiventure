@@ -15,7 +15,6 @@
 /* Test skill_new. */
 Test(skill_test, skill_new_test)
 {
-    testmethod();
     effect_t* defusebombeffect;
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
@@ -40,7 +39,6 @@ Test(skill_test, skill_new_test)
 
 Test(skill_test, skill_init_test)
 {
-  testmethod();
   effect_t* defusebombeffect;
   skill_t* skill = malloc(sizeof(skill_t));
   skill_init(skill, 1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -69,7 +67,6 @@ Test(skill_test, skill_init_test)
 
 Test(skill_test, skill_free_test)
 {
-  testmethod();
   effect_t* defusebombeffect;
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
@@ -80,7 +77,6 @@ Test(skill_test, skill_free_test)
 
 Test(skill_test, skill_execute_test)
 {
-  testmethod();
   effect_t* defusebombeffect;
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
