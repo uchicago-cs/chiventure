@@ -1,6 +1,8 @@
 add_library(cli
+            src/util.c
             src/cmd.c
             src/cmdlist.c
+            src/cli_ctx.c
             src/operations.c
             src/parser.c
             src/shell.c)
