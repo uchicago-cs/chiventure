@@ -4,11 +4,17 @@
 #include "game-state/game_state_common.h"
 #include "game-state/game.h"
 
+<<<<<<< HEAD
 
 /* Forward declaration */
 typedef struct room_wrapped_for_llist room_list_t;
 typedef struct game game_t;
 
+=======
+/* Forward declaration */
+typedef struct room_wrapped_for_llist room_list_t;
+typedef struct game game_t;
+>>>>>>> 14162a5ac7a9a6df19436812da3705222efb7ffd
 
 /* 
  * Struct to encapsulate the time an NPC should stay in that particular room 

@@ -75,7 +75,7 @@ Test(dialogue, edge_new)
                  "edge_new() didn't set from");
     cr_assert_eq(strcmp(e->to->node_id, "N2"), 0,
                  "edge_new() didn't set to");
-    cr_assert_eq(e->condition, cond, "edge_new() didn't set condition");
+    cr_assert_eq(e->conditions, cond, "edge_new() didn't set conditions");
 }
 
 /* Checks that edge_init initializes an edge with the given parameters */
@@ -95,7 +95,7 @@ Test(dialogue, edge_init)
                  "edge_init() didn't set from");
     cr_assert_eq(strcmp(e.to->node_id, "N2"), 0,
                  "edge_init() didn't set to");
-    cr_assert_eq(e.condition, cond, "edge_init() didn't set condition");
+    cr_assert_eq(e.conditions, cond, "edge_init() didn't set conditions");
 }
 
 /* Checks that edge_free frees memory allocated to an edge */
@@ -294,6 +294,10 @@ Test(dialogue, add_edge_bidirectional)
                  "add_edge failed to add edge to Node 1");
     cr_assert_eq(strcmp(c->all_nodes->next->node->edges->edge->quip, "Q2"), 0,
                  "add_edge failed to add edge to Node 2");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 14162a5ac7a9a6df19436812da3705222efb7ffd
 }
 
 
@@ -490,7 +494,6 @@ Test(dialogue, two_conditionals)
                  "but start_conversation returned:\n%s", expected, ret_str);
 }
 
-
 /*** Actions ***/
 
 /* Give the player one item */
@@ -506,8 +509,13 @@ Test(dialogue, give_one_item)
 
     g->curr_player = p;
     g->mode = game_mode_new(NORMAL, NULL, "npc");
-    add_npc_to_game(g, npc);
     add_item_to_npc(npc, i);
+
+    room_t *r = room_new("room", "short", "long");
+    g->curr_room = r;
+    add_room_to_game(g, r);
+    add_npc_to_room(r->npcs, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
 
@@ -535,9 +543,14 @@ Test(dialogue, give_two_items)
 
     g->curr_player = p;
     g->mode = game_mode_new(NORMAL, NULL, "npc");
-    add_npc_to_game(g, npc);
     add_item_to_npc(npc, i1);
     add_item_to_npc(npc, i2);
+
+    room_t *r = room_new("room", "short", "long");
+    g->curr_room = r;
+    add_room_to_game(g, r);
+    add_npc_to_room(r->npcs, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
 
@@ -568,9 +581,14 @@ Test(dialogue, give_one_then_one_item)
 
     g->curr_player = p;
     g->mode = game_mode_new(NORMAL, NULL, "npc");
-    add_npc_to_game(g, npc);
     add_item_to_npc(npc, i1);
     add_item_to_npc(npc, i2);
+
+    room_t *r = room_new("room", "short", "long");
+    g->curr_room = r;
+    add_room_to_game(g, r);
+    add_npc_to_room(r->npcs, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
     add_node(c, "N2", "D2");
@@ -606,8 +624,13 @@ Test(dialogue, take_one_item)
 
     g->curr_player = p;
     g->mode = game_mode_new(NORMAL, NULL, "npc");
-    add_npc_to_game(g, npc);
     add_item_to_player(p, i);
+
+    room_t *r = room_new("room", "short", "long");
+    g->curr_room = r;
+    add_room_to_game(g, r);
+    add_npc_to_room(r->npcs, npc);
+    add_npc_to_game(g, npc);
 
     add_node(c, "N1", "D1");
 
