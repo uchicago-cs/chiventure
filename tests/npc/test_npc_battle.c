@@ -171,17 +171,20 @@ Test(npc_battle, transfer_all_npc_items_dead)
     move_t *moves = create_enemy_moves1();
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
     room_t *room = room_new("test_room", "room for testing",
     "testing if memory is correctly allocated for new rooms");
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(test_item1, "item_new() 1 failed");
     cr_assert_not_null(test_item2, "item_new() 2 failed");
+    cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
     add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
+    add_item_to_npc(npc, test_item3);
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_not_null(npc->inventory, "add_item_to_npc() failed to add item");
@@ -205,17 +208,20 @@ Test(npc_battle, transfer_all_npc_items_alive)
     move_t *moves = create_enemy_moves1();
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
     room_t *room = room_new("test_room", "room for testing",
     "testing if memory is correctly allocated for new rooms");
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(test_item1, "item_new() 1 failed");
     cr_assert_not_null(test_item2, "item_new() 2 failed");
+    cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
     add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
+    add_item_to_npc(npc, test_item3);
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_not_null(npc->inventory, "add_item_to_npc() failed to add item");

@@ -67,16 +67,16 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
         return SUCCESS;
     }
 
-    item_list_t *item_lst = get_npc_inv_list(npc);
-
-    while (item_lst->next != NULL)
+    item_t *current_item, *tmp;
+    HASH_ITER(hh, npc->inventory, current_item, tmp)
     {
-        add_item_to_room(room, item_lst->item);
-        remove_item_from_npc(npc, item_lst->item);
-        item_lst = item_lst->next;
+        add_item_to_room(room, current_item);
     }
-
-    delete_item_llist(item_lst);
+    
+    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    {
+        remove_item_from_npc(npc, current_item);
+    }
 
     return SUCCESS;
 }
