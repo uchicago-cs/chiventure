@@ -15,13 +15,8 @@
 #include "game-state/stats.h"
 #include "game-state/item.h"
 
-/* Forward Declarations */
-// typedef struct move move_t;
-// typedef struct stat stat_t;
-
 /* List of all the effect types that a skill can have.  We can add more in the future */
 typedef enum effect_type {
-    
     /* Effect that modifies statistics of player */
     PLAYER_STATISTIC_MOD,
 
@@ -33,49 +28,73 @@ typedef enum effect_type {
 
     /* Effect that modifies statistics of an item */
     ITEM_STATISTIC_MOD
-
-}effect_type_t;
+} effect_type_t;
 
 /* Defines an effect that modifies the statistics of a player */
 typedef struct player_stat_effect {
-    char* player_stat_effect_name; // The name assigned to the effect
-    stats_t** stats; // Takes the array of statistics that must be modified
-    double* modifications;         // Modifies the statistic by this number
-    int* durations;    // The array of durations for how long the effect should be applied 
-    int num_stats;
-}player_stat_effect_t;
+    /* The name assigned to the effect */
+    char* player_stat_effect_name; 
+
+    /* Takes the array of statistics that must be  */
+    stats_t** stats; 
+
+    /* Modifies the statistic by this number */
+    double* modifications;         
+
+    /* The array of durations for how long the effect should be applied */
+    int* durations;    
+
+    /* Number of statistic that will be modified */
+    int num_stats; 
+} player_stat_effect_t;
 
 /* Defines an effect that unlocks a move */
 typedef struct move_effect {
     /* More fields will probably be added after speaking with 
-     * the rpg-battles team */
+     * the rpg-battles team 
+     */
 
     /* TODO - Add more fields */
-    move_t* move;      // Specifies the move that will be unlocked
-}move_effect_t;
+    
+    /* Specifies the move that will be unlocked */
+    move_t* move;      
+} move_effect_t;
 
 /* Defines an effect that changes the attribute of an item.  
  * We currently can change the attribute value if it is a bool, character, integer, or string. 
  * We may need to be able to change other stuff in the future but this remains to be seen.
  * Currently, creating a new attribute is not supported but this can be changed.
  */
-
 typedef struct item_attr_effect {
-    item_t* item; // The ID of the parent object 
-    char* att_id; // The ID that refers to the given attribute (see obj.h)
-    enum attribute_tag att_tag; //Enum that holds possible types of attribute value
-    attribute_value_t attribute_mod; //The value to which we want to change the attribute
-}item_attr_effect_t;
+    /* The ID of the parent object */
+    item_t* item; 
+    
+    /* The ID that refers to the given attribute (see obj.h) */
+    char* att_id; 
 
-/* Defines an effect that achanges the statistic of an item. */
+    /* Enum that holds possible types of attribute value */
+    enum attribute_tag att_tag; 
 
+    /* The value to which we want to change the attribute */
+    attribute_value_t attribute_mod; 
+} item_attr_effect_t;
+
+/* Defines an effect that changes the statistic of an item.
+ * An item stat effect should take an item and a list of statistics and mods
+ * and apply the mods to the statistics in the item's statistic hash table.
+ * We expect that the implementation is going to be quite similar to player_stat_effect.
+ * For more info, check the skilltrees wiki.  An issue will also be created so that future
+ * developers know that they have to do this.
+ */
 typedef struct item_stat_effect {
     //TODO (2022)
-}item_stat_effect_t;
+} item_stat_effect_t;
 
 /* Union of all the effect types given above.*/
 typedef struct effect {
-    effect_type_t effect_type; // Contains the value of the effect.  Check enum above
+    /* Contains the value of the effect.  Check enum effect_type_t above */
+    effect_type_t effect_type; 
+    
     /* Contains a pointer to the effect itself so that we can make the necessary modifications to execute the skill */
     union
     {
@@ -84,7 +103,7 @@ typedef struct effect {
         item_attr_effect_t* i_a;
         item_stat_effect_t* i_s;
     } data; 
-}effect_t;
+} effect_t;
 
 /* Defines a statistic modifying effect and returns a pointer to it 
  * Parameters: char* stat_mod_effect_name: A string that has the name of the effect

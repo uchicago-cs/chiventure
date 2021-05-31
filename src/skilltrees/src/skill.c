@@ -77,12 +77,12 @@ int skill_free(skill_t* skill) {
 /* See skill.h */
 int skill_execute(skill_t* skill, chiventure_ctx_t* ctx) 
 {
-    if(skill == NULL)
+    if (skill == NULL)
     {
         fprintf(stderr, "Error: NULL skill provided \n");
         return FAILURE;
     }
-    if(skill -> skill_effect == NULL)
+    if (skill -> skill_effect == NULL)
     {
         fprintf(stderr, "Error: NULL effect in skill");
         return FAILURE;
@@ -90,7 +90,7 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
     effect_t* skill_effect = skill->skill_effect;
     int check = 0;
     effect_type_t type = skill_effect->effect_type;
-    if(type == PLAYER_STATISTIC_MOD)
+    if (type == PLAYER_STATISTIC_MOD)
     {
         check = execute_player_stat_effect(skill_effect->data.s, ctx);
         assert(check==0);

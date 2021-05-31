@@ -5,9 +5,7 @@
 #include "skilltrees/skilltree.h"
 #include "skilltrees/skill.h"
 #include "skilltrees/skilltrees_common.h"
-#include "skilltrees/inventory.h"
-#include "skilltrees/effect.h"
-
+#include "test_init.h"
 
 
 /* Some of the tests are currently commented out because they need to be modified according to
@@ -38,6 +36,10 @@ Test(skill_tests, skill_new_test)
     cr_assert_str_eq((skill->effect)("haha"),"Bomb defused!",
         "Error: failed test skill_new_test on skill->effect\n");
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 65115a5fcb9a10341b44877946324293404659e1
 */
 /* Test skill_init. */
 /*
@@ -86,37 +88,60 @@ Test(skill_tests, skill_execute_test)
       "Error: failed test skill_new_test on skill->effect\n");
 }
 */
-/* Main function to test skill_level_up. */
 
+/* Main function to test skill_level_up. */
 void check_level_up(skill_t* skill, int expected) 
 {
   cr_assert_eq(skill_level_up(skill), expected, "Error: failed test skill_level_up_test");
 }
 
 /* Tests skill_level_up when return value is 0 */
-/*
 Test(skill_tests, skill_level_up_0)
 {
-  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_item(ctx);
+    attribute_value_t mod;
+    mod.bool_val = false;
+    enum attribute_tag att_tag = BOOLE;
+
+    item_attr_effect_t* disarm_bomb = define_item_attr_effect(bomb, "ARMED", att_tag, mod);
+    effect_t* effect_defuse_bomb = make_item_attr_effect(disarm_bomb);
+
+    skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
     2, 5, effect_defuse_bomb);
-  check_level_up(skill, 0);
+    check_level_up(skill, 0);
 }
-*/
+
 /* Tests skill_level_up when return value is 1 */
-/*
 Test(skill_tests, skill_level_up_1)
 {
-  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_item(ctx);
+    attribute_value_t mod;
+    mod.bool_val = false;
+    enum attribute_tag att_tag = BOOLE;
+
+    item_attr_effect_t* disarm_bomb = define_item_attr_effect(bomb, "ARMED", att_tag, mod);
+    effect_t* effect_defuse_bomb = make_item_attr_effect(disarm_bomb);
+
+    skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
     1, 5, effect_defuse_bomb);
-  check_level_up(skill, 1);
+    check_level_up(skill, 1);
 }
-*/
+
 /* Tests skill_level_up when return value is -1 */
-/*
 Test(skill_tests, skill_level_up_minus_1)
 {
-  skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_item(ctx);
+    attribute_value_t mod;
+    mod.bool_val = false;
+    enum attribute_tag att_tag = BOOLE;
+
+    item_attr_effect_t* disarm_bomb = define_item_attr_effect(bomb, "ARMED", att_tag, mod);
+    effect_t* effect_defuse_bomb = make_item_attr_effect(disarm_bomb);
+
+    skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
     0, 5, effect_defuse_bomb);
-  check_level_up(skill, -1);
+    check_level_up(skill, -1);
 }
-*/
