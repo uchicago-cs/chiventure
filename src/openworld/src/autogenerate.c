@@ -67,10 +67,10 @@ int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_d
 {
     /* 2D array of possible directions */
     char directions[NUM_COMPASS_DIRECTIONS][MAX_DIRECTION_STRLEN];
-    strncpy(directions[0], "NORTH", 6);
-    strncpy(directions[1], "EAST", 5);
-    strncpy(directions[2], "SOUTH", 6);
-    strncpy(directions[3], "WEST", 5);
+    strncpy(directions[0], "north", 6);
+    strncpy(directions[1], "east", 5);
+    strncpy(directions[2], "south", 6);
+    strncpy(directions[3], "west", 5);
 
     /* Random initial direction */
     unsigned int initial_direction = rand() % NUM_COMPASS_DIRECTIONS;
@@ -314,12 +314,12 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
 
     /* 2D array of possible directions */
     char all_directions[NUM_DIRECTIONS][MAX_DIRECTION_STRLEN];
-    strncpy(all_directions[0], "NORTH", 6);
-    strncpy(all_directions[1], "EAST", 5);
-    strncpy(all_directions[2], "UP", 3);
-    strncpy(all_directions[3], "SOUTH", 6);
-    strncpy(all_directions[4], "WEST", 5);
-    strncpy(all_directions[5], "DOWN", 5);
+    strncpy(all_directions[0], "north", 6);
+    strncpy(all_directions[1], "east", 5);
+    strncpy(all_directions[2], "up", 3);
+    strncpy(all_directions[3], "south", 6);
+    strncpy(all_directions[4], "west", 5);
+    strncpy(all_directions[5], "down", 5);
 
     /* map directions to index */
     int direction_index[num_directions];
