@@ -46,7 +46,7 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
 }
 
 /* See ast_block.h */
-int AST_block_free(AST_block_t *ast)
+int AST_free(AST_block_t* ast)
 {
     assert(ast != NULL);
 
@@ -90,12 +90,22 @@ int AST_block_free(AST_block_t *ast)
         }
     }
 
-    if (ast->next != NULL) 
-    {
-        AST_block_free(ast->next);
-    }
-
     free(ast);
+
+    return SUCCESS;
+}
+
+/* See ast_block.h */
+int AST_block_free(AST_block_t *ast)
+{
+    assert(ast != NULL);
+
+    AST_block_t *elt, *tmp;
+    LL_FOREACH_SAFE(ast, elt, tmp)
+    {
+        LL_DELETE(ast, elt);
+	    AST_free(elt);
+    }
 
     return SUCCESS;  
 }
@@ -107,11 +117,11 @@ int list_how_many_AST_block(AST_block_t* head)
 {
     assert(head != NULL);
 
-    int ret_val;
+    int count;
     AST_block_t* elt = malloc(sizeof(AST_block_t));
     LL_COUNT(head, elt, ret_val);
     free(elt);
-    return ret_val;
+    return count;
 }
 
 /* See ast_block.h */

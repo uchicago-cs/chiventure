@@ -358,6 +358,39 @@ Test(AST_block_t, list_remove_AST_block_failure)
     AST_block_free(new_ast);
 }
 
+/* Checks that only a singular AST block is freed when calling AST_free */
+Test(AST_block_t, AST_free)
+{
+    int ret_val;
+
+    ret_val = sizeof(AST_block_t);
+    printf("The size of a AST_block_t is: %d\n\n", ret_val);
+
+    /* Create 2 AST_blocks and link them together according to name (manual) */
+    block_t *block = malloc(sizeof(control_block_t));
+    block_type_t block_type = CONTROL;
+    
+    AST_block_t* new_ast = AST_block_new(block, block_type);
+    cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
+
+    block_t *brnc = malloc(sizeof(branch_block_t));
+    brnc->control_block = control_block_new(IFELSE);
+    block_type_t second_block_type = CONTROL;
+
+    AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+    cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+
+    append_list_AST_block(new_ast, second_ast);
+
+    /* Free new_ast */
+    ret_val = AST_free(new_ast);
+    cr_assert_eq(ret_val, SUCCESS, "AST_free failed to run without interruptions");
+    cr_assert_not_null(second_ast, "AST_free freed the entire list of AST blocks");
+
+    ret_val = AST_free(second_ast);
+    cr_assert_eq(ret_val, SUCCESS, "AST_Free failed to free second_ast, prior error must exist");
+}
+
 /* Checks that a new AST block with control type is freed without interruption */
 Test(AST_block_t, free_CONTROL)
 {

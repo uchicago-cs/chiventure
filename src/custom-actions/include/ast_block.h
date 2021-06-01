@@ -61,8 +61,18 @@ AST_block_t* AST_block_new(block_t *block, block_type_t block_type);
  */
 int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type);
 
+/* AST_free: Free an individual AST_block_t (NOT the entire list)
+ *
+ * Input:
+ *      - ast: The AST_block_t to free
+ * 
+ * Returns:
+ *      - Always returns SUCCESS
+ */
+int AST_free(AST_block_t* ast);
+
 /* 
- * Frees an AST block, as well as all of the AST blocks in the sequence. 
+ * Frees an all of the AST blocks found in the sequence. 
  * 
  * Parameters: 
  * - AST block. Must point to an AST block allocated with AST_block_new. 
