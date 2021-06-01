@@ -70,9 +70,9 @@ npc_t *hostile_harry;
 
 
 /* Creates a sample class. Taken from test_class.c */
-class_t* generate_sample_class()
+class_t *generate_sample_class()
 {
-	class_t* c;
+	class_t *c;
 	char *name, *shortdesc, *longdesc;
 
 	name = "Warrior";
@@ -90,9 +90,9 @@ class_t* generate_sample_class()
 
 
 /* Creates example stats. Taken from test_battle_ai.c */
-stat_t* create_enemy_stats()
+stat_t *create_enemy_stats()
 {
-	stat_t* test_stats = calloc(1, sizeof(stat_t));
+	stat_t *test_stats = calloc(1, sizeof(stat_t));
 
 	test_stats->speed = 50;
 	test_stats->defense = 20;
@@ -110,7 +110,7 @@ stat_t* create_enemy_stats()
 move_t *create_move(int id, battle_item_t* item, bool attack, int damage,
 int defense)
 {
-	move_t* move = (move_t*) calloc(1, sizeof(move_t));
+	move_t *move = (move_t*) calloc(1, sizeof(move_t));
 
 	move->id = id;
 
@@ -124,7 +124,7 @@ int defense)
 }
 
 /* Creates example moves. Taken from test_battle_ai.c */
-move_t* create_enemy_moves()
+move_t *create_enemy_moves()
 {
 	move_t *head, *earthquake, *poke, *rock_throw;
 	head = NULL;
