@@ -3,21 +3,21 @@
 #include "game-state/stats.h"
 
 /* See player.h */
-int player_set_race(player_t *plyr, char *player_race)
+int player_set_race(player_t *player, char *player_race)
 {
-    if (plyr == NULL || player_race == NULL)
+    if (player == NULL || player_race == NULL)
     {
         return FAILURE;
     }
 
-    plyr->player_race = malloc(MAX_ID_LEN);
+    player->player_race = malloc(MAX_ID_LEN);
     
-    if (plyr->player_race == NULL)
+    if (player->player_race == NULL)
     {
         return FAILURE;
     }
 
-    strncpy(plyr->player_race, player_race, MAX_ID_LEN);
+    strncpy(player->player_race, player_race, MAX_ID_LEN);
 
 
     return SUCCESS;
@@ -25,14 +25,14 @@ int player_set_race(player_t *plyr, char *player_race)
 
 
 /* See player.h */
-int player_set_class(player_t *plyr, class_t *player_class)
+int player_set_class(player_t *player, class_t *player_class)
 {
-    if (plyr == NULL || player_class == NULL)
+    if (player == NULL || player_class == NULL)
     {
         return FAILURE;
     }
 
-    plyr->player_class = player_class;
+    player->player_class = player_class;
 
     if (player_class->base_stats != NULL)
     {
@@ -41,7 +41,7 @@ int player_set_class(player_t *plyr, class_t *player_class)
         {
             stats_t *to_add = copy_stat(curr);
 
-            add_stat(&plyr->player_stats, to_add);
+            add_stat(&player->player_stats, to_add);
         }
     }
 
@@ -52,7 +52,7 @@ int player_set_class(player_t *plyr, class_t *player_class)
         {
             stat_effect_t *to_add = copy_effect(curr);
 
-            add_stat_effect(&plyr->player_effects, to_add);
+            add_stat_effect(&player->player_effects, to_add);
         }
     }
 
@@ -61,7 +61,7 @@ int player_set_class(player_t *plyr, class_t *player_class)
         skill_inventory_t *to_add = 
         copy_inventory(player_class->starting_skills);
 
-        plyr->player_skills = to_add;
+        player->player_skills = to_add;
     }
 
   
@@ -72,59 +72,59 @@ int player_set_class(player_t *plyr, class_t *player_class)
 /* See player.h */
 player_t* player_new(char *player_id)
 {
-    player_t *plyr;
-    plyr = malloc(sizeof(player_t));
-    assert(plyr != NULL);
+    player_t *player;
+    player = malloc(sizeof(player_t));
+    assert(player != NULL);
 
-    memset(plyr, 0, sizeof(player_t));
-    plyr->player_id = malloc(MAX_ID_LEN);
+    memset(player, 0, sizeof(player_t));
+    player->player_id = malloc(MAX_ID_LEN);
 
     assert(player_id != NULL);
 
-    strncpy(plyr->player_id, player_id, MAX_ID_LEN);
-    plyr->level = 1;
-    plyr->xp = 0;
+    strncpy(player->player_id, player_id, MAX_ID_LEN);
+    player->level = 1;
+    player->xp = 0;
 
-    plyr->player_class = NULL;
-    plyr->player_stats = NULL;
-    plyr->player_skills = NULL;
-    plyr->player_effects = NULL;
-    plyr->player_race = NULL;
-    plyr->inventory = NULL;
+    player->player_class = NULL;
+    player->player_stats = NULL;
+    player->player_skills = NULL;
+    player->player_effects = NULL;
+    player->player_race = NULL;
+    player->inventory = NULL;
 
-    return plyr;
+    return player;
 }
 
 /* See player.h */
-int player_free(player_t* plyr)
+int player_free(player_t* player)
 {
-    assert(plyr != NULL);
+    assert(player != NULL);
 
-    free(plyr->player_id);
+    free(player->player_id);
 
-    if (plyr->player_race != NULL)
+    if (player->player_race != NULL)
     {
-        free(plyr->player_race);
+        free(player->player_race);
     }
 
-    delete_all_items(&plyr->inventory);
+    delete_all_items(&player->inventory);
 
-    if (plyr->player_skills != NULL)
+    if (player->player_skills != NULL)
     {
-        inventory_free(plyr->player_skills);
+        inventory_free(player->player_skills);
     }
 
-    if (plyr->player_stats != NULL)
+    if (player->player_stats != NULL)
     {
-        free_stats_table(plyr->player_stats);
+        free_stats_table(player->player_stats);
     }
 
-    if (plyr->player_effects != NULL)
+    if (player->player_effects != NULL)
     {
-        delete_all_stat_effects(plyr->player_effects);
+        delete_all_stat_effects(player->player_effects);
     }
 
-    free(plyr);
+    free(player);
     
     return SUCCESS;
 }
@@ -141,36 +141,36 @@ int delete_all_players(player_hash_t* players)
 }
 
 /* See player.h */
-int get_level(player_t* plyr)
+int get_level(player_t* player)
 {
-    return plyr->level;
+    return player->level;
 }
 
 /* See player.h */
-int change_level(player_t* plyr, int change)
+int change_level(player_t* player, int change)
 {
-    plyr->level += change;
-    return plyr->level;
+    player->level += change;
+    return player->level;
 }
 
 /* See player.h */
-int get_xp(player_t* plyr)
+int get_xp(player_t* player)
 {
-    return plyr->xp;
+    return player->xp;
 }
 
 /* See player.h */
-int change_xp(player_t* plyr, int points)
+int change_xp(player_t* player, int points)
 {
-    plyr->xp += points;
-    return plyr->xp;
+    player->xp += points;
+    return player->xp;
 }
 
 
 /* See player.h */
-item_hash_t* get_inventory(player_t* plyr)
+item_hash_t* get_inventory(player_t* player)
 {
-    return plyr->inventory;
+    return player->inventory;
 }
 
 /* See player.h */
