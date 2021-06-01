@@ -8,6 +8,7 @@ add_executable(${TEST_EXE}
         test_control_block.c
         test_ast_block.c
         test_interface.c
+        test_interface_functions.c
         test_ca_cond.c
         test_ca_effect.c
         main.c)

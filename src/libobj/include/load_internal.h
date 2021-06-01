@@ -41,5 +41,23 @@ int _load_obj_json(obj_t *parent, struct json_object *json);
  */
 bool _strip_expected_extension(char *str, char *ext);
 
+/*
+ * Do not call this function directly. This is exposed
+ * only for testing purposes.
+ * 
+ * From https://stackoverflow.com/questions/1634359/is-there-a-reverse-function-for-strstr
+ * 
+ * Helper for load_obj* functions. Finds the last occurence
+ * of s2 in s1. If none is found, returns NULL
+ * 
+ * Parameters:
+ *  - str: The string to search through
+ *  - ext: The string to search for
+ * 
+ * Returns:
+ *  - A pointer to the final occurence of s2 in s1, NULL if none exist
+ */
+char *_rstrstr(char *__restrict s1, char *__restrict s2);
+
 
 #endif /* INCLUDE_LOAD_JSON_H */

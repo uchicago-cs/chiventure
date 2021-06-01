@@ -117,6 +117,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
         move_npc_definite(npc1_movement);
         char* id = strcpy(id,npc1_movement->npc_id);
+
         char *output1 = strcat(id,
         ": I see you have started the quest, go to room2 to find the secret item, then "
             "come meet me in room3 to complete the first mission.");
@@ -135,6 +136,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         //complete_achievement(quest, item, npc);
         quest->achievement_tree->achievement->completed = 1;
         quest->status = 2;
+
         char* id1 = strcpy(id1,npc1_movement->npc_id);
         char *output3 = strcat(id1,": Congratulations on completing "
                     "the first achievement of this quest. "
@@ -262,7 +264,7 @@ quest_t *make_sample_quest(long int quest_id, reward_t *reward, stat_req_t *stat
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
-    
+
     room_t *initial_room;
     HASH_FIND(hh, ctx->game->all_rooms, "room1", strlen("room1"), initial_room);
 
@@ -277,7 +279,7 @@ int main(int argc, char **argv)
 
     char *npc_id = "Villager-Jim";
     npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
-                          100,NULL);
+                          NULL, NULL, false);
 
     char *npc_id2 = "Big Bad Wolf";
     npc_t *npc2 = npc_new(npc_id2, "second npc", "this is the npc to kill", 10, NULL);
@@ -290,6 +292,7 @@ int main(int argc, char **argv)
     npc1_movement = npc_mov_new("Villager-Jim",NPC_MOV_DEFINITE,initial_room);
     extend_path_definite(npc1_movement,third_room);
     extend_path_definite(npc1_movement,last_room);
+
 
     reward_t *reward_if_kill = reward_new(50, item_new("KEY", "this is a key that unlocks all secrets",
     "Reward for completing the quest."));
@@ -321,15 +324,16 @@ int main(int argc, char **argv)
                                                                                             negotiate with wolf and wolf takes potion -> npc gives xp instead  */
     
 
-    add_entry("QUEST", start_quest_operation, NULL, ctx->table);
 
-    add_entry("TALK", talk_to_npc, NULL, ctx->table);
+    add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);
+
+    add_entry("TALK", talk_to_npc, NULL, ctx->cli_ctx->table);
 
     action_type_t steal_action = {"STEAL", ITEM};
-    add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->table);
+    add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->cli_ctx->table);
 
     action_type_t drink_action = {"SIP", ITEM};
-    add_entry(drink_action.c_name, kind1_action_operation, &drink_action, ctx->table);
+    add_entry(drink_action.c_name, kind1_action_operation, &drink_action, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

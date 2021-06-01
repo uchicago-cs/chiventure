@@ -15,6 +15,8 @@ Test(path, new)
     path_t *new_path = path_new(new_room, "north");
 
     cr_assert_not_null(new_path, "path_new() test 1 has failed!");
+    room_free(new_room);
+    path_free(new_path);
 
 }
 
@@ -29,6 +31,7 @@ Test(path, free)
     int freed = path_free(path_tofree);
 
     cr_assert_eq(freed, SUCCESS, "path_free() test 1 has failed!");
+    room_free(test_dest);
 
 }
 
@@ -66,6 +69,14 @@ Test(path, conditions)
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() test 1 has failed");
     cr_assert_not_null(new_path->conditions, "no conditions have been"
     "implemented");
+    path_free(new_path);
+    room_free(new_room);
+    free(first);
+    free(second);
+    free(last);
+    action_type_free(eat);
+    action_type_free(go);
+    action_type_free(open);
 }
 
 /* checks that condition is removed */
@@ -104,11 +115,11 @@ Test(path, remove_condition)
     rc = path_new_conditions(new_path,first);
 
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() failed");
+    char *tmp = "OPEN";
 
     //make hash attribute for item
     attribute_t *OPEN = malloc(sizeof(attribute_t));
-    OPEN->attribute_key = (char*)malloc(100);
-    OPEN->attribute_key = "OPEN";
+    OPEN->attribute_key = strndup(tmp,100);
     OPEN->attribute_tag = BOOLE;
     OPEN->attribute_value.bool_val = false;
 
@@ -124,6 +135,15 @@ Test(path, remove_condition)
     cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
     cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, false, 
     "no conditions have been implemented");
+
+    path_free(new_path);
+    room_free(new_room);
+    free(first);
+    free(second);
+    free(last);
+    action_type_free(eat);
+    action_type_free(go);
+    action_type_free(open);
 }
 
 
@@ -158,8 +178,8 @@ Test(path, remove_final_condtion)
     
     //make hash attribute for item
     attribute_t *OPEN = malloc(sizeof(attribute_t));
-    OPEN->attribute_key = (char*)malloc(100);
-    OPEN->attribute_key = "OPEN";
+    char *tmp = "OPEN";
+    OPEN->attribute_key = strndup(tmp, 100);
     OPEN->attribute_tag = BOOLE;
     OPEN->attribute_value.bool_val = false;
     rc = add_attribute_to_hash(new_path->through, OPEN);
@@ -174,6 +194,10 @@ Test(path, remove_final_condtion)
     cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
     cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, true, 
     "no conditions have been implemented");
+    path_free(new_path);
+    room_free(new_room);
+    free(first);
+    action_type_free(open);
 }
 
 
@@ -191,7 +215,7 @@ Test(path, add_to_room)
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, SUCCESS,
         "add_path_to_room() test: path was not successfully added to room!");
-
+    room_free(test_room);
 }
 
 Test(path, add_to_null_room)
@@ -205,7 +229,7 @@ Test(path, add_to_null_room)
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, FAILURE,
         "add_path_to_room() test: path was wrongfully added to NULL room!");
-
+    path_free(test_path);
 }
 
 Test(path, add_null_path_to_room)
@@ -217,7 +241,7 @@ Test(path, add_null_path_to_room)
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, FAILURE,
         "add_path_to_room() test: NULL path was wrongfully added to room!");
-
+    room_free(test_room);
 }
 
 
@@ -241,7 +265,7 @@ Test(path, search)
     "path_search() test: path found has incorrect direction!");
     cr_assert_str_eq(path_found->dest->room_id, "test_room",
     "path_search() test: path found has incorrect destination room!");
-
+    room_free(test_room);
 }
 
 Test(path, search_null_room)
@@ -252,7 +276,6 @@ Test(path, search_null_room)
 
     cr_assert_null(path_found,
         "path_search() test: path somehow found in NULL room");
-
 }
 
 Test(path, find_room)
@@ -272,6 +295,8 @@ Test(path, find_room)
     cr_assert_str_eq(found_room->long_desc,
         "room for testing find_room_from_path()",
         "find_room_from_path() test: room found has incorrect long desc!");
+    path_free(test_path);
+    room_free(test_room);
 }
 
 Test(path, find_room_null_path)
@@ -282,7 +307,6 @@ Test(path, find_room_null_path)
 
     cr_assert_null(found_room,
         "find_room_from_path() test: room wrongfully found from NULL path");
-
 }
 
 Test(path, del_all)
@@ -298,6 +322,7 @@ Test(path, del_all)
     add_path_to_room(test_room, test_path3);
 
     int test = delete_all_paths(test_room->paths);
-
     cr_assert_eq(test, SUCCESS, "delete_all_paths() test failed!");
+    test_room->paths = NULL;
+    room_free(test_room);
 }

@@ -98,6 +98,7 @@ Test(achievement, init)
 
 	int check = achievement_init(achievement, mission, id);
 
+
     cr_assert_str_eq(achievement->mission->a_mission->item_to_collect->item_id, "test_item",
                      "achievement_init did not set mission name");
     cr_assert_eq(achievement->completed, 0,
@@ -199,6 +200,7 @@ Test(achievement, new)
 
 	achievement_t* achievement = achievement_new(mission, id);
 
+
 	cr_assert_not_null(achievement, "achievement_new() test has failed!");
     cr_assert_str_eq(achievement->mission->a_mission->item_to_collect->item_id, "test_item", 
                      "achievement_init did not set mission name");
@@ -217,8 +219,6 @@ Test(quest, new)
 	cr_assert_not_null(q, "quest_new() test has failed!");
 
     cr_assert_eq(q->quest_id, 1, "quest_new()"
-                "did not initialize the quest_id");
-    cr_assert_eq(q->achievement_tree, NULL, "quest_new()"
                 "did not initialize the achievement tree");
     cr_assert_str_eq(q->reward->item->item_id, "test_item", "quest_new()"
                 "did not initialize the reward item");
@@ -443,9 +443,10 @@ Test(quest, complete_achievement)
     reward_t *rewards = create_sample_rewards();
     stat_req_t *stat_req = create_sample_stat_req();
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+    quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 
     active_mission_t *a_mission = make_example_a_mission();
+
 
     char *id = "test mission";
 
