@@ -151,7 +151,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
     int rc;
     battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
 
-    if (strcmp(parsed_input[0], "USE") == 0) {
+    if (strcmp(parsed_input[0], "use") == 0) {
         input += 4;
         move_t *move = find_player_move(battle_ctx, input);
 
@@ -161,7 +161,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
 
         string = battle_flow_move(battle_ctx, move, battle_ctx->game->battle->enemy->name);
 
-    } else if (strcmp(parsed_input[0], "CONSUME") == 0) {
+    } else if (strcmp(parsed_input[0], "consume") == 0) {
         char *stringed_input = calloc(100, sizeof(char));
         for(int i = 1; parsed_input[i] != NULL; i++) {
             strncat(stringed_input, parsed_input[i], 100);
@@ -176,7 +176,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
         }
         string = battle_flow_item(battle_ctx, item);
 
-    } else if (strcmp(parsed_input[0], "LIST") == 0){
+    } else if (strcmp(parsed_input[0], "list") == 0){
                 string = battle_flow_list(battle_ctx, parsed_input[1]);
 
     } else {

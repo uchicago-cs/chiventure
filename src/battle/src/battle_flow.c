@@ -176,14 +176,14 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 /* see battle_flow.h */
 char *battle_flow_list(battle_ctx_t *ctx, char* label)
 {
-    if (strcmp(label, "ITEMS") == 0) {
+    if (strcmp(label, "items") == 0) {
         battle_t *b = ctx->game->battle;
 
         char *string = calloc(500, sizeof(char));
         print_battle_items(b, string);
 
         return string;
-    } if (strcmp(label, "MOVES") == 0) {
+    } if (strcmp(label, "moves") == 0) {
         battle_t *b = ctx->game->battle;
 
         char *string = calloc(500, sizeof(char));

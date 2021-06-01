@@ -324,14 +324,7 @@ int game_free(game_t *game)
     delete_all_players(game->all_players);
     delete_all_npcs(game->all_npcs);
     delete_condition_llist(game->end_conditions);
-<<<<<<< HEAD
-    delete_all_items(&(game->all_items));
-    if (game-> battle_ctx != NULL) {
-        free(game->battle_ctx);
-    }
-=======
     delete_all_items_from_game(game->all_items);
->>>>>>> 14162a5ac7a9a6df19436812da3705222efb7ffd
     game_mode_free(game->mode);
     free(game->start_desc);
     free(game);
