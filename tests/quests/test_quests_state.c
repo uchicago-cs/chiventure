@@ -7,7 +7,6 @@
 #include "playerclass/class.h"
 #include "game-state/item.h"
 
-//Trying to force a build
 /* Creates a sample class. Taken from test_class.c */
 class_t* generate_test_class()
 {
