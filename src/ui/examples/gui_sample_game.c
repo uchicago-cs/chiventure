@@ -21,7 +21,9 @@ chiventure_ctx_t *create_sample_ctx()
 
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
+    create_connection(game, "room2", "room1", "SOUTH");
     create_connection(game, "room2", "room3", "EAST");
+    create_connection(game, "room3", "room2", "WEST");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
