@@ -25,7 +25,10 @@ const char *banner = "THIS IS AN OPENWORLD EXAMPLE PROGRAM";
 
 
 /* ==== Placeholder sample struct variables ====
-These will be initialized in initialize_sample_structs() */
+These will be initialized in initialize_sample_structs().
+IMPORTANT: 
+In full integration, these structs must be added to the ctx.
+It is advisable to refactor all autogeneration-associated structs into gencontext before doing so. */
 
 /* ROOMSPECS
    Pre-declaring roomspecs like this is important as we need to preserve 
