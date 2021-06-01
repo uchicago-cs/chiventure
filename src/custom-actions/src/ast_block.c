@@ -110,8 +110,6 @@ int AST_block_free(AST_block_t *ast)
     return SUCCESS;  
 }
 
-//---------------To add List Functionality for AST_blocks----------------------
-
 /* See ast_block.h */
 int list_how_many_AST_block(AST_block_t* head)
 {
@@ -151,4 +149,39 @@ int list_remove_AST_block(AST_block_t* head, AST_block_t* del)
     AST_free(del);
     
     return SUCCESS;
+}
+
+/* See ast_block.h */
+int run_ast_block(AST_block_t *block)
+{
+  if (block == NULL)
+  {
+    return SUCCESS;
+  }
+  switch(block->block_type)
+    {
+    case(CONTROL):
+      return FAILURE;
+      break;
+    case(BRANCH):
+      if (do_branch_block(block->block->branch_block) == FAILURE)
+      {
+          return FAILURE;
+      }
+      return run_ast_block(block->next);
+      break;
+    case(ACTION):
+      if (exec_action_block(block->block->action_block) == FAILURE)
+      {
+          return FAILURE;
+      }
+      return run_ast_block(block->next);
+      break;
+    case(CONDITIONAL):
+      return FAILURE;
+      //Returns failure because conditionals cannot be executed as an action
+      break;
+    default:
+      return FAILURE;
+    }
 }

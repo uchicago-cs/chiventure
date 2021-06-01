@@ -3,6 +3,7 @@
 
 #include "game_state_common.h"
 #include "cli/cmd.h"
+#include "npc/dialogue.h"
 
 /* Forward declarations */
 typedef struct chiventure_ctx chiventure_ctx_t;
@@ -90,5 +91,37 @@ int game_mode_free(game_mode_t *mode);
  * SUCCESS if mode successfully allocated, FAILURE if an error occurs
  */
 int load_normal_mode(game_t *g);
+
+/*
+ * Sets game's already allocated mode struct to the specified mode.
+ *
+ * Parameters:
+ * g: the game pointer
+ * curr_mode: the mode_type to switch to
+ * mode_ctx: identifier for mode's context
+ *
+ * Returns:
+ * SUCCESS if mode successfully set, FAILURE if an error occurs
+ */
+int set_game_mode(game_t *g, mode_type_t curr_mode, char *mode_ctx);
+
+/*
+ * Mode operation function for conversation mode.
+ * Parses the user's input and run's the next step of a converation.
+ *
+ * Parameters:
+ * str: the user's input obtained from the UI.
+ * callback_func: pointer to a callback function
+ * callback_args: additional arguments to callback function
+ * ctx: pointer to chiventure context struct
+ *
+ * Returns:
+ * SUCCESS on success, FAILURE if an error occurs
+ * Prints the next NPC dialogue node, along with dialogue 
+ * options to the CLI.
+ */ 
+int run_conversation_mode(char *input, cli_callback callback_func, 
+                          void *callback_args, chiventure_ctx_t *ctx);
+
 
 #endif

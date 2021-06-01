@@ -8,36 +8,36 @@
 
 /* Tests the functions in auto_generation.h */
 
-/* Checks that room with no paths returns false for path_exists_in_dir() */
-Test(autogenerate, path_exists_in_dir_none)
+/* Checks that room with no paths returns false for path_exists_in_direction() */
+Test(autogenerate, path_exists_in_direction_none)
 {
     room_t *room = room_new("string1", "string2", "string3");
-    cr_assert_eq(false, path_exists_in_dir(room, "NORTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "EAST"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "north"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "east"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 }
 
 /* Checks that room with a path in a given direction is determined as such */
-Test(autogenerate, path_exists_in_dir_one_true)
+Test(autogenerate, path_exists_in_direction_one_true)
 {
     room_t *room = room_new("string1", "string2", "string3");
     room_t *dest_room = room_new("string1", "string2", "string3");
 
     // Path to dest_room
-    path_t* path1 = path_new(dest_room, "NORTH");
+    path_t* path1 = path_new(dest_room, "north");
 
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
 
-    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(false, path_exists_in_dir(room, "EAST"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_direction(room, "east"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 }
 
 /* Checks that room with a path in a different direction is determined as such, i.e.
-* if the existing direction is different from all valid directions (NORTH, EAST, SOUTH, WEST) */
-Test(autogenerate, path_exists_in_dir_false)
+* if the existing direction is different from all valid directions (north, east, south, west) */
+Test(autogenerate, path_exists_in_direction_false)
 {
     room_t *room = room_new("string1", "string2", "string3");
     room_t *dest_room = room_new("string1", "string2", "string3");
@@ -47,15 +47,15 @@ Test(autogenerate, path_exists_in_dir_false)
 
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
 
-    cr_assert_eq(false, path_exists_in_dir(room, "NORTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "EAST"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected false but got true");
-    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "north"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "east"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 }
 
 /* Checks that room with paths in every direction returns true, so long as
 * the given direction is valid */
-Test(autogenerate, path_exists_in_dir_one_all_true)
+Test(autogenerate, path_exists_in_direction_one_all_true)
 {
     room_t *room = room_new("string1", "string2", "string3");
     room_t *dest_room1 = room_new("string1", "string2", "string3");
@@ -64,10 +64,10 @@ Test(autogenerate, path_exists_in_dir_one_all_true)
     room_t *dest_room4 = room_new("string1", "string2", "string3");
 
     // Paths to destination rooms (dest_roomX, where X is a number 1 <= X <= 4)
-    path_t* path1 = path_new(dest_room1, "NORTH");
-    path_t* path2 = path_new(dest_room2, "EAST");
-    path_t* path3 = path_new(dest_room3, "SOUTH");
-    path_t* path4 = path_new(dest_room4, "WEST");
+    path_t* path1 = path_new(dest_room1, "north");
+    path_t* path2 = path_new(dest_room2, "east");
+    path_t* path3 = path_new(dest_room3, "south");
+    path_t* path4 = path_new(dest_room4, "west");
 
     // Add all the paths to the test room
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
@@ -76,17 +76,17 @@ Test(autogenerate, path_exists_in_dir_one_all_true)
     cr_assert_eq(SUCCESS, add_path_to_room(room, path4), "Could not add path to room");
 
     // Valid directions tests
-    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_dir(room, "EAST"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_dir(room, "SOUTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_dir(room, "WEST"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "east"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "south"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "west"), "Expected true but got false");
 
     // Invalid direction test
-    cr_assert_eq(false, path_exists_in_dir(room, "NOT A DIRECTION"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "NOT A DIRECTION"), "Expected false but got true");
 }
 
 /* The tests above are checked, but for 2 or 3 valid paths */
-Test(autogenerate, path_exists_in_dir_mid)
+Test(autogenerate, path_exists_in_direction_mid)
 {
     room_t *room = room_new("string1", "string2", "string3");
     room_t *dest_room1 = room_new("string1", "string2", "string3");
@@ -94,28 +94,28 @@ Test(autogenerate, path_exists_in_dir_mid)
     room_t *dest_room3 = room_new("string1", "string2", "string3");
 
     // 2 paths
-    path_t* path1 = path_new(dest_room1, "NORTH");
-    path_t* path2 = path_new(dest_room2, "EAST");
+    path_t* path1 = path_new(dest_room1, "north");
+    path_t* path2 = path_new(dest_room2, "east");
     cr_assert_eq(SUCCESS, add_path_to_room(room, path1), "Could not add path to room");
     cr_assert_eq(SUCCESS, add_path_to_room(room, path2), "Could not add path to room");
 
     // Valid directions tests
-    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_dir(room, "EAST"), "Expected true but got false");
-    cr_assert_eq(false, path_exists_in_dir(room, "SOUTH"), "Expected true but got false");
-    cr_assert_eq(false, path_exists_in_dir(room, "WEST"), "Expected false but got true");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "east"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_direction(room, "south"), "Expected true but got false");
+    cr_assert_eq(false, path_exists_in_direction(room, "west"), "Expected false but got true");
 
     // Add a third path
-    path_t* path3 = path_new(dest_room3, "SOUTH");
+    path_t* path3 = path_new(dest_room3, "south");
     cr_assert_eq(SUCCESS, add_path_to_room(room, path3), "Could not add path to room");
-    cr_assert_eq(true, path_exists_in_dir(room, "SOUTH"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "south"), "Expected true but got false");
 
     // The first two paths should remain (should still get true)
-    cr_assert_eq(true, path_exists_in_dir(room, "NORTH"), "Expected true but got false");
-    cr_assert_eq(true, path_exists_in_dir(room, "EAST"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "north"), "Expected true but got false");
+    cr_assert_eq(true, path_exists_in_direction(room, "east"), "Expected true but got false");
 
     // Invalid direction test
-    cr_assert_eq(false, path_exists_in_dir(room, "NOT A DIRECTION"), "Expected false but got true");
+    cr_assert_eq(false, path_exists_in_direction(room, "NOT A DIRECTION"), "Expected false but got true");
 }
 
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a
@@ -179,72 +179,55 @@ Test(autogenerate, roomspec_to_room3)
 
 }
 
-/* Checks that room_generate returns FAILURE when the current room of the
-* game has outward paths in all directions */
-Test(autogenerate, room_generate_failure)
+
+
+/* Checks that pick_random_direction() returns correct NESW (compass directions)
+   forward-reverse direction pairs */
+Test(autogenerate, pick_random_direction_correct_dir_pairs)
 {
-    game_t *g = game_new("start desc");
-    g->curr_room = room_new("room with no outward paths", "short desc", "long desc");
+    char *directions[4] = {"north", "east", "south", "west"}; // only compass directions
+    char *reverse_directions[4] = {"south", "west", "north", "east"};
 
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-    item_t *sample_item2 = item_new("item_id", "short_desc", "long_desc");
+    room_t *room = room_new("room with no outward paths", "", "");
 
-    room_t *sample_room1 = room_new("string1", "string2", "string3");
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
-
-    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 1 roomspec case
-    speclist_t *sample_speclist = speclist_new(sample_roomspec);
-    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
-
-    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
-
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
-
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    roomspec_t *sample_roomspec2 = roomspec_new("sample name", "short_desc", "long_desc", sample_item2);
-    cr_assert_not_null(sample_roomspec2, "sample_roomspec2 should not be NULL");
-
-    // 2 roomspec case
-    speclist_t *tail = speclist_new(sample_roomspec2);
-    cr_assert_not_null(tail, "Could not create new speclist");
-
-    // Doubly linked
-    speclist_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->speclist);
-    DL_APPEND(sample_gencontext->speclist, tail);
-
-    room_t *dest_room1 = room_new("string1", "string2", "string3");
-    room_t *dest_room2 = room_new("string1", "string2", "string3");
-    room_t *dest_room3 = room_new("string1", "string2", "string3");
-    room_t *dest_room4 = room_new("string1", "string2", "string3");
-
-    path_t* path_north = path_new(dest_room1, "NORTH");
-    path_t* path_east = path_new(dest_room2, "EAST");
-    path_t* path_south = path_new(dest_room3, "SOUTH");
-    path_t* path_west = path_new(dest_room4, "WEST");
-
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_north),
-                 "Could not add path to room");
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_east),
-                 "Could not add path to room");
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_south),
-                 "Could not add path to room");
-    cr_assert_eq(SUCCESS, add_path_to_room(g->curr_room, path_west),
-                 "Could not add path to room");
-
-    cr_assert_eq(FAILURE, room_generate(g, sample_gencontext, sample_roomspec),
-                 "room_generate() returned SUCCESS when it should have returned FAILURE");
+    char forward[6], reverse[6];
+    for (int i = 0; i < 100; i++) {
+        pick_random_direction(room, forward, reverse);
+        for (int j = 0; j < 4; j++) {
+            if (strcmp(directions[j], forward) == 0) {
+                cr_assert_str_eq(reverse_directions[j], reverse,
+                                 "reverse of %s should be "
+                                  "%s not %s!", directions[j], reverse_directions[j], reverse);
+            }
+        }
+    }
 }
+
+/* Checks that pick_random_direction() does not return OPEN/AVAILABLE
+   directions in direction_to_new outparam. 
+   It is fine if direction_to_curr param is an unavailable direction, because it concerns
+   directions from new to curr. */
+Test(autogenerate, pick_random_direction_only_open_paths)
+{
+    room_t *center_room = room_new("room with only north and east available", "", "");
+
+    room_t *room_north = room_new("room north", "", "");
+    path_t *path_north = path_new(room_north, "north");
+    assert(!add_path_to_room(center_room, path_north));
+
+    room_t *room_east = room_new("room east", "", "");
+    path_t *path_east = path_new(room_east, "east");
+    assert(!add_path_to_room(center_room, path_east));
+
+
+    char direction_to_new[6], direction_to_curr[6];
+    for (int i = 0; i < 100; i++) {
+        pick_random_direction(center_room, direction_to_curr, direction_to_new);
+        cr_assert_str_neq("north", direction_to_new, "north is unavailable!");
+        cr_assert_str_neq("east", direction_to_new, "east is unavailable!");
+    }
+}
+
 
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
@@ -252,13 +235,13 @@ Test(autogenerate, room_generate_failure)
 Test(autogenerate, room_generate_success_one)
 {
     game_t *g = game_new("start desc");
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     g->curr_room = roomspec_to_room(random_room_lookup(spec));
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(g->curr_room, "NORTH");
+    path_t* path_to_room = path_new(g->curr_room, "north");
 
     roomspec_t *room2 = random_room_lookup(spec);
     cr_assert_not_null(room2, "sample_roomspec should not be NULL");
@@ -269,7 +252,7 @@ Test(autogenerate, room_generate_success_one)
     room_t *sample_room2 = roomspec_to_room(room2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
@@ -289,7 +272,9 @@ Test(autogenerate, room_generate_success_one)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
+    char direction_to_new[6], direction_to_curr[6];
+    pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, direction_to_curr, direction_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -316,7 +301,7 @@ Test(autogenerate, room_generate_success_one)
 Test(autogenerate, room_generate_success_two)
 {
     game_t *g = game_new("start desc");
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     g->curr_room = roomspec_to_room(random_room_lookup(spec));
@@ -329,7 +314,7 @@ Test(autogenerate, room_generate_success_two)
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
 
     roomspec_t *sample_roomspec = random_room_lookup(spec);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
@@ -340,7 +325,7 @@ Test(autogenerate, room_generate_success_two)
     room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
@@ -356,7 +341,9 @@ Test(autogenerate, room_generate_success_two)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
+    char direction_to_new[6], direction_to_curr[6];
+    pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, direction_to_curr, direction_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -383,7 +370,7 @@ Test(autogenerate, room_generate_success_two)
 Test(autogenerate, room_generate_success_three)
 {
     game_t *g = game_new("start desc");
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     g->curr_room = roomspec_to_room(random_room_lookup(spec));
@@ -396,7 +383,7 @@ Test(autogenerate, room_generate_success_three)
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
 
     roomspec_t *sample_roomspec = random_room_lookup(spec);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
@@ -410,7 +397,7 @@ Test(autogenerate, room_generate_success_three)
     room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
@@ -429,7 +416,9 @@ Test(autogenerate, room_generate_success_three)
 
     //create roomspec
     roomspec_t *rspec = random_room_lookup(spec);
-    cr_assert_eq(SUCCESS, room_generate(g, sample_gencontext, rspec),
+    char direction_to_new[6], direction_to_curr[6];
+    pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, direction_to_curr, direction_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
@@ -450,6 +439,7 @@ Test(autogenerate, room_generate_success_three)
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
 
+
 /* Checks that multi_room_generate returns FAILURE if the current room of the
 * given game is not a dead end, i.e. there are outward paths */
 Test(autogenerate, invalid_multi_room)
@@ -459,10 +449,10 @@ Test(autogenerate, invalid_multi_room)
     room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -490,7 +480,7 @@ Test(autogenerate, invalid_multi_room)
 * context (gencontext_t) struct's speclist field when one room is requested */
 Test(autogenerate, valid_multi_room1)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -500,10 +490,10 @@ Test(autogenerate, valid_multi_room1)
     room_t *sample_room2 = roomspec_to_room(sample2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -534,7 +524,7 @@ Test(autogenerate, valid_multi_room1)
 * context (gencontext_t) struct's speclist field when two rooms are requested */
 Test(autogenerate, valid_multi_room2)
 {
-    roomspec_t *hash =make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash =make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -544,10 +534,10 @@ Test(autogenerate, valid_multi_room2)
     room_t *sample_room2 = roomspec_to_room(sample2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -598,7 +588,7 @@ Test(autogenerate, valid_multi_room2)
 * context (gencontext_t) struct's speclist field when multiple (3) rooms are requested */
 Test(autogenerate, valid_multi_room3)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
 
@@ -608,10 +598,10 @@ Test(autogenerate, valid_multi_room3)
     room_t *sample_room2 = roomspec_to_room(sample2);
 
     // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
+    path_t* path_to_room2 = path_new(sample_room2, "north");
 
     // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
+    path_t* path_to_room = path_new(sample_room1, "north");
     assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
 
     game_t *g = game_new("start desc");
@@ -657,7 +647,7 @@ Test(autogenerate, valid_multi_room3)
 /* testing speclist_from_hash for school bucket*/
 Test(speclist, school_hash)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -679,7 +669,7 @@ Test(speclist, school_hash)
 /* testing speclist_from_hash for farmhouse bucket*/
 Test(speclist, farm_hash)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -701,7 +691,7 @@ Test(speclist, farm_hash)
 /* testing speclist_from_hash for castle bucket*/
 Test(speclist, castle_hash)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -723,7 +713,7 @@ Test(speclist, castle_hash)
 /* testing random room lookup for school speclist*/
 Test(speclist, school_lookup)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -749,7 +739,7 @@ Test(speclist, school_lookup)
 /* testing random room lookup for farmhouse speclist*/
 Test(speclist, farm_lookup)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -772,7 +762,7 @@ Test(speclist, farm_lookup)
 /* testing random room lookup for castle speclist*/
 Test(speclist, castle_lookup)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
     cr_assert_not_null(spec);
@@ -795,7 +785,7 @@ Test(speclist, castle_lookup)
 /* testing random_items for barn roomspec*/
 Test(roomspec, barn_item)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     roomspec_t *r = NULL;
     HASH_FIND_STR(hash, "barn", r);
 
@@ -815,7 +805,7 @@ Test(roomspec, barn_item)
 /* testing random_items for classroom roomspec*/
 Test(roomspec, class_item)
 {
-    roomspec_t *hash = make_default_room("school",NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school",NULL, NULL);
     roomspec_t *r = NULL;
     HASH_FIND_STR(hash, "classroom", r);
 
@@ -835,7 +825,7 @@ Test(roomspec, class_item)
 /* testing random_items for throne room roomspec*/
 Test(roomspec, throne_item)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     roomspec_t *r = NULL;
     HASH_FIND_STR(hash, "throne room", r);
 
@@ -885,16 +875,198 @@ Test(item_hash, three_lookup)
 
 
 
+/* Checks that generate_items follows the default behavior,
+ * i.e. generate 1 item with 100% probability,
+ * when itemspec for all items are not defined */
+Test(item_hash, generate_items_default)
+{
+    rspec_hash_t *rspec_hash = make_default_room("school", NULL, NULL);
+    roomspec_t *rspec = NULL;
+    HASH_FIND_STR(rspec_hash, "classroom", rspec);
+    
+    item_hash_t *item_hash = generate_items(rspec);
+
+    int count = 0;
+    item_t *curr, *tmp;
+
+    /* Counts number of items in room */
+    HASH_ITER(hh, item_hash, curr, tmp) 
+    {
+        item_t *lst_node;
+        /* Count stacked duplicate items */
+        DL_FOREACH(curr, lst_node) 
+        {
+            count++;
+        }
+    }
+    cr_assert_eq(5, count, "5 items in total should have spawned");
+
+    tmp = NULL;
+    HASH_FIND_STR(item_hash, "book", tmp);
+    cr_assert_not_null(tmp);
+
+    tmp = NULL;
+    HASH_FIND_STR(item_hash, "door", tmp);
+    cr_assert_not_null(tmp);
+
+    tmp = NULL;
+    HASH_FIND_STR(item_hash, "pencil", tmp);
+    cr_assert_not_null(tmp);
+
+    tmp = NULL;
+    HASH_FIND_STR(item_hash, "watercolors", tmp);
+    cr_assert_not_null(tmp);
+
+    tmp = NULL;
+    HASH_FIND_STR(item_hash, "video", tmp);
+    cr_assert_not_null(tmp);
+}
+
+
+/* Checks that generate_items does not generate any item
+ * when all itemspecs are set to 0 spawn_chance */
+Test(item_hash, generate_items_nothing)
+{
+    rspec_hash_t *rspec_hash = make_default_room("school", NULL, NULL);
+    roomspec_t *rspec = NULL;
+    HASH_FIND_STR(rspec_hash, "classroom", rspec);
+    
+    /* Adding itemspecs to hash */
+    char *item_names[5] = {"book", "door", "pencil", "watercolors", "video"}; 
+    for (int i = 0; i < 5; i++) 
+    {
+        /* each itemspec has a spawn_chance of 0, and a [1, 10] quantity range */
+        itemspec_t *itemspec = itemspec_new(item_names[i], 0, 1, 10); 
+        HASH_ADD_KEYPTR(hh, rspec->itemspecs, item_names[i], strlen(item_names[i]), itemspec);
+    }
+
+    item_hash_t *item_hash = generate_items(rspec);
+
+    int count = 0;
+    item_t *curr, *tmp;
+    /* Counts number of items in room */
+    HASH_ITER(hh, item_hash, curr, tmp) 
+    {
+        item_t *lst_node;
+        DL_FOREACH(curr, lst_node) 
+        {
+            count++;
+        }
+    }
+    cr_assert_eq(0, count, "No items should be spawned");
+}
+
+
+/* Checks that generate_items can generate items 
+ * with different probabilities and quantities */
+Test(item_hash, generate_items_as_specified)
+{
+    rspec_hash_t *rspec_hash = make_default_room("school", NULL, NULL);
+    roomspec_t *rspec = NULL;
+    HASH_FIND_STR(rspec_hash, "classroom", rspec);
+    
+    char *item1_name = "book";
+    itemspec_t *itemspec1 = itemspec_new(item1_name, 0, 2, 4);
+    HASH_ADD_KEYPTR(hh, rspec->itemspecs, item1_name, strlen(item1_name), itemspec1);
+
+    char *item2_name = "door";
+    itemspec_t *itemspec2 = itemspec_new(item2_name, 1, 2, 3);
+    HASH_ADD_KEYPTR(hh, rspec->itemspecs, item2_name, strlen(item2_name), itemspec2);
+
+    char *item3_name = "pencil";
+    itemspec_t *itemspec3 = itemspec_new(item3_name, 0.5, 2, 2);
+    HASH_ADD_KEYPTR(hh, rspec->itemspecs, item3_name, strlen(item3_name), itemspec3);
+
+    item_hash_t *item_hash = generate_items(rspec);
+
+    int count;
+    item_t *item, *tmp;
+
+    item = NULL;
+    HASH_FIND_STR(item_hash, "book", item);
+    cr_assert_null(item, "failed to generate item with right probability");
+
+    count = 0;
+    item = NULL;
+    HASH_FIND_STR(item_hash, "door", item);
+    DL_FOREACH(item, tmp) 
+    {
+        count++;
+    }
+    cr_assert((count == 2) || (count == 3), 
+              "failed to generate item with right quantity");
+
+    count = 0;
+    item = NULL;
+    HASH_FIND_STR(item_hash, "pencil", item);
+    DL_FOREACH(item, tmp) 
+    {
+        count++;
+    }
+    cr_assert((count == 0) || (count == 2), 
+              "failed to generate item with right quantity");
+
+    count = 0;
+    item = NULL;
+    HASH_FIND_STR(item_hash, "watercolors", item);
+    DL_FOREACH(item, tmp) 
+    {
+        count++;
+    }
+    cr_assert(count == 1, "failed to generate item with default params");
+
+    count = 0;
+    item = NULL;
+    HASH_FIND_STR(item_hash, "video", item);
+    DL_FOREACH(item, tmp) 
+    {
+        count++;
+    }
+    cr_assert(count == 1, "failed to generate item with default params");
+}
+
+
+/* Checks that number of items generated by generate_items 
+ * does not exceed MAX_RAND_ITEMS */
+Test(item_hash, generate_items_no_more_than_max)
+{
+    rspec_hash_t *rspec_hash = make_default_room("school", NULL, NULL);
+    roomspec_t *rspec = NULL;
+    HASH_FIND_STR(rspec_hash, "classroom", rspec);
+
+    char *item_name = "book";
+    itemspec_t *itemspec = itemspec_new(item_name, 1, MAX_RAND_ITEMS + 10, 
+                                                      MAX_RAND_ITEMS + 20);
+    HASH_ADD_KEYPTR(hh, rspec->itemspecs, item_name, strlen(item_name), itemspec);
+
+    item_hash_t *item_hash = generate_items(rspec);
+
+    int count = 0;
+    item_t *curr, *tmp;
+
+    HASH_ITER(hh, item_hash, curr, tmp) 
+    {
+        item_t *lst_node;
+        DL_FOREACH(curr, lst_node) 
+        {
+            count++;
+        }
+    }
+    cr_assert_eq(MAX_RAND_ITEMS, count, "Number of items should be MAX_RAND_ITEMS");
+}
+
+
+
 /* testing map_level_to_difficulty for
  * thresholds {0, 5, 13} and player_lvls 0 to 20 */
-Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_5_13)
+Test(thresholds, map_level_to_difficulty_one)
 {
-    int thresholds[3]= {0, 5, 13};
-    difficulty_level_scale_t *level_scale = difficulty_level_scale_new(3, thresholds);
+    int num_thresholds = 3;
+    int thresholds[3] = {0, 5, 13};
     
     int actual, expected;
     for (int player_lvl = 0; player_lvl <= 20; player_lvl++) {
-        actual = map_level_to_difficulty(level_scale, player_lvl);
+        actual = map_level_to_difficulty(num_thresholds, thresholds, player_lvl);
         if (player_lvl < 5) {
             expected = 0;
         } else if (player_lvl < 13) {
@@ -903,7 +1075,7 @@ Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_5_13)
             expected = 2;
         }
         cr_assert_eq(expected, actual, 
-                     "using the scale {0, 21, 22, 80}," 
+                     "using the thresholds {0, 21, 22, 80}," 
                      " expected player_lvl %d -> difficulty %d," 
                      " but mapped to difficulty %d\n", 
                      player_lvl, expected, actual);
@@ -913,14 +1085,14 @@ Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_5_13)
 
 /* testing map_level_to_difficulty for
  * thresholds {0, 21, 22, 80} and player_lvls 0 to 200 */
-Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_21_22_80)
+Test(thresholds, map_level_to_difficulty_two)
 {
-    int thresholds[4]= {0, 21, 22, 80};
-    difficulty_level_scale_t *level_scale = difficulty_level_scale_new(4, thresholds);
+    int num_thresholds = 4;
+    int thresholds[4] = {0, 21, 22, 80};
     
     int actual, expected;
     for (int player_lvl = 0; player_lvl <= 200; player_lvl++) {
-        actual = map_level_to_difficulty(level_scale, player_lvl);
+        actual = map_level_to_difficulty(num_thresholds, thresholds, player_lvl);
         if (player_lvl < 21) {
             expected = 0;
         } else if (player_lvl < 22) {
@@ -931,7 +1103,7 @@ Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_21_22_80)
             expected = 3;
         }
         cr_assert_eq(expected, actual, 
-                     "using the scale {0, 21, 22, 80}," 
+                     "using the thresholds {0, 21, 22, 80}," 
                      " expected player_lvl %d -> difficulty %d," 
                      " but mapped to difficulty %d\n", 
                      player_lvl, expected, actual);
@@ -957,7 +1129,7 @@ Test(difficulty_level_scale, map_level_to_difficulty_thresholds0_21_22_80)
  * ... prints ...
  * "rspecB is NOT of given difficulty (2) but got 0."
  */
-void TEST_HELPER_roomspec_is_given_difficulty(int actual, int expected, char* rspec_name, int given_difficulty)
+void TEST_HELPER_roomspec_is_given_difficulty(int actual, int expected, char *rspec_name, int given_difficulty)
 {
     cr_assert_eq(actual, expected,
                  "%s %s given difficulty (%d) "
@@ -970,18 +1142,18 @@ void TEST_HELPER_roomspec_is_given_difficulty(int actual, int expected, char* rs
 
 
 /* testing roomspec_is_given_difficulty
- * for a hash table with one lvl 0 room_level */
-Test(room_level, one_lvl0_room)
+ * for a hash table with one lvl 0 roomlevel */
+Test(roomlevel, one_lvl0_room)
 {
-    room_level_t *room_levels = NULL;
+    roomlevel_hash_t *roomlevels = NULL;
     
-    // creating room_levels and hashing to table
+    // creating roomlevels and hashing to table
     char *lvl0_roomname = "A";
-    add_room_level_to_hash(&room_levels, lvl0_roomname, 0);
+    add_roomlevel_to_hash(&roomlevels, lvl0_roomname, 0);
 
-    // checking that room_level is hashed
-    room_level_t *tmp;
-    HASH_FIND_STR(room_levels, "A", tmp);
+    // checking that roomlevel is hashed
+    roomlevel_t *tmp;
+    HASH_FIND_STR(roomlevels, "A", tmp);
     cr_assert_not_null(tmp);
 
     // creating room_spec and checking that it is not null
@@ -990,11 +1162,11 @@ Test(room_level, one_lvl0_room)
 
     int actual, expected;
     
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA, 0);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecA, 0);
     expected = 0;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 0);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA, 3);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecA, 3);
     expected = 1;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 3);
 
@@ -1002,29 +1174,29 @@ Test(room_level, one_lvl0_room)
     roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL);
     cr_assert_not_null(rspecB);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecB, 3);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecB, 3);
     expected = 2;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecB", 3);
 }
 
 
 /* testing roomspec_is_given_difficulty
- * for a hash table with two room_levels, one lvl 0 and 1 each */
-Test(room_level, lvl0_to_lvl1_roomlevels)
+ * for a hash table with two roomlevels, one lvl 0 and 1 each */
+Test(roomlevel, lvl0_to_lvl1_roomlevels)
 {
-    room_level_t *room_levels = NULL;
+    roomlevel_hash_t *roomlevels = NULL;
     
-    // creating room_levels and hashing to table
+    // creating roomlevels and hashing to table
     char *lvl0_roomname = "A0";
     char *lvl1_roomname = "A1";
-    add_room_level_to_hash(&room_levels, lvl0_roomname, 0);
-    add_room_level_to_hash(&room_levels, lvl1_roomname, 1);
+    add_roomlevel_to_hash(&roomlevels, lvl0_roomname, 0);
+    add_roomlevel_to_hash(&roomlevels, lvl1_roomname, 1);
 
-    // checking that room_levels are hashed
-    room_level_t *tmp;
-    HASH_FIND_STR(room_levels, "A0", tmp);
+    // checking that roomlevels are hashed
+    roomlevel_t *tmp;
+    HASH_FIND_STR(roomlevels, "A0", tmp);
     cr_assert_not_null(tmp);
-    HASH_FIND_STR(room_levels, "A1", tmp);
+    HASH_FIND_STR(roomlevels, "A1", tmp);
     cr_assert_not_null(tmp);
 
     // creating room_specs and checking that they are not null
@@ -1035,19 +1207,19 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
 
     int actual, expected;
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA0, 0);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecA0, 0);
     expected = 0;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA0", 0);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA0, 1);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecA0, 1);
     expected = 1;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA0", 1);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA1, 1);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecA1, 1);
     expected = 0;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA1", 1);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecA1, 0);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecA1, 0);
     expected = 1;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA1", 0);
 
@@ -1055,7 +1227,7 @@ Test(room_level, lvl0_to_lvl1_roomlevels)
     roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL);
     cr_assert_not_null(rspecB);
 
-    actual = roomspec_is_given_difficulty(&room_levels, rspecB, 3);
+    actual = roomspec_is_given_difficulty(&roomlevels, rspecB, 3);
     expected = 2;
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecB", 3);
 }
@@ -1080,23 +1252,24 @@ Test(speclist, filter_speclist_NULL)
     DL_APPEND(unfiltered, list1);
     DL_APPEND(unfiltered, list2);
 
-    room_level_t *room_level = NULL;
+    roomlevel_t *roomlevel = NULL;
     
     /* label the rooms' level with 0 */
-    add_room_level_to_hash(&room_level, "room_name_1", 0);
-    add_room_level_to_hash(&room_level, "room_name_2", 0);
+    add_roomlevel_to_hash(&roomlevel, "room_name_1", 0);
+    add_roomlevel_to_hash(&roomlevel, "room_name_2", 0);
 
     /* filter the speclist with level 1 */
     speclist_t* filtered = filter_speclist_with_difficulty(unfiltered, 
-                                                           &room_level, 
+                                                           &roomlevel, 
                                                            1);
 
     cr_assert_null(filtered, "filtered speclist should be NULL");
 }
 
 
-/* Checks that filter_speclist_with_difficulty successfully filters speclist */
-Test(speclist, filter_speclist)
+/* Checks that filter_speclist_with_difficulty successfully filters speclist 
+   Expect to have only one rspec in the filtered speclist. */
+Test(speclist, one_in_filtered)
 {
     roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
     roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
@@ -1116,16 +1289,16 @@ Test(speclist, filter_speclist)
     DL_APPEND(unfiltered, list2);
     DL_APPEND(unfiltered, list3);
 
-    room_level_t *room_level = NULL;
+    roomlevel_t *roomlevel = NULL;
 
     /* label the rooms' level with 1, 2, 3 */
-    add_room_level_to_hash(&room_level, "room_name_1", 1);
-    add_room_level_to_hash(&room_level, "room_name_2", 2);
-    add_room_level_to_hash(&room_level, "room_name_3", 3);
+    add_roomlevel_to_hash(&roomlevel, "room_name_1", 1);
+    add_roomlevel_to_hash(&roomlevel, "room_name_2", 2);
+    add_roomlevel_to_hash(&roomlevel, "room_name_3", 3);
 
     /* filter the speclist with level 2 */
     speclist_t* filtered = filter_speclist_with_difficulty(unfiltered, 
-                                                           &room_level, 
+                                                           &roomlevel, 
                                                            2);
 
     cr_assert_not_null(filtered, "filtered speclist should not be NULL");
@@ -1134,10 +1307,59 @@ Test(speclist, filter_speclist)
     int count;
 
     DL_COUNT(filtered, tmp, count);
-    cr_assert_eq(count, 1, "there should be only one roomspec in the filter speclist");
+    cr_assert_eq(count, 1, "there should be only 1 roomspec in the filter speclist");
 
     cr_assert_str_eq(filtered->spec->room_name, "room_name_2", 
                      "the filtered speclist should only contain rspec2"); 
+}
+
+
+/* Checks that filter_speclist_with_difficulty successfully filters speclist 
+   Expect to have two rspecs in the filtered speclist. */
+Test(speclist, two_in_filtered)
+{
+    roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
+    roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
+    roomspec_t *rspec3 = roomspec_new("room_name_3", "short_desc", "long_desc", NULL);
+    
+    speclist_t *list1 = speclist_new(rspec1);
+    speclist_t *list2 = speclist_new(rspec2);
+    speclist_t *list3 = speclist_new(rspec3);
+
+    cr_assert_not_null(list1, "failed to create new speclist_t\n");
+    cr_assert_not_null(list2, "failed to create new speclist_t\n");
+    cr_assert_not_null(list3, "failed to create new speclist_t\n");
+
+    speclist_t *unfiltered = NULL;
+
+    DL_APPEND(unfiltered, list1);
+    DL_APPEND(unfiltered, list2);
+    DL_APPEND(unfiltered, list3);
+
+    roomlevel_t *roomlevel = NULL;
+
+    /* label the rooms' level with 1, 2, 3 */
+    add_roomlevel_to_hash(&roomlevel, "room_name_1", 1);
+    add_roomlevel_to_hash(&roomlevel, "room_name_2", 1);
+    add_roomlevel_to_hash(&roomlevel, "room_name_3", 3);
+
+    /* filter the speclist with level 2 */
+    speclist_t* filtered = filter_speclist_with_difficulty(unfiltered, 
+                                                           &roomlevel, 
+                                                           1);
+
+    cr_assert_not_null(filtered, "filtered speclist should not be NULL");
+
+    speclist_t *tmp;
+    int count;
+
+    DL_COUNT(filtered, tmp, count);
+    cr_assert_eq(count, 2, "there should be 2 roomspecs in the filter speclist");
+
+    cr_assert_str_eq(filtered->spec->room_name, "room_name_1", 
+                     "the filtered speclist should contain rspec2"); 
+    cr_assert_str_eq(filtered->next->spec->room_name, "room_name_2", 
+                     "the filtered speclist should contain rspec2"); 
 }
 
 
@@ -1146,104 +1368,82 @@ Test(speclist, filter_speclist)
  * if the only room spec in the speclist is not of the right difficulty level */
 Test(autogenerate, invalid_multi_room_level_1)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
-    speclist_t *spec = NULL;
-    speclist_from_hash(&spec, hash);
+    // creating speclist
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
+    roomspec_t *sample_rspec;
+    HASH_FIND_STR(hash, "library", sample_rspec);
+    speclist_t *sample_speclist = speclist_new(sample_rspec);
+    
+    // creating gencontext, player's level set to 5 -> difficulty level == 1
+    gencontext_t *context = gencontext_new(NULL, 5, 1, sample_speclist);
+    cr_assert_not_null(context, "context should not be NULL");
 
-    roomspec_t *sample1 = random_room_lookup(spec);
-    room_t *sample_room1 = roomspec_to_room(sample1);
-    roomspec_t *sample2 = random_room_lookup(spec);
-    room_t *sample_room2 = roomspec_to_room(sample2);
-
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
-    assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
-
+    // creating game
     game_t *g = game_new("start desc");
 
-    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+    // creating starting rooms, paths, and adding to game
+    roomspec_t *curr_rspec;
+    HASH_FIND_STR(hash, "cafeteria", curr_rspec);
+    room_t *curr_room = roomspec_to_room(curr_rspec);
+    cr_assert_eq(SUCCESS, add_room_to_game(g, curr_room), "Could not add room curr_room to game g");
+    g->curr_room = curr_room;
 
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 1 roomspec case
-    speclist_t *sample_speclist = speclist_new(sample_roomspec);
-    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
-
-    // player's level set to 5
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    // Ensure game->curr_room does not have paths
-    g->curr_room = sample_room1;
-
-    room_level_t *room_level = NULL;
-    char *roomname = sample_gencontext->speclist->spec->room_name;
-
-    // label the room level with 3
-    add_room_level_to_hash(&room_level, roomname, 3);
-
-    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
-
+    // creating levelspec
+    int num_thresholds = 3;
     int thresholds[3]= {0, 5, 10};
-    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
-    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
-    
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
+
+    // create roomlevels of difficulty level 2 and add to levelspec 
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "library", 2);
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "closet", 2);
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "hallway", 2);
+
+    // generating 1 room; should fail
     cr_assert_eq(FAILURE, 
-                 multi_room_level_generate(g, sample_gencontext, "school", 1, 
-                                           &room_level, difficulty_level_scale),
-                 "multi_room_level_generate() returned SUCCESS instead of FAILURE");
+                 multi_room_level_generate(g, context, "school", 1, levelspec),
+                 "multi_room_level_generate() returned FAILURE instead of SUCCESS");
 }
 
 
 /* Checks that multi_room_level_generate returns FAILURE 
- * if all room specs in the speclist are not of the right difficulty level */
+ * if all room specs in the speclist are not of the right difficulty level. */
 Test(autogenerate, invalid_multi_room_level_3)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
-    speclist_t *spec = NULL;
-    speclist_from_hash(&spec, hash);
+    // creating speclist
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
+    speclist_t *speclist = NULL;
+    speclist_from_hash(&speclist, hash);
+    
+    // creating gencontext, player's level set to 5 -> difficulty level == 1
+    gencontext_t *context = gencontext_new(NULL, 5, 1, speclist);
+    cr_assert_not_null(context, "context should not be NULL");
 
-    roomspec_t *sample1;
-    HASH_FIND_STR(hash, "cafeteria", sample1);
-    room_t *sample_room1 = roomspec_to_room(sample1);
-
+    // creating game
     game_t *g = game_new("start desc");
-    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    gencontext_t *sample_gencontext = gencontext_new(NULL, 5, 1, spec);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+    // creating starting rooms, paths, and adding to game
+    roomspec_t *curr_rspec;
+    HASH_FIND_STR(hash, "cafeteria", curr_rspec);
+    room_t *curr_room = roomspec_to_room(curr_rspec);
+    cr_assert_eq(SUCCESS, add_room_to_game(g, curr_room), "Could not add room curr_room to game g");
+    g->curr_room = curr_room;
 
-    // Ensure game->curr_room does not have paths
-    g->curr_room = sample_room1;
-
-    room_level_t *room_level = NULL;
-    char *roomname_1 = spec->spec->room_name;
-    char *roomname_2 = spec->next->spec->room_name;
-    char *roomname_3 = spec->next->next->spec->room_name;
-
-    // label the rooms' level with 3
-    add_room_level_to_hash(&room_level, roomname_1, 3);
-    add_room_level_to_hash(&room_level, roomname_2, 3);
-    add_room_level_to_hash(&room_level, roomname_3, 3);
-
-    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
-
+    // creating levelspec
+    int num_thresholds = 3;
     int thresholds[3]= {0, 5, 10};
-    difficulty_level_scale_t *scale = difficulty_level_scale_new(3, thresholds);
-    cr_assert_not_null(scale, "failed to create new difficulty_level_scale_t\n");
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
 
+    // create roomlevels of difficulty level 2 and add to levelspec 
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "library", 2);
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "closet", 2);
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "hallway", 2);
+
+    // generating 1 room; should fail
     cr_assert_eq(FAILURE, 
-                 multi_room_level_generate(g, sample_gencontext, "school", 3, 
-                                           &room_level, scale),
-                 "multi_room_level_generate() returned SUCCESS instead of FAILURE");
+                 multi_room_level_generate(g, context, "school", 1, levelspec),
+                 "multi_room_level_generate() returned FAILURE instead of SUCCESS");
 }
 
 
@@ -1251,153 +1451,92 @@ Test(autogenerate, invalid_multi_room_level_3)
  * with the right difficulty level when 1 room is requested */
 Test(autogenerate, valid_multi_room_level_1)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
-    speclist_t *spec = NULL;
-    speclist_from_hash(&spec, hash);
+    // creating speclist
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
+    speclist_t *speclist = NULL;
+    speclist_from_hash(&speclist, hash);
 
-    roomspec_t *sample1 = random_room_lookup(spec);
-    room_t *sample_room1 = roomspec_to_room(sample1);
-    roomspec_t *sample2 = random_room_lookup(spec);
-    room_t *sample_room2 = roomspec_to_room(sample2);
+    // creating gencontext, player's level set to 5
+    gencontext_t *context = gencontext_new(NULL, 5, 1, speclist);
+    cr_assert_not_null(context, "context should not be NULL");
 
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
-    assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
-
+    // creating game
     game_t *g = game_new("start desc");
 
-    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+    // creating starting rooms, paths, and adding to game
+    roomspec_t *curr_rspec;
+    HASH_FIND_STR(hash, "cafeteria", curr_rspec);
+    room_t *curr_room = roomspec_to_room(curr_rspec);
+    cr_assert_eq(SUCCESS, add_room_to_game(g, curr_room), "Could not add room curr_room to game g");
+    g->curr_room = curr_room;
 
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 1 roomspec case
-    speclist_t *sample_speclist = speclist_new(sample_roomspec);
-    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
-
-    // player's level set to 5
-    gencontext_t *sample_gencontext = gencontext_new(NULL, 5, 1, sample_speclist);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    // Ensure game->curr_room does not have paths
-    g->curr_room = sample_room1;
-
-    room_level_t *room_level = NULL;
-    char *roomname = sample_gencontext->speclist->spec->room_name;
-
-    // label the room level with 1
-    add_room_level_to_hash(&room_level, roomname, 1);
-
-    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
-
+    // creating levelspec
+    int num_thresholds = 3;
     int thresholds[3]= {0, 5, 10};
-    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
-    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
 
+    // set "library" roomlevel as 1
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "library", 1);
+
+    // generating 1 room
     cr_assert_eq(SUCCESS, 
-                 multi_room_level_generate(g, sample_gencontext, "school", 1, 
-                                           &room_level, difficulty_level_scale),
+                 multi_room_level_generate(g, context, "school", 1, levelspec),
                  "multi_room_level_generate() returned FAILURE instead of SUCCESS");
 }
+
 
 
 /* Checks that multi_room_level_generate successfully generates/adds room 
  * with the right difficulty level when 3 rooms are requested */
 Test(autogenerate, valid_multi_room_level_3)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
-    speclist_t *spec = NULL;
-    speclist_from_hash(&spec, hash);
+    // creating speclist
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
+    speclist_t *speclist = NULL;
+    speclist_from_hash(&speclist, hash);
 
-    roomspec_t *sample1 = random_room_lookup(spec);
-    room_t *sample_room1 = roomspec_to_room(sample1);
-    roomspec_t *sample2 = random_room_lookup(spec);
-    room_t *sample_room2 = roomspec_to_room(sample2);
+    // creating gencontext, player's level set to 5
+    gencontext_t *context = gencontext_new(NULL, 5, 1, speclist);
+    cr_assert_not_null(context, "context should not be NULL");
 
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "NORTH");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "NORTH");
-    assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
-
+    // creating game
     game_t *g = game_new("start desc");
 
-    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+    // creating starting rooms, paths, and adding to game
+    roomspec_t *curr_rspec;
+    HASH_FIND_STR(hash, "cafeteria", curr_rspec);
+    room_t *curr_room = roomspec_to_room(curr_rspec);
+    cr_assert_eq(SUCCESS, add_room_to_game(g, curr_room), "Could not add room curr_room to game g");
+    g->curr_room = curr_room;
 
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    speclist_t *sample_speclist = speclist_new(sample_roomspec);
-    cr_assert_not_null(sample_speclist, "sample_speclist should not be NULL");
-
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_speclist);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    roomspec_t *sample_roomspec2 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    roomspec_t *sample_roomspec3 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 3 roomspec case
-    speclist_t *mid = speclist_new(sample_roomspec2);
-    cr_assert_not_null(mid, "Could not create new speclist");
-    speclist_t *tail = speclist_new(sample_roomspec3);
-    cr_assert_not_null(tail, "Could not create new speclist");
-
-    // Doubly linked
-    speclist_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->speclist);
-    DL_APPEND(sample_gencontext->speclist, mid);
-    DL_APPEND(sample_gencontext->speclist, tail);
-
-    // Ensure game->curr_room does not have paths
-    g->curr_room = sample_room1;
-
-    room_level_t *room_level = NULL;
-    char *roomname_1 = sample_gencontext->speclist->spec->room_name;
-    char *roomname_2 = sample_gencontext->speclist->next->spec->room_name;
-    char *roomname_3 = sample_gencontext->speclist->next->next->spec->room_name;
-
-    // label the rooms' level with 1
-    add_room_level_to_hash(&room_level, roomname_1, 1);
-    add_room_level_to_hash(&room_level, roomname_2, 1);
-    add_room_level_to_hash(&room_level, roomname_3, 1);
-
-    cr_assert_not_null(room_level, "failed to create new room_level_t\n");
-
+    // creating levelspec
+    int num_thresholds = 3;
     int thresholds[3]= {0, 5, 10};
-    difficulty_level_scale_t *difficulty_level_scale = difficulty_level_scale_new(3, thresholds);
-    cr_assert_not_null(difficulty_level_scale, "failed to create new difficulty_level_scale_t\n");
+    levelspec_t *levelspec = levelspec_new(num_thresholds, thresholds);
+    cr_assert_not_null(levelspec, "failed to create new levelspec_t\n");
 
+    // create roomlevels and add to levelspec with difficulty level 1
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "library", 1);
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "closet", 1);
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "hallway", 1);
+
+    // generating 3 rooms
     cr_assert_eq(SUCCESS, 
-                 multi_room_level_generate(g, sample_gencontext, "school", 3, 
-                                           &room_level, difficulty_level_scale),
+                 multi_room_level_generate(g, context, "school", 3, levelspec),
                  "multi_room_level_generate() returned FAILURE instead of SUCCESS");
 }
 
-
 /* Checks that recursive_generate generates no rooms given:
    - radius: 0 
-   - dir_to_parent: ""   (no parent)
+   - direction_to_parent: ""   (no parent)
    Starts with 1 room in all_rooms hash, expect 1 room at the end. */
 Test(autogenerate, recursive_gen_rad0)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1406,9 +1545,9 @@ Test(autogenerate, recursive_gen_rad0)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST"};
+    char *directions[] = {"north", "east"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 0, directions, 2, ""),
+                 recursive_generate(g, context, sample_room1, 0, directions, 2, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
     
     room_t *curr_room, *tmp_room;
@@ -1421,13 +1560,14 @@ Test(autogenerate, recursive_gen_rad0)
 
 /* Checks that recursive_generate generates 4 rooms given:
    - radius: 1
-   - dir_to_parent: ""   (no parent)
+   - direction_to_parent: ""   (no parent)
    Starts with 1 room in all_rooms hash, expect 5 rooms at the end. */
 Test(autogenerate, recursive_gen_rad1)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1436,9 +1576,9 @@ Test(autogenerate, recursive_gen_rad1)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST", "SOUTH"};
+    char *directions[] = {"north", "east", "south"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 1, directions, 3, ""),
+                 recursive_generate(g, context, sample_room1, 1, directions, 3, ""),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
@@ -1449,15 +1589,16 @@ Test(autogenerate, recursive_gen_rad1)
     cr_assert_eq(4, num_rooms, "expected 1 + 3 = 4 rooms; recursive_generate generated %d", num_rooms);
 }
 
-/* Checks that recursive_generate generates 52 rooms given:
-   - radius: 3
-   - dir_to_parent: ""   (no parent)
+/* Checks that recursive_generate generates 17 rooms given:
+   - radius: 2
+   - direction_to_parent: ""   (no parent)
    Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
-Test(autogenerate, recursive_gen_rad3)
+Test(autogenerate, recursive_gen_rad2)
 {
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1466,10 +1607,41 @@ Test(autogenerate, recursive_gen_rad3)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    char *directions[] = {"north", "east", "south", "west"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 3, directions, 4, ""),
-                 "recursive_generate() returned FAILURE instead of SUCCESS");
+                  recursive_generate(g, context, sample_room1, 2, directions, 4, ""),
+                  "recursive_generate() returned FAILURE instead of SUCCESS");
+
+    room_t *curr_room, *tmp_room;
+    int num_rooms = 0;
+    HASH_ITER(hh, g->all_rooms, curr_room, tmp_room) {
+        num_rooms++;
+    }
+    cr_assert_eq(17, num_rooms, "expected 1 + 4 + 12 = 17 rooms; recursive_generate generated %d", num_rooms);
+}
+
+/* Checks that recursive_generate generates 52 rooms given:
+   - radius: 3
+   - direction_to_parent: ""   (no parent)
+   Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
+Test(autogenerate, recursive_gen_rad3)
+{
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
+    speclist_t *spec = NULL;
+    speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
+
+    roomspec_t *sample1;
+    HASH_FIND_STR(hash, "closet", sample1);
+    room_t *sample_room1 = roomspec_to_room(sample1);
+
+    game_t *g = game_new("start desc");
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
+
+    char *directions[] = {"north", "east", "south", "west"};
+    cr_assert_eq(SUCCESS, 
+                  recursive_generate(g, context, sample_room1, 3, directions, 4, ""),
+                  "recursive_generate() returned FAILURE instead of SUCCESS");
 
     room_t *curr_room, *tmp_room;
     int num_rooms = 0;
@@ -1481,15 +1653,15 @@ Test(autogenerate, recursive_gen_rad3)
 
 /* Checks that recursive_generate generates 12 rooms given:
    - radius: 2
-   
-   - dir_to_parent: "SOUTH" 
+   - direction_to_parent: "south" 
    Starts with 1 room in all_rooms hash, expect 13 rooms at the end, 
-   and none in the SOUTH direction. */
+   and none in the south direction. */
 Test(autogenerate, recursive_gen_block_south)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     speclist_t *spec = NULL;
     speclist_from_hash(&spec, hash);
+    gencontext_t *context = gencontext_new(NULL, 0, 0, spec);
 
     roomspec_t *sample1;
     HASH_FIND_STR(hash, "closet", sample1);
@@ -1498,12 +1670,12 @@ Test(autogenerate, recursive_gen_block_south)
     game_t *g = game_new("start desc");
     cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room1), "Could not add room sample_room1 to game g");
 
-    char *directions[] = {"NORTH", "EAST", "SOUTH", "WEST"};
+    char *directions[] = {"north", "east", "south", "west"};
     cr_assert_eq(SUCCESS, 
-                 recursive_generate(g, sample_room1, spec, 2, directions, 4, "SOUTH"),
+                 recursive_generate(g, context, sample_room1, 2, directions, 4, "south"),
                  "recursive_generate() returned FAILURE instead of SUCCESS");
-    cr_assert_eq(false, path_exists_in_dir(sample_room1, "SOUTH"), "recursive_gen generated path in SOUTH, " 
-                                                                   "despite it being labelled as dir_to_parent");
+    cr_assert_eq(false, path_exists_in_direction(sample_room1, "south"), "recursive_gen generated path in south, " 
+                                                                   "despite it being labelled as direction_to_parent");
 
     room_t *curr_room, *tmp_room;
     int num_rooms = 0;
@@ -1511,4 +1683,5 @@ Test(autogenerate, recursive_gen_block_south)
         num_rooms++;
     }
     cr_assert_eq(13, num_rooms, "expected 1 + 3 + 9 = 13 rooms; recursive_generate generated %d", num_rooms);
+
 }

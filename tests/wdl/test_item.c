@@ -43,7 +43,7 @@ static obj_t *__get_doc_obj()
 
     // Read the zip into an obj
     obj_t *obj = obj_new("doc");
-    rc = load_obj_zip(obj, zip);
+    rc = load_obj_store_from_zip(obj, zip);
 
     return obj;
 }
@@ -85,7 +85,7 @@ void item_check(char *room, char *item)
     {
         rc = possible_action(i, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
-    }    
+    }
 }
 
 Test(items, check_chair)

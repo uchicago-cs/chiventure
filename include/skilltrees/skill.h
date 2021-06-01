@@ -6,7 +6,6 @@
 #define INCLUDE_SKILL_H_
 
 #include "skilltrees/skilltrees_common.h"
-#include "skilltrees/effect.h"
 
 /*
  * Allocates a new skill in the heap.
@@ -18,14 +17,14 @@
  *  - desc: The description of the skill
  *  - max_level: The maximum level to which the skill can be upgraded
  *  - min_xp: The minimum number of experience points needed to level up
- *  - skill_effects: Pointer to the head of a linked list of effects that a skill has
+ *  - effect: The skill effect
  *
  * Returns:
  *  - A pointer to the skill, or NULL if a skill cannot be allocated
  */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   effects_linked_list_t*  skill_effects);
+                   skill_effect_t effect);
 
 /*
  * Initializes a skill.
@@ -40,7 +39,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
  *  - xp: The player's current experience points associated with the skill
  *  - max_level: The maximum level to which the skill can be upgraded
  *  - min_xp: The minimum number of experience points needed to level up
- *  - skill_effects: Pointer to the head of a linked list of effects that a skill has.
+ *  - effect: The skill effect
  *
  * Returns:
  *  - 0 on success, 1 if an error occurs
@@ -48,7 +47,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               effects_linked_list_t* skill_effects);
+               skill_effect_t effect);
 
 /*
  * Frees the resources associated with a skill.
@@ -62,19 +61,22 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
 int skill_free(skill_t* skill);
 
 /*
- * Executes the effects of a skill.
+ * Executes the effect of a skill.
  *
  * Parameters:
  *  - skill: A skill
+ *  - args: Arguments for the skill effect function, contained in a
+ *          space-separated string
  *
  * Returns:
- *  0 if success
- *  1 if failure
+ *  - A string that describes the consequence(s) of the skill execution for the
+ *    CLI
  */
-int skill_execute(skill_t* skill);
+char* skill_execute(skill_t* skill, char* args);
 
 /*
- * Levels up a skill
+ * Levels up a skill and exponentially increments the min_xp required for 
+ * the next level
  *
  * Parameters:
  *  - skill: A skill.
@@ -85,6 +87,7 @@ int skill_execute(skill_t* skill);
  * -1 if leveling up failed, such as invalid parameters for instance.
  */
 int skill_level_up(skill_t* skill);
+
 
 /*
  * Increments a skill's xp, leveling up when necessary.

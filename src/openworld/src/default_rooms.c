@@ -3,6 +3,7 @@
 
 #include "common/utlist.h"
 #include "common/uthash.h"
+#include "game-state/item.h"
 #include "openworld/default_items.h"
 #include "openworld/default_rooms.h"
 
@@ -21,7 +22,7 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
 
     }
 
-    HASH_ADD_STR(*dst, item_id, new_item);
+    add_item_to_hash(dst, new_item);
     return SUCCESS;
 }
 
@@ -30,7 +31,7 @@ roomspec_t *make_default_room(char *bucket,
                               char *sh_desc, char *l_desc)
 {
 
-    roomspec_t *hash = NULL;
+    rspec_hash_t *hash = NULL;
     int rc;
 
     assert(bucket != NULL);

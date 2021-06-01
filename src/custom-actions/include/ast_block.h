@@ -125,5 +125,15 @@ int prepend_list_AST_block(AST_block_t* head, AST_block_t* add);
  * Return: SUCCESS 
  */
 int list_remove_AST_block(AST_block_t* head, AST_block_t* del);
+/* Executes a given AST block (the essential element
+ * of a custom action)
+ * 
+ * Parameters: 
+ * - block: A pointer to the AST block to be executed
+ * 
+ * Returns:
+ * - Integer value of SUCCESS or FAILURE
+ */
+int run_ast_block(AST_block_t *block);
 
 #endif /* INCLUDE_AST_BLOCK_H */

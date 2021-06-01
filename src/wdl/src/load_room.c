@@ -2,16 +2,22 @@
 #include <string.h>
 
 #include "wdl/load_room.h"
+#include "cli/util.h"
+#include "wdl/validate.h"
 
 /* see load_rooms.h */
 int add_rooms_to_game(obj_t *doc, game_t *g)
 {
     // extract room object
-    obj_t *rooms_obj = extract_objects(doc, "ROOMS");
-    // if rooms list is empty then return 1
+    obj_t *rooms_obj = obj_get_attr(doc, "ROOMS", false);
     if (rooms_obj == NULL)
     {
         fprintf(stderr, "rooms list is empty\n");
+        return FAILURE;
+    }
+    else if (list_type_check(rooms_obj, room_type_check) == FAILURE)
+    {
+        fprintf(stderr, "rooms failed typechecking\n");
         return FAILURE;
     }
 
@@ -38,7 +44,7 @@ int add_rooms_to_game(obj_t *doc, game_t *g)
 int add_connections_to_rooms(obj_t *doc, game_t *g)
 {
     // extract room object
-    obj_t *rooms_obj = extract_objects(doc, "ROOMS");
+    obj_t *rooms_obj = obj_get_attr(doc, "ROOMS", false);
 
     // if rooms list is empty then return 1
     if (rooms_obj == NULL)

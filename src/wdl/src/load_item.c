@@ -1,7 +1,8 @@
 #include <stdio.h>
 
-#include "wdl/parse.h"
 #include "game-state/item.h"
+#include "wdl/validate.h"
+#include "cli/util.h"
 
 /*
  * get_game_action()
@@ -30,6 +31,9 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
         curr = curr->next;
     }
 
+    if (curr == NULL)
+        return NULL;
+  
     return curr->act;
 }
 
@@ -37,10 +41,15 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 int load_actions(obj_t *item_obj, item_t *i)
 {
     // getting a list of actions from item
-    obj_t *action_ls = get_item_actions(item_obj);
+    obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
     if (action_ls == NULL)
     {
-        fprintf(stderr, "action fails type checking, or action list is empty\n");
+        fprintf(stderr, "action list is empty\n");
+        return FAILURE;
+    }
+    else if (list_type_check(action_ls, action_type_check) == FAILURE)
+    {
+        fprintf(stderr, "object actions failed typechecking\n");
         return FAILURE;
     }
 
@@ -52,20 +61,24 @@ int load_actions(obj_t *item_obj, item_t *i)
     obj_t *curr;
     DL_FOREACH(action_ls->data.lst, curr)
     {
-        temp = get_game_action(obj_get_str(curr, "action"), val_actions);
+        char *action = case_insensitized_string(obj_get_str(curr, "action"));
+        
+        temp = get_game_action(action, val_actions);
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
+            add_action(i, action, obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
         }
         else if(obj_get_str(curr, "text_success") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), "Action failed");
+            add_action(i, action, obj_get_str(curr, "text_success"), "Action failed");
         }
         else
         {
-            add_action(i, obj_get_str(curr, "action"), "Action succeeded", obj_get_str(curr, "text_fail"));
+            add_action(i, action, "Action succeeded", obj_get_str(curr, "text_fail"));
         }
+
+        free(action);
     }
 
     return SUCCESS;
@@ -76,16 +89,15 @@ int load_actions(obj_t *item_obj, item_t *i)
 int load_items(obj_t *doc, game_t *g)
 {
     // we use extract_objects() instead of obj_list_attr() because the former does type checking
-    obj_t *items_obj = extract_objects(doc, "ITEMS");
+    obj_t *items_obj = obj_get_attr(doc, "ITEMS", false);
     if (items_obj == NULL)
+    {
+        fprintf(stderr, "items not found\n");
+        return FAILURE;
+    }
+    else if (list_type_check(items_obj, item_type_check) == FAILURE)
     {
         fprintf(stderr, "items fail type checking\n");
-    }
-
-    // if items list is empty then return -1
-    if (items_obj == NULL)
-    {
-        fprintf(stderr, "items list is empty\n");
         return FAILURE;
     }
 
@@ -104,18 +116,20 @@ int load_items(obj_t *doc, game_t *g)
         /* in parameter yet to implemented by game-state
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
-        //load actions into item
+        // load actions into item
         if(load_actions(curr, item) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;
         }
 
-        //retrieve the pointer for the room that the item is located in
-        room_t *item_room = find_room_from_game(g, in);
+        add_item_to_game(g, item);
 
-        // add item to room
-        add_item_to_room(item_room, item);
+        // add item to its room, unless it is meant to be an NPC-held item
+        if (strcmp(in, "npc") != 0) {
+            room_t *item_room = find_room_from_game(g, in);
+            add_item_to_room(item_room, item);
+        }
     }
     return SUCCESS;
 }

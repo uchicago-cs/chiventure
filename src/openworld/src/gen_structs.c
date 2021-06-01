@@ -1,4 +1,4 @@
-/*Team RPG-Openworld
+/*Team RPG-Openworld 
 *
 * autogenerate.c: This file. Function definitions of the functions
 * specified in chiventure/include/autogenerate.h
@@ -16,6 +16,64 @@
 #include "openworld/gen_structs.h"
 #include "common/utlist.h"
 #include "common/uthash.h"
+
+/* See gen_structs.h */
+int init_itemspec(itemspec_t *itemspec, char *item_name, double spawn_chance, 
+                                        unsigned int min_num, unsigned int max_num)
+{
+    if (itemspec == NULL) {
+        return FAILURE;
+    } else if (spawn_chance < 0 || 1 < spawn_chance) {
+        return FAILURE;
+    } else if (min_num > max_num) {
+        return FAILURE;
+    }
+
+    strcpy(itemspec->item_name, item_name);
+    itemspec->spawn_chance = spawn_chance;
+    itemspec->min_num = min_num;
+    itemspec->max_num = max_num;
+
+    return SUCCESS;
+}
+
+/* See gen_structs.h */
+itemspec_t *itemspec_new(char *item_name, double spawn_chance, 
+                         unsigned int min_num, unsigned int max_num)
+{
+    itemspec_t *rv = calloc(1, sizeof(itemspec_t));
+    if (rv == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for itemspec_new\n");
+        return NULL;
+    }
+
+    rv->item_name = malloc((MAX_SDESC_LEN + 1) * sizeof(char));
+    if (rv->item_name == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for itemspec->item_name\n");
+        itemspec_free(rv);
+        return NULL;
+    }
+
+    int rc = init_itemspec(rv, item_name, spawn_chance, min_num, max_num);
+    if (rc == FAILURE) {
+        itemspec_free(rv);
+        return NULL;
+    }
+    return rv;
+}
+
+/* See gen_structs.h */
+int itemspec_free(itemspec_t *itemspec)
+{
+    if (itemspec == NULL) 
+        return FAILURE;
+
+    if (itemspec->item_name)
+        free(itemspec->item_name);
+    
+    free(itemspec);
+    return SUCCESS;
+}
 
 /* see gen_structs.h */
 int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist)
@@ -129,6 +187,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
     if (check == FAILURE) {
         return NULL;
     }
+    roomspecnew->itemspecs = NULL;
     return roomspecnew;
 }
 
@@ -189,60 +248,60 @@ int speclist_free_all(speclist_t *list)
 
 
 /* See gen_structs.h */
-int init_room_level(room_level_t *room_level, char *room_name, int difficulty_level)
+int init_roomlevel(roomlevel_t *roomlevel, char *room_name, int difficulty_level)
 {
-    if (room_level == NULL)
+    if (roomlevel == NULL)
         return FAILURE;
 
-    strcpy(room_level->room_name, room_name);
-    room_level->difficulty_level = difficulty_level;
+    strcpy(roomlevel->room_name, room_name);
+    roomlevel->difficulty_level = difficulty_level;
     return SUCCESS;
 }
 
 
 /* See gen_structs.h */
-room_level_t* room_level_new(char *room_name, int difficulty_level)
+roomlevel_t* roomlevel_new(char *room_name, int difficulty_level)
 {
-    room_level_t *room_level = calloc(1, sizeof(room_level_t));
-    if (room_level == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for room_level_new\n");
+    roomlevel_t *roomlevel = calloc(1, sizeof(roomlevel_t));
+    if (roomlevel == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for roomlevel_new\n");
         return NULL;
     }
 
-    room_level->room_name = calloc(1, sizeof(MAX_SDESC_LEN + 1));
-    if (room_level->room_name == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for room_level->room_name\n");
+    roomlevel->room_name = calloc(1, sizeof(MAX_SDESC_LEN + 1));
+    if (roomlevel->room_name == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for roomlevel->room_name\n");
         return NULL;
     }
 
-    init_room_level(room_level, room_name, difficulty_level);
-    return room_level;
+    init_roomlevel(roomlevel, room_name, difficulty_level);
+    return roomlevel;
 }
 
 
 
 /* See gen_structs.h */
-int room_level_free(room_level_t *room_level)
+int roomlevel_free(roomlevel_t *roomlevel)
 {
-    if (room_level == NULL) 
+    if (roomlevel == NULL) 
         return FAILURE;
 
-    free(room_level->room_name);
-    free(room_level);
+    free(roomlevel->room_name);
+    free(roomlevel);
     return SUCCESS;
 }
 
 
 /* See gen_structs.h */  
-int add_room_level_to_hash(room_level_t **room_levels, char *name, int difficulty_level) 
+int add_roomlevel_to_hash(roomlevel_hash_t **roomlevels, char *name, int difficulty_level) 
 {
-    room_level_t *elt = NULL;
-    room_level_t *out_tmp = NULL;
+    roomlevel_t *elt = NULL;
+    roomlevel_t *out_tmp = NULL;
 
-    HASH_FIND_STR(*room_levels, name, out_tmp);
+    HASH_FIND_STR(*roomlevels, name, out_tmp);
     if (out_tmp == NULL) {
-        elt = room_level_new(name, difficulty_level);
-        HASH_ADD_KEYPTR(hh, *room_levels, elt->room_name, strlen(elt->room_name), elt);
+        elt = roomlevel_new(name, difficulty_level);
+        HASH_ADD_KEYPTR(hh, *roomlevels, elt->room_name, strlen(elt->room_name), elt);
         return SUCCESS;
     }
     return FAILURE;
@@ -250,48 +309,51 @@ int add_room_level_to_hash(room_level_t **room_levels, char *name, int difficult
 
 
 
+
 /* See gen_structs.h */
-int init_difficulty_level_scale(difficulty_level_scale_t *scale, 
-                                int num_thresholds, int *thresholds)
+int init_levelspec(levelspec_t *levelspec, int num_thresholds, int *thresholds)
 {
-    if (scale == NULL) 
+    if (!levelspec)
         return FAILURE;
 
-    scale->num_thresholds = num_thresholds;
+    levelspec->num_thresholds = num_thresholds;
     for (int i = 0; i < num_thresholds; i++) {
-        scale->thresholds[i] = thresholds[i];
+        levelspec->thresholds[i] = thresholds[i];
     } 
+    
     return SUCCESS;
 }
 
-
 /* See gen_structs.h */
-difficulty_level_scale_t* difficulty_level_scale_new(int num_thresholds, int *thresholds)
+levelspec_t *levelspec_new(int num_thresholds, int *thresholds)
 {
-    difficulty_level_scale_t *scale = calloc(1, sizeof(difficulty_level_scale_t));
-    if (scale == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for difficulty_level_scale\n");
+    levelspec_t *levelspec = calloc(1, sizeof(levelspec_t));
+    if (levelspec == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for levelspec\n");
         return NULL;
     }
 
-    scale->thresholds = calloc(1, sizeof(int) * num_thresholds);
-    if (scale->thresholds == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for scale->thresholds\n");
+    levelspec->thresholds = calloc(1, sizeof(int) * num_thresholds);
+    if (levelspec->thresholds == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for levelspec->thresholds\n");
         return NULL;
     }
 
-    init_difficulty_level_scale(scale, num_thresholds, thresholds);
-    return scale;
+    init_levelspec(levelspec, num_thresholds, thresholds);
+    levelspec->roomlevels = NULL;
+    return levelspec;
 }
 
-
 /* See gen_structs.h */
-int difficulty_level_scale_free(difficulty_level_scale_t *scale)
+int levelspec_free(levelspec_t *levelspec)
 {
-    if (scale == NULL)
+    if (!levelspec)
         return FAILURE;
-    
-    free(scale->thresholds);
-    free(scale);
+
+    free(levelspec->thresholds);
+    /* frees roomlevels hash and sets it to NULL */
+    HASH_CLEAR(hh, levelspec->roomlevels);
+    free(levelspec);
+
     return SUCCESS;
 }

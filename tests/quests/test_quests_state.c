@@ -46,14 +46,14 @@ Test(mission, init)
     char *npc_id1 = "test_npc";
     npc_mov_t *movement = generate_test_npc_mov();
     npc_t *mission_npc1 = npc_new(npc_id1 ,"npc","npc for testing",
-                                100, class, movement);
+                                  class, movement, false);
     mission_t *mission = mission_new(item_to_get, mission_npc1);
 
     item_t *item_to_get2 = item_new("test_item2", "item for testing",
     "test item for item_new()");
     char *npc_id2 = "test_npc2";
     npc_t *mission_npc2 = npc_new(npc_id2,"npc","npc for testing",
-                                100, class, movement);
+                                  class, movement, false);
     int check = mission_init(mission, item_to_get2, mission_npc2);
 
     cr_assert_eq(check,SUCCESS,"mission_init() failed");
@@ -70,9 +70,9 @@ Test(achievement, init)
     "test item for item_new()");
     mission_t *mission = mission_new(item_to_get, NULL);
 
-    achievement_t *achievement = achievement_new(mission);
+    achievement_t *achievement = achievement_new(mission, "test1");
 
-	int check = achievement_init(achievement, mission);
+	int check = achievement_init(achievement, mission, "test2");
 
     cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item",
                      "achievement_init did not set mission name");
@@ -92,8 +92,8 @@ Test(quest, init)
 
     cr_assert_str_eq(q->reward->item_id, "test_item",
                      "quest_init did not set item_id");
-    cr_assert_null(q->achievement_list,
-                     "quest_init did not set achievement_list");
+    cr_assert_null(q->achievement_tree,
+                     "quest_init did not set achievement_tree");
     cr_assert_eq(q->quest_id, 1,  "quest_init did not set quest_id");
     cr_assert_eq(q->status, 0,  "quest_init did not set status");
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
@@ -105,7 +105,7 @@ Test(achievement, new)
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     mission_t *mission = mission_new(item_to_get, NULL);
-	achievement_t* achievement = achievement_new(mission);
+	achievement_t* achievement = achievement_new(mission, "test3");
 
 	cr_assert_not_null(achievement, "achievement_new() test has failed!");
     cr_assert_str_eq(achievement->mission->item_to_collect->item_id, "test_item", 
@@ -123,13 +123,13 @@ Test(quest, new)
 
 	cr_assert_not_null(q, "quest_new() test has failed!");
 
-    cr_assert_eq(q->quest_id, 1, "achievement_new()"
+    cr_assert_eq(q->quest_id, 1, "quest_new()"
                 "did not initialize the quest_id");
-    cr_assert_eq(q->achievement_list, NULL, "achievement_new()"
-                "did not initialize the achievement list");
-    cr_assert_str_eq(q->reward->item_id, "test_item", "achievement_new()"
+    cr_assert_eq(q->achievement_tree, NULL, "quest_new()"
+                "did not initialize the achievement tree");
+    cr_assert_str_eq(q->reward->item_id, "test_item", "quest_new()"
                 "did not initialize the reward item");
-    cr_assert_eq(q->status, 0, "achievement_new()"
+    cr_assert_eq(q->status, 0, "quest_new()"
                 "did not initialize the status");
 }
 
@@ -140,7 +140,7 @@ Test(achievement, free)
     "test item for item_new()");
     mission_t *mission = mission_new(item_to_get, NULL);
 
-	achievement_t* achievement_to_free = achievement_new(mission);
+	achievement_t* achievement_to_free = achievement_new(mission, "test4");
 
 	cr_assert_not_null(achievement_to_free, "achievement_free(): room is null");
 
@@ -176,16 +176,16 @@ Test(quest, add_achievement_to_quest)
     char *npc_id = "test_npc";
     npc_mov_t *movement = generate_test_npc_mov();
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
-                                100, class, movement);
+                                 class, movement, false);
     mission_t *mission = mission_new(mission_item,mission_npc);
 
-    achievement_t *achievement = achievement_new(mission);
+    achievement_t *achievement = achievement_new(mission, "mission1");
 
-    int res = add_achievement_to_quest(quest, achievement);
+    int res = add_achievement_to_quest(quest, achievement, "NULL");
 
     cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
 
-    achievement_t *achievement_test = quest->achievement_list->achievement;
+    achievement_t *achievement_test = quest->achievement_tree->achievement;
     mission_t *mission_test = achievement->mission;
     cr_assert_eq(achievement_test->completed,0,"add_achievement_to_quest() did"
                                         "not set the completed boolean.");
@@ -238,20 +238,20 @@ Test(quest, complete_achievement)
     char *npc_id = "mission_npc";
     npc_mov_t *movement = generate_test_npc_mov();
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
-                                100, class, movement);
+                                 class, movement, false);
     mission_t *mission = mission_new(mission_item,mission_npc);
 
-    achievement_t *achievement = achievement_new(mission);
+    achievement_t *achievement = achievement_new(mission, "mission");
 
-    int res = add_achievement_to_quest(quest, achievement);
+    int res = add_achievement_to_quest(quest, achievement, NULL);
 
     cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
 
-    res = complete_achievement(quest, mission_item, mission_npc);
+    res = complete_achievement(quest, "mission");
 
     cr_assert_eq(res, SUCCESS, "complete_achievement() failed!");
 
-    mission_t *mission_check = quest->achievement_list->achievement->mission;
+    mission_t *mission_check = quest->achievement_tree->achievement->mission;
 
     cr_assert_str_eq(mission_check->item_to_collect->item_id, "mission_item",
                     "complete_achievement() did not check the correct item");
@@ -259,7 +259,7 @@ Test(quest, complete_achievement)
     cr_assert_str_eq(mission_check->npc_to_meet->npc_id, "mission_npc",
                     "complete_achievement() did not check the correct npc");
 
-    cr_assert_eq(quest->achievement_list->achievement->completed, 1,
+    cr_assert_eq(quest->achievement_tree->achievement->completed, 1,
                 "complete_achivement() did not complete the achievement");
 }
 
@@ -276,14 +276,14 @@ Test(quest,is_quest_completed)
     char *npc_id = "mission_npc";
     npc_mov_t *movement = generate_test_npc_mov();
     npc_t *mission_npc = npc_new(npc_id,"npc","npc for testing",
-                                100, class, movement);
+                                 class, movement, false);
     mission_t *mission = mission_new(mission_item,mission_npc);
 
-    achievement_t *achievement = achievement_new(mission);
+    achievement_t *achievement = achievement_new(mission, "mission");
 
-    int res = add_achievement_to_quest(quest, achievement);
+    int res = add_achievement_to_quest(quest, achievement, NULL);
 
-    res = complete_achievement(quest, mission_item, mission_npc);
+    res = complete_achievement(quest, "mission");
 
     res = is_quest_completed(quest);
 

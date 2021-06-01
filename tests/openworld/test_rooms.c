@@ -37,10 +37,42 @@ Test(room, copy_book)
     cr_assert_str_eq(item->long_desc, "A singular, unrefrigerated black olive");
 }
 
+
+/* testing copy_item_to_hash for adding multiple items with 
+   the same id; should 'stack' items as lists */
+Test(room, copy_duplicate_items)
+{
+    item_hash_t *orig_hash = get_default_items();
+    item_hash_t *dest_hash = NULL;
+    
+    int num_copies = 4;
+    for (int i = 0; i < num_copies; i++) {
+        int rc = copy_item_to_hash(&dest_hash, orig_hash, "ice");
+        cr_assert_eq(rc, SUCCESS, "Failed to add %dth copy to hash.", i + 1);
+    }
+    
+    cr_assert_not_null(dest_hash);
+
+    item_t *lst_head, *elt;
+    HASH_FIND_STR(dest_hash, "ice", lst_head); 
+    int count = 0;
+    DL_FOREACH(lst_head, elt) {
+        if (strcmp(elt->item_id, "ice") != 0) {
+            continue;
+        }
+        count++;
+    }
+
+    cr_assert_eq(num_copies, count, 
+                 "Expected %d copies of ice item, got %d.", 
+                 num_copies, count);
+}
+
+
 /* testing make_default_room for school */
 Test(room, make_default_school)
 {
-    roomspec_t *hash = make_default_room("school", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     cr_assert_not_null(hash, "make_default_room failed");
 
     roomspec_t *r1, *r2, *r3, *r4, *r5, *r6;
@@ -92,7 +124,7 @@ Test(room, make_default_school)
 /* testing make_default_room for farmhouse */
 Test(room, make_default_farm)
 {
-    roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     cr_assert_not_null(hash, "make_default_room failed");
 
     roomspec_t *r1, *r2, *r3, *r4, *r5, *r6;
@@ -144,7 +176,7 @@ Test(room, make_default_farm)
 /* testing make_default_room for castle */
 Test(room, make_default_castle)
 {
-    roomspec_t *hash = make_default_room("castle", NULL, NULL);
+    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
     cr_assert_not_null(hash, "make_default_room failed");
 
     roomspec_t *r1, *r2, *r3, *r4, *r5, *r6;
@@ -197,7 +229,7 @@ Test(room, make_default_castle)
 /* testing make_default_room for undef bucket, bogus sh_desc, l_desc */
 Test(room, make_default_undef_bogus)
 {
-    roomspec_t *hash = make_default_room("pharmacy", "short bogus",
+    rspec_hash_t *hash = make_default_room("pharmacy", "short bogus",
                                          "long bogus");
     cr_assert_not_null(hash, "make_default_room failed");
 
