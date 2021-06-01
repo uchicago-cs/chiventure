@@ -124,7 +124,7 @@ Test(action_type, free_PATH)
     action_type_t* a;
     int rc;
 
-    a = action_type_new("GO", PATH);
+    a = action_type_new("go", PATH);
 
     cr_assert_not_null(a, "action_type_new() failed");
 
@@ -167,4 +167,7 @@ Test(action_type, init_room_dir)
     cr_assert_eq(rc, SUCCESS, "action_type_init_room_dir() failed");
     cr_assert_not_null(a->room, "room was not initialized");
     cr_assert_not_null(a->direction, "direction was not initialized");
+
+    room_free(new_room);
+    action_type_free(a);
 }

@@ -34,18 +34,6 @@ typedef struct achievement {
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
-/* 
- * This is a linked list struct of achievements.
- * 
- * Components:
- *  achievement: achievement in linked list
- *  next: rest of linked list of achievements
- */
-typedef struct achievement_llist {
-    achievement_t *achievement;
-    struct achievement_llist *next;
-} achievement_llist_t;
-
 /*
  * This is a non-binary tree struct of achievements (to replace linked list)
  *

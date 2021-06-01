@@ -19,10 +19,11 @@ mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet);
  * 
  * Parameters:
  * - mission: the mission to be completed for the quest
+ * - id: the id of the achievement
  * 
  * Returns: a pointer to the newly allocated achievement that is not completed
  */
-achievement_t *achievement_new(mission_t *mission);
+achievement_t *achievement_new(mission_t *mission, char *id);
 
 /* Creates a new quest struct (allocates memory)
  * 
@@ -56,12 +57,13 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
  * Parameters:
  * - achievement: an already allocated achievement
  * - mission: the mission to be completed for the achievement
+ * - id: the id of the achievement
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int achievement_init(achievement_t *achievement, mission_t *mission);
+int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
 
 
 /* Initialize an already allocated quest struct
@@ -121,17 +123,18 @@ int achievement_free(achievement_t *achievement);
  */
 int quest_free(quest_t * quest);
 
-/* Adds an achievement to the end of a quest's achievement list
+/* Adds an achievement to the tree given an parent tree id
  *
  * Parameters:
  * - quest: pointer to a quest 
  * - achievement_to_add: pointer to an achievement to add to the list
+ * - parent_id: string that is parent achievement's id
  * 
  * Returns:
  * - SUCCESS 
- * - FAILURE
+ * - FAILURE 
  */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id);
 
 /* Updates a quest's status to started
  *

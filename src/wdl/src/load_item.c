@@ -1,7 +1,8 @@
 #include <stdio.h>
 
-#include "wdl/parse.h"
 #include "game-state/item.h"
+#include "wdl/validate.h"
+#include "cli/util.h"
 
 /*
  * get_game_action()
@@ -30,17 +31,25 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
         curr = curr->next;
     }
 
+    if (curr == NULL)
+        return NULL;
+    
     return curr->act;
 }
 
 /* See load_item.h */
-int load_actions(obj_t *doc, item_t *i)
+int load_actions(obj_t *item_obj, item_t *i)
 {
     // getting a list of actions from item
-    obj_t *action_ls = get_item_actions(doc);
+    obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
     if (action_ls == NULL)
     {
-        fprintf(stderr, "action fails type checking, or action list is empty\n");
+        fprintf(stderr, "action list is empty\n");
+        return FAILURE;
+    }
+    else if (list_type_check(action_ls, action_type_check) == FAILURE)
+    {
+        fprintf(stderr, "object actions failed typechecking\n");
         return FAILURE;
     }
 
@@ -49,23 +58,27 @@ int load_actions(obj_t *doc, item_t *i)
     action_type_t *temp;
     list_action_type_t *val_actions = get_supported_actions();
 
-    obj_t *curr, *tmp;
-    HASH_ITER(hh, action_ls->data.obj.attr, curr, tmp)
+    obj_t *curr;
+    DL_FOREACH(action_ls->data.lst, curr)
     {
-        temp = get_game_action(obj_get_str(curr, "action"), val_actions);
+        char *action = case_insensitized_string(obj_get_str(curr, "action"));
+        
+        temp = get_game_action(action, val_actions);
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
+            add_action(i, action, obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
         }
         else if(obj_get_str(curr, "text_success") != NULL)
         {
-            add_action(i, obj_get_str(curr, "action"), obj_get_str(curr, "text_success"), "Action failed");
+            add_action(i, action, obj_get_str(curr, "text_success"), "Action failed");
         }
         else
         {
-            add_action(i, obj_get_str(curr, "action"), "Action succeeded", obj_get_str(curr, "text_fail"));
+            add_action(i, action, "Action succeeded", obj_get_str(curr, "text_fail"));
         }
+
+        free(action);
     }
 
     return SUCCESS;
@@ -76,16 +89,15 @@ int load_actions(obj_t *doc, item_t *i)
 int load_items(obj_t *doc, game_t *g)
 {
     // we use extract_objects() instead of obj_list_attr() because the former does type checking
-    obj_t *items_obj = extract_objects(doc, "ITEMS");
+    obj_t *items_obj = obj_get_attr(doc, "ITEMS", false);
     if (items_obj == NULL)
+    {
+        fprintf(stderr, "items not found\n");
+        return FAILURE;
+    }
+    else if (list_type_check(items_obj, item_type_check) == FAILURE)
     {
         fprintf(stderr, "items fail type checking\n");
-    }
-
-    // if items list is empty then return -1
-    if (items_obj == NULL)
-    {
-        fprintf(stderr, "items list is empty\n");
         return FAILURE;
     }
 
@@ -94,7 +106,7 @@ int load_items(obj_t *doc, game_t *g)
     HASH_ITER(hh, items_obj->data.obj.attr, curr, tmp)
     {
         // get id, short_desc, and long_desc
-        char *id = obj_get_str(curr, "id");
+        char *id = curr->id;
         char *short_desc = obj_get_str(curr, "short_desc");
         char *long_desc = obj_get_str(curr, "long_desc");
         char *in = obj_get_str(curr, "in");
