@@ -11,6 +11,7 @@
 #include "wdl/load_game.h"
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
+#include "cli/util.h"
 
 #define NUM_ACTIONS 29
 #define BUFFER_SIZE (100)
@@ -144,23 +145,6 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     int valid_path;
 
-    /* The following while loop is only necessary because case insensitivity is
-     * currently being implemented in the parser by making all letters caps. Once
-     * the changes in the cli/case_insensitivity branch are implemented it will no 
-     * longer be necessary.
-     * NOTE: If cli/case_insensitivity hasn't been implemented by the end of 
-     * Sprint 4 (05/28/2021), then this message should be modified to reflect that
-     */
-    int i = 0;
-    char ch;
-    while(tokens[1][i])
-    {
-        ch = tolower(tokens[1][i]);
-        tokens[1][i] = ch;
-        i++;
-    }
-
-
     valid_path = access(tokens[1], F_OK);
 
     if (valid_path == -1) //Triggers if file does not exist
@@ -275,7 +259,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             if (rc == SUCCESS)
             {
                 action_success = true;
-                if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
+                if(strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
                     add_item_to_player(game->curr_player, curr_item);
@@ -459,31 +443,11 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "Layout switched.";
 }
 
-/* A function that capitalizes a word to be used in name_operation
- * Parameters:
- * - word: A pointer to a string to be capitalized.
- * Output:
- * - The newly capitalized string.
-*/
-char *capitalize(char *word)
-{
-    char *command = word;
-    int i = 0;
-    char ch;
-
-    while(command[i])
-    {
-        ch = toupper(command[i]);
-        command[i] = ch;
-        i++;
-    }
-    return word;
-}
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    capitalize(tokens[1]);
-    capitalize(tokens[2]);
+    case_insensitize(tokens[1]);
+    case_insensitize(tokens[2]);
     if(find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
@@ -503,20 +467,20 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "Please input a theme";
     }
-    capitalize(tokens[1]);
-    if(strcmp(tokens[1], "DEFAULT") == 0)
+    case_insensitize(tokens[1]);
+    if(strcmp(tokens[1], "default") == 0)
     {
         n = 1;
     }
-    if(strcmp(tokens[1], "NIGHT") == 0)
+    if(strcmp(tokens[1], "night") == 0)
     {
         n = 2;
     }
-    if(strcmp(tokens[1], "BRIGHT") == 0)
+    if(strcmp(tokens[1], "bright") == 0)
     {
         n = 3;
     }
-    if(strcmp(tokens[1], "PAIN") == 0)
+    if(strcmp(tokens[1], "pain") == 0)
     {
         n = 4;
     }
