@@ -38,7 +38,7 @@ int compare(char* word, char* action)
     {
         if (&action[i] != NULL && &word[i] != NULL) 
         {
-            if (word[i] == action[i])
+            if (tolower(word[i]) == tolower(action[i]))
             {
                 current++;
             }
