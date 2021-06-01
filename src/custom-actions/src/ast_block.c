@@ -104,7 +104,7 @@ int AST_block_free(AST_block_t *ast)
     LL_FOREACH_SAFE(ast, elt, tmp)
     {
         LL_DELETE(ast, elt);
-	    AST_free(elt);
+        AST_free(elt);
     }
 
     return SUCCESS;  
@@ -148,9 +148,7 @@ int list_remove_AST_block(AST_block_t* head, AST_block_t* del)
     
     LL_DELETE(head, del);
 
-    /* Set 'next' pointer to NULL do avoid recursive freeing from AST_block_free */
-    del->next = NULL;
-    AST_block_free(del);
+    AST_free(del);
     
     return SUCCESS;
 }

@@ -364,7 +364,6 @@ Test(AST_block_t, AST_free)
     int ret_val;
 
     ret_val = sizeof(AST_block_t);
-    printf("The size of a AST_block_t is: %d\n\n", ret_val);
 
     /* Create 2 AST_blocks and link them together according to name (manual) */
     block_t *block = malloc(sizeof(control_block_t));
