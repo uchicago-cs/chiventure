@@ -263,6 +263,9 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
                                                                curr->spec, 
                                                                difficulty_level);
         if (is_given_difficulty == SUCCESS) {
+            /* Create a copy of the node to add to the filtered speclist output. 
+            This resolves an earlier issue in which it was removing nodes from the unfiltered speclist
+            a node cannot exist in two lists simultaneously. */
             speclist_t *curr_copy = speclist_new(curr->spec); 
             DL_APPEND(filtered_speclist, curr_copy);    
         }
