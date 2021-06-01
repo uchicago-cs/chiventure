@@ -54,39 +54,46 @@ chiventure_ctx_t *create_sample_ctx()
 char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
   attribute_t **args = malloc(sizeof(attribute_t*) *3);
-  attribute_t *dmgIncrease = malloc(sizeof(attribute_t));
-  attribute_t *dmgCap = malloc(sizeof(attribute_t));
-  char *name = "Dmg";
-  attribute_value_t a1, a2;
-  a1.int_val = 3;
-  a2.int_val = 15;
-  dmgIncrease->attribute_key = strdup(name);
-  dmgIncrease->attribute_tag = INTEGER;
-  dmgIncrease->attribute_value = a1;
 
-  dmgCap->attribute_key = strdup(name);
-  dmgCap->attribute_tag = INTEGER;
-  dmgCap->attribute_value = a2;
-
+  attribute_t *dmgIncrease = int_attr_new("Dmg", 3);
+  attribute_t *dmgCap = int_attr_new("Dmg", 15);
+  
   attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "A sword"), "Dmg");
+
   args[0] = dmgIncrease;
   args[1] = wepDmg;
   args[2] = wepDmg;
+
+  /* Action that addes the value of dmgIncrease (3) to the weapon damage */
   AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
 
   attribute_t **args2 = malloc(sizeof(attribute_t*) * 3);
   args2[0] = wepDmg;
   args2[1] = wepDmg;
   args2[2] = wepDmg;
+
+  /* Action that doubles weapon damage */
   AST_block_t *actDmg2 = AST_action_block_new(ADDITION, 3, args2);
 
   AST_block_t **actions = malloc(sizeof(AST_block_t*) * 2);
   actions[0] = actDmg2;
   actions[1] = actDmg;
-  
+
+  /* Checks if the weapon damage is less than the dmgCap attribute (currently 15) */
   conditional_block_t *cond = conditional_block_new(LTB, wepDmg, dmgCap);
-  
+
+  /* Branch block represents an if statement
+   * if(damage < dmgCap)
+   *    damage = damage + damage (Double the damage)
+   * else 
+   *  damage = damage + dmgIncrease
+   */
   AST_block_t *branch = AST_branch_block_new(1, &cond, IFELSE, 2, actions);
+
+  /* Custom action contains only the branch block in the list
+   * The branch block will in turn decide which of the two actions
+   *    that it should run based on the conditional.
+   */
   custom_action_t *CA = custom_action_new("damage increase", "item", "A sword", "action", branch);
 
   do_custom_action(CA);
@@ -104,7 +111,8 @@ char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
   int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "A sword"), "Dmg")->attribute_value.int_val;
-  char *str;
+  /* Weapon damage will never become 4 digits unless RAISEDMG is run over 300 times. */  
+  char *str = malloc(sizeof(char) *4);
   sprintf(str, "%d", num);
   return str;
 }
@@ -172,14 +180,9 @@ char *change_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
-    char *name = "Dmg";
-    attribute_value_t a1;
-    a1.int_val = 7;
-    
-    attribute_t *wepDmg = malloc(sizeof(attribute_t));
-    wepDmg->attribute_key = strdup(name);
-    wepDmg->attribute_tag = INTEGER;
-    wepDmg->attribute_value = a1;
+
+    attribute_t *wepDmg = int_attr_new("Dmg", 7);
+
     item_t *sword = item_new("A sword", "A sword", "A sword");
     add_attribute_to_hash(sword, wepDmg);
     add_item_to_player(ctx->game->curr_player, sword);
