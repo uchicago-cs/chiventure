@@ -4,7 +4,6 @@
 #include "game-state/game_state_common.h"
 #include "game-state/game.h"
 
-
 /* Forward declaration */
 typedef struct room_wrapped_for_llist room_list_t;
 typedef struct game game_t;

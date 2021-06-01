@@ -84,8 +84,10 @@ Test (npcs_in_room, add_npc_to_room)
 /* Tests delete_npc_from_room function */
 Test (npcs_in_room, delete_npc_from_room)
 {
+    //stats_t *stats = stats_new("npc_test_stat", 20);
     char *npc_id = "npc_test";
     npc_t *npc = npc_new(npc_id, "test npc", "test npc", NULL, NULL, false);
+
     npcs_in_room_t *npcs_in_room = npcs_in_room_new("test_room");
     int num_of_npcs_pre_add = npcs_in_room->num_of_npcs;
 

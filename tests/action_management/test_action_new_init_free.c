@@ -124,7 +124,7 @@ Test(action_type, free_PATH)
     action_type_t* a;
     int rc;
 
-    a = action_type_new("GO", PATH);
+    a = action_type_new("go", PATH);
 
     cr_assert_not_null(a, "action_type_new() failed");
 
