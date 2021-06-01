@@ -124,7 +124,8 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         ctx->status = BATTLE_VICTOR_PLAYER;
     }
     
-    if(battle_over(b) == BATTLE_IN_PROGRESS){
+    if(battle_over(b) == BATTLE_IN_PROGRESS)
+    {
         char *res = enemy_make_move(ctx);
         strncat(string, res, 150);
         free(res);
@@ -143,7 +144,8 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         snprintf(string, 150, "FAILURE\n");
         return string;
     }
-    if (item == NULL){
+    if (item == NULL)
+    {
         snprintf(string, 150, "FAILURE\n");
         return string;
     }
@@ -164,7 +166,8 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         return string;
     } 
 
-    if(battle_over(b) == BATTLE_IN_PROGRESS){
+    if(battle_over(b) == BATTLE_IN_PROGRESS)
+    {
         char *res = enemy_make_move(ctx);
         strncat(string, res, 150);
         free(res);
@@ -176,21 +179,24 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 /* see battle_flow.h */
 char *battle_flow_list(battle_ctx_t *ctx, char* label)
 {
-    if (strcmp(label, "items") == 0) {
+    if (strcmp(label, "items") == 0) 
+    {
         battle_t *b = ctx->game->battle;
 
         char *string = calloc(500, sizeof(char));
         print_battle_items(b, string);
 
         return string;
-    } if (strcmp(label, "moves") == 0) {
+    } if (strcmp(label, "moves") == 0) 
+    {
         battle_t *b = ctx->game->battle;
 
         char *string = calloc(500, sizeof(char));
         print_moves(b, string);
 
         return string;
-    } else {
+    } else 
+    {
              
         char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
         snprintf(string, BATTLE_BUFFER_SIZE, "Please enter a valid battle command!");

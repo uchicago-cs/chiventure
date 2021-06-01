@@ -112,7 +112,6 @@ char *print_start_turn(battle_t *b)
                                          "To use an Item, type 'Consume [insert item name here]'\n\n"
                                          "To see the list available moves, type 'List Moves'\n\n"
                                          "To see the list available items, type 'List Items'\n");
-    //print_moves(b,string);
 
     return string;
 }
