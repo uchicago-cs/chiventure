@@ -527,10 +527,10 @@ Test(stat_changes, add_item_node)
 Test(battle_logic, remove_single_item)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
-    char *name = calloc(5,sizeof(char));
-    char *d = calloc(5,sizeof(char));
-    name = "item";
-    d = "discription";
+    char *name = calloc(5, sizeof(char));
+    char *d = calloc(15, sizeof(char));
+    strcpy(name, "item");
+    strcpy(d, "discription");
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
@@ -564,7 +564,10 @@ Test(battle_logic, remove_item_of_multiple)
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
-    i1->name = "item1";
+    i1->name = calloc(6, sizeof(char));
+    strcpy(i1->name, "item1");
+    i1->description = calloc(15, sizeof(char));
+    strcpy(i1->description, "description");
 
     battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
@@ -572,7 +575,10 @@ Test(battle_logic, remove_item_of_multiple)
     i2->defense = 0;
     i2->hp = 15;
     i2->quantity = 1;
-    i2->name = "item2";
+    i2->name = calloc(6, sizeof(char));
+    strcpy(i2->name, "item2");
+    i2->description = calloc(15, sizeof(char));
+    strcpy(i2->description, "description");
 
     i1->next = i2;
     i1->prev = NULL;
@@ -607,7 +613,11 @@ Test(battle_logic, remove_last_item_of_multiple)
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
-    i1->name = "item1";
+    i1->name = calloc(6, sizeof(char));
+    strcpy(i1->name, "item1");
+    i1->description = calloc(15, sizeof(char));
+    strcpy(i1->description, "description");
+    
 
     battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
@@ -615,7 +625,10 @@ Test(battle_logic, remove_last_item_of_multiple)
     i2->defense = 0;
     i2->hp = 15;
     i2->quantity = 1;
-    i2->name = "item2";
+    i2->name = calloc(6, sizeof(char));
+    strcpy(i2->name, "item2");
+    i2->description = calloc(15, sizeof(char));
+    strcpy(i2->description, "description");    
 
     i1->next = i2;
     i2->prev = i1;
