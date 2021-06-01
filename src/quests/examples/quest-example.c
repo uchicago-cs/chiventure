@@ -183,7 +183,7 @@ int main(int argc, char **argv)
     char *npc_id = "Villager-Jim";
     npc_mov_t* npc1_movement = npc_mov_new(NPC_MOV_DEFINITE, initial_room);
     npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
-                          (int) 100, NULL, npc1_movement);
+                          NULL, npc1_movement, false);
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc1);
     npcs_in_room_3 = npcs_in_room_new("room3");

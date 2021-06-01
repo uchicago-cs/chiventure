@@ -164,7 +164,8 @@ int compare_achievements(achievement_t *a1, achievement_t *a2)
 achievement_tree_t *get_bottom_node(achievement_tree_t *t)
 {
     assert(t != NULL);
-    achievement_tree_t *tmp = t;
+    achievement_tree_t *tmp = malloc(sizeof(achievement_tree_t));
+    tmp = t;
     if(tmp->lmostchild != NULL)
     {
         get_bottom_node(tmp->lmostchild);
@@ -190,12 +191,12 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id)
 
     assert(tree != NULL);
 
-    achievement_tree_t *cur = malloc(sizeof(achievement_tree_t));
-    cur = tree;
+    achievement_tree_t *cur = tree;
 
-    while(cur = get_bottom_node(cur))
+    while(cur != NULL)
     {
-        if(!(strcmp(cur->achievement->id, id)))
+
+        if(strcmp(cur->achievement->id, id) == 0)
         {
             return cur;
         }
@@ -232,7 +233,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
     tree = find_parent(quest->achievement_tree, parent_id);
     assert(tree != NULL);
 
-    if (tree->lmostchild->achievement == NULL)
+    if (tree->lmostchild == NULL)
     {
         tree->lmostchild = malloc(sizeof(achievement_tree_t));
         tree->lmostchild->achievement = achievement_to_add;
