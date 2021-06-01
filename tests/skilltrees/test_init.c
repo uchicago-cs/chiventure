@@ -17,6 +17,8 @@ chiventure_ctx_t* create_player_and_stats() {
     stats_t* gs_health_stat = stats_new(gs_health, 100);
     stats_global_t *player_health = stats_global_new("current_health", 50);
     stats_t* player_health_stat = stats_new(player_health, 50);
+    stats_global_t *gs_peace = stats_global_new("peace_level", 0);
+    stats_t* player_peace = stats_new(gs_peace, 0);
 
     /* Setting values */
     game->curr_stats = NULL;
@@ -29,8 +31,10 @@ chiventure_ctx_t* create_player_and_stats() {
     HASH_ADD_KEYPTR(hh, player->player_stats, gs_health_stat->key, strlen(gs_health_stat->key), gs_health_stat);
     HASH_ADD_KEYPTR(hh, game->curr_stats, player_health->name, strlen(player_health->name), player_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, player_health_stat->key, strlen(player_health_stat->key), player_health_stat);
+    HASH_ADD_KEYPTR(hh, game->curr_stats, gs_peace->name, strlen(gs_peace->name), gs_peace);
+    HASH_ADD_KEYPTR(hh, player->player_stats, player_peace->key, strlen(player_peace->key), player_peace);
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
-   
+    
     /*Checking if everything works*/
     stats_global_t* stat_test;
     HASH_FIND_STR(game->curr_stats, "max_health", stat_test);

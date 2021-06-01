@@ -19,7 +19,7 @@ Test(inventory_tests, inventory_skill_add_active_safe)
     effect_t* defusebombeffect = make_bomb_effect(bomb);
     
     item_t* tree = add_chop_item(ctx);
-    effect_t* choptreeeffect  = make_chop_effect(tree);
+    effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -41,7 +41,7 @@ Test(inventory_tests, inventory_skill_add_active_full)
     effect_t* defusebombeffect = make_bomb_effect(bomb);
     
     item_t* tree = add_chop_item(ctx);
-    effect_t* choptreeeffect  = make_chop_effect(tree);
+    effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
@@ -64,7 +64,7 @@ Test(inventory_tests, inventory_skill_add_passive_safe)
     effect_t* defusebombeffect = make_bomb_effect(bomb);
     
     item_t* tree = add_chop_item(ctx);
-    effect_t* choptreeeffect  = make_chop_effect(tree);
+    effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
@@ -85,7 +85,7 @@ Test(inventory_tests, inventory_skill_add_passive_full)
     effect_t* defusebombeffect = make_bomb_effect(bomb);
     
     item_t* tree = add_chop_item(ctx);
-    effect_t* choptreeeffect  = make_chop_effect(tree);
+    effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
