@@ -119,7 +119,7 @@ int list_how_many_AST_block(AST_block_t* head)
 
     int count;
     AST_block_t* elt = malloc(sizeof(AST_block_t));
-    LL_COUNT(head, elt, ret_val);
+    LL_COUNT(head, elt, count);
     free(elt);
     return count;
 }
