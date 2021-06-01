@@ -1,7 +1,10 @@
-set(OPENWORLD_EXAMPLES openworld-demo-2021)
+set(OPENWORLD_EXAMPLES openworld-demo-2021 debug2)
 
 add_executable(openworld-demo-2021
                openworld-demo-2021.c)
+
+add_executable(debug2
+               debug2.c)
 
 # Link with chiventure libraries
 foreach(example ${OPENWORLD_EXAMPLES})
