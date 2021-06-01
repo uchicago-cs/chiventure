@@ -21,6 +21,7 @@ int delete_all_rooms2(room_hash_t **rooms)
 
 int main(int argc, char **argv)
 {   
+    game_t *game = game_new("Geseki!");
     room_hash_t *rooms = NULL;
     room_t *room0 = room_new("room0", "", "");
     room_t *room1 = room_new("room1", "", "");
@@ -28,20 +29,22 @@ int main(int argc, char **argv)
     room_t *room3 = room_new("room3", "", "");
 
     /* Adding rooms to game*/
-    HASH_ADD_KEYPTR(hh, rooms, room0->room_id, strnlen(room0->room_id, MAX_ID_LEN), room0);
-    HASH_ADD_KEYPTR(hh, rooms, room1->room_id, strnlen(room1->room_id, MAX_ID_LEN), room1);
-    HASH_ADD_KEYPTR(hh, rooms, room2->room_id, strnlen(room2->room_id, MAX_ID_LEN), room2);
-    HASH_ADD_KEYPTR(hh, rooms, room3->room_id, strnlen(room3->room_id, MAX_ID_LEN), room3);
+    add_room_to_game(game, room0);
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    add_room_to_game(game, room3);
+
+    HASH_DEL(game->all_rooms, room0);
 
     /* Make sure to comment out either 2) if you're testing 1) and vice versa. */
 
     /* 1) The one in core chiventure */
-    // delete_all_rooms(rooms);
+    // delete_all_rooms(game->all_rooms);
 
     /* 2) My modified version which takes a room_hash_t** parameter */
-    delete_all_rooms2(&rooms);
+    delete_all_rooms2(&(game->all_rooms));
 
-    HASH_CLEAR(hh, rooms);
+    add_room_to_game(game, room0);
 
     return 0;
 }
