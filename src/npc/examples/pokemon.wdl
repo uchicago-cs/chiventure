@@ -183,13 +183,7 @@
             "short_desc": "A pokeball",
             "long_desc": "A pokeball used to capture pokemon",
             "in": "npc",
-            "actions": [
-                {
-                    "action": "TAKE",
-                    "text_success": "You take the pokeball",
-                    "text_fail": "You cannot take the pokeball"
-                }
-            ]
+            "actions": []
         }
 
     },
