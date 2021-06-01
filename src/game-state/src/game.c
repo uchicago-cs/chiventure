@@ -5,6 +5,7 @@
 #include "game-state/mode.h"
 #include "npc/npc.h"
 #include "battle/battle_flow_structs.h"
+#include "cli/util.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -12,6 +13,10 @@ game_t *game_new(char *desc)
     game_t *game = malloc(sizeof(game_t));
     memset(game, 0, sizeof(game_t));
     game->start_desc = strndup(desc, MAX_START_DESC_LEN);
+
+    player_t *player1 = player_new("player1");
+    add_player_to_game(game, player1);
+    set_curr_player(game, player1);
 
     /* read from the file using interface from WDL team */
 
@@ -65,11 +70,7 @@ int add_room_to_game(game_t *game, room_t *room)
 /* See game.h */
 int add_item_to_game(game_t *game, item_t *item)
 {
-    int rc;
-    
-    rc = add_item_to_hash(&(game->all_items), item);
-    
-    return rc;
+    return add_item_to_all_items_hash(&(game->all_items), item);
 }
 
 /* See game.h */
@@ -199,7 +200,7 @@ bool is_game_over(game_t *game)
 /* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
 			char* direction)
-{
+{   
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL)
     {
@@ -237,8 +238,10 @@ player_t *get_player(game_t *game, char *player_id)
 /* See game.h */
 room_t *find_room_from_game(game_t *game, char* room_id)
 {
+    char *room_id_case = case_insensitized_string(room_id);
     room_t *r;
-    HASH_FIND(hh, game->all_rooms, room_id, strnlen(room_id, MAX_ID_LEN), r);
+    HASH_FIND(hh, game->all_rooms, room_id_case, strnlen(room_id_case, MAX_ID_LEN), r);
+    free(room_id_case);
     return r;
 }
 
@@ -246,7 +249,8 @@ room_t *find_room_from_game(game_t *game, char* room_id)
 item_t *get_item_from_game(game_t *game, char *item_id)
 {
     item_t *i;
-    HASH_FIND(hh, game->all_items, item_id, strnlen(item_id, MAX_ID_LEN), i);
+    HASH_FIND(hh_all_items, game->all_items, item_id,
+              strnlen(item_id, MAX_ID_LEN), i);
     return i;
 }
 
@@ -284,6 +288,35 @@ int move_room(game_t *game, room_t *new_room)
     return SUCCESS;
 }
 
+/* Deletes the game->all_items hash table, as well as free all the individual
+ * item structs.
+ *
+ * Parameters:
+ *  pointer to the game->all_items hash table
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int delete_all_items_from_game(item_hash_t* all_items)
+{
+    item_t *current_item, *tmp;
+    HASH_ITER(hh_all_items, all_items, current_item, tmp)
+    {
+        item_t *iter = current_item;
+
+        while(iter != NULL)
+        {
+            current_item = iter;
+            iter = current_item->next;
+
+            remove_item_from_all_items_hash(&(all_items), current_item);
+            item_free(current_item);
+        }
+    }
+    all_items = NULL;
+    return SUCCESS;
+}
+
 /* See game.h */
 int game_free(game_t *game)
 {
@@ -291,10 +324,14 @@ int game_free(game_t *game)
     delete_all_players(game->all_players);
     delete_all_npcs(game->all_npcs);
     delete_condition_llist(game->end_conditions);
+<<<<<<< HEAD
     delete_all_items(&(game->all_items));
     if (game-> battle_ctx != NULL) {
         free(game->battle_ctx);
     }
+=======
+    delete_all_items_from_game(game->all_items);
+>>>>>>> 14162a5ac7a9a6df19436812da3705222efb7ffd
     game_mode_free(game->mode);
     free(game->start_desc);
     free(game);

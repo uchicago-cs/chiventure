@@ -5,6 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "npc/npc.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
