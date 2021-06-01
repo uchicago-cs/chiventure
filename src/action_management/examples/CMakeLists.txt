@@ -1,7 +1,5 @@
-set(ACTION_MANAGEMENT_EXAMPLES spring2020-demo spring2021-demo)
+set(ACTION_MANAGEMENT_EXAMPLES spring2021-demo)
 
-add_executable(spring2020-demo
-               spring2020-demo.c)
 add_executable(spring2021-demo
                spring2021-demo.c)
 
