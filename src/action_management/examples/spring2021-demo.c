@@ -117,6 +117,7 @@ char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   return str;
 }
 
+/* Prints the current value of the current player's "strength" stat, if it exists*/
 char *print_player_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     player_t *player = ctx->game->curr_player;
@@ -135,6 +136,8 @@ char *print_player_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
     }
 }
 
+/* Adds the strength stat to the player's stats hash. Usually,
+stats will be added to the player at the start of a game. */
 char *learn_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     player_t *player = ctx->game->curr_player;
@@ -154,6 +157,10 @@ char *learn_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "Knowledge is power. You now have the strength stat.";
 }
 
+/* Changes the player's strength stat by a given amount. Normally, the player
+module's change stat function will be used by other modules in their own
+functionalities (such as increasing stats upon equipping items, damaging
+stats in battle, etc.) */
 char *change_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     if (tokens[1] == NULL)
@@ -172,6 +179,8 @@ char *change_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     double change = atoi(tokens[1]) + 0.0;
+    player_change_stat(player, "strength", change);
+
     sprintf(str, "You have gained %.2f strength.", change);
 
     return str;
