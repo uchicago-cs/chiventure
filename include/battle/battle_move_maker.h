@@ -19,17 +19,4 @@
  */
 int build_moves(combatant_t *c);
 
-/*
- * Adds a move to the combatants list of moves 
- *
- * Parameters:
- *  - combatant: pointer to a combatant_t 
- *  - move: pointer to the move to be added to the comabatant's list of moves
- *
- * Returns:
- *  - Success or failure and modifies the status
- *
- */
-int add_move(combatant_t *combatant, move_t *move);
-
 #endif

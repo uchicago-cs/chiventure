@@ -30,11 +30,8 @@ Test(battle_print, print_start_battle)
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You have encountered bob!\n\n"
-                            "Let the battle begin!\n"
-                            "-- Your HP: 100\n"
-                            "ENEMY HP\n"
-                            "-- bob's HP: 100\n";
-    cr_expect_str_eq(string, expected_string, "print_start_battle() failed to set string");
+                            "Let the battle begin!\n";
+    cr_expect_str_eq(string, expected_string, "print_start_battle() failed to set string %s", string);
 
     free(string);
 }
@@ -64,10 +61,9 @@ Test(battle_print, print_hp_one_enemy)
     cr_assert_eq(rc, SUCCESS, "print_hp() failed");
 
     char *expected_string = "-- Your HP: 89\n"
-                            "ENEMY HP\n"
                             "-- bob's HP: 64\n";
 
-    cr_expect_str_eq(string, expected_string, "print_hp() failed to set string");
+    cr_expect_str_eq(string, expected_string, "print_hp() failed to set string %s", string);
 
     free(string);
 }
@@ -111,10 +107,9 @@ Test(battle_print, print_player_move)
     
     char *expected_string = "You used Punch! It did 9 damage.\n"
                             "-- Your HP: 50\n"
-                            "ENEMY HP\n"
                             "-- bob's HP: 21\n";
 
-    cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string");
+    cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
 
     free(string);
 }
@@ -157,10 +152,9 @@ Test(battle_print, print_enemy_move)
     cr_assert_not_null(string, "print_start_battle() failed");
     char *expected_string = "bob used Laugh! It did 8 damage.\n"
                             "-- Your HP: 42\n"
-                            "ENEMY HP\n"
                             "-- bob's HP: 30\n";
 
-    cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string");
+    cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string %s", string);
 
     free(string);
 }

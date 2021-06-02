@@ -30,8 +30,8 @@ int main()
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
 
-    chiventure_ctx_battle_t *ctx = 
-        (chiventure_ctx_battle_t*) calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = 
+        (battle_ctx_t*) calloc(1, sizeof(battle_ctx_t));
 
     battle_game_t *g = new_battle_game();
     ctx->game = g;
@@ -48,8 +48,8 @@ int main()
     while(ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     {
 
-        int res = battle_flow(ctx, test_move_bard(), "Goblin");
-        if(res == FAILURE)
+        char* res = battle_flow_move(ctx, test_move_bard(), "Goblin");
+        if(strcmp(res, "FAILURE") == 0)
         {
             fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
             ctx = NULL;

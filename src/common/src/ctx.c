@@ -36,7 +36,7 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game)
     }
     else
     {
-        ctx->game = game_new("No game has been loaded! Use the LOAD_WDL command to load a game.");
+        ctx->game = game_new("No game has been loaded! Use the LOAD command to load a game.");
     }
 
     if (ctx->game->mode == NULL)
