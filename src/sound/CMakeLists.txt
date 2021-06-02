@@ -1,5 +1,5 @@
 add_library(sound
-            src/hashtable.c)
+            src/sound.c)
 
 target_include_directories(sound PRIVATE src/)
 
