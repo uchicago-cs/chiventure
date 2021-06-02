@@ -83,10 +83,12 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
     {
         assert(cr->r != NULL);
         // If assigned to itself, no conflicts
+        // But this function should still return FAILURE
+        // because no coordinates were added.
         if (strcmp(cr->r->room_id, r->room_id) == 0)
         {
             fclose(debug);
-            return SUCCESS;
+            return FAILURE;
         }
 
         fseek(debug, 0, SEEK_END);
