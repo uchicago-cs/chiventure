@@ -223,7 +223,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
-        res = use_battle_item(ctx->game->battle->player, atoi(args[1]));
+        res = use_battle_item(ctx->game->battle->player, ctx->game->battle, atoi(args[1]));
         if (res == FAILURE) 
         {
             return FAILURE;
