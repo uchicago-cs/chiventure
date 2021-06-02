@@ -324,7 +324,7 @@ int delete_all_items_from_game(item_hash_t* all_items)
 /* See game.h */
 int game_free(game_t *game)
 {
-    delete_all_rooms(game->all_rooms);
+    delete_all_rooms(&(game->all_rooms));
     delete_all_players(game->all_players);
     delete_all_npcs(game->all_npcs);
     delete_condition_llist(game->end_conditions);
