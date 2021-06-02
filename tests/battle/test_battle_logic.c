@@ -634,14 +634,10 @@ Test(battle_logic, remove_item_of_multiple)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-<<<<<<< HEAD
-    int res1 = use_battle_item(p, "item1");
-=======
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
 
-    int res1 = use_battle_item(p, battle, 100);
->>>>>>> 1b0d365a432f3483e8af06b068d7e07037fa4d36
+    int res1 = use_battle_item(p, battle, "item1");
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i2, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
