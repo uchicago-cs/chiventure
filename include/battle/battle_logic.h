@@ -69,15 +69,16 @@ move_t *find_player_move(battle_ctx_t *ctx, char *move_name);
 int consume_battle_item(combatant_t *c, battle_item_t *item);
 
 /* Uses the battle_item with the given ID on the battle_player
- * ! Currently assumes that this is a battle_item !
+ * ! currently checks to see if the battle_item is a weapon or consumable !
  *
  *  Parameters: 
  *   c - combatant information
- *   id - the number id of the battle_item
+ *   battle - battle information   
+ *   name - the name of the battle_item
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_battle_item(combatant_t *c,char *name);
+int use_battle_item(combatant_t *c, battle_t *battle, char *name);
 
 /* Removes a battle item from a combatant's list of battle items
  *

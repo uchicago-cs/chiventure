@@ -203,7 +203,7 @@ int read_move(char **args, battle_ctx_t *ctx)
             return FAILURE;
         }
 
-        res = use_battle_item(ctx->game->battle->player, args[1]);
+        res = use_battle_item(ctx->game->battle->player, ctx->game->battle, args[1]);
         if (res == FAILURE) 
         {
             return FAILURE;

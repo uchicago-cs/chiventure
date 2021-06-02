@@ -22,26 +22,35 @@ battle_item_t *get_random_default_weapon()
     battle_item_t *rv_weapon = calloc(1, sizeof(battle_item_t));
     assert(rv_weapon != NULL);
 
-    int rand = randnum(1,10); 
-    char* name_array[]= {"DAGGER", "DUAL KNIVES", "CROSSBOW", "GUT BLASTER",  "LASER GUN", 
-                         "SAW DISK", "BRASS KNUCKLES", "KATANA", "TASER", "BAZOOKA"};
-
+    int rand = randnum(1, 6); 
+    char* name_array[]= {"Sword", "Hammer", "Slime", "Sleeping gas", "Squid ink", "Laughing gas"};
+    char* description_array[] = {"Reduces enemy's HP by 20", "Reduces enemy's HP by 10", 
+                                 "Reduces enemy's ATTACK by 5", "Reduces enemy's ATTACK by 10",
+                                 "Reduces enemy's DEFENSE by 10", "Reduces enemy's DEFENSE by 15"};
+    int hp_array[] = {-20, -10, 0, 0, 0, 0};
+    int attack_array[] = {0, 0, -5, -10, 0, 0};
+    int defense_array[] = {0, 0, 0, 0, -10, -15};
+    int durability_array[] = {100, 80, 60, 40, 30, 20};
 
     rv_weapon->id = rand;
     rv_weapon->is_weapon = true;
-    rv_weapon->effectiveness_decrement = rand * 2;
-    rv_weapon->quantity = 1;
-    rv_weapon->durability = rand * 10; 
+    rv_weapon->effectiveness_decrement = 10;
+    rv_weapon->quantity = randnum(1, 3);
+    rv_weapon->durability = durability_array[rand - 1]; 
 
+    // sets name
     int name_len = strlen(name_array[rand - 1]);
     rv_weapon->name = (char*)calloc(name_len + 1, sizeof(char));
     strncpy(rv_weapon->name, name_array[rand - 1], name_len + 1);
+    // sets description
+    int description_len = strlen(description_array[rand - 1]);
+    rv_weapon->description = (char*)calloc(description_len + 1, sizeof(char));
+    strncpy(rv_weapon->description, description_array[rand - 1], description_len + 1);
     
-    rv_weapon->description = NULL; 
     rv_weapon->battle = true;
-    rv_weapon->attack = rand * 10;
-    rv_weapon->defense = rand * 10 + 5;
-    rv_weapon->hp = rand * 10 + 10;
+    rv_weapon->attack = attack_array[rand - 1];
+    rv_weapon->defense = defense_array[rand - 1];
+    rv_weapon->hp = hp_array[rand - 1];
     rv_weapon->next = NULL;
     rv_weapon->prev = NULL;
 
@@ -63,7 +72,8 @@ battle_item_t *get_random_default_consumable()
     int defense_array[] = {0, 0, 5, 0};
 
     rv_item->id = rand;
-    rv_item->quantity = 1;
+    rv_item->is_weapon = false;
+    rv_item->quantity = randnum(1, 3);
     rv_item->durability = 0; 
 
     // sets name
