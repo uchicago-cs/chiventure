@@ -157,8 +157,8 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             reward_t *reward = complete_quest(quest);
             add_item_to_player(ctx->game->curr_player, reward->item);
             change_xp(ctx->game->curr_player, reward->xp);
-            char* id2 = strcpy(id2,npc1->npc_id);
-            char* output3 = strcat(id2, ": Congratulations"
+
+            char* output3 = strcat("Villager-Jim", ": Congratulations"
             " on completing the quest, your reward is a key that should "
             "help you on your adventure. You will find it in your inventory.");
             return output3;
