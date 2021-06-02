@@ -36,6 +36,7 @@ Test(skill_tests, skill_new_test)
     cr_assert_str_eq((skill->effect)("haha"),"Bomb defused!",
         "Error: failed test skill_new_test on skill->effect\n");
 }
+
 */
 /* Test skill_init. */
 /*
@@ -92,6 +93,7 @@ void check_level_up(skill_t* skill, int expected)
 }
 
 /* Tests skill_level_up when return value is 0 */
+
 Test(skill_tests, skill_level_up_0)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -109,6 +111,7 @@ Test(skill_tests, skill_level_up_0)
 }
 
 /* Tests skill_level_up when return value is 1 */
+
 Test(skill_tests, skill_level_up_1)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -126,6 +129,7 @@ Test(skill_tests, skill_level_up_1)
 }
 
 /* Tests skill_level_up when return value is -1 */
+
 Test(skill_tests, skill_level_up_minus_1)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -141,3 +145,4 @@ Test(skill_tests, skill_level_up_minus_1)
     0, 5, effect_defuse_bomb);
     check_level_up(skill, -1);
 }
+

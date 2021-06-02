@@ -191,18 +191,21 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
 {
 	room_t *curr_room;
   room_list_t *elt;
+
 	int count = 0;
 
 	if(npc_mov->mov_type == NPC_MOV_DEFINITE)
 	{
-        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt) {
+        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
+        {
             count++;
             curr_room = elt->room;
         }
 	}
 	else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
 	{
-        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt) {
+        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
+        {
             count++;
             curr_room = elt->room;
         }
@@ -211,7 +214,7 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
 	return count;
 }
 
-/* Helper function for move_npc_def function */
+/* See npc_move.h */
 int room_id_cmp(room_list_t *room1, room_list_t *room2)
 {
     return (strcmp(room1->room->room_id, room2->room->room_id));
@@ -325,10 +328,11 @@ int auto_gen_movement(npc_mov_t *npc_mov, game_t *game)
             int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
             int time_in_room = (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
             rc = extend_path_indefinite(npc_mov, room_to_add, time_in_room);
-	    }
-		if(rc == FAILURE) {
-			return rc;
-		}
+	      }
+
+        if(rc == FAILURE) {
+          return rc;
+        }
     }
 
     return rc;
