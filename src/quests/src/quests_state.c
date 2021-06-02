@@ -239,6 +239,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
     }
     else
     {
+        tree = tree->lmostchild;
         while (tree->rsibling != NULL)
         {
             tree = tree->rsibling;
