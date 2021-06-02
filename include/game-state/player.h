@@ -12,8 +12,7 @@
 #include "playerclass/class.h"
 #include "skilltrees/skilltrees_enums.h"
 #include "skilltrees/inventory.h"
-
-
+#include "battle/battle_structs.h"
 
 /* A player in game */
 typedef struct player {
@@ -49,6 +48,9 @@ typedef struct player {
 
     /* The current items held by the player*/
     item_hash_t *inventory;
+
+    /* The current moves available to the player */
+    move_t *moves;
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are 
@@ -354,5 +356,19 @@ int player_add_stat(player_t *player, stats_t *s);
  * Note: Same return value as add_stat_effect()
  */
 int player_add_stat_effect(player_t *player, stat_effect_t *effect);
+
+/*
+ * Adds a move to the player's list of moves 
+ *
+ * Parameters:
+ *  - player: A player. Must be allocated with player_new()
+ *  - move: pointer to the move to be added
+ *
+ * Returns:
+ *  - Success or failure and modifies the status
+ *
+ */
+int add_move(player_t *player, move_t *move);
+
 
 #endif
