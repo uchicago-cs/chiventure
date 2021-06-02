@@ -6,6 +6,7 @@
 #include "npc/npc.h"
 #include "battle/battle_flow_structs.h"
 #include "cli/util.h"
+#include "quests/quests_state.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -108,6 +109,18 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
     if (game->final_room != NULL)
         return SUCCESS;
     return FAILURE;
+}
+
+/* See game.h */
+quest_t *get_quest(game_t* game, char *quest_id)
+{
+	return get_quest_from_hash(quest_id, game->all_quests);
+}
+
+/* See game.h */
+int add_quest_to_game(game_t *game, quest_t *quest)
+{
+	return add_quest_to_hash(quest, game->all_quests);
 }
 
 /* See game.h */
@@ -249,8 +262,10 @@ room_t *find_room_from_game(game_t *game, char* room_id)
 item_t *get_item_from_game(game_t *game, char *item_id)
 {
     item_t *i;
-    HASH_FIND(hh_all_items, game->all_items, item_id,
+    char *insensitized_id = case_insensitized_string(item_id);
+    HASH_FIND(hh_all_items, game->all_items, insensitized_id,
               strnlen(item_id, MAX_ID_LEN), i);
+    free(insensitized_id);
     return i;
 }
 
@@ -258,8 +273,10 @@ item_t *get_item_from_game(game_t *game, char *item_id)
 npc_t *get_npc(game_t *game, char *npc_id)
 {
     npc_t *n;
-    HASH_FIND(hh, game->all_npcs, npc_id,
+    char *insensitized_id = case_insensitized_string(npc_id);
+    HASH_FIND(hh, game->all_npcs, insensitized_id,
               strnlen(npc_id, MAX_ID_LEN), n);
+    free(insensitized_id);
     return n;
 }
 
@@ -320,7 +337,7 @@ int delete_all_items_from_game(item_hash_t* all_items)
 /* See game.h */
 int game_free(game_t *game)
 {
-    delete_all_rooms(game->all_rooms);
+    delete_all_rooms(&(game->all_rooms));
     delete_all_players(game->all_players);
     delete_all_npcs(game->all_npcs);
     delete_condition_llist(game->end_conditions);

@@ -615,10 +615,15 @@ node_action_t *node_action_new(node_action_type action, char *action_id)
     node_action_t *n_a;
     if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;
 
-    if (node_action_init(n_a, action, action_id) != SUCCESS) {
+    char *insensitized_id = case_insensitized_string(action_id);
+
+    if (node_action_init(n_a, action, insensitized_id) != SUCCESS) {
         free_node_actions(n_a);
+        free(insensitized_id);
         return NULL;
     }
+
+    free(insensitized_id);
 
     return n_a;
 }
