@@ -73,6 +73,17 @@ int inventory_free(skill_inventory_t* inventory);
  */
 int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill);
 
+
+
+/* copy_inventory: Creates a deep memory copy of a skill_inventory_t struct
+ *
+ * Input:
+ *      - original: The skill_inventory_t struct to copy
+ * 
+ * Return: Pointer the newly made deep copy struct
+ */
+skill_inventory_t* copy_inventory(skill_inventory_t* original);
+
 /*
  * Searches for a skill in a player's skill inventory.
  *
