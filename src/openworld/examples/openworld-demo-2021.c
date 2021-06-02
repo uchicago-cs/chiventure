@@ -290,12 +290,12 @@ int main(int argc, char **argv)
     
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-    add_entry("LEVELGEN", level_gen, NULL, ctx->table);
-    add_entry("RECURGEN", recursive_gen, NULL, ctx->table);
-    add_entry("LEVELNEW", level_new, NULL, ctx->table);
-    add_entry("NUKE", nuke, NULL, ctx->table);
-    add_entry("LEVELCHECK", level_check, NULL, ctx->table);
-    add_entry("COUNT", count_rooms, NULL, ctx->table);
+    add_entry("LEVELGEN", level_gen, NULL, ctx->cli_ctx->table);
+    add_entry("RECURGEN", recursive_gen, NULL, ctx->cli_ctx->table);
+    add_entry("LEVELNEW", level_new, NULL, ctx->cli_ctx->table);
+    add_entry("NUKE", nuke, NULL, ctx->cli_ctx->table);
+    add_entry("LEVELCHECK", level_check, NULL, ctx->cli_ctx->table);
+    add_entry("COUNT", count_rooms, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
