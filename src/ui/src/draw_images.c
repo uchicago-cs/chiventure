@@ -10,13 +10,11 @@
 void draw_room_gui(int width, int height, int pos_x, int pos_y, char *filepath, room_t *curr_room)
 {
 
-    char filename[MAX_FILENAME_LEN] = "";
+    strcat(filepath, curr_room->room_id);
 
-    strcat(filename, curr_room->room_id);
+    strcat(filepath, ".png");
 
-    strcat(filename, ".png");
-
-    Image room = LoadImage(filename);   
+    Image room = LoadImage(filepath);   
         
     ImageResize(&room, width, height);
 
