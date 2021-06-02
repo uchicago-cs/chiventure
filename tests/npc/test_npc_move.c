@@ -192,6 +192,7 @@ Test(npc_mov, move_npc_definite)
                      "move_npc_def() failed to move twice");
 }
 
+
 /* Tests move_npc_indefinite function */
 Test(npc_mov, move_npc_indefinite)
 {
@@ -220,6 +221,7 @@ Test(npc_mov, move_npc_indefinite)
     cr_assert_str_eq(npc_mov->track,"room_to_add2",
                      "move_npc_indefinite() failed to move twice");
 }
+
 
 /* Tests reverse_path function */
 Test(npc_mov, reverse_path)
@@ -294,9 +296,11 @@ Test(npc_mov, auto_gen_movement_definite)
     }
 
     num_rooms_in_npc = get_npc_num_rooms(npc_mov);
+  
     cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, "
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
+  
     cr_assert_eq(delete_room_llist
                  (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
                  SUCCESS, "delete llist failed");
