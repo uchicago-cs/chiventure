@@ -18,7 +18,7 @@ const char *banner =
     "     |     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  |\n"
     "     |     _________________________________________________________________________________|_____\n"
     "     |    /                                                                                      /\n"
-    "     |   /                         EXAMPLE PROGRAM - RPG-NPC TEAM                               /\n"
+    "     |   /                         EXAMPLE PROGRAM - QUESTS TEAM                                /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
 quest_t *quest;
@@ -43,15 +43,27 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
     create_connection(game, "room2", "room3", "EAST");
-    create_connection(game, "room3", "room4", "EAST");
+    create_connection(game, "room2", "room4", "WEST");
 
     item_t *emerald = item_new("EMERALD","It is an emerald",
                               "This item must be taken for the first mission. Steal it!");
     add_item_to_room(room2, emerald);
 
-    item_t *POTION = item_new("POTION","It is a bottle that holds a mysterious liquid",
+    item_t *BLUEPOTION = item_new("BLUE POTION","It is a bottle that holds a mysterious blue liquid",
                               "This item must be taken for second mission. Drink it!");
-    add_item_to_room(room4, POTION);
+    add_item_to_room(room1, BLUEPOTION);
+    
+    item_t *GREENPOTION = item_new("GREEN POTION","It is a bottle that holds a mysterious green liquid",
+                              "This item must be taken for second mission. Drink it!");
+    add_item_to_room(room1, GREENPOTION);
+
+    item_t *NECKLACE = item_new("ROYAL NECKLACE", "It is a diamond necklace that has royal significance",
+                                "This item must be taken for another mission. Keep it!");
+    add_item_to_room(room3, NECKLACE);
+
+    item_t *HERB = item_new("HERB", "It is a herb plant that has medicinal properties", 
+                                "This item can cure a bad cough");
+    add_item_to_room(room4, HERB);
 
     add_action(emerald, "STEAL", "[You take the Emerald] "
                         "This is the object that the villager was talking about!",
@@ -60,6 +72,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_action(POTION, "SIP", "[You sip the Potion] Suddenly you realize how you got here.",
                 "You can't drink the POTION.");
     
+
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
@@ -84,12 +97,35 @@ char *start_quest_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
 
     if(quest->status == 1)
     {
-        return "You have started the quest. Begin by speaking to the villager over there.";
+        return "You have started the quest. There are two potions in front of you: BLUE and GREEN. Pick one";
     }
     else
     {
         return "Failed to start the quest";
     }
+}
+
+char *take_potion(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+        if (game == NULL || game->curr_room == NULL)
+        {
+            return "Room not found! Error!\n";
+        }
+
+        /* This operation has to be called with one parameter */
+        if (tokens[1] != NULL)
+        {
+            return "I do not know what you mean.";
+        }
+
+        if (!strcmp(tokens[0], "BLUE")){
+            return "You chose the BLUE potion. You feel strong. Outside, you hear a rumbling sound."
+        } else if (!strcmp(tokens[0], "GREEN")){
+            return "You chose the GREEN potion. You feel clever. Outside you hear two people talking."
+        } else{
+            return "I do not know what you mean.";
+        }
 }
 
 char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -174,31 +210,41 @@ int main(int argc, char **argv)
     room_t *initial_room;
     HASH_FIND(hh, ctx->game->all_rooms, "room1", strlen("room1"), initial_room);
 
+    room_t *second_room;
+    HASH_FIND(hh, ctx->game->all_rooms, "room2", strlen("room2"), second_room);
+
     room_t *third_room;
     HASH_FIND(hh, ctx->game->all_rooms, "room3", strlen("room3"), third_room);
 
-    room_t *last_room;
-    HASH_FIND(hh, ctx->game->all_rooms, "room4", strlen("room4"), last_room);
+    room_t *fourth_room;
+    HASH_FIND(hh, ctx->game->all_rooms, "room4", strlen("room4"), fourth_room);
 
     char *npc_id = "Villager-Jim";
-    npc_mov_t* npc1_movement = npc_mov_new(NPC_MOV_DEFINITE, initial_room);
-    npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
-                          NULL, npc1_movement, false);
-    npcs_in_room_1 = npcs_in_room_new("room1");
-    add_npc_to_room(npcs_in_room_1, npc1);
-    npcs_in_room_3 = npcs_in_room_new("room3");
+    npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds a branch of a quest",
+                          NULL, NULL, false);
+   
+    char *npc_id = "Ogre-Rick";
+    npc_t *npc1 = npc_new(npc_id,"second npc","this is the npc that holds a branch of a quest",
+                          NULL, NULL, false);
 
+    npcs_in_room_2 = npcs_in_room_new("room2");
+    add_npc_to_room(npcs_in_room_2, npc1);
+    add_npc_to_room(npcs_in_room_2, npc2);  
+
+    npc1_movement = npc_mov_new("Villager-Jim",NPC_MOV_DEFINITE,initial_room);
     extend_path_definite(npc1->movement,third_room);
-    extend_path_definite(npc1->movement,last_room);
+    npc2_movement = npc_mov_new("Ogre-Rick",NPC_MOV_DEFINITE,initial_room);
+    extend_path_definite(npc2->movement,fourth_room);
 
     item_t *item1 = malloc(sizeof(item_t));
-    HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item1);
+    HASH_FIND(hh, ctx->game->all_items, "BLUEPOTION", strlen("BLUEPOTION"), item1);
 
     item_t *item2 = malloc(sizeof(item_t));
-    HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item2);
+    HASH_FIND(hh, ctx->game->all_items, "GREENPOTION", strlen("GREENPOTION"), item2);
 
     item_t *reward = item_new("KEY", "this is a key that unlocks all secrets",
     "Reward for completing the quest.");
+    
     quest = quest_new(1, NULL, reward);
     mission_t *mission1 = mission_new(item1,npc1);
     mission_t *mission2 = mission_new(item2,npc1);
