@@ -70,7 +70,7 @@ move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
 }
 
 /* Creates example moves. Taken from test_battle_ai.c */
-move_t* create_enemy_moves()
+move_t *create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
