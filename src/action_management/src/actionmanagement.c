@@ -7,7 +7,7 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 
-#define BUFFER_SIZE (100)
+#define BUFFER_SIZE (300)
 #define WRONG_KIND (2)
 #define NOT_ALLOWED_DIRECT (3)
 #define NOT_ALLOWED_INDIRECT (4)
