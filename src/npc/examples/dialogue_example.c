@@ -11,7 +11,7 @@
  * to be run through and then executes functions to explore it
  */
 int main()
-{
+{   
     system("clear");
 
     printf("\nWelcome to Chiventure's 'Dialogue Module' Mockup!\n\n\n");
@@ -19,6 +19,7 @@ int main()
     // Step 1: Setting up the game, player, and item
     game_t *g = game_new("game");
     player_t *p = player_new("player");
+    room_t *r = room_new("room", "short", "long");
     npc_t *stranger = npc_new("stranger", "short", "long", NULL, NULL, 0);
     item_t *item1 = item_new("scimitar_handle", "a handle of a curved sword",
                              "looks intricate");
@@ -26,16 +27,25 @@ int main()
                              "looks sharp");
 
     g->curr_player = p;
+    g->curr_room = r;
     g->mode = game_mode_new(NORMAL, NULL, "stranger"); // mode is needed for
                                                        // the GIVE_ITEM action
                                                        // to work properly
-    add_npc_to_game(g, stranger);
+    add_player_to_game(g, p);
+    // This code should be uncommented once NPC structs can support two
+    // hash tables
+    // add_npc_to_game(g, stranger); 
+    add_room_to_game(g, r);
+    add_npc_to_room(r->npcs, stranger);
+    add_item_to_game(g, item1);
+    add_item_to_game(g, item2);
     add_item_to_npc(stranger, item1);
     add_item_to_npc(stranger, item2);
 
     // Step 2: Create the conditions
-    condition_t *cond = inventory_condition_new(p, item1);
-    cond->next = inventory_condition_new(p, item2);
+    condition_t *cond = NULL;
+    LL_APPEND(cond, inventory_condition_new(p, item1));
+    LL_APPEND(cond, inventory_condition_new(p, item2));
 
     // Step 3: Conversation 1
     convo_t *c1 = convo_new();
@@ -94,6 +104,18 @@ int main()
 
     rc = -1;
 
+    printf("Stranger: (again)\n");
+    while (rc != 1) {
+        if (rc < 0) ret_str = start_conversation(c1, &rc, g);
+        else ret_str = run_conversation_step(c1, player_response, &rc, g);
+        printf("%s", ret_str);
+        if (rc != 1) scanf("%d", &player_response);
+        printf("\n");
+        free(ret_str);
+    }
+
+    rc = -1;
+
     printf("\nSteve the 'Smith:\n");
     while (rc != 1) {
         if (rc < 0) ret_str = start_conversation(c2, &rc, g);
@@ -119,6 +141,7 @@ int main()
     // Step 7: Free allocated memory
     convo_free(c1);
     convo_free(c2);
+    game_free(g);
 
     return 0;
 }
