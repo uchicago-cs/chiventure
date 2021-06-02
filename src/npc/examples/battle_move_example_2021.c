@@ -151,32 +151,6 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 }
 
-/* Defines a new CLI operation that prints a list of npcs in a room to the CLI, 
- *   or says that there is none.
- */
-char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL) {
-        print_to_cli(ctx, tokens[0]);
-        return "Error! We need a loaded room to check NPCs.\n";
-    }
-
-    npc_t *npc_tmp, *npc_elt;
-    int i = 0;
-    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) {   
-        i++;
-        if (npc_elt->npc_battle->health > 0) {
-            print_to_cli(ctx, npc_elt->npc_id);
-        }
-    }
-
-    if (i >= 1) {
-        return "These are the NPCs in the room";
-    } else {
-        return "There is no NPC in the room";
-    }
-}
 
 /* a mokey-patched version of moving from lobby to arena */
 char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
