@@ -137,8 +137,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         quest->achievement_tree->achievement->completed = 1;
         quest->status = 2;
 
-        char* id1 = strcpy(id1,npc1->npc_id);
-        char *output3 = strcat(id1,": Congratulations on completing "
+        char *output3 = strcat("Villager-Jim",": Congratulations on completing "
                     "the first achievement of this quest. "
                     "Now onto the next, continue through that door into the next room "
                     "to continue.");
