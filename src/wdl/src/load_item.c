@@ -33,7 +33,7 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 
     if (curr == NULL)
         return NULL;
-    
+  
     return curr->act;
 }
 
@@ -116,18 +116,20 @@ int load_items(obj_t *doc, game_t *g)
         /* in parameter yet to implemented by game-state
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
-        //load actions into item
+        // load actions into item
         if(load_actions(curr, item) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;
         }
 
-        //retrieve the pointer for the room that the item is located in
-        room_t *item_room = find_room_from_game(g, in);
+        add_item_to_game(g, item);
 
-        // add item to room
-        add_item_to_room(item_room, item);
+        // add item to its room, unless it is meant to be an NPC-held item
+        if (strcmp(in, "npc") != 0) {
+            room_t *item_room = find_room_from_game(g, in);
+            add_item_to_room(item_room, item);
+        }
     }
     return SUCCESS;
 }

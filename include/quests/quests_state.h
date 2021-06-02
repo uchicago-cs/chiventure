@@ -19,23 +19,24 @@ mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet);
  * 
  * Parameters:
  * - mission: the mission to be completed for the quest
+ * - id: the id of the achievement
  * 
  * Returns: a pointer to the newly allocated achievement that is not completed
  */
-achievement_t *achievement_new(mission_t *mission);
+achievement_t *achievement_new(mission_t *mission, char *id);
 
 /* Creates a new quest struct (allocates memory)
  * 
  * Parameters:
  * - quest_id: long integer for the specific quest_id 
- * - achievement_list: linked list struct holding a list of achievements that
- *                     make up a quest
+ * - achievement_tree: non-binary tree  struct holding a tree of 
+ *                     achievements that make up a quest
  * - reward: reward of the quest is an item
  * 
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started)
  */
-quest_t *quest_new(long int quest_id, achievement_llist_t *achievement_list,
+quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
                     item_t *reward);
 
 /* Initialize an already allocated mission struct
@@ -56,12 +57,13 @@ int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet
  * Parameters:
  * - achievement: an already allocated achievement
  * - mission: the mission to be completed for the achievement
+ * - id: the id of the achievement
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int achievement_init(achievement_t *achievement, mission_t *mission);
+int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
 
 
 /* Initialize an already allocated quest struct
@@ -69,8 +71,8 @@ int achievement_init(achievement_t *achievement, mission_t *mission);
  * Parameters:
  * - q: an already allocated quest
  * - quest_id: long int for the specific quest_id 
- * - achievement_llist_t: linked list struct holding a list of 
- *                        achievements that make up a quest
+ * - achievement_tree: non-binary tree struct holding a tree of 
+ *                     achievements that make up a quest
  * - reward: reward of the quest is an item
  * - status: int indicating the status of the quest (refer to
  *           quests_structs.h for all possible statuses)
@@ -80,7 +82,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission);
  * - FAILURE for unsuccessful init
  * 
  */
-int quest_init(quest_t *q, long int quest_id, achievement_llist_t *achievement_list, 
+int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tree, 
                item_t *reward, int status);
 
 /* 
@@ -121,17 +123,18 @@ int achievement_free(achievement_t *achievement);
  */
 int quest_free(quest_t * quest);
 
-/* Adds an achievement to the end of a quest's achievement list
+/* Adds an achievement to the tree given an parent tree id
  *
  * Parameters:
  * - quest: pointer to a quest 
  * - achievement_to_add: pointer to an achievement to add to the list
+ * - parent_id: string that is parent achievement's id
  * 
  * Returns:
  * - SUCCESS 
- * - FAILURE
+ * - FAILURE 
  */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add);
+int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id);
 
 /* Updates a quest's status to started
  *
@@ -155,19 +158,19 @@ int start_quest(quest_t *quest);
  */
 int fail_quest(quest_t *quest);
 
-/* Completes an achievement in a quest by checking if the item and npc match
- * the first incomplete achievement in the quest's achievement list
+/* Completes an achievement in a quest by checking if a given
+ * achievement ID matches any incomplete achievements in the
+ * appropriate level of the achievement tree.
  * 
  * Parameters:
  * - quest: pointer to the quest
- * - item_collected: the item that has been collected
- * - npc_met: the npc that was met
+ * - id: the string identifier of the completed achievement
  *
  * Returns:
  * - SUCCESS
  * - FAILURE
  */
-int complete_achievement(quest_t *quest, item_t *item_collected, npc_t *npc_met);
+int complete_achievement(quest_t *quest, char *id);
 
 /* Checks if a quest is completed
  * 

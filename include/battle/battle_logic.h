@@ -59,15 +59,16 @@ battle_item_t *find_battle_item(battle_item_t *inventory, int id);
 int consume_battle_item(combatant_t *c, battle_item_t *item);
 
 /* Uses the battle_item with the given ID on the battle_player
- * ! Currently assumes that this is a battle_item !
+ * ! currently checks to see if the battle_item is a weapon or consumable !
  *
  *  Parameters: 
  *   c - combatant information
+ *   battle - battle information   
  *   id - the number id of the battle_item
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_battle_item(combatant_t *c,int id);
+int use_battle_item(combatant_t *c, battle_t *battle, int id);
 
 /* Removes a battle item from a combatant's list of battle items
  *

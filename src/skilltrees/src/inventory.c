@@ -36,14 +36,11 @@ skill_inventory_t* inventory_new(unsigned int max_active,
 int inventory_free(skill_inventory_t* inventory) {
     assert(inventory != NULL);
 
-    if (inventory->num_active > 0) {
-        free(inventory->active);
-    }
+    /* Free the arrays of skills */
+    free(inventory->active);
+    free(inventory->passive);
 
-    if (inventory->num_passive > 0) {
-        free(inventory->passive);
-    }
-
+    /* Free the pointer to the skill_inventory itself */
     free(inventory);
 
     return SUCCESS;
@@ -61,7 +58,7 @@ int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
             }
             inventory->active[inventory->num_active] = skill;
             inventory->num_active += 1;
-            inventory->active = (skill_t**)realloc(inventory->active, sizeof(skill_t*) * inventory->num_active);
+            inventory->active = (skill_t**)realloc(inventory->active, sizeof(skill_t*) * (inventory->num_active + 1));
             return SUCCESS;
         case PASSIVE:
             if (inventory->num_passive >= inventory->max_passive) {
@@ -70,12 +67,43 @@ int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill) {
             }
             inventory->passive[inventory->num_passive] = skill;
             inventory->num_passive += 1;
-            inventory->passive = (skill_t**)realloc(inventory->passive, sizeof(skill_t*) * inventory->num_passive);
+            inventory->passive = (skill_t**)realloc(inventory->passive, sizeof(skill_t*) * (inventory->num_passive + 1));
             return SUCCESS;
         default:
             fprintf(stderr, "inventory_skill_add: invalid skill type\n");
             return FAILURE;
     }
+}
+
+
+
+/* See inventory.h */
+skill_inventory_t* copy_inventory(skill_inventory_t* original)
+{
+    assert(original != NULL);
+
+    skill_inventory_t* copy = inventory_new(original->max_active, original->max_passive);
+    if (copy == NULL)
+    {
+        fprintf(stderr, "Failed to allocate memory for skill inventory copy");
+        return NULL;
+    }
+
+    /* Fill Array of Active Skills */
+    for (int i = 0; i < original->num_active; i++)
+    {
+        skill_t* tmp = original->active[i];
+        inventory_skill_add(copy, tmp);
+    }
+
+    /* Fill Array of Passive Skills */
+    for (int i = 0; i < original->num_passive; i++)
+    {
+        skill_t* tmp = original->passive[i];
+        inventory_skill_add(copy, tmp);
+    }
+
+    return copy;
 }
 
 /* See inventory.h */
