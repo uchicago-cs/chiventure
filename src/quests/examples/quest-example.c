@@ -30,7 +30,7 @@ npc_t *npc1;
 npc_t *npc2;
 npc_t *npc3;
 npc_t *npc4;
-npc_mov_t *npc1_movement;
+npc_mov_t *npc3_movement;
 npc_mov_t *npc2_movement;
 
 /* Creates a sample in-memory game */
@@ -136,13 +136,13 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((get_quest_status(quest)) == 1))
     {
-        move_npc_definite(npc1->movement);
         move_npc_definite(npc2->movement);
-        char* id1 = strcpy(id1, npc1->npc_id);
+        move_npc_definite(npc3->movement);
         char* id2 = strcpy(id2, npc2->npc_id);
-        char *output1 = strcat(id1,
+        char* id3 = strcpy(id3, npc3->npc_id);
+        char *output1 = strcat(id2,
         ": Get away from me you ogre. Your army of cockroaches have eaten all of my bread.\n");
-        char *output2 = strcat(id2, ": But, Sire! My wife is ill. She needs your medicine.\n");
+        char *output2 = strcat(id3, ": But, Sire! My wife is ill. She needs your medicine.\n");
         char *thoughts = "You wonder if there is a way to solve their problems. Try exploring.";
         strcat(output1, output2);
         strcat(output1, thoughts);
@@ -152,7 +152,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         //move_npc_definite(npc1_movement);
         item_t *item = malloc(sizeof(item_t));
-        HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item);
+        HASH_FIND(hh, ctx->game->all_items, "BREAD", strlen("BREAD"), item);
 
         npc_t *npc = malloc(sizeof(npc_t));
         HASH_FIND(hh, npcs_in_room_2->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
@@ -160,19 +160,19 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         //complete_achievement(quest, item, npc);
         quest->achievement_tree->achievement->completed = 1;
         quest->status = 2;
-        char* id1 = strcpy(id1,npc1->npc_id);
-        char *output2 = strcat(id1,": Thank you for helping me resupply my shop. "
-                    "Those cockroaches are so pesky. For your efforts I'd like to give you this emerald. ");
+        char* id = strcpy(id,npc2->npc_id);
+        char *output = strcat(id,": Thank you for helping me resupply my shop. "
+                    "Those cockroaches are so pesky. For your efforts I'd like to give you this key. ");
 
-        return output2;
+        return output;
     }
     else if (((strcmp(ctx->game->curr_room->room_id,"room4")) == 0) && ((get_quest_status(quest)) == 1))
     {
         item_t *item = malloc(sizeof(item_t));
-        HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item);
+        HASH_FIND(hh, ctx->game->all_items, "HERB", strlen("HERB"), item);
 
         npc_t *npc = malloc(sizeof(npc_t));
-        HASH_FIND(hh, npcs_in_room_2->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
+        HASH_FIND(hh, npcs_in_room_2->npc_list, "Ogre-Rick", strlen("Ogre-Rick"), npc);
 
         quest->achievement_tree->lmostchild->achievement->completed = 1;
 
@@ -279,10 +279,10 @@ int main(int argc, char **argv)
     add_npc_to_room(npcs_in_room_5, npc1);
     add_npc_to_room(npcs_in_room_5, npc4);
 
-    npc1_movement = npc_mov_new(NPC_MOV_DEFINITE,second_room);
-    extend_path_definite(npc1->movement,third_room);
     npc2_movement = npc_mov_new(NPC_MOV_DEFINITE,second_room);
-    extend_path_definite(npc2->movement,fourth_room);
+    extend_path_definite(npc2_movement,third_room);
+    npc3_movement = npc_mov_new(NPC_MOV_DEFINITE,second_room);
+    extend_path_definite(npc3_movement,fourth_room);
 
     item_t *item1 = malloc(sizeof(item_t));
     HASH_FIND(hh, ctx->game->all_items, "BLUEPOTION", strlen("BLUEPOTION"), item1);
