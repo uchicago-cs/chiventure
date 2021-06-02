@@ -117,9 +117,8 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
         move_npc_definite(npc1_movement);
-        char* id = strcpy(id,npc1->npc_id);
 
-        char *output1 = strcat(id,
+        char *output1 = strcat("Villager-Jim",
         ": I see you have started the quest, go to room2 to find the secret item, then "
             "come meet me in room3 to complete the first mission.");
         return output1;
