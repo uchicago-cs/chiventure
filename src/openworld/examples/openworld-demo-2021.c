@@ -123,12 +123,8 @@ char *nuke(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     /* Temporarily remove original room from hash. */
     HASH_DEL(ctx->game->all_rooms, orig_room);
 
-    room_t *curr, *tmp;
-    /* Remove all other rooms from hash. */
-    HASH_ITER(hh, ctx->game->all_rooms, curr, tmp) {
-        HASH_DELETE(hh, ctx->game->all_rooms, curr);
-        room_free(curr);
-    }
+    /* Delete and free all other rooms in hash. */
+    delete_all_rooms(&(ctx->game->all_rooms));
 
     /* Reinsert original room into hash. */
     add_room_to_game(ctx->game, orig_room);
@@ -205,7 +201,7 @@ char *level_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     int num_rooms = atoi(tokens[1]);
 
     /* Set directions for room generation */
-    char *directions[] = {"NORTH", "SOUTH", "EAST", "WEST"};
+    char *directions[] = {"north", "south", "east", "west"};
     
     /* Generate specified number of rooms for each level */
     int initial_count = HASH_COUNT(ctx->game->all_rooms);
@@ -244,7 +240,7 @@ char *recursive_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     int radius = atoi(tokens[1]);
 
     /* Generate layers of rooms around room1 */
-    char *directions[] = {"NORTH", "SOUTH", "EAST", "WEST"};
+    char *directions[] = {"north", "south", "east", "west"};
     int check = recursive_generate(ctx->game, context, ctx->game->curr_room, radius, directions, 4, "");
     
     if (check == SUCCESS) {
