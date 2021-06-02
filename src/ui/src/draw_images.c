@@ -7,7 +7,7 @@
 #define MAX_FILENAME_LEN (100)
 
 /* See draw_images.h for documentation */
-void draw_room_gui(int width, int height, int pos_x, int pos_y, room_t *curr_room)
+void draw_room_gui(int width, int height, int pos_x, int pos_y, char *filepath, room_t *curr_room)
 {
 
     char filename[MAX_FILENAME_LEN] = "";
