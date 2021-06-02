@@ -134,13 +134,9 @@ Test(stat_req, new)
 
 }
 
-reward_t *create_sample_rewards()
+reward_t *create_sample_rewards(int xp, item_t *item)
 {
     reward_t *rewards = malloc(sizeof(reward_t));
-
-    int xp = 20;
-	item_t *item = item_new("test_item", "item for testing",
-    "test item for item_new()");
 
     rewards->xp = xp;
     rewards->item = item;
@@ -148,12 +144,9 @@ reward_t *create_sample_rewards()
     return rewards;
 }
 
-stat_req_t *create_sample_stat_req()
+stat_req_t *create_sample_stat_req(int hp, int level)
 {
     stat_req_t *stat_req = malloc(sizeof(stat_req));
-
-    int hp = 40;
-    int level = 5;
 
     stat_req->hp = hp;
     stat_req->level = level;
@@ -165,8 +158,15 @@ stat_req_t *create_sample_stat_req()
 Test(quest, init)
 {   
     quest_t *q = malloc(sizeof(quest_t));
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	int check = quest_init(q, 1, NULL, rewards, stat_req, 0);
 
@@ -211,8 +211,14 @@ Test(achievement, new)
 /* Tests new quest malloc (new uses init) */
 Test(quest, new)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* q = quest_new(1, NULL, rewards, stat_req);
 
@@ -253,7 +259,8 @@ Test(achievement, free)
 	cr_assert_eq(freed, SUCCESS, "achievement_free() test has failed!");
 }
 
-active_mission_t *make_example_a_mission()
+/* Tests passive_mission_free function */
+Test(active_mission, free)
 {
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -270,17 +277,6 @@ active_mission_t *make_example_a_mission()
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
                                                      mission_meet_kill, room_to_visit); 
-    return a_mission;
-}
-
-/* Tests passive_mission_free function */
-Test(active_mission, free)
-{
-    class_t* class = generate_test_class();
-    char *npc_meet_id = "meet_npc";
-    char *npc_kill_id = "kill_npc";
-
-    active_mission_t *a_mission = make_example_a_mission();
 
     cr_assert_not_null(a_mission, "active_mission_free(): room is null");
     
@@ -340,8 +336,14 @@ Test(passive_mission_health, free)
 /* Tests quest_free function */
 Test(quest, free)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* q_to_free = quest_new(1, NULL, rewards, stat_req);
 
@@ -355,8 +357,14 @@ Test(quest, free)
 /*Tests adding achievement to a quest */
 Test(quest, add_achievement_to_quest)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 	item_t *item_to_get = item_new("test_item", "item for testing",
@@ -396,8 +404,14 @@ Test(quest, can_start)
 
     player_t* player1 = player_new("player1");
 
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 
@@ -409,8 +423,14 @@ Test(quest, can_start)
 /* Tests the function  that starts a quest */
 Test(quest, start_quest)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 
@@ -424,8 +444,14 @@ Test(quest, start_quest)
 /* Tests the function  that fails a quest */
 Test(quest, fail_quest)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 
@@ -440,12 +466,32 @@ Test(quest, fail_quest)
 /* Tests the function that completes the achievement */
 Test(quest, complete_achievement)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
     quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 
-    active_mission_t *a_mission = make_example_a_mission();
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+
+    item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
+                                class, NULL, false);
+
+    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
+                                       class, NULL, false);
+    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
+
+    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
+                                                     mission_meet_kill, room_to_visit); 
 
 
     char *id = "test mission";
@@ -482,12 +528,32 @@ Test(quest, complete_achievement)
 /* Function that tests if a quest is completed */
 Test(quest,is_quest_completed)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 
-    active_mission_t *a_mission = make_example_a_mission();
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+
+    item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
+                                class, NULL, false);
+
+    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
+                                       class, NULL, false);
+    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
+
+    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
+                                                     mission_meet_kill, room_to_visit); 
 
     char *id = "test mission";
 
@@ -512,8 +578,14 @@ Test(quest,is_quest_completed)
 /* Tests the function that checks the status of the quest */
 Test(quest,get_quest_status)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
 
@@ -531,8 +603,14 @@ Test(quest,get_quest_status)
 /* Tests the function that reward the item after a quest*/
 Test(quest,complete_quest)
 {
-    reward_t *rewards = create_sample_rewards();
-    stat_req_t *stat_req = create_sample_stat_req();
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
     quest->status = 2;
