@@ -103,12 +103,16 @@ chiventure_ctx_t* create_example_ctx() {
     /* Checking if everything works */
     stats_global_t* stat_test;
     HASH_FIND_STR(game->curr_stats, "max_health", stat_test);
-    if(stat_test->max != 100)
-    printf("ERROR");
+    if(stat_test->max != 100) 
+    {
+        printf("ERROR");
+    }
     stats_t*  player_test;
     HASH_FIND_STR(game->curr_player->player_stats, "current_health", player_test);
-    if(player_test->val != 50)
-    printf("ERROR 2");
+    if(player_test->val != 50) 
+    {
+        printf("ERROR 2");
+    }
     /* Create example chiventure context */
     return ctx;
 }
@@ -138,10 +142,10 @@ void create_player_skill(chiventure_ctx_t* ctx)
     double mods[] = {100, 100};
     int durations[] = {5, 5};
     player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
-    if(health_boost == NULL)
-    print_to_cli(ctx, "NULL EFFECT");
+    if(health_boost == NULL) {
+        print_to_cli(ctx, "NULL EFFECT");
+    }
     effect_t* stat_effect = make_player_stat_effect(health_boost);
-    
     /* Making a skill */
     skill_t* stat_skill = skill_new(0, PASSIVE, "Stat Skill", "Modifies statistics", 10, 5, stat_effect);
     
@@ -160,7 +164,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
 {
     player_t* player = ctx->game->curr_player;
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
-    if (skill_node == NULL)
+    if(skill_node == NULL) 
     {
         print_to_cli(ctx, "Skills not made yet !");
         return FAILURE;
@@ -169,7 +173,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
     
     /*Find the correct skill */
     int i = 1;
-    while ((skill->sid != sid)&&(i<=1))
+    while((skill->sid != sid)&&(i<=1)) 
     {
         skill_node = player->player_class->skilltree->nodes[i];
         i +=1;
@@ -177,8 +181,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
     }
     
     /* Check the level */
-    if(player->level<skill_node->prereq_level)
-    {
+    if(player->level<skill_node->prereq_level) {
         print_to_cli(ctx, "Level too low!");
         return FAILURE;
     }
@@ -197,12 +200,11 @@ int execute_skill(chiventure_ctx_t* ctx, int sid)
     
     /*Find the correct skill */
     int i = 1;
-    while ((skill->sid != sid)&&(i<=1))
-    {
+    while((skill->sid != sid)&&(i<=1)) {
         skill_node = player->player_class->skilltree->nodes[i];
         skill = skill_node->skill;
     }
-    if(skill->sid != sid)
+    if(skill->sid != sid) 
     {
         return FAILURE;
     }
@@ -214,11 +216,11 @@ int execute_skill(chiventure_ctx_t* ctx, int sid)
 char* add_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     int check = add_skill_to_player(ctx, 0);
-    if(check == FAILURE)
+    if(check == FAILURE) 
     {
         return "Could not add skill!";
     }
-    else
+    else 
     {
         execute_skill(ctx, 0);
         return "Added skill!";
@@ -268,7 +270,9 @@ char* execute_attr_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ct
     int check = execute_skill(ctx, 1);
     item_t* dragon = get_item_in_hash(ctx->game->all_items, "DRAGON");
     if(dragon == NULL)
-    fprintf(stderr, "NO DRAGON");
+    {
+        fprintf(stderr, "NO DRAGON");
+    }
     bool is_alive = dragon->attributes->attribute_value.bool_val;
     if(is_alive == true)
     check = FAILURE;
@@ -311,7 +315,8 @@ char* add_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
  * Returns:
  *  - None
  */
-void current_skills_as_strings(chiventure_ctx_t* ctx){
+void current_skills_as_strings(chiventure_ctx_t* ctx) 
+{
     assert(ctx != NULL);
 
     unsigned int i;
@@ -320,10 +325,14 @@ void current_skills_as_strings(chiventure_ctx_t* ctx){
     skill_inventory_t* inventory = ctx->game->curr_player->player_skills;
     print_to_cli(ctx, "-");
     print_to_cli(ctx, "Active Skills:");
-    if (!(inventory->num_active)){
+    if (!(inventory->num_active))
+    {
         print_to_cli(ctx, "You have no active skills.");
-    } else {
-        for (i = 0; i < inventory->num_active; i++) {
+    } 
+    else 
+    {
+        for (i = 0; i < inventory->num_active; i++) 
+        {
             sprintf(description, "%s: Level %u", inventory->active[i]->name,
                     inventory->active[i]->level);
             print_to_cli(ctx, description);
@@ -332,10 +341,14 @@ void current_skills_as_strings(chiventure_ctx_t* ctx){
 
     print_to_cli(ctx, "-");
     print_to_cli(ctx, "Passive Skills:");
-    if (!inventory->num_passive) {
+    if (!inventory->num_passive) 
+    {
         print_to_cli(ctx, "You have no passive skills.");
-    } else {
-        for (i = 0; i < inventory->num_passive; i++) {
+    } 
+    else 
+    {
+        for (i = 0; i < inventory->num_passive; i++) 
+        {
             sprintf(description, "%s: Level %u", inventory->passive[i]->name,
                     inventory->passive[i]->level);
             print_to_cli(ctx, description);
@@ -354,12 +367,14 @@ void current_skills_as_strings(chiventure_ctx_t* ctx){
  * Returns:
  *  - An empty string (current_skills_as_strings() prints all that is necessary)
  */
-char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx){
+char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) 
+{
     current_skills_as_strings(ctx);
     return "";
 }
 
-void main(){
+void main()
+{
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
     add_item(ctx);
