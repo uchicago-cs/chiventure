@@ -64,6 +64,41 @@ Test(player, player_set_class)
 
   class_t *test_class = class_new("Testclass", "shortdesc", "longdesc", NULL, NULL, NULL);
 
+  /* Prepare the stats and effects hashes for copying */
+  stats_hash_t *stats_hash = NULL;
+  stats_global_t* health = stats_global_new("health", 100);
+  stats_t *s = stats_new(health, 75);
+  add_stat(&stats_hash, s);
+
+  effects_hash_t *effects_hash = NULL;
+  effects_global_t *global = global_effect_new("effect");
+  stat_effect_t *effect = stat_effect_new(global);
+  add_stat_effect(&effects_hash, effect);
+
+  class_init(test_class, "Testclass", "shortdesc", "longdesc",
+               NULL, stats_hash, effects_hash);
+
+
+  /* Prepare the skill inventory for copying */
+  skill_t *wizardry = skill_new(1, ACTIVE, 
+                            "wizardry", "wizardry test skill",
+                            15, 200,
+                            NULL);
+
+  skill_t *sorcery = skill_new(2, ACTIVE, 
+                            "sorcery", "sorcery test skill",
+                            15, 200,
+                            NULL);
+
+
+  skill_inventory_t *skillinv = inventory_new(5, 5);
+  
+  inventory_skill_add(skillinv, wizardry);
+  inventory_skill_add(skillinv, sorcery);
+
+  class_add_skills(test_class, skillinv, NULL);
+
+
   int class_set = player_set_class(player, test_class);
 
   cr_assert_not_null(player, "player_new() failed");
@@ -71,6 +106,28 @@ Test(player, player_set_class)
   cr_assert_eq(class_set, SUCCESS, "player_set_class() did not return SUCCESS");
   cr_assert_eq(player->player_class, test_class, "player_set_class() did not set correct class");
 
+  /* Free the old structs to ensure that deep copies were created */
+  int inv_free = inventory_free(skillinv);
+  cr_assert_eq(inv_free, SUCCESS, "inventory_free() failed");
+
+  int sh_free = free_stats_table(stats_hash);
+  cr_assert_eq(sh_free, SUCCESS, "free_stats_table() failed");
+
+  int eh_free = delete_all_stat_effects(effects_hash);
+  cr_assert_eq(eh_free, SUCCESS, "delete_all_stat_effects() failed");
+
+  /* Check if the deep copies still remain */
+  cr_assert_not_null(player->player_skills, 
+  "player_set_class() did not allocate new memory for skills");
+
+  cr_assert_not_null(player->player_stats, 
+  "player_set_class() did not allocate new memory for stats");
+
+  cr_assert_not_null(player->player_effects, 
+  "player_set_class() did not allocate new memory for effects");
+
+  free_global_effect(global);
+  free_stats_global(health);
   player_free(player);
 }
 
@@ -319,10 +376,6 @@ Test(player, add_skill_1)
 
     cr_assert_eq(wizardry, player->player_skills->active[0], 
     "player_add_skill() failed to add the skill to the skill inventory");
- 
-    /* Freeing player_skills field will be handled by player_free once 
-    player_set_class is updated to deep copy fields */
-    inventory_free(player->player_skills);
 
     skill_free(wizardry);
 
@@ -353,10 +406,6 @@ Test(player, add_skill_2)
  
     cr_assert_eq(cooking, player->player_skills->passive[0], 
     "player_add__skill() failed to add the skill to the skill inventory");
-
-    /* Freeing player_skills field will be handled by player_free once 
-    player_set_class is updated to deep copy fields */
-    inventory_free(player->player_skills);
 
     skill_free(cooking);
 
@@ -409,10 +458,6 @@ Test(player, remove_skill_1)
     cr_assert_eq(sorcery, player->player_skills->active[0], 
     "player_add_skill() failed to remove the skill to the skill inventory");
 
-    /* Freeing player_skills field will be handled by player_free once 
-    player_set_class is updated to deep copy fields */
-    inventory_free(player->player_skills);
-
     skill_free(wizardry);
     skill_free(sorcery);
 
@@ -463,10 +508,6 @@ Test(player, remove_skill_2)
     take its place */
     cr_assert_eq(baking, player->player_skills->passive[0], 
     "player_add_skill() failed to remove the skill to the skill inventory");
-
-    /* Freeing player_skills field will be handled by player_free once 
-    player_set_class is updated to deep copy fields */
-    inventory_free(player->player_skills);
 
     skill_free(cooking);
     skill_free(baking);
@@ -520,11 +561,6 @@ Test(player, has_skill_1)
     "it was removed from the skill inventory");
 
     cr_assert_eq(skill_removed, SUCCESS, "player_remove_skill() did not return SUCCESS");
- 
- 
-    /* Freeing player_skills field will be handled by player_free once 
-    player_set_class is updated to deep copy fields */
-    inventory_free(player->player_skills);
 
     skill_free(wizardry);
     skill_free(sorcery);
@@ -577,10 +613,6 @@ Test(player, has_skill_2)
     "it was removed from the skill inventory");
 
     cr_assert_eq(skill_removed, SUCCESS, "player_remove_skill() did not return SUCCESS");
- 
-    /* Freeing player_skills field will be handled by player_free once 
-    player_set_class is updated to deep copy fields */
-    inventory_free(player->player_skills);
 
     skill_free(cooking);
     skill_free(baking);
@@ -603,7 +635,6 @@ Test(player, add_stat)
     cr_assert_not_null(player->player_stats, 
     "player_add_stat() did not add the stat to the player's stat hash");
 
-    free_stats_table(player->player_stats);
     free_stats_global(health);
 
     player_free(player);  
@@ -632,7 +663,6 @@ Test(player, get_stat_current)
     "player_get_stat_current() did not return correct health value. "
     "Actual: %.02f Expected: %.02f ", current_health, expected);
 
-    free_stats_table(player->player_stats);
     free_stats_global(health);
 
     player_free(player);  
@@ -668,7 +698,6 @@ Test(player, change_stat)
     "player_change_stat() did not correctly update the health value. "
     "Expected: %.02f Actual: %.02f", expected, current_health);
 
-    free_stats_table(player->player_stats);
     free_stats_global(health);
 
     player_free(player);  
@@ -709,7 +738,6 @@ Test(player, change_stat_max)
     "player_change_stat_max() did not correctly update the max health value. "
     "Expected: %.02f Actual: %.02f", expected, current_health);
 
-    free_stats_table(player->player_stats);
     free_stats_global(health);
 
     player_free(player);  
