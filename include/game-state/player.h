@@ -10,6 +10,8 @@
 #include "stats.h"
 #include "item.h"
 #include "playerclass/class.h"
+#include "skilltrees/skilltrees_enums.h"
+#include "skilltrees/inventory.h"
 #include "battle/battle_structs.h"
 
 /* A player in game */

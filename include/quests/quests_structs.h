@@ -8,6 +8,9 @@
 #include "npc/npc.h"
 #include "game-state/player.h"
 
+/* Forward declaration */
+typedef struct npc npc_t;
+
 /*
  * This struct represents a passive mission.
  * 
