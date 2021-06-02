@@ -218,6 +218,8 @@ int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
     assert(npc_battle != NULL);
 
     npc->npc_battle = npc_battle;
+
+    return SUCCESS;
 }
 
 /* See npc.h */
