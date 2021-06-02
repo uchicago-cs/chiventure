@@ -11,7 +11,7 @@
 #include "common/common.h"
 #include "common/utlist.h"
 
-#define BATTLE_BUFFER_SIZE (200) // copied from actionmanagement.c, changed to 200
+#define BATTLE_BUFFER_SIZE (2000) // copied from actionmanagement.c, changed to 200
 
 /*
  * Stores the message to be printed at the start of the battle in the return
@@ -70,4 +70,34 @@ char *print_start_battle(battle_t *b);
  *
  */
 char *print_battle_winner(battle_status_t status, int xp);
+
+/*
+ * Stores the message to be printed at the start of the turn in the return
+ * string. Message prompts player to either use a move or item
+ *
+ * Parameters:
+ *  - b = pointer to the battle
+ *
+ * Returns:
+ *  - malloced string with the message about the turn
+ *
+ */
+char *print_start_turn(battle_t* b);
+
+/* Concatenates a string for the avaliable battle_items for the player
+ * Parameter:
+ *  - b = pointer to the battle
+ *  - string = the string the list will be concatenated to
+ * Returns:
+ *  SUCCESS if it succeeds
+ */ 
+int *print_battle_items(battle_t *b, char *string);
+
+/* Returns a string for the avaliable moves for the player
+ * Parameter:
+ *  - b = pointer to the battle
+ * Returns:
+ *  A string containing the available moves
+ */ 
+char *print_moves(battle_t *b, char* moves);
  #endif

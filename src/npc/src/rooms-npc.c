@@ -69,6 +69,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
     return SUCCESS;
 }
 
+
 /* See rooms-npc.h */
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
@@ -86,11 +87,38 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
     return SUCCESS;
 }
 
-/* Helper function for npc_one_move function */
-int room_id_cmp2(room_list_t *room1, room_list_t *room2)
+
+/* Moves an npc one step down its definite/indefinite path, 
+ * deletes it from it's old room, and adds it to its new one
+ *
+ * Parameters:
+ *  npc_t: Pointer to an NPC
+ *  npcs_in_room_t: Pointers to the old and new npcs_in_room structs
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs or if NPC is cannot be moved
+ *
+ *  NOTE:
+ *   - This is a helper function for npc_one_move, it is only useful if 
+ *     the npcs_in_room structs for the current and next rooms are already known. 
+ */
+int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
+                        npcs_in_room_t *new_npc_room)
 {
-    return (strcmp(room1->room->room_id, room2->room->room_id));
+    assert(npc->movement->mov_type == NPC_MOV_INDEFINITE || 
+           npc->movement->mov_type == NPC_MOV_DEFINITE );
+
+    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
+        move_npc_indefinite(npc->movement);
+    else
+        move_npc_definite(npc->movement);
+
+    add_npc_to_room(new_npc_room,npc);
+    delete_npc_from_room(old_npc_room,npc);
+
+    return SUCCESS;
 }
+
 
 /* See rooms-npc.h */
 int npc_one_move(npc_t *npc)
@@ -122,12 +150,12 @@ int npc_one_move(npc_t *npc)
     if(npc->movement->mov_type == NPC_MOV_DEFINITE)
     {
         LL_SEARCH(npc->movement->npc_mov_type.npc_mov_definite->npc_path,
-                        current_room_list,test,room_id_cmp2);
+                  current_room_list,test,room_id_cmp);
     }
     else if(npc->movement->mov_type == NPC_MOV_INDEFINITE)
     {
         LL_SEARCH(npc->movement->npc_mov_type.npc_mov_indefinite->npc_path,
-                        current_room_list,test,room_id_cmp2);
+                  current_room_list,test,room_id_cmp);
     }
 
     current_room = current_room_list->room;
@@ -144,20 +172,4 @@ int npc_one_move(npc_t *npc)
     rc = npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
 
     return rc;
-}
-
-/* See rooms-npc.h */
-int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room, npcs_in_room_t *new_npc_room)
-{
-    assert(npc->movement->mov_type == NPC_MOV_INDEFINITE || npc->movement->mov_type == NPC_MOV_DEFINITE );
-
-    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
-        move_npc_indefinite(npc->movement);
-    else
-        move_npc_definite(npc->movement);
-
-    add_npc_to_room(new_npc_room, npc);
-    delete_npc_from_room(old_npc_room, npc);
-
-    return SUCCESS;
 }
