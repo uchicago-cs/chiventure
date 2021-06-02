@@ -166,8 +166,17 @@ quest_t *make_sample_quest(long int quest_id, item_t *reward,
                            npc_t *npc1, npc_t *npc2,
                            item_t *item1, item_t *item2, item_t *item3)
 {
-    quest_t *quest = quest_new(quest_id, NULL, reward);
+    mission_t *none = mission_new(NULL, NULL);
+    achievement_t *start = achievement_new(none, "The first mission");
 
+    /*achievement_tree_t *ach_tree = malloc(sizeof(achievement_tree_t));
+    ach_tree->achievement = start;
+    ach_tree->parent = NULL;
+    ach_tree->rsibling = NULL;
+    ach_tree->lmostchild = NULL;*/
+
+    quest_t *quest = quest_new(quest_id, NULL, reward);
+    add_achievement_to_quest(quest, start, "none");
     
     //mission_t *kill_dragon = mission_new(NULL, npc1); // kill dragon
     mission_t *find_ogre = mission_new(NULL, npc1); //talk to ogre
