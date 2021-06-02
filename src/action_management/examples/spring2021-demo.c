@@ -196,12 +196,12 @@ int main(int argc, char **argv)
     add_attribute_to_hash(sword, wepDmg);
     add_item_to_player(ctx->game->curr_player, sword);
  
-    add_entry("SEEDMG", seeDmg, NULL, ctx->table);
-    add_entry("RAISEDMG", raiseDmg, NULL, ctx->table);
+    add_entry("SEEDMG", seeDmg, NULL, ctx->cli_ctx->table);
+    add_entry("RAISEDMG", raiseDmg, NULL, ctx->cli_ctx->table);
 
-    add_entry("MYSTRENGTH", print_player_strength, NULL, ctx->table);
-    add_entry("LEARNSTRENGTH", learn_strength, NULL, ctx->table);
-    add_entry("CHANGESTRENGTH", change_strength, NULL, ctx->table);
+    add_entry("MYSTRENGTH", print_player_strength, NULL, ctx->cli_ctx->table);
+    add_entry("LEARNSTRENGTH", learn_strength, NULL, ctx->cli_ctx->table);
+    add_entry("CHANGESTRENGTH", change_strength, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
