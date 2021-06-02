@@ -69,6 +69,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
     return SUCCESS;
 }
 
+
 /* See rooms-npc.h */
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
@@ -85,6 +86,7 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 
     return SUCCESS;
 }
+
 
 /* Moves an npc one step down its definite/indefinite path, 
  * deletes it from it's old room, and adds it to its new one
@@ -117,6 +119,7 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
     return SUCCESS;
 }
 
+
 /* See rooms-npc.h */
 int npc_one_move(npc_t *npc)
 {
@@ -147,12 +150,12 @@ int npc_one_move(npc_t *npc)
     if(npc->movement->mov_type == NPC_MOV_DEFINITE)
     {
         LL_SEARCH(npc->movement->npc_mov_type.npc_mov_definite->npc_path,
-                        current_room_list,test,room_id_cmp);
+                  current_room_list,test,room_id_cmp);
     }
     else if(npc->movement->mov_type == NPC_MOV_INDEFINITE)
     {
         LL_SEARCH(npc->movement->npc_mov_type.npc_mov_indefinite->npc_path,
-                        current_room_list,test,room_id_cmp);
+                  current_room_list,test,room_id_cmp);
     }
 
     current_room = current_room_list->room;
