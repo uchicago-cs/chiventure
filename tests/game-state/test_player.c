@@ -8,6 +8,8 @@
 #include "game-state/game_state_common.h"
 #include "game-state/stats.h"
 #include "playerclass/class.h"
+#include "skilltrees/skill.h"
+#include "skilltrees/inventory.h"
 #include "battle/battle_default_objects.h"
 #include "battle/battle_structs.h"
 
