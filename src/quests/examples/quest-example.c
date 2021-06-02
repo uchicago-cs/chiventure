@@ -3,6 +3,7 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "game-state/room.h"
+#include "game-state/stats.h"
 #include "npc/rooms-npc.h"
 #include "quests/quests_state.h"
 
@@ -282,7 +283,7 @@ int main(int argc, char **argv)
                           NULL, NULL, false);
 
     char *npc_id2 = "Big Bad Wolf";
-    npc_t *npc2 = npc_new(npc_id2, "second npc", "this is the npc to kill", 10, NULL);
+    npc_t *npc2 = npc_new(npc_id2, "second npc", "this is the npc to kill", NULL, NULL, true);
 
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc1);

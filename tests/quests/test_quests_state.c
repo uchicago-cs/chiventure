@@ -59,10 +59,10 @@ Test(active_mission, init)
    	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                100, class);
+                                class, NULL, false);
 
     npc_t *mission_meet_kill = npc_new(npc_kill_id , "npc to kill", 
-                                       "An npc to kill", 100, class);
+                                       "An npc to kill", class, NULL, false);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
@@ -262,10 +262,10 @@ active_mission_t *make_example_a_mission()
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                100, class);
+                                class, NULL, false);
 
     npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       100, class);
+                                       class, NULL, false);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
@@ -368,9 +368,9 @@ Test(quest, add_achievement_to_quest)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_free = achievement_new(mission, id);
+	achievement_t* achievement_to_add = achievement_new(mission, id);
 
-    int res = add_achievement_to_quest(quest, achievement_to_free, "NULL");
+    int res = add_achievement_to_quest(quest, achievement_to_add, "NULL");
 
     cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
 
@@ -394,7 +394,7 @@ Test(quest, can_start)
 {
     int health = 20;
 
-    player_t* player1 = player_new("player1", health);
+    player_t* player1 = player_new("player1");
 
     reward_t *rewards = create_sample_rewards();
     stat_req_t *stat_req = create_sample_stat_req();
@@ -454,10 +454,9 @@ Test(quest, complete_achievement)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_free = achievement_new(mission, id);
-    achievement_t *achievement = achievement_new(mission, "mission");
+	achievement_t* achievement_to_complete = achievement_new(mission, id);
 
-    int res = add_achievement_to_quest(quest, achievement, NULL);
+    int res = add_achievement_to_quest(quest, achievement_to_complete, NULL);
 
     cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
 

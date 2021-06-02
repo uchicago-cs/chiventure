@@ -94,7 +94,7 @@ typedef struct achievement_tree {
  *  xp: an xp amount gained
  *  item: an item gained
  */
-typedef struct reward{
+typedef struct reward {
    int xp;
    item_t *item;
 } reward_t;
@@ -106,7 +106,7 @@ typedef struct reward{
  *  hp: health points 
  *  level: a number of levels gained
  */
-typedef struct stat_req{
+typedef struct stat_req {
     int hp;
     int level;
 } stat_req_t;
@@ -115,7 +115,7 @@ typedef struct stat_req{
  * This is the hashable struct for a quest 
  * Elements:
  * quest_id: the id of the quest
- * achievement_list: linked list struct holding a list of
+ * achievement_tree: non-binary tree struct holding a tree of
  *                   achievements that make up a quest
  * reward: reward of the quest is either experience, an item, or both
  * stat_req: stat requirement for the quest
