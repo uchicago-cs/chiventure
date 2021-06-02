@@ -4,6 +4,7 @@
 #include "playerclass/class_prefabs.h"
 #include "common/ctx.h"
 #include "game-state/game.h"
+#include "skilltrees/skilltree.h" 
 
 /* In this case, the stat hashtable is incomplete: some of our stats exists,
    some are not yet declared. */

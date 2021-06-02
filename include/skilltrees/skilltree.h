@@ -200,7 +200,7 @@ int skill_tree_has_node(skill_tree_t* tree, sid_t sid);
 int skill_tree_node_remove(skill_tree_t* tree, skill_node_t* node);
 
 /*
- * Returns all prerequisites for a given skill.
+ * Returns all prerequisite skills for a given skill.
  *
  * Parameters:
  *  - tree: A skill tree
