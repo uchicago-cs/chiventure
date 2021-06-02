@@ -22,6 +22,28 @@
 
 /* -- STRUCTS -- */
 
+/** itemspec_t struct
+ * This struct specifies how and when an item should spawn for a specific room.
+ * The struct contains:
+ * - char *item_name: item name and hash key
+ * - double spawn_chance: the probability of that item type spawning (0 ≤ p ≤ 1)
+ * - unsigned int min_num: if the item spawns, the min quantity it will spawn with
+ * - unsigned int max_num: if the item spawns, the max quantity it will spawn with
+ *                         (min_num ≤ max_num)
+ *   Each quantity in the prescribed interval has an equal chance of occurring.
+ * - UT_hash_handle hh: hash handle for itemspec
+ */
+typedef struct itemspec {
+    char *item_name; 
+    double spawn_chance; 
+    unsigned int min_num;
+    unsigned int max_num;
+    UT_hash_handle hh; 
+} itemspec_t;
+
+/* to differentiate between pointers to structs (above) and hash tables (below) */
+typedef struct itemspec itemspec_hash_t; 
+
 /* roomspec_t struct
 * This struct will carry the necessary info for creating a room.
 * The struct contains:
@@ -38,6 +60,7 @@ typedef struct roomspec {
     char *long_desc;
     int num_built;
     item_hash_t *items;
+    itemspec_hash_t *itemspecs;
     UT_hash_handle hh;
 } roomspec_t;
 
@@ -160,6 +183,62 @@ gencontext_t* gencontext_new(path_t *open_paths, int level, int num_openpaths, s
 */
 int gencontext_free(gencontext_t *context);
 
+/* ITEMSPEC */
+
+/** init_itemspec
+ * Initializes an itemspec_t struct with the given parameters. 
+ * 
+ * parameters:
+ * - itemspec: the pointer to the itemspec we are initializing. Must point to some valid memory.
+ *             Its item_name array must be long enough to fit the given name.
+ * - item_name: the item name. 
+ * - spawn_chance: probability of the item type (for every room instance generated from the roomspec)
+ *                 must be in [0, 1]
+ * - min_num: the min quantity with which the item occurs, IF it occurs. 
+ *            Must be ≤ max_num.
+ * - max_num: the max quantity with which the item occurs, IF it occurs.
+ *            Must be ≥ min_num
+ * 
+ * returns:
+ * - SUCCESS - for success
+ * - FAILURE - if failed to initalize and/or any parameter requirements were violated
+ */
+int init_itemspec(itemspec_t *itemspec, char *item_name, double spawn_chance, 
+                                        unsigned int min_num, unsigned int max_num);
+
+/** itemspec_new
+ * Creates a new itemspec_t struct with the given parameters. 
+ * 
+ * parameters:
+ * - item_name: the item name. 
+ * - spawn_chance: probability of the item type (for every room instance generated from the roomspec)
+ *                 must be in [0, 1]
+ * - min_num: the min quantity with which the item occurs, IF it occurs. 
+ *            Must be ≤ max_num.
+ * - max_num: the max quantity with which the item occurs, IF it occurs.
+ *            Must be ≥ min_num
+ * 
+ * returns:
+ * itemspec_t* - the new itemspec
+ * NULL - if failed to create a new itemspec and/or any parameter requirements were violated.
+ */
+itemspec_t *itemspec_new(char *item_name, double spawn_chance, 
+                         unsigned int min_num, unsigned int max_num);
+
+/** itemspec_free
+ * Frees an itemspec_t* and its contents and returns whether or not it was successful.
+ * 
+ * parameters:
+ * - itemspec: itemspec_t* that we are attempting to free
+ * returns:
+ * SUCCESS - for SUCCESS
+ * FAILURE - if failed to free
+ */
+int itemspec_free(itemspec_t *itemspec);
+
+
+
+
 /* ROOMSPEC */
 
 /* init_roomspec
@@ -172,6 +251,7 @@ int gencontext_free(gencontext_t *context);
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* NOTE: Does not affect itemspec hash. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
 *
 * returns:
 * SUCCESS - for SUCCESS
@@ -187,6 +267,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
 *
 * returns:
 * roomspec_t *roomspecnew - the new roomspec
@@ -195,7 +276,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
 
 /* roomspec_free
-* Frees a gencontext_t* and returns whether or not it was succesful.
+* Frees a roomspec_t* and returns whether or not it was succesful.
 *
 * parameters:
 * - spec: roomspec_t* that we are attempting to free

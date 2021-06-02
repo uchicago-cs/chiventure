@@ -6,6 +6,7 @@
 #define INCLUDE_SKILL_H_
 
 #include "skilltrees/skilltrees_common.h"
+#include "skilltrees/effect.h"
 
 /*
  * Allocates a new skill in the heap.
@@ -24,7 +25,7 @@
  */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   skill_effect_t effect);
+                   effect_t*  skill_effect);
 
 /*
  * Initializes a skill.
@@ -47,7 +48,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               skill_effect_t effect);
+               effect_t* skill_effect);
 
 /*
  * Frees the resources associated with a skill.
@@ -65,17 +66,16 @@ int skill_free(skill_t* skill);
  *
  * Parameters:
  *  - skill: A skill
- *  - args: Arguments for the skill effect function, contained in a
- *          space-separated string
- *
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
  * Returns:
- *  - A string that describes the consequence(s) of the skill execution for the
- *    CLI
+ * 0 if success
+ * 1 if failure
  */
-char* skill_execute(skill_t* skill, char* args);
+int skill_execute(skill_t* skill, chiventure_ctx_t* ctx);
 
 /*
- * Levels up a skill
+ * Levels up a skill and exponentially increments the min_xp required for 
+ * the next level
  *
  * Parameters:
  *  - skill: A skill.
@@ -86,6 +86,7 @@ char* skill_execute(skill_t* skill, char* args);
  * -1 if leveling up failed, such as invalid parameters for instance.
  */
 int skill_level_up(skill_t* skill);
+
 
 /*
  * Increments a skill's xp, leveling up when necessary.

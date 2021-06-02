@@ -34,8 +34,12 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
 
-    int check = npc_init(npc, npc_id, short_desc, long_desc, 
+    char *insensitized_id = case_insensitized_string(npc_id);
+
+    int check = npc_init(npc, insensitized_id, short_desc, long_desc,
                          class, movement, will_fight); 
+
+    free(insensitized_id);
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
         npc->long_desc == NULL || check != SUCCESS)
@@ -133,6 +137,21 @@ item_list_t *get_npc_inv_list(npc_t *npc)
 }
 
 /* See npc.h */
+bool item_in_npc_inventory(npc_t *npc, char *item_id)
+{
+    item_t *check;
+    char *insensitized_id = case_insensitized_string(item_id);
+    HASH_FIND(hh, npc->inventory, insensitized_id,
+              strnlen(item_id, MAX_ID_LEN), check);
+    free(insensitized_id);
+    if (check != NULL){
+        return true;
+    }
+    return false;
+}
+
+// "SET" FUNCTIONS ------------------------------------------------------------
+/* See npc.h */
 npc_battle_t *get_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);
@@ -183,6 +202,8 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
     assert(npc != NULL && c != NULL);
 
     npc->dialogue = c;
+
+    return SUCCESS;
 }
 
 /* See npc.h */

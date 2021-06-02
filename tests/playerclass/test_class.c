@@ -4,6 +4,8 @@
 #include <criterion/criterion.h>
 
 #include "playerclass/class.h"
+#include "skilltrees/skilltree.h"
+#include "skilltrees/inventory.h"
 
 /* 
  * Creates a sample class for testing 
