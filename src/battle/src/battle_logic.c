@@ -75,7 +75,7 @@ int consume_battle_item(combatant_t *c, battle_item_t *item)
 }
 
 /* see battle_logic.h */
-int use_battle_item(combatant_t *c, int id)
+int use_battle_item(combatant_t *c, battle_t *battle, int id)
 {
     if (c->items == NULL)
     {
@@ -84,13 +84,20 @@ int use_battle_item(combatant_t *c, int id)
     
     battle_item_t *item = find_battle_item(c->items, id);
     
-    if(item == NULL || item->quantity == 0)
+    if (item == NULL || item->quantity == 0)
     {
         return FAILURE;
     }
 
-    consume_battle_item(c, item);
-    item->quantity -= 1;
+    if (item->is_weapon)
+    {
+        consume_battle_item(battle->enemy, item);
+        item->durability -= 10;
+    } else
+    {
+        consume_battle_item(c, item);
+        item->quantity -= 1;
+    }
 
     if (item->quantity == 0)
     {
