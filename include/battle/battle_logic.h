@@ -6,6 +6,7 @@
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
 #include "battle/battle_common.h"
+#include "battle/battle_flow_structs.h"
 
 /*
  * Checks the targets of a move to see if they exist and are targetable
@@ -42,11 +43,20 @@ turn_t goes_first(battle_t *b);
  * Finds the desired battle_item to be used
  * Parameters:
  *    inventory - a battle_player or enemy's inventory
- *    id - the id number of the desired battle_item
+ *    input - the char name of the desired battle_item
  * Returns:
- *    Returns a pointer to the desired battle_item 
+ *    Returns a pointer to the desired battle_item
  */
-battle_item_t *find_battle_item(battle_item_t *inventory, int id);
+battle_item_t *find_battle_item(battle_item_t *inventory, char *input);
+
+/* This ensures that the user's inputted move exists.
+ * Parameters:
+ *  ctx: main structure of the battle
+ *  move_name: name of the desired move
+ * Returns:
+ *  a pointer to the found move or NULL for no move 
+ */ 
+move_t *find_player_move(battle_ctx_t *ctx, char *move_name);
 
 /*
  * Consumes a battle_item for the said combatant
@@ -59,15 +69,16 @@ battle_item_t *find_battle_item(battle_item_t *inventory, int id);
 int consume_battle_item(combatant_t *c, battle_item_t *item);
 
 /* Uses the battle_item with the given ID on the battle_player
- * ! Currently assumes that this is a battle_item !
+ * ! currently checks to see if the battle_item is a weapon or consumable !
  *
  *  Parameters: 
  *   c - combatant information
- *   id - the number id of the battle_item
+ *   battle - battle information   
+ *   name - the name of the battle_item
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_battle_item(combatant_t *c,int id);
+int use_battle_item(combatant_t *c, battle_t *battle, char *name);
 
 /* Removes a battle item from a combatant's list of battle items
  *

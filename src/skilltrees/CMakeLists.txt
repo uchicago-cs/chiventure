@@ -4,9 +4,9 @@ include_directories(../../include/)
 
 add_library(skilltrees STATIC
             src/effect.c
-            src/skilltrees_common.c
             src/skill.c
             src/inventory.c
+            src/skilltrees_common.c
             src/skilltree.c)
 
 add_subdirectory(examples

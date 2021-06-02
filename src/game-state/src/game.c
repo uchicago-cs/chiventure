@@ -4,6 +4,7 @@
 #include "game-state/item.h"
 #include "game-state/mode.h"
 #include "npc/npc.h"
+#include "battle/battle_flow_structs.h"
 #include "cli/util.h"
 
 /* see game.h */
@@ -159,6 +160,17 @@ int add_effect_to_game(game_t *game, effects_global_t *effect)
 }
 
 /* See game.h */
+int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx){
+    if (battle_ctx == NULL) {
+        return FAILURE;
+    }
+    
+    game->battle_ctx = battle_ctx;
+
+    return SUCCESS;
+}
+
+/* See game.h */
 bool end_conditions_met(game_t *game)
 {
     if(game->end_conditions == NULL){
@@ -188,7 +200,7 @@ bool is_game_over(game_t *game)
 /* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
 			char* direction)
-{   
+{
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL)
     {

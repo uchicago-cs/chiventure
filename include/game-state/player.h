@@ -11,9 +11,8 @@
 #include "item.h"
 #include "playerclass/class.h"
 #include "skilltrees/skilltrees_enums.h"
-
-/* Forward declaration for skilltrees */
-typedef struct skill skill_t;
+#include "skilltrees/inventory.h"
+#include "battle/battle_structs.h"
 
 /* A player in game */
 typedef struct player {
@@ -49,6 +48,9 @@ typedef struct player {
 
     /* The current items held by the player*/
     item_hash_t *inventory;
+
+    /* The current moves available to the player */
+    move_t *moves;
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are 
@@ -73,12 +75,12 @@ player_t *player_new(char *player_id);
  * Frees resources associated with a player
  *
  * Parameters:
- *  plyr: the player to be freed
+ *  player: the player to be freed
  *
  * Returns:
  *  SUCCESS if successful
  */
-int player_free(player_t *plyr);
+int player_free(player_t *player);
 
 /* Deletes a hashtable of players
  * Implemented with macros provided by uthash.h
@@ -93,85 +95,88 @@ int delete_all_players(player_hash_t* players);
 
 /*
  * Sets an allocated player_t object's player_class field to given class_t class
+ *          Makes deep copies of the given class's "starting_skills",
+ *          "base_stats", and "effects fields" and updates the corresponding
+ *          fields in the player struct
  *
  * Parameters:
- *  plyr: A player. Must point to already allocated memory.
+ *  player: A player. Must point to already allocated memory.
  *  player_class: The player's class. Contains starting fields for
  *                skills and stats
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_set_class(player_t *plyr, class_t *player_class);
+int player_set_class(player_t *player, class_t *player_class);
 
 /*
  * Sets an allocated player_t's race field to the given string
  *
  * Parameters:
- *  plyr: A player. Must point to already allocated memory.
+ *  player: A player. Must point to already allocated memory.
  *  player_race: A string containing the player's race
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_set_race(player_t *plyr, char *player_race);
+int player_set_race(player_t *player, char *player_race);
 
 /*
  * Returns the level of the player
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *
  * Returns:
  *  int, the player's level
  */
-int get_level(player_t *plyr);
+int get_level(player_t *player);
 
 /*
  * Increments the level of the player by given amt
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *  change: the desired amount to increment in player level
  *
  * Returns:
  *  int, the new level
  */
-int change_level(player_t *plyr, int change);
+int change_level(player_t *player, int change);
 
 /*
  * Returns the experience points of the player
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *
  * Returns:
  *  int, the player's experience
  */
-int get_xp(player_t *plyr);
+int get_xp(player_t *player);
 
 /*
  * Changes the experience (xp) points of the player
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *  points: how much to change xp (positive or negative)
  *
  * Returns:
  *  int, the player's new xp
  */
-int change_xp(player_t *plyr, int points);
+int change_xp(player_t *player, int points);
 
 /*
  * Returns the inventory list
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *
  * Returns:
  *  hashtable of items, the inventory
  */
-item_hash_t* get_inventory(player_t *plyr);
+item_hash_t* get_inventory(player_t *player);
 
 
 /* Adds an item to the given player
@@ -230,7 +235,7 @@ bool item_in_inventory(player_t *player, item_t *item);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int assign_stats_player(player_t *plyr, stats_hash_t *sh);
+int assign_stats_player(player_t *player, stats_hash_t *sh);
 
 /*
  * Adds a skill to a player's respective skill inventory
@@ -351,5 +356,19 @@ int player_add_stat(player_t *player, stats_t *s);
  * Note: Same return value as add_stat_effect()
  */
 int player_add_stat_effect(player_t *player, stat_effect_t *effect);
+
+/*
+ * Adds a move to the player's list of moves 
+ *
+ * Parameters:
+ *  - player: A player. Must be allocated with player_new()
+ *  - move: pointer to the move to be added
+ *
+ * Returns:
+ *  - Success or failure and modifies the status
+ *
+ */
+int add_move(player_t *player, move_t *move);
+
 
 #endif

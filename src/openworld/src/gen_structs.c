@@ -1,4 +1,4 @@
-/*Team RPG-Openworld
+/*Team RPG-Openworld 
 *
 * autogenerate.c: This file. Function definitions of the functions
 * specified in chiventure/include/autogenerate.h
@@ -16,6 +16,64 @@
 #include "openworld/gen_structs.h"
 #include "common/utlist.h"
 #include "common/uthash.h"
+
+/* See gen_structs.h */
+int init_itemspec(itemspec_t *itemspec, char *item_name, double spawn_chance, 
+                                        unsigned int min_num, unsigned int max_num)
+{
+    if (itemspec == NULL) {
+        return FAILURE;
+    } else if (spawn_chance < 0 || 1 < spawn_chance) {
+        return FAILURE;
+    } else if (min_num > max_num) {
+        return FAILURE;
+    }
+
+    strcpy(itemspec->item_name, item_name);
+    itemspec->spawn_chance = spawn_chance;
+    itemspec->min_num = min_num;
+    itemspec->max_num = max_num;
+
+    return SUCCESS;
+}
+
+/* See gen_structs.h */
+itemspec_t *itemspec_new(char *item_name, double spawn_chance, 
+                         unsigned int min_num, unsigned int max_num)
+{
+    itemspec_t *rv = calloc(1, sizeof(itemspec_t));
+    if (rv == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for itemspec_new\n");
+        return NULL;
+    }
+
+    rv->item_name = malloc((MAX_SDESC_LEN + 1) * sizeof(char));
+    if (rv->item_name == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for itemspec->item_name\n");
+        itemspec_free(rv);
+        return NULL;
+    }
+
+    int rc = init_itemspec(rv, item_name, spawn_chance, min_num, max_num);
+    if (rc == FAILURE) {
+        itemspec_free(rv);
+        return NULL;
+    }
+    return rv;
+}
+
+/* See gen_structs.h */
+int itemspec_free(itemspec_t *itemspec)
+{
+    if (itemspec == NULL) 
+        return FAILURE;
+
+    if (itemspec->item_name)
+        free(itemspec->item_name);
+    
+    free(itemspec);
+    return SUCCESS;
+}
 
 /* see gen_structs.h */
 int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist)
@@ -129,6 +187,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
     if (check == FAILURE) {
         return NULL;
     }
+    roomspecnew->itemspecs = NULL;
     return roomspecnew;
 }
 
@@ -281,6 +340,7 @@ levelspec_t *levelspec_new(int num_thresholds, int *thresholds)
     }
 
     init_levelspec(levelspec, num_thresholds, thresholds);
+    levelspec->roomlevels = NULL;
     return levelspec;
 }
 
@@ -294,4 +354,6 @@ int levelspec_free(levelspec_t *levelspec)
     /* frees roomlevels hash and sets it to NULL */
     HASH_CLEAR(hh, levelspec->roomlevels);
     free(levelspec);
+
+    return SUCCESS;
 }
