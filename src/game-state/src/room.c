@@ -109,12 +109,12 @@ int add_path_to_room(room_t *room, path_t *path)
 }
 
 /* See common-room.h */
-int delete_all_rooms(room_hash_t *rooms)
+int delete_all_rooms(room_hash_t **rooms)
 {
     room_t *current_room, *tmp;
-    HASH_ITER(hh, rooms, current_room, tmp)
+    HASH_ITER(hh, *rooms, current_room, tmp)
     {
-        HASH_DEL(rooms, current_room);  /* deletes (rooms advances to next) */
+        HASH_DEL(*rooms, current_room);  /* deletes (rooms advances to next) */
         room_free(current_room);             /* free it */
     }
     return SUCCESS;
