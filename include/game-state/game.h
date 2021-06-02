@@ -5,11 +5,13 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "npc/npc.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
 #include "mode.h"
 #include "npc/npc.h"
+#include "battle/battle_flow_structs.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -78,6 +80,9 @@ typedef struct game {
 
     /* time when game started */
     //int time_start;
+
+    /* pointer to the current battle context */
+    battle_ctx_t *battle_ctx;
 } game_t;
 
 
@@ -218,6 +223,17 @@ int add_stat_to_game(game_t *game, stats_global_t *gs);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_effect_to_game(game_t *game, effects_global_t *effect);
+
+/* Adds a battle context to the given game
+ * 
+ * Parameters:
+ *  game struct
+ *  battle context struct
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx);
 
 /* Checks if all end conditions in a given game have been met
  * 

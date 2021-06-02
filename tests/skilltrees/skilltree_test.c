@@ -6,7 +6,7 @@
 #include "skilltrees/skill.h"
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/inventory.h"
-#include "effect_t.h"
+#include "skilltrees/effect.h"
 
 // /* Tests skill_node_new. */
 // Test(skilltree_tests, skill_node_new_test)

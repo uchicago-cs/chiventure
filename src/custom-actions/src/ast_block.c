@@ -41,52 +41,114 @@ int AST_block_init(AST_block_t *ast, block_t *block, block_type_t block_type)
     ast->block = block;
     ast->block_type = block_type;
     ast->next = NULL;
-    ast->prev = NULL;
 
     return SUCCESS; 
+}
+
+/* See ast_block.h */
+int AST_free(AST_block_t* ast)
+{
+    assert(ast != NULL);
+
+    if (ast->block != NULL)
+    {
+        switch(ast->block_type) 
+        {
+            case CONTROL: 
+                if (ast->block->control_block != NULL) 
+                {
+                    control_block_free(ast->block->control_block);
+                    ast->block->control_block == NULL;
+                }
+                free(ast->block);
+                ast->block == NULL;
+                break;
+            case ACTION:
+                if (ast->block->action_block != NULL)
+                {
+                    action_block_free(ast->block->action_block);
+                    ast->block->action_block == NULL;
+                }
+                free(ast->block);
+                ast->block == NULL;
+                break;
+            case CONDITIONAL:
+                if (ast->block->conditional_block != NULL)
+                {
+                    conditional_block_free(ast->block->conditional_block);
+                }
+                free(ast->block);
+                ast->block == NULL;
+                break; 
+            case BRANCH:
+                if (ast->block->branch_block != NULL)
+                {
+                    branch_block_free(ast->block->branch_block);
+                }
+                free(ast->block);
+                ast->block == NULL;
+        }
+    }
+
+    free(ast);
+
+    return SUCCESS;
 }
 
 /* See ast_block.h */
 int AST_block_free(AST_block_t *ast)
 {
     assert(ast != NULL);
-    switch(ast->block_type) 
+
+    AST_block_t *elt, *tmp;
+    LL_FOREACH_SAFE(ast, elt, tmp)
     {
-        case CONTROL: 
-            if (ast->block->control_block != NULL) 
-            {
-                control_block_free(ast->block->control_block);
-            }
-            break;
-        case ACTION:
-            if (ast->block->action_block != NULL)
-            {
-                action_block_free(ast->block->action_block);
-            }
-            break;
-        case CONDITIONAL:
-            if (ast->block->conditional_block != NULL)
-            {
-                conditional_block_free(ast->block->conditional_block);
-            }
-            break; 
-        case BRANCH:
-            if (ast->block->branch_block != NULL)
-            {
-                branch_block_free(ast->block->branch_block);
-            }
+        LL_DELETE(ast, elt);
+        AST_free(elt);
     }
-    if (ast->next != NULL) 
-    {
-        AST_block_free(ast->next);
-    }
-    if (ast->prev != NULL)
-    {
-        AST_block_free(ast->prev);
-    }
-    free(ast);
 
     return SUCCESS;  
+}
+
+/* See ast_block.h */
+int list_how_many_AST_block(AST_block_t* head)
+{
+    assert(head != NULL);
+
+    int count;
+    AST_block_t* elt = malloc(sizeof(AST_block_t));
+    LL_COUNT(head, elt, count);
+    free(elt);
+    return count;
+}
+
+/* See ast_block.h */
+int append_list_AST_block(AST_block_t* head, AST_block_t* add)
+{
+    assert(head != NULL);
+    LL_APPEND(head, add);
+    return SUCCESS;
+}
+
+/* See ast_block.h */
+int prepend_list_AST_block(AST_block_t* head, AST_block_t* add)
+{
+    assert(head != NULL);
+    LL_PREPEND(head, add);
+    return SUCCESS;
+}
+
+/* See ast_block.h */
+int list_remove_AST_block(AST_block_t* head, AST_block_t* del)
+{
+    assert(head != NULL);
+    assert(del != NULL);
+    
+    LL_DELETE(head, del);
+
+    AST_free(del);
+    
+    return SUCCESS;
 }
 
 /* See ast_block.h */
@@ -96,20 +158,22 @@ int run_ast_block(AST_block_t *block)
   {
     return SUCCESS;
   }
-  int rc;
   switch(block->block_type)
     {
     case(CONTROL):
       return FAILURE;
       break;
     case(BRANCH):
-      //To be implemented
-      return FAILURE;
+      if (do_branch_block(block->block->branch_block) == FAILURE)
+      {
+          return FAILURE;
+      }
+      return run_ast_block(block->next);
       break;
     case(ACTION):
       if (exec_action_block(block->block->action_block) == FAILURE)
       {
-        return FAILURE;
+          return FAILURE;
       }
       return run_ast_block(block->next);
       break;
