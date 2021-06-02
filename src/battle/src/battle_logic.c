@@ -1,5 +1,6 @@
 #include "battle/battle_logic.h"
 #include "common/utlist.h"
+#include <ctype.h>
 
 /* check battle_logic.h */
 combatant_t* check_target(battle_t *b, char *target)
@@ -50,13 +51,30 @@ turn_t goes_first(battle_t *b)
 }
 
 /* see battle_logic.h */
-battle_item_t *find_battle_item(battle_item_t *inventory, int id)
+move_t *find_player_move(battle_ctx_t *ctx, char *move_name)
+{
+    move_t *temp;
+    move_t *player_move = NULL;
+
+    DL_FOREACH(ctx->game->battle->player->moves, temp)
+    {
+        if (strncmp(temp->info, move_name, MAX_MOVE_INFO_LEN) == 0)
+        {
+            player_move = temp;
+            return player_move;
+        }
+    }
+    return NULL;
+}
+
+/* see battle_logic.h */
+battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 {
     battle_item_t *temp;
 
     DL_FOREACH(inventory, temp)
-    {
-        if (temp->id == id)
+    {        
+        if (strncmp(temp->name, input, 100) == 0)
         {
             return temp;
         }
@@ -75,14 +93,14 @@ int consume_battle_item(combatant_t *c, battle_item_t *item)
 }
 
 /* see battle_logic.h */
-int use_battle_item(combatant_t *c, battle_t *battle, int id)
+int use_battle_item(combatant_t *c, battle_t *battle, char *name)
 {
     if (c->items == NULL)
     {
         return FAILURE;
     }
     
-    battle_item_t *item = find_battle_item(c->items, id);
+    battle_item_t *item = find_battle_item(c->items, name);
     
     if (item == NULL || item->quantity == 0)
     {
@@ -133,9 +151,9 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
             {
                 temp->next->prev = temp->prev;
             }
-            free(temp->name);
-            free(temp->description);
-            free(temp);
+            free(item->name);
+            free(item->description);
+            free(item);
         }
     }
     return SUCCESS;
