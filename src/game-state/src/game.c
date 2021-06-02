@@ -6,6 +6,7 @@
 #include "npc/npc.h"
 #include "battle/battle_flow_structs.h"
 #include "cli/util.h"
+#include "quests/quests_state.h"
 
 /* see game.h */
 game_t *game_new(char *desc)
@@ -108,6 +109,18 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
     if (game->final_room != NULL)
         return SUCCESS;
     return FAILURE;
+}
+
+/* See game.h */
+quest_t *get_quest(game_t* game, char *quest_id)
+{
+	return get_quest_from_hash(quest_id, game->all_quests);
+}
+
+/* See game.h */
+int add_quest_to_game(game_t *game, quest_t *quest)
+{
+	return add_quest_to_hash(quest, game->all_quests);
 }
 
 /* See game.h */
