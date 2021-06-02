@@ -210,9 +210,9 @@ quest_t *make_sample_quest(long int quest_id, item_t *reward,
 
     add_achievement_to_quest(quest, achievement1, "The first mission");
     add_achievement_to_quest(quest, achievement2, "The first mission");
-    add_achievement_to_quest(quest, achievement3, "Take blue potion");
-    add_achievement_to_quest(quest, achievement4, "Take green pill");
-    add_achievement_to_quest(quest, achievement5, "Take green pill");
+    add_achievement_to_quest(quest, achievement3, "Take green pill");
+    add_achievement_to_quest(quest, achievement4, "Talk to Ogre-Rick");
+    add_achievement_to_quest(quest, achievement5, "Talk to Ogre-Rick");
 
     return quest;
 }
