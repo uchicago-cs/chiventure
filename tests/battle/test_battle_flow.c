@@ -84,10 +84,10 @@ Test(battle_flow_move, set_one_enemy)
 /* Tests set_battle() */
 Test(battle_flow_move, set_battle)
 {
-    battle_player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("set_battle_name", NULL, NULL, NULL, NULL);
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
-    npc_t *npc_enemy = npc_new("set_battle_Name", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("set_battle_name", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
@@ -96,14 +96,14 @@ Test(battle_flow_move, set_battle)
     cr_assert_not_null(b, "set_battle() failed");
     // Check player field
     cr_assert_not_null(b->player, "set_battle() failed");
-    cr_assert_str_eq(b->player->name, "set_battle_Name", "set_battle() didn't set name");
+    cr_assert_str_eq(b->player->name, "set_battle_name", "set_battle() didn't set name");
     cr_assert_eq(b->player->is_friendly, true, "set_battle() didn't set type");
     cr_assert_eq(b->player->next, NULL, "set_battle() didn't set next");
     cr_assert_eq(b->player->prev, NULL, "set_battle() didn't set prev");
 
     // Check enemy field
     cr_assert_not_null(b->enemy, "set_battle() failed");
-    cr_assert_str_eq(b->enemy->name, "set_battle_Name", "set_battle() didn't set name");
+    cr_assert_str_eq(b->enemy->name, "set_battle_name", "set_battle() didn't set name");
     cr_assert_eq(b->enemy->is_friendly, false, "set_battle() didn't set type");
     cr_assert_eq(b->enemy->next, NULL,"set_battle() didn't set next");
     cr_assert_eq(b->enemy->prev, NULL, "set_battle() didn't set prev");
@@ -159,7 +159,7 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     estats->strength = 150;
     estats->defense = 20;
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
@@ -171,7 +171,7 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     move->damage = 100;
     move->name = "Test";
 
-    char *res = battle_flow_move(ctx, move, "Enemy");
+    char *res = battle_flow_move(ctx, move, "enemy");
     
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 }
@@ -199,7 +199,7 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     estats->level = 5;
     estats->strength = 150;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
@@ -219,7 +219,7 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     int expected_player_hp = player->stats->hp -
                       damage(player, give_move(player, enemy, enemy->ai), enemy);
 
-    char *res = battle_flow_move(ctx, move, "Enemy");
+    char *res = battle_flow_move(ctx, move, "enemy");
     
     
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
@@ -261,7 +261,7 @@ Test(battle_flow_move, battle_over_by_player)
     estats->strength = 150;
     estats->defense = 20;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
 
@@ -279,7 +279,7 @@ Test(battle_flow_move, battle_over_by_player)
     int expected_hp = player->stats->hp -
                       damage(player, give_move(player, enemy,enemy->ai), enemy);
 
-    char *res = battle_flow_move(ctx, move, "Enemy");
+    char *res = battle_flow_move(ctx, move, "enemy");
     
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
@@ -291,7 +291,7 @@ Test(battle_flow_move, battle_over_by_player)
     expected_hp = player->stats->hp -
                   damage(player, give_move(player, enemy,enemy->ai), enemy);
 
-    res = battle_flow_move(ctx, move, "Enemy");
+    res = battle_flow_move(ctx, move, "enemy");
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     // note: this hp value relies on player class implementation of move_list 
@@ -324,7 +324,7 @@ Test(battle_flow_move, battle_over_by_enemy)
     estats->strength = 200;
     estats->defense = 30;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
@@ -342,11 +342,11 @@ Test(battle_flow_move, battle_over_by_enemy)
     int expected_hp = enemy->stats->hp -
                       2 * damage(enemy, move, player);  
 
-    char *res = battle_flow_move(ctx, move, "Enemy");
+    char *res = battle_flow_move(ctx, move, "enemy");
     
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
-    res = battle_flow_move(ctx, move, "Enemy");
+    res = battle_flow_move(ctx, move, "enemy");
     
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
