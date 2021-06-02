@@ -34,6 +34,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
         
         if (curr == NULL)
         {
+            fprintf(stderr, "%s", stat_names[i]);
             fprintf(stderr, "Error: Given player statistic does not exist. \n");
             return NULL;
         }

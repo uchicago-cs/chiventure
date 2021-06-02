@@ -14,6 +14,9 @@
 #include "skilltrees/inventory.h"
 #include "battle/battle_structs.h"
 
+/* Forward declaration for skilltrees */
+typedef struct skill skill_t;
+
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
