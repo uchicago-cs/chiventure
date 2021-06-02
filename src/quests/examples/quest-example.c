@@ -23,11 +23,13 @@ const char *banner =
 
 player_t *player;
 quest_t *quest;
+npcs_in_room_t *npcs_in_room_1;
 npcs_in_room_t *npcs_in_room_2;
 npcs_in_room_t *npcs_in_room_3;
 
 npc_t *npc1;
 npc_t *npc2;
+npc_t *npc3;
 
 
 /* Creates a sample in-memory game */
@@ -126,7 +128,18 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-    if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 2))) {
+
+    if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
+
+        char *output0 = strcat("Witch-Eve",
+        ": Welcome, mortal! I have a quest for you! Consume the pill or drink the potion! Hehehehe...");
+        return output0;
+
+        quest->achievement_tree->achievement->completed = 1;
+        quest->status = 2;
+
+    }  
+    else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 2))) {
 
         char *output1 = strcat("Ogre-Rick",
         ": I see you ate that green pill I left to the south to alert someone about my wife's condition. She is very ill and needs help. Can you get an herb or find a doctor for her?");
@@ -166,8 +179,8 @@ quest_t *make_sample_quest(long int quest_id, item_t *reward,
                            npc_t *npc1, npc_t *npc2,
                            item_t *item1, item_t *item2, item_t *item3)
 {
-    mission_t *none = mission_new(NULL, NULL);
-    achievement_t *start = achievement_new(none, "The first mission");
+    mission_t *talk_to_witch = mission_new(NULL, npc3); // talk to Witch-Eve
+    achievement_t *start = achievement_new(talk_to_witch, "The first mission");
 
     /*achievement_tree_t *ach_tree = malloc(sizeof(achievement_tree_t));
     ach_tree->achievement = start;
@@ -238,7 +251,12 @@ int main(int argc, char **argv)
     npc_t *npc2 = npc_new(npc_id2,"second npc","this is the npc that holds a branch of a quest",
                           NULL, NULL, false);
 
+    char *npc_id3 = "Witch-Eve";
+    npc_t *npc3 = npc_new(npc_id3,"third npc","this is the npc that holds a branch of a quest",
+                          NULL, NULL, false);
 
+    npcs_in_room_1 = npcs_in_room_new("room1");
+    add_npc_to_room(npcs_in_room_1, npc3);
 
     npcs_in_room_2 = npcs_in_room_new("room2");
     add_npc_to_room(npcs_in_room_2, npc1);
