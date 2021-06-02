@@ -6,6 +6,8 @@
 #include "wdl/load_item.h"
 #include "test_wdl.h"
 #include "game-state/stats.h"
+#include "skilltrees/inventory.h"
+#include "skilltrees/skilltree.h"
 
 #define CLASSES_WDL_PATH "../../../tests/wdl/examples/wdl/classes.wdl"
 

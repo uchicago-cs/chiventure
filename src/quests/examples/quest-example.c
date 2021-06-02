@@ -126,7 +126,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         HASH_FIND(hh, npcs_in_room_1->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
 
         //complete_achievement(quest, item, npc);
-        quest->achievement_list->achievement->completed = 1;
+        quest->achievement_tree->achievement->completed = 1;
         quest->status = 2;
         char* id1 = strcpy(id1,npc1->npc_id);
         char *output2 = strcat(id1,": Congratulations on completing "
@@ -144,7 +144,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         npc_t *npc = malloc(sizeof(npc_t));
         HASH_FIND(hh, npcs_in_room_1->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
 
-        quest->achievement_list->next->achievement->completed = 1;
+        quest->achievement_tree->lmostchild->achievement->completed = 1;
 
         if ((is_quest_completed(quest)) == 1)
         {
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
     char *npc_id = "Villager-Jim";
     npc_mov_t* npc1_movement = npc_mov_new(NPC_MOV_DEFINITE, initial_room);
     npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
-                          100, NULL, npc1_movement);
+                          (int) 100, NULL, npc1_movement);
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc1);
     npcs_in_room_3 = npcs_in_room_new("room3");
@@ -202,20 +202,20 @@ int main(int argc, char **argv)
     quest = quest_new(1, NULL, reward);
     mission_t *mission1 = mission_new(item1,npc1);
     mission_t *mission2 = mission_new(item2,npc1);
-    achievement_t *achievement1 = achievement_new(mission1);
-    achievement_t *achievement2 = achievement_new(mission2);
-    add_achievement_to_quest(quest, achievement1);
-    add_achievement_to_quest(quest, achievement2);
+    achievement_t *achievement1 = achievement_new(mission1, "a1");
+    achievement_t *achievement2 = achievement_new(mission2, "a2");
+    add_achievement_to_quest(quest, achievement1, NULL);
+    add_achievement_to_quest(quest, achievement2, "a1");
 
-    add_entry("QUEST", start_quest_operation, NULL, ctx->table);
+    add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);
 
-    add_entry("TALK", talk_to_npc, NULL, ctx->table);
+    add_entry("TALK", talk_to_npc, NULL, ctx->cli_ctx->table);
 
     action_type_t steal_action = {"STEAL", ITEM};
-    add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->table);
+    add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->cli_ctx->table);
 
     action_type_t drink_action = {"SIP", ITEM};
-    add_entry(drink_action.c_name, kind1_action_operation, &drink_action, ctx->table);
+    add_entry(drink_action.c_name, kind1_action_operation, &drink_action, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

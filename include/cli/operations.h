@@ -2,10 +2,12 @@
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
 #include "game-state/game.h"
+#include "game-state/mode.h"
 #include "action_management/actionmanagement.h"
 #include "ui/print_functions.h"
 #include "checkpointing/save.h"
 #include "checkpointing/load.h"
+
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.
@@ -162,6 +164,19 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
+/* 
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * - lists NPCs that are in the room a player 
+ * is currently in as a list
+ */
+char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+
 /* Error Operations that returns an error message with suggestion as string
  *
  * Parameters:
@@ -252,5 +267,16 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * A string notifying them if the color was changed or not.
  */
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Initiates Dialogue between NPC and Player
+ * 
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * The NPC's response and player's dialogue options.
+ */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

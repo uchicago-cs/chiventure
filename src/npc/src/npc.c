@@ -133,6 +133,18 @@ item_list_t *get_npc_inv_list(npc_t *npc)
 }
 
 /* See npc.h */
+bool item_in_npc_inventory(npc_t *npc, char *item_id)
+{
+    item_t *check;
+    HASH_FIND(hh, npc->inventory, item_id, strnlen(item_id, MAX_ID_LEN), check);
+    if (check != NULL){
+        return true;
+    }
+    return false;
+}
+
+// "SET" FUNCTIONS ------------------------------------------------------------
+/* See npc.h */
 npc_battle_t *get_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);
@@ -183,6 +195,8 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
     assert(npc != NULL && c != NULL);
 
     npc->dialogue = c;
+
+    return SUCCESS;
 }
 
 /* See npc.h */
