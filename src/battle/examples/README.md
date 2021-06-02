@@ -7,7 +7,7 @@ In order to run a script:
 2. Enter the `chiventure\build` directory
 3. Run `make examples` to build the example files
 4. Use `cd src/battle/examples` to enter the battle examples directory
-5. Run `./battle_command_example` or `./battle_flow_example` to run a sample battle
+5. Run `./battle_command_example`, `./battle_flow_example`, or `./battle_cli_example` to run a sample battle
 
 These are the current scripts: 
 * `battle_command_example.c`: Simulates the ability for player input during a battle.
@@ -21,3 +21,4 @@ These are the current scripts:
         * the user story has more about commands and an example of a battle
             * https://github.com/uchicago-cs/chiventure/wiki/RPG-Battle-Systems-%7C-User-Stories
 * `battle_flow_example.c`: Runs a sample battle using hard-coded moves for the player and enemy. This demonstrates how to set up a battle correctly.
+* `battle_cli_example.c`: Demonstrates integration with the Chiventure CLI. This is the most recent example file (added May 2021)

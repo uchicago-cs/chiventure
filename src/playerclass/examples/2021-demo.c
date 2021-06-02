@@ -7,6 +7,7 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class_prefabs.h"
 #include "playerclass/class_item.h"
+#include "skilltrees/skilltree.h"
 #include "zip.h"
 #include "libobj/load.h"
 #include "wdl/load_game.h"

@@ -64,7 +64,7 @@ battle_item_t *get_random_default_consumable()
     assert(rv_item != NULL);
 
     int rand = randnum(1, 4); 
-    char* name_array[]= {"Elixir of Life", "Healing Potion", "Defense Up", "Strength Up"};
+    char* name_array[]= {"elixir of life ", "healing potion ", "defense up ", "strength up "};
     char* description_array[] = {"Adds 50 to your HP!", "Adds 20 to your HP!", 
                                  "Adds 5 to your defense!", "Adds 5 to your strength!"};
     int hp_array[] = {50, 20, 0, 0};
@@ -99,8 +99,8 @@ battle_item_t *get_random_default_consumable()
 move_t *get_random_default_move()
 {
     int rand = randnum(1,10);
-    char *name_array[] = {"SLAP", "JAB", "KICK", "HEADBUTT", "GRAPPLE", 
-                          "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
+    char *name_array[] = {"slap", "jab", "kick", "headbutt", "grapple", 
+                          "upperrcut", "hammerfist", "bite", "thrash", "throw"};
 
     battle_item_t *item = get_random_default_consumable();
     int id = rand;
@@ -108,7 +108,7 @@ move_t *get_random_default_move()
     char* info = (char*)calloc(info_len + 1, sizeof(char));
     strncpy(info, name_array[rand - 1], info_len + 1);
     bool attack = true;
-    int damage = rand * 10;
+    int damage = rand * 5 + 40;
     int defense = rand * 10 + 5;
 
     move_t *rv_move = move_new(info, id, item, attack, damage, defense);
