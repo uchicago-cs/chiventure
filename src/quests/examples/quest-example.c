@@ -117,7 +117,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
         move_npc_definite(npc1_movement);
-        char* id = strcpy(id,npc1_movement->npc_id);
+        char* id = strcpy(id,npc1->npc_id);
 
         char *output1 = strcat(id,
         ": I see you have started the quest, go to room2 to find the secret item, then "
@@ -138,7 +138,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         quest->achievement_tree->achievement->completed = 1;
         quest->status = 2;
 
-        char* id1 = strcpy(id1,npc1_movement->npc_id);
+        char* id1 = strcpy(id1,npc1->npc_id);
         char *output3 = strcat(id1,": Congratulations on completing "
                     "the first achievement of this quest. "
                     "Now onto the next, continue through that door into the next room "
@@ -159,7 +159,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             reward_t *reward = complete_quest(quest);
             add_item_to_player(ctx->game->curr_player, reward->item);
             change_xp(ctx->game->curr_player, reward->xp);
-            char* id2 = strcpy(id2,npc1_movement->npc_id);
+            char* id2 = strcpy(id2,npc1->npc_id);
             char* output3 = strcat(id2, ": Congratulations"
             " on completing the quest, your reward is a key that should "
             "help you on your adventure. You will find it in your inventory.");
@@ -290,7 +290,7 @@ int main(int argc, char **argv)
     npcs_in_room_4 = npcs_in_room_new("room4");
     add_npc_to_room(npcs_in_room_4, npc2); //Need to fight the wolf to get potion
 
-    npc1_movement = npc_mov_new("Villager-Jim",NPC_MOV_DEFINITE,initial_room);
+    npc1_movement = npc_mov_new(NPC_MOV_DEFINITE,initial_room);
     extend_path_definite(npc1_movement,third_room);
     extend_path_definite(npc1_movement,last_room);
 
