@@ -241,7 +241,12 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
 
 /* filter_speclist_with_difficulty
  * Creates a speclist by filtering the given speclist with a difficulty level
- * so that the returned speclist only contains roomspecs of given level
+ * so that the returned speclist only contains roomspecs of the given level
+ * 
+ * Notes:
+ * - original speclist is unaltered
+ * - filtered speclist uses roomspec pointers of original speclist
+ *   (in other words, no new roomspecs are declared/initialized)
  *
  * Parameters:
  * - speclist: pointer to the speclist we want to filter
