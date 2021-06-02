@@ -7,9 +7,9 @@
 
 
 /* Creates a sample class. Taken from test_class.c */
-class_t* generate_test_class()
+class_t *generate_test_class()
 {
-    class_t* c;
+    class_t *c;
     char *name, *shortdesc, *longdesc;
 
     name = "Warrior";
@@ -36,9 +36,9 @@ npc_mov_t *generate_test_npc_mov()
 }
 
 /* Creates example stats. Taken from test_battle_ai.c */
-stat_t* create_enemy_stats()
+stat_t *create_enemy_stats()
 {
-    stat_t* test_stats = calloc(1, sizeof(stat_t));
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
 
     test_stats->speed = 50;
     test_stats->defense = 20;
@@ -56,7 +56,7 @@ stat_t* create_enemy_stats()
 move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
                     int defense)
 {
-     move_t* move = (move_t*) calloc(1, sizeof(move_t));
+     move_t *move = (move_t*) calloc(1, sizeof(move_t));
 
      move->id = id;
 
@@ -86,7 +86,7 @@ move_t *create_enemy_moves()
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)
 {
-    class_t* c;
+    class_t *c;
     npc_t *npc;
     npc_mov_t *movement = generate_test_npc_mov();
 
@@ -120,7 +120,7 @@ Test(npc, new)
 /* Checks that npc_init() initialized the fields in the new npc struct */
 Test(npc, init)
 {
-    class_t* c;
+    class_t *c;
     npc_t *npc;
     npc_mov_t *movement = generate_test_npc_mov();
     int res;
@@ -341,11 +341,11 @@ Test(npc, add_battle_to_npc)
  * associated with the npc or NULL if there is no such struct */
 Test(npc, get_npc_battle)
 {
-     char *npc_id = "npc";
+    char *npc_id = "npc";
     npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
     cr_assert_not_null(npc, "npc_new() failed");
 
-    npc_battle_t* null_npc_battle = get_npc_battle(npc);
+    npc_battle_t *null_npc_battle = get_npc_battle(npc);
     cr_assert_null(null_npc_battle, 
 		   "get_npc_battle() didn't return NULL given npc with NULL" 
 		   "npc_battle");
@@ -357,7 +357,7 @@ Test(npc, get_npc_battle)
                                 HOSTILE, 25);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
-    npc_battle_t* npc_battle = get_npc_battle(npc);
+    npc_battle_t *npc_battle = get_npc_battle(npc);
     cr_assert_not_null(npc_battle, 
 		       "get_npc_battle() returned NULL given NPC with non-NULL"
 		       "npc_battle");
