@@ -6,7 +6,10 @@
 #define INCLUDE_INVENTORY_H_
 
 #include "skilltrees/skilltrees_common.h"
-#include "skilltrees/skill.h"
+
+/* Forward declaration so that playerclass can make deep copies */
+
+typedef struct skill skill_t;
 
 /* ================================= */
 /* === INVENTORY DATA STRUCTURES === */
