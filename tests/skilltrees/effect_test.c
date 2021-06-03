@@ -121,7 +121,7 @@ Test(effect_tests, define_item_attr_effect_correct_vals)
 {
     /* Creating values to run define_item_attr_effect */
     chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_item(ctx);
+    item_t* bomb = add_bomb_item(ctx);
     attribute_value_t mod;
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;
@@ -139,7 +139,7 @@ Test(effect_tests, define_item_attr_effect_correct_vals)
 Test(effect_tests, define_item_attr_effect_invalid_vals)
 {    /* Creating values to run define_item_attr_effect */
     chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_item(ctx);
+    item_t* bomb = add_bomb_item(ctx);
     attribute_value_t mod;
     mod.double_val = 15.0;
     enum attribute_tag att_tag = DOUBLE;
@@ -154,7 +154,7 @@ Test(effect_tests, make_item_attr_effect_test)
 {
     /*Creating an item_attr_effect and making sure it works as expected */
     chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_item(ctx);
+    item_t* bomb = add_bomb_item(ctx);
     attribute_value_t mod;
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;
@@ -176,7 +176,7 @@ Test(effect_tests, execute_item_attr_effect_test)
 {
     /* Creating an item_attr_effect and making sure it works as expected */
     chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_item(ctx);
+    item_t* bomb = add_bomb_item(ctx);
     attribute_value_t mod;
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;

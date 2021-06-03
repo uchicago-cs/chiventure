@@ -18,9 +18,12 @@ the modified parameters of the respective functions that they're testing. */
 /* Test skill_new. */
 Test(skill_test, skill_new_test)
 {
-    effect_t* defusebombeffect;
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
     skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect);
+    
     cr_assert_eq(skill->sid,1000,
         "Error: failed test skill_new_test on skill->sid\n");
     cr_assert_eq(skill->type,ACTIVE,
@@ -42,10 +45,13 @@ Test(skill_test, skill_new_test)
 
 Test(skill_test, skill_init_test)
 {
-  effect_t* defusebombeffect;
+  chiventure_ctx_t* ctx = create_player_and_stats();
+  item_t* bomb = add_bomb_item(ctx);
+  effect_t* defusebombeffect = make_bomb_effect(bomb);
   skill_t* skill = malloc(sizeof(skill_t));
   skill_init(skill, 1000, ACTIVE, "defuse bomb", "defuses a bomb",
       1, 0, 2, 5, defusebombeffect);
+  
   cr_assert_eq(skill->sid,1000,
       "Error: failed test skill_new_test on skill->sid\n");
   cr_assert_eq(skill->type,ACTIVE,
@@ -70,7 +76,9 @@ Test(skill_test, skill_init_test)
 
 Test(skill_test, skill_free_test)
 {
-  effect_t* defusebombeffect;
+  chiventure_ctx_t* ctx = create_player_and_stats();
+  item_t* bomb = add_bomb_item(ctx);
+  effect_t* defusebombeffect = make_bomb_effect(bomb);
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
   int ret = skill_free(skill);
@@ -80,10 +88,11 @@ Test(skill_test, skill_free_test)
 
 Test(skill_test, skill_execute_test)
 {
-  effect_t* defusebombeffect;
+  chiventure_ctx_t* ctx = create_player_and_stats();
+  item_t* bomb = add_bomb_item(ctx);
+  effect_t* defusebombeffect = make_bomb_effect(bomb);
   skill_t* skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect);
-  chiventure_ctx_t* ctx;
   cr_assert_eq(skill_execute(skill, ctx), 0,
       "Error: failed test skill_new_test on skill->effect\n");
 }
@@ -100,7 +109,7 @@ void check_level_up(skill_t* skill, int expected)
 Test(skill_tests, skill_level_up_0)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_item(ctx);
+    item_t* bomb = add_bomb_item(ctx);
     attribute_value_t mod;
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;
@@ -118,7 +127,7 @@ Test(skill_tests, skill_level_up_0)
 Test(skill_tests, skill_level_up_1)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_item(ctx);
+    item_t* bomb = add_bomb_item(ctx);
     attribute_value_t mod;
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;
@@ -136,7 +145,7 @@ Test(skill_tests, skill_level_up_1)
 Test(skill_tests, skill_level_up_minus_1)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_item(ctx);
+    item_t* bomb = add_bomb_item(ctx);
     attribute_value_t mod;
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;

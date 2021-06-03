@@ -17,6 +17,8 @@ chiventure_ctx_t* create_player_and_stats() {
     stats_t* gs_health_stat = stats_new(gs_health, 100);
     stats_global_t *player_health = stats_global_new("current_health", 50);
     stats_t* player_health_stat = stats_new(player_health, 50);
+    stats_global_t *gs_peace = stats_global_new("peace_level", 0);
+    stats_t* player_peace = stats_new(gs_peace, 0);
 
     /* Setting values */
     game->curr_stats = NULL;
@@ -29,8 +31,10 @@ chiventure_ctx_t* create_player_and_stats() {
     HASH_ADD_KEYPTR(hh, player->player_stats, gs_health_stat->key, strlen(gs_health_stat->key), gs_health_stat);
     HASH_ADD_KEYPTR(hh, game->curr_stats, player_health->name, strlen(player_health->name), player_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, player_health_stat->key, strlen(player_health_stat->key), player_health_stat);
+    HASH_ADD_KEYPTR(hh, game->curr_stats, gs_peace->name, strlen(gs_peace->name), gs_peace);
+    HASH_ADD_KEYPTR(hh, player->player_stats, player_peace->key, strlen(player_peace->key), player_peace);
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
-   
+    
     /*Checking if everything works*/
     stats_global_t* stat_test;
     HASH_FIND_STR(game->curr_stats, "max_health", stat_test);
@@ -68,7 +72,7 @@ item_t* add_bomb_item(chiventure_ctx_t* ctx)
 effect_t* make_bomb_effect(item_t* bombitem)
 {
     enum attribute_tag bombatt_tag = BOOLE;
-    attribute_value_t bombmod 
+    attribute_value_t bombmod; 
     bombmod.bool_val = false;
     item_attr_effect_t* itemdefusebombeffect = define_item_attr_effect(bombitem, "ARMED", bombatt_tag, bombmod);
     effect_t* defusebombeffect = make_item_attr_effect(itemdefusebombeffect);
@@ -80,7 +84,7 @@ item_t* add_chop_item(chiventure_ctx_t* ctx)
     /* Creating item and attribute */
     game_t* game = ctx -> game;
     item_t* tree = item_new("TREE", "A Sturdy Oak Tree", "Use your skill to cut it down!");
-    attribute_t* is_standing = bool_attr_new("STANDING", true)
+    attribute_t* is_standing = bool_attr_new("STANDING", true);
 
     /* Adding things to hash tables */
     int check = add_attribute_to_hash(tree, is_standing);
@@ -98,19 +102,19 @@ item_t* add_chop_item(chiventure_ctx_t* ctx)
 
 effect_t* make_choptree_effect(item_t* tree)
 {
-    item_attr_effect_t* itemchoptreeeffect = define_item_attr_effect(choptreeitem, "CHOP", choptree_tag, choptreemod);
-    effect_t* choptreeeffect = make_item_attr_effect(itemdefusebombeffect);
+    enum attribute_tag choptree_tag = BOOLE;
+    attribute_value_t choptreemod;
+    choptreemod.bool_val = false;
+    item_attr_effect_t* itemchoptreeeffect = define_item_attr_effect(tree, "CHOP", choptree_tag, choptreemod);
+    effect_t* choptreeeffect = make_item_attr_effect(itemchoptreeeffect);
 }
     
     
 effect_t* make_innerpeace_effect(chiventure_ctx_t* ctx)
 { 
     char* innerpeace_stats[] = {"current_health", "peace_level"};
-
     double innerpeace_mod[] = {250, 15};
-
     int innerpeace_duration[] = {8, 8};
-
     player_stat_effect_t* playerstatpeace = define_player_stat_effect("innerpeace", innerpeace_stats,
                                                                     innerpeace_mod, innerpeace_duration, 2, ctx);
     effect_t* innerpeace = make_player_stat_effect(playerstatpeace);
