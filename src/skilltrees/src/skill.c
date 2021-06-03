@@ -15,6 +15,11 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
     skill_t* skill;
     int rc;
 
+    if (max_level == 0) {
+        fprintf(stderr, "skill_new: max_level is invalid\n");
+        return NULL;
+    }
+
     skill = (skill_t*)malloc(sizeof(skill_t));
     if (skill == NULL) {
         fprintf(stderr, "skill_new: memory allocation failed\n");
@@ -72,12 +77,12 @@ int skill_free(skill_t* skill) {
 /* See skill.h */
 int skill_execute(skill_t* skill, chiventure_ctx_t* ctx) 
 {
-    if(skill == NULL)
+    if (skill == NULL)
     {
         fprintf(stderr, "Error: NULL skill provided \n");
         return FAILURE;
     }
-    if(skill -> skill_effect == NULL)
+    if (skill -> skill_effect == NULL)
     {
         fprintf(stderr, "Error: NULL effect in skill");
         return FAILURE;
@@ -85,7 +90,7 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
     effect_t* skill_effect = skill->skill_effect;
     int check = 0;
     effect_type_t type = skill_effect->effect_type;
-    if(type == PLAYER_STATISTIC_MOD)
+    if (type == PLAYER_STATISTIC_MOD)
     {
         check = execute_player_stat_effect(skill_effect->data.s, ctx);
         assert(check==0);
@@ -113,12 +118,18 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
 
 /* See skill.h */
 int skill_level_up(skill_t* skill) {
-    assert(skill != NULL);
-    if (skill->max_level == skill->level) {
+    if (skill == NULL) {
+        return -1;
+    }
+    unsigned int level = skill->level;
+    unsigned int min_xp = skill->min_xp;
+    if (skill->max_level == level) {
         // Maximum level already achieved.
         return 1;
     }
-    skill->level += 1;
+    level += 1;
+    min_xp = min_xp^level; 
+    skill->min_xp = min_xp;
     return 0;
 }
 

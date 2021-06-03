@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <assert.h>
 #include <string.h>
 #include "skilltrees/effect.h"
@@ -8,31 +9,31 @@
 /* See effect.h */
 player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx)
 {
-    if(ctx == NULL)
+    if (ctx == NULL)
     {
         fprintf(stderr, "Error: Null context object passed \n");
         return NULL;
     }
     player_stat_effect_t* new_stat_effect = (player_stat_effect_t*)malloc(sizeof(player_stat_effect_t));
-    if(new_stat_effect == NULL)
+    if (new_stat_effect == NULL)
     {
         fprintf(stderr, "Error: Could not allocate memory for new player stat effect \n");
         return NULL;
     }
     new_stat_effect->player_stat_effect_name = player_stat_effect_name;
     new_stat_effect->stats = (stats_t**)malloc(num_stats*sizeof(stats_t*));
-    if(new_stat_effect->stats == NULL)
+    if (new_stat_effect->stats == NULL)
     {
         fprintf(stderr, "Error: Could not allocate memory for statistics in the effect \n");
         return NULL;
     }
     stats_hash_t* sh = ctx ->game->curr_player->player_stats;
     stats_t* curr;
-    for(int i = 0; i < num_stats; i++)
+    for (int i = 0; i < num_stats; i++)
     {
         HASH_FIND_STR(sh, stat_names[i], curr);
         
-        if(curr == NULL)
+        if (curr == NULL)
         {
             fprintf(stderr, "Error: Given player statistic does not exist. \n");
             return NULL;
@@ -60,28 +61,50 @@ move_effect_t* define_move_effect(move_t* move)
 /* See effect.h */
 item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod) 
 {
-    assert(item != NULL);
+    if(item == NULL)
+    {
+        fprintf(stderr, "Item not found \n");
+        return NULL;
+    }
     attribute_t* attr = get_attribute(item, att_id);
-    if(attr == NULL)
+    if (attr == NULL)
     {
         fprintf(stderr, "Attribute not found \n");
         return NULL;
     }
-    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t));
+    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t*));
+    if (item_attr_effect == NULL)
+    {
+        fprintf(stderr, "Malloc Failed \n");
+    }
     item_attr_effect -> item = item;
+    if(item_attr_effect -> item == NULL)
+    {
+        fprintf(stderr, "Failed to set item properly \n");
+    }
     item_attr_effect -> att_id = att_id;
     item_attr_effect -> att_tag = att_tag;
     
     if (att_tag == DOUBLE)
-    item_attr_effect -> attribute_mod.double_val = attribute_mod.double_val;
+    {
+        (item_attr_effect -> attribute_mod.double_val) = attribute_mod.double_val;
+    }
     if (att_tag == BOOLE)
-    item_attr_effect -> attribute_mod.bool_val = attribute_mod.bool_val;
+    {
+        (item_attr_effect -> attribute_mod.bool_val) = attribute_mod.bool_val;
+    }
     if (att_tag == CHARACTER)
-    item_attr_effect -> attribute_mod.char_val = attribute_mod.char_val;
+    {
+        (item_attr_effect -> attribute_mod.char_val) = attribute_mod.char_val;
+    }
     if (att_tag == STRING)
-    item_attr_effect -> attribute_mod.str_val = attribute_mod.str_val;
+    {
+        (item_attr_effect -> attribute_mod.str_val) = attribute_mod.str_val;
+    }
     if (att_tag == INTEGER)
-    item_attr_effect -> attribute_mod.int_val = attribute_mod.int_val;
+    {
+        (item_attr_effect -> attribute_mod.int_val) = attribute_mod.int_val;
+    }
 
     return item_attr_effect;
 }
@@ -96,13 +119,13 @@ item_stat_effect_t* define_item_stat_effect()
 /* See effect.h */
 effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
 {
-    if(player_stat_effect == NULL)
+    if (player_stat_effect == NULL)
     {
         fprintf(stderr, "Error: Given NULL player stat effect");
         return NULL;
     }
     effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
-    if(new_effect == NULL)
+    if (new_effect == NULL)
     {
         fprintf(stderr, "Error: Could not allocate memory for effect");
         return NULL;
@@ -115,13 +138,13 @@ effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
 /* See effect.h */
 effect_t* make_move_effect(move_effect_t* move_effect)
 {
-    if(move_effect == NULL)
+    if (move_effect == NULL)
     {
         fprintf(stderr, "Error: Given NULL move effect");
         return NULL;
     }
     effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
-    if(new_effect == NULL)
+    if (new_effect == NULL)
     {
         fprintf(stderr, "Error: Could not allocate memory for effect");
         return NULL;
@@ -134,13 +157,13 @@ effect_t* make_move_effect(move_effect_t* move_effect)
 /* See effect.h */
 effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
 {
-    if(item_attr_effect == NULL)
+    if (item_attr_effect == NULL)
     {
         fprintf(stderr, "Error: Given NULL item attribute effect");
         return NULL;
     }
     effect_t* new_attr_effect = (effect_t*)malloc(sizeof(effect_t));
-    if(new_attr_effect == NULL)
+    if (new_attr_effect == NULL)
     {
         fprintf(stderr, "Error: Could not allocate memory for effect");
         return NULL;
@@ -165,12 +188,12 @@ int execute_player_stat_effect(player_stat_effect_t* player_stat_effect, chivent
     stat_effect_t* st_effect = stat_effect_new(global_effect);
     effects_hash_t* et = ctx->game->curr_player->player_effects;
     effects_hash_t** pointer_to_et = malloc(sizeof(effects_hash_t**));
-    if(et == NULL)
+    if (et == NULL)
     {
         fprintf(stderr, "Error: Effect hash table does not exist \n");
         return FAILURE;
     }
-    if(pointer_to_et == NULL)
+    if (pointer_to_et == NULL)
     {
         fprintf(stderr, "Error: Pointer to effect hash table does not exist \n");
         return FAILURE;
