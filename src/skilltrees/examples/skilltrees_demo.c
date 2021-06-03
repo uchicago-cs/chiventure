@@ -131,7 +131,7 @@ void add_item(chiventure_ctx_t* ctx)
 
     /* Add dragon to room */
     room_t* room;
-    HASH_FIND_STR(ctx->game->all_rooms, "Dragon's Lair", room);
+    HASH_FIND_STR(ctx->game->all_rooms, "dragon's lair", room);
     add_item_to_room(room, dragon);
 }
 
@@ -234,7 +234,7 @@ void create_attr_skill(chiventure_ctx_t* ctx)
     attribute_value_t mod;
     mod.bool_val = false;
     enum attribute_tag att_tag = BOOLE;
-    item_t* dragon = get_item_in_hash(ctx->game->all_items, "DRAGON");
+    item_t* dragon = get_item_in_hash(ctx->game->all_items, "dragon");
     if (dragon == NULL)
     {
         print_to_cli(ctx, "NO DRAGON");
@@ -270,7 +270,7 @@ char* add_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* 
 char* execute_attr_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     int check = execute_skill(ctx, 1);
-    item_t* dragon = get_item_in_hash(ctx->game->all_items, "DRAGON");
+    item_t* dragon = get_item_in_hash(ctx->game->all_items, "dragon");
     if(dragon == NULL)
     {
         fprintf(stderr, "NO DRAGON");
@@ -384,15 +384,15 @@ void main()
     chiventure_ctx_t* ctx = create_example_ctx();
     add_item(ctx);
 
-    add_entry("DESIGN", design_operation, NULL, ctx->table);
-    add_entry("SKILLS", skills_operation, NULL, ctx->table);
-    add_entry("STATISTIC", create_player_stat_effect_operation, NULL, ctx->table);
-    add_entry("ATTRIBUTE", create_attr_skill_operation, NULL, ctx->table);
-    add_entry("ADD", add_operation, NULL, ctx->table);
-    add_entry("ADD_HEALTH_BOOST", add_player_stat_operation, NULL, ctx->table);
-    add_entry("ADD_SLAY_DRAGON", add_attr_skill_operation, NULL, ctx->table);
-    add_entry("LEVEL_UP", level_up_operation, NULL, ctx->table);
-    add_entry("KILL_DRAGON", execute_attr_operation, NULL, ctx->table);
+    add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
+    add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
+    add_entry("STATISTIC", create_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ATTRIBUTE", create_attr_skill_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD", add_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD_HEALTH_BOOST", add_player_stat_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD_SLAY_DRAGON", add_attr_skill_operation, NULL, ctx->cli_ctx->table);
+    add_entry("LEVEL_UP", level_up_operation, NULL, ctx->cli_ctx->table);
+    add_entry("KILL_DRAGON", execute_attr_operation, NULL, ctx->cli_ctx->table);
     //Start UI for example chiventure context
     start_ui(ctx, banner);
 }

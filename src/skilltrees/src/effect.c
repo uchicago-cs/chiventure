@@ -73,7 +73,7 @@ item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum att
         fprintf(stderr, "Attribute not found \n");
         return NULL;
     }
-    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t*));
+    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t));
     if (item_attr_effect == NULL)
     {
         fprintf(stderr, "Malloc Failed \n");
@@ -163,7 +163,7 @@ effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
         fprintf(stderr, "Error: Given NULL item attribute effect");
         return NULL;
     }
-    effect_t* new_attr_effect = (effect_t*)malloc(sizeof(effect_t));
+    effect_t* new_attr_effect = malloc(sizeof(effect_t));
     if (new_attr_effect == NULL)
     {
         fprintf(stderr, "Error: Could not allocate memory for effect");
