@@ -53,6 +53,8 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
     create_connection(game, "room1", "room3", "EAST");
+    create_connection(game, "room2", "room1", "SOUTH");
+    create_connection(game, "room3", "room1", "WEST");
     //create_connection(game, "room2", "room4", "WEST");
     //create_connection(game, "room2", "room5", "SOUTH");
 
@@ -65,11 +67,9 @@ chiventure_ctx_t *create_sample_ctx()
                               "This item must be taken for second mission. Take it!");
     add_item_to_room(room3, GREENPILL);
 
-    /*item_t *HERB = item_new("HERB", "It is a herb plant that has medicinal properties", 
-                                "This item can cure a bad cough");
-    add_item_to_room(room4, HERB);
+    
 
-    add_action(HERB, "TAKE", "[You take the Herb] "
+    /*add_action(HERB, "TAKE", "[You take the Herb] "
                         "This is the herb that the ogre was talking about!",
                 "You can't pickup the herb.");*/
 
@@ -141,7 +141,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return output0;
 
     }  
-    else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 2))) {
+    else if (((strcmp(ctx->game->curr_room->room_id,"room3")) == 0) && ((quest->status == 2))) {
 
     
         quest->achievement_tree->achievement->completed = 1;
@@ -149,14 +149,16 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         
         if ((is_quest_completed(quest)) == 1)
         {
+            item_t *HERB = item_new("HERB", "It is a herb plant that has medicinal properties", 
+                                "This item can cure a bad cough");
             item_t *reward = complete_quest(quest);
-            add_item_to_player(ctx->game->curr_player, reward);
-            char* output3 = "Ogre Rick: Wow, real adventurous of you to take that pill! Congrats you finished the quest you get a key!";
+            add_item_to_player(ctx->game->curr_player, HERB);
+            char* output3 = "Ogre Rick: Wow, real adventurous of you to take that pill! Congrats you finished the quest you get an herb!";
             return output3;
         }
 
     }  
-    else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 2)) {
+    else if ((strcmp(ctx->game->curr_room->room_id,"room2") == 0) && (quest->status == 2)) {
 
         //complete_achievement(quest, item, npc);
         quest->achievement_tree->achievement->completed = 1;
@@ -276,6 +278,8 @@ int main(int argc, char **argv)
 
     item_t *reward = item_new("KEY", "this is a key that unlocks all secrets",
     "Reward for completing the quest.");
+    
+    
     
     quest = make_sample_quest(1, reward, npc3,/*npc1, npc2,*/ item1, item2);
 
