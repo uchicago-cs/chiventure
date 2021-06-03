@@ -7,14 +7,7 @@
 #include "skilltrees/skilltrees_common.h"
 #include "test_init.h"
 
-/* Rewrote the test with new effect implementation */
 
-<<<<<<< HEAD
-=======
-/* Some of the tests are currently commented out because they need to be modified according to
-the modified parameters of the respective functions that they're testing. */
-
->>>>>>> 1332534e5cb165a81c9b58bcbc893ebee6fd6639
 /* Test skill_new. */
 Test(skill_test, skill_new_test)
 {
