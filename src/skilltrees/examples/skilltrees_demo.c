@@ -384,15 +384,15 @@ void main()
     chiventure_ctx_t* ctx = create_example_ctx();
     add_item(ctx);
 
-    add_entry("DESIGN", design_operation, NULL, ctx->table);
-    add_entry("SKILLS", skills_operation, NULL, ctx->table);
-    add_entry("STATISTIC", create_player_stat_effect_operation, NULL, ctx->table);
-    add_entry("ATTRIBUTE", create_attr_skill_operation, NULL, ctx->table);
-    add_entry("ADD", add_operation, NULL, ctx->table);
-    add_entry("ADD_HEALTH_BOOST", add_player_stat_operation, NULL, ctx->table);
-    add_entry("ADD_SLAY_DRAGON", add_attr_skill_operation, NULL, ctx->table);
-    add_entry("LEVEL_UP", level_up_operation, NULL, ctx->table);
-    add_entry("KILL_DRAGON", execute_attr_operation, NULL, ctx->table);
+    add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
+    add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
+    add_entry("STATISTIC", create_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ATTRIBUTE", create_attr_skill_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD", add_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD_HEALTH_BOOST", add_player_stat_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD_SLAY_DRAGON", add_attr_skill_operation, NULL, ctx->cli_ctx->table);
+    add_entry("LEVEL_UP", level_up_operation, NULL, ctx->cli_ctx->table);
+    add_entry("KILL_DRAGON", execute_attr_operation, NULL, ctx->cli_ctx->table);
     //Start UI for example chiventure context
     start_ui(ctx, banner);
 }
