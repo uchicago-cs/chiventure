@@ -12,7 +12,7 @@ void draw_room_gui(int width, int height, int pos_x, int pos_y, char *filepath, 
 
     
     char *image_filename = calloc(100, sizeof(char));
-    sprintf(image_filename, "%s%s.%s", filepath, curr_room->room_id, ".png");
+    sprintf(image_filename, "%s%s.%s", filepath, curr_room->room_id, "png");
 
     Image room = LoadImage(filepath);   
         
