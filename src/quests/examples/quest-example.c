@@ -24,11 +24,11 @@ const char *banner =
 player_t *player;
 quest_t *quest;
 npcs_in_room_t *npcs_in_room_1;
-//npcs_in_room_t *npcs_in_room_2;
-//npcs_in_room_t *npcs_in_room_3;
+npcs_in_room_t *npcs_in_room_2;
+npcs_in_room_t *npcs_in_room_3;
 
-//npc_t *npc1;
-//npc_t *npc2;
+npc_t *npc1;
+npc_t *npc2;
 npc_t *npc3;
 
 
@@ -141,21 +141,22 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return output0;
 
     }  
-    /*else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 2))) {
+    else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 2))) {
 
-        char *output1 = strcat("Ogre-Rick",
-        ": I see you ate that green pill I left to the south to alert someone about my wife's condition. She is very ill and needs help. Can you get an herb or find a doctor for her?");
-        return output1;
-
+    
         quest->achievement_tree->achievement->completed = 1;
         quest->status = 3;
+        
+        if ((is_quest_completed(quest)) == 1)
+        {
+            item_t *reward = complete_quest(quest);
+            add_item_to_player(ctx->game->curr_player, reward);
+            char* output3 = "Ogre Rick: Wow, real adventurous of you to take that pill! Congrats you finished the quest you get a key!";
+            return output3;
+        }
 
     }  
-    else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 3)) {
-
-        char *output2 = strcat("Doctor-Dave",
-        ": Ogre-Rick's wife is sick? I will head west now to treat her.");
-        return output2;
+    else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 2)) {
 
         //complete_achievement(quest, item, npc);
         quest->achievement_tree->achievement->completed = 1;
@@ -163,13 +164,11 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         {
             item_t *reward = complete_quest(quest);
             add_item_to_player(ctx->game->curr_player, reward);
-            char* output3 = strcat("Ogre-Rick", ": Thanks so much for finding a doctor! Congratulations"
-            " on completing the quest, your reward is a key that should "
-            "help you on your adventure. You will find it in your inventory.");
+            char* output3 = "Doctor Dave: Tasty, huh? Nice job, here's the key to my pharmacy where you can have all the potions you want!";
             return output3;
         }
 
-    } */
+    } 
     else
     {
         return "There is no one to talk to!";
@@ -245,13 +244,13 @@ int main(int argc, char **argv)
                           NULL, NULL, false);*/
 
    
-    /*char *npc_id1 = "Ogre-Rick";
+    char *npc_id1 = "Ogre-Rick";
     npc_t *npc1 = npc_new(npc_id1,"first npc","this is the npc that holds a branch of a quest",
                           NULL, NULL, false);
 
     char *npc_id2 = "Doctor-Dave";
     npc_t *npc2 = npc_new(npc_id2,"second npc","this is the npc that holds a branch of a quest",
-                          NULL, NULL, false);*/
+                          NULL, NULL, false);
 
     char *npc_id3 = "Witch-Eve";
     npc_t *npc3 = npc_new(npc_id3,"third npc","this is the npc that holds a branch of a quest",
