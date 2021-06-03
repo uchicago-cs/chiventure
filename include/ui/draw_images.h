@@ -4,14 +4,14 @@
 #include "game-state/room.h"
 
 /* draw_room_gui
- * Draws a room based on its room number for the split screen in chiventure
+ * Draws a room based on its room id for the split screen in chiventure
  *
  * Parameters:
  *    - width: integer that defines the width of the split screen
  *    - height: integer that defines the height of the split screen
  *    - pos_x: integer that defines the x-coordinate of the center of the image
  *    - pos_y: integer that defines the x-coordinate of the center of the image
- *    - filepath: string that contains the filepath of the images
+ *    - filepath: string that contains the filepath to the directory containing the images
  *    - curr_room: room_t that defines the current room the player is in
  *
  * No value is returned

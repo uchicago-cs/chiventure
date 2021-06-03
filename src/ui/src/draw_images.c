@@ -10,9 +10,9 @@
 void draw_room_gui(int width, int height, int pos_x, int pos_y, char *filepath, room_t *curr_room)
 {
 
-    strcat(filepath, curr_room->room_id);
-
-    strcat(filepath, ".png");
+    
+    char *image_filename = calloc(100, sizeof(char));
+    sprintf(image_filename, "%s%s.%s", filepath, curr_room, ".png");
 
     Image room = LoadImage(filepath);   
         
@@ -25,8 +25,6 @@ void draw_room_gui(int width, int height, int pos_x, int pos_y, char *filepath, 
     UnloadImage(room);   
 
     DrawTexture(texture, pos_x, pos_y, WHITE);
-
-
 }
 
 /* See draw_images.h for documentation */
@@ -57,6 +55,7 @@ void draw_map(int width, int height, room_t *curr_room)
 
     int posX = map_topX + map_width / 2 - map_room_width / 2;
     int posY = map_topY + map_height / 2 - map_room_height / 2;
+    
     /* draw current room */
     DrawRectangle(posX, posY, map_room_width, map_room_height, colors[0]);
 
