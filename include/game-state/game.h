@@ -5,11 +5,15 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
+#include "quests/quests_state.h"
+#include "quests/quests_structs.h"
+#include "npc/npc.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
 #include "mode.h"
 #include "npc/npc.h"
+#include "battle/battle_flow_structs.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -26,6 +30,8 @@ typedef struct room room_hash_t;
 typedef struct room_wrapped_for_llist room_list_t;
 typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
+typedef struct quest quest_t;
+typedef struct quest quest_hash_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -45,6 +51,10 @@ typedef struct game {
     /* using the macros provided in uthash.h */
     item_hash_t *all_items;
 
+    /* an iterable hashtable of quests */
+    /* using the macros provided in uthash.h */
+    quest_hash_t *all_quests;
+ 
     /* an interatable hashtable of npcs */
     /* using the macros provided in uthash.h */
     npc_hash_t *all_npcs;
@@ -78,6 +88,9 @@ typedef struct game {
 
     /* time when game started */
     //int time_start;
+
+    /* pointer to the current battle context */
+    battle_ctx_t *battle_ctx;
 } game_t;
 
 
@@ -186,6 +199,28 @@ int add_npc_to_game(game_t *game, npc_t *npc);
  */
 int add_final_room_to_game(game_t *game, room_t *final_room);
 
+/* Gets a quest from the all_quests hash table
+ *
+ * Parameters:
+ *  game struct
+ *  quest id
+ *
+ * Returns:
+ *  quest struct if successful, NULL if quest is not found
+ */
+quest_t *get_quest(game_t* game, char *quest_id);
+
+/* Adds a quest to the given game
+ *
+ * Parameters:
+ *  pointer to game struct
+ *  pointer to quest struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_quest_to_game(game_t *game, quest_t *quest);
+
 /* Adds an end condition to the given game
  * 
  * Parameters:
@@ -218,6 +253,17 @@ int add_stat_to_game(game_t *game, stats_global_t *gs);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_effect_to_game(game_t *game, effects_global_t *effect);
+
+/* Adds a battle context to the given game
+ * 
+ * Parameters:
+ *  game struct
+ *  battle context struct
+ * 
+ * Returns: 
+ *  SUCCESS if successful, FAILURE if failed
+ */ 
+int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx);
 
 /* Checks if all end conditions in a given game have been met
  * 

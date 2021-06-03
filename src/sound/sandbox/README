@@ -1,0 +1,42 @@
+ABOUT
+~~~~~
+
+    These are some simple programs that demonstrate how to program using SDL_mixer.
+
+
+COMPILATION
+~~~~~~~~~~~
+
+    run "make"
+
+THE PROGRAMS
+~~~~~~~~~~~~
+
+sdlwav.c
+    demonstrates:
+		open/close of SDL_mixer
+		Mix_SetPostMix
+		Mix_QuerySpec
+		Mix_LoadMUS
+		Mix_PlayMusic
+		Mix_RewindMusic
+		Mix_VolumeMusic
+		Mix_GetMusicType
+		Mix_SetMusicPosition (for mp3 only)
+		detection of when music ends
+		draws a Wave from the output data
+
+    try:
+		./sdlwav song.mp3
+		./sdlwav song.ogg
+		./sdlwav song.mod (mod can be one of a number of extentions)
+		./sdlwav somefile 8 1
+			this uses 8 bits, default is 8, try 0!
+			the last 1 turns on fullscreen, any 3rd argument will do that
+
+	usage:
+		the song files are not distributed with the demo, use whatever ones you have.
+		left arrow key rewinds the music
+		right arrow key fasts forwards 5 seconds (for mp3 only)
+		up and down arrows adjust volume (very roughly)
+		if you want, edit the source, and change the BUFFER H and W values.

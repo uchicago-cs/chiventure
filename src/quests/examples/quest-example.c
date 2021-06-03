@@ -3,6 +3,7 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "game-state/room.h"
+#include "game-state/stats.h"
 #include "npc/rooms-npc.h"
 #include "quests/quests_state.h"
 
@@ -37,7 +38,7 @@ chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to this sample game of Chiventure!");
 
-    /* Create two rooms (room1 and room2). room1 is the initial room */
+    /* Create four rooms. room1 is the initial room */
     room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
     room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
     room_t *room3 = room_new("room3", "This is room 3", "Exactly, this is the third room.");
@@ -100,7 +101,12 @@ char *start_quest_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
         return "I do not know what you mean.";
     }
 
-    start_quest(quest);
+    int started = start_quest(quest);
+
+    if(can_start_quest(quest, player) == 0)
+    {
+        return "You cannot start the quest yet! You are underleveled or don't have enough health.";
+    }
 
     if(quest->status == 1)
     {
@@ -134,6 +140,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     assert(ctx->game->curr_room != NULL);
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
 
+
         char *output0 = "Witch-Eve: Welcome, mortal! I have a quest for you! Consume the pill or drink the potion! Hehehehe...";
         
         quest->achievement_tree->achievement->completed = 1;
@@ -142,8 +149,6 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     }  
     else if (((strcmp(ctx->game->curr_room->room_id,"room3")) == 0) && ((quest->status == 2))) {
-
-    
         quest->achievement_tree->achievement->completed = 1;
         quest->status = 3;
         
@@ -176,7 +181,6 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "There is no one to talk to!";
     }
 }
-
 
 quest_t *make_sample_quest(long int quest_id, item_t *reward,
                            /*npc_t *npc1, npc_t *npc2,*/ npc_t *npc3,
@@ -267,6 +271,7 @@ int main(int argc, char **argv)
     npcs_in_room_3 = npcs_in_room_new("room3");
     add_npc_to_room(npcs_in_room_3, npc2);*/
 
+
     item_t *item1 = malloc(sizeof(item_t));
     HASH_FIND(hh, ctx->game->all_items, "BLUEPOTION", strlen("BLUEPOTION"), item1);
 
@@ -276,12 +281,14 @@ int main(int argc, char **argv)
     //item_t *item3 = malloc(sizeof(item_t));
     //HASH_FIND(hh, ctx->game->all_items, "HERB", strlen("HERB"), item3);
 
+
     item_t *reward = item_new("KEY", "this is a key that unlocks all secrets",
     "Reward for completing the quest.");
     
     
     
     quest = make_sample_quest(1, reward, npc3,/*npc1, npc2,*/ item1, item2);
+
 
     add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);
 

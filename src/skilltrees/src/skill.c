@@ -11,7 +11,7 @@
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   skill_effect_t effect) {
+                   effect_t* skill_effect) {
     skill_t* skill;
     int rc;
 
@@ -26,7 +26,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
         return NULL;
     }
 
-    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, effect);
+    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effect);
     if (rc) {
         fprintf(stderr, "skill_new: initialization failed\n");
         return NULL;
@@ -39,7 +39,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               skill_effect_t effect) {
+               effect_t* skill_effect) {
     assert(skill != NULL);
 
     skill->sid = sid;
@@ -58,7 +58,7 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
     skill->xp = xp;
     skill->max_level = max_level;
     skill->min_xp = min_xp;
-    skill->effect = effect;
+    skill->skill_effect = skill_effect;
 
     return SUCCESS;
 }
@@ -75,10 +75,45 @@ int skill_free(skill_t* skill) {
 }
 
 /* See skill.h */
-char* skill_execute(skill_t* skill, char* args) {
-    assert(skill != NULL && args != NULL);
-
-    return (*(skill->effect))(args);
+int skill_execute(skill_t* skill, chiventure_ctx_t* ctx) 
+{
+    if (skill == NULL)
+    {
+        fprintf(stderr, "Error: NULL skill provided \n");
+        return FAILURE;
+    }
+    if (skill -> skill_effect == NULL)
+    {
+        fprintf(stderr, "Error: NULL effect in skill");
+        return FAILURE;
+    }
+    effect_t* skill_effect = skill->skill_effect;
+    int check = 0;
+    effect_type_t type = skill_effect->effect_type;
+    if (type == PLAYER_STATISTIC_MOD)
+    {
+        check = execute_player_stat_effect(skill_effect->data.s, ctx);
+        assert(check==0);
+        return check;
+    }
+    if (type ==  MOVE_UNLOCK)
+    {
+        /* This function relies on certain implementation from the battles class to first be finished */
+        return 0;
+    }
+    if (type == ITEM_ATTRIBUTE_MOD)
+    {
+        execute_item_attr_effect(skill_effect->data.i_a);
+        assert(check==0);
+        return check;
+    }
+    if (type == ITEM_STATISTIC_MOD)
+    {
+        execute_item_stat_effect(skill_effect->data.i_s);
+        assert(check==0);
+        return check;
+    }
+    return 0; //Keeping this line makes it easier to add other effect types later 
 }
 
 /* See skill.h */

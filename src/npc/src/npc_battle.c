@@ -57,16 +57,26 @@ int npc_battle_free(npc_battle_t *npc_battle)
 /* See npc.h  */
 int transfer_all_npc_items(npc_t *npc, room_t *room)
 {
-    item_list_t *item_lst = get_all_items_in_hash(&(npc->inventory));
-
-    while (item_lst->next != NULL)
+    if (get_npc_health(npc) > 0)
     {
-        add_item_to_hash(&(room->items), item_lst->item);
-        item_lst = item_lst->next;
+        return FAILURE;
     }
 
-    delete_item_llist(item_lst);
-    delete_all_items(&(npc->inventory));
+    if (npc->inventory == NULL)
+    {
+        return SUCCESS;
+    }
+
+    item_t *current_item, *tmp;
+    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    {
+        add_item_to_room(room, current_item);
+    }
+    
+    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    {
+        remove_item_from_npc(npc, current_item);
+    }
 
     return SUCCESS;
 }

@@ -12,7 +12,11 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "playerclass/class_prefabs.h"
+#include "skilltrees/skilltree.h"
+#include "skilltrees/inventory.h"
 #include "common/utlist.h"
+
+
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
@@ -96,7 +100,7 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
     strncat(new_shortdesc, "Multiclass of ", 15);
     strncat(new_shortdesc, base_class->name, strlen(base_class->name));
     strncat(new_shortdesc, ", ", 3);
-    strncat(new_shortdesc, second_class->name, strlen(base_class->name));
+    strncat(new_shortdesc, second_class->name, strlen(second_class->name));
     for (int i = 0; i < base_class->num_parent_class; i++) {
         strncat(new_shortdesc, ", ", 3);
         strncat(new_shortdesc, base_class->parent_class_names[i], strlen(base_class->parent_class_names[i]));
@@ -121,7 +125,7 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
  *  - a pointer to a string with the new longdesc.
  */
 char* multiclass_longdesc(class_t* base_class, class_t* second_class) {
-    char* new_longdesc = (char*) malloc(MAX_LONG_DESC_LEN + 1);
+    char* new_longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
     strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
     strncat(new_longdesc, "\n\n", 3);
     strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
@@ -197,14 +201,27 @@ effects_hash_t* multiclass_effects(effects_hash_t* base_effects, effects_hash_t*
  *  - note that the nodes in the combined trees are not deepcopied.
  */
 skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t* second_tree) {
-    unsigned int num_nodes = base_tree->num_nodes + second_tree->num_nodes;
-    tid_t tid = 1000; // TID is placeholder
-    skill_tree_t* new_tree = skill_tree_new(tid, name, num_nodes); 
-    for (int i = 0; i < base_tree->num_nodes; i++) {
-        skill_tree_node_add(new_tree, base_tree->nodes[i]);
+    if (base_tree == NULL && second_tree == NULL) {
+        return NULL;
     }
-    for (int i = 0; i < second_tree->num_nodes; i ++) {
-        skill_tree_node_add(new_tree, second_tree->nodes[i]);
+    unsigned int num_nodes;
+    if (base_tree == NULL) {
+        int num_nodes = second_tree->num_nodes;
+    }
+    else if (second_tree == NULL) {
+        int num_nodes = base_tree->num_nodes;
+    }
+    tid_t tid = 1000; // TID is placeholder
+    skill_tree_t* new_tree = skill_tree_new(tid, name, num_nodes);
+    if (base_tree != NULL) {
+        for (int i = 0; i < base_tree->num_nodes; i++) {
+            skill_tree_node_add(new_tree, base_tree->nodes[i]);
+        }
+    }
+    if (second_tree != NULL) {
+        for (int i = 0; i < second_tree->num_nodes; i ++) {
+            skill_tree_node_add(new_tree, second_tree->nodes[i]);
+        }
     }
     return new_tree;
 }
@@ -212,7 +229,6 @@ skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t*
 /*
  * Creates a skill inventory for a multiclass
  * by adding together the skills of both classes.
- * Can be used for combat or noncombat.
  *
  * The max active and passive will be the larger of the two classes.
  *
@@ -225,33 +241,48 @@ skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t*
  *  - note that the skills in the combined inventory are not deepcopied.
  */
 skill_inventory_t* multiclass_inventory(skill_inventory_t* base_inventory, skill_inventory_t* second_inventory) {
+    /* Safely unpack inventory sizes (Handling NULL) */
+    unsigned int base_max_active = base_inventory == NULL ? 0 : base_inventory->max_active;
+    unsigned int base_max_passive = base_inventory == NULL ? 0 : base_inventory->max_passive;
+    unsigned int second_max_active = second_inventory == NULL ? 0 : second_inventory->max_active;
+    unsigned int second_max_passive = second_inventory == NULL ? 0 : second_inventory->max_passive;
+
+    unsigned int base_curr_active = base_inventory == NULL ? 0 : base_inventory->num_active;
+    unsigned int base_curr_passive = base_inventory == NULL ? 0 : base_inventory->num_passive;
+    unsigned int second_curr_active = second_inventory == NULL ? 0 : second_inventory->num_active;
+    unsigned int second_curr_passive = second_inventory == NULL ? 0 : second_inventory->num_passive;
+
+    /* Calculate new inventory sizes */
     unsigned int max_active;
     unsigned int max_passive;
-    if (base_inventory->max_active >= second_inventory->max_active) {
-        max_active = base_inventory->max_active;
+    if (base_max_active >= second_max_active) {
+        max_active = base_max_active;
     }
     else {
-        max_active = second_inventory->max_active;
+        max_active = second_max_active;
     }
-    if (base_inventory->max_passive >= second_inventory->max_passive) {
-        max_passive = base_inventory->max_passive;
+    if (base_max_passive >= second_max_passive) {
+        max_passive = base_max_passive;
     }
     else {
-        max_passive = second_inventory->max_passive;
+        max_passive = second_max_passive;
     }
+
+    /* Generate new inventory */
     skill_inventory_t* new_inventory = inventory_new(max_active, max_passive);
-    for (int i = 0; i < base_inventory->num_active; i++) {
+    for (int i = 0; i < base_curr_active; i++) {
         inventory_skill_add(new_inventory, base_inventory->active[i]);
     }
-    for (int i = 0; i < second_inventory->num_active; i++) {
+    for (int i = 0; i < second_curr_active; i++) {
         inventory_skill_add(new_inventory, second_inventory->active[i]);
     }
-    for (int i = 0; i < base_inventory->num_passive; i++) {
+    for (int i = 0; i < base_curr_passive; i++) {
         inventory_skill_add(new_inventory, base_inventory->passive[i]);
     }
-    for (int i = 0; i < second_inventory->num_passive; i++) {
+    for (int i = 0; i < second_curr_passive; i++) {
         inventory_skill_add(new_inventory, second_inventory->passive[i]);
     }
+    
     return new_inventory;
 }
 
