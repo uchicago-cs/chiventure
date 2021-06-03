@@ -9,9 +9,7 @@
 #include "skilltrees/effect.h"
 #include "test_init.h"
 
-/*Similar to skill_test.c, these tests must be rewritten to work with the new implementation of effects.  As the implementation nears completion, we will rewrite them.
- *Currently, these tests too will have to commented out.
- */
+
 /* Tests skill_node_new. */
 
 Test(skilltree_test, skill_node_new_test)
@@ -88,8 +86,6 @@ Test(skilltree_test, skill_tree_free_test)
     int ret = skill_tree_free(tree);
     cr_assert_eq(ret, SUCCESS, "Error: failed test skill_tree_free_test\n");
 }
-
-/*Tests after this line fail and are skipped.*/
 
 /* Tests node_prereq_add on a valid case. */
 
@@ -418,8 +414,6 @@ Test(skilltree_test, get_all_skill_prereqs_empty)
     skill_node_t** ret = get_all_skill_prereqs(skilltree, 1002);
     cr_assert_null(ret,
       "Error: failed test get_all_skill_prereqs_empty\n");
-    //cr_assert_eq(*out, 0,
-   //  "Error: failed test get_all_skill_prereqs_empty\n");
 }
 
 /* Tests get_acquired_skill_prereqs with no prereqs. */
@@ -490,8 +484,15 @@ Test(skilltree_test, get_acquired_skill_prereqs_safe)
    "Error: failed test get_acquired_skill_prereqs_safe\n");
 }
 
+
+/* The following tests crash due to issues with skill_has_prereqs 
+ * method, which is left as an issue to resolve.
+ */ 
+
+
+
 /* Tests skill_prereqs_missing on a case with no missing prereqs. */
-/* TEST CRASHES */
+/* TEST CRASHES  (See Line 488)*/
 /*
 Test(skilltree_test, skill_prereqs_missing_none)
 {
@@ -523,7 +524,7 @@ Test(skilltree_test, skill_prereqs_missing_none)
 */
 
 /* Tests skill_prereqs_missing on a case with missing prereqs. */
-/* TEST CRASHES */
+/* TEST CRASHES (See Line 488)*/
 /*
 Test(skilltree_test, skill_prereqs_missing_some)
 {
@@ -576,7 +577,7 @@ Test(skilltree_test, skill_prereqs_missing_some)
 */
 
 /* Tests inventory_skill_acquire on a skill with satisfied prereqs. */
-/* TEST CRASHES */
+/* TEST CRASHES (See Line 488)*/
 
 /*
 Test(skilltree_test, inventory_skill_acquire_has)
