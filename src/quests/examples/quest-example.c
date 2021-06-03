@@ -24,11 +24,11 @@ const char *banner =
 player_t *player;
 quest_t *quest;
 npcs_in_room_t *npcs_in_room_1;
-npcs_in_room_t *npcs_in_room_2;
-npcs_in_room_t *npcs_in_room_3;
+//npcs_in_room_t *npcs_in_room_2;
+//npcs_in_room_t *npcs_in_room_3;
 
-npc_t *npc1;
-npc_t *npc2;
+//npc_t *npc1;
+//npc_t *npc2;
 npc_t *npc3;
 
 
@@ -41,37 +41,37 @@ chiventure_ctx_t *create_sample_ctx()
     room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
     room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
     room_t *room3 = room_new("room3", "This is room 3", "Exactly, this is the third room.");
-    room_t *room4 = room_new("room4", "This is room 4", "Yes, this is the fourth room.");
+    //room_t *room4 = room_new("room4", "This is room 4", "Yes, this is the fourth room.");
     //room_t *room5 = room_new("room5", "This is room 5", "Indeed, this is the fifth room.");
     
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     add_room_to_game(game, room3);
-    add_room_to_game(game, room4);
+    //add_room_to_game(game, room4);
     //add_room_to_game(game, room5);
 
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
-    create_connection(game, "room2", "room3", "EAST");
-    create_connection(game, "room2", "room4", "WEST");
+    create_connection(game, "room1", "room3", "EAST");
+    //create_connection(game, "room2", "room4", "WEST");
     //create_connection(game, "room2", "room5", "SOUTH");
 
 
-    item_t *BLUEPOTION = item_new("BLUE POTION","It is a bottle that holds a mysterious blue liquid",
+    item_t *BLUEPOTION = item_new("BLUEPOTION","It is a bottle that holds a mysterious blue liquid",
                               "This item must be taken for second mission. Drink it!");
-    add_item_to_room(room1, BLUEPOTION);
+    add_item_to_room(room2, BLUEPOTION);
     
-    item_t *GREENPILL = item_new("GREEN PILL","It is a green tablet. Could it be medicine?",
+    item_t *GREENPILL = item_new("GREENPILL","It is a green tablet. Could it be medicine?",
                               "This item must be taken for second mission. Take it!");
-    add_item_to_room(room1, GREENPILL);
+    add_item_to_room(room3, GREENPILL);
 
-    item_t *HERB = item_new("HERB", "It is a herb plant that has medicinal properties", 
+    /*item_t *HERB = item_new("HERB", "It is a herb plant that has medicinal properties", 
                                 "This item can cure a bad cough");
     add_item_to_room(room4, HERB);
 
     add_action(HERB, "TAKE", "[You take the Herb] "
                         "This is the herb that the ogre was talking about!",
-                "You can't pickup the herb.");
+                "You can't pickup the herb.");*/
 
     add_action(BLUEPOTION, "SIP", "[You sip the Potion] You feel strong.",
                 "You can't drink the POTION.");
@@ -104,7 +104,7 @@ char *start_quest_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
 
     if(quest->status == 1)
     {
-        return "You have started the quest. There are two potions in front of you: BLUE and GREEN. Pick one";
+        return "You have started the quest. There is a witch! Talk to her.";
     }
     else
     {
@@ -115,7 +115,7 @@ char *start_quest_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
 
 char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-
+    assert(ctx != NULL);
     game_t *game = ctx->game;
     if (game == NULL || game->curr_room == NULL)
     {
@@ -128,18 +128,20 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-
+    assert(quest != NULL);
+    assert(ctx->game != NULL);
+    assert(ctx->game != NULL);
+    assert(ctx->game->curr_room != NULL);
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
 
-        char *output0 = strcat("Witch-Eve",
-        ": Welcome, mortal! I have a quest for you! Consume the pill or drink the potion! Hehehehe...");
-        return output0;
-
+        char *output0 = "Witch-Eve: Welcome, mortal! I have a quest for you! Consume the pill or drink the potion! Hehehehe...";
+        
         quest->achievement_tree->achievement->completed = 1;
         quest->status = 2;
+        return output0;
 
     }  
-    else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 2))) {
+    /*else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 2))) {
 
         char *output1 = strcat("Ogre-Rick",
         ": I see you ate that green pill I left to the south to alert someone about my wife's condition. She is very ill and needs help. Can you get an herb or find a doctor for her?");
@@ -167,7 +169,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             return output3;
         }
 
-    } 
+    } */
     else
     {
         return "There is no one to talk to!";
@@ -176,8 +178,8 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 
 quest_t *make_sample_quest(long int quest_id, item_t *reward,
-                           npc_t *npc1, npc_t *npc2,
-                           item_t *item1, item_t *item2, item_t *item3)
+                           /*npc_t *npc1, npc_t *npc2,*/ npc_t *npc3,
+                           item_t *item1, item_t *item2)//, item_t *item3)
 {
     mission_t *talk_to_witch = mission_new(NULL, npc3); // talk to Witch-Eve
     achievement_t *start = achievement_new(talk_to_witch, "The first mission");
@@ -192,9 +194,9 @@ quest_t *make_sample_quest(long int quest_id, item_t *reward,
     add_achievement_to_quest(quest, start, "none");
     
     //mission_t *kill_dragon = mission_new(NULL, npc1); // kill dragon
-    mission_t *find_ogre = mission_new(NULL, npc1); //talk to ogre
-    mission_t *find_doctor = mission_new(NULL, npc2); //talk to doctor
-    mission_t *find_herb = mission_new(item3, NULL); //find herb
+    //mission_t *find_ogre = mission_new(NULL, npc1); //talk to ogre
+    //mission_t *find_doctor = mission_new(NULL, npc2); //talk to doctor
+    //mission_t *find_herb = mission_new(item3, NULL); //find herb
     mission_t *take_blue_potion = mission_new(item1, NULL);
     mission_t *take_green_pill = mission_new(item2, NULL);    
 
@@ -203,16 +205,16 @@ quest_t *make_sample_quest(long int quest_id, item_t *reward,
     achievement_t *achievement2 = achievement_new(take_green_pill, 
                  "Take green pill");
     //achievement_t *achievement3 = achievement_new(kill_dragon,"Kill the dragon");
-    achievement_t *achievement3 = achievement_new(find_ogre, "Talk to Ogre-Rick");
-    achievement_t *achievement4 = achievement_new(find_doctor, "Find a Doctor");
-    achievement_t *achievement5 = achievement_new(find_herb, "Find the Herb");
+    //achievement_t *achievement3 = achievement_new(find_ogre, "Talk to Ogre-Rick");
+    //achievement_t *achievement4 = achievement_new(find_doctor, "Find a Doctor");
+    //achievement_t *achievement5 = achievement_new(find_herb, "Find the Herb");
     
 
     add_achievement_to_quest(quest, achievement1, "The first mission");
     add_achievement_to_quest(quest, achievement2, "The first mission");
-    add_achievement_to_quest(quest, achievement3, "Take green pill");
-    add_achievement_to_quest(quest, achievement4, "Talk to Ogre-Rick");
-    add_achievement_to_quest(quest, achievement5, "Talk to Ogre-Rick");
+    //add_achievement_to_quest(quest, achievement3, "Take green pill");
+    //add_achievement_to_quest(quest, achievement4, "Talk to Ogre-Rick");
+    //add_achievement_to_quest(quest, achievement5, "Talk to Ogre-Rick");
 
     return quest;
 }
@@ -231,8 +233,8 @@ int main(int argc, char **argv)
     room_t *third_room;
     HASH_FIND(hh, ctx->game->all_rooms, "room3", strlen("room3"), third_room);
 
-    room_t *fourth_room;
-    HASH_FIND(hh, ctx->game->all_rooms, "room4", strlen("room4"), fourth_room);
+    //room_t *fourth_room;
+    //HASH_FIND(hh, ctx->game->all_rooms, "room4", strlen("room4"), fourth_room);
 
     //room_t *fifth_room;
     //HASH_FIND(hh, ctx->game->all_rooms, "room5", strlen("room5"), fourth_room);
@@ -243,13 +245,13 @@ int main(int argc, char **argv)
                           NULL, NULL, false);*/
 
    
-    char *npc_id1 = "Ogre-Rick";
+    /*char *npc_id1 = "Ogre-Rick";
     npc_t *npc1 = npc_new(npc_id1,"first npc","this is the npc that holds a branch of a quest",
                           NULL, NULL, false);
 
     char *npc_id2 = "Doctor-Dave";
     npc_t *npc2 = npc_new(npc_id2,"second npc","this is the npc that holds a branch of a quest",
-                          NULL, NULL, false);
+                          NULL, NULL, false);*/
 
     char *npc_id3 = "Witch-Eve";
     npc_t *npc3 = npc_new(npc_id3,"third npc","this is the npc that holds a branch of a quest",
@@ -258,11 +260,11 @@ int main(int argc, char **argv)
     npcs_in_room_1 = npcs_in_room_new("room1");
     add_npc_to_room(npcs_in_room_1, npc3);
 
-    npcs_in_room_2 = npcs_in_room_new("room2");
+    /*npcs_in_room_2 = npcs_in_room_new("room2");
     add_npc_to_room(npcs_in_room_2, npc1);
 
     npcs_in_room_3 = npcs_in_room_new("room3");
-    add_npc_to_room(npcs_in_room_3, npc2);
+    add_npc_to_room(npcs_in_room_3, npc2);*/
 
     item_t *item1 = malloc(sizeof(item_t));
     HASH_FIND(hh, ctx->game->all_items, "BLUEPOTION", strlen("BLUEPOTION"), item1);
@@ -270,13 +272,13 @@ int main(int argc, char **argv)
     item_t *item2 = malloc(sizeof(item_t));
     HASH_FIND(hh, ctx->game->all_items, "GREENPILL", strlen("GREENPILL"), item2);
 
-    item_t *item3 = malloc(sizeof(item_t));
-    HASH_FIND(hh, ctx->game->all_items, "HERB", strlen("HERB"), item3);
+    //item_t *item3 = malloc(sizeof(item_t));
+    //HASH_FIND(hh, ctx->game->all_items, "HERB", strlen("HERB"), item3);
 
     item_t *reward = item_new("KEY", "this is a key that unlocks all secrets",
     "Reward for completing the quest.");
     
-    quest_t *quest = make_sample_quest(1, reward, npc1, npc2, item1, item2, item3);
+    quest = make_sample_quest(1, reward, npc3,/*npc1, npc2,*/ item1, item2);
 
     add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);
 
