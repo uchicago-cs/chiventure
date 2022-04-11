@@ -230,15 +230,15 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 
     // successfully carried out action
     if (is_game_over(g)) {
-        sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
-                 room_dest->room_id);
+        sprintf(string, "Moved into %c%s. This is the final room, you've won the game! Press ctrl+D to quit.",
+                tolower(room_dest->short_desc[0]), room_dest->short_desc+1);
         *ret_string = string;
         return SUCCESS;
     }
     else if (move == SUCCESS || move == FINAL_ROOM)
     {
-        snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
-                 room_dest->room_id, room_dest->long_desc);
+        snprintf(string, BUFFER_SIZE, "You walk to %c%s. %s",
+                 tolower(room_dest->short_desc[0]), room_dest->short_desc+1, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
     }
