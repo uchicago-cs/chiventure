@@ -19,15 +19,19 @@ const char *banner =
     "     |     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  |\n"
     "     |     _________________________________________________________________________________|_____\n"
     "     |    /                                                                                      /\n"
-    "     |   /                         EXAMPLE PROGRAM - RPG-QUESTS TEAM                            /\n"
+    "     |   /                         EXAMPLE PROGRAM - QUESTS TEAM                                /\n"
     "     \\_/______________________________________________________________________________________/\n";
-
 
 player_t *player;
 quest_t *quest;
 npcs_in_room_t *npcs_in_room_1;
-npcs_in_room_t *npcs_in_room_4;
-npc_mov_t *npc1_movement;
+npcs_in_room_t *npcs_in_room_2;
+npcs_in_room_t *npcs_in_room_3;
+
+npc_t *npc1;
+npc_t *npc2;
+npc_t *npc3;
+
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
@@ -38,31 +42,45 @@ chiventure_ctx_t *create_sample_ctx()
     room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
     room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
     room_t *room3 = room_new("room3", "This is room 3", "Exactly, this is the third room.");
-    room_t *room4 = room_new("room4", "This is room 4", "Yes, this is the fourth room.");
+    //room_t *room4 = room_new("room4", "This is room 4", "Yes, this is the fourth room.");
+    //room_t *room5 = room_new("room5", "This is room 5", "Indeed, this is the fifth room.");
+    
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     add_room_to_game(game, room3);
-    add_room_to_game(game, room4);
+    //add_room_to_game(game, room4);
+    //add_room_to_game(game, room5);
+
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
-    create_connection(game, "room2", "room3", "EAST");
-    create_connection(game, "room3", "room4", "EAST");
+    create_connection(game, "room1", "room3", "EAST");
+    create_connection(game, "room2", "room1", "SOUTH");
+    create_connection(game, "room3", "room1", "WEST");
+    //create_connection(game, "room2", "room4", "WEST");
+    //create_connection(game, "room2", "room5", "SOUTH");
 
-    item_t *emerald = item_new("EMERALD","It is an emerald",
-                              "This item must be taken for the first mission. Steal it!");
-    add_item_to_room(room2, emerald);
 
-    item_t *POTION = item_new("POTION","It is a bottle that holds a mysterious liquid",
+    item_t *BLUEPOTION = item_new("BLUEPOTION","It is a bottle that holds a mysterious blue liquid",
                               "This item must be taken for second mission. Drink it!");
-    add_item_to_room(room4, POTION);
-
-    add_action(emerald, "STEAL", "[You take the Emerald] "
-                        "This is the object that the villager was talking about!",
-                "You can't pickup the emerald.");
-
-    add_action(POTION, "SIP", "[You sip the Potion] Suddenly you realize how you got here.",
-                "You can't drink the POTION.");
+    add_item_to_room(room2, BLUEPOTION);
     
+    item_t *GREENPILL = item_new("GREENPILL","It is a green tablet. Could it be medicine?",
+                              "This item must be taken for second mission. Take it!");
+    add_item_to_room(room3, GREENPILL);
+
+    
+
+    /*add_action(HERB, "TAKE", "[You take the Herb] "
+                        "This is the herb that the ogre was talking about!",
+                "You can't pickup the herb.");*/
+
+    add_action(BLUEPOTION, "SIP", "[You sip the Potion] You feel strong.",
+                "You can't drink the POTION.");
+
+    add_action(GREENPILL, "CONSUME", "[You take the Pill] You feel clever.",
+                "You can't drink the PILL.");
+    
+
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
@@ -92,7 +110,7 @@ char *start_quest_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
 
     if(quest->status == 1)
     {
-        return "You have started the quest. Begin by speaking to the villager over there.";
+        return "You have started the quest. There is a witch! Talk to her.";
     }
     else
     {
@@ -100,9 +118,10 @@ char *start_quest_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
     }
 }
 
+
 char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-
+    assert(ctx != NULL);
     game_t *game = ctx->game;
     if (game == NULL || game->curr_room == NULL)
     {
@@ -115,150 +134,96 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
+    assert(quest != NULL);
+    assert(ctx->game != NULL);
+    assert(ctx->game != NULL);
+    assert(ctx->game->curr_room != NULL);
     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
-        move_npc_definite(npc1_movement);
 
-        char *output1 = strcat("Villager-Jim",
-        ": I see you have started the quest, go to room2 to find the secret item, then "
-            "come meet me in room3 to complete the first mission.");
-        return output1;
-    } else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 1))) {
-        char *output2 = "Please find the secret item here.";
-        return output2;
-    } else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 1)) {
-        //move_npc_definite(npc1_movement);
-        item_t *item = malloc(sizeof(item_t));
-        HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item);
 
-        npc_t *npc = malloc(sizeof(npc_t));
-        HASH_FIND(hh, npcs_in_room_1->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
+        char *output0 = "Witch-Eve: Welcome, mortal! I have a quest for you! Consume the pill or drink the potion! Hehehehe...";
+        
+        quest->achievement_tree->achievement->completed = 1;
+        quest->status = 2;
+        return output0;
+
+    }  
+    else if (((strcmp(ctx->game->curr_room->room_id,"room3")) == 0) && ((quest->status == 2))) {
+        quest->achievement_tree->achievement->completed = 1;
+        quest->status = 3;
+        
+        if ((is_quest_completed(quest)) == 1)
+        {
+            item_t *HERB = item_new("HERB", "It is a herb plant that has medicinal properties", 
+                                "This item can cure a bad cough");
+            item_t *reward = complete_quest(quest);
+            add_item_to_player(ctx->game->curr_player, HERB);
+            char* output3 = "Ogre Rick: Wow, real adventurous of you to take that pill! Congrats you finished the quest you get an herb!";
+            return output3;
+        }
+
+    }  
+    else if ((strcmp(ctx->game->curr_room->room_id,"room2") == 0) && (quest->status == 2)) {
 
         //complete_achievement(quest, item, npc);
         quest->achievement_tree->achievement->completed = 1;
-        quest->status = 2;
-
-        char *output3 = strcat("Villager-Jim",": Congratulations on completing "
-                    "the first achievement of this quest. "
-                    "Now onto the next, continue through that door into the next room "
-                    "to continue.");
-
-        return output3;
-    } else if ((strcmp(ctx->game->curr_room->room_id,"room4") == 0) && (quest->status == 2)) {
-        item_t *item = malloc(sizeof(item_t));
-        HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item);
-
-        npc_t *npc = malloc(sizeof(npc_t));
-        HASH_FIND(hh, npcs_in_room_1->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
-
-        quest->achievement_tree->lmostchild->achievement->completed = 1;
-
         if ((is_quest_completed(quest)) == 1)
         {
-            reward_t *reward = complete_quest(quest);
-            add_item_to_player(ctx->game->curr_player, reward->item);
-            change_xp(ctx->game->curr_player, reward->xp);
-
-            char* output3 = strcat("Villager-Jim", ": Congratulations"
-            " on completing the quest, your reward is a key that should "
-            "help you on your adventure. You will find it in your inventory.");
+            item_t *reward = complete_quest(quest);
+            add_item_to_player(ctx->game->curr_player, reward);
+            char* output3 = "Doctor Dave: Tasty, huh? Nice job, here's the key to my pharmacy where you can have all the potions you want!";
             return output3;
         }
-        else
-        {
-            return "So close yet so far";
-        }
-    }
+
+    } 
     else
     {
         return "There is no one to talk to!";
     }
 }
 
-/* Get a big reward for finishing all the passive quests */
-quest_t *make_passive_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req)
+quest_t *make_sample_quest(long int quest_id, item_t *reward,
+                           /*npc_t *npc1, npc_t *npc2,*/ npc_t *npc3,
+                           item_t *item1, item_t *item2)//, item_t *item3)
 {
-    quest_t *quest = quest_new(quest_id, NULL, reward, stat_req);
+    mission_t *talk_to_witch = mission_new(NULL, npc3); // talk to Witch-Eve
+    achievement_t *start = achievement_new(talk_to_witch, "The first mission");
 
-    passive_mission_t *p_mission1 = passive_mission_new(50, 1000000, 1000000);
-    passive_mission_t *p_mission2 = passive_mission_new(100, 1000000, 1000000);
-    passive_mission_t *p_mission3 = passive_mission_new(150, 1000000, 1000000);
+    /*achievement_tree_t *ach_tree = malloc(sizeof(achievement_tree_t));
+    ach_tree->achievement = start;
+    ach_tree->parent = NULL;
+    ach_tree->rsibling = NULL;
+    ach_tree->lmostchild = NULL;*/
 
-    mission_t *fifty_xp;
-    fifty_xp->a_mission = NULL;
-    fifty_xp->p_mission = p_mission1;
+    quest_t *quest = quest_new(quest_id, NULL, reward);
+    add_achievement_to_quest(quest, start, "none");
+    
+    //mission_t *kill_dragon = mission_new(NULL, npc1); // kill dragon
+    //mission_t *find_ogre = mission_new(NULL, npc1); //talk to ogre
+    //mission_t *find_doctor = mission_new(NULL, npc2); //talk to doctor
+    //mission_t *find_herb = mission_new(item3, NULL); //find herb
+    mission_t *take_blue_potion = mission_new(item1, NULL);
+    mission_t *take_green_pill = mission_new(item2, NULL);    
 
-    mission_t *hundred_xp;
-    hundred_xp->a_mission = NULL;
-    hundred_xp->p_mission = p_mission2;
-
-    mission_t *hundred_fifty_xp;
-    hundred_fifty_xp->a_mission = NULL;
-    hundred_fifty_xp->p_mission = p_mission3;
-
-    achievement_t *achievement1 = achievement_new(fifty_xp, "Get 50 xp");
-    achievement_t *achievement2 = achievement_new(hundred_xp, "Get 100 xp");
-    achievement_t *achievement3 = achievement_new(hundred_fifty_xp, "Get 150 xp");
+    achievement_t *achievement1 = achievement_new(take_blue_potion,
+                 "Take blue potion");
+    achievement_t *achievement2 = achievement_new(take_green_pill, 
+                 "Take green pill");
+    //achievement_t *achievement3 = achievement_new(kill_dragon,"Kill the dragon");
+    //achievement_t *achievement3 = achievement_new(find_ogre, "Talk to Ogre-Rick");
+    //achievement_t *achievement4 = achievement_new(find_doctor, "Find a Doctor");
+    //achievement_t *achievement5 = achievement_new(find_herb, "Find the Herb");
+    
 
     add_achievement_to_quest(quest, achievement1, "The first mission");
-    add_achievement_to_quest(quest, achievement2, "Get 50 xp");
-    add_achievement_to_quest(quest, achievement3, "Get 100 xp");
+    add_achievement_to_quest(quest, achievement2, "The first mission");
+    //add_achievement_to_quest(quest, achievement3, "Take green pill");
+    //add_achievement_to_quest(quest, achievement4, "Talk to Ogre-Rick");
+    //add_achievement_to_quest(quest, achievement5, "Talk to Ogre-Rick");
 
     return quest;
 }
 
-quest_t *make_sample_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req,
-                           npc_t *npc1, npc_t *npc2, item_t *item1, item_t *item2,
-                           room_t *room3, room_t *room4)
-{
-    quest_t *quest = quest_new(quest_id, NULL, reward, stat_req);
-
-    active_mission_t *a_mission1 = active_mission_new(NULL, npc1, NULL, NULL);
-    active_mission_t *a_mission2 = active_mission_new(item1, NULL, NULL, room3);
-    active_mission_t *a_mission3 = active_mission_new(NULL, NULL, NULL, room4);
-    active_mission_t *a_mission4 = active_mission_new(item2, NULL, npc2, NULL); //outcome 1 (slay wolf, get potion)
-    active_mission_t *a_mission5 = active_mission_new(NULL, NULL, NULL, NULL); //outcome 2 (die to wolf)
-    active_mission_t *a_mission6 = active_mission_new(NULL, NULL, npc2, NULL); //outcome 3 (negotiate with wolf)
-
-    mission_t *meet_npc;
-    meet_npc->a_mission = a_mission1;
-    meet_npc->p_mission = NULL;
-
-    mission_t *get_emerald;
-    get_emerald->a_mission = a_mission2;
-    get_emerald->p_mission = NULL;
-
-    mission_t *go_to_room4;
-    go_to_room4->a_mission = a_mission3;
-    go_to_room4->p_mission = NULL;
-
-    mission_t *fight_wolf;
-    fight_wolf->a_mission = a_mission4;
-    fight_wolf->p_mission = NULL;
-
-    mission_t *die_to_wolf;
-    die_to_wolf->a_mission = a_mission5;
-    die_to_wolf->p_mission = NULL;
-
-    mission_t *negotiate;
-    negotiate->a_mission = a_mission6;
-    negotiate->p_mission = NULL;
-
-    achievement_t *achievement1 = achievement_new(meet_npc, "Meet the NPC quest giver");
-    achievement_t *achievement2 = achievement_new(get_emerald, "Get the emerald");
-    achievement_t *achievement3 = achievement_new(go_to_room4, "Go to room 4");
-    achievement_t *achievement4 = achievement_new(fight_wolf, "Fight the wolf");
-    achievement_t *achievement5 = achievement_new(die_to_wolf, "Die to wolf");
-    achievement_t *achievement6 = achievement_new(negotiate, "Negotiate with wolf");
-
-    add_achievement_to_quest(quest, achievement1, "The first mission");
-    add_achievement_to_quest(quest, achievement2, "Meet the NPC quest giver");
-    add_achievement_to_quest(quest, achievement3, "Get the emerald");
-    add_achievement_to_quest(quest, achievement4, "Go to room 4");
-    add_achievement_to_quest(quest, achievement5, "Go to room 4");
-    add_achievement_to_quest(quest, achievement6, "Go to room 4");
-
-    return quest;
-}
 
 int main(int argc, char **argv)
 {
@@ -273,66 +238,69 @@ int main(int argc, char **argv)
     room_t *third_room;
     HASH_FIND(hh, ctx->game->all_rooms, "room3", strlen("room3"), third_room);
 
-    room_t *last_room;
-    HASH_FIND(hh, ctx->game->all_rooms, "room4", strlen("room4"), last_room);
+    //room_t *fourth_room;
+    //HASH_FIND(hh, ctx->game->all_rooms, "room4", strlen("room4"), fourth_room);
 
-    char *npc_id = "Villager-Jim";
-    npc_t *npc1 = npc_new(npc_id,"first npc","this is the npc that holds the quest",
+    //room_t *fifth_room;
+    //HASH_FIND(hh, ctx->game->all_rooms, "room5", strlen("room5"), fourth_room);
+
+    
+    /*char *npc_id1 = "Puff-Dragon";
+    npc_t *npc1 = npc_new(npc_id1,"first npc","this is the npc that holds a branch of a quest",
+                          NULL, NULL, false);*/
+
+   
+    char *npc_id1 = "Ogre-Rick";
+    npc_t *npc1 = npc_new(npc_id1,"first npc","this is the npc that holds a branch of a quest",
                           NULL, NULL, false);
 
-    char *npc_id2 = "Big Bad Wolf";
-    npc_t *npc2 = npc_new(npc_id2, "second npc", "this is the npc to kill", NULL, NULL, true);
+    char *npc_id2 = "Doctor-Dave";
+    npc_t *npc2 = npc_new(npc_id2,"second npc","this is the npc that holds a branch of a quest",
+                          NULL, NULL, false);
+
+    char *npc_id3 = "Witch-Eve";
+    npc_t *npc3 = npc_new(npc_id3,"third npc","this is the npc that holds a branch of a quest",
+                          NULL, NULL, false);
 
     npcs_in_room_1 = npcs_in_room_new("room1");
-    add_npc_to_room(npcs_in_room_1, npc1);
-    npcs_in_room_4 = npcs_in_room_new("room4");
-    add_npc_to_room(npcs_in_room_4, npc2); //Need to fight the wolf to get potion
+    add_npc_to_room(npcs_in_room_1, npc3);
 
-    npc1_movement = npc_mov_new(NPC_MOV_DEFINITE,initial_room);
-    extend_path_definite(npc1_movement,third_room);
-    extend_path_definite(npc1_movement,last_room);
+    /*npcs_in_room_2 = npcs_in_room_new("room2");
+    add_npc_to_room(npcs_in_room_2, npc1);
 
+    npcs_in_room_3 = npcs_in_room_new("room3");
+    add_npc_to_room(npcs_in_room_3, npc2);*/
 
-    reward_t *reward_if_kill = reward_new(50, item_new("KEY", "this is a key that unlocks all secrets",
-    "Reward for completing the quest."));
-    reward_t *reward_if_negotiate = reward_new(100, NULL);
 
     item_t *item1 = malloc(sizeof(item_t));
-    HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item1);
+    HASH_FIND(hh, ctx->game->all_items, "BLUEPOTION", strlen("BLUEPOTION"), item1);
 
     item_t *item2 = malloc(sizeof(item_t));
-    HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item2);
+    HASH_FIND(hh, ctx->game->all_items, "GREENPILL", strlen("GREENPILL"), item2);
 
-    stat_req_t *stat_req = stat_req_new(5, 2);
+    //item_t *item3 = malloc(sizeof(item_t));
+    //HASH_FIND(hh, ctx->game->all_items, "HERB", strlen("HERB"), item3);
 
-    quest_t *quest = make_sample_quest(1, reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
 
-    reward_t *reward_passive = reward_new(0, item_new("Portal Gun", "this gun can create portals on special walls",
-    "Reward for completing passive missions."));
-
-    stat_req_t *stat_req_passive = stat_req_new(0, 0);
-    quest_t *quest_passive = make_passive_quest(1, reward_passive, stat_req_passive);
-    /*quest layout: start in room1 -> go to room2 -> go to room3 -> get emerald -> go to room4 -> fight wolf and WIN -> get potion -> meet npc for reward
-                                                                                                / |
-                                                                                               /  |
-                                                                                              /   v
-                                                                                             /    fight wolf and lose -> die
-                                                                                            |
-                                                                                            |
-                                                                                            v
-                                                                                            negotiate with wolf and wolf takes potion -> npc gives xp instead  */
+    item_t *reward = item_new("KEY", "this is a key that unlocks all secrets",
+    "Reward for completing the quest.");
     
+    
+    
+    quest = make_sample_quest(1, reward, npc3,/*npc1, npc2,*/ item1, item2);
 
 
     add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);
 
     add_entry("TALK", talk_to_npc, NULL, ctx->cli_ctx->table);
 
-    action_type_t steal_action = {"STEAL", ITEM};
-    add_entry(steal_action.c_name, kind1_action_operation, &steal_action, ctx->cli_ctx->table);
+    action_type_t consume_action = {"CONSUME", ITEM};
+    add_entry(consume_action.c_name, kind1_action_operation, &consume_action, ctx->cli_ctx->table);
 
     action_type_t drink_action = {"SIP", ITEM};
     add_entry(drink_action.c_name, kind1_action_operation, &drink_action, ctx->cli_ctx->table);
+
+    
 
     /* Start chiventure */
     start_ui(ctx, banner);

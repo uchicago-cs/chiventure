@@ -306,24 +306,22 @@ achievement_tree_t *find_parent(achievement_tree_t *tree, char *id)
     assert(tree != NULL);
 
     achievement_tree_t *cur = tree;
-
+    cur = get_bottom_node(cur);
     while(cur != NULL)
     {
-
         if(strcmp(cur->achievement->id, id) == 0)
         {
             return cur;
         }
         else if(cur->rsibling != NULL)
         {
-            cur = cur->rsibling;
+            cur = get_bottom_node(cur->rsibling);
         }
-        else if(cur->parent->rsibling != NULL)
+        else if(cur->parent != NULL)
         {
-            cur = cur->parent->rsibling;
+            cur = cur->parent;
         }
-        else
-        {
+        else{
             return NULL;
         }
     }
@@ -355,6 +353,7 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
     }
     else
     {
+        tree = tree->lmostchild;
         while (tree->rsibling != NULL)
         {
             tree = tree->rsibling;
