@@ -328,4 +328,18 @@ int get_quest_status(quest_t *quest);
 reward_t *complete_quest(quest_t *quest);
 
 
+
+/* returns the hash after deleting one or all quest.
+ *
+ * Parameter:
+ * - pointer to 
+ * - quest ID, 
+ * - temporary idea(boolean 0 and 1 if want to remove all)
+ * 
+ * Returns:
+ * - 0 if the removal was failure, 1 if successful 
+ */
+int remove_quest(quest_hash_t *hash_table, char *quest_id, int isall);
+
+
 #endif /* QUESTS_STATE_H */
