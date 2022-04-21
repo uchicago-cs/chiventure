@@ -332,9 +332,9 @@ reward_t *complete_quest(quest_t *quest);
 /* returns the hash after deleting one or all quest.
  *
  * Parameter:
- * - pointer to 
+ * - pointer to a hash table
  * - quest ID, 
- * - temporary idea(boolean 0 and 1 if want to remove all)
+ * - boolean isall: 0 for removing one quest, 1 for removing all
  * 
  * Returns:
  * - 0 if the removal was failure, 1 if successful 
