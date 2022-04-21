@@ -96,7 +96,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
  *  - a pointer to a string with the new shortdesc.
  */
 char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
-
+ 
     int num_multiclass = 2 + base_class->num_parent_class + second_class->num_parent_class;
 
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
