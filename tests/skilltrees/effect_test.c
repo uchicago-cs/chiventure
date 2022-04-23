@@ -27,19 +27,19 @@ Test(effect_tests, make_move_effect_test)
 
 }
 
-// Test(effect_tests, execute_move_effect_test)
-// {
-//     chiventure_ctx_t* ctx = create_player_and_stats();
-//     item_t* bomb = add_bomb_item(ctx);
+Test(effect_tests, execute_move_effect_test)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
 
-//     move_t *move = move_new("abc", 1, bomb, true, 10, 55);
-//     cr_assert_not_null(move, "Error: move_new failed to create move");
-//     move_effect_t* moveeffect = define_move_effect(move);
-//     cr_assert_not_null(moveeffect, "Error: define_move_effect failed to create move effect");
+    //bomb needs to be battle_item_t
+    move_t *move = move_new("abc", 1, NULL, true, 10, 55);
+    cr_assert_not_null(move, "Error: move_new failed to create move");
+    move_effect_t* moveeffect = define_move_effect(move);
+    cr_assert_not_null(moveeffect, "Error: define_move_effect failed to create move effect");
     
-//     int check = execute_move_effect(ctx, moveeffect);
-//     cr_assert_eq(check, SUCCESS, "Error: Failure of execute_move_effect");
-// }
+    int check = execute_move_effect(ctx, moveeffect);
+    cr_assert_eq(check, SUCCESS, "Error: Failure of execute_move_effect");
+}
 
 //Tests for stat mod effects
 
