@@ -531,7 +531,10 @@ int remove_quest(quest_hash_t *hash_table, char *quest_id, int isall)
     quest_t *check = get_quest_from_hash(quest_id,hash_table);
     if (isall == 1) {
         quest_t *temp; 
-        HASH_ITER(hh, hash_table,check,temp);
+        HASH_ITER(hh, hash_table,check,temp) {
+            HASH_DEL(hash_table, check);
+            quest_free(check);
+        }
         return SUCCESS; 
 
     }
