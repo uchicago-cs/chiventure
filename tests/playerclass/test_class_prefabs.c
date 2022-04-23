@@ -147,7 +147,7 @@ Test(class_prefabs, Warrior) {
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Sword Slash", "failed to initialize skill inventory");
 }
 
-/* Tests the rogue class */
+/* Tests the wizard class */
 Test(class_prefabs, Wizard) {
     chiventure_ctx_t* ctx = init_statless_context();
 
