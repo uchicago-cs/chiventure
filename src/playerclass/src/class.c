@@ -97,19 +97,50 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
  */
 char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
+    int len = 0;
+
     strncat(new_shortdesc, "Multiclass of ", 15);
-    strncat(new_shortdesc, base_class->name, strlen(base_class->name));
+    len += 15;
+
+    int base_class_name_len = strlen(base_class->name);
+    strncat(new_shortdesc, base_class->name, base_class_name_len);
+    len += base_class_name_len;
+
     strncat(new_shortdesc, ", ", 3);
-    strncat(new_shortdesc, second_class->name, strlen(second_class->name));
+    len += 3;
+
+    int second_class_name_len = strlen(second_class->name);
+    strncat(new_shortdesc, second_class->name, second_class_name_len);
+    len += second_class_name_len;
+
+    int base_class_parent_class_names_i_len;
     for (int i = 0; i < base_class->num_parent_class; i++) {
         strncat(new_shortdesc, ", ", 3);
-        strncat(new_shortdesc, base_class->parent_class_names[i], strlen(base_class->parent_class_names[i]));
+        len += 3;
+
+        base_class_parent_class_names_i_len = strlen(base_class->parent_class_names[i]);
+        strncat(new_shortdesc, base_class->parent_class_names[i], base_class_parent_class_names_i);
+        len += base_class_parent_class_names_i_len;
     }
+
+    int second_class_parent_class_names_i;
     for (int i = 0; i < second_class->num_parent_class; i++) {
         strncat(new_shortdesc, ", ", 3);
-        strncat(new_shortdesc, second_class->parent_class_names[i], strlen(second_class->parent_class_names[i]));
+        len += 3;
+
+        second_class_parent_class_names_i_len = strlen(second_class->parent_class_names[i]);
+        strncat(new_shortdesc, second_class->parent_class_names[i], second_class_parent_class_names_i_len);
+        len += second_class_parent_class_names_i-Len;
     }
+
     strncat(new_shortdesc, ".", 2);
+    len += 2;
+
+    if (len > MAX_SHORT_DESC_LEN) {     // should it be MAX_SHORT_DESC_LEN + 1?
+        fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length");
+        exit(1);
+    }
+
     return new_shortdesc;
 }
 
@@ -126,9 +157,24 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
  */
 char* multiclass_longdesc(class_t* base_class, class_t* second_class) {
     char* new_longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
-    strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
+    int len = 0;
+
+    int base_class_shortdesc_len = strlen(base_class->shortdesc);
+    strncat(new_longdesc, base_class->shortdesc, base_class_shortdesc_len);
+    len += base_class_shortdesc_len;
+
     strncat(new_longdesc, "\n\n", 3);
-    strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
+    len += 3;
+
+    int second_class_shortdesc_len = strlen(second_class->shortdesc);
+    strncat(new_longdesc, second_class->shortdesc, second_class_shortdesc_len);
+    len += second_class_shortdesc_len;
+
+    if (len > MAX_LONG_DESC_LEN) {      // should it be MAX_SHORT_DESC_LEN + 1?
+        fprintf(stderr, "multiclass_longdesc: Longdesc longer than max length");
+        exit(1);
+    }
+
     return new_longdesc;
 }
 
