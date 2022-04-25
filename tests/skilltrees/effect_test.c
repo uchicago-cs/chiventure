@@ -31,7 +31,6 @@ Test(effect_tests, execute_move_effect_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
 
-    //bomb needs to be battle_item_t
     move_t *move = move_new("abc", 1, NULL, true, 10, 55);
     cr_assert_not_null(move, "Error: move_new failed to create move");
     move_effect_t* moveeffect = define_move_effect(move);
