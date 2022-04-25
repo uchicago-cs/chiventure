@@ -13,6 +13,10 @@
 - Next steps for dialogue
 - NPCs in Rooms
 - Next steps for NPCs in rooms
+- NPC movement
+- Next steps for NPC movement
+- NPC Battles
+- Next steps for NPC battles
 ### Directories
 - include/npc
 - src/npc
@@ -70,6 +74,14 @@
 - The `npcs_in_room` struct needs to be then further integrated into the room struct where the room struct will hold this specific npcs_in_room struct for each room. This would therefore contain a list of npcs that exist in the room.
 - A feature that can be implemented would be NPC movement. The primary issue with this is that often times adjacent rooms may not have the same `room_tag`, thus the NPC will be restricted to a single room. But in the case that adjacent rooms may be of a `room_tag` that that particular npc_class has been associated to both `room_tag`, then this can facilitate movement between rooms.
 
+### NPC Movement Module
+
+### Next Steps for NPC Movement
+
+### NPC Battles Module
+
+### Next Steps for NPC Battles
+
 ## Directories
 
 ### chiventure/include/npc
@@ -77,6 +89,8 @@
 - [npc.h](/include/npc/npc.h) - Contains the structs for the foundational aspects of NPCs
 - [dialogue.h](/include/npc/dialogue.h) - Contains the strcts for all of the NPC dialogue functionality
 - [rooms-npc.h](/include/npc/rooms-npc.h) - Contains the structs for handling NPCs in rooms
+- [npc_move.h](/include/npc/npc_move.h) - Contains the structs for handling the movement of NPCs
+- [npc_battle.h](/include/npc/npc_battle.h) - Contains the structs and functions for battles involving NPCs
 
 ### chiventure/src/npc
 - [CMakeLists.txt](/src/npc/CMakeLists.txt) - CMake file for examples
