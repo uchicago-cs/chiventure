@@ -93,6 +93,8 @@ class Room:
             else:
                 self.wdl_contents[k] = v
 
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for {id}, wdl file may not run''')
         self.generate_defaults()
         return {self.id: self.wdl_contents}
         
@@ -103,19 +105,25 @@ class Room:
             included with default values.
         """
 
-        # generate default for long description
-        if 'long_desc' not in self.wdl_contents:
-            id = self.id or "room"
-            short = self.wdl_contents.get('short desc', '')
-            default = f"This is a {id}. {short}"
-            self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {id}, generated default: {self.wdl_contents['long_desc']}''')
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for room, wdl file may not run''')
+            return
+        else:
+            # generate default for short description     
+            if 'short_desc' not in self.wdl_contents:
+                default_id = self.id or "a room"
+                self.wdl_contents['short_desc'] = f"{default_id}"
+                warn(f'''missing: short description for {default_id}, generated default: {self.wdl_contents['short_desc']}''')
+            
+            # generate default for long description
+            if 'long_desc' not in self.wdl_contents:
+                id = self.id or "room"
+                short = self.wdl_contents.get('short desc', '')
+                default = f"This is a {id}. {short}"
+                self.wdl_contents['long_desc'] = f"{default}"
+                warn(f'''missing: long description for {id}, generated default: {self.wdl_contents['long_desc']}''')
 
-        # generate default for short description     
-        if 'short_desc' not in self.wdl_contents:
-            default_id = self.id or "a room"
-            self.wdl_contents['short_desc'] = f"{default_id}"
-            warn(f'''missing: short description for {default_id}, generated default: {self.wdl_contents['short_desc']}''')
+        
             
     def connections_list(self) -> list:
         """
@@ -190,27 +198,32 @@ class Item:
             neccesary information (like short and long description) that is not 
             included with its default values.
         """
-
-        # generate default for long description
-        if 'long_desc' not in self.wdl_contents:
-            short_desc = self.wdl_contents.get('short_desc', '')
-            default = f"This is a {self.id}. {short_desc}"
-            self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
-                
-        # generate default for short description
-        if 'short_desc' not in self.wdl_contents:
-            self.wdl_contents['short_desc'] = f"{self.id}"
-            warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
-
-        # generate default interaction text for actions
-        for i in self.wdl_contents.get('actions', []):
-            if 'text_success' not in i:
-                i['text_success'] = f"You {i['action'].lower()} the {self.id}."
-                warn(f'''missing: success text for action {i['action']} for item {self.id}, generated default: {i['text_success']}''')
-            if 'text_fail' not in i:
-                i['text_fail'] = f"You cannot {i['action'].lower()} the {self.id}."
-                warn(f'''missing: failure text for action {i['action']} for item {self.id}, generated default: {i['text_fail']}''')
+        if self.default =="no-defaults":
+           warn(f'''warning: no default values generated for item, wdl file may not run''')
+           return
+        
+        if self.default == "some_defaults" or "":
+            # generate default for long description
+            if 'long_desc' not in self.wdl_contents:
+                short_desc = self.wdl_contents.get('short_desc', '')
+                default = f"This is a {self.id}. {short_desc}"
+                self.wdl_contents['long_desc'] = f"{default}"
+                warn(f'''missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
+                    
+            # generate default for short description
+            if 'short_desc' not in self.wdl_contents:
+                self.wdl_contents['short_desc'] = f"{self.id}"
+                warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
+        
+        if self.default =="":
+            # generate default interaction text for actions
+            for i in self.wdl_contents.get('actions', []):
+                if 'text_success' not in i:
+                    i['text_success'] = f"You {i['action'].lower()} the {self.id}."
+                    warn(f'''missing: success text for action {i['action']} for item {self.id}, generated default: {i['text_success']}''')
+                if 'text_fail' not in i:
+                    i['text_fail'] = f"You cannot {i['action'].lower()} the {self.id}."
+                    warn(f'''missing: failure text for action {i['action']} for item {self.id}, generated default: {i['text_fail']}''')
 
     # to do: action conditions -- how?
     def actions_list(self) -> list:
@@ -260,6 +273,7 @@ class Game:
                 self.wdl_contents["end"] = {"in_room": v}
             else:
                 self.wdl_contents[k] = v
+        
         self.generate_defaults()
         return {'GAME': self.wdl_contents}
 
@@ -269,10 +283,13 @@ class Game:
             neccesary information (like an introduction) that is not 
             included with its default values.
         """
-
-        # generate default for introduction
-        if 'intro' not in self.wdl_contents:
-            default = self.wdl_contents.get('start') or "room"
-            self.wdl_contents['intro'] = f"Welcome! You're in a {default}"
-            warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for game, wdl file may not run''')
+            return
+        else:
+            # generate default for introduction
+            if 'intro' not in self.wdl_contents:
+                default = self.wdl_contents.get('start') or "room"
+                self.wdl_contents['intro'] = f"Welcome! You're in a {default}"
+                warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 

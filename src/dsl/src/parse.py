@@ -100,7 +100,7 @@ def main():
         # Check Defaults code
         default = ""
         if "no-defaults" in flags and "some-defaults" in flags:
-            continue
+            default= ""
         elif "no-defaults" in flags:
             default = "no-defaults"
         elif "some-defaults" in flags:
