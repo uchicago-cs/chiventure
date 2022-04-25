@@ -15,7 +15,7 @@ ACTION_ALIASES = {
     "fail": "text_fail"
 }
 
-def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
+def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default="") -> str:
     """
         Main outward-facing function. Transforms the intermediate data 
         structure outputted by the parser into valid WDL/JSON format.
@@ -35,13 +35,13 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
                 location = room_name
                 if "location" in item:
                     location = item.pop("location")
-                item_obj = Item(location, item)
+                item_obj = Item(location, item, default)
                 items.append(item_obj)
                 room_items_objs.append(item_obj)
             contents["items"] = room_items_objs
-            rooms.append(Room(room_name, contents))
+            rooms.append(Room(room_name, contents, default))
     
-    game = Game(intermediate)
+    game = Game(intermediate, default)
     
     # acts as a "union" operation on multiple dictionaries
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
@@ -59,17 +59,19 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
     return out
 
 class Room:
-    def __init__(self, id: str, contents: dict):
+    def __init__(self, id: str, contents: dict, default: str):
         """
             Defines a Room class for conversion to WDL, with an id and a list of
             contents and/or properties.
         """
         self.id = id
         self.contents = contents
+        self.default = default
         
         # self.wdl_contents stores what will be outputted so we don't lose the
         # original input from the parser
         self.wdl_contents = {}
+
 
     def to_json(self) -> str: 
         """ For internal testing only: converts a room to its JSON format """
@@ -136,13 +138,14 @@ class Room:
         return list(map(lambda i: i.id, self.contents.get('items',[])))
 
 class Item:
-    def __init__(self, location: str, contents: dict):
+    def __init__(self, location: str, contents: dict, default: str):
         """
             Defines an Item class for conversion to WDL, with an id, a location, 
             and a list of actions and/or properties.
         """
         self.location = location
         self.contents = contents
+        self.default = default
         assert 'id' in self.contents, "Item is missing an id"
         self.id = self.contents['id']
 
@@ -229,12 +232,13 @@ class Item:
 
 
 class Game:
-    def __init__(self, contents: dict):
+    def __init__(self, contents: dict, default: str):
         """
             Defines a Game class for conversion to WDL, with an id and a list of
             contents and/or properties.
         """
         self.contents = contents
+        self.default = default
 
         # self.wdl_contents stores what will be outputted so we don't lose the
         # original input from the parser
