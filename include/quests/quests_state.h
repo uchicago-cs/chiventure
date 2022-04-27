@@ -62,7 +62,7 @@ achievement_t *achievement_new(mission_t *mission, char *id);
 /* Creates a new quest struct (allocates memory)
  * 
  * Parameters:
- * - quest_id: long integer for the specific quest_id 
+ * - quest_id: string representing the specific quest_id 
  * - achievement_tree: non-binary tree  struct holding a tree of 
  *                     achievements that make up a quest
  * - reward: reward of the quest is an item
@@ -70,7 +70,7 @@ achievement_t *achievement_new(mission_t *mission, char *id);
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started)
  */
-quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
+quest_t *quest_new(char *quest_id, achievement_tree_t *achievement_tree,
                     reward_t *reward, stat_req_t *stat_req);
 
 /* Initialize an already allocated passive mission struct 
@@ -142,7 +142,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
  *
  * Parameters:
  * - q: an already allocated quest
- * - quest_id: long int for the specific quest_id 
+ * - quest_id: string representing the specific quest_id 
  * - achievement_tree: non-binary tree struct holding a tree of 
  *                     achievements that make up a quest
  * - reward: reward of the quest is an item
@@ -154,7 +154,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
  * - FAILURE for unsuccessful init
  * 
  */
-int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tree, 
+int quest_init(quest_t *q, char *quest_id, achievement_tree_t *achievement_tree, 
                reward_t *reward, stat_req_t *stat_req, int status);
 
 /* 

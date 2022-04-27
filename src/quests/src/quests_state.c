@@ -87,7 +87,7 @@ achievement_t *achievement_new(mission_t *mission, char *id)
 }
 
 /* Refer to quests_state.h */
-quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
+quest_t *quest_new(char *quest_id, achievement_tree_t *achievement_tree,
                    reward_t *reward, stat_req_t *stat_req) 
 
 {
@@ -171,7 +171,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission, char *id)
 }
 
 /* Refer to quests_state.h */
-int quest_init(quest_t *q, long quest_id, achievement_tree_t *achievement_tree,
+int quest_init(quest_t *q, char *quest_id, achievement_tree_t *achievement_tree,
                 reward_t *reward, stat_req_t *stat_req, int status)
 
 {
@@ -225,6 +225,7 @@ int quest_free(quest_t *q)
 {
     assert(q != NULL);
 
+    free(q->quest_id);
     free(q->achievement_tree);
     free(q->reward);
     free(q->stat_req);

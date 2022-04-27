@@ -129,7 +129,7 @@ typedef struct stat_req {
  */
 typedef struct quest  {
     UT_hash_handle hh;
-    long int quest_id;
+    char *quest_id;
     achievement_tree_t *achievement_tree;
     reward_t *reward;
     stat_req_t *stat_req;
