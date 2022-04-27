@@ -9,6 +9,7 @@
 #include "game-state/room.h"
 #include "npc/npc.h"
 
+
 #define BUFFER_SIZE (100)
 #define WRONG_KIND (2)
 #define NOT_ALLOWED_DIRECT (3)
@@ -16,6 +17,7 @@
 #define NOT_ALLOWED_PATH (5)
 #define CONDITIONS_NOT_MET (6)
 #define EFFECT_NOT_APPLIED (7)
+
 
 /* See actionmanagement.h */
 action_type_t *action_type_new(char *c_name, enum action_kind kind)
@@ -38,6 +40,7 @@ action_type_t *action_type_new(char *c_name, enum action_kind kind)
     return a;
 }
 
+
 /* See actionmanagement.h */
 int action_type_init(action_type_t *a, char *c_name, enum action_kind kind)
 {
@@ -50,6 +53,7 @@ int action_type_init(action_type_t *a, char *c_name, enum action_kind kind)
     return SUCCESS;
 }
 
+
 /* See actionmanagement.h */
 int action_type_free(action_type_t *a)
 {
@@ -57,6 +61,7 @@ int action_type_free(action_type_t *a)
     free(a);
     return SUCCESS;
 }
+
 
 /* See actionmanagement.h */
 int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
@@ -66,9 +71,11 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
     return SUCCESS;
 }
 
+
 /* ========================================================================== */
 
-/*
+
+/* 
  * helper function that removes condition
  *
  * Parameter:
@@ -79,24 +86,25 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
  */
 int helper_remove(action_type_t *a)
 {
-    path_t *closed_path;
-    closed_path = path_search(a->room, a->direction);
-    /* only if action is a condition to something (action with
-       null room and direction produce null path) */
-    if (closed_path)
-    {
-        list_action_type_t *delete_node;
-        int condition;
-        closed_path = path_search(a->room, a->direction);
-        delete_node = find_act(closed_path->conditions, a);
-        condition = remove_condition(closed_path, delete_node);
-        if (condition != SUCCESS)
-        {
-            return CONDITIONS_NOT_MET;
-        }
-    }
+            path_t *closed_path;
+            closed_path = path_search(a->room,a->direction);
+            /* only if action is a condition to something (action with
+               null room and direction produce null path) */
+            if (closed_path)
+            {
+                list_action_type_t *delete_node;
+                int condition;
+                closed_path = path_search(a->room,a->direction);
+                delete_node = find_act(closed_path->conditions, a);
+                condition = remove_condition(closed_path, delete_node);
+                if (condition != SUCCESS)
+                {
+                    return CONDITIONS_NOT_MET;
+                }
+            }
     return SUCCESS;
 }
+
 
 /* KIND 1
  * See actionmanagement.h */
@@ -106,7 +114,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     assert(c->game);
     assert(a);
     assert(i);
-
+    
     game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
@@ -121,11 +129,11 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     }
 
     /* use representative c_name for action synonyms */
-    if (strncmp(a->c_name, "PICKUP", BUFFER_SIZE) == 0)
+    if(strncmp(a->c_name, "PICKUP", BUFFER_SIZE) == 0) 
     {
         a->c_name = "TAKE";
-    }
-    else if (strncmp(a->c_name, "USE", BUFFER_SIZE) == 0 || strncmp(a->c_name, "EAT", BUFFER_SIZE) == 0 || strncmp(a->c_name, "DRINK", BUFFER_SIZE) == 0)
+    } 
+    else if(strncmp(a->c_name, "USE", BUFFER_SIZE) == 0 || strncmp(a->c_name, "EAT", BUFFER_SIZE) == 0 || strncmp(a->c_name, "DRINK", BUFFER_SIZE) == 0)
     {
         a->c_name = "CONSUME";
     }
@@ -165,22 +173,23 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         }
         else
         {
-            // remove action from any conditions
-            int rc;
-            rc = helper_remove(a);
+	    //remove action from any conditions
+	    int rc;
+	    rc = helper_remove(a);
 
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
             if (is_game_over(game))
             {
                 string = strcat(string, " Congratulations, you've won the game! "
-                                        "Press ctrl+D to quit.");
+                        "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
         }
     }
 }
+
 
 /* KIND 2
  * See actionmanagement.h */
@@ -190,6 +199,7 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     assert(c->game);
     assert(c->game->curr_room);
     assert(a);
+
 
     /* INITIALIZATION */
     char *string = malloc(BUFFER_SIZE);
@@ -220,15 +230,14 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     /* PERFORM ACTION */
     int move = move_room(g, room_dest);
 
-    // remove action from any conditions
+    //remove action from any conditions
     int rc;
     rc = helper_remove(a);
 
     // successfully carried out action
-    if (is_game_over(g))
-    {
+    if (is_game_over(g)) {
         sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
-                room_dest->room_id);
+                 room_dest->room_id);
         *ret_string = string;
         return SUCCESS;
     }
@@ -239,14 +248,14 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
         *ret_string = string;
         return SUCCESS;
     }
-    else
-    {
+    else {
         sprintf(string, "Move action %s via %s into %s failed.",
                 a->c_name, direction, room_dest->room_id);
         *ret_string = string;
         return NOT_ALLOWED_PATH;
     }
 }
+
 
 /* KIND 3
  * See actionmanagement.h */
@@ -258,10 +267,11 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     assert(a);
     assert(direct);
     assert(indirect);
-
+    
     agent_t *agentdir = NULL;
     agentdir->item = direct;
 
+    
     game_t *game = c->game;
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -273,6 +283,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         *ret_string = string;
         return WRONG_KIND;
     }
+
 
     // checks if the action is possible with the direct item
     if (possible_action(agentdir, a->c_name) == FAILURE)
@@ -323,7 +334,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         }
         else if (applied_effect == SUCCESS)
         {
-            // remove action from any conditions
+            //remove action from any conditions
             int rc;
             rc = helper_remove(a);
 
@@ -332,7 +343,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
             if (is_game_over(game))
             {
                 string = strcat(string, " Congratulations, you've won the game! "
-                                        "Press ctrl+D to quit.");
+                        "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
@@ -349,7 +360,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     assert(c->game);
     assert(a);
     assert(npc);
-
+    
     game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
@@ -399,22 +410,22 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
         }
         else
         {
-            // remove action from any conditions
-            int rc;
-            rc = helper_remove(a);
+	    //remove action from any conditions
+	    int rc;
+	    rc = helper_remove(a);
 
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
             if (is_game_over(game))
             {
                 string = strcat(string, " Congratulations, you've won the game! "
-                                        "Press ctrl+D to quit.");
+                        "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
         }
     }
-}
+} 
 
 /* KIND 5
  * See npc_action.h */
@@ -423,7 +434,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_
     agent_t *agent_n = NULL;
     agent_n->npc = npc;
 
-    if (a->kind != NPC_ITEM)
+    if(a->kind != NPC_ITEM)
     {
         return WRONG_KIND;
     }
@@ -439,27 +450,27 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    if (item_in_npc_inventory(npc, item) || item_in_inventory(c->game->curr_player, item))
+    if(item_in_npc_inventory(npc, item) || item_in_inventory(c->game->curr_player, item))
     {
         *ret_string = "Items Allocated";
         return SUCCESS;
-    }
-    else
-    {
+        
+    } else{
         *ret_string = "Action cannot be completed since item is not in either inventory";
         return CONDITIONS_NOT_MET;
     }
+    
 }
 
 /* KIND 6
  * See npc_action.h */
-int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t *ret_item)
+int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item)
 {
 
     agent_t *agent_n = NULL;
     agent_n->npc = npc;
 
-    if (a->kind != NPC_ITEM_ITEM)
+    if(a->kind != NPC_ITEM_ITEM)
     {
         return WRONG_KIND;
     }
@@ -475,21 +486,18 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    if (!item_in_npc_inventory(npc, item))
+    if(!item_in_npc_inventory(npc, item))
     {
         *ret_string = "NPC doesn't have desired item in inventory";
         return CONDITIONS_NOT_MET;
-    }
-    else
-    {
+        
+    } else{
         int cost = strlen(item->short_desc);
         item_list_t *player_inventory;
         player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
         bool can_buy = false;
-        while (player_inventory != NULL)
-        {
-            if (strlen(player_inventory->item->short_desc) >= cost)
-            {
+        while(player_inventory != NULL){
+            if(strlen(player_inventory->item->short_desc) >= cost){
                 can_buy = true;
                 ret_item = player_inventory->item;
                 return SUCCESS;
