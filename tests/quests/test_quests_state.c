@@ -153,7 +153,7 @@ Test(quest, init)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	int check = quest_init(q, 1, NULL, rewards, stat_req, 0);
+	int check = quest_init(q, "test", NULL, rewards, stat_req, 0);
 
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
 }
@@ -319,6 +319,7 @@ Test(quest, free)
 	quest_t* q_to_free = quest_new("test", NULL, rewards, stat_req);
 
 	cr_assert_not_null(q_to_free, "quest_free(): room is null");
+    cr_assert(strcmp(q_to_free->quest_id, "test") == 0, "quest_id incorrect");
 
 	int freed = quest_free(q_to_free);
 
