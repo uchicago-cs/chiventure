@@ -316,7 +316,7 @@ Test(quest, free)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* q_to_free = quest_new(1, NULL, rewards, stat_req);
+	quest_t* q_to_free = quest_new("test", NULL, rewards, stat_req);
 
 	cr_assert_not_null(q_to_free, "quest_free(): room is null");
 
@@ -337,7 +337,7 @@ Test(quest, add_achievement_to_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     char *id = "test mission";
@@ -370,7 +370,7 @@ Test(quest, can_start)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 
     int rc = can_start_quest(quest, player1);
 
@@ -389,7 +389,7 @@ Test(quest, start_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 
     int check = start_quest(quest);
 
@@ -410,7 +410,7 @@ Test(quest, fail_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 
     int check = fail_quest(quest);
 
@@ -432,7 +432,7 @@ Test(quest, complete_achievement)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-    quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+    quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -480,7 +480,7 @@ Test(quest,is_quest_completed)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -529,7 +529,7 @@ Test(quest,get_quest_status)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 
     int check = get_quest_status(quest);
 
@@ -554,7 +554,7 @@ Test(quest,complete_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new(1, NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
     quest->status = 2;
 
     reward_t *res = complete_quest(quest);
