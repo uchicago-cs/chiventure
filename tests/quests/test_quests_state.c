@@ -191,11 +191,11 @@ Test(quest, new)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* q = quest_new(1, NULL, rewards, stat_req);
+	quest_t* q = quest_new("test", NULL, rewards, stat_req);
 
 	cr_assert_not_null(q, "quest_new() test has failed!");
 
-    cr_assert_eq(q->quest_id, 1, "quest_new()"
+    cr_assert(strcmp(q->quest_id, "test") == 0, "quest_new()"
                 "did not initialize the achievement tree");
     cr_assert_str_eq(q->reward->item->item_id, "test_item", "quest_new()"
                 "did not initialize the reward item");
