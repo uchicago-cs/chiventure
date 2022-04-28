@@ -177,7 +177,7 @@ int quest_init(quest_t *q, char *quest_id, achievement_tree_t *achievement_tree,
 {
     assert(q != NULL);
 
-    q->quest_id = quest_id;
+    q->quest_id = strdup(quest_id);
     q->achievement_tree = achievement_tree;
     q->reward = reward;
     q->stat_req = stat_req;
