@@ -225,7 +225,7 @@ int quest_free(quest_t *q)
 {
     assert(q != NULL);
 
-    // free(q->quest_id);
+    free(q->quest_id);
     free(q->achievement_tree);
     free(q->reward);
     free(q->stat_req);
