@@ -91,54 +91,36 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
  * Paramaters:
  *  - base_class: the character's base class (their current class).
  *  - second_class: the class being added to the original class.
+ *  - succ: an out parameter that is set to SUCCESS if the length of the new
+            shortdesc does not exceed the maximum length, FAILURE otherwise
  *
  * Returns:
  *  - a pointer to a string with the new shortdesc.
  */
-char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
+char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int* succ) {
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
-    int len = 0;
+    *succ = SUCCESS;
 
     strncat(new_shortdesc, "Multiclass of ", 15);
-    len += 15;
-
-    int base_class_name_len = strlen(base_class->name);
-    strncat(new_shortdesc, base_class->name, base_class_name_len);
-    len += base_class_name_len;
-
+    strncat(new_shortdesc, base_class->name, strlen(base_class->name))
     strncat(new_shortdesc, ", ", 3);
-    len += 3;
+    strncat(new_shortdesc, second_class->name, strlen(second_class->name));
 
-    int second_class_name_len = strlen(second_class->name);
-    strncat(new_shortdesc, second_class->name, second_class_name_len);
-    len += second_class_name_len;
-
-    int base_class_parent_class_names_i_len;
     for (int i = 0; i < base_class->num_parent_class; i++) {
         strncat(new_shortdesc, ", ", 3);
-        len += 3;
-
-        base_class_parent_class_names_i_len = strlen(base_class->parent_class_names[i]);
-        strncat(new_shortdesc, base_class->parent_class_names[i], base_class_parent_class_names_i);
-        len += base_class_parent_class_names_i_len;
+        strncat(new_shortdesc, base_class->parent_class_names[i], strlen(base_class->parent_class_names[i]));
     }
 
-    int second_class_parent_class_names_i;
     for (int i = 0; i < second_class->num_parent_class; i++) {
         strncat(new_shortdesc, ", ", 3);
-        len += 3;
-
-        second_class_parent_class_names_i_len = strlen(second_class->parent_class_names[i]);
-        strncat(new_shortdesc, second_class->parent_class_names[i], second_class_parent_class_names_i_len);
-        len += second_class_parent_class_names_i-Len;
+        strncat(new_shortdesc, second_class->parent_class_names[i], strlen(second_class->parent_class_names[i]));
     }
 
     strncat(new_shortdesc, ".", 2);
-    len += 2;
 
-    if (len > MAX_SHORT_DESC_LEN) {     // should it be MAX_SHORT_DESC_LEN + 1?
+    if (strlen(new_shortdesc) > MAX_SHORT_DESC_LEN + 1) {
         fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length");
-        exit(1);
+        *succ = FAILURE;
     }
 
     return new_shortdesc;
@@ -151,28 +133,23 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
  * Paramaters:
  *  - base_class: the character's base class (their current class).
  *  - second_class: the class being added to the original class.
+ *  - succ: an out parameter that is set to SUCCESS if the length of the new
+            longdesc does not exceed the maximum length, FAILURE otherwise
  *
  * Returns:
  *  - a pointer to a string with the new longdesc.
  */
-char* multiclass_longdesc(class_t* base_class, class_t* second_class) {
+char* multiclass_longdesc(class_t* base_class, class_t* second_class, int* succ) {
     char* new_longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
-    int len = 0;
+    *succ = SUCCESS;
 
-    int base_class_shortdesc_len = strlen(base_class->shortdesc);
-    strncat(new_longdesc, base_class->shortdesc, base_class_shortdesc_len);
-    len += base_class_shortdesc_len;
-
+    strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
     strncat(new_longdesc, "\n\n", 3);
-    len += 3;
+    strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
 
-    int second_class_shortdesc_len = strlen(second_class->shortdesc);
-    strncat(new_longdesc, second_class->shortdesc, second_class_shortdesc_len);
-    len += second_class_shortdesc_len;
-
-    if (len > MAX_LONG_DESC_LEN) {      // should it be MAX_SHORT_DESC_LEN + 1?
+    if (strlen(new_longdesc) > MAX_LONG_DESC_LEN + 1) {
         fprintf(stderr, "multiclass_longdesc: Longdesc longer than max length");
-        exit(1);
+        *succ = FAILURE;
     }
 
     return new_longdesc;
@@ -358,8 +335,9 @@ obj_t* multiclass_attributes(obj_t* base_attributes, obj_t* second_attributes, c
 
 /* See class.h */
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
-    char* new_shortdesc = multiclass_shortdesc(base_class, second_class);
-    char* new_longdesc = multiclass_longdesc(base_class, second_class);
+    int short_succ, long_succ;
+    char* new_shortdesc = multiclass_shortdesc(base_class, second_class, &short_succ);
+    char* new_longdesc = multiclass_longdesc(base_class, second_class, &long_succ);
     obj_t* combined_attr = multiclass_attributes(base_class->attributes, second_class->attributes, name);
     effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
