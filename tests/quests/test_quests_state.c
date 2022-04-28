@@ -73,8 +73,8 @@ Test(active_mission, init)
     cr_assert_eq(check,SUCCESS,"active_mission_init() failed");
 }
 
-/* Tests init function for achievement struct */
-Test(achievement, init)
+/* Tests init function for task struct */
+Test(task, init)
 {
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
@@ -86,11 +86,11 @@ Test(achievement, init)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-    achievement_t *achievement = malloc(sizeof(achievement_t));
+    task_t *task = malloc(sizeof(task_t));
 
-	int check = achievement_init(achievement, mission, id);
+	int check = task_init(task, mission, id);
 
-	cr_assert_eq(check, SUCCESS, "achievement_init() test has failed!");
+	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
 
 Test(reward, new)
@@ -158,8 +158,8 @@ Test(quest, init)
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
 }
 
-/* Tests new achievement malloc (new uses init) */
-Test(achievement, new)
+/* Tests new task malloc (new uses init) */
+Test(task, new)
 {
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
@@ -171,12 +171,12 @@ Test(achievement, new)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement = achievement_new(mission, id);
+	task_t* task = task_new(mission, id);
 
-	cr_assert_not_null(achievement, "achievement_new() test has failed!");
+	cr_assert_not_null(task, "task_new() test has failed!");
 
-    cr_assert_eq(achievement->completed, 0, 
-                     "achievement_init did not initialize completed bool");
+    cr_assert_eq(task->completed, 0, 
+                     "task_init did not initialize completed bool");
 }
 
 /* Tests new quest malloc (new uses init) */
@@ -196,7 +196,7 @@ Test(quest, new)
 	cr_assert_not_null(q, "quest_new() test has failed!");
 
     cr_assert_eq(q->quest_id, 1, "quest_new()"
-                "did not initialize the achievement tree");
+                "did not initialize the task tree");
     cr_assert_str_eq(q->reward->item->item_id, "test_item", "quest_new()"
                 "did not initialize the reward item");
     cr_assert_eq(q->reward->xp, 50, "quest_new()"
@@ -209,8 +209,8 @@ Test(quest, new)
                 "did not initialize the status");
 }
 
-/* Tests achievement_free function */
-Test(achievement, free)
+/* Tests task_free function */
+Test(task, free)
 {
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
@@ -221,13 +221,13 @@ Test(achievement, free)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_free = achievement_new(mission, id);
+	task_t* task_to_free = task_new(mission, id);
 
-	cr_assert_not_null(achievement_to_free, "achievement_free(): room is null");
+	cr_assert_not_null(task_to_free, "task_free(): room is null");
 
-	int freed = achievement_free(achievement_to_free);
+	int freed = task_free(task_to_free);
 
-	cr_assert_eq(freed, SUCCESS, "achievement_free() test has failed!");
+	cr_assert_eq(freed, SUCCESS, "task_free() test has failed!");
 }
 
 /* Tests passive_mission_free function */
@@ -325,8 +325,8 @@ Test(quest, free)
 	cr_assert_eq(freed, SUCCESS, "quest_free() test has failed!");
 }
 
-/*Tests adding achievement to a quest */
-Test(quest, add_achievement_to_quest)
+/*Tests adding task to a quest */
+Test(quest, add_task_to_quest)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
@@ -347,11 +347,11 @@ Test(quest, add_achievement_to_quest)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_add = achievement_new(mission, id);
+	task_t* task_to_add = task_new(mission, id);
 
-    int res = add_achievement_to_quest(quest, achievement_to_add, "NULL");
+    int res = add_task_to_quest(quest, task_to_add, "NULL");
 
-    cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
+    cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 }
 
 /* Tests if a player can start the quest */
@@ -420,8 +420,8 @@ Test(quest, fail_quest)
 }
 
 
-/* Tests the function that completes the achievement */
-Test(quest, complete_achievement)
+/* Tests the function that completes the task */
+Test(quest, complete_task)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
@@ -457,15 +457,15 @@ Test(quest, complete_achievement)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_complete = achievement_new(mission, id);
+	task_t* task_to_complete = task_new(mission, id);
 
-    int res = add_achievement_to_quest(quest, achievement_to_complete, "NULL");
+    int res = add_task_to_quest(quest, task_to_complete, "NULL");
 
-    cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
+    cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 
-    res = complete_achievement(quest, "test mission");
+    res = complete_task(quest, "test mission");
 
-    cr_assert_eq(res, SUCCESS, "complete_achievement() failed!");
+    cr_assert_eq(res, SUCCESS, "complete_task() failed!");
 }
 
 /* Function that tests if a quest is completed */
@@ -503,11 +503,11 @@ Test(quest,is_quest_completed)
     mission_t *mission = malloc(sizeof(mission_t));
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
-    achievement_t *achievement = achievement_new(mission, "mission");
+    task_t *task = task_new(mission, "mission");
 
-    int res = add_achievement_to_quest(quest, achievement, NULL);
+    int res = add_task_to_quest(quest, task, NULL);
 
-    res = complete_achievement(quest, "mission");
+    res = complete_task(quest, "mission");
 
     res = is_quest_completed(quest);
 
