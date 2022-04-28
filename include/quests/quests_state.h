@@ -205,7 +205,7 @@ int achievement_free(achievement_t *achievement);
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int quest_free(quest_t * quest);
+int quest_free(quest_t *quest);
 
 
 /* 
