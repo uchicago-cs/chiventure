@@ -562,3 +562,61 @@ Test(quest,complete_quest)
     cr_assert_str_eq(res->item->item_id, "test_item",
                     "quest_completed failed to reward the item");
 }
+
+/* Tests the function that removes one quest from hash table */
+Test(quest_hash_t, remove_quest)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "remove quest";
+    char *quest2_id = "keep quest";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+    quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table;
+
+    int add_quest1 = add_quest_to_hash(quest1, test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, test_hash_table);
+
+    // only removing one quest
+    int remove_one = 0;
+    int res = remove_quest(test_hash_table, quest1_id, remove_one);
+    cr_assert_eq(res,1, "failed to remove");
+}
+
+/* Tests the function that removes all quest from hash table */
+Test(quest_hash_t, remove_quest)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "remove quest";
+    char *quest2_id = "keep quest";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+    quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table;
+
+    int add_quest1 = add_quest_to_hash(quest1, test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, test_hash_table);
+
+    // only removing all quests
+    int remove_one = 1;
+    int res = remove_quest(test_hash_table, quest1_id, remove_one);
+    cr_assert_eq(res,1, "failed to remove");
+}
