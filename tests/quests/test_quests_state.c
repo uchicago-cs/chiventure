@@ -618,5 +618,5 @@ Test(quest_hash_t, remove_quest)
     // only removing all quests
     int remove_one = 1;
     int res = remove_quest(test_hash_table, quest1_id, remove_one);
-    cr_assert_eq(res,1, "failed to remove");
+    cr_assert_eq(res,1, "remove_quest() failed to remove");
 }
