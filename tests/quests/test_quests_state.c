@@ -86,9 +86,13 @@ Test(achievement, init)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
+    item_t *item = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    reward_t *rewards = reward_new(xp, item);
+
     achievement_t *achievement = malloc(sizeof(achievement_t));
 
-	int check = achievement_init(achievement, mission, id);
+	int check = achievement_init(achievement, mission, id, rewards);
 
 	cr_assert_eq(check, SUCCESS, "achievement_init() test has failed!");
 }
@@ -171,7 +175,11 @@ Test(achievement, new)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement = achievement_new(mission, id);
+    item_t *item = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    reward_t *rewards = reward_new(xp, item);
+
+	achievement_t* achievement = achievement_new(mission, id, rewards);
 
 	cr_assert_not_null(achievement, "achievement_new() test has failed!");
 
@@ -221,7 +229,11 @@ Test(achievement, free)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_free = achievement_new(mission, id);
+    item_t *item = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    reward_t *rewards = reward_new(xp, item);
+
+	achievement_t* achievement_to_free = achievement_new(mission, id, rewards);
 
 	cr_assert_not_null(achievement_to_free, "achievement_free(): room is null");
 
@@ -348,7 +360,7 @@ Test(quest, add_achievement_to_quest)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_add = achievement_new(mission, id);
+	achievement_t* achievement_to_add = achievement_new(mission, id, rewards);
 
     int res = add_achievement_to_quest(quest, achievement_to_add, "NULL");
 
@@ -458,7 +470,7 @@ Test(quest, complete_achievement)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	achievement_t* achievement_to_complete = achievement_new(mission, id);
+	achievement_t* achievement_to_complete = achievement_new(mission, id, rewards);
 
     int res = add_achievement_to_quest(quest, achievement_to_complete, "NULL");
 
@@ -504,7 +516,7 @@ Test(quest,is_quest_completed)
     mission_t *mission = malloc(sizeof(mission_t));
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
-    achievement_t *achievement = achievement_new(mission, "mission");
+    achievement_t *achievement = achievement_new(mission, "mission", rewards);
 
     int res = add_achievement_to_quest(quest, achievement, NULL);
 
