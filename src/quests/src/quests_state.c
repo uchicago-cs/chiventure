@@ -71,13 +71,13 @@ stat_req_t *stat_req_new(int xp, int level)
 }
 
 /* Refer to quests_state.h */
-achievement_t *achievement_new(mission_t *mission, char *id)
+achievement_t *achievement_new(mission_t *mission, char *id, reward_t *reward)
 {
     achievement_t *achievement;
     int rc;
     achievement = malloc(sizeof(achievement_t));
 
-    rc = achievement_init(achievement,mission, id);
+    rc = achievement_init(achievement,mission, id, reward);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize achievement struct!\n");
@@ -159,11 +159,12 @@ int stat_req_init(stat_req_t *stat_req, int hp, int level)
 }
 
 /* Refer to quests_state.h */
-int achievement_init(achievement_t *achievement, mission_t *mission, char *id)
+int achievement_init(achievement_t *achievement, mission_t *mission, char *id, reward_t *reward)
 {
     assert(achievement != NULL);
 
     achievement->mission = mission;
+    achievement->reward = reward;
     achievement->completed = 0;
     achievement->id = id;
 
@@ -432,7 +433,7 @@ achievement_t *find_achievement(achievement_tree_t *tree, char *id)
 }
 
 /* Refer to quests_state.h */
-int complete_achievement(quest_t *quest, char *id)
+reward_t *complete_achievement(quest_t *quest, char *id)
 {
     achievement_tree_t *tree = quest->achievement_tree;
 
@@ -442,11 +443,11 @@ int complete_achievement(quest_t *quest, char *id)
             (achievement->completed == 0))
     {
         quest->achievement_tree->achievement->completed = 1;
-        return SUCCESS;
+        return achievement->reward;
     }
     else
     {
-        return FAILURE;
+        return NULL;
     }
 }
 

@@ -61,16 +61,30 @@ typedef union mission {
 } mission_t;
 
 /* 
+ * This struct represents a reward for completing a quest.
+ *
+ * Components:
+ *  xp: an xp amount gained
+ *  item: an item gained
+ */
+typedef struct reward {
+   int xp;
+   item_t *item;
+} reward_t;
+
+/* 
  * This struct represents an achievement.
  * 
  * Components:
  *  mission: mission to be completed
  *  id: string identifier for the achievement
+ *  reward: reward for completing the achievement.
  *  completed: bool for if achievement is completed
  */
 typedef struct achievement {
     mission_t *mission;
     char *id;
+    reward_t *reward;
     bool completed;     //0 is not completed, 1 is completed
 } achievement_t;
 
@@ -89,18 +103,6 @@ typedef struct achievement_tree {
     struct achievement_tree *rsibling;
     struct achievement_tree *lmostchild;
 } achievement_tree_t;
-
-/* 
- * This struct represents a reward for completing a quest.
- *
- * Components:
- *  xp: an xp amount gained
- *  item: an item gained
- */
-typedef struct reward {
-   int xp;
-   item_t *item;
-} reward_t;
 
 /*
  * This struct represents a skill requirement for a quest.
@@ -146,4 +148,4 @@ typedef struct quest  {
 typedef struct quest quest_hash_t;
 
 
-#endif
+#endif 

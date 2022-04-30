@@ -54,10 +54,11 @@ stat_req_t *stat_req_new(int hp, int level);
  * Parameters:
  * - mission: the mission to be completed for the quest
  * - id: the id of the achievement
- * 
+ * - reward: the reward of the achievement
+ *
  * Returns: a pointer to the newly allocated achievement that is not completed
  */
-achievement_t *achievement_new(mission_t *mission, char *id);
+achievement_t *achievement_new(mission_t *mission, char *id, reward_t *reward);
 
 /* Creates a new quest struct (allocates memory)
  * 
@@ -130,12 +131,13 @@ int stat_req_init(stat_req_t *stat_req, int xp, int level);
  * - achievement: an already allocated achievement
  * - mission: the mission to be completed for the achievement
  * - id: the id of the achievement
+ * - reward: the reward of the achievement
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
+int achievement_init(achievement_t *achievement, mission_t *mission, char *id, reward_t *reward);
 
 
 /* Initialize an already allocated quest struct
@@ -258,15 +260,17 @@ int fail_quest(quest_t *quest);
 
 /* Completes an achievement in a quest by checking if a given
  * achievement ID matches any incomplete achievements in the
- * appropriate level of the achievement tree.
+ * appropriate level of the achievement tree. Returns the reward
+ * of the completed achievement.
  * 
  * Parameters:
  * - quest: pointer to the quest
  * - id: the string identifier of the completed achievement
- *
+ *  
  * Returns:
- * - SUCCESS
- * - FAILURE
+ * - the achievement's reward item
+ * - NULL if the achievment is incomplete
+ * 
  */
 int complete_achievement(quest_t *quest, char *id);
 
