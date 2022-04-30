@@ -480,7 +480,7 @@ Test(quest, complete_achievement)
     cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
 
     reward_t *new_reward = complete_achievement(quest, "test mission");
-    if (*new_reward == NULL)
+    if (new_reward == NULL)
         res = FAILURE;
 
     cr_assert_eq(res, SUCCESS, "complete_achievement() failed!");
