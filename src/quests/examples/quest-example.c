@@ -175,7 +175,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 /* Get a big reward for finishing all the passive quests */
-quest_t *make_passive_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req)
+quest_t *make_passive_quest(char *quest_id, reward_t *reward, stat_req_t *stat_req)
 {
     quest_t *quest = quest_new(quest_id, NULL, reward, stat_req);
 
@@ -195,9 +195,9 @@ quest_t *make_passive_quest(long int quest_id, reward_t *reward, stat_req_t *sta
     hundred_fifty_xp->a_mission = NULL;
     hundred_fifty_xp->p_mission = p_mission3;
 
-    achievement_t *achievement1 = achievement_new(fifty_xp, "Get 50 xp");
-    achievement_t *achievement2 = achievement_new(hundred_xp, "Get 100 xp");
-    achievement_t *achievement3 = achievement_new(hundred_fifty_xp, "Get 150 xp");
+    achievement_t *achievement1 = achievement_new(fifty_xp, "Get 50 xp", NULL);
+    achievement_t *achievement2 = achievement_new(hundred_xp, "Get 100 xp", NULL);
+    achievement_t *achievement3 = achievement_new(hundred_fifty_xp, "Get 150 xp", NULL);
 
     add_achievement_to_quest(quest, achievement1, "The first mission");
     add_achievement_to_quest(quest, achievement2, "Get 50 xp");
@@ -206,7 +206,7 @@ quest_t *make_passive_quest(long int quest_id, reward_t *reward, stat_req_t *sta
     return quest;
 }
 
-quest_t *make_sample_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req,
+quest_t *make_sample_quest(char *quest_id, reward_t *reward, stat_req_t *stat_req,
                            npc_t *npc1, npc_t *npc2, item_t *item1, item_t *item2,
                            room_t *room3, room_t *room4)
 {
@@ -305,13 +305,13 @@ int main(int argc, char **argv)
 
     stat_req_t *stat_req = stat_req_new(5, 2);
 
-    quest_t *quest = make_sample_quest(1, reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
+    quest_t *quest = make_sample_quest("Quest 0", reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
 
     reward_t *reward_passive = reward_new(0, item_new("Portal Gun", "this gun can create portals on special walls",
     "Reward for completing passive missions."));
 
     stat_req_t *stat_req_passive = stat_req_new(0, 0);
-    quest_t *quest_passive = make_passive_quest(1, reward_passive, stat_req_passive);
+    quest_t *quest_passive = make_passive_quest("Quest 1", reward_passive, stat_req_passive);
     /*quest layout: start in room1 -> go to room2 -> go to room3 -> get emerald -> go to room4 -> fight wolf and WIN -> get potion -> meet npc for reward
                                                                                                 / |
                                                                                                /  |
