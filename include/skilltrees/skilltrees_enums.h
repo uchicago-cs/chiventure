@@ -23,5 +23,11 @@ typedef enum skill_type {
     // Denotes passive skill
     PASSIVE,
 
+    //Denotes combined complex skill
+    COMBINED,
+
+    //Denotes sequential complex skill
+    SEQUENTIAL
+
 } skill_type_t;
 #endif /*SKILLTREES_ENUMS_H*/

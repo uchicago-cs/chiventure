@@ -74,7 +74,22 @@ typedef struct skill {
     // The pointer to the linked list that contains all the effects that a skill can have
     effect_t* skill_effect;
 
+    //The pointer to information on complex skills
+    complex_skills_t* complex;
+
 } skill_t;
+
+typedef struct complex_skills{
+    //Type of complex skill
+    skill_type_t type;
+
+    //List of sub-skills used in complex skill
+    skill_t** skills;
+
+    //Number of sub-skills in skills list
+    int num_skills;
+
+} complex_skills_t;
 
 /* ======================== */
 /* === COMMON FUNCTIONS === */
