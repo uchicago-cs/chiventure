@@ -88,6 +88,7 @@ Test(achievement, init)
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
+    int xp = 40;
     reward_t *rewards = reward_new(xp, item);
 
     achievement_t *achievement = malloc(sizeof(achievement_t));
@@ -177,6 +178,7 @@ Test(achievement, new)
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
+    int xp = 40;
     reward_t *rewards = reward_new(xp, item);
 
 	achievement_t* achievement = achievement_new(mission, id, rewards);
@@ -231,6 +233,7 @@ Test(achievement, free)
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
+    int xp = 30;
     reward_t *rewards = reward_new(xp, item);
 
 	achievement_t* achievement_to_free = achievement_new(mission, id, rewards);
@@ -476,7 +479,9 @@ Test(quest, complete_achievement)
 
     cr_assert_eq(res, SUCCESS, "add_achievement_to_quest() failed!");
 
-    res = complete_achievement(quest, "test mission");
+    reward_t *new_reward = complete_achievement(quest, "test mission");
+    if (*new_reward == NULL)
+        res = FAILURE;
 
     cr_assert_eq(res, SUCCESS, "complete_achievement() failed!");
 }
