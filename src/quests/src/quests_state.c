@@ -496,7 +496,7 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
     quest_t *check;
 
     char buffer[MAX_ID_LEN];
-    sprintf(buffer, "%ld", quest->quest_id); //need to convert quest_ids to char *
+    sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
     
     check = get_quest_from_hash(buffer, hash_table);
 

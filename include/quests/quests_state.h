@@ -272,7 +272,7 @@ int fail_quest(quest_t *quest);
  * - NULL if the achievment is incomplete
  * 
  */
-int complete_achievement(quest_t *quest, char *id);
+reward_t *complete_achievement(quest_t *quest, char *id);
 
 /* Checks if a quest is completed
  * 
