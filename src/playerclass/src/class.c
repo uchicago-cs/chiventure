@@ -119,8 +119,9 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int* succ
     strncat(new_shortdesc, ".", 2);
 
     if (strlen(new_shortdesc) > MAX_SHORT_DESC_LEN + 1) {
-        fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length");
+        fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length, second shortdesc not appended");
         *succ = FAILURE;
+        return base_class->shortdesc;
     }
 
     return new_shortdesc;
@@ -143,13 +144,14 @@ char* multiclass_longdesc(class_t* base_class, class_t* second_class, int* succ)
     char* new_longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
     *succ = SUCCESS;
 
-    strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
+    strncat(new_longdesc, base_class->longdesc, strlen(base_class->longdesc));
     strncat(new_longdesc, "\n\n", 3);
-    strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
+    strncat(new_longdesc, second_class->longdesc, strlen(second_class->longdesc));
 
     if (strlen(new_longdesc) > MAX_LONG_DESC_LEN + 1) {
-        fprintf(stderr, "multiclass_longdesc: Longdesc longer than max length");
+        fprintf(stderr, "multiclass_longdesc: Longdesc longer than max length, second longdesc not appended");
         *succ = FAILURE;
+        return base_class->longdesc;
     }
 
     return new_longdesc;
@@ -338,6 +340,7 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
     int short_succ, long_succ;
     char* new_shortdesc = multiclass_shortdesc(base_class, second_class, &short_succ);
     char* new_longdesc = multiclass_longdesc(base_class, second_class, &long_succ);
+
     obj_t* combined_attr = multiclass_attributes(base_class->attributes, second_class->attributes, name);
     effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
