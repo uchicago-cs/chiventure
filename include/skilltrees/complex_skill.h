@@ -53,6 +53,7 @@ int complex_skill_free(complex_skill_t* complex_skill);
  * Parameters:
  *  - complex_skill: A complex skill
  *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
+ *
  * Returns:
  * 0 if success
  * 1 if failure
@@ -60,7 +61,7 @@ int complex_skill_free(complex_skill_t* complex_skill);
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
 
 /*********************************************************************************************/
-//Reader code
+//Conditonal skills code
 
 /*
  * Allocates a new reader in the heap.
@@ -100,7 +101,31 @@ reader_effect_t* reader_effect_init(reader_effect_t* reader, char* condition, in
  */
 int reader_effect_free(reader_effect_t* reader);
 
+/*
+ * Returns true or false based on a reader_effect_t. 
+ *
+ * Parameters:
+ *  - reader: A reader_effect_t object
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
+ *
+ * Returns:
+ * 0 if true
+ * 1 if false
+ */
+int reader_effect_read(reader_effect_t* reader, chiventure_ctx_t* ctx);
 
+/*
+ * Executes 1 of 2 skills stored in a conditional skill depending on reader conditon. 
+ *
+ * Parameters:
+ *  - skill: A conditional skill
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
+ *
+ * Returns:
+ * 0 if success
+ * 1 if failure
+ */
+int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx);
 
 /*********************************************************************************************/
 /* NOTICE
