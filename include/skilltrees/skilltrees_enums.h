@@ -30,4 +30,14 @@ typedef enum skill_type {
     SEQUENTIAL
 
 } skill_type_t;
+
+/* Skill type */
+typedef enum complex_skill_type {
+    //Denotes combined complex skill
+    COMBINED,
+
+    //Denotes sequential complex skill
+    SEQUENTIAL
+
+} complex_skill_type_t;
 #endif /*SKILLTREES_ENUMS_H*/
