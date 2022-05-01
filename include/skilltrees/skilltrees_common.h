@@ -71,7 +71,8 @@ typedef struct skill {
     // The minimum number of experience points needed to level up
     unsigned int min_xp;
 
-    // The pointer to the linked list that contains all the effects that a skill can have
+    // The pointer to the linked list that contains all the effects that a skill 
+    // can have
     effect_t* skill_effect;
 
     //The pointer to information on complex skills
@@ -79,6 +80,7 @@ typedef struct skill {
 
 } skill_t;
 
+/* A COMPLEX skill, one of three types (Combined, Sequential, Conditional) */
 typedef struct complex_skills{
     //Type of complex skill
     skill_type_t type;
