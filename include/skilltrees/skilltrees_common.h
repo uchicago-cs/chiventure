@@ -11,6 +11,9 @@
 /* Forward declaration to make code compatible with playerclass code */
 typedef struct effect effect_t;
 
+typedef struct complex_skill complex_skill_t;
+typedef struct reader_effect reader_effect_t;
+
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
 /* ============================= */
@@ -75,11 +78,11 @@ typedef struct skill {
     effect_t* skill_effect;
 
     //The pointer to information on complex skills
-    complex_skills_t* complex;
+    complex_skill_t* complex;
 
 } skill_t;
 
-typedef struct complex_skills{
+typedef struct complex_skill{
     //Type of complex skill
     skill_type_t type;
 
@@ -89,7 +92,7 @@ typedef struct complex_skills{
     //Number of sub-skills in skills list
     int num_skills;
 
-} complex_skills_t;
+} complex_skill_t;
 
 /* ======================== */
 /* === COMMON FUNCTIONS === */
