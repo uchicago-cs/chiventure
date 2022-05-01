@@ -22,6 +22,24 @@ typedef enum skill_type {
 
     // Denotes passive skill
     PASSIVE,
+    
+    //Denotes combined complex skill
+    COMBINED,
+
+    //Denotes sequential complex skill
+    SEQUENTIAL
 
 } skill_type_t;
+
+/*Type of condition for conditional skills*/
+typedef enum reader_type{
+    SINGLE_TARGET,
+
+    WORLD_BIOME,
+
+    TIME,
+
+    PLAYER
+
+} reader_type_t;
 #endif /*SKILLTREES_ENUMS_H*/
