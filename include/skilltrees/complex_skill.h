@@ -18,7 +18,8 @@
  *  - num_skills: The number of sub-skills the complex skill will use
  *
  * Returns:
- *  - A pointer to the complex skill, or NULL if a complex skill cannot be allocated
+ *  - A pointer to the complex skill, or NULL if a complex skill cannot be 
+ *    allocated
  */
 complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills);
 
@@ -26,7 +27,8 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
  * Initializes a complex skill.
  *
  * Parameters:
- *  - complex_skill: A complex skill. Must pointer to skill allocated with complex_skill_new
+ *  - complex_skill: A complex skill. Must pointer to skill allocated with 
+ *    complex_skill_new
  *  - skills: A list of the sub-skills to be stored within complex_skill
  * 
  * Returns:
@@ -38,7 +40,8 @@ int complex_skill_init(complex_skill_t* complex_skill, skill_t** skills);
  * Frees the resources associated with a complex skill.
  *
  * Parameters:
- *  - complex_skill: A complex skill. Must point to skill allocated with complex_skill_new
+ *  - complex_skill: A complex skill. Must point to skill allocated with 
+ *    complex_skill_new
  *
  * Returns:
  *  - Always returns 0
@@ -46,23 +49,55 @@ int complex_skill_init(complex_skill_t* complex_skill, skill_t** skills);
 int complex_skill_free(complex_skill_t* complex_skill);
 
 /*
- * Executes each subskill in order. Behavior will vary depending on the type of skill.
- * Ex: Combined skills will run skill_execute on each subskill regardless of success or failure
+ * Executes each subskill in order. Behavior will vary depending on the type of 
+ * skill.
+ * Ex: Combined skills will run skill_execute on each subskill regardless of 
+ *     success or failure
  *     Sequential skills will stop execution once a sub_skill fails
  *
  * Parameters:
  *  - complex_skill: A complex skill
- *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the 
+ *    skill
  * Returns:
  * 0 if success
  * 1 if failure
  */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
 
+/*
+ * Executes a combined skill, executing each subskill regardless of success or 
+ * failure
+ *
+ * Parameters:
+ *  - complex_skill: A complex skill
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the 
+ *    skill
+ * 
+ * Returns:
+ * 0 if success
+ * 1 if failure
+ */
+int combined_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
+
+/*
+ * Executes a sequential skill, stopping execution once a sub_skill fails
+ *
+ * Parameters:
+ *  - complex_skill: A complex skill
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the 
+ *    skill
+ * 
+ * Returns:
+ * 0 if success
+ * 1 if failure
+ */
+int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
 
 /* NOTICE
- * The following 2 functions may not be necessary in final implementation, by changing the
- * skill_level_up and skill_xp_up functions to just check for the presence of a complex skill
+ * The following 2 functions may not be necessary in final implementation, by 
+ * changing the skill_level_up and skill_xp_up functions to just check for the 
+ * presence of a complex skill
  * And increment each sub-skill respectfully.
  * These are included depending on that future decision
 */
