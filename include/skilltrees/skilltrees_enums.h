@@ -45,7 +45,7 @@ typedef enum reader_type{
 
     TIME,
 
-    PLAYER
+    PLAYER_T
 
 } reader_type_t;
 #endif /*SKILLTREES_ENUMS_H*/

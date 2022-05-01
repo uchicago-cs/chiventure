@@ -11,6 +11,10 @@
 /* Forward declaration to make code compatible with playerclass code */
 typedef struct effect effect_t;
 
+
+typedef struct complex_skill complex_skill_t;
+typedef struct reader_effect reader_effect_t;
+
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
 /* ============================= */
@@ -75,11 +79,11 @@ typedef struct skill {
     effect_t* skill_effect;
 
     //The pointer to information on complex skills
-    complex_skills_t* complex;
+    complex_skill_t* complex;
 
 } skill_t;
 
-typedef struct complex_skills{
+typedef struct complex_skill{
     //Type of complex skill
     complex_skill_type_t type;
 
@@ -92,7 +96,7 @@ typedef struct complex_skills{
     //If complex skill is a conditional, this stores its condition
     reader_effect_t* reader;
 
-} complex_skills_t;
+} complex_skill_t;
 
 /* Currently only supports for 1 binary condition
 *  Later on this may be changed to support more complex contions
@@ -105,7 +109,7 @@ typedef struct reader_effect{
     int str_len;
 
     //Location of condition (player,enemy, world, etc.)
-    reader_effect_t type;
+    reader_type_t type;
 } reader_effect_t;
 
 /* ======================== */
