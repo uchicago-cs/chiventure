@@ -201,7 +201,7 @@ item_list_t *get_npc_inv_list(npc_t *npc);
  * Returns:
  *  a pointer to the npc's npc_battle struct or NULL
  */
-item_list_t *get_npc_battle(npc_t *npc);
+npc_battle_t *get_npc_battle(npc_t *npc);
 
 /*
  * Returns the health of an npc.
