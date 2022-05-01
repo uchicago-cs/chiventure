@@ -81,7 +81,7 @@ typedef struct skill {
 
 typedef struct complex_skills{
     //Type of complex skill
-    skill_type_t type;
+    complex_skill_type_t type;
 
     //List of sub-skills used in complex skill
     skill_t** skills;
@@ -98,10 +98,13 @@ typedef struct complex_skills{
 *  Later on this may be changed to support more complex contions
 */
 typedef struct reader_effect{
+    //String of the condition being 
     char* condition;
 
+    //Length of string
     int str_len;
 
+    //Location of condition (player,enemy, world, etc.)
     reader_effect_t type;
 } reader_effect_t;
 
