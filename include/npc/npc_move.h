@@ -79,6 +79,12 @@ typedef enum mov_type npc_mov_enum_t;
  *  npc_mov_type: Union with the structs for both mov types
  *  mov_type: Enum type of movement
  *  track: tracker variable that returns current room id
+ *  npc_path_pos: index of the current location of the npc within
+ *      its movement path
+ *  npc_path_reversed: keeps track of whether the path of the NPC's
+ *      movement is in the original direction or reversed.
+ *      0 indicates original direction, 1 indicates the path is in
+ *      the opposite direction
  */
 typedef struct npc_mov {
     npc_mov_type_t npc_mov_type;
