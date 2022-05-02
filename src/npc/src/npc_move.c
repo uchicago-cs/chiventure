@@ -237,9 +237,18 @@ int move_npc_definite(npc_mov_t *npc_mov)
     test->next = NULL;
     test->room = room_new(npc_mov->track,"test","test");
     room_list_t *current_room = malloc(sizeof(room_list_t));
+    current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
 
     LL_SEARCH(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
                 current_room,test,room_id_cmp);
+
+    unsigned int path_pos = npc_mov->npc_path_pos;
+    if (path_pos != 0) {
+
+        for (int i = 0; i < path_pos; i++) {
+            current_room = current_room->next;
+        }
+    }
 
     if(current_room->next == NULL)
     {
@@ -249,6 +258,7 @@ int move_npc_definite(npc_mov_t *npc_mov)
     {
         room_t *next_room = current_room->next->room;
         npc_mov->track = next_room->room_id;
+        (*npc_mov->npc_path_pos)++;
         return 2;
     }
     else
