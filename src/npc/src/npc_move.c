@@ -10,6 +10,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
     npc_mov->mov_type = mov_type;
     strncpy(npc_mov->track,room_id, MAX_ID_LEN);
     npc_mov->npc_path_pos = 0;
+    npc_mov->npc_path_reversed = 0;
 
     room_list_t *room_to_add = malloc(sizeof(room_list_t));
     room_to_add->next = NULL;
@@ -161,6 +162,12 @@ unsigned int track_npc_path_pos(npc_mov_t *npc_mov)
 }
 
 /* See npc_move.h */
+uint8_t track_npc_path_reversed(npc_mov_t *npc_mov)
+{
+    return npc_mov->npc_path_reversed;
+}
+
+/* See npc_move.h */
 int reverse_path(npc_mov_t *npc_mov)
 {
     assert(npc_mov->mov_type == NPC_MOV_DEFINITE);
@@ -190,6 +197,7 @@ int reverse_path(npc_mov_t *npc_mov)
                 reappend_room);
     }
 
+    npc_mov->npc_path_reversed = !(npc_mov->npc_path_reversed);
     return SUCCESS;
 }
 
@@ -197,25 +205,15 @@ int reverse_path(npc_mov_t *npc_mov)
 int get_npc_num_rooms(npc_mov_t *npc_mov)
 {
 	room_t *curr_room;
-  room_list_t *elt;
+    room_list_t *elt;
 
 	int count = 0;
 
-	if(npc_mov->mov_type == NPC_MOV_DEFINITE)
-	{
-        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
-        {
-            count++;
-            curr_room = elt->room;
-        }
+	if (npc_mov->mov_type == NPC_MOV_DEFINITE) {
+        LL_COUNT(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt, count);
 	}
-	else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
-	{
-        LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
-        {
-            count++;
-            curr_room = elt->room;
-        }
+	else if (npc_mov->mov_type == NPC_MOV_INDEFINITE) {
+        LL_COUNT(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt, count);
 	}
 
 	return count;
@@ -232,17 +230,24 @@ int move_npc_definite(npc_mov_t *npc_mov)
 {
     assert(npc_mov->mov_type == NPC_MOV_DEFINITE);
 
-    room_list_t *test = malloc(sizeof(room_list_t));
-    test->next = NULL;
-    test->room = room_new(npc_mov->track,"test","test");
     room_list_t *current_room = malloc(sizeof(room_list_t));
     current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
-
+    int list_len = get_npc_num_rooms(npc_mov);
+    uint8_t path_reversed = npc_mov->npc_path_reversed;
     unsigned int path_pos = npc_mov->npc_path_pos;
-    if (path_pos != 0) {
 
-        for (int i = 0; i < path_pos; i++) {
-            current_room = current_room->next;
+    if (path_reversed == 0) {
+        if (path_pos != 0) {
+            for (int i = 0; i < path_pos; i++) {
+                current_room = current_room->next;
+            }
+        }
+    } else if (path_reversed == 1) {
+        unsigned int path_pos_reversed = list_len-1-path_pos;
+        if (path_pos != (list_len - 1)) {
+            for (int i = 0; i < path_pos_reversed; i++) {
+                current_room = current_room->next;
+            }
         }
     }
 
@@ -254,7 +259,7 @@ int move_npc_definite(npc_mov_t *npc_mov)
     {
         room_t *next_room = current_room->next->room;
         npc_mov->track = next_room->room_id;
-        npc_mov->npc_path_pos++;
+        (path_reversed)? npc_mov->npc_path_pos-- : npc_mov->npc_path_pos++;
         return 2;
     }
     else
@@ -266,17 +271,28 @@ int move_npc_definite(npc_mov_t *npc_mov)
 /* See npc_move.h */
 int move_npc_indefinite(npc_mov_t *npc_mov)
 {
-
     assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
     
-    room_list_t *test = malloc(sizeof(room_list_t));
-    test->next = NULL;
-    test->room = room_new(npc_mov->track,"test","test");
     room_list_t *current_room = malloc(sizeof(room_list_t));
+    int list_len = get_npc_num_rooms(npc_mov);
+    uint8_t path_reversed = npc_mov->npc_path_reversed;
+    unsigned int path_pos = npc_mov->npc_path_pos;
 
-    LL_SEARCH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path,
-                current_room,test,room_id_cmp);
-
+    if (path_reversed == 0) {
+        if (path_pos != 0) {
+            for (int i = 0; i < path_pos; i++) {
+                current_room = current_room->next;
+            }
+        }
+    } else if (path_reversed == 1) {
+        unsigned int path_pos_reversed = list_len-1-path_pos;
+        if (path_pos != (list_len - 1)) {
+            for (int i = 0; i < path_pos_reversed; i++) {
+                current_room = current_room->next;
+            }
+        }
+    }
+    
     if(current_room->next == NULL)
     {
         return 1;
@@ -285,6 +301,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
     {
         room_t *next_room = current_room->next->room;
         npc_mov->track = next_room->room_id;
+        (path_reversed)? npc_mov->npc_path_pos-- : npc_mov->npc_path_pos++;
         return 2;
     }
     else

@@ -85,6 +85,7 @@ typedef struct npc_mov {
     npc_mov_enum_t mov_type;
     char *track;
     unsigned int npc_path_pos;
+    uint8_t npc_path_reversed;
 } npc_mov_t;
 
 
@@ -195,6 +196,16 @@ char *track_room(npc_mov_t *npc_mov);
 * The integer index of the step of the movement path that the NPC is currently in
 */
 unsigned int track_npc_path_pos(npc_mov_t *npc_mov);
+
+/*
+* Returns the byte that keeps track of whether an NPCs path is in the original direction or reversed
+*
+* Parameters: npc_mov: the NPC movement struct
+*
+* Returns:
+* 0 if the path is in the original direction, 1 if the path is in the reverse direction
+*/
+uint8_t track_npc_path_reversed(npc_mov_t *npc_mov);
 
 /*
  * Reverses the path, so that the npc goes back to where it started
