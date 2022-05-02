@@ -305,7 +305,7 @@ int main(int argc, char **argv)
 
     stat_req_t *stat_req = stat_req_new(5, 2);
 
-    quest_t *quest = make_sample_quest(1, reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
+    quest_t *quest = make_sample_quest("test", reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
 
     reward_t *reward_passive = reward_new(0, item_new("Portal Gun", "this gun can create portals on special walls",
     "Reward for completing passive missions."));
