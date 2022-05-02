@@ -1,5 +1,4 @@
 #include "custom-scripts/obj_custom_type.h"
-#include "arg_custom_types.c"
 
 // see obj_custom_type.h
 object_t *obj_t_new()

@@ -1,5 +1,4 @@
 #include "custom-scripts/lua_custom_type.h"
-#include "obj_custom_types.c"
 
 // see lua_custom_type.h
 int push_args(lua_State *L, object_t* ot) {

@@ -1,5 +1,4 @@
 #include "custom-scripts/get_custom_type.h"
-#include "lua_custom_types.c"
 
 // see get_custom_types.h
 bool bool_t_get(object_t *ot) {
