@@ -75,7 +75,6 @@ int npc_mov_free(npc_mov_t *npc_mov) {
         free(npc_mov->npc_mov_type.npc_mov_indefinite);
     }
 
-    free(npc_mov->npc_path_pos);
     free(npc_mov->track);
     free(npc_mov);
 
@@ -156,7 +155,7 @@ char* track_room(npc_mov_t *npc_mov)
 
 
 /* See npc_move.h */
-uint8_t track_npc_path_pos(npc_mov_t *npc_mov)
+unsigned int track_npc_path_pos(npc_mov_t *npc_mov)
 {
     return npc_mov->npc_path_pos;
 }
@@ -239,9 +238,6 @@ int move_npc_definite(npc_mov_t *npc_mov)
     room_list_t *current_room = malloc(sizeof(room_list_t));
     current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
 
-    LL_SEARCH(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
-                current_room,test,room_id_cmp);
-
     unsigned int path_pos = npc_mov->npc_path_pos;
     if (path_pos != 0) {
 
@@ -258,7 +254,7 @@ int move_npc_definite(npc_mov_t *npc_mov)
     {
         room_t *next_room = current_room->next->room;
         npc_mov->track = next_room->room_id;
-        (*npc_mov->npc_path_pos)++;
+        npc_mov->npc_path_pos++;
         return 2;
     }
     else
