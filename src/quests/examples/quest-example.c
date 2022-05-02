@@ -195,9 +195,9 @@ quest_t *make_passive_quest(char *quest_id, reward_t *reward, stat_req_t *stat_r
     hundred_fifty_xp->a_mission = NULL;
     hundred_fifty_xp->p_mission = p_mission3;
 
-    achievement_t *achievement1 = achievement_new(fifty_xp, "Get 50 xp", NULL);
-    achievement_t *achievement2 = achievement_new(hundred_xp, "Get 100 xp", NULL);
-    achievement_t *achievement3 = achievement_new(hundred_fifty_xp, "Get 150 xp", NULL);
+    achievement_t *achievement1 = achievement_new(fifty_xp, "Get 50 xp");
+    achievement_t *achievement2 = achievement_new(hundred_xp, "Get 100 xp");
+    achievement_t *achievement3 = achievement_new(hundred_fifty_xp, "Get 150 xp");
 
     add_achievement_to_quest(quest, achievement1, "The first mission");
     add_achievement_to_quest(quest, achievement2, "Get 50 xp");
@@ -243,12 +243,12 @@ quest_t *make_sample_quest(char *quest_id, reward_t *reward, stat_req_t *stat_re
     negotiate->a_mission = a_mission6;
     negotiate->p_mission = NULL;
 
-    achievement_t *achievement1 = achievement_new(meet_npc, "Meet the NPC quest giver", NULL);
-    achievement_t *achievement2 = achievement_new(get_emerald, "Get the emerald", NULL);
-    achievement_t *achievement3 = achievement_new(go_to_room4, "Go to room 4", NULL);
-    achievement_t *achievement4 = achievement_new(fight_wolf, "Fight the wolf", NULL);
-    achievement_t *achievement5 = achievement_new(die_to_wolf, "Die to wolf", NULL);
-    achievement_t *achievement6 = achievement_new(negotiate, "Negotiate with wolf", NULL);
+    achievement_t *achievement1 = achievement_new(meet_npc, "Meet the NPC quest giver");
+    achievement_t *achievement2 = achievement_new(get_emerald, "Get the emerald");
+    achievement_t *achievement3 = achievement_new(go_to_room4, "Go to room 4");
+    achievement_t *achievement4 = achievement_new(fight_wolf, "Fight the wolf");
+    achievement_t *achievement5 = achievement_new(die_to_wolf, "Die to wolf");
+    achievement_t *achievement6 = achievement_new(negotiate, "Negotiate with wolf");
 
     add_achievement_to_quest(quest, achievement1, "The first mission");
     add_achievement_to_quest(quest, achievement2, "Meet the NPC quest giver");
