@@ -274,6 +274,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
     assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
     
     room_list_t *current_room = malloc(sizeof(room_list_t));
+    current_room = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
     int list_len = get_npc_num_rooms(npc_mov);
     uint8_t path_reversed = npc_mov->npc_path_reversed;
     unsigned int path_pos = npc_mov->npc_path_pos;
