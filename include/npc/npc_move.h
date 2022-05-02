@@ -108,9 +108,9 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, room_t *room);
  * Allocates a new npc_mov struct in the heap
  *
  * Parameters:
- *  npc_id: The ID of the NPC that is being referred to; must ppint to
+ *  npc_id: The ID of the NPC that is being referred to; must point to
  *          allocated memory
- *  mov_type: The tpye of movement that the npc will have
+ *  mov_type: The type of movement that the npc will have
  *  room: The room that the npc will begin in
  *
  * Returns:

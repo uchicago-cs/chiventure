@@ -254,7 +254,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
 {
 
     assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
-
+    
     room_list_t *test = malloc(sizeof(room_list_t));
     test->next = NULL;
     test->room = room_new(npc_mov->track,"test","test");
