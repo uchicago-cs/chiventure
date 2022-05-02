@@ -284,7 +284,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
                 current_room = current_room->next;
             }
         }
-    } else if (path_reversed == 1) {
+    } if (path_reversed == 1) {
         unsigned int path_pos_reversed = list_len-1-path_pos;
         if (path_pos != (list_len - 1)) {
             for (int i = 0; i < path_pos_reversed; i++) {
@@ -292,7 +292,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
             }
         }
     }
-    
+
     if(current_room->next == NULL)
     {
         return 1;
