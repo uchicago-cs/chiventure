@@ -9,6 +9,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
     assert(npc_mov != NULL);
     npc_mov->mov_type = mov_type;
     strncpy(npc_mov->track,room_id, MAX_ID_LEN);
+    npc_mov->npc_path_pos = 0;
 
     room_list_t *room_to_add = malloc(sizeof(room_list_t));
     room_to_add->next = NULL;
@@ -74,6 +75,7 @@ int npc_mov_free(npc_mov_t *npc_mov) {
         free(npc_mov->npc_mov_type.npc_mov_indefinite);
     }
 
+    free(npc_mov->npc_path_pos);
     free(npc_mov->track);
     free(npc_mov);
 
@@ -152,6 +154,12 @@ char* track_room(npc_mov_t *npc_mov)
     return npc_mov->track;
 }
 
+
+/* See npc_move.h */
+uint8_t track_npc_path_pos(npc_mov_t *npc_mov)
+{
+    return npc_mov->npc_path_pos;
+}
 
 /* See npc_move.h */
 int reverse_path(npc_mov_t *npc_mov)
