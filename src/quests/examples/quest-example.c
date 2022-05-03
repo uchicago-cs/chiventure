@@ -133,12 +133,12 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         npc_t *npc = malloc(sizeof(npc_t));
         HASH_FIND(hh, npcs_in_room_1->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
 
-        //complete_achievement(quest, item, npc);
-        quest->achievement_tree->achievement->completed = 1;
+        //complete_task(quest, item, npc);
+        quest->task_tree->task->completed = 1;
         quest->status = 2;
 
         char *output3 = strcat("Villager-Jim",": Congratulations on completing "
-                    "the first achievement of this quest. "
+                    "the first task of this quest. "
                     "Now onto the next, continue through that door into the next room "
                     "to continue.");
 
@@ -150,7 +150,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         npc_t *npc = malloc(sizeof(npc_t));
         HASH_FIND(hh, npcs_in_room_1->npc_list, "Villager-Jim", strlen("Villager-Jim"), npc);
 
-        quest->achievement_tree->lmostchild->achievement->completed = 1;
+        quest->task_tree->lmostchild->task->completed = 1;
 
         if ((is_quest_completed(quest)) == 1)
         {
@@ -195,13 +195,13 @@ quest_t *make_passive_quest(char *quest_id, reward_t *reward, stat_req_t *stat_r
     hundred_fifty_xp->a_mission = NULL;
     hundred_fifty_xp->p_mission = p_mission3;
 
-    achievement_t *achievement1 = achievement_new(fifty_xp, "Get 50 xp", NULL);
-    achievement_t *achievement2 = achievement_new(hundred_xp, "Get 100 xp", NULL);
-    achievement_t *achievement3 = achievement_new(hundred_fifty_xp, "Get 150 xp", NULL);
+    task_t *task1 = task_new(fifty_xp, "Get 50 xp", NULL);
+    task_t *task2 = task_new(hundred_xp, "Get 100 xp", NULL);
+    task_t *task3 = task_new(hundred_fifty_xp, "Get 150 xp", NULL);
 
-    add_achievement_to_quest(quest, achievement1, "The first mission");
-    add_achievement_to_quest(quest, achievement2, "Get 50 xp");
-    add_achievement_to_quest(quest, achievement3, "Get 100 xp");
+    add_task_to_quest(quest, task1, "The first mission");
+    add_task_to_quest(quest, task2, "Get 50 xp");
+    add_task_to_quest(quest, task3, "Get 100 xp");
 
     return quest;
 }
@@ -243,19 +243,20 @@ quest_t *make_sample_quest(char *quest_id, reward_t *reward, stat_req_t *stat_re
     negotiate->a_mission = a_mission6;
     negotiate->p_mission = NULL;
 
-    achievement_t *achievement1 = achievement_new(meet_npc, "Meet the NPC quest giver", NULL);
-    achievement_t *achievement2 = achievement_new(get_emerald, "Get the emerald", NULL);
-    achievement_t *achievement3 = achievement_new(go_to_room4, "Go to room 4", NULL);
-    achievement_t *achievement4 = achievement_new(fight_wolf, "Fight the wolf", NULL);
-    achievement_t *achievement5 = achievement_new(die_to_wolf, "Die to wolf", NULL);
-    achievement_t *achievement6 = achievement_new(negotiate, "Negotiate with wolf", NULL);
 
-    add_achievement_to_quest(quest, achievement1, "The first mission");
-    add_achievement_to_quest(quest, achievement2, "Meet the NPC quest giver");
-    add_achievement_to_quest(quest, achievement3, "Get the emerald");
-    add_achievement_to_quest(quest, achievement4, "Go to room 4");
-    add_achievement_to_quest(quest, achievement5, "Go to room 4");
-    add_achievement_to_quest(quest, achievement6, "Go to room 4");
+    task_t *task1 = task_new(meet_npc, "Meet the NPC quest giver", NULL);
+    task_t *task2 = task_new(get_emerald, "Get the emerald", NULL);
+    task_t *task3 = task_new(go_to_room4, "Go to room 4", NULL);
+    task_t *task4 = task_new(fight_wolf, "Fight the wolf", NULL);
+    task_t *task5 = task_new(die_to_wolf, "Die to wolf", NULL);
+    task_t *task6 = task_new(negotiate, "Negotiate with wolf", NULL);
+
+    add_task_to_quest(quest, task1, "The first mission");
+    add_task_to_quest(quest, task2, "Meet the NPC quest giver");
+    add_task_to_quest(quest, task3, "Get the emerald");
+    add_task_to_quest(quest, task4, "Go to room 4");
+    add_task_to_quest(quest, task5, "Go to room 4");
+    add_task_to_quest(quest, task6, "Go to room 4");
 
     return quest;
 }
