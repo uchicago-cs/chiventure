@@ -48,7 +48,7 @@ typedef struct active_mission {
 } active_mission_t;
 
 /*
- * This union represents a mission. Can be used to create an achievement.
+ * This union represents a mission. Can be used to create a task.
  * 
  * Components:
  *  a_mission: an active mission
@@ -61,34 +61,34 @@ typedef union mission {
 } mission_t;
 
 /* 
- * This struct represents an achievement.
+ * This struct represents a task.
  * 
  * Components:
  *  mission: mission to be completed
- *  id: string identifier for the achievement
- *  completed: bool for if achievement is completed
+ *  id: string identifier for the task
+ *  completed: bool for if task is completed
  */
-typedef struct achievement {
+typedef struct task {
     mission_t *mission;
     char *id;
     bool completed;     //0 is not completed, 1 is completed
-} achievement_t;
+} task_t;
 
 /*
- * This is a non-binary tree struct of achievements (to replace linked list)
+ * This is a non-binary tree struct of tasks (to replace linked list)
  *
  * Components:
- *  achievement: achievement in tree
- *  parent: parent node of achievement
- *  rsibling: the nearest right-hand sibling of the achievement node
- *  lmostchild: the leftmost child of the achievement node
+ *  task: task in tree
+ *  parent: parent node of task
+ *  rsibling: the nearest right-hand sibling of the task node
+ *  lmostchild: the leftmost child of the task node
  */
-typedef struct achievement_tree {
-    achievement_t *achievement;
-    struct achievement_tree *parent;
-    struct achievement_tree *rsibling;
-    struct achievement_tree *lmostchild;
-} achievement_tree_t;
+typedef struct task_tree {
+    task_t *task;
+    struct task_tree *parent;
+    struct task_tree *rsibling;
+    struct task_tree *lmostchild;
+} task_tree_t;
 
 /* 
  * This struct represents a reward for completing a quest.
@@ -118,8 +118,8 @@ typedef struct stat_req {
  * This is the hashable struct for a quest 
  * Elements:
  * quest_id: the id of the quest
- * achievement_tree: non-binary tree struct holding a tree of
- *                   achievements that make up a quest
+ * task_tree: non-binary tree struct holding a tree of
+ *                   tasks that make up a quest
  * reward: reward of the quest is either experience, an item, or both
  * stat_req: stat requirement for the quest
  * status: -1: failed quest
@@ -130,7 +130,7 @@ typedef struct stat_req {
 typedef struct quest  {
     UT_hash_handle hh;
     char *quest_id;
-    achievement_tree_t *achievement_tree;
+    task_tree_t *task_tree;
     reward_t *reward;
     stat_req_t *stat_req;
     int status;  
