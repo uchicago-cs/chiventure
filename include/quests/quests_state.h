@@ -139,7 +139,6 @@ int stat_req_init(stat_req_t *stat_req, int xp, int level);
  */
 int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
 
-x
 /* Initialize an already allocated quest struct
  *
  * Parameters:
