@@ -528,7 +528,9 @@ Test(quest,is_quest_completed)
 
     int res = add_task_to_quest(quest, task, NULL);
 
-    res = complete_task(quest, "mission");
+    reward_t *the_reward = complete_task(quest, "mission");
+    if (the_reward == NULL)
+        res = FAILURE;
 
     res = is_quest_completed(quest);
 

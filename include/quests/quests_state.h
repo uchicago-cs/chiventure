@@ -58,7 +58,7 @@ stat_req_t *stat_req_new(int hp, int level);
  *
  * Returns: a pointer to the newly allocated task that is not completed
  */
-task_t *task_new(mission_t *mission, char *id);
+task_t *task_new(mission_t *mission, char *id, reward_t *reward);
 
 /* Creates a new quest struct (allocates memory)
  * 
