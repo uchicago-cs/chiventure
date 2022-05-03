@@ -233,18 +233,17 @@ char *view_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if(game == NULL)
     //TODO look exactly what the game pointer being NULL means
     {
-        return "No game found\!\n";
+        return "No game found!\n";
     }
     if(arg2 == NULL)
     {
-        return "Second argument needed. Pick from:"
-            "[LIST OF WANTED SECOND ARGUMENTS HERE]\n"
+        return "Second argument needed. Pick from: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
     }
     if(strcmp(arg2,"stats") == 0)
     {
         //TODO: Ask action management what they want to happen, 
         //as they likely want to call some other function.
-        return "Second argument was \"stats\""
+        return "Second argument was \"stats\"";
     }
     //all possible options should have been matched before this
     return "Invalid second argument\n";
