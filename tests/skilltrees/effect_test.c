@@ -27,6 +27,10 @@ Test(effect_tests, make_move_effect_test)
 
 }
 
+/* Tests for execute_move_effect function */
+
+/* This test checks if execute_move_effect correctly adds a move effect to an empty list */
+
 Test(effect_tests, execute_move_effect_test_empty_list)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -39,6 +43,8 @@ Test(effect_tests, execute_move_effect_test_empty_list)
     int check = execute_move_effect(ctx, moveeffect);
     cr_assert_eq(check, SUCCESS, "Error: Failure of execute_move_effect");
 }
+
+/* This test checks if execute_move_effect correctly adds a move effect to an existing list of effects */
 
 Test(effect_tests, execute_move_effect_test_existing_list)
 {
