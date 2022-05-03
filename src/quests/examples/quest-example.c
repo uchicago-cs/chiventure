@@ -175,7 +175,7 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 /* Get a big reward for finishing all the passive quests */
-quest_t *make_passive_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req)
+quest_t *make_passive_quest(char *quest_id, reward_t *reward, stat_req_t *stat_req)
 {
     quest_t *quest = quest_new(quest_id, NULL, reward, stat_req);
 
@@ -206,7 +206,7 @@ quest_t *make_passive_quest(long int quest_id, reward_t *reward, stat_req_t *sta
     return quest;
 }
 
-quest_t *make_sample_quest(long int quest_id, reward_t *reward, stat_req_t *stat_req,
+quest_t *make_sample_quest(char *quest_id, reward_t *reward, stat_req_t *stat_req,
                            npc_t *npc1, npc_t *npc2, item_t *item1, item_t *item2,
                            room_t *room3, room_t *room4)
 {
@@ -305,7 +305,7 @@ int main(int argc, char **argv)
 
     stat_req_t *stat_req = stat_req_new(5, 2);
 
-    quest_t *quest = make_sample_quest(1, reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
+    quest_t *quest = make_sample_quest("test", reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
 
     reward_t *reward_passive = reward_new(0, item_new("Portal Gun", "this gun can create portals on special walls",
     "Reward for completing passive missions."));
