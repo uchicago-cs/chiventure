@@ -195,9 +195,9 @@ quest_t *make_passive_quest(char *quest_id, reward_t *reward, stat_req_t *stat_r
     hundred_fifty_xp->a_mission = NULL;
     hundred_fifty_xp->p_mission = p_mission3;
 
-    task_t *task1 = task_new(fifty_xp, "Get 50 xp");
-    task_t *task2 = task_new(hundred_xp, "Get 100 xp");
-    task_t *task3 = task_new(hundred_fifty_xp, "Get 150 xp");
+    task_t *task1 = task_new(fifty_xp, "Get 50 xp", NULL);
+    task_t *task2 = task_new(hundred_xp, "Get 100 xp", NULL);
+    task_t *task3 = task_new(hundred_fifty_xp, "Get 150 xp", NULL);
 
     add_task_to_quest(quest, task1, "The first mission");
     add_task_to_quest(quest, task2, "Get 50 xp");
@@ -243,12 +243,13 @@ quest_t *make_sample_quest(char *quest_id, reward_t *reward, stat_req_t *stat_re
     negotiate->a_mission = a_mission6;
     negotiate->p_mission = NULL;
 
-    task_t *task1 = task_new(meet_npc, "Meet the NPC quest giver");
-    task_t *task2 = task_new(get_emerald, "Get the emerald");
-    task_t *task3 = task_new(go_to_room4, "Go to room 4");
-    task_t *task4 = task_new(fight_wolf, "Fight the wolf");
-    task_t *task5 = task_new(die_to_wolf, "Die to wolf");
-    task_t *task6 = task_new(negotiate, "Negotiate with wolf");
+
+    task_t *task1 = task_new(meet_npc, "Meet the NPC quest giver", NULL);
+    task_t *task2 = task_new(get_emerald, "Get the emerald", NULL);
+    task_t *task3 = task_new(go_to_room4, "Go to room 4", NULL);
+    task_t *task4 = task_new(fight_wolf, "Fight the wolf", NULL);
+    task_t *task5 = task_new(die_to_wolf, "Die to wolf", NULL);
+    task_t *task6 = task_new(negotiate, "Negotiate with wolf", NULL);
 
     add_task_to_quest(quest, task1, "The first mission");
     add_task_to_quest(quest, task2, "Meet the NPC quest giver");
@@ -305,13 +306,13 @@ int main(int argc, char **argv)
 
     stat_req_t *stat_req = stat_req_new(5, 2);
 
-    quest_t *quest = make_sample_quest("test", reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
+    quest_t *quest = make_sample_quest("Quest 0", reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
 
     reward_t *reward_passive = reward_new(0, item_new("Portal Gun", "this gun can create portals on special walls",
     "Reward for completing passive missions."));
 
     stat_req_t *stat_req_passive = stat_req_new(0, 0);
-    quest_t *quest_passive = make_passive_quest(1, reward_passive, stat_req_passive);
+    quest_t *quest_passive = make_passive_quest("Quest 1", reward_passive, stat_req_passive);
     /*quest layout: start in room1 -> go to room2 -> go to room3 -> get emerald -> go to room4 -> fight wolf and WIN -> get potion -> meet npc for reward
                                                                                                 / |
                                                                                                /  |

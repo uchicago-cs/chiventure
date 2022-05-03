@@ -72,13 +72,13 @@ stat_req_t *stat_req_new(int xp, int level)
 }
 
 /* Refer to quests_state.h */
-task_t *task_new(mission_t *mission, char *id)
+task_t *task_new(mission_t *mission, char *id, reward_t *reward)
 {
     task_t *task;
     int rc;
     task = malloc(sizeof(task_t));
 
-    rc = task_init(task,mission, id);
+    rc = task_init(task, mission, id, reward);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize task struct!\n");
@@ -160,11 +160,12 @@ int stat_req_init(stat_req_t *stat_req, int hp, int level)
 }
 
 /* Refer to quests_state.h */
-int task_init(task_t *task, mission_t *mission, char *id)
+int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward)
 {
     assert(task != NULL);
 
     task->mission = mission;
+    task->reward = reward;
     task->completed = 0;
     task->id = id;
 
@@ -434,7 +435,7 @@ task_t *find_task(task_tree_t *tree, char *id)
 }
 
 /* Refer to quests_state.h */
-int complete_task(quest_t *quest, char *id)
+reward_t *complete_task(quest_t *quest, char *id)
 {
     task_tree_t *tree = quest->task_tree;
 
@@ -444,11 +445,11 @@ int complete_task(quest_t *quest, char *id)
             (task->completed == 0))
     {
         quest->task_tree->task->completed = 1;
-        return SUCCESS;
+        return task->reward;
     }
     else
     {
-        return FAILURE;
+        return NULL;
     }
 }
 

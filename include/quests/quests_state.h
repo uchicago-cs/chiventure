@@ -54,10 +54,11 @@ stat_req_t *stat_req_new(int hp, int level);
  * Parameters:
  * - mission: the mission to be completed for the quest
  * - id: the id of the task
- * 
+ * - reward: the reward of the task
+ *
  * Returns: a pointer to the newly allocated task that is not completed
  */
-task_t *task_new(mission_t *mission, char *id);
+task_t *task_new(mission_t *mission, char *id, reward_t *reward);
 
 /* Creates a new quest struct (allocates memory)
  * 
@@ -130,13 +131,13 @@ int stat_req_init(stat_req_t *stat_req, int xp, int level);
  * - task: an already allocated task
  * - mission: the mission to be completed for the task
  * - id: the id of the task
+ * - reward: the reward of the task
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int task_init(task_t *task, mission_t *mission, char *id);
-
+int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
 
 /* Initialize an already allocated quest struct
  *
@@ -258,17 +259,19 @@ int fail_quest(quest_t *quest);
 
 /* Completes a task in a quest by checking if a given
  * task ID matches any incomplete tasks in the
- * appropriate level of the task tree.
+ * appropriate level of the task tree. Returns the reward
+ * of the completed task.
  * 
  * Parameters:
  * - quest: pointer to the quest
  * - id: the string identifier of the completed task
- *
+ *  
  * Returns:
- * - SUCCESS
- * - FAILURE
+ * - the task's reward item
+ * - NULL if the task is incomplete
+ * 
  */
-int complete_task(quest_t *quest, char *id);
+reward_t *complete_task(quest_t *quest, char *id);
 
 /* Checks if a quest is completed
  * 

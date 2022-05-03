@@ -86,9 +86,14 @@ Test(task, init)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
+    item_t *item = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    int xp = 40;
+    reward_t *rewards = reward_new(xp, item);
+
     task_t *task = malloc(sizeof(task_t));
 
-	int check = task_init(task, mission, id);
+	int check = task_init(task, mission, id, rewards);
 
 	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
@@ -171,7 +176,12 @@ Test(task, new)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	task_t* task = task_new(mission, id);
+    item_t *item = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    int xp = 40;
+    reward_t *rewards = reward_new(xp, item);
+
+	task_t* task = task_new(mission, id, rewards);
 
 	cr_assert_not_null(task, "task_new() test has failed!");
 
@@ -222,7 +232,13 @@ Test(task, free)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	task_t* task_to_free = task_new(mission, id);
+    item_t *item = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    int xp = 30;
+    reward_t *rewards = reward_new(xp, item);
+
+	task_t* task_to_free = task_new(mission, id, rewards);
+
 
 	cr_assert_not_null(task_to_free, "task_free(): room is null");
 
@@ -349,7 +365,7 @@ Test(quest, add_task_to_quest)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	task_t* task_to_add = task_new(mission, id);
+	task_t* task_to_add = task_new(mission, id, rewards);
 
     int res = add_task_to_quest(quest, task_to_add, "NULL");
 
@@ -459,13 +475,15 @@ Test(quest, complete_task)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	task_t* task_to_complete = task_new(mission, id);
+	task_t* task_to_complete = task_new(mission, id, rewards);
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
 
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 
-    res = complete_task(quest, "test mission");
+    reward_t *new_reward = complete_task(quest, "test mission");
+    if (new_reward == NULL)
+        res = FAILURE;
 
     cr_assert_eq(res, SUCCESS, "complete_task() failed!");
 }
@@ -505,11 +523,14 @@ Test(quest,is_quest_completed)
     mission_t *mission = malloc(sizeof(mission_t));
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
-    task_t *task = task_new(mission, "mission");
+
+    task_t *task = task_new(mission, "mission", rewards);
 
     int res = add_task_to_quest(quest, task, NULL);
 
-    res = complete_task(quest, "mission");
+    reward_t *the_reward = complete_task(quest, "mission");
+    if (the_reward == NULL)
+        res = FAILURE;
 
     res = is_quest_completed(quest);
 
