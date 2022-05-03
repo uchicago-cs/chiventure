@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quests_state.h"
+#define QUEST_NAME_MAX_LEN 100
 
 /* Refer to quests_state.h */
 passive_mission_t *passive_mission_new(int xp, int levels, int health)
@@ -178,7 +179,7 @@ int quest_init(quest_t *q, char *quest_id, achievement_tree_t *achievement_tree,
 {
     assert(q != NULL);
 
-    q->quest_id = strdup(quest_id);
+    q->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
     q->achievement_tree = achievement_tree;
     q->reward = reward;
     q->stat_req = stat_req;
