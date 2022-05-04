@@ -268,28 +268,31 @@ Test(npc_mov, auto_gen_movement_definite)
     int cnt = 0;
     int rc, num_rooms_in_npc;
     room_t *curr_room;
+    char *curr_room_id;
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id);
 
     rc = auto_gen_movement(npc_mov, get_all_rooms(game));
-    room_list_t *elt;
+    room_id_dll_t *elt;
 
-    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
+    DL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
     {
         cnt++;
-        curr_room = elt->room;
-        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
+        curr_room_id = elt->room_id;
+        HASH_FIND(hh, game->all_rooms, curr_room_id,
+                sizeof(char *), curr_room);
+        if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
                              "ldesc does not correspond");
         }
-        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+        else if (!strncmp(curr_room_id, "room2", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
                              "ldesc does not correspond");
         }
-        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+        else if (!strncmp(curr_room_id, "room3", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
                              "ldesc does not correspond");
@@ -302,9 +305,9 @@ Test(npc_mov, auto_gen_movement_definite)
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
   
-    cr_assert_eq(delete_room_llist
+    cr_assert_eq(delete_room_id_dll
                  (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
-                 SUCCESS, "delete llist failed");
+                 SUCCESS, "delete room_id_dll failed");
 
     game_free(game);
 }
@@ -323,28 +326,31 @@ Test(npc_mov, auto_gen_movement_indefinite)
     int cnt = 0;
     int rc, num_rooms_in_npc;
     room_t *curr_room;
+    char *curr_room_id
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id);
 
     rc = auto_gen_movement(npc_mov, get_all_rooms(game));
-    room_list_t *elt;
+    room_id_dll_t *elt;
 
     LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
     {
         cnt++;
-        curr_room = elt->room;
-        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
+        curr_room_id = elt->room_id;
+        HASH_FIND(hh, game->all_rooms, curr_room_id,
+                sizeof(char *), curr_room);
+        if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
                              "ldesc does not correspond");
         }
-        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+        else if (!strncmp(curr_room_id, "room2", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
                              "ldesc does not correspond");
         }
-        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+        else if (!strncmp(curr_room_id, "room3", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
                              "ldesc does not correspond");
@@ -356,9 +362,9 @@ Test(npc_mov, auto_gen_movement_indefinite)
                  "room_count returns %d, but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
-    cr_assert_eq(delete_room_llist
+    cr_assert_eq(delete_room_id_dll
                  (npc_mov->npc_mov_type.npc_mov_indefinite->npc_path),
-                 SUCCESS, "delete llist failed");
+                 SUCCESS, "delete room_id_dll failed");
 
     game_free(game);
 }

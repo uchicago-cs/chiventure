@@ -315,3 +315,15 @@ int move_npc_mov(npc_mov_t *npc_mov)
         return move_npc_definite(npc_mov);
     else return 0;
 }
+
+/* See npc_move.h */
+int delete_room_id_dll(room_id_dll_t *head)
+{
+    room_id_dll_t *elt, *tmp;
+    DL_FOREACH_SAFE(head, elt, tmp)
+    {
+        DL_DELETE(head, elt);
+        free(elt);
+    }
+    return SUCCESS;
+}
