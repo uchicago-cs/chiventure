@@ -175,7 +175,7 @@ int reverse_path(npc_mov_t *npc_mov)
 
     if (npc_mov->npc_mov_type == NPC_MOV_DEFINITE) {
         head = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
-    } if else (npc_mov->npc_mov_type == NPC_MOV_INDEFINITE) {
+    } else if (npc_mov->npc_mov_type == NPC_MOV_INDEFINITE) {
         head = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
     } else return FAILURE;
         
@@ -198,10 +198,10 @@ int reverse_path(npc_mov_t *npc_mov)
         LL_APPEND(head, reappend_room);
     }
 
-    if (npc_mov->npc_mov_type == NPC_MOV_DEFINITE) {
+    if (npc_mov->mov_type == NPC_MOV_DEFINITE) {
         free(npc_mov->npc_mov_type.npc_mov_definite->npc_path);
         npc_mov->npc_mov_type.npc_mov_definite->npc_path = head;
-    } if else (npc_mov->npc_mov_type == NPC_MOV_INDEFINITE) {
+    } else if (npc_mov->mov_type == NPC_MOV_INDEFINITE) {
         free(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path);
         npc_mov->npc_mov_type.npc_mov_indefinite->npc_path = head;
     } else return FAILURE;
@@ -306,8 +306,8 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
 
     if(current_room->next == NULL)
     {
-        assert(reverse_path(npc_mov) == SUCCESS)
-        return 1);
+        assert(reverse_path(npc_mov) == SUCCESS);
+        return 1;
     }
     if((strcmp(current_room->room->room_id,npc_mov->track)) == 0)
     {
