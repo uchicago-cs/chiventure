@@ -627,6 +627,19 @@ int attributes_equal(item_t* item_1, item_t* item_2, char* attribute_name)
 
 // FREEING AND DELETION FUNCTIONS ---------------------------------------------
 
+/* see game_action.h */
+int game_action_free(game_action_t* game_action)
+{
+    free(game_action->action_name);
+    delete_condition_llist(game_action->conditions);
+    delete_action_effect_llist(game_action->effects);
+    free(game_action->success_str);
+    free(game_action->fail_str);
+    free(game_action);
+    return SUCCESS;
+}
+
+
 /* see item.h */
 int attribute_free(attribute_t *attribute)
 {

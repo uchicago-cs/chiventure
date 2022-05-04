@@ -7,8 +7,11 @@
 
 #include "common/utlist.h"
 #include "game-state/stats.h"
-#include "skilltrees/skilltree.h"
 #include "libobj/obj.h"
+
+/* Forward Declarations to avoid circular dependency */
+typedef struct skill_tree skill_tree_t;
+typedef struct skill_inventory skill_inventory_t;
 
 // max name length
 #define MAX_NAME_LEN (20)

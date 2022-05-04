@@ -12,6 +12,11 @@ LL_FOREACH_SAFE(get_all_items_in_hash(&((player)->inventory)), (curr_item), ITTM
 #define ITER_ALL_ATTRIBUTES(item, curr_attr) attribute_t *ITTMP_ATTR; \
 HASH_ITER(hh, (item)->attributes, (curr_attr), ITTMP_ATTR)
 
+/* Forward declaration. Full typedef can be found in player.h */
+typedef struct player player_t;
+/* Forward declaration. Full typedef can be found in condition.h */
+typedef struct condition condition_list_t;
+
 // ATTRIBUTE STUCTURE DEFINITION ----------------------------------------------
 // values will be loaded from WDL/provided by action management
 typedef union attribute_value {
@@ -204,6 +209,33 @@ int remove_item_from_all_items_hash(item_hash_t **all_items, item_t *item);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_effect_to_item(item_t *item, stat_effect_t *effect);
+
+
+// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
+typedef struct game_action_effect{
+    item_t *item;
+    attribute_t* attribute_to_modify;
+    attribute_value_t new_value;
+    struct game_action_effect *next; //mandatory for utlist macros
+} game_action_effect_t;
+
+/* This typedef is to distinguish between game_action_effect_t
+* pointers which are used to point to the game_action_effect_t structs
+* in the traditional sense, and those which are used to enable UTLIST functionality
+* on the game_action_effect_t structs as specified in src/common/include
+*/
+typedef struct game_action_effect action_effect_list_t;
+
+
+typedef struct game_action {
+    UT_hash_handle hh;
+    char* action_name;
+    condition_list_t *conditions; //must be initialized to NULL
+    action_effect_list_t *effects; //must be initialized to NULL
+    char* success_str;
+    char* fail_str;
+} game_action_t;
+
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
 
