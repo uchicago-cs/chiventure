@@ -527,6 +527,19 @@ int add_attribute_to_hash(item_t* item, attribute_t* new_attribute);
 int delete_all_attributes(attribute_hash_t *attributes);
 
 
+/* action_init() initializes an action struct with given values
+   arguments are taken from action management
+ Parameters:
+    a memory allocated new action pointer
+    an action name
+    an action type struct
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int game_action_init(game_action_t *new_action, char *act_name, 
+             char* success_str, char* fail_str);
+
+
 /* list_get_attribute() returns a pointer to an attribute if it exists
  * Parameters:
  *  a pointer to a attribute_list
