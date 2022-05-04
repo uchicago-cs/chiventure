@@ -242,11 +242,11 @@ npc_t *get_npc_in_room(room_t *room, char *npc_id)
  */
 int get_num_rooms(room_hash_t *all_rooms)
 {
-    return HASH_COUNT(all_rooms);
+    return LL_COUNT(all_rooms);
 }
 
 /* See room.h */
-int auto_gen_movement(npc_mov_t *npc_mov, room_hash_t *all_rooms)
+int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 {
     room_list_t *head = all_rooms;
     int rc = 0;
@@ -271,7 +271,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_hash_t *all_rooms)
             int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
             int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
             int time_in_room = (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
-            rc = extend_path_indefinite(npc_mov, room_to_add, time_in_room);
+            rc = extend_path_indefinite(npc_mov, room_to_add->room_id, time_in_room);
 	      }
 
         if(rc == FAILURE) {
@@ -312,7 +312,7 @@ int npc_one_move(npc_t *npc)
     if(npc->movement->mov_type == NPC_MOV_DEFINITE)
     {
         LL_SEARCH(npc->movement->npc_mov_type.npc_mov_definite->npc_path,
-                  current_room_list,test,room_id_cmp);
+                  current_room_list, test, room_id_cmp);
     }
     else if(npc->movement->mov_type == NPC_MOV_INDEFINITE)
     {

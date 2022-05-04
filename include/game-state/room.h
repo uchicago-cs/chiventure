@@ -289,7 +289,7 @@ int delete_all_rooms(room_hash_t **rooms);
  *  - Updates npc_mov to have a new, randomly generated movement path.
  *    Maintains the same type of movement (indefinite / definite)
  */
-int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
+int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms);
 
 /* Moves an npc one step down its path
  *
