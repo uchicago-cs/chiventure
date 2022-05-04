@@ -158,7 +158,7 @@ Test(npcs_in_room, npc_one_move_definite)
 					"should be in room: %s",
 					test_npc1_mov->track, "test_room");
 
-	int rc_move = move_npc_mov(test_npc1_mov);
+	int rc_move = move_npc_definite(test_npc1_mov);
 
 	cr_assert_eq(rc_move, SUCCESS, "move_npc_mov() returned FAILURE");
 

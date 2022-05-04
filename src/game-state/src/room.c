@@ -337,10 +337,10 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
      */
 
     HASH_FIND(hh, all_rooms, npc->movement->track,
-                sizeof(char *), current_room);
+                strnlen(npc->movement->track, MAX_ID_LEN), current_room);
 
     HASH_FIND(hh, all_rooms, get_next_npc_room_id(npc->movement),
-                sizeof(char *), next_room);
+                strnlen(npc->movement->track, MAX_ID_LEN), next_room);
 
     current_npcs_in_room = current_room->npcs;
     next_npcs_in_room = next_room->npcs;

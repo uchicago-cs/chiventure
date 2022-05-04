@@ -268,20 +268,21 @@ Test(npc_mov, auto_gen_movement_definite)
     int cnt = 0;
     int rc, num_rooms_in_npc;
     room_t *curr_room;
+    room_list_t *all_rooms = get_all_rooms(game);
     char *curr_room_id;
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id);
 
-    rc = auto_gen_movement(npc_mov, get_all_rooms(game));
+    rc = auto_gen_movement(npc_mov, all_rooms);
     room_id_dll_t *elt;
 
     DL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
     {
         cnt++;
         curr_room_id = elt->room_id;
-        HASH_FIND(hh, game->all_rooms, curr_room_id,
-                sizeof(char *), curr_room);
+        HASH_FIND_(hh, game->all_rooms, curr_room_id,
+                strnlen(curr_room_id), curr_room);
         if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
@@ -339,7 +340,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
         cnt++;
         curr_room_id = elt->room_id;
         HASH_FIND(hh, game->all_rooms, curr_room_id,
-                sizeof(char *), curr_room);
+                strnlen(curr_room_id, MAX_ID_LEN), curr_room);
         if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
