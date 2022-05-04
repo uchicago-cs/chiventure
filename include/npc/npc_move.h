@@ -200,6 +200,19 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time);
  */
 char *track_room(npc_mov_t *npc_mov);
 
+/*
+ * Returns the room id of the room that 
+ *  the npc will move to next if/when it is called to
+ *
+ * Parameters:
+ *  npc_mov: The NPC movement struct
+ *
+ * Returns:
+ *  The room id of the room that the npc 
+ *  will move to next if/when it is called to
+ */
+char *get_next_npc_room_id(npc_mov_t *npc_mov);
+
 /* 
 * Returns the index position of the room that the npc is currently in
 *
@@ -268,6 +281,7 @@ int room_id_cmp(room_id_dll_t *room1, room_id_dll_t *room2);
  * 1 npc has reached the end of the path, reverse_path is called, but
  *   the move is not implemented
  * 2 successful move to the next room
+ * 3 npc has nowhere to move
 */
 int move_npc_definite(npc_mov_t *npc_mov);
 
@@ -278,10 +292,11 @@ int move_npc_definite(npc_mov_t *npc_mov);
  * npc_mov: The NPC movement struct
  *
  * Returns:
- * 0 if move in unsuccessful
+ * 0 if move is unsuccessful
  * 1 npc has reached the end of the path, reverse_path is called, but
  *   the move is not implemented
  * 2 successful move to the next room
+ * 3 npc has nowhere to move
  */
 int move_npc_indefinite(npc_mov_t *npc_mov);
 

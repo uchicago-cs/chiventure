@@ -299,7 +299,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms);
  *  Returns:
  *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
  */
-int npc_one_move(npc_t *npc);
+int npc_one_move(npc_t *npc, room_hash_t *all_rooms);
 
 /*
  * Deletes all items from npc inventory and adds them to the room struct.

@@ -149,6 +149,35 @@ char* track_room(npc_mov_t *npc_mov)
     return npc_mov->track;
 }
 
+/* See npc_move.h */
+char *get_next_npc_room_id(npc_mov_t *npc_mov)
+{
+    room_id_dll_t *current_room;
+    
+    if (npc_mov->mov_type == NPC_MOV_INDEFINITE)
+        current_room = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
+    else current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
+    
+    uint8_t path_reversed = npc_mov->npc_path_reversed;
+    unsigned int path_pos = npc_mov->npc_path_pos;
+
+    if (path_pos != 0) {
+        for (int i = 0; i < path_pos; i++) {
+            current_room = current_room->next;
+        }
+    } else {
+        if ((path_reversed == 0) && current_room->next != NULL) {
+            return current_room->next->room_id;
+        } else {
+            return NULL;
+        }
+    }
+
+    if (path_reversed == 0) {
+        if (current_room->next == NULL) return NULL;
+        else return current_room->next->room_id;
+    } else return current_room->prev->room_id;
+}
 
 /* See npc_move.h */
 unsigned int track_npc_path_pos(npc_mov_t *npc_mov)
@@ -199,10 +228,12 @@ int move_npc_definite(npc_mov_t *npc_mov)
 
     room_id_dll_t *current_room;
     current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
-    int list_len = get_npc_num_rooms(npc_mov);
     uint8_t path_reversed = npc_mov->npc_path_reversed;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
+    if ((current_room->next == NULL) && (current_room->prev == NULL))
+        return 3; // NPC has nowhere to move
+    
     if (path_pos != 0) {
         for (int i = 0; i < path_pos; i++) {
             current_room = current_room->next;
@@ -238,10 +269,12 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
     
     room_id_dll_t *current_room;
     current_room = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
-    int list_len = get_npc_num_rooms(npc_mov);
     uint8_t path_reversed = npc_mov->npc_path_reversed;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
+    if ((current_room->next == NULL) && (current_room->prev == NULL))
+        return 3; // NPC has nowhere to move
+    
     if (path_pos != 0) {
         for (int i = 0; i < path_pos; i++) {
             current_room = current_room->next;

@@ -258,7 +258,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 		return FAILURE;
 	}
 
-    num_rooms = get_num_rooms(head);
+    num_rooms = get_num_rooms(all_rooms);
     num_rooms_to_add = (rand() % num_rooms) + 1;
 
     for (int i = 0; i < num_rooms_to_add; i++) {
@@ -267,7 +267,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
         room_to_add = head->room;
         head->room = head->next->room;
         if(npc_mov->mov_type == NPC_MOV_DEFINITE) {
-        	rc = extend_path_definite(npc_mov, room_to_add);
+        	rc = extend_path_definite(npc_mov, room_to_add->room_id);
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE) {
             int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
@@ -285,7 +285,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 }
 
 /* See room.h */
-int npc_one_move(npc_t *npc)
+int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
 
     if(npc->movement == NULL)
@@ -298,44 +298,20 @@ int npc_one_move(npc_t *npc)
     npcs_in_room_t *current_npcs_in_room;
     npcs_in_room_t *next_npcs_in_room;
 
-
-    /* adapted from move_npc_(in)definite functions
-     * in npc_move module
-     *
+    /* 
      * This adaptation will obtain the list of rooms in an npc's path
      * which will be stored in *current_room_list
      * Thus, we will be able to obtain the current and next room structs
      */
-    room_list_t *test = malloc(sizeof(room_list_t));
-    test->next = NULL;
-    test->room = room_new(npc->movement->track,"test","test");
-    room_list_t *current_room_list = malloc(sizeof(room_list_t));
 
-    if(npc->movement->mov_type == NPC_MOV_DEFINITE)
-    {
-        LL_SEARCH(npc->movement->npc_mov_type.npc_mov_definite->npc_path,
-                  current_room_list, test, room_id_cmp);
-    }
-    else if(npc->movement->mov_type == NPC_MOV_INDEFINITE)
-    {
-        LL_SEARCH(npc->movement->npc_mov_type.npc_mov_indefinite->npc_path,
-                  current_room_list,test,room_id_cmp);
-    }
-
-    current_room = current_room_list->room;
-    next_room = current_room_list->next->room;
-
-    // end of adaptation
+    HASH_FIND(all_rooms, npc->movement->track, current_room);
+    HASH_FIND(all_rooms, get_next_npc_room_id(npc->movement), next_room);
 
     current_npcs_in_room = current_room->npcs;
     next_npcs_in_room = next_room->npcs;
 
-    int rc;
-
     // this call does all of the moving
-    rc = npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
-
-    return rc;
+    return npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
 }
 
 /* See room.h  */
