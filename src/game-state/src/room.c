@@ -242,9 +242,9 @@ npc_t *get_npc_in_room(room_t *room, char *npc_id)
  */
 int get_num_rooms(room_list_t *all_rooms)
 {
-    int count = 0;
-    room_list_t *el;
-    return LL_COUNT(all_rooms, el, count);
+    int count;
+    room_list_t *elt;
+    return LL_COUNT(all_rooms, elt, count);
 }
 
 /* See room.h */
