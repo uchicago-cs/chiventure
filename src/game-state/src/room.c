@@ -263,10 +263,10 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
     num_rooms_to_add = (rand() % num_rooms) + 1;
 
     for (int i = 0; i < num_rooms_to_add; i++) {
-        room_t *room_to_add = malloc(sizeof(room_t));
+        room_t *room_to_add = (room_t *) malloc(sizeof(room_t));
 
         room_to_add = head->room;
-        head->room = head->next->room;
+        head = head->next;
         if(npc_mov->mov_type == NPC_MOV_DEFINITE) {
         	rc = extend_path_definite(npc_mov, room_to_add->room_id);
         }

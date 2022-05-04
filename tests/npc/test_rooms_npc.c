@@ -151,9 +151,6 @@ Test(npcs_in_room, npc_one_move_definite)
 	int rc_extend = extend_path_definite(test_npc1_mov, test_room2->room_id);
 
 	cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
-
-	npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 
-					NULL, test_npc1_mov, false);
 	
 	cr_assert_str_eq(test_npc1_mov->track, "test_room", 
 					"npc not in correct initial room\n"
@@ -186,9 +183,6 @@ Test(npcs_in_room, npc_one_move_indefinite)
     int rc_extend = extend_path_indefinite(test_npc1_mov, test_room2->room_id, 1000);
 
     cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
-
-    npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc",
-                                        NULL, test_npc1_mov, false);
 
 	cr_assert_str_eq(test_npc1_mov->track, "test_room",
                     "npc not in correct initial room\n"
