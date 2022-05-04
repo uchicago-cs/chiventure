@@ -300,8 +300,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement1, arena);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1, 
                              "Friendly Fiona is a friendly woman named Fiona.", 
 			                 "Friendly Fiona won't fight you unless you attack "
@@ -320,8 +320,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement2, arena);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    extend_path_definite(movement2, arena->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
                             "Harry.", "Hostile Harry will attack you"

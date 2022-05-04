@@ -288,9 +288,9 @@ int main(int argc, char **argv)
     npcs_in_room_4 = npcs_in_room_new("room4");
     add_npc_to_room(npcs_in_room_4, npc2); //Need to fight the wolf to get potion
 
-    npc1_movement = npc_mov_new(NPC_MOV_DEFINITE,initial_room);
-    extend_path_definite(npc1_movement,third_room);
-    extend_path_definite(npc1_movement,last_room);
+    npc1_movement = npc_mov_new(NPC_MOV_DEFINITE, initial_room->room_id);
+    extend_path_definite(npc1_movement, third_room->room_id);
+    extend_path_definite(npc1_movement, last_room->room_id);
 
 
     reward_t *reward_if_kill = reward_new(50, item_new("KEY", "this is a key that unlocks all secrets",
