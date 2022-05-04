@@ -281,8 +281,8 @@ Test(npc_mov, auto_gen_movement_definite)
     {
         cnt++;
         curr_room_id = elt->room_id;
-        HASH_FIND_(hh, game->all_rooms, curr_room_id,
-                strnlen(curr_room_id), curr_room);
+        HASH_FIND(hh, game->all_rooms, curr_room_id,
+                strnlen(curr_room_id, curr_room);
         if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
