@@ -285,39 +285,6 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
     return rc;
 }
 
-/* See room.h */
-int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
-{
-
-    if(npc->movement == NULL)
-    {
-        return FAILURE;
-    }
-
-    room_t *current_room;
-    room_t *next_room;
-    npcs_in_room_t *current_npcs_in_room;
-    npcs_in_room_t *next_npcs_in_room;
-
-    /* 
-     * This adaptation will obtain the list of rooms in an npc's path
-     * which will be stored in *current_room_list
-     * Thus, we will be able to obtain the current and next room structs
-     */
-
-    HASH_FIND(hh, all_rooms, npc->movement->track,
-                sizeof(char *), current_room, );
-                
-    HASH_FIND(hh, all_rooms, get_next_npc_room_id(npc->movement),
-                sizeof(char *), next_room);
-
-    current_npcs_in_room = current_room->npcs;
-    next_npcs_in_room = next_room->npcs;
-
-    // this call does all of the moving
-    return npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
-}
-
 /* Moves an npc one step down its definite/indefinite path, 
  * deletes it from it's old room, and adds it to its new one
  *
@@ -347,6 +314,39 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
     delete_npc_from_room(old_npc_room,npc);
 
     return SUCCESS;
+}
+
+/* See room.h */
+int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
+{
+
+    if(npc->movement == NULL)
+    {
+        return FAILURE;
+    }
+
+    room_t *current_room;
+    room_t *next_room;
+    npcs_in_room_t *current_npcs_in_room;
+    npcs_in_room_t *next_npcs_in_room;
+
+    /* 
+     * This adaptation will obtain the list of rooms in an npc's path
+     * which will be stored in *current_room_list
+     * Thus, we will be able to obtain the current and next room structs
+     */
+
+    HASH_FIND(hh, all_rooms, npc->movement->track,
+                sizeof(char *), current_room);
+
+    HASH_FIND(hh, all_rooms, get_next_npc_room_id(npc->movement),
+                sizeof(char *), next_room);
+
+    current_npcs_in_room = current_room->npcs;
+    next_npcs_in_room = next_room->npcs;
+
+    // this call does all of the moving
+    return npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
 }
 
 /* See room.h  */
