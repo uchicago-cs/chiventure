@@ -291,4 +291,26 @@ int delete_all_rooms(room_hash_t **rooms);
  */
 int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
 
+/* Moves an npc one step down its path
+ *
+ * Parameters:
+ *  - npc_t: Pointer to NPC
+ *
+ *  Returns:
+ *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
+ */
+int npc_one_move(npc_t *npc);
+
+/*
+ * Deletes all items from npc inventory and adds them to the room struct.
+ *
+ * Parameters:
+ *  npc: the npc whose items are being transferred
+ *  room: the room that the items are being tranferred to
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurs
+ */
+int transfer_all_npc_items(npc_t *npc, room_t *room);
+
 #endif

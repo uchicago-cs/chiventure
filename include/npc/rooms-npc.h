@@ -97,14 +97,4 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  */
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
 
-/* Moves an npc one step down its path
- *
- * Parameters:
- *  - npc_t: Pointer to NPC
- *
- *  Returns:
- *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
- */
-int npc_one_move(npc_t *npc);
-
 #endif

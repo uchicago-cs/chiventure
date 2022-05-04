@@ -299,16 +299,4 @@ int change_npc_health(npc_t *npc, int change, int max);
  */
 int delete_all_npcs(npc_hash_t *npcs);
 
-/*
- * Deletes all items from npc inventory and adds them to the room struct.
- *
- * Parameters:
- *  npc: the npc whose items are being transferred
- *  room: the room that the items are being tranferred to
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if an error occurs
- */
-int transfer_all_npc_items(npc_t *npc, room_t *room);
-
 #endif
