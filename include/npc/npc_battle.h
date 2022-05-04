@@ -4,7 +4,6 @@
 #include "battle/battle_common.h"
 #include "battle/battle_structs.h"
 #include "battle/battle_moves.h"
-#include "npc/npc.h"
 
 // NPC_BATTLE STRUCTURE DEFINITION --------------------------------------------
 
