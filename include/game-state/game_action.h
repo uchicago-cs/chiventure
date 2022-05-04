@@ -31,6 +31,20 @@ typedef struct game_action {
     char* fail_str;
 } game_action_t;
 
+
+/* action_init() initializes an action struct with given values
+   arguments are taken from action management
+ Parameters:
+    a memory allocated new action pointer
+    an action name
+    an action type struct
+ Returns:
+    FAILURE for failure, SUCCESS for success
+*/
+int game_action_init(game_action_t *new_action, char *act_name, 
+             char* success_str, char* fail_str);
+
+
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
 // and conducting actions

@@ -3,7 +3,7 @@
 
 #define BUFFER_SIZE 100
 
-/* See common_game_action.h */
+/* See game_action.h */
 int game_action_init(game_action_t *new_action, char *act_name,
                      char *success_str, char *fail_str)
 {
@@ -22,7 +22,7 @@ int game_action_init(game_action_t *new_action, char *act_name,
     return SUCCESS;
 }
 
-/* see common_game_action.h */
+/* see game_action.h */
 game_action_t *game_action_new(char *action_name, char *success_str, char *fail_str)
 {
     game_action_t *new_action = malloc(sizeof(game_action_t));

@@ -6,7 +6,7 @@
 
 #include "libobj/obj.h"
 #include "common/utlist.h"
-#include "playerclass/class_structs.h"
+#include "class_structs.h"
 #include "game-state/stats.h"
 
 /* 
@@ -23,7 +23,7 @@
  *  - a pointer to the allocated class memory
  *  - NULL on error
  */
-class_t* class_new(char* name, char* shortdesc, char* longdesc,
+class_t *class_new(char* name, char* shortdesc, char* longdesc,
                    obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
 
 /* 
