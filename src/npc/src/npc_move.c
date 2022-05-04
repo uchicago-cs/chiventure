@@ -173,9 +173,9 @@ int reverse_path(npc_mov_t *npc_mov)
     room_list_t *head = NULL, *reversed_path_head = NULL;
     room_list_t *room_elt, *room_tmp;
 
-    if (npc_mov->npc_mov_type == NPC_MOV_DEFINITE) {
+    if (npc_mov->mov_type == NPC_MOV_DEFINITE) {
         head = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
-    } else if (npc_mov->npc_mov_type == NPC_MOV_INDEFINITE) {
+    } else if (npc_mov->mov_type == NPC_MOV_INDEFINITE) {
         head = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
     } else return FAILURE;
         
