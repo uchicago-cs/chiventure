@@ -252,3 +252,30 @@ int delete_all_npcs(npc_hash_t *npcs)
     }
     return SUCCESS;
 }
+
+/* See npc.h  */
+int transfer_all_npc_items(npc_t *npc, room_t *room)
+{
+    if (get_npc_health(npc) > 0)
+    {
+        return FAILURE;
+    }
+
+    if (npc->inventory == NULL)
+    {
+        return SUCCESS;
+    }
+
+    item_t *current_item, *tmp;
+    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    {
+        add_item_to_room(room, current_item);
+    }
+    
+    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    {
+        remove_item_from_npc(npc, current_item);
+    }
+
+    return SUCCESS;
+}

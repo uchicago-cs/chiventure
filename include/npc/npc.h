@@ -10,16 +10,7 @@
 #include "npc/npc_move.h"
 #include "cli/util.h"
 
-/* Forward declaration. Full typedef can be found in npc.h */
-typedef struct npc_battle npc_battle_t;
-typedef enum hostility hostility_t;
-
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
-
-/* Forward declaration */
-typedef struct npc_mov npc_mov_t;
-typedef struct convo convo_t;
-
 
 /* A non-playable character in game */
 typedef struct npc {
@@ -307,5 +298,17 @@ int change_npc_health(npc_t *npc, int change, int max);
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int delete_all_npcs(npc_hash_t *npcs);
+
+/*
+ * Deletes all items from npc inventory and adds them to the room struct.
+ *
+ * Parameters:
+ *  npc: the npc whose items are being transferred
+ *  room: the room that the items are being tranferred to
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurs
+ */
+int transfer_all_npc_items(npc_t *npc, room_t *room);
 
 #endif

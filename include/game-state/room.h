@@ -35,10 +35,7 @@ typedef struct path {
 * UTHASH macros as specified in src/common/include */
 typedef struct path path_hash_t;
 
-// ROOM STRUCT DEFINITION -----------------------------------------------------
-/* Forward declarations */
-typedef struct npcs_in_room npcs_in_room_t;
-typedef struct npc npc_t;
+// ROOM STRUCT DEFINITION ----------------------------------------------------
 
 /* This struct represents a single room.
  * It contains:
@@ -278,5 +275,20 @@ int remove_condition(path_t *path, list_action_type_t *a);
  *  SUCCESS if successful, FAILURE if failed
  */
 int delete_all_rooms(room_hash_t **rooms);
+
+/*
+ * Generates a random movement struct for an NPC based on the current rooms in
+ * the map and a given npc_mov_t struct.
+ *
+ * Parameters:
+ *  - npc_mov: npc_mov_t struct with a known npc_mov_type
+ *  - game: current game, this is necessary for determining the current rooms in the map
+ *
+ * Returns:
+ *  - returns SUCCESS on success, returns FAILURE on failure
+ *  - Updates npc_mov to have a new, randomly generated movement path.
+ *    Maintains the same type of movement (indefinite / definite)
+ */
+int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
 
 #endif

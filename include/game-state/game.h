@@ -20,19 +20,6 @@ HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
 #define ITER_ALL_PLAYERS(game, curr_player) player_t *ITTMP_PLAYER; \
 HASH_ITER(hh, (game)->all_players, (curr_player), ITTMP_PLAYER)
 
-// Forward declaration
-typedef struct game_mode game_mode_t;
-typedef struct stats_global stats_global_t;
-typedef struct stats_global stats_global_hash_t;
-typedef struct effects_global effects_global_t;
-typedef struct effects_global effects_global_hash_t;
-typedef struct room room_hash_t;
-typedef struct room_wrapped_for_llist room_list_t;
-typedef struct npc npc_t;
-typedef struct npc npc_hash_t;
-typedef struct quest quest_t;
-typedef struct quest quest_hash_t;
-
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
  */

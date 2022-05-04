@@ -230,3 +230,54 @@ npc_t *get_npc_in_room(room_t *room, char *npc_id)
               strnlen(npc_id, MAX_ID_LEN), npc);
     return npc;
 }
+
+/*
+ * helper function for auto_gen_movement to find number of rooms in game
+ *
+ * Parameters:
+ *  - all_rooms: all rooms in current game
+ *
+ * Returns
+ *  - # of rooms in game
+ */
+int get_num_rooms(room_hash_t *all_rooms)
+{
+    return HASH_COUNT(all_rooms);
+}
+
+/* See room.h */
+int auto_gen_movement(npc_mov_t *npc_mov, room_hash_t *all_rooms)
+{
+    room_list_t *head = all_rooms;
+    int rc = 0;
+    int num_rooms, num_rooms_to_add;
+
+	if(npc_mov == NULL || head == NULL) {
+		return FAILURE;
+	}
+
+    num_rooms = get_num_rooms(head);
+    num_rooms_to_add = (rand() % num_rooms) + 1;
+
+    for (int i = 0; i < num_rooms_to_add; i++) {
+        room_t *room_to_add = malloc(sizeof(room_t));
+
+        room_to_add = head->room;
+        head->room = head->next->room;
+        if(npc_mov->mov_type == NPC_MOV_DEFINITE) {
+        	rc = extend_path_definite(npc_mov, room_to_add);
+        }
+        else if(npc_mov->mov_type == NPC_MOV_INDEFINITE) {
+            int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
+            int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
+            int time_in_room = (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
+            rc = extend_path_indefinite(npc_mov, room_to_add, time_in_room);
+	      }
+
+        if(rc == FAILURE) {
+          return rc;
+        }
+    }
+
+    return rc;
+}
