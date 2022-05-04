@@ -303,3 +303,15 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
         return 0;
     }
 }
+
+/* See npc_move.h */
+int move_npc_mov(npc_mov_t *npc_mov)
+{
+    npc_mov_enum_t mov_type = npc_mov->mov_type;
+
+    if (mov_type == NPC_MOV_DEFINITE)
+        return move_npc_definite(npc_mov);
+    else if (mov_type == NPC_MOV_INDEFINITE)
+        return move_npc_definite(npc_mov);
+    else return 0;
+}

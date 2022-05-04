@@ -145,10 +145,10 @@ Test(npcs_in_room, npc_one_move_definite)
 	npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
-    npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+    npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id);
 	
 	
-	int rc_extend = extend_path_definite(test_npc1_mov, test_room2);
+	int rc_extend = extend_path_definite(test_npc1_mov, test_room2->room_id);
 
 	cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
 
@@ -161,13 +161,13 @@ Test(npcs_in_room, npc_one_move_definite)
 					"should be in room: %s",
 					test_npc1->movement->track, "test_room");
 
-	int rc_move = npc_one_move(test_npc1);
+	int rc_move = move_npc_mov(test_npc1);
 
-	cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
+	cr_assert_eq(rc_move, SUCCESS, "move_npc_mov() returned FAILURE");
 
 
 	cr_assert_str_eq(test_npc1->movement->track, "test_room2",
-					"npc did not move from npc_one_move()");
+					"npc did not move from move_npc_mov()");
 }
 
 Test(npcs_in_room, npc_one_move_indefinite)
@@ -180,10 +180,10 @@ Test(npcs_in_room, npc_one_move_indefinite)
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
-    npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
+    npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id);
 
 
-    int rc_extend = extend_path_indefinite(test_npc1_mov, test_room2, 1000);
+    int rc_extend = extend_path_indefinite(test_npc1_mov, test_room2->room_id, 1000);
 
     cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
 
@@ -196,10 +196,10 @@ Test(npcs_in_room, npc_one_move_indefinite)
                     "should be in room: %s",
                     test_npc1->movement->track, "test_room");
 
-    int rc_move = npc_one_move(test_npc1);
+    int rc_move = move_npc_mov(test_npc1);
 
-    cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
+    cr_assert_eq(rc_move, SUCCESS, "move_npc_mov() returned FAILURE");
 
     cr_assert_str_eq(test_npc1->movement->track, "test_room2",
-                                        "npc did not move from npc_one_move()");
+                                        "npc did not move from move_npc_mov()");
 }

@@ -260,7 +260,7 @@ int get_npc_num_rooms(npc_mov_t *npc_mov);
 /* Compares the room_id of the current rooms between two
  *   room_list_t structs
  *
- * Paramters:
+ * Parameters:
  * room1, room2: Two room_list structs
  * 
  * Returns:
@@ -273,7 +273,7 @@ int room_id_cmp(room_id_dll_t *room1, room_id_dll_t *room2);
 /*
  * Moves the npc to the next room for npcs with definite movement
  *
- * Paramters:
+ * Parameters:
  * npc_mov: The NPC movement struct
  *
  * Returns:
@@ -288,7 +288,7 @@ int move_npc_definite(npc_mov_t *npc_mov);
 /*
  * Moves the npc to the next room for npcs with indefinite movement
  *
- * Paramters:
+ * Parameters:
  * npc_mov: The NPC movement struct
  *
  * Returns:
@@ -299,5 +299,20 @@ int move_npc_definite(npc_mov_t *npc_mov);
  * 3 npc has nowhere to move
  */
 int move_npc_indefinite(npc_mov_t *npc_mov);
+
+/*
+ * Moves an npc to the next room
+ *
+ * Parameters:
+ * npc_mov: The NPC movement struct
+ *
+ * Returns:
+ * 0 if move is unsuccessful
+ * 1 npc has reached the end of the path, reverse_path is called, but
+ *   the move is not implemented
+ * 2 successful move to the next room
+ * 3 npc has nowhere to move
+ */
+int move_npc_mov(npc_mov_t *npc_mov);
 
 #endif
