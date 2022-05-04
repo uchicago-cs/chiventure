@@ -15,7 +15,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "game-state/item.h"
-#include "class.h"
+#include "playerclass/class.h"
+#include "playerclass/class_structs.h"
 
 
 /* Given an item and a class, adds an attribute of the class to the item representing a multiplier.
