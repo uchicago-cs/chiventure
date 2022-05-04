@@ -4,6 +4,7 @@
 #include "skilltrees/effect.h"
 #include "common/ctx.h"
 #include "common/uthash.h"
+#include "game-state/game.h"
 #include "game-state/stats.h"
 #include "game-state/item.h"
 
