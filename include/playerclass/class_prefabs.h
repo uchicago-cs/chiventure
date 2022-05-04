@@ -5,7 +5,7 @@
 #ifndef CLASS_PREFABS_H
 #define CLASS_PREFABS_H
 
-#include "playerclass/class_structs.h"
+#include "class_structs.h"
 #include "game-state/game.h"
 
 /*
