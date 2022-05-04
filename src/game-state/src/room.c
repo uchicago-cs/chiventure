@@ -244,7 +244,7 @@ int get_num_rooms(room_list_t *all_rooms)
 {
     int count;
     room_list_t *elt;
-    LL_COUNT(all_rooms, elt, count)
+    LL_COUNT(all_rooms, elt, count);
     return count;
 }
 
