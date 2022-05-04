@@ -48,6 +48,19 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
     return new_action;
 }
 
+/* see game_action.h */
+int game_action_free(game_action_t* game_action)
+{
+    free(game_action->action_name);
+    delete_condition_llist(game_action->conditions);
+    delete_action_effect_llist(game_action->effects);
+    free(game_action->success_str);
+    free(game_action->fail_str);
+    free(game_action);
+    return SUCCESS;
+}
+
+
 // ---------------------------------------------------------------------------
 
 /* see game_action.h */
