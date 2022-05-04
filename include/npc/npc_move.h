@@ -14,7 +14,8 @@
  */
 typedef struct room_id_dll {
     char *room_id;
-    struct room_id_dll *next, *prev;
+    struct room_id_dll *prev;
+    struct room_id_dll *next;
 } room_id_dll_t;
 
 /* 
