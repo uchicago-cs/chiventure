@@ -326,7 +326,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
     int cnt = 0;
     int rc, num_rooms_in_npc;
     room_t *curr_room;
-    char *curr_room_id
+    char *curr_room_id;
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id);
