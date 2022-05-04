@@ -2,6 +2,8 @@
 #define _NPC_MOVE_H
 
 #include "game-state/game_state_common.h"
+#include "common/utlist.h"
+#include "common/uthash.h"
 
 /* Doubly-Linked List of Room IDs Struct
  *
