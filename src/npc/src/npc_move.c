@@ -170,20 +170,22 @@ uint8_t track_npc_path_reversed(npc_mov_t *npc_mov)
 /* See npc_move.h */
 int reverse_path(npc_mov_t *npc_mov)
 {
-    assert(npc_mov->mov_type == NPC_MOV_DEFINITE);
-
-    room_list_t *reversed_path_head = NULL;
-
+    room_list_t *head = NULL, *reversed_path_head = NULL;
     room_list_t *room_elt, *room_tmp;
-    LL_FOREACH_SAFE(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
-                room_elt,room_tmp)
+
+    if (npc_mov->npc_mov_type == NPC_MOV_DEFINITE) {
+        head = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
+    } if else (npc_mov->npc_mov_type == NPC_MOV_INDEFINITE) {
+        head = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
+    } else return FAILURE;
+        
+    LL_FOREACH_SAFE(head, room_elt, room_tmp)
     {
         room_list_t *append_room = malloc(sizeof(room_list_t));
         append_room->next = NULL;
         append_room->room = room_elt->room;
         LL_PREPEND(reversed_path_head, append_room);
-        LL_DELETE(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
-                  room_elt);
+        LL_DELETE(head, room_elt);
         free(room_elt);
     }
 
@@ -193,11 +195,19 @@ int reverse_path(npc_mov_t *npc_mov)
         room_list_t *reappend_room = malloc(sizeof(room_list_t));
         reappend_room->next = NULL;
         reappend_room->room = tmp2->room;
-        LL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
-                reappend_room);
+        LL_APPEND(head, reappend_room);
     }
 
+    if (npc_mov->npc_mov_type == NPC_MOV_DEFINITE) {
+        free(npc_mov->npc_mov_type.npc_mov_definite->npc_path);
+        npc_mov->npc_mov_type.npc_mov_definite->npc_path = head;
+    } if else (npc_mov->npc_mov_type == NPC_MOV_INDEFINITE) {
+        free(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path);
+        npc_mov->npc_mov_type.npc_mov_indefinite->npc_path = head;
+    } else return FAILURE;
+
     npc_mov->npc_path_reversed = !(npc_mov->npc_path_reversed);
+
     return SUCCESS;
 }
 
@@ -296,7 +306,8 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
 
     if(current_room->next == NULL)
     {
-        return 1;
+        assert(reverse_path(npc_mov) == SUCCESS)
+        return 1);
     }
     if((strcmp(current_room->room->room_id,npc_mov->track)) == 0)
     {
