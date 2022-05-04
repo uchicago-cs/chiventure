@@ -312,7 +312,7 @@ int move_npc_mov(npc_mov_t *npc_mov)
     if (mov_type == NPC_MOV_DEFINITE)
         return move_npc_definite(npc_mov);
     else if (mov_type == NPC_MOV_INDEFINITE)
-        return move_npc_definite(npc_mov);
+        return move_npc_indefinite(npc_mov);
     else return 0;
 }
 
