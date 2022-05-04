@@ -129,7 +129,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time)
     assert(room_id_to_add != NULL);
 
     room_id_dll_t *room_id_to_add2 = malloc(sizeof(room_id_dll_t));
-    room_id_to_add2->room = room_id_to_add;
+    room_id_to_add2->room_id = room_id_to_add;
 
     DL_APPEND(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path,
         room_id_to_add2);
