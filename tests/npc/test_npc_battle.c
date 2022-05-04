@@ -1,6 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include "game-state/game.h"
 #include "npc/npc_battle.h"
 #include "battle/battle_common.h"
 #include "battle/battle_moves.h"
