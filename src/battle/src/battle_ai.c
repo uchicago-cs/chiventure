@@ -76,20 +76,40 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
 /* See battle_ai.h */
 double damage(combatant_t* target, move_t* move, combatant_t* source)
 {
-    double dmg, power, src_strength, tar_defense, src_level;
+    double dmg, power, src_strength, tar_defense, src_level, crit_boost;
     stat_t* src_stats = source->stats;
     stat_t* tar_stats = target->stats;
     
-
-    tar_defense = (double) tar_stats->defense;
-    power = (double) move->damage;
-    src_strength = (double) src_stats->strength;
-    src_level = (double) src_stats->level;
-
+    if(1){
+        tar_defense = (double) tar_stats->phys_def;
+        power = (double) move->damage;
+        src_strength = (double) src_stats->phys_atk;
+        src_level = (double) src_stats->level;
+    }else{
+        tar_defense = (double) tar_stats->mag_def;
+        power = (double) move->damage;
+        src_strength = (double) src_stats->mag_atk;
+        src_level = (double) src_stats->level;
+    }
     
+    
+
+    crit_boost = calculate_crit(src_stats->crit);
+
     dmg = ((2.0 * src_level) / 5.0);
     dmg *= ((power * (src_strength / tar_defense)) / 50.0) + 2.0;
-
+    dmg *= crit_boost;
     dmg = floor(dmg);
+
     return dmg;
+}
+
+double calculate_crit(double crit_chance)
+{
+    int chance = randnum(0, 100);
+    if(chance <= crit_chance){
+        return 1.5;
+    }else{
+        return 1;
+    }
 }
