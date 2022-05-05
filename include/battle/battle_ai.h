@@ -9,7 +9,7 @@
 #include "battle/battle_structs.h"
 #include "battle/battle_moves.h"
 #include "common/utlist.h"
-
+#include "battle_default_objects"
 /* Given a difficulty level, the player the move is going to be used 
  *      against, and the enemy, give_move returns a move
  * Inputs:
