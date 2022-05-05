@@ -33,7 +33,7 @@ battle_item_t *get_random_default_weapon()
     rv_weapon->is_weapon = true;
     rv_weapon->effectiveness_decrement = 10;
     rv_weapon->quantity = 1;
-    rv_weapon->durability = durability_array[rand - 1]; 
+    rv_weapon->durability = 1; 
 
     // sets name
     int name_len = strlen(name_array[rand]);
@@ -159,9 +159,9 @@ stat_t* get_random_stat()
     rv_stat->mag_atk = 110 - rv_stat->phys_atk;
     rv_stat->phys_def = randnum(20, 100);
     rv_stat->mag_def = 110 - rv_stat->phys_def;
-    rv_stat->speed = randum(40, 90);
-    rv_stat->crit = (5, 15);
-    rv_stat->accuracy = (80, 100);
+    rv_stat->speed = randnum(40, 90);
+    rv_stat->crit = randnum(5, 15);
+    rv_stat->accuracy = randnum(80, 100);
     rv_stat->xp = randnum(100, 500);
     rv_stat->level = randnum(1, 10);
 
