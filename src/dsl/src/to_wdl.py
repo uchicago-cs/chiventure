@@ -272,3 +272,11 @@ class Game:
             self.wdl_contents['intro'] = f"Welcome! You're in a {default}"
             warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 
+class Player:
+    def __init__(self, parent_class: str, name: str, contents: dict, default: str):
+        self.parent_class = parent_class
+        self.name = name
+        self.contents = contents
+        self.default = default
+
+        self.wdl_contents = {}
