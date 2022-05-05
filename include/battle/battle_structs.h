@@ -40,8 +40,6 @@ typedef struct move {
 
 /* stats stub */
 typedef struct stat {
-    int hp;
-    int max_hp;
     int max_sp;
     int sp;
     int speed;
