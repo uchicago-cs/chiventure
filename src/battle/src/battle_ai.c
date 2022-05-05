@@ -78,7 +78,7 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
  * - crit_chance : the crit chance of the user using the move
  * returns: the critical damage multiplier
  */
-double calculate_crit(double crit_chance)
+double calculate_crit(int crit_chance)
 {
     int chance = randnum(0, 100);
     if(chance <= crit_chance){
