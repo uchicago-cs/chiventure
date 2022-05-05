@@ -113,12 +113,20 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     /* additionally, a check must be performed here to see if player has
        this move, currently not implemented, waiting for player class
        to resolve move_lists() */
-    int dmg = damage(b->enemy, move, b->player);
+    int dmg;
+    char *string;
+    /* Calculates to see if the move will miss */
     if(!calculate_accuracy(b->player->stats->accuracy)){
         dmg = 0;
+        enemy->stats->hp -= dmg;
+        string = print_battle_miss(b, b->turn, move)
+    }else{
+        dmg = damage(b->enemy, move, b->player);
+        enemy->stats->hp -= dmg;
+        string = print_battle_move(b, b->turn, move);
     }
     enemy->stats->hp -= dmg;
-    char *string = print_battle_move(b, b->turn, move);
+    
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
