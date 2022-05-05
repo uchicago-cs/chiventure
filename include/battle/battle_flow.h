@@ -77,7 +77,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
  * - accuracy : the accuracy of the user using the move
  * returns: the 1 or 0 depending on if the move hits
  */
-int calculate_accuracy(int accuracy)
+int calculate_accuracy(int accuracy);
 
 /*
  * Carries out one iteration of the battle flow loop when a move is used
