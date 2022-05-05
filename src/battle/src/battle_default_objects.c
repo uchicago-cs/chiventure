@@ -22,35 +22,45 @@ battle_item_t *get_random_default_weapon()
     battle_item_t *rv_weapon = calloc(1, sizeof(battle_item_t));
     assert(rv_weapon != NULL);
 
-    int rand = randnum(1, 6); 
-    char* name_array[]= {"Sword", "Hammer", "Slime", "Sleeping gas", "Squid ink", "Laughing gas"};
-    char* description_array[] = {"Reduces enemy's HP by 20", "Reduces enemy's HP by 10", 
-                                 "Reduces enemy's ATTACK by 5", "Reduces enemy's ATTACK by 10",
-                                 "Reduces enemy's DEFENSE by 10", "Reduces enemy's DEFENSE by 15"};
-    int hp_array[] = {-20, -10, 0, 0, 0, 0};
-    int attack_array[] = {0, 0, -5, -10, 0, 0};
-    int defense_array[] = {0, 0, 0, 0, -10, -15};
-    int durability_array[] = {100, 80, 60, 40, 30, 20};
+    int rand = (randnum(1, 4)) - 1; 
+    char* name_array[]= {"Sword of the Leviathan", "Hammer of Thor", 
+                         "Slime Ball", "Wand of the Restless"};
+    char* description_array[] = {"Adds 25 to HP", "Adds 15 to Physical Attack",
+                                 "Adds 15 to Speed", "Adds 15 to Magical Attack"};
+    int mod_array[] = {25, 15, 15, 15};
 
     rv_weapon->id = rand;
     rv_weapon->is_weapon = true;
     rv_weapon->effectiveness_decrement = 10;
-    rv_weapon->quantity = randnum(1, 3);
+    rv_weapon->quantity = 1;
     rv_weapon->durability = durability_array[rand - 1]; 
 
     // sets name
-    int name_len = strlen(name_array[rand - 1]);
+    int name_len = strlen(name_array[rand]);
     rv_weapon->name = (char*)calloc(name_len + 1, sizeof(char));
-    strncpy(rv_weapon->name, name_array[rand - 1], name_len + 1);
+    strncpy(rv_weapon->name, name_array[rand], name_len + 1);
     // sets description
-    int description_len = strlen(description_array[rand - 1]);
+    int description_len = strlen(description_array[rand]);
     rv_weapon->description = (char*)calloc(description_len + 1, sizeof(char));
-    strncpy(rv_weapon->description, description_array[rand - 1], description_len + 1);
+    strncpy(rv_weapon->description, description_array[rand], description_len + 1);
     
     rv_weapon->battle = true;
-    rv_weapon->attack = attack_array[rand - 1];
-    rv_weapon->defense = defense_array[rand - 1];
-    rv_weapon->hp = hp_array[rand - 1];
+/*    if (rand == 0) {
+        rv_item->hp = mod_array[rand];
+    } else if (rand == 1) {
+        rv_item->phys_atk = mod_array[rand];
+    } else if (rand == 2) {
+        rv_item->speed = mod_array[rand];
+    } else if (rand == 3) {
+        rv_item->mag_atk = mod_array[rand];
+    }
+*/
+/* To Delete */
+    rv_weapon->attack = mod_array[rand];
+    rv_weapon->defense = mod_array[rand];
+    rv_weapon->hp = mod_array[rand];
+/* End Delete */
+
     rv_weapon->next = NULL;
     rv_weapon->prev = NULL;
 
@@ -63,13 +73,15 @@ battle_item_t *get_random_default_consumable()
     battle_item_t *rv_item = calloc(1, sizeof(battle_item_t));
     assert(rv_item != NULL);
 
-    int rand = randnum(1, 4); 
-    char* name_array[]= {"elixir of life ", "healing potion ", "defense up ", "strength up "};
+    int rand = (randnum(1, 5)) - 1; 
+    char* name_array[]= {"elixir of life ", "healing potion ", 
+                         "physical attack-up ", " physical defense-up ", 
+                         "speed-up "};
     char* description_array[] = {"Adds 50 to your HP!", "Adds 20 to your HP!", 
-                                 "Adds 5 to your defense!", "Adds 5 to your strength!"};
-    int hp_array[] = {50, 20, 0, 0};
-    int attack_array[] = {0, 0, 0, 5};
-    int defense_array[] = {0, 0, 5, 0};
+                                 "Adds 10 to your physical defense!", 
+                                 "Adds 10 to your physical attack!", 
+                                 "Adds 10 to your speed!"};
+    int mod_array[] = {50, 20, 10, 10, 10}; 
 
     rv_item->id = rand;
     rv_item->is_weapon = false;
@@ -77,18 +89,33 @@ battle_item_t *get_random_default_consumable()
     rv_item->durability = 0; 
 
     // sets name
-    int name_len = strlen(name_array[rand - 1]);
+    int name_len = strlen(name_array[rand]);
     rv_item->name = (char*)calloc(name_len + 1, sizeof(char));
-    strncpy(rv_item->name, name_array[rand - 1], name_len + 1);
+    strncpy(rv_item->name, name_array[rand], name_len + 1);
     // sets description
-    int description_len = strlen(description_array[rand - 1]);
+    int description_len = strlen(description_array[rand]);
     rv_item->description = (char*)calloc(description_len + 1, sizeof(char));
-    strncpy(rv_item->description, description_array[rand - 1], description_len + 1);
+    strncpy(rv_item->description, description_array[rand], description_len + 1);
     
     rv_item->battle = true;
-    rv_item->attack = attack_array[rand - 1];
-    rv_item->defense = defense_array[rand - 1];
-    rv_item->hp = hp_array[rand - 1];
+
+/*    if (rand < 2) {
+        rv_item->hp = mod_array[rand];
+    } else if (rand == 2) {
+        rv_item->phys_atk = mod_array[rand];
+    } else if (rand == 3) {
+        rv_item->phys_def = mod_array[rand];
+    } else if (rand == 4) {
+        rv_item->speed = mod_array[rand];
+    }
+*/
+
+/* To Delete */
+    rv_item->attack = mod_array[rand];
+    rv_item->defense = mod_array[rand];
+    rv_item->hp = mod_array[rand];
+/* End Delete */
+
     rv_item->next = NULL;
     rv_item->prev = NULL;
 
@@ -96,6 +123,7 @@ battle_item_t *get_random_default_consumable()
 }
 
 /* See battle_default_objects.h */
+/* !!We will update this when we made move implementation changes */
 move_t *get_random_default_move()
 {
     int rand = randnum(1,10);
@@ -123,13 +151,18 @@ stat_t* get_random_stat()
     stat_t *rv_stat = calloc(1, sizeof(stat_t));
     assert(rv_stat != NULL);
 
-    rv_stat->speed = randnum(5, 10);
-    rv_stat->defense = randnum(5, 15);
-    rv_stat->strength = randnum(10, 20);
-    rv_stat->dexterity = randnum(10, 20);
-    rv_stat->hp = randnum(30, 70);
-    rv_stat->max_hp = 70;
-    rv_stat->xp  = randnum(50, 100);
+    rv_stat->max_hp = randnum(50, 100);
+    rv_stat->hp = rv_stat->max_hp;
+    rv_stat->max_sp = randnum(50, 75);
+    rv_stat->sp = rv_stat->max_sp;
+    rv_stat->phys_atk = randum(20, 100);
+    rv_stat->mag_atk = 110 - rv_stat->phys_atk;
+    rv_stat->phys_def = randnum(20, 100);
+    rv_stat->mag_def = 110 - rv_stat->phys_def;
+    rv_stat->speed = randum(40, 90);
+    rv_stat->crit = (5, 15);
+    rv_stat->accuracy = (80, 100);
+    rv_stat->xp = randnum(100, 500);
     rv_stat->level = randnum(1, 10);
 
     return rv_stat;
