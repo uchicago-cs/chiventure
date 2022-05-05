@@ -94,6 +94,20 @@ bool check_npc_battle(npc_t *npc)
     }
 }
 
+/* See npc.h */
+bool item_in_npc_inventory(npc_t *npc, char *item_id)
+{
+    item_t *check;
+    char *insensitized_id = case_insensitized_string(item_id);
+    HASH_FIND(hh, npc->inventory, insensitized_id,
+              strnlen(item_id, MAX_ID_LEN), check);
+    free(insensitized_id);
+    if (check != NULL){
+        return true;
+    }
+    return false;
+}
+
 // "GET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
 char *get_sdesc_npc(npc_t *npc)
@@ -137,21 +151,6 @@ item_list_t *get_npc_inv_list(npc_t *npc)
 }
 
 /* See npc.h */
-bool item_in_npc_inventory(npc_t *npc, char *item_id)
-{
-    item_t *check;
-    char *insensitized_id = case_insensitized_string(item_id);
-    HASH_FIND(hh, npc->inventory, insensitized_id,
-              strnlen(item_id, MAX_ID_LEN), check);
-    free(insensitized_id);
-    if (check != NULL){
-        return true;
-    }
-    return false;
-}
-
-// "SET" FUNCTIONS ------------------------------------------------------------
-/* See npc.h */
 npc_battle_t *get_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);
@@ -174,6 +173,13 @@ int get_npc_health(npc_t *npc)
     }
 }
 
+/* See npc.h */
+npc_mov_t *get_npc_mov(npc_t *npc)
+{
+    assert(npc != NULL);
+
+    return npc->movement;
+}
 // "SET" FUNCTIONS ------------------------------------------------------------
 
 /* See npc.h */
