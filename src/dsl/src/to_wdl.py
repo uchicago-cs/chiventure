@@ -94,7 +94,7 @@ class Room:
                 self.wdl_contents[k] = v
 
         if self.default == "no-defaults":
-            warn(f'''warning: no default values generated for {id}, wdl file may not run''')
+            warn(f'''warning: no default values generated for {self.id}, wdl file may not run''')
         self.generate_defaults()
         return {self.id: self.wdl_contents}
         
