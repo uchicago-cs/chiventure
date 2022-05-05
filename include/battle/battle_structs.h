@@ -58,9 +58,14 @@ typedef struct stat {
 /* stat changes stub */
 typedef struct stat_changes {
     int speed;
-    int defense;
-    int strength;
-    int dexterity;
+    int max_sp;
+    int sp;
+    int phys_atk;
+    int mag_atk;
+    int phys_def;
+    int mag_def;
+    int crit;
+    int accuracy;
     int hp;
     int max_hp;
     int turns_left;
