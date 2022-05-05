@@ -119,7 +119,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     if(!calculate_accuracy(b->player->stats->accuracy)){
         dmg = 0;
         enemy->stats->hp -= dmg;
-        string = print_battle_miss(b, b->turn, move)
+        string = print_battle_miss(b, b->turn, move);
     }else{
         dmg = damage(b->enemy, move, b->player);
         enemy->stats->hp -= dmg;
@@ -230,12 +230,16 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
     if(enemy_move != NULL)
     {
-        dmg = damage(b->player, enemy_move, b->enemy);
+        /* Calculates to see if the move will miss */
         if(!calculate_accuracy(b->enemy->stats->accuracy)){
             dmg = 0;
+            b->player->stats->hp -= dmg;
+            string = print_battle_miss(b, b->turn, enemy_move);
+        }else{
+            dmg = damage(b->player, enemy_move, b->enemy);
+            b->player->stats->hp -= dmg;
+            string = print_battle_move(b, b->turn, enemy_move);
         }
-        b->player->stats->hp -= dmg;
-        string = print_battle_move(b, b->turn, enemy_move);
     }
     
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)
