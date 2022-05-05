@@ -87,7 +87,7 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
     if((c->stats->hp + item->hp) > c->stats->max_hp){
-        c->stats->hp = c-stats->max_hp;
+        c->stats->hp = c->stats->max_hp;
     }else{
         c->stats->hp += item->hp;
     }
