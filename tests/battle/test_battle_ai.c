@@ -215,7 +215,7 @@ combatant_t* new_enemy()
     char* name = "Skeleton";
     bool is_friendly = false;
     class_t *c_type = create_test_class();
-    stat_t *stats = create_enemy_stats();
+    stat_t *stats = create_enemy_stats_norm();
     move_t *moves = create_enemy_moves();
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
@@ -371,7 +371,7 @@ Test(battle_ai, damage_crit)
 }
 
 /* Ensures accuracy damage is calculated correctly*/
-Test(battle_ai, damage_norm)
+Test(battle_ai, damage_accuracy)
 {
     combatant_t *player, *enemy;
     move_t* move;
