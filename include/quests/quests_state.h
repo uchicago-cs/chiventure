@@ -5,8 +5,16 @@
 #include <string.h>
 #include "quests_structs.h"
 
-/* Forward declaration. Full typedef can be found in player.h */
-typedef struct player player_t;
+/* Forward declarations. Full typedef can be found in quests_structs.h */
+typedef struct passive_mission passive-mission_t;
+typedef struct active_mission active-mission_t;
+typedef struct mission mission_t;
+typedef struct reward reward_t;
+typedef struct task task_t;
+typedef struct task_tree task_tree_t;
+typedef struct stat_req stat_req_t;
+typedef struct quest quest_t;
+typedef struct quest quest_hash_t;
 
 /* Creates a new passive mission struct (allocates memory)
  * 
