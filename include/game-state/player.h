@@ -16,8 +16,10 @@
 #include "quests/quests_structs.h"
 #include "quests/quests_state.h"
 
-/* Forward declaration for skilltrees */
+/* Forward declarations */
 typedef struct skill skill_t;
+typedef struct quest quest_t;
+typedef struct quest quest_hash_t;
 
 /* A player in game */
 typedef struct player {
