@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "quests/quests_structs.h"
+#include "quests_structs.h"
 
 /* Creates a new passive mission struct (allocates memory)
  * 
