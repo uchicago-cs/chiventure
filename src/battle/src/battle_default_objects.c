@@ -214,15 +214,15 @@ stat_t* get_random_stat()
     stat_t *rv_stat = calloc(1, sizeof(stat_t));
     assert(rv_stat != NULL);
 
-    rv_stat->max_hp = randnum(50, 100);
+    rv_stat->max_hp = randnum(50, 150);
     rv_stat->hp = rv_stat->max_hp;
-    rv_stat->max_sp = randnum(50, 75);
+    rv_stat->max_sp = randnum(50, 80);
     rv_stat->sp = rv_stat->max_sp;
-    rv_stat->phys_atk = randum(20, 100);
+    rv_stat->phys_atk = randnum(20, 100);
     rv_stat->mag_atk = 110 - rv_stat->phys_atk;
     rv_stat->phys_def = randnum(20, 100);
     rv_stat->mag_def = 110 - rv_stat->phys_def;
-    rv_stat->speed = randum(40, 90);
+    rv_stat->speed = randnum(40, 90);
     rv_stat->crit = (5, 15);
     rv_stat->accuracy = (80, 100);
     rv_stat->xp = randnum(100, 500);
