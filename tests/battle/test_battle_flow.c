@@ -145,8 +145,10 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
     pstats->level = 1;
-    pstats->strength = 200;
-    pstats->defense = 30;
+    pstats->phys_atk = 200;
+    pstats->phys_def = 30;
+    pstats->accuracy = 100;
+    pstats->crit = 0;
     battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
@@ -156,8 +158,10 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
     estats->level = 5;
-    estats->strength = 150;
-    estats->defense = 20;
+    estats->phys_atk = 150;
+    estats->phys_def = 20;
+    estats->accuracy = 100;
+    estats->crit = 0;
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
@@ -184,9 +188,11 @@ Test(battle_flow_move, do_damage_battle_flow_move)
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
-    pstats->defense = 30;
     pstats->level = 1;
-    pstats->strength = 200;
+    pstats->phys_atk = 200;
+    pstats->phys_def = 30;
+    pstats->accuracy = 100;
+    pstats->crit = 0;
     battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
@@ -195,9 +201,11 @@ Test(battle_flow_move, do_damage_battle_flow_move)
 
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
-    estats->defense = 20;
     estats->level = 5;
-    estats->strength = 150;
+    estats->phys_atk = 150;
+    estats->phys_def = 20;
+    estats->accuracy = 100;
+    estats->crit = 0;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
@@ -247,8 +255,10 @@ Test(battle_flow_move, battle_over_by_player)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 40;
     pstats->level = 1;
-    pstats->strength = 200;
-    pstats->defense = 30;
+    pstats->phys_atk = 200;
+    pstats->phys_def = 30;
+    pstats->accuracy = 100;
+    pstats->crit = 0; 
     battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
@@ -258,8 +268,11 @@ Test(battle_flow_move, battle_over_by_player)
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
     estats->level = 5;
-    estats->strength = 150;
-    estats->defense = 20;
+    estats->phys_atk = 150;
+    estats->phys_def = 20;
+    estats->accuracy = 100;
+    estats->crit = 0;
+
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
@@ -312,8 +325,10 @@ Test(battle_flow_move, battle_over_by_enemy)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
     pstats->level = 5;
-    pstats->strength = 150;
-    pstats->defense = 20;
+    pstats->phys_atk = 150;
+    pstats->phys_def = 20;
+    pstats->accuracy = 100;
+    pstats->crit = 0;
     battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
@@ -321,8 +336,10 @@ Test(battle_flow_move, battle_over_by_enemy)
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 20;
     estats->level = 1;
-    estats->strength = 200;
-    estats->defense = 30;
+    estats->phys_atk = 200;
+    estats->phys_def = 30;
+    estats->accuracy = 100;
+    estats->crit = 0;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
