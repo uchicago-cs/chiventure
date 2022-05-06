@@ -54,6 +54,10 @@ typedef struct player {
 
     /* The current moves available to the player */
     move_t *moves;
+
+    /* The player's current active/completed quests */
+    quest_hash_t *all_quests;
+ 
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are 
