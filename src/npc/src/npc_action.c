@@ -1,4 +1,5 @@
 #include "npc/npc_action.h"
+#include <string.h>
 #include "npc/npc_game_action.h"
 
 #define BUFFER_SIZE (100)
@@ -17,13 +18,13 @@ npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind)
     a = malloc(sizeof(npc_action_t));
     if(a == NULL)
     {
-        error("Could not allocate memory");
+        error("npc_action_t: Could not allocate memory\n");
         return NULL;
     }
     rc = npc_action_init(a, c_name, kind);
     if(rc != SUCCESS)
     {
-        error("Could not initialize action");
+        error("npc_action_t: Could not initialize action\n");
         return NULL;
     }
     return a;
@@ -37,7 +38,7 @@ int npc_action_init(npc_action_t *a, char *c_name, enum npc_action_kind kind)
     a->kind = kind;
     if (a->c_name == NULL)
     {
-        error("Could not initialize action name");
+        error("npc_aciton_init: Could not initialize action name\n");
         return FAILURE;
     }
     return SUCCESS;
@@ -78,7 +79,7 @@ list_npc_action_t *get_npc_actions()
     {
         list_npc_action_t *add = (list_npc_action_t*)malloc(sizeof(list_npc_action_t));
         npc_action_t *add_data = npc_action_new(valid_actions[i].c_name, valid_actions[i].kind);
-        add->act = add_data;
+        add->action = add_data;
         LL_PREPEND(tmp, add);
         tmp = add;
     }
