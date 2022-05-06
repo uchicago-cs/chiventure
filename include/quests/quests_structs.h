@@ -105,6 +105,15 @@ typedef struct task_tree {
 } task_tree_t;
 
 /*
+ * A linked list of quest/task ids
+*/
+typedef struct id_list {
+    id_list_node_t *head;
+    int length;
+} id_list_t;
+
+
+/*
  * This struct represents a prerequisite for a quest or task.
  *
  * Components:
@@ -120,13 +129,6 @@ typedef struct prereq {
     id_list_t *quest_list;
 } prereq_t;
 
-/*
- * A linked list of quest/task ids
-*/
-typedef struct id_list {
-    id_list_node_t *head;
-    int length;
-} id_list_t;
 
 /*
  * A single quest/task id node for the linked list
