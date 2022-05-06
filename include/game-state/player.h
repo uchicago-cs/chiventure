@@ -13,6 +13,7 @@
 #include "skilltrees/skilltrees_enums.h"
 #include "skilltrees/inventory.h"
 #include "battle/battle_structs.h"
+#include "quests/quests_state.h"
 
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
