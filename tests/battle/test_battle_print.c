@@ -154,12 +154,12 @@ Test(battle_print, print_player_move_crit)
     move->damage = 60;
     move->info = "Punch";
     b->player->moves = move;
-    b->enemy->stats->hp = 17;
+    b->enemy->stats->hp = 16;
 
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
     
-    char *expected_string = "You used Punch! It did 13 damage.\n"
+    char *expected_string = "You used Punch! It did 14 damage.\n"
                             "-- Your HP: 50\n"
                             "-- bob's HP: 17\n";
 

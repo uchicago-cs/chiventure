@@ -344,6 +344,7 @@ Test(battle_logic, do_not_find_item)
 Test(battle_logic, use_battle_weapon)
 {
     stat_t *player_stats = calloc(1, sizeof(stat_t));
+    player_stats->max_hp= 1000;
     
     stat_t *enemy_stats = calloc(1, sizeof(stat_t));
     enemy_stats->hp = 100;
