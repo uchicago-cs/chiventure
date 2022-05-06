@@ -5,6 +5,9 @@
 #include <string.h>
 #include "quests_structs.h"
 
+/* Forward declaration. Full typedef can be found in player.h */
+typedef struct player player_t;
+
 /* Creates a new passive mission struct (allocates memory)
  * 
  * Parameters:
