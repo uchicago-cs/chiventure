@@ -336,7 +336,7 @@ Test(battle_flow_move, battle_over_by_enemy)
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(stat_t));
-    estats->hp = 20;
+    estats->hp = 40;
     estats->level = 1;
     estats->phys_atk = 200;
     estats->phys_def = 30;
