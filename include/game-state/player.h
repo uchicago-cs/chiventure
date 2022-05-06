@@ -6,7 +6,6 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include "quests/quests_structs.h"
 #include "game_state_common.h"
 #include "stats.h"
 #include "item.h"
@@ -14,6 +13,7 @@
 #include "skilltrees/skilltrees_enums.h"
 #include "skilltrees/inventory.h"
 #include "battle/battle_structs.h"
+#include "quests/quests_structs.h"
 #include "quests/quests_state.h"
 
 /* Forward declarations */
@@ -308,6 +308,19 @@ int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
  * Note: Same return value as add_quest_to_hash()
  */
 int add_quest(player_t *player, quest_t *quest);
+
+/* 
+ * Determines whether a player can start a quest with their base stats
+ * 
+ * Parameter:
+ * - quest: a quest
+ * - player: a player
+ * 
+ * Returns:
+ * - 1: a player can start the quest
+ * - 0: a player cannot start the quest
+ */
+int can_start_quest(quest_t *quest, player_t *player);
 
 /*
  * Changes the base value of a given player's stat by the specified amount

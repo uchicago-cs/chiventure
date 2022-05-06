@@ -209,19 +209,6 @@ int task_free(task_t *task);
 int quest_free(quest_t *quest);
 
 
-/* 
- * Determines whether a player can start a quest with their base stats
- * 
- * Parameter:
- * - quest: a quest
- * - player: a player
- * 
- * Returns:
- * - 1: a player can start the quest
- * - 0: a player cannot start the quest
- */
-int can_start_quest(quest_t *quest, player_t *player);
-
 /* Adds a task to the tree given an parent tree id
  *
  * Parameters:

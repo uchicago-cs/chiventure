@@ -279,6 +279,18 @@ int add_quest(player_t *player, quest_t *quest)
     return rc;
 }
 
+/* See player.h */
+int can_start_quest(quest_t *quest, player_t *player)
+{
+    stats_hash_t *stats_hash = player->player_stats;
+    double health = get_stat_current(stats_hash, "health");
+
+    if (health >= quest->stat_req->hp && 
+        player->level >= quest->stat_req->level){
+            return 1;
+        }
+    return 0;
+}
 
 /* see player.h */
 int player_change_stat(player_t *player, char *stat, double change)
