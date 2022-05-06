@@ -85,6 +85,7 @@ typedef struct task {
     mission_t *mission;
     char *id;
     reward_t *reward;
+    prereq_t *prereq;
     bool completed;     //0 is not completed, 1 is completed
 } task_t;
 
@@ -154,7 +155,7 @@ typedef struct quest  {
     char *quest_id;
     task_tree_t *task_tree;
     reward_t *reward;
-    stat_req_t *stat_req;
+    prereq_t *prereq;
     int status;  
 } quest_t;
 

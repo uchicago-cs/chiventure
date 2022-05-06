@@ -113,18 +113,6 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_
  */
 int reward_init(reward_t *rewards, int xp, item_t *item);
 
-/* Initializes an already allocated stats requirement struct
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
- *
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int stat_req_init(stat_req_t *stat_req, int xp, int level);
-
 /* Initialize an already allocated task struct
  *
  * Parameters:
@@ -156,7 +144,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
  * 
  */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
-               reward_t *reward, stat_req_t *stat_req, int status);
+               reward_t *reward, prereq_t *stat_req, int status);
 
 /* 
  * Frees a passive mission struct from memory
@@ -210,17 +198,16 @@ int quest_free(quest_t *quest);
 
 
 /* 
- * Determines whether a player can start a quest with their base stats
+ * Determines whether a player meets a set of prerequisites
  * 
  * Parameter:
- * - quest: a quest
+ * - prereq: a prerequisite object
  * - player: a player
  * 
  * Returns:
- * - 1: a player can start the quest
- * - 0: a player cannot start the quest
+ * - true if the player meets the prerequisites, false if the player does not
  */
-int can_start_quest(quest_t *quest, player_t *player);
+bool meets_prereqs(prereq_t *prereq, player_t *player);
 
 /* Adds a task to the tree given an parent tree id
  *
@@ -329,6 +316,17 @@ int get_quest_status(quest_t *quest);
  * The status of the quest should first be checked before this function is called
  */
 reward_t *complete_quest(quest_t *quest);
+
+// The original find_task() function
+task_t *find_task_in_quest(task_tree_t *tree, char *id);
+
+// Searches all of the player's tasks for a specific task
+task_t *find_task(player_t *player, char *id);
+
+// Searches all of the player's quests for a specific quest
+quest_t *find_quest(player_t *player, char *id);
+
+
 
 
 #endif /* QUESTS_STATE_H */

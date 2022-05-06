@@ -56,22 +56,6 @@ reward_t *reward_new(int xp, item_t *item)
 }
 
 /* Refer to quests_state.h */
-stat_req_t *stat_req_new(int xp, int level)
-{
-    stat_req_t *stat_req = malloc(sizeof(stat_req_t));
-    int rc;
-
-    rc = stat_req_init(stat_req, xp, level);
-
-    if (rc != SUCCESS)
-    {
-        fprintf(stderr, "\nCould not initialize stats req struct!\n");
-    }
-
-    return stat_req;
-}
-
-/* Refer to quests_state.h */
 task_t *task_new(mission_t *mission, char *id, reward_t *reward)
 {
     task_t *task;
@@ -89,7 +73,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward)
 
 /* Refer to quests_state.h */
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                   reward_t *reward, stat_req_t *stat_req) 
+                   reward_t *reward, prereq_t *prereq) 
 
 {
     quest_t *q;
@@ -102,7 +86,7 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, task_tree, reward, stat_req, 0);
+    rc = quest_init(q, quest_id, task_tree, reward, prereq, 0);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -149,17 +133,6 @@ int reward_init(reward_t *rewards, int xp, item_t *item)
 }
 
 /* Refer to quests_state.h */
-int stat_req_init(stat_req_t *stat_req, int hp, int level)
-{
-    assert(stat_req != NULL);
-
-    stat_req->hp = hp;
-    stat_req->level = level;
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
 int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward)
 {
     assert(task != NULL);
@@ -174,7 +147,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward)
 
 /* Refer to quests_state.h */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
-                reward_t *reward, stat_req_t *stat_req, int status)
+                reward_t *reward, prereq_t *prereq, int status)
 
 {
     assert(q != NULL);
@@ -183,7 +156,7 @@ int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
     q->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
     q->task_tree = task_tree;
     q->reward = reward;
-    q->stat_req = stat_req;
+    q->prereq = prereq;
     q->status = status;
 
     return SUCCESS;
@@ -231,23 +204,37 @@ int quest_free(quest_t *q)
     free(q->quest_id);
     free(q->task_tree);
     free(q->reward);
-    free(q->stat_req);
+    free(q->prereq);
     free(q);
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int can_start_quest(quest_t *quest, player_t *player)
-{
+
+bool meets_prereqs(player_t *player, prereq_t *prereq) {
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
 
-    if (health >= quest->stat_req->hp && 
-        player->level >= quest->stat_req->level){
-            return 1;
+    if (health < prereq->hp || player->level < prereq->level) {
+        return false;
+    }
+    id_list_t *quest_list = prereq->quest_list;
+    id_list_t *task_list = prereq->task_list;
+    for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next) {
+        quest_t *quest = find_quest(player, cur);
+        // 2 is the quest status, should be changed if status is switched to an enum
+        if(quest->status != 2) {
+            return false
         }
-    return 0;
+    }
+    for(id_list_node_t *cur = task_list->head; cur != NULL; cur = cur->next) {
+        task_t *task = find_task(player, cur);
+        if(!task->completed) {
+            return false
+        }
+    }
+    return true;
 }
 
 /*
@@ -408,7 +395,7 @@ int fail_quest(quest_t *quest)
  *       so this "locks" a user into a path once they've begun
  *       completing tasks.
  */
-task_t *find_task(task_tree_t *tree, char *id)
+task_t *find_task_in_quest(task_tree_t *tree, char *id)
 {
     task_t *task = tree->task;
 
@@ -423,13 +410,13 @@ task_t *find_task(task_tree_t *tree, char *id)
     {
         if (tree->lmostchild != NULL)
         {
-            return find_task(tree->lmostchild, id);
+            return find_task_in_quest(tree->lmostchild, id);
         }
         return NULL;
     }
     else if (tree->rsibling != NULL)
     {
-        return find_task(tree->rsibling, id);
+        return find_task_in_quest(tree->rsibling, id);
     }
     return NULL;
 }
@@ -439,7 +426,7 @@ reward_t *complete_task(quest_t *quest, char *id)
 {
     task_tree_t *tree = quest->task_tree;
 
-    task_t *task = find_task(tree, id);
+    task_t *task = find_task_in_quest(tree, id);
 
     if (((strcmp(task->id,id)) == 0) &&
             (task->completed == 0))
