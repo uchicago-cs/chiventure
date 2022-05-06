@@ -90,27 +90,6 @@ stat_t* create_enemy_stats_crit()
     return test_stats;
 }
 
-stat_t* create_enemy_stats_miss()
-{
-    stat_t* test_stats = calloc(1, sizeof(stat_t));
-
-    test_stats->speed = 50;
-    test_stats->phys_def = 20;
-    test_stats->phys_atk = 150;
-    test_stats->mag_atk = 150;
-    test_stats->mag_def = 20;
-    test_stats->max_sp = 20;
-    test_stats->sp = 20;
-    test_stats->crit = 100;
-    test_stats->accuracy = 0;
-    test_stats->hp = 200;
-    test_stats->max_hp = 200;
-    test_stats->xp = 0;
-    test_stats->level = 5;
-
-    return test_stats;
-}
-
 /* Creates example hardcoded stats for the battle_player*/
 stat_t* create_battle_player_stats()
 {
@@ -358,7 +337,7 @@ Test(battle_ai, damage_crit)
     move_t* move;
 
     player = new_battle_player();
-    enemy = new_enemy();
+    enemy = new_enemy_crit();
     move = expected_move_greedy();
 
     double expected = 1.5*24.0;
@@ -370,21 +349,4 @@ Test(battle_ai, damage_crit)
     cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
 }
 
-/* Ensures accuracy damage is calculated correctly*/
-Test(battle_ai, damage_accuracy)
-{
-    combatant_t *player, *enemy;
-    move_t* move;
 
-    player = new_battle_player();
-    enemy = new_enemy_miss();
-    move = expected_move_greedy();
-
-    double expected = 0.0;
-    double actual = damage(player, move, enemy);
-
-    cr_assert_not_null(player, "combatant_new() failed");
-    cr_assert_not_null(enemy, "combatant_new() failed");
-
-    cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
-}

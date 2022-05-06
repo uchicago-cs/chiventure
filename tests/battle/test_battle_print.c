@@ -163,7 +163,7 @@ Test(battle_print, print_player_move_crit)
                             "-- Your HP: 50\n"
                             "-- bob's HP: 17\n";
 
-    cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s\n. We got %s", string, expected_string);
 
     free(string);
 }
