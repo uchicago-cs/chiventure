@@ -105,16 +105,36 @@ typedef struct task_tree {
 } task_tree_t;
 
 /*
- * This struct represents a skill requirement for a quest.
+ * This struct represents a prerequisite for a quest or task.
  *
  * Components:
  *  hp: health points 
  *  level: a number of levels gained
+ *  task_list: a list of task ids that will all be checked for completion
+ *  quest_list: a list of quest ids that will all be checked for completion
  */
-typedef struct stat_req {
+typedef struct prereq {
     int hp;
     int level;
-} stat_req_t;
+    id_list_t *task_list;
+    id_list_t *quest_list;
+} prereq_t;
+
+/*
+ * A linked list of quest/task ids
+*/
+typedef struct id_list {
+    id_list_node_t *head;
+    int length;
+} id_list_t;
+
+/*
+ * A single quest/task id node for the linked list
+*/
+typedef struct id_list_node {
+    long int id;
+    id_list_node_t *next;
+} id_list_node_t;
 
 /* 
  * This is the hashable struct for a quest 
