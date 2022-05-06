@@ -218,20 +218,7 @@ combatant_t* new_enemy_crit()
 
 }
 
-/* Creates sandbox enemy with accuracy value 0*/
-combatant_t* new_enemy_miss()
-{
-    char* name = "Skeleton";
-    bool is_friendly = false;
-    class_t *c_type = create_test_class();
-    stat_t *stats = create_enemy_stats_miss();
-    move_t *moves = create_enemy_moves();
-    battle_item_t *items = create_enemy_battle_items();
-    struct combatant *next = NULL;
-    struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
 
-}
 
 /* Creates sandbox battle_player*/
 combatant_t* new_battle_player()
