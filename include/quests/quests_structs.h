@@ -135,7 +135,7 @@ typedef struct prereq {
 */
 typedef struct id_list_node {
     long int id;
-    id_list_node_t *next;
+    struct id_list_node *next;
 } id_list_node_t;
 
 /* 
