@@ -373,7 +373,7 @@ Test(battle_flow_move, battle_over_by_enemy)
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  expected_hp,
                  "battle_flow_move() did not compute damage correctly",
-                 "Calculated: %.2d, Expected: %.2d", 
+                 "Calculated: %.2f, Expected: %.2f", 
                  ctx->game->battle->enemy->stats->hp, expected_hp);
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
                  "battle_flow_move() failed: enemy was not declared the winner");

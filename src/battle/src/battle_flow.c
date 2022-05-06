@@ -125,7 +125,6 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         enemy->stats->hp -= dmg;
         string = print_battle_move(b, b->turn, move);
     }
-    enemy->stats->hp -= dmg;
     
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
