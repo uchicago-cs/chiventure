@@ -527,3 +527,16 @@ reward_t *complete_quest(quest_t *quest)
     else
         return NULL;
 }
+
+/* Refer quests_state.h */
+int delete_all_quests(quest_hash_t *quests)
+{
+    quest_t *current_quest, *tmp;
+    HASH_ITER(hh, quests, current_quest, tmp)
+    {
+        HASH_DEL(quests, current_quests);
+        quest_free(current_quest);
+    }
+    return SUCCESS;
+}
+

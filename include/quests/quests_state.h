@@ -330,5 +330,16 @@ int get_quest_status(quest_t *quest);
  */
 reward_t *complete_quest(quest_t *quest);
 
+/*
+ * Deletes a hashtable of quests
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  hashtable of quests that need to be deleted
+ *
+ * Returns:
+ *  SUCCESS if successful
+ */
+int delete_all_quests(quest_hash_t *quests);
 
 #endif /* QUESTS_STATE_H */

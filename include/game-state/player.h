@@ -56,7 +56,7 @@ typedef struct player {
     move_t *moves;
 
     /* The player's current active/completed quests */
-    quest_hash_t *all_quests;
+    quest_hash_t *player_quests;
  
 } player_t;
 
@@ -289,6 +289,21 @@ int player_remove_skill(player_t *player, skill_t *skill);
  *  Note: Same return value as inventory_has_skill()
  */
 int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
+
+/*
+ * Adds a quest to a player's respective quest hash table
+ *
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  quest: pointer to an already existing quest that is being added to the
+ *         player's quest hash table
+ * 
+ * Returns:
+ *  SUCCESS on successful addition of quest, FAILURE if an error occurs
+ * 
+ * Note: Same return value as add_quest_to_hash()
+ */
+int add_quest(player_t *player, quest_t *quest);
 
 /*
  * Changes the base value of a given player's stat by the specified amount

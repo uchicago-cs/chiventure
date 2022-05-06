@@ -92,6 +92,7 @@ player_t* player_new(char *player_id)
     player->player_effects = NULL;
     player->player_race = NULL;
     player->inventory = NULL;
+    player->player_quests = NULL;
 
     return player;
 }
@@ -125,6 +126,11 @@ int player_free(player_t* player)
         delete_all_stat_effects(player->player_effects);
     }
 
+    if (player-player_quests != NULL)
+    {
+        delete_all_quests(player->player_quests);
+    }
+
     free(player);
     
     return SUCCESS;
@@ -140,6 +146,7 @@ int delete_all_players(player_hash_t* players)
     }
     return SUCCESS;
 }
+
 
 /* See player.h */
 int get_level(player_t* player)
@@ -261,6 +268,17 @@ int player_has_skill(player_t *player, sid_t sid, skill_type_t type)
 
     return rc;
 }
+
+/* See player.h */
+int add_quest(player_t *player, quest_t *quest)
+{
+    int rc;
+
+    rc = add_quest_to_hash(quest, player->player_quests);
+
+    return rc;
+}
+
 
 /* see player.h */
 int player_change_stat(player_t *player, char *stat, double change)
