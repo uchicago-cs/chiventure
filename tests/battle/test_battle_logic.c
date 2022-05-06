@@ -347,6 +347,7 @@ Test(battle_logic, use_battle_weapon)
     player_stats->max_hp= 1000;
     
     stat_t *enemy_stats = calloc(1, sizeof(stat_t));
+    enemy_stats->max_hp= 1000;
     enemy_stats->hp = 100;
     enemy_stats->phys_atk = 90;
     enemy_stats->phys_def = 80;

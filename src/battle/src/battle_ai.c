@@ -80,7 +80,7 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
  */
 double calculate_crit(int crit_chance)
 {
-    int chance = randnum(0, 100);
+    int chance = randnum(1, 100);
     if(chance <= crit_chance){
         return 1.5;
     }else{

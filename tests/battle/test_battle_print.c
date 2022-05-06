@@ -161,7 +161,7 @@ Test(battle_print, print_player_move_crit)
     
     char *expected_string = "You used Punch! It did 14 damage.\n"
                             "-- Your HP: 50\n"
-                            "-- bob's HP: 17\n";
+                            "-- bob's HP: 16\n";
 
     cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s\n. We got %s", string, expected_string);
 
