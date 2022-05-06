@@ -280,3 +280,26 @@ class Player:
         self.default = default
 
         self.wdl_contents = {}
+
+    def to_json(self) -> str:
+        """ For internal testing only: converts a game to its JSON format """
+        return json.dumps(self.to_wdl_structure(),indent=2)
+
+    def to_wdl_structure(self) -> dict:
+        """
+            Converts a Game to WDL structure using its properties. Generates 
+            default values where they are missing.
+        """
+        return {}
+    
+    def generate_defaults(self):
+        return 0
+
+    def attributes_list(self) -> list:
+        return []
+
+    def base_stats_list(self) -> list:
+        return []
+
+    def actions_list(self) -> list:
+        return []
