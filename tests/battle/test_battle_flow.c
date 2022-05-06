@@ -336,7 +336,7 @@ Test(battle_flow_move, battle_over_by_enemy)
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(stat_t));
-    estats->hp = 100;
+    estats->hp = 20;
     estats->level = 1;
     estats->phys_atk = 200;
     estats->phys_def = 30;
@@ -360,7 +360,7 @@ Test(battle_flow_move, battle_over_by_enemy)
 
     //There was a 2*
     int expected_hp = enemy->stats->hp -
-                      damage(enemy, move, player);  
+                      2*damage(enemy, move, player);  
 
     char *res = battle_flow_move(ctx, move, "enemy");
     
