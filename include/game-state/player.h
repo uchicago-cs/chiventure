@@ -6,6 +6,8 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
+#include "quests/quests_structs.h"
+#include "quests/quests_state.h"
 #include "game_state_common.h"
 #include "stats.h"
 #include "item.h"
@@ -13,8 +15,6 @@
 #include "skilltrees/skilltrees_enums.h"
 #include "skilltrees/inventory.h"
 #include "battle/battle_structs.h"
-#include "quests/quests_structs.h"
-#include "quests/quests_state.h"
 
 /* Forward declarations */
 typedef struct skill skill_t;
