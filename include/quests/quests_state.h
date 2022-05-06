@@ -39,15 +39,18 @@ active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet
  */
 reward_t *reward_new(int xp, item_t *item);
 
-/* Creates a new stats requirement struct to start the quest
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
+/* Creates a new prereq struct (allocates memory)
  *
- * Returns: a pointer to the newly allocated stats requirement struct
+ * Parameters:
+ * - hp: health points required to begin quest
+ * - level: level required to begin quest
+ * - task_list: list of tasks required to begin quest
+ * - quest_list: list of quests required to begin quest
+ *
+ * Returns: a pointer to the newly allocated prereq
  */
-stat_req_t *stat_req_new(int hp, int level);
+prereq_t *prereq_new(int hp, int level, id_list_t *task_list, id_list_t *quest_list);
+
 
 /* Creates a new task struct (allocates memory)
  * 
@@ -113,17 +116,20 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_
  */
 int reward_init(reward_t *rewards, int xp, item_t *item);
 
-/* Initializes an already allocated stats requirement struct
- * 
+/* Initializes an already allocated prereq struct
+ *
  * Parameters:
- * - xp: xp reward
- * - item: item reward
+ * - prereq: a prereq pointer
+ * - hp: health points required
+ * - level: level required
+ * - task_list: a list of tasks required
+ * - quest_list: a list of quests required
  *
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int stat_req_init(stat_req_t *stat_req, int xp, int level);
+int prereq_init(prereq_t *prereq, int hp, int level, id_list_t *task_list, id_list_t *quest_list);
 
 /* Initialize an already allocated task struct
  *
@@ -207,6 +213,18 @@ int task_free(task_t *task);
  * - FAILURE for unsuccessful free
  */
 int quest_free(quest_t *quest);
+
+/*
+ * Frees a prereq struct from memory including the task list and quest list.
+ *
+ * Parameter:
+ * - prereq: the prereq to be freed
+ *
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int prereq_free(prereq_t *prereq);
 
 
 /* 
