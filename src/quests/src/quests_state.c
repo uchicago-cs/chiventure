@@ -225,13 +225,13 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
         quest_t *quest = find_quest(player, cur);
         // 2 is the quest status, should be changed if status is switched to an enum
         if(quest->status != 2) {
-            return false
+            return false;
         }
     }
     for(id_list_node_t *cur = task_list->head; cur != NULL; cur = cur->next) {
         task_t *task = find_task(player, cur);
         if(!task->completed) {
-            return false
+            return false;
         }
     }
     return true;

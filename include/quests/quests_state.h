@@ -75,7 +75,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward);
  *         (not started)
  */
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                    reward_t *reward, stat_req_t *stat_req);
+                    reward_t *reward, prereq_t *stat_req);
 
 /* Initialize an already allocated passive mission struct 
  *
@@ -116,25 +116,8 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_
  */
 int reward_init(reward_t *rewards, int xp, item_t *item);
 
-<<<<<<< HEAD
-=======
-/* Initializes an already allocated prereq struct
- *
- * Parameters:
- * - prereq: a prereq pointer
- * - hp: health points required
- * - level: level required
- * - task_list: a list of tasks required
- * - quest_list: a list of quests required
- *
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int prereq_init(prereq_t *prereq, int hp, int level, id_list_t *task_list, id_list_t *quest_list);
-
->>>>>>> 6a9d54cd2b5dbca324cc6eaac53c380720c35c50
-/* Initialize an already allocated task struct
+/* 
+ * Initialize an already allocated task struct
  *
  * Parameters:
  * - task: an already allocated task
@@ -240,7 +223,7 @@ int prereq_free(prereq_t *prereq);
  * Returns:
  * - true if the player meets the prerequisites, false if the player does not
  */
-bool meets_prereqs(prereq_t *prereq, player_t *player);
+bool meets_prereqs(player_t *player, prereq_t *prereq);
 
 /* Adds a task to the tree given an parent tree id
  *
