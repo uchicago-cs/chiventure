@@ -59,7 +59,7 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
     skill->max_level = max_level;
     skill->min_xp = min_xp;
     skill->skill_effect = skill_effect;
-    skill->complex_skill = complex;
+    skill->complex = complex;
 
     return SUCCESS;
 }
@@ -87,7 +87,7 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
     //If NULL, assume complex skill
     if (skill -> skill_effect == NULL)
     {   
-        if(skill -> complex_skill == NULL){
+        if(skill -> complex == NULL){
                 fprintf(stderr, "Error: NULL complex skill in skill");
                 return FAILURE;
         }
