@@ -11,7 +11,7 @@
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   effect_t* skill_effect) {
+                   effect_t* skill_effect, complex_skill_t* complex) {
     skill_t* skill;
     int rc;
 
@@ -26,7 +26,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
         return NULL;
     }
 
-    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effect);
+    rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effect, complex);
     if (rc) {
         fprintf(stderr, "skill_new: initialization failed\n");
         return NULL;
@@ -39,7 +39,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               effect_t* skill_effect) {
+               effect_t* skill_effect, complex_skills_t* complex) {
     assert(skill != NULL);
 
     skill->sid = sid;
@@ -59,6 +59,7 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
     skill->max_level = max_level;
     skill->min_xp = min_xp;
     skill->skill_effect = skill_effect;
+    skill->complex_skill = complex;
 
     return SUCCESS;
 }
@@ -69,6 +70,7 @@ int skill_free(skill_t* skill) {
 
     free(skill->name);
     free(skill->desc);
+    free(skill->complex);
     free(skill);
 
     return SUCCESS;
@@ -82,10 +84,16 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
         fprintf(stderr, "Error: NULL skill provided \n");
         return FAILURE;
     }
+    //If NULL, assume complex skill
     if (skill -> skill_effect == NULL)
-    {
-        fprintf(stderr, "Error: NULL effect in skill");
-        return FAILURE;
+    {   
+        if(skill -> complex_skill == NULL){
+                fprintf(stderr, "Error: NULL complex skill in skill");
+                return FAILURE;
+        }
+        
+        
+        return 0;
     }
     effect_t* skill_effect = skill->skill_effect;
     int check = 0;
