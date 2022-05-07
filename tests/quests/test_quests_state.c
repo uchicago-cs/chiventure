@@ -113,26 +113,29 @@ Test(reward, new)
 
 Test(prereq, new)
 {
-    int hp = 40;
-    int level = 5;
+    int hp = 20;
+    int level = 17;
 
     prereq_t *prereq = prereq_new(hp, level);
 
-    cr_assert_not_null(prereq);
+    cr_assert_not_null(prereq, "prereq_new failed to create a prereq");
+    cr_assert_eq(prereq->hp, 20, "prereq did not set hp");
+    cr_assert_eq(prereq->level, 17, "prereq did not set level");  
 }
 
 
-Test(prereq, new)
+Test(prereq, init)
 {
     int hp = 40;
     int level = 5;
 
-    prereq_t *prereq = prereq_new(hp, level);
+    prereq_t prereq;
 
-    cr_assert_not_null(prereq);
-    cr_assert_eq(prereq->hp, 40, "prereq did not set hp");
-    cr_assert_eq(prereq->level, 5, "prereq did not set level");  
+    int rc = prereq_init(&prereq, hp, level);
 
+    cr_assert_eq(rc, SUCCESS, "prereq_init failed!");
+    cr_assert_eq(prereq.hp, 40, "prereq_init did not set hp");
+    cr_assert_eq(prereq.level, 5, "prereq_init did not set level");  
 }
 
 reward_t *create_sample_rewards(int xp, item_t *item)
@@ -157,9 +160,9 @@ Test(quest, init)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	int check = quest_init(q, "test", NULL, rewards, stat_req, 0);
+	int check = quest_init(q, "test", NULL, rewards, prereq, 0);
 
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
 }
@@ -200,9 +203,9 @@ Test(quest, new)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* q = quest_new("test", NULL, rewards, stat_req);
+	quest_t* q = quest_new("test", NULL, rewards, prereq);
 
 	cr_assert_not_null(q, "quest_new() test has failed!");
 
@@ -213,10 +216,10 @@ Test(quest, new)
                 "did not initialize the reward item");
     cr_assert_eq(q->reward->xp, 50, "quest_new()"
                 "did not initialize the xp reward");
-    cr_assert_eq(q->stat_req->hp, 50,
-                     "quest_init did not set stat req hp");
-    cr_assert_eq(q->stat_req->level, 5,
-                     "quest_init did not set stat req level");
+    cr_assert_eq(q->prereq->hp, 50,
+                     "quest_init did not set prereq hp");
+    cr_assert_eq(q->prereq->level, 5,
+                     "quest_init did not set prereq level");
     cr_assert_eq(q->status, 0, "quest_new()"
                 "did not initialize the status");
 }
@@ -332,9 +335,9 @@ Test(quest, free)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* q_to_free = quest_new("test", NULL, rewards, stat_req);
+	quest_t* q_to_free = quest_new("test", NULL, rewards, prereq);
 
 	cr_assert_not_null(q_to_free, "quest_free(): room is null");
     cr_assert(strcmp(q_to_free->quest_id, "test") == 0, "quest_id incorrect");
@@ -354,9 +357,9 @@ Test(quest, add_task_to_quest)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, prereq);
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     char *id = "test mission";
@@ -373,28 +376,29 @@ Test(quest, add_task_to_quest)
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 }
 
-/* Tests if a player can start the quest */
-Test(quest, can_start)
-{
-    int health = 20;
+/* Commented out until find functions are added
+// /* Tests if a player can start the quest */
+// Test(quest, can_start)
+// {
+//     int health = 20;
 
-    player_t* player1 = player_new("player1");
+//     player_t* player1 = player_new("player1");
 
-    int xp = 50;
-    item_t *item = item_new("test_item", "item for testing",
-    "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+//     int xp = 50;
+//     item_t *item = item_new("test_item", "item for testing",
+//     "test item");
+//     reward_t *rewards = create_sample_rewards(xp, item);
 
-    int hp = 50;
-    int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+//     int hp = 50;
+//     int level = 5;
+//     prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+// 	quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
-    int rc = can_start_quest(quest, player1);
+//     int rc = meets_prereqs(quest, player1);
 
-    cr_assert_eq(rc, 0, "can_start_quest() returned false, expected true");
-}
+//     cr_assert_eq(rc, 0, "can_start_quest() returned false, expected true");
+// }
 
 /* Tests the function  that starts a quest */
 Test(quest, start_quest)
@@ -406,9 +410,9 @@ Test(quest, start_quest)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
     int check = start_quest(quest);
 
@@ -427,9 +431,9 @@ Test(quest, fail_quest)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
     int check = fail_quest(quest);
 
@@ -449,9 +453,9 @@ Test(quest, complete_task)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-    quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+    quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -499,9 +503,9 @@ Test(quest,is_quest_completed)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -551,9 +555,9 @@ Test(quest,get_quest_status)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
     int check = get_quest_status(quest);
 
@@ -576,9 +580,9 @@ Test(quest,complete_quest)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test", NULL, rewards, prereq);
     quest->status = 2;
 
     reward_t *res = complete_quest(quest);

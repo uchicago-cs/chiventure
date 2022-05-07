@@ -292,14 +292,14 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     id_list_t *quest_list = prereq->quest_list;
     id_list_t *task_list = prereq->task_list;
     for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next) {
-        quest_t *quest = find_quest(player, cur);
+        quest_t *quest = find_quest(player, cur->id);
         // 2 is the quest status, should be changed if status is switched to an enum
         if(quest->status != 2) {
             return false;
         }
     }
     for(id_list_node_t *cur = task_list->head; cur != NULL; cur = cur->next) {
-        task_t *task = find_task(player, cur);
+        task_t *task = find_task(player, cur->id);
         if(!task->completed) {
             return false;
         }
