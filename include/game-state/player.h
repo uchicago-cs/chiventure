@@ -8,8 +8,6 @@
 
 #include "game_state_common.h"
 #include "stats.h"
-#include "quests/quests_state.h"
-#include "quests/quests_structs.h"
 #include "item.h"
 #include "playerclass/class.h"
 #include "skilltrees/skilltrees_enums.h"
