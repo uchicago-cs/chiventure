@@ -111,16 +111,27 @@ Test(reward, new)
     cr_assert_eq(rewards->xp, 40,  "reward_new did not set xp");                 
 }
 
-Test(stat_req, new)
+Test(prereq, new)
 {
     int hp = 40;
     int level = 5;
 
-    stat_req_t *stat_req = stat_req_new(hp, level);
+    prereq_t *prereq = prereq_new(hp, level);
 
-      
-    cr_assert_eq(stat_req->hp, 40, "reward_new did not set xp");
-    cr_assert_eq(stat_req->level, 5, "reward_new did not set level");  
+    cr_assert_not_null(prereq);
+}
+
+
+Test(prereq, new)
+{
+    int hp = 40;
+    int level = 5;
+
+    prereq_t *prereq = prereq_new(hp, level);
+
+    cr_assert_not_null(prereq);
+    cr_assert_eq(prereq->hp, 40, "prereq did not set hp");
+    cr_assert_eq(prereq->level, 5, "prereq did not set level");  
 
 }
 
@@ -132,16 +143,6 @@ reward_t *create_sample_rewards(int xp, item_t *item)
     rewards->item = item;
 
     return rewards;
-}
-
-stat_req_t *create_sample_stat_req(int hp, int level)
-{
-    stat_req_t *stat_req = malloc(sizeof(stat_req));
-
-    stat_req->hp = hp;
-    stat_req->level = level;
-
-    return stat_req;
 }
 
 /* Tests init function for quest struct */

@@ -39,17 +39,24 @@ active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet
  */
 reward_t *reward_new(int xp, item_t *item);
 
-/* Creates a new prereq struct (allocates memory)
+/* 
+ * Creates a new prereq object on the heap
  *
  * Parameters:
  * - hp: health points required to begin quest
  * - level: level required to begin quest
- * - task_list: list of tasks required to begin quest
- * - quest_list: list of quests required to begin quest
  *
- * Returns: a pointer to the newly allocated prereq
+ * Returns: a pointer to the newly allocated prereq, or NULL if there was an error
  */
-prereq_t *prereq_new(int hp, int level, id_list_t *task_list, id_list_t *quest_list);
+prereq_t *prereq_new(int hp, int level);
+
+/* 
+ * Creates a new id_list object on the heap
+ *
+ * Returns: a pointer to the newly allocated id_list, or NULL if there was an error
+ * 
+*/
+id_list_t *id_list_new();
 
 
 /* Creates a new task struct (allocates memory)
@@ -151,6 +158,32 @@ int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
                reward_t *reward, prereq_t *stat_req, int status);
 
 /* 
+ * Initializes a prereq object with the given parameters
+ *
+ * Parameters:
+ * - prereq: The prereq getting initialized
+ * - hp: health points required to begin quest
+ * - level: level required to begin quest
+ *
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int prereq_init(prereq_t * prereq, int hp, int level);
+
+/* 
+ * Initializes an id_list as an empty list
+ *
+ * Parameters:
+ * - id_list: The id_list getting initialized
+ * 
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+*/
+int id_list_init(id_list_t *id_list);
+
+/* 
  * Frees a passive mission struct from memory
  * 
  * Parameter:
@@ -211,6 +244,18 @@ int quest_free(quest_t *quest);
  * - FAILURE for unsuccessful free
  */
 int prereq_free(prereq_t *prereq);
+
+/*
+ * Frees an id_list from memory
+ * 
+ * Parameter:
+ * - id_list: the id_list to be freed
+ * 
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+*/
+int id_list_free(id_list_t *id_list);
 
 
 /* 
@@ -333,16 +378,67 @@ int get_quest_status(quest_t *quest);
  */
 reward_t *complete_quest(quest_t *quest);
 
-// The original find_task() function
+/*
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
+ *
+ * Returns:
+ * - pointer to the desired task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: tasks must be completed in order according to this
+ *       traversal. Only one task on each level can be completed,
+ *       so this "locks" a user into a path once they've begun
+ *       completing tasks.
+ */
 task_t *find_task_in_quest(task_tree_t *tree, char *id);
 
-// Searches all of the player's tasks for a specific task
+/*
+ * Adds an id to an id_list
+ *
+ * Parameters:
+ * - id_list: The id_list getting added to
+ * - id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int id_list_add(id_list_t *id_list, char *id);
+
+/*
+ * Traverses all quests in the player struct and searches for a task with a given id
+ *
+ * Parameters:
+ * - player: A player
+ * - id: A pointer to a string identifier for the desired task
+ * 
+ * Returns:
+ * - pointer to the desired task, OR
+ * - NULL if task cannot be found along in any of the player's quests
+ * 
+ * Note:
+ * - This function is EXTREMELY SLOW, as it requires searching through all of the player's
+ *   quest trees. If the task isn't present and the player has many quests, this will be 
+ *   quite inefficient, so try to call this function sparringly.
+*/
 task_t *find_task(player_t *player, char *id);
 
-// Searches all of the player's quests for a specific quest
+/*
+ * Finds a quest in a player's list of quests
+ *
+ * Parameters:
+ * - player: A player
+ * - id: A pointer to a string identifier for the desired quest
+ * 
+ * Returns:
+ * - pointer to the desired quest, OR
+ * - NULL if quest cannot be found in the list
+*/
 quest_t *find_quest(player_t *player, char *id);
-
-
-
 
 #endif /* QUESTS_STATE_H */

@@ -135,7 +135,7 @@ typedef struct prereq {
  * A single quest/task id node for the linked list
 */
 typedef struct id_list_node {
-    long int id;
+    char *id;
     struct id_list_node *next;
 } id_list_node_t;
 
