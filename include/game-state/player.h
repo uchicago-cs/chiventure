@@ -8,6 +8,8 @@
 
 #include "game_state_common.h"
 #include "stats.h"
+#include "quests/quests_state.h"
+#include "quests/quests_structs.h"
 #include "item.h"
 #include "playerclass/class.h"
 #include "skilltrees/skilltrees_enums.h"
@@ -16,6 +18,13 @@
 
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
+
+typedef struct player_quest {
+    UT_hash_handle hh;
+    char *quest_id;
+    int completion;
+} player_quest_t;
+typedef struct player_quest player_quest_hash_t;
 
 /* A player in game */
 typedef struct player {
@@ -51,6 +60,9 @@ typedef struct player {
 
     /* The current items held by the player*/
     item_hash_t *inventory;
+
+    /* The current quests associated with the player */
+    player_quest_hash_t* player_quests;
 
     /* The current moves available to the player */
     move_t *moves;
@@ -285,6 +297,19 @@ int player_remove_skill(player_t *player, skill_t *skill);
  *  Note: Same return value as inventory_has_skill()
  */
 int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
+
+/*
+ * Changes the base value of a given player's stat by the specified amount
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  quest_id: the id of the quest
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ */
+int player_add_quest(player_t *player, char *quest_id);
 
 /*
  * Changes the base value of a given player's stat by the specified amount

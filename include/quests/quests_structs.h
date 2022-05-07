@@ -6,7 +6,6 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
-#include "game-state/player.h"
 
 /* Forward declaration */
 typedef struct npc npc_t;

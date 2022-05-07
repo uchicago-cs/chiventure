@@ -91,6 +91,7 @@ player_t* player_new(char *player_id)
     player->player_skills = NULL;
     player->player_effects = NULL;
     player->player_race = NULL;
+    player->player_quests = NULL;
     player->inventory = NULL;
 
     return player;
@@ -123,6 +124,11 @@ int player_free(player_t* player)
     if (player->player_effects != NULL)
     {
         delete_all_stat_effects(player->player_effects);
+    }
+
+    if (player->player_quests != NULL)
+    {
+        free(player->player_quests);
     }
 
     free(player);
