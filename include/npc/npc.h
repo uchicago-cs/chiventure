@@ -60,6 +60,9 @@ typedef struct npc {
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
 
+    /* linked list of all possible actions the player can initiate with the npc */
+    list_npc_action_t *npc_actions;
+
     game_action_hash_t *actions;
 } npc_t;
 

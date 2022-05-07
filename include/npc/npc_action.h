@@ -15,7 +15,7 @@
  * KIND 5 ACTIONS - ACTION <npc> <item>
  * KIND 6 ACTIONS - ACTION <npc> <item> <item>
  */
-enum npc_actions {
+typedef enum npc_actions {
     // KIND 4 ACTIONS
     TALK_TO,
     IGNORE,
@@ -28,7 +28,7 @@ enum npc_actions {
     // KIND 6 ACTIONS
     TRADE,
     BUY
-};
+} npc_actions_t;
 
 /* Each enum corresponds to a different "KIND" of npc action */
 enum npc_action_kind {
@@ -43,7 +43,7 @@ enum npc_action_kind {
  */
 typedef struct npc_action {
     char *c_name; // e.g. "ignore"
-    enum npc_action_kind kind;
+    npc_actions_t action;
 } npc_action_t;
 
 /* A linked list struct that contains the following:
@@ -51,7 +51,7 @@ typedef struct npc_action {
  * - next: the next item in the linked list
  */
 typedef struct list_npc_action {
-    npc_action_t *action;
+    npc_action_t *npc_action;
     struct list_npc_action *next;
 } list_npc_action_t;
 
@@ -68,7 +68,7 @@ typedef struct list_npc_action {
  *    - A pointer to the npc_action, or NULL if an npc_action
  *      cannot be allocated
  */
-npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind);
+npc_action_t *npc_action_new(char *c_name, npc_actions_t action);
 
 /*
  * Initializes the constituents of an npc_action
@@ -80,7 +80,7 @@ npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind);
  * Returns:
  *    - 0 on success, 1 if an error occurs.
  */
-int npc_action_init(npc_action_t *a, char *c_name, enum npc_action_kind kind);
+int npc_action_init(npc_action_t *a, char *c_name, npc_actions_t action);
 
 /*
  * Frees the resources associated with an npc_action

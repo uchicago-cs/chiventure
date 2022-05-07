@@ -11,7 +11,7 @@
 #define EFFECT_NOT_APPLIED (7)
 
 /* See npc_action.h */
-npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind)
+npc_action_t *npc_action_new(char *c_name, npc_actions_t action)
 {
     npc_action_t *a;
     int rc;
@@ -21,7 +21,7 @@ npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind)
         error("npc_action_t: Could not allocate memory\n");
         return NULL;
     }
-    rc = npc_action_init(a, c_name, kind);
+    rc = npc_action_init(a, c_name, action);
     if(rc != SUCCESS)
     {
         error("npc_action_t: Could not initialize action\n");
@@ -31,11 +31,11 @@ npc_action_t *npc_action_new(char *c_name, enum npc_action_kind kind)
 }
 
 /* See npc_action.h */
-int npc_action_init(npc_action_t *a, char *c_name, enum npc_action_kind kind)
+int npc_action_init(npc_action_t *a, char *c_name, npc_actions_t action)
 {
     assert(a != NULL);
     a->c_name = strdup(c_name);
-    a->kind = kind;
+    a->action = action;
     if (a->c_name == NULL)
     {
         error("npc_aciton_init: Could not initialize action name\n");
