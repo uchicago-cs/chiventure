@@ -302,12 +302,34 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
  *
  * Parameters:
  *  pointer to quest struct
- *  pointer to quest hash table
+ *  pointer to player quest hash table
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table);
+
+/* Gets a player quest from the given hash table
+ *
+ * Parameters:
+ *  quest id string
+ *  pointer to player quest hash table
+ *
+ * Returns:
+ *  player quest struct if successful, NULL if quest is not found
+ */
+player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table);
+
+/* Adds a player quest to the given hash table
+ *
+ * Parameters:
+ *  pointer to quest struct
+ *  pointer to player quest hash table
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table, int completion);
 
 /* Checks a quest's status.
  *

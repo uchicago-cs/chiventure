@@ -530,7 +530,7 @@ player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *
 }
 
 /* Refer to quests_state.h */
-int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table, completion)
+int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table, int completion)
 {
     player_quest_t *check;
 
@@ -543,7 +543,7 @@ int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table, co
     {
         return FAILURE; //quest id is already in the hash table
     }
-    player_quest = player_quest_new(quest->quest_id, completion);
+    player_quest_t *player_quest = player_quest_new(quest->quest_id, completion);
 
     HASH_ADD_KEYPTR(hh, hash_table, buffer,
                     strnlen(buffer, MAX_ID_LEN), player_quest);
