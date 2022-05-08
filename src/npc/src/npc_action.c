@@ -62,7 +62,7 @@ static npc_action_t valid_actions[] =
 
     //KIND 5
     {"GIVE", NPC_ITEM},
-    {"STEAL", NPC_ITEM},
+    {"TAKE", NPC_ITEM},
 
     //KIND 6
     {"TRADE", NPC_ITEM_ITEM},
