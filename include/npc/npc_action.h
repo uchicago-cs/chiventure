@@ -27,7 +27,8 @@ typedef enum npc_actions {
 
     // KIND 6 ACTIONS
     TRADE,
-    BUY
+    BUY,
+    SELL
 } npc_actions_t;
 
 /* Each enum corresponds to a different "KIND" of npc action */

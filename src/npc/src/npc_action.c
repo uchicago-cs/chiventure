@@ -66,7 +66,8 @@ static npc_action_t valid_actions[] =
 
     //KIND 6
     {"TRADE", NPC_ITEM_ITEM},
-    {"BUY", NPC_ITEM_ITEM}
+    {"BUY", NPC_ITEM_ITEM},
+    {"SELL", NPC_ITEM_ITEM}
 };
 
 static int NUM_ACTIONS = sizeof(valid_actions) / sizeof(npc_action_t);
