@@ -154,11 +154,15 @@ int do_node_actions(node_t *n, game_t *game)
                 if (add_item_to_npc(npc, item) != SUCCESS) return FAILURE;
                 break;
 
-            case TRADE:
+            case BUY:
                 // to do
                 break;
 
-            case BUY:
+            case SELL:
+                // to do
+                break;
+
+            case TRADE:
                 // to do
                 break;
                 
@@ -394,7 +398,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
  * Returns:
  *  - SUCCESS if the operation suceeded, FAILURE otherwise
  */
-int add_action_to_node(node_t *n, npc_actions_t action, char *action_id)
+int add_action_to_node(node_t *n, node_action_type action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = node_action_new(action, action_id)) == NULL) return FAILURE;
@@ -604,7 +608,7 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
 }
 
 /* See dialogue.h */
-int node_action_init(node_action_t *n_a, npc_actions_t action,
+int node_action_init(node_action_t *n_a, node_action_type action,
                      char *action_id)
 {
     assert(n_a != NULL);
@@ -620,7 +624,7 @@ int node_action_init(node_action_t *n_a, npc_actions_t action,
 }
 
 /* See dialogue.h */
-node_action_t *node_action_new(npc_actions_t action, char *action_id)
+node_action_t *node_action_new(node_action_type action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;

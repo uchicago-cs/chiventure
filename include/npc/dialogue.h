@@ -3,7 +3,6 @@
 
 #include "game-state/game.h"
 #include "game-state/condition.h"
-#include "npc_action.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
@@ -14,6 +13,19 @@
  *       DIALOGUE STRUCTURE DEFINITIONS       *
  **********************************************/
 
+/* Actions */
+typedef enum {
+    TALK,
+    IGNORE,
+    GIVE,
+    TAKE,
+    BUY,
+    SELL,
+    TRADE,
+    START_QUEST,
+    START_BATTLE
+} node_action_type;
+
 /* An action flag. This allows designers to integrate actions into their
  * dialogue. NOTE: This is a linked list, allowing for multiple actions.
  * 
@@ -23,7 +35,7 @@
  *  - next, prev: next and previous list elements
  */
 typedef struct node_action {
-    npc_actions_t action;
+    node_action_type action;
     char *action_id;
     struct node_action *next, *prev;
 } node_action_t;
@@ -391,7 +403,7 @@ int free_node_list(node_list_t *n_lst, bool free_nodes);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int node_action_init(node_action_t *n_a, npc_actions_t action,
+int node_action_init(node_action_t *n_a, node_action_type action,
                      char *action_id);
 
 /* Allocates a new node action on the heap.
@@ -403,7 +415,7 @@ int node_action_init(node_action_t *n_a, npc_actions_t action,
  * Returns:
  *  - pointer to the new node action
  */
-node_action_t *node_action_new(npc_actions_t action, char *action_id);
+node_action_t *node_action_new(node_action_type action, char *action_id);
 
 /* Frees an action list (using macros from common/utlist.h).
  *
