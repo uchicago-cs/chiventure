@@ -128,11 +128,53 @@ int player_free(player_t* player)
 
     if (player->player_quests != NULL)
     {
-        free(player->player_quests);
+        player_qust_hash_free(player->player_quests);
     }
 
     free(player);
     
+    return SUCCESS;
+}
+
+player_quest_t *player_quest_new(char *quest_id, int completion)
+{
+    player_quest_t *pquest;
+    int rc;
+    pquest = calloc(1, sizeof(player_quest_t));
+
+    if(pquest == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player quest!\n");
+        return NULL;
+    }
+
+    rc = player_quest_init(pquest, quest_id, completion);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player quest struct!\n");
+        return NULL;
+    }
+
+    return pquest;
+}
+
+int player_quest_init(player_quest_t *pquest, char *quest_id, int completion)
+{
+    assert(pquest != NULL);
+
+    pquest->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
+    pquest->completion = completion;
+    return SUCCESS;
+}
+
+int player_quest_hash_free(player_quest_hash_t *player_quests)
+{
+    player_quest_t *current_player_quest, *tmp;
+    HASH_ITER(hh, player_quests, current_player_quest, tmp)
+    {
+        HASH_DEL(player_quests, current_player_quest);
+        free(current_player_quest);
+    }
     return SUCCESS;
 }
 

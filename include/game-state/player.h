@@ -75,6 +75,10 @@ typedef struct player player_hash_t;
 
 player_quest_t *player_quest_new(char *quest_id, int completion);
 
+int player_quest_init(player_quest_t *pquest, char *quest_id, int completion);
+
+int player_quest_free(player_quest_t *pquest);
+
 /*
  * Allocates and creates a new player with given ID, starting at level
  *  1 with 0 xp. 
