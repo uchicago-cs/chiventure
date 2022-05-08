@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "quests_structs.h"
+#include "game-state/player.h"
 
 /* Creates a new passive mission struct (allocates memory)
  * 
@@ -238,24 +239,26 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id);
 /* Updates a quest's status to started
  *
  * Parameter:
- * - quest: pointer to quest to be marked started
+ * - quest: pointer to quest to be started
+ * - player: pointer to player starting the quest
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int start_quest(quest_t *quest);
+int start_quest(quest_t *quest, player_t *player);
 
 /* Updates a quest's status to failed
  *
  * Parameter:
  * - quest: pointer to quest to be marked failed
+ * - player: pointer to player failing the quest
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int fail_quest(quest_t *quest);
+int fail_quest(quest_t *quest, player_t *player);
 
 /* Completes a task in a quest by checking if a given
  * task ID matches any incomplete tasks in the
@@ -265,24 +268,26 @@ int fail_quest(quest_t *quest);
  * Parameters:
  * - quest: pointer to the quest
  * - id: the string identifier of the completed task
+ * - player: pointer to player completing the quest
  *  
  * Returns:
  * - the task's reward item
  * - NULL if the task is incomplete
  * 
  */
-reward_t *complete_task(quest_t *quest, char *id);
+reward_t *complete_task(quest_t *quest, char *id, player_t *player);
 
 /* Checks if a quest is completed
  * 
  * Parameter:
  * - quest: pointer to the quest
+ * - player: pointer to player with the quest
  *
  * Returns:
  * - 0 if quest is incomplete
  * - 1 if quest is complete
  */
-int is_quest_completed(quest_t *quest);
+int is_quest_completed(quest_t *quest, player_t *player);
 
 /* Gets a quest from the given hash table
  *
@@ -310,16 +315,18 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table);
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player with the quest
  * 
  * Returns: 
  * - the quest's status code, as described in quests_structs.h
  */
-int get_quest_status(quest_t *quest);
+int get_quest_status(quest_t *quest, player_t *player);
 
 /* Returns the quest's reward item if the quest has been completed.
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player completing the quest
  * 
  * Returns:
  * - the quest's reward item
@@ -328,7 +335,7 @@ int get_quest_status(quest_t *quest);
  * Note:
  * The status of the quest should first be checked before this function is called
  */
-reward_t *complete_quest(quest_t *quest);
+reward_t *complete_quest(quest_t *quest, player_t *player);
 
 
 #endif /* QUESTS_STATE_H */
