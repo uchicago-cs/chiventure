@@ -133,7 +133,7 @@ int do_node_actions(node_t *n, game_t *game)
 
         switch(cur_action->action) {
 
-            case GIVE_ITEM: ;
+            case GIVE: // should remain the same used to be ;
                 npc_t *npc = get_npc_in_room(game->curr_room,
                                              game->mode->mode_ctx);
                 item_t *item = get_item_in_hash(npc->inventory,
@@ -144,7 +144,7 @@ int do_node_actions(node_t *n, game_t *game)
                     return FAILURE;
                 break;
 
-            case TAKE_ITEM:
+            case TAKE: // should remain the same
                 npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
                 item = get_item_in_hash(game->curr_player->inventory,
                                                 cur_action->action_id);
@@ -154,6 +154,16 @@ int do_node_actions(node_t *n, game_t *game)
                 if (add_item_to_npc(npc, item) != SUCCESS) return FAILURE;
                 break;
 
+            case TRADE:
+                // to do
+                break;
+
+            case BUY:
+                // to do
+                break;
+                
+            // to do-- add START_QUEST and START_BATTLE to npc_actions?
+            // or another struct?
             case START_QUEST:
                 // to do
                 break;
@@ -384,7 +394,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
  * Returns:
  *  - SUCCESS if the operation suceeded, FAILURE otherwise
  */
-int add_action_to_node(node_t *n, node_action_type action, char *action_id)
+int add_action_to_node(node_t *n, npc_actions_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = node_action_new(action, action_id)) == NULL) return FAILURE;
@@ -594,7 +604,7 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
 }
 
 /* See dialogue.h */
-int node_action_init(node_action_t *n_a, node_action_type action,
+int node_action_init(node_action_t *n_a, npc_actions_t action,
                      char *action_id)
 {
     assert(n_a != NULL);
@@ -610,7 +620,7 @@ int node_action_init(node_action_t *n_a, node_action_type action,
 }
 
 /* See dialogue.h */
-node_action_t *node_action_new(node_action_type action, char *action_id)
+node_action_t *node_action_new(npc_actions_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;
