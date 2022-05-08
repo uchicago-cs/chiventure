@@ -223,8 +223,8 @@ Test(npc_mov, move_npc_indefinite)
 }
 
 
-/* Tests reverse_path function */
-Test(npc_mov, reverse_path)
+/* Tests flip_npc_path_direction function */
+Test(npc_mov, flip_npc_path_direction)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
@@ -243,14 +243,14 @@ Test(npc_mov, reverse_path)
 
     cr_assert_eq(check2, 2, "move_npc_def() failed");
 
-    int check3 = reverse_path(npc_mov);
+    int check3 = flip_npc_path_direction(npc_mov);
 
-    cr_assert_eq(check3, SUCCESS, "reverse_path() failed");
+    cr_assert_eq(check3, SUCCESS, "flip_npc_path_direction() failed");
 
     check2 = move_npc_definite(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"test_room",
-                     "reverse_path() failed to track room");
+                     "flip_npc_path_direction() failed to track room");
 }
 
 

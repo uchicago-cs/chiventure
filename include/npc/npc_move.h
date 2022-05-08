@@ -266,7 +266,7 @@ int room_id_cmp(room_list_t *room1, room_list_t *room2);
  *
  * Returns:
  * 0 if move in unsuccessful
- * 1 npc has reached the end of the path, reverse_path is called, but
+ * 1 npc has reached the end of the path, flip_npc_path_direction is called, but
  *   the move is not implemented
  * 2 successful move to the next room
 */
@@ -280,7 +280,7 @@ int move_npc_definite(npc_mov_t *npc_mov);
  *
  * Returns:
  * 0 if move in unsuccessful
- * 1 npc has reached the end of the path, reverse_path is called, but
+ * 1 npc has reached the end of the path, flip_npc_path_direction is called, but
  *   the move is not implemented
  * 2 successful move to the next room
  */
