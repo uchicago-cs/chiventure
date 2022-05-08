@@ -92,8 +92,6 @@ void run_input_box(Vector2 windowDimension, Vector2 windowPosition, char* input_
 
             DrawText(name, (int)textBox.x + 5, (int)textBox.y + 8, 40, DARKGREEN);
 
-            DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, MAX_INPUT_CHARS), 315, 250, 20, DARKGRAY);
-
             if (mouseOnText)
             {
                 if (letterCount < MAX_INPUT_CHARS)
