@@ -49,28 +49,29 @@ reward_t *reward_new(int xp, item_t *item);
  */
 stat_req_t *stat_req_new(int hp, int level);
 
-/* Creates a new achievement struct (allocates memory)
+/* Creates a new task struct (allocates memory)
  * 
  * Parameters:
  * - mission: the mission to be completed for the quest
- * - id: the id of the achievement
- * 
- * Returns: a pointer to the newly allocated achievement that is not completed
+ * - id: the id of the task
+ * - reward: the reward of the task
+ *
+ * Returns: a pointer to the newly allocated task that is not completed
  */
-achievement_t *achievement_new(mission_t *mission, char *id);
+task_t *task_new(mission_t *mission, char *id, reward_t *reward);
 
 /* Creates a new quest struct (allocates memory)
  * 
  * Parameters:
- * - quest_id: long integer for the specific quest_id 
- * - achievement_tree: non-binary tree  struct holding a tree of 
- *                     achievements that make up a quest
+ * - quest_id: string representing the specific quest_id 
+ * - task_tree: non-binary tree  struct holding a tree of 
+ *                     tasks that make up a quest
  * - reward: reward of the quest is an item
  * 
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started)
  */
-quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
+quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
                     reward_t *reward, stat_req_t *stat_req);
 
 /* Initialize an already allocated passive mission struct 
@@ -124,27 +125,27 @@ int reward_init(reward_t *rewards, int xp, item_t *item);
  */
 int stat_req_init(stat_req_t *stat_req, int xp, int level);
 
-/* Initialize an already allocated achievement struct
+/* Initialize an already allocated task struct
  *
  * Parameters:
- * - achievement: an already allocated achievement
- * - mission: the mission to be completed for the achievement
- * - id: the id of the achievement
+ * - task: an already allocated task
+ * - mission: the mission to be completed for the task
+ * - id: the id of the task
+ * - reward: the reward of the task
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
-
+int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
 
 /* Initialize an already allocated quest struct
  *
  * Parameters:
  * - q: an already allocated quest
- * - quest_id: long int for the specific quest_id 
- * - achievement_tree: non-binary tree struct holding a tree of 
- *                     achievements that make up a quest
+ * - quest_id: string representing the specific quest_id 
+ * - task_tree: non-binary tree struct holding a tree of 
+ *                     tasks that make up a quest
  * - reward: reward of the quest is an item
  * - status: int indicating the status of the quest (refer to
  *           quests_structs.h for all possible statuses)
@@ -154,7 +155,7 @@ int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
  * - FAILURE for unsuccessful init
  * 
  */
-int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tree, 
+int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
                reward_t *reward, stat_req_t *stat_req, int status);
 
 /* 
@@ -182,20 +183,20 @@ int passive_mission_free(passive_mission_t *mission);
 int active_mission_free(active_mission_t *mission);
 
 /* 
- * Frees an achievement struct from memory but does not free 
+ * Frees a task struct from memory but does not free 
  * its associated pointers
  * 
  * Parameter:
- * - achievement: the achievement to be freed
+ * - task: the task to be freed
  * 
  * Returns:
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int achievement_free(achievement_t *achievement);
+int task_free(task_t *task);
 
 /* 
- * Frees a quest struct from memory including the achievement list
+ * Frees a quest struct from memory including the task list
  * and reward, but otherwise does not free associated pointers
  * 
  * Parameter:
@@ -205,7 +206,7 @@ int achievement_free(achievement_t *achievement);
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int quest_free(quest_t * quest);
+int quest_free(quest_t *quest);
 
 
 /* 
@@ -221,18 +222,18 @@ int quest_free(quest_t * quest);
  */
 int can_start_quest(quest_t *quest, player_t *player);
 
-/* Adds an achievement to the tree given an parent tree id
+/* Adds a task to the tree given an parent tree id
  *
  * Parameters:
  * - quest: pointer to a quest 
- * - achievement_to_add: pointer to an achievement to add to the list
- * - parent_id: string that is parent achievement's id
+ * - task_to_add: pointer to a task to add to the list
+ * - parent_id: string that is parent task's id
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE 
  */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id);
+int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id);
 
 /* Updates a quest's status to started
  *
@@ -256,19 +257,21 @@ int start_quest(quest_t *quest);
  */
 int fail_quest(quest_t *quest);
 
-/* Completes an achievement in a quest by checking if a given
- * achievement ID matches any incomplete achievements in the
- * appropriate level of the achievement tree.
+/* Completes a task in a quest by checking if a given
+ * task ID matches any incomplete tasks in the
+ * appropriate level of the task tree. Returns the reward
+ * of the completed task.
  * 
  * Parameters:
  * - quest: pointer to the quest
- * - id: the string identifier of the completed achievement
- *
+ * - id: the string identifier of the completed task
+ *  
  * Returns:
- * - SUCCESS
- * - FAILURE
+ * - the task's reward item
+ * - NULL if the task is incomplete
+ * 
  */
-int complete_achievement(quest_t *quest, char *id);
+reward_t *complete_task(quest_t *quest, char *id);
 
 /* Checks if a quest is completed
  * 
