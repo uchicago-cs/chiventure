@@ -38,7 +38,7 @@ int npc_action_init(npc_action_t *a, char *c_name, npc_actions_t action)
     a->action = action;
     if (a->c_name == NULL)
     {
-        error("npc_aciton_init: Could not initialize action name\n");
+        error("npc_action_init: Could not initialize action name\n");
         return FAILURE;
     }
     return SUCCESS;
@@ -77,8 +77,10 @@ list_npc_action_t *get_npc_actions()
     list_npc_action_t *tmp = NULL;
     for (int i = 0; i < NUM_ACTIONS; i++)
     {
-        list_npc_action_t *add = (list_npc_action_t*)malloc(sizeof(list_npc_action_t));
-        npc_action_t *add_data = npc_action_new(valid_actions[i].c_name, valid_actions[i].kind);
+        list_npc_action_t *add = (list_npc_action_t*)
+                                  malloc(sizeof(list_npc_action_t));
+        npc_action_t *add_data = npc_action_new(valid_actions[i].c_name, 
+                                                valid_actions[i].kind);
         add->action = add_data;
         LL_PREPEND(tmp, add);
         tmp = add;
@@ -88,7 +90,8 @@ list_npc_action_t *get_npc_actions()
 
 /* KIND 4
  * See npc_action.h */
-int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string)
+int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, 
+                  char **ret_string)
 {
     assert(c);
     assert(c->game);
@@ -148,8 +151,8 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
             sprintf(string, "%s", game_act->success_str);
             if (is_game_over(game))
             {
-                string = strcat(string, " Congratulations, you've won the game! "
-                        "Press ctrl+D to quit.");
+                string = strcat(string, " Congratulations, you've won the game"
+                        "! Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
@@ -159,14 +162,17 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 
 /* KIND 5
  * See npc_action.h */
-int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *i, char **ret_string)
+int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, 
+                       item_t *i, char **ret_string)
 {
     //TODO
 }
 
 /* KIND 6
  * See npc_action.h */
- int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string)
+ int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc,
+                             item_t *direct, item_t *indirect,
+                             char **ret_string)
 {
      //TODO
 }
