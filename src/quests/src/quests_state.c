@@ -487,7 +487,7 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 {
     quest_t *q;
     HASH_FIND(hh, hash_table, quest_id,  
-            strnlen(quest_id, MAX_ID_LEN), q);
+            sizeof(quest_t), q);
 
     return q;
 }
