@@ -89,7 +89,7 @@ char* suggestions(char *action_input, char** actions)
 
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021";
+    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021\n   Class of CMSC 22000 Spring 2022\n";
 }
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -244,6 +244,12 @@ char *view_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         //TODO: Ask action management what they want to happen, 
         //as they likely want to call some other function.
         return "Second argument was \"stats\"";
+    }
+    if(strcmp(arg2,"advanced") == 0)
+    {
+        //TODO: Ask action management what they want to happen, 
+        //as they likely want to call some other function.
+        return "Second argument was \"advanced\"";
     }
     //all possible options should have been matched before this
     return "Invalid second argument\n";
