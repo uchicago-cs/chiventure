@@ -587,7 +587,7 @@ Test(quest,complete_quest)
 }
 
 /* Tests the function that removes one quest from hash table */
-Test(quest_hash_t, remove_quest)
+Test(quest, remove_quest_one)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
@@ -610,13 +610,13 @@ Test(quest_hash_t, remove_quest)
     int add_quest2 = add_quest_to_hash(quest2, test_hash_table);
 
     // only removing one quest
-    int remove_one = 0;
-    int res = remove_quest(test_hash_table, quest1_id, remove_one);
+    int remove_all = 0;
+    int res = remove_quest(test_hash_table, quest1_id, remove_all);
     cr_assert_eq(res,1, "failed to remove");
 }
 
-/* Tests the function that removes all quest from hash table */
-Test(quest_hash_t, remove_quest)
+/* Tests the function that removes all quests from hash table */
+Test(quest, remove_quest_all)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
@@ -627,19 +627,19 @@ Test(quest_hash_t, remove_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-    char *quest1_id = "remove quest";
-    char *quest2_id = "keep quest";
+    char *quest1_id = "remove quest one";
+    char *quest2_id = "remove quest two";
 
     quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
     quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
 
     quest_hash_t *test_hash_table;
 
-    int add_quest1 = add_quest_to_hash(quest1, test_hash_table);
-    int add_quest2 = add_quest_to_hash(quest2, test_hash_table);
+    int quest_1 = add_quest_to_hash(quest1, test_hash_table);
+    int quest_2 = add_quest_to_hash(quest2, test_hash_table);
 
     // only removing all quests
-    int remove_one = 1;
-    int res = remove_quest(test_hash_table, quest1_id, remove_one);
+    int remove_all = 1;
+    int res = remove_quest(test_hash_table, quest1_id, remove_all);
     cr_assert_eq(res,1, "remove_quest() failed to remove");
 }

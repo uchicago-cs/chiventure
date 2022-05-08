@@ -533,18 +533,17 @@ reward_t *complete_quest(quest_t *quest)
 int remove_quest(quest_hash_t *hash_table, char *quest_id, int isall) 
 {
     quest_t *check = get_quest_from_hash(quest_id,hash_table);
-    if (isall == 1) {
-        quest_t *temp; 
-        HASH_ITER(hh, hash_table,check,temp) {
-            HASH_DEL(hash_table, check);
-            quest_free(check);
-        }
-        return SUCCESS; 
-
-    }
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
+    if (isall == 1) {
+        quest_t *current, *temp;
+        HASH_ITER(hh, hash_table,current,temp) {
+            HASH_DEL(hash_table, current);
+            quest_free(current);
+        }
+        return SUCCESS; 
+    }
     HASH_DEL(hash_table,check); 
     quest_free(check); 
     return SUCCESS;
