@@ -72,6 +72,9 @@ typedef struct player {
 * in src/common/include */
 typedef struct player player_hash_t;
 
+
+player_quest_t *player_quest_new(char *quest_id, int completion);
+
 /*
  * Allocates and creates a new player with given ID, starting at level
  *  1 with 0 xp. 
