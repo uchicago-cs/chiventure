@@ -217,7 +217,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) node matching node_id could not be found;
  */
-int add_give_item(convo_t *c, char *node_id, char *item_id);
+int add_give(convo_t *c, char *node_id, char *item_id);
 
 /* Adds a take item flag to a node.
  *
@@ -230,7 +230,56 @@ int add_give_item(convo_t *c, char *node_id, char *item_id);
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) node matching node_id could not be found;
  */
-int add_take_item(convo_t *c, char *node_id, char *item_id);
+int add_take(convo_t *c, char *node_id, char *item_id);
+
+/* Adds a buy item flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - item_id: ID of the item
+ *  - payment: amount of currency paid
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ * 
+ * Notes: pending implementation of currency in Chiventure
+ */
+int add_buy(convo_t *c, char *node_id, char *item_id, double payment);
+
+/* Adds a sell item flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - item_id: ID of the item
+ *  - profit: amount of currency gained
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ * 
+ * Notes: pending implementation of currency in Chiventure
+ */
+int add_sell(convo_t *c, char *node_id, char *item_id, double profit);
+
+/* Adds a trade item flag to a node.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - node_id: ID of the target node
+ *  - given_item_id: ID of the item given
+ *  - received_item_id: ID of the item received
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ *  - Possible errors: (1) node matching node_id could not be found;
+ * 
+ * Note: currently supports 1-to-1 trades only
+ */
+int add_trade(convo_t *c, char *node_id, char *given_item_id,
+              char *received_item_id);
 
 /* Adds a start quest flag to a node.
  *

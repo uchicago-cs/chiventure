@@ -133,7 +133,7 @@ int do_node_actions(node_t *n, game_t *game)
 
         switch(cur_action->action) {
 
-            case GIVE: // should remain the same used to be ;
+            case GIVE: ;// should remain the same. used to be ;
                 npc_t *npc = get_npc_in_room(game->curr_room,
                                              game->mode->mode_ctx);
                 item_t *item = get_item_in_hash(npc->inventory,
@@ -144,7 +144,7 @@ int do_node_actions(node_t *n, game_t *game)
                     return FAILURE;
                 break;
 
-            case TAKE: // should remain the same
+            case TAKE: // should remain the same; takes from player
                 npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
                 item = get_item_in_hash(game->curr_player->inventory,
                                                 cur_action->action_id);
@@ -154,16 +154,53 @@ int do_node_actions(node_t *n, game_t *game)
                 if (add_item_to_npc(npc, item) != SUCCESS) return FAILURE;
                 break;
 
-            case BUY:
-                // to do
+            case BUY: // npc buys from player
+                /*
+                npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+                item = get_item_in_hash(game->curr_player->inventory,
+                                                cur_action->action_id);
+                if (item == NULL) return FAILURE;
+                if (remove_item_from_player(game->curr_player, item) != SUCCESS)
+                    return FAILURE;
+                if (add_item_to_npc(npc, item) != SUCCESS) return FAILURE;
+                // adding money to player //
+                */
                 break;
 
             case SELL:
-                // to do
+                /*
+                npc_t *npc = get_npc_in_room(game->curr_room,
+                                             game->mode->mode_ctx);
+                item_t *item = get_item_in_hash(npc->inventory,
+                                                cur_action->action_id);
+                if (item == NULL) return FAILURE;
+                if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
+                if (add_item_to_player(game->curr_player, item) != SUCCESS)
+                    return FAILURE;
+                // removing money from player //
+                */
                 break;
 
             case TRADE:
                 // to do
+                /*
+                npc_t *npc = get_npc_in_room(game->curr_room,
+                                             game->mode->mode_ctx);
+                item = get_item_in_hash(npc->inventory,
+                                                cur_action->action_id);
+                item *item_pc = get_item_in_hash(game->curr_player->inventory,
+                                                cur_action->action_id);
+                if (item == NULL) return FAILURE;
+                if (item_pc == NULL) return FAILURE;
+
+                if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
+                if (add_item_to_player(game->curr_player, item) != SUCCESS)
+                    return FAILURE;
+                if (remove_item_from_player(game->curr_player, item_pc) != SUCCESS)
+                    return FAILURE;
+                if (add_item_to_npc(npc, item_pc) != SUCCESS) return FAILURE;
+
+                */
                 break;
                 
             // to do-- add START_QUEST and START_BATTLE to npc_actions?
@@ -409,25 +446,53 @@ int add_action_to_node(node_t *n, node_action_type action, char *action_id)
 }
 
 /* See dialogue.h */
-int add_give_item(convo_t *c, char *node_id, char *item_id)
+int add_give(convo_t *c, char *node_id, char *item_id)
 {
     assert(item_id != NULL);
     
     node_t *n;
     if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
 
-    return add_action_to_node(n, GIVE_ITEM, item_id);
+    return add_action_to_node(n, GIVE, item_id);
 }
 
 /* See dialogue.h */
-int add_take_item(convo_t *c, char *node_id, char *item_id)
+int add_take(convo_t *c, char *node_id, char *item_id)
 {
     assert(item_id != NULL);
     
     node_t *n;
     if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
 
-    return add_action_to_node(n, TAKE_ITEM, item_id);
+    return add_action_to_node(n, TAKE, item_id);
+}
+
+/* See dialogue.h */
+int add_buy(convo_t *c, char *node_id, char *item_id, double payment)
+{
+    // to do
+    // right now add_action_to_node accepts 1 item_id
+    // needs to accept money imp and item_id...
+    return 0;
+}
+
+/* See dialogue.h */
+int add_sell(convo_t *c, char *node_id, char *item_id, double profit)
+{
+    // to do
+    // right now add_action_to_node accepts 1 item_id
+    // needs to accept money imp and item_id...
+    return 0;
+}
+
+/* See dialogue.h */
+int add_trade(convo_t *c, char *node_id, char *given_item_id,
+              char *received_item_id)
+{
+    // to do
+    // right now add_action_to_node accepts 1 item_id
+    // perhaps change to list?
+    return 0;
 }
 
 /* See dialogue.h */
