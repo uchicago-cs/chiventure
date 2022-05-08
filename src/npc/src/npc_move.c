@@ -308,7 +308,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
 
     if(current_room->next == NULL)
     {
-        assert(reverse_path(npc_mov) == SUCCESS);
+        assert(flip_npc_path_direction(npc_mov) == SUCCESS);
         return 1;
     }
     if((strcmp(current_room->room->room_id,npc_mov->track)) == 0)
