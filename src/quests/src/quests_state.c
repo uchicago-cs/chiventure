@@ -102,7 +102,7 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, task_tree, reward, stat_req, 0);
+    rc = quest_init(q, quest_id, task_tree, reward, stat_req);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -174,7 +174,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward)
 
 /* Refer to quests_state.h */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
-                reward_t *reward, stat_req_t *stat_req, int status)
+                reward_t *reward, stat_req_t *stat_req)
 
 {
     assert(q != NULL);
@@ -184,7 +184,6 @@ int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
     q->task_tree = task_tree;
     q->reward = reward;
     q->stat_req = stat_req;
-    q->status = status;
 
     return SUCCESS;
 }
@@ -373,38 +372,6 @@ int can_start_quest(quest_t *quest, player_t *player)
 }
 
 /* Refer to quests_state.h */
-player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table)
-{
-    player_quest_t *q;
-    HASH_FIND(hh, hash_table, quest_id,  
-            strnlen(quest_id, MAX_ID_LEN), q);
-
-    return q;
-}
-
-/* Refer to quests_state.h */
-int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table, completion)
-{
-    player_quest_t *check;
-
-    char buffer[MAX_ID_LEN];
-    sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
-    
-    check = get_player_quest_from_hash(buffer, hash_table);
-
-    if (check != NULL) 
-    {
-        return FAILURE; //quest id is already in the hash table
-    }
-    player_quest = player_quest_new(quest->quest_id, completion);
-
-    HASH_ADD_KEYPTR(hh, hash_table, buffer,
-                    strnlen(buffer, MAX_ID_LEN), player_quest);
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
 int start_quest(quest_t *quest, player_t *player)
 {
     assert(quest != NULL);
@@ -423,7 +390,7 @@ int fail_quest(quest_t *quest, player_t *player)
     assert(quest != NULL);
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id,
                              player->player_quests);
-    quest->completion = -1;
+    pquest->completion = -1;
 
     return SUCCESS;
 }
@@ -491,17 +458,19 @@ reward_t *complete_task(quest_t *quest, char *id)
 }
 
 /* Refer to quests_state.h */
-int is_quest_completed(quest_t *quest)
+int is_quest_completed(quest_t *quest, player_t *player)
 {
     assert (quest != NULL);
     task_tree_t *tmp = malloc(sizeof(task_tree_t));
     tmp = quest->task_tree;
 
+    player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
+
     while(tmp = get_bottom_node(tmp))
     {
         if(tmp->task->completed == 1)
         {
-            quest->status = 2;
+            pquest->completion = 2;
             return 1;
         }
         else if(tmp->rsibling != NULL)
@@ -551,17 +520,48 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
 }
 
 /* Refer to quests_state.h */
-int get_player_quest_status(player_quest_t *pquest)
+player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table)
 {
-    return pquest->completion
+    player_quest_t *q;
+    HASH_FIND(hh, hash_table, quest_id,  
+            strnlen(quest_id, MAX_ID_LEN), q);
+
+    return q;
+}
+
+/* Refer to quests_state.h */
+int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table, completion)
+{
+    player_quest_t *check;
+
+    char buffer[MAX_ID_LEN];
+    sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
+    
+    check = get_player_quest_from_hash(buffer, hash_table);
+
+    if (check != NULL) 
+    {
+        return FAILURE; //quest id is already in the hash table
+    }
+    player_quest = player_quest_new(quest->quest_id, completion);
+
+    HASH_ADD_KEYPTR(hh, hash_table, buffer,
+                    strnlen(buffer, MAX_ID_LEN), player_quest);
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int get_player_quest_status(quest_t *quest, player_t *player)
+{
+    player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
+    return pquest->completion;
 }
 
 /* Refer quests_state.h */
 reward_t *complete_quest(quest_t *quest, player_t *player)
 {
-    player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, 
-                                player->player_quests);
-    if (get_player_quest_status(pquest) == 2)
+    if (get_player_quest_status(quest, player) == 2)
         return quest->reward;
     else
         return NULL;

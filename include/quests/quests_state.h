@@ -148,8 +148,6 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
  * - task_tree: non-binary tree struct holding a tree of 
  *                     tasks that make up a quest
  * - reward: reward of the quest is an item
- * - status: int indicating the status of the quest (refer to
- *           quests_structs.h for all possible statuses)
  * 
  * Returns:
  * - SUCCESS for successful init
@@ -157,7 +155,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
  * 
  */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
-               reward_t *reward, stat_req_t *stat_req, int status);
+               reward_t *reward, stat_req_t *stat_req);
 
 /* 
  * Frees a passive mission struct from memory
@@ -318,9 +316,9 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table);
  * - player: pointer to player with the quest
  * 
  * Returns: 
- * - the quest's status code, as described in quests_structs.h
+ * - the quest's completion for the given player
  */
-int get_quest_status(quest_t *quest, player_t *player);
+int get_player_quest_status(quest_t *quest, player_t *player);
 
 /* Returns the quest's reward item if the quest has been completed.
  *
