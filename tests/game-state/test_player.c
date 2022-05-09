@@ -13,6 +13,66 @@
 #include "battle/battle_default_objects.h"
 #include "battle/battle_structs.h"
 
+Test(player, quest_new)
+{
+  player_quest_t *player_quest = player_quest_new("test", 0);
+
+  cr_assert_not_null(player_quest, "player_quest_new() failed");
+
+  cr_assert_eq(strcmp(player_quest->quest_id, "test"), 0,
+      "player_quest_new() didn't properly set quest_id");
+  cr_assert_eq(player_quest->completion, 0,
+      "player_quest_new() didn't properly set completion status");
+  
+  free(player_quest);
+}
+
+Test(player, task_new)
+{
+  player_task_t *player_task = player_task_new("test", 0);
+
+  cr_assert_not_null(player_task, "player_task_new() failed");
+
+  cr_assert_eq(strcmp(player_task->task_id, "test"), 0,
+      "player_task_new() didn't properly set task_id");
+  cr_assert_eq(player_task->completed, 0,
+      "player_task_new() didn't properly set completed status");
+  
+  free(player_task);
+}
+
+Test(player, quest_init)
+{
+  player_quest_t *player_quest = (player_quest_t*)malloc(sizeof(player_quest_t));
+  
+  player_quest_init(player_quest, "test", 0);
+
+  cr_assert_not_null(player_quest, "player_quest_new() failed");
+
+  cr_assert_eq(strcmp(player_quest->quest_id, "test"), 0,
+      "player_quest_init() didn't properly set quest_id");
+  cr_assert_eq(player_quest->completion, 0,
+      "player_quest_init() didn't properly set completion status");
+  
+  free(player_quest);
+}
+
+Test(player, task_init)
+{
+  player_task_t *player_task = (player_task_t*)malloc(sizeof(player_task_t));
+
+  player_task_init(player_task, "test", 0);
+
+  cr_assert_not_null(player_task, "player_task_new() failed");
+
+  cr_assert_eq(strcmp(player_task->task_id, "test"), 0,
+      "player_task_init() didn't properly set task_id");
+  cr_assert_eq(player_task->completed, 0,
+      "player_task_init() didn't properly set completed status");
+  
+  free(player_task);
+}
+
 /* Checks that player_new() properly mallocs and inits a new player struct */
 Test(player, new)
 {
