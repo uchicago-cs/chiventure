@@ -20,7 +20,6 @@
 const char* const DEFAULT_CLASS_NAMES[] = {
     "bard",
     "basic",
-    /*^^this is the class for anything that isn't supposed to be interesting*/
     "monk",
     "ranger",
     "rogue",
@@ -176,19 +175,19 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     }
 
     /* Basic class stats:
-     * 100 Max Health
-     * 100 Speed
-     * 100 Physical Defense
-     * 100 Physical Attack
-     * 100 Ranged Attack
-     * 100 Magic Defense
-     * 100 Magic Attack
-     * 100 Max Mana 
+     * 50 Max Health
+     * 1 Speed
+     * 1 Physical Defense
+     * 1 Physical Attack
+     * 1 Ranged Attack
+     * 1 Magic Defense
+     * 1 Magic Attack
+     * 1 Max Mana 
      * These stats can be off the scale stupid because why not? This is a placeholder class */ 
     if (!strncmp(temp_name, "basic", MAX_NAME_LEN)) {
         short_desc = "An ordinary person.";
         long_desc = "This is just an ordinary human being. There's nothing special about this guy.";
-        set_stats_hashtable(game, &stats, 100, 100, 100, 100, 100, 100, 100, 100);
+        set_stats_hashtable(game, &stats, 50, 1, 1, 1, 1, 1, 1, 1);
     }
 
     /* Monk stats:
