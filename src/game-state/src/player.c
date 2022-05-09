@@ -92,6 +92,7 @@ player_t* player_new(char *player_id)
     player->player_effects = NULL;
     player->player_race = NULL;
     player->player_quests = NULL;
+    player->player_tasks = NULL;
     player->inventory = NULL;
 
     return player;
@@ -158,12 +159,43 @@ player_quest_t *player_quest_new(char *quest_id, int completion)
     return pquest;
 }
 
+player_task_t *player_task_new(char *task_id, bool completed)
+{
+    player_quest_t *ptask;
+    int rc;
+    ptask = calloc(1, sizeof(player_task_t));
+
+    if(ptask == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player task!\n");
+        return NULL;
+    }
+
+    rc = player_task_init(ptask, task_id, completed);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player task struct!\n");
+        return NULL;
+    }
+
+    return ptask;
+}
+
 int player_quest_init(player_quest_t *pquest, char *quest_id, int completion)
 {
     assert(pquest != NULL);
 
     pquest->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
     pquest->completion = completion;
+    return SUCCESS;
+}
+
+int player_task_init(player_task_t *ptask, char *task_id, bool completed)
+{
+    assert(ptask != NULL);
+
+    ptask->task_id = strndup(task_id, QUEST_NAME_MAX_LEN);
+    ptask->completed = completed;
     return SUCCESS;
 }
 
@@ -174,6 +206,17 @@ int player_quest_hash_free(player_quest_hash_t *player_quests)
     {
         HASH_DEL(player_quests, current_player_quest);
         free(current_player_quest);
+    }
+    return SUCCESS;
+}
+
+int player_task_hash_free(player_task_hash_t *player_tasks)
+{
+    player_task_t *current_player_task, *tmp;
+    HASH_ITER(hh, player_tasks, current_player_task, tmp)
+    {
+        HASH_DEL(player_tasks, current_player_task);
+        free(current_player_task);
     }
     return SUCCESS;
 }

@@ -158,7 +158,7 @@ Test(quest, init)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	int check = quest_init(q, "test", NULL, rewards, stat_req, 0);
+	int check = quest_init(q, "test", NULL, rewards, stat_req);
 
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
 }
@@ -184,9 +184,6 @@ Test(task, new)
 	task_t* task = task_new(mission, id, rewards);
 
 	cr_assert_not_null(task, "task_new() test has failed!");
-
-    cr_assert_eq(task->completed, 0, 
-                     "task_init did not initialize completed bool");
 }
 
 /* Tests new quest malloc (new uses init) */
@@ -216,8 +213,6 @@ Test(quest, new)
                      "quest_init did not set stat req hp");
     cr_assert_eq(q->stat_req->level, 5,
                      "quest_init did not set stat req level");
-    cr_assert_eq(q->status, 0, "quest_new()"
-                "did not initialize the status");
 }
 
 /* Tests task_free function */
