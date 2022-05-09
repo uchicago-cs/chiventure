@@ -308,10 +308,34 @@ class Player:
         return 0
 
     def attributes_list(self) -> list:
-        return []
+        out = []
+        for name, attributes_dict in self.contents.get('Attributes', {}).items():
+            attributes_wdl_dict = {"Attributes": name}
+            for k,v in attributes_dict.items():
+                attributes_wdl_dict[k] = v
+            out.append(attributes_wdl_dict)
+ 
+        return out
 
     def base_stats_list(self) -> list:
-        return []
+        out = []
+        for name, base_stats_dict in self.contents.get('Base_Stats', {}).items():
+            base_stats_wdl_dict = {"action": name}
+            for k,v in base_stats_dict.items():
+                base_stats_wdl_dict[k] = v
+            out.append(base_stats_dict)
+ 
+        return out
 
     def actions_list(self) -> list:
-        return []
+        out = []
+        for name, action_dict in self.contents.get('actions', {}).items():
+            action_wdl_dict = {"action": name}
+            for k,v in action_dict.items():
+                if k in ACTION_ALIASES:
+                    action_wdl_dict[ACTION_ALIASES[k]] = v
+                else:
+                    action_wdl_dict[k] = v
+            out.append(action_wdl_dict)
+ 
+        return out
