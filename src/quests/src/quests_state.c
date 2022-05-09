@@ -508,8 +508,7 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
         return FAILURE; //quest id is already in the hash table
     }
 
-    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
-                    strnlen(quest->quest_id, MAX_ID_LEN), quest);
+    HASH_ADD_STR(*hash_table, quest_id,quest);
     return SUCCESS;
 }
 
