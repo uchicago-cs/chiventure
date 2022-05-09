@@ -689,8 +689,8 @@ Test(test, add_quest_test1)
     cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add test"); 
     cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add test"); 
 }
-
-/*test for add quest when there is same quest_id */
+/*test for add quest when there is no same quest_id*/
+Test(test, add_quest_test2)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
