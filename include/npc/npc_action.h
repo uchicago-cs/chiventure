@@ -56,7 +56,8 @@ typedef struct list_npc_action {
  *
  * Parameters:
  *    - c_name: The name of the npc action e.g ignore,give
- *    - kind: whether the action involves just the NPC, an NPC and an item, or an NPC and two items
+ *    - kind: whether the action involves just the NPC, an NPC and an item, or
+ *            an NPC and two items
  *
  * Returns:
  *    - A pointer to the npc_action, or NULL if an npc_action
@@ -70,7 +71,8 @@ npc_action_t *npc_action_new(char *c_name, npc_actions_t action);
  * Parameters:
  *    - a: An npc_action pointer. Must point to already allocated memory.
  *    - c_name: The name of the npc_action
- *    -kind: the kind of npc-action involved ie just NPC, or NPC and items to be given or taken
+ *    - kind: the kind of npc-action involved ie just NPC, or NPC and items to   
+ *            be given or taken
  * Returns:
  *    - 0 on success, 1 if an error occurs.
  */
@@ -80,7 +82,8 @@ int npc_action_init(npc_action_t *a, char *c_name, npc_actions_t action);
  * Frees the resources associated with an npc_action
  *
  * Parameters:
- *    - a: An npc_action. Must point to an npc_action allocated with npc_action_new
+ *    - a: An npc_action. Must point to an npc_action allocated with
+ *         npc_action_new
  *
  * Returns:
  *    - Always returns 0.
@@ -104,15 +107,20 @@ list_npc_action_t *get_npc_actions();
  * - c: A context struct encapsulating the shared state in chiventure
  * - a: An NPC action type struct
  * - npc: An npc struct
- * - 7 if an effect for the action wasn't applied, failure string as an out parameter
- * - 7 if an effect for the action wasn't applied, failure string as an out parameter
+ * - 7 if an effect for the action wasn't applied, failure string as an out 
+ *   parameter
+ * - 7 if an effect for the action wasn't applied, failure string as an out
+ *   parameter
  * - ret_string: A pointer to a string describing the result of the function
- *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS 
+ *           FUNCTION
  *
  * Returns:
  * - 0 upon success, success string as an out parameter
- * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
- * - NOT_ALLOWED_DIRECT if the action can't be done on the NPC, failure string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out
+ *   parameter
+ * - NOT_ALLOWED_DIRECT if the action can't be done on the NPC, failure string
+ *   as an out parameter
  */
 int do_npc_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, char **ret_string);
 
@@ -124,14 +132,19 @@ int do_npc_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, char **ret_
  * - npc: An npc struct
  * - i: An item struct
  * - ret_string: A pointer to a string describing the result of the function
- *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS
+ *           FUNCTION
  *
  * Returns:
  * - 0 upon success, success string as an out parameter
- * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
- * - NOT_ALLOWED_DIRECT if the action can't be done on the NPC, failure string as an out parameter
- * - 6 if conditions for the action haven't been met, failure string as an out parameter
- * - 7 if an effect for the action wasn't applied, failure string as an out parameter  
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out
+ *   parameter
+ * - NOT_ALLOWED_DIRECT if the action can't be done on the NPC, failure string
+ *   as an out parameter
+ * - 6 if conditions for the action haven't been met, failure string as an out
+ *   parameter
+ * - 7 if an effect for the action wasn't applied, failure string as an out
+ *   parameter  
  */
 int do_npc_item_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, item_t *i, char **ret_string);
 
@@ -145,7 +158,7 @@ int do_npc_item_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, item_t
  *  - direct: An item struct containing the direct object (the "actor")
  *  - indirect: An item struct containing the indirect object (the "actee")
  *  - ret_string: A pointer to a string describing the result of the function
- *    - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *  - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  */
 int do_npc_item_item_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string);
 

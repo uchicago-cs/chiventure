@@ -39,7 +39,7 @@ int npc_action_init(npc_action_t *a, char *c_name, npc_actions_t action)
     a->action = action;
     if (a->c_name == NULL)
     {
-        error("npc_aciton_init: Could not initialize action name\n");
+        error("npc_action_init: Could not initialize action name\n");
         return FAILURE;
     }
     return SUCCESS;
