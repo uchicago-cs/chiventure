@@ -67,17 +67,20 @@ typedef struct roomspec {
 /* to differentiate between pointers to structs (above) and hash tables (below) */
 typedef struct roomspec rspec_hash_t; 
 
-/* speclist_t struct
-* This struct functions as a llist of all the roomspec_t's
-* The struct contains:
-* - roomspec_t *spec: pointer to some room specification
-* - speclist_t *next: pointer to the next part of the list.
-*/
-typedef struct speclist {
-    roomspec_t *spec;
-    struct speclist *prev;
-    struct speclist *next;
-} speclist_t;
+/* specgraph_t struct
+ * This struct functions as an adjacency matrix for the relationships between roomspec_t's
+ * The struct contains:
+ * - int num_rooms: number of rooms autogenerate function can choose from
+ * - roomspec_t *room: list of rooms corresponding to each node on specgraph
+ * - int **edges: edges of graph representing the relationship between each room
+ *                the higher the number, the more likely the rooms appear next to each other
+ */
+
+typedef struct specgraph {
+    int num_rooms;
+    roomsspec_t *room;
+    int **edges;
+} specgraph_t;
 
 /* gencontext_t struct
 * This struct will carry the info for the generation algorithm
