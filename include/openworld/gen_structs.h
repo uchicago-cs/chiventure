@@ -88,13 +88,13 @@ typedef struct specgraph {
 * - path_t *open_paths: the open path we are connecting the room to;
 * - int level: this is the players current level
 * - int num_open_paths: the number of openpaths that need to be generated in the room.
-* - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
+* - specgraph_t *specgraph: the llist of roomspect_t that each hold the room info.
 */
 typedef struct gencontext {
     path_t *open_paths;
     int num_open_paths;
     int level;
-    speclist_t *speclist;
+    specgraph_t *specgraph;
 } gencontext_t;
 
 
@@ -151,13 +151,13 @@ typedef struct levelspec {
 * - level: stores the players level.
 * - openpaths: number of open paths to generate in the room
 * - numnpcs: the number of npcs to generate in the room
-* - speclist: the speclist we are choosing our roomspec from
+* - specgraph: the specgraph we are choosing our roomspec from
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist);
+int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, specgraph_t *specgraph);
 
 /* gencontext_new
 * Creates a new gencontext_t* based off the given parameters.
@@ -166,13 +166,13 @@ int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int nu
 * - level: stores the players level.
 * - openpaths: number of open paths to generate in the room
 * - numnpcs: the number of npcs to generate in the room
-* - speclist: the speclist we are choosing our roomspec from
+* - specgraph: the specgraph we are choosing our roomspec from
 *
 * returns:
 * gencontext_t *contextnew - the new gencontext
 * NULL - if fails to create a new gencontext.
 */
-gencontext_t* gencontext_new(path_t *open_paths, int level, int num_openpaths, speclist_t *speclist);
+gencontext_t* gencontext_new(path_t *open_paths, int level, int num_openpaths, specgraph_t *specgraph);
 
 /* gencontext_free
 * Frees a gencontext_t* and returns whether or not it was successful
@@ -290,59 +290,59 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
 */
 int roomspec_free(roomspec_t *spec);
 
-/* SPECLIST */
+/* SPECGRAPH */
 
-/* init_speclist
-* Initializes a speclist_t struct with the given paramaters. The speclist
+/* init_specgraph
+* Initializes a specgraph_t struct with the given paramaters. The specgraph
 * must be pointing to some valid memory.
 *
 * parameters:
-* - list: the pointer to the speclist_t we are initializing
+* - list: the pointer to the specgraph_t we are initializing
 * - spec: the pointer to the roomspec_t
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_speclist(speclist_t *list, roomspec_t *spec);
+int init_specgraph(specgraph_t *list, roomspec_t *spec);
 
 
-/* speclist_new
-* Creates a speclist_t struct with the given paramaters.
+/* specgraph_new
+* Creates a specgraph_t struct with the given paramaters.
 *
 * parameters:
 * - spec: the pointer to the roomspec_t
 *
 * returns:
-* speclist_t *listnew = the new speclist
-* NULL - if failed to create a speclist
+* specgraph_t *listnew = the new specgraph
+* NULL - if failed to create a specgraph
 */
-speclist_t* speclist_new(roomspec_t *spec);
+specgraph_t* specgraph_new(roomspec_t *spec);
 
-/* speclist_free
-* Frees a speclist_t struct and returns whether or not it was successful
+/* specgraph_free
+* Frees a specgraph_t struct and returns whether or not it was successful
 *
 * parameters:
-* - list: the pointer to the speclist_t we are freeing
+* - list: the pointer to the specgraph_t we are freeing
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to free
 */
-int speclist_free(speclist_t *list);
+int specgraph_free(specgraph_t *list);
 
-/* speclist_free_all
-* Frees all speclist's from the given list
-* However, this function will not free the roomspec's inside of speclist
+/* specgraph_free_all
+* Frees all specgraph's from the given list
+* However, this function will not free the roomspec's inside of specgraph
 *
 * parameters:
-* - list: the speclist we are freeing from and onward.
+* - list: the specgraph we are freeing from and onward.
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to free
 */
-int speclist_free_all(speclist_t *list);
+int specgraph_free_all(specgraph_t *list);
 
 
 
