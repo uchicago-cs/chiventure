@@ -611,7 +611,6 @@ Test(quest,complete_quest2)
 /*see if get_quest_from_hash when there is quest */ 
 Test(quest,get_quest1)
 { 
-    quest_t *answer;
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
@@ -621,8 +620,8 @@ Test(quest,get_quest1)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-    char *quest1_id = "remove quest";
-    char *quest2_id = "keep quest";
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
 
     quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
     quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
@@ -632,7 +631,8 @@ Test(quest,get_quest1)
     int add_quest1 = add_quest_to_hash(quest1, test_hash_table);
     int add_quest2 = add_quest_to_hash(quest2, test_hash_table);
 
-    answer = get_quest_from_hash(quest1_id,test_hash_table); 
+    quest_t *answer = get_quest_from_hash(quest1_id,test_hash_table); 
+    // printf("answer id is %s\n", answer->quest_id);
     cr_assert_eq(answer, quest1, "failed");
 
 }
@@ -649,8 +649,8 @@ Test(quest,get_quest2)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-    char *quest1_id = "remove quest";
-    char *quest2_id = "keep quest";
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
 
     quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
     quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
