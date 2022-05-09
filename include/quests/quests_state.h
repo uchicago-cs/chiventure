@@ -295,8 +295,8 @@ bool is_quest_completed(quest_t *quest, player_t *player);
  * - false if task is incomplete
  * - true if task is complete
  * 
- * Note: Currently doesn't check if the task's mission is complete, as the 
- *       current mission system makes that essentially impossible.
+ * Note: Currently always returns true assuming there's no error, as the 
+ *       current mission system makes checking essentially impossible.
  *       Once quest prerequisites are added, this function must be updated
  *       to add this functionality.
  */
@@ -333,7 +333,7 @@ task_t *get_task_from_hash(char *id, quest_hash_t *hash_table);
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table);
+int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
 
 /* Gets a player quest from the given hash table
  *
@@ -362,11 +362,12 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
  * Parameters:
  *  quest: pointer to quest struct
  *  hash_table: pointer to player quest hash table
+ *  completion: the completion status of the quest
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table);
+int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, int completion);
 
 /* Adds a player task to the given hash table
  *
@@ -377,7 +378,7 @@ int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table);
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_task_to_player_hash(task_t *task, player_task_hash_t *hash_table);
+int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table);
 
 /* Checks a quest's status.
  *

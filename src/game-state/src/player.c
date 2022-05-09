@@ -129,7 +129,12 @@ int player_free(player_t* player)
 
     if (player->player_quests != NULL)
     {
-        player_qust_hash_free(player->player_quests);
+        player_quest_hash_free(player->player_quests);
+    }
+
+    if (player->player_tasks != NULL)
+    {
+        player_task_hash_free(player->player_tasks);
     }
 
     free(player);
@@ -141,7 +146,7 @@ player_quest_t *player_quest_new(char *quest_id, int completion)
 {
     player_quest_t *pquest;
     int rc;
-    pquest = calloc(1, sizeof(player_quest_t));
+    pquest = malloc(sizeof(player_quest_t));
 
     if(pquest == NULL)
     {
@@ -161,7 +166,7 @@ player_quest_t *player_quest_new(char *quest_id, int completion)
 
 player_task_t *player_task_new(char *task_id, bool completed)
 {
-    player_quest_t *ptask;
+    player_task_t *ptask;
     int rc;
     ptask = calloc(1, sizeof(player_task_t));
 
@@ -201,7 +206,7 @@ int player_task_init(player_task_t *ptask, char *task_id, bool completed)
 
 int player_quest_hash_free(player_quest_hash_t *player_quests)
 {
-    player_quest_t *current_player_quest, *tmp;
+    player_quest_hash_t *current_player_quest, *tmp;
     HASH_ITER(hh, player_quests, current_player_quest, tmp)
     {
         HASH_DEL(player_quests, current_player_quest);

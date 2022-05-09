@@ -351,14 +351,15 @@ int can_start_quest(quest_t *quest, player_t *player)
 int start_quest(quest_t *quest, player_t *player)
 {
     assert(quest != NULL);
+    assert(player != NULL);
 
-    char *quest_name = quest->quest_id;
-    int rc = add_quest_to_player_hash(quest, player->player_quests);
+    int rc = add_quest_to_player_hash(quest, &player->player_quests, 1); // 1 means the quest started, should be replaced when completion status is replaced with enums
     assert(rc == SUCCESS);
-
+    player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
     while(cur) {
-        assert(add_task_to_player_hash(cur->task, player->player_tasks) == SUCCESS);
+        assert(add_task_to_player_hash(cur->task, &player->player_tasks) == SUCCESS);
+        cur = cur->rsibling;
     }   
 
     return SUCCESS;
@@ -401,8 +402,8 @@ task_t *find_task_in_tree(task_tree_t *tree, char *id)
     {
         return task;
     }
-    task = find_task(tree->rsibling, id);
-    return (task != NULL) ? task : find_task(tree->lmostchild, id);
+    task = find_task_in_tree(tree->rsibling, id);
+    return (task != NULL) ? task : find_task_in_tree(tree->lmostchild, id);
 }
 
 /* Refer to quests_state.h */
@@ -417,7 +418,7 @@ bool is_quest_completed(quest_t *quest, player_t *player)
         return false;
     }
 
-    bool crntStatus = false;
+    bool crntStatus = true;
     player_task_t *temp;
     while(cur) {
         temp = get_player_task_from_hash(cur->task->id, player->player_tasks);
@@ -443,7 +444,8 @@ bool is_task_completed(task_t *task, player_t *player)
     if(!ptask) {
         return false;
     }
-    return ptask->completed;
+    ptask->completed = true;
+    return true;
     
 }
 
@@ -458,23 +460,19 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 }
 
 /* Refer to quests_state.h */
-int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
+int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 {
     quest_t *check;
-
-    char buffer[MAX_ID_LEN];
-    sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
     
-    check = get_quest_from_hash(buffer, hash_table);
+    check = get_quest_from_hash(quest->quest_id, *hash_table);
 
     if (check != NULL) 
     {
         return FAILURE; //quest id is already in the hash table
     }
 
-    HASH_ADD_KEYPTR(hh, hash_table, buffer,
-                    strnlen(buffer, MAX_ID_LEN), quest);
-
+    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
+                    strnlen(quest->quest_id, MAX_ID_LEN), quest);
     return SUCCESS;
 }
 
@@ -482,7 +480,7 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
 task_t *get_task_from_hash(char *id, quest_hash_t *hash_table) {
     task_t *task = NULL;
     for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next) {
-        task = find_task_in_tree(cur, id);
+        task = find_task_in_tree(cur->task_tree, id);
         if(task != NULL) {
             break;
         }
@@ -494,9 +492,7 @@ task_t *get_task_from_hash(char *id, quest_hash_t *hash_table) {
 player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table)
 {
     player_quest_t *q;
-    HASH_FIND(hh, hash_table, quest_id,  
-            strnlen(quest_id, MAX_ID_LEN), q);
-
+    HASH_FIND_STR(hash_table, quest_id, q);
     return q;
 }
 
@@ -511,36 +507,29 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
 }
 
 /* Refer to quests_state.h */
-int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t *hash_table)
+int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, int completion)
 {
     player_quest_t *check;
-
-    char buffer[MAX_ID_LEN];
-    sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
     
-    check = get_player_quest_from_hash(buffer, hash_table);
+    check = get_player_quest_from_hash(quest->quest_id, *hash_table);
 
     if (check != NULL) 
     {
         return FAILURE; //quest id is already in the hash table
     }
-    player_quest_t *player_quest = player_quest_new(quest->quest_id, 0); // 0 is the completion status, update when completion status to enum
+    player_quest_t *player_quest = player_quest_new(quest->quest_id, completion);
 
-    HASH_ADD_KEYPTR(hh, hash_table, buffer,
-                    strnlen(buffer, MAX_ID_LEN), player_quest);
-
+    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
+                    strnlen(quest->quest_id, MAX_ID_LEN), player_quest);
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int add_task_to_player_hash(task_t *task, player_task_hash_t *hash_table)
+int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 {
     player_task_t *check;
-
-    char buffer[MAX_ID_LEN];
-    sprintf(buffer, "%s", task->id); //need to convert ids to char *
     
-    check = get_player_task_from_hash(buffer, hash_table);
+    check = get_player_task_from_hash(task->id, *hash_table);
 
     if (check != NULL) 
     {
@@ -548,8 +537,8 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t *hash_table)
     }
     player_task_t *player_task = player_task_new(task->id, false);
 
-    HASH_ADD_KEYPTR(hh, hash_table, buffer,
-                    strnlen(buffer, MAX_ID_LEN), player_task);
+    HASH_ADD_KEYPTR(hh, *hash_table, task->id,
+                    strnlen(task->id, MAX_ID_LEN), player_task);
 
     return SUCCESS;
 }
@@ -558,13 +547,16 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t *hash_table)
 int get_player_quest_status(quest_t *quest, player_t *player)
 {
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
+    if(!pquest) {
+        return 0;
+    }
     return pquest->completion;
 }
 
 /* Refer to quests_state.h */
 bool get_player_task_status(task_t *task, player_t *player)
 {
-    player_task_t *ptask = get_player_quest_from_hash(task->id, player->player_tasks);
+    player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
     return ptask->completed;
 }
 

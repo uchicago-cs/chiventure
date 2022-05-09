@@ -6,7 +6,6 @@
 #include "room.h"
 #include "item.h"
 #include "npc/npc.h"
-#include "quests/quests_state.h"
 #include "quests/quests_structs.h"
 #include "condition.h"
 #include "game_action.h"

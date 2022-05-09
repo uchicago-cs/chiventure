@@ -17,6 +17,22 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
+/* A reference to a given quest from game_state that the player has unlocked */
+typedef struct player_quest {
+    char *quest_id;
+    int completion;
+    UT_hash_handle hh;
+} player_quest_t;
+typedef struct player_quest player_quest_hash_t;
+
+/* A reference to a given task (for quests) from game_state that the player has unlocked */
+typedef struct player_task {
+    char *task_id;
+    bool completed;
+    UT_hash_handle hh;
+} player_task_t;
+typedef struct player_task player_task_hash_t;
+
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
@@ -68,22 +84,6 @@ typedef struct player {
 * in src/common/include */
 typedef struct player player_hash_t;
 
-/* A reference to a given quest from game_state that the player has unlocked */
-typedef struct player_quest {
-    UT_hash_handle hh;
-    char *quest_id;
-    int completion;
-} player_quest_t;
-typedef struct player_quest player_quest_hash_t;
-
-/* A reference to a given task (for quests) from game_state that the player has unlocked */
-typedef struct player_task {
-    UT_hash_handle hh;
-    char *task_id;
-    bool completed;
-} player_task_t;
-typedef struct player_task player_task_hash_t;
-
 /* 
  * Creates and initializes a new player_quest
  *
@@ -132,7 +132,7 @@ int player_quest_init(player_quest_t *pquest, char *quest_id, int completion);
  * Returns:
  * - SUCCESS if initialized successfully, FAILURE if an error occured
 */
-int player_task_init(player_task_t *ptask, char *task_id, bool completed)
+int player_task_init(player_task_t *ptask, char *task_id, bool completed);
 
 /*
  * Frees a player_quest hash table

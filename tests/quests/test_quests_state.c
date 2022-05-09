@@ -402,13 +402,14 @@ Test(quest, start_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
-
-    int check = start_quest(quest);
+	quest_t *quest = quest_new("test", NULL, rewards, stat_req);
+    player_t *player = player_new("test player");
+    int check = start_quest(quest, player);
 
     cr_assert_eq(check, SUCCESS, "start_quest() failed");
-
-    cr_assert_eq(quest->status, 1, "start_quest() failed to set status");
+    int status = get_player_quest_status(quest, player);
+    cr_assert_eq(status, 1, "start_quest() failed to set status (incorrectly returned %d)", status);
+    player_free(player);
 }
 
 /* Tests the function  that fails a quest */
@@ -424,12 +425,16 @@ Test(quest, fail_quest)
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+    player_t *player = player_new("test player");
 
-    int check = fail_quest(quest);
+    start_quest(quest, player);
+
+    int check = fail_quest(quest, player);
 
     cr_assert_eq(check, SUCCESS, "fail_quest() failed");
 
-    cr_assert_eq(quest->status, -1, "fail_quest() failed to set status");
+    cr_assert_eq(get_player_quest_status(quest, player), -1, "fail_quest() failed to set status");
+    player_free(player);
 }
 
 
@@ -476,11 +481,18 @@ Test(quest, complete_task)
 
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 
-    reward_t *new_reward = complete_task(quest, "test mission");
+    player_t *player = player_new("test player");
+    start_quest(quest, player);
+
+    bool completed = is_task_completed(task_to_complete, player);
+    cr_assert_eq(completed, true, "is_task_completed() failed!");
+
+    reward_t *new_reward = complete_task(task_to_complete, player);
     if (new_reward == NULL)
         res = FAILURE;
 
     cr_assert_eq(res, SUCCESS, "complete_task() failed!");
+    player_free(player);
 }
 
 /* Function that tests if a quest is completed */
@@ -523,20 +535,24 @@ Test(quest,is_quest_completed)
 
     int res = add_task_to_quest(quest, task, NULL);
 
-    reward_t *the_reward = complete_task(quest, "mission");
-    if (the_reward == NULL)
+    player_t *player = player_new("test player");
+    start_quest(quest, player);
+    reward_t *the_reward = complete_task(task, player);
+    if (the_reward == NULL) {
         res = FAILURE;
+    }
+    bool completed = is_task_completed(task, player);
+    cr_assert_eq(completed, true, "is_task_completed() failed!");
 
-    res = is_quest_completed(quest);
-
-    cr_assert_eq(quest->status,2,"is_quest_completed() failed!");
+    completed = is_quest_completed(quest, player);
+    cr_assert_eq(completed, true, "is_quest_completed() failed!");
     
-    cr_assert_eq(res,1,"is_quest_completed() failed!");
-    
+    cr_assert_eq(get_player_quest_status(quest, player), 2,"is_quest_completed() failed!");
+    player_free(player);
 }
 
 /* Tests the function that checks the status of the quest */
-Test(quest,get_quest_status)
+Test(quest,get_player_quest_status)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
@@ -547,17 +563,17 @@ Test(quest,get_quest_status)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t *quest = quest_new("test", NULL, rewards, stat_req);
+    player_t *player = player_new("test player");
+    int check = get_player_quest_status(quest, player);
 
-    int check = get_quest_status(quest);
+    cr_assert_eq(check, 0, "get_player_quest_status() failed with not statred status");
 
-    cr_assert_eq(check,0,"get_quest_status() failed with not statred status");
+    start_quest(quest, player);
+    check = get_player_quest_status(quest, player);
 
-    check = start_quest(quest);
-
-    check = get_quest_status(quest);
-
-    cr_assert_eq(check,1,"get_quest_status() failed with started status");
+    cr_assert_eq(check,1,"get_player_quest_status() failed with started status");
+    player_free(player);
 }
 
 /* Tests the function that reward the item after a quest*/
@@ -572,11 +588,20 @@ Test(quest,complete_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
-    quest->status = 2;
+	quest_t *quest = quest_new("test", NULL, rewards, stat_req);
+    player_t *player = player_new("test player");
+    int check = get_player_quest_status(quest, player);
 
-    reward_t *res = complete_quest(quest);
+    cr_assert_eq(check, 0, "get_quest_status() failed with not statred status");
 
+    start_quest(quest, player);
+    check = get_player_quest_status(quest, player);
+
+    cr_assert_eq(check,1,"get_quest_status() failed with started status");
+    cr_assert_eq(is_quest_completed(quest, player), true, "quest created in complete_quest is not complete");
+    reward_t *res = complete_quest(quest, player);
+
+    cr_assert_eq(get_player_quest_status(quest, player), 2, "complete_quest failed to complete the quest");
     cr_assert_str_eq(res->item->item_id, "test_item",
-                    "quest_completed failed to reward the item");
+                    "complete_quest failed to reward the item");
 }

@@ -47,14 +47,14 @@ typedef struct active_mission {
 } active_mission_t;
 
 /*
- * This union represents a mission. Can be used to create a task.
+ * This struct represents a mission. Can be used to create a task.
  * 
  * Components:
  *  a_mission: an active mission
  *  p_mission: a passive mission
  *
  */
-typedef union mission {
+typedef struct mission {
     active_mission_t *a_mission;
     passive_mission_t *p_mission;
 } mission_t;
@@ -128,11 +128,11 @@ typedef struct stat_req {
  *          2: quest has been completed
  */
 typedef struct quest  {
-    UT_hash_handle hh;
     char *quest_id;
     task_tree_t *task_tree;
     reward_t *reward;
     stat_req_t *stat_req;
+    UT_hash_handle hh;
 } quest_t;
 
 /*
