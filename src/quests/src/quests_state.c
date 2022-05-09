@@ -486,8 +486,7 @@ int is_quest_completed(quest_t *quest)
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 {
     quest_t *q;
-    HASH_FIND(hh, hash_table, quest_id,  
-            sizeof(quest_t), q);
+    HASH_FIND_STR(hash_table, quest_id, q);
 
     return q;
 }
@@ -497,19 +496,18 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
 {
     quest_t *check;
 
-    char buffer[MAX_ID_LEN];
-    sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
+    // char buffer[MAX_ID_LEN];
+    // sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
     
-    check = get_quest_from_hash(buffer, hash_table);
+    check = get_quest_from_hash(quest->quest_id, hash_table);
 
     if (check != NULL) 
     {
         return FAILURE; //quest id is already in the hash table
     }
 
-    HASH_ADD_KEYPTR(hh, hash_table, buffer,
-                    strnlen(buffer, MAX_ID_LEN), quest);
-
+    quest_t *place = malloc(sizeof(quest_t));
+    HASH_ADD_STR(hash_table, quest->quest_id, place);
     return SUCCESS;
 }
 
