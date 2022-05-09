@@ -91,6 +91,8 @@ player_t* player_new(char *player_id)
     player->player_skills = NULL;
     player->player_effects = NULL;
     player->player_race = NULL;
+    player->player_quests = NULL;
+    player->player_tasks = NULL;
     player->inventory = NULL;
 
     return player;
@@ -125,8 +127,102 @@ int player_free(player_t* player)
         delete_all_stat_effects(player->player_effects);
     }
 
+    if (player->player_quests != NULL)
+    {
+        player_quest_hash_free(player->player_quests);
+    }
+
+    if (player->player_tasks != NULL)
+    {
+        player_task_hash_free(player->player_tasks);
+    }
+
     free(player);
     
+    return SUCCESS;
+}
+
+player_quest_t *player_quest_new(char *quest_id, int completion)
+{
+    player_quest_t *pquest;
+    int rc;
+    pquest = malloc(sizeof(player_quest_t));
+
+    if(pquest == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player quest!\n");
+        return NULL;
+    }
+
+    rc = player_quest_init(pquest, quest_id, completion);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player quest struct!\n");
+        return NULL;
+    }
+
+    return pquest;
+}
+
+player_task_t *player_task_new(char *task_id, bool completed)
+{
+    player_task_t *ptask;
+    int rc;
+    ptask = calloc(1, sizeof(player_task_t));
+
+    if(ptask == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player task!\n");
+        return NULL;
+    }
+
+    rc = player_task_init(ptask, task_id, completed);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player task struct!\n");
+        return NULL;
+    }
+
+    return ptask;
+}
+
+int player_quest_init(player_quest_t *pquest, char *quest_id, int completion)
+{
+    assert(pquest != NULL);
+
+    pquest->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
+    pquest->completion = completion;
+    return SUCCESS;
+}
+
+int player_task_init(player_task_t *ptask, char *task_id, bool completed)
+{
+    assert(ptask != NULL);
+
+    ptask->task_id = strndup(task_id, QUEST_NAME_MAX_LEN);
+    ptask->completed = completed;
+    return SUCCESS;
+}
+
+int player_quest_hash_free(player_quest_hash_t *player_quests)
+{
+    player_quest_hash_t *current_player_quest, *tmp;
+    HASH_ITER(hh, player_quests, current_player_quest, tmp)
+    {
+        HASH_DEL(player_quests, current_player_quest);
+        free(current_player_quest);
+    }
+    return SUCCESS;
+}
+
+int player_task_hash_free(player_task_hash_t *player_tasks)
+{
+    player_task_t *current_player_task, *tmp;
+    HASH_ITER(hh, player_tasks, current_player_task, tmp)
+    {
+        HASH_DEL(player_tasks, current_player_task);
+        free(current_player_task);
+    }
     return SUCCESS;
 }
 
@@ -260,6 +356,32 @@ int player_has_skill(player_t *player, sid_t sid, skill_type_t type)
     rc = inventory_has_skill(player->player_skills, sid, type);
 
     return rc;
+}
+
+player_quest_t *get_player_quest(char *quest_id, player_t *player)
+{   
+    player_quest_t *p;
+    player_quest_hash_t *hash_table = player->player_quests;
+    HASH_FIND(hh, hash_table, quest_id,  
+            strnlen(quest_id, MAX_ID_LEN), p);
+    
+    return p;
+}
+
+/* see player.h */
+int player_add_quest(player_t *player, char *quest_id)
+{
+    player_quest_t *p = player_quest_new(quest_id, 0);
+
+    player_quest_t *check = get_player_quest(quest_id, player);
+    if (check != NULL)
+    {
+        return FAILURE; //quest id is already in the hash table
+    }
+
+    HASH_ADD_KEYPTR(hh, hash_table, buffer,
+                    strnlen(buffer, MAX_ID_LEN), p);
+    return SUCCESS
 }
 
 /* see player.h */
