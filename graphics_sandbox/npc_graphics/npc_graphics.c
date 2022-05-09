@@ -111,6 +111,16 @@ npc_graphics_t* synthesizeTest() {
     return res;
 }
 
+/* Another testing input for NPC graphics */
+npc_graphics_t* synthesizeTest2() {
+    npc_graphics_t* res;
+    res = malloc(sizeof(npc_graphics_t));
+    res->npc_name = "GangnamStyle";
+    res->head_action = ActionNew("Dance","testimages/GangnamStyle/Dance/GangnamStyle.png",22,7);
+    res->head_line = LineNew("Default", "This is Gangnam Style");
+    return res;
+}
+
 
 void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* line_name,
                     Vector2 windowloc, Vector2 windowsize, Color textcolor) {
@@ -186,8 +196,12 @@ void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* li
 
 int main(void)
 {   
-    npc_graphics_t* current_npc = synthesizeTest();
+    //npc_graphics_t* current_npc = synthesizeTest();
 
-    runNPCGraphics(&current_npc, "Dhirpal", "Default","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
+    //runNPCGraphics(&current_npc, "Dhirpal", "Default","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
+    npc_graphics_t* current_npc = synthesizeTest2();
+
+    runNPCGraphics(&current_npc, "GangnamStyle", "Dance","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
+
     return 0;
 }
