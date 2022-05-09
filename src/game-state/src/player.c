@@ -206,6 +206,8 @@ int player_task_init(player_task_t *ptask, char *task_id, bool completed)
 
 int player_quest_hash_free(player_quest_hash_t *player_quests)
 {
+    assert(player_quests != NULL);
+
     player_quest_hash_t *current_player_quest, *tmp;
     HASH_ITER(hh, player_quests, current_player_quest, tmp)
     {
@@ -217,6 +219,8 @@ int player_quest_hash_free(player_quest_hash_t *player_quests)
 
 int player_task_hash_free(player_task_hash_t *player_tasks)
 {
+    assert(player_tasks != NULL);
+
     player_task_t *current_player_task, *tmp;
     HASH_ITER(hh, player_tasks, current_player_task, tmp)
     {
