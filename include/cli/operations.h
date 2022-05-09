@@ -138,6 +138,21 @@ cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
  */
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/*
+ * Looks for an exit prompt from the user.
+ * If they type exit and then a command,
+ * the corresponding exit function is called
+ * 
+ * 
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * - For now, the description of the function that
+ * will take it's place in the future
+ */
+char *exit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /*Returns a description of the player inventory contents
  *
