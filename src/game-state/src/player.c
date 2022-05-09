@@ -379,9 +379,11 @@ int player_add_quest(player_t *player, char *quest_id)
         return FAILURE; //quest id is already in the hash table
     }
 
-    HASH_ADD_KEYPTR(hh, hash_table, buffer,
-                    strnlen(buffer, MAX_ID_LEN), p);
-    return SUCCESS
+    player_quest_hash_t *hash_table = player->player_quests;
+
+    HASH_ADD_KEYPTR(hh, hash_table, quest_id,
+                    strnlen(quest_id, MAX_ID_LEN), p);
+    return SUCCESS;
 }
 
 /* see player.h */
