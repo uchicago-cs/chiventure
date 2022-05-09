@@ -17,13 +17,6 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
-typedef struct player_quest {
-    UT_hash_handle hh;
-    char *quest_id;
-    int completion;
-} player_quest_t;
-typedef struct player_quest player_quest_hash_t;
-
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/
@@ -62,6 +55,9 @@ typedef struct player {
     /* The current quests associated with the player */
     player_quest_hash_t* player_quests;
 
+    /* The current tasks associated with the player */
+    player_task_hash_t* player_tasks;
+
     /* The current moves available to the player */
     move_t *moves;
 } player_t;
@@ -72,6 +68,21 @@ typedef struct player {
 * in src/common/include */
 typedef struct player player_hash_t;
 
+/* A reference to a given quest from game_state that the player has unlocked */
+typedef struct player_quest {
+    UT_hash_handle hh;
+    char *quest_id;
+    int completion;
+} player_quest_t;
+typedef struct player_quest player_quest_hash_t;
+
+/* A reference to a given task (for quests) from game_state that the player has unlocked */
+typedef struct player_task {
+    UT_hash_handle hh;
+    char *task_id;
+    bool completed;
+} player_task_t;
+typedef struct player_task player_task_hash_t;
 
 player_quest_t *player_quest_new(char *quest_id, int completion);
 
