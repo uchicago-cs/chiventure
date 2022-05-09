@@ -73,9 +73,9 @@ typedef enum mov_type npc_mov_enum_t;
 /* Enum to define NPC movement direction (along its path)
  * Original direction is 0, Reversed direction is 1
  */
- typedef enum npc_mov_direction {
+ typedef enum npc_path_direction {
      NPC_MOV_ORIGINAL, NPC_MOV_REVERSED
-  } npc_mov_direction_t;
+  } npc_path_direction_t;
 
 
 /*
@@ -88,7 +88,7 @@ typedef enum mov_type npc_mov_enum_t;
  *  track: tracker variable that returns current room id
  *  npc_path_pos: index of the current location of the npc within
  *      its movement path
- *  npc_mov_direction: keeps track of whether the path of the NPC's
+ *  npc_path_direction: keeps track of whether the path of the NPC's
  *      movement is in the original direction or reversed.
  *      0 or NPC_MOV_ORIGINAL indicates original direction, 
  *      1 or NPC_MOV_REVERSED indicates the path is in
@@ -97,7 +97,7 @@ typedef enum mov_type npc_mov_enum_t;
 typedef struct npc_mov {
     npc_mov_type_t npc_mov_type;
     npc_mov_enum_t mov_type;
-    npc_mov_direction_t npc_mov_direction;
+    npc_path_direction_t npc_path_direction;
     unsigned int npc_path_pos;
     char *track;
 } npc_mov_t;
@@ -219,7 +219,7 @@ unsigned int track_npc_path_pos(npc_mov_t *npc_mov);
 * Returns:
 * 0 if the path is in the original direction, 1 if the path is in the reverse direction
 */
-unsigned int track_npc_mov_direction(npc_mov_t *npc_mov);
+unsigned int track_npc_path_direction(npc_mov_t *npc_mov);
 
 /*
  * Reverses the path, so that the npc goes back to where it started

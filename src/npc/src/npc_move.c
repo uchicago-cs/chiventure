@@ -10,7 +10,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type,
     npc_mov->mov_type = mov_type;
     strncpy(npc_mov->track,room_id, MAX_ID_LEN);
     npc_mov->npc_path_pos = 0;
-    npc_mov->npc_mov_direction = NPC_MOV_ORIGINAL;
+    npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
 
     room_list_t *room_to_add = malloc(sizeof(room_list_t));
     room_to_add->next = NULL;
@@ -162,9 +162,9 @@ unsigned int track_npc_path_pos(npc_mov_t *npc_mov)
 }
 
 /* See npc_move.h */
-unsigned int track_npc_mov_direction(npc_mov_t *npc_mov)
+unsigned int track_npc_path_direction(npc_mov_t *npc_mov)
 {
-    return npc_mov->npc_mov_direction;
+    return npc_mov->npc_path_direction;
 }
 
 /* See npc_move.h */
@@ -206,9 +206,9 @@ int flip_npc_path_direction(npc_mov_t *npc_mov)
         npc_mov->npc_mov_type.npc_mov_indefinite->npc_path = head;
     } else return FAILURE;
 
-    if (npc_mov->npc_mov_direction == NPC_MOV_ORIGINAL) {
-        npc_mov->npc_mov_direction == NPC_MOV_REVERSED;
-    } else npc_mov->npc_mov_direction == NPC_MOV_ORIGINAL;
+    if (npc_mov->npc_path_direction == NPC_MOV_ORIGINAL) {
+        npc_mov->npc_path_direction == NPC_MOV_REVERSED;
+    } else npc_mov->npc_path_direction == NPC_MOV_ORIGINAL;
 
     return SUCCESS;
 }
@@ -245,7 +245,7 @@ int move_npc_definite(npc_mov_t *npc_mov)
     room_list_t *current_room = malloc(sizeof(room_list_t));
     current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
     int list_len = get_npc_num_rooms(npc_mov);
-    npc_mov_direction_t direction = npc_mov->npc_mov_direction;
+    npc_path_direction_t direction = npc_mov->npc_path_direction;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
     if (direction == NPC_MOV_ORIGINAL) {
@@ -288,7 +288,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
     room_list_t *current_room = malloc(sizeof(room_list_t));
     current_room = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
     int list_len = get_npc_num_rooms(npc_mov);
-    npc_mov_direction_t direction = npc_mov->npc_mov_direction;
+    npc_path_direction_t direction = npc_mov->npc_path_direction;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
     if (direction == NPC_MOV_ORIGINAL) {
