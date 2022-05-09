@@ -117,7 +117,7 @@ npc_graphics_t* synthesizeTest2() {
     res = malloc(sizeof(npc_graphics_t));
     res->npc_name = "GangnamStyle";
     res->head_action = ActionNew("Dance","testimages/GangnamStyle/Dance/GangnamStyle.png",22,7);
-    res->head_line = LineNew("Default", "This is Gangnam Style");
+    res->head_line = LineNew("Default", "Let's Dance");
     return res;
 }
 
@@ -155,7 +155,7 @@ void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* li
     int framescounter = 0;
     double frameSpeed = current_npc->head_action->switch_frequency;
 
-    //const char* NPC_line = (GetLine(line_name,current_npc))->line;
+    const char* NPC_line = (GetLine(line_name,current_npc))->line;
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -178,7 +178,7 @@ void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* li
             
                 DrawTextureRec(texture, frameRec,(Vector2){0,0},RAYWHITE);
                 DrawRectangle(0,(GetScreenHeight()-60),GetScreenWidth(),GetScreenHeight(),WHITE);
-                DrawText("Welcome to my Ted Talk", 20, (GetScreenHeight()-40), 20, textcolor);
+                DrawText(NPC_line, 20, (GetScreenHeight()-40), 20, textcolor);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
