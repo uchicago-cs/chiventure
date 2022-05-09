@@ -30,15 +30,15 @@ task_tree_mockup_t* synthesizeTest() {
     TreeB->task_name="B";
     TreeB->rsibling=TreeC;
     TreeB->lmostchild=TreeE;
-    TreeB->parent = TreeA;
+    TreeB->parent = NULL;
     TreeC->task_name= "C";
     TreeC->rsibling=TreeD;
     TreeC->lmostchild=TreeG;
-    TreeC->parent=TreeB;
+    TreeC->parent=NULL;
     TreeD->task_name="D";
     TreeD->rsibling=NULL;
     TreeD->lmostchild=TreeG;
-    TreeD->parent=TreeC;
+    TreeD->parent=NULL;
     TreeE->task_name="E";
     TreeE->rsibling=NULL;
     TreeE->lmostchild=TreeF;
@@ -54,13 +54,22 @@ task_tree_mockup_t* synthesizeTest() {
     TreeH->task_name="H";
     TreeH->rsibling=TreeI;
     TreeH->lmostchild=NULL;
-    TreeH->parent=TreeF;
+    TreeH->parent=TreeE;
     TreeI->task_name="I";
     TreeI->rsibling=NULL;
     TreeI->lmostchild=NULL;
-    TreeI->parent=TreeH;
+    TreeI->parent=TreeE;
 
     return TreeA;
+
+}
+
+
+
+void drawTaskTree(task_tree_mockup_t* taskTree, double widthSegment, 
+                  double heightSegment,Vector2 startPos) 
+{
+    
 
 }
 

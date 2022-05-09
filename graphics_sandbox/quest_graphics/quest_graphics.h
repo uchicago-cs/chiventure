@@ -10,6 +10,7 @@ struct task_tree_mockup {
     task_tree_mockup_t *parent;
     task_tree_mockup_t *rsibling;
     task_tree_mockup_t *lmostchild;
+    int visited;
 };
 
 
