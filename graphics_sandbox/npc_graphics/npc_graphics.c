@@ -201,7 +201,7 @@ int main(void)
     //runNPCGraphics(&current_npc, "Dhirpal", "Default","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
     npc_graphics_t* current_npc = synthesizeTest2();
 
-    runNPCGraphics(&current_npc, "GangnamStyle", "Dance","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
+    runNPCGraphics(&current_npc, "GangnamStyle", "Dance","Default", (Vector2){800,0},(Vector2){200,400},BLACK);
 
     return 0;
 }
