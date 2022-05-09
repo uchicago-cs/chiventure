@@ -486,13 +486,13 @@ int is_quest_completed(quest_t *quest)
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 {
     // quest_t *q;
-    // HASH_FIND_STR(hash_table, quest_id, q);
+
 
     // return q;
     quest_t *q;
-    HASH_FIND(hh, hash_table, quest_id,  
-            strnlen(quest_id, MAX_ID_LEN), q);
-
+    // HASH_FIND(hh, hash_table, quest_id,  
+    //         strnlen(quest_id, MAX_ID_LEN), q);
+    HASH_FIND_STR(hash_table, quest_id, q);
     return q;
 }
 
