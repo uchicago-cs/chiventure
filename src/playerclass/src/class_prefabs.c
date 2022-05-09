@@ -376,32 +376,70 @@ int class_prefab_add_skills(class_t* class) {
     if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
         /* TODO */
     }
-
-    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
+    /* 
+     * A simple linear tree for a monk class
+     *
+     * starting skill: acrobatic_powers
+     *  - active: deals 7 damage.
+     * acrobatic_powers -> spirit_of_strength
+     *  - active: deals 14 damage.
+     * spirit_of_strength-> supernova_circle
+     *  - active: deals 21 damage.
+     */
     else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
-        /* TODO */
-    }
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Acrobatic Powers", 
+                                     "enhanced dexterity to surprise your opponent with unique kicks and movements.", 1, 120, 
+                                     NULL);                          
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Spirit of Strength", 
+                                     "Uses inner spirit and peace to unleash powerful hits and kicks!", 1, 220, 
+                                     NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Supernova Circle", 
+                                     "Powerful circular motions that allows for the most powerful jumps, kicks, and punchess!", 1, 420, 
+                                     NULL);
 
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
+    }
+    /* 
+     * A simple linear tree for a ranger class
+     *
+     * starting skill: close_shot
+     *  - active: deals 3 damage.
+     * close_shot -> midrange_shot
+     *  - active: deals 12 damage.
+     * midrange_shot -> long_shot
+     *  - active: deals 25 damage.
+     */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
-        /* TODO */
+         class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Close Shot", 
+                                     "You hit a weak, but close shot.", 1, 100, 
+                                     NULL);                          
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Mid-range Shot", 
+                                     "You hit a further, and stronger, shot!", 1, 200, 
+                                     NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Long Shot", 
+                                     "You hit a long, damaging shot!", 1, 400, 
+                                     NULL);
+
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
     }
 
     else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "sorcerer", MAX_NAME_LEN)) {
         /* TODO */
     }
 
@@ -436,9 +474,34 @@ int class_prefab_add_skills(class_t* class) {
         add_skill(class, skill_1, 1, 50, false, 0);
         add_skill(class, skill_2, 1, 34, false, 1);
     }
-        
+    /* 
+     * starting skill: blinding_charm
+     *  - active: deals 4 damage.
+     * blinding_charm -> paralyze_spell
+     *  - active: deals 9 damage.
+     * paralyze_spell -> arcane_explosion
+     *  - active: deals 24 damage.
+     */
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
-        /* TODO */
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Blinding Charm", 
+                                     "You blinded your opponent.", 1, 100, 
+                                     NULL);
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Paralyze Spell", 
+                                     "Your opponent is paralyzed!", 1, 150, 
+                                     NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Arcane Explosion", 
+                                     "You slash your sword, thrice!", 1, 200, 
+                                     NULL);
+
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
     }
     
     else {
