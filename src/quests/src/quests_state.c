@@ -492,22 +492,19 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 }
 
 /* Refer to quests_state.h */
-int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
+int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 {
     quest_t *check;
-
-    // char buffer[MAX_ID_LEN];
-    // sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
     
-    check = get_quest_from_hash(quest->quest_id, hash_table);
+    check = get_quest_from_hash(quest->quest_id, *hash_table);
 
     if (check != NULL) 
     {
         return FAILURE; //quest id is already in the hash table
     }
 
-    quest_t *place = malloc(sizeof(quest_t));
-    HASH_ADD_STR(hash_table, quest->quest_id, place);
+    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
+                    strnlen(quest->quest_id, MAX_ID_LEN), quest);
     return SUCCESS;
 }
 

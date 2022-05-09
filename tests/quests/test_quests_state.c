@@ -628,8 +628,8 @@ Test(quest,get_quest1)
 
     quest_hash_t *test_hash_table;
 
-    int add_quest1 = add_quest_to_hash(quest1, test_hash_table);
-    int add_quest2 = add_quest_to_hash(quest2, test_hash_table);
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
     quest_t *answer = get_quest_from_hash(quest1_id,test_hash_table); 
     // printf("answer id is %s\n", answer->quest_id);
@@ -657,9 +657,61 @@ Test(quest,get_quest2)
 
     quest_hash_t *test_hash_table;
 
-    int add_quest1 = add_quest_to_hash(quest1, test_hash_table);
-    int add_quest2 = add_quest_to_hash(quest2, test_hash_table);
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
     quest_t *answer = get_quest_from_hash("beeppop",test_hash_table); 
     cr_assert_eq(answer, NULL, "failed");
+}
+
+/*test for add quest */ 
+
+Test(test, add_quest_test1)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+    quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table;
+
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table); 
+
+    cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add test"); 
+    cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add test"); 
+}
+
+Test(test, add_quest_test2)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table;
+
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest1, &test_hash_table); 
+
+    cr_assert_eq(add_quest2, FAILURE, "Add quest did not work"); 
 }
