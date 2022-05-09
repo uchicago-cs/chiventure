@@ -30,6 +30,7 @@ npc_action_t *npc_action_new(char *c_name, npc_actions_t action)
     return a;
 }
 
+
 /* See npc_action.h */
 int npc_action_init(npc_action_t *a, char *c_name, npc_actions_t action)
 {
@@ -44,6 +45,7 @@ int npc_action_init(npc_action_t *a, char *c_name, npc_actions_t action)
     return SUCCESS;
 }
 
+
 /* See npc_action.h */
 int npc_action_free(npc_action_t *a)
 {
@@ -53,120 +55,104 @@ int npc_action_free(npc_action_t *a)
     return SUCCESS;
 }
 
-static npc_action_t valid_actions[] =
-{
-    //KIND 4
-    {"TALK_TO", NPC},
-    {"IGNORE", NPC},
-    //{"ATTACK", NPC},
-
-    //KIND 5
-    {"GIVE", NPC_ITEM},
-    {"STEAL", NPC_ITEM},
-
-    //KIND 6
-    {"TRADE", NPC_ITEM_ITEM},
-    {"BUY", NPC_ITEM_ITEM}
-};
-
-static int NUM_ACTIONS = sizeof(valid_actions) / sizeof(npc_action_t);
 
 /* See npc_action.h */
 list_npc_action_t *get_npc_actions()
 {
-    list_npc_action_t *tmp = NULL;
-    for (int i = 0; i < NUM_ACTIONS; i++)
-    {
-        list_npc_action_t *add = (list_npc_action_t*)malloc(sizeof(list_npc_action_t));
-        npc_action_t *add_data = npc_action_new(valid_actions[i].c_name, valid_actions[i].kind);
-        add->action = add_data;
-        LL_PREPEND(tmp, add);
-        tmp = add;
-    }
-    return tmp;
+    //TODO
 }
+
 
 /* KIND 4
  * See npc_action.h */
-int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string)
+int do_npc_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, char **ret_string)
 {
     assert(c);
     assert(c->game);
     assert(a);
     assert(npc);
-    
-    game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
-    memset(string, 0, BUFFER_SIZE);
+    memset(string, ‘\0’, BUFFER_SIZE);
 
-    // checks if the action type is the correct kind
-    if (a->kind != NPC)
-    {
-        sprintf(string, "The action type provided is not of the correct kind");
+    // case for TALK_TO
+    if (a == TALK_TO) {
+        // check if NPC has TALK_TO in their list_npc_action_t
+        if (contains_action(npc, TALK_TO) == 0) {
+        sprintf(string, “Player cannot TALK_TO the NPC”);
         *ret_string = string;
-        return WRONG_KIND;
+        return CONDITIONS_NOT_MET;
+        }
+        // initiates conversation (set_game_mode to CONVERSATION)
+        int switch_mode;
+        switch_mode = set_game_mode(c->game, CONVERSATION, “NORMAL”);
+        if (switch_mode == FAILURE)
+        {
+            sprintf(string, “Failed to switch to normal mode”);
+            return FAILURE;
+        }
     }
 
-    // checks if the action is possible
-    if (possible_action(npc, a->c_name) == FAILURE)
-    {
-        sprintf(string, "Action %s can't be requested with item %s",
-                a->c_name, npc->npc_id);
-        *ret_string = string;
-        return NOT_ALLOWED_DIRECT;
+    // case for IGNORE
+    if (a == IGNORE) {
+        // check if NPC has IGNORE in their list_npc_action_t
+        if (contains_action(npc, IGNORE) == 0) {
+            sprintf(string, “Player cannot IGNORE the NPC”);
+            *ret_string = string;
+        return CONDITIONS_NOT_MET;
+        }
+        // exits conversation (set_game_mode to NORMAL)
+        int switch_mode;
+        switch_mode = set_game_mode(c->game, NORMAL, “CONVERSATION”);
+        if (switch_mode == FAILURE)
+        {
+            sprintf(string, “Failed to switch to conversation mode”);
+            return FAILURE;
+        }
     }
 
-    // get the game action struct
-    game_action_t *game_act = get_action(npc, a->c_name);
-
-    // check if all conditions are met
-    if (!all_conditions_met(game_act->conditions))
-    {
-        sprintf(string, "%s", game_act->fail_str);
+    // case for all other actions 
+    if (a != TALK_TO || a != IGNORE) {
+        sprintf(string, “cannot perform %s with do_npc_action”, *a);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    else
-    {
-        // implement the action (i.e. dole out the effects)
-        int applied_effects;
-        applied_effects = do_all_effects(npc, a->c_name);
-        if (applied_effects == FAILURE)
-        {
-            sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
-            *ret_string = string;
-            return EFFECT_NOT_APPLIED;
-        }
-        else
-        {
-	    //remove action from any conditions
-	    int rc;
-	    rc = helper_remove(a);
+}
 
-            // successfully carried out action
-            sprintf(string, "%s", game_act->success_str);
-            if (is_game_over(game))
-            {
-                string = strcat(string, " Congratulations, you've won the game! "
-                        "Press ctrl+D to quit.");
-            }
-            *ret_string = string;
-            return SUCCESS;
-        }
-    }
-} 
 
 /* KIND 5
  * See npc_action.h */
-int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *i, char **ret_string)
+int do_npc_item_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, item_t *i, char **ret_string)
 {
     //TODO
 }
 
+
 /* KIND 6
  * See npc_action.h */
- int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string)
+ int do_npc_item_item_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string)
 {
      //TODO
+}
+
+
+/*
+ * helper function that checks if the action is listed on the list_npc_action_t of an npc
+ *
+ * Parameters:
+ *    - npc: An npc_t. 
+ *    - action: An npc_actions_t. 
+ *
+ * Returns:
+ *    - 0 if action is not contained, 1 if action is contained
+ */
+int contains_action(npc_t npc, npc_actions_t action) {
+	list_npc_action_t *actions = npc->npc_actions;
+	while (actions != NULL) {
+		if (actions->npc_action->action == action) {
+			return 1;
+        }
+        actions = actions->next;
+	}
+	return 0;
 }

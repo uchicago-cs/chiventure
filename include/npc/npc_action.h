@@ -23,19 +23,13 @@ typedef enum npc_actions {
     
     // KIND 5 ACTIONS
     GIVE,
-    STEAL,
+    TAKE,
 
     // KIND 6 ACTIONS
     TRADE,
-    BUY
+    BUY,
+    SELL
 } npc_actions_t;
-
-/* Each enum corresponds to a different "KIND" of npc action */
-enum npc_action_kind {
-    NPC = 4,
-    NPC_ITEM = 5,
-    NPC_ITEM_ITEM = 6
-};
 
 /* An npc action struct that contains the following:
  * - c_name: the 'canonical' string that should call the enum
@@ -120,7 +114,7 @@ list_npc_action_t *get_npc_actions();
  * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
  * - NOT_ALLOWED_DIRECT if the action can't be done on the NPC, failure string as an out parameter
  */
-int do_npc_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, char **ret_string);
+int do_npc_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, char **ret_string);
 
 /* A function that executes KIND 5 actions (ACTION <npc> <item>)
  *
@@ -139,7 +133,7 @@ int do_npc_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, char **ret_s
  * - 6 if conditions for the action haven't been met, failure string as an out parameter
  * - 7 if an effect for the action wasn't applied, failure string as an out parameter  
  */
-int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *i, char **ret_string);
+int do_npc_item_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, item_t *i, char **ret_string);
 
 /* 
  * A function that executes KIND 6 actions (ACTION <npc> <item> <item>)
@@ -153,6 +147,6 @@ int do_npc_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t 
  *  - ret_string: A pointer to a string describing the result of the function
  *    - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  */
-int do_npc_item_item_action(chiventure_ctx_t *c, npc_action_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string);
+int do_npc_item_item_action(chiventure_ctx_t *c, npc_actions_t *a, npc_t *npc, item_t *direct, item_t *indirect, char **ret_string);
 
 #endif
