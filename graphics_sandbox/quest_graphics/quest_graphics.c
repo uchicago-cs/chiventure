@@ -1,17 +1,17 @@
 #include "quest_graphics.h"
 
 
-int getQuestWidth() {
-    //To be implemented by the quests team
-    return 5;
+
+task_tree_t* synthesizeTasks() {
+
 }
 
-int getQuestHeight() {
-    //To be implemented by the quests team
-    return 3;
+quest_mockup_t* synthesizeTest() {
+
+    quest_mockup_t* test = (quest_mockup_t*)malloc(sizeof(quest_mockup_t));
+    task_tree_t* test_task = 
+
 }
-
-
 
 
 void runQuestGraphics(quest_mockup_t* quest, Vector2 windowpos, Vector2 windowsize)
@@ -70,5 +70,7 @@ void runQuestGraphics(quest_mockup_t* quest, Vector2 windowpos, Vector2 windowsi
 
 
 int main() {
+
+    runQuestGraphics(NULL, (Vector2){100,200}, (Vector2){400,200});
     return 0;
 }
