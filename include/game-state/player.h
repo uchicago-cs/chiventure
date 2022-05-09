@@ -387,19 +387,6 @@ int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
  * 
  * Parameters:
  *  player: A player. Must be allocated with player_new()
- *  quest_id: the id of the quest
- * 
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- * 
- */
-int player_add_quest(player_t *player, char *quest_id);
-
-/*
- * Changes the base value of a given player's stat by the specified amount
- * 
- * Parameters:
- *  player: A player. Must be allocated with player_new()
  *  stat: the name/key of the stat
  *  change: the value to add to the stat. 
  *  If the value is greater than the local max, the value is set to the local max

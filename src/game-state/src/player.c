@@ -358,34 +358,6 @@ int player_has_skill(player_t *player, sid_t sid, skill_type_t type)
     return rc;
 }
 
-player_quest_t *get_player_quest(char *quest_id, player_t *player)
-{   
-    player_quest_t *p;
-    player_quest_hash_t *hash_table = player->player_quests;
-    HASH_FIND(hh, hash_table, quest_id,  
-            strnlen(quest_id, MAX_ID_LEN), p);
-    
-    return p;
-}
-
-/* see player.h */
-int player_add_quest(player_t *player, char *quest_id)
-{
-    player_quest_t *p = player_quest_new(quest_id, 0);
-
-    player_quest_t *check = get_player_quest(quest_id, player);
-    if (check != NULL)
-    {
-        return FAILURE; //quest id is already in the hash table
-    }
-
-    player_quest_hash_t *hash_table = player->player_quests;
-
-    HASH_ADD_KEYPTR(hh, hash_table, quest_id,
-                    strnlen(quest_id, MAX_ID_LEN), p);
-    return SUCCESS;
-}
-
 /* see player.h */
 int player_change_stat(player_t *player, char *stat, double change)
 {
