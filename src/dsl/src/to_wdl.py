@@ -290,6 +290,7 @@ class Player:
             Converts a Game to WDL structure using its properties. Generates 
             default values where they are missing.
         """
+
         for k, v in self.contents.items():
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
@@ -305,7 +306,36 @@ class Player:
         return {'PLAYER': self.wdl_contents}
     
     def generate_defaults(self):
-        return 0
+         """
+            Ensures that an Item can be converted to WDL by filling in 
+            neccesary information (like short and long description) that is not 
+            included with its default values.
+        """
+
+        # generate default for long description
+        if 'long_desc' not in self.wdl_contents:
+            short_desc = self.wdl_contents.get('short_desc', '')
+            default = f"This is a {self.id}. {short_desc}"
+            self.wdl_contents['long_desc'] = f"{default}"
+            warn(f'''missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
+                
+        # generate default for short description
+        if 'short_desc' not in self.wdl_contents:
+            self.wdl_contents['short_desc'] = f"{self.id}"
+            warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
+
+
+        lst = ['attributes', 'base_stats', 'actions', 'effects']
+
+        # generate default interaction text for actions
+        for val in lst:
+            for i in self.wdl_contents.get(val, []):
+                if 'text_success' not in i:
+                    i['text_success'] = f"You {i[val].lower()} the {self.id}."
+                    warn(f'''missing: success text for {val} {i[val]} for item {self.id}, generated default: {i['text_success']}''')
+                if 'text_fail' not in i:
+                    i['text_fail'] = f"You cannot {i[val].lower()} the {self.id}."
+                    warn(f'''missing: failure text for {val} {i[val]} for item {self.id}, generated default: {i['text_fail']}''')
 
     def attributes_list(self) -> list:
         out = []
@@ -324,6 +354,16 @@ class Player:
             for k,v in base_stats_dict.items():
                 base_stats_wdl_dict[k] = v
             out.append(base_stats_dict)
+ 
+        return out
+
+    def effects_list(self) -> list:
+        out = []
+        for name, effects_dict in self.contents.get('Effects', {}).items():
+            effects_wdl_dict = {"Effects": name}
+            for k,v in effects_dict.items():
+                effects_wdl_dict[k] = v
+            out.append(effects_wdl_dict)
  
         return out
 
