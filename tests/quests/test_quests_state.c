@@ -632,7 +632,6 @@ Test(quest,get_quest1)
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
     quest_t *answer = get_quest_from_hash(quest1_id,test_hash_table); 
-    // printf("answer id is %s\n", answer->quest_id);
     cr_assert_eq(answer, quest1, "failed");
 
 }
@@ -664,8 +663,7 @@ Test(quest,get_quest2)
     cr_assert_eq(answer, NULL, "failed");
 }
 
-/*test for add quest */ 
-
+/*test for add quest when there is no same quest_id */ 
 Test(test, add_quest_test1)
 {
     int xp = 50;
@@ -692,7 +690,7 @@ Test(test, add_quest_test1)
     cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add test"); 
 }
 
-Test(test, add_quest_test2)
+/*test for add quest when there is same quest_id */
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
