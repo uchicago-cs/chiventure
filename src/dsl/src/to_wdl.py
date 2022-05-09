@@ -304,14 +304,13 @@ class Player:
                 self.wdl_contents["Effects"] = self.effects_list()
         self.generate_defaults()
         return {'PLAYER': self.wdl_contents}
-    
+
     def generate_defaults(self):
-         """
+        """
             Ensures that an Item can be converted to WDL by filling in 
             neccesary information (like short and long description) that is not 
             included with its default values.
         """
-
         # generate default for long description
         if 'long_desc' not in self.wdl_contents:
             short_desc = self.wdl_contents.get('short_desc', '')
