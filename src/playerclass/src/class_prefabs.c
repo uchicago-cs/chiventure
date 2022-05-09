@@ -19,6 +19,8 @@
 /* Default Classes in alphabetical order. */
 const char* const DEFAULT_CLASS_NAMES[] = {
     "bard",
+    "basic",
+    /*^^this is the class for anything that isn't supposed to be interesting*/
     "monk",
     "ranger",
     "rogue",
@@ -27,7 +29,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 6;
+const int DEFAULT_CLASS_COUNT = 7;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
@@ -171,6 +173,22 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         short_desc = "A skilled musician and magician.";
         long_desc = "The Bard combines their skill as a magician and musician to support their allies or vanquish their foes.";
         set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
+    }
+
+    /* Basic class stats:
+     * 100 Max Health
+     * 100 Speed
+     * 100 Physical Defense
+     * 100 Physical Attack
+     * 100 Ranged Attack
+     * 100 Magic Defense
+     * 100 Magic Attack
+     * 100 Max Mana 
+     * These stats can be off the scale stupid because why not? This is a placeholder class */ 
+    if (!strncmp(temp_name, "basic", MAX_NAME_LEN)) {
+        short_desc = "An ordinary person.";
+        long_desc = "This is just an ordinary human being. There's nothing special about this guy.";
+        set_stats_hashtable(game, &stats, 100, 100, 100, 100, 100, 100, 100, 100);
     }
 
     /* Monk stats:
