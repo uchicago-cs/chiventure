@@ -11,12 +11,14 @@ typedef struct task {
     bool completed;     //0 is not completed, 1 is completed
 } task_t;
 
-typedef struct task_tree {
+typedef struct task_tree task_tree_t;
+
+struct task_tree {
     task_t *task;
     task_tree_t *parent;
     task_tree_t *rsibling;
     task_tree_t *lmostchild;
-} task_tree_t;
+};
 
 typedef struct quest_mockup  {
     char *quest_id;

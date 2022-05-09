@@ -38,9 +38,12 @@ void runQuestGraphics(quest_mockup_t* quest, Vector2 windowpos, Vector2 windowsi
     {
         // Update
         //----------------------------------------------------------------------------------
-        hp = getHealth();
-        level = getLevel();
-        xp = getExperience();
+        //hp = getHealth();
+        hp = 300;
+        //level = getLevel();
+        level = 4;
+        //xp = getExperience();
+        xp = 400;
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -62,8 +65,6 @@ void runQuestGraphics(quest_mockup_t* quest, Vector2 windowpos, Vector2 windowsi
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
-
-    return 0;
 }
 
 
