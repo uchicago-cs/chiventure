@@ -1,11 +1,11 @@
 #include "quest_graphics.h"
 
-task_tree_t* getTreeMaxWidth(task_tree_mockup_t* taskTree) {
+int getTreeMaxWidth(task_tree_mockup_t* taskTree) {
     //To do
     return 6;
 }
 
-task_tree_t* getTreeMaxHeight(task_tree_mockup_t* taskTree) {
+int getTreeMaxHeight(task_tree_mockup_t* taskTree) {
     //To do
     return 4;
 }
@@ -13,7 +13,7 @@ task_tree_t* getTreeMaxHeight(task_tree_mockup_t* taskTree) {
 
 
 
-void runTaskTree(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize)
+void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -70,6 +70,6 @@ void runTaskTree(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 window
 
 int main() {
 
-
+    runTaskTreeGraphics()
     return 0;
 }
