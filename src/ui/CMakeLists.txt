@@ -5,7 +5,8 @@ add_library(ui
             src/print_functions.c
             src/ui.c
             src/ui_ctx.c
-            src/window.c)
+            src/window.c
+            src/display_stats.c)
 
 if (raylib_FOUND)
     target_sources(ui PRIVATE src/gui.c)
