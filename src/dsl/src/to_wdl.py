@@ -290,7 +290,8 @@ class Player:
             Converts a Game to WDL structure using its properties. Generates 
             default values where they are missing.
         """
-        return {}
+            
+             
     
     def generate_defaults(self):
         return 0
@@ -302,4 +303,7 @@ class Player:
         return []
 
     def actions_list(self) -> list:
+        return []
+
+    def effects_list(self) -> list:
         return []
