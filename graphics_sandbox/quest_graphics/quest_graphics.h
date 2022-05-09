@@ -4,13 +4,15 @@
 #include "raylib.h"
 #include "quest_mockup.h"
 
-int getQuestWidth();
+typedef struct task_tree_mockup task_tree_mockup_t;
 
-int getQuestHeight();
+struct task_tree_mockup {
+    char* task_name;
+    task_tree_mockup_t parent;
+    task_tree_mockup_t rsibling;
+    task_tree_mockup_t lmostchild;
+};
 
-
-
-//Struct for quests mockup
 
 
 #endif

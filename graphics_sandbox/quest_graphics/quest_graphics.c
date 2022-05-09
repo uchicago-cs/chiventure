@@ -1,20 +1,19 @@
 #include "quest_graphics.h"
 
-
-
-task_tree_t* synthesizeTasks() {
-
+task_tree_t* getTreeMaxWidth(task_tree_mockup_t* taskTree) {
+    //To do
+    return 6;
 }
 
-quest_mockup_t* synthesizeTest() {
-
-    quest_mockup_t* test = (quest_mockup_t*)malloc(sizeof(quest_mockup_t));
-    task_tree_t* test_task = 
-
+task_tree_t* getTreeMaxHeight(task_tree_mockup_t* taskTree) {
+    //To do
+    return 4;
 }
 
 
-void runQuestGraphics(quest_mockup_t* quest, Vector2 windowpos, Vector2 windowsize)
+
+
+void runTaskTree(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -24,11 +23,11 @@ void runQuestGraphics(quest_mockup_t* quest, Vector2 windowpos, Vector2 windowsi
     InitWindow(screenWidth, screenHeight, "Quest");
     SetWindowPosition(windowpos.x, windowpos.y);
 
+    //Currently Hardcoded, need to be flexible in the future as
+    // as we read in from the real quest struct;
     int hp, level, xp;
-    int hp_requirement, level_requirement;
-
-    hp_requirement = quest->stat_req->hp;
-    level_requirement = quest->stat_req->level;
+    int hp_requirement = 500;
+    int level_requirement = 7;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -71,6 +70,6 @@ void runQuestGraphics(quest_mockup_t* quest, Vector2 windowpos, Vector2 windowsi
 
 int main() {
 
-    runQuestGraphics(NULL, (Vector2){100,200}, (Vector2){400,200});
+
     return 0;
 }
