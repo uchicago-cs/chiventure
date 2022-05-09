@@ -89,6 +89,19 @@ Test(class_prefabs, Bard) {
     /* Skills not yet done for this class */
 }
 
+/* Tests the basic class */
+Test(class_prefabs, Basic) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t* c = class_prefab_new(ctx->game, "basic");
+    check_field_pressence(c);
+
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 50, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "speed"), 1, "failed to initalize stat");
+
+    /* Skills not needed yet for this class */
+}
+
 /* Tests the monk class */
 Test(class_prefabs, Monk) {
     chiventure_ctx_t* ctx = init_statless_context();
