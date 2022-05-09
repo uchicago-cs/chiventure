@@ -394,6 +394,12 @@ int class_prefab_add_skills(class_t* class) {
         /* TODO */
     }
 
+    else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
+        /* these guys potentially could have a prefabricated, basic skill to match the class
+         * for now we will just have no skills */
+        return SUCCESS;
+    }
+
     else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
         /* TODO */
     }
