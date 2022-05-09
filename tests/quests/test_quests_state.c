@@ -626,7 +626,7 @@ Test(quest,get_quest1)
     quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
     quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
 
-    quest_hash_t *test_hash_table;
+    quest_hash_t *test_hash_table = NULL;
 
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
@@ -654,7 +654,7 @@ Test(quest,get_quest2)
     quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
     quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
 
-    quest_hash_t *test_hash_table;
+    quest_hash_t *test_hash_table = NULL;
 
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
@@ -681,7 +681,7 @@ Test(test, add_quest_test1)
     quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
     quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
 
-    quest_hash_t *test_hash_table;
+    quest_hash_t *test_hash_table = NULL;
 
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table); 
@@ -706,7 +706,7 @@ Test(test, add_quest_test2)
 
     quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
 
-    quest_hash_t *test_hash_table;
+    quest_hash_t *test_hash_table = NULL;
 
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest1, &test_hash_table); 
