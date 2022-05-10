@@ -18,12 +18,32 @@ Each file will begin with a "Display_Dimensions" object to define the width and
 height of the pop-up screens that will display information.
 
 Each proceeding object must concern one of the following player characteristics:
-CLASS, STATS, SKILLS, EFFECTS, INVENTORY, MOVES.
+CLASS, EFFECTS, INVENTORY, MOVES, SKILLS, STATS.
 
 
 Objects:
 
 Class:
+- Display of moves availible to user and how the author can customize is subject
+to a future endeavor
+
+Effects:
+- Display of moves availible to user and how the author can customize is subject
+to a future endeavor
+
+Inventory:
+
+The game supports the following customization of the inventory:
+ 
+    - Rows
+    - Columns
+    - Color
+
+Moves:
+- Display of moves availible to user and how the author can customize is subject 
+to a future endeavor
+
+Skills:
 - Display of moves availible to user and how the author can customize is subject
 to a future endeavor
 
@@ -41,22 +61,6 @@ The game supports the following customization for statistics:
         - Options include: numerical, geometrical, or graphical as specified
           by an image
 
-Skills:
-- Display of moves availible to user and how the author can customize is subject
-to a future endeavor
-
-Effects:
-- Display of moves availible to user and how the author can customize is subject
-to a future endeavor
-
-Inventory:
-    - Rows
-    - Columns
-
-Moves:
-- Display of moves availible to user and how the author can customize is subject 
-to a future endeavor
-
 
 Sample:
 
@@ -70,6 +74,7 @@ Sample:
         {
             "rows":3,
             "columns":4
+            "color":Red
         }
     "Statistics":
         {
