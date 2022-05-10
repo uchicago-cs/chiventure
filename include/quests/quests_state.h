@@ -352,4 +352,6 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * - 0 if the removal was failure, 1 if successful 
  */
 int remove_quest_all(quest_hash_t *hash_table);
+
+
 #endif /* QUESTS_STATE_H */
