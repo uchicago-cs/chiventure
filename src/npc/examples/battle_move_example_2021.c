@@ -92,18 +92,19 @@ class_t *generate_sample_class()
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats()
 {
-    stat_t *test_stats = calloc(1, sizeof(stat_t));
+	stat_t *test_stats = calloc(1, sizeof(stat_t));
 
-    test_stats->speed = 50;
-    test_stats->defense = 20;
-    test_stats->strength = 150;
-    test_stats->dexterity = 10;
-    test_stats->hp = 200;
-    test_stats->max_hp = 200;
-    test_stats->xp = 0;
-    test_stats->level = 5;
+	test_stats->speed = 50;
+	test_stats->phys_def = 20;
+	test_stats->phys_atk = 150;
+	test_stats->accuracy = 100;
+  test_stats->crit = 0;
+	test_stats->hp = 200;
+	test_stats->max_hp = 200;
+	test_stats->xp = 0;
+	test_stats->level = 5;
 
-    return test_stats;
+	return test_stats;
 }
 
 /* Creates + initializes a move. Taken from test_battle_ai.c */
