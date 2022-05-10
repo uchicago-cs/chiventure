@@ -98,7 +98,8 @@ double damage(combatant_t* target, move_t* move, combatant_t* source)
     double dmg, power, src_strength, tar_defense, src_level, crit_boost;
     stat_t* src_stats = source->stats;
     stat_t* tar_stats = target->stats;
-    
+    /* When moves support magical and physical attacks, this if statement
+    must be changed to accomodate for that. */
     if (1)
     {
         tar_defense = (double) tar_stats->phys_def;
