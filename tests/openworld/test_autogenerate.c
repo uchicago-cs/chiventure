@@ -232,7 +232,7 @@ Test(autogenerate, pick_random_direction_only_open_paths)
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (if game->curr_room has available path directions) */
-Test(autogenerate, room_generate_success_one)
+/*Test(autogenerate, room_generate_success_one)
 {
     game_t *g = game_new("start desc");
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
@@ -293,12 +293,12 @@ Test(autogenerate, room_generate_success_one)
     }
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-}
+}*/
 
 /* 2 roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (only if game->curr_room is a dead end) */
-Test(autogenerate, room_generate_success_two)
+/*Test(autogenerate, room_generate_success_two)
 {
     game_t *g = game_new("start desc");
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
@@ -362,12 +362,12 @@ Test(autogenerate, room_generate_success_two)
     }
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-}
+}*/
 
 /* 3 roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (only if game->curr_room is a dead end) */
-Test(autogenerate, room_generate_success_three)
+/*Test(autogenerate, room_generate_success_three)
 {
     game_t *g = game_new("start desc");
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
@@ -437,7 +437,7 @@ Test(autogenerate, room_generate_success_three)
     }
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-}
+}*/
 
 
 /* Checks that multi_room_generate returns FAILURE if the current room of the
