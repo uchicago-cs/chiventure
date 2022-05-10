@@ -116,6 +116,49 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
 }
 
 /* See autogenerate.h */
+roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
+
+    specgraph_t *specgraph=context->specgraph;
+    int num_roomspecs=context->num_roomspecs;
+    roomspec_t *roomspecs=context->roomspecs;
+
+    int rownumber=-1;
+    int rowcount=0;
+
+    while(rownumber==-1){
+        if(rownumber=roomspecs[rowcount])
+            rownumber=rowcount;
+        rowcount++;
+    }
+
+    int *row=edges[rownumber];
+ 
+    int randomint=rand() % num_roomspecs;  
+    int count=0;
+    roomspec_t *newroomspec;
+
+    while(randomint>=0){
+        if(randomint<row[count])
+            newroomspec=num_roomspecs[count];
+        randomint-=row[count];
+        count++;
+    }
+        
+    return newroomspec;
+}
+
+
+/* See autogenerate.h */
+int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
+                      char *direction_to_curr, char *direction_to_new){
+
+    roomspec_t *newroomspec=roomspec_autogenerate(context, roomspec);    
+    assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new)==SUCCESS);
+
+    return SUCCESS;
+}
+
+/* See autogenerate.h */
 int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
 {
     /* If game->curr_room is not a dead end or there are no roomspec_t elements
