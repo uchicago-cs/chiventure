@@ -115,7 +115,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
  * - Returns a pointer to the newly generated roomspec
  */
 
-roomspec_t* roomspec_autogenerate(gencontext_t *context, room_t *curr, roomspec_t *roomspec);
+roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
 
 /* room_autogenerate
  * Creates a room directly north, south, east, or west of a given room. 
