@@ -271,17 +271,6 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  */
 int remove_item_from_npc(npc_t *npc, item_t *item);
 
-/* Checks that item is in pc inventory
- *
- *
- * Parameters:
- *    npc: the npc's inventory to check
- *    item: the item to check
- * Returns:
- *    true or false
- */
-bool item_in_npc_inventory(npc_t *npc, item_t *item);
-
 /*
  * Adds the given convo to the given npc.
  * 
