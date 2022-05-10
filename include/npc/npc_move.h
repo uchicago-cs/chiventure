@@ -209,6 +209,19 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time);
  */
 char *get_npc_curr_room_id(npc_mov_t *npc_mov);
 
+/*
+ * Returns the room id of the room that 
+ *  the npc will move to next if/when it is called to
+ *
+ * Parameters:
+ *  npc_mov: The NPC movement struct
+ *
+ * Returns:
+ *  The room id of the room that the npc 
+ *  will move to next if/when it is called to
+ */
+char *get_next_npc_room_id(npc_mov_t *npc_mov);
+
 /* 
 * Returns the index position of the room that the npc is currently in
 *
