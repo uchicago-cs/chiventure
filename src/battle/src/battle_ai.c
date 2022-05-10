@@ -81,9 +81,13 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
 double calculate_crit(int crit_chance)
 {
     int chance = randnum(1, 100);
-    if(chance <= crit_chance){
+
+    if (chance <= crit_chance)
+    {
         return 1.5;
-    }else{
+    }
+    else
+    {
         return 1;
     }
 }
@@ -95,12 +99,15 @@ double damage(combatant_t* target, move_t* move, combatant_t* source)
     stat_t* src_stats = source->stats;
     stat_t* tar_stats = target->stats;
     
-    if(1){
+    if (1)
+    {
         tar_defense = (double) tar_stats->phys_def;
         power = (double) move->damage;
         src_strength = (double) src_stats->phys_atk;
         src_level = (double) src_stats->level;
-    }else{
+    }
+    else
+    {
         tar_defense = (double) tar_stats->mag_def;
         power = (double) move->damage;
         src_strength = (double) src_stats->mag_atk;

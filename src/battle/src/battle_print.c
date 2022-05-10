@@ -85,20 +85,21 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
 {
     char *move_name = move->info;
-    char* enemy_name = b->enemy->name;
-    char* combatant_name;
+    char *enemy_name = b->enemy->name;
+    char *combatant_name;
 
     if (turn == PLAYER)
     {
         combatant_name = "You";
-    } else
+    } 
+    else
     {
         combatant_name = enemy_name;
     }
 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s! It missed!\n",
+    snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s, but it missed!\n",
              combatant_name, move_name);
 
     int rc = print_hp(b, string);

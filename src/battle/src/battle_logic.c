@@ -86,9 +86,12 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 /* see battle_logic.h */
 int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
-    if((c->stats->hp + item->hp) > c->stats->max_hp){
+    if ((c->stats->hp + item->hp) > c->stats->max_hp)
+    {
         c->stats->hp = c->stats->max_hp;
-    }else{
+    }
+    else
+    {
         c->stats->hp += item->hp;
     }
     c->stats->phys_atk += item->attack;

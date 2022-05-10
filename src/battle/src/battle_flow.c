@@ -116,11 +116,12 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     int dmg;
     char *string;
     /* Calculates to see if the move will miss */
-    if(!calculate_accuracy(b->player->stats->accuracy)){
-        dmg = 0;
-        enemy->stats->hp -= dmg;
+    if (!calculate_accuracy(b->player->stats->accuracy))
+    {
         string = print_battle_miss(b, b->turn, move);
-    }else{
+    }
+    else
+    {
         dmg = damage(b->enemy, move, b->player);
         enemy->stats->hp -= dmg;
         string = print_battle_move(b, b->turn, move);

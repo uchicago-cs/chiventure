@@ -209,7 +209,7 @@ Test(battle_print, print_player_move_miss)
     char* string = print_battle_miss(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
     
-    char *expected_string = "You used Punch! It missed!\n"
+    char *expected_string = "You used Punch, but it missed!\n"
                             "-- Your HP: 50\n"
                             "-- bob's HP: 30\n";
 
