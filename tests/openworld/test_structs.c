@@ -99,7 +99,7 @@ Test(roomspec, free1)
 
 /* Tests the specgraph_new function to validate that a specgraph can
  * be made successfully. */
-Test(specgraph, new2)
+/*Test(specgraph, new2)
 {
 
     roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
@@ -109,11 +109,11 @@ Test(specgraph, new2)
     specgraph_t *list = specgraph_new(spec);
 
     cr_assert_not_null(list, "failed to create new specgraph_t\n");
-}
+}*/
 
 /* Tests the init_specgraph function to validate that a specgraph can
  * be initialized successfully. */
-Test(specgraph, init2)
+/*Test(specgraph, init2)
 {
 
     roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
@@ -129,11 +129,11 @@ Test(specgraph, init2)
     int check = init_specgraph(list, spec);
 
     cr_assert_eq(check, SUCCESS, "failed to initialize a specgraph_t\n");
-}
+}*/
 
 /* Tests the specgraph_free function to validate that a specgraph can
  * be freed successfully. */
-Test(specgraph, free2)
+/*Test(specgraph, free2)
 {
 
     roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
@@ -147,11 +147,11 @@ Test(specgraph, free2)
     int check = specgraph_free(list);
 
     cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
-}
+}*/
 
 /* Tests the free_all_specgraphs function to validate that it can
  * free all of the elements in the doubly linked list. */
-Test(specgraph, free_all)
+/*Test(specgraph, free_all)
 {
 
     specgraph_t *list = specgraph_new(NULL);
@@ -171,7 +171,7 @@ Test(specgraph, free_all)
     int check = specgraph_free_all(list);
 
     cr_assert_eq(check, SUCCESS, "failed to free the entire specgraph. \n");
-}
+}*/
 
 
 
