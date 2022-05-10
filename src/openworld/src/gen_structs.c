@@ -204,7 +204,7 @@ int init_specgraph(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 }
 
 /* see gen_structs.h */
-specgraph_t* specgraph_new(roomspec_t *spec)
+/*specgraph_t* specgraph_new(roomspec_t *spec)
 {
 
     specgraph_t *specnew = calloc(n, sizeof(specgraph_t));
@@ -219,7 +219,7 @@ specgraph_t* specgraph_new(roomspec_t *spec)
 }
 
 /* see gen_structs.h */
-int specgraph_free(specgraph_t *list)
+/*int specgraph_free(specgraph_t *list)
 {
 
     if (list == NULL)
@@ -227,7 +227,7 @@ int specgraph_free(specgraph_t *list)
 
     free(list);
     return SUCCESS;
-}
+}*/
 
 /* see gen_structs.h */
 int specgraph_free_all(specgraph_t *list)
