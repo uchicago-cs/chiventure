@@ -97,80 +97,80 @@ Test(roomspec, free1)
 }
 
 
-/* Tests the speclist_new function to validate that a speclist can
+/* Tests the specgraph_new function to validate that a specgraph can
  * be made successfully. */
-Test(speclist, new2)
+Test(specgraph, new2)
 {
 
     roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
-    speclist_t *list = speclist_new(spec);
+    specgraph_t *list = specgraph_new(spec);
 
-    cr_assert_not_null(list, "failed to create new speclist_t\n");
+    cr_assert_not_null(list, "failed to create new specgraph_t\n");
 }
 
-/* Tests the init_speclist function to validate that a speclist can
+/* Tests the init_specgraph function to validate that a specgraph can
  * be initialized successfully. */
-Test(speclist, init2)
+Test(specgraph, init2)
 {
 
     roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
-    speclist_t *list = calloc(1, sizeof(speclist_t));
+    specgraph_t *list = calloc(1, sizeof(specgraph_t));
 
     if (list == NULL) {
         fprintf(stderr, "failed to calloc for list. \n");
     }
 
-    int check = init_speclist(list, spec);
+    int check = init_specgraph(list, spec);
 
-    cr_assert_eq(check, SUCCESS, "failed to initialize a speclist_t\n");
+    cr_assert_eq(check, SUCCESS, "failed to initialize a specgraph_t\n");
 }
 
-/* Tests the speclist_free function to validate that a speclist can
+/* Tests the specgraph_free function to validate that a specgraph can
  * be freed successfully. */
-Test(speclist, free2)
+Test(specgraph, free2)
 {
 
     roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
-    speclist_t *list = speclist_new(spec);
+    specgraph_t *list = specgraph_new(spec);
 
-    cr_assert_not_null(list, "failed to create new speclist_t\n");
+    cr_assert_not_null(list, "failed to create new specgraph_t\n");
 
-    int check = speclist_free(list);
+    int check = specgraph_free(list);
 
-    cr_assert_eq(check, SUCCESS, "failed to free a speclist_t\n");
+    cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
 }
 
-/* Tests the free_all_speclists function to validate that it can
+/* Tests the free_all_specgraphs function to validate that it can
  * free all of the elements in the doubly linked list. */
-Test(speclist, free_all)
+Test(specgraph, free_all)
 {
 
-    speclist_t *list = speclist_new(NULL);
-    speclist_t *list1 = speclist_new(NULL);
-    speclist_t *list2 = speclist_new(NULL);
+    specgraph_t *list = specgraph_new(NULL);
+    specgraph_t *list1 = specgraph_new(NULL);
+    specgraph_t *list2 = specgraph_new(NULL);
 
-    cr_assert_not_null(list, "failed to create new speclist_t\n");
-    cr_assert_not_null(list1, "failed to create new speclist_t\n");
-    cr_assert_not_null(list2, "failed to create new speclist_t\n");
+    cr_assert_not_null(list, "failed to create new specgraph_t\n");
+    cr_assert_not_null(list1, "failed to create new specgraph_t\n");
+    cr_assert_not_null(list2, "failed to create new specgraph_t\n");
 
-    speclist_t *head = NULL;
+    specgraph_t *head = NULL;
 
     DL_APPEND(head, list);
     DL_APPEND(head, list1);
     DL_APPEND(head, list2);
 
-    int check = speclist_free_all(list);
+    int check = specgraph_free_all(list);
 
-    cr_assert_eq(check, SUCCESS, "failed to free the entire speclist. \n");
+    cr_assert_eq(check, SUCCESS, "failed to free the entire specgraph. \n");
 }
 
 
