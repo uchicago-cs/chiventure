@@ -102,6 +102,31 @@ int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_d
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new, 
                   char *direction_to_curr, char *direction_to_new);
 
+/* room_autogenerate
+ * Creates a room directly north, south, east, or west of a given room. 
+ * The roomtype of the newly created room will be chosen based on the adjacency matrix.
+ *
+ * Parameters:
+ * - game: A pointer to a game struct. Should not be NULL.
+ * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+ * - curr: A pointer to the room_t with which the newly generated room will be connected.         
+ *         Must be in the game->all_rooms hash. Should not be NULL.
+ * - roomspec: The roomspec of the current room 
+ * - direction_to_curr: Direction for the path from new -> curr. Should not be NULL.
+ * - direction_to_new: Direction for the path from curr -> new. Should not be NULL.
+ *   NOTE: MUST BE AN AVAILABLE DIRECTION! (Available as in no path for that direction exists.)
+ *
+ * * side effects:
+ * - Changes input game to hold the newly generated room. Allocated on the heap.
+
+ * returns:
+ * - Always returns SUCCESS 
+ *   Any internal failure results in crash (by triggering an assert).
+ */
+
+int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
+                      char *direction_to_curr, char *direction_to_new);
+
 /*
 * multi_room_generate
 * Iterate through all the rooms of the specgraph field of the given context
@@ -316,7 +341,6 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
                        int radius, char **directions, int num_directions, char *direction_to_parent);
                                
-
 #endif /* INCLUDE_AUTOGENERATE_H */
 
 
