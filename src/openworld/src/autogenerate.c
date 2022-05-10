@@ -100,7 +100,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
                   char *direction_to_curr, char *direction_to_new)
 {
     /* create new combination of rooms/items from randomly picked roomspec
-    Adds one generated room from the head of context->speclist only */
+    Adds one generated room from the head of context->specgraph only */
     room_t *new_room = roomspec_to_room(rspec_new);
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
@@ -163,14 +163,14 @@ int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspe
 int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
 {
     /* If game->curr_room is not a dead end or there are no roomspec_t elements
-    * in context->speclist, then do not autogenerate */
-    if (context->speclist == NULL) {
+    * in context->specgraph, then do not autogenerate */
+    if (context->specgraph == NULL) {
         return FAILURE;
     }
 
-    /* Iterate through the speclist field, generating and adding rooms for each */
+    /* Iterate through the specgraph field, generating and adding rooms for each */
     for (int i = 0; i < num_rooms; i++) {
-        roomspec_t *rspec = random_room_lookup(context->speclist);
+        roomspec_t *rspec = random_room_lookup(context->specgraph);
         /* Increments tmp->spec->num_built */
 
         char direction_to_curr[MAX_DIRECTION_STRLEN], direction_to_new[MAX_DIRECTION_STRLEN];
@@ -185,24 +185,24 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 
 
 /* See autogenerate.h */
-int speclist_from_hash(speclist_t **orig, rspec_hash_t *hash)
+int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash)
 {
     roomspec_t *current_room = NULL;
     roomspec_t *tmp = NULL;
 
     HASH_ITER(hh, hash, current_room, tmp) {
-        speclist_t *s = speclist_new(current_room);
+        specgraph_t *s = specgraph_new(current_room);
         DL_APPEND(*orig, s);
     }
     return SUCCESS;
 }
 
 /* See autogenerate.h */
-roomspec_t *random_room_lookup(speclist_t *spec)
+roomspec_t *random_room_lookup(specgraph_t *spec)
 {
     int count;
-    speclist_t *tmp = NULL;
-    speclist_t *random = NULL;
+    specgraph_t *tmp = NULL;
+    specgraph_t *random = NULL;
 
     DL_COUNT(spec, tmp, count);
     int idx = rand() % count, i = 0;
@@ -355,27 +355,27 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
 
 
 /* See autogenerate.h */
-speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
+specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
                                             roomlevel_hash_t **roomlevels, 
                                             int difficulty_level)
 {    
-    speclist_t *curr, *tmp;
-    speclist_t *filtered_speclist = NULL;
+    specgraph_t *curr, *tmp;
+    specgraph_t *filtered_specgraph = NULL;
 
-    DL_FOREACH_SAFE(speclist, curr, tmp) { 
+    DL_FOREACH_SAFE(specgraph, curr, tmp) { 
         int is_given_difficulty = roomspec_is_given_difficulty(roomlevels, 
                                                                curr->spec, 
                                                                difficulty_level);
         if (is_given_difficulty == SUCCESS) {
-            /* Create a copy of the node to add to the filtered speclist output. 
-            This resolves an earlier issue in which it was removing nodes from the unfiltered speclist
+            /* Create a copy of the node to add to the filtered specgraph output. 
+            This resolves an earlier issue in which it was removing nodes from the unfiltered specgraph
             a node cannot exist in two lists simultaneously. */
-            speclist_t *curr_copy = speclist_new(curr->spec); 
-            DL_APPEND(filtered_speclist, curr_copy);    
+            specgraph_t *curr_copy = specgraph_new(curr->spec); 
+            DL_APPEND(filtered_specgraph, curr_copy);    
         }
     }
 
-    return filtered_speclist;
+    return filtered_specgraph;
 }
 
 
@@ -384,8 +384,8 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec)
 {
-    /* If there are no roomspec_t elements in context->speclist, then do not autogenerate */
-    if (context->speclist == NULL) {
+    /* If there are no roomspec_t elements in context->specgraph, then do not autogenerate */
+    if (context->specgraph == NULL) {
         return FAILURE;
     }
 
@@ -394,8 +394,8 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
                                                    levelspec->thresholds,
                                                    context->level);
 
-    /* filter the given speclist according to difficulty */
-    speclist_t *filtered_speclist = filter_speclist_with_difficulty(context->speclist,
+    /* filter the given specgraph according to difficulty */
+    specgraph_t *filtered_specgraph = filter_specgraph_with_difficulty(context->specgraph,
                                                                     &(levelspec->roomlevels), 
                                                                     difficulty_level);
 
@@ -403,10 +403,10 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     gencontext_t* filtered_context = gencontext_new(context->open_paths,
                                                     context->level,
                                                     context->num_open_paths,
-                                                    filtered_speclist);
+                                                    filtered_specgraph);
 
     int result = multi_room_generate(game, filtered_context, room_id, num_rooms); 
-    speclist_free(filtered_speclist);
+    specgraph_free(filtered_specgraph);
 
     return result;
 }
@@ -468,7 +468,7 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
 
         /* create room in direction if it doesn't exist yet */
         if (!path_exists_in_direction(curr_room, all_directions[forwards])) {        
-            roomspec_t *rspec = random_room_lookup(context->speclist);
+            roomspec_t *rspec = random_room_lookup(context->specgraph);
             int rc_callback = room_generate(game, curr_room, rspec,
                                             all_directions[backwards], all_directions[forwards]);
 
