@@ -230,7 +230,7 @@ int init_specgraph(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 }*/
 
 /* see gen_structs.h */
-int specgraph_free_all(specgraph_t *list)
+/*int specgraph_free_all(specgraph_t *list)
 {
 
     if (list == NULL)
@@ -242,7 +242,7 @@ int specgraph_free_all(specgraph_t *list)
         specgraph_free(elt);
     }
     return SUCCESS;
-}
+}*/
 
 
 
