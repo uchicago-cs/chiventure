@@ -70,13 +70,14 @@ typedef struct roomspec rspec_hash_t;
 /* specgraph_t struct
  * This struct functions as an adjacency matrix for the relationships between roomspec_t's
  * The struct contains:
- * - rooms_t room: list of rooms corresponding to each node on specgraph
- * - int **edges: edges of graph representing the relationship between each room
- *                the higher the number, the more likely the rooms appear next to each other
+ * - roomspec_t roomspecs: list of rooms corresponding to each node on specgraph
+ * - int **edges: edges of graph representing the relationship between each roomspec
+ *                the higher the number, the more likely rooms of this roomspec appear
+ *                next to each other
  */
 
 typedef struct specgraph {
-    room_t *room;
+    roomspec_t *roomspecs;
     int **edges;
 } specgraph_t;
 
