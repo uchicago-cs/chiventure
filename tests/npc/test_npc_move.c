@@ -247,6 +247,7 @@ Test(npc_mov, flip_npc_path_direction)
     int check3 = flip_npc_path_direction(npc_mov);
 
     cr_assert_eq(check3, SUCCESS, "flip_npc_path_direction() failed");
+    cr_assert_eq(npc_mov->npc_path_direction, NPC_MOV_REVERSED, "flip_npc_path_direction() failed to reverse path");
 
     check2 = move_npc_definite(npc_mov);
 

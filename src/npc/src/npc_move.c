@@ -209,11 +209,11 @@ int flip_npc_path_direction(npc_mov_t *npc_mov)
 {
     if (npc_mov->npc_path_direction == NPC_MOV_ORIGINAL)
     {
-        npc_mov->npc_path_direction == NPC_MOV_REVERSED;
+        npc_mov->npc_path_direction = NPC_MOV_REVERSED;
     }
     else if (npc_mov->npc_path_direction == NPC_MOV_REVERSED)
     {
-        npc_mov->npc_path_direction == NPC_MOV_ORIGINAL;
+        npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
     }
     else return FAILURE;
 
