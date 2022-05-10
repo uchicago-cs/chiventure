@@ -102,9 +102,24 @@ int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_d
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new, 
                   char *direction_to_curr, char *direction_to_new);
 
+/* roomspec_autogenerate
+ * Given a roomspec, generates a new roomspec based on the adjacency matrix
+ * that quantifies the similarity between different roomspecs.
+ *
+ * Parameters:
+ * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+ * - roomspec: The roomspec of the current room 
+ *
+ *
+ * returns:
+ * - Returns a pointer to the newly generated roomspec
+ */
+
+roomspec_t* roomspec_autogenerate(gencontext_t *context, room_t *curr, roomspec_t *roomspec);
+
 /* room_autogenerate
  * Creates a room directly north, south, east, or west of a given room. 
- * The roomtype of the newly created room will be chosen based on the adjacency matrix.
+ * The roomspec of the newly created room will be chosen using roomspec_autogenerate
  *
  * Parameters:
  * - game: A pointer to a game struct. Should not be NULL.
