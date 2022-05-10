@@ -1236,7 +1236,7 @@ Test(roomlevel, lvl0_to_lvl1_roomlevels)
 
 /* Checks that filter_specgraph_with_difficulty returns NULL
  * if no roomspec in the specgraph is of the given difficulty level */
-Test(specgraph, filter_specgraph_NULL)
+/*Test(specgraph, filter_specgraph_NULL)
 {
     roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
     roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
@@ -1254,22 +1254,22 @@ Test(specgraph, filter_specgraph_NULL)
 
     roomlevel_t *roomlevel = NULL;
     
-    /* label the rooms' level with 0 */
+    // label the rooms' level with 0 
     add_roomlevel_to_hash(&roomlevel, "room_name_1", 0);
     add_roomlevel_to_hash(&roomlevel, "room_name_2", 0);
 
-    /* filter the specgraph with level 1 */
+    // filter the specgraph with level 1 
     specgraph_t* filtered = filter_specgraph_with_difficulty(unfiltered, 
                                                            &roomlevel, 
                                                            1);
 
     cr_assert_null(filtered, "filtered specgraph should be NULL");
-}
+}*/
 
 
 /* Checks that filter_specgraph_with_difficulty successfully filters specgraph 
    Expect to have only one rspec in the filtered specgraph. */
-Test(specgraph, one_in_filtered)
+/*Test(specgraph, one_in_filtered)
 {
     roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
     roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
@@ -1291,12 +1291,12 @@ Test(specgraph, one_in_filtered)
 
     roomlevel_t *roomlevel = NULL;
 
-    /* label the rooms' level with 1, 2, 3 */
+    // label the rooms' level with 1, 2, 3 
     add_roomlevel_to_hash(&roomlevel, "room_name_1", 1);
     add_roomlevel_to_hash(&roomlevel, "room_name_2", 2);
     add_roomlevel_to_hash(&roomlevel, "room_name_3", 3);
 
-    /* filter the specgraph with level 2 */
+    // filter the specgraph with level 2 
     specgraph_t* filtered = filter_specgraph_with_difficulty(unfiltered, 
                                                            &roomlevel, 
                                                            2);
@@ -1311,12 +1311,12 @@ Test(specgraph, one_in_filtered)
 
     cr_assert_str_eq(filtered->spec->room_name, "room_name_2", 
                      "the filtered specgraph should only contain rspec2"); 
-}
+}*/
 
 
 /* Checks that filter_specgraph_with_difficulty does not alter original/unfiltered specgraph
    Expect to have only one rspec in the filtered specgraph. */
-Test(specgraph, unfiltered_unchanged)
+/*Test(specgraph, unfiltered_unchanged)
 {
     roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
     roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
@@ -1338,12 +1338,12 @@ Test(specgraph, unfiltered_unchanged)
 
     roomlevel_t *roomlevel = NULL;
 
-    /* label the rooms' level with 1, 2, 3 */
+    // label the rooms' level with 1, 2, 3 
     add_roomlevel_to_hash(&roomlevel, "room_name_1", 1);
     add_roomlevel_to_hash(&roomlevel, "room_name_2", 2);
     add_roomlevel_to_hash(&roomlevel, "room_name_3", 3);
 
-    /* filter the specgraph with level 2 */
+    // filter the specgraph with level 2 
     specgraph_t* filtered = filter_specgraph_with_difficulty(unfiltered, 
                                                            &roomlevel, 
                                                            2);
@@ -1362,7 +1362,7 @@ Test(specgraph, unfiltered_unchanged)
     cr_assert_eq(count, 3, "there should be 3 (not %d) roomspecs in the unfiltered specgraph.", count);
 
     roomspec_t *rspecs[3] = {rspec1, rspec2, rspec3};
-    /* Searching for each rspec in the specgraph */
+    // Searching for each rspec in the specgraph 
     for (int i = 0; i < 3; i++) {
         bool found = false;
         DL_FOREACH(unfiltered, tmp) {
@@ -1373,11 +1373,11 @@ Test(specgraph, unfiltered_unchanged)
         }
         cr_assert_eq(true, found, "rspec%d not found in unfiltered specgraph", i + 1);
     }
-}
+}*/
 
 /* Checks that filter_specgraph_with_difficulty successfully filters specgraph 
    Expect to have two rspecs in the filtered specgraph. */
-Test(specgraph, two_in_filtered)
+/*Test(specgraph, two_in_filtered)
 {
     roomspec_t *rspec1 = roomspec_new("room_name_1", "short_desc", "long_desc", NULL);
     roomspec_t *rspec2 = roomspec_new("room_name_2", "short_desc", "long_desc", NULL);
@@ -1399,12 +1399,12 @@ Test(specgraph, two_in_filtered)
 
     roomlevel_t *roomlevel = NULL;
 
-    /* label the rooms' level with 1, 2, 3 */
+    // label the rooms' level with 1, 2, 3 
     add_roomlevel_to_hash(&roomlevel, "room_name_1", 1);
     add_roomlevel_to_hash(&roomlevel, "room_name_2", 1);
     add_roomlevel_to_hash(&roomlevel, "room_name_3", 3);
 
-    /* filter the specgraph with level 2 */
+    // filter the specgraph with level 2 
     specgraph_t* filtered = filter_specgraph_with_difficulty(unfiltered, 
                                                            &roomlevel, 
                                                            1);
@@ -1421,13 +1421,13 @@ Test(specgraph, two_in_filtered)
                      "the filtered specgraph should contain rspec2"); 
     cr_assert_str_eq(filtered->next->spec->room_name, "room_name_2", 
                      "the filtered specgraph should contain rspec2"); 
-}
+}*/
 
 
 
 /* Checks that multi_room_level_generate returns FAILURE 
  * if the only room spec in the specgraph is not of the right difficulty level */
-Test(autogenerate, invalid_multi_room_level_1)
+/*Test(autogenerate, invalid_multi_room_level_1)
 {
     // creating specgraph
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
@@ -1464,12 +1464,12 @@ Test(autogenerate, invalid_multi_room_level_1)
     cr_assert_eq(FAILURE, 
                  multi_room_level_generate(g, context, "school", 1, levelspec),
                  "multi_room_level_generate() returned FAILURE instead of SUCCESS");
-}
+}*/
 
 
 /* Checks that multi_room_level_generate returns FAILURE 
  * if all room specs in the specgraph are not of the right difficulty level. */
-Test(autogenerate, invalid_multi_room_level_3)
+/*Test(autogenerate, invalid_multi_room_level_3)
 {
     // creating specgraph
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
@@ -1505,12 +1505,12 @@ Test(autogenerate, invalid_multi_room_level_3)
     cr_assert_eq(FAILURE, 
                  multi_room_level_generate(g, context, "school", 1, levelspec),
                  "multi_room_level_generate() returned FAILURE instead of SUCCESS");
-}
+}*/
 
 
 /* Checks that multi_room_level_generate successfully generates/adds room 
  * with the right difficulty level when 1 room is requested */
-Test(autogenerate, valid_multi_room_level_1)
+/*Test(autogenerate, valid_multi_room_level_1)
 {
     // creating specgraph
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
@@ -1544,13 +1544,13 @@ Test(autogenerate, valid_multi_room_level_1)
     cr_assert_eq(SUCCESS, 
                  multi_room_level_generate(g, context, "school", 1, levelspec),
                  "multi_room_level_generate() returned FAILURE instead of SUCCESS");
-}
+}*/
 
 
 
 /* Checks that multi_room_level_generate successfully generates/adds room 
  * with the right difficulty level when 3 rooms are requested */
-Test(autogenerate, valid_multi_room_level_3)
+/*Test(autogenerate, valid_multi_room_level_3)
 {
     // creating specgraph
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
@@ -1586,13 +1586,13 @@ Test(autogenerate, valid_multi_room_level_3)
     cr_assert_eq(SUCCESS, 
                  multi_room_level_generate(g, context, "school", 3, levelspec),
                  "multi_room_level_generate() returned FAILURE instead of SUCCESS");
-}
+}*/
 
 /* Checks that recursive_generate generates no rooms given:
    - radius: 0 
    - direction_to_parent: ""   (no parent)
    Starts with 1 room in all_rooms hash, expect 1 room at the end. */
-Test(autogenerate, recursive_gen_rad0)
+/*Test(autogenerate, recursive_gen_rad0)
 {
     rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     specgraph_t *spec = NULL;
@@ -1617,13 +1617,13 @@ Test(autogenerate, recursive_gen_rad0)
         num_rooms++;
     }
     cr_assert_eq(1, num_rooms, "expected 1 room; recursive_generate generated %d", num_rooms);
-}
+}*/
 
 /* Checks that recursive_generate generates 4 rooms given:
    - radius: 1
    - direction_to_parent: ""   (no parent)
    Starts with 1 room in all_rooms hash, expect 5 rooms at the end. */
-Test(autogenerate, recursive_gen_rad1)
+/*Test(autogenerate, recursive_gen_rad1)
 {
     rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     specgraph_t *spec = NULL;
@@ -1648,13 +1648,13 @@ Test(autogenerate, recursive_gen_rad1)
         num_rooms++;
     }
     cr_assert_eq(4, num_rooms, "expected 1 + 3 = 4 rooms; recursive_generate generated %d", num_rooms);
-}
+}*/
 
 /* Checks that recursive_generate generates 17 rooms given:
    - radius: 2
    - direction_to_parent: ""   (no parent)
    Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
-Test(autogenerate, recursive_gen_rad2)
+/*Test(autogenerate, recursive_gen_rad2)
 {
     roomspec_t *hash = make_default_room("farmhouse", NULL, NULL);
     specgraph_t *spec = NULL;
@@ -1679,13 +1679,13 @@ Test(autogenerate, recursive_gen_rad2)
         num_rooms++;
     }
     cr_assert_eq(17, num_rooms, "expected 1 + 4 + 12 = 17 rooms; recursive_generate generated %d", num_rooms);
-}
+}*/
 
 /* Checks that recursive_generate generates 52 rooms given:
    - radius: 3
    - direction_to_parent: ""   (no parent)
    Starts with 1 room in all_rooms hash, expect 53 rooms at the end. */
-Test(autogenerate, recursive_gen_rad3)
+/*Test(autogenerate, recursive_gen_rad3)
 {
     rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     specgraph_t *spec = NULL;
@@ -1710,14 +1710,14 @@ Test(autogenerate, recursive_gen_rad3)
         num_rooms++;
     }
     cr_assert_eq(53, num_rooms, "expected 1 + 4 + 12 + 36 = 53 rooms; recursive_generate generated %d", num_rooms);
-}
+}*/
 
 /* Checks that recursive_generate generates 12 rooms given:
    - radius: 2
    - direction_to_parent: "south" 
    Starts with 1 room in all_rooms hash, expect 13 rooms at the end, 
    and none in the south direction. */
-Test(autogenerate, recursive_gen_block_south)
+/*Test(autogenerate, recursive_gen_block_south)
 {
     rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     specgraph_t *spec = NULL;
@@ -1745,4 +1745,4 @@ Test(autogenerate, recursive_gen_block_south)
     }
     cr_assert_eq(13, num_rooms, "expected 1 + 3 + 9 = 13 rooms; recursive_generate generated %d", num_rooms);
 
-}
+}*/
