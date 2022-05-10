@@ -7,105 +7,110 @@
 #include "item.h"
 
 
+/* Forward declarations. Full typedefs can be found in item.h */
+typedef struct attribute attribute_t;
+typedef struct attribute_wrapped_for_llist attribute_list_t;
+typedef union attribute_value attribute_value_t;
+typedef struct attribute attribute_hash_t;
+typedef struct item item_t;
+typedef struct item item_hash_t;
+typedef struct item_wrapped_for_llist item_list_t;
+typedef struct game_action_effect action_effect_list_t;
+
+/* Forward declaration. Full typedef can be found in condition.h */
+typedef struct condition condition_t;
+typedef struct condition condition_list_t;
+
+/* Forward declaration. Full typedef can be found in player.h */
+typedef struct player player_t;
+typedef struct player player_hash_t;
+
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
 // and conducting actions
 
+
 /* get_action() returns the game_action_t associated with an action
  * Parameters:
- *  a pointer to the item
- *  the action name
+ *   - agent: a pointer to the agent
+ *   - action_name: the action name
  * Returns:
- *  the action struct associated or NULL if not associated
+ *   - the action struct associated or NULL if not associated
  */
-game_action_t *get_action(item_t *item, char* action_name);
+game_action_t *get_action(agent_t *agent, char* action_name);
 
-/* add_action() adds a (presumed legal) action to an item
+/* add_action() adds a (presumed legal) action to an agent
  * Parameters:
- *  a pointer to the item
- *  the action name
- *  the action struct
- *  the action type (as specified by action management)
- *  the string to print should the action be performed successfully
- *  the string to print shoulf the action fail to be performed
+ *   - thing: a pointer to the agent
+ *   - action_name: the action name
+ *   - success_str: the string to print should the action be performed successfully
+ *   - fail_str: the string to print shoulf the action fail to be performed
  * Returns:
- *  SUCCESS if added correctly, FAILURE if failed to add
+ *   - SUCCESS if added correctly, FAILURE if failed to add
  */
-int add_action(item_t* item, char *action_name, char* success_str, char* fail_str);
+int add_action(agent_t* agent, char *action_name, char* success_str, char* fail_str);
 
-
-/* possible_action() checks if an item permits a specific action
+/* possible_action() checks if an agent permits a specific action
  * Parameters:
- *  a pointer to the item
- *  the action name
+ *   - agent: a pointer to the agent
+ *   - action_name: the action name
  * Returns:
- *  SUCCESS if item contains action, FAILURE if it does not
+ *   - SUCCESS if item contains action, FAILURE if it does not
  */
-int possible_action(item_t* item, char* action_name);
+int possible_action(agent_t* agent, char* action_name);
 
 /*
- * Function to get a linked list (utlist) of all the actions in the item
+ * Function to get a linked list (utlist) of all the actions in the agent
  *
  * Parameters:
- *  item
- *
+ *   - thing: a pointer to the agent
  * Returns:
- *  linked list of pointers to actions (the head element)
+ *   - linked list of pointers to actions (the head element)
  */
-game_action_hash_t *get_all_actions(item_t *item);
-
-
-/* game_action_free() frees allocated space for an action struct in memory
- *  Parameters:
- *    a pointer to the action
- *  Returns:
- *    SUCCESS if successful, FAILURE if not
- */
-int game_action_free(game_action_t *action_tofree);
-
+game_action_hash_t *get_all_actions(agent_t *agent);
 
 
 // ------------------------- CONDITION FUNCTIONS -------------------------
 
+
 /* add_action_attribute_condition() creates a new attribute condition for an item's action and
  * adds to the action's condition list
  * Parameters:
- *  a pointer to the action to which the condition is being added
- *  a pointer to the item specified in the action condition
- *  a pointer to the attribute of the item specified in action condition that needs to be validated
- *  the value of the above attribute that needs to be validated
+ *   - action: a pointer to the action to which the condition is being added
+ *   - cond_item: a pointer to the item specified in the action condition
+ *   - cond_attribute: a pointer to the attribute of the item specified in action condition that needs to be validated
+ *   - cond_value: the value of the above attribute that needs to be validated
  * Returns:
- *  SUCCESS upon SUCCESS
- *  ACTION_NULL if specified action does not exist in first item
- *  ITEM_MODIFY_NULL if the item ID does not exist
+ *   - SUCCESS upon SUCCESS
+ *   - ACTION_NULL if specified action does not exist in first item
+ *   - ITEM_MODIFY_NULL if the item ID does not exist
  */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item, 
-			 attribute_t *cond_attribute, attribute_value_t cond_value);
+			 attribute_t *cond_attribute, attribute_value_t *cond_value);
 
 /* add_action_inventory_condition() creates a new inventory condition for an item's action and
  * adds to the action's condition list
  * Parameters:
- *  a pointer to the action to which the condition is being added
- *  a pointer to the player whose inventory to check
- *  a pointer to the item to check in the inventory
+ *   - action: a pointer to the action to which the condition is being added
+ *   - player: a pointer to the player whose inventory to check
+ *   - item: a pointer to the item to check in the inventory
  * Returns:
- *  SUCCESS upon SUCCESS
- *  ACTION_NULL if specified action does not exist in first item
- *  PLAYER_NULL if the player does not exist
- *  ITEM_MODIFY_NULL if the item ID does not exist
+ *   - SUCCESS upon SUCCESS
+ *   - ACTION_NULL if specified action does not exist in first item
+ *   - PLAYER_NULL if the player does not exist
+ *   - ITEM_MODIFY_NULL if the item ID does not exist
  */
 int add_action_inventory_condition(game_action_t *action, player_t *player,
                                     item_t *item);
 
-
 /* add_action_condition() adds the given condition to the action's linkedlist of
  * conditions
  * Parameters:
- *   a pointer to the action to add to
- *   the condition
+ *   - a pointer to the action to add to
+ *   - the condition
  * Returns:
- *   SUCCESS upon SUCCESS
- *   ACTION_NULL if action does not exist
+ *   - SUCCESS upon SUCCESS
+ *   - ACTION_NULL if action does not exist
  */
 int add_action_condition(game_action_t *action, condition_t *condition);
 
@@ -113,11 +118,11 @@ int add_action_condition(game_action_t *action, condition_t *condition);
  * Function that returns the node with the right action_type_t
  *
  * Parameters:
- * - list_action_type_t: list containing actions
- * - action_type_t: action that we want
+ *   - list_action_type_t: list containing actions
+ *   - action_type_t: action that we want
  *
  * Returns:
- * pointer to correct list_action_type_t node
+ *   - pointer to correct list_action_type_t node
  */
 list_action_type_t *find_act(list_action_type_t *head, action_type_t *a);
 
@@ -140,17 +145,17 @@ int delete_action(list_action_type_t **head, list_action_type_t *act);
 /* add_action_effect creates an effect_t struct and adds it to the action pointed to
  * Parameters:
  *  pointer to action
- *  pointer to item being modified
+ *  pointer to agent being modified
  *  pointer to attribute to modify
  *  new attribute_value_t (takes tag from attribute above)
  *
  * Returns:
  * SUCCESS upon success, FAILURE upon failure
  * ACTION_NULL if action NULL
- * ITEM_MODIFY_NULL if item to modify is null
+ * ITEM_MODIFY_NULL if agent to modify is null
  */
-int add_action_effect(game_action_t *action, item_t *item_to_add, 
-		      attribute_t *attribute, attribute_value_t new_value);
+int add_action_effect(game_action_t *action, agent_t *agent_to_add, 
+		      attribute_t *attribute, attribute_value_t *new_value);
 
 /* delete_action_effect_llist frees a linked list of action effects
  * Parameters:
@@ -161,9 +166,7 @@ int add_action_effect(game_action_t *action, item_t *item_to_add,
  */
 int delete_action_effect_llist(action_effect_list_t *effects);
 
-//alt version
-
-/* do_effects() sets an effect
+/* do_effect() sets an effect
  * Parameters:
  *  pointer to effect
  * Returns:
@@ -173,12 +176,26 @@ int do_effect(game_action_effect_t *effect);
 
 /* do_all_effects() sets all effects of an action
  * Parameters:
- *  pointer to the item to check
- *  the action_name
+ *  pointer to the linked list of effects
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(item_t* item, char* action_name);
+int do_all_effects(agent_t *agent, char *action_name);
+
+
+// ------------------------- NEW, INIT, FREE FUNCTIONS ------------------------------
+
+
+/* game_action_new() allocates a space for an action struct in memory and
+* assigns given values to struct fields
+*  Parameters:
+*    action name
+*    a success string
+*    a failure string
+*  Returns:
+*    A pointer to a new action struct.
+*/
+game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str);
 
 /* action_init() initializes an action struct with given values
    arguments are taken from action management
@@ -192,35 +209,23 @@ int do_all_effects(item_t* item, char* action_name);
 int game_action_init(game_action_t *new_action, char *act_name, 
 		     char* success_str, char* fail_str);
 
-/* game_action_new() allocates a space for an action struct in memory and
-* assigns given values to struct fields
-*  Parameters:
-*    action name
-*    a success string
-*    a failure string
-*  Returns:
-*    A pointer to a new action struct.
-*/
-game_action_t *game_action_new(char *action_name, char* success_str, char* fail_str);
-
-/* do_effect() performs given effect
- *
- * Parameters:
- *   pointer to an action effect
- * Returns:
- *   SUCCESS upon success, FAILURE upon failure
+/* game_action_free() frees allocated space for an action struct in memory
+ *  Parameters:
+ *    - action_to_free: a pointer to the action
+ *  Returns:
+ *    SUCCESS if successful, FAILURE if not
  */
-int do_effect(game_action_effect_t *effect);
+int game_action_free(game_action_t *action_to_free);
 
-/* create_effect creates an effect_t struct with the given inputs
+/* effect_new creates an effect_t struct with the given inputs
  * Parameters:
  *  pointer to item to modify
  *  pointer to attribute_t
  *  attribute_value_t
  * Returns:
- * NULL or game_action_effect_t
+ *  NULL or game_action_effect_t
  */
 game_action_effect_t *effect_new(item_t *item_to_modify, 
-				 attribute_t *attribute, attribute_value_t new_value);
+				 attribute_t *attribute, attribute_value_t *new_value);
 
 #endif
