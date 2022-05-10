@@ -1,0 +1,87 @@
+GDL Formatting Rules and Examples
+
+
+May 9, 2022
+
+
+Format:
+
+The GDL file (Graphical Description Language) enables game authors to describe
+how aspects of their game are represented. This file is seperate from the
+WDL (World Description Language) file, but follows a similar JSON format for 
+ease of use.
+
+
+Rules:
+
+Each file will begin with a "Display_Dimensions" object to define the width and
+height of the pop-up screens that will display information.
+
+Each proceeding object must concern one of the following player characteristics:
+CLASS, STATS, SKILLS, EFFECTS, INVENTORY, MOVES.
+
+
+Objects:
+
+Class:
+- Display of moves availible to user and how the author can customize is subject
+to a future endeavor
+
+Statistics:
+
+The game supports the following customization for statistics:
+
+- On-screen statistics:
+    - Corner: which corner of the screen they will be listed
+        - These are limited to: Top Left, Top Right, Bottom Left, Bottom Right
+    - Names and Order: The titles of the statistics as they appear on screen
+        - These are limited to statistics specified in the WDL file
+        - The vertical order in which statistics will be represented
+    - Mode: How the statistic will be reported
+        - Options include: numerical, geometrical, or graphical as specified
+          by an image
+
+Skills:
+- Display of moves availible to user and how the author can customize is subject
+to a future endeavor
+
+Effects:
+- Display of moves availible to user and how the author can customize is subject
+to a future endeavor
+
+Inventory:
+    - Rows
+    - Columns
+
+Moves:
+- Display of moves availible to user and how the author can customize is subject 
+to a future endeavor
+
+
+Sample:
+
+{
+    "Display_Dimensions":
+        {
+            "width":800,
+            "height":500,
+        }
+    "Inventory":
+        {
+            "rows":3,
+            "columns":4
+        }
+    "Statistics":
+        {
+            "Corner":"Top Right",
+            "Names": [
+                    "Health":1,
+                    "xp":2
+                ]
+            "Mode: Numerical"
+        }
+}
+
+
+Unspecified objects will have built-in default settings  
+Support currently exists only for STATS and INVENTORY customizations
