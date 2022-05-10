@@ -45,7 +45,7 @@ int get_class_name_index(char* name) {
         return -1;
 
     char temp_name[MAX_NAME_LEN + 1];
-    strncpy(temp_name, name, MAX_NAME_LEN);
+    strncpy(temp_name, name, MAX_NAME_LEN + 1);
     /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
