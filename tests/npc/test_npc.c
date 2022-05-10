@@ -40,9 +40,8 @@ stat_t *create_enemy_stats()
     stat_t *test_stats = calloc(1, sizeof(stat_t));
 
     test_stats->speed = 50;
-    test_stats->defense = 20;
-    test_stats->strength = 150;
-    test_stats->dexterity = 10;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
     test_stats->hp = 200;
     test_stats->max_hp = 200;
     test_stats->xp = 0;
