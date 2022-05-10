@@ -129,7 +129,7 @@ typedef struct action_type{
 */
 typedef struct list_action_type {
     action_type_t *act;
-    struct list_act *next;
+    list_action_type_t *next;
 } list_action_type_t;
 
 #endif
