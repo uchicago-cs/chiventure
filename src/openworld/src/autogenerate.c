@@ -183,9 +183,9 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
     return SUCCESS;
 }
 
-
+//This function is no longer applicable for a specgraph and needs to be updated-
 /* See autogenerate.h */
-int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash)
+/*int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash)
 {
     roomspec_t *current_room = NULL;
     roomspec_t *tmp = NULL;
@@ -195,7 +195,7 @@ int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash)
         DL_APPEND(*orig, s);
     }
     return SUCCESS;
-}
+}*/
 
 /* See autogenerate.h */
 roomspec_t *random_room_lookup(specgraph_t *spec)
