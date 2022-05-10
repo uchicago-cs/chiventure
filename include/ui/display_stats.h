@@ -1,7 +1,6 @@
 #ifndef DISPLAY_STATS_H
 #define DISPLAY_STATS_H
 
-#include "stats.h"
 #include "player.h"
 #include "game.h"
 
