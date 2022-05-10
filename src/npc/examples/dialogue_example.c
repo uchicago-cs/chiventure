@@ -11,7 +11,7 @@
  * to be run through and then executes functions to explore it
  */
 int main()
-{   
+{
     system("clear");
 
     printf("\nWelcome to Chiventure's 'Dialogue Module' Mockup!\n\n\n");
@@ -29,12 +29,12 @@ int main()
     g->curr_player = p;
     g->curr_room = r;
     g->mode = game_mode_new(NORMAL, NULL, "stranger"); // mode is needed for
-                                                       // the GIVE_ITEM action
-                                                       // to work properly
+    // the GIVE_ITEM action
+    // to work properly
     add_player_to_game(g, p);
     // This code should be uncommented once NPC structs can support two
     // hash tables
-    // add_npc_to_game(g, stranger); 
+    // add_npc_to_game(g, stranger);
     add_room_to_game(g, r);
     add_npc_to_room(r->npcs, stranger);
     add_item_to_game(g, item1);
@@ -93,7 +93,8 @@ int main()
     char *ret_str;
 
     printf("Stranger:\n");
-    while (rc != 1) {
+    while (rc != 1)
+    {
         if (rc < 0) ret_str = start_conversation(c1, &rc, g);
         else ret_str = run_conversation_step(c1, player_response, &rc, g);
         printf("%s", ret_str);
@@ -105,7 +106,8 @@ int main()
     rc = -1;
 
     printf("Stranger: (again)\n");
-    while (rc != 1) {
+    while (rc != 1)
+    {
         if (rc < 0) ret_str = start_conversation(c1, &rc, g);
         else ret_str = run_conversation_step(c1, player_response, &rc, g);
         printf("%s", ret_str);
@@ -117,7 +119,8 @@ int main()
     rc = -1;
 
     printf("\nSteve the 'Smith:\n");
-    while (rc != 1) {
+    while (rc != 1)
+    {
         if (rc < 0) ret_str = start_conversation(c2, &rc, g);
         else ret_str = run_conversation_step(c2, player_response, &rc, g);
         printf("%s", ret_str);
@@ -129,7 +132,8 @@ int main()
     rc = -1;
 
     printf("\nSteve the 'Smith: (again)\n");
-    while (rc != 1) {
+    while (rc != 1)
+    {
         if (rc < 0) ret_str = start_conversation(c2, &rc, g);
         else ret_str = run_conversation_step(c2, player_response, &rc, g);
         printf("%s", ret_str);
