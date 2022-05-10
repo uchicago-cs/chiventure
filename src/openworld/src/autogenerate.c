@@ -127,7 +127,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
     int rowcount=0;
 
     while(rownumber==-1){
-        if(rownumber==roomspecs[rowcount])
+        if(roomspec==roomspecs[rowcount])
             rownumber=rowcount;
         rowcount++;
     }
