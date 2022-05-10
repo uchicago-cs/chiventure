@@ -319,9 +319,9 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
  * - SUCCESS if the new rooms were generated and added (SUCCESS)
  * - FAILURE if the new rooms were not generated/added (FAILURE)
  */
-int multi_room_level_generate(game_t *game, gencontext_t *context, 
+/*int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
-                              levelspec_t *levelspec);
+                              levelspec_t *levelspec);*/
 
 
 

@@ -377,26 +377,26 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
 }*/
 
 /* See autogenerate.h */
-int multi_room_level_generate(game_t *game, gencontext_t *context, 
+/*int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec)
 {
-    /* If there are no roomspec_t elements in context->specgraph, then do not autogenerate */
+    // If there are no roomspec_t elements in context->specgraph, then do not autogenerate 
     if (context->specgraph == NULL) {
         return FAILURE;
     }
 
-    /* compute the difficulty corresponding to player level */
+    // compute the difficulty corresponding to player level 
     int difficulty_level = map_level_to_difficulty(levelspec->num_thresholds,
                                                    levelspec->thresholds,
                                                    context->level);
 
-    /* filter the given specgraph according to difficulty */
+    // filter the given specgraph according to difficulty 
     specgraph_t *filtered_specgraph = filter_specgraph_with_difficulty(context->specgraph,
                                                                     &(levelspec->roomlevels), 
                                                                     difficulty_level);
 
-    /* filtered gencontext */
+    // filtered gencontext 
     gencontext_t* filtered_context = gencontext_new(context->open_paths,
                                                     context->level,
                                                     context->num_open_paths,
@@ -406,7 +406,7 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
     specgraph_free(filtered_specgraph);
 
     return result;
-}
+}*/
 
 
 /* See autogenerate.h */
