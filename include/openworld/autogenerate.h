@@ -296,9 +296,9 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
  * Returns:
  * - pointer to the filtered specgraph, NULL if no spec matches the level
  */
-specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
+/*specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
                                             roomlevel_hash_t **roomlevels, 
-                                            int difficulty_level);
+                                            int difficulty_level);*/
 
 
 /* multi_room_level_generate

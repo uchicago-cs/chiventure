@@ -353,7 +353,7 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
 
 
 /* See autogenerate.h */
-specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
+/*specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
                                             roomlevel_hash_t **roomlevels, 
                                             int difficulty_level)
 {    
@@ -365,17 +365,16 @@ specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph,
                                                                curr->spec, 
                                                                difficulty_level);
         if (is_given_difficulty == SUCCESS) {
-            /* Create a copy of the node to add to the filtered specgraph output. 
-            This resolves an earlier issue in which it was removing nodes from the unfiltered specgraph
-            a node cannot exist in two lists simultaneously. */
+            // Create a copy of the node to add to the filtered specgraph output. 
+            //This resolves an earlier issue in which it was removing nodes from the unfiltered specgraph
+            //a node cannot exist in two lists simultaneously. 
             specgraph_t *curr_copy = specgraph_new(curr->spec); 
             DL_APPEND(filtered_specgraph, curr_copy);    
         }
     }
 
     return filtered_specgraph;
-}
-
+}*/
 
 /* See autogenerate.h */
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
