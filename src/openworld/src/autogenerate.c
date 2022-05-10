@@ -119,7 +119,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
 roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
     specgraph_t *specgraph=context->specgraph;
-    int num_roomspecs=context->num_roomspecs;
+    int num_roomspecs=specgraph->num_roomspecs;
     roomspec_t **roomspecs=specgraph->roomspecs;
     int **edges=specgraph->edges;
 
@@ -198,21 +198,19 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 }*/
 
 /* See autogenerate.h */
-roomspec_t *random_room_lookup(specgraph_t *spec)
+roomspec_t *random_room_lookup(specgraph_t *specgraph)
 {
+    roomspec_t **roomspecs=specgraph->roomspecs
+    int num_rooms=specgraph->num_roomspecs
     int count;
-    specgraph_t *tmp = NULL;
-    specgraph_t *random = NULL;
+    int idx = rand() % num_rooms, i = 0;
 
-    DL_COUNT(spec, tmp, count);
-    int idx = rand() % count, i = 0;
-
-    DL_FOREACH(spec, tmp) {
-        if (i == idx) {
-            return tmp->spec;
+    for(int i=0; i<num_rooms; i++){
+        if(i == idx){
+            return roomspecs[i];
         }
-        i++;
     }
+
     return NULL;
 }
 
