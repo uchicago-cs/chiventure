@@ -8,6 +8,7 @@
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
+#include "cli/util.h"
 
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
@@ -16,6 +17,7 @@ void add_entry(char *command_name, operation *associated_operation, action_type_
     char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
     strcpy(newname, command_name);
     t->name = newname;
+    case_insensitize(t->name);
     t->operation_type = associated_operation;
     t->action = action;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
@@ -82,6 +84,7 @@ action_type_t *find_action(char *command_name, lookup_t **table)
 
 void delete_entry(char *command_name, lookup_t **table)
 {
+    case_insensitize(command_name);
     lookup_t *t = find_entry(command_name, table);
     HASH_DEL(*table, t);
     free(t->name);
@@ -128,10 +131,11 @@ int lookup_t_init(lookup_t **t)
     add_entry("INV", inventory_operation, NULL, t);
     add_entry("MAP", map_operation, NULL, t);
     add_entry("SWITCH", switch_operation, NULL, t);
-    add_entry("LOAD_WDL", load_wdl_operation, NULL, t);
+    add_entry("LOAD", load_wdl_operation, NULL, t);
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
+    add_entry("TALK", talk_operation, NULL, t);
 
     add_action_entries(t);
 
@@ -249,7 +253,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
     if (s != NULL) 
     {
         command_list_t *new_command = new_command_list(s);
-        LL_APPEND(ctx->command_history, new_command);
+        LL_APPEND(ctx->cli_ctx->command_history, new_command);
     }
     
     char **parsed_input = parse(s);
@@ -258,7 +262,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
         return NULL;
     }
     
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
     return cmd_from_tokens(parsed_input, table);
 }
 
@@ -299,3 +303,4 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
         }
     }
 }
+

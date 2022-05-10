@@ -3,6 +3,7 @@
 
 #include "battle/battle_structs.h"
 
+
 /* AI move strategy options */
 typedef enum difficulty
 {

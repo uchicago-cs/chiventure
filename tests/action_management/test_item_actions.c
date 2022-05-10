@@ -140,8 +140,8 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     
     
     game_free(ctx_test->game);
-    lookup_t_free(ctx_test->table);
-    free(ctx_test->table);
+    lookup_t_free(ctx_test->cli_ctx->table);
+    free(ctx_test->cli_ctx->table);
     chiventure_ctx_free(ctx_test);
     free(string);
     item_free(item);

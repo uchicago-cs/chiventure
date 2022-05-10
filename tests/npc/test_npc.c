@@ -5,10 +5,11 @@
 #include "game-state/item.h"
 #include "playerclass/class.h"
 
+
 /* Creates a sample class. Taken from test_class.c */
-class_t* generate_test_class()
+class_t *generate_test_class()
 {
-    class_t* c;
+    class_t *c;
     char *name, *shortdesc, *longdesc;
 
     name = "Warrior";
@@ -34,11 +35,58 @@ npc_mov_t *generate_test_npc_mov()
     npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
 }
 
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->defense = 20;
+    test_stats->strength = 150;
+    test_stats->dexterity = 10;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+
+    return test_stats;
+}
+
+/* Creates + initializes a move. Taken from test_battle_ai.c */
+move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
+                    int defense)
+{
+     move_t *move = (move_t*) calloc(1, sizeof(move_t));
+
+     move->id = id;
+
+     move->item = item;
+
+     move->attack = attack;
+     move->damage = damage;
+     move->defense = defense;
+
+     return move;
+}
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = create_move_(1, NULL, true, 100, 0);
+    poke = create_move_(2, NULL, true, 40, 0);
+    rock_throw = create_move_(3, NULL, true, 90, 0);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+    return head;
+}
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)
 {
-    class_t* c;
+    class_t *c;
     npc_t *npc;
     npc_mov_t *movement = generate_test_npc_mov();
 
@@ -72,7 +120,7 @@ Test(npc, new)
 /* Checks that npc_init() initialized the fields in the new npc struct */
 Test(npc, init)
 {
-    class_t* c;
+    class_t *c;
     npc_t *npc;
     npc_mov_t *movement = generate_test_npc_mov();
     int res;
@@ -265,4 +313,165 @@ Test(npc, remove_item_from_npc)
     item_list = get_npc_inv_list(npc);
     cr_assert_not_null(item_list, "remove_item_from_npc removed "
                        "both identical items from npc");
+}
+
+/* Checks that add_battle_to_npc adds the correct npc_battle struct to an npc */
+Test(npc, add_battle_to_npc) 
+{
+    char *npc_id = "npc";
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    stat_t *stats = create_enemy_stats();
+    move_t *moves = create_enemy_moves();
+
+    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, 
+		                HOSTILE, 25);
+    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
+    cr_assert_not_null(npc->npc_battle, 
+		       "add_battle_to_npc() didn't set npc_battle");
+    cr_assert_eq(npc->npc_battle->health, 100,
+		 "add_battle_to_npc() didn't set health in npc_battle");
+
+    res = npc_free(npc);
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
+}
+
+/* Checks that get_npc_battle returns a pointer to the npc_battle struct 
+ * associated with the npc or NULL if there is no such struct */
+Test(npc, get_npc_battle)
+{
+    char *npc_id = "npc";
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    npc_battle_t *null_npc_battle = get_npc_battle(npc);
+    cr_assert_null(null_npc_battle, 
+		   "get_npc_battle() didn't return NULL given npc with NULL" 
+		   "npc_battle");
+
+    stat_t *stats = create_enemy_stats();
+    move_t *moves = create_enemy_moves();
+
+    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
+    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
+
+    npc_battle_t *npc_battle = get_npc_battle(npc);
+    cr_assert_not_null(npc_battle, 
+		       "get_npc_battle() returned NULL given NPC with non-NULL"
+		       "npc_battle");
+    cr_assert_eq(npc_battle->health, 100,
+		 "get_npc_battle() returned a struct with the wrong health");
+
+    res = npc_free(npc);
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
+}
+
+/* Checks that an npc's health is changed by change_npc_health()
+   both positively and negatively with a set maximum */
+Test (npc, change_npc_health) 
+{
+    char *npc_id = "npc";
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    stat_t *stats = create_enemy_stats();
+    move_t *moves = create_enemy_moves();
+
+    int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
+    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
+
+    int health1 = change_npc_health(npc, 30, 100);
+    cr_assert_eq(health1, 100,
+                 "change_npc_health() increased health past max");
+    cr_assert_eq(npc->npc_battle->health, 100,
+		 "change_npc_health didn't change health in npc_battle struct");
+
+    int health2 = change_npc_health(npc, -20, 100);
+    cr_assert_eq(health2, 80,
+                 "change_npc_health() didn't decrease health correctly");
+    cr_assert_eq(npc->npc_battle->health, 80,
+                 "change_npc_health didn't change health in npc_battle struct");
+
+    int health3 = change_npc_health(npc, 3, 100);
+    cr_assert_eq(health3, 83,
+                 "change_npc_health() didn't increase health correctly");
+    cr_assert_eq(npc->npc_battle->health, 83,
+                 "change_npc_health didn't change health in npc_battle struct");
+
+    int health4 = change_npc_health(npc, -90, 100);
+    cr_assert_eq(health4, 0,
+                 "change_npc_health() set a negative health");
+    cr_assert_eq(npc->npc_battle->health, 0,
+                 "change_npc_health didn't change health in npc_battle struct");
+
+    res = npc_free(npc);
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
+}
+
+/* Checks that get_npc_health returns an npc's health if its npc_battle struct
+ * is initialized and otherwise returns -1 */
+Test(npc, get_npc_health)
+{
+    char *npc_id = "npc";
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    int health = get_npc_health(npc);
+    cr_assert_eq(health, -1, 
+		 "get_npc_health() failed for npc with NULL npc_battle");
+
+    stat_t *stats = create_enemy_stats();
+    move_t *moves = create_enemy_moves();
+
+    int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
+    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
+
+    health = get_npc_health(npc);
+    cr_assert_eq(health, 80,
+		 "get_npc_health() failed for npc with non-NULL npc_battle");
+
+    res = npc_free(npc);
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
+}
+
+/* Checks that check_npc_battle returns false iff an npc has will_fight = true
+ * but has npc_battle = NULL */
+Test(npc, check_npc_battle)
+{
+    char *npc_id = "npc";
+    npc_t *npc1 = npc_new(npc_id, "short", "long", NULL, NULL, false);
+    cr_assert_not_null(npc1, "npc_new() failed");
+    npc_t *npc2 = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    cr_assert_not_null(npc2, "npc_new() failed");
+
+    cr_assert_eq(check_npc_battle(npc1), true, 
+                 "check_npc_battle failed; will_fight=false, npc_battle=NULL");
+    cr_assert_eq(check_npc_battle(npc2), false,
+                 "check_npc_battle failed; will_fight=true, npc_battle=NULL");
+
+    stat_t *stats1 = create_enemy_stats();
+    move_t *moves1 = create_enemy_moves();
+    stat_t *stats2 = create_enemy_stats();
+    move_t *moves2 = create_enemy_moves();
+
+    int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
+    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
+    res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
+    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
+
+    cr_assert_eq(check_npc_battle(npc1), true,
+                 "check_npc_battle failed; will_fight=false, npc_battle!=NULL");
+    cr_assert_eq(check_npc_battle(npc2), true,
+                 "check_npc_battle failed; will_fight=true, npc_battle!=NULL");
+
+    res = npc_free(npc1);
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
+    res = npc_free(npc2);
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
 }

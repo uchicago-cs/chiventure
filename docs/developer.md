@@ -70,7 +70,7 @@ This component is responsible for any non-CLI elements of the user interface, su
 
 ## Style
 
-Your code must follow the [Style Guide](https://uchicago-cs.github.io/dev-guide/style_guide.html) in the [UChicago CS Developer Guide](https://uchicago-cs.github.io/dev-guide) 
+Your code must follow the [Style Guide](https://uchicago-cs.github.io/dev-guide/style_guide_c.html) in the [UChicago CS Developer Guide](https://uchicago-cs.github.io/dev-guide) 
 
 ## Git branches
 

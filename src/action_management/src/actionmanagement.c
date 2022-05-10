@@ -10,7 +10,7 @@
 #include "npc/npc.h"
 
 
-#define BUFFER_SIZE (100)
+#define BUFFER_SIZE (300)
 #define WRONG_KIND (2)
 #define NOT_ALLOWED_DIRECT (3)
 #define NOT_ALLOWED_INDIRECT (4)
@@ -129,13 +129,13 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     }
 
     /* use representative c_name for action synonyms */
-    if(strncmp(a->c_name, "PICKUP", BUFFER_SIZE) == 0) 
+    if(strncmp(a->c_name, "pickup", BUFFER_SIZE) == 0) 
     {
-        a->c_name = "TAKE";
+        a->c_name = "take";
     } 
-    else if(strncmp(a->c_name, "USE", BUFFER_SIZE) == 0 || strncmp(a->c_name, "EAT", BUFFER_SIZE) == 0 || strncmp(a->c_name, "DRINK", BUFFER_SIZE) == 0)
+    else if(strncmp(a->c_name, "use", BUFFER_SIZE) == 0 || strncmp(a->c_name, "eat", BUFFER_SIZE) == 0 || strncmp(a->c_name, "drink", BUFFER_SIZE) == 0)
     {
-        a->c_name = "CONSUME";
+        a->c_name = "consume";
     }
 
     agent_t *agent = NULL;

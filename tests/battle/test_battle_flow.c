@@ -7,14 +7,16 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
-
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
 
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
+
 /* Tests set_battle_player() */
-Test(battle_flow, set_battle_player)
+Test(battle_flow_move, set_battle_player)
 {
     combatant_t *comb_player;
 
@@ -46,23 +48,26 @@ Test(battle_flow, set_battle_player)
 }
 
 /* Tests set_enemies() with 1 enemy */
-Test(battle_flow, set_one_enemy)
+Test(battle_flow_move, set_one_enemy)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                      NULL, NULL, NULL);
 
-    npc_enemy_t *npc_enemy = make_npc_enemy("enemy_name",
-                                            test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
+    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
+    npc_t *npc_enemy = npc_new("enemy_name", "Enemy!", "Enemy!", test_class, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
 
-    combatant_t *comb_enemy = set_enemies(npc_enemy);
+    combatant_t *comb_enemy = set_enemy(npc_enemy);
 
     cr_assert_not_null(comb_enemy, "set_enemies() failed");
     cr_assert_str_eq(comb_enemy->name, "enemy_name", "set_enemies() didn't set name");
     cr_assert_eq(comb_enemy->is_friendly, false, "set_enemies() didn't set type");
     cr_assert_eq(comb_enemy->ai, BATTLE_AI_GREEDY, "set_enemies() didn't set ai");
     cr_assert_eq(comb_enemy->next, NULL, "set_enemies() didn't set next");
-    cr_assert_not_null(comb_enemy->prev, "set_enemies() didn't set prev");
+    cr_assert_eq(comb_enemy->prev, NULL, "set_enemies() didn't set prev");
 
     cr_assert_str_eq(comb_enemy->class_type->name, "Bard",
                      "set_player() didn't set class name");
@@ -76,60 +81,32 @@ Test(battle_flow, set_one_enemy)
     cr_assert_null(comb_enemy->class_type->base_stats, "set_player() didn't set class stats");
 }
 
-
-/* Tests set_enemies() with 2 enemies */
-Test(battle_flow, set_two_enemies)
-{
-    npc_enemy_t *head = NULL;
-    npc_enemy_t *e1 = make_npc_enemy("enemy_name", NULL, NULL, NULL, NULL, BATTLE_AI_GREEDY);
-    npc_enemy_t *e2 = make_npc_enemy("enemy_name2", NULL, NULL, NULL, NULL, BATTLE_AI_RANDOM);
-    DL_APPEND(head, e1);
-    DL_APPEND(head, e2);
-    cr_assert_not_null(e1, "make_npc_enemy() failed");
-    cr_assert_not_null(e2, "make_npc_enemy() failed");
-
-    // Check first enemy
-    combatant_t *comb_enemy1 = set_enemies(head);
-
-    cr_assert_not_null(comb_enemy1, "set_enemies() failed");
-    cr_assert_str_eq(comb_enemy1->name, "enemy_name", "set_enemies() didn't set name");
-    cr_assert_eq(comb_enemy1->is_friendly, false, "set_enemies() didn't set type");
-    cr_assert_eq(comb_enemy1->ai, BATTLE_AI_GREEDY, "set_enemies() didn't set first ai");
-    cr_assert_not_null(comb_enemy1->next, "set_enemies() didn't set next");
-    cr_assert_not_null(comb_enemy1->prev, "set_enemies() didn't set prev");
-
-    // Check second enemy
-    combatant_t *comb_enemy2 = comb_enemy1->next;
-
-    cr_assert_not_null(comb_enemy2, "set_enemies() failed");
-    cr_assert_str_eq(comb_enemy2->name, "enemy_name2", "set_enemies() didn't set name");
-    cr_assert_eq(comb_enemy2->is_friendly, false, "set_enemies() didn't set type");
-    cr_assert_eq(comb_enemy2->ai, BATTLE_AI_RANDOM, "set_enemies() didn't set second type");
-    cr_assert_eq(comb_enemy2->next, NULL, "set_enemies() didn't set next");
-    cr_assert_not_null(comb_enemy2->prev, "set_enemies() didn't set prev");
-}
-
 /* Tests set_battle() */
-Test(battle_flow, set_battle)
+Test(battle_flow_move, set_battle)
 {
-    battle_player_t *ctx_player = new_ctx_player("set_battle_Name", NULL, NULL, NULL, NULL);
-    npc_enemy_t *npc_enemy = make_npc_enemy("set_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
+    battle_player_t *ctx_player = new_ctx_player("set_battle_name", NULL, NULL, NULL, NULL);
+    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
+    npc_t *npc_enemy = npc_new("set_battle_name", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
+
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     cr_assert_not_null(b, "set_battle() failed");
     // Check player field
     cr_assert_not_null(b->player, "set_battle() failed");
-    cr_assert_str_eq(b->player->name, "set_battle_Name", "set_battle() didn't set name");
+    cr_assert_str_eq(b->player->name, "set_battle_name", "set_battle() didn't set name");
     cr_assert_eq(b->player->is_friendly, true, "set_battle() didn't set type");
     cr_assert_eq(b->player->next, NULL, "set_battle() didn't set next");
     cr_assert_eq(b->player->prev, NULL, "set_battle() didn't set prev");
 
     // Check enemy field
     cr_assert_not_null(b->enemy, "set_battle() failed");
-    cr_assert_str_eq(b->enemy->name, "set_battle_Name", "set_battle() didn't set name");
+    cr_assert_str_eq(b->enemy->name, "set_battle_name", "set_battle() didn't set name");
     cr_assert_eq(b->enemy->is_friendly, false, "set_battle() didn't set type");
     cr_assert_eq(b->enemy->next, NULL,"set_battle() didn't set next");
-    cr_assert_not_null(b->enemy->prev, "set_battle() didn't set prev");
+    cr_assert_eq(b->enemy->prev, NULL, "set_battle() didn't set prev");
 
     // Check environment field
     cr_assert_eq(b->environment, ENV_DESERT, "set_battle() didn't set next");
@@ -139,27 +116,30 @@ Test(battle_flow, set_battle)
 }
 
 /* Tests start_battle() */
-Test(battle_flow, start_battle)
+Test(battle_flow_move, start_battle)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
     battle_player_t *ctx_player = new_ctx_player("start_battle_Name", NULL, NULL, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
-    npc_enemy_t *npc_enemy = make_npc_enemy("start_battle_Name", NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
+    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
+    npc_t *npc_enemy = npc_new("start_battle_Name", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_SNOW;
 
     int rc = start_battle(ctx, npc_enemy, env);
 
     cr_assert_eq(rc, SUCCESS, "start_battle() failed");
-
 }
 
 /* this tests to see if it returns a ctx_battle */
-Test(battle_flow, return_success_battle_flow)
+Test(battle_flow_move_, return_success_battle_flow_move)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -178,7 +158,10 @@ Test(battle_flow, return_success_battle_flow)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -186,15 +169,17 @@ Test(battle_flow, return_success_battle_flow)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
-    int res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow() returned FAILURE");
+    char *res = battle_flow_move(ctx, move, "enemy");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 }
 
-/* this tests to see if battle_flow does damage to the enemy */
-Test(battle_flow, do_damage_battle_flow)
+/* this tests to see if battle_flow_move does damage to the enemy */
+Test(battle_flow_move, do_damage_battle_flow_move)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -213,7 +198,10 @@ Test(battle_flow, do_damage_battle_flow)
     estats->defense = 20;
     estats->level = 5;
     estats->strength = 150;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
     int rc = start_battle(ctx, npc_enemy, env);
@@ -221,6 +209,7 @@ Test(battle_flow, do_damage_battle_flow)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
@@ -230,27 +219,29 @@ Test(battle_flow, do_damage_battle_flow)
     int expected_player_hp = player->stats->hp -
                       damage(player, give_move(player, enemy, enemy->ai), enemy);
 
-    int res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow failed!");
+    char *res = battle_flow_move(ctx, move, "enemy");
+    
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     cr_assert_eq(enemy->stats->hp,
                  expected_enemy_hp, 
-                 "battle_flow() did not compute damage on enemy correctly, %d",enemy->stats->hp);
+                 "battle_flow_move() did not compute damage on enemy correctly, %d",enemy->stats->hp);
 
     // note: this hp value relies on player class implementation of move_list()
     cr_assert_eq(player->stats->hp,
                  expected_player_hp,
-                 "battle_flow() did not compute damage on player correctly");
+                 "battle_flow_move() did not compute damage on player correctly");
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
-                 "battle_flow() failed: battle is not in progress");
+                 "battle_flow_move() failed: battle is not in progress");
 }
 
 /*
  * Testing if the enemy is determiend as the winner if the player is defeated
  */
-Test(battle_flow, battle_over_by_player)
+Test(battle_flow_move, battle_over_by_player)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -269,7 +260,10 @@ Test(battle_flow, battle_over_by_player)
     estats->level = 5;
     estats->strength = 150;
     estats->defense = 20;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
     int rc = start_battle(ctx, npc_enemy, env);
@@ -277,6 +271,7 @@ Test(battle_flow, battle_over_by_player)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
@@ -284,34 +279,35 @@ Test(battle_flow, battle_over_by_player)
     int expected_hp = player->stats->hp -
                       damage(player, give_move(player, enemy,enemy->ai), enemy);
 
-    int res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+    char *res = battle_flow_move(ctx, move, "enemy");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
                  expected_hp,
-                 "battle_flow() did not compute damage correctly");
+                 "battle_flow_move() did not compute damage correctly");
 
     expected_hp = player->stats->hp -
                   damage(player, give_move(player, enemy,enemy->ai), enemy);
 
-    res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+    res = battle_flow_move(ctx, move, "enemy");
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
                  expected_hp,
-                 "battle_flow() did not compute damage correctly");
+                 "battle_flow_move() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
-                 "battle_flow() failed: battle is not over due to player");
+                 "battle_flow_move() failed: battle is not over due to player");
 }
 
 /*
  * Testing if the battle_player is determiend as the winner if the enemy is defeated
  */
-Test(battle_flow, battle_over_by_enemy)
+Test(battle_flow_move, battle_over_by_enemy)
 {
-    chiventure_ctx_battle_t *ctx = calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
@@ -327,7 +323,10 @@ Test(battle_flow, battle_over_by_enemy)
     estats->level = 1;
     estats->strength = 200;
     estats->defense = 30;
-    npc_enemy_t *npc_enemy = make_npc_enemy("Enemy", make_wizard(), estats, NULL, NULL, BATTLE_AI_GREEDY);
+    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
     int rc = start_battle(ctx, npc_enemy, env);
@@ -335,6 +334,7 @@ Test(battle_flow, battle_over_by_enemy)
 
     move_t *move = calloc(1, sizeof(move_t));
     move->damage = 100;
+    move->name = "Test";
 
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
@@ -342,16 +342,18 @@ Test(battle_flow, battle_over_by_enemy)
     int expected_hp = enemy->stats->hp -
                       2 * damage(enemy, move, player);  
 
-    int res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+    char *res = battle_flow_move(ctx, move, "enemy");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
-    res = battle_flow(ctx, move, "Enemy");
-    cr_assert_eq(res, SUCCESS, "battle_flow() failed");
+    res = battle_flow_move(ctx, move, "enemy");
+    
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  expected_hp,
-                 "battle_flow() did not compute damage correctly");
+                 "battle_flow_move() did not compute damage correctly");
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
-                 "battle_flow() failed: enemy was not declared the winner");
+                 "battle_flow_move() failed: enemy was not declared the winner");
 }
 

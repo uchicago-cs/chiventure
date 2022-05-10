@@ -6,6 +6,11 @@
 #include "battle/battle_logic.h"
 #include "battle/battle_state.h"
 #include "battle/battle_structs.h"
+#include "battle/battle_flow.h"
+#include "battle/battle_flow_structs.h"
+#include "battle/battle_default_objects.h"
+
+
 
 /*
  * This tests to ensure that a target exists within a list of targets
@@ -296,7 +301,7 @@ Test(battle_logic, same_speed)
 }
 
 /*
- * Finds a battle_item according to it's id number within a list of battle_items (inventory)
+ * Finds a battle_item according to it's name within a list of battle_items (inventory)
  */
 Test(battle_logic, find_battle_item)
 {
@@ -306,14 +311,14 @@ Test(battle_logic, find_battle_item)
     battle_item_t *i2;
 
     i1 = calloc(1, sizeof(battle_item_t));
-    i1->id = 100;
+    i1->name = "item";
     i2 = calloc(1, sizeof(battle_item_t));
-    i2->id = 101;
+    i2->name = "item";
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
-    battle_item_t *found = find_battle_item(head, 100);
-    cr_assert_eq(found->id, 100, "find_battle_item() failed!");
+    battle_item_t *found = find_battle_item(head, "item");
+    cr_assert_eq(found->name, "item", "find_battle_item() failed!");
 }
 
 /*
@@ -326,14 +331,43 @@ Test(battle_logic, do_not_find_item)
     battle_item_t *i2;
 
     i1 = calloc(1, sizeof(battle_item_t));
-    i1->id = 100;
+    i1->name = "item";
     i2 = calloc(1, sizeof(battle_item_t));
-    i2->id = 101;
+    i2->name = "item";
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
-    battle_item_t *found = find_battle_item(head, 102);
+    battle_item_t *found = find_battle_item(head, "item2");
     cr_assert_null(found, "find_battle_item() failed!");
+}
+
+Test(battle_logic, use_battle_weapon)
+{
+    stat_t *player_stats = calloc(1, sizeof(stat_t));
+    
+    stat_t *enemy_stats = calloc(1, sizeof(stat_t));
+    enemy_stats->hp = 100;
+    enemy_stats->strength = 90;
+    enemy_stats->defense = 80;
+    battle_item_t *weapon = get_random_default_weapon();
+
+    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, weapon, BATTLE_AI_NONE);
+
+    combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL, BATTLE_AI_NONE);
+
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = player;
+    battle->enemy = enemy;
+    
+    int expected_hp = battle->enemy->stats->hp + weapon->hp;
+    int expected_strength = battle->enemy->stats->strength + weapon->attack;
+    int expected_defense = battle->enemy->stats->defense + weapon->defense; 
+    int expected_durability = weapon->durability - 10;
+    use_battle_item(player, battle, weapon->name);
+    cr_assert_eq(battle->enemy->stats->hp, expected_hp, "consume_battle_weapon() does correctly set enemy hp after use");
+    cr_assert_eq(battle->enemy->stats->strength, expected_strength, "consume_battle_weapon() does correctly set enemy strength after use");
+    cr_assert_eq(battle->enemy->stats->defense, expected_defense, "consume_battle_weapon() does correctly set enemy defense after use");
+    cr_assert_eq(player->items->durability, expected_durability, "consume_battle_weapon() does correctly set item durablity after use");
 }
 
 /*
@@ -366,7 +400,6 @@ Test(battle_logic, consume_an_battle_item)
     cr_assert_eq(p->stats->strength, 15, "consume_battle_item() failed for strength!");
 
     combatant_free(p);
-    free(i1);
 }
 
 /*
@@ -384,14 +417,17 @@ Test(battle_logic, uses_battle_item_correctly)
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
-    i1->quantity = 1;
-
+    i1->quantity = 2;
+    i1->name = "ITEM1";
+    
     i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     i2->attack = 0;
     i2->defense = 0;
     i2->hp = 20;
     i2->quantity = 2;
+    i2->name = "ITEM2";
+    
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
@@ -400,10 +436,12 @@ Test(battle_logic, uses_battle_item_correctly)
     pstats->max_hp = 25;
     pstats->defense = 15;
     pstats->strength = 15;
-    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head, BATTLE_AI_NONE);
+    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL,head, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = use_battle_item(p, 100);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+    int res = use_battle_item(p, battle, "ITEM1");
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
@@ -417,7 +455,9 @@ Test(battle_logic, uses_battle_item_correctly)
 Test(battle_logic, inventory_empty)
 {
     combatant_t *p = combatant_new("Player", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
-    int res = use_battle_item(p, 100);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+    int res = use_battle_item(p, battle, "item1");
     cr_assert_eq(res, FAILURE, "use_battle_item() has failed!");
 }
 
@@ -436,6 +476,7 @@ Test(battle_logic, no_more_battle_items)
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 0;
+    i1->name = "item1";
 
     i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
@@ -443,6 +484,7 @@ Test(battle_logic, no_more_battle_items)
     i2->defense = 0;
     i2->hp = 20;
     i2->quantity = 2;
+    i2->name = "item2";
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
@@ -452,9 +494,11 @@ Test(battle_logic, no_more_battle_items)
     pstats->defense = 15;
     pstats->strength = 15;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head, BATTLE_AI_NONE);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = use_battle_item(p, 100);
+    int res = use_battle_item(p, battle, "item1");
 
     cr_assert_eq(res, FAILURE, "use_battle_item() has failed!");
 }
@@ -496,6 +540,7 @@ Test(battle_logic, award_xp)
 Test(stat_changes, add_item_node)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
@@ -514,18 +559,23 @@ Test(stat_changes, add_item_node)
     cr_assert_eq(sc->next->strength, 0, "stat_changes_add_item_node() failed for strength!");
     cr_assert_eq(sc->next->hp, 10, "stat_changes_add_item_node() failed for hp!");
 
-    free(i1);
     stat_changes_free_all(sc);
 }
 
 Test(battle_logic, remove_single_item)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    char *name = calloc(5, sizeof(char));
+    char *d = calloc(15, sizeof(char));
+    strcpy(name, "item");
+    strcpy(d, "discription");
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
+    i1->name = name;
+    i1->description = d;
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
@@ -535,7 +585,10 @@ Test(battle_logic, remove_single_item)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = use_battle_item(p, 100);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+
+    int res = use_battle_item(p, battle, "item");
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
@@ -545,12 +598,17 @@ Test(battle_logic, remove_single_item)
 
 Test(battle_logic, remove_item_of_multiple)
 {
+    
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
+    i1->name = calloc(6, sizeof(char));
+    strcpy(i1->name, "item1");
+    i1->description = calloc(15, sizeof(char));
+    strcpy(i1->description, "description");
 
     battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
@@ -558,9 +616,15 @@ Test(battle_logic, remove_item_of_multiple)
     i2->defense = 0;
     i2->hp = 15;
     i2->quantity = 1;
+    i2->name = calloc(6, sizeof(char));
+    strcpy(i2->name, "item2");
+    i2->description = calloc(15, sizeof(char));
+    strcpy(i2->description, "description");
 
     i1->next = i2;
+    i1->prev = NULL;
     i2->prev = i1;
+    i2->next = NULL;
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
@@ -570,12 +634,15 @@ Test(battle_logic, remove_item_of_multiple)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res1 = use_battle_item(p, 100);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+
+    int res1 = use_battle_item(p, battle, "item1");
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i2, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
-    int res2 = use_battle_item(p, 101);
+    int res2 = use_battle_item(p, battle, "item2");
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
@@ -590,6 +657,11 @@ Test(battle_logic, remove_last_item_of_multiple)
     i1->defense = 0;
     i1->hp = 10;
     i1->quantity = 1;
+    i1->name = calloc(6, sizeof(char));
+    strcpy(i1->name, "item1");
+    i1->description = calloc(15, sizeof(char));
+    strcpy(i1->description, "description");
+    
 
     battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
@@ -597,6 +669,10 @@ Test(battle_logic, remove_last_item_of_multiple)
     i2->defense = 0;
     i2->hp = 15;
     i2->quantity = 1;
+    i2->name = calloc(6, sizeof(char));
+    strcpy(i2->name, "item2");
+    i2->description = calloc(15, sizeof(char));
+    strcpy(i2->description, "description");    
 
     i1->next = i2;
     i2->prev = i1;
@@ -609,12 +685,15 @@ Test(battle_logic, remove_last_item_of_multiple)
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res2 = use_battle_item(p, 101);
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = p;
+
+    int res2 = use_battle_item(p, battle, "item2");
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i1, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
-    int res1 = use_battle_item(p, 100);
+    int res1 = use_battle_item(p, battle, "item1");
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
