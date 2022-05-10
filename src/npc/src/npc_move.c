@@ -165,22 +165,31 @@ char *get_next_npc_room_id(npc_mov_t *npc_mov)
     npc_path_direction_t direction = npc_mov->npc_path_direction;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
-    if (path_pos != 0) {
-        for (int i = 0; i < path_pos; i++) {
+    if (path_pos != 0) 
+    {
+        for (int i = 0; i < path_pos; i++) 
+        {
             current_room = current_room->next;
         }
-    } else {
-        if (direction == NPC_MOV_ORIGINAL) && current_room->next != NULL) {
+    } 
+    else 
+    {
+        if ((direction == NPC_MOV_ORIGINAL) && (current_room->next != NULL))
+        {
             return current_room->next->room_id;
-        } else {
+        } 
+        else 
+        {
             return NULL;
         }
     }
 
-    if (direction == NPC_MOV_ORIGINAL) {
+    if (direction == NPC_MOV_ORIGINAL) 
+    {
         if (current_room->next == NULL) return NULL;
         else return current_room->next->room_id;
-    } else return current_room->prev->room_id;
+    } 
+    else return current_room->prev->room_id;
 }
 
 /* See npc_move.h */
@@ -198,7 +207,7 @@ unsigned int get_npc_path_direction(npc_mov_t *npc_mov)
 /* See npc_move.h */
 int flip_npc_path_direction(npc_mov_t *npc_mov)
 {
-     if (npc_mov->npc_path_direction == NPC_MOV_ORIGINAL)
+    if (npc_mov->npc_path_direction == NPC_MOV_ORIGINAL)
     {
         npc_mov->npc_path_direction == NPC_MOV_REVERSED;
     }
@@ -253,8 +262,8 @@ int move_npc_definite(npc_mov_t *npc_mov)
         }
     }
 
-    if(((path_reversed == 0) && (current_room->next == NULL))
-        || ((path_reversed == 1) && (current_room->prev == NULL)))
+    if(((direction == NPC_MOV_ORIGINAL) && (current_room->next == NULL))
+        || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
     {
         return 1;
     }
@@ -300,10 +309,10 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
         }
     }
 
-    if(((path_reversed == 0) && (current_room->next == NULL))
-        || ((path_reversed == 1) && (current_room->prev == NULL)))
+    if(((direction == NPC_MOV_ORIGINAL) && (current_room->next == NULL))
+        || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
     {
-        assert(reverse_path(npc_mov) == SUCCESS);
+        assert(flip_npc_path_direction(npc_mov) == SUCCESS);
         return 1;
     }
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
