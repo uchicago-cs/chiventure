@@ -298,14 +298,16 @@ int roomspec_free(roomspec_t *spec);
 * must be pointing to some valid memory.
 *
 * parameters:
-* - list: the pointer to the specgraph_t we are initializing
-* - spec: the pointer to the roomspec_t
+* - specgraph: the pointer to the specgraph_t we are initializing
+* - int num_roomspecs: the number of roomspecs in the graph
+* - roomspec_t **roomspecs: an array of pointers to the roomspecs 
+* - int **edges: A 2D array representing the weights in the adjacency matrix
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_specgraph(int num_rooms, roomspec_t *room, int *edges);
+int init_specgraph(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
 
 /* specgraph_new
