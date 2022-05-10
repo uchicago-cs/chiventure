@@ -66,18 +66,6 @@ enum actions {
     /* KIND 3 ACTIONS - ACTION <item_item> */
     USE_ON,
     PUT,
-
-    // NPC ACTIONS
-    /* KIND 4 ACTIONS */
-    ATTACK,
-    
-    /* KIND 5 ACTIONS */
-    GIVE,
-    STEAL,
-
-    /* KIND 6 ACTIONS */
-    TRADE,
-    BUY
 };
 
 
@@ -87,10 +75,6 @@ enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     PATH = 2, // ACTION <path i.e. Action Type 2
     ITEM_ITEM = 3, // ACTION <item> <item> i.e. Action Type 3
-// NPC ACTIONS
-    NPC = 4,
-    NPC_ITEM = 5,
-    NPC_ITEM_ITEM = 6
 };
 
 
