@@ -3,7 +3,8 @@ add_library(npc
             src/rooms-npc.c
             src/dialogue.c
             src/npc_move.c
-	    src/npc_battle.c)
+	        src/npc_battle.c
+            src/npc_action.c)
 
 target_include_directories(npc PRIVATE src/)
 target_link_libraries(npc battle)
