@@ -8,6 +8,7 @@
 #include "npc/dialogue.h"
 #include "npc/npc_battle.h"
 #include "npc/npc_move.h"
+#include "npc/npc_action.h"
 #include "cli/util.h"
 
 /* Forward declarations. Full typedefs can be found in room.h */
