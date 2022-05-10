@@ -178,7 +178,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 * - NULL if hash is NULL
 * - specgraph_t* a new specgraph with all the roomspecs stored in hash copied
 */
-//int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash);
+int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash);
 
 /*
 * random_room_lookup
@@ -296,9 +296,9 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
  * Returns:
  * - pointer to the filtered specgraph, NULL if no spec matches the level
  */
-/*specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
+specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
                                             roomlevel_hash_t **roomlevels, 
-                                            int difficulty_level);*/
+                                            int difficulty_level);
 
 
 /* multi_room_level_generate
@@ -319,9 +319,9 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
  * - SUCCESS if the new rooms were generated and added (SUCCESS)
  * - FAILURE if the new rooms were not generated/added (FAILURE)
  */
-/*int multi_room_level_generate(game_t *game, gencontext_t *context, 
+int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
-                              levelspec_t *levelspec);*/
+                              levelspec_t *levelspec);
 
 
 
