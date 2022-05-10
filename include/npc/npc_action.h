@@ -23,7 +23,7 @@ typedef enum npc_actions {
     
     // KIND 5 ACTIONS
     GIVE,
-    TAKE,
+    STEAL,
 
     // KIND 6 ACTIONS
     TRADE,
