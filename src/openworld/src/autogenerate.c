@@ -140,7 +140,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
     while(randomint>=0){
         if(randomint<row[count])
-            newroomspec=num_roomspecs[count];
+            newroomspec=roomspecs[count];
         randomint-=row[count];
         count++;
     }
