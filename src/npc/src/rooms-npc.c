@@ -56,7 +56,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
     HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-              check);
+             check);
 
     if (check != NULL)
     {
@@ -75,7 +75,7 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
     HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-              check);
+             check);
 
     if (check == NULL)
     {
@@ -88,7 +88,7 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 }
 
 
-/* Moves an npc one step down its definite/indefinite path,
+/* Moves an npc one step down its definite/indefinite path, 
  * deletes it from it's old room, and adds it to its new one
  *
  * Parameters:
@@ -99,13 +99,13 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
  *  SUCCESS on success, FAILURE if an error occurs or if NPC is cannot be moved
  *
  *  NOTE:
- *   - This is a helper function for npc_one_move, it is only useful if
- *     the npcs_in_room structs for the current and next rooms are already known.
+ *   - This is a helper function for npc_one_move, it is only useful if 
+ *     the npcs_in_room structs for the current and next rooms are already known. 
  */
 int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
                         npcs_in_room_t *new_npc_room)
 {
-    assert(npc->movement->mov_type == NPC_MOV_INDEFINITE ||
+    assert(npc->movement->mov_type == NPC_MOV_INDEFINITE || 
            npc->movement->mov_type == NPC_MOV_DEFINITE );
 
     if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
