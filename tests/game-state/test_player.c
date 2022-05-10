@@ -85,12 +85,12 @@ Test(player, player_set_class)
   skill_t *wizardry = skill_new(1, ACTIVE, 
                             "wizardry", "wizardry test skill",
                             15, 200,
-                            NULL);
+                            NULL, NULL);
 
   skill_t *sorcery = skill_new(2, ACTIVE, 
                             "sorcery", "sorcery test skill",
                             15, 200,
-                            NULL);
+                            NULL, NULL);
 
 
   skill_inventory_t *skillinv = inventory_new(5, 5);
@@ -368,7 +368,7 @@ Test(player, add_skill_1)
     skill_t *wizardry = skill_new(1, ACTIVE, 
                                 "wizardry", "wizarding test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(wizardry, "skill_new() failed");
 
@@ -398,7 +398,7 @@ Test(player, add_skill_2)
     skill_t *cooking = skill_new(1, PASSIVE, 
                                 "cooking", "cooking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(cooking, "skill_new() failed");
 
@@ -432,12 +432,12 @@ Test(player, remove_skill_1)
     skill_t *wizardry = skill_new(1, ACTIVE, 
                                  "wizardry", "wizardry test skill",
                                  15, 200,
-                                 NULL);
+                                 NULL, NULL);
 
     skill_t *sorcery = skill_new(2, ACTIVE, 
                                 "sorcery", "sorcery test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(wizardry, "skill_new() failed");
     cr_assert_not_null(sorcery, "skill_new() failed");
@@ -484,11 +484,11 @@ Test(player, remove_skill_2)
     skill_t *cooking = skill_new(1, PASSIVE, 
                                 "cooking", "cooking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
     skill_t *baking = skill_new(2, PASSIVE, 
                                 "baking", "baking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(cooking, "skill_new() failed");
     cr_assert_not_null(baking, "skill_new() failed");
@@ -531,12 +531,12 @@ Test(player, has_skill_1)
     skill_t *wizardry = skill_new(1, ACTIVE, 
                                 "wizardry", "wizardry test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     skill_t *sorcery = skill_new(2, ACTIVE, 
                                 "sorcery", "sorcery test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(wizardry, "skill_new() failed");
     cr_assert_not_null(sorcery, "skill_new() failed");
@@ -584,11 +584,11 @@ Test(player, has_skill_2)
     skill_t *cooking = skill_new(1, PASSIVE, 
                                 "cooking", "cooking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
     skill_t *baking = skill_new(2, PASSIVE, 
                                 "baking", "baking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(cooking, "skill_new() failed");
     cr_assert_not_null(baking, "skill_new() failed");

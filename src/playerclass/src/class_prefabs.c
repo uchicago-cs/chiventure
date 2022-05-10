@@ -423,13 +423,13 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
                                      "You slash your sword.", 1, 100, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Double Slash", 
                                      "You slash your sword, twice!", 1, 200, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
                                      "You slash your sword, thrice!", 1, 400, 
-                                     NULL);
+                                     NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
