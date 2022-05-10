@@ -50,3 +50,4 @@ int npc_battle_free(npc_battle_t *npc_battle)
     free(npc_battle);
 
     return SUCCESS;
+}
