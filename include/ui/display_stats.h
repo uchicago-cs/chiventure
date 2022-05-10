@@ -15,11 +15,11 @@
  */
 
 /* The set of types of on-screen information displays */
-typedef union on-screen_stat {
+typedef union on_screen_stat {
     int num;
     char* identifier;
     stats_hast_t stat;
-} on-screen_stat;
+} on_screen_stat;
 
 /* 
  * Define screen statistics by its window coordinates,
@@ -31,25 +31,25 @@ typedef struct screen_stats {
     int lrx;
     int lry;
     int num_stats;
-    on-screen_stat *screen_stats;
+    on_screen_stat *screen_stats;
 } screen_stats_t;
 
 /* The set of types for pop-up windows */
-enum pop-up_type {CLASS, STATS, SKILLS, EFFECTS, INVENTORY, MOVES};
-typedef enum pop-up_type pop-up_type;
+enum pop_up_type {CLASS, STATS, SKILLS, EFFECTS, INVENTORY, MOVES};
+typedef enum pop_up_type pop_up_type;
 
 /*
  * Define the pop-up screen by its window coordinates, 
  * the information it presents, and the concerning player
  */
-typedef struct pop-up {
+typedef struct pop_up {
     int ulx;
     int uly;
     int lrx;
     int lry;
-    pop-up_type type;
+    pop_up_type type;
     player_t *player;
-} pop-up_t;
+} pop_up_t;
 
 
 /*
@@ -70,7 +70,7 @@ typedef struct pop-up {
  *   and then a function to translate that information as input
  *   (into an array on on-screen_stats) for graphics purposes
  */
-screen_stats_t* set_screen_stats(int ulx, int uly, int lrx, int lry, int num_stats, on-screen_stat *stats);
+screen_stats_t* set_screen_stats(int ulx, int uly, int lrx, int lry, int num_stats, on_screen_stat *stats);
 
 
 /*
@@ -117,7 +117,7 @@ screen_stats_t* update_screen_stats(player_t *player, screen_stats_t *screen_sta
  * Returns:
  * - The intialized struct
  */
-pop-up_t* set_pop-up(int ulx, int uly, int lrx, int lry, pop-up_type type, player_t player);
+pop_up_t* set_pop_up(int ulx, int uly, int lrx, int lry, pop_up_type type, player_t player);
 
 /*
  * Draws the specified pop up window to screen
@@ -128,7 +128,7 @@ pop-up_t* set_pop-up(int ulx, int uly, int lrx, int lry, pop-up_type type, playe
  * Returns:
  * - an integer indicating success
  */
-int open_pop-up(pop-up_t pop-up);
+int open_pop_up(pop_up_t pop_up);
 
 
 /*
@@ -140,7 +140,7 @@ int open_pop-up(pop-up_t pop-up);
  * Retruns:
  * - An integer indicating sucess
  */
-int close_pop-up();
+int close_pop_up();
 
 
 #endif
