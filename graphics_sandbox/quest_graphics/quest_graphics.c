@@ -69,7 +69,8 @@ task_tree_mockup_t* synthesizeTest() {
 void drawTaskTree(task_tree_mockup_t* taskTree, double widthSegment, 
                   double heightSegment,Vector2 startPos) 
 {
-    //To do 
+    
+
 }
 
 
