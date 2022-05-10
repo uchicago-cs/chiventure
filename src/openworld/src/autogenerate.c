@@ -200,8 +200,8 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 /* See autogenerate.h */
 roomspec_t *random_room_lookup(specgraph_t *specgraph)
 {
-    roomspec_t **roomspecs=specgraph->roomspecs
-    int num_rooms=specgraph->num_roomspecs
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    int num_rooms=specgraph->num_roomspecs;
     int count;
     int idx = rand() % num_rooms, i = 0;
 
