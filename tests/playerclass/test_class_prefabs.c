@@ -82,7 +82,9 @@ Test(class_prefabs, Bard) {
 
     /* Tests if we can find the name even if its case is wrong */
     class_t *c = class_prefab_new(ctx->game, "BARD");
+    cr_assert_neq(get_class_name_index("BARD"), -1, "Failed to locate BARD");
     check_field_pressence(c);
+    
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
 
