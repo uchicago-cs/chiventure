@@ -182,7 +182,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 
 /*
 * random_room_lookup
-* Iterate through all the rooms of the specgraph a "random" number of times
+* Iterate through all the roomspec of the specgraph a "random" number of times
 * and returns one of these roomspecs.
 *
 * parameters:

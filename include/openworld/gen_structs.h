@@ -70,6 +70,7 @@ typedef struct roomspec rspec_hash_t;
 /* specgraph_t struct
  * This struct functions as an adjacency matrix for the relationships between roomspec_t's
  * The struct contains:
+ * - int num_roomspecs: The number of different roomspecs available in the game
  * - roomspec_t roomspecs: list of pointers to roomspecs corresponding to each node on specgraph
  * - int **edges: edges of graph representing the relationship between each roomspec
  *                the higher the number, the more likely rooms of this roomspec appear
@@ -77,6 +78,7 @@ typedef struct roomspec rspec_hash_t;
  */
 
 typedef struct specgraph {
+    int num_roomspecs;
     roomspec_t **roomspecs;
     int **edges;
 } specgraph_t;
@@ -84,14 +86,12 @@ typedef struct specgraph {
 /* gencontext_t struct
 * This struct will carry the info for the generation algorithm
 * The struct contains:
-* - int num_roomspecs: The number of different roomspecs available in the game
 * - path_t *open_paths: the open path we are connecting the room to;
 * - int level: this is the players current level
 * - int num_open_paths: the number of openpaths that need to be generated in the room.
 * - specgraph_t *specgraph: the llist of roomspect_t that each hold the room info.
 */
 typedef struct gencontext {
-    int num_roomspecs;
     path_t *open_paths;
     int num_open_paths;
     int level;
