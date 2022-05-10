@@ -178,7 +178,7 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 * - NULL if hash is NULL
 * - specgraph_t* a new specgraph with all the roomspecs stored in hash copied
 */
-int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash);
+//int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash);
 
 /*
 * random_room_lookup
