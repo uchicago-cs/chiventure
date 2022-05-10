@@ -1,8 +1,17 @@
-#include "raylib.h"
-#include "stdio.h"
-#include "stdlib.h"
+/*******************************************************************************************
+*
+*   raylib [shapes] example - Colors palette
+*
+*   This example has been created using raylib 2.5 (www.raylib.com)
+*   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
+*
+*   Copyright (c) 2014-2019 Ramon Santamaria (@raysan5)
+*
+********************************************************************************************/
 
-#define MAX_INVENTORY    21          // Maximum Number of Inventory Items
+#include "raylib.h"
+
+#define MAX_COLORS_COUNT    21          // Number of colors available
 
 int main(void)
 {
@@ -13,22 +22,30 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Player Inventory Screen");
 
+    Texture2D sword = LoadTexture("./sword.png");
 
-    Image balloonimg = LoadImage("test_images/balloon.png");
-    ImageResize(&balloonimg,100,100);
-    Texture2D cheems = LoadTextureFromImage(balloonimg);
+    Color colors[MAX_COLORS_COUNT] = {
+        DARKGRAY, MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, DARKBROWN,
+        GRAY, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK, YELLOW,
+        GREEN, SKYBLUE, PURPLE, BEIGE };
 
-    Rectangle slots[MAX_INVENTORY] = { 0 };     // Rectangles array
-    
-    for (int i = 0; i < MAX_INVENTORY; i++)
+    const char *colorNames[MAX_COLORS_COUNT] = {
+        "DARKGRAY", "MAROON", "ORANGE", "DARKGREEN", "DARKBLUE", "DARKPURPLE",
+        "DARKBROWN", "GRAY", "RED", "GOLD", "LIME", "BLUE", "VIOLET", "BROWN",
+        "LIGHTGRAY", "PINK", "YELLOW", "GREEN", "SKYBLUE", "PURPLE", "BEIGE" };
+
+    Rectangle colorsRecs[MAX_COLORS_COUNT] = { 0 };     // Rectangles array
+
+    // Fills colorsRecs data (for every rectangle)
+    for (int i = 0; i < MAX_COLORS_COUNT; i++)
     {
-        slots[i].x = 20.0f + 100.0f *(i%7) + 10.0f *(i%7);
-        slots[i].y = 80.0f + 100.0f *(i/7) + 10.0f *(i/7);
-        slots[i].width = 100.0f;
-        slots[i].height = 100.0f;
+        colorsRecs[i].x = 20.0f + 100.0f *(i%7) + 10.0f *(i%7);
+        colorsRecs[i].y = 80.0f + 100.0f *(i/7) + 10.0f *(i/7);
+        colorsRecs[i].width = 100.0f;
+        colorsRecs[i].height = 100.0f;
     }
 
-    int colorState[MAX_INVENTORY] = { 0 };           // Color state: 0-DEFAULT, 1-MOUSE_HOVER
+    int colorState[MAX_COLORS_COUNT] = { 0 };           // Color state: 0-DEFAULT, 1-MOUSE_HOVER
 
     Vector2 mousePoint = { 0.0f, 0.0f };
 
@@ -42,9 +59,9 @@ int main(void)
         //----------------------------------------------------------------------------------
         mousePoint = GetMousePosition();
 
-        for (int i = 0; i < MAX_INVENTORY; i++)
+        for (int i = 0; i < MAX_COLORS_COUNT; i++)
         {
-            if (CheckCollisionPointRec(mousePoint, slots[i])) colorState[i] = 1;
+            if (CheckCollisionPointRec(mousePoint, colorsRecs[i])) colorState[i] = 1;
             else colorState[i] = 0;
         }
         //----------------------------------------------------------------------------------
@@ -57,30 +74,27 @@ int main(void)
 
             DrawText("Inventory", 350, 42, 20, BLACK);
             DrawText("press SPACE to see all items", GetScreenWidth() - 180, GetScreenHeight() - 40, 10, GRAY);
-        
 
-
-        for (int i = 0; i < MAX_INVENTORY; i++)    // Draw all rectangles
+            for (int i = 0; i < MAX_COLORS_COUNT; i++)    // Draw all rectangles
             {
                 // draw the rectangles (all just grey for now)
-                //DrawRectangleRec(slots[i], Fade(LIGHTGRAY, colorState[i]? 0.6f : 1.0f));
-                DrawTextureRec(cheems, (Rectangle){0.0f,0.0f,slots[i].width, slots[i].height}, (Vector2){slots[i].x, slots[i].y}, WHITE);
+                DrawRectangleRec(colorsRecs[i], Fade(LIGHTGRAY, colorState[i]? 0.6f : 1.0f));
+
+                DrawTexture(sword, colorsRecs[i].x, colorsRecs[i].y, WHITE);
 
                 if (IsKeyDown(KEY_SPACE) || colorState[i])  // display text if mouse is hovering or SPACE is held
-                {   
-                    DrawRectangle((int)slots[i].x, (int)(slots[i].y + slots[i].height - 26), (int)slots[i].width, 20, BLACK);
-                    DrawRectangleLinesEx(slots[i], 6, Fade(BLACK, 0.3f));
-                    /*DrawText(colorNames[i], (int)(slots[i].x + slots[i].width - MeasureText(colorNames[i], 10) - 12),
-                        (int)(slots[i].y + slots[i].height - 20), 10, colors[i]);*/
-
+                {
+                    DrawRectangle((int)colorsRecs[i].x, (int)(colorsRecs[i].y + colorsRecs[i].height - 26), (int)colorsRecs[i].width, 20, BLACK);
+                    DrawRectangleLinesEx(colorsRecs[i], 6, Fade(BLACK, 0.3f));
+                    DrawText(colorNames[i], (int)(colorsRecs[i].x + colorsRecs[i].width - MeasureText(colorNames[i], 10) - 12),
+                        (int)(colorsRecs[i].y + colorsRecs[i].height - 20), 10, colors[i]);
                 }
             }
-
 
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
-    UnloadTexture(cheems);
+    UnloadTexture(sword);
     // De-Initialization
     //--------------------------------------------------------------------------------------
     CloseWindow();                // Close window and OpenGL context
