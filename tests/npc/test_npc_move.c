@@ -151,15 +151,15 @@ Test(npc_mov, get_npc_num_rooms_indef)
 }
 
 
-/* Tests track_room function */
-Test(npc_mov, track_room)
+/* Tests get_npc_curr_room_id function */
+Test(npc_mov, get_npc_curr_room_id)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
 
-    char* room_id_track = track_room(npc_mov);
+    char* room_id_track = get_npc_curr_room_id(npc_mov);
 
-    cr_assert_str_eq(room_id_track, "test_room", "track_room() failed");
+    cr_assert_str_eq(room_id_track, "test_room", "get_npc_curr_room_id() failed");
 }
 
 

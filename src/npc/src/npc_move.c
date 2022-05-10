@@ -149,20 +149,20 @@ int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time)
 
 
 /* See npc_move.h */
-char* track_room(npc_mov_t *npc_mov)
+char* get_npc_curr_room_id(npc_mov_t *npc_mov)
 {
     return npc_mov->track;
 }
 
 
 /* See npc_move.h */
-unsigned int track_npc_path_pos(npc_mov_t *npc_mov)
+unsigned int get_npc_path_pos(npc_mov_t *npc_mov)
 {
     return npc_mov->npc_path_pos;
 }
 
 /* See npc_move.h */
-unsigned int track_npc_path_direction(npc_mov_t *npc_mov)
+unsigned int get_npc_path_direction(npc_mov_t *npc_mov)
 {
     return npc_mov->npc_path_direction;
 }

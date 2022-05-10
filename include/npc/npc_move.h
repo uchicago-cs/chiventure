@@ -199,7 +199,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time);
  * Returns:
  *  The room the NPC is in as a char*, NULL if error.
  */
-char *track_room(npc_mov_t *npc_mov);
+char *get_npc_curr_room_id(npc_mov_t *npc_mov);
 
 /* 
 * Returns the index position of the room that the npc is currently in
@@ -209,7 +209,7 @@ char *track_room(npc_mov_t *npc_mov);
 * Returns:
 * The integer index of the step of the movement path that the NPC is currently in
 */
-unsigned int track_npc_path_pos(npc_mov_t *npc_mov);
+unsigned int get_npc_path_pos(npc_mov_t *npc_mov);
 
 /*
 * Returns whether an NPCs path is in the original direction or reversed
@@ -219,7 +219,7 @@ unsigned int track_npc_path_pos(npc_mov_t *npc_mov);
 * Returns:
 * 0 if the path is in the original direction, 1 if the path is in the reverse direction
 */
-unsigned int track_npc_path_direction(npc_mov_t *npc_mov);
+unsigned int get_npc_path_direction(npc_mov_t *npc_mov);
 
 /*
  * Reverses the path, so that the npc goes back to where it started
