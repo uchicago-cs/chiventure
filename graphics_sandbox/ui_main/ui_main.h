@@ -8,10 +8,11 @@
 
 #include "raylib.h"
 #include "input_box.h"
-//#include "inventory_graphics.h" -> will be adding this struct later sprint (3)
+#include "inventory_graphics.h"
 #include "npc_graphics.h"
 #include "quest_graphics.h"
 #include "scene_graphics.h"
+#include "read_gdl.h"
 
 /*
  * These are the various types of windows that a user can generate. By type, we
@@ -39,9 +40,12 @@ typedef struct display_dimensions {
 
 /* This general windows struct that contains information read from the GDL */ 
 typedef struct windows {
-    display_dimensions_t dimensions;
-    
+    display_dimensions_t dimensions; // window width and height
+    inventory_display_t inventory_display; // author preferences for inventory
+// to be developed    statistics_display_t statistics_display
+} windows_t;
 
+/*
 typedef union module_data {
     npc_graphics_t npc;
     //input_box_graphics_t input_box;
@@ -50,6 +54,7 @@ typedef union module_data {
     //quest_graphics quest;
     //map_graphics map;
 } module_data_t;
+*/ 
 
 /* This struct contains the information of every window in the split screen
  * Iterative through all linked structs to get the full picture*/
