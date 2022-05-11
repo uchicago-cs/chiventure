@@ -36,10 +36,10 @@ typedef struct turn_component {
 } turn_component_t;
 
 /* A linked list of turn_components. Is a full turn */
-typedef struct turn {
+typedef struct turn_component_list {
     turn_component_t *current;
-    turn_component_t *restt;
-} turn_t;
+    turn_component_t *rest;
+} turn_component_list_t;
 
 /* Stub, similar to chiventure_ctx_t except adding status, which
  * is an enum that gives the current status of the battle_game 
@@ -88,7 +88,7 @@ battle_game_t *new_battle_game();
 turn_component_t *init_turn_component(turn_component_t tc, int move, int item, int pass);
 
 /*
- * Allocates a new turn in the heap.
+ * Allocates a new turn component list in the heap.
  *
  * Parameters:
  *  - t: a turn_component
@@ -98,10 +98,10 @@ turn_component_t *init_turn_component(turn_component_t tc, int move, int item, i
  *  - A pointer to the turn, or NULL if a turn
  *    cannot be allocated
  */
-turn_t *new_turn(turn_component_t t, turn_t *r);
+turn_component_list_t *new_turn_component_list(turn_component_t t, turn_component_list_t *r);
 
 /*
- * Initializes the current and next turn components of a turn
+ * Initializes the current and next turn components of a turn of a list
  *
  * Parameters:
  *  - turn: A turn. Must point to already allocated memory
@@ -111,10 +111,10 @@ turn_t *new_turn(turn_component_t t, turn_t *r);
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-turn_t *init_turn(turn_t *turn, turn_t *r, turn_component_t c);
+turn_component_list_t *init_turn_component_list(turn_component_list_t *turn, turn_component_list_t *r, turn_component_t c);
 
 /*
- * Frees the resources associated with a turn
+ * Frees the resources associated with a turn component list
  *
  * Parameters:
  *  - turn: A turn. Must point to already allocated memory.
@@ -122,6 +122,6 @@ turn_t *init_turn(turn_t *turn, turn_t *r, turn_component_t c);
  * Returns:
  *  - Always returns 0.
  */
-int turn_free(turn_t *turn);
+int turn_component_list_free(turn_component_list_t *turn);
 
 #endif
