@@ -130,12 +130,12 @@ typedef struct stat_req {
  *          2: quest has been completed
  */
 typedef struct quest  {
-    UT_hash_handle hh;
     char *quest_id;
     task_tree_t *task_tree;
     reward_t *reward;
     stat_req_t *stat_req;
     int status;  
+    UT_hash_handle hh;
 } quest_t;
 
 /*
