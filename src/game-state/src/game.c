@@ -78,7 +78,7 @@ int add_item_to_game(game_t *game, item_t *item)
 int add_npc_to_game(game_t *game, npc_t *npc)
 {
     npc_t *check;
-    HASH_FIND(hh, game->all_npcs, npc->npc_id, 
+    HASH_FIND(hh, game->all_npcs, npc->npc_id,
               strnlen(npc->npc_id, MAX_ID_LEN), check);
 
     if (check != NULL)
@@ -86,7 +86,7 @@ int add_npc_to_game(game_t *game, npc_t *npc)
         return FAILURE; //this npc id is already in use.
     }
 
-    HASH_ADD_KEYPTR(hh, game->all_npcs, npc->npc_id, 
+    HASH_ADD_KEYPTR(hh, game->all_npcs, npc->npc_id,
                     strnlen(npc->npc_id, MAX_ID_LEN), npc);
     return SUCCESS;
 }
@@ -114,25 +114,28 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 /* See game.h */
 quest_t *get_quest(game_t* game, char *quest_id)
 {
-	return get_quest_from_hash(quest_id, game->all_quests);
+    return get_quest_from_hash(quest_id, game->all_quests);
 }
 
 /* See game.h */
 int add_quest_to_game(game_t *game, quest_t *quest)
 {
-	return add_quest_to_hash(quest, game->all_quests);
+    return add_quest_to_hash(quest, game->all_quests);
 }
 
 /* See game.h */
 int add_end_condition_to_game(game_t *game, condition_t *end_condition)
 {
     int valid = valid_condition(game, end_condition);
-    if(valid == SUCCESS){
+    if(valid == SUCCESS)
+    {
         end_condition->next = game->end_conditions;
         game->end_conditions = end_condition;
 
         return SUCCESS;
-    } else {
+    }
+    else
+    {
         return valid;
     }
 
@@ -142,7 +145,7 @@ int add_end_condition_to_game(game_t *game, condition_t *end_condition)
 int add_stat_to_game(game_t *game, stats_global_t *gs)
 {
     stats_global_t *check;
-    HASH_FIND(hh, game->curr_stats, gs->name, 
+    HASH_FIND(hh, game->curr_stats, gs->name,
               strlen(gs->name), check);
 
     if (check != NULL)
@@ -159,7 +162,7 @@ int add_stat_to_game(game_t *game, stats_global_t *gs)
 int add_effect_to_game(game_t *game, effects_global_t *effect)
 {
     effects_global_t *check;
-    HASH_FIND(hh, game->all_effects, effect->name, 
+    HASH_FIND(hh, game->all_effects, effect->name,
               strlen(effect->name), check);
 
     if (check != NULL)
@@ -173,11 +176,13 @@ int add_effect_to_game(game_t *game, effects_global_t *effect)
 }
 
 /* See game.h */
-int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx){
-    if (battle_ctx == NULL) {
+int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx)
+{
+    if (battle_ctx == NULL)
+    {
         return FAILURE;
     }
-    
+
     game->battle_ctx = battle_ctx;
 
     return SUCCESS;
@@ -186,9 +191,12 @@ int add_battle_ctx_to_game(game_t *game, battle_ctx_t *battle_ctx){
 /* See game.h */
 bool end_conditions_met(game_t *game)
 {
-    if(game->end_conditions == NULL){
+    if(game->end_conditions == NULL)
+    {
         return false;
-    } else {
+    }
+    else
+    {
         return all_conditions_met(game->end_conditions);
     }
 }
@@ -197,22 +205,22 @@ bool end_conditions_met(game_t *game)
 bool is_game_over(game_t *game)
 {
     bool end_case1, end_case2, end_case3;
-    
+
     /* end_case1: Both a final room and end conditions exist */
-    end_case1 = game->final_room != NULL && game->final_room == game->curr_room && 
-            end_conditions_met(game);
+    end_case1 = game->final_room != NULL && game->final_room == game->curr_room &&
+                end_conditions_met(game);
     /* end_case2: A final room exists, but end conditions do not */
-    end_case2 = game->final_room != NULL && game->final_room == game->curr_room && 
-            game->end_conditions == NULL;
+    end_case2 = game->final_room != NULL && game->final_room == game->curr_room &&
+                game->end_conditions == NULL;
     /* end_case3: End conditions exist, but a final room does not */
     end_case3 = game->final_room == NULL && end_conditions_met(game);
-    
+
     return end_case1 || end_case2 || end_case3;
 }
 
 /* See game.h */
 int create_connection(game_t *game, char* src_room, char* to_room,
-			char* direction)
+                      char* direction)
 {
     room_t *src = find_room_from_game(game, src_room);
     if (src == NULL)
@@ -297,7 +305,8 @@ int move_room(game_t *game, room_t *new_room)
     {
         return FAILURE;
     }
-    if(new_room == game->final_room) {
+    if(new_room == game->final_room)
+    {
         game->curr_room = new_room;
         return FINAL_ROOM;
     }
@@ -379,9 +388,9 @@ int delete_room_llist(room_list_t *head)
 item_list_t *get_all_items_in_game(game_t *game)
 {
     item_list_t *head;
-    
+
     head = get_all_items_in_hash(&(game->all_items));
-    
+
     return head;
 }
 
@@ -424,11 +433,14 @@ int add_condition(game_t *game, game_action_t *action, condition_t *condition)
     }
 
     int valid = valid_condition(game, condition);
-    if(valid == SUCCESS){
+    if(valid == SUCCESS)
+    {
         int check = add_action_condition(action, condition);
 
         return check;
-    } else {
+    }
+    else
+    {
         return valid;
     }
 }
@@ -450,41 +462,44 @@ int do_node_actions(node_t *n, game_t *game)
 {
     node_action_t *cur_action = n->actions;
 
-    while (cur_action != NULL) {
+    while (cur_action != NULL)
+    {
 
-        switch(cur_action->action) {
+        switch(cur_action->action)
+        {
 
-            case GIVE_ITEM: ;
-                npc_t *npc = get_npc_in_room(game->curr_room,
-                                             game->mode->mode_ctx);
-                item_t *item = get_item_in_hash(npc->inventory,
-                                                cur_action->action_id);
-                if (item == NULL) return FAILURE;
-                if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
-                if (add_item_to_player(game->curr_player, item) != SUCCESS)
-                    return FAILURE;
-                break;
-
-            case TAKE_ITEM:
-                npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
-                item = get_item_in_hash(game->curr_player->inventory,
-                                                cur_action->action_id);
-                if (item == NULL) return FAILURE;
-                if (remove_item_from_player(game->curr_player, item) != SUCCESS)
-                    return FAILURE;
-                if (add_item_to_npc(npc, item) != SUCCESS) return FAILURE;
-                break;
-
-            case START_QUEST:
-                // to do
-                break;
-
-            case START_BATTLE:
-                // to do
-                break;
-
-            default:
+        case GIVE_ITEM:
+            ;
+            npc_t *npc = get_npc_in_room(game->curr_room,
+                                         game->mode->mode_ctx);
+            item_t *item = get_item_in_hash(npc->inventory,
+                                            cur_action->action_id);
+            if (item == NULL) return FAILURE;
+            if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
+            if (add_item_to_player(game->curr_player, item) != SUCCESS)
                 return FAILURE;
+            break;
+
+        case TAKE_ITEM:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            item = get_item_in_hash(game->curr_player->inventory,
+                                    cur_action->action_id);
+            if (item == NULL) return FAILURE;
+            if (remove_item_from_player(game->curr_player, item) != SUCCESS)
+                return FAILURE;
+            if (add_item_to_npc(npc, item) != SUCCESS) return FAILURE;
+            break;
+
+        case START_QUEST:
+            // to do
+            break;
+
+        case START_BATTLE:
+            // to do
+            break;
+
+        default:
+            return FAILURE;
         }
 
         cur_action = cur_action->next;
@@ -509,9 +524,12 @@ int update_edge_availabilities(node_t *n)
     int num_avail_edges = 0;
     edge_list_t *cur_edge = n->edges;
 
-    while (cur_edge != NULL) {
-        if (cur_edge->availability != EDGE_DISABLED) {
-            if (cur_edge->edge->conditions != NULL) {
+    while (cur_edge != NULL)
+    {
+        if (cur_edge->availability != EDGE_DISABLED)
+        {
+            if (cur_edge->edge->conditions != NULL)
+            {
                 // true = 1 = EDGE_AVAILABLE, false = 0 = EDGE_UNAVAILABLE
                 cur_edge->availability =
                     all_conditions_met(cur_edge->edge->conditions);
@@ -533,7 +551,7 @@ int update_edge_availabilities(node_t *n)
  * Pick an item: a sword or a shield?
  * 1. Sword
  * 2. Shield
- * Enter your choice: 
+ * Enter your choice:
  *
  * Parameters:
  *  - n: pointer to a node
@@ -554,8 +572,10 @@ char *create_return_string(node_t *n, int is_leaf)
     // Compute buffer length
     totlen += (len_lst[i++] = strlen(n->npc_dialogue));
     totlen += 1;
-    while (cur_edge != NULL) {
-        if (cur_edge->availability == EDGE_AVAILABLE) {
+    while (cur_edge != NULL)
+    {
+        if (cur_edge->availability == EDGE_AVAILABLE)
+        {
             totlen += (int) log10(option_number++) + 1;
             totlen += (len_lst[i++] = strlen(cur_edge->edge->quip));
             totlen += 3;
@@ -567,7 +587,7 @@ char *create_return_string(node_t *n, int is_leaf)
 
     // Create return string
     char *buf, *p;
-    char temp[5]; 
+    char temp[5];
     cur_edge = n->edges;
     i = 0;
     option_number = 1;
@@ -578,8 +598,10 @@ char *create_return_string(node_t *n, int is_leaf)
     memcpy(p, n->npc_dialogue, len_lst[i]);
     p += len_lst[i++];
     *p++ = '\n';
-    while (cur_edge != NULL) {
-        if (cur_edge->availability == EDGE_AVAILABLE) {
+    while (cur_edge != NULL)
+    {
+        if (cur_edge->availability == EDGE_AVAILABLE)
+        {
             sprintf(temp, "%d", option_number);
             memcpy(p, temp, (int) log10(option_number) + 1);
             p += (int) log10(option_number++) + 1;
@@ -591,7 +613,8 @@ char *create_return_string(node_t *n, int is_leaf)
         }
         cur_edge = cur_edge->next;
     }
-    if (!is_leaf) {
+    if (!is_leaf)
+    {
         memcpy(p, input_prompt, len_lst[i]);
         p += len_lst[i];
     }
@@ -602,8 +625,9 @@ char *create_return_string(node_t *n, int is_leaf)
 
 /* See game.h */
 char *start_conversation(convo_t *c, int *rc, game_t *game)
-{   
-    if (c == NULL) {
+{
+    if (c == NULL)
+    {
         *rc = -1;
         return NULL;
     }
@@ -614,13 +638,15 @@ char *start_conversation(convo_t *c, int *rc, game_t *game)
     c->cur_node = c->all_nodes->node;
 
     // Step 2: Execute actions (item, quest, battle, etc.), if any
-    if (do_node_actions(c->cur_node, game) != SUCCESS) {
+    if (do_node_actions(c->cur_node, game) != SUCCESS)
+    {
         *rc = -1;
         return NULL;
     }
 
     // Step 3: Recheck the availability of each edge, count total avail. edges
-    if (update_edge_availabilities(c->cur_node) != SUCCESS) {
+    if (update_edge_availabilities(c->cur_node) != SUCCESS)
+    {
         *rc = -1;
         return NULL;
     }
@@ -631,13 +657,13 @@ char *start_conversation(convo_t *c, int *rc, game_t *game)
 
     ret_str = create_return_string(c->cur_node, *rc);
     if (ret_str == NULL) *rc = -1;
-    
+
     return ret_str;
 }
 
 /* See game.h */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
-{   
+{
     if (input > c->cur_node->num_available_edges)
         input = c->cur_node->num_available_edges;
 
@@ -653,7 +679,8 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
     //     "|| cur_edge->availability != EDGE_AVAILABLE" comes in
     // (3) Overall, this code ensures that we arrive at the player's selected
     //     edge
-    while (input > 1 || cur_edge->availability != EDGE_AVAILABLE) {
+    while (input > 1 || cur_edge->availability != EDGE_AVAILABLE)
+    {
         if (cur_edge->availability == EDGE_AVAILABLE) input--;
         cur_edge = cur_edge->next;
     }
@@ -664,18 +691,21 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
     // NOTE: This is a temporary solution that prevents issues like being able
     //       to receive multiple copies of items, starting the same quest twice.
     //       This SHOULD be changed / made more complex in the future.
-    if (c->cur_node->actions != NULL) {
+    if (c->cur_node->actions != NULL)
+    {
         cur_edge->availability = EDGE_DISABLED;
     }
 
     // Step 3: Execute actions (item, quest, battle, etc.), if any
-    if (do_node_actions(c->cur_node, game) != SUCCESS) {
+    if (do_node_actions(c->cur_node, game) != SUCCESS)
+    {
         *rc = -1;
         return NULL;
     }
 
     // Step 4: Recheck the availability of each edge, count total avail. edges
-    if (update_edge_availabilities(c->cur_node) != SUCCESS) {
+    if (update_edge_availabilities(c->cur_node) != SUCCESS)
+    {
         *rc = -1;
         return NULL;
     }

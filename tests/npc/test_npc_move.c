@@ -283,7 +283,7 @@ Test(npc_mov, auto_gen_movement_definite)
         cnt++;
         curr_room_id = elt->room_id;
         HASH_FIND(hh, game->all_rooms, curr_room_id,
-            strnlen(curr_room_id, MAX_ID_LEN), curr_room);
+                  strnlen(curr_room_id, MAX_ID_LEN), curr_room);
         if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
@@ -302,11 +302,11 @@ Test(npc_mov, auto_gen_movement_definite)
     }
 
     num_rooms_in_npc = get_npc_num_rooms(npc_mov);
-  
+
     cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, "
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
-  
+
     cr_assert_eq(delete_room_id_dll
                  (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
                  SUCCESS, "delete room_id_dll failed");
@@ -341,7 +341,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
         cnt++;
         curr_room_id = elt->room_id;
         HASH_FIND(hh, game->all_rooms, curr_room_id,
-                strnlen(curr_room_id, MAX_ID_LEN), curr_room);
+                  strnlen(curr_room_id, MAX_ID_LEN), curr_room);
         if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
@@ -360,7 +360,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
     }
 
     num_rooms_in_npc = get_npc_num_rooms(npc_mov);
-    cr_assert_eq(cnt, num_rooms_in_npc, 
+    cr_assert_eq(cnt, num_rooms_in_npc,
                  "room_count returns %d, but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
