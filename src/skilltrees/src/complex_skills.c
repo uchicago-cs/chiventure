@@ -87,6 +87,7 @@ int combined_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx
     for(int i = 0; i < complex_skill->num_skills; i++){
         skill_execute(complex_skill->skills[i], ctx);
     }
+    return SUCCESS;
 }
 
 /*See complex_skills.h */
