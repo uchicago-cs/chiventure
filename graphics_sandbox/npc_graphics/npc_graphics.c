@@ -206,14 +206,15 @@ void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* li
 
 int main(void)
 {   
-    npc_graphics_t* current_npc = synthesizeTest();
+    //npc_graphics_t* current_npc = synthesizeTest();
 
-    runNPCGraphics(&current_npc, "Dhirpal", "Default","Tedtalk", (Vector2){800,0},(Vector2){600,400},BLACK);
+    //runNPCGraphics(&current_npc, "Dhirpal", "Default","Tedtalk", (Vector2){800,0},(Vector2){600,400},BLACK);
     //npc_graphics_t* current_npc = synthesizeTest2();
 
     //runNPCGraphics(&current_npc, "GangnamStyle", "Dance","Default", (Vector2){800,0},(Vector2){150,400},BLACK);
 
-    //runNPCGraphics(&current_npc, "Fire", "Burn","Crack", (Vector2){1200,0},(Vector2){160,500},BLACK);
+    npc_graphics_t* current_npc = synthesizeTest3();
+    runNPCGraphics(&current_npc, "Fire", "Burn","Crack", (Vector2){1200,0},(Vector2){160,500},BLACK);
 
     return 0;
 }
