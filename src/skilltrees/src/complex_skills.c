@@ -91,5 +91,14 @@ int combined_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx
 
 /*See complex_skills.h */
 int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
-    return FAILURE;
+    if(complex_skill->type != SEQUENTIAL){
+        return FAILURE;
+    }
+
+    // Stop execution once a sub_skill fails
+    for(int i = 0; i < complex_skill->num_skills; i++){
+        if (skill_execute(complex_skill->skills[i], ctx) == FAILURE)
+            break;
+        skill_execute(complex_skill->skills[i], ctx);
+    }
 }
