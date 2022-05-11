@@ -17,7 +17,7 @@
 int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, int choose_condition, int choose_effect)
 {
     chiventure_ctx_t *ctx_test = chiventure_ctx_new(NULL);
-  
+
     action_type_t *a = action_type_new(act_name, kind);
     item_t *item = item_new("item", "The item item", "The itemmost object of interest");
     add_action(item, allowed_act_name, "success1", "fail1");
@@ -137,8 +137,8 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
         rc = do_item_action(ctx_test, a, item, &string);
         break;
     }
-    
-    
+
+
     game_free(ctx_test->game);
     lookup_t_free(ctx_test->cli_ctx->table);
     free(ctx_test->cli_ctx->table);

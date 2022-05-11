@@ -1,12 +1,12 @@
 /*
  * This example program runs a full instance of chiventure with an in-memory game.
  * The CLI is monkey-patched to accept functions that serve to showcase room generation.
- * 
- *  - LEVELGEN: This is a CLI-level operation that triggers level-oriented generation. 
- *              Someday, we hope chiventure will internally use this functionality 
+ *
+ *  - LEVELGEN: This is a CLI-level operation that triggers level-oriented generation.
+ *              Someday, we hope chiventure will internally use this functionality
  *              to allow rooms to be automatically generated in a level-oriented way.
- *  - RECURGEN: This is a CLI-level operation that triggers recursive generation. 
- *              Someday, we hope chiventure will internally use this functionality 
+ *  - RECURGEN: This is a CLI-level operation that triggers recursive generation.
+ *              Someday, we hope chiventure will internally use this functionality
  *              to allow rooms within a radius to be generated.
  */
 
@@ -26,12 +26,12 @@ const char *banner = "THIS IS AN OPENWORLD EXAMPLE PROGRAM";
 
 /* ==== Placeholder sample struct variables ====
 These will be initialized in initialize_sample_structs().
-IMPORTANT: 
+IMPORTANT:
 In full integration, these structs must be added to the ctx.
 It is advisable to refactor all autogeneration-associated structs into gencontext before doing so. */
 
 /* ROOMSPECS
-   Pre-declaring roomspecs like this is important as we need to preserve 
+   Pre-declaring roomspecs like this is important as we need to preserve
    num_built between function calls in order to generate unique rooms. */
 roomspec_t *rspec_lvl0 = NULL;
 roomspec_t *rspec_lvl1 = NULL;
@@ -51,7 +51,7 @@ levelspec_t *levelspec = NULL;
 
 /* ==== Functions ==== */
 
-/* Initializes the sample, "in-memory", gencontext and other component structs. 
+/* Initializes the sample, "in-memory", gencontext and other component structs.
    Uses placeholder variables declared above. */
 void initialize_sample_structs()
 {
@@ -80,7 +80,7 @@ void initialize_sample_structs()
     add_roomlevel_to_hash(&(levelspec->roomlevels), "level 0 room #", 0);
     add_roomlevel_to_hash(&(levelspec->roomlevels), "level 1 room #", 1);
     add_roomlevel_to_hash(&(levelspec->roomlevels), "level 2 room #", 2);
-    add_roomlevel_to_hash(&(levelspec->roomlevels), "level 3 room #", 3); 
+    add_roomlevel_to_hash(&(levelspec->roomlevels), "level 3 room #", 3);
 }
 
 /* Creates a sample in-memory game */
@@ -89,7 +89,7 @@ chiventure_ctx_t *create_sample_ctx()
     game_t *game = game_new("Welcome to Chiventure!");
 
     load_normal_mode(game);
-    
+
     /* Create room1, the initial room */
     room_t *room1 = room_new("room1", "This is room 1", "This is the first room.");
     add_room_to_game(game, room1);
@@ -107,17 +107,18 @@ chiventure_ctx_t *create_sample_ctx()
 char *nuke(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     /* This operation has to be called without a parameter */
-    if(tokens[1] != NULL) {
+    if(tokens[1] != NULL)
+    {
         return "Please speak english! So uncivilized...";
     }
-    
+
     /* Original room "room1" */
     room_t *orig_room;
     HASH_FIND_STR(ctx->game->all_rooms, "room1", orig_room);
     assert(orig_room);
 
     /* Remove paths from original room. */
-    delete_all_paths(orig_room->paths); 
+    delete_all_paths(orig_room->paths);
     orig_room->paths = NULL;
 
     /* Temporarily remove original room from hash. */
@@ -129,9 +130,10 @@ char *nuke(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     /* Reinsert original room into hash. */
     add_room_to_game(ctx->game, orig_room);
     ctx->game->curr_room = orig_room;
-    
+
     speclist_t *curr_node, *tmp_node;
-    DL_FOREACH_SAFE(context->speclist, curr_node, tmp_node) {
+    DL_FOREACH_SAFE(context->speclist, curr_node, tmp_node)
+    {
         curr_node->spec->num_built = 0;
     }
 
@@ -141,16 +143,17 @@ char *nuke(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return buffer;
 }
 
-/* Defines a new CLI operation that: 
+/* Defines a new CLI operation that:
    Outputs current player level and room difficulty level. */
 char *level_check(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if (tokens[1] != NULL) {
+    if (tokens[1] != NULL)
+    {
         return "Please speak english! So uncivilized...";
     }
 
     int diff_level = map_level_to_difficulty(4, levelspec->thresholds, context->level);
-    
+
     static char buffer[OUTPUT_BUFFER_SIZE];
     snprintf(buffer, OUTPUT_BUFFER_SIZE, "Player level is %d; you will face level %d rooms.", context->level, diff_level);
     return buffer;
@@ -160,11 +163,13 @@ char *level_check(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
    Updates player level (in gencontext) to given integer */
 char *level_new(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if(tokens[2] != NULL) {
+    if(tokens[2] != NULL)
+    {
         return "Please speak english! So uncivilized...";
     }
 
-    if (tokens[1] == NULL) {
+    if (tokens[1] == NULL)
+    {
         return "Please specify new level.";
     }
 
@@ -174,15 +179,20 @@ char *level_new(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     int change = new_level - prev_level;
     static char buffer[OUTPUT_BUFFER_SIZE];
-    if (change == 0) {
+    if (change == 0)
+    {
         snprintf(buffer, OUTPUT_BUFFER_SIZE, "Player level unchanged at %d.", new_level);
         return buffer;
-    } else if (change > 0) {
+    }
+    else if (change > 0)
+    {
         snprintf(buffer, OUTPUT_BUFFER_SIZE, "Player level increased to %d from %d.", new_level, prev_level);
         return buffer;
-    } else {
+    }
+    else
+    {
         snprintf(buffer, OUTPUT_BUFFER_SIZE, "Player level decreased to %d from %d.", new_level, prev_level);
-        return buffer;   
+        return buffer;
     }
 }
 
@@ -190,19 +200,21 @@ char *level_new(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
    Triggers level-oriented generation of given number of rooms (second token is interpreted as num_rooms)
    Uses current (player) level value in gencontext. */
 char *level_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{   
-    if(tokens[2] != NULL) {
+{
+    if(tokens[2] != NULL)
+    {
         return "Please speak english! So uncivilized...";
     }
 
-    if (tokens[1] == NULL) {
+    if (tokens[1] == NULL)
+    {
         return "Please specify number of rooms to generate.";
     }
     int num_rooms = atoi(tokens[1]);
 
     /* Set directions for room generation */
     char *directions[] = {"north", "south", "east", "west"};
-    
+
     /* Generate specified number of rooms for each level */
     int initial_count = HASH_COUNT(ctx->game->all_rooms);
     int check = multi_room_level_generate(ctx->game, context, "", num_rooms, levelspec);
@@ -211,13 +223,16 @@ char *level_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     int difficulty_level = map_level_to_difficulty(4, levelspec->thresholds, context->level);
 
     static char buffer[OUTPUT_BUFFER_SIZE];
-    if (check == SUCCESS) {
-        snprintf(buffer, OUTPUT_BUFFER_SIZE,  "Generated %d lvl %d rooms. Game now has %d rooms.", 
+    if (check == SUCCESS)
+    {
+        snprintf(buffer, OUTPUT_BUFFER_SIZE,  "Generated %d lvl %d rooms. Game now has %d rooms.",
                  final_count - initial_count, difficulty_level, final_count);
         return buffer;
-    } else {
+    }
+    else
+    {
         /* Format the output message */
-        snprintf(buffer, OUTPUT_BUFFER_SIZE, "[FAILURE] Generated only %d lvl %d rooms. Game now has %d rooms.", 
+        snprintf(buffer, OUTPUT_BUFFER_SIZE, "[FAILURE] Generated only %d lvl %d rooms. Game now has %d rooms.",
                  final_count - initial_count, difficulty_level, final_count);
         return buffer;
     }
@@ -229,11 +244,13 @@ char *level_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *recursive_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     /* This operation has to be called with one parameter */
-    if (tokens[2] != NULL) {
+    if (tokens[2] != NULL)
+    {
         return "Please speak english! So uncivilized...";
     }
 
-    if (tokens[1] == NULL) {
+    if (tokens[1] == NULL)
+    {
         return "Please specify the generation radius.";
     }
 
@@ -242,34 +259,39 @@ char *recursive_gen(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     /* Generate layers of rooms around room1 */
     char *directions[] = {"north", "south", "east", "west"};
     int check = recursive_generate(ctx->game, context, ctx->game->curr_room, radius, directions, 4, "");
-    
-    if (check == SUCCESS) {
+
+    if (check == SUCCESS)
+    {
         /* Format the output message */
         static char buffer[OUTPUT_BUFFER_SIZE];
         int count = HASH_COUNT(ctx->game->all_rooms);
         snprintf(buffer, OUTPUT_BUFFER_SIZE, "Generated within radius %d. Game now has %d rooms.", radius, count);
         return buffer;
-    } else {
+    }
+    else
+    {
         return "Nothing happened";
     }
 }
 
 /* Defines a new CLI operation that:
-   Counts the number of rooms in the game. The output is in the form of a {} array, 
+   Counts the number of rooms in the game. The output is in the form of a {} array,
    where each index corresponds to the difficulty level of the roomspec and each
    value indicates the number of rooms. */
 char *count_rooms(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if (tokens[1] != NULL) {
+    if (tokens[1] != NULL)
+    {
         return "Please speak english! So uncivilized...";
     }
-    
+
     roomspec_t *rspecs[] = {rspec_lvl0, rspec_lvl1, rspec_lvl2, rspec_lvl3};
     int count[] = {0, 0, 0, 0};
     int total = 0;
 
     room_t *curr, *tmp;
-    HASH_ITER(hh, ctx->game->all_rooms, curr, tmp) {
+    HASH_ITER(hh, ctx->game->all_rooms, curr, tmp)
+    {
         int i = curr->room_id[6] - '0';
         count[i]++;
         total++;
@@ -281,9 +303,9 @@ char *count_rooms(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 
 int main(int argc, char **argv)
-{   
-    initialize_sample_structs();      
-    
+{
+    initialize_sample_structs();
+
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     add_entry("LEVELGEN", level_gen, NULL, ctx->cli_ctx->table);

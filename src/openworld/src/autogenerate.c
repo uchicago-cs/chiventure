@@ -13,7 +13,7 @@
 *
 * See chiventure/include/autogenerate.h header file to see function
 * prototypes and purposes
-*/ 
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,14 +30,17 @@
 bool path_exists_in_direction(room_t *r, char *direction)
 {
     /* No paths case */
-    if (r->paths == NULL) {
+    if (r->paths == NULL)
+    {
         return false;
     }
 
     path_hash_t *current, *tmp;
-    HASH_ITER(hh, r->paths, current, tmp) {
+    HASH_ITER(hh, r->paths, current, tmp)
+    {
         /* If the path has the given direction, return true */
-        if (strcmp(current->direction, direction) == 0) {
+        if (strcmp(current->direction, direction) == 0)
+        {
             return true;
         }
     }
@@ -54,7 +57,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
 
     /* we use buff for the room name instead */
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
-    
+
     /* instead of taking all the items, just take a few of them */
     res->items = generate_items(roomspec);
 
@@ -63,7 +66,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
 }
 
 
-/* See autogenerate.h */ 
+/* See autogenerate.h */
 int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_direction_to_new)
 {
     /* 2D array of possible directions */
@@ -78,11 +81,13 @@ int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_d
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
-    for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++) {
+    for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++)
+    {
         /* Forwards direction + bump */
         unsigned int forwards = (initial_direction + bump) % NUM_COMPASS_DIRECTIONS;
         /* If path in that direction exists in curr, bump. Else, create the path */
-        if (path_exists_in_direction(curr, directions[forwards])) {
+        if (path_exists_in_direction(curr, directions[forwards]))
+        {
             /* Bump if the room already has a path in the given direction */
             continue;
         }
@@ -111,7 +116,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     /* Path for the opposite direction */
     path_t* path_to_curr = path_new(curr, direction_to_curr);
     assert(add_path_to_room(new_room, path_to_curr) == SUCCESS);
-    
+
     return SUCCESS;
 }
 
@@ -120,20 +125,22 @@ int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int 
 {
     /* If game->curr_room is not a dead end or there are no roomspec_t elements
     * in context->speclist, then do not autogenerate */
-    if (context->speclist == NULL) {
+    if (context->speclist == NULL)
+    {
         return FAILURE;
     }
 
     /* Iterate through the speclist field, generating and adding rooms for each */
-    for (int i = 0; i < num_rooms; i++) {
+    for (int i = 0; i < num_rooms; i++)
+    {
         roomspec_t *rspec = random_room_lookup(context->speclist);
         /* Increments tmp->spec->num_built */
 
         char direction_to_curr[MAX_DIRECTION_STRLEN], direction_to_new[MAX_DIRECTION_STRLEN];
 
-        if (pick_random_direction(game->curr_room, direction_to_curr, direction_to_new) == FAILURE) 
+        if (pick_random_direction(game->curr_room, direction_to_curr, direction_to_new) == FAILURE)
             return FAILURE; // failed to generate at least one room
-        
+
         room_generate(game, game->curr_room, rspec, direction_to_curr, direction_to_new);
     }
     return SUCCESS;
@@ -146,7 +153,8 @@ int speclist_from_hash(speclist_t **orig, rspec_hash_t *hash)
     roomspec_t *current_room = NULL;
     roomspec_t *tmp = NULL;
 
-    HASH_ITER(hh, hash, current_room, tmp) {
+    HASH_ITER(hh, hash, current_room, tmp)
+    {
         speclist_t *s = speclist_new(current_room);
         DL_APPEND(*orig, s);
     }
@@ -163,8 +171,10 @@ roomspec_t *random_room_lookup(speclist_t *spec)
     DL_COUNT(spec, tmp, count);
     int idx = rand() % count, i = 0;
 
-    DL_FOREACH(spec, tmp) {
-        if (i == idx) {
+    DL_FOREACH(spec, tmp)
+    {
+        if (i == idx)
+        {
             return tmp->spec;
         }
         i++;
@@ -175,12 +185,14 @@ roomspec_t *random_room_lookup(speclist_t *spec)
 /* See autogenerate.h */
 item_hash_t *random_items(roomspec_t *room)
 {
-    if (room == NULL) {
+    if (room == NULL)
+    {
         return NULL;
     }
 
     int count = HASH_COUNT(room->items);
-    if (count == 0) {
+    if (count == 0)
+    {
         return NULL; // otherwise we have a zero division error
     }
 
@@ -188,7 +200,8 @@ item_hash_t *random_items(roomspec_t *room)
     int num_iters = rand() % count;
 
     item_hash_t *items = NULL;
-    for (int i = 0; i < num_items; i++) {
+    for (int i = 0; i < num_items; i++)
+    {
         int rc = random_item_lookup(&items, room->items, num_iters);
     }
     /* note that items could be NULL */
@@ -203,8 +216,10 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 
     int i = 0;
 
-    HASH_ITER(hh, src, current, tmp) {
-        if (i == num_iters) {
+    HASH_ITER(hh, src, current, tmp)
+    {
+        if (i == num_iters)
+        {
             copy_item_to_hash(dst, src, current->item_id);
             return SUCCESS;
         }
@@ -218,35 +233,38 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters)
 /* See autogenerate.h */
 item_hash_t *generate_items(roomspec_t *rspec)
 {
-    if (rspec == NULL) {
+    if (rspec == NULL)
+    {
         return NULL;
     }
 
     int total_count = 0;
     item_t *curr, *tmp;
     item_hash_t *new_items = NULL;
-    HASH_ITER(hh, rspec->items, curr, tmp) {
+    HASH_ITER(hh, rspec->items, curr, tmp)
+    {
         if (total_count == MAX_RAND_ITEMS)
             break;
 
         /*
-        Default values are set to 1 to mimic the behavior of random_items 
+        Default values are set to 1 to mimic the behavior of random_items
         (the previous item generation function that was called by roomspec_to_room);
-        random_items spawns 1 instance of each item specified in the roomspec item hash. 
-         
-        Note that the behavior is still slightly different: 
-        random_items() picks a random subset of the item hash, while generate_items 
+        random_items spawns 1 instance of each item specified in the roomspec item hash.
+
+        Note that the behavior is still slightly different:
+        random_items() picks a random subset of the item hash, while generate_items
         iterates through the item hash and picks items in a consistent order.
         */
         double spawn_chance = 1;
         unsigned int max_num = 1; // the max possible item spawn quantity
-        unsigned int min_num = 1; // the min possible item spawn quantity 
+        unsigned int min_num = 1; // the min possible item spawn quantity
 
         itemspec_t *itemspec;
         HASH_FIND_STR(rspec->itemspecs, curr->item_id, itemspec);
-        if (itemspec) {
+        if (itemspec)
+        {
             spawn_chance = itemspec->spawn_chance;
-            max_num = itemspec->max_num; 
+            max_num = itemspec->max_num;
             min_num = itemspec->min_num;
         }
         /*
@@ -256,18 +274,22 @@ item_hash_t *generate_items(roomspec_t *rspec)
         int num_quantities = max_num - min_num + 1;
 
         int spawn_num = min_num;
-        if ((((double) rand()) / RAND_MAX) <= spawn_chance) {
+        if ((((double) rand()) / RAND_MAX) <= spawn_chance)
+        {
             spawn_num += rand() % num_quantities;
-        } else {
+        }
+        else
+        {
             spawn_num = 0;
         }
-        spawn_num = (spawn_num < (MAX_RAND_ITEMS - total_count)) ? 
-                     spawn_num : (MAX_RAND_ITEMS - total_count);
+        spawn_num = (spawn_num < (MAX_RAND_ITEMS - total_count)) ?
+                    spawn_num : (MAX_RAND_ITEMS - total_count);
 
-        for (int i = 0; i < spawn_num; i++) {
+        for (int i = 0; i < spawn_num; i++)
+        {
             copy_item_to_hash(&new_items, rspec->items, curr->item_id);
         }
-        total_count += spawn_num; 
+        total_count += spawn_num;
     }
 
     return new_items;
@@ -277,11 +299,13 @@ item_hash_t *generate_items(roomspec_t *rspec)
 
 /* See autogenerate.h */
 int map_level_to_difficulty(int num_thresholds, int *thresholds, int player_level)
-{   
+{
     /* Iterate from start (lowest point) of threshold array... */
-    for (int i = 0; i < num_thresholds; i++) {
+    for (int i = 0; i < num_thresholds; i++)
+    {
         /* ...to find the first or minimum threshold which exceeds the given player level: */
-        if (player_level < thresholds[i]) {
+        if (player_level < thresholds[i])
+        {
             /* Player lvl must be in difficulty level directly below it (-1)... */
             return (i - 1);
         }
@@ -292,17 +316,21 @@ int map_level_to_difficulty(int num_thresholds, int *thresholds, int player_leve
 
 
 /* See autogenerate.h */
-int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels, 
-                                 roomspec_t *roomspec, 
+int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
+                                 roomspec_t *roomspec,
                                  int difficulty_level)
 {
     roomlevel_t *elt;
 
-    HASH_FIND_STR(*roomlevels, roomspec->room_name, elt); 
-    if (elt) {
-        if (elt->difficulty_level == difficulty_level) {
+    HASH_FIND_STR(*roomlevels, roomspec->room_name, elt);
+    if (elt)
+    {
+        if (elt->difficulty_level == difficulty_level)
+        {
             return SUCCESS;
-        } else {
+        }
+        else
+        {
             return 1; // roomspec found but not of given difficulty level
         }
     }
@@ -311,23 +339,25 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
 
 
 /* See autogenerate.h */
-speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
-                                            roomlevel_hash_t **roomlevels, 
-                                            int difficulty_level)
-{    
+speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
+        roomlevel_hash_t **roomlevels,
+        int difficulty_level)
+{
     speclist_t *curr, *tmp;
     speclist_t *filtered_speclist = NULL;
 
-    DL_FOREACH_SAFE(speclist, curr, tmp) { 
-        int is_given_difficulty = roomspec_is_given_difficulty(roomlevels, 
-                                                               curr->spec, 
-                                                               difficulty_level);
-        if (is_given_difficulty == SUCCESS) {
-            /* Create a copy of the node to add to the filtered speclist output. 
+    DL_FOREACH_SAFE(speclist, curr, tmp)
+    {
+        int is_given_difficulty = roomspec_is_given_difficulty(roomlevels,
+                                  curr->spec,
+                                  difficulty_level);
+        if (is_given_difficulty == SUCCESS)
+        {
+            /* Create a copy of the node to add to the filtered speclist output.
             This resolves an earlier issue in which it was removing nodes from the unfiltered speclist
             a node cannot exist in two lists simultaneously. */
-            speclist_t *curr_copy = speclist_new(curr->spec); 
-            DL_APPEND(filtered_speclist, curr_copy);    
+            speclist_t *curr_copy = speclist_new(curr->spec);
+            DL_APPEND(filtered_speclist, curr_copy);
         }
     }
 
@@ -336,32 +366,33 @@ speclist_t* filter_speclist_with_difficulty(speclist_t *speclist,
 
 
 /* See autogenerate.h */
-int multi_room_level_generate(game_t *game, gencontext_t *context, 
+int multi_room_level_generate(game_t *game, gencontext_t *context,
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec)
 {
     /* If there are no roomspec_t elements in context->speclist, then do not autogenerate */
-    if (context->speclist == NULL) {
+    if (context->speclist == NULL)
+    {
         return FAILURE;
     }
 
     /* compute the difficulty corresponding to player level */
     int difficulty_level = map_level_to_difficulty(levelspec->num_thresholds,
-                                                   levelspec->thresholds,
-                                                   context->level);
+                           levelspec->thresholds,
+                           context->level);
 
     /* filter the given speclist according to difficulty */
     speclist_t *filtered_speclist = filter_speclist_with_difficulty(context->speclist,
-                                                                    &(levelspec->roomlevels), 
-                                                                    difficulty_level);
+                                    &(levelspec->roomlevels),
+                                    difficulty_level);
 
     /* filtered gencontext */
     gencontext_t* filtered_context = gencontext_new(context->open_paths,
-                                                    context->level,
-                                                    context->num_open_paths,
-                                                    filtered_speclist);
+                                     context->level,
+                                     context->num_open_paths,
+                                     filtered_speclist);
 
-    int result = multi_room_generate(game, filtered_context, room_id, num_rooms); 
+    int result = multi_room_generate(game, filtered_context, room_id, num_rooms);
     speclist_free(filtered_speclist);
 
     return result;
@@ -369,11 +400,11 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 
 
 /* See autogenerate.h */
-int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room, 
-                       int radius, char **directions, int num_directions, char *direction_to_parent) 
+int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
+                       int radius, char **directions, int num_directions, char *direction_to_parent)
 {
     /* base case */
-    if (radius <= 0) 
+    if (radius <= 0)
     {
         return SUCCESS;
     }
@@ -389,7 +420,7 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
 
     /* map directions to index */
     int direction_index[num_directions];
-    for (int i = 0; i < num_directions; i++) 
+    for (int i = 0; i < num_directions; i++)
     {
         for (int j = 0; j < NUM_DIRECTIONS; j++)
         {
@@ -398,22 +429,24 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
                 direction_index[i] = j;
             }
         }
-    } 
+    }
 
     /* map direction_to_parent to index */
     int direction_to_parent_index = -1;
-    for (int i = 0; i < num_directions; i++) 
+    for (int i = 0; i < num_directions; i++)
     {
-        if(strcmp(directions[i], direction_to_parent) == 0) {
+        if(strcmp(directions[i], direction_to_parent) == 0)
+        {
             direction_to_parent_index = direction_index[i];
         }
-    } 
+    }
 
     int rc; // return code
-    for (int i = 0; i < num_directions; i++) 
+    for (int i = 0; i < num_directions; i++)
     {
         /* if direction is to parent, skip */
-        if (direction_index[i] == direction_to_parent_index) {
+        if (direction_index[i] == direction_to_parent_index)
+        {
             continue;
         }
 
@@ -423,7 +456,8 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
         int backwards = (forwards + 3) % NUM_DIRECTIONS;
 
         /* create room in direction if it doesn't exist yet */
-        if (!path_exists_in_direction(curr_room, all_directions[forwards])) {        
+        if (!path_exists_in_direction(curr_room, all_directions[forwards]))
+        {
             roomspec_t *rspec = random_room_lookup(context->speclist);
             int rc_callback = room_generate(game, curr_room, rspec,
                                             all_directions[backwards], all_directions[forwards]);
@@ -435,9 +469,9 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
         next_room = find_room_from_dir(curr_room, all_directions[forwards]);
 
         /* recursive case, decrement radius by 1 */
-        rc = recursive_generate(game, context, next_room, 
-                                radius - 1, directions, 
+        rc = recursive_generate(game, context, next_room,
+                                radius - 1, directions,
                                 num_directions, all_directions[backwards]);
     }
-    return rc; 
+    return rc;
 }

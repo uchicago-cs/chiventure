@@ -163,7 +163,7 @@ Test(dialogue, convo_free)
     int rc;
 
     c = convo_new();
-    
+
     cr_assert_not_null(c, "convo_new() failed");
 
     rc = convo_free(c);
@@ -185,7 +185,8 @@ void check_add_node(int num_nodes)
     strcpy(node_id, "N_");
     strcpy(npc_dialogue, "D_");
 
-    for (int i = 1; i <= num_nodes && i < 10; i++) {
+    for (int i = 1; i <= num_nodes && i < 10; i++)
+    {
         node_id[1] = '0' + i;
         npc_dialogue[1] = '0' + i;
 
@@ -233,21 +234,25 @@ void check_add_edge(int num_edges)
 
     strcpy(quip, "Q_");
 
-    for (int i = 1; i <= num_edges && i < 10; i++) {
+    for (int i = 1; i <= num_edges && i < 10; i++)
+    {
         quip[1] = '0' + i;
 
         rc = add_edge(c, quip, "N1", "N2", NULL);
 
         cr_assert_eq(rc, SUCCESS, "add_edge() failed for Edge %d", i);
 
-        if (i == 1) {
+        if (i == 1)
+        {
             convo_lst_ptr = c->all_edges;
             node_lst_ptr = c->all_nodes->node->edges;
-        } else {
+        }
+        else
+        {
             convo_lst_ptr = convo_lst_ptr->next;
             node_lst_ptr = node_lst_ptr->next;
         }
-        
+
         cr_assert_not_null(convo_lst_ptr, "add_edge() did not append Edge %d "
                            "to all_edges in the convo", i);
         cr_assert_not_null(node_lst_ptr, "add_edge() did not append Edge %d "

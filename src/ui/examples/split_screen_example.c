@@ -25,9 +25,10 @@ chiventure_ctx_t *create_sample_ctx()
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
-} 
+}
 
-int main() {
+int main()
+{
 
     chiventure_ctx_t *ctx = create_sample_ctx();
 
@@ -63,18 +64,21 @@ int main() {
     SetTargetFPS(10);
 
     //loop to produce window of image and text box
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose())
+    {
         if (CheckCollisionPointRec(GetMousePosition(), window))
             mouseOnText = true;
         else
             mouseOnText = false;
 
-        if (mouseOnText) {
-        // Get pressed key (character) on the queue
+        if (mouseOnText)
+        {
+            // Get pressed key (character) on the queue
             int key = GetKeyPressed();
 
             // Check if more characters have been pressed on the same frame
-            while (key > 0) {
+            while (key > 0)
+            {
                 // NOTE: Only allow keys in range [32..125]
                 if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
                 {
@@ -85,7 +89,8 @@ int main() {
                 key = GetKeyPressed();  // Check next character in the queue
             }
 
-            if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (IsKeyPressed(KEY_BACKSPACE))
+            {
                 letterCount--;
                 name[letterCount] = '\0';
 
@@ -95,8 +100,9 @@ int main() {
 
         if (mouseOnText) framesCounter++;
         else framesCounter = 0;
-        
-        if (IsKeyPressed(KEY_ENTER)) {
+
+        if (IsKeyPressed(KEY_ENTER))
+        {
             // use the command to string function to turn name into a command
             cmd *c = cmd_from_string(name, ctx);
             // the output text is taken from the command structs and game context
@@ -104,7 +110,8 @@ int main() {
 
             // erases text in the text input, clearing the screen
             int length = letterCount;
-            for(int i = 0; i < length; i++) {
+            for(int i = 0; i < length; i++)
+            {
                 letterCount--;
                 name[letterCount] = '\0';
             }
@@ -113,27 +120,27 @@ int main() {
                 letterCount = 0;
         }
 
- 
+
         //Draw Image
         BeginDrawing();
 
         //Images can be at the most 500 x 500 pixels and they have to have
         //the png Image format
 
-        Image room1 = LoadImage("../../../../src/ui/sandbox/images/room1.png");  
+        Image room1 = LoadImage("../../../../src/ui/sandbox/images/room1.png");
         Image room2 = LoadImage("../../../../src/ui/sandbox/images/room2.png");
-        Image room3 = LoadImage("../../../../src/ui/sandbox/images/room3.png");  
+        Image room3 = LoadImage("../../../../src/ui/sandbox/images/room3.png");
         ImageResize(&room3, ScreenWidth/2, ScreenHeight/2);
-        ImageResize(&room2, ScreenWidth/2, ScreenHeight/2);     
-        ImageResize(&room1, ScreenWidth/2, ScreenHeight/2);           
+        ImageResize(&room2, ScreenWidth/2, ScreenHeight/2);
+        ImageResize(&room1, ScreenWidth/2, ScreenHeight/2);
         Texture2D texture1 = LoadTextureFromImage(room1);
         Texture2D texture2 = LoadTextureFromImage(room2);
         Texture2D texture3 = LoadTextureFromImage(room3);
         // Image converted to texture, uploaded to GPU memory (VRAM)
-        UnloadImage(room1);   
+        UnloadImage(room1);
         UnloadImage(room2);
         UnloadImage(room3);
-        // Once image has been converted to texture and uploaded to VRAM, it 
+        // Once image has been converted to texture and uploaded to VRAM, it
         // can be unloaded from RAM
 
         int heightbuf2 = 150;
@@ -142,16 +149,17 @@ int main() {
         ClearBackground(RAYWHITE);
 
         // Drawing the Color Rectangles for each room
-        if (!(strcmp(ctx->game->curr_room->room_id, "room1"))){
+        if (!(strcmp(ctx->game->curr_room->room_id, "room1")))
+        {
             DrawTexture(texture1, ScreenWidth/4, ScreenHeight/10, WHITE);
-        }                                           
-        else if (!(strcmp(ctx->game->curr_room->room_id, "room2"))) 
+        }
+        else if (!(strcmp(ctx->game->curr_room->room_id, "room2")))
             DrawTexture(texture2, ScreenWidth/4, ScreenHeight/10, WHITE);
 
-        else if (!(strcmp(ctx->game->curr_room->room_id, "room3"))) 
+        else if (!(strcmp(ctx->game->curr_room->room_id, "room3")))
             DrawTexture(texture3, ScreenWidth/4, ScreenHeight/10, WHITE);
 
-        else 
+        else
             DrawTexture(texture1, ScreenWidth/4, ScreenHeight/10, WHITE);
 
         DrawRectangleRec(textBox, WHITE);
@@ -165,7 +173,8 @@ int main() {
         int fontSize = 20;
         int fontSpacing = 5;
 
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
             if (((framesCounter / 5)%2) == 0)
@@ -178,7 +187,7 @@ int main() {
 
         EndDrawing();
     }
-    
+
     CloseWindow();
 
     return 0;

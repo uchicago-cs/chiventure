@@ -296,11 +296,11 @@ Test(npc_mov, auto_gen_movement_definite)
     }
 
     num_rooms_in_npc = get_npc_num_rooms(npc_mov);
-  
+
     cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, "
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
-  
+
     cr_assert_eq(delete_room_llist
                  (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
                  SUCCESS, "delete llist failed");
@@ -351,7 +351,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
     }
 
     num_rooms_in_npc = get_npc_num_rooms(npc_mov);
-    cr_assert_eq(cnt, num_rooms_in_npc, 
+    cr_assert_eq(cnt, num_rooms_in_npc,
                  "room_count returns %d, but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 

@@ -108,7 +108,7 @@ Test(battle_print, print_player_move)
 
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    
+
     char *expected_string = "You used Punch! It did 9 damage.\n"
                             "-- Your HP: 50\n"
                             "-- bob's HP: 21\n";
@@ -158,7 +158,7 @@ Test(battle_print, print_player_move_crit)
 
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    
+
     char *expected_string = "You used Punch! It did 14 damage.\n"
                             "-- Your HP: 50\n"
                             "-- bob's HP: 16\n";
@@ -208,7 +208,7 @@ Test(battle_print, print_player_move_miss)
 
     char* string = print_battle_miss(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    
+
     char *expected_string = "You used Punch, but it missed!\n"
                             "-- Your HP: 50\n"
                             "-- bob's HP: 30\n";

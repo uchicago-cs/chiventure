@@ -39,7 +39,8 @@ skill_inventory_t* inventory;
 skill_t* design_skill;
 
 // "Design Skill" effect
-char* effect_design(char* args) {
+char* effect_design(char* args)
+{
     return "Good progress on your modules! Keep going!";
 }
 
@@ -47,7 +48,8 @@ char* effect_design(char* args) {
 skill_t* test_skill;
 
 // "Testing Skill" effect
-char* effect_test(char* args) {
+char* effect_test(char* args)
+{
     return "Good progress on testing! You can LEARN IMPLEMENTATION now!";
 }
 
@@ -55,7 +57,8 @@ char* effect_test(char* args) {
 skill_t* implementation_skill;
 
 // "Implementation Skill" effect
-char* effect_implementation(char* args) {
+char* effect_implementation(char* args)
+{
     return "Good implementation progress! Your users eagerly await in the Demo room!";
 }
 
@@ -75,7 +78,8 @@ item_t* implementation_item;
  *  - A sample chiventure context containing the rooms/items described in detail
  *    in the README of this directory
  */
-chiventure_ctx_t* create_example_ctx() {
+chiventure_ctx_t* create_example_ctx()
+{
     // Create example game
     game_t* game = game_new("Welcome to the skilltrees team's presentation! "
                             "Room progression is always (GO) NORTHward.");
@@ -121,10 +125,12 @@ chiventure_ctx_t* create_example_ctx() {
  * Returns:
  *  - None
  */
-void implementation_level_up(chiventure_ctx_t* ctx) {
+void implementation_level_up(chiventure_ctx_t* ctx)
+{
     // Level up Implementation Skill
     skill_level_up(implementation_skill);
-    if (implementation_skill->level == 3) {
+    if (implementation_skill->level == 3)
+    {
         // If Implementation Skill is at Level 3, connect to Demo Room
         create_connection(ctx->game, "Implementation Room", "Demo Room",
                           "NORTH");
@@ -145,7 +151,8 @@ void implementation_level_up(chiventure_ctx_t* ctx) {
  *  - A CLI message indicating execution of the Implementation Skill
  */
 char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
-                               chiventure_ctx_t* ctx) {
+                               chiventure_ctx_t* ctx)
+{
     // Call wrapper function for leveling up implementation skill
     implementation_level_up(ctx);
     // Execute implementation skill
@@ -163,11 +170,14 @@ char* implementation_operation(char *tokens[TOKEN_LIST_SIZE],
  * Returns:
  *  - A CLI message indicating execution of the LEARN action
  */
-char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
-    if (!(tokens[1])) {
+char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    if (!(tokens[1]))
+    {
         return "Learning requires a subject.";
     }
-    if ((strcmp(tokens[1], "IMPLEMENTATION"))) {
+    if ((strcmp(tokens[1], "IMPLEMENTATION")))
+    {
         return "You cannot learn that.";
     }
     add_entry("IMPLEMENT", implementation_operation, NULL, ctx->cli_ctx->table);
@@ -187,10 +197,12 @@ char* learn_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
  * Returns:
  *  - None
  */
-void test_level_up(chiventure_ctx_t* ctx) {
+void test_level_up(chiventure_ctx_t* ctx)
+{
     // Level up Testing Skill
     skill_level_up(test_skill);
-    if (test_skill->level == 2) {
+    if (test_skill->level == 2)
+    {
         // If Implementation Skill is at Level 2, allow LEARN action
         print_to_cli(ctx, "FYI, use SKILLS to see your skill inventory.");
         add_entry("LEARN", learn_operation, NULL, ctx->cli_ctx->table);
@@ -211,7 +223,8 @@ void test_level_up(chiventure_ctx_t* ctx) {
  * Returns:
  *  - A CLI message indicating execution of the Testing Skill
  */
-char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
     // Call wrapper function for leveling up testing skill
     test_level_up(ctx);
     // Execute testing skill
@@ -229,10 +242,12 @@ char* test_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
  * Returns:
  *  - None
  */
-void design_level_up(chiventure_ctx_t* ctx) {
+void design_level_up(chiventure_ctx_t* ctx)
+{
     // Level up Design Skill
     skill_level_up(design_skill);
-    if (design_skill->level == 4) {
+    if (design_skill->level == 4)
+    {
         // If Design Skill is at Level 4, connect to Implementation Room and
         // add skill (CLI command) TEST to inventory
         print_to_cli(ctx, "You can move on to Implementation now, though feel free to keep designing!");
@@ -256,7 +271,8 @@ void design_level_up(chiventure_ctx_t* ctx) {
  * Returns:
  *  - A CLI message indicating execution of the Design Skill
  */
-char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
     // Call wrapper function for leveling up design skill
     design_level_up(ctx);
     // Execute design skill
@@ -273,7 +289,8 @@ char* design_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
  * Returns:
  *  - None
  */
-void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory) {
+void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* inventory)
+{
     assert(ctx != NULL && inventory != NULL);
 
     unsigned int i;
@@ -281,10 +298,14 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
 
     print_to_cli(ctx, "-");
     print_to_cli(ctx, "Active Skills:");
-    if (!inventory->num_active) {
+    if (!inventory->num_active)
+    {
         print_to_cli(ctx, "You have no active skills.");
-    } else {
-        for (i = 0; i < inventory->num_active; i++) {
+    }
+    else
+    {
+        for (i = 0; i < inventory->num_active; i++)
+        {
             sprintf(description, "%s: Level %u", inventory->active[i]->name,
                     inventory->active[i]->level);
             print_to_cli(ctx, description);
@@ -293,10 +314,14 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
 
     print_to_cli(ctx, "-");
     print_to_cli(ctx, "Passive Skills:");
-    if (!inventory->num_passive) {
+    if (!inventory->num_passive)
+    {
         print_to_cli(ctx, "You have no passive skills.");
-    } else {
-        for (i = 0; i < inventory->num_passive; i++) {
+    }
+    else
+    {
+        for (i = 0; i < inventory->num_passive; i++)
+        {
             sprintf(description, "%s: Level %u", inventory->passive[i]->name,
                     inventory->passive[i]->level);
             print_to_cli(ctx, description);
@@ -315,7 +340,8 @@ void current_skills_as_strings(chiventure_ctx_t* ctx, skill_inventory_t* invento
  * Returns:
  *  - An empty string (current_skills_as_strings() prints all that is necessary)
  */
-char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
+char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
     current_skills_as_strings(ctx, inventory);
     return "";
 }
@@ -323,7 +349,8 @@ char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx) {
 /* ========================================================================== */
 /* Run the demo game ======================================================== */
 /* ========================================================================== */
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
 
@@ -341,7 +368,7 @@ int main(int argc, char **argv) {
     skill_node_t* test_node = skill_node_new(test_skill, 1, 0, 0);
     node_prereq_add(test_node, design_node, 0);
     skill_node_t* implementation_node = skill_node_new(implementation_skill, 2,
-                                                       0, 0);
+                                        0, 0);
     node_prereq_add(implementation_node, test_node, 0);
 
     // Initialize skill tree

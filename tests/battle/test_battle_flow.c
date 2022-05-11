@@ -25,7 +25,7 @@ Test(battle_flow_move, set_battle_player)
                                     NULL, NULL, NULL);
 
     battle_player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
-                                           NULL, NULL, NULL);
+                                  NULL, NULL, NULL);
 
     comb_player = set_battle_player(ctx_player);
 
@@ -52,7 +52,7 @@ Test(battle_flow_move, set_one_enemy)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                     NULL, NULL, NULL);
+                                    NULL, NULL, NULL);
 
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
@@ -176,7 +176,7 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     move->name = "Test";
 
     char *res = battle_flow_move(ctx, move, "enemy");
-    
+
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 }
 
@@ -222,18 +222,18 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
 
-    int expected_enemy_hp = enemy->stats->hp - 
-                      damage(enemy, move, player);
+    int expected_enemy_hp = enemy->stats->hp -
+                            damage(enemy, move, player);
     int expected_player_hp = player->stats->hp -
-                      damage(player, give_move(player, enemy, enemy->ai), enemy);
+                             damage(player, give_move(player, enemy, enemy->ai), enemy);
 
     char *res = battle_flow_move(ctx, move, "enemy");
-    
-    
+
+
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     cr_assert_eq(enemy->stats->hp,
-                 expected_enemy_hp, 
+                 expected_enemy_hp,
                  "battle_flow_move() did not compute damage on enemy correctly,"
                  "Actual: %d, Expected: %d",enemy->stats->hp, expected_enemy_hp);
 
@@ -260,7 +260,7 @@ Test(battle_flow_move, battle_over_by_player)
     pstats->phys_atk = 200;
     pstats->phys_def = 30;
     pstats->accuracy = 100;
-    pstats->crit = 0; 
+    pstats->crit = 0;
     battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
@@ -295,10 +295,10 @@ Test(battle_flow_move, battle_over_by_player)
                       damage(player, give_move(player, enemy,enemy->ai), enemy);
 
     char *res = battle_flow_move(ctx, move, "enemy");
-    
+
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
-    // note: this hp value relies on player class implementation of move_list 
+    // note: this hp value relies on player class implementation of move_list
     cr_assert_eq(player->stats->hp,
                  expected_hp,
                  "battle_flow_move() did not compute damage correctly");
@@ -309,7 +309,7 @@ Test(battle_flow_move, battle_over_by_player)
     res = battle_flow_move(ctx, move, "enemy");
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
-    // note: this hp value relies on player class implementation of move_list 
+    // note: this hp value relies on player class implementation of move_list
     cr_assert_eq(player->stats->hp,
                  expected_hp,
                  "battle_flow_move() did not compute damage correctly");
@@ -360,21 +360,21 @@ Test(battle_flow_move, battle_over_by_enemy)
 
     //There was a 2*
     int expected_hp = enemy->stats->hp -
-                      2*damage(enemy, move, player);  
+                      2*damage(enemy, move, player);
 
     char *res = battle_flow_move(ctx, move, "enemy");
-    
+
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     res = battle_flow_move(ctx, move, "enemy");
-    
+
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  expected_hp,
-                 "battle_flow_move() did not compute damage correctly Calculated: %.2f, Expected: %.2f", 
+                 "battle_flow_move() did not compute damage correctly Calculated: %.2f, Expected: %.2f",
                  ctx->game->battle->enemy->stats->hp, expected_hp);
-    cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
+    cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER,
                  "battle_flow_move() failed: enemy was not declared the winner");
 }
 

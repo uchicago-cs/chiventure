@@ -11,110 +11,110 @@
 and the player module */
 
 
-/* Ascii art generated from 
+/* Ascii art generated from
 https://patorjk.com/software/taag/#p=display&h=2&v=0&f=Poison&t=Actn-Mgmt%0A */
-const char *banner =   
-"\n\n @@@@@@    @@@@@@@  @@@@@@@  @@@  @@@             @@@@@@@@@@    @@@@@@@@  @@@@@@@@@@   @@@@@@@  \n"
-"@@@@@@@@  @@@@@@@@  @@@@@@@  @@@@ @@@             @@@@@@@@@@@  @@@@@@@@@  @@@@@@@@@@@  @@@@@@@  \n"
-"@@!  @@@  !@@         @@!    @@!@!@@@             @@! @@! @@!  !@@        @@! @@! @@!    @@!    \n"
-"!@!  @!@  !@!         !@!    !@!!@!@!             !@! !@! !@!  !@!        !@! !@! !@!    !@!    \n"
-"@!@!@!@!  !@!         @!!    @!@ !!@!  @!@!@!@!@  @!! !!@ @!@  !@! @!@!@  @!! !!@ @!@    @!!    \n"
-"!!!@!!!!  !!!         !!!    !@!  !!!  !!!@!@!!!  !@!   ! !@!  !!! !!@!!  !@!   ! !@!    !!!    \n"
-"!!:  !!!  :!!         !!:    !!:  !!!             !!:     !!:  :!!   !!:  !!:     !!:    !!:    \n"
-":!:  !:!  :!:         :!:    :!:  !:!             :!:     :!:  :!:   !::  :!:     :!:    :!:    \n"
-"::   :::   ::: :::     ::     ::   ::             :::     ::    ::: ::::  :::     ::      ::    \n"
-" :   : :   :: :: :     :     ::    :               :      :     :: :: :    :      :       :  \n";
+const char *banner =
+    "\n\n @@@@@@    @@@@@@@  @@@@@@@  @@@  @@@             @@@@@@@@@@    @@@@@@@@  @@@@@@@@@@   @@@@@@@  \n"
+    "@@@@@@@@  @@@@@@@@  @@@@@@@  @@@@ @@@             @@@@@@@@@@@  @@@@@@@@@  @@@@@@@@@@@  @@@@@@@  \n"
+    "@@!  @@@  !@@         @@!    @@!@!@@@             @@! @@! @@!  !@@        @@! @@! @@!    @@!    \n"
+    "!@!  @!@  !@!         !@!    !@!!@!@!             !@! !@! !@!  !@!        !@! !@! !@!    !@!    \n"
+    "@!@!@!@!  !@!         @!!    @!@ !!@!  @!@!@!@!@  @!! !!@ @!@  !@! @!@!@  @!! !!@ @!@    @!!    \n"
+    "!!!@!!!!  !!!         !!!    !@!  !!!  !!!@!@!!!  !@!   ! !@!  !!! !!@!!  !@!   ! !@!    !!!    \n"
+    "!!:  !!!  :!!         !!:    !!:  !!!             !!:     !!:  :!!   !!:  !!:     !!:    !!:    \n"
+    ":!:  !:!  :!:         :!:    :!:  !:!             :!:     :!:  :!:   !::  :!:     :!:    :!:    \n"
+    "::   :::   ::: :::     ::     ::   ::             :::     ::    ::: ::::  :::     ::      ::    \n"
+    " :   : :   :: :: :     :     ::    :               :      :     :: :: :    :      :       :  \n";
 
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
-  game_t *game = game_new("Welcome to Chiventure!");
+    game_t *game = game_new("Welcome to Chiventure!");
 
-  /* Create two rooms (room1 and room2). room1 is the initial room */
-  room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
-  room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
-  add_room_to_game(game, room1);
-  add_room_to_game(game, room2);
-  game->curr_room = room1;
-  create_connection(game, "room1", "room2", "NORTH");
+    /* Create two rooms (room1 and room2). room1 is the initial room */
+    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
+    room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    game->curr_room = room1;
+    create_connection(game, "room1", "room2", "NORTH");
 
 
-  player_t *player = player_new("test");
-  add_player_to_game(game, player);
-  game->curr_player = player;
+    player_t *player = player_new("test");
+    add_player_to_game(game, player);
+    game->curr_player = player;
 
-  /* Create context */
-  chiventure_ctx_t *ctx = chiventure_ctx_new(game);
-  game = ctx->game;
-  
-  return ctx;
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+    game = ctx->game;
+
+    return ctx;
 }
 
 char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  attribute_t **args = malloc(sizeof(attribute_t*) *3);
+    attribute_t **args = malloc(sizeof(attribute_t*) *3);
 
-  attribute_t *dmgIncrease = int_attr_new("Dmg", 3);
-  attribute_t *dmgCap = int_attr_new("Dmg", 15);
-  
-  attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "a sword"), "Dmg");
+    attribute_t *dmgIncrease = int_attr_new("Dmg", 3);
+    attribute_t *dmgCap = int_attr_new("Dmg", 15);
 
-  args[0] = dmgIncrease;
-  args[1] = wepDmg;
-  args[2] = wepDmg;
+    attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "a sword"), "Dmg");
 
-  /* Action that addes the value of dmgIncrease (3) to the weapon damage */
-  AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
+    args[0] = dmgIncrease;
+    args[1] = wepDmg;
+    args[2] = wepDmg;
 
-  attribute_t **args2 = malloc(sizeof(attribute_t*) * 3);
-  args2[0] = wepDmg;
-  args2[1] = wepDmg;
-  args2[2] = wepDmg;
+    /* Action that addes the value of dmgIncrease (3) to the weapon damage */
+    AST_block_t *actDmg = AST_action_block_new(ADDITION, 3, args);
 
-  /* Action that doubles weapon damage */
-  AST_block_t *actDmg2 = AST_action_block_new(ADDITION, 3, args2);
+    attribute_t **args2 = malloc(sizeof(attribute_t*) * 3);
+    args2[0] = wepDmg;
+    args2[1] = wepDmg;
+    args2[2] = wepDmg;
 
-  AST_block_t **actions = malloc(sizeof(AST_block_t*) * 2);
-  actions[0] = actDmg2;
-  actions[1] = actDmg;
+    /* Action that doubles weapon damage */
+    AST_block_t *actDmg2 = AST_action_block_new(ADDITION, 3, args2);
 
-  /* Checks if the weapon damage is less than the dmgCap attribute (currently 15) */
-  conditional_block_t *cond = conditional_block_new(LTB, wepDmg, dmgCap);
+    AST_block_t **actions = malloc(sizeof(AST_block_t*) * 2);
+    actions[0] = actDmg2;
+    actions[1] = actDmg;
 
-  /* Branch block represents an if statement
-   * if(damage < dmgCap)
-   *    damage = damage + damage (Double the damage)
-   * else 
-   *  damage = damage + dmgIncrease
-   */
-  AST_block_t *branch = AST_branch_block_new(1, &cond, IFELSE, 2, actions);
+    /* Checks if the weapon damage is less than the dmgCap attribute (currently 15) */
+    conditional_block_t *cond = conditional_block_new(LTB, wepDmg, dmgCap);
 
-  /* Custom action contains only the branch block in the list
-   * The branch block will in turn decide which of the two actions
-   *    that it should run based on the conditional.
-   */
-  custom_action_t *CA = custom_action_new("damage increase", "item", "A sword", "action", branch);
+    /* Branch block represents an if statement
+     * if(damage < dmgCap)
+     *    damage = damage + damage (Double the damage)
+     * else
+     *  damage = damage + dmgIncrease
+     */
+    AST_block_t *branch = AST_branch_block_new(1, &cond, IFELSE, 2, actions);
 
-  do_custom_action(CA);
-  char *str = malloc(sizeof(char) * 128);
-  custom_action_free(CA);
-  attribute_free(dmgCap);
-  attribute_free(dmgIncrease);
-  free(args);
-  free(args2);
-  free(actions);
-  sprintf(str, "Your damage is now %d", wepDmg->attribute_value.int_val);
-  return str;
+    /* Custom action contains only the branch block in the list
+     * The branch block will in turn decide which of the two actions
+     *    that it should run based on the conditional.
+     */
+    custom_action_t *CA = custom_action_new("damage increase", "item", "A sword", "action", branch);
+
+    do_custom_action(CA);
+    char *str = malloc(sizeof(char) * 128);
+    custom_action_free(CA);
+    attribute_free(dmgCap);
+    attribute_free(dmgIncrease);
+    free(args);
+    free(args2);
+    free(actions);
+    sprintf(str, "Your damage is now %d", wepDmg->attribute_value.int_val);
+    return str;
 }
 
 char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "a sword"), "Dmg")->attribute_value.int_val;
-  /* Weapon damage will never become 4 digits unless RAISEDMG is run over 300 times. */  
-  char *str = malloc(sizeof(char) *4);
-  sprintf(str, "%d", num);
-  return str;
+    int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "a sword"), "Dmg")->attribute_value.int_val;
+    /* Weapon damage will never become 4 digits unless RAISEDMG is run over 300 times. */
+    char *str = malloc(sizeof(char) *4);
+    sprintf(str, "%d", num);
+    return str;
 }
 
 /* Prints the current value of the current player's "strength" stat, if it exists*/
@@ -128,7 +128,8 @@ char *print_player_strength(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx
     if (strength == -1)
     {
         return "To you, strength is a foreign concept.";
-    } else
+    }
+    else
     {
         sprintf(str, "Your strength is %.2f.", strength);
 
@@ -195,7 +196,7 @@ int main(int argc, char **argv)
     item_t *sword = item_new("A sword", "A sword", "A sword");
     add_attribute_to_hash(sword, wepDmg);
     add_item_to_player(ctx->game->curr_player, sword);
- 
+
     add_entry("SEEDMG", seeDmg, NULL, ctx->cli_ctx->table);
     add_entry("RAISEDMG", raiseDmg, NULL, ctx->cli_ctx->table);
 

@@ -31,7 +31,7 @@ Test(action_block_t, new_SET)
                  "set new_action->num_args");
     cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                  "new_action->args");
-    
+
     action_block_free(new_action);
 }
 
@@ -61,7 +61,7 @@ Test(action_block_t, new_SAY)
                  "set new_action->num_args");
     cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                  "new_action->args");
-    
+
     action_block_free(new_action);
 }
 
@@ -91,7 +91,7 @@ Test(action_block_t, new_MOVE)
                  "set new_action->num_args");
     cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                  "new_action->args");
-    
+
     action_block_free(new_action);
 }
 
@@ -121,7 +121,7 @@ Test(action_block_t, new_ADDITION)
                  "set new_action->num_args");
     cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                  "new_action->args");
-    
+
     action_block_free(new_action);
 }
 
@@ -140,7 +140,7 @@ Test(action_block_t, new_GEN)
     args->attribute_key = attr_name1;
     args->attribute_tag = attribute_tag;
     args->attribute_value = attribute_value;
-    
+
     action_block_t* new_action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(new_action, "action_block_new() failed");
@@ -151,7 +151,7 @@ Test(action_block_t, new_GEN)
                  "set new_action->num_args");
     cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                  "new_action->args");
-    
+
     action_block_free(new_action);
 }
 
@@ -181,7 +181,7 @@ Test(action_block_t, new_EXEC)
                  "set new_action->num_args");
     cr_assert_eq(new_action->args, &args, "action_block_new() didn't set "
                  "new_action->args");
-    
+
     action_block_free(new_action);
 }
 
@@ -214,13 +214,13 @@ Test(AST_action_block_t, new_ast_SET)
                  "ast->block->action_block->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                  "ast->block_type");
-    
+
     AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with SAY type is created without interruption */
 Test(AST_action_block_t, new_ast_SAY)
-{   
+{
     action_enum_t action_type = SAY;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -247,13 +247,13 @@ Test(AST_action_block_t, new_ast_SAY)
                  "ast->block->action_block->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                  "ast->block_type");
-    
+
     AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with MOVE type is created without interruption */
 Test(AST_action_block_t, new_ast_MOVE)
-{   
+{
     action_enum_t action_type = MOVE;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -267,7 +267,7 @@ Test(AST_action_block_t, new_ast_MOVE)
     args->attribute_tag = attribute_tag;
     args->attribute_value = attribute_value;
     block_type_t block_type = ACTION;
-    
+
     AST_block_t* ast = AST_action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(ast, "AST_action_block_new() failed");
@@ -280,13 +280,13 @@ Test(AST_action_block_t, new_ast_MOVE)
                  "ast->block->action_block->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                  "ast->block_type");
-    
+
     AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with ADDITION type is created without interruption */
 Test(AST_action_block_t, new_ast_ADDITION)
-{   
+{
     action_enum_t action_type = ADDITION;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -313,13 +313,13 @@ Test(AST_action_block_t, new_ast_ADDITION)
                  "ast->block->action_block->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                  "ast->block_type");
-    
+
     AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with GEN type is created without interruption */
 Test(AST_action_block_t, new_ast_GEN)
-{   
+{
     action_enum_t action_type = GEN;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -346,13 +346,13 @@ Test(AST_action_block_t, new_ast_GEN)
                  "ast->block->action_block->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                  "ast->block_type");
-    
+
     AST_block_free(ast);
 }
 
 /* Checks that a new action AST block with EXEC type is created without interruption */
 Test(AST_action_block_t, new_ast_EXEC)
-{   
+{
     action_enum_t action_type = EXEC;
     int num_args = 1;
     char *attr_name1 = "attribute1";
@@ -379,7 +379,7 @@ Test(AST_action_block_t, new_ast_EXEC)
                  "ast->block->action_block->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
                  "ast->block_type");
-    
+
     AST_block_free(ast);
 }
 
@@ -649,7 +649,7 @@ Test(action_block_t, free_ADDITION)
     args->attribute_key = attr_name1;
     args->attribute_tag = attribute_tag;
     args->attribute_value = attribute_value;
-    
+
     action = action_block_new(action_type, num_args, &args);
 
     cr_assert_not_null(action, "action_block_new() failed");
@@ -730,27 +730,27 @@ Test(exec_action_block, set)
     attr1->attribute_tag = INTEGER;
     val1.int_val = 1;
     attr1->attribute_value = val1;
-    
+
     attr2 = malloc(sizeof(attribute_t));
     attr2->attribute_key = "attr2";
     attr2->attribute_tag = INTEGER;
     val2.int_val = 2;
     attr2->attribute_value = val2;
-    
+
     attr3 = malloc(sizeof(attribute_t));
     attr3->attribute_key = "attr3";
     attr3->attribute_tag = CHARACTER;
     val3.char_val = 'b';
     attr3->attribute_value = val3;
- 
+
     args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
     args1[0] = attr1;
     args1[1] = attr2;
-    
+
     args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
     args2[0] = attr1;
     args2[1] = attr3;
- 
+
     act1 = action_block_new(SET, 2, args1);
     act2 = action_block_new(SET, 3, args1);
     act3 = action_block_new(SET, 2, args2);
@@ -760,15 +760,15 @@ Test(exec_action_block, set)
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                               "returned FAILURE with action type SET");
+                 "returned FAILURE with action type SET");
     cr_assert_eq(attr1->attribute_value.int_val, 2,
                  "exec_action_block() failed to set value of attribute");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
-                               "invalid number of arguments");
+                 "invalid number of arguments");
 
     cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
-                               "failure of effect-applying function");
+                 "failure of effect-applying function");
 }
 
 
@@ -787,13 +787,13 @@ void test_arithmetic_act(int i1, int i2, int exp, action_enum_t op)
     attr1->attribute_tag = INTEGER;
     val1.int_val = i1;
     attr1->attribute_value = val1;
-    
+
     attr2 = malloc(sizeof(attribute_t));
     attr2->attribute_key = "attr2";
     attr2->attribute_tag = INTEGER;
     val2.int_val = i2;
     attr2->attribute_value = val2;
-    
+
     attr3 = malloc(sizeof(attribute_t));
     attr3->attribute_key = "attr3";
     attr3->attribute_tag = CHARACTER;
@@ -805,17 +805,17 @@ void test_arithmetic_act(int i1, int i2, int exp, action_enum_t op)
     attr4->attribute_tag = INTEGER;
     val4.int_val = 0;
     attr4->attribute_value = val4;
- 
+
     args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
     args1[0] = attr1;
     args1[1] = attr2;
     args1[2] = attr4;
-    
+
     args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
     args2[0] = attr1;
     args2[1] = attr3;
     args2[2] = attr4;
- 
+
     act1 = action_block_new(op, 3, args1);
     act2 = action_block_new(op, 2, args1);
     act3 = action_block_new(op, 3, args2);
@@ -825,15 +825,15 @@ void test_arithmetic_act(int i1, int i2, int exp, action_enum_t op)
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                               "returned FAILURE");
+                 "returned FAILURE");
     cr_assert_eq(attr4->attribute_value.int_val, exp,
                  "exec_action_block() failed to store result in attribute");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
-                               "invalid number of arguments");
+                 "invalid number of arguments");
 
     cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
-                               "failure of effect-applying function");
+                 "failure of effect-applying function");
 }
 
 
@@ -889,13 +889,13 @@ Test(exec_action_block, gen)
     attr1->attribute_tag = INTEGER;
     val1.int_val = 1;
     attr1->attribute_value = val1;
-    
+
     attr2 = malloc(sizeof(attribute_t));
     attr2->attribute_key = "attr2";
     attr2->attribute_tag = INTEGER;
     val2.int_val = 10;
     attr2->attribute_value = val2;
-    
+
     attr3 = malloc(sizeof(attribute_t));
     attr3->attribute_key = "attr3";
     attr3->attribute_tag = CHARACTER;
@@ -907,35 +907,35 @@ Test(exec_action_block, gen)
     attr4->attribute_tag = INTEGER;
     val4.int_val = 0;
     attr4->attribute_value = val4;
- 
+
     args1 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
     args1[0] = attr1;
     args1[1] = attr2;
     args1[2] = attr4;
-    
+
     args2 = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
     args2[0] = attr1;
     args2[1] = attr3;
     args2[2] = attr4;
- 
+
     act1 = action_block_new(GEN, 3, args1);
     act2 = action_block_new(GEN, 2, args1);
     act3 = action_block_new(GEN, 3, args2);
-    
+
     rc1 = exec_action_block(act1);
     rc2 = exec_action_block(act2);
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                               "returned FAILURE with action type GEN");
+                 "returned FAILURE with action type GEN");
     cr_assert_geq(attr4->attribute_value.int_val, 0,
-                 "exec_action_block() failed to store sum in attribute");
+                  "exec_action_block() failed to store sum in attribute");
     cr_assert_leq(attr4->attribute_value.int_val, 10,
-                 "exec_action_block() failed to store sum in attribute");
+                  "exec_action_block() failed to store sum in attribute");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
-                               "invalid number of arguments");
+                 "invalid number of arguments");
 
     cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
-                               "failure of effect-applying function");
+                 "failure of effect-applying function");
 }

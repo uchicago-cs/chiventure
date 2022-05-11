@@ -77,9 +77,9 @@ char *get_ldesc_item(item_t *item)
 int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 {
     item_t *check, *itr;
-    
+
     HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
-    
+
     LL_FOREACH(check, itr)
     {
         if (itr == new_item)
@@ -95,7 +95,7 @@ int add_item_to_hash(item_hash_t **ht, item_t *new_item)
         HASH_DEL(*ht, check);
         new_item->next = check;
     }
-    
+
     HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
                     new_item);
 
@@ -108,7 +108,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item, *dup_item;
     item_list_t *tmp;
-    
+
     HASH_ITER(hh, *ht, curr_item, ITTMP_ITEMRM)
     {
         /* If item id has no duplicates - only iterates once
@@ -120,7 +120,7 @@ item_list_t *get_all_items_in_hash(item_hash_t **ht)
             LL_APPEND(head, tmp);
         }
     }
-    
+
     return head;
 }
 
@@ -139,7 +139,7 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 {
     item_t *check;
     HASH_FIND(hh, *ht, old_item->item_id, strnlen(old_item->item_id, MAX_ID_LEN), check);
-    
+
     // Only deletes if item exists in hashtable
     if (check != NULL)
     {
@@ -148,7 +148,7 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
             /* Multiple identical item ids;
              * item to delete is head of linked list */
             HASH_DELETE(hh, *ht, old_item);
-	        add_item_to_hash(ht, old_item->next);
+            add_item_to_hash(ht, old_item->next);
             old_item->next = NULL;
         }
         else if (check == old_item)
@@ -172,13 +172,13 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
                     prev->next = curr->next;
                     curr->next = NULL;
                 }
-                
+
                 prev = prev->next;
                 curr = curr->next;
             }
         }
     }
-    
+
     return SUCCESS;
 }
 
@@ -186,8 +186,8 @@ int remove_item_from_hash(item_hash_t **ht, item_t *old_item)
 int add_item_to_all_items_hash(item_hash_t **all_items, item_t *item)
 {
     item_t *check, *itr;
-    
-    HASH_FIND(hh_all_items, *all_items, item->item_id, 
+
+    HASH_FIND(hh_all_items, *all_items, item->item_id,
               strnlen(item->item_id, MAX_ID_LEN), check);
 
     LL_FOREACH(check, itr)
@@ -205,7 +205,7 @@ int add_item_to_all_items_hash(item_hash_t **all_items, item_t *item)
         HASH_DELETE(hh_all_items, *all_items, check);
         item->next = check;
     }
-    
+
     HASH_ADD_KEYPTR(hh_all_items, *all_items, item->item_id,
                     strnlen(item->item_id, MAX_ID_LEN), item);
 
@@ -227,7 +227,7 @@ int remove_item_from_all_items_hash(item_hash_t **all_items, item_t *item)
             /* Multiple identical item ids;
              * item to delete is head of linked list */
             HASH_DELETE(hh_all_items, *all_items, item);
-	        add_item_to_all_items_hash(all_items, item->next);
+            add_item_to_all_items_hash(all_items, item->next);
             item->next = NULL;
         }
         else if (check == item)
@@ -251,13 +251,13 @@ int remove_item_from_all_items_hash(item_hash_t **all_items, item_t *item)
                     prev->next = curr->next;
                     curr->next = NULL;
                 }
-                
+
                 prev = prev->next;
                 curr = curr->next;
             }
         }
     }
-    
+
     return SUCCESS;
 }
 
@@ -265,7 +265,7 @@ int remove_item_from_all_items_hash(item_hash_t **all_items, item_t *item)
 int add_effect_to_item(item_t *item, stat_effect_t *effect)
 {
     stat_effect_t *check;
-    HASH_FIND(hh, item->stat_effects, effect->key, 
+    HASH_FIND(hh, item->stat_effects, effect->key,
               strlen(effect->key), check);
 
     if (check != NULL)
@@ -273,8 +273,8 @@ int add_effect_to_item(item_t *item, stat_effect_t *effect)
         return FAILURE; //item already has the effect
     }
 
-    HASH_ADD_KEYPTR(hh, item->stat_effects, effect->key, 
-              strlen(effect->key), effect);
+    HASH_ADD_KEYPTR(hh, item->stat_effects, effect->key,
+                    strlen(effect->key), effect);
     return SUCCESS;
 }
 
@@ -309,7 +309,8 @@ attribute_t* str_attr_new(char* attr_name, char* value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
 
-    if (new_attribute == NULL) {
+    if (new_attribute == NULL)
+    {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
@@ -327,7 +328,8 @@ attribute_t* int_attr_new(char* attr_name, int value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
 
-    if (new_attribute == NULL) {
+    if (new_attribute == NULL)
+    {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
@@ -345,7 +347,8 @@ attribute_t* double_attr_new(char* attr_name, double value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
 
-    if (new_attribute == NULL) {
+    if (new_attribute == NULL)
+    {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
@@ -363,7 +366,8 @@ attribute_t* char_attr_new(char* attr_name, char value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
 
-    if (new_attribute == NULL) {
+    if (new_attribute == NULL)
+    {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
@@ -381,11 +385,12 @@ attribute_t* bool_attr_new(char* attr_name, bool value)
 {
     attribute_t* new_attribute = malloc(sizeof(attribute_t));
 
-    if (new_attribute == NULL) {
+    if (new_attribute == NULL)
+    {
         fprintf(stderr, "Failed to allocate memory for new attribute");
         return NULL;
     }
-    
+
     new_attribute->attribute_tag = BOOLE;
     new_attribute->attribute_value.bool_val = value;
     new_attribute->attribute_key = strndup(attr_name, MAX_ID_LEN);
@@ -400,13 +405,18 @@ attribute_t* bool_attr_new(char* attr_name, bool value)
 int set_str_attr(item_t* item, char* attr_name, char* value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) {
+    if (res == NULL)
+    {
         attribute_t* new_attribute = str_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    } else if (res != NULL && res->attribute_tag != STRING) {
+    }
+    else if (res != NULL && res->attribute_tag != STRING)
+    {
         return FAILURE; // skeleton for not overriding type
-    } else {
+    }
+    else
+    {
         res->attribute_value.str_val = value;
         return SUCCESS;
     }
@@ -417,13 +427,18 @@ int set_str_attr(item_t* item, char* attr_name, char* value)
 int set_int_attr(item_t* item, char* attr_name, int value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) {
+    if (res == NULL)
+    {
         attribute_t* new_attribute = int_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    } else if (res != NULL && res->attribute_tag != INTEGER) {
+    }
+    else if (res != NULL && res->attribute_tag != INTEGER)
+    {
         return FAILURE; // skeleton for not overriding type
-    } else {
+    }
+    else
+    {
         res->attribute_value.int_val = value;
         return SUCCESS;
     }
@@ -434,13 +449,18 @@ int set_int_attr(item_t* item, char* attr_name, int value)
 int set_double_attr(item_t* item, char* attr_name, double value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) {
+    if (res == NULL)
+    {
         attribute_t* new_attribute = double_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    } else if (res != NULL && res->attribute_tag != DOUBLE) {
+    }
+    else if (res != NULL && res->attribute_tag != DOUBLE)
+    {
         return FAILURE; // skeleton for not overriding type
-    } else {
+    }
+    else
+    {
         res->attribute_value.double_val = value;
         return SUCCESS;
     }
@@ -451,13 +471,18 @@ int set_double_attr(item_t* item, char* attr_name, double value)
 int set_char_attr(item_t* item, char* attr_name, char value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) {
+    if (res == NULL)
+    {
         attribute_t* new_attribute = char_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    } else if (res != NULL && res->attribute_tag != CHARACTER) {
+    }
+    else if (res != NULL && res->attribute_tag != CHARACTER)
+    {
         return FAILURE; // skeleton for not overriding type
-    } else {
+    }
+    else
+    {
         res->attribute_value.char_val = value;
         return SUCCESS;
     }
@@ -468,13 +493,18 @@ int set_char_attr(item_t* item, char* attr_name, char value)
 int set_bool_attr(item_t* item, char* attr_name, bool value)
 {
     attribute_t* res = get_attribute(item, attr_name);
-    if (res == NULL) {
+    if (res == NULL)
+    {
         attribute_t* new_attribute = bool_attr_new(attr_name, value);
         int rv = add_attribute_to_hash(item, new_attribute);
         return rv;
-    } else if (res != NULL && res->attribute_tag != BOOLE) {
+    }
+    else if (res != NULL && res->attribute_tag != BOOLE)
+    {
         return FAILURE; // skeleton for not overriding type
-    } else {
+    }
+    else
+    {
         res->attribute_value.bool_val = value;
         return SUCCESS;
     }
@@ -672,7 +702,8 @@ int item_free(item_t *item)
     delete_attribute_llist(item->class_multipliers);
     delete_all_attributes(item->attributes);
     // uthash_free(item->attributes, HASH_SIZE);
-    if (item->stat_effects != NULL) {
+    if (item->stat_effects != NULL)
+    {
         delete_all_stat_effects(item->stat_effects);
     }
     free(item);
@@ -709,7 +740,7 @@ int delete_attribute_llist(attribute_list_t *head)
     LL_FOREACH_SAFE(head, elt, tmp)
     {
         LL_DELETE(head, elt);
-	free(elt);
+        free(elt);
     }
     return SUCCESS;
 }
@@ -720,13 +751,13 @@ attribute_list_t* create_list_attribute()
     attribute_list_t* rv = malloc(sizeof(attribute_list_t));
     if (rv == NULL)
     {
-      return NULL; //Malloc failed
+        return NULL; //Malloc failed
     }
 
     rv->attribute = NULL;
     rv->next = NULL;
 
-    return rv; 
+    return rv;
 }
 /*
  * Function that takes two attribute_list_ts and compares them.
@@ -741,7 +772,7 @@ attribute_list_t* create_list_attribute()
  */
 int attr_cmp(attribute_list_t *a1, attribute_list_t *a2)
 {
-  return strcmp(a1->attribute->attribute_key, a2->attribute->attribute_key);
+    return strcmp(a1->attribute->attribute_key, a2->attribute->attribute_key);
 }
 
 /* See item.h */
@@ -756,7 +787,7 @@ bool list_contains_attribute(attribute_list_t *head, char* attr_name)
 
     like->attribute = calloc(1, sizeof(attribute_t));
     like->attribute->attribute_key = attr_name;
-    
+
     LL_SEARCH(head->next, tmp, like, attr_cmp);
     free(like->attribute);
     free(like);
@@ -773,14 +804,14 @@ int add_attribute_to_list(attribute_list_t *head, attribute_t *attr)
     {
         return FAILURE;
     }
-    
+
     /* General Case where there could be n elements in the list */
     if (list_contains_attribute(head, attr->attribute_key))
         return SUCCESS;
     else
     {
         /* Create the to-be appended struct of new attribute */
-        attribute_list_t *tmp = create_list_attribute(); 
+        attribute_list_t *tmp = create_list_attribute();
 
         tmp->attribute = attr;
         tmp->next = NULL;
@@ -798,7 +829,7 @@ int remove_attribute_from_list(attribute_list_t *head, char *attr_name)
         printf("\nNot Recognized\n");
         return FAILURE;
     }
-    
+
     attribute_list_t *tmp;
     attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
 
@@ -846,17 +877,19 @@ attribute_t *list_get_attribute(attribute_list_t *head, char* attr_name)
     }
 
     attribute_list_t *like = calloc(1, sizeof(attribute_list_t));
-    if (like == NULL) {
+    if (like == NULL)
+    {
         fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
         return NULL;
     }
     like->attribute = calloc(1, sizeof(attribute_t));
-    if (like == NULL) {
+    if (like == NULL)
+    {
         fprintf(stderr, "calloc failed to allocate memory in list_get_attribute.");
         return NULL;
     }
     like->attribute->attribute_key = attr_name;
-    
+
     attribute_list_t *output;
     LL_SEARCH(head->next, output, like, attr_cmp);
 

@@ -1,5 +1,5 @@
 /*
- * Class list to integrate with battle systems. 
+ * Class list to integrate with battle systems.
  * See class-list.h for more information.
  */
 #include "class-list.h"
@@ -7,11 +7,13 @@
 #define MAX_SPELL_DESC_LEN (50)
 
 /* See class-list.h */
-move_list_t* new_move_list(class_t* c, char* spell, int damage, int id) {
-    
+move_list_t* new_move_list(class_t* c, char* spell, int damage, int id)
+{
+
     move_list_t* list = (move_list_t*) calloc(1, sizeof(move_list_t));
 
-    if (list == NULL) {
+    if (list == NULL)
+    {
         fprintf(stderr, "Could not allocate memory for new_move_list()");
         exit(1);
     }
@@ -26,7 +28,8 @@ move_list_t* new_move_list(class_t* c, char* spell, int damage, int id) {
 
 
 /* see class-list.h */
-move_list_t* move_list() {
+move_list_t* move_list()
+{
 
     move_list_t *head = NULL;
 
@@ -39,7 +42,7 @@ move_list_t* move_list() {
 
     class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
     move_list_t* wizardlist = new_move_list(wizard, "Fireball", 100, 1);
-    
+
     // Knight
 
     class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL);

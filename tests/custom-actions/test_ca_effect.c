@@ -175,9 +175,9 @@ Test(custom_actions_effect, attr_arithmetic_fail)
     rc2 = add_attr(a3, a4, a5);
 
     cr_assert_eq(rc1, FAILS, "attribute arithmetic failed to recognize "
-                            "conflicting types");
+                 "conflicting types");
     cr_assert_eq(rc2, FAILS, "attribute arithmetic failed to recognized "
-                            "invalid attribute type (bool)");
+                 "invalid attribute type (bool)");
 
     attribute_free(a1);
     attribute_free(a2);
@@ -210,38 +210,39 @@ void test_attr_arithmetic(double d1, double d2, double exp1,
     a5 = attribute_new(INTEGER, v5);
     a6 = attribute_new(INTEGER, v6);
 
-    switch (op) {
+    switch (op)
+    {
 
-        case ADD:
-            rc1 = add_attr(a1, a2, a3);
-            rc2 = add_attr(a4, a5, a6);
-            break;
-        case SUB:
-            rc1 = sub_attr(a1, a2, a3);
-            rc2 = sub_attr(a4, a5, a6);
-            break;
-        case MULT:
-            rc1 = mult_attr(a1, a2, a3);
-            rc2 = mult_attr(a4, a5, a6);
-            break;
-        default:
-            rc1 = div_attr(a1, a2, a3);
-            rc2 = div_attr(a4, a5, a6);
+    case ADD:
+        rc1 = add_attr(a1, a2, a3);
+        rc2 = add_attr(a4, a5, a6);
+        break;
+    case SUB:
+        rc1 = sub_attr(a1, a2, a3);
+        rc2 = sub_attr(a4, a5, a6);
+        break;
+    case MULT:
+        rc1 = mult_attr(a1, a2, a3);
+        rc2 = mult_attr(a4, a5, a6);
+        break;
+    default:
+        rc1 = div_attr(a1, a2, a3);
+        rc2 = div_attr(a4, a5, a6);
     }
 
     cr_assert_eq(rc1, SUCCEEDS, "attribute arithmetic failed unexpectedly "
-                               "with type double and operation %s", ops[op]);
+                 "with type double and operation %s", ops[op]);
     cr_assert_eq(rc2, SUCCEEDS, "attribute arithmetic failed unexpectedly "
-                               "with type int and operation %s", ops[op]);
+                 "with type int and operation %s", ops[op]);
 
     cr_assert_float_eq(a3->attribute_value.double_val, exp1, 1E-4,
                        "expected %.2f but attribute arithmetic returned %.2f"
                        " with type double and operation %s",
                        exp1, a3->attribute_value.double_val, ops[op]);
     cr_assert_eq(a6->attribute_value.int_val, exp2,
-                       "expected %d but attribute arithmetic returned %d"
-                       " with type int and operation %s",
-                       exp2, a3->attribute_value.int_val, ops[op]);
+                 "expected %d but attribute arithmetic returned %d"
+                 " with type int and operation %s",
+                 exp2, a3->attribute_value.int_val, ops[op]);
 
     attribute_free(a1);
     attribute_free(a2);
@@ -296,14 +297,14 @@ Test(custom_actions_effect, gen_attrval_fail)
     int rc;
 
     v.char_val = 'a';
-    
+
     a = attribute_new(CHARACTER, v);
 
     rc = gen_attrval(0, 10, a);
 
     cr_assert_eq(rc, FAILS, "gen_attrval() failed to recognized invalid "
-                           "attribute type (char)");
-    
+                 "attribute type (char)");
+
     attribute_free(a);
 }
 
@@ -317,7 +318,7 @@ Test(custom_actions_effect, gen_attrval_double)
     int rc;
 
     v.double_val = 0;
-    
+
     a = attribute_new(DOUBLE, v);
 
     rc = gen_attrval(20, 50, a);
@@ -341,7 +342,7 @@ Test(custom_actions_effect, gen_attrval_int)
     int rc;
 
     v.int_val = 0;
-    
+
     a = attribute_new(INTEGER, v);
 
     rc = gen_attrval(20, 50, a);

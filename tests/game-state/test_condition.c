@@ -18,13 +18,13 @@ Test(condition, new_attr_condition)
     condition_t *condition = attribute_condition_new(item, "length", value);
 
     cr_assert_not_null(condition, "attribute_condition_new() failed");
-    
+
     cr_assert_not_null(condition->condition.attribute_type, "attribute_condition_new() failed to "
-    "create the appropriate condition struct");
+                       "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condition_new() failed to "
-    "correctly mark condition as attribute");
-    
+                 "correctly mark condition as attribute");
+
     item_free(item);
     free(condition->condition.attribute_type);
     free(condition);
@@ -41,10 +41,10 @@ Test(condition, new_inven_condition)
     cr_assert_not_null(condition, "inventory_condition_new() failed");
 
     cr_assert_not_null(condition->condition.inventory_type, "inventory_condition_new() failed to "
-    "create the appropriate condition struct");
+                       "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condition_new() failed to "
-    "correctly mark condition as inventory");
+                 "correctly mark condition as inventory");
 
     player_free(player);
     item_free(item);
@@ -62,10 +62,10 @@ Test(condition, new_level_condition)
     cr_assert_not_null(condition, "level_condition_new() failed");
 
     cr_assert_not_null(condition->condition.level_type, "level_condition_new() failed to "
-    "create the appropriate condition struct");
+                       "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, LEVEL, "level_condition_new() failed to "
-    "correctly mark condition tag as LEVEL");
+                 "correctly mark condition tag as LEVEL");
 
     player_free(player);
     free_condition(condition);
@@ -83,19 +83,19 @@ Test(condition, free_condition_on_attr)
     condition_t *condition = attribute_condition_new(item, "length", value);
 
     cr_assert_not_null(condition, "attribute_condition_new() failed");
-    
+
     cr_assert_not_null(condition->condition.attribute_type, "attribute_condition_new() failed to "
-    "create the appropriate condition struct");
+                       "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, ATTRIBUTE, "attribute_condition_new() failed to "
-    "correctly mark condition as attribute");
-    
+                 "correctly mark condition as attribute");
+
     check = free_condition(condition);
 
     cr_assert_eq(check, SUCCESS, "free_condition() failed to free");
 
     cr_assert_not_null(item, "free_condition mistakingly freed item as well");
-    
+
     item_free(item);
 }
 
@@ -112,10 +112,10 @@ Test(condition, free_condition_on_inven)
     cr_assert_not_null(condition, "inventory_condition_new() failed");
 
     cr_assert_not_null(condition->condition.inventory_type, "inventory_condition_new() failed to "
-    "create the appropriate condition struct");
+                       "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, INVENTORY, "inventory_condition_new() failed to "
-    "correctly mark condition as inventory");
+                 "correctly mark condition as inventory");
 
     check = free_condition(condition);
 
@@ -141,10 +141,10 @@ Test(condition, free_condition_on_level)
     cr_assert_not_null(condition, "level_condition_new() failed");
 
     cr_assert_not_null(condition->condition.level_type, "level_condition_new() failed to "
-    "create the appropriate condition struct");
+                       "create the appropriate condition struct");
 
     cr_assert_eq(condition->condition_tag, LEVEL, "level_condition_new() failed to "
-    "correctly mark condition tag as LEVEL");
+                 "correctly mark condition tag as LEVEL");
 
     check = free_condition(condition);
 
@@ -192,19 +192,19 @@ Test(condition, valid_condition)
 
     int valid = valid_condition(game, condition_1);
     cr_assert_eq(valid, ITEM_MODIFY_NULL, "valid_condition() expected ITEM_MODIFY_NULL(3) "
-    "but instead got %i", valid);
+                 "but instead got %i", valid);
 
     // SUCCESS
     add_item_to_game(game, item);
     valid = valid_condition(game, condition_1);
     cr_assert_eq(valid, SUCCESS, "valid_condition() expected SUCCESS(0) "
-    "but instead got %i", valid);
+                 "but instead got %i", valid);
 
     // ATTRIBUTE_NULL
     condition_1->condition.attribute_type->attribute_to_check = NULL;
     valid = valid_condition(game, condition_1);
     cr_assert_eq(valid, ATTRIBUTE_NULL, "valid_condition() expected ATTRIBUTE_NULL(5) "
-    "but instead got %i", valid);
+                 "but instead got %i", valid);
 
     // PLAYER_NULL
     player_t *player = player_new("test");
@@ -213,7 +213,7 @@ Test(condition, valid_condition)
 
     valid = valid_condition(game, condition_2);
     cr_assert_eq(valid, PLAYER_NULL, "valid_condition() expected PLAYER_NULL(6) "
-    "but instead got %i", valid);
+                 "but instead got %i", valid);
 
     // SUCCESS
     player_t *player2 = player_new("test2");
@@ -223,12 +223,12 @@ Test(condition, valid_condition)
     add_player_to_game(game, player2);
     valid = valid_condition(game, condition_3);
     cr_assert_eq(valid, SUCCESS, "valid_condition() expected SUCCESS(0) "
-    "but instead got %i", valid);
+                 "but instead got %i", valid);
 
     // CONDITION_NULL
     valid = valid_condition(game, NULL);
     cr_assert_eq(valid, CONDITION_NULL, "valid_condition() expected CONDITION_NULL(7) "
-    "but instead got %i", valid);
+                 "but instead got %i", valid);
 
 
 

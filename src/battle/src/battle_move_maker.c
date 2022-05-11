@@ -22,7 +22,7 @@ int build_moves(combatant_t *c)
     {
         combatant_class_name = "None";
     }
-    
+
     bool appened = false;
     DL_FOREACH(moves, tmp)
     {

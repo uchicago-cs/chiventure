@@ -37,15 +37,19 @@ int main()
     cr->r = initial;
 
     HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
-    if (coordmap != NULL) {
+    if (coordmap != NULL)
+    {
         fprintf(debug,"Added initial room to hashmap\n");
     }
 
     coord_record_t *test = find_coord(coordmap, 1, 2, 0);
-    if (test == NULL) {
+    if (test == NULL)
+    {
         fprintf(debug,
                 "find_coord(): Correctly returns NULL when coord not found\n");
-    } else {
+    }
+    else
+    {
         fprintf(debug,
                 "find_coord(): Incorrect return result--should return NULL\n");
     }
@@ -60,7 +64,8 @@ int main()
 
     debug = open_ui_logfile();
 
-    if (coordmap == NULL) {
+    if (coordmap == NULL)
+    {
         fprintf(debug,"ERROR: try_add_coord() returned an empty hashmap\n");
     }
 
@@ -77,9 +82,12 @@ int main()
      * coordinate keys in the hash
      */
     coord_record_t *example = find_coord(coordmap, 5, 6, 7);
-    if (example == NULL) {
+    if (example == NULL)
+    {
         fprintf(debug,"Failure to find coord (%d, %d, %d)\n", 5, 6, 7);
-    } else {
+    }
+    else
+    {
         fprintf(debug,"Found coordinate of room with room id %s\n",
                 example->r->room_id);
     }

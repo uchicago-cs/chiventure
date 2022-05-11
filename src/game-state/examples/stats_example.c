@@ -3,7 +3,7 @@
  * and where the CLI is monkeypatched to accept functions that model player stats and effects
  * We we unable to completely integrate stats and effect completely into the game, but they
  * are still functional.
- * 
+ *
  * Commands created in this example program:
  *
  * - PLYR-STATS: Print player stats
@@ -16,7 +16,7 @@
  * - UPGRADE: Increase the max of a specified stat by an arbitrary amount
  *
  */
- 
+
 #include <stdio.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
@@ -31,12 +31,12 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 item_t *create_poison(effects_global_t *p, stats_t *stat)
 {
     item_t *poison = item_new("POISON","This is poison.",
-                   "This is poison and will harm your health. DO NOT TAKE OR PICKUP.");
+                              "This is poison and will harm your health. DO NOT TAKE OR PICKUP.");
     stat_effect_t *poisoned = stat_effect_new(p);
     stat_mod_t *mod1 = stat_mod_new(stat, 0.5, 50);
     LL_APPEND(poisoned->stat_list, mod1);
     add_effect_to_item(poison, poisoned);
-    add_action(poison, "TAKE", "The item has been taken.", 
+    add_action(poison, "TAKE", "The item has been taken.",
                "The item does not exist in the game.");
     return poison;
 }
@@ -45,12 +45,12 @@ item_t *create_poison(effects_global_t *p, stats_t *stat)
 item_t *create_potion(effects_global_t *p, stats_t *stat)
 {
     item_t *potion = item_new("POTION","This is a health potion.",
-                   "This potion will increase your health. Feel free to take it.");
+                              "This potion will increase your health. Feel free to take it.");
     stat_effect_t *healed = stat_effect_new(p);
     stat_mod_t *mod = stat_mod_new(stat, 1.25, 25);
     LL_APPEND(healed->stat_list, mod);
     add_effect_to_item(potion, healed);
-    add_action(potion, "TAKE", "The item has been taken.", 
+    add_action(potion, "TAKE", "The item has been taken.",
                "The item does not exist in the game.");
     return potion;
 }
@@ -60,8 +60,8 @@ item_t *create_elixir(effects_global_t *p1, effects_global_t *p2,
                       stats_t *s1, stats_t *s2, stats_t *s3, stats_t *s4)
 {
     item_t *elixir = item_new("ELIXIR","This is an elixir.",
-                   "This is an elixir. Effects: energize and stun.");
-    
+                              "This is an elixir. Effects: energize and stun.");
+
     stat_effect_t *stunned = stat_effect_new(p1);
     stat_mod_t *mod1 = stat_mod_new(s1, 0.75, 200);
     stat_mod_t *mod2 = stat_mod_new(s2, 0.9, 200);
@@ -75,7 +75,7 @@ item_t *create_elixir(effects_global_t *p1, effects_global_t *p2,
     LL_APPEND(boost->stat_list, mod3);
     LL_APPEND(boost->stat_list, mod4);
     add_effect_to_item(elixir, boost);
-    add_action(elixir, "TAKE", "The item has been taken.", 
+    add_action(elixir, "TAKE", "The item has been taken.",
                "The item does not exist in the game.");
     return elixir;
 }
@@ -92,7 +92,7 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
 
-    
+
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
     game = ctx->game;
@@ -150,7 +150,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_stat(&sh, s3);
 
     class_t *class = class_new("class", "short", "long",
-                   NULL, sh, eh);
+                                   NULL, sh, eh);
     game->curr_player->player_class = class;
 
     return ctx;
@@ -252,7 +252,8 @@ char *print_item_effects(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     item_t *item;
     HASH_FIND(hh, game->all_items, tokens[1], strlen(tokens[1]), item);
 
-    if (item == NULL) {
+    if (item == NULL)
+    {
         return "The item is in inventory, so its effect cannot be read.";
     }
 
@@ -274,7 +275,7 @@ char *add_player_stat(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     stats_global_t *global;
     HASH_FIND(hh, game->curr_stats, tokens[1], strlen(tokens[1]), global);
-    
+
     if (global == NULL)
     {
         return "This stat does not exist in the game.";
@@ -301,7 +302,7 @@ char *add_player_effect(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     effects_global_t *global;
     HASH_FIND(hh, game->all_effects, tokens[1], strlen(tokens[1]), global);
-    
+
     if (global == NULL)
     {
         return "This stat does not exist in the game.";

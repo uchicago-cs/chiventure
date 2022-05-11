@@ -65,9 +65,9 @@ int room_free(room_t *room)
 int add_item_to_room(room_t *room, item_t *item)
 {
     int rc;
-    
+
     rc = add_item_to_hash(&(room->items), item);
-    
+
     return rc;
 }
 
@@ -75,9 +75,9 @@ int add_item_to_room(room_t *room, item_t *item)
 int remove_item_from_room(room_t *room, item_t *item)
 {
     int rc;
-    
+
     rc = remove_item_from_hash(&(room->items), item);
-    
+
     return rc;
 }
 
@@ -183,7 +183,7 @@ path_t *list_paths(room_t *room)
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
     char *item_id_case = case_insensitized_string(item_id);
-    
+
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id_case, strlen(item_id_case), return_value);
     return return_value;
@@ -205,7 +205,7 @@ room_t *find_room_from_path(path_t *path)
 room_t *find_room_from_dir(room_t *curr, char* direction)
 {
     char *direction_case = case_insensitized_string(direction);
-    
+
     path_t *path = path_search(curr, direction_case);
     room_t *room_adj = find_room_from_path(path);
     free(direction_case);
@@ -216,9 +216,9 @@ room_t *find_room_from_dir(room_t *curr, char* direction)
 item_list_t *get_all_items_in_room(room_t *room)
 {
     item_list_t *head;
-    
+
     head = get_all_items_in_hash(&(room->items));
-    
+
     return head;
 }
 

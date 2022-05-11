@@ -55,7 +55,7 @@ void free_supported_actions(list_action_type_t* head)
     for(int i = 1; i <= NUM_ACTIONS; i++)
     {
         temp = del;
-                
+
         if(i != NUM_ACTIONS)
             del = del->next;
 

@@ -10,9 +10,9 @@
 /*
  * helper function to test parse_r in parse module
  * input: input to be parsed, number of strings tokenized, array of strings
- * 
+ *
  * uses criterion to assert if what is in the list in a particular iteration
- * is what we expect by putting what we expect in the expected order in 
+ * is what we expect by putting what we expect in the expected order in
  * the array of strings.
  */
 void check_comparison(char* str, int size, char** expected_words)
@@ -31,10 +31,10 @@ void check_comparison(char* str, int size, char** expected_words)
             else
             {
                 cr_assert_str_eq(temp->cmds, expected_words[i], "Expected token %i to be '%s', got '%s' instead", i, expected_words[i], temp->cmds);
-            } 
+            }
         }
         i++;
-    }          
+    }
 }
 
 //Tests the parsing of an empty input, which should return NULL.
@@ -74,8 +74,8 @@ Test(parse_r, three_words_r)
 }
 
 /*
- * Tests the parsing of an input of 3 words where the first 2 words 
- * are connected by AND to the last word which should return an array of 2 elemets 
+ * Tests the parsing of an input of 3 words where the first 2 words
+ * are connected by AND to the last word which should return an array of 2 elemets
  * where the first element has 2 words and the second just has 1 word.
  */
 Test(parse_r, two_three_words)

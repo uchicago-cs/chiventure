@@ -26,8 +26,8 @@ Test(conditional_block_t, new_EQ)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
 
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                 left, right);
+    conditional_block_t* new_conditional = conditional_block_new(conditional_type,
+                                           left, right);
 
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
 
@@ -43,7 +43,7 @@ Test(conditional_block_t, new_EQ)
 
 /* Checks that a new conditional block with type LTB is created without interruption */
 Test(conditional_block_t, new_LTB)
-{   
+{
     conditional_type_t conditional_type = LTB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
@@ -62,8 +62,8 @@ Test(conditional_block_t, new_LTB)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
 
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                 left, right);
+    conditional_block_t* new_conditional = conditional_block_new(conditional_type,
+                                           left, right);
 
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
 
@@ -79,7 +79,7 @@ Test(conditional_block_t, new_LTB)
 
 /* Checks that a new conditional block with type LTEB is created without interruption */
 Test(conditional_block_t, new_LTEB)
-{   
+{
     conditional_type_t conditional_type = LTEB;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
@@ -98,8 +98,8 @@ Test(conditional_block_t, new_LTEB)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
 
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                 left, right);
+    conditional_block_t* new_conditional = conditional_block_new(conditional_type,
+                                           left, right);
 
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
 
@@ -115,7 +115,7 @@ Test(conditional_block_t, new_LTEB)
 
 /* Checks that a new conditional block with type IN is created without interruption */
 Test(conditional_block_t, new_IN)
-{   
+{
     conditional_type_t conditional_type = IN;
     char *attr_name1 = "attribute1";
     char *attr_name2 = "attribute2";
@@ -134,8 +134,8 @@ Test(conditional_block_t, new_IN)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
 
-    conditional_block_t* new_conditional = conditional_block_new(conditional_type, 
-                                                                 left, right);
+    conditional_block_t* new_conditional = conditional_block_new(conditional_type,
+                                           left, right);
 
     cr_assert_not_null(new_conditional, "conditional_block_new() failed");
 
@@ -170,9 +170,9 @@ Test(conditional_block_t, new_AST_EQ)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
-   
-    AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
-                                                     left, right);
+
+    AST_block_t* new_ast = AST_conditional_block_new(conditional_type,
+                           left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
@@ -209,9 +209,9 @@ Test(conditional_block_t, new_AST_IN)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
-    
-    AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
-                                                     left, right);
+
+    AST_block_t* new_ast = AST_conditional_block_new(conditional_type,
+                           left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
@@ -248,9 +248,9 @@ Test(conditional_block_t, new_AST_LTB)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
-    
-    AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
-                                                     left, right);
+
+    AST_block_t* new_ast = AST_conditional_block_new(conditional_type,
+                           left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
@@ -287,9 +287,9 @@ Test(conditional_block_t, new_AST_LTEB)
     right->attribute_tag = attribute_tag ;
     right->attribute_value = attribute_value;
     block_type_t block_type = CONDITIONAL;
-    
-    AST_block_t* new_ast = AST_conditional_block_new(conditional_type, 
-                                                     left, right);
+
+    AST_block_t* new_ast = AST_conditional_block_new(conditional_type,
+                           left, right);
 
     cr_assert_not_null(new_ast, "AST_conditional_block_new() failed");
 
@@ -504,7 +504,7 @@ Test(conditional_block_t, free_LTB)
 
     cr_assert_eq(rc, SUCCESS, "conditional_block_free() failed");
 }
-   
+
 /* Checks that a new conditional block with type LTEB is freed without interruption */
 Test(conditional_block_t, free_LTEB)
 {
@@ -536,7 +536,7 @@ Test(conditional_block_t, free_LTEB)
 
     cr_assert_eq(rc, SUCCESS, "conditional_block_free() failed");
 }
-   
+
 /* Checks that a new conditional block with type IN is freed without interruption */
 Test(conditional_block_t, free_IN)
 {
@@ -572,118 +572,118 @@ Test(conditional_block_t, free_IN)
 /* Checks the functionality of eval_conditional_block with equality */
 Test(conditional_block_t, eval_cond_eq)
 {
-  conditional_block_t* conditional;
-  int rc;
-  conditional_type_t conditional_type = EQ;
-  char *attr_name1 = "attribute1";
-  char *attr_name2 = "attribute2";
-  enum attribute_tag attribute_tag = INTEGER;
-  attribute_value_t attribute_value1;
-  attribute_value_t attribute_value2;
-  
-  attribute_value1.int_val = 1;
-  attribute_value2.int_val = 2;
-  attribute_t *left = malloc(sizeof(attribute_t));
-  UT_hash_handle hh = hh;
-  left->hh = hh;
-  left->attribute_key = strdup(attr_name1);
-  left->attribute_tag = attribute_tag;
-  left->attribute_value = attribute_value1;
-  attribute_t *right = malloc(sizeof(attribute_t));
-  right->hh = hh;
-  right->attribute_key = strdup(attr_name2);
-  right->attribute_tag = attribute_tag;
-  right->attribute_value = attribute_value2;
-  
-  conditional = conditional_block_new(conditional_type, left, right);
-  cr_assert_not_null(conditional, "conditional_block_new() failed");
+    conditional_block_t* conditional;
+    int rc;
+    conditional_type_t conditional_type = EQ;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value1;
+    attribute_value_t attribute_value2;
 
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thought that 1 and 2 were equal");
-  right->attribute_value = attribute_value1;
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 and 1 were not equal");
-  attribute_free(left);
-  attribute_free(right);
-  conditional_block_free(conditional);
+    attribute_value1.int_val = 1;
+    attribute_value2.int_val = 2;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = strdup(attr_name1);
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value1;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = strdup(attr_name2);
+    right->attribute_tag = attribute_tag;
+    right->attribute_value = attribute_value2;
+
+    conditional = conditional_block_new(conditional_type, left, right);
+    cr_assert_not_null(conditional, "conditional_block_new() failed");
+
+    cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thought that 1 and 2 were equal");
+    right->attribute_value = attribute_value1;
+    cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 and 1 were not equal");
+    attribute_free(left);
+    attribute_free(right);
+    conditional_block_free(conditional);
 }
 
 /* Checks the functionality of eval_conditional_block with less than and greater than */
 Test(conditional_block_t, eval_cond_LTGT)
 {
-  conditional_block_t* conditional;
-  int rc;
-  conditional_type_t conditional_type = LTB;
-  char *attr_name1 = "attribute1";
-  char *attr_name2 = "attribute2";
-  enum attribute_tag attribute_tag = INTEGER;
-  attribute_value_t attribute_value1;
-  attribute_value_t attribute_value2;
+    conditional_block_t* conditional;
+    int rc;
+    conditional_type_t conditional_type = LTB;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value1;
+    attribute_value_t attribute_value2;
 
-  attribute_value1.int_val = 1;
-  attribute_value2.int_val = 2;
-  attribute_t *left = malloc(sizeof(attribute_t));
-  UT_hash_handle hh = hh;
-  left->hh = hh;
-  left->attribute_key = strdup(attr_name1);
-  left->attribute_tag = attribute_tag;
-  left->attribute_value = attribute_value1;
-  attribute_t *right = malloc(sizeof(attribute_t));
-  right->hh = hh;
-  right->attribute_key = strdup(attr_name2);
-  right->attribute_tag = attribute_tag;
-  right->attribute_value = attribute_value2;
+    attribute_value1.int_val = 1;
+    attribute_value2.int_val = 2;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = strdup(attr_name1);
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value1;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = strdup(attr_name2);
+    right->attribute_tag = attribute_tag;
+    right->attribute_value = attribute_value2;
 
-  conditional = conditional_block_new(conditional_type, left, right);
-  cr_assert_not_null(conditional, "conditional_block_new() failed");
+    conditional = conditional_block_new(conditional_type, left, right);
+    cr_assert_not_null(conditional, "conditional_block_new() failed");
 
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 was greater than or equal to 2");
-  right->attribute_value = attribute_value1;
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Less than did not properly evaluate equality");
-  conditional->conditional_type = GTB;
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Greater than did not properly evaluate equality");
-  right->attribute_value = attribute_value2;
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thoguht that 1 was greater than 2");
-  attribute_free(left);
-  attribute_free(right);
-  conditional_block_free(conditional);
+    cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 was greater than or equal to 2");
+    right->attribute_value = attribute_value1;
+    cr_assert_eq(eval_conditional_block(conditional), 0, "Less than did not properly evaluate equality");
+    conditional->conditional_type = GTB;
+    cr_assert_eq(eval_conditional_block(conditional), 0, "Greater than did not properly evaluate equality");
+    right->attribute_value = attribute_value2;
+    cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thoguht that 1 was greater than 2");
+    attribute_free(left);
+    attribute_free(right);
+    conditional_block_free(conditional);
 }
 
 /* Checks the functionality of eval_conditional_block with less than equal and greater than equal*/
 Test(conditional_block_t, eval_cond_LTEGTE)
 {
-  conditional_block_t* conditional;
-  int rc;
-  conditional_type_t conditional_type = LTEB;
-  char *attr_name1 = "attribute1";
-  char *attr_name2 = "attribute2";
-  enum attribute_tag attribute_tag = INTEGER;
-  attribute_value_t attribute_value1;
-  attribute_value_t attribute_value2;
+    conditional_block_t* conditional;
+    int rc;
+    conditional_type_t conditional_type = LTEB;
+    char *attr_name1 = "attribute1";
+    char *attr_name2 = "attribute2";
+    enum attribute_tag attribute_tag = INTEGER;
+    attribute_value_t attribute_value1;
+    attribute_value_t attribute_value2;
 
-  attribute_value1.int_val = 1;
-  attribute_value2.int_val = 2;
-  attribute_t *left = malloc(sizeof(attribute_t));
-  UT_hash_handle hh = hh;
-  left->hh = hh;
-  left->attribute_key = strdup(attr_name1);
-  left->attribute_tag = attribute_tag;
-  left->attribute_value = attribute_value1;
-  attribute_t *right = malloc(sizeof(attribute_t));
-  right->hh = hh;
-  right->attribute_key = strdup(attr_name2);
-  right->attribute_tag = attribute_tag;
-  right->attribute_value = attribute_value2;
+    attribute_value1.int_val = 1;
+    attribute_value2.int_val = 2;
+    attribute_t *left = malloc(sizeof(attribute_t));
+    UT_hash_handle hh = hh;
+    left->hh = hh;
+    left->attribute_key = strdup(attr_name1);
+    left->attribute_tag = attribute_tag;
+    left->attribute_value = attribute_value1;
+    attribute_t *right = malloc(sizeof(attribute_t));
+    right->hh = hh;
+    right->attribute_key = strdup(attr_name2);
+    right->attribute_tag = attribute_tag;
+    right->attribute_value = attribute_value2;
 
-  conditional = conditional_block_new(conditional_type, left, right);
-  cr_assert_not_null(conditional, "conditional_block_new() failed");
+    conditional = conditional_block_new(conditional_type, left, right);
+    cr_assert_not_null(conditional, "conditional_block_new() failed");
 
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 was greater than or equal to 2");
-  right->attribute_value = attribute_value1;
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Less than equal did not properly evaluate equality");
-  conditional->conditional_type = GTEB;
-  cr_assert_eq(eval_conditional_block(conditional), 1, "Greater than equal did not properly evaluate equality");
-  right->attribute_value = attribute_value2;
-  cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thoguht that 1 was greater than 2");
-  attribute_free(right);
-  attribute_free(left);
-  conditional_block_free(conditional);
+    cr_assert_eq(eval_conditional_block(conditional), 1, "Incorrectly thought that 1 was greater than or equal to 2");
+    right->attribute_value = attribute_value1;
+    cr_assert_eq(eval_conditional_block(conditional), 1, "Less than equal did not properly evaluate equality");
+    conditional->conditional_type = GTEB;
+    cr_assert_eq(eval_conditional_block(conditional), 1, "Greater than equal did not properly evaluate equality");
+    right->attribute_value = attribute_value2;
+    cr_assert_eq(eval_conditional_block(conditional), 0, "Incorrectly thoguht that 1 was greater than 2");
+    attribute_free(right);
+    attribute_free(left);
+    conditional_block_free(conditional);
 }

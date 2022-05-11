@@ -14,107 +14,133 @@
 
 
 /* A helper function for printing a class. */
-void print_class(class_t* class) {
+void print_class(class_t* class)
+{
     printf("------------------------------------------------------------\n");
 
-    if (class == NULL) {
+    if (class == NULL)
+    {
         printf("Class is NULL.\n");
         printf("------------------------------------------------------------\n");
         return;
     }
 
     /* Name */
-    if (class->name != NULL) {
+    if (class->name != NULL)
+    {
         printf("Name: %s\n", class->name);
     }
-    else {
+    else
+    {
         printf("Name: NULL.\n");
     }
 
     /* Multiclass info */
-    if (class->num_parent_class > 0) {
+    if (class->num_parent_class > 0)
+    {
         printf("Multiclass with parents: \n");
-        for (int i = 0; i < class->num_parent_class; i++) {
+        for (int i = 0; i < class->num_parent_class; i++)
+        {
             printf("    %s\n", class->parent_class_names[i]);
         }
     }
-    else {
+    else
+    {
         printf("Basic Class\n");
     }
 
     /* Short Description */
-    if (class->shortdesc != NULL) {
+    if (class->shortdesc != NULL)
+    {
         printf("Short Description: %s\n", class->shortdesc);
     }
-    else {
+    else
+    {
         printf("Short Description: NULL\n");
     }
 
     /* Long Description */
-    if (class->longdesc != NULL) {
+    if (class->longdesc != NULL)
+    {
         printf("Long Description: %s\n", class->longdesc);
     }
-    else {
+    else
+    {
         printf("Long Description: NULL\n");
     }
 
     /* Attributes */
-    if (class->attributes != NULL) {
+    if (class->attributes != NULL)
+    {
         printf("Attributes:\n");
         dump_obj(class->attributes);
     }
-    else {
+    else
+    {
         printf("Attributes: NULL\n");
     }
 
     /* Stats */
-    if (class->base_stats != NULL) {
+    if (class->base_stats != NULL)
+    {
         printf("Base Stats: \n");
         stats_t *stat, *tmp;
-        HASH_ITER(hh, class->base_stats, stat, tmp) {
+        HASH_ITER(hh, class->base_stats, stat, tmp)
+        {
             printf("    %s: %.2f / %.2f\n", stat->key, stat->val, stat->global->max);
         }
     }
-    else {
+    else
+    {
         printf("Base Stats: NULL\n");
     }
 
     /* Effects */
-    if (class->effects != NULL) {
+    if (class->effects != NULL)
+    {
         printf("Effects: \n");
         stat_effect_t *effect, *tmp;
-        HASH_ITER(hh, class->effects, effect, tmp) {
+        HASH_ITER(hh, class->effects, effect, tmp)
+        {
             /* This could be improved to print more info, but this should suffice for now */
             printf("    %s", effect->key);
         }
     }
-    else {
+    else
+    {
         printf("Effects: NULL\n");
     }
 
     /* Skill Tree */
-    if (class->skilltree != NULL) {
+    if (class->skilltree != NULL)
+    {
         printf("Skill Tree: \n");
-        for (int i = 0; i < class->skilltree->num_nodes; i++) {
+        for (int i = 0; i < class->skilltree->num_nodes; i++)
+        {
             /* This could also be improved */
             printf("    %s\n", class->skilltree->nodes[i]->skill->name);
         }
     }
-    else {
+    else
+    {
         printf("Skill Tree: NULL\n");
     }
-    
+
     /* Starting Skills */
-    if (class->starting_skills != NULL) {
+    if (class->starting_skills != NULL)
+    {
         printf("Starting Skills: \n");
-        for (int i = 0; i < class->starting_skills->num_active; i++) {
+        for (int i = 0; i < class->starting_skills->num_active; i++)
+        {
             printf("    %s\n", class->starting_skills->active[i]->name);
         }
-        for (int i = 0; i < class->starting_skills->num_passive; i++) {
+        for (int i = 0; i < class->starting_skills->num_passive; i++)
+        {
             printf("    %s\n", class->starting_skills->passive[i]->name);
         }
     }
-    else {
+    else
+    {
         printf("Starting Skills: NULL\n");
     }
 
@@ -123,29 +149,33 @@ void print_class(class_t* class) {
 
 #define BUFFER_SIZE 100
 
-/* A helper function for pausing execution and asking for input. 
- * 
+/* A helper function for pausing execution and asking for input.
+ *
  * Parameters:
  *  - message: The message that will be printed out as a prompt (newline is added).
  *  - input: Pointer to memory to store the input, or NULL (in which case input is ignored).
- * 
+ *
  * Returns:
  *  - Nothing.
  */
-void prompt(char* message, char* input) {
+void prompt(char* message, char* input)
+{
     printf("%s\n>>> ", message);
 
-    if (input != NULL) {
+    if (input != NULL)
+    {
         fgets(input, BUFFER_SIZE, stdin);
 
         /* Delete trailing newline */
         char* ch_ptr = input;
-        while (*ch_ptr != '\n') {
+        while (*ch_ptr != '\n')
+        {
             ch_ptr += sizeof(char);
         }
-        *ch_ptr = '\0'; 
+        *ch_ptr = '\0';
     }
-    else {
+    else
+    {
         char ignore[BUFFER_SIZE];
         fgets(ignore, BUFFER_SIZE, stdin);
     }
@@ -188,36 +218,42 @@ static obj_t *get_doc_obj()
     return obj;
 }
 
-/* The following functions are demo functions.  Feel free to loop and prompt for 
+/* The following functions are demo functions.  Feel free to loop and prompt for
  * input, just remember to make it possible to escape these functions. */
 
-void demo_prefab_classes() {
+void demo_prefab_classes()
+{
     game_t* game = game_new("The playerclass demo game!");
 
     /* Runs until you input nothing. */
     char class_name[BUFFER_SIZE];
-    while (true) {
+    while (true)
+    {
         prompt("Pick a prefab class:", class_name);
-        if (class_name[0] == '\0') {
+        if (class_name[0] == '\0')
+        {
             break;
         }
         class_t* class = class_prefab_new(game, class_name);
-        if (class != NULL) {
+        if (class != NULL)
+        {
             class_prefab_add_skills(class);
         }
         print_class(class);
     }
 }
 
-void demo_WDL() {
-    /* This is basically an interactive version of the tests, showing the different 
+void demo_WDL()
+{
+    /* This is basically an interactive version of the tests, showing the different
      * kinds of classes you can laod */
     obj_t *obj_store = get_doc_obj();
     game_t *game = load_game(obj_store);
 
     /* If the game is NULL, then the WDL example file could not be found. */
-    if (game == NULL) {
-        printf("ERROR! Game object is NULL.\nMake sure to run this executable " 
+    if (game == NULL)
+    {
+        printf("ERROR! Game object is NULL.\nMake sure to run this executable "
                "in root of the build directory so it can properly find the "
                "example WDL file.\nAborting demo_WDL().\n");
         return;
@@ -227,18 +263,19 @@ void demo_WDL() {
 
     prompt("Loading Knight class, fully defined in the file...", NULL);
     print_class(find_class(&game->all_classes, "Knight"));
-    
+
     prompt("Loading Rogue class, partially defined in the file...", NULL);
     print_class(find_class(&game->all_classes, "Rogue"));
-    
+
     prompt("Loading Monk class, a prefab class declared in the file...", NULL);
     print_class(find_class(&game->all_classes, "Monk"));
-    
+
     prompt("Loading Warrior class, a partially overwritten prefab class declared in the file...", NULL);
     print_class(find_class(&game->all_classes, "Warrior"));
 }
 
-void demo_multiclasses() {
+void demo_multiclasses()
+{
     game_t* game = game_new("The playerclass demo game!");
 
     prompt("Loading Wizard class, a prefab class...", NULL);
@@ -256,7 +293,8 @@ void demo_multiclasses() {
     print_class(hexblade_class);
 }
 
-void demo_item_interactions() {
+void demo_item_interactions()
+{
     /* This is a basic implementation, appropriating ideas from pc-demo.c */
     game_t* game = game_new("The playerclass demo game!");
 
@@ -274,7 +312,7 @@ void demo_item_interactions() {
 
     bool allowed_sword = is_restricted(sword, wizard);
     prompt("You are now playing with class Wizard. Your task is to find a weapon to defeat your archenemy.", NULL);
-    printf("You find a sword lying on a rock, and you are %s to use it.\n", 
+    printf("You find a sword lying on a rock, and you are %s to use it.\n",
            allowed_sword? "unable": "able");
 
     prompt("Switching to class Bard...", NULL);
@@ -300,19 +338,20 @@ void demo_item_interactions() {
 }
 
 
-/* Due to having to locate the example WDL file, it is critical that this executable 
- * is run from from a specific location: the root of the build/ directory. Running it anywhere else will cause 
- * it to fail to find the WDL file, leading to segfaults. 
- * 
- * I prefer to use the command: 
+/* Due to having to locate the example WDL file, it is critical that this executable
+ * is run from from a specific location: the root of the build/ directory. Running it anywhere else will cause
+ * it to fail to find the WDL file, leading to segfaults.
+ *
+ * I prefer to use the command:
  * $ make examples && src/playerclass/examples/2021-demo */
 
 /* main function for the 2021-demo executable. */
-int main() {
+int main()
+{
     /* We decided to break up the ~10 minute demo into 2-3 minute mini demos */
     printf("***Entering prefab mini-demo***\n");
     demo_prefab_classes();
-    
+
     printf("***Entering WDL mini-demo***\n");
     demo_WDL();
 

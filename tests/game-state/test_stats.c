@@ -54,13 +54,13 @@ Test(stats, deep_copy_stat)
     if (stat->key == new_stat->key)
         cr_assert_fail("copy_stat results in new stat and original stat having same char*");
     /* Check that the rest of fields in the original and copied versions are the same */
-    cr_assert_eq(stat->val, new_stat->val, 
+    cr_assert_eq(stat->val, new_stat->val,
                  "copy_stat results in new stat and original stat having different val field");
     cr_assert_eq(stat->max, new_stat->max,
                  "copy_stat results in new stat and original stat having different max field");
     cr_assert_eq(stat->modifier, new_stat->modifier,
                  "copy_stat results in new stat and original stat having different modifier fields");
-    cr_assert_str_eq(stat->key, new_stat->key, 
+    cr_assert_str_eq(stat->key, new_stat->key,
                      "copy_stat results in new stat and original stat having different key names");
 
     /* Free the original stat */
@@ -96,7 +96,7 @@ Test(stats, deep_copy_stat_alter_original)
     /* Create the deep copies of the stats BEFORE changing values */
     stats_t* c1 = copy_stat(s1);
     stats_t* c2 = copy_stat(s2);
-    
+
     cr_assert_not_null(c1, "stats_new() could not create c1");
     cr_assert_not_null(c2, "stats_new() could not create c2");
 
@@ -162,7 +162,7 @@ Test(stats, deep_copy_global_stat_effect)
     cr_assert_not_null(copy, "copy_global_effect() failed to copy effect to new pointer");
 
     /* Check that both versions share the same name */
-    cr_assert_str_eq(effect->name, copy->name, 
+    cr_assert_str_eq(effect->name, copy->name,
                      "copy_global_effect() results in copied version having a different name than original");
 
     /* Free the original global effect */
@@ -220,7 +220,7 @@ Test(stats, deep_copy_effect)
     if (effect->global != copy->global)
         cr_assert_fail("copy_effect results in copy and original effect having different global_stat");
     /* Check that both versions contain the same name */
-    cr_assert_str_eq(effect->key, copy->key, 
+    cr_assert_str_eq(effect->key, copy->key,
                      "copy_effect results in copied version having a different key/name than original");
 
     /* Free the original effect */
@@ -258,10 +258,10 @@ Test (stats, deep_copy_effect_check_list)
     s1->global = health;
     s1->val = 50.0;
     s1->max = 75.0;
-    s1->modifier = 0.75;  
+    s1->modifier = 0.75;
 
     /* Create global stat speed, and a stat corresponding to it */
-    stats_global_t *speed = stats_global_new(spd, 100); 
+    stats_global_t *speed = stats_global_new(spd, 100);
 
     stats_t *s2 = malloc(sizeof(stats_t));
     s2->key = strndup(spd,100);
@@ -274,9 +274,9 @@ Test (stats, deep_copy_effect_check_list)
     double intensities[] = {2.0, 0.5};
     int durations[] = {2, 5};
 
-    int rc = apply_effect(&hash, effect, stats, 
+    int rc = apply_effect(&hash, effect, stats,
                           intensities, durations, 2);
-    
+
     cr_assert_eq(rc, SUCCESS, "apply_effect failed");
     cr_assert_not_null(hash, "apply_effect did not add effect to hash");
 
@@ -344,7 +344,7 @@ Test(stats, change_stat_max)
     s2->val = 50;
     s2->max = 50;
     s2->modifier = 1;
-    
+
     add_stat(&sh, s1);
     add_stat(&sh, s2);
 
@@ -363,42 +363,42 @@ Test(stats, change_stat_max)
 Test(stats, global_init)
 {
     stats_global_t *global_stat = malloc(sizeof(stats_global_t));
-    
+
     int ret_val = stats_global_init(global_stat, "health", 100);
-    
+
     cr_assert_eq(ret_val, SUCCESS, "stats_global_init() failed to return SUCCESS");
-    
+
     cr_assert_not_null(global_stat, "stats_global_init() failed. Health stat is NULL");
-    
+
     cr_assert_str_eq(global_stat->name, "health",
-        "stats_global_init() failed to set the starting stat name");
-    cr_assert_eq(global_stat->max, 100, 
-        "stats_global_init() failed to set the maximal value");
+                     "stats_global_init() failed to set the starting stat name");
+    cr_assert_eq(global_stat->max, 100,
+                 "stats_global_init() failed to set the maximal value");
     free_stats_global(global_stat);
 }
 
 Test(stats, stats_init)
 {
     stats_global_t *stat_global = stats_global_new("health", 100);
-    cr_assert_not_null(stat_global, 
-        "stats_global_new() failed. Health stat is NULL");
+    cr_assert_not_null(stat_global,
+                       "stats_global_new() failed. Health stat is NULL");
 
     stats_t *stat = malloc(sizeof(stats_t));
     int ret_val = stats_init(stat, stat_global, 100);
     cr_assert_eq(ret_val, SUCCESS, "stats_init() failed to return SUCCESS");
 
     cr_assert_not_null(stat, "stats_init() failed. Health stat is NULL");
-    
+
     cr_assert_str_eq(stat->global->name, "health",
-        "stats_init() failed to set the pointer to the global stat");
+                     "stats_init() failed to set the pointer to the global stat");
     cr_assert_str_eq(stat->key, "health",
-        "stats_init() failed to set the key");
-    cr_assert_eq(stat->val, 100, 
-        "stats_init() failed to set the starting stat value");
-    cr_assert_eq(stat->modifier, 1, 
-        "stats_init() failed be set the modifier to 1");
-    cr_assert_leq(stat->val, stat->global->max, 
-        "stat base value exceeds maximal value");
+                     "stats_init() failed to set the key");
+    cr_assert_eq(stat->val, 100,
+                 "stats_init() failed to set the starting stat value");
+    cr_assert_eq(stat->modifier, 1,
+                 "stats_init() failed be set the modifier to 1");
+    cr_assert_leq(stat->val, stat->global->max,
+                  "stat base value exceeds maximal value");
     free_stats(stat);
     free_stats_global(stat_global);
 }
@@ -408,14 +408,14 @@ Test(stats, stats_init)
 /* and initializes it with a stat's name and the maximal value*/
 Test(stats, stats_global_new)
 {
-    
+
     stats_global_t *global_stat;
     global_stat = stats_global_new("health", 100);
     cr_assert_not_null(global_stat, "stats_global_new() failed. Health stat is NULL");
     cr_assert_str_eq(global_stat->name, "health",
-        "stats_global_new() failed to set stat name to health");
-    cr_assert_eq(global_stat->max, 100, 
-    "stats_global_new() failed to set the maximal stat value correctly");
+                     "stats_global_new() failed to set stat name to health");
+    cr_assert_eq(global_stat->max, 100,
+                 "stats_global_new() failed to set the maximal stat value correctly");
     free_stats_global(global_stat);
 }
 
@@ -424,17 +424,17 @@ and initializes it with the pointer to the global stat and a starting value */
 Test(stats, stats_new)
 {
     stats_global_t *stat_global = stats_global_new("health", 100);
-    cr_assert_not_null(stat_global, 
-        "stats_global_new() failed. Health stat is NULL");
+    cr_assert_not_null(stat_global,
+                       "stats_global_new() failed. Health stat is NULL");
 
     stats_t *stat = stats_new(stat_global, 100);
     cr_assert_not_null(stat, "stats_new() failed. Health stat is NULL");
     cr_assert_str_eq(stat->global->name, "health",
-        "stats_new() failed to link the global stat pointer");
-    cr_assert_eq(stat->val, 100, 
-        "stats_new() failed to set the starting stat value");
-    cr_assert_leq(stat->val, stat->global->max, 
-        "stat base value exceeds maximal value.");
+                     "stats_new() failed to link the global stat pointer");
+    cr_assert_eq(stat->val, 100,
+                 "stats_new() failed to set the starting stat value");
+    cr_assert_leq(stat->val, stat->global->max,
+                  "stat base value exceeds maximal value.");
     free_stats(stat);
     free_stats_global(stat_global);
 }
@@ -447,7 +447,7 @@ Test(stats, free)
 
     stats_t *stat = stats_new(stat_global, 100);
     cr_assert_not_null(stat, "stats_new() failed. Player health stat is NULL");
-    
+
     int ret_val = free_stats(stat);
     cr_assert_eq (ret_val, SUCCESS, "free_stats() failed to return SUCCESS");
     free_stats_global(stat_global);
@@ -479,7 +479,7 @@ Test(stats, free_table)
 
     add_stat(&sh, s1);
     add_stat(&sh, s2);
-    
+
     int ret_val = free_stats_table(sh);
     cr_assert_eq (ret_val, SUCCESS, "free_stats_table() failed to return SUCCESS");
 
@@ -645,7 +645,7 @@ Test (stats, apply_effect)
     s1->global = health;
     s1->val = 50.0;
     s1->max = 75.0;
-    s1->modifier = 0.75;  
+    s1->modifier = 0.75;
 
     stats_global_t *speed = malloc(sizeof(stats_global_t));
     speed->name = strndup(spd, 100);
@@ -662,9 +662,9 @@ Test (stats, apply_effect)
     double intensities[] = {2.0, 0.5};
     int durations[] = {2, 5};
 
-    int rc = apply_effect(&hash, effect, stats, 
+    int rc = apply_effect(&hash, effect, stats,
                           intensities, durations, 2);
-    
+
     cr_assert_eq(rc, SUCCESS, "apply_effect failed");
     cr_assert_eq(s1->modifier, 1.5, "apply_effect did not update s1 modifier");
     cr_assert_eq(s2->modifier, 0.5, "apply_effect did not update s2 modifier");
@@ -682,14 +682,14 @@ Test (stats, apply_effect)
     cr_assert_not_null(tmp2, "apply_effect did not add s2 to stat_mod_t list");
     cr_assert_str_eq(tmp2->stat->key, l2.stat->key, "fail");
 
-    cr_assert_eq(tmp1->modifier, intensities[0], 
+    cr_assert_eq(tmp1->modifier, intensities[0],
                  "apply_effect did not set stat_mod modifier");
-    cr_assert_eq(tmp2->modifier, intensities[1], 
+    cr_assert_eq(tmp2->modifier, intensities[1],
                  "apply_effect did not set stat_mod modifier");
 
-    cr_assert_eq(tmp1->duration, durations[0], 
+    cr_assert_eq(tmp1->duration, durations[0],
                  "apply_effect did not set stat_mod duration");
-    cr_assert_eq(tmp2->duration, durations[1], 
+    cr_assert_eq(tmp2->duration, durations[1],
                  "apply_effect did not set stat_mod duration");
     free_stats(s1);
     free_stats(s2);
@@ -699,60 +699,62 @@ Test (stats, apply_effect)
     delete_all_stat_effects(hash);
 }
 
-Test(stats, change_stat) {
+Test(stats, change_stat)
+{
     stats_hash_t *sh = NULL;
     stats_global_t *g1 = stats_global_new("health", 100);
     stats_t *s1 = stats_new(g1, 75);
-    
+
     s1->val = 50;
     s1->modifier = 1.1;
 
     stats_global_t *g2 = stats_global_new("charisma", 200);
     stats_t *s2 = stats_new(g2, 130);
 
- 
+
     s2->val = 75;
     s2->modifier = 1;
 
     int rc1 = add_stat(&sh, s1);
     cr_assert_eq(rc1, SUCCESS, "add_stat_player_failed");
     int rc2 = add_stat(&sh, s2);
-    stats_t *curr; 
+    stats_t *curr;
     HASH_FIND(hh, sh, "health", strlen("health"), curr);
     cr_assert_eq(curr->val, 50,
-        "change_stat base value not equal initially");
+                 "change_stat base value not equal initially");
 
     change_stat(sh, "health", 10);
     cr_assert_eq(curr->val, 60,
-       "change_stat failed to return success");
+                 "change_stat failed to return success");
     change_stat(sh, "health", 20);
     cr_assert_eq(curr->val, 75,
-        "change_stat local max failed");
+                 "change_stat local max failed");
     change_stat(sh, "health", 30);
-    cr_assert_eq(curr->val, 75, 
-        "change_stat global max failed");
-    
+    cr_assert_eq(curr->val, 75,
+                 "change_stat global max failed");
+
 
     HASH_FIND(hh, sh, "charisma", strlen("charisma"), curr);
     cr_assert_eq(curr->val, 75,
-        "change_stat base value not equal initially");
+                 "change_stat base value not equal initially");
 
 
     change_stat(sh, "charisma", 10);
     cr_assert_eq(curr->val, 85,
-       "change_stat failed to return success");
+                 "change_stat failed to return success");
     change_stat(sh, "charisma", 60);
     cr_assert_eq(curr->val, 130,
-        "change_stat local max failed");
+                 "change_stat local max failed");
     change_stat(sh, "charisma", 80);
-    cr_assert_eq(curr->val, 130, 
-        "change_stat global max failed");
+    cr_assert_eq(curr->val, 130,
+                 "change_stat global max failed");
     free_stats_global(g1);
     free_stats_global(g2);
     free_stats_table(sh);
 }
 
-Test(stats, get_stat_current) {
+Test(stats, get_stat_current)
+{
     stats_hash_t *sh = NULL;
     stats_global_t *g1 = stats_global_new("health", 100);
     stats_t *s1 = stats_new(g1, 75);

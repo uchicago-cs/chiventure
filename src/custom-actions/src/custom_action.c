@@ -1,8 +1,8 @@
-/* 
- * Basic functions and structs for custom actions to be used in 
- * custom-actions implementation. 
+/*
+ * Basic functions and structs for custom actions to be used in
+ * custom-actions implementation.
  *
- * Please see "custom_action.h" for function documentation. 
+ * Please see "custom_action.h" for function documentation.
  */
 
 #include <stdlib.h>
@@ -11,7 +11,7 @@
 #include "custom_action.h"
 
 /* See custom_action.h */
-custom_action_t* custom_action_new(char *action_name, char *context, char *item, 
+custom_action_t* custom_action_new(char *action_name, char *context, char *item,
                                    char *type, AST_block_t *head)
 {
     custom_action_t *action;
@@ -36,7 +36,7 @@ custom_action_t* custom_action_new(char *action_name, char *context, char *item,
 }
 
 /* See custom_action.h */
-int custom_action_init(custom_action_t *action, char *action_name, char *context, 
+int custom_action_init(custom_action_t *action, char *action_name, char *context,
                        char *item, char *type, AST_block_t *head)
 {
     assert(action != NULL);

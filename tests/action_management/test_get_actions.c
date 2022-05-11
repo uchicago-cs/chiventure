@@ -19,7 +19,7 @@ Test(get_actions, count)
     cr_assert_eq(out, NUM_ACTIONS,
                  "Expected %d actions, got %d actions when counting through list.\n",
                  NUM_ACTIONS, out);
-    
+
     free_supported_actions(head);
 }
 
@@ -27,7 +27,7 @@ Test(get_actions, count)
 action_type_t *search_supported_actions(list_action_type_t* head, char *query)
 {
     list_action_type_t *temp;
-    
+
     for (temp = head; temp != NULL; temp = temp->next)
     {
         if (strcmp(temp->act->c_name, query) == 0)

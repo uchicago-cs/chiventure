@@ -95,7 +95,7 @@ int possible_action(item_t *item, char *action_name)
 
 /* see game_action.h */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
-                         attribute_t *cond_attribute, attribute_value_t cond_value)
+                                   attribute_t *cond_attribute, attribute_value_t cond_value)
 {
     if (cond_item == NULL)
     {
@@ -116,8 +116,8 @@ int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
 
 /* see game_action.h */
 int add_action_inventory_condition(game_action_t *action, player_t *player,
-                                    item_t *item)
-{    
+                                   item_t *item)
+{
     if (player == NULL)
     {
         return PLAYER_NULL;
@@ -164,7 +164,7 @@ int add_action_condition(game_action_t *action, condition_t *condition)
  * - int value that means 0: the same, 1: first string comes after second,
  *   -1: first string comes before second
  */
-int actioncmp(list_action_type_t *a1, list_action_type_t *a2) 
+int actioncmp(list_action_type_t *a1, list_action_type_t *a2)
 {
     return strncmp(a1->act->c_name, a2->act->c_name, BUFFER_SIZE);
 }
@@ -183,7 +183,7 @@ list_action_type_t *find_act(list_action_type_t *head, action_type_t *a)
 /* See game_action.h */
 int delete_action(list_action_type_t **head, list_action_type_t *act)
 {
-    if (*head == NULL) 
+    if (*head == NULL)
     {
         printf("head null!\n");
         return -1;

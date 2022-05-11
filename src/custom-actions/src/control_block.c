@@ -1,8 +1,8 @@
-/* 
- * Basic functions and structs for control blocks 
- * to be used in custom-actions implementation. 
- * 
- * Please see "control_block.h" for function documentation. 
+/*
+ * Basic functions and structs for control blocks
+ * to be used in custom-actions implementation.
+ *
+ * Please see "control_block.h" for function documentation.
  */
 
 #include <stdlib.h>
@@ -20,7 +20,7 @@ control_block_t* control_block_new(control_type_t control_type)
 
     control = malloc(sizeof(control_block_t));
 
-    if (control == NULL) 
+    if (control == NULL)
     {
         fprintf(stderr,"Could not allocate memory");
         return NULL;
@@ -43,11 +43,11 @@ AST_block_t* AST_control_block_new(control_type_t control_type)
     control_block_t *control;
     int new_control;
     block_type_t block_type = CONTROL;
-  
+
     control = malloc(sizeof(control_block_t));
     ast = malloc(sizeof(AST_block_t));
 
-    if (control == NULL) 
+    if (control == NULL)
     {
         fprintf(stderr,"Could not allocate memory");
         return NULL;
@@ -69,11 +69,11 @@ AST_block_t* AST_control_block_new(control_type_t control_type)
 /* See control_block.h */
 int control_block_init(control_block_t *control, control_type_t control_type)
 {
-    assert(control != NULL); 
+    assert(control != NULL);
 
     control->control_type = control_type;
 
-    return SUCCESS; 
+    return SUCCESS;
 }
 
 /* See control_block.h */
@@ -83,5 +83,5 @@ int control_block_free(control_block_t *control)
 
     free(control);
 
-    return SUCCESS; 
-} 
+    return SUCCESS;
+}

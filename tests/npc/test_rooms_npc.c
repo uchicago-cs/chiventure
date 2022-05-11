@@ -14,13 +14,13 @@ Test (npcs_in_room, new)
     cr_assert_not_null(npcs_in_room, "npcs_in_room_new() failed");
 
     cr_assert_str_eq(npcs_in_room->room_id, "test_room",
-                "npcs_in_room_new() did not set room_id");
+                     "npcs_in_room_new() did not set room_id");
 
     cr_assert_null(npcs_in_room->npc_list,
-                    "npcs_in_room_new() did not set npc_list");
+                   "npcs_in_room_new() did not set npc_list");
 
     cr_assert_eq(npcs_in_room->num_of_npcs, 0,
-                "npcs_in_room_new() did not set num_of_npcs");
+                 "npcs_in_room_new() did not set num_of_npcs");
 }
 
 
@@ -34,10 +34,10 @@ Test (npcs_in_room, init)
     cr_assert_eq(check, SUCCESS, "npcs_in_room_init() failed");
 
     cr_assert_str_eq(npcs_in_room->room_id, "test_room2",
-                "npcs_in_room_init() did not set room_id");
+                     "npcs_in_room_init() did not set room_id");
 
     cr_assert_eq(npcs_in_room->num_of_npcs, 0,
-                "npcs_in_room_init() did not set num_of_npcs");
+                 "npcs_in_room_init() did not set num_of_npcs");
 }
 
 
@@ -68,13 +68,13 @@ Test (npcs_in_room, add_npc_to_room)
 
     npc_t *check2;
     HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-             check2);
+              check2);
 
     cr_assert_not_null(check2, "add_npc_to_room() failed,"
-                                " could not find newly added npcs");
+                       " could not find newly added npcs");
 
     cr_assert_str_eq(check2->npc_id,"npc_test", "add_npc_to_room()"
-                            "did not set npc_id");
+                     "did not set npc_id");
 
     cr_assert_eq(num_of_npcs_initial+1, num_of_npcs_final,
                  "add_npc_to_room() failed, incorrect number of npcs in room");
@@ -105,11 +105,11 @@ Test (npcs_in_room, delete_npc_from_room)
 
     npc_t *check3;
     HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-             check3);
+              check3);
 
     cr_assert_null(check3, "delete_npc_from_room() failed,"
-                           " found deleted npc in room");
-    
+                   " found deleted npc in room");
+
     cr_assert_eq(num_of_npcs_post_add, num_of_npcs_post_delete + 1,
                  "delete_npc_from_room() failed, incorrect number of npcs in room");
 }
@@ -139,35 +139,35 @@ Test(npcs_in_room, npc_one_move_definite)
 {
     room_t *test_room;
     test_room = room_new("test_room", "test", "test test");
-	room_t *test_room2;
+    room_t *test_room2;
     test_room2 = room_new("test_room2", "test", "test test");
 
-	npcs_in_room_t *npcs_in_room;
+    npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
     npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
-	
-	
-	int rc_extend = extend_path_definite(test_npc1_mov, test_room2);
-
-	cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
-
-	npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc", 
-					NULL, test_npc1_mov, false);
-	
-	cr_assert_str_eq(test_npc1->movement->track, "test_room", 
-					"npc not in correct initial room\n"
-					"npc room: %s \n"
-					"should be in room: %s",
-					test_npc1->movement->track, "test_room");
-
-	int rc_move = npc_one_move(test_npc1);
-
-	cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
 
 
-	cr_assert_str_eq(test_npc1->movement->track, "test_room2",
-					"npc did not move from npc_one_move()");
+    int rc_extend = extend_path_definite(test_npc1_mov, test_room2);
+
+    cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
+
+    npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc",
+                               NULL, test_npc1_mov, false);
+
+    cr_assert_str_eq(test_npc1->movement->track, "test_room",
+                     "npc not in correct initial room\n"
+                     "npc room: %s \n"
+                     "should be in room: %s",
+                     test_npc1->movement->track, "test_room");
+
+    int rc_move = npc_one_move(test_npc1);
+
+    cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
+
+
+    cr_assert_str_eq(test_npc1->movement->track, "test_room2",
+                     "npc did not move from npc_one_move()");
 }
 
 Test(npcs_in_room, npc_one_move_indefinite)
@@ -188,18 +188,18 @@ Test(npcs_in_room, npc_one_move_indefinite)
     cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
 
     npc_t *test_npc1 = npc_new(npc_id1, "test npc", "test npc",
-                                        NULL, test_npc1_mov, false);
+                               NULL, test_npc1_mov, false);
 
-	cr_assert_str_eq(test_npc1->movement->track, "test_room",
-                    "npc not in correct initial room\n"
-                    "npc room: %s \n"
-                    "should be in room: %s",
-                    test_npc1->movement->track, "test_room");
+    cr_assert_str_eq(test_npc1->movement->track, "test_room",
+                     "npc not in correct initial room\n"
+                     "npc room: %s \n"
+                     "should be in room: %s",
+                     test_npc1->movement->track, "test_room");
 
     int rc_move = npc_one_move(test_npc1);
 
     cr_assert_eq(rc_move, SUCCESS, "npc_one_move() returned FAILURE");
 
     cr_assert_str_eq(test_npc1->movement->track, "test_room2",
-                                        "npc did not move from npc_one_move()");
+                     "npc did not move from npc_one_move()");
 }

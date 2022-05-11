@@ -156,7 +156,7 @@ Test(action_type, init_room_dir)
     action_type_t *a;
     int rc;
     room_t *new_room = room_new("test_room", "room for testing",
-    "room to test path_new()");
+                                "room to test path_new()");
 
     a = action_type_new("USE_ON", ITEM_ITEM);
 

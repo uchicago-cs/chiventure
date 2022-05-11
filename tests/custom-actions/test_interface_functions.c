@@ -11,7 +11,8 @@
 #include "interface.h"
 
 /* Checks that an empty custom_action fails */
-Test(Interface,null_custom_action) {
+Test(Interface,null_custom_action)
+{
     custom_action_t* ca = (custom_action_t*)malloc(sizeof(custom_action_t));
     char* string = "test";
     ca->action_name=string;

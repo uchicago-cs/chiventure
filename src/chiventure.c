@@ -59,7 +59,7 @@ int main(int argc, char **argv)
     }
 
     /*Checks if the user is trying to load a game, as well as a gui*/
-    if (argc == 3) 
+    if (argc == 3)
     {
         if(!strcmp(argv[1], "--gui"))
         {
@@ -95,31 +95,35 @@ int main(int argc, char **argv)
     /* Add calls to component-specific initializations here */
 
     if (graphical)
-    {  
-	#ifdef GUI_AVAILABLE
-            /*If graphical is true the user will be using GUI*/
-    	    run_gui(ctx);
-	#else
-    	    fprintf(stderr, "Cannot run GUI because chiventure was built without graphics support.\n");
-    	    exit(1);
-	#endif
+    {
+#ifdef GUI_AVAILABLE
+        /*If graphical is true the user will be using GUI*/
+        run_gui(ctx);
+#else
+        fprintf(stderr, "Cannot run GUI because chiventure was built without graphics support.\n");
+        exit(1);
+#endif
     }
-    else 
+    else
     {
         struct winsize w;
         ioctl(STDIN_FILENO, TIOCGWINSZ, &w);
         int ncols = w.ws_col, nrows = w.ws_row;
-        if (ncols < MIN_COLS || nrows < MIN_ROWS) {
+        if (ncols < MIN_COLS || nrows < MIN_ROWS)
+        {
             fprintf(stderr, "Chiventure prefers to run in terminals of at least %d columns and %d rows. Please resize your terminal!\n", MIN_COLS, MIN_ROWS);
             exit(1);
         }
 
         /*If graphical is false the user will be using UI */
-        if (ncols > 100) {
+        if (ncols > 100)
+        {
             start_ui(ctx, banner);
-        } else {
+        }
+        else
+        {
             start_ui(ctx, banner_small);
-        } 
+        }
     }
 
     game_free(ctx->game);

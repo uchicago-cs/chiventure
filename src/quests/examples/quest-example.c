@@ -49,7 +49,7 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "room3", "room4", "EAST");
 
     item_t *emerald = item_new("EMERALD","It is an emerald",
-                              "This item must be taken for the first mission. Steal it!");
+                               "This item must be taken for the first mission. Steal it!");
     add_item_to_room(room2, emerald);
 
     item_t *POTION = item_new("POTION","It is a bottle that holds a mysterious liquid",
@@ -57,12 +57,12 @@ chiventure_ctx_t *create_sample_ctx()
     add_item_to_room(room4, POTION);
 
     add_action(emerald, "STEAL", "[You take the Emerald] "
-                        "This is the object that the villager was talking about!",
-                "You can't pickup the emerald.");
+               "This is the object that the villager was talking about!",
+               "You can't pickup the emerald.");
 
     add_action(POTION, "SIP", "[You sip the Potion] Suddenly you realize how you got here.",
-                "You can't drink the POTION.");
-    
+               "You can't drink the POTION.");
+
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
@@ -115,17 +115,22 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "I do not know what you mean.";
     }
 
-    if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
+    if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1)))
+    {
         move_npc_definite(npc1_movement);
 
         char *output1 = strcat("Villager-Jim",
-        ": I see you have started the quest, go to room2 to find the secret item, then "
-            "come meet me in room3 to complete the first mission.");
+                               ": I see you have started the quest, go to room2 to find the secret item, then "
+                               "come meet me in room3 to complete the first mission.");
         return output1;
-    } else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 1))) {
+    }
+    else if (((strcmp(ctx->game->curr_room->room_id,"room2")) == 0) && ((quest->status == 1)))
+    {
         char *output2 = "Please find the secret item here.";
         return output2;
-    } else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 1)) {
+    }
+    else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 1))
+    {
         //move_npc_definite(npc1_movement);
         item_t *item = malloc(sizeof(item_t));
         HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item);
@@ -138,12 +143,14 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         quest->status = 2;
 
         char *output3 = strcat("Villager-Jim",": Congratulations on completing "
-                    "the first task of this quest. "
-                    "Now onto the next, continue through that door into the next room "
-                    "to continue.");
+                               "the first task of this quest. "
+                               "Now onto the next, continue through that door into the next room "
+                               "to continue.");
 
         return output3;
-    } else if ((strcmp(ctx->game->curr_room->room_id,"room4") == 0) && (quest->status == 2)) {
+    }
+    else if ((strcmp(ctx->game->curr_room->room_id,"room4") == 0) && (quest->status == 2))
+    {
         item_t *item = malloc(sizeof(item_t));
         HASH_FIND(hh, ctx->game->all_items, "POTION", strlen("POTION"), item);
 
@@ -159,8 +166,8 @@ char *talk_to_npc(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             change_xp(ctx->game->curr_player, reward->xp);
 
             char* output3 = strcat("Villager-Jim", ": Congratulations"
-            " on completing the quest, your reward is a key that should "
-            "help you on your adventure. You will find it in your inventory.");
+                                   " on completing the quest, your reward is a key that should "
+                                   "help you on your adventure. You will find it in your inventory.");
             return output3;
         }
         else
@@ -295,7 +302,7 @@ int main(int argc, char **argv)
 
 
     reward_t *reward_if_kill = reward_new(50, item_new("KEY", "this is a key that unlocks all secrets",
-    "Reward for completing the quest."));
+                                          "Reward for completing the quest."));
     reward_t *reward_if_negotiate = reward_new(100, NULL);
 
     item_t *item1 = malloc(sizeof(item_t));
@@ -309,7 +316,7 @@ int main(int argc, char **argv)
     quest_t *quest = make_sample_quest("Quest 0", reward_if_kill, stat_req, npc1, npc2, item1, item2, third_room, last_room);
 
     reward_t *reward_passive = reward_new(0, item_new("Portal Gun", "this gun can create portals on special walls",
-    "Reward for completing passive missions."));
+                                          "Reward for completing passive missions."));
 
     stat_req_t *stat_req_passive = stat_req_new(0, 0);
     quest_t *quest_passive = make_passive_quest("Quest 1", reward_passive, stat_req_passive);
@@ -322,7 +329,7 @@ int main(int argc, char **argv)
                                                                                             |
                                                                                             v
                                                                                             negotiate with wolf and wolf takes potion -> npc gives xp instead  */
-    
+
 
 
     add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);

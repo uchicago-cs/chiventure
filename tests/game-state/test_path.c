@@ -11,7 +11,7 @@
 Test(path, new)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "room to test path_new()");
+                                "room to test path_new()");
     path_t *new_path = path_new(new_room, "north");
 
     cr_assert_not_null(new_path, "path_new() test 1 has failed!");
@@ -25,7 +25,7 @@ Test(path, new)
 Test(path, free)
 {
     room_t *test_dest = room_new("test_dest", "room for testing",
-    "room to test path_free");
+                                 "room to test path_free");
     path_t *path_tofree = path_new(test_dest, "west");
 
     int freed = path_free(path_tofree);
@@ -41,7 +41,7 @@ Test(path, conditions)
 {
     //create path, assert it exists
     room_t *new_room = room_new("new_room", "room for testing",
-    "room to test path_new_conditions()");
+                                "room to test path_new_conditions()");
     path_t *new_path = path_new(new_room, "south");
 
     cr_assert_not_null(new_path, "path_new() test 2 has failed");
@@ -68,7 +68,7 @@ Test(path, conditions)
 
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() test 1 has failed");
     cr_assert_not_null(new_path->conditions, "no conditions have been"
-    "implemented");
+                       "implemented");
     path_free(new_path);
     room_free(new_room);
     free(first);
@@ -83,11 +83,11 @@ Test(path, conditions)
 Test(path, remove_condition)
 {
     item_t *door = item_new("test_door", "item for testing",
-    "test item for remove_condition()");
+                            "test item for remove_condition()");
     door->attributes = NULL;
 
     room_t *new_room = room_new("new_room", "room for testing",
-    "room to test remove_condition()");
+                                "room to test remove_condition()");
     add_item_to_room(new_room, door);
 
     path_t *new_path = path_new(new_room, "south");
@@ -133,8 +133,8 @@ Test(path, remove_condition)
     cr_assert_null(go->room, "condition isn't fully implemented(1)");
     cr_assert_null(go->direction, "condition isn't fully implemented(2)");
     cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
-    cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, false, 
-    "no conditions have been implemented");
+    cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, false,
+                 "no conditions have been implemented");
 
     path_free(new_path);
     room_free(new_room);
@@ -151,11 +151,11 @@ Test(path, remove_condition)
 Test(path, remove_final_condtion)
 {
     item_t *door = item_new("test_door", "item for testing",
-    "test item for remove_condition()");
+                            "test item for remove_condition()");
     door->attributes = NULL;
-    
+
     room_t *new_room = room_new("new_room", "room for testing",
-    "room to test remove_condition()");
+                                "room to test remove_condition()");
     add_item_to_room(new_room, door);
 
     path_t *new_path = path_new(new_room, "south");
@@ -175,7 +175,7 @@ Test(path, remove_final_condtion)
     rc = path_new_conditions(new_path,first);
 
     cr_assert_eq(rc, SUCCESS, "path_new_conditions() failed");
-    
+
     //make hash attribute for item
     attribute_t *OPEN = malloc(sizeof(attribute_t));
     char *tmp = "OPEN";
@@ -190,10 +190,10 @@ Test(path, remove_final_condtion)
     rc = remove_condition(new_path, first);
 
     cr_assert_null(open->room, "condition isn't fully implemented(1)");
-    cr_assert_null(open->direction, "condition isn't fully implemented(2)");    
+    cr_assert_null(open->direction, "condition isn't fully implemented(2)");
     cr_assert_eq(rc, SUCCESS, "remove_condition() failed");
-    cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, true, 
-    "no conditions have been implemented");
+    cr_assert_eq(get_attribute(door, "OPEN")->attribute_value.bool_val, true,
+                 "no conditions have been implemented");
     path_free(new_path);
     room_free(new_room);
     free(first);
@@ -206,15 +206,15 @@ Test(path, remove_final_condtion)
 Test(path, add_to_room)
 {
     room_t *test_room = room_new("test_room", "room for testing",
-    "testing add_path_to_room()");
+                                 "testing add_path_to_room()");
     path_t *test_path = path_new(test_room, "east");
 
     cr_assert_not_null(test_path,
-        "add_path_to_room() test: path initialization failed!");
+                       "add_path_to_room() test: path initialization failed!");
 
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, SUCCESS,
-        "add_path_to_room() test: path was not successfully added to room!");
+                 "add_path_to_room() test: path was not successfully added to room!");
     room_free(test_room);
 }
 
@@ -224,23 +224,23 @@ Test(path, add_to_null_room)
     path_t *test_path = path_new(test_room, "east");
 
     cr_assert_not_null(test_path,
-        "add_path_to_room() test: path initialization failed!");
+                       "add_path_to_room() test: path initialization failed!");
 
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, FAILURE,
-        "add_path_to_room() test: path was wrongfully added to NULL room!");
+                 "add_path_to_room() test: path was wrongfully added to NULL room!");
     path_free(test_path);
 }
 
 Test(path, add_null_path_to_room)
 {
     room_t *test_room = room_new("test_room", "room for testing",
-    "testing add_path_to_room()");
+                                 "testing add_path_to_room()");
     path_t *test_path = NULL;
 
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, FAILURE,
-        "add_path_to_room() test: NULL path was wrongfully added to room!");
+                 "add_path_to_room() test: NULL path was wrongfully added to room!");
     room_free(test_room);
 }
 
@@ -252,19 +252,19 @@ finalize  */
 Test(path, search)
 {
     room_t *test_room = room_new("test_room", "room for testing",
-    "testing path_search()");
+                                 "testing path_search()");
     path_t *test_path = path_new(test_room, "south");
 
     int added = add_path_to_room(test_room, test_path);
     cr_assert_eq(added, SUCCESS,
-        "path_search() test: path was not successfully added to room!");
+                 "path_search() test: path was not successfully added to room!");
 
     path_t *path_found = path_search(test_room, "south");
 
     cr_assert_str_eq(path_found->direction, "south",
-    "path_search() test: path found has incorrect direction!");
+                     "path_search() test: path found has incorrect direction!");
     cr_assert_str_eq(path_found->dest->room_id, "test_room",
-    "path_search() test: path found has incorrect destination room!");
+                     "path_search() test: path found has incorrect destination room!");
     room_free(test_room);
 }
 
@@ -275,26 +275,26 @@ Test(path, search_null_room)
     path_t *path_found = path_search(test_room, "south");
 
     cr_assert_null(path_found,
-        "path_search() test: path somehow found in NULL room");
+                   "path_search() test: path somehow found in NULL room");
 }
 
 Test(path, find_room)
 {
     room_t *test_room = room_new("test_room", "room for testing",
-    "room for testing find_room_from_path()");
+                                 "room for testing find_room_from_path()");
     path_t *test_path = path_new(test_room, "north");
 
     room_t *found_room = find_room_from_path(test_path);
 
     cr_assert_str_eq(found_room->room_id, "test_room",
-    "find_room_from_path() test: room found from path has incorrect room_id!");
+                     "find_room_from_path() test: room found from path has incorrect room_id!");
 
     cr_assert_str_eq(found_room->short_desc, "room for testing",
-    "find_room_from_path() test: room found has incorrect short desc!");
+                     "find_room_from_path() test: room found has incorrect short desc!");
 
     cr_assert_str_eq(found_room->long_desc,
-        "room for testing find_room_from_path()",
-        "find_room_from_path() test: room found has incorrect long desc!");
+                     "room for testing find_room_from_path()",
+                     "find_room_from_path() test: room found has incorrect long desc!");
     path_free(test_path);
     room_free(test_room);
 }
@@ -306,13 +306,13 @@ Test(path, find_room_null_path)
     room_t *found_room = find_room_from_path(test_path);
 
     cr_assert_null(found_room,
-        "find_room_from_path() test: room wrongfully found from NULL path");
+                   "find_room_from_path() test: room wrongfully found from NULL path");
 }
 
 Test(path, del_all)
 {
     room_t *test_room = room_new("test_room", "room for testing",
-    "item for testing del_all_paths function");
+                                 "item for testing del_all_paths function");
     path_t *test_path1 = path_new(test_room, "north");
     path_t *test_path2 = path_new(test_room, "east");
     path_t *test_path3 = path_new(test_room, "south");

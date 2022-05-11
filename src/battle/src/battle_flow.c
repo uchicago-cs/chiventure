@@ -31,7 +31,7 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
 
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name, is_friendly, c_type, stats,
-                                             moves, items, BATTLE_AI_NONE);
+                               moves, items, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
 
@@ -55,7 +55,7 @@ combatant_t *set_enemy(npc_t *npc_enemy)
     move_t *moves = npc_enemy->npc_battle->moves;
     battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
     difficulty_t ai = npc_enemy->npc_battle->ai;
-    
+
     comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
     assert(comb_enemy != NULL);
 
@@ -77,7 +77,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy, environment_
     {
         build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
     }
-    
+
     turn_t turn = PLAYER;
 
     battle_t *b = battle_new(comb_player, comb_enemies, env, turn);
@@ -99,7 +99,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         return "FAILURE";
     }
     combatant_t *enemy = check_target(b, target);
-    
+
     if(enemy == NULL)
     {
         /* print stub: should tell player that their target was invalid
@@ -107,7 +107,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
            for the next move */
         return "Non-valid enemy chosen";
     }
-    
+
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
     /* additionally, a check must be performed here to see if player has
@@ -126,7 +126,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         enemy->stats->hp -= dmg;
         string = print_battle_move(b, b->turn, move);
     }
-    
+
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
@@ -134,7 +134,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_VICTOR_PLAYER;
     }
-    
+
     if(battle_over(b) == BATTLE_IN_PROGRESS)
     {
         char *res = enemy_make_move(ctx);
@@ -160,8 +160,9 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         snprintf(string, 150, "FAILURE\n");
         return string;
     }
-    if (item->quantity <= 0){
-       snprintf(string, 150, "FAILURE\n");
+    if (item->quantity <= 0)
+    {
+        snprintf(string, 150, "FAILURE\n");
         return string;
     }
 
@@ -171,11 +172,11 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
     int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item->name);
     snprintf(string, 150, "You used the %s\n", item_name);
 
-    if (usage == FAILURE) 
+    if (usage == FAILURE)
     {
         snprintf(string, 150, "That item is Unavailable.\n");
         return string;
-    } 
+    }
 
     if(battle_over(b) == BATTLE_IN_PROGRESS)
     {
@@ -190,7 +191,7 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 /* see battle_flow.h */
 char *battle_flow_list(battle_ctx_t *ctx, char* label)
 {
-    if (strcmp(label, "items") == 0) 
+    if (strcmp(label, "items") == 0)
     {
         battle_t *b = ctx->game->battle;
 
@@ -198,7 +199,8 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
         print_battle_items(b, string);
 
         return string;
-    } if (strcmp(label, "moves") == 0) 
+    }
+    if (strcmp(label, "moves") == 0)
     {
         battle_t *b = ctx->game->battle;
 
@@ -206,18 +208,19 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
         print_moves(b, string);
 
         return string;
-    } else 
+    }
+    else
     {
-             
+
         char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
         snprintf(string, BATTLE_BUFFER_SIZE, "Please enter a valid battle command!");
-        
+
         return string;
     }
 }
 
 /* see battle_flow.h */
-char *enemy_make_move(battle_ctx_t *ctx) 
+char *enemy_make_move(battle_ctx_t *ctx)
 {
     battle_t *b = ctx->game->battle;
     b->turn = ENEMY;
@@ -231,17 +234,20 @@ char *enemy_make_move(battle_ctx_t *ctx)
     if(enemy_move != NULL)
     {
         /* Calculates to see if the move will miss */
-        if(!calculate_accuracy(b->enemy->stats->accuracy)){
+        if(!calculate_accuracy(b->enemy->stats->accuracy))
+        {
             dmg = 0;
             b->player->stats->hp -= dmg;
             string = print_battle_miss(b, b->turn, enemy_move);
-        }else{
+        }
+        else
+        {
             dmg = damage(b->player, enemy_move, b->enemy);
             b->player->stats->hp -= dmg;
             string = print_battle_move(b, b->turn, enemy_move);
         }
     }
-    
+
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)
     {
         /* print stub: should tell player they lost */
@@ -257,9 +263,12 @@ char *enemy_make_move(battle_ctx_t *ctx)
 int calculate_accuracy(int accuracy)
 {
     int chance = randnum(0, 100);
-    if(chance <= accuracy){
+    if(chance <= accuracy)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }

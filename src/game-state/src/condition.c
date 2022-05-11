@@ -3,17 +3,17 @@
 
 
 /* helper for valid_condition. Checks if the attribute condition's
- * item to check actually exists within the game, and if the 
+ * item to check actually exists within the game, and if the
  * attribute itself is valid
- * 
+ *
  * Parameters:
  *  pointer to a game struct
  *  pointer to an attribute condition to check
- * 
+ *
  * Returns:
  *  SUCCESS if condition is valid
  *  ITEM_MODIFY_NULL if the item does not exist in the game or is null
- *  ATTRIBUTE_NULL if the attribute does not exist in the item or is null  
+ *  ATTRIBUTE_NULL if the attribute does not exist in the item or is null
  */
 int valid_attr_condition(game_t *game, attribute_condition_t *condition)
 {
@@ -25,30 +25,31 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
     }
 
     attribute_t *check_attribute;
-    if(condition->attribute_to_check == NULL){
+    if(condition->attribute_to_check == NULL)
+    {
         return ATTRIBUTE_NULL;
     }
     check_attribute = get_attribute(condition->item,
                                     condition->attribute_to_check->attribute_key);
     if (check_attribute == NULL ||
-        check_attribute != condition->attribute_to_check)
+            check_attribute != condition->attribute_to_check)
     {
         return ATTRIBUTE_NULL; // item does not possess attribute
     }
     return SUCCESS;
 }
 
-/* helper for valid_condition. Checks if the inventory condition's 
+/* helper for valid_condition. Checks if the inventory condition's
  * item and player to check actually exist within the game
- * 
+ *
  * Parameters:
  *  pointer to a game struct
  *  pointer to an inventory condiiton to check
- * 
+ *
  * Returns:
  *  SUCCESS if condition is valid
  *  ITEM_MODIFY_NULL if the item does not exist in the game or is null
- *  PLAYER_NULL if the player does not exist in the game or is null  
+ *  PLAYER_NULL if the player does not exist in the game or is null
  */
 int valid_inven_condition(game_t *game, inventory_condition_t *condition)
 {
@@ -70,11 +71,11 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
 
 /* helper for valid_condition. Checks if the player actually exists within a
  * game.
- * 
+ *
  * Parameters:
  *  pointer to a game struct
  *  pointer to a level condiiton to check
- * 
+ *
  * Returns:
  *  SUCCESS if condition is valid
  *  PLAYER_NULL if the player does not exist in the game or is null
@@ -93,7 +94,8 @@ int valid_level_condition(game_t *game, level_condition_t *condition)
 /* see condition.h */
 int valid_condition(game_t *game, condition_t *condition)
 {
-    if(condition == NULL){
+    if(condition == NULL)
+    {
         return CONDITION_NULL;
     }
     switch (condition->condition_tag)
@@ -132,7 +134,7 @@ int free_condition(condition_t* condition)
         break;
     }
 
-    /* Free the "condition wrapper" that is condition_t */ 
+    /* Free the "condition wrapper" that is condition_t */
     free(condition);
 
     return SUCCESS;
@@ -183,12 +185,12 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
 
 /* helper for check_condition. Matches the item's attribute with the
  * attribute to see if they are the same.
- * 
+ *
  * Parameters:
  *  the attribute condition to check
- * 
+ *
  * Returns:
- *  true if the item attribute correctly matches, false otherwise 
+ *  true if the item attribute correctly matches, false otherwise
  *  */
 bool check_attribute_condition(attribute_condition_t *condition)
 {
@@ -203,21 +205,21 @@ bool check_attribute_condition(attribute_condition_t *condition)
     {
     case (DOUBLE):
         if (actual_attribute->attribute_value.double_val ==
-            condition->expected_value.double_val)
+                condition->expected_value.double_val)
         {
             return true;
         }
         break;
     case (BOOLE):
         if (actual_attribute->attribute_value.bool_val ==
-            condition->expected_value.bool_val)
+                condition->expected_value.bool_val)
         {
             return true;
         }
         break;
     case (CHARACTER):
         if (actual_attribute->attribute_value.char_val ==
-            condition->expected_value.char_val)
+                condition->expected_value.char_val)
         {
             return true;
         }
@@ -231,7 +233,7 @@ bool check_attribute_condition(attribute_condition_t *condition)
         break;
     case (INTEGER):
         if (actual_attribute->attribute_value.int_val ==
-            condition->expected_value.int_val)
+                condition->expected_value.int_val)
         {
             return true;
         }
@@ -261,10 +263,10 @@ condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
 
 /* helper for check_condition. Checks if the condition's specified item
  * exists in the player's inventory.
- * 
+ *
  * Parameters:
  *  the inventory condition to check
- * 
+ *
  * Returns:
  *  true if item is in inventory, false otherwise
  */
@@ -294,10 +296,10 @@ condition_t *level_condition_new(player_t *player, int level_required)
 
 /* helper for check_condition. Checks if the player's level meets or exceeds
  * the condition's required level
- * 
+ *
  * Parameters:
  *  the level condition to check
- * 
+ *
  * Returns:
  *  true if the player's level is greater than or equal to the
  *  required level, false otherwise

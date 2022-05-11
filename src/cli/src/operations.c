@@ -17,18 +17,19 @@
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
-char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
-                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
-                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
-                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS"};
+char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF",
+                                      "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
+                                      "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
+                                      "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME",
+                                      "PALETTE", "ITEMS"
+                                     };
 
 
-/* 
- * This function returns a integer 
- * which is the number of matching letters 
+/*
+ * This function returns a integer
+ * which is the number of matching letters
  * between the user input and action
- * 
+ *
  */
 int compare(char* word, char* action)
 {
@@ -36,7 +37,7 @@ int compare(char* word, char* action)
     int current = 0;
     for (int i = 0; i < min(strlen(word), strlen(action)); i++)
     {
-        if (&action[i] != NULL && &word[i] != NULL) 
+        if (&action[i] != NULL && &word[i] != NULL)
         {
             if (tolower(word[i]) == tolower(action[i]))
             {
@@ -49,12 +50,12 @@ int compare(char* word, char* action)
     return current;
 }
 
-/* 
+/*
  * This function returns a string which is the suggestion
- * It finds the suggestion by comparing 
+ * It finds the suggestion by comparing
  * each possible action to the input
  * using the compare helper function
- * 
+ *
  */
 char* suggestions(char *action_input, char** actions)
 {
@@ -62,21 +63,21 @@ char* suggestions(char *action_input, char** actions)
     int initial = 0;
     int temp = 0;
     int index = -1;
-    
+
     for (int i = 0; i < NUM_ACTIONS; i++)
     {
-        if (action_input != NULL) 
+        if (action_input != NULL)
         {
             temp = compare(strdup(action_input), strdup(actions[i]));
-            if (temp > initial) 
+            if (temp > initial)
             {
                 index = i;
                 initial = temp;
             }
         }
     }
-    
-    if (index == -1) 
+
+    if (index == -1)
     {
         return NULL;
     }
@@ -110,11 +111,11 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     print_to_cli(ctx, "Start of command history: \n");
     LL_FOREACH(ctx->cli_ctx->command_history, temp)
     {
-        if (temp->command != NULL) 
+        if (temp->command != NULL)
         {
             print_to_cli(ctx, temp->command);
         }
-    } 
+    }
     return "End of command history.\n";
 }
 
@@ -250,8 +251,8 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         action_type_t *action = find_action(tokens[0], table);
         char *str;
         bool action_success = false;
-        
-        /* Loops through items with identical ids 
+
+        /* Loops through items with identical ids
          * until action success or all items fail */
         while (!action_success && curr_item != NULL)
         {
@@ -331,12 +332,12 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         return "The object(s) could not be found";
     }
-    
+
     action_type_t *action = find_action(tokens[0], table);
     char *str;
     bool action_success = false;
-    
-    /* Loops through items with identical ids 
+
+    /* Loops through items with identical ids
      * until action succeeds or all items fail */
     while (!action_success && item1 != NULL)
     {
@@ -352,7 +353,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         }
         item1 = item1->next;
     }
-    
+
     return str;
 }
 
@@ -361,7 +362,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
 
-    if (tokens[0] == NULL) 
+    if (tokens[0] == NULL)
     {
         return "This input returned as NULL";
     }
@@ -369,7 +370,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     char* suggestion = NULL;
     suggestion = suggestions(strdup(tokens[0]), actions_for_sug);
 
-    if (suggestion != NULL) 
+    if (suggestion != NULL)
     {
         int str1 = strlen(suggestion);
         int str2 = strlen("This action is not supported. Did you mean: ");
@@ -442,20 +443,20 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
     npc_t *npc_tmp, *npc_elt;
     int i = 0;
-    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
-    {   
+    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
+    {
         i++;
-        if (npc_elt->npc_battle->health > 0) 
+        if (npc_elt->npc_battle->health > 0)
         {
             print_to_cli(ctx, npc_elt->npc_id);
         }
     }
 
-    if (i >= 1) 
+    if (i >= 1)
     {
         return "These are the NPCs in the room";
-    } 
-    else 
+    }
+    else
     {
         return "There is no NPC in the room";
     }

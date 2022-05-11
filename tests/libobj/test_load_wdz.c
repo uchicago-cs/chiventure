@@ -25,8 +25,8 @@ Test(test_load_wdz, extension_success)
     bool rc = _strip_expected_extension(str, "json");
 
     cr_assert_eq(rc, true, "_strip_expected_extension failed");
-    cr_assert_str_eq(str, "test_str", 
-        "_strip_expected_extension incorrectly modified the string");
+    cr_assert_str_eq(str, "test_str",
+                     "_strip_expected_extension incorrectly modified the string");
 }
 
 /* Tests _strip_expected_extension for no extension */
@@ -67,8 +67,8 @@ Test(test_load_wdz, extension_default)
     bool rc = _strip_expected_extension(str, "json");
 
     cr_assert_eq(rc, true, "_strip_expected_extension failed");
-    cr_assert_str_eq(str, ".", 
-        "_strip_expected_extension incorrectly modified the string");
+    cr_assert_str_eq(str, ".",
+                     "_strip_expected_extension incorrectly modified the string");
 }
 
 /* Tests _strip_expected_extension for a nested DEFAULT file */
@@ -79,8 +79,8 @@ Test(test_load_wdz, extension_default_nested)
     bool rc = _strip_expected_extension(str, "json");
 
     cr_assert_eq(rc, true, "_strip_expected_extension failed");
-    cr_assert_str_eq(str, "folder/.", 
-        "_strip_expected_extension incorrectly modified the string");
+    cr_assert_str_eq(str, "folder/.",
+                     "_strip_expected_extension incorrectly modified the string");
 }
 
 /* Tests _strip_expected_extension for a nested DEFAULT file inside a DEFAULT folder */
@@ -91,8 +91,8 @@ Test(test_load_wdz, extension_default_nested_default)
     bool rc = _strip_expected_extension(str, "json");
 
     cr_assert_eq(rc, true, "_strip_expected_extension failed");
-    cr_assert_str_eq(str, "DEFAULT/.", 
-        "_strip_expected_extension incorrectly modified the string");
+    cr_assert_str_eq(str, "DEFAULT/.",
+                     "_strip_expected_extension incorrectly modified the string");
 }
 
 /* Tests parsing a simple zip file */
@@ -105,8 +105,8 @@ Test(test_load_wdz, zip_simple)
     // Create the zip
     int error = 0;
     zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
-    cr_assert_eq(error, ZIP_ET_NONE, 
-        "Could not create zip file; code: %d", error);
+    cr_assert_eq(error, ZIP_ET_NONE,
+                 "Could not create zip file; code: %d", error);
 
     // Add GAME.json to the zip
     char *data_name = "GAME.json";
@@ -119,13 +119,13 @@ Test(test_load_wdz, zip_simple)
     cr_assert_not_null(zip_src, "Could not create zip source; code: %d", zip_error_system_type(&err));
 
     zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add folder to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add folder to zip file; check archive code");
 
     // Write and save to disk
     int rc = zip_close(zip);
-    cr_assert_neq(rc, -1, 
-        "Could not close zip file; check archive code");
+    cr_assert_neq(rc, -1,
+                  "Could not close zip file; check archive code");
 
     int open_status;
     zip = zip_open(zip_name, 0, &open_status);
@@ -137,7 +137,7 @@ Test(test_load_wdz, zip_simple)
 
     char *str = obj_get_str(obj, "GAME.intro");
     cr_assert_str_eq("Welcome to the Test Dungeon!", str,
-        "Received the incorrect data at 'GAME.start.id': %s", str);
+                     "Received the incorrect data at 'GAME.start.id': %s", str);
 }
 
 /* Tests parsing a simple nested zip file */
@@ -150,13 +150,13 @@ Test(test_load_wdz, zip_nested)
     // Create the zip
     int error = 0;
     zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
-    cr_assert_eq(error, ZIP_ET_NONE, 
-        "Could not create zip file; code: %d", error);
+    cr_assert_eq(error, ZIP_ET_NONE,
+                 "Could not create zip file; code: %d", error);
 
     char *folder_name = "ITEMS";
     zip_int64_t idx = zip_dir_add(zip, folder_name, 0);
-    cr_assert_neq(idx, -1, 
-        "Could not add folder to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add folder to zip file; check archive code");
 
     // Add ITEMS/blue_lever.json to the zip
     char *data_name = "ITEMS/blue_lever.json";
@@ -169,13 +169,13 @@ Test(test_load_wdz, zip_nested)
     cr_assert_not_null(zip_src, "Could not create zip source; code: %d", zip_error_system_type(&err));
 
     idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add file to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add file to zip file; check archive code");
 
     // Write and save to disk
     int rc = zip_close(zip);
-    cr_assert_neq(rc, -1, 
-        "Could not close zip file; check archive code");
+    cr_assert_neq(rc, -1,
+                  "Could not close zip file; check archive code");
 
     int open_status;
     zip = zip_open(zip_name, 0, &open_status);
@@ -187,7 +187,7 @@ Test(test_load_wdz, zip_nested)
 
     char *str = obj_get_str(obj, "ITEMS.blue_lever.short_desc");
     cr_assert_str_eq("A blue lever.", str,
-        "Received the incorrect data at 'ITEMS.blue_lever.short_desc': %s", str);
+                     "Received the incorrect data at 'ITEMS.blue_lever.short_desc': %s", str);
 }
 
 /* Tests parsing a simple zip file with DEFAULT */
@@ -200,13 +200,13 @@ Test(test_load_wdz, zip_default)
     // Create the zip
     int error = 0;
     zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
-    cr_assert_eq(error, ZIP_ET_NONE, 
-        "Could not create zip file; code: %d", error);
+    cr_assert_eq(error, ZIP_ET_NONE,
+                 "Could not create zip file; code: %d", error);
 
     char *folder_name = "ITEMS";
     zip_int64_t idx = zip_dir_add(zip, folder_name, 0);
-    cr_assert_neq(idx, -1, 
-        "Could not add folder to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add folder to zip file; check archive code");
 
     // Add ITEMS/DEFAULT.json to the zip
     char *data_name = "ITEMS/DEFAULT.json";
@@ -219,13 +219,13 @@ Test(test_load_wdz, zip_default)
     cr_assert_not_null(zip_src, "Could not create zip source; code: %d", zip_error_system_type(&err));
 
     idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add file to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add file to zip file; check archive code");
 
     // Write and save to disk
     int rc = zip_close(zip);
-    cr_assert_neq(rc, -1, 
-        "Could not close zip file; check archive code");
+    cr_assert_neq(rc, -1,
+                  "Could not close zip file; check archive code");
 
     int open_status;
     zip = zip_open(zip_name, 0, &open_status);
@@ -237,7 +237,7 @@ Test(test_load_wdz, zip_default)
 
     char *str = obj_get_str(obj, "ITEMS.SIGN.short_desc");
     cr_assert_str_eq("A sign.", str,
-        "Received the incorrect data at 'ITEMS.SIGN.short_desc': %s", str);
+                     "Received the incorrect data at 'ITEMS.SIGN.short_desc': %s", str);
 }
 
 /* Tests parsing a zip file with multiple files */
@@ -250,13 +250,13 @@ Test(test_load_wdz, zip_multiple)
     // Create the zip
     int error = 0;
     zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
-    cr_assert_eq(error, ZIP_ET_NONE, 
-        "Could not create zip file; code: %d", error);
+    cr_assert_eq(error, ZIP_ET_NONE,
+                 "Could not create zip file; code: %d", error);
 
     char *folder_name = "ITEMS";
     zip_int64_t idx = zip_dir_add(zip, folder_name, 0);
-    cr_assert_neq(idx, -1, 
-        "Could not add folder to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add folder to zip file; check archive code");
 
     // Add GAME.json to the zip
     char *data_name0 = "GAME.json";
@@ -269,8 +269,8 @@ Test(test_load_wdz, zip_multiple)
     cr_assert_not_null(zip_src0, "Could not create zip source; code: %d", zip_error_system_type(&err0));
 
     idx = zip_file_add(zip, data_name0, zip_src0, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add folder to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add folder to zip file; check archive code");
 
     // Add ITEMS/DEFAULT.json to the zip
     char *data_name1 = "ITEMS/DEFAULT.json";
@@ -283,8 +283,8 @@ Test(test_load_wdz, zip_multiple)
     cr_assert_not_null(zip_src1, "Could not create zip source; code: %d", zip_error_system_type(&err1));
 
     idx = zip_file_add(zip, data_name1, zip_src1, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add file to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add file to zip file; check archive code");
 
     // Add ITEMS/blue_lever.json to the zip
     char *data_name2 = "ITEMS/blue_lever.json";
@@ -297,13 +297,13 @@ Test(test_load_wdz, zip_multiple)
     cr_assert_not_null(zip_src2, "Could not create zip source; code: %d", zip_error_system_type(&err2));
 
     idx = zip_file_add(zip, data_name2, zip_src2, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add file to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add file to zip file; check archive code");
 
     // Write and save to disk
     int rc = zip_close(zip);
-    cr_assert_neq(rc, -1, 
-        "Could not close zip file; check archive code");
+    cr_assert_neq(rc, -1,
+                  "Could not close zip file; check archive code");
 
     int open_status;
     zip = zip_open(zip_name, 0, &open_status);
@@ -315,13 +315,13 @@ Test(test_load_wdz, zip_multiple)
 
     char *str = obj_get_str(obj, "GAME.intro");
     cr_assert_str_eq("Welcome to the Test Dungeon!", str,
-        "Received the incorrect data at 'GAME.start.id': %s", str);
+                     "Received the incorrect data at 'GAME.start.id': %s", str);
 
     str = obj_get_str(obj, "ITEMS.SIGN.short_desc");
     cr_assert_str_eq("A sign.", str,
-        "Received the incorrect data at 'ITEMS.SIGN.short_desc': %s", str);
+                     "Received the incorrect data at 'ITEMS.SIGN.short_desc': %s", str);
 
     str = obj_get_str(obj, "ITEMS.blue_lever.short_desc");
     cr_assert_str_eq("A blue lever.", str,
-        "Received the incorrect data at 'ITEMS.blue_lever.short_desc': %s", str);
+                     "Received the incorrect data at 'ITEMS.blue_lever.short_desc': %s", str);
 }

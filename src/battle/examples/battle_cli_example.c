@@ -44,7 +44,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     srand(time(0)); // sets seed
     // creates the stats of the player to begin the battle
     stat_t *p_stats = get_random_stat();
-    
+
     // creates the stats of the enemy to begin the battle
     stat_t *e_stats = get_random_stat();
 
@@ -89,12 +89,12 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
 */
-    /* start_battle begins the battle by finalizing 
-       all finishing touches for a battle to begin */
+/* start_battle begins the battle by finalizing
+   all finishing touches for a battle to begin */
 /*
     int rc = start_battle(battle_ctx, e, ENV_GRASS);
 
-    // prints the beginning of the battle 
+    // prints the beginning of the battle
     char *start = print_start_battle(battle_ctx->game->battle);
     int start_rc = print_to_cli(ctx, start);
     char *turn_start = print_start_turn(battle_ctx->game->battle);
@@ -102,8 +102,8 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (!rc)
     {
-        
-        game_mode_init(ctx->game->mode, BATTLE, 
+
+        game_mode_init(ctx->game->mode, BATTLE,
                        run_battle_mode, "Goblin");
     }
 
@@ -113,17 +113,17 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /*
  * Creates a chiventure context with a sample game.
  *
- * Returns: a chiventure context with 
+ * Returns: a chiventure context with
  */
- /*
+/*
 chiventure_ctx_t *create_sample_ctx()
 {
-    game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
-    room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Goblin in The Room.");
-    add_room_to_game(game, room1);
-    game->curr_room = room1;
+   game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
+   room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Goblin in The Room.");
+   add_room_to_game(game, room1);
+   game->curr_room = room1;
 */
-    /* Create context */
+/* Create context */
 /*
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 {
     /*
     chiventure_ctx_t *ctx = create_sample_ctx();
-*/
+    */
     /* Monkeypatching in a fight action to support dialogue */
 
     //add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);

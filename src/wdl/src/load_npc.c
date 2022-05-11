@@ -19,7 +19,8 @@ int load_npc_inventory(obj_t *inventory_lst_obj, npc_t *npc, game_t *g)
     obj_t *curr;
 
     // verify the inventory list's attributes
-    if (list_type_check(inventory_lst_obj, inventory_type_check) != SUCCESS) {
+    if (list_type_check(inventory_lst_obj, inventory_type_check) != SUCCESS)
+    {
         fprintf(stderr, "NPC's inventory fails type checking. NPC: %s\n",
                 npc->npc_id);
         return FAILURE;
@@ -32,13 +33,15 @@ int load_npc_inventory(obj_t *inventory_lst_obj, npc_t *npc, game_t *g)
         item_id = obj_get_str(curr, "item_id");
 
         item = get_item_from_game(g, item_id);
-        if (item == NULL) {
+        if (item == NULL)
+        {
             fprintf(stderr, "Failed to add item to NPC. Item %s could not be "
                     "found. NPC: %s\n", item_id, npc->npc_id);
             return FAILURE;
         }
 
-        if (add_item_to_npc(npc, item) != SUCCESS) {
+        if (add_item_to_npc(npc, item) != SUCCESS)
+        {
             fprintf(stderr, "Failed to add item %s to NPC: %s\n", item_id,
                     npc->npc_id);
             return FAILURE;
@@ -68,7 +71,8 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
     obj_t *curr;
 
     // verify the node action list's attributes
-    if (list_type_check(actions_obj, node_action_type_check) != SUCCESS) {
+    if (list_type_check(actions_obj, node_action_type_check) != SUCCESS)
+    {
         fprintf(stderr, "Node actions fail type checking. Node: %s. NPC: %s\n",
                 node_id, npc->npc_id);
         return FAILURE;
@@ -80,10 +84,12 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
         action = obj_get_str(curr, "action");
         action_id = obj_get_str(curr, "action_id");
 
-        if (strcmp(action, "GIVE_ITEM") == 0) {
+        if (strcmp(action, "GIVE_ITEM") == 0)
+        {
             // check if the item is present in the NPC's inventory, and if so,
             // add the GIVE_ITEM flag to the node
-            if (item_in_npc_inventory(npc, action_id) == false) {
+            if (item_in_npc_inventory(npc, action_id) == false)
+            {
                 fprintf(stderr, "[Node actions] The item you intend to give "
                         "to the player is missing from the NPC's inventory. "
                         "Node: %s. NPC: %s\n", node_id, npc->npc_id);
@@ -91,10 +97,12 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
             }
             add_give_item(convo, node_id, action_id);
         }
-        else if (strcmp(action, "TAKE_ITEM") == 0) {
+        else if (strcmp(action, "TAKE_ITEM") == 0)
+        {
             add_take_item(convo, node_id, action_id);
         }
-        else {
+        else
+        {
             fprintf(stderr, "Specified action not currently supported. "
                     "Action: %s. Node ID: %s\n", action, node_id);
             return FAILURE;
@@ -121,7 +129,8 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
     convo_t *convo = convo_new();
 
     // verify the dialogue object's attributes
-    if (dialogue_type_check(dialogue_obj) == FAILURE) {
+    if (dialogue_type_check(dialogue_obj) == FAILURE)
+    {
         fprintf(stderr, "Dialogue object failed typechecking, or the two "
                 "required attributes (nodes, edges) are missing. NPC: %s\n",
                 npc->npc_id);
@@ -144,15 +153,18 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
         npc_dialogue = obj_get_str(curr, "npc_dialogue");
 
         // create node
-        if (add_node(convo, id, npc_dialogue) != SUCCESS) {
+        if (add_node(convo, id, npc_dialogue) != SUCCESS)
+        {
             fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
                     npc->npc_id);
             return FAILURE;
         }
 
         // load node actions, if any
-        if ((actions_obj = obj_get(curr, "actions")) != NULL) {
-            if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS) {
+        if ((actions_obj = obj_get(curr, "actions")) != NULL)
+        {
+            if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS)
+            {
                 fprintf(stderr, "Could not add actions to node with ID: %s. "
                         "NPC: %s\n", id, npc->npc_id);
                 return FAILURE;
@@ -170,8 +182,10 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
         conditions = NULL;
 
         // build conditions, if any
-        if ((conditions_obj = obj_get(curr, "conditions")) != NULL) {
-            if ((conditions = build_conditions(conditions_obj, g)) == NULL) {
+        if ((conditions_obj = obj_get(curr, "conditions")) != NULL)
+        {
+            if ((conditions = build_conditions(conditions_obj, g)) == NULL)
+            {
                 fprintf(stderr, "Could not build conditions on edge with "
                         "quip: %s. NPC: %s\n", quip, npc->npc_id);
                 return FAILURE;
@@ -179,7 +193,8 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
         }
 
         // create edge
-        if (add_edge(convo, quip, from_id, to_id, conditions) != SUCCESS) {
+        if (add_edge(convo, quip, from_id, to_id, conditions) != SUCCESS)
+        {
             fprintf(stderr, "Could not add edge with quip: %s. NPC: %s\n",
                     quip, npc->npc_id);
             return FAILURE;
@@ -187,7 +202,8 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
     }
 
     // assign the conversation to the NPC
-    if (add_convo_to_npc(npc, convo) != SUCCESS) {
+    if (add_convo_to_npc(npc, convo) != SUCCESS)
+    {
         fprintf(stderr, "Could not add convo to NPC: %s\n", npc->npc_id);
         return FAILURE;
     }
@@ -200,11 +216,13 @@ int load_npcs(obj_t *doc, game_t *g)
 {
     // get and verify NPCS object
     obj_t *npcs_obj = obj_get_attr(doc, "NPCS", false);
-    if (npcs_obj == NULL) {
+    if (npcs_obj == NULL)
+    {
         // the game has no NPCs
         return SUCCESS;
     }
-    else if (list_type_check(npcs_obj, npc_type_check) != SUCCESS) {
+    else if (list_type_check(npcs_obj, npc_type_check) != SUCCESS)
+    {
         fprintf(stderr, "NPCS fail type checking\n");
         return FAILURE;
     }
@@ -220,15 +238,18 @@ int load_npcs(obj_t *doc, game_t *g)
 
         // create the NPC
         npc_t *npc = npc_new(id, short_desc, long_desc, NULL, NULL, 0);
-        if (npc == NULL) {
+        if (npc == NULL)
+        {
             fprintf(stderr, "Could not create NPC. NPC: %s\n", id);
             return FAILURE;
         }
 
         // load NPC's inventory, if any
         obj_t *inventory_lst_obj;
-        if ((inventory_lst_obj = obj_get(curr, "inventory")) != NULL) {
-            if (load_npc_inventory(inventory_lst_obj, npc, g) != SUCCESS) {
+        if ((inventory_lst_obj = obj_get(curr, "inventory")) != NULL)
+        {
+            if (load_npc_inventory(inventory_lst_obj, npc, g) != SUCCESS)
+            {
                 fprintf(stderr, "Could not load NPC's inventory. NPC: %s\n",
                         id);
                 return FAILURE;
@@ -237,8 +258,10 @@ int load_npcs(obj_t *doc, game_t *g)
 
         // load dialogue, if any
         obj_t *dialogue_obj;
-        if ((dialogue_obj = obj_get(curr, "dialogue")) != NULL) {
-            if (load_dialogue(dialogue_obj, npc, g) != SUCCESS) {
+        if ((dialogue_obj = obj_get(curr, "dialogue")) != NULL)
+        {
+            if (load_dialogue(dialogue_obj, npc, g) != SUCCESS)
+            {
                 fprintf(stderr, "Dialogue was not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
@@ -260,7 +283,8 @@ int load_npcs(obj_t *doc, game_t *g)
         // add NPC to the room they are assigned
         char *in = obj_get_str(curr, "in");
         room_t *room = find_room_from_game(g, in);
-        if (room == NULL) {
+        if (room == NULL)
+        {
             fprintf(stderr, "Room that NPC belongs to could not be found. "
                     "Room: %s. NPC: %s\n", in, id);
             return FAILURE;

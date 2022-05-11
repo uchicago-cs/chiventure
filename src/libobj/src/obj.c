@@ -223,7 +223,7 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr)
     {
         return EXIT_FAILURE;
     }
-    
+
     if (parent->type == TYPE_NONE)
     {
         parent->type = TYPE_OBJ;
@@ -232,7 +232,7 @@ int obj_add_attr(obj_t *obj, char *id, obj_t *attr)
     {
         return EXIT_FAILURE;
     }
-    
+
     HASH_ADD_STR(parent->data.obj.attr, id, attr);
 
     return EXIT_SUCCESS;
@@ -278,7 +278,7 @@ int obj_remove_attr(obj_t *obj, char *id, bool do_free)
     if (to_del != NULL)
     {
         HASH_DEL(parent->data.obj.attr, to_del);
-        
+
         if (do_free == true)
         {
             obj_free_all(to_del);

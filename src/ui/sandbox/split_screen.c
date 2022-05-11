@@ -7,40 +7,46 @@
 
 /* 	Sandbox Example Summary:
  *	This sandbox example is demonstrating code that can simulate components in chiventure like
- *	the command line interface (CLI) and the ability to take in user input. This code is also 
+ *	the command line interface (CLI) and the ability to take in user input. This code is also
  *	an example of splitting the screen for viewing the CLI and graphics uploaded by the user at
  *	the same time
  */
 
-typedef struct _cmd {
+typedef struct _cmd
+{
     char *cmd;
     char *action;
 } cmd_t;
 
-int cmd_init(cmd_t *c, char *cmd1, char *action) {
-    if (c == NULL) {
+int cmd_init(cmd_t *c, char *cmd1, char *action)
+{
+    if (c == NULL)
+    {
         printf("error\n");
         return 1;
     }
-    
+
     c->cmd = cmd1;
     c->action = action;
     return 0;
 }
 
-cmd_t* cmd_new(char *cmd1, char *action) {
+cmd_t* cmd_new(char *cmd1, char *action)
+{
     cmd_t *c;
     int rc;
 
     c = malloc(sizeof(cmd_t));
 
-    if (c == NULL) {
+    if (c == NULL)
+    {
         printf("Could not allocate memory");
         return NULL;
     }
 
     rc = cmd_init(c, cmd1, action);
-    if (rc != 0) {
+    if (rc != 0)
+    {
         printf("Could not initialize cmd\n");
         return NULL;
     }
@@ -48,7 +54,8 @@ cmd_t* cmd_new(char *cmd1, char *action) {
     return c;
 }
 
-int main() {
+int main()
+{
 
     char *look = "look";
     char *see = "You see a small green leaf on the path.";
@@ -76,7 +83,7 @@ int main() {
     int WindowWidth = 1200;
     int WindowHeight = 700;
     Rectangle window = { POS_ZERO, POS_ZERO, WindowWidth, WindowHeight };
-    
+
     //initializing input text box
     char name[MAX_INPUT_CHARS + 1] = "\0";
     int letterCount = 0;
@@ -98,18 +105,21 @@ int main() {
     SetTargetFPS(10);
 
     //loop to produce window of image and text box
-    while (!WindowShouldClose()) {
-        if (CheckCollisionPointRec(GetMousePosition(), window)) 
+    while (!WindowShouldClose())
+    {
+        if (CheckCollisionPointRec(GetMousePosition(), window))
             mouseOnText = true;
-        else 
+        else
             mouseOnText = false;
 
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             // Get pressed key (character) on the queue
             int key = GetKeyPressed();
 
             // Check if more characters have been pressed on the same frame
-            while (key > 0) {
+            while (key > 0)
+            {
                 // NOTE: Only allow keys in range [32..125]
                 if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
                 {
@@ -120,7 +130,8 @@ int main() {
                 key = GetKeyPressed();  // Check next character in the queue
             }
 
-            if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (IsKeyPressed(KEY_BACKSPACE))
+            {
                 letterCount--;
                 name[letterCount] = '\0';
 
@@ -131,20 +142,22 @@ int main() {
         if (mouseOnText) framesCounter++;
         else framesCounter = 0;
 
-        if (IsKeyPressed(KEY_ENTER)) {
-            if (strcmp(name, look_cmd->cmd) == 0) 
+        if (IsKeyPressed(KEY_ENTER))
+        {
+            if (strcmp(name, look_cmd->cmd) == 0)
                 output_text = look_cmd->action;
-            else if (strcmp(name, grab_cmd->cmd) == 0) 
+            else if (strcmp(name, grab_cmd->cmd) == 0)
                 output_text = grab_cmd->action;
 
             // erases text in the text input, clearing the screen
             int length = letterCount;
-            for(int i = 0; i < length; i++) {
+            for(int i = 0; i < length; i++)
+            {
                 letterCount--;
                 name[letterCount] = '\0';
             }
-                
-            if (letterCount < 0) 
+
+            if (letterCount < 0)
                 letterCount = 0;
         }
 
@@ -166,18 +179,19 @@ int main() {
         int fontSize = 20;
         int fontSpacing = 5;
 
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
             if (((framesCounter / 5)%2) == 0)
                 DrawText("_", lineIndictorX, lineIndictorY, fontSize, DARKGRAY);
         }
-    
+
         DrawText(name, textBox.x + xbuf, textBox.y + ybuf, fontSize, BLACK);
         Font test = GetFontDefault();
         DrawTextRec(test, output_text, output, fontSize, fontSpacing, true, BLACK);
 
-        EndDrawing(); 
+        EndDrawing();
     }
 
     UnloadTexture(texture);

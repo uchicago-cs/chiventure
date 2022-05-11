@@ -31,7 +31,7 @@ int main()
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     e->npc_battle = npc_b;
 
-    battle_ctx_t *ctx = 
+    battle_ctx_t *ctx =
         (battle_ctx_t*) calloc(1, sizeof(battle_ctx_t));
 
     battle_game_t *g = new_battle_game();

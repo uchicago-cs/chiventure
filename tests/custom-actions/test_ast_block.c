@@ -12,14 +12,14 @@ Test(AST_block_t, new_CONTROL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONTROL;
-    
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
-    
+
     AST_block_free(new_ast);
 }
 
@@ -28,14 +28,14 @@ Test(AST_block_t, new_BRANCH)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-    
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
 
     cr_assert_eq(new_ast->block, block, "AST_block_new() didn't set new_ast->block");
     cr_assert_eq(new_ast->block_type, block_type, "AST_block_new() didn't set new_ast->block_type");
-    
+
     AST_block_free(new_ast);
 }
 
@@ -44,7 +44,7 @@ Test(AST_block_t, new_ACTION)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-     
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
@@ -60,7 +60,7 @@ Test(AST_block_t, new_CONDITIONAL)
 {
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-      
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(new_ast, "AST_block_new failed");
@@ -94,7 +94,7 @@ Test(AST_block_t, init_BRANCH)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = BRANCH;
-   
+
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
@@ -110,7 +110,7 @@ Test(AST_block_t, init_ACTION)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = ACTION;
-    
+
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
@@ -126,7 +126,7 @@ Test(AST_block_t, init_CONDITIONAL)
     int rc;
     block_t *block = malloc(sizeof(block_t));
     block_type_t block_type = CONDITIONAL;
-    
+
     rc = AST_block_init(&ast, block, block_type);
 
     cr_assert_eq(rc, SUCCESS, "AST_block_init() failed");
@@ -137,57 +137,57 @@ Test(AST_block_t, init_CONDITIONAL)
 
 Test(AST_block_t, append_list_ast_block)
 {
-  int ret_val;
-  bool ret_bool;
+    int ret_val;
+    bool ret_bool;
 
-  /* Create 3 AST_blocks and link them together according to name (manual) */
-  block_t *block = malloc(sizeof(control_block_t));
-  block_type_t block_type = CONTROL;
+    /* Create 3 AST_blocks and link them together according to name (manual) */
+    block_t *block = malloc(sizeof(control_block_t));
+    block_type_t block_type = CONTROL;
 
-  AST_block_t* first_ast = AST_block_new(block, block_type);
-  cr_assert_not_null(first_ast, "AST_block_new failed to create a AST_block");
+    AST_block_t* first_ast = AST_block_new(block, block_type);
+    cr_assert_not_null(first_ast, "AST_block_new failed to create a AST_block");
 
-  block_t *brnc = malloc(sizeof(branch_block_t));
-  block_type_t second_block_type = BRANCH;
+    block_t *brnc = malloc(sizeof(branch_block_t));
+    block_type_t second_block_type = BRANCH;
 
-  AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
-  cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
+    AST_block_t* second_ast = AST_block_new(brnc, second_block_type);
+    cr_assert_not_null(second_ast, "AST_block_new failed to create the second AST_block");
 
-  block_t *act = malloc(sizeof(action_block_t));
-  block_type_t third_block_type = ACTION;
+    block_t *act = malloc(sizeof(action_block_t));
+    block_type_t third_block_type = ACTION;
 
-  AST_block_t* third_ast = AST_block_new(act, third_block_type);
-  cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
+    AST_block_t* third_ast = AST_block_new(act, third_block_type);
+    cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
 
-  append_list_AST_block(first_ast, second_ast);
-  append_list_AST_block(first_ast, third_ast);
-    
-  /* Create another AST_block that will be places as the last place in linked list */
-  block_t *cond = malloc(sizeof(block_t));
-  block_type_t new_end_block_type = CONDITIONAL;
+    append_list_AST_block(first_ast, second_ast);
+    append_list_AST_block(first_ast, third_ast);
 
-  AST_block_t* new_end_ast = AST_block_new(cond, new_end_block_type);
-  cr_assert_not_null(new_end_ast, "AST_block_new failed to create the to-be new_end_AST_block");
-  
-  ret_val = append_list_AST_block(first_ast, new_end_ast);
-  cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in last place");
+    /* Create another AST_block that will be places as the last place in linked list */
+    block_t *cond = malloc(sizeof(block_t));
+    block_type_t new_end_block_type = CONDITIONAL;
 
-  cr_assert_eq(new_end_ast, third_ast->next, "Append did not properly place new_end_ast at the end of the list");
-  
-  if (first_ast->next != second_ast)
-  {
-    cr_assert_fail("list_add_AST_block unintentionally messed with pointers that shouldn't have been");
-  }
-  if (second_ast->next != third_ast)
-  {
-    cr_assert_fail("list_add_AST_block unintentionally messed with pointer that shouldn't have been");
-  }
-  if (third_ast->next != new_end_ast)
-  {
-    cr_assert_fail("list_add_AST_block did not set the pointer to the new last AST_block in list");
-  }
-  
-  AST_block_free(first_ast);
+    AST_block_t* new_end_ast = AST_block_new(cond, new_end_block_type);
+    cr_assert_not_null(new_end_ast, "AST_block_new failed to create the to-be new_end_AST_block");
+
+    ret_val = append_list_AST_block(first_ast, new_end_ast);
+    cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in last place");
+
+    cr_assert_eq(new_end_ast, third_ast->next, "Append did not properly place new_end_ast at the end of the list");
+
+    if (first_ast->next != second_ast)
+    {
+        cr_assert_fail("list_add_AST_block unintentionally messed with pointers that shouldn't have been");
+    }
+    if (second_ast->next != third_ast)
+    {
+        cr_assert_fail("list_add_AST_block unintentionally messed with pointer that shouldn't have been");
+    }
+    if (third_ast->next != new_end_ast)
+    {
+        cr_assert_fail("list_add_AST_block did not set the pointer to the new last AST_block in list");
+    }
+
+    AST_block_free(first_ast);
 }
 
 /* Tests that the correct number of AST_block_t was returned in linked list */
@@ -198,7 +198,7 @@ Test(AST_block_t, list_how_many_AST_block)
     /* Create 3 AST_blocks and link them together according to name (manual) */
     block_t *block = malloc(sizeof(control_block_t));
     block_type_t block_type = CONTROL;
-    
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
     cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
 
@@ -210,7 +210,7 @@ Test(AST_block_t, list_how_many_AST_block)
 
     block_t *act = malloc(sizeof(action_block_t));
     block_type_t third_block_type = ACTION;
-     
+
     AST_block_t* third_ast = AST_block_new(act, third_block_type);
     cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
 
@@ -233,7 +233,7 @@ Test(AST_block_t, prepend_list_ast)
     /* Create 3 AST_blocks and link them together according to name (manual) */
     block_t *block = malloc(sizeof(control_block_t));
     block_type_t block_type = CONTROL;
-    
+
     AST_block_t* first_ast = AST_block_new(block, block_type);
     cr_assert_not_null(first_ast, "AST_block_new failed to create a AST_block");
 
@@ -245,24 +245,24 @@ Test(AST_block_t, prepend_list_ast)
 
     block_t *act = malloc(sizeof(action_block_t));
     block_type_t third_block_type = ACTION;
-     
+
     AST_block_t* third_ast = AST_block_new(act, third_block_type);
     cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
 
     append_list_AST_block(first_ast, second_ast);
     append_list_AST_block(first_ast, third_ast);
-    
+
     /* Create another AST_block that will be places as the first place in linked list */
     block_t *cond = malloc(sizeof(block_t));
     block_type_t new_first_block_type = CONDITIONAL;
-      
+
     AST_block_t* new_first_ast = AST_block_new(cond, new_first_block_type);
     cr_assert_not_null(new_first_ast, "AST_block_new failed to create the to-be new_first_AST_block");
-    
+
     ret_val = prepend_list_AST_block(first_ast, new_first_ast);
     cr_assert_eq(ret_val, SUCCESS, "list_add_AST_block returned FAILURE upon trying to add in first place");
 
-    cr_assert_eq(new_first_ast->next, first_ast , "The new first ast block was not properly added to the start of the list");
+    cr_assert_eq(new_first_ast->next, first_ast, "The new first ast block was not properly added to the start of the list");
 
     if (new_first_ast->next != first_ast)
         cr_assert_fail("new_first_ast second element failed to be set to first_ast");
@@ -285,7 +285,7 @@ Test(AST_block_t, list_remove_AST_block)
     /* Create 3 AST_blocks and link them together according to name (manual) */
     block_t *block = malloc(sizeof(control_block_t));
     block_type_t block_type = CONTROL;
-    
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
     cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
 
@@ -297,13 +297,13 @@ Test(AST_block_t, list_remove_AST_block)
 
     block_t *act = malloc(sizeof(action_block_t));
     block_type_t third_block_type = ACTION;
-     
+
     AST_block_t* third_ast = AST_block_new(act, third_block_type);
     cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
 
     append_list_AST_block(new_ast, second_ast);
     append_list_AST_block(new_ast, third_ast);
-    
+
     /* Delete second item from linked list */
     ret_val = list_remove_AST_block(new_ast, second_ast);
     cr_assert_eq(ret_val, SUCCESS, "list_remove_AST_block failed in deleting second item in linked list");
@@ -325,7 +325,7 @@ Test(AST_block_t, list_remove_AST_block_failure)
     /* Create 3 AST_blocks and link them together according to name (manual) */
     block_t *block = malloc(sizeof(control_block_t));
     block_type_t block_type = CONTROL;
-    
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
     cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
 
@@ -337,13 +337,13 @@ Test(AST_block_t, list_remove_AST_block_failure)
 
     block_t *act = malloc(sizeof(action_block_t));
     block_type_t third_block_type = ACTION;
-     
+
     AST_block_t* third_ast = AST_block_new(act, third_block_type);
     cr_assert_not_null(third_ast, "AST_block_new failed to create the third AST_block");
 
     append_list_AST_block(new_ast, second_ast);
     append_list_AST_block(new_ast, third_ast);
-    
+
     block_t* fail = malloc(sizeof(action_block_t));
     block_type_t fail_block_type = CONDITIONAL;
 
@@ -368,7 +368,7 @@ Test(AST_block_t, AST_free)
     /* Create 2 AST_blocks and link them together according to name (manual) */
     block_t *block = malloc(sizeof(control_block_t));
     block_type_t block_type = CONTROL;
-    
+
     AST_block_t* new_ast = AST_block_new(block, block_type);
     cr_assert_not_null(new_ast, "AST_block_new failed to create a AST_block");
 
@@ -397,7 +397,7 @@ Test(AST_block_t, free_CONTROL)
     int rc;
     block_type_t block_type = CONTROL;
     block_t *block = malloc(sizeof(block_t));
-    
+
     ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_block_new() failed");
@@ -414,7 +414,7 @@ Test(AST_block_t, free_BRANCH)
     int rc;
     block_type_t block_type = BRANCH;
     block_t *block = malloc(sizeof(block_t));
-    
+
     ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_block_new() failed");
@@ -431,7 +431,7 @@ Test(AST_block_t, free_ACTION)
     int rc;
     block_type_t block_type = ACTION;
     block_t *block = malloc(sizeof(block_t));
-    
+
     ast = AST_block_new(block, block_type);
 
     cr_assert_not_null(ast, "AST_block_new() failed");
@@ -448,9 +448,9 @@ Test(AST_block_t, free_CONDITIONAL)
     int rc;
     block_type_t block_type = CONDITIONAL;
     block_t *block = malloc(sizeof(block_t));
-    
+
     ast = AST_block_new(block, block_type);
-    
+
     cr_assert_not_null(ast, "AST_block_new() failed");
 
     rc = AST_block_free(ast);
@@ -462,80 +462,80 @@ Test(AST_block_t, free_CONDITIONAL)
 /* Checks that run AST block functions correctly for action blocks */
 Test(AST_block_t, run_block_action)
 {
-  attribute_t *attr1, *attr2;
-  attribute_value_t val1, val2;
-  char *attr_name = "attr";
-  attr1 = malloc(sizeof(attribute_t));
-  attr1->attribute_key = strdup(attr_name);
-  attr1->attribute_tag = INTEGER;
-  val1.int_val = 5;
-  attr1->attribute_value = val1;
+    attribute_t *attr1, *attr2;
+    attribute_value_t val1, val2;
+    char *attr_name = "attr";
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = strdup(attr_name);
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 5;
+    attr1->attribute_value = val1;
 
-  attr2 = malloc(sizeof(attribute_t));
-  attr2->attribute_key = strdup(attr_name);
-  attr2->attribute_tag = INTEGER;
-  val2.int_val = 10;
-  attr2->attribute_value = val2;
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = strdup(attr_name);
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 10;
+    attr2->attribute_value = val2;
 
-  attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
-  args[0] = attr1;
-  args[1] = attr2;
+    attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
+    args[0] = attr1;
+    args[1] = attr2;
 
-  
-  AST_block_t* new_ast = AST_action_block_new(SET, 2, args);
 
-  cr_assert_not_null(new_ast, "AST_block_new failed");
+    AST_block_t* new_ast = AST_action_block_new(SET, 2, args);
 
-  int rc = run_ast_block(new_ast);
+    cr_assert_not_null(new_ast, "AST_block_new failed");
 
-  cr_assert_eq(rc, SUCCESS, "run_ast_block failed");
+    int rc = run_ast_block(new_ast);
 
-  cr_assert_eq(attr1->attribute_value.int_val, 10, "Run command failed to properly run an AST action block");
+    cr_assert_eq(rc, SUCCESS, "run_ast_block failed");
 
-  attribute_free(attr1);
-  attribute_free(attr2);
-  AST_block_free(new_ast);
+    cr_assert_eq(attr1->attribute_value.int_val, 10, "Run command failed to properly run an AST action block");
+
+    attribute_free(attr1);
+    attribute_free(attr2);
+    AST_block_free(new_ast);
 }
 
 
 /* Checks running an AST conditional block */
 Test(AST_block_t, run_block_conditional)
 {
-  attribute_t *attr1, *attr2;
-  attribute_value_t val1, val2;
-  char *attr_name = "attr";
-  attr1 = malloc(sizeof(attribute_t));
-  attr1->attribute_key = strdup(attr_name);
-  attr1->attribute_tag = INTEGER;
-  val1.int_val = 5;
-  attr1->attribute_value = val1;
+    attribute_t *attr1, *attr2;
+    attribute_value_t val1, val2;
+    char *attr_name = "attr";
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = strdup(attr_name);
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 5;
+    attr1->attribute_value = val1;
 
-  attr2 = malloc(sizeof(attribute_t));
-  attr2->attribute_key = strdup(attr_name);
-  attr2->attribute_tag = INTEGER;
-  val2.int_val = 10;
-  attr2->attribute_value = val2;
-  
-  AST_block_t* new_ast = AST_conditional_block_new(EQ, attr1, attr2);
-  cr_assert_not_null(new_ast, "AST_conditional_block_new failed");
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = strdup(attr_name);
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 10;
+    attr2->attribute_value = val2;
 
-  int rc = run_ast_block(new_ast);
-  cr_assert_eq(rc, FAILURE, "Running did not properly fail when called on a conditional block");
-  AST_block_free(new_ast);
-  attribute_free(attr1);
-  attribute_free(attr2);
+    AST_block_t* new_ast = AST_conditional_block_new(EQ, attr1, attr2);
+    cr_assert_not_null(new_ast, "AST_conditional_block_new failed");
+
+    int rc = run_ast_block(new_ast);
+    cr_assert_eq(rc, FAILURE, "Running did not properly fail when called on a conditional block");
+    AST_block_free(new_ast);
+    attribute_free(attr1);
+    attribute_free(attr2);
 }
 
 /* Checks running an AST control block */
 Test(AST_block_t, run_block_control)
 {
-  AST_block_t* new_ast = AST_control_block_new(IFELSE);
-  cr_assert_not_null(new_ast, "AST_control_block_new failed");
-  
-  int rc = run_ast_block(new_ast);
-  cr_assert_eq(rc, FAILURE, "Running did not properly fail when called on a control block");
-  AST_block_free(new_ast);
- 
+    AST_block_t* new_ast = AST_control_block_new(IFELSE);
+    cr_assert_not_null(new_ast, "AST_control_block_new failed");
+
+    int rc = run_ast_block(new_ast);
+    cr_assert_eq(rc, FAILURE, "Running did not properly fail when called on a control block");
+    AST_block_free(new_ast);
+
 }
 
 /* Branch blocks are currently not implemented, so there is currently no test */
@@ -543,49 +543,49 @@ Test(AST_block_t, run_block_control)
 /* Checks that run_ast_block correctly runs multiple blocks */
 Test(AST_block_t, run_multiple_actions)
 {
-  attribute_t *attr1, *attr2, *attr3;
-  attribute_value_t val1, val2, val3;
-  char *attr_name = "attr";
-  attr1 = malloc(sizeof(attribute_t));
-  attr1->attribute_key = strdup(attr_name);
-  attr1->attribute_tag = INTEGER;
-  val1.int_val = 5;
-  attr1->attribute_value = val1;
+    attribute_t *attr1, *attr2, *attr3;
+    attribute_value_t val1, val2, val3;
+    char *attr_name = "attr";
+    attr1 = malloc(sizeof(attribute_t));
+    attr1->attribute_key = strdup(attr_name);
+    attr1->attribute_tag = INTEGER;
+    val1.int_val = 5;
+    attr1->attribute_value = val1;
 
-  attr2 = malloc(sizeof(attribute_t));
-  attr2->attribute_key = strdup(attr_name);
-  attr2->attribute_tag = INTEGER;
-  val2.int_val = 10;
-  attr2->attribute_value = val2;
-  
-  attr3 = malloc(sizeof(attribute_t));
-  attr3->attribute_key = strdup(attr_name);
-  attr3->attribute_tag = INTEGER;
-  val3.int_val = 15;
-  attr3->attribute_value = val3;
-  
-  attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
-  args[0] = attr1;
-  args[1] = attr2;
-  args[2] = attr3;
+    attr2 = malloc(sizeof(attribute_t));
+    attr2->attribute_key = strdup(attr_name);
+    attr2->attribute_tag = INTEGER;
+    val2.int_val = 10;
+    attr2->attribute_value = val2;
 
-  
-  AST_block_t* new_ast = AST_action_block_new(ADDITION, 3, args);
-  AST_block_t* next = AST_action_block_new(MULTIPLY, 3, args);
-  
-  cr_assert_not_null(new_ast, "AST_block_new failed for new_ast");
-  cr_assert_not_null(next, "AST_block_new failed for next");
+    attr3 = malloc(sizeof(attribute_t));
+    attr3->attribute_key = strdup(attr_name);
+    attr3->attribute_tag = INTEGER;
+    val3.int_val = 15;
+    attr3->attribute_value = val3;
 
-  new_ast->next = next;
+    attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+    args[0] = attr1;
+    args[1] = attr2;
+    args[2] = attr3;
 
-  int rc = run_ast_block(new_ast);
 
-  cr_assert_eq(rc, SUCCESS, "run_ast_block failed");
+    AST_block_t* new_ast = AST_action_block_new(ADDITION, 3, args);
+    AST_block_t* next = AST_action_block_new(MULTIPLY, 3, args);
 
-  cr_assert_eq(attr3->attribute_value.int_val, 50, "The final evaluate made was not the multiply action block");
+    cr_assert_not_null(new_ast, "AST_block_new failed for new_ast");
+    cr_assert_not_null(next, "AST_block_new failed for next");
 
-  attribute_free(attr1);
-  attribute_free(attr2);
-  attribute_free(attr3);
-  AST_block_free(new_ast);
+    new_ast->next = next;
+
+    int rc = run_ast_block(new_ast);
+
+    cr_assert_eq(rc, SUCCESS, "run_ast_block failed");
+
+    cr_assert_eq(attr3->attribute_value.int_val, 50, "The final evaluate made was not the multiply action block");
+
+    attribute_free(attr1);
+    attribute_free(attr2);
+    attribute_free(attr3);
+    AST_block_free(new_ast);
 }

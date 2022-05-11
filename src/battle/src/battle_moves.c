@@ -8,7 +8,7 @@
 
 /* See battle_moves.h */
 int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attack,
-                 int damage, int defense)
+              int damage, int defense)
 {
     assert(move != NULL);
 
@@ -76,15 +76,15 @@ int move_free(move_t *move)
 }
 
 
- /* Creates test move for bard
-  *
-  * Parameters:
-  *  none, values are hard coded in
-  *
-  * Returns:
-  *  - A pointer to the test move
-  *
-  */
+/* Creates test move for bard
+ *
+ * Parameters:
+ *  none, values are hard coded in
+ *
+ * Returns:
+ *  - A pointer to the test move
+ *
+ */
 move_t *test_move_bard()
 {
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
@@ -147,7 +147,7 @@ move_t *test_move_paladin()
 
     move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
     strncpy(move->info, "360 no scope", MAX_MOVE_INFO_LEN + 1);
-    
+
     move->id = 120;
 
     move->item = NULL;
@@ -175,7 +175,7 @@ move_t *test_move_wizard()
 
     move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
     strncpy(move->info, "Magic, betches", MAX_MOVE_INFO_LEN);
-    
+
     move->id = 130;
 
     move->item = NULL;

@@ -10,16 +10,16 @@
 // From https://stackoverflow.com/questions/1634359/is-there-a-reverse-function-for-strstr
 char *_rstrstr(char *__restrict s1, char *__restrict s2)
 {
-  size_t  s1len = strlen(s1);
-  size_t  s2len = strlen(s2);
-  char *s;
+    size_t  s1len = strlen(s1);
+    size_t  s2len = strlen(s2);
+    char *s;
 
-  if (s2len > s1len)
+    if (s2len > s1len)
+        return NULL;
+    for (s = s1 + s1len - s2len; s >= s1; --s)
+        if (strncmp(s, s2, s2len) == 0)
+            return s;
     return NULL;
-  for (s = s1 + s1len - s2len; s >= s1; --s)
-    if (strncmp(s, s2, s2len) == 0)
-      return s;
-  return NULL;
 }
 
 /* See load_internal.h */

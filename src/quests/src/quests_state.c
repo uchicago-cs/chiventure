@@ -22,14 +22,14 @@ passive_mission_t *passive_mission_new(int xp, int levels, int health)
 }
 
 /* Refer to quests_state.h */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit)
+active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet,
+                                     npc_t *npc_to_kill, room_t *room_to_visit)
 {
     active_mission_t *mission = malloc(sizeof(active_mission_t));
     int rc;
 
     rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
-                      room_to_visit);
+                             room_to_visit);
 
     if (rc != SUCCESS)
     {
@@ -89,7 +89,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward)
 
 /* Refer to quests_state.h */
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                   reward_t *reward, stat_req_t *stat_req) 
+                   reward_t *reward, stat_req_t *stat_req)
 
 {
     quest_t *q;
@@ -103,7 +103,8 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
     }
 
     rc = quest_init(q, quest_id, task_tree, reward, stat_req, 0);
-    if(rc != SUCCESS){
+    if(rc != SUCCESS)
+    {
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
     }
@@ -124,7 +125,7 @@ int passive_mission_init(passive_mission_t *mission, int xp, int levels, int hea
 }
 
 /* Refer to quests_state.h */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, 
+int active_mission_init(active_mission_t *mission, item_t *item_to_collect,
                         npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
 {
     assert(mission != NULL);
@@ -174,7 +175,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward)
 
 /* Refer to quests_state.h */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
-                reward_t *reward, stat_req_t *stat_req, int status)
+               reward_t *reward, stat_req_t *stat_req, int status)
 
 {
     assert(q != NULL);
@@ -243,10 +244,11 @@ int can_start_quest(quest_t *quest, player_t *player)
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
 
-    if (health >= quest->stat_req->hp && 
-        player->level >= quest->stat_req->level){
-            return 1;
-        }
+    if (health >= quest->stat_req->hp &&
+            player->level >= quest->stat_req->level)
+    {
+        return 1;
+    }
     return 0;
 }
 
@@ -303,7 +305,7 @@ task_tree_t *get_bottom_node(task_tree_t *t)
  * Returns:
  * - NULL if task cannot be found
  * - The task tree being searched for
- */ 
+ */
 task_tree_t *find_parent(task_tree_t *tree, char *id)
 {
 
@@ -486,8 +488,8 @@ int is_quest_completed(quest_t *quest)
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 {
     quest_t *q;
-    HASH_FIND(hh, hash_table, quest_id,  
-            strnlen(quest_id, MAX_ID_LEN), q);
+    HASH_FIND(hh, hash_table, quest_id,
+              strnlen(quest_id, MAX_ID_LEN), q);
 
     return q;
 }
@@ -499,10 +501,10 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
 
     char buffer[MAX_ID_LEN];
     sprintf(buffer, "%s", quest->quest_id); //need to convert quest_ids to char *
-    
+
     check = get_quest_from_hash(buffer, hash_table);
 
-    if (check != NULL) 
+    if (check != NULL)
     {
         return FAILURE; //quest id is already in the hash table
     }

@@ -32,7 +32,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
     for (int i = 0; i < num_stats; i++)
     {
         HASH_FIND_STR(sh, stat_names[i], curr);
-        
+
         if (curr == NULL)
         {
             fprintf(stderr, "%s", stat_names[i]);
@@ -60,7 +60,7 @@ move_effect_t* define_move_effect(move_t* move)
 }
 
 /* See effect.h */
-item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod) 
+item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod)
 {
     if(item == NULL)
     {
@@ -85,7 +85,7 @@ item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum att
     }
     item_attr_effect -> att_id = att_id;
     item_attr_effect -> att_tag = att_tag;
-    
+
     if (att_tag == DOUBLE)
     {
         (item_attr_effect -> attribute_mod.double_val) = attribute_mod.double_val;
@@ -177,7 +177,7 @@ effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
 /* See effect.h */
 effect_t* make_item_stat_effect(item_stat_effect_t* item_stat_effect)
 {
-    //TODO 
+    //TODO
     return NULL;
 }
 
@@ -216,7 +216,7 @@ int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 {
     assert(ctx != NULL);
     assert(effect != NULL);
-    add_move(ctx->game->curr_player, effect->move); 
+    add_move(ctx->game->curr_player, effect->move);
     return SUCCESS;
 }
 

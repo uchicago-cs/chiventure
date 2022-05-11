@@ -73,7 +73,7 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
     battle_item_t *temp;
 
     DL_FOREACH(inventory, temp)
-    {        
+    {
         if (strncmp(temp->name, input, 100) == 0)
         {
             return temp;
@@ -119,9 +119,9 @@ int use_battle_item(combatant_t *c, battle_t *battle, char *name)
     {
         return FAILURE;
     }
-    
+
     battle_item_t *item = find_battle_item(c->items, name);
-    
+
     if (item == NULL || item->quantity == 0)
     {
         return FAILURE;
@@ -131,7 +131,8 @@ int use_battle_item(combatant_t *c, battle_t *battle, char *name)
     {
         consume_battle_item(battle->enemy, item);
         item->durability -= 10;
-    } else
+    }
+    else
     {
         consume_battle_item(c, item);
         item->quantity -= 1;
@@ -141,7 +142,7 @@ int use_battle_item(combatant_t *c, battle_t *battle, char *name)
     {
         remove_battle_item(c, item);
     }
-    
+
     return SUCCESS;
 }
 
@@ -193,7 +194,8 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 
     stat_changes_t *current = sc;
 
-    while (sc->next != NULL) {
+    while (sc->next != NULL)
+    {
         sc = sc->next;
     }
 
@@ -202,7 +204,7 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     sc->phys_def += item->defense;
     /* Will be implemented once battle_item_t is updated
     sc->phys_atk += item->phys_atk;
-    sc->phys_def += item->phys_def; 
+    sc->phys_def += item->phys_def;
     sc->mag_atk += item->mag_atk;
     sc->mag_def += item->mag_def;
     sc->speed += item->speed;

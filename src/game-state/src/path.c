@@ -15,7 +15,7 @@ path_t *path_new(room_t *dest, char *direction)
     // will need a function to add item pointer to through
     strncpy(path->direction, direction, MAX_ID_LEN);
     case_insensitize(path->direction);
-    
+
     return path;
 }
 
@@ -24,13 +24,13 @@ int path_new_conditions(path_t *path, list_action_type_t *act)
 {
     LL_APPEND(path->conditions, act);
     return SUCCESS;
-}    
+}
 
 /* See room.h */
 int path_free(path_t *path)
 {
     free(path->direction);
-    
+
     free(path);
     //will need to free item associated with path
     return SUCCESS;
@@ -54,8 +54,9 @@ int remove_condition(path_t *path, list_action_type_t *a)
     int check;
     check = delete_action(&path->conditions, a);
 
-    if (path->conditions == NULL) {
-	get_attribute(path->through, "OPEN")->attribute_value.bool_val = true;
+    if (path->conditions == NULL)
+    {
+        get_attribute(path->through, "OPEN")->attribute_value.bool_val = true;
     }
     a->act->room = NULL;
     a->act->direction = NULL;

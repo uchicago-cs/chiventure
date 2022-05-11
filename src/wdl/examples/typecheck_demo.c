@@ -4,7 +4,8 @@
 int main(int argc, char* argv[])
 {
     // Makes sure there are enough arguments
-    if (argc <= 1) {
+    if (argc <= 1)
+    {
         printf("Err: not enough arguments");
         return 1;
     }
@@ -13,15 +14,17 @@ int main(int argc, char* argv[])
     char* fname = argv[1];
 
     // Checks if fname exists
-    if (fname == NULL) {
+    if (fname == NULL)
+    {
         printf("Err: no filename provided\n");
         return 1;
     }
     // Checks if extension is a .yaml extension
     const char *ext = strchr(fname, '.');
     const char *check = ".yaml";
-   
-    if (strncmp(ext, check, strlen(check)) != 0) {
+
+    if (strncmp(ext, check, strlen(check)) != 0)
+    {
         printf("Err: file does not have .yaml extension\n");
         return 1;
     }
@@ -46,29 +49,35 @@ int main(int argc, char* argv[])
 
     // Verify game
     bool game_check = game_type_check(game_obj);
-    if (game_check) {
+    if (game_check)
+    {
         printf("Game successfully verified\n");
     }
-    else {
-        printf("Game verification unsuccessful\n"); 
+    else
+    {
+        printf("Game verification unsuccessful\n");
     }
 
     // Verify rooms
     bool room_check = list_type_check(rooms_ls, room_type_check);
 
-    if (room_check) {
+    if (room_check)
+    {
         printf("Rooms successfully verified\n");
     }
-    else {
+    else
+    {
         printf("Rooms verification unsuccessful\n");
     }
     // Verify items
     bool item_check = list_type_check(items_ls, item_type_check);
 
-    if (item_check) {
+    if (item_check)
+    {
         printf("Items successfully verified\n");
     }
-    else {
+    else
+    {
         printf("Items verificaton unsuccessful\n");
     }
 

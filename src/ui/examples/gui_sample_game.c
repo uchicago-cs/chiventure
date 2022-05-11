@@ -29,12 +29,13 @@ chiventure_ctx_t *create_sample_ctx()
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
-} 
+}
 
-int main() {
+int main()
+{
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-        /* initialize the window height and width */
+    /* initialize the window height and width */
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Chiventure");
 
     /* creating a rectangle the size of the window */
@@ -61,18 +62,21 @@ int main() {
     SetTargetFPS(10);
 
     /* loop to produce window of image and text box */
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose())
+    {
         if (CheckCollisionPointRec(GetMousePosition(), window))
             mouseOnText = true;
         else
             mouseOnText = false;
 
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             /* Get pressed key (character) on the queue */
             int key = GetKeyPressed();
 
             /* Check if more characters have been pressed on the same frame */
-            while (key > 0) {
+            while (key > 0)
+            {
                 /* NOTE: Only allow keys in range [32..125}
                 as these are the printable characters */
                 if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
@@ -84,15 +88,17 @@ int main() {
                 key = GetKeyPressed();  // Check next character in the queue
             }
 
-            if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (IsKeyPressed(KEY_BACKSPACE))
+            {
                 letterCount--;
                 name[letterCount] = '\0';
 
-                if (letterCount < 0) 
+                if (letterCount < 0)
                     letterCount = 0;
             }
             /* Close the window if ctrl+d keys are pressed */
-            if ((IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL)) && IsKeyDown(KEY_D)){
+            if ((IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL)) && IsKeyDown(KEY_D))
+            {
                 CloseWindow();
                 exit(1);
             }
@@ -101,8 +107,9 @@ int main() {
         if (mouseOnText)
             framesCounter++;
         else framesCounter = 0;
-        
-        if (IsKeyPressed(KEY_ENTER)) {
+
+        if (IsKeyPressed(KEY_ENTER))
+        {
             /* use the command to string function to turn name into a command */
             cmd *c = cmd_from_string(name, ctx);
             /* the output text is taken from the command structs and game context */
@@ -110,21 +117,22 @@ int main() {
 
             /* erases text in the text input, clearing the screen */
             int length = letterCount;
-            for(int i = 0; i < length; i++) {
+            for(int i = 0; i < length; i++)
+            {
                 letterCount--;
                 name[letterCount] = '\0';
             }
-	        name[letterCount] = (char) 32;
-	        letterCount++;
+            name[letterCount] = (char) 32;
+            letterCount++;
 
             if (letterCount < 0)
                 letterCount = 0;
-      	}
+        }
 
         int heightbuf2 = 150;
         int rectHeight = 120;
 
-	    BeginDrawing();
+        BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
@@ -134,7 +142,7 @@ int main() {
         int height = SCREEN_HEIGHT/2;
         int pos_x = SCREEN_WIDTH/4;
         int pos_y = SCREEN_HEIGHT/10;
-        
+
         /* Loading just one image is a temporary solution
          In the future, we will use a more generic path so that we can load
          game-specific images */
@@ -142,18 +150,18 @@ int main() {
 
         strcat(filename, ctx->game->curr_room->room_id);
 
-      	strcat(filename, ".png");
+        strcat(filename, ".png");
 
-        Image room = LoadImage(filename);   
+        Image room = LoadImage(filename);
 
         ImageResize(&room, width, height);
-            
-        /* Image converted to texture, uploaded to GPU memory (VRAM) */    
+
+        /* Image converted to texture, uploaded to GPU memory (VRAM) */
         Texture2D texture = LoadTextureFromImage(room);
-        
+
         /* Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM */
-        UnloadImage(room);   
-        
+        UnloadImage(room);
+
         DrawTexture(texture, pos_x, pos_y, WHITE);
 
         DrawRectangleRec(textBox, WHITE);
@@ -169,13 +177,14 @@ int main() {
         int fontSpacing = 5;
 
         /* Input text and text-box displayed on lower half of split-screen */
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
             if (((framesCounter / 5)%2) == 0)
                 DrawText("_", lineIndictorX, lineIndictorY, fontSize, DARKGRAY);
         }
-            
+
         DrawText(name, textBox.x + xbuf, textBox.y + ybuf, fontSize, BLACK);
         Font test = GetFontDefault();
         DrawTextRec(test, output_text, output, fontSize, fontSpacing, true, BLACK);
@@ -186,10 +195,10 @@ int main() {
         map_room_width = map_width / 3;
         map_room_height = map_height / 3;
         map_topX = 5;
-        map_topY = 5;   
+        map_topY = 5;
         ball_rad = map_room_width / 10;
         room_t *curr_room = ctx->game->curr_room;
-        
+
         Color colors[8];
 
         colors[0] = RED;
@@ -200,10 +209,10 @@ int main() {
         colors[5] = GREEN;
         colors[6] = ORANGE;
         colors[7] = DARKGREEN;
-        
+
         // map background
         DrawRectangle(map_topX, map_topY, map_width, map_height, BLACK);
-        
+
         int posX = map_topX + map_width/2 - map_room_width/2;
         int posY = map_topY + map_height/2 - map_room_height/2;
         // current room
@@ -211,7 +220,7 @@ int main() {
 
         //draw surrounding rooms around current room
         if (find_room_from_dir(curr_room, "EAST") != NULL)
-        {   
+        {
             int tempX = posX + map_room_width;
             DrawRectangle(tempX, posY, map_room_width, map_room_height, colors[1]);
 
@@ -287,12 +296,12 @@ int main() {
                 DrawRectangle(tempX, tempY, map_room_width, map_room_height, colors[5]);
             }
         }
-        
+
         //draws player position as ball in the middle of map screen and inside current room
         DrawCircle(map_topX + map_width/2, map_topY + map_height/2, ball_rad, WHITE);
 
         EndDrawing();
     }
-    
+
     CloseWindow();
 }

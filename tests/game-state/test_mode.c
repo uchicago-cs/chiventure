@@ -31,7 +31,7 @@ Test(mode, init)
 
     cr_assert_eq(rc, SUCCESS, "game_mode_init() has failed!");
 
-    cr_assert_eq(mode->curr_mode, NORMAL, 
+    cr_assert_eq(mode->curr_mode, NORMAL,
                  "game_mode_init() didn't set curr_mode");
     cr_assert_eq(strncmp(mode->mode_ctx, "test context", MAX_ID_LEN), 0,
                  "game_mode_init() didn't set mode_ctx");
@@ -44,7 +44,7 @@ Test(mode, init)
 /* Checks the freeing a mode struct */
 Test(mode, free)
 {
-    game_mode_t *new_mode = game_mode_new(NORMAL, test_operation, 
+    game_mode_t *new_mode = game_mode_new(NORMAL, test_operation,
                                           "test context");
     int rc = game_mode_free(new_mode);
 
@@ -62,7 +62,7 @@ Test(mode, load_normal)
     cr_assert_eq(rc, SUCCESS, "load_normal_mode() has failed!");
 
     cr_assert_not_null(g.mode, "load_normal_mode() has failed!");
-    cr_assert_eq(g.mode->curr_mode, NORMAL, 
+    cr_assert_eq(g.mode->curr_mode, NORMAL,
                  "load_normal_mode() didn't set curr_mode");
     cr_assert_eq(strncmp(g.mode->mode_ctx, "normal", MAX_ID_LEN), 0,
                  "load_normal_mode() didn't set mode_ctx");
@@ -74,7 +74,7 @@ Test(mode, load_normal)
 Test(mode, set_game)
 {
     game_t g;
-    
+
     int rc = load_normal_mode(&g);
     cr_assert_eq(rc, SUCCESS, "load_normal_mode() has failed!");
     cr_assert_not_null(g.mode, "load_normal_mode() has failed!");
@@ -82,7 +82,7 @@ Test(mode, set_game)
     //Testing set to conversation mode
     rc = set_game_mode(&g, CONVERSATION, "STEVE");
     cr_assert_eq(rc, SUCCESS, "set_game_mode() has failed!");
-    cr_assert_eq(g.mode->curr_mode, CONVERSATION, 
+    cr_assert_eq(g.mode->curr_mode, CONVERSATION,
                  "set_game_mode() didn't set CONVERSATION mode");
     cr_assert_eq(strncmp(g.mode->mode_ctx, "STEVE", MAX_ID_LEN), 0,
                  "set_game_mode() didn't set mode_ctx");
@@ -90,7 +90,7 @@ Test(mode, set_game)
     //Testing set to normal mode
     rc = set_game_mode(&g, NORMAL, NULL);
     cr_assert_eq(rc, SUCCESS, "set_game_mode() has failed!");
-    cr_assert_eq(g.mode->curr_mode, NORMAL, 
+    cr_assert_eq(g.mode->curr_mode, NORMAL,
                  "set_game_mode() didn't set NORMAL");
     cr_assert_eq(strncmp(g.mode->mode_ctx, "normal", MAX_ID_LEN), 0,
                  "set_game_mode() didn't set mode_ctx");

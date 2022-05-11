@@ -26,7 +26,7 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
     case json_type_string:
         ; // Need this semicolon because C is weird
         // https://stackoverflow.com/questions/8384388/variable-declaration-after-goto-label
-        
+
         const char *str = json_object_get_string(json);
         return obj_set_str(parent, ".", (char *)str);
         break;
@@ -60,7 +60,7 @@ int _load_obj_json(obj_t *parent, struct json_object *json)
 
         return obj_set_list(parent, ".", lst);
         break;
-    
+
     default:
         return EXIT_FAILURE;
     }

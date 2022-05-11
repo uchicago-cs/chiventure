@@ -7,19 +7,20 @@
 
 /*
  * creates the custom action block for a sword swing skill
- * 
+ *
  * Parameters
  *  - none
  *
  * Returns
  *  - a hardcoded custom block sequence
  */
-custom_block_t* create_swing_sword() {
+custom_block_t* create_swing_sword()
+{
     custom_block_t *head = NULL, *block;
     custom_action_t *atomic_action;
     custom_param_t p1;
     custom_param_t p2;
-    
+
     // skill will check if physical attack is 5
     p1.st = PATK;
     p2.constant = 5;
@@ -50,11 +51,12 @@ custom_block_t* create_swing_sword() {
  *
  * Parameters
  *  - none
- * 
+ *
  * Returns
  *  - a hardcoded custom block sequence
  */
-custom_block_t* create_fireball_spell() {
+custom_block_t* create_fireball_spell()
+{
     custom_block_t *head = NULL, *block;
     custom_action_t *atomic_action;
     custom_param_t p1;
@@ -115,7 +117,8 @@ custom_block_t* create_fireball_spell() {
  * Returns
  *  - none. prints out the contents of the struct
  */
-void print_stats(stats_t* stats) {
+void print_stats(stats_t* stats)
+{
     assert(stats != NULL);
     printf("health: %d\n", stats->health);
     printf("xp: %d\n", stats->xp);
@@ -129,7 +132,8 @@ void print_stats(stats_t* stats) {
 }
 
 
-int main() {
+int main()
+{
     int rc;
     // irrelevant stats are set to 1
     stats_t *stats1 = stats_new(25, 1, 1, 1, 5, 1, 1, 1, 8);

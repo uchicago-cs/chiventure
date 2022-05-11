@@ -16,7 +16,7 @@ Test(room_start, init)
     empty_room->room_id = malloc(sizeof(char*)*MAX_ID_LEN+1);
     empty_room->paths = NULL;
     int check = room_init(empty_room, "test_room", "This is a test room",
-    "The purpose of this room is testing");
+                          "The purpose of this room is testing");
 
     cr_assert_eq(check, SUCCESS, "room_init() test 1 has failed!");
     room_free(empty_room);
@@ -26,7 +26,7 @@ Test(room_start, init)
 Test(room_start, new)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
 
     cr_assert_not_null(new_room, "room_new() test 1 has failed!");
     room_free(new_room);
@@ -36,7 +36,7 @@ Test(room_start, new)
 Test(room_start, free)
 {
     room_t *room_tofree = room_new("test_room", "room for testing",
-    "testing if memory is correctly freed for rooms");
+                                   "testing if memory is correctly freed for rooms");
 
     cr_assert_not_null(room_tofree, "room_free(): room is null");
     int freed = room_free(room_tofree);
@@ -52,11 +52,11 @@ Test(room_start, free)
 Test(room_item, add_item_to_room)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     item_t *test_item2 = item_new("test_item2", "item2 for testing",
-    "testing to see if get_item() works 2");
+                                  "testing to see if get_item() works 2");
     int rv = add_item_to_room(new_room, test_item);
     int rc = add_item_to_room(new_room, test_item2);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
@@ -65,24 +65,24 @@ Test(room_item, add_item_to_room)
 }
 
 /* Tests add_item_to_room
- * Adds two duplicate items, succeeding only if items 
+ * Adds two duplicate items, succeeding only if items
  * have different memory addresses
  */
 Test(room_item, add_duplicate_item_to_room)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     item_t *test_item2 = item_new("test_item", "item2 for testing",
-    "testing to see if get_item() exits correctly");
+                                  "testing to see if get_item() exits correctly");
 
     int rv = add_item_to_room(new_room, test_item);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
 
     int check = add_item_to_room(new_room, test_item2);
     cr_assert_eq(check, SUCCESS, "duplicate item not added to room correctly");
-    
+
     check = add_item_to_room(new_room, test_item2);
     cr_assert_eq(check, FAILURE, "item at same memory address as item "
                  "already in room added again to room");
@@ -93,9 +93,9 @@ Test(room_item, add_duplicate_item_to_room)
 Test(room_item, get_item)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     int rv = add_item_to_room(new_room, test_item);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
     item_t *returned_item = get_item_in_room(new_room, "test_item");
@@ -107,9 +107,9 @@ Test(room_item, get_item)
 Test(room_item, get_nonexistent_item)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     int rv = add_item_to_room(new_room, test_item);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
     item_t *returned_item = get_item_in_room(new_room, "test_item_2");
@@ -124,18 +124,18 @@ Test(room_item, remove_item_from_room)
     item_t *dup_item = item_new("item", "short", "long");
     item_list_t *item_list;
     int rc;
-    
+
     rc = add_item_to_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
     rc = add_item_to_room(room, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
-    
+
     rc = remove_item_from_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to "
                  "remove an item from room");
-    
+
     item_list = get_all_items_in_room(room);
     cr_assert_not_null(item_list, "remove_item_from_room removed "
                        "both identical items from room");
@@ -148,16 +148,17 @@ Test(room_item, remove_item_from_room)
 * Runs two small tests
 * Tests same sdesc and different sdesc
 */
-Test(room_get, get_sdesc) {
+Test(room_get, get_sdesc)
+{
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     char test[MAX_SDESC_LEN] = "room for testing";
     char fail[MAX_SDESC_LEN] = "this is supposed to fail";
     int check = strncmp(get_sdesc(new_room), test, MAX_SDESC_LEN);
     int check2 = strncmp(get_sdesc(new_room), fail, MAX_SDESC_LEN);
     //if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
-      check2 = SUCCESS;
+        check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_sdesc: failed to get sdesc");
     cr_assert_eq(check2, SUCCESS, "get_sdesc: failed to fail wrong strncmp");
     room_free(new_room);
@@ -170,15 +171,15 @@ Test(room_get, get_sdesc) {
 Test(room_get, get_ldesc)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     char test[MAX_LDESC_LEN] =
-    "testing if memory is correctly allocated for new rooms";
+        "testing if memory is correctly allocated for new rooms";
     char fail[MAX_LDESC_LEN] = "this is supposed to fail";
     int check = strncmp(get_ldesc(new_room), test, MAX_LDESC_LEN);
     int check2 = strncmp(get_ldesc(new_room), fail, MAX_LDESC_LEN);
     //if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
-      check2 = SUCCESS;
+        check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_ldesc: failed to get sdesc");
     cr_assert_eq(check2, SUCCESS, "get_ldesc: failed to fail wrong strncmp");
     room_free(new_room);
@@ -217,15 +218,21 @@ Test(iter_macro, iter_paths)
     add_path_to_room(room1, path_new(room3, "south"));
     int cnt = 0;
     path_t *curr_path;
-    ITER_ALL_PATHS(room1, curr_path) {
+    ITER_ALL_PATHS(room1, curr_path)
+    {
         cnt++;
-        if (!strncmp(curr_path->dest->room_id, "room3", MAX_ID_LEN)) {
+        if (!strncmp(curr_path->dest->room_id, "room3", MAX_ID_LEN))
+        {
             cr_assert_str_eq(curr_path->direction, "south",
-            "direction does not correspond");
-        } else if (!strncmp(curr_path->dest->room_id, "room2", MAX_ID_LEN)) {
+                             "direction does not correspond");
+        }
+        else if (!strncmp(curr_path->dest->room_id, "room2", MAX_ID_LEN))
+        {
             cr_assert_str_eq(curr_path->direction, "north",
-            "direction does not correspond");
-        } else {
+                             "direction does not correspond");
+        }
+        else
+        {
             cr_assert_fail("non-existent room detected");
         }
     }
