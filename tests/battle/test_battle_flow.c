@@ -197,25 +197,17 @@ Test(battle_flow_move, start_battle)
 /* this tests to see if it returns a ctx_battle */
 Test(battle_flow_move_, return_success_battle_flow_move)
 {
-     class_t* test_class = class_new("Bard", "Music boi",
-                                "Charismatic, always has a joke or song ready",
-                                     NULL, NULL, NULL);
-
-    battle_item_t *dagger = create_npc_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);    
-
     battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
     battle_game_t *g = new_battle_game();
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
     pstats->level = 1;
-
-    pstats->strength = 200;
-    pstats->defense = 30;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), 
-                                                pstats, NULL, NULL);
+    pstats->phys_atk = 200;
+    pstats->phys_def = 30;
+    pstats->accuracy = 100;
+    pstats->crit = 0;
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -230,6 +222,15 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     estats->crit = 0;
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+
+    class_t* test_class = class_new("Bard", "Music boi",
+                                "Charismatic, always has a joke or song ready",
+                                     NULL, NULL, NULL);
+
+    battle_item_t *dagger = create_npc_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0); 
+
     npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY,
             HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
@@ -256,10 +257,11 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
     pstats->level = 1;
-
-    pstats->strength = 200;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), 
-                                                pstats, NULL, NULL);
+    pstats->phys_atk = 200;
+    pstats->phys_def = 30;
+    pstats->accuracy = 100;
+    pstats->crit = 0;
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -331,10 +333,11 @@ Test(battle_flow_move, battle_over_by_player)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 40;
     pstats->level = 1;
-    pstats->strength = 200;
-    pstats->defense = 30;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), 
-                                                pstats, NULL, NULL);
+    pstats->phys_atk = 200;
+    pstats->phys_def = 30;
+    pstats->accuracy = 100;
+    pstats->crit = 0; 
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -408,11 +411,11 @@ Test(battle_flow_move, battle_over_by_enemy)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
     pstats->level = 5;
-    pstats->strength = 150;
-    pstats->defense = 20;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(),
-                                                pstats, NULL, NULL);
-
+    pstats->phys_atk = 150;
+    pstats->phys_def = 20;
+    pstats->accuracy = 100;
+    pstats->crit = 0;
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
