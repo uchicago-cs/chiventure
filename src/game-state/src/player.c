@@ -142,6 +142,7 @@ int player_free(player_t* player)
     return SUCCESS;
 }
 
+/* See player.h */
 player_quest_t *player_quest_new(char *quest_id, int completion)
 {
     player_quest_t *pquest;
@@ -164,6 +165,7 @@ player_quest_t *player_quest_new(char *quest_id, int completion)
     return pquest;
 }
 
+/* See player.h */
 player_task_t *player_task_new(char *task_id, bool completed)
 {
     player_task_t *ptask;
@@ -186,6 +188,7 @@ player_task_t *player_task_new(char *task_id, bool completed)
     return ptask;
 }
 
+/* See player.h */
 int player_quest_init(player_quest_t *pquest, char *quest_id, int completion)
 {
     assert(pquest != NULL);
@@ -195,6 +198,7 @@ int player_quest_init(player_quest_t *pquest, char *quest_id, int completion)
     return SUCCESS;
 }
 
+/* See player.h */
 int player_task_init(player_task_t *ptask, char *task_id, bool completed)
 {
     assert(ptask != NULL);
@@ -204,6 +208,7 @@ int player_task_init(player_task_t *ptask, char *task_id, bool completed)
     return SUCCESS;
 }
 
+/* See player.h */
 int player_quest_hash_free(player_quest_hash_t *player_quests)
 {
     assert(player_quests != NULL);
@@ -230,6 +235,7 @@ int player_task_hash_free(player_task_hash_t *player_tasks)
     return SUCCESS;
 }
 
+/* See player.h */
 int delete_all_players(player_hash_t* players)
 {
     player_t *current_player, *tmp;

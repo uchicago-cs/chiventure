@@ -13,6 +13,7 @@
 #include "battle/battle_default_objects.h"
 #include "battle/battle_structs.h"
 
+/* Checks that player_quest_new properly allocates memory and initializes a player quest */
 Test(player, quest_new)
 {
   player_quest_t *player_quest = player_quest_new("test", 0);
@@ -27,6 +28,7 @@ Test(player, quest_new)
   free(player_quest);
 }
 
+/* Checks that player_task_new properly allocates memory and initializes a player task */
 Test(player, task_new)
 {
   player_task_t *player_task = player_task_new("test", 0);
@@ -41,6 +43,7 @@ Test(player, task_new)
   free(player_task);
 }
 
+/* Checks that player_quest_init properly initializes a player quest */
 Test(player, quest_init)
 {
   player_quest_t *player_quest = (player_quest_t*)malloc(sizeof(player_quest_t));
@@ -57,6 +60,7 @@ Test(player, quest_init)
   free(player_quest);
 }
 
+/* Checks that player_task_init properly initializes a player task */
 Test(player, task_init)
 {
   player_task_t *player_task = (player_task_t*)malloc(sizeof(player_task_t));
