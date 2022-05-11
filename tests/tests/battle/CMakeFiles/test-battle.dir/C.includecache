@@ -25,6 +25,8 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
@@ -467,18 +469,6 @@ playerclass/class.h
 ../src/playerclass/examples/playerclass/class.h
 playerclass/class_structs.h
 ../src/playerclass/examples/playerclass/class_structs.h
-
-/home/elizabethli/cmsc220/chiventure/tests/battle/main.c
-stdio.h
--
-stdbool.h
--
-criterion/criterion.h
--
-criterion/options.h
--
-criterion/output.h
--
 
 /home/elizabethli/cmsc220/chiventure/tests/battle/test_battle_ai.c
 criterion/criterion.h

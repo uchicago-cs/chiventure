@@ -5,6 +5,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -47,6 +48,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -93,6 +95,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -137,6 +140,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -181,6 +185,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -225,6 +230,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h

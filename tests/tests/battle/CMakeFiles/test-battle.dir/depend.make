@@ -5,6 +5,7 @@ tests/battle/CMakeFiles/test-battle.dir/main.c.o: battle/main.c
 
 tests/battle/CMakeFiles/test-battle.dir/test_battle_ai.c.o: ../include/battle/battle_ai.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_ai.c.o: ../include/battle/battle_common.h
+tests/battle/CMakeFiles/test-battle.dir/test_battle_ai.c.o: ../include/battle/battle_default_objects.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_ai.c.o: ../include/battle/battle_flow_structs.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_ai.c.o: ../include/battle/battle_moves.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_ai.c.o: ../include/battle/battle_state.h
@@ -39,6 +40,7 @@ tests/battle/CMakeFiles/test-battle.dir/test_battle_default_objects.c.o: battle/
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: ../include/action_management/action_structs.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: ../include/battle/battle_ai.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: ../include/battle/battle_common.h
+tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: ../include/battle/battle_default_objects.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: ../include/battle/battle_flow.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: ../include/battle/battle_flow_structs.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: ../include/battle/battle_logic.h
@@ -82,6 +84,7 @@ tests/battle/CMakeFiles/test-battle.dir/test_battle_flow.c.o: battle/test_battle
 
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow_structs.c.o: ../include/battle/battle_ai.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow_structs.c.o: ../include/battle/battle_common.h
+tests/battle/CMakeFiles/test-battle.dir/test_battle_flow_structs.c.o: ../include/battle/battle_default_objects.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow_structs.c.o: ../include/battle/battle_flow_structs.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow_structs.c.o: ../include/battle/battle_moves.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_flow_structs.c.o: ../include/battle/battle_state.h
@@ -202,6 +205,7 @@ tests/battle/CMakeFiles/test-battle.dir/test_battle_moves.c.o: battle/test_battl
 tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: ../include/action_management/action_structs.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: ../include/battle/battle_ai.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: ../include/battle/battle_common.h
+tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: ../include/battle/battle_default_objects.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: ../include/battle/battle_flow.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: ../include/battle/battle_flow_structs.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: ../include/battle/battle_logic.h
@@ -246,6 +250,7 @@ tests/battle/CMakeFiles/test-battle.dir/test_battle_print.c.o: battle/test_battl
 
 tests/battle/CMakeFiles/test-battle.dir/test_battle_state.c.o: ../include/battle/battle_ai.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_state.c.o: ../include/battle/battle_common.h
+tests/battle/CMakeFiles/test-battle.dir/test_battle_state.c.o: ../include/battle/battle_default_objects.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_state.c.o: ../include/battle/battle_flow_structs.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_state.c.o: ../include/battle/battle_moves.h
 tests/battle/CMakeFiles/test-battle.dir/test_battle_state.c.o: ../include/battle/battle_state.h

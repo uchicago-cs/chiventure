@@ -6,6 +6,7 @@ tests/playerclass/CMakeFiles/test-playerclass.dir/main.c.o: playerclass/main.c
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class.c.o: ../include/action_management/action_structs.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class.c.o: ../include/battle/battle_ai.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class.c.o: ../include/battle/battle_common.h
+tests/playerclass/CMakeFiles/test-playerclass.dir/test_class.c.o: ../include/battle/battle_default_objects.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class.c.o: ../include/battle/battle_flow_structs.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class.c.o: ../include/battle/battle_moves.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class.c.o: ../include/battle/battle_state.h
@@ -62,6 +63,7 @@ tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_item.c.o: playercla
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_prefabs.c.o: ../include/action_management/action_structs.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_prefabs.c.o: ../include/battle/battle_ai.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_prefabs.c.o: ../include/battle/battle_common.h
+tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_prefabs.c.o: ../include/battle/battle_default_objects.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_prefabs.c.o: ../include/battle/battle_flow_structs.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_prefabs.c.o: ../include/battle/battle_moves.h
 tests/playerclass/CMakeFiles/test-playerclass.dir/test_class_prefabs.c.o: ../include/battle/battle_state.h

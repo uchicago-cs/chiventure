@@ -25,10 +25,26 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
 ../include/battle/battle/battle_structs.h
+
+../include/battle/battle_default_objects.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_structs.h
+../include/battle/battle/battle_structs.h
+battle/battle_moves.h
+../include/battle/battle/battle_moves.h
+battle/battle_flow_structs.h
+../include/battle/battle/battle_flow_structs.h
 
 ../include/battle/battle_flow_structs.h
 stdbool.h
@@ -366,18 +382,6 @@ skilltrees/skilltrees_enums.h
 common/ctx.h
 ../include/ui/common/ctx.h
 
-/home/elizabethli/cmsc220/chiventure/tests/cli/main.c
-stdio.h
--
-stdbool.h
--
-criterion/criterion.h
--
-criterion/options.h
--
-criterion/output.h
--
-
 /home/elizabethli/cmsc220/chiventure/tests/cli/test_cmd.c
 criterion/criterion.h
 -
@@ -399,22 +403,4 @@ game-state/game.h
 /home/elizabethli/cmsc220/chiventure/tests/cli/game-state/game.h
 common/ctx.h
 /home/elizabethli/cmsc220/chiventure/tests/cli/common/ctx.h
-
-/home/elizabethli/cmsc220/chiventure/tests/cli/test_parser.c
-criterion/criterion.h
--
-stdlib.h
--
-stdbool.h
--
-stdio.h
--
-string.h
--
-ctype.h
--
-cli/parser.h
-/home/elizabethli/cmsc220/chiventure/tests/cli/cli/parser.h
-common/utlist.h
-/home/elizabethli/cmsc220/chiventure/tests/cli/common/utlist.h
 

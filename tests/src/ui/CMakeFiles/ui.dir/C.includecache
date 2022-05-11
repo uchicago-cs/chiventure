@@ -37,10 +37,26 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
 ../include/battle/battle/battle_structs.h
+
+../include/battle/battle_default_objects.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_structs.h
+../include/battle/battle/battle_structs.h
+battle/battle_moves.h
+../include/battle/battle/battle_moves.h
+battle/battle_flow_structs.h
+../include/battle/battle/battle_flow_structs.h
 
 ../include/battle/battle_flow_structs.h
 stdbool.h
@@ -545,16 +561,4 @@ ui/print_functions.h
 /home/elizabethli/cmsc220/chiventure/src/ui/src/ui/print_functions.h
 ui/map.h
 /home/elizabethli/cmsc220/chiventure/src/ui/src/ui/map.h
-
-/home/elizabethli/cmsc220/chiventure/src/ui/src/window.c
-stdlib.h
--
-stdio.h
--
-ncurses.h
--
-assert.h
--
-ui/window.h
-/home/elizabethli/cmsc220/chiventure/src/ui/src/ui/window.h
 

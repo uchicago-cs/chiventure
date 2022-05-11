@@ -6,6 +6,7 @@ tests/ui/CMakeFiles/test-ui.dir/main.c.o: ui/main.c
 tests/ui/CMakeFiles/test-ui.dir/test_coordinate.c.o: ../include/action_management/action_structs.h
 tests/ui/CMakeFiles/test-ui.dir/test_coordinate.c.o: ../include/battle/battle_ai.h
 tests/ui/CMakeFiles/test-ui.dir/test_coordinate.c.o: ../include/battle/battle_common.h
+tests/ui/CMakeFiles/test-ui.dir/test_coordinate.c.o: ../include/battle/battle_default_objects.h
 tests/ui/CMakeFiles/test-ui.dir/test_coordinate.c.o: ../include/battle/battle_flow_structs.h
 tests/ui/CMakeFiles/test-ui.dir/test_coordinate.c.o: ../include/battle/battle_moves.h
 tests/ui/CMakeFiles/test-ui.dir/test_coordinate.c.o: ../include/battle/battle_state.h

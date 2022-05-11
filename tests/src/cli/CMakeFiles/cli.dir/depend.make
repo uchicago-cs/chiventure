@@ -4,6 +4,7 @@
 src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o: ../include/action_management/action_structs.h
 src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o: ../include/battle/battle_ai.h
 src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o: ../include/battle/battle_common.h
+src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o: ../include/battle/battle_default_objects.h
 src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o: ../include/battle/battle_flow_structs.h
 src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o: ../include/battle/battle_moves.h
 src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o: ../include/battle/battle_state.h
@@ -45,6 +46,7 @@ src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/action_management/action_stru
 src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/action_management/actionmanagement.h
 src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/battle/battle_ai.h
 src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/battle/battle_common.h
+src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/battle/battle_default_objects.h
 src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/battle/battle_flow_structs.h
 src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/battle/battle_moves.h
 src/cli/CMakeFiles/cli.dir/src/cmd.c.o: ../include/battle/battle_state.h
@@ -97,6 +99,7 @@ src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/action_management/acti
 src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/action_management/actionmanagement.h
 src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/battle/battle_ai.h
 src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/battle/battle_common.h
+src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/battle/battle_default_objects.h
 src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/battle/battle_flow_structs.h
 src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/battle/battle_moves.h
 src/cli/CMakeFiles/cli.dir/src/operations.c.o: ../include/battle/battle_state.h
@@ -154,6 +157,7 @@ src/cli/CMakeFiles/cli.dir/src/parser.c.o: ../src/cli/src/parser.c
 src/cli/CMakeFiles/cli.dir/src/shell.c.o: ../include/action_management/action_structs.h
 src/cli/CMakeFiles/cli.dir/src/shell.c.o: ../include/battle/battle_ai.h
 src/cli/CMakeFiles/cli.dir/src/shell.c.o: ../include/battle/battle_common.h
+src/cli/CMakeFiles/cli.dir/src/shell.c.o: ../include/battle/battle_default_objects.h
 src/cli/CMakeFiles/cli.dir/src/shell.c.o: ../include/battle/battle_flow_structs.h
 src/cli/CMakeFiles/cli.dir/src/shell.c.o: ../include/battle/battle_moves.h
 src/cli/CMakeFiles/cli.dir/src/shell.c.o: ../include/battle/battle_state.h

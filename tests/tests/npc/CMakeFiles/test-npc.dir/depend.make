@@ -6,6 +6,7 @@ tests/npc/CMakeFiles/test-npc.dir/main.c.o: npc/main.c
 tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: ../include/action_management/action_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: ../include/battle/battle_ai.h
 tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: ../include/battle/battle_common.h
+tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: ../include/battle/battle_default_objects.h
 tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: ../include/battle/battle_flow_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: ../include/battle/battle_moves.h
 tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: ../include/battle/battle_state.h
@@ -46,6 +47,7 @@ tests/npc/CMakeFiles/test-npc.dir/test_dialogue.c.o: npc/test_dialogue.c
 tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: ../include/action_management/action_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: ../include/battle/battle_ai.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: ../include/battle/battle_common.h
+tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: ../include/battle/battle_default_objects.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: ../include/battle/battle_flow_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: ../include/battle/battle_moves.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: ../include/battle/battle_state.h
@@ -86,6 +88,7 @@ tests/npc/CMakeFiles/test-npc.dir/test_npc.c.o: npc/test_npc.c
 tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: ../include/action_management/action_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: ../include/battle/battle_ai.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: ../include/battle/battle_common.h
+tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: ../include/battle/battle_default_objects.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: ../include/battle/battle_flow_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: ../include/battle/battle_moves.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: ../include/battle/battle_state.h
@@ -126,6 +129,7 @@ tests/npc/CMakeFiles/test-npc.dir/test_npc_battle.c.o: npc/test_npc_battle.c
 tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: ../include/action_management/action_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: ../include/battle/battle_ai.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: ../include/battle/battle_common.h
+tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: ../include/battle/battle_default_objects.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: ../include/battle/battle_flow_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: ../include/battle/battle_moves.h
 tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: ../include/battle/battle_state.h
@@ -166,6 +170,7 @@ tests/npc/CMakeFiles/test-npc.dir/test_npc_move.c.o: npc/test_npc_move.c
 tests/npc/CMakeFiles/test-npc.dir/test_rooms_npc.c.o: ../include/action_management/action_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_rooms_npc.c.o: ../include/battle/battle_ai.h
 tests/npc/CMakeFiles/test-npc.dir/test_rooms_npc.c.o: ../include/battle/battle_common.h
+tests/npc/CMakeFiles/test-npc.dir/test_rooms_npc.c.o: ../include/battle/battle_default_objects.h
 tests/npc/CMakeFiles/test-npc.dir/test_rooms_npc.c.o: ../include/battle/battle_flow_structs.h
 tests/npc/CMakeFiles/test-npc.dir/test_rooms_npc.c.o: ../include/battle/battle_moves.h
 tests/npc/CMakeFiles/test-npc.dir/test_rooms_npc.c.o: ../include/battle/battle_state.h

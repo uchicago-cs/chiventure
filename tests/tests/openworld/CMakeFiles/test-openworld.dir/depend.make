@@ -6,6 +6,7 @@ tests/openworld/CMakeFiles/test-openworld.dir/main.c.o: openworld/main.c
 tests/openworld/CMakeFiles/test-openworld.dir/test_autogenerate.c.o: ../include/action_management/action_structs.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_autogenerate.c.o: ../include/battle/battle_ai.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_autogenerate.c.o: ../include/battle/battle_common.h
+tests/openworld/CMakeFiles/test-openworld.dir/test_autogenerate.c.o: ../include/battle/battle_default_objects.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_autogenerate.c.o: ../include/battle/battle_flow_structs.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_autogenerate.c.o: ../include/battle/battle_moves.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_autogenerate.c.o: ../include/battle/battle_state.h
@@ -60,6 +61,7 @@ tests/openworld/CMakeFiles/test-openworld.dir/test_items.c.o: openworld/test_ite
 tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: ../include/action_management/action_structs.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: ../include/battle/battle_ai.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: ../include/battle/battle_common.h
+tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: ../include/battle/battle_default_objects.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: ../include/battle/battle_flow_structs.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: ../include/battle/battle_moves.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: ../include/battle/battle_state.h
@@ -103,6 +105,7 @@ tests/openworld/CMakeFiles/test-openworld.dir/test_rooms.c.o: openworld/test_roo
 tests/openworld/CMakeFiles/test-openworld.dir/test_structs.c.o: ../include/action_management/action_structs.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_structs.c.o: ../include/battle/battle_ai.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_structs.c.o: ../include/battle/battle_common.h
+tests/openworld/CMakeFiles/test-openworld.dir/test_structs.c.o: ../include/battle/battle_default_objects.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_structs.c.o: ../include/battle/battle_flow_structs.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_structs.c.o: ../include/battle/battle_moves.h
 tests/openworld/CMakeFiles/test-openworld.dir/test_structs.c.o: ../include/battle/battle_state.h

@@ -4,6 +4,7 @@
 src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../include/action_management/action_structs.h
 src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../include/battle/battle_ai.h
 src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../include/battle/battle_common.h
+src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../include/battle/battle_default_objects.h
 src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../include/battle/battle_flow_structs.h
 src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../include/battle/battle_moves.h
 src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../include/battle/battle_state.h
@@ -45,6 +46,7 @@ src/ui/CMakeFiles/ui.dir/src/DFS.c.o: ../src/ui/src/DFS.c
 src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../include/action_management/action_structs.h
 src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../include/battle/battle_ai.h
 src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../include/battle/battle_common.h
+src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../include/battle/battle_default_objects.h
 src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../include/battle/battle_flow_structs.h
 src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../include/battle/battle_moves.h
 src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../include/battle/battle_state.h
@@ -89,6 +91,7 @@ src/ui/CMakeFiles/ui.dir/src/coordinate.c.o: ../src/ui/src/coordinate.c
 src/ui/CMakeFiles/ui.dir/src/map.c.o: ../include/action_management/action_structs.h
 src/ui/CMakeFiles/ui.dir/src/map.c.o: ../include/battle/battle_ai.h
 src/ui/CMakeFiles/ui.dir/src/map.c.o: ../include/battle/battle_common.h
+src/ui/CMakeFiles/ui.dir/src/map.c.o: ../include/battle/battle_default_objects.h
 src/ui/CMakeFiles/ui.dir/src/map.c.o: ../include/battle/battle_flow_structs.h
 src/ui/CMakeFiles/ui.dir/src/map.c.o: ../include/battle/battle_moves.h
 src/ui/CMakeFiles/ui.dir/src/map.c.o: ../include/battle/battle_state.h
@@ -134,6 +137,7 @@ src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/action_management/a
 src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/action_management/actionmanagement.h
 src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/battle/battle_ai.h
 src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/battle/battle_common.h
+src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/battle/battle_default_objects.h
 src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/battle/battle_flow_structs.h
 src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/battle/battle_moves.h
 src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../include/battle/battle_state.h
@@ -182,6 +186,7 @@ src/ui/CMakeFiles/ui.dir/src/print_functions.c.o: ../src/ui/src/print_functions.
 src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../include/action_management/action_structs.h
 src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../include/battle/battle_ai.h
 src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../include/battle/battle_common.h
+src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../include/battle/battle_default_objects.h
 src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../include/battle/battle_flow_structs.h
 src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../include/battle/battle_moves.h
 src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../include/battle/battle_state.h
@@ -227,6 +232,7 @@ src/ui/CMakeFiles/ui.dir/src/ui.c.o: ../src/ui/src/ui.c
 src/ui/CMakeFiles/ui.dir/src/ui_ctx.c.o: ../include/action_management/action_structs.h
 src/ui/CMakeFiles/ui.dir/src/ui_ctx.c.o: ../include/battle/battle_ai.h
 src/ui/CMakeFiles/ui.dir/src/ui_ctx.c.o: ../include/battle/battle_common.h
+src/ui/CMakeFiles/ui.dir/src/ui_ctx.c.o: ../include/battle/battle_default_objects.h
 src/ui/CMakeFiles/ui.dir/src/ui_ctx.c.o: ../include/battle/battle_flow_structs.h
 src/ui/CMakeFiles/ui.dir/src/ui_ctx.c.o: ../include/battle/battle_moves.h
 src/ui/CMakeFiles/ui.dir/src/ui_ctx.c.o: ../include/battle/battle_state.h

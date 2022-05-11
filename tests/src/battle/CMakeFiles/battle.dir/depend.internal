@@ -15,6 +15,7 @@ src/battle/CMakeFiles/battle.dir/__/playerclass/examples/class-list.c.o
 src/battle/CMakeFiles/battle.dir/src/battle_ai.c.o
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -49,6 +50,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_logic.h
@@ -93,6 +95,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o
 src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -109,6 +112,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o
 src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_logic.h
  ../include/battle/battle_moves.h
@@ -126,6 +130,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o
 src/battle/CMakeFiles/battle.dir/src/battle_move_maker.c.o
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_move_maker.h
  ../include/battle/battle_moves.h
@@ -158,6 +163,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_moves.c.o
 src/battle/CMakeFiles/battle.dir/src/battle_print.c.o
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_logic.h
  ../include/battle/battle_moves.h
@@ -176,6 +182,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_print.c.o
 src/battle/CMakeFiles/battle.dir/src/battle_state.c.o
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h

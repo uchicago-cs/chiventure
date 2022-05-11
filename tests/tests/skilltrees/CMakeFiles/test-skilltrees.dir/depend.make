@@ -4,6 +4,7 @@
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: ../include/action_management/action_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: ../include/battle/battle_ai.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: ../include/battle/battle_common.h
+tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: ../include/battle/battle_default_objects.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: ../include/battle/battle_flow_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: ../include/battle/battle_moves.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: ../include/battle/battle_state.h
@@ -46,6 +47,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/effect_test.c.o: skilltrees/test
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o: ../include/action_management/action_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o: ../include/battle/battle_ai.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o: ../include/battle/battle_common.h
+tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o: ../include/battle/battle_default_objects.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o: ../include/battle/battle_flow_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o: ../include/battle/battle_moves.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/inventory_test.c.o: ../include/battle/battle_state.h
@@ -92,6 +94,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/main.c.o: skilltrees/main.c
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: ../include/action_management/action_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: ../include/battle/battle_ai.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: ../include/battle/battle_common.h
+tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: ../include/battle/battle_default_objects.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: ../include/battle/battle_flow_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: ../include/battle/battle_moves.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: ../include/battle/battle_state.h
@@ -136,6 +139,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/skill_test.c.o: skilltrees/test_
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: ../include/action_management/action_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: ../include/battle/battle_ai.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: ../include/battle/battle_common.h
+tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: ../include/battle/battle_default_objects.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: ../include/battle/battle_flow_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: ../include/battle/battle_moves.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: ../include/battle/battle_state.h
@@ -180,6 +184,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltree_test.c.o: skilltrees/t
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: ../include/action_management/action_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: ../include/battle/battle_ai.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: ../include/battle/battle_common.h
+tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: ../include/battle/battle_default_objects.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: ../include/battle/battle_flow_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: ../include/battle/battle_moves.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: ../include/battle/battle_state.h
@@ -224,6 +229,7 @@ tests/skilltrees/CMakeFiles/test-skilltrees.dir/skilltrees_common_test.c.o: skil
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o: ../include/action_management/action_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o: ../include/battle/battle_ai.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o: ../include/battle/battle_common.h
+tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o: ../include/battle/battle_default_objects.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o: ../include/battle/battle_flow_structs.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o: ../include/battle/battle_moves.h
 tests/skilltrees/CMakeFiles/test-skilltrees.dir/test_init.c.o: ../include/battle/battle_state.h

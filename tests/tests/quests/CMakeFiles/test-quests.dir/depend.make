@@ -6,6 +6,7 @@ tests/quests/CMakeFiles/test-quests.dir/main.c.o: quests/main.c
 tests/quests/CMakeFiles/test-quests.dir/test_quests_state.c.o: ../include/action_management/action_structs.h
 tests/quests/CMakeFiles/test-quests.dir/test_quests_state.c.o: ../include/battle/battle_ai.h
 tests/quests/CMakeFiles/test-quests.dir/test_quests_state.c.o: ../include/battle/battle_common.h
+tests/quests/CMakeFiles/test-quests.dir/test_quests_state.c.o: ../include/battle/battle_default_objects.h
 tests/quests/CMakeFiles/test-quests.dir/test_quests_state.c.o: ../include/battle/battle_flow_structs.h
 tests/quests/CMakeFiles/test-quests.dir/test_quests_state.c.o: ../include/battle/battle_moves.h
 tests/quests/CMakeFiles/test-quests.dir/test_quests_state.c.o: ../include/battle/battle_state.h

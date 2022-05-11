@@ -25,6 +25,8 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
@@ -573,10 +575,6 @@ battle/battle_state.h
 /home/elizabethli/cmsc220/chiventure/src/battle/src/battle/battle_state.h
 common/utlist.h
 /home/elizabethli/cmsc220/chiventure/src/battle/src/common/utlist.h
-
-/home/elizabethli/cmsc220/chiventure/src/playerclass/examples/class-list.c
-class-list.h
-/home/elizabethli/cmsc220/chiventure/src/playerclass/examples/class-list.h
 
 /home/elizabethli/cmsc220/chiventure/src/playerclass/examples/class-list.h
 stdlib.h

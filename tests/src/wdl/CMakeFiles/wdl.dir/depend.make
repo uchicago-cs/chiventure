@@ -5,6 +5,7 @@ src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/action_management/acti
 src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/action_management/actionmanagement.h
 src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/battle/battle_ai.h
 src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/battle/battle_common.h
+src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/battle/battle_default_objects.h
 src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/battle/battle_flow_structs.h
 src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/battle/battle_moves.h
 src/wdl/CMakeFiles/wdl.dir/src/load_class.c.o: ../include/battle/battle_state.h
@@ -50,6 +51,7 @@ src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/action_management/
 src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/action_management/actionmanagement.h
 src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/battle/battle_ai.h
 src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/battle/battle_common.h
+src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/battle/battle_default_objects.h
 src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/battle/battle_flow_structs.h
 src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/battle/battle_moves.h
 src/wdl/CMakeFiles/wdl.dir/src/load_condition.c.o: ../include/battle/battle_state.h
@@ -94,6 +96,7 @@ src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/action_management/actio
 src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/action_management/actionmanagement.h
 src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/battle/battle_ai.h
 src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/battle/battle_common.h
+src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/battle/battle_default_objects.h
 src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/battle/battle_flow_structs.h
 src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/battle/battle_moves.h
 src/wdl/CMakeFiles/wdl.dir/src/load_game.c.o: ../include/battle/battle_state.h
@@ -143,6 +146,7 @@ src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/action_management/actio
 src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/action_management/actionmanagement.h
 src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/battle/battle_ai.h
 src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/battle/battle_common.h
+src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/battle/battle_default_objects.h
 src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/battle/battle_flow_structs.h
 src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/battle/battle_moves.h
 src/wdl/CMakeFiles/wdl.dir/src/load_item.c.o: ../include/battle/battle_state.h
@@ -186,6 +190,7 @@ src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/action_management/action
 src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/action_management/actionmanagement.h
 src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/battle/battle_ai.h
 src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/battle/battle_common.h
+src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/battle/battle_default_objects.h
 src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/battle/battle_flow_structs.h
 src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/battle/battle_moves.h
 src/wdl/CMakeFiles/wdl.dir/src/load_npc.c.o: ../include/battle/battle_state.h
@@ -231,6 +236,7 @@ src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/action_management/actio
 src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/action_management/actionmanagement.h
 src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/battle/battle_ai.h
 src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/battle/battle_common.h
+src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/battle/battle_default_objects.h
 src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/battle/battle_flow_structs.h
 src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/battle/battle_moves.h
 src/wdl/CMakeFiles/wdl.dir/src/load_room.c.o: ../include/battle/battle_state.h
@@ -275,6 +281,7 @@ src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/action_management/action
 src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/action_management/actionmanagement.h
 src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/battle/battle_ai.h
 src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/battle/battle_common.h
+src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/battle/battle_default_objects.h
 src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/battle/battle_flow_structs.h
 src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/battle/battle_moves.h
 src/wdl/CMakeFiles/wdl.dir/src/validate.c.o: ../include/battle/battle_state.h

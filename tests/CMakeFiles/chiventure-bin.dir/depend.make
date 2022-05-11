@@ -4,6 +4,7 @@
 CMakeFiles/chiventure-bin.dir/src/chiventure.c.o: ../include/action_management/action_structs.h
 CMakeFiles/chiventure-bin.dir/src/chiventure.c.o: ../include/battle/battle_ai.h
 CMakeFiles/chiventure-bin.dir/src/chiventure.c.o: ../include/battle/battle_common.h
+CMakeFiles/chiventure-bin.dir/src/chiventure.c.o: ../include/battle/battle_default_objects.h
 CMakeFiles/chiventure-bin.dir/src/chiventure.c.o: ../include/battle/battle_flow_structs.h
 CMakeFiles/chiventure-bin.dir/src/chiventure.c.o: ../include/battle/battle_moves.h
 CMakeFiles/chiventure-bin.dir/src/chiventure.c.o: ../include/battle/battle_state.h

@@ -4,6 +4,7 @@
 src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../include/action_management/action_structs.h
 src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../include/battle/battle_ai.h
 src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../include/battle/battle_common.h
+src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../include/battle/battle_default_objects.h
 src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../include/battle/battle_flow_structs.h
 src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../include/battle/battle_moves.h
 src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../include/battle/battle_state.h
@@ -44,6 +45,7 @@ src/npc/CMakeFiles/npc.dir/src/dialogue.c.o: ../src/npc/src/dialogue.c
 src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../include/action_management/action_structs.h
 src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../include/battle/battle_ai.h
 src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../include/battle/battle_common.h
+src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../include/battle/battle_default_objects.h
 src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../include/battle/battle_flow_structs.h
 src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../include/battle/battle_moves.h
 src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../include/battle/battle_state.h
@@ -84,6 +86,7 @@ src/npc/CMakeFiles/npc.dir/src/npc.c.o: ../src/npc/src/npc.c
 src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../include/action_management/action_structs.h
 src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../include/battle/battle_ai.h
 src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../include/battle/battle_common.h
+src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../include/battle/battle_default_objects.h
 src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../include/battle/battle_flow_structs.h
 src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../include/battle/battle_moves.h
 src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../include/battle/battle_state.h
@@ -124,6 +127,7 @@ src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o: ../src/npc/src/npc_battle.c
 src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../include/action_management/action_structs.h
 src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../include/battle/battle_ai.h
 src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../include/battle/battle_common.h
+src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../include/battle/battle_default_objects.h
 src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../include/battle/battle_flow_structs.h
 src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../include/battle/battle_moves.h
 src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../include/battle/battle_state.h
@@ -164,6 +168,7 @@ src/npc/CMakeFiles/npc.dir/src/npc_move.c.o: ../src/npc/src/npc_move.c
 src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o: ../include/action_management/action_structs.h
 src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o: ../include/battle/battle_ai.h
 src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o: ../include/battle/battle_common.h
+src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o: ../include/battle/battle_default_objects.h
 src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o: ../include/battle/battle_flow_structs.h
 src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o: ../include/battle/battle_moves.h
 src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o: ../include/battle/battle_state.h

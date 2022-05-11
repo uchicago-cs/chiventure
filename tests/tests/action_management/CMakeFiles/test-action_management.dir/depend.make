@@ -7,6 +7,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_in
 tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_init_free.c.o: ../include/action_management/actionmanagement.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_init_free.c.o: ../include/battle/battle_ai.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_init_free.c.o: ../include/battle/battle_common.h
+tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_init_free.c.o: ../include/battle/battle_default_objects.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_init_free.c.o: ../include/battle/battle_flow_structs.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_init_free.c.o: ../include/battle/battle_moves.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_init_free.c.o: ../include/battle/battle_state.h
@@ -48,6 +49,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c
 tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c.o: ../include/action_management/actionmanagement.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c.o: ../include/battle/battle_ai.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c.o: ../include/battle/battle_common.h
+tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c.o: ../include/battle/battle_default_objects.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c.o: ../include/battle/battle_flow_structs.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c.o: ../include/battle/battle_moves.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c.o: ../include/battle/battle_state.h
@@ -89,6 +91,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.c.o: ../include/action_management/actionmanagement.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.c.o: ../include/battle/battle_ai.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.c.o: ../include/battle/battle_common.h
+tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.c.o: ../include/battle/battle_default_objects.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.c.o: ../include/battle/battle_flow_structs.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.c.o: ../include/battle/battle_moves.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.c.o: ../include/battle/battle_state.h
@@ -130,6 +133,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_act
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_actions.c.o: ../include/action_management/actionmanagement.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_actions.c.o: ../include/battle/battle_ai.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_actions.c.o: ../include/battle/battle_common.h
+tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_actions.c.o: ../include/battle/battle_default_objects.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_actions.c.o: ../include/battle/battle_flow_structs.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_actions.c.o: ../include/battle/battle_moves.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_actions.c.o: ../include/battle/battle_state.h
@@ -171,6 +175,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.
 tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.c.o: ../include/action_management/actionmanagement.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.c.o: ../include/battle/battle_ai.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.c.o: ../include/battle/battle_common.h
+tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.c.o: ../include/battle/battle_default_objects.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.c.o: ../include/battle/battle_flow_structs.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.c.o: ../include/battle/battle_moves.h
 tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.c.o: ../include/battle/battle_state.h

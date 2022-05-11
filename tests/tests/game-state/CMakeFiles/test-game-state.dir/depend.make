@@ -6,6 +6,7 @@ tests/game-state/CMakeFiles/test-game-state.dir/main.c.o: game-state/main.c
 tests/game-state/CMakeFiles/test-game-state.dir/test_condition.c.o: ../include/action_management/action_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_condition.c.o: ../include/battle/battle_ai.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_condition.c.o: ../include/battle/battle_common.h
+tests/game-state/CMakeFiles/test-game-state.dir/test_condition.c.o: ../include/battle/battle_default_objects.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_condition.c.o: ../include/battle/battle_flow_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_condition.c.o: ../include/battle/battle_moves.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_condition.c.o: ../include/battle/battle_state.h
@@ -47,6 +48,7 @@ tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../inclu
 tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../include/action_management/actionmanagement.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../include/battle/battle_ai.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../include/battle/battle_common.h
+tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../include/battle/battle_default_objects.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../include/battle/battle_flow_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../include/battle/battle_moves.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: ../include/battle/battle_state.h
@@ -87,6 +89,7 @@ tests/game-state/CMakeFiles/test-game-state.dir/test_delete_action.c.o: game-sta
 tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: ../include/action_management/action_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: ../include/battle/battle_ai.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: ../include/battle/battle_common.h
+tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: ../include/battle/battle_default_objects.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: ../include/battle/battle_flow_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: ../include/battle/battle_moves.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: ../include/battle/battle_state.h
@@ -127,6 +130,7 @@ tests/game-state/CMakeFiles/test-game-state.dir/test_game.c.o: game-state/test_g
 tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: ../include/action_management/action_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: ../include/battle/battle_ai.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: ../include/battle/battle_common.h
+tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: ../include/battle/battle_default_objects.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: ../include/battle/battle_flow_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: ../include/battle/battle_moves.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: ../include/battle/battle_state.h
@@ -167,6 +171,7 @@ tests/game-state/CMakeFiles/test-game-state.dir/test_items.c.o: game-state/test_
 tests/game-state/CMakeFiles/test-game-state.dir/test_mode.c.o: ../include/action_management/action_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_mode.c.o: ../include/battle/battle_ai.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_mode.c.o: ../include/battle/battle_common.h
+tests/game-state/CMakeFiles/test-game-state.dir/test_mode.c.o: ../include/battle/battle_default_objects.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_mode.c.o: ../include/battle/battle_flow_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_mode.c.o: ../include/battle/battle_moves.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_mode.c.o: ../include/battle/battle_state.h
@@ -208,6 +213,7 @@ tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/action
 tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/action_management/actionmanagement.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/battle/battle_ai.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/battle/battle_common.h
+tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/battle/battle_default_objects.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/battle/battle_flow_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/battle/battle_moves.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_path.c.o: ../include/battle/battle_state.h
@@ -292,6 +298,7 @@ tests/game-state/CMakeFiles/test-game-state.dir/test_player.c.o: game-state/test
 tests/game-state/CMakeFiles/test-game-state.dir/test_rooms.c.o: ../include/action_management/action_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_rooms.c.o: ../include/battle/battle_ai.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_rooms.c.o: ../include/battle/battle_common.h
+tests/game-state/CMakeFiles/test-game-state.dir/test_rooms.c.o: ../include/battle/battle_default_objects.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_rooms.c.o: ../include/battle/battle_flow_structs.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_rooms.c.o: ../include/battle/battle_moves.h
 tests/game-state/CMakeFiles/test-game-state.dir/test_rooms.c.o: ../include/battle/battle_state.h

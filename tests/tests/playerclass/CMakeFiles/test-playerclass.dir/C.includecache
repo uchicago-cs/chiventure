@@ -25,10 +25,26 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
 ../include/battle/battle/battle_structs.h
+
+../include/battle/battle_default_objects.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_structs.h
+../include/battle/battle/battle_structs.h
+battle/battle_moves.h
+../include/battle/battle/battle_moves.h
+battle/battle_flow_structs.h
+../include/battle/battle/battle_flow_structs.h
 
 ../include/battle/battle_flow_structs.h
 stdbool.h
@@ -322,20 +338,6 @@ playerclass/class_structs.h
 game-state/stats.h
 ../include/playerclass/game-state/stats.h
 
-../include/playerclass/class_item.h
-assert.h
--
-stdbool.h
--
-stdlib.h
--
-game-state/item.h
-../include/playerclass/game-state/item.h
-playerclass/class.h
-../include/playerclass/playerclass/class.h
-playerclass/class_structs.h
-../include/playerclass/playerclass/class_structs.h
-
 ../include/playerclass/class_prefabs.h
 playerclass/class_structs.h
 ../include/playerclass/playerclass/class_structs.h
@@ -414,18 +416,6 @@ skilltrees/skilltrees_enums.h
 
 ../include/skilltrees/skilltrees_enums.h
 
-/home/elizabethli/cmsc220/chiventure/tests/playerclass/main.c
-stdio.h
--
-stdbool.h
--
-criterion/criterion.h
--
-criterion/options.h
--
-criterion/output.h
--
-
 /home/elizabethli/cmsc220/chiventure/tests/playerclass/test_class.c
 stdio.h
 -
@@ -441,20 +431,6 @@ skilltrees/skilltree.h
 /home/elizabethli/cmsc220/chiventure/tests/playerclass/skilltrees/skilltree.h
 skilltrees/inventory.h
 /home/elizabethli/cmsc220/chiventure/tests/playerclass/skilltrees/inventory.h
-
-/home/elizabethli/cmsc220/chiventure/tests/playerclass/test_class_item.c
-criterion/criterion.h
--
-stdlib.h
--
-stdbool.h
--
-assert.h
--
-game-state/item.h
-/home/elizabethli/cmsc220/chiventure/tests/playerclass/game-state/item.h
-playerclass/class_item.h
-/home/elizabethli/cmsc220/chiventure/tests/playerclass/playerclass/class_item.h
 
 /home/elizabethli/cmsc220/chiventure/tests/playerclass/test_class_prefabs.c
 criterion/criterion.h

@@ -4,6 +4,7 @@
 src/quests/CMakeFiles/quests.dir/src/quests_state.c.o: ../include/action_management/action_structs.h
 src/quests/CMakeFiles/quests.dir/src/quests_state.c.o: ../include/battle/battle_ai.h
 src/quests/CMakeFiles/quests.dir/src/quests_state.c.o: ../include/battle/battle_common.h
+src/quests/CMakeFiles/quests.dir/src/quests_state.c.o: ../include/battle/battle_default_objects.h
 src/quests/CMakeFiles/quests.dir/src/quests_state.c.o: ../include/battle/battle_flow_structs.h
 src/quests/CMakeFiles/quests.dir/src/quests_state.c.o: ../include/battle/battle_moves.h
 src/quests/CMakeFiles/quests.dir/src/quests_state.c.o: ../include/battle/battle_state.h

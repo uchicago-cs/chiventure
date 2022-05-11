@@ -4,6 +4,7 @@
 src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o: ../include/action_management/action_structs.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o: ../include/battle/battle_ai.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o: ../include/battle/battle_common.h
+src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o: ../include/battle/battle_default_objects.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o: ../include/battle/battle_flow_structs.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o: ../include/battle/battle_moves.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o: ../include/battle/battle_state.h
@@ -60,6 +61,7 @@ src/playerclass/CMakeFiles/playerclass.dir/src/class_item.c.o: ../src/playerclas
 src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o: ../include/action_management/action_structs.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o: ../include/battle/battle_ai.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o: ../include/battle/battle_common.h
+src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o: ../include/battle/battle_default_objects.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o: ../include/battle/battle_flow_structs.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o: ../include/battle/battle_moves.h
 src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o: ../include/battle/battle_state.h

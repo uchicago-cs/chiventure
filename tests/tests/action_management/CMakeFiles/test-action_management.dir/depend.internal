@@ -8,6 +8,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_action_new_in
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -49,6 +50,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_get_actions.c
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -90,6 +92,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_item_actions.
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -131,6 +134,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_item_item_act
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -172,6 +176,7 @@ tests/action_management/CMakeFiles/test-action_management.dir/test_path_actions.
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h

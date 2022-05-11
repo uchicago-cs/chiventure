@@ -14,6 +14,7 @@ src/battle/CMakeFiles/battle.dir/__/playerclass/examples/class-list.c.o: ../src/
 
 src/battle/CMakeFiles/battle.dir/src/battle_ai.c.o: ../include/battle/battle_ai.h
 src/battle/CMakeFiles/battle.dir/src/battle_ai.c.o: ../include/battle/battle_common.h
+src/battle/CMakeFiles/battle.dir/src/battle_ai.c.o: ../include/battle/battle_default_objects.h
 src/battle/CMakeFiles/battle.dir/src/battle_ai.c.o: ../include/battle/battle_flow_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_ai.c.o: ../include/battle/battle_moves.h
 src/battle/CMakeFiles/battle.dir/src/battle_ai.c.o: ../include/battle/battle_state.h
@@ -48,6 +49,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_default_objects.c.o: ../src/battle/s
 src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../include/action_management/action_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../include/battle/battle_ai.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../include/battle/battle_common.h
+src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../include/battle/battle_default_objects.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../include/battle/battle_flow.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../include/battle/battle_flow_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../include/battle/battle_logic.h
@@ -92,6 +94,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_flow.c.o: ../src/battle/src/battle_f
 
 src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o: ../include/battle/battle_ai.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o: ../include/battle/battle_common.h
+src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o: ../include/battle/battle_default_objects.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o: ../include/battle/battle_flow_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o: ../include/battle/battle_moves.h
 src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o: ../include/battle/battle_state.h
@@ -108,6 +111,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_flow_structs.c.o: ../src/battle/src/
 
 src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o: ../include/battle/battle_ai.h
 src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o: ../include/battle/battle_common.h
+src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o: ../include/battle/battle_default_objects.h
 src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o: ../include/battle/battle_flow_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o: ../include/battle/battle_logic.h
 src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o: ../include/battle/battle_moves.h
@@ -125,6 +129,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_logic.c.o: ../src/battle/src/battle_
 
 src/battle/CMakeFiles/battle.dir/src/battle_move_maker.c.o: ../include/battle/battle_ai.h
 src/battle/CMakeFiles/battle.dir/src/battle_move_maker.c.o: ../include/battle/battle_common.h
+src/battle/CMakeFiles/battle.dir/src/battle_move_maker.c.o: ../include/battle/battle_default_objects.h
 src/battle/CMakeFiles/battle.dir/src/battle_move_maker.c.o: ../include/battle/battle_flow_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_move_maker.c.o: ../include/battle/battle_move_maker.h
 src/battle/CMakeFiles/battle.dir/src/battle_move_maker.c.o: ../include/battle/battle_moves.h
@@ -157,6 +162,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_moves.c.o: ../src/battle/src/battle_
 
 src/battle/CMakeFiles/battle.dir/src/battle_print.c.o: ../include/battle/battle_ai.h
 src/battle/CMakeFiles/battle.dir/src/battle_print.c.o: ../include/battle/battle_common.h
+src/battle/CMakeFiles/battle.dir/src/battle_print.c.o: ../include/battle/battle_default_objects.h
 src/battle/CMakeFiles/battle.dir/src/battle_print.c.o: ../include/battle/battle_flow_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_print.c.o: ../include/battle/battle_logic.h
 src/battle/CMakeFiles/battle.dir/src/battle_print.c.o: ../include/battle/battle_moves.h
@@ -175,6 +181,7 @@ src/battle/CMakeFiles/battle.dir/src/battle_print.c.o: ../src/battle/src/battle_
 
 src/battle/CMakeFiles/battle.dir/src/battle_state.c.o: ../include/battle/battle_ai.h
 src/battle/CMakeFiles/battle.dir/src/battle_state.c.o: ../include/battle/battle_common.h
+src/battle/CMakeFiles/battle.dir/src/battle_state.c.o: ../include/battle/battle_default_objects.h
 src/battle/CMakeFiles/battle.dir/src/battle_state.c.o: ../include/battle/battle_flow_structs.h
 src/battle/CMakeFiles/battle.dir/src/battle_state.c.o: ../include/battle/battle_moves.h
 src/battle/CMakeFiles/battle.dir/src/battle_state.c.o: ../include/battle/battle_state.h

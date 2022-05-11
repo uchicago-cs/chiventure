@@ -37,10 +37,26 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
 ../include/battle/battle/battle_structs.h
+
+../include/battle/battle_default_objects.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_structs.h
+../include/battle/battle/battle_structs.h
+battle/battle_moves.h
+../include/battle/battle/battle_moves.h
+battle/battle_flow_structs.h
+../include/battle/battle/battle_flow_structs.h
 
 ../include/battle/battle_flow_structs.h
 stdbool.h
@@ -530,14 +546,6 @@ action_management/actionmanagement.h
 cli/util.h
 /home/elizabethli/cmsc220/chiventure/src/cli/src/cli/util.h
 
-/home/elizabethli/cmsc220/chiventure/src/cli/src/cmdlist.c
-stdlib.h
--
-string.h
--
-cli/cmdlist.h
-/home/elizabethli/cmsc220/chiventure/src/cli/src/cli/cmdlist.h
-
 /home/elizabethli/cmsc220/chiventure/src/cli/src/operations.c
 string.h
 -
@@ -566,20 +574,6 @@ cli/cmdlist.h
 cli/util.h
 /home/elizabethli/cmsc220/chiventure/src/cli/src/cli/util.h
 
-/home/elizabethli/cmsc220/chiventure/src/cli/src/parser.c
-stdlib.h
--
-string.h
--
-ctype.h
--
-cli/parser.h
-/home/elizabethli/cmsc220/chiventure/src/cli/src/cli/parser.h
-common/utlist.h
-/home/elizabethli/cmsc220/chiventure/src/cli/src/common/utlist.h
-cli/util.h
-/home/elizabethli/cmsc220/chiventure/src/cli/src/cli/util.h
-
 /home/elizabethli/cmsc220/chiventure/src/cli/src/shell.c
 stdio.h
 -
@@ -587,8 +581,4 @@ cli/shell.h
 /home/elizabethli/cmsc220/chiventure/src/cli/src/cli/shell.h
 ui/print_functions.h
 /home/elizabethli/cmsc220/chiventure/src/cli/src/ui/print_functions.h
-
-/home/elizabethli/cmsc220/chiventure/src/cli/src/util.c
-cli/util.h
-/home/elizabethli/cmsc220/chiventure/src/cli/src/cli/util.h
 

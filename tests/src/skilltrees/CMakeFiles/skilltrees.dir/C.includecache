@@ -25,10 +25,26 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
 ../include/battle/battle/battle_structs.h
+
+../include/battle/battle_default_objects.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_structs.h
+../include/battle/battle/battle_structs.h
+battle/battle_moves.h
+../include/battle/battle/battle_moves.h
+battle/battle_flow_structs.h
+../include/battle/battle/battle_flow_structs.h
 
 ../include/battle/battle_flow_structs.h
 stdbool.h
@@ -408,18 +424,6 @@ string.h
 skilltrees/effect.h
 /home/elizabethli/cmsc220/chiventure/src/skilltrees/src/skilltrees/effect.h
 
-/home/elizabethli/cmsc220/chiventure/src/skilltrees/src/inventory.c
-stdio.h
--
-stdlib.h
--
-string.h
--
-assert.h
--
-skilltrees/inventory.h
-/home/elizabethli/cmsc220/chiventure/src/skilltrees/src/skilltrees/inventory.h
-
 /home/elizabethli/cmsc220/chiventure/src/skilltrees/src/skill.c
 stdio.h
 -
@@ -443,14 +447,4 @@ string.h
 -
 skilltrees/skilltree.h
 /home/elizabethli/cmsc220/chiventure/src/skilltrees/src/skilltrees/skilltree.h
-
-/home/elizabethli/cmsc220/chiventure/src/skilltrees/src/skilltrees_common.c
-stdio.h
--
-stdlib.h
--
-assert.h
--
-skilltrees/skilltrees_common.h
-/home/elizabethli/cmsc220/chiventure/src/skilltrees/src/skilltrees/skilltrees_common.h
 

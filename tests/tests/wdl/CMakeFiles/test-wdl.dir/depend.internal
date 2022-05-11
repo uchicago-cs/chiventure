@@ -8,6 +8,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -59,6 +60,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -107,6 +109,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -154,6 +157,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -200,6 +204,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h

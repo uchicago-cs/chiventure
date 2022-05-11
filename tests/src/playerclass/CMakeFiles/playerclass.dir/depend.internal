@@ -5,6 +5,7 @@ src/playerclass/CMakeFiles/playerclass.dir/src/class.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -61,6 +62,7 @@ src/playerclass/CMakeFiles/playerclass.dir/src/class_prefabs.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h

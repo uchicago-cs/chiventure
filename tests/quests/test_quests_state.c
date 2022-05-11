@@ -586,6 +586,134 @@ Test(quest,complete_quest)
                     "quest_completed failed to reward the item");
 }
 
+/* Tests the function that is incomplete*/
+Test(quest,complete_quest2)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+    quest->status = 0;
+
+    reward_t *res = complete_quest(quest);
+
+    cr_assert_eq(res, NULL,"quest_completed failed to reward the item");
+}
+
+
+
+/*see if get_quest_from_hash works when there is quest in Hash */ 
+Test(quest,get_quest1)
+{ 
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+    quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table = NULL;
+
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
+
+    quest_t *answer = get_quest_from_hash(quest1_id,test_hash_table); 
+    cr_assert_eq(answer, quest1, "get_queset() did not return the right quest");
+
+}
+
+/*see if get_quest_from_hash work when there is no quest in the hash */ 
+Test(quest,get_quest2)
+{ 
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+    quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table = NULL;
+
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
+
+    quest_t *answer = get_quest_from_hash("beeppop",test_hash_table); 
+    cr_assert_eq(answer, NULL, "There is an quest with ID of beeppop ");
+}
+
+/*test for add quest when 2 unique quest_ID */ 
+Test(test, add_quest_test1)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+    quest_t *quest2 = quest_new(quest2_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table = NULL;
+
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table); 
+
+    cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add quest1"); 
+    cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add quest2"); 
+}
+/*test for add quest when a quest with same ID aredy exist in hash*/
+Test(test, add_quest_test2)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+    char *quest1_id = "quest one";
+    char *quest2_id = "quest two";
+
+    quest_t *quest1 = quest_new(quest1_id, NULL, rewards, stat_req);
+
+    quest_hash_t *test_hash_table = NULL;
+
+    int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
+    int add_quest2 = add_quest_to_hash(quest1, &test_hash_table); 
+
+    cr_assert_eq(add_quest2, FAILURE, "quest1 wasn't added properly"); 
+}
+
 /* Tests the function that removes one quest from hash table */
 Test(quest, remove_quest_one)
 {
@@ -638,3 +766,4 @@ Test(quest, remove_quest_all)
     int res = remove_quest_all(test_hash_table);
     cr_assert_eq(res,SUCCESS, "remove_quest_all() failed to 2nd test");
 }
+

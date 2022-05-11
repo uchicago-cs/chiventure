@@ -4,6 +4,7 @@
 src/skilltrees/CMakeFiles/skilltrees.dir/src/effect.c.o: ../include/action_management/action_structs.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/effect.c.o: ../include/battle/battle_ai.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/effect.c.o: ../include/battle/battle_common.h
+src/skilltrees/CMakeFiles/skilltrees.dir/src/effect.c.o: ../include/battle/battle_default_objects.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/effect.c.o: ../include/battle/battle_flow_structs.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/effect.c.o: ../include/battle/battle_moves.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/effect.c.o: ../include/battle/battle_state.h
@@ -51,6 +52,7 @@ src/skilltrees/CMakeFiles/skilltrees.dir/src/inventory.c.o: ../src/skilltrees/sr
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../include/action_management/action_structs.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../include/battle/battle_ai.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../include/battle/battle_common.h
+src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../include/battle/battle_default_objects.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../include/battle/battle_flow_structs.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../include/battle/battle_moves.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../include/battle/battle_state.h
@@ -93,6 +95,7 @@ src/skilltrees/CMakeFiles/skilltrees.dir/src/skill.c.o: ../src/skilltrees/src/sk
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skilltree.c.o: ../include/action_management/action_structs.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skilltree.c.o: ../include/battle/battle_ai.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skilltree.c.o: ../include/battle/battle_common.h
+src/skilltrees/CMakeFiles/skilltrees.dir/src/skilltree.c.o: ../include/battle/battle_default_objects.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skilltree.c.o: ../include/battle/battle_flow_structs.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skilltree.c.o: ../include/battle/battle_moves.h
 src/skilltrees/CMakeFiles/skilltrees.dir/src/skilltree.c.o: ../include/battle/battle_state.h

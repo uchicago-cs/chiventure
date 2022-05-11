@@ -5,6 +5,7 @@ src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o:
 src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o: ../include/action_management/actionmanagement.h
 src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o: ../include/battle/battle_ai.h
 src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o: ../include/battle/battle_common.h
+src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o: ../include/battle/battle_default_objects.h
 src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o: ../include/battle/battle_flow_structs.h
 src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o: ../include/battle/battle_moves.h
 src/action_management/CMakeFiles/action_management.dir/src/actionmanagement.c.o: ../include/battle/battle_state.h
@@ -46,6 +47,7 @@ src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../i
 src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../include/action_management/actionmanagement.h
 src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../include/battle/battle_ai.h
 src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../include/battle/battle_common.h
+src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../include/battle/battle_default_objects.h
 src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../include/battle/battle_flow_structs.h
 src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../include/battle/battle_moves.h
 src/action_management/CMakeFiles/action_management.dir/src/get_actions.c.o: ../include/battle/battle_state.h

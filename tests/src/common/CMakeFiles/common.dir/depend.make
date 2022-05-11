@@ -4,6 +4,7 @@
 src/common/CMakeFiles/common.dir/src/ctx.c.o: ../include/action_management/action_structs.h
 src/common/CMakeFiles/common.dir/src/ctx.c.o: ../include/battle/battle_ai.h
 src/common/CMakeFiles/common.dir/src/ctx.c.o: ../include/battle/battle_common.h
+src/common/CMakeFiles/common.dir/src/ctx.c.o: ../include/battle/battle_default_objects.h
 src/common/CMakeFiles/common.dir/src/ctx.c.o: ../include/battle/battle_flow_structs.h
 src/common/CMakeFiles/common.dir/src/ctx.c.o: ../include/battle/battle_moves.h
 src/common/CMakeFiles/common.dir/src/ctx.c.o: ../include/battle/battle_state.h
@@ -45,6 +46,7 @@ src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/action_manageme
 src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/action_management/actionmanagement.h
 src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/battle/battle_ai.h
 src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/battle/battle_common.h
+src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/battle/battle_default_objects.h
 src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/battle/battle_flow_structs.h
 src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/battle/battle_moves.h
 src/common/CMakeFiles/common.dir/src/sample_game.c.o: ../include/battle/battle_state.h

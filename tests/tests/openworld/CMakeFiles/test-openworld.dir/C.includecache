@@ -25,10 +25,26 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
 ../include/battle/battle/battle_structs.h
+
+../include/battle/battle_default_objects.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_structs.h
+../include/battle/battle/battle_structs.h
+battle/battle_moves.h
+../include/battle/battle/battle_moves.h
+battle/battle_flow_structs.h
+../include/battle/battle/battle_flow_structs.h
 
 ../include/battle/battle_flow_structs.h
 stdbool.h
@@ -408,18 +424,6 @@ skilltrees/skilltrees_enums.h
 
 ../include/skilltrees/skilltrees_enums.h
 
-/home/elizabethli/cmsc220/chiventure/tests/openworld/main.c
-stdio.h
--
-stdbool.h
--
-criterion/criterion.h
--
-criterion/options.h
--
-criterion/output.h
--
-
 /home/elizabethli/cmsc220/chiventure/tests/openworld/test_autogenerate.c
 criterion/criterion.h
 -
@@ -435,18 +439,6 @@ openworld/default_items.h
 /home/elizabethli/cmsc220/chiventure/tests/openworld/openworld/default_items.h
 openworld/gen_structs.h
 /home/elizabethli/cmsc220/chiventure/tests/openworld/openworld/gen_structs.h
-
-/home/elizabethli/cmsc220/chiventure/tests/openworld/test_items.c
-criterion/criterion.h
--
-stdio.h
--
-stdlib.h
--
-common/uthash.h
-/home/elizabethli/cmsc220/chiventure/tests/openworld/common/uthash.h
-openworld/default_items.h
-/home/elizabethli/cmsc220/chiventure/tests/openworld/openworld/default_items.h
 
 /home/elizabethli/cmsc220/chiventure/tests/openworld/test_rooms.c
 criterion/criterion.h

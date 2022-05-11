@@ -6,6 +6,7 @@ tests/cli/CMakeFiles/test-cli.dir/main.c.o: cli/main.c
 tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: ../include/action_management/action_structs.h
 tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: ../include/battle/battle_ai.h
 tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: ../include/battle/battle_common.h
+tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: ../include/battle/battle_default_objects.h
 tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: ../include/battle/battle_flow_structs.h
 tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: ../include/battle/battle_moves.h
 tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: ../include/battle/battle_state.h
@@ -46,6 +47,7 @@ tests/cli/CMakeFiles/test-cli.dir/test_cmd.c.o: cli/test_cmd.c
 tests/cli/CMakeFiles/test-cli.dir/test_game.c.o: ../include/action_management/action_structs.h
 tests/cli/CMakeFiles/test-cli.dir/test_game.c.o: ../include/battle/battle_ai.h
 tests/cli/CMakeFiles/test-cli.dir/test_game.c.o: ../include/battle/battle_common.h
+tests/cli/CMakeFiles/test-cli.dir/test_game.c.o: ../include/battle/battle_default_objects.h
 tests/cli/CMakeFiles/test-cli.dir/test_game.c.o: ../include/battle/battle_flow_structs.h
 tests/cli/CMakeFiles/test-cli.dir/test_game.c.o: ../include/battle/battle_moves.h
 tests/cli/CMakeFiles/test-cli.dir/test_game.c.o: ../include/battle/battle_state.h

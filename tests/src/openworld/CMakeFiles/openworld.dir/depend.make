@@ -4,6 +4,7 @@
 src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../include/action_management/action_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../include/battle/battle_ai.h
 src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../include/battle/battle_common.h
+src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../include/battle/battle_default_objects.h
 src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../include/battle/battle_flow_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../include/battle/battle_moves.h
 src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../include/battle/battle_state.h
@@ -48,6 +49,7 @@ src/openworld/CMakeFiles/openworld.dir/src/autogenerate.c.o: ../src/openworld/sr
 src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../include/action_management/action_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../include/battle/battle_ai.h
 src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../include/battle/battle_common.h
+src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../include/battle/battle_default_objects.h
 src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../include/battle/battle_flow_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../include/battle/battle_moves.h
 src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../include/battle/battle_state.h
@@ -89,6 +91,7 @@ src/openworld/CMakeFiles/openworld.dir/src/default_items.c.o: ../src/openworld/s
 src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../include/action_management/action_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../include/battle/battle_ai.h
 src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../include/battle/battle_common.h
+src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../include/battle/battle_default_objects.h
 src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../include/battle/battle_flow_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../include/battle/battle_moves.h
 src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../include/battle/battle_state.h
@@ -132,6 +135,7 @@ src/openworld/CMakeFiles/openworld.dir/src/default_rooms.c.o: ../src/openworld/s
 src/openworld/CMakeFiles/openworld.dir/src/gen_structs.c.o: ../include/action_management/action_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/gen_structs.c.o: ../include/battle/battle_ai.h
 src/openworld/CMakeFiles/openworld.dir/src/gen_structs.c.o: ../include/battle/battle_common.h
+src/openworld/CMakeFiles/openworld.dir/src/gen_structs.c.o: ../include/battle/battle_default_objects.h
 src/openworld/CMakeFiles/openworld.dir/src/gen_structs.c.o: ../include/battle/battle_flow_structs.h
 src/openworld/CMakeFiles/openworld.dir/src/gen_structs.c.o: ../include/battle/battle_moves.h
 src/openworld/CMakeFiles/openworld.dir/src/gen_structs.c.o: ../include/battle/battle_state.h

@@ -37,10 +37,26 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
 ../include/battle/battle/battle_structs.h
+
+../include/battle/battle_default_objects.h
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_structs.h
+../include/battle/battle/battle_structs.h
+battle/battle_moves.h
+../include/battle/battle/battle_moves.h
+battle/battle_flow_structs.h
+../include/battle/battle/battle_flow_structs.h
 
 ../include/battle/battle_flow_structs.h
 stdbool.h
@@ -373,18 +389,6 @@ skilltrees/skilltrees_enums.h
 ../include/skilltrees/skilltrees/skilltrees_enums.h
 
 ../include/skilltrees/skilltrees_enums.h
-
-/home/elizabethli/cmsc220/chiventure/tests/action_management/main.c
-stdio.h
--
-stdbool.h
--
-criterion/criterion.h
--
-criterion/options.h
--
-criterion/output.h
--
 
 /home/elizabethli/cmsc220/chiventure/tests/action_management/test_action_new_init_free.c
 criterion/criterion.h

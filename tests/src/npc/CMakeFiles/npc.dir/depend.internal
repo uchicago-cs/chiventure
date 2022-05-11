@@ -5,6 +5,7 @@ src/npc/CMakeFiles/npc.dir/src/dialogue.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -45,6 +46,7 @@ src/npc/CMakeFiles/npc.dir/src/npc.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -85,6 +87,7 @@ src/npc/CMakeFiles/npc.dir/src/npc_battle.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -125,6 +128,7 @@ src/npc/CMakeFiles/npc.dir/src/npc_move.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -165,6 +169,7 @@ src/npc/CMakeFiles/npc.dir/src/rooms-npc.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h

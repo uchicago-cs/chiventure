@@ -7,6 +7,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/action_management/a
 tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/action_management/actionmanagement.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/battle/battle_ai.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/battle/battle_common.h
+tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/battle/battle_default_objects.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/battle/battle_flow_structs.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/battle/battle_moves.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_class.c.o: ../include/battle/battle_state.h
@@ -58,6 +59,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/action_management/ac
 tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/action_management/actionmanagement.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/battle/battle_ai.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/battle/battle_common.h
+tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/battle/battle_default_objects.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/battle/battle_flow_structs.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/battle/battle_moves.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_game.c.o: ../include/battle/battle_state.h
@@ -106,6 +108,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/action_management/ac
 tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/action_management/actionmanagement.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/battle/battle_ai.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/battle/battle_common.h
+tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/battle/battle_default_objects.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/battle/battle_flow_structs.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/battle/battle_moves.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_item.c.o: ../include/battle/battle_state.h
@@ -153,6 +156,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/action_management/ac
 tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/action_management/actionmanagement.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/battle/battle_ai.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/battle/battle_common.h
+tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/battle/battle_default_objects.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/battle/battle_flow_structs.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/battle/battle_moves.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_room.c.o: ../include/battle/battle_state.h
@@ -199,6 +203,7 @@ tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/action_managem
 tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/action_management/actionmanagement.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/battle/battle_ai.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/battle/battle_common.h
+tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/battle/battle_default_objects.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/battle/battle_flow_structs.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/battle/battle_moves.h
 tests/wdl/CMakeFiles/test-wdl.dir/test_validation.c.o: ../include/battle/battle_state.h

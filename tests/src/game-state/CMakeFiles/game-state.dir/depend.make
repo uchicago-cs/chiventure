@@ -4,6 +4,7 @@
 src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../include/action_management/action_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../include/battle/battle_ai.h
 src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../include/battle/battle_common.h
+src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../include/battle/battle_default_objects.h
 src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../include/battle/battle_flow_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../include/battle/battle_moves.h
 src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../include/battle/battle_state.h
@@ -44,6 +45,7 @@ src/game-state/CMakeFiles/game-state.dir/src/condition.c.o: ../src/game-state/sr
 src/game-state/CMakeFiles/game-state.dir/src/game.c.o: ../include/action_management/action_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/game.c.o: ../include/battle/battle_ai.h
 src/game-state/CMakeFiles/game-state.dir/src/game.c.o: ../include/battle/battle_common.h
+src/game-state/CMakeFiles/game-state.dir/src/game.c.o: ../include/battle/battle_default_objects.h
 src/game-state/CMakeFiles/game-state.dir/src/game.c.o: ../include/battle/battle_flow_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/game.c.o: ../include/battle/battle_moves.h
 src/game-state/CMakeFiles/game-state.dir/src/game.c.o: ../include/battle/battle_state.h
@@ -124,6 +126,7 @@ src/game-state/CMakeFiles/game-state.dir/src/item.c.o: ../src/game-state/src/ite
 src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../include/action_management/action_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../include/battle/battle_ai.h
 src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../include/battle/battle_common.h
+src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../include/battle/battle_default_objects.h
 src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../include/battle/battle_flow.h
 src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../include/battle/battle_flow_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../include/battle/battle_logic.h
@@ -169,6 +172,7 @@ src/game-state/CMakeFiles/game-state.dir/src/mode.c.o: ../src/game-state/src/mod
 src/game-state/CMakeFiles/game-state.dir/src/path.c.o: ../include/action_management/action_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/path.c.o: ../include/battle/battle_ai.h
 src/game-state/CMakeFiles/game-state.dir/src/path.c.o: ../include/battle/battle_common.h
+src/game-state/CMakeFiles/game-state.dir/src/path.c.o: ../include/battle/battle_default_objects.h
 src/game-state/CMakeFiles/game-state.dir/src/path.c.o: ../include/battle/battle_flow_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/path.c.o: ../include/battle/battle_moves.h
 src/game-state/CMakeFiles/game-state.dir/src/path.c.o: ../include/battle/battle_state.h
@@ -226,6 +230,7 @@ src/game-state/CMakeFiles/game-state.dir/src/player.c.o: ../src/game-state/src/p
 src/game-state/CMakeFiles/game-state.dir/src/room.c.o: ../include/action_management/action_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/room.c.o: ../include/battle/battle_ai.h
 src/game-state/CMakeFiles/game-state.dir/src/room.c.o: ../include/battle/battle_common.h
+src/game-state/CMakeFiles/game-state.dir/src/room.c.o: ../include/battle/battle_default_objects.h
 src/game-state/CMakeFiles/game-state.dir/src/room.c.o: ../include/battle/battle_flow_structs.h
 src/game-state/CMakeFiles/game-state.dir/src/room.c.o: ../include/battle/battle_moves.h
 src/game-state/CMakeFiles/game-state.dir/src/room.c.o: ../include/battle/battle_state.h

@@ -37,6 +37,8 @@ battle/battle_moves.h
 ../include/battle/battle/battle_moves.h
 common/utlist.h
 ../include/battle/common/utlist.h
+battle/battle_default_objects.h
+../include/battle/battle/battle_default_objects.h
 
 ../include/battle/battle_common.h
 battle/battle_structs.h
@@ -416,18 +418,6 @@ skilltrees/skilltrees_enums.h
 
 ../include/skilltrees/skilltrees_enums.h
 
-/home/elizabethli/cmsc220/chiventure/tests/game-state/main.c
-stdio.h
--
-stdbool.h
--
-criterion/criterion.h
--
-criterion/options.h
--
-criterion/output.h
--
-
 /home/elizabethli/cmsc220/chiventure/tests/game-state/test_condition.c
 criterion/criterion.h
 -
@@ -551,16 +541,4 @@ stdio.h
 -
 game-state/room.h
 /home/elizabethli/cmsc220/chiventure/tests/game-state/game-state/room.h
-
-/home/elizabethli/cmsc220/chiventure/tests/game-state/test_stats.c
-criterion/criterion.h
--
-stdlib.h
--
-stdbool.h
--
-stdio.h
--
-game-state/stats.h
-/home/elizabethli/cmsc220/chiventure/tests/game-state/game-state/stats.h
 

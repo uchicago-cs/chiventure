@@ -5,6 +5,7 @@ src/cli/CMakeFiles/cli.dir/src/cli_ctx.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -46,6 +47,7 @@ src/cli/CMakeFiles/cli.dir/src/cmd.c.o
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -98,6 +100,7 @@ src/cli/CMakeFiles/cli.dir/src/operations.c.o
  ../include/action_management/actionmanagement.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
@@ -155,6 +158,7 @@ src/cli/CMakeFiles/cli.dir/src/shell.c.o
  ../include/action_management/action_structs.h
  ../include/battle/battle_ai.h
  ../include/battle/battle_common.h
+ ../include/battle/battle_default_objects.h
  ../include/battle/battle_flow_structs.h
  ../include/battle/battle_moves.h
  ../include/battle/battle_state.h
