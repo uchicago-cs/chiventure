@@ -31,6 +31,7 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
     npc_battle = malloc(sizeof(npc_battle_t));
     memset(npc_battle, 0, sizeof(npc_battle_t));
     npc_battle->stats = malloc(sizeof(stat_t));
+
     npc_battle->moves = malloc(sizeof(move_t)); 
     npc_battle->class_type = malloc(sizeof(class_t));
     npc_battle->items = malloc(sizeof(battle_item_t));
@@ -88,7 +89,7 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     {
         add_item_to_room(room, current_item);
     }
-    
+
     HASH_ITER(hh, npc->inventory, current_item, tmp)
     {
         remove_item_from_npc(npc, current_item);

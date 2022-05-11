@@ -50,13 +50,18 @@ stat_t *create_enemy_stats1()
     stat_t *test_stats = calloc(1, sizeof(stat_t));
 
     test_stats->speed = 50;
-    test_stats->defense = 20;
-    test_stats->strength = 150;
-    test_stats->dexterity = 10;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->mag_def = 10;
+    test_stats->mag_atk = 10;
     test_stats->hp = 200;
     test_stats->max_hp = 200;
     test_stats->xp = 0;
     test_stats->level = 5;
+    test_stats->crit = 0;
+    test_stats->accuracy = 100;
+    test_stats->sp = 50;
+    test_stats->max_sp = 50;
 
     return test_stats;
 }
@@ -66,14 +71,19 @@ stat_t *create_enemy_stats2()
 {
     stat_t *test_stats = calloc(1, sizeof(stat_t));
 
-    test_stats->speed = 100;
-    test_stats->defense = 20;
-    test_stats->strength = 150;
-    test_stats->dexterity = 10;
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->mag_def = 10;
+    test_stats->mag_atk = 10;
     test_stats->hp = 200;
     test_stats->max_hp = 200;
     test_stats->xp = 0;
     test_stats->level = 5;
+    test_stats->crit = 0;
+    test_stats->accuracy = 100;
+    test_stats->sp = 50;
+    test_stats->max_sp = 50;
 
     return test_stats;
 }

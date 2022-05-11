@@ -41,6 +41,22 @@ char *print_start_battle(battle_t *b);
  */
  char *print_battle_move(battle_t *b, turn_t turn, move_t *move);
 
+/*
+ * Stores the message to be printed at the end of a move in the return
+ * string that has missed. The message varies based off whether it is 
+ * the battle_player or enemy move.
+ *
+ * Parameters:
+ *  - b = pointer to the battle
+ *  - turn = whose turn it is for this move
+ *  - move = pointer to the move being used
+ *
+ * Returns:
+ *  - malloced string with the message about the recent move and that it missed
+ *
+ */
+ char *print_battle_miss(battle_t *b, turn_t turn, move_t *move);
+
  /*
   * Stores a message about a list of the enemy HP to a previously allocated string.
   * Appends this message to the end of any message that might already be in

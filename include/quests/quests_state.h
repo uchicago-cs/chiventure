@@ -299,12 +299,12 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
  *
  * Parameters:
  *  pointer to quest struct
- *  pointer to quest hash table
+ *  pointer to a pointer quest hash table
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table);
+int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
 
 /* Checks a quest's status.
  *
