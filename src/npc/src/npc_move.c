@@ -280,12 +280,12 @@ int move_npc_definite(npc_mov_t *npc_mov)
             npc_mov->track = current_room->prev->room_id;
             npc_mov->npc_path_pos--;
         }
-        else 
+        else
             return 0;
 
         return 2;
     }
-    else 
+    else
         return 0;
 }
 
@@ -328,7 +328,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
             npc_mov->track = current_room->prev->room_id;
             npc_mov->npc_path_pos--;
         }
-        else 
+        else
             return 0;
 
         return 2;
@@ -346,7 +346,7 @@ int move_npc_mov(npc_mov_t *npc_mov)
         return move_npc_definite(npc_mov);
     else if (mov_type == NPC_MOV_INDEFINITE)
         return move_npc_indefinite(npc_mov);
-    else 
+    else
         return 0;
 }
 
