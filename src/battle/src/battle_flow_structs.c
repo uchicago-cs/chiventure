@@ -30,3 +30,42 @@ battle_game_t *new_battle_game()
 
       return g;
 }
+
+/* see battle_flow_structs.h */
+turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p){
+      tc.move = m;
+      tc.item = i;
+      tc.p = pass;
+      return SUCCESS;
+}
+
+/* see battle_flow_structs.h */
+turn_t *new_turn(turn_component_t t, turn_t *r){
+      turn_t *new_turn = (turn_t *) malloc (sizeof(turn_t));
+      if (new_turn == NULL){
+            error("Could not allocate memory");
+            return NULL;
+      }
+      new_turn->current = t;
+      assert(r!=NULL);
+      new_turn->rest = r;
+      return new_turn;
+}
+
+/* see battle_flow_structs.h */
+turn_t *init_turn(turn_t *turn, turn_t *r, turn_component_t c){
+      assert(turn != NULL);
+      assert(rest != NULL);
+      turn->current = c;
+      turn->rest = r;
+      return SUCCESS;
+}
+
+/* see battle_flow_structs.h */
+int turn_free(turn_t *turn){
+      free(turn->rest);
+      free(turn);
+}
+
+
+
