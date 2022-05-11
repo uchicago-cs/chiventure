@@ -19,12 +19,12 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id)
     {
 
         DL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
-        room_to_add);
+                  room_to_add);
     }
     else if (mov_type == NPC_MOV_INDEFINITE )
     {
         DL_APPEND(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path,
-        room_to_add);
+                  room_to_add);
         npc_mov->npc_mov_type.npc_mov_indefinite->room_time = NULL;
     }
 
@@ -105,7 +105,7 @@ int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int time)
     free(return_time);
 
     HASH_ADD_KEYPTR(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
-            room_id, strlen(room_id), new_npc_room_time);
+                    room_id, strlen(room_id), new_npc_room_time);
 
     return SUCCESS;
 }
@@ -121,7 +121,7 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add)
     room_id_to_add2->room_id = room_id_to_add;
 
     DL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
-        room_id_to_add2);
+              room_id_to_add2);
 
     return SUCCESS;
 }
@@ -136,7 +136,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time)
     room_id_to_add2->room_id = room_id_to_add;
 
     DL_APPEND(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path,
-        room_id_to_add2);
+              room_id_to_add2);
 
     int check = register_npc_room_time(npc_mov, room_id_to_add, time);
 
@@ -157,38 +157,38 @@ char* get_npc_curr_room_id(npc_mov_t *npc_mov)
 char *get_next_npc_room_id(npc_mov_t *npc_mov)
 {
     room_id_dll_t *current_room;
-    
+
     if (npc_mov->mov_type == NPC_MOV_INDEFINITE)
         current_room = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
     else current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
-    
+
     npc_path_direction_t direction = npc_mov->npc_path_direction;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
-    if (path_pos != 0) 
+    if (path_pos != 0)
     {
-        for (int i = 0; i < path_pos; i++) 
+        for (int i = 0; i < path_pos; i++)
         {
             current_room = current_room->next;
         }
-    } 
-    else 
+    }
+    else
     {
         if ((direction == NPC_MOV_ORIGINAL) && (current_room->next != NULL))
         {
             return current_room->next->room_id;
-        } 
-        else 
+        }
+        else
         {
             return NULL;
         }
     }
 
-    if (direction == NPC_MOV_ORIGINAL) 
+    if (direction == NPC_MOV_ORIGINAL)
     {
         if (current_room->next == NULL) return NULL;
         else return current_room->next->room_id;
-    } 
+    }
     else return current_room->prev->room_id;
 }
 
@@ -226,10 +226,12 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
     room_id_dll_t *elt;
     int count = 0;
 
-    if (npc_mov->mov_type == NPC_MOV_DEFINITE) {
+    if (npc_mov->mov_type == NPC_MOV_DEFINITE)
+    {
         DL_COUNT(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt, count);
     }
-    else if (npc_mov->mov_type == NPC_MOV_INDEFINITE) {
+    else if (npc_mov->mov_type == NPC_MOV_INDEFINITE)
+    {
         DL_COUNT(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt, count);
     }
     return count;
@@ -253,32 +255,32 @@ int move_npc_definite(npc_mov_t *npc_mov)
 
     if ((current_room->next == NULL) && (current_room->prev == NULL))
         return 3; // NPC has nowhere to move
-    
-    if (path_pos != 0) 
+
+    if (path_pos != 0)
     {
-        for (int i = 0; i < path_pos; i++) 
+        for (int i = 0; i < path_pos; i++)
         {
             current_room = current_room->next;
         }
     }
 
     if(((direction == NPC_MOV_ORIGINAL) && (current_room->next == NULL))
-        || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
+            || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
     {
         return 1;
     }
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
     {
-        if (direction == NPC_MOV_ORIGINAL) 
+        if (direction == NPC_MOV_ORIGINAL)
         {
             npc_mov->track = current_room->next->room_id;
             npc_mov->npc_path_pos++;
-        } 
-        else if (direction == NPC_MOV_REVERSED) 
+        }
+        else if (direction == NPC_MOV_REVERSED)
         {
             npc_mov->track = current_room->prev->room_id;
             npc_mov->npc_path_pos--;
-        } 
+        }
         else return 0;
         return 2;
     }
@@ -292,7 +294,7 @@ int move_npc_definite(npc_mov_t *npc_mov)
 int move_npc_indefinite(npc_mov_t *npc_mov)
 {
     assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
-    
+
     room_id_dll_t *current_room;
     current_room = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
     npc_path_direction_t direction = npc_mov->npc_path_direction;
@@ -300,33 +302,33 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
 
     if ((current_room->next == NULL) && (current_room->prev == NULL))
         return 3; // NPC has nowhere to move
-    
-    if (path_pos != 0) 
+
+    if (path_pos != 0)
     {
-        for (int i = 0; i < path_pos; i++) 
+        for (int i = 0; i < path_pos; i++)
         {
             current_room = current_room->next;
         }
     }
 
     if(((direction == NPC_MOV_ORIGINAL) && (current_room->next == NULL))
-        || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
+            || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
     {
         assert(flip_npc_path_direction(npc_mov) == SUCCESS);
         return 1;
     }
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
     {
-        if (direction == NPC_MOV_ORIGINAL) 
+        if (direction == NPC_MOV_ORIGINAL)
         {
             npc_mov->track = current_room->next->room_id;
             npc_mov->npc_path_pos++;
-        } 
-        else if (direction == NPC_MOV_REVERSED) 
+        }
+        else if (direction == NPC_MOV_REVERSED)
         {
             npc_mov->track = current_room->prev->room_id;
             npc_mov->npc_path_pos--;
-        } 
+        }
         else return 0;
         return 2;
     }
