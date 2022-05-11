@@ -56,7 +56,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
     HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-             check);
+              check);
 
     if (check != NULL)
     {
@@ -75,7 +75,7 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
     HASH_FIND(hh_room, npcs_in_room->npc_list, npc->npc_id, strlen(npc->npc_id),
-             check);
+              check);
 
     if (check == NULL)
     {

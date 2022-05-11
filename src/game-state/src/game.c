@@ -635,7 +635,7 @@ char *start_conversation(convo_t *c, int *rc, game_t *game)
     return ret_str;
 }
 
-/* See dialogue.h */
+/* See game.h */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 {   
     if (input > c->cur_node->num_available_edges)

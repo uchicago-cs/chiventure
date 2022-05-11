@@ -78,6 +78,13 @@ enum mov_type { NPC_MOV_DEFINITE, NPC_MOV_INDEFINITE };
 
 typedef enum mov_type npc_mov_enum_t;
 
+/* Enum to define NPC movement direction (along its path)
+ * Original direction is 0, Reversed direction is 1
+ */
+ typedef enum npc_path_direction {
+     NPC_MOV_ORIGINAL, NPC_MOV_REVERSED
+  } npc_path_direction_t;
+
 
 /*
  * Struct that deals with NPC movement for both types of npc movements
@@ -89,17 +96,18 @@ typedef enum mov_type npc_mov_enum_t;
  *  track: tracker variable that returns current room id
  *  npc_path_pos: index of the current location of the npc within
  *      its movement path
- *  npc_path_reversed: keeps track of whether the path of the NPC's
+ *  npc_path_direction: keeps track of whether the path of the NPC's
  *      movement is in the original direction or reversed.
- *      0 indicates original direction, a step is next in the room_id_dll
- *      1 indicates reversed direction, a step is prev in the room_id_dll
+ *      0 or NPC_MOV_ORIGINAL indicates original direction, 
+ *      1 or NPC_MOV_REVERSED indicates the path is in
+ *      the opposite direction
  */
 typedef struct npc_mov {
     npc_mov_type_t npc_mov_type;
     npc_mov_enum_t mov_type;
-    char *track;
+    npc_path_direction_t npc_path_direction;
     unsigned int npc_path_pos;
-    uint8_t npc_path_reversed;
+    char *track;
 } npc_mov_t;
 
 
@@ -199,7 +207,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time);
  * Returns:
  *  The room the NPC is in as a char*, NULL if error.
  */
-char *track_room(npc_mov_t *npc_mov);
+char *get_npc_curr_room_id(npc_mov_t *npc_mov);
 
 /*
  * Returns the room id of the room that 
@@ -222,17 +230,17 @@ char *get_next_npc_room_id(npc_mov_t *npc_mov);
 * Returns:
 * The integer index of the step of the movement path that the NPC is currently in
 */
-unsigned int track_npc_path_pos(npc_mov_t *npc_mov);
+unsigned int get_npc_path_pos(npc_mov_t *npc_mov);
 
 /*
-* Returns the byte that keeps track of whether an NPCs path is in the original direction or reversed
+* Returns whether an NPCs path is in the original direction or reversed
 *
 * Parameters: npc_mov: the NPC movement struct
 *
 * Returns:
 * 0 if the path is in the original direction, 1 if the path is in the reverse direction
 */
-uint8_t track_npc_path_reversed(npc_mov_t *npc_mov);
+unsigned int get_npc_path_direction(npc_mov_t *npc_mov);
 
 /*
  * Reverses the path, so that the npc goes back to where it started
@@ -245,7 +253,7 @@ uint8_t track_npc_path_reversed(npc_mov_t *npc_mov);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int reverse_path(npc_mov_t *npc_mov);
+int flip_npc_path_direction(npc_mov_t *npc_mov);
 
 /*
  * Gets the number of rooms in an NPC's path
@@ -279,7 +287,7 @@ int room_id_cmp(room_id_dll_t *room1, room_id_dll_t *room2);
  *
  * Returns:
  * 0 if move in unsuccessful
- * 1 npc has reached the end of the path, reverse_path is called, but
+ * 1 npc has reached the end of the path, flip_npc_path_direction is called, but
  *   the move is not implemented
  * 2 successful move to the next room
  * 3 npc has nowhere to move
@@ -293,8 +301,8 @@ int move_npc_definite(npc_mov_t *npc_mov);
  * npc_mov: The NPC movement struct
  *
  * Returns:
- * 0 if move is unsuccessful
- * 1 npc has reached the end of the path, reverse_path is called, but
+ * 0 if move in unsuccessful
+ * 1 npc has reached the end of the path, flip_npc_path_direction is called, but
  *   the move is not implemented
  * 2 successful move to the next room
  * 3 npc has nowhere to move
