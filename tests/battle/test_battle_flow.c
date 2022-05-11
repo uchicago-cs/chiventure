@@ -452,3 +452,4 @@ Test(battle_flow_move, battle_over_by_enemy)
             "battle_flow_move() failed: enemy was not declared the winner");
 }
 
+
