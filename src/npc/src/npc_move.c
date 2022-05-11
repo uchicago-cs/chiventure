@@ -223,16 +223,16 @@ int flip_npc_path_direction(npc_mov_t *npc_mov)
 /* See npc_move.h */
 int get_npc_num_rooms(npc_mov_t *npc_mov)
 {
-  room_id_dll_t *elt;
-	int count = 0;
+    room_id_dll_t *elt;
+    int count = 0;
 
-	if (npc_mov->mov_type == NPC_MOV_DEFINITE) {
+    if (npc_mov->mov_type == NPC_MOV_DEFINITE) {
         DL_COUNT(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt, count);
-	}
-	else if (npc_mov->mov_type == NPC_MOV_INDEFINITE) {
+    }
+    else if (npc_mov->mov_type == NPC_MOV_INDEFINITE) {
         DL_COUNT(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt, count);
-	}
-  return count;
+    }
+    return count;
 }
 
 /* See npc_move.h */
