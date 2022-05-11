@@ -10,16 +10,43 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 
+/* Creates + initializes a battle_item*/
+ battle_item_t *npc_create_battle_item(int id, int quantity, int durability, 
+                            char* description, bool battle, int attack,
+                            int defense, int hp)
+ {
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+     item->id = id;
+     item->quantity = quantity;
+     item->durability = durability;
+     item->description = description;
+     item->battle = battle;
+     item->attack = attack;
+     item->hp = hp;
+     item->defense = defense;
+
+     return item;
+ }
+
 /* Tests print_start_battle() */
 Test(battle_print, print_start_battle)
 {
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, 
+                                                player_stats, NULL, NULL);
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                "Charismatic, always has a joke or song ready",
+                                NULL, NULL, NULL);
+    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);  
+    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -31,7 +58,8 @@ Test(battle_print, print_start_battle)
 
     char *expected_string = "You have encountered bob!\n\n"
                             "Let the battle begin!\n";
-    cr_expect_str_eq(string, expected_string, "print_start_battle() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, 
+                    "print_start_battle() failed to set string %s", string);
 
     free(string);
 }
@@ -42,10 +70,18 @@ Test(battle_print, print_hp_one_enemy)
     /* Setting up a battle with set_battle */
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL,
+                                                player_stats, NULL, NULL);
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                "Charismatic, always has a joke or song ready",
+                                NULL, NULL, NULL);
+    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -63,7 +99,8 @@ Test(battle_print, print_hp_one_enemy)
     char *expected_string = "-- Your HP: 89\n"
                             "-- bob's HP: 64\n";
 
-    cr_expect_str_eq(string, expected_string, "print_hp() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, 
+                    "print_hp() failed to set string %s", string);
 
     free(string);
 }
@@ -87,10 +124,18 @@ Test(battle_print, print_player_move)
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
 
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", 
+                                                NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                "Charismatic, always has a joke or song ready",
+                                NULL, NULL, NULL);
+    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);  
+    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, 
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -109,7 +154,8 @@ Test(battle_print, print_player_move)
                             "-- Your HP: 50\n"
                             "-- bob's HP: 21\n";
 
-    cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, 
+                    "print_player_move() failed to set string %s", string);
 
     free(string);
 }
@@ -133,10 +179,18 @@ Test(battle_print, print_enemy_move)
     enemy_stats->xp = 100;
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL,
+                                                player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                "Charismatic, always has a joke or song ready",
+                                NULL, NULL, NULL);
+    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
+                "A hearty dagger sure to take your breath away... for good",
+                true, 20, 5, 0);                                   
+    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -154,7 +208,8 @@ Test(battle_print, print_enemy_move)
                             "-- Your HP: 42\n"
                             "-- bob's HP: 30\n";
 
-    cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, 
+                    "print_enemy_move() failed to set string %s", string);
 
     free(string);
 }
@@ -169,7 +224,8 @@ Test(battle_print, print_player_winner)
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You've won! You gain 2 XP!\n";
-    cr_expect_str_eq(string, expected_string, "print_player_winner() failed to set string");
+    cr_expect_str_eq(string, expected_string, 
+                    "print_player_winner() failed to set string");
 
     free(string);
 }
@@ -184,7 +240,8 @@ Test(battle_print, print_enemy_winner)
     cr_assert_not_null(string, "print_start_battle() failed");
 
     char *expected_string = "You have been defeated!\n";
-    cr_expect_str_eq(string, expected_string, "print_enemy_winner() failed to set string");
+    cr_expect_str_eq(string, expected_string, 
+                    "print_enemy_winner() failed to set string");
 
     free(string);
 }

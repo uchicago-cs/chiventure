@@ -37,6 +37,12 @@ typedef struct npc_battle {
 
     /* health level at which the NPC will surrender */
     int surrender_level;
+
+    /* class of the npc */
+    class_t *class_type;
+
+    /* An inventory of items that can be used in battle */
+    battle_item_t *items;
 } npc_battle_t;
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -54,13 +60,16 @@ typedef struct npc_battle {
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level 
  *  surrender_level: the level of health at which the npc surrenders the battle
+ *  class_type: the class struct of the npc
+ *  items: a doubly linked list of items that the npc can use during battle
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats, 
                     move_t* moves, difficulty_t ai, hostility_t hostility_level,
-                    int surrender_level);
+                    int surrender_level, class_t *class_type, 
+                    battle_item_t *items);
 /*
  * Allocates a new npc_battle struct in the heap.
  *
@@ -73,13 +82,16 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level 
  *  surrender_level: the level of health at which the npc surrenders the battle
+ *  class_type: the class struct of the npc
+ *  items: a doubly linked list of items that the npc can use during battle
  *
  * Returns:
  *  pointer to allocated npc_battle
  */
 npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
-		             difficulty_t ai, hostility_t hostility_level, 
-			     int surrender_level);
+		                    difficulty_t ai, hostility_t hostility_level, 
+			                int surrender_level, class_t *class_type,
+                            battle_item_t *items);
 
 /*
  * Frees resources associated with an npc_battle struct.

@@ -5,7 +5,8 @@
 /* See npc_battle.h */
 int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
                     move_t* moves, difficulty_t ai, hostility_t hostility_level,
-                    int surrender_level)
+                    int surrender_level, class_t *class_type, 
+                    battle_item_t *items)
 {
     assert(npc_battle != NULL);
     npc_battle->health = health;
@@ -14,26 +15,33 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
     npc_battle->ai = ai;
     npc_battle->hostility_level = hostility_level;
     npc_battle->surrender_level = surrender_level;
+    npc_battle->class_type = class_type;
+    npc_battle->items = items;
 
     return SUCCESS;
 }
 
 /* See npc_battle.h */
 npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
-		             difficulty_t ai, hostility_t hostility_level, 
-			     int surrender_level)
+		                    difficulty_t ai, hostility_t hostility_level, 
+			                int surrender_level, class_t *class_type,
+                            battle_item_t *items)
 {
     npc_battle_t *npc_battle;
     npc_battle = malloc(sizeof(npc_battle_t));
     memset(npc_battle, 0, sizeof(npc_battle_t));
     npc_battle->stats = malloc(sizeof(stat_t));
     npc_battle->moves = malloc(sizeof(move_t)); 
+    npc_battle->class_type = malloc(sizeof(class_t));
+    npc_battle->items = malloc(sizeof(battle_item_t));
 
     int check = npc_battle_init(npc_battle, health, stats, moves, ai, 
-                                hostility_level, surrender_level);
+                                hostility_level, surrender_level, class_type,
+                                items);
 
     if (npc_battle == NULL || npc_battle->stats == NULL ||  
-        npc_battle->moves == NULL || check != SUCCESS)
+        npc_battle->moves == NULL || npc_battle->class_type == NULL || 
+        npc_battle->items == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -47,6 +55,15 @@ int npc_battle_free(npc_battle_t *npc_battle)
     assert(npc_battle != NULL);
     free(npc_battle->stats); /*waiting for battle team's stat_free function*/
     move_free(npc_battle->moves);
+    class_free(npc_battle->class_type);
+
+    battle_item_t *item_elt, *item_tmp;
+    DL_FOREACH_SAFE(npc_battle->items, item_elt, item_tmp)
+    {
+        DL_DELETE(npc_battle->items, item_elt);
+        free(item_elt);
+    }
+    
     free(npc_battle);
 
     return SUCCESS;

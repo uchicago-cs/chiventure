@@ -215,12 +215,14 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
 /* See npc.h */
 int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,
-                      int surrender_level)
+                      int surrender_level, class_t *class_type, 
+                      battle_item_t *items)
 {
     assert(npc != NULL);
 
     npc_battle_t *npc_battle = npc_battle_new(health, stats, moves, ai,
-                                              hostility_level, surrender_level);
+                                              hostility_level, surrender_level,
+                                              class_type, items);
     assert(npc_battle != NULL);
 
     npc->npc_battle = npc_battle;
