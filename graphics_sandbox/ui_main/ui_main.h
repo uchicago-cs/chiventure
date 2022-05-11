@@ -2,6 +2,11 @@
 #define UI_MAIN_H
 
 #include "raylib.h"
+#include "input_box.h"
+//#include "inventory_graphics.h"   -------> I will be adding this data struct later this sprint (3)
+#include "npc_graphics.h"
+#include "quest_graphics.h"
+#include "scene_graphics.h"
 
 typedef struct splitscreen_info splitscreen_info_t;
 
@@ -24,7 +29,7 @@ struct splitscreen_info {
     type_subscreen_t type;
     /* The following two fields define the x and y positions of the
      * upper-left corner of the window, in percentages to the whole screen */
-    double xpos;
+    double xpos;  //!!! Maybe we can put this into a single rectangle
     double ypos;
     /* The following two fields define the horizontal and vertical
      * lengths of the window, in percentages to the whole screen */
