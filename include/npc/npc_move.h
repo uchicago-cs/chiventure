@@ -129,13 +129,14 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id);
 
 
 /*
- * Allocates a new npc_mov struct in the heap
+ * Returns newly heap allocated npc_mov struct on success, 
+ * and NULL if an error occurs
  *
  * Parameters:
  *  npc_id: The ID of the NPC that is being referred to; must point to
  *          allocated memory
  *  mov_type: The type of movement that the npc will have
- *  room: The room that the npc will begin in
+ *  room_id: The room_id that the npc will begin in
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -267,14 +268,15 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
 int get_npc_num_rooms(npc_mov_t *npc_mov);
 
 /* Compares the room_id of the current rooms between two
- *   room_list_t structs
+ *   room_id_dll_t structs
  *
  * Parameters:
  * room1, room2: Two room_list structs
  * 
  * Returns:
+ * The strcmp(room1_id, room2_id), so
  * 0 if the room_id of the current rooms in both
- *   room_list_t structs are the same, otherwise it
+ *   room_id_dll_t structs are the same, otherwise it
  *   will return a non-zero number
  */
 int room_id_cmp(room_id_dll_t *room1, room_id_dll_t *room2);

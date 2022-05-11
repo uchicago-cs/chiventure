@@ -252,7 +252,7 @@ int get_num_rooms(room_list_t *all_rooms)
 int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 {
     room_list_t *head = all_rooms;
-    int rc = 0;
+    int rc = SUCCESS;
     int num_rooms, num_rooms_to_add;
 
     if(npc_mov == NULL || head == NULL)
@@ -265,7 +265,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 
     for (int i = 0; i < num_rooms_to_add; i++)
     {
-        room_t *room_to_add = (room_t *) malloc(sizeof(room_t));
+        room_t *room_to_add = malloc(sizeof(room_t));
 
         room_to_add = head->room;
         head = head->next;

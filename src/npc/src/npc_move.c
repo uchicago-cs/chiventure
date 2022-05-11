@@ -117,7 +117,7 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add)
     assert(room_id_to_add != NULL);
     assert(npc_mov != NULL);
 
-    room_id_dll_t *room_id_to_add2 = (room_id_dll_t *)malloc(sizeof(room_id_dll_t));
+    room_id_dll_t *room_id_to_add2 = malloc(sizeof(room_id_dll_t));
     room_id_to_add2->room_id = room_id_to_add;
 
     DL_APPEND(npc_mov->npc_mov_type.npc_mov_definite->npc_path,
@@ -240,7 +240,7 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
 /* See npc_move.h */
 int room_id_cmp(room_id_dll_t *room1, room_id_dll_t *room2)
 {
-    return (strcmp(room1->room_id, room2->room_id));
+    return strcmp(room1->room_id, room2->room_id);
 }
 
 /* See npc_move.h */
@@ -266,9 +266,8 @@ int move_npc_definite(npc_mov_t *npc_mov)
 
     if(((direction == NPC_MOV_ORIGINAL) && (current_room->next == NULL))
             || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
-    {
         return 1;
-    }
+
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
     {
         if (direction == NPC_MOV_ORIGINAL)
@@ -281,13 +280,13 @@ int move_npc_definite(npc_mov_t *npc_mov)
             npc_mov->track = current_room->prev->room_id;
             npc_mov->npc_path_pos--;
         }
-        else return 0;
+        else 
+            return 0;
+
         return 2;
     }
-    else
-    {
+    else 
         return 0;
-    }
 }
 
 /* See npc_move.h */
@@ -329,13 +328,13 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
             npc_mov->track = current_room->prev->room_id;
             npc_mov->npc_path_pos--;
         }
-        else return 0;
+        else 
+            return 0;
+
         return 2;
     }
     else
-    {
         return 0;
-    }
 }
 
 /* See npc_move.h */
@@ -347,7 +346,8 @@ int move_npc_mov(npc_mov_t *npc_mov)
         return move_npc_definite(npc_mov);
     else if (mov_type == NPC_MOV_INDEFINITE)
         return move_npc_indefinite(npc_mov);
-    else return 0;
+    else 
+        return 0;
 }
 
 /* See npc_move.h */
