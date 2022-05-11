@@ -1,4 +1,11 @@
 /*
+Main CMAKE file lines 14-15:
+
+# EXAMPLES
+add_subdirectory(examples
+                 EXCLUDE_FROM_ALL)
+
+/*
 Openworld 2021 demo makefile
 
 set(OPENWORLD_EXAMPLES openworld-demo-2022)
