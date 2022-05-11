@@ -20,21 +20,23 @@
 #include "battle/battle_logic.h"
 #include "battle/battle_default_objects.h"
 #include <time.h>
-
+/*
 const char *banner = "BATTLE MODE DEMO";
 
 class_t *make_bard2()
 {
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
 }
-
+*/
 /* initializes a dummy wizard class */
+/*
 class_t *make_wizard2()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
-
+*/
 /* Defines an CLI operation for starting a fight */
+/*
 char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //int rc;
@@ -86,9 +88,10 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     battle_ctx->game->player = p;
 
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
-
+*/
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
+/*
     int rc = start_battle(battle_ctx, e, ENV_GRASS);
 
     // prints the beginning of the battle 
@@ -106,36 +109,40 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     return start;
 }
-
+*/
 /*
  * Creates a chiventure context with a sample game.
  *
  * Returns: a chiventure context with 
  */
+ /*
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
     room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Goblin in The Room.");
     add_room_to_game(game, room1);
     game->curr_room = room1;
-
+*/
     /* Create context */
+/*
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
 }
-
+*/
 int main(int argc, char **argv)
 {
+    /*
     chiventure_ctx_t *ctx = create_sample_ctx();
-
+*/
     /* Monkeypatching in a fight action to support dialogue */
-    add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);
+
+    //add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
-    start_ui(ctx, banner);
+    //start_ui(ctx, banner);
 
-    game_free(ctx->game);
+    //game_free(ctx->game);
 
     return 0;
 }
