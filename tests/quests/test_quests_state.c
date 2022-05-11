@@ -608,7 +608,7 @@ Test(quest,complete_quest2)
 
 
 
-/*see if get_quest_from_hash when there is quest */ 
+/*see if get_quest_from_hash works when there is quest in Hash */ 
 Test(quest,get_quest1)
 { 
     int xp = 50;
@@ -632,11 +632,11 @@ Test(quest,get_quest1)
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
     quest_t *answer = get_quest_from_hash(quest1_id,test_hash_table); 
-    cr_assert_eq(answer, quest1, "failed");
+    cr_assert_eq(answer, quest1, "get_queset() did not return the right quest");
 
 }
 
-/*see if get_quest_from_hash when there is no quest */ 
+/*see if get_quest_from_hash work when there is no quest in the hash */ 
 Test(quest,get_quest2)
 { 
     int xp = 50;
@@ -660,10 +660,10 @@ Test(quest,get_quest2)
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
     quest_t *answer = get_quest_from_hash("beeppop",test_hash_table); 
-    cr_assert_eq(answer, NULL, "failed");
+    cr_assert_eq(answer, NULL, "There is an quest with ID of beeppop ");
 }
 
-/*test for add quest when there is no same quest_id */ 
+/*test for add quest when 2 unique quest_ID */ 
 Test(test, add_quest_test1)
 {
     int xp = 50;
@@ -686,10 +686,10 @@ Test(test, add_quest_test1)
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table); 
 
-    cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add test"); 
-    cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add test"); 
+    cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add quest1"); 
+    cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add quest2"); 
 }
-/*test for add quest when there is no same quest_id*/
+/*test for add quest when a quest with same ID aredy exist in hash*/
 Test(test, add_quest_test2)
 {
     int xp = 50;
@@ -711,5 +711,5 @@ Test(test, add_quest_test2)
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest1, &test_hash_table); 
 
-    cr_assert_eq(add_quest2, FAILURE, "Add quest did not work"); 
+    cr_assert_eq(add_quest2, FAILURE, "quest1 wasn't added properly"); 
 }
