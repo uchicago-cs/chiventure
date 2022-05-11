@@ -35,7 +35,7 @@ battle_game_t *new_battle_game()
 turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p){
       tc.move = m;
       tc.item = i;
-      tc.p = pass;
+      tc.pass = p;
       return SUCCESS;
 }
 
@@ -43,19 +43,19 @@ turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p){
 turn_component_list_t *new_turn_component_list(turn_component_t t, turn_component_list_t *r){
       turn_component_list_t *new_tcl = (turn_component_list_t *) malloc (sizeof(turn_component_list_t));
       if (new_tcl == NULL){
-            error("Could not allocate memory");
+            perror("Could not allocate memory");
             return NULL;
       }
       new_tcl->current = t;
       assert(r!=NULL);
       new_tcl->rest = r;
-      return new_turn;
+      return new_tcl;
 }
 
 /* see battle_flow_structs.h */
 turn_component_list_t *init_turn(turn_component_list_t *tcl, turn_component_list_t *r, turn_component_t c){
       assert(tcl != NULL);
-      assert(rest != NULL);
+      assert(r != NULL);
       tcl->current = c;
       tcl->rest = r;
       return SUCCESS;
