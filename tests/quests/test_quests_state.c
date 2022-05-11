@@ -619,9 +619,11 @@ Test(quest,complete_quest2)
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
 	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
-    quest->status = 0;
+    player_t *player = player_new("test player");
 
-    reward_t *res = complete_quest(quest);
+    start_quest(quest, player);
+
+    reward_t *res = complete_quest(quest, player);
 
     cr_assert_eq(res, NULL,"quest_completed failed to reward the item");
 }
