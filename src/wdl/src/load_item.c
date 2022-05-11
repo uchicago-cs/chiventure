@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "game-state/item.h"
+#include "wdl/load_condition.h"
 #include "wdl/validate.h"
 #include "cli/util.h"
 
@@ -38,7 +39,7 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 }
 
 /* See load_item.h */
-int load_actions(obj_t *item_obj, item_t *i)
+int load_actions(obj_t *item_obj, item_t *i, game_t *g)
 {
     // getting a list of actions from item
     obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
@@ -76,6 +77,16 @@ int load_actions(obj_t *item_obj, item_t *i)
         else
         {
             add_action(i, action, "Action succeeded", obj_get_str(curr, "text_fail"));
+        }
+        
+        // Adds conditions, if any, to the action.
+        if (obj_get_str(curr, "conditions") != NULL) {
+            game_action_t* new_action;
+            condition_t* conditions;
+
+            new_action = get_action(i, action);
+            conditions = build_conditions(obj_get_list(curr, "conditions"), g);
+            add_condition(g, new_action, conditions);
         }
 
         free(action);
@@ -117,7 +128,7 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
         // load actions into item
-        if(load_actions(curr, item) == FAILURE)
+        if(load_actions(curr, item, g) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;
