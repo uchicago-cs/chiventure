@@ -33,7 +33,7 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
     npc_battle->stats = malloc(sizeof(stat_t));
     npc_battle->moves = malloc(sizeof(move_t)); 
     npc_battle->class_type = malloc(sizeof(class_t));
-    /* npc_battle->items = malloc(sizeof(battle_item_t)); */
+    npc_battle->items = malloc(sizeof(battle_item_t));
 
     int check = npc_battle_init(npc_battle, health, stats, moves, ai, 
                                 hostility_level, surrender_level, class_type,
@@ -57,13 +57,12 @@ int npc_battle_free(npc_battle_t *npc_battle)
     move_free(npc_battle->moves);
     class_free(npc_battle->class_type);
 
-    battle_item_t *item_elt, *item_tmp;
-    DL_FOREACH_SAFE(npc_battle->items, item_elt, item_tmp)
-    {
-        DL_DELETE(npc_battle->items, item_elt);
-        free(item_elt);
+    battle_item_t *curr = npc_battle->items;
+    while(curr) {
+        battle_item_t *next = curr->next;
+        free(curr);
+        curr = next;
     }
-    
     free(npc_battle);
 
     return SUCCESS;

@@ -347,6 +347,7 @@ Test(npc, add_battle_to_npc)
 
     int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, 
 		                HOSTILE, 25, generate_test_class(), dagger);
+
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     cr_assert_not_null(npc->npc_battle, 
 		       "add_battle_to_npc() didn't set npc_battle");
@@ -490,15 +491,19 @@ Test(npc, check_npc_battle)
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
+    battle_item_t *dagger1 = generate_test_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
+    battle_item_t *dagger2 = generate_test_battle_item(1, 1, 20, 
     "A hearty dagger sure to take your breath away... for good",
     true, 20, 5, 0);
 
     int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger);
+                                HOSTILE, 25, generate_test_class(), dagger1);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger);
+                                HOSTILE, 25, generate_test_class(), dagger2);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true,
