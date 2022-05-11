@@ -14,6 +14,7 @@
 #include "mode.h"
 #include "npc/npc.h"
 #include "battle/battle_flow_structs.h"
+#include "game_time.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)
@@ -86,8 +87,8 @@ typedef struct game {
     /* starting string description to be presented at beginning of game */
     char *start_desc;
 
-    /* time when game started */
-    //int time_start;
+    /* pointer to the game_time struct */
+    game_time_t *game_time;
 
     /* pointer to the current battle context */
     battle_ctx_t *battle_ctx;
