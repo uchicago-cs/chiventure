@@ -14,8 +14,26 @@
 #include "skilltrees/inventory.h"
 #include "battle/battle_structs.h"
 
+#define QUEST_NAME_MAX_LEN 100
+
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
+
+/* A reference to a given quest from game_state that the player has unlocked */
+typedef struct player_quest {
+    char *quest_id;
+    int completion;
+    UT_hash_handle hh;
+} player_quest_t;
+typedef struct player_quest player_quest_hash_t;
+
+/* A reference to a given task (for quests) from game_state that the player has unlocked */
+typedef struct player_task {
+    char *task_id;
+    bool completed;
+    UT_hash_handle hh;
+} player_task_t;
+typedef struct player_task player_task_hash_t;
 
 /* A player in game */
 typedef struct player {
@@ -52,6 +70,12 @@ typedef struct player {
     /* The current items held by the player*/
     item_hash_t *inventory;
 
+    /* The current quests associated with the player */
+    player_quest_hash_t* player_quests;
+
+    /* The current tasks associated with the player */
+    player_task_hash_t* player_tasks;
+
     /* The current moves available to the player */
     move_t *moves;
 } player_t;
@@ -61,6 +85,78 @@ typedef struct player {
 * to hash player_t structs with the UTHASH macros as specified
 * in src/common/include */
 typedef struct player player_hash_t;
+
+/* 
+ * Creates and initializes a new player_quest
+ *
+ * Parameters:
+ * - quest_id: The quest id this player_quest is referencing
+ * - completion: The current completion status of the quest
+ * 
+ * Returns:
+ * - A pointer to the new player_quest or NULL if there was an error
+*/
+player_quest_t *player_quest_new(char *quest_id, int completion);
+
+/* 
+ * Creates and initializes a new player_task
+ *
+ * Parameters:
+ * - task_id: The task id this player_task is referencing
+ * - completed: Whether this task is already completed
+ * 
+ * Returns:
+ * - A pointer to the new player_task or NULL if there was an error
+*/
+player_task_t *player_task_new(char *task_id, bool completed);
+
+/*
+ * Initializes a player quest
+ * 
+ * Parameters:
+ * - pquest: The player_quest getting initialized
+ * - quest_id: The quest_id this quest is referencing
+ * - completion: The current completion status of the quest
+ * 
+ * Returns:
+ * - SUCCESS if initialized successfully, FAILURE if an error occured
+*/
+int player_quest_init(player_quest_t *pquest, char *quest_id, int completion);
+
+/*
+ * Initializes a player task
+ * 
+ * Parameters:
+ * - ptask: The player_task getting initialized
+ * - task_id: The task_id this task is referencing
+ * - completed: Whether this task is already completed
+ * 
+ * Returns:
+ * - SUCCESS if initialized successfully, FAILURE if an error occured
+*/
+int player_task_init(player_task_t *ptask, char *task_id, bool completed);
+
+/*
+ * Frees a player_quest hash table
+ * 
+ * Parameters:
+ * - player_quests: The player_quest table to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_quest_hash_free(player_quest_hash_t *player_quests);
+
+/*
+ * Frees a player_task hash table
+ * 
+ * Parameters:
+ * - player_tasks: The player_task table to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_task_hash_free(player_task_hash_t *player_tasks);
 
 /*
  * Allocates and creates a new player with given ID, starting at level
