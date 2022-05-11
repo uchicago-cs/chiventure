@@ -102,4 +102,5 @@ int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_
             break;
         skill_execute(complex_skill->skills[i], ctx);
     }
+    return SUCCESS;
 }
