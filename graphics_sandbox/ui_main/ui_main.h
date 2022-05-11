@@ -1,25 +1,46 @@
+/*
+ * This module defines a window struct. The window struct contains information
+ * pertaining to the custom GDL file that authors write for graphics
+ */ 
+
 #ifndef UI_MAIN_H
 #define UI_MAIN_H
 
 #include "raylib.h"
 #include "input_box.h"
-//#include "inventory_graphics.h"   -------> I will be adding this data struct later this sprint (3)
+//#include "inventory_graphics.h" -> will be adding this struct later sprint (3)
 #include "npc_graphics.h"
 #include "quest_graphics.h"
 #include "scene_graphics.h"
 
-typedef struct splitscreen_info splitscreen_info_t;
-
-enum type_subscreen {
+/*
+ * These are the various types of windows that a user can generate. By type, we
+ * mean what information the subscreen contains.
+ */
+typedef enum window_type {
     SCENE,
     NPC,
     INVENTORY,
     MAP,
     QUESTS,
-    INPUT_BOX
-};
+    INPUT_BOX,
+    EFFECTS,
+    CLASS,
+    MOVES,
+    SKILLS,
+    STATS,
+} window_type;
 
-typedef enum type_subscreen type_subscreen_t;
+/* Contains the height and width of the window as specified by a game author */
+typedef struct display_dimensions {
+    unsigned int width;
+    unsigned int height;
+} display_dimensions_t;
+
+/* This general windows struct that contains information read from the GDL */ 
+typedef struct windows {
+    display_dimensions_t dimensions;
+    
 
 typedef union module_data {
     npc_graphics_t npc;
