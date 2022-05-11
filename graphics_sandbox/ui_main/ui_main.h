@@ -14,10 +14,21 @@ enum type_subscreen {
     SCENE,
     NPC,
     INVENTORY,
-    MAP
+    MAP,
+    QUESTS,
+    INPUT_BOX
 };
 
 typedef enum type_subscreen type_subscreen_t;
+
+typedef union module_data {
+    npc_graphics_t npc;
+    //input_box_graphics_t input_box;
+    //scene_graphics_t scene;
+    //inventory_graphics_t inventory;
+    //quest_graphics quest;
+    //map_graphics map;
+} module_data_t;
 
 /* This struct contains the information of every window in the split screen
  * Iterative through all linked structs to get the full picture*/
@@ -25,7 +36,7 @@ struct splitscreen_info {
     /* For documentation purposes, we assign each struct an index
      * that starts from 0 and increments by 1 each time*/
     unsigned index;
-    /* */
+    /* An Enum on the type of the screen*/
     type_subscreen_t type;
     /* The following two fields define the x and y positions of the
      * upper-left corner of the window, in percentages to the whole screen */
@@ -35,13 +46,11 @@ struct splitscreen_info {
      * lengths of the window, in percentages to the whole screen */
     double horizontal_length;
     double vertical_length;
-    /* IMAGE struct from which we get our texture
-     */
-    Image image;
     /* A rectangle (of percentages) that specifies the region to print*/
-    Rectangle *showRegion;
-    /* Links to the next window if it exists, NULL if it does not*/
     splitscreen_info_t *next;
+    /* A pointer to the Union data struct that contains 
+     * the info for individual modules */
+    module_data_t* module_data;
 };
 
 #endif
