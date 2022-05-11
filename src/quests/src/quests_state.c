@@ -535,7 +535,8 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
     }
     player_task_t *player_task = player_task_new(task->id, false);
 
-    HASH_ADD_STR(*hash_table, quest_id,quest);
+    HASH_ADD_KEYPTR(hh, *hash_table, task->id,
+                    strnlen(task->id, MAX_ID_LEN), player_task);
   
     return SUCCESS;
 }
