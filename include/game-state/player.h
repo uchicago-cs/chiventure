@@ -14,6 +14,8 @@
 #include "skilltrees/inventory.h"
 #include "battle/battle_structs.h"
 
+#define QUEST_NAME_MAX_LEN 100
+
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 

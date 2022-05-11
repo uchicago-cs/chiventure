@@ -37,12 +37,12 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     char *insensitized_id = case_insensitized_string(npc_id);
 
     int check = npc_init(npc, insensitized_id, short_desc, long_desc,
-                         class, movement, will_fight); 
+                         class, movement, will_fight);
 
     free(insensitized_id);
 
     if (npc == NULL || npc->npc_id == NULL ||  npc->short_desc == NULL ||
-        npc->long_desc == NULL || check != SUCCESS)
+            npc->long_desc == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -54,7 +54,7 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
 int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
-    
+
     if (npc->dialogue != NULL)
     {
         convo_free(npc->dialogue);
@@ -84,11 +84,11 @@ bool check_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);
 
-    if (npc->will_fight == true && npc->npc_battle == NULL) 
+    if (npc->will_fight == true && npc->npc_battle == NULL)
     {
         return false;
-    } 
-    else 
+    }
+    else
     {
         return true;
     }
@@ -102,7 +102,8 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
     HASH_FIND(hh, npc->inventory, insensitized_id,
               strnlen(item_id, MAX_ID_LEN), check);
     free(insensitized_id);
-    if (check != NULL){
+    if (check != NULL)
+    {
         return true;
     }
     return false;
@@ -163,11 +164,11 @@ int get_npc_health(npc_t *npc)
 {
     assert(npc != NULL);
 
-    if (npc->npc_battle == NULL) 
+    if (npc->npc_battle == NULL)
     {
         return -1;
-    } 
-    else 
+    }
+    else
     {
         return npc->npc_battle->health;
     }
@@ -186,9 +187,9 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 int add_item_to_npc(npc_t *npc, item_t *item)
 {
     int rc;
-    
+
     rc = add_item_to_hash(&(npc->inventory), item);
-    
+
     return rc;
 }
 
@@ -196,9 +197,9 @@ int add_item_to_npc(npc_t *npc, item_t *item)
 int remove_item_from_npc(npc_t *npc, item_t *item)
 {
     int rc;
-    
+
     rc = remove_item_from_hash(&(npc->inventory), item);
-    
+
     return rc;
 }
 
@@ -220,7 +221,7 @@ int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
     assert(npc != NULL);
 
     npc_battle_t *npc_battle = npc_battle_new(health, stats, moves, ai,
-                                              hostility_level, surrender_level);
+                               hostility_level, surrender_level);
     assert(npc_battle != NULL);
 
     npc->npc_battle = npc_battle;

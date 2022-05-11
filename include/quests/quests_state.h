@@ -335,6 +335,7 @@ task_t *get_task_from_hash(char *id, quest_hash_t *hash_table);
  */
 int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
 
+
 /* Gets a player quest from the given hash table
  *
  * Parameters:
