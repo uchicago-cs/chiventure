@@ -1,0 +1,2 @@
+/usr/bin/ar qc libopenworld.a  CMakeFiles/openworld.dir/src/autogenerate.c.o CMakeFiles/openworld.dir/src/default_rooms.c.o CMakeFiles/openworld.dir/src/default_items.c.o CMakeFiles/openworld.dir/src/gen_structs.c.o
+/usr/bin/ranlib libopenworld.a

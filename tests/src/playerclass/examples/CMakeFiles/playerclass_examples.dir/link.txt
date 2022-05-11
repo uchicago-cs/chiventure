@@ -1,0 +1,2 @@
+/usr/bin/ar qc libplayerclass_examples.a  CMakeFiles/playerclass_examples.dir/class-list.c.o CMakeFiles/playerclass_examples.dir/demo-functions.c.o
+/usr/bin/ranlib libplayerclass_examples.a

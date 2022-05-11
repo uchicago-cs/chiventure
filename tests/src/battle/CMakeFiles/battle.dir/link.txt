@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbattle.a  CMakeFiles/battle.dir/src/battle_move_maker.c.o CMakeFiles/battle.dir/src/battle_ai.c.o CMakeFiles/battle.dir/src/battle_logic.c.o CMakeFiles/battle.dir/src/battle_state.c.o CMakeFiles/battle.dir/src/battle_flow.c.o CMakeFiles/battle.dir/src/battle_flow_structs.c.o CMakeFiles/battle.dir/src/battle_moves.c.o CMakeFiles/battle.dir/__/playerclass/examples/class-list.c.o CMakeFiles/battle.dir/src/battle_print.c.o CMakeFiles/battle.dir/src/battle_default_objects.c.o
+/usr/bin/ranlib libbattle.a

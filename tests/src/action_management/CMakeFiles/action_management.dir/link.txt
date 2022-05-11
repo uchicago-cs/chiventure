@@ -1,0 +1,2 @@
+/usr/bin/ar qc libaction_management.a  CMakeFiles/action_management.dir/src/actionmanagement.c.o CMakeFiles/action_management.dir/src/get_actions.c.o
+/usr/bin/ranlib libaction_management.a

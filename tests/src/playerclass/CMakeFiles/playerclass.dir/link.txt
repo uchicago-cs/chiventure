@@ -1,0 +1,2 @@
+/usr/bin/ar qc libplayerclass.a  CMakeFiles/playerclass.dir/src/class.c.o CMakeFiles/playerclass.dir/src/class_item.c.o CMakeFiles/playerclass.dir/src/class_prefabs.c.o
+/usr/bin/ranlib libplayerclass.a
