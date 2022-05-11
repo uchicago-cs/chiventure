@@ -33,7 +33,7 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
     npc_battle->stats = malloc(sizeof(stat_t));
     npc_battle->moves = malloc(sizeof(move_t)); 
     npc_battle->class_type = malloc(sizeof(class_t));
-    npc_battle->items = malloc(sizeof(battle_item_t));
+    /* npc_battle->items = malloc(sizeof(battle_item_t)); */
 
     int check = npc_battle_init(npc_battle, health, stats, moves, ai, 
                                 hostility_level, surrender_level, class_type,
