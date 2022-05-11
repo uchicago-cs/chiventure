@@ -139,32 +139,32 @@ Test(npcs_in_room, npc_one_move_definite)
 {
     room_t *test_room;
     test_room = room_new("test_room", "test", "test test");
-	room_t *test_room2;
+    room_t *test_room2;
     test_room2 = room_new("test_room2", "test", "test test");
 
-	npcs_in_room_t *npcs_in_room;
+    npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
     npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id);
 	
 	
-	int rc_extend = extend_path_definite(test_npc1_mov, test_room2->room_id);
+    int rc_extend = extend_path_definite(test_npc1_mov, test_room2->room_id);
 
-	cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
+    cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
 	
-	cr_assert_str_eq(test_npc1_mov->track, "test_room", 
-					"npc not in correct initial room\n"
-					"npc room: %s \n"
-					"should be in room: %s",
-					test_npc1_mov->track, "test_room");
+    cr_assert_str_eq(test_npc1_mov->track, "test_room", 
+                    "npc not in correct initial room\n"
+                    "npc room: %s \n"
+                    "should be in room: %s",
+                    test_npc1_mov->track, "test_room");
 
-	int rc_move = move_npc_definite(test_npc1_mov);
+    int rc_move = move_npc_definite(test_npc1_mov);
 
-	cr_assert_eq(rc_move, 2, "move_npc_mov() returned FAILURE");
+    cr_assert_eq(rc_move, 2, "move_npc_mov() returned FAILURE");
 
 
-	cr_assert_str_eq(test_npc1_mov->track, "test_room2",
-					"npc did not move from move_npc_mov()");
+    cr_assert_str_eq(test_npc1_mov->track, "test_room2",
+                    "npc did not move from move_npc_mov()");
 }
 
 Test(npcs_in_room, npc_one_move_indefinite)
@@ -184,7 +184,7 @@ Test(npcs_in_room, npc_one_move_indefinite)
 
     cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");
 
-	cr_assert_str_eq(test_npc1_mov->track, "test_room",
+    cr_assert_str_eq(test_npc1_mov->track, "test_room",
                     "npc not in correct initial room\n"
                     "npc room: %s \n"
                     "should be in room: %s",
