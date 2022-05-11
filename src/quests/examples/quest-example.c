@@ -4,7 +4,7 @@
 #include "ui/ui.h"
 #include "game-state/room.h"
 #include "game-state/stats.h"
-#include "npc/rooms-npc.h"
+#include "npc/rooms_npc.h"
 #include "quests/quests_state.h"
 
 const char *banner =

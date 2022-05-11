@@ -1,6 +1,6 @@
-#include "npc/rooms-npc.h"
+#include "npc/rooms_npc.h"
 
-/* See rooms-npc.h */
+/* See rooms_npc.h */
 int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 {
     assert(npcs_in_room != NULL);
@@ -12,7 +12,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 }
 
 
-/* See rooms-npc.h */
+/* See rooms_npc.h */
 npcs_in_room_t *npcs_in_room_new(char* room_id)
 {
     npcs_in_room_t *npcs_in_room;
@@ -31,7 +31,7 @@ npcs_in_room_t *npcs_in_room_new(char* room_id)
 }
 
 
-/* See rooms-npc.h */
+/* See rooms_npc.h */
 int npcs_in_room_free(npcs_in_room_t *npcs_in_room)
 {
     assert(npcs_in_room != NULL);
@@ -44,14 +44,14 @@ int npcs_in_room_free(npcs_in_room_t *npcs_in_room)
 }
 
 
-/* See rooms-npc.h */
+/* See rooms_npc.h */
 int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room)
 {
     return npcs_in_room->num_of_npcs;
 }
 
 
-/* See rooms-npc.h */
+/* See rooms_npc.h */
 int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;
@@ -70,7 +70,7 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 }
 
 
-/* See rooms-npc.h */
+/* See rooms_npc.h */
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 {
     npc_t *check;

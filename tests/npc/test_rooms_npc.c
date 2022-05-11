@@ -1,7 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "npc/rooms-npc.h"
+#include "npc/rooms_npc.h"
 #include "game-state/room.h"
 
 /* Tests new() of npcs_in_room struct */

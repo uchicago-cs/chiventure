@@ -18,11 +18,11 @@
  *            looting functionalities can be used in battles in the future.
  *
  *  - NPC:    This is a CLI operation that prints out all the NPCs in the
- *            current room to the CLI. It utilizes the backend of rooms-npc
+ *            current room to the CLI. It utilizes the backend of rooms_npc
  *            module while printing to chiventure's CLI. Specifically, it uses
  *            a field in the room_t struct called npcs, which contains a list
  *            of NPCs in the current room and the total number of them. For
- *            deatils about this field, see rooms-npc.h.
+ *            deatils about this field, see rooms_npc.h.
  *
  *  - ARENA:  This is a CLI operation that moves the player from the lobby to
  *            the arena room. Since the main focus of this example is not player

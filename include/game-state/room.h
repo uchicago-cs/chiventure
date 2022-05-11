@@ -4,7 +4,7 @@
 #include "game_state_common.h"
 #include "item.h"
 #include "npc/npc.h"
-#include "npc/rooms-npc.h"
+#include "npc/rooms_npc.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
