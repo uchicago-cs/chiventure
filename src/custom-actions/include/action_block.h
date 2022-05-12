@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "game-state/item.h"
+#include "game-state/game.h"
+#include "game-state/room.h"
 
 /* Forward declaration */
 typedef struct AST_block AST_block_t;

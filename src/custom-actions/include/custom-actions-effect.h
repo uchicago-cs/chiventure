@@ -2,6 +2,8 @@
 #define CUSTOM_ACTIONS_EFFECT_H
 
 #include "game-state/item.h"
+#include "game-state/game.h"
+#include "game-state/room.h"
 #include "custom-actions-common.h"
 
 /*
