@@ -58,10 +58,10 @@ typedef struct move_t {
     battle_item_t* req_item; 
     int damage; 
     int accuracy; 
-    stat_change_t* user_mods; 
-    stat_change_t* opponent_mods; 
-    move_t* prev; 
-    move_t* next;
+    stat_changes_t* user_mods; 
+    stat_changes_t* opponent_mods; 
+    struct move_t* prev; 
+    struct move_t* next;
 } move_t;
 
 /* stats stub */
