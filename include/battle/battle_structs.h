@@ -29,29 +29,39 @@ typedef struct battle_item {
 typedef enum damage_type {
     PHYS, //A move that would inflict physical damage on the opponent.
     MAG, //A move that would inflict magical damage on the opponent. 
-    NONE //A move that does not inflict damage.
+    NO_DAMAGE //A move that does not inflict damage.
 } damage_type_t;
 
 typedef enum target_type {
     USER, //A move that targets the user.
     TARGET, //A move that would target the target.
     BOTH,  //A move that targets both the user and target. How it affects both can be different.
-    NONE //A move that does not target the opponent nor the user that is not an attacking move.
+    NO_TARGET //A move that does not target the opponent nor the user that is not an attacking move.
 } target_type_t;
+
+typedef enum target_count {
+    SINGLE, //A move that hits a single target
+    MULTI //A move that hits multiple targets
+} target_count_t;
 
 
 /* moves stub */
-typedef struct move {
-    battle_item_t *item;
-    int id;
-    // NOTE: functions to create move_new do not take into account a name
-    char* name;
-    char* info;
-    bool attack;
-    int damage;
-    int defense;
-    struct move *next;
-    struct move *prev;
+typedef struct move_t {
+    int id; 
+    char* name; 
+    char* info; 
+    damage_type_t dmg_type; 
+    target_type_t stat_mods; 
+    target_type_t effects; 
+    target_count_t count; 
+    int sp_cost; 
+    battle_item_t* req_item; 
+    int damage; 
+    int accuracy; 
+    stat_change_t* user_mods; 
+    stat_change_t* opponent_mods; 
+    move_t* prev; 
+    move_t* next;
 } move_t;
 
 /* stats stub */
