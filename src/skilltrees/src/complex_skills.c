@@ -10,7 +10,7 @@
 #include "skilltrees/complex_skills.h"
 
 /*See complex_skills.h */
-complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills){
+complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills, reader_effect_t* reader){
     complex_skill_t* complex;
 
     if (num_skills == 0) {
@@ -33,7 +33,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
         return NULL;
     }
 
-    int rc = complex_skill_init(complex, skills, num_skills);
+    int rc = complex_skill_init(complex, skills, num_skills, reader);
 
     if (rc) {
         fprintf(stderr, "complex_skill_new: initialization failed\n");
@@ -44,12 +44,14 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
 }
 
 /*See complex_skills.h */
-int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type, skill_t** skills, int num_skills){
+int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type, 
+                       skill_t** skills, int num_skills, reader_effect_t* reader){
     assert(complex_skill != NULL);
 
     complex_skill->type = type;
     complex_skill->num_skills = num_skills;
     complex_skill->skills = skills;
+    complex_skill->reader = reader;
 
     return SUCCESS;
 }
@@ -61,6 +63,7 @@ int complex_skill_free(complex_skill_t* complex_skill){
         free(complex_skill->skills[i]);
     }
     free(complex_skill->skills);
+    reader_effect_free(complex_skill->reader);
     free(complex_skill);
 
     return SUCCESS;
@@ -134,30 +137,20 @@ int reader_effect_free(reader_effect_t* reader)
     return 0;
 }
 
-/*See complex_skills.h */
-int combined_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
-    if(complex_skill->type != COMBINED){
-        return FAILURE;
-    }
-    
-    //Attempt to execute each skill, regardless of failure or not.
-    for(int i = 0; i < complex_skill->num_skills; i++){
-        skill_execute(complex_skill->skills[i], ctx);
-    }
-    return SUCCESS;
-}
-
-/*See complex_skills.h */
-int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
-    if(complex_skill->type != SEQUENTIAL){
-        return FAILURE;
+/* See complex_skills.h */
+int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx)
+{
+    if(complex_skill->type != CONDITIONAL) {
+        return FAILURE; 
     }
 
-    // Stop execution once a sub_skill fails
-    for(int i = 0; i < complex_skill->num_skills; i++){
-        if (skill_execute(complex_skill->skills[i], ctx) == FAILURE)
-            break;
-        skill_execute(complex_skill->skills[i], ctx);
+    int rc;
+    if(reader_effect_read(complex_skill->reader, ctx)) {
+        rc = skill_execute(complex_skill->skills[0], ctx);
     }
-    return SUCCESS;
+    else {
+        rc = skill_execute(complex_skill->skills[1], ctx);
+    }
+
+    return rc; 
 }
