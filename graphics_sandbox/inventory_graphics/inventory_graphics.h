@@ -20,6 +20,9 @@ typedef enum color {
     PINK,
 } color;
 
+
+// define a hash table?
+
 /* Defines the custom inventory represenation specified by the game developer */
 typedef struct inventory_display {
     unsigned int rows;
@@ -32,5 +35,19 @@ typedef struct inventory_display {
  */ 
 typedef struct player_inventory {
     inventory_display_t display;
-    item **items;
+// hash?    item **items;
 } player_inventory_t;
+
+// read graphics struct -- init invenetory display
+// take gdl -> graphics info necessary for display struct
+
+// init inventory - game struct + initalized display
+
+
+// free inventory (player)
+
+// free display
+
+// draw inventory (player_inv) -> window
+
+// update ...
