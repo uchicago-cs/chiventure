@@ -116,15 +116,27 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     int dmg;
     char *string;
     /* Calculates to see if the move will miss */
-    if (!calculate_accuracy(b->player->stats->accuracy))
+    if (!calculate_accuracy(b->player->stats->accuracy, move->accuracy))
     {
         string = print_battle_miss(b, b->turn, move);
     }
     else
     {
-        dmg = damage(b->enemy, move, b->player);
-        enemy->stats->hp -= dmg;
-        string = print_battle_move(b, b->turn, move);
+        if (move->dmg_type != NO_DAMAGE)
+        {
+            dmg = damage(b->enemy, move, b->player);
+            enemy->stats->hp -= dmg;
+            //print_battle_move needs to be changed
+            string = print_battle_move(b, b->turn, move);
+        }
+        if (move->stat_mods != NO_TARGET)
+        {
+            use_stat_change_move(b->enemy, move, b->player);
+        }
+        if (move->effects != NO_TARGET)
+        {
+            //to be implemented in the future
+        }
     }
     
 
@@ -231,15 +243,27 @@ char *enemy_make_move(battle_ctx_t *ctx)
     if(enemy_move != NULL)
     {
         /* Calculates to see if the move will miss */
-        if(!calculate_accuracy(b->enemy->stats->accuracy)){
+        if(!calculate_accuracy(b->enemy->stats->accuracy, enemy_move->accuracy)){
             dmg = 0;
             b->player->stats->hp -= dmg;
             string = print_battle_miss(b, b->turn, enemy_move);
         }else{
-            dmg = damage(b->player, enemy_move, b->enemy);
-            b->player->stats->hp -= dmg;
-            string = print_battle_move(b, b->turn, enemy_move);
+            if (enemy_move->dmg_type != NO_DAMAGE)
+            {
+                dmg = damage(b->player, enemy_move, b->enemy);
+                b->player->stats->hp -= dmg;
+                string = print_battle_move(b, b->turn, enemy_move);
+            }
+            if (enemy_move->stat_mods != NO_TARGET)
+            {
+                use_stat_change_move(b->player, enemy_move, b->enemy);
+            }
+            if (enemy_move->effects != NO_TARGET)
+            {
+                //to be implemented in the future
+            }
         }
+        
     }
     
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)
@@ -253,11 +277,55 @@ char *enemy_make_move(battle_ctx_t *ctx)
     return string;
 }
 
+int apply_stat_changes(stat_changes_t* changes, stat_t* target_stats)
+{
+    target_stats->speed += changes->speed;
+    target_stats->max_sp += changes->max_sp;
+    target_stats->sp += changes->sp;
+    target_stats->phys_atk += changes->phys_atk;
+    target_stats->mag_atk += changes->mag_atk;
+    target_stats->phys_def += changes->phys_def;
+    target_stats->mag_def += changes->mag_def;
+    target_stats->crit += changes->crit;
+    target_stats->accuracy += changes->accuracy;
+    target_stats->hp += changes->hp;
+    target_stats->max_hp += changes->max_hp;
+    return SUCCESS;
+}
+
+int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
+{
+    stat_t* user_stats = source->stats;
+    stat_t* target_stats = target->stats;
+    if ((move->user_mods == NULL) || (move->opponent_mods == NULL))
+    {
+        return FAILURE;
+    }
+    switch(move->stat_mods)
+    {
+        case USER:
+            apply_stat_changes(user_stats, move->user_mods);
+            break;
+        case TARGET:
+            apply_stat_changes(target_stats, move->user_mods);
+            break;
+        case BOTH:
+            apply_stat_changes(user_stats, move->user_mods);
+            apply_stat_changes(target_stats, move->user_mods);
+            break;
+        default:
+            return FAILURE;
+            break;
+    }
+    return SUCCESS;   
+}
+
+
 /* see battle_flow.h */
-int calculate_accuracy(int accuracy)
+int calculate_accuracy(int user_accuracy, int move_accuracy)
 {
     int chance = randnum(0, 100);
-    if(chance <= accuracy){
+    if(chance <= (user_accuracy * move_accuracy)){
         return 1;
     }else{
         return 0;
