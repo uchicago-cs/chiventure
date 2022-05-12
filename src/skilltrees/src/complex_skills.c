@@ -104,3 +104,27 @@ int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_
     }
     return SUCCESS;
 }
+
+/*See complex_skills.h */
+int complex_skill_level_up(complex_skill_t* complex_skill){
+    assert(complex_skill != NULL);
+    
+    int x;
+    for (int i = 0; i < complex_skill->num_skills; i++){
+        x = skill_level_up(complex_sill->skills[i]);
+        printf("Skill level up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
+    }
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
+    assert(complex_skill != NULL);
+    int x;
+
+    for (int i = 0; i < complex_skill->num_skills; i++){
+        x = skill_xp_up(complex_skill->skills[i], xp_gained);
+        printf("Skill xp up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
+    }
+    return SUCCESS;
+}

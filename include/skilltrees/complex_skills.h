@@ -114,7 +114,7 @@ int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_
  * -1 if leveling up failed, such as invalid parameters for instance, or if 
  *  not every subskill was able to be leveled up
  */
-int complex_skill_level_up(complex_skill_t* complex);
+int complex_skill_level_up(complex_skill_t* complex_skill);
 
 /*
  * Increments each sub-skill's exp
