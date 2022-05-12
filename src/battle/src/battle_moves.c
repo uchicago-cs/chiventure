@@ -161,11 +161,21 @@ move_t *test_move_cleric()
 
     move->id = 110;
 
-    move->item = NULL;
+    move->req_item = NULL;
 
-    move->attack = true;
+    move->dmg_type = MAG;
+
+    move->stat_mods = NULL;
+    move->effects = NULL;
+
+    move->count = 0;
+
+    move->user_mods = NULL;
+    move->opponent_mods = NULL;
+
     move->damage = 10;
-    move->defense = 0;
+    move->accuracy = 100;
+    move->sp_cost = 0;
 
     return move;
 }
@@ -189,11 +199,21 @@ move_t *test_move_paladin()
     
     move->id = 120;
 
-    move->item = NULL;
+    move->req_item = NULL;
 
-    move->attack = true;
+    move->dmg_type = PHYS;
+
+    move->stat_mods = NULL;
+    move->effects = NULL;
+
+    move->count = 0;
+
+    move->user_mods = NULL;
+    move->opponent_mods = NULL;
+
     move->damage = 20;
-    move->defense = 0;
+    move->accuracy = 100;
+    move->sp_cost = 0;
 
     return move;
 }
@@ -217,11 +237,21 @@ move_t *test_move_wizard()
     
     move->id = 130;
 
-    move->item = NULL;
+    move->req_item = NULL;
+    
+    move->dmg_type = MAG;
 
-    move->attack = true;
+    move->stat_mods = NULL;
+    move->effects = NULL;
+
+    move->count = 0;
+
+    move->user_mods = NULL;
+    move->opponent_mods = NULL;
+
     move->damage = 10;
-    move->defense = 0;
+    move->accuracy = 100;
+    move->sp_cost = 0;
 
     return move;
 }
