@@ -24,6 +24,22 @@ typedef struct battle_item {
     struct battle_item *prev;
 } battle_item_t;
 
+/* This defines what type of damage if any the move would do. 
+    We will do this to specify attack. */
+typedef enum damage_type {
+    PHYS, //A move that would inflict physical damage on the opponent.
+    MAG, //A move that would inflict magical damage on the opponent. 
+    NONE //A move that does not inflict damage.
+} damage_type_t;
+
+typedef enum target_type {
+    USER, //A move that targets the user.
+    TARGET, //A move that would target the target.
+    BOTH,  //A move that targets both the user and target. How it affects both can be different.
+    NONE //A move that does not target the opponent nor the user that is not an attacking move.
+} target_type_t;
+
+
 /* moves stub */
 typedef struct move {
     battle_item_t *item;
