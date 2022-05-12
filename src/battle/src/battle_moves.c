@@ -10,7 +10,7 @@
 int move_init(move_t *move, char* name, char* info, int id, damage_type_t dmg_type, 
 		target_type_t stat_mods, target_type_t effects, battle_item_t *req_item, 
 		target_count_t count, int sp_cost, int accuracy, int damage, 
-		stat_changes_t* user_mods, state_changes_t* opponent_mods)
+		stat_changes_t* user_mods, stat_changes_t* opponent_mods)
 {
     assert(move != NULL);
 
@@ -59,7 +59,7 @@ move_t *move_new(char* info, char* name, int id, damage_type_t dmg_type, target_
     }
 
     rc = move_init(move, name, info, id, dmg_type, stat_mods, effects, req_item, count,
-		    sp_cost, accurancy, damage, user_mods, opponent_mods);
+		    sp_cost, accuracy, damage, user_mods, opponent_mods);
 
     if(rc != SUCCESS)
     {
@@ -86,14 +86,14 @@ int move_free(move_t *move)
         free(req_item_elt);
     }
 
-    stat_change_t *user_mods_elt, *user_mods_tmp;
+    stat_changes_t *user_mods_elt, *user_mods_tmp;
     DL_FOREACH_SAFE(move->user_mods, user_mods_elt, user_mods_tmp)
     {
         DL_DELETE(move->user_mods, user_mods_elt);
         free(user_mods_elt);
     }
 
-    stat_change_t *opponent_mods_elt, *opponent_mods_tmp;
+    stat_changes_t *opponent_mods_elt, *opponent_mods_tmp;
     DL_FOREACH_SAFE(move->opponent_mods, opponent_mods_elt, opponent_mods_tmp)
     {
         DL_DELETE(move->opponent_mods, opponent_mods_elt);

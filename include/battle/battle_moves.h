@@ -21,8 +21,9 @@
  * - defense: amount of defense the move provides 
  * returns: a pointer to the new move 
  */
-move_t *move_new(char* info, int id, battle_item_t *items, bool attack,
-                 int damage, int defense);
+move_t *move_new(char* info, char* name, int id, damage_type_t dmg_type, target_type_t stat_mods,
+		target_type_t effects, target_count_t count, int sp_cost, battle_item_t *req_item, 
+		int damage, int accuracy, stat_changes_t *user_mods, stat_changes_t *opponent_mods);
 
 
  /* Initialize a move struct 
@@ -38,8 +39,10 @@ move_t *move_new(char* info, int id, battle_item_t *items, bool attack,
   * - SUCCESS for successful init
   * - FAILURE for unsuccessful init
   */
-int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attack,
-                 int damage, int defense);
+int move_init(move_t *move, char* name, char* info, int id, damage_type_t dmg_type, 
+		target_type_t stat_mods, target_type_t effects, battle_item_t *req_item, 
+		target_count_t count, int sp_cost, int accuracy, int damage, 
+		stat_changes_t* user_mods, state_changes_t* opponent_mods);
 
 
 /* Frees a battle struct from memory 
