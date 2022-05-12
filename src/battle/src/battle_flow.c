@@ -77,7 +77,6 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy, environment_
     {
         build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
     }
-    
     turn_t turn = PLAYER;
 
     battle_t *b = battle_new(comb_player, comb_enemies, env, turn);
