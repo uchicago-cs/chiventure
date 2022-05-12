@@ -80,11 +80,25 @@ int move_free(move_t *move)
         return SUCCESS;
     }
 
-    battle_item_t *item_elt, *item_tmp;
-    DL_FOREACH_SAFE(move->item, item_elt, item_tmp)
+    battle_item_t *req_item_elt, *req_item_tmp;
+    DL_FOREACH_SAFE(move->req_item, req_item_elt, req_item_tmp)
     {
-        DL_DELETE(move->item, item_elt);
-        free(item_elt);
+        DL_DELETE(move->req_item, req_item_elt);
+        free(req_item_elt);
+    }
+
+    stat_change_t *user_mods_elt, *user_mods_tmp;
+    DL_FOREACH_SAFE(move->user_mods, user_mods_elt, user_mods_tmp)
+    {
+        DL_DELETE(move->user_mods, user_mods_elt);
+        free(user_mods_elt);
+    }
+
+    stat_change_t *opponent_mods_elt, *opponent_mods_tmp;
+    DL_FOREACH_SAFE(move->opponent_mods, opponent_mods_elt, opponent_mods_tmp)
+    {
+        DL_DELETE(move->opponent_mods, opponent_mods_elt);
+        free(opponent_mods_elt);
     }
 
     free(move);
