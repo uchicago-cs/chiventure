@@ -128,7 +128,6 @@ char **parse(char *input)
             token = strtok(NULL, "\"");
             printf('h"');
         }
-    
     }
 
     //If there are more than 4 words, parser returns NULL and does not attempt
