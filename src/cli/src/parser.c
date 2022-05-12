@@ -113,11 +113,20 @@ char **parse(char *input)
     }
 
     char *token = strtok(input, " ");
+    int track_position = 0;
+    track_position = strlen(token);
 
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         words[i] = token;
         token = strtok(NULL, " ");
+
+        track_position += strlen(token) + 1;
+
+        if (strcmp(input[track_position + 1], "\"") == 0)
+        {
+            token = strtok(NULL, "\"");
+        }
     }
 
     //If there are more than 4 words, parser returns NULL and does not attempt
