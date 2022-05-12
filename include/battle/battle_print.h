@@ -116,4 +116,55 @@ int *print_battle_items(battle_t *b, char *string);
  *  A string containing the available moves
  */ 
 char *print_moves(battle_t *b, char* moves);
+
+ /*
+  * Stores a message about a the damage done to a previously allocated string.
+  * Appends this message to the end of any message that might already be in
+  * that string.
+  *
+  * Parameters:
+  *  - b = pointer to the battle
+  *  - string = the string to which the hp will be printed to
+  *  - turn = the current turn
+  *  - move = the move that is used
+  *
+  * Returns:
+  *  - SUCCESS if successfully stored message about damage, FAILURE otherwise
+  *
+  */
+int *print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string);
+
+ /*
+  * Stores a message about all stat changes to a previously allocated string.
+  * Appends this message to the end of any message that might already be in
+  * that string.
+  *
+  * Parameters:
+  *  - b = pointer to the battle
+  *  - string = the string to which the hp will be printed to
+  *  - turn = the current turn
+  *  - move = the move that is used
+  *
+  * Returns:
+  *  - SUCCESS if successfully stored message about all stat changes, FAILURE otherwise
+  *
+  */
+int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string);
+
+ /*
+  * Stores a message about stat changes done to a single combatant
+  * to a previously allocated string. Appends this message to the 
+  * end of any message that might already be in that string.
+  *
+  * Parameters:
+  *  - b = pointer to the battle
+  *  - string = the string to which the hp will be printed to
+  *  - turn = the current turn
+  *  - changes = the changes applied to the combatant
+  *
+  * Returns:
+  *  - SUCCESS if successfully stored message about stat change for combatant, FAILURE otherwise
+  *
+  */
+int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char *string);
  #endif

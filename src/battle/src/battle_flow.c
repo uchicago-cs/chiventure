@@ -135,7 +135,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         if (move->stat_mods != NO_TARGET)
         {
             use_stat_change_move(b->enemy, move, b->player);
-            rc = print_stat_changes(b, b->turn, move, string);
+            rc = print_stat_changes_move(b, b->turn, move, string);
             assert(rc == SUCCESS);
 
         }
@@ -265,7 +265,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
             if (enemy_move->stat_mods != NO_TARGET)
             {
                 use_stat_change_move(b->player, enemy_move, b->enemy);
-                rc = print_stat_changes(b, b->turn, enemy_move, string);
+                rc = print_stat_changes_move(b, b->turn, enemy_move, string);
                 assert(rc == SUCCESS);
             }
             if (enemy_move->effects != NO_TARGET)
@@ -286,8 +286,8 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
     return string;
 }
-
-int apply_stat_changes(stat_changes_t* changes, stat_t* target_stats)
+/* see battle_flow.h */
+int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
 {
     target_stats->speed += changes->speed;
     target_stats->max_sp += changes->max_sp;
@@ -303,6 +303,7 @@ int apply_stat_changes(stat_changes_t* changes, stat_t* target_stats)
     return SUCCESS;
 }
 
+/* see battle_flow.h */
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 {
     stat_t* user_stats = source->stats;

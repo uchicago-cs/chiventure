@@ -148,4 +148,29 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label);
  */
 char *enemy_make_move(battle_ctx_t *ctx);
 
+/*
+ * Applies stat changes to a target.
+ * 
+ * Parameters: 
+ *  - changes: the stat changes
+ *  - target_stats: the stats to be changes
+ * Returns:
+ *  - Always success
+ */
+int apply_stat_changes(stat_changes_t* changes, stat_t* target_stats);
+
+/*
+ * Uses a stat changing move. Works for stat changes
+ * that affect the player, opponent, or both.
+ * 
+ * Parameters: 
+ *  - move: the move used
+ *  - target: the target the move is used on
+ *  - source: the user that is using the move
+ * Returns:
+ *  - A success if the move was done correctly
+ */
+int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
+
+
 #endif

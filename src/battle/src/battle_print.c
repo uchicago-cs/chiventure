@@ -75,6 +75,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
     return string;
 }
 
+/* see battle_print.h */
 int *print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
 {
     char *move_name = move->info;
@@ -101,6 +102,7 @@ int *print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
     return SUCCESS;
 }
 
+/* see battle_print.h */
 int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char *string)
 {
     stat_changes_t* changes = move->user_mods;
@@ -197,7 +199,8 @@ int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char 
     return SUCCESS;
 }
 
-int print_stat_change(battle_t *b, turn_t turn, move_t *move, char *string)
+/* see battle_print.h */
+int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string)
 {
     char *move_name = move->info;
     int player_hp = b->player->stats->hp;
