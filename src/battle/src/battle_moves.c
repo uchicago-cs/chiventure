@@ -7,7 +7,7 @@
 
 
 /* See battle_moves.h */
-int move_init(move_t *move, char* name, char* info, int id, damage_type_t dmg_type, 
+int move_init(move_t *move, int id, char* name, char* info, damage_type_t dmg_type, 
 		target_type_t stat_mods, target_type_t effects, battle_item_t *req_item, 
 		target_count_t count, int sp_cost, int accuracy, int damage, 
 		stat_changes_t* user_mods, stat_changes_t* opponent_mods)
@@ -44,7 +44,7 @@ int move_init(move_t *move, char* name, char* info, int id, damage_type_t dmg_ty
 
 
 /* See battle_moves.h */
-move_t *move_new(char* info, char* name, int id, damage_type_t dmg_type, target_type_t stat_mods,
+move_t *move_new(int id, char* name, char* info, damage_type_t dmg_type, target_type_t stat_mods,
 		target_type_t effects, target_count_t count, int sp_cost, battle_item_t *req_item, 
 		int damage, int accuracy, stat_changes_t *user_mods, stat_changes_t *opponent_mods)
 {
@@ -58,7 +58,7 @@ move_t *move_new(char* info, char* name, int id, damage_type_t dmg_type, target_
         return NULL;
     }
 
-    rc = move_init(move, name, info, id, dmg_type, stat_mods, effects, req_item, count,
+    rc = move_init(move, id, name, info, dmg_type, stat_mods, effects, req_item, count,
 		    sp_cost, accuracy, damage, user_mods, opponent_mods);
 
     if(rc != SUCCESS)
