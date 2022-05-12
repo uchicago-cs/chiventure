@@ -20,7 +20,8 @@
  * Returns:
  *  - A pointer to the complex skill, or NULL if a complex skill cannot be allocated
  */
-complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills);
+complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills, 
+                                   reader_effect_t* reader);
 
 /*
  * Initializes a complex skill.
@@ -32,7 +33,8 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int complex_skill_init(complex_skill_t* complex_skill, skill_t** skills);
+int complex_skill_init(complex_skill_t* complex_skill, skill_t** skills, int num_skills,
+                       reader_effect_t* reader);
 
 /*
  * Frees the resources associated with a complex skill.
