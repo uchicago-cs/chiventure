@@ -7,10 +7,10 @@
 
 
 /* See battle_moves.h */
-int move_init(move_t *move, char* info, int id, damage_type_t dmg_type, 
+int move_init(move_t *move, char* name, char* info, int id, damage_type_t dmg_type, 
 		target_type_t stat_mods, target_type_t effects, battle_item_t *req_item, 
 		target_count_t count, int sp_cost, int accuracy, int damage, 
-		stat_change_t* user_mods, state_change_t* opponent_mods)
+		stat_changes_t* user_mods, state_changes_t* opponent_mods)
 {
     assert(move != NULL);
 
@@ -18,6 +18,7 @@ int move_init(move_t *move, char* info, int id, damage_type_t dmg_type,
     strncpy(move->info, info, MAX_MOVE_INFO_LEN + 1);
 
     move->id = id;
+    move->name = name;
 
     move->req_item = req_item;
 
@@ -43,9 +44,9 @@ int move_init(move_t *move, char* info, int id, damage_type_t dmg_type,
 
 
 /* See battle_moves.h */
-move_t *move_new(char* info, int id, damage_type_t dmg_type, target_type_t stat_mods,
+move_t *move_new(char* info, char* name, int id, damage_type_t dmg_type, target_type_t stat_mods,
 		target_type_t effects, target_count_t count, int sp_cost, battle_item_t *req_item, 
-		int damage, int accuracy, stat_change_t *user_mods, stat_change_t *opponent_mods)
+		int damage, int accuracy, stat_changes_t *user_mods, stat_changes_t *opponent_mods)
 {
     move_t *move;
     int rc;
@@ -57,7 +58,7 @@ move_t *move_new(char* info, int id, damage_type_t dmg_type, target_type_t stat_
         return NULL;
     }
 
-    rc = move_init(move, info, id, dmg_type, stat_mods, effects, req_item, count,
+    rc = move_init(move, name, info, id, dmg_type, stat_mods, effects, req_item, count,
 		    sp_cost, accurancy, damage, user_mods, opponent_mods);
 
     if(rc != SUCCESS)
@@ -122,6 +123,7 @@ move_t *test_move_bard()
     strncpy(move->info, "Diss track", MAX_MOVE_INFO_LEN + 1);
 
     move->id = 100;
+    move->name = "";
 
     move->req_item = NULL;
 
@@ -160,6 +162,7 @@ move_t *test_move_cleric()
     strncpy(move->info, "Divine smite", MAX_MOVE_INFO_LEN + 1);
 
     move->id = 110;
+    move->name = "";
 
     move->req_item = NULL;
 
@@ -198,6 +201,7 @@ move_t *test_move_paladin()
     strncpy(move->info, "360 no scope", MAX_MOVE_INFO_LEN + 1);
     
     move->id = 120;
+    move->name = "";
 
     move->req_item = NULL;
 
@@ -236,6 +240,7 @@ move_t *test_move_wizard()
     strncpy(move->info, "Magic, betches", MAX_MOVE_INFO_LEN);
     
     move->id = 130;
+    move->name = "";
 
     move->req_item = NULL;
     
