@@ -24,4 +24,11 @@ typedef enum skill_type {
     PASSIVE,
 
 } skill_type_t;
+
+/* Complex skill type */
+typedef enum complex_skill_type {
+    //Denotes conditonal complex skill
+    CONDITIONAL;
+
+} complex_skill_type_t;
 #endif /*SKILLTREES_ENUMS_H*/
