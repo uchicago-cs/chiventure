@@ -112,7 +112,10 @@ int complex_skill_level_up(complex_skill_t* complex_skill){
     int x;
     for (int i = 0; i < complex_skill->num_skills; i++){
         x = skill_level_up(complex_sill->skills[i]);
-        printf("Skill level up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
+        if(x == FAILURE){
+            return FAILURE;
+        }
+        // printf("Skill level up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
     }
     return SUCCESS;
 }
@@ -124,7 +127,10 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
 
     for (int i = 0; i < complex_skill->num_skills; i++){
         x = skill_xp_up(complex_skill->skills[i], xp_gained);
-        printf("Skill xp up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
+        if(x == FAILURE){
+            return FAILURE;
+        }
+        // printf("Skill xp up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
     }
     return SUCCESS;
 }
