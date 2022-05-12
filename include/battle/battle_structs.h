@@ -44,6 +44,23 @@ typedef enum target_count {
     MULTI //A move that hits multiple targets
 } target_count_t;
 
+/* stat changes stub */
+typedef struct stat_changes {
+    int speed;
+    int max_sp;
+    int sp;
+    int phys_atk;
+    int mag_atk;
+    int phys_def;
+    int mag_def;
+    int crit;
+    int accuracy;
+    int hp;
+    int max_hp;
+    int turns_left;
+    struct stat_changes* next;
+    struct stat_changes* prev;
+} stat_changes_t;
 
 /* moves stub */
 typedef struct move_t {
@@ -81,22 +98,5 @@ typedef struct stat {
     int level;
 } stat_t;
 
-/* stat changes stub */
-typedef struct stat_changes {
-    int speed;
-    int max_sp;
-    int sp;
-    int phys_atk;
-    int mag_atk;
-    int phys_def;
-    int mag_def;
-    int crit;
-    int accuracy;
-    int hp;
-    int max_hp;
-    int turns_left;
-    struct stat_changes* next;
-    struct stat_changes* prev;
-} stat_changes_t;
 
 #endif

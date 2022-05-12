@@ -113,8 +113,9 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     /* additionally, a check must be performed here to see if player has
        this move, currently not implemented, waiting for player class
        to resolve move_lists() */
-    int dmg;
+    int dmg, rc;
     char *string;
+
     /* Calculates to see if the move will miss */
     if (!calculate_accuracy(b->player->stats->accuracy, move->accuracy))
     {
@@ -122,16 +123,21 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     }
     else
     {
+        string = print_battle_move(b, b->turn, move);
         if (move->dmg_type != NO_DAMAGE)
         {
             dmg = damage(b->enemy, move, b->player);
             enemy->stats->hp -= dmg;
             //print_battle_move needs to be changed
-            string = print_battle_move(b, b->turn, move);
+            rc = print_battle_damage(b, b->turn, move, string);
+            assert(rc == SUCCESS);
         }
         if (move->stat_mods != NO_TARGET)
         {
             use_stat_change_move(b->enemy, move, b->player);
+            rc = print_stat_changes(b, b->turn, move, string);
+            assert(rc == SUCCESS);
+
         }
         if (move->effects != NO_TARGET)
         {
@@ -237,7 +243,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
     move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
-    int dmg;
+    int dmg, rc;
     char *string = calloc(100, sizeof(char));
 
     if(enemy_move != NULL)
@@ -248,15 +254,19 @@ char *enemy_make_move(battle_ctx_t *ctx)
             b->player->stats->hp -= dmg;
             string = print_battle_miss(b, b->turn, enemy_move);
         }else{
+            string = print_battle_move(b, b->turn, enemy_move);
             if (enemy_move->dmg_type != NO_DAMAGE)
             {
                 dmg = damage(b->player, enemy_move, b->enemy);
                 b->player->stats->hp -= dmg;
-                string = print_battle_move(b, b->turn, enemy_move);
+                rc = print_battle_damage(b, b->turn, enemy_move, string);
+                assert(rc == SUCCESS);
             }
             if (enemy_move->stat_mods != NO_TARGET)
             {
                 use_stat_change_move(b->player, enemy_move, b->enemy);
+                rc = print_stat_changes(b, b->turn, enemy_move, string);
+                assert(rc == SUCCESS);
             }
             if (enemy_move->effects != NO_TARGET)
             {
@@ -307,11 +317,11 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
             apply_stat_changes(user_stats, move->user_mods);
             break;
         case TARGET:
-            apply_stat_changes(target_stats, move->user_mods);
+            apply_stat_changes(target_stats, move->opponent_mods);
             break;
         case BOTH:
             apply_stat_changes(user_stats, move->user_mods);
-            apply_stat_changes(target_stats, move->user_mods);
+            apply_stat_changes(target_stats, move->opponent_mods);
             break;
         default:
             return FAILURE;
