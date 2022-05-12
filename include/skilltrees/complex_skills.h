@@ -74,7 +74,7 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
  * Returns:
  *  - A pointer to the reader, or NULL if a reader cannot be allocated
  */
-reader_effect_t* reader_effect_new(char* condition, int len, reader_type_t type);
+reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t type);
 
 /*
  * Initializes a reader
@@ -88,7 +88,7 @@ reader_effect_t* reader_effect_new(char* condition, int len, reader_type_t type)
  * Returns:
  *  - A pointer to the reader, or NULL if a reader cannot be allocated
  */
-reader_effect_t* reader_effect_init(reader_effect_t* reader, char* condition, int len, reader_type_t type);
+reader_effect_t* reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type);
 
 /*
  * Frees the resources associated with a reader

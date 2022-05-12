@@ -14,7 +14,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
     complex_skill_t* complex;
 
     if (num_skills == 0) {
-        fprintf(stderr, "skill_new: max_level is invalid\n");
+        fprintf(stderr, "complex_skill_new: max_level is invalid\n");
         return NULL;
     }
 
@@ -75,6 +75,63 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
         return sequential_skill_execute(complex_skill, ctx);
     }
     return FAILURE;
+}
+
+/*See complex_skills.h */
+reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t type)
+{
+
+    reader_effect_t* reader;
+    int rc;
+
+    if (condition == NULL)
+    {
+        fprintf(stderr, "reader_effect_new: condition invalid");
+        return NULL;
+    }
+
+    if (len == 0)
+    {
+        fprintf(stderr, "reader_effect_new: condition invalid");
+        return NULL;
+    }
+
+    if (type == NULL)
+    {
+        fprintf(stderr, "reader_effect_new: type invalid");
+        return NULL;
+    }
+
+    reader = (reader_type_t*)malloc(sizeof(reader_effect_t));
+    rc = reader_effect_init(reader, condition, str_len, type);
+
+    if (rc)
+    {
+        fprintf(stderr, "reader_effect_new: initialization failed");
+        return NULL;
+    }
+
+    return reader;
+}
+
+/* See complex_hills.h */
+reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type)
+{
+
+    assert (reader != NULL);
+
+    reader->condition = condition;
+    reader->str_len = str_len;
+    reader->type = type;
+
+    return SUCCESS;
+}
+
+/* See complex_skills.h */
+int reader_effect_free(reader_effect_t* reader)
+{
+    free(reader);
+    return 0;
 }
 
 /*See complex_skills.h */
