@@ -42,7 +42,7 @@ move_t *move_new(char* info, char* name, int id, damage_type_t dmg_type, target_
 int move_init(move_t *move, char* name, char* info, int id, damage_type_t dmg_type, 
 		target_type_t stat_mods, target_type_t effects, battle_item_t *req_item, 
 		target_count_t count, int sp_cost, int accuracy, int damage, 
-		stat_changes_t* user_mods, state_changes_t* opponent_mods);
+		stat_changes_t* user_mods, stat_changes_t* opponent_mods);
 
 
 /* Frees a battle struct from memory 
