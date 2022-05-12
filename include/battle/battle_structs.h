@@ -26,7 +26,6 @@ typedef struct battle_item {
 
 /* This defines what type of damage if any the move would do. 
     We will do this to specify attack. */
-/*
 typedef enum damage_type {
     PHYS, //A move that would inflict physical damage on the opponent.
     MAG, //A move that would inflict magical damage on the opponent. 
@@ -43,7 +42,8 @@ typedef enum target_type {
 typedef enum target_count {
     SINGLE, //A move that hits a single target
     MULTI //A move that hits multiple targets
-} target_count_t;*/
+} target_count_t;
+
 /* stat changes stub */
 typedef struct stat_changes {
     int speed;
