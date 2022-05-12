@@ -126,6 +126,7 @@ char **parse(char *input)
         if (strcmp(input[track_position + 1], "\"") == 0)
         {
             token = strtok(NULL, "\"");
+            printf('h"');
         }
     
     }
