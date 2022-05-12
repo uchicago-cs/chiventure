@@ -108,7 +108,7 @@ typedef struct reader_effect{
     //Length of string
     int str_len;
 
-    //Location of condition (player,enemy, world, etc.)
+    //Location of condition (player, enemy, world, etc.)
     reader_type_t type;
 } reader_effect_t;
 
