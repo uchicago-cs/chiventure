@@ -31,9 +31,7 @@ int move_init(move_t *move, char* info, int id, damage_type_t dmg_type,
     move->user_mods = user_mods;
     move->opponent_mods = opponent_mods;
 
-    move->attack = attack;
     move->damage = damage;
-    move->defense = defense;
     move->accuracy = accuracy;
     move->sp_cost = sp_cost;
 
@@ -125,11 +123,21 @@ move_t *test_move_bard()
 
     move->id = 100;
 
-    move->item = NULL;
+    move->req_item = NULL;
 
-    move->attack = true;
+    move->dmg_type = MAG;
+
+    move->stat_mods = NULL;
+    move->effects = NULL;
+
+    move->count = 0;
+
+    move->user_mods = NULL;
+    move->opponent_mods = NULL;
+
     move->damage = 15;
-    move->defense = 0;
+    move->accuracy = 100;
+    move->sp_cost = 0;
 
     return move;
 }
