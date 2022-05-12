@@ -7,8 +7,10 @@
 
 
 /* See battle_moves.h */
-int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attack,
-                 int damage, int defense)
+int move_init(move_t *move, char* info, int id, damage_type_t dmg_type, 
+		target_type_t stat_mods, target_type_t effects, battle_item_t *req_item, 
+		target_count_t count, int sp_cost, int accuracy, int damage, 
+		stat_change_t* user_mods, state_change_t* opponent_mods)
 {
     assert(move != NULL);
 
@@ -17,11 +19,23 @@ int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attac
 
     move->id = id;
 
-    move->item = items;
+    move->req_item = req_item;
+
+    move->dmg_type = dmg_type;
+
+    move->stat_mods = stat_mods;
+    move->effects = effects;
+
+    move->count = count;
+
+    move->user_mods = user_mods;
+    move->opponent_mods = opponent_mods;
 
     move->attack = attack;
     move->damage = damage;
     move->defense = defense;
+    move->accuracy = accuracy;
+    move->sp_cost = sp_cost;
 
     move->next = NULL;
     move->prev = NULL;
@@ -31,8 +45,9 @@ int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attac
 
 
 /* See battle_moves.h */
-move_t *move_new(char* info, int id, battle_item_t *items, bool attack,
-                 int damage, int defense)
+move_t *move_new(char* info, int id, damage_type_t dmg_type, target_type_t stat_mods,
+		target_type_t effects, target_count_t count, int sp_cost, battle_item_t *req_item, 
+		int damage, int accuracy, stat_change_t *user_mods, stat_change_t *opponent_mods)
 {
     move_t *move;
     int rc;
@@ -44,7 +59,9 @@ move_t *move_new(char* info, int id, battle_item_t *items, bool attack,
         return NULL;
     }
 
-    rc = move_init(move, info, id, items, attack, damage, defense);
+    rc = move_init(move, info, id, dmg_type, stat_mods, effects, req_item, count,
+		    sp_cost, accurancy, damage, user_mods, opponent_mods);
+
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize move\n");
