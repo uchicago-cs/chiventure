@@ -342,9 +342,9 @@ int can_start_quest(quest_t *quest, player_t *player)
 
     if (health >= quest->stat_req->hp && 
         player->level >= quest->stat_req->level){
-            return 1;
+            return SUCCESS;
         }
-    return 0;
+    return FAILURE;
 }
 
 /* Refer to quests_state.h */

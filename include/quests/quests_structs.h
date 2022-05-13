@@ -78,7 +78,6 @@ typedef struct reward {
  *  mission: mission to be completed
  *  id: string identifier for the task
  *  reward: reward for completing the task.
- *  completed: bool for if task is completed
  */
 typedef struct task {
     mission_t *mission;
@@ -122,10 +121,6 @@ typedef struct stat_req {
  *                   tasks that make up a quest
  * reward: reward of the quest is either experience, an item, or both
  * stat_req: stat requirement for the quest
- * status: -1: failed quest
- *          0: quest has not been started
- *          1: quest has been started but not completed
- *          2: quest has been completed
  */
 typedef struct quest  {
     char *quest_id;
