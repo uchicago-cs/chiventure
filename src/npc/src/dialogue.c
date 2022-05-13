@@ -144,7 +144,7 @@ int do_node_actions(node_t *n, game_t *game)
                     return FAILURE;
                 break;
 
-            case TAKE: // should remain the same; takes from player
+            case STEAL: // should remain the same; STEALs from player
                 npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
                 item = get_item_in_hash(game->curr_player->inventory,
                                                 cur_action->action_id);
@@ -457,14 +457,14 @@ int add_give(convo_t *c, char *node_id, char *item_id)
 }
 
 /* See dialogue.h */
-int add_take(convo_t *c, char *node_id, char *item_id)
+int add_steal(convo_t *c, char *node_id, char *item_id)
 {
     assert(item_id != NULL);
     
     node_t *n;
     if ((n = get_node(c->all_nodes, node_id)) == NULL) return FAILURE;
 
-    return add_action_to_node(n, TAKE, item_id);
+    return add_action_to_node(n, STEAL, item_id);
 }
 
 /* See dialogue.h */

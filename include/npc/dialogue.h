@@ -18,7 +18,7 @@ typedef enum {
     TALK,
     IGNORE,
     GIVE,
-    TAKE,
+    STEAL,
     BUY,
     SELL,
     TRADE,
@@ -219,7 +219,7 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
  */
 int add_give(convo_t *c, char *node_id, char *item_id);
 
-/* Adds a take item flag to a node.
+/* Adds a steal item flag to a node.
  *
  * Parameters:
  *  - c: pointer to a convo
@@ -230,7 +230,7 @@ int add_give(convo_t *c, char *node_id, char *item_id);
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) node matching node_id could not be found;
  */
-int add_take(convo_t *c, char *node_id, char *item_id);
+int add_steal(convo_t *c, char *node_id, char *item_id);
 
 /* Adds a buy item flag to a node.
  *
