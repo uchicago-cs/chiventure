@@ -71,11 +71,14 @@ int complex_skill_free(complex_skill_t* complex_skill){
 
 /*See complex_skills.h */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
-    if(complex_skill->type == COMBINED){
-        return combined_skill_execute(complex_skill, ctx);
-    }
-    if(complex_skill->type == SEQUENTIAL){
-        return sequential_skill_execute(complex_skill, ctx);
+    // if(complex_skill->type == COMBINED){
+    //     return combined_skill_execute(complex_skill, ctx);
+    // }
+    // if(complex_skill->type == SEQUENTIAL){
+    //     return sequential_skill_execute(complex_skill, ctx);
+    // }
+    if(complex_skill->type == COMPLEX_CONDITIONAL){
+        return conditional_skill_execute(complex_skill,ctx);
     }
     return FAILURE;
 }
