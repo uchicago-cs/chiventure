@@ -567,8 +567,7 @@ void battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     
     npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
-    /* note: I can't find this function in the npc modules. But I'm including it because
-     * the talk_operation function calls it. Also this assumes that the NPC name 
+    /* note: This assumes that the NPC name 
      * is only one token long, and that the command is exactly "fight npc_name". */
     
     if (npc == NULL) {
