@@ -4,7 +4,7 @@
 #include "game_state_common.h"
 #include "common/common.h"
 
-typedef struct time_dll;
+typedef struct time_dll
 {
     time_t *curr;
     time_t *start; // will serve as the key for searching
