@@ -203,13 +203,20 @@ move_t *get_random_default_move()
     
     // Sets the id, name, and description.
     int id = rand;
-    char *name[20], *desc[75];
+    char name[20], desc[75];
     strcpy(name, name_array[rand]);
     strcpy(desc, desc_array[rand]);
 
     //Sets the damage type.
     damage_type_t dmg_type;
-    rand < 5 ? dmg_type = PHYS : dmg_type = MAG;
+    if (rand < 5)
+    {
+        dmg_type = PHYS; 
+    } 
+    else 
+    {
+        dmg_type = MAG;
+    }
 
     //Sets the appropriate targets for stat mods and effects.
     target_type_t stat_mods, effects;
@@ -232,10 +239,17 @@ move_t *get_random_default_move()
 
     //Sets the sp cost.
     int sp_cost;
-    rand < 5 ? sp_cost = 0 : sp_cost = 10;
+    if (rand < 5)
+    {
+        sp_cost = 0;
+    }
+    else
+    {
+        sp_cost = 10;
+    }
 
     //Sets the required item.
-    battle_item_t req_item = NULL;
+    battle_item_t* req_item = NULL;
 
     //Sets the damage and accuracy.
     int damage = randnum(50, 100), accuracy = randnum(85, 100);
@@ -250,14 +264,17 @@ move_t *get_random_default_move()
     else if (rand == 4 || rand == 8)
     {
         user_mod == NULL;
-        opp_mod = stat_changes_init(stat_changes_new());
+        opp_mod = stat_changes_new();
+        stat_changes_init(opp_mod);
         opp_mod->speed = -10;
     }
     else if (rand == 9)
     {
-        user_mod = stat_changes_init(stat_changes_new());
+        user_mod = stat_changes_new()
+        stat_changes_init(user_mod);
         user_mod->hp = 15;
-        opp_mod = stat_changes_init(stat_changes_new());
+        opp_mod = stat_changes_new();
+        stat_changes_init(opp_mod);
         opp_mod->hp = -15;
     }
 
