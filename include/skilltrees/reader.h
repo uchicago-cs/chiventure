@@ -83,3 +83,14 @@ int stat_reader_effect_init(stat_reader_effect_t* reader,int value,
  *  - 1 if freed succesfully, 0 if failure
  */
 int stat_reader_effect_free(stat_reader_effect* reader);
+
+/*
+ * Reads a reader effect
+ *
+ * Parameters:
+ *  - reader: Pointer to the stat reader being read
+ *
+ * Returns:
+ *  - 0 if reader is true, 1 if reader is false
+ */
+int execute_reader_effect(reader_effect_t* reader);
