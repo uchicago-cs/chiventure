@@ -9,7 +9,7 @@
 #include "skilltrees/reader.h"
 
 /*See reader.h*/
-reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t* att_reader,
+reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t* attr_reader,
                 stat_reader_effect_t* stat_reader){
     reader_effect_t* reader;
     int rc;
@@ -30,7 +30,7 @@ reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t* att
 }
 
 /*See reader.h*/
-int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t* att_reader,
+int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t* attr_reader,
                   stat_reader_effect_t* stat_reader){
     assert(reader != NULL);
 
@@ -48,6 +48,7 @@ int reader_effect_free(reader_effect_t* reader){
     free(reader->attr_reader);
     free(reader->stat_reader);
     free(reader);
-    
+
     return SUCCESS;
 }
+
