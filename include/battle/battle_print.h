@@ -132,7 +132,7 @@ char *print_moves(battle_t *b, char* moves);
   *  - SUCCESS if successfully stored message about damage, FAILURE otherwise
   *
   */
-int *print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string);
+int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string);
 
  /*
   * Stores a message about all stat changes to a previously allocated string.

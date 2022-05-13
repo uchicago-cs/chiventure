@@ -131,8 +131,7 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
     dmg *= (((base_dmg * (src_atk / tgt_def)) / 50.0) + 2.0);
     dmg *= crit_mod;
     dmg = round(dmg);
-    int int_dmg = dmg;
 
-    return int_dmg;
+    return (int) dmg;
 }
 
