@@ -16,8 +16,8 @@
  * Returns:
  *  - A pointer to the reader, or NULL if reader cannot be allocated
  */
-reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t att_reader,
-                  stat_reader_effect_t stat_reader);
+reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t* att_reader,
+                  stat_reader_effect_t* stat_reader);
 
 /*
  * Initalizes a reader
@@ -31,8 +31,8 @@ reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t att_
  * Returns:
  *  - 1 if initalized succesfully, 0 if failure
  */
-int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t att_reader,
-                  stat_reader_effect_t stat_reader);
+int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t* att_reader,
+                  stat_reader_effect_t* stat_reader);
 
 /*
  * Frees a reader in the heap.
