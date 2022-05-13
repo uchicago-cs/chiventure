@@ -111,7 +111,7 @@ int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes, char *
         combatant_name = "Your";
     } else
     {
-        combatant_name = strcat(b->enemy->name, '\'s');
+        combatant_name = strcat(b->enemy->name, "\'s");
     }
 
     int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
