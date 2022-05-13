@@ -648,6 +648,19 @@ int id_list_add(id_list_t *id_list, char *id) {
     return SUCCESS;
 } 
 
+/*Refer to quests_state.h */
+int prereq_add_quest(prereq_t *prereq, char *quest_id) {
+    assert(prereq != NULL);
+    assert(quest_id != NULL);
+    return id_list_add(prereq->quest_list, quest_id);
+}
+
+/*Refer to quests_state.h */
+int prereq_add_task(prereq_t *prereq, char *task_id) {
+    assert(prereq != NULL);
+    assert(task_id != NULL);
+    return id_list_add(prereq->task_list, task_id);
+}
 /* Refer to quests_state.h */
 task_t *find_task_in_quest(task_tree_t *tree, char *id)
 {

@@ -498,6 +498,32 @@ task_t *find_task_in_quest(task_tree_t *tree, char *id);
 */
 int id_list_add(id_list_t *id_list, char *id);
 
+/*
+ * Adds a quest id to a prereq's quest id list
+ *
+ * Parameters:
+ * - prereq: The prereq getting added to
+ * - quest_id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int prereq_add_quest(prereq_t *prereq, char *quest_id);
+
+/*
+ * Adds a task id to a prereq's task id list
+ *
+ * Parameters:
+ * - prereq: The prereq getting added to
+ * - task_id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int prereq_add_task(prereq_t *prereq, char *task_id);
+
 /* Returns the task's reward item if the task has been completed.
  *
  * Parameter:
