@@ -129,8 +129,8 @@ move_t *test_move_bard()
 
     move->dmg_type = MAG;
 
-    move->stat_mods = NULL;
-    move->effects = NULL;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
 
     move->count = 0;
 
@@ -139,7 +139,7 @@ move_t *test_move_bard()
 
     move->damage = 15;
     move->accuracy = 100;
-    move->sp_cost = 0;
+    move->sp_cost = 10;
 
     return move;
 }
@@ -168,8 +168,8 @@ move_t *test_move_cleric()
 
     move->dmg_type = MAG;
 
-    move->stat_mods = NULL;
-    move->effects = NULL;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
 
     move->count = 0;
 
@@ -178,7 +178,7 @@ move_t *test_move_cleric()
 
     move->damage = 10;
     move->accuracy = 100;
-    move->sp_cost = 0;
+    move->sp_cost = 15;
 
     return move;
 }
@@ -207,8 +207,8 @@ move_t *test_move_paladin()
 
     move->dmg_type = PHYS;
 
-    move->stat_mods = NULL;
-    move->effects = NULL;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
 
     move->count = 0;
 
@@ -237,7 +237,7 @@ move_t *test_move_wizard()
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
 
     move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
-    strncpy(move->info, "Magic, betches", MAX_MOVE_INFO_LEN);
+    strncpy(move->info, "Fireball", MAX_MOVE_INFO_LEN);
     
     move->id = 130;
     move->name = "";
@@ -246,8 +246,8 @@ move_t *test_move_wizard()
     
     move->dmg_type = MAG;
 
-    move->stat_mods = NULL;
-    move->effects = NULL;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
 
     move->count = 0;
 
@@ -256,7 +256,7 @@ move_t *test_move_wizard()
 
     move->damage = 10;
     move->accuracy = 100;
-    move->sp_cost = 0;
+    move->sp_cost = 10;
 
     return move;
 }
