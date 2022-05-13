@@ -355,7 +355,7 @@ Test(quest, add_task_to_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("beeobop", NULL, rewards, stat_req);
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     char *id = "test mission";
@@ -388,7 +388,7 @@ Test(quest, can_start)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test4", NULL, rewards, stat_req);
 
     int rc = can_start_quest(quest, player1);
 
@@ -407,7 +407,7 @@ Test(quest, start_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test3", NULL, rewards, stat_req);
 
     int check = start_quest(quest);
 
@@ -428,7 +428,7 @@ Test(quest, fail_quest)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test2", NULL, rewards, stat_req);
 
     int check = fail_quest(quest);
 
@@ -500,7 +500,7 @@ Test(quest,is_quest_completed)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("test 1", NULL, rewards, stat_req);
 
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -552,7 +552,7 @@ Test(quest,get_quest_status)
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+	quest_t* quest = quest_new("beepbop", NULL, rewards, stat_req);
 
     int check = get_quest_status(quest);
 
