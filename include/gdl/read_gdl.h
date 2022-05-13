@@ -1,3 +1,6 @@
+#ifndef READ_GDL
+#define READ_GDL
+
 /*
  * This is a Graphics Description Language
  * reading device
@@ -82,6 +85,11 @@ typedef struct graphics {
 graphics_t* read_gdl(FILE *gdl);
 
 
+display_dimensions_t init_display_dimensions(graphics_t *graphics);
+
+
+void free_display_dimensions(display_dimensions_t *display_dimensions);
+
 
 inventory_display_t init_inventory_display(graphics_t *graphics);
 
@@ -89,3 +97,10 @@ inventory_display_t init_inventory_display(graphics_t *graphics);
 void free_inventory_display(inventory_display_t *inventory_display);
 
 
+statistics_display_t init_statistics_display(statistics_display_t * statistics_display);
+
+
+void free_display_statistics(statistics_display *statistics_display);
+
+
+#endif
