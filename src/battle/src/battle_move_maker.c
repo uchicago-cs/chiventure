@@ -29,9 +29,9 @@ int build_moves(combatant_t *c)
         if(!(strncmp(combatant_class_name, tmp->c->name, MAX_NAME_LEN)))
         {
             appened = true;
-            ret_move = move_new(tmp->id, tmp->name, tmp->info, tmp->dmg_type, tmp->stat_mods,
-			    tmp->effects, tmp->count, tmp->sp_cost, tmp->req_item, tmp->damage,
-			    tmp->accuracy, tmp->user_mods, tmp->opponent_mods);
+            ret_move = move_new(tmp->id, tmp->spell, "", PHYS, NO_TARGET,
+			    NO_TARGET, SINGLE, 0, NULL, tmp->damage,
+			    100, NULL, NULL);
             DL_APPEND(c->moves, ret_move);
         }
     }
