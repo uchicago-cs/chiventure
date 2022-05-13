@@ -100,9 +100,10 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
         fprintf(stderr, "\nCould not allocate memory for quest!\n");
         return NULL;
     }
-  
+
     rc = quest_init(q, quest_id, task_tree, reward, stat_req);
-    if(rc != SUCCESS){
+    if(rc != SUCCESS)
+    {
 
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -173,7 +174,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward)
 
 /* Refer to quests_state.h */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
-                reward_t *reward, stat_req_t *stat_req)
+               reward_t *reward, stat_req_t *stat_req)
 
 {
     assert(q != NULL);
@@ -340,10 +341,11 @@ bool can_start_quest(quest_t *quest, player_t *player)
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
 
-    if (health >= quest->stat_req->hp && 
-        player->level >= quest->stat_req->level){
-            return true;
-        }
+    if (health >= quest->stat_req->hp &&
+            player->level >= quest->stat_req->level)
+    {
+        return true;
+    }
     return false;
 }
 
@@ -357,10 +359,11 @@ int start_quest(quest_t *quest, player_t *player)
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
-    while(cur) {
+    while(cur)
+    {
         assert(add_task_to_player_hash(cur->task, &player->player_tasks) == SUCCESS);
         cur = cur->rsibling;
-    }   
+    }
 
     return SUCCESS;
 }
@@ -388,7 +391,7 @@ int fail_quest(quest_t *quest, player_t *player)
  * - pointer to the desired task, OR
  * - NULL if task cannot be found along a valid path
  *
- * Note: Traversal no longer relies on task completion, so 
+ * Note: Traversal no longer relies on task completion, so
  *       runtime is now O(T) where T is the number of tasks
  *       in the game
  */
@@ -414,15 +417,18 @@ bool is_quest_completed(quest_t *quest, player_t *player)
     task_tree_t *cur = quest->task_tree;
 
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
-    if(!pquest || pquest->completion == -1) {
+    if(!pquest || pquest->completion == -1)
+    {
         return false;
     }
 
     bool crntStatus = true;
     player_task_t *temp;
-    while(cur) {
+    while(cur)
+    {
         temp = get_player_task_from_hash(cur->task->id, player->player_tasks);
-        if(temp && temp->completed) {
+        if(temp && temp->completed)
+        {
             cur = cur->lmostchild;
             crntStatus = true;
             continue;
@@ -439,14 +445,15 @@ bool is_task_completed(task_t *task, player_t *player)
 {
     assert(task != NULL);
     assert(player != NULL);
-    
+
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
-    if(!ptask) {
+    if(!ptask)
+    {
         return false;
     }
     ptask->completed = true;
     return true;
-    
+
 }
 
 /* Refer to quests_state.h */
@@ -464,7 +471,7 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 {
     quest_t *check;
-  
+
     check = get_quest_from_hash(quest->quest_id, *hash_table);
 
     if (check != NULL)
@@ -478,11 +485,14 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 }
 
 /* Refer to quests_state.h */
-task_t *get_task_from_hash(char *id, quest_hash_t *hash_table) {
+task_t *get_task_from_hash(char *id, quest_hash_t *hash_table)
+{
     task_t *task = NULL;
-    for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next) {
+    for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next)
+    {
         task = find_task_in_tree(cur->task_tree, id);
-        if(task != NULL) {
+        if(task != NULL)
+        {
             break;
         }
     }
@@ -501,8 +511,8 @@ player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *
 player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table)
 {
     player_task_t *t;
-    HASH_FIND(hh, hash_table, id,  
-            strnlen(id, MAX_ID_LEN), t);
+    HASH_FIND(hh, hash_table, id,
+              strnlen(id, MAX_ID_LEN), t);
 
     return t;
 }
@@ -511,10 +521,10 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
 int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, int completion)
 {
     player_quest_t *check;
-    
+
     check = get_player_quest_from_hash(quest->quest_id, *hash_table);
 
-    if (check != NULL) 
+    if (check != NULL)
     {
         return FAILURE; //quest id is already in the hash table
     }
@@ -529,10 +539,10 @@ int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, i
 int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 {
     player_task_t *check;
-    
+
     check = get_player_task_from_hash(task->id, *hash_table);
 
-    if (check != NULL) 
+    if (check != NULL)
     {
         return FAILURE; //task id is already in the hash table
     }
@@ -540,7 +550,7 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 
     HASH_ADD_KEYPTR(hh, *hash_table, task->id,
                     strnlen(task->id, MAX_ID_LEN), player_task);
-  
+
     return SUCCESS;
 }
 
@@ -548,7 +558,8 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 int get_player_quest_status(quest_t *quest, player_t *player)
 {
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
-    if(!pquest) {
+    if(!pquest)
+    {
         return 0;
     }
     return pquest->completion;
