@@ -96,7 +96,7 @@ tokenized_cmds *parse_r(char *input)
 /* See parser.h */
 char **parse(char *input)
 {
-    int pos = 0;
+
     if(strcmp(input, "") == 0)
     {
         return NULL;
@@ -106,6 +106,8 @@ char **parse(char *input)
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    char **temp;
+    temp = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
 
     //Initializes all words to NULL
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
@@ -113,29 +115,66 @@ char **parse(char *input)
         words[i] = NULL;
     }
 
-    char *token = strtok(input, "\"");
-    pos = strlen(token);
-    char *token2;
+    char *token2 = strtok(input, "\"");
+    int pos = 0;
 
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    for(int i = 0; i < 4; i++)
     {
+
+        temp[i] = token2;
+        token2 = strtok(NULL, "\"");
+
+    }
+
+    char *token = strtok(input, " ");
+
+    for(int i = 0; i < 4; i++)
+    {
+
         words[i] = token;
-        token = strtok(NULL, "\"");
-        pos += strlen(token) + 1;
+        token = strtok(NULL, " ");
+        // if (words[i]) {
+        //     pos += (strlen(words[i]) - 1);
+        // }
 
-        if !(strcmp(input[pos + 2], "\"")) {
-            int n = 0;
-            while input[pos + 1] != "\"" {
-                token2[n] = input[pos];
-                pos += 1;
-                n += 1;
-            }
+        // if (input[pos + 2] == '\"') {
+        //     int n = 0;
+        //     pos += 3;
+        //     while (input[pos] != '\"') {
+        //         token2[n] = input[pos];
+        //         pos++;
+        //         n++;
+        //     }
+            
+        //     i++;
+        //     strcpy(words[i], token2);
+        //     break;
+        // }
+        // if (words[i]) {
+        //     pos += (strlen(words[i]) - 1);
+        // }
 
-            strcpy(words[i], token2);
+        // if (input[pos + 2] == '\"') {
+        //     token = strtok(input, "\"");
+        //     for (int n = 0; n < 2; n++) {
+        //         if (n == 1) {
+        //             words[i] = token;
+        //         }else{
+        //             strtok(NULL, "\"");
+        //         }
+        //     }
+
+        //     break;
+        // }else{
+    }
+
+    for (int j = 0; j < 4; j++) {
+        if (!(words[j])) {
+            words[j] = temp[1];
             break;
         }
-        
     }
+
 
     //If there are more than 4 words, parser returns NULL and does not attempt
     //to pass the first four words as tokens
