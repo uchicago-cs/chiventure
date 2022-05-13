@@ -24,4 +24,28 @@ typedef enum skill_type {
     PASSIVE,
 
 } skill_type_t;
+
+typedef enum reader_location{
+    PLAYER,
+
+    SINGLE_TARGET,
+
+    WORLD
+} reader_location_t;
+
+//Enums for stat reader and comparisons
+typedef enum comparison {
+    EQUALS,
+
+    NOT,
+
+    GREATER,
+
+    LESSER,
+
+    GREATER_EQUAL,
+
+    LESSER_EQUAL
+} comparison_t;
+
 #endif /*SKILLTREES_ENUMS_H*/

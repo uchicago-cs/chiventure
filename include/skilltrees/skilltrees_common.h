@@ -76,6 +76,33 @@ typedef struct skill {
 
 } skill_t;
 
+
+typedef struct attr_reader_effect{
+    char* value;
+
+    int str_len;
+
+    reader_location_t location;
+} attr_reader_effect_t;
+
+typedef struct stat_reader_effect{
+    int value;
+
+    comparison_t comparison;
+
+    reader_location_t location;
+} stat_reader_effect_t;
+
+typedef struct reader_effect{
+    //Idk if this is how unions work, this would be helpful though
+    union Reader {
+        attr_reader_effect_t att_reader;
+
+        stat_reader_effect_t stat_reader;
+    } reader;
+
+} reader_effect_t; 
+
 /* ======================== */
 /* === COMMON FUNCTIONS === */
 /* ======================== */
