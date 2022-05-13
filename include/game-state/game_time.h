@@ -4,18 +4,24 @@
 #include "game_state_common.h"
 #include "common/common.h"
 
-typedef struct game_time
+typedef struct time_dll;
 {
-    time_t *start;
-    time_t *current;
-} game_time_t;
+    time_t *curr;
+    time_t *start; // will serve as the key for searching
+    struct time_dll *prev;
+    struct time_dll *next;
+} time_dll_t;
 
-int game_time_init();
+int time_init(time_t *time);
 
-game_time_t *game_time_new();
+time_t *time_new();
 
-int game_time_free(game_time_t *game_time);
+int time_dll_init(time_dll_t *prev, time_dll_t *time_dll, time_dll_t *next);
 
-double game_time_diff(game_time_t *game_time);
+time_dll_t *time_dll_new(time_dll_t *prev, time_dll_t *next);
+
+int time_dll_free(time_dll_t *game_time);
+
+double time_dll_diff(time_dll_t *game_time);
 
 #endif
