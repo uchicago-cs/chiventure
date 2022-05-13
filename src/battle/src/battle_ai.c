@@ -1,5 +1,5 @@
 #include "battle/battle_ai.h"
-#include "battle_logic.h"
+#include "battle/battle_logic.h"
 #include <math.h>
 
 /* See battle_ai.h */
