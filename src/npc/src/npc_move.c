@@ -1,6 +1,6 @@
 #include <math.h>
-#include <uthash.h>
 
+#include "common/uthash.h"
 #include "npc/npc_move.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
