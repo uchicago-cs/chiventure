@@ -370,13 +370,19 @@ Test(quest, add_task_to_quest)
 /* Tests if a player can start the quest */
 Test(quest, can_start)
 {
-    int health = 20;
+    double health = 70;
+    int pLevel = 7;
 
     player_t* player1 = player_new("player1");
+    stats_global_t *global = stats_global_new("health", health);
+    stats_t *health_stat = stats_new(global, health);
+    player_add_stat(player1, health_stat);
 
-    int xp = 50;
+    player1->level = pLevel;
+
     item_t *item = item_new("test_item", "item for testing",
     "test item");
+    int xp = 50;
     reward_t *rewards = create_sample_rewards(xp, item);
 
     int hp = 50;
@@ -385,12 +391,70 @@ Test(quest, can_start)
 
 	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
 
-    int rc = can_start_quest(quest, player1);
+    bool rc = can_start_quest(quest, player1);
 
-    cr_assert_eq(rc, 0, "can_start_quest() returned false, expected true");
+    cr_assert_eq(rc, true, "can_start_quest() returned false, expected true");
 }
 
-/* Tests the function  that starts a quest */
+/* Tests if a player cannot start the quest because of their level*/
+Test(quest, cannot_start_level)
+{
+    int health = 60;
+    int pLevel = 1;
+
+     player_t* player1 = player_new("player1");
+    stats_global_t *global = stats_global_new("health", health);
+    stats_t *health_stat = stats_new(global, health);
+    player_add_stat(player1, health_stat);
+
+    player1->level = pLevel;
+
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    int xp = 50;
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+
+    bool rc = can_start_quest(quest, player1);
+
+    cr_assert_eq(rc, false, "can_start_quest() returned false, expected true");
+}
+
+/* Tests if a player cannot start the quest because of their health */
+Test(quest, cannot_start_health)
+{
+    int health = 20;
+    int pLevel = 7;
+
+     player_t* player1 = player_new("player1");
+    stats_global_t *global = stats_global_new("health", health);
+    stats_t *health_stat = stats_new(global, health);
+    player_add_stat(player1, health_stat);
+
+    player1->level = pLevel;
+
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    int xp = 50;
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    stat_req_t *stat_req = create_sample_stat_req(hp, level);
+
+	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+
+    bool rc = can_start_quest(quest, player1);
+
+    cr_assert_eq(rc, false, "can_start_quest() returned false, expected true");
+}
+
+/* Tests the function that starts a quest */
 Test(quest, start_quest)
 {
     int xp = 50;

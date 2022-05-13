@@ -335,16 +335,16 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 }
 
 /* Refer to quests_state.h */
-int can_start_quest(quest_t *quest, player_t *player)
+bool can_start_quest(quest_t *quest, player_t *player)
 {
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
 
     if (health >= quest->stat_req->hp && 
         player->level >= quest->stat_req->level){
-            return SUCCESS;
+            return true;
         }
-    return FAILURE;
+    return false;
 }
 
 /* Refer to quests_state.h */
