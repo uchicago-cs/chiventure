@@ -122,7 +122,8 @@ char **parse(char *input)
     char *token2 = strtok(input, "\"");
     int pos = 0;
 
-    for(int i = 0; i < 4; i++)
+    //Populates temp array with tokens separated by " character
+    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
 
         temp[i] = token2;
@@ -130,10 +131,12 @@ char **parse(char *input)
 
     }
 
+    //If the first character of the input is not "
     if (input[0] != '\"')
     {
         char *token = strtok(input, " ");
 
+        //Populates words array with tokens separated by space (" ") character
         for(int i = 0; i < 4; i++)
         {
 
@@ -143,7 +146,10 @@ char **parse(char *input)
 
         }
 
-        for (int j = 0; j < 4; j++) 
+        // iterates through words array until it finds a null, inserts the temp value
+        // corresponding to words in between the two quotes ("example"). This assumes
+        // only one pair of double quotes is used
+        for (int j = 0; j < TOKEN_LIST_SIZE; j++) 
         {
             if (!(words[j])) 
             {
@@ -152,6 +158,9 @@ char **parse(char *input)
             }
         }
 
+        //If there are more than 4 words, parser returns NULL and does not attempt
+        //to pass the first four words as tokens
+
         if(token != NULL)
         {
         return NULL;
@@ -159,17 +168,24 @@ char **parse(char *input)
 
         return words;
 
+    //If the first character of the input is "
     }else{
 
+        // tokenises using spaces the contents between the two airquotes
+        // which have already been tokenized into temp array.
         char* token3 = strtok(temp[0], " ");
 
-        for(int i = 0; i < 4; i++)
+        //Populates temp2 array with tokens separated by space (" ") character
+        for(int i = 0; i < TOKEN_LIST_SIZE; i++)
         {
 
             temp2[i] = token3;
             token3 = strtok(NULL, " ");
 
         }
+
+        //If there are more than 4 words, parser returns NULL and does not attempt
+        //to pass the first four words as tokens
 
         if(token3 != NULL)
         {
@@ -179,7 +195,4 @@ char **parse(char *input)
         return temp2;
     }
 
-
-    //If there are more than 4 words, parser returns NULL and does not attempt
-    //to pass the first four words as tokens
 }
