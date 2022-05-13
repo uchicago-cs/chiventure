@@ -328,7 +328,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, game_t *game)
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE) {
             double speed;
-            HASH_FIND(npc->class->base_stats, "speed", &speed);
+            HASH_FIND(hh, npc->class->base_stats, "speed", 5, &speed);
             double multiplier = sqrt(100/speed);
             int mintime_in_room = 30000 * multiplier; // min time in room in ms, 30000 ms = 30 s
             int maxtime_in_room = 90000 * multiplier; // max time in room in ms, 90000 ms = 90 s
