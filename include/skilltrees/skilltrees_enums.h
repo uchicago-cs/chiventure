@@ -34,7 +34,7 @@ typedef enum complex_skill_type {
     SEQUENTIAL,
 
     //Denotes conditional complex skill
-    CONDITIONAL
+    COMPLEX_CONDITIONAL
 
 } complex_skill_type_t;
 
