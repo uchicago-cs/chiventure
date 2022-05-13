@@ -558,3 +558,29 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     return str;
 }
+
+/* See operations.h */
+void battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL) {
+        return "You must identify an NPC to fight. What are you going to do, fight yourself?";
+    }
+    
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
+    /* note: I can't find this function in the npc modules. But I'm including it because
+     * the talk_operation function calls it. Also this assumes that the NPC name 
+     * is only one token long, and that the command is exactly "fight npc_name". */
+    
+    if (npc == NULL) {
+        return "No one by that name want to fight.";
+    }
+
+    if (npx->will_fight == 0) {
+        return "%s does not want to fight.";
+    }
+
+    set_game_mode(ctx->game, BATTLE, npc->npc_id);
+
+    /* TODO: do we need to check if npc_battle struct initialized? 
+     *       should we call run_battle or something else? do we need a return value? */
+}
