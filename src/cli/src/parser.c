@@ -96,6 +96,7 @@ tokenized_cmds *parse_r(char *input)
 /* See parser.h */
 char **parse(char *input)
 {
+    int pos = 0;
     if(strcmp(input, "") == 0)
     {
         return NULL;
@@ -112,21 +113,26 @@ char **parse(char *input)
         words[i] = NULL;
     }
 
-    char *token = strtok(input, " ");
-    int track_position = 0;
-    track_position = strlen(token);
+    char *token = strtok(input, "\"");
+    pos = strlen(token);
+    char *token2;
 
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         words[i] = token;
-        token = strtok(NULL, " ");
+        token = strtok(NULL, "\"");
+        pos += strlen(token) + 1;
 
-        track_position += strlen(token) + 1;
+        if ((strcmp(input[pos + 2], "\"") == 0) {
+            int n = 0;
+            while (input[pos + 1] != "\"") {
+                token2[n] = input[pos];
+                pos += 1;
+                n += 1;
+            }
 
-        if (strcmp(input[track_position + 1], "\"") == 0)
-        {
-            token = strtok(NULL, "\"");
-            printf('h"');
+            strcpy(words[i], token2);
+            break;
         }
     }
 
