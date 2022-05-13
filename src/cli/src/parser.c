@@ -140,6 +140,7 @@ char **parse(char *input)
             words[i] = token;
             token = strtok(NULL, " ");
 
+
         }
 
         for (int j = 0; j < 4; j++) 
