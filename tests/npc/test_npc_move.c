@@ -191,6 +191,12 @@ Test(npc_mov, move_npc_definite)
 
     cr_assert_str_eq(npc_mov->track,"room_to_add2",
                      "move_npc_def() failed to move twice");
+
+    int check3 = move_npc_indefinite(npc_mov);
+
+    cr_assert_str_eq(npc_mov->track, "room_to_add2",
+                     "mov_npc_definite() failed to stay in place");
+    cr_assert_eq(check3, 1, "mov_npc_definite failed to reverse path");
 }
 
 
@@ -221,6 +227,18 @@ Test(npc_mov, move_npc_indefinite)
 
     cr_assert_str_eq(npc_mov->track,"room_to_add2",
                      "move_npc_indefinite() failed to move twice");
+
+    int check3 = move_npc_indefinite(npc_mov);
+
+    cr_assert_str_eq(npc_mov->track, "room_to_add2",
+                     "mov_npc_indefinite() failed to stay in place");
+    cr_assert_eq(check3, 1, "mov_npc_indefinite failed to reverse path");
+
+    int check4 = move_npc_indefinite(npc_mov);
+
+    cr_assert_str_eq(npc_mov->track,"room_to_add1",
+                     "move_npc_indefinite() failed to move after path reversal");
+    cr_assert_eq(check4, 2, "move_npc_indefinite() failed to move");
 }
 
 
