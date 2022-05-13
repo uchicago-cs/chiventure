@@ -95,7 +95,7 @@ int stat_reader_effect_free(stat_reader_effect* reader){
 }
 
 /*See reader.h*/
-int execute_reader_effect(reader_effect_t* reader){
+int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx){
     if(reader->type == READ_ATTRIBUTE){
         assert(reader->attr_reader_effect != NULL);
         return execute_attr_reader_effect(reader->attr_reader_effect);
@@ -107,3 +107,4 @@ int execute_reader_effect(reader_effect_t* reader){
 
     return 1;
 }
+

@@ -89,30 +89,33 @@ int stat_reader_effect_free(stat_reader_effect* reader);
  *
  * Parameters:
  *  - reader: Pointer to the reader being read
+ *  - ctx - A context object to pull data from to execute the reader
  *
  * Returns:
  *  - 0 if reader is true, 1 if reader is false
  */
-int execute_reader_effect(reader_effect_t* reader);
+int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx );
 
 /*
  * Reads an attribute reader effect
  *
  * Parameters:
  *  - reader: Pointer to the attribute reader being read
+ *  - ctx - A context object to pull data from to execute the reader
  *
  * Returns:
  *  - 0 if reader is true, 1 if reader is false
  */
-int execute_attr_reader_effect(attr_reader_effect_t* reader);
+int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* ctx);
 
 /*
  * Reads a statistic reader effect
  *
  * Parameters:
  *  - reader: Pointer to the statistic reader being read
+ *  - ctx - A context object to pull data from to execute the reader
  *
  * Returns:
  *  - 0 if reader is true, 1 if reader is false
  */
-int execute_stat_reader_effect(stat_reader_effect_t* reader);
+int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx);
