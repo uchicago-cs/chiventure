@@ -87,8 +87,8 @@ typedef struct game {
     /* starting string description to be presented at beginning of game */
     char *start_desc;
 
-    /* pointer to the game_time struct */
-    game_time_t *game_time;
+    /* pointer to the time_dll struct */
+    time_dll_t *game_time;
 
     /* pointer to the current battle context */
     battle_ctx_t *battle_ctx;
