@@ -26,9 +26,9 @@ typedef enum skill_type {
 } skill_type_t;
 
 typedef enum reader_type{
-    ATTRIBUTE,
+    READER_ATTRIBUTE,
 
-    STATISTIC
+    READER_STATISTIC
 } reader_type_t;
 
 typedef enum reader_location{
