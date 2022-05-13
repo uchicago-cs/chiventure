@@ -15,7 +15,8 @@ void yyerror(char* s);
 
 %%
 /* TODO */
-
+letter: CHR
+      | CHR EOL { $$ = 'a'; }
 %%
 
 /* Declarations */
