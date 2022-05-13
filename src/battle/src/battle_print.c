@@ -53,7 +53,7 @@ int print_hp(battle_t* b, char* string)
 /* see battle_print.h */
 char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 {
-    char *move_name = move->info;
+    char *move_name = move->name;
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
     char* enemy_name = b->enemy->name;
@@ -78,7 +78,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 /* see battle_print.h */
 int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
 {
-    char *move_name = move->info;
+    char *move_name = move->name;
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
     int dmg;
@@ -202,7 +202,7 @@ int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes, char *
 /* see battle_print.h */
 int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string)
 {
-    char *move_name = move->info;
+    char *move_name = move->name;
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
     int rc;
@@ -253,7 +253,7 @@ int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string
 /* see battle_print.h */
 char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
 {
-    char *move_name = move->info;
+    char *move_name = move->name;
     char *enemy_name = b->enemy->name;
     char *combatant_name;
 
