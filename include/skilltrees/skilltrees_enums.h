@@ -26,11 +26,11 @@ typedef enum skill_type {
 } skill_type_t;
 
 typedef enum reader_location{
-    PLAYER,
+    READ_PLAYER,
 
-    SINGLE_TARGET,
+    READ_SINGLE_TARGET,
 
-    WORLD
+    READ_WORLD
 } reader_location_t;
 
 //Enums for stat reader and comparisons
