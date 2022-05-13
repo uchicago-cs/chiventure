@@ -105,14 +105,13 @@ int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
 /* see battle_print.h */
 int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes, char *string)
 {
-    stat_changes_t* changes = move->user_mods;
     char* combatant_name;
     if (turn == PLAYER)
     {
         combatant_name = "Your";
     } else
     {
-        combatant_name = strcat(enemy_name, '\'s');
+        combatant_name = strcat(b->enemy->name, '\'s');
     }
 
     int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
@@ -247,7 +246,7 @@ int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string
         }
     }
     assert(rc == SUCCESS);
-    return string;
+    return SUCCESS;
 }
 
 /* see battle_print.h */
