@@ -1,4 +1,5 @@
 #include "battle/battle_ai.h"
+#include "battle_logic.h"
 #include <math.h>
 
 /* See battle_ai.h */
@@ -78,7 +79,7 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
  * - crit_chance : the crit chance of the user using the move
  * returns: the critical damage multiplier
  */
-double crit_mod(int crit_chance)
+double crit_modifier(int crit_chance)
 {
     int chance = randnum(1, 100);
 
@@ -110,9 +111,9 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
 
     /* Damage calculation values are set with the stats relevant to
      * to the move type and calculated with doubles.  */
-    double dmg, base_dmg, crit_mod, src_lvl src_atk, tgt_def;
+    double dmg, base_dmg, crit_mod, src_lvl, src_atk, tgt_def;
     base_dmg = (double) move->damage;
-    crit_mod = crit_mod(source->stats->crit);
+    crit_mod = crit_modifier(source->stats->crit);
     src_lvl = (double) source->stats->level;
     
     if (move->dmg_type == PHYS)
