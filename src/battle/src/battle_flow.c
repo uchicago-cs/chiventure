@@ -287,7 +287,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     return string;
 }
 /* see battle_flow.h */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
+int apply_stat_changes(stat_changes_t* changes, stat_t* target_stats) 
 {
     target_stats->speed += changes->speed;
     target_stats->max_sp += changes->max_sp;
