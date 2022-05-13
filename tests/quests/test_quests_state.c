@@ -591,14 +591,14 @@ Test(quest,complete_quest2)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
-    "test item");
+                            "test item");
     reward_t *rewards = create_sample_rewards(xp, item);
 
     int hp = 50;
     int level = 5;
     stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, stat_req);
+    quest_t* quest = quest_new("test", NULL, rewards, stat_req);
     quest->status = 0;
 
     reward_t *res = complete_quest(quest);
@@ -608,12 +608,12 @@ Test(quest,complete_quest2)
 
 
 
-/*see if get_quest_from_hash works when there is quest in Hash */ 
+/*see if get_quest_from_hash works when there is quest in Hash */
 Test(quest,get_quest1)
-{ 
+{
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
-    "test item");
+                            "test item");
     reward_t *rewards = create_sample_rewards(xp, item);
 
     int hp = 50;
@@ -631,17 +631,17 @@ Test(quest,get_quest1)
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
-    quest_t *answer = get_quest_from_hash(quest1_id,test_hash_table); 
+    quest_t *answer = get_quest_from_hash(quest1_id,test_hash_table);
     cr_assert_eq(answer, quest1, "get_queset() did not return the right quest");
 
 }
 
-/*see if get_quest_from_hash work when there is no quest in the hash */ 
+/*see if get_quest_from_hash work when there is no quest in the hash */
 Test(quest,get_quest2)
-{ 
+{
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
-    "test item");
+                            "test item");
     reward_t *rewards = create_sample_rewards(xp, item);
 
     int hp = 50;
@@ -659,16 +659,16 @@ Test(quest,get_quest2)
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
     int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
-    quest_t *answer = get_quest_from_hash("beeppop",test_hash_table); 
+    quest_t *answer = get_quest_from_hash("beeppop",test_hash_table);
     cr_assert_eq(answer, NULL, "There is an quest with ID of beeppop ");
 }
 
-/*test for add quest when 2 unique quest_ID */ 
+/*test for add quest when 2 unique quest_ID */
 Test(test, add_quest_test1)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
-    "test item");
+                            "test item");
     reward_t *rewards = create_sample_rewards(xp, item);
 
     int hp = 50;
@@ -684,17 +684,17 @@ Test(test, add_quest_test1)
     quest_hash_t *test_hash_table = NULL;
 
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
-    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table); 
+    int add_quest2 = add_quest_to_hash(quest2, &test_hash_table);
 
-    cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add quest1"); 
-    cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add quest2"); 
+    cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add quest1");
+    cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add quest2");
 }
 /*test for add quest when a quest with same ID aredy exist in hash*/
 Test(test, add_quest_test2)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
-    "test item");
+                            "test item");
     reward_t *rewards = create_sample_rewards(xp, item);
 
     int hp = 50;
@@ -709,7 +709,7 @@ Test(test, add_quest_test2)
     quest_hash_t *test_hash_table = NULL;
 
     int add_quest1 = add_quest_to_hash(quest1, &test_hash_table);
-    int add_quest2 = add_quest_to_hash(quest1, &test_hash_table); 
+    int add_quest2 = add_quest_to_hash(quest1, &test_hash_table);
 
-    cr_assert_eq(add_quest2, FAILURE, "quest1 wasn't added properly"); 
+    cr_assert_eq(add_quest2, FAILURE, "quest1 wasn't added properly");
 }

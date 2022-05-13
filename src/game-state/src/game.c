@@ -120,7 +120,7 @@ quest_t *get_quest(game_t* game, char *quest_id)
 /* See game.h */
 int add_quest_to_game(game_t *game, quest_t *quest)
 {
-	return add_quest_to_hash(quest, &game->all_quests);
+    return add_quest_to_hash(quest, &game->all_quests);
 }
 
 /* See game.h */
