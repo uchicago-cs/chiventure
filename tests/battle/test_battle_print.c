@@ -190,8 +190,14 @@ Test(battle_print, print_player_move_crit)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    class_t* test_class = class_new("Bard", "Music boi",
+                            "Charismatic, always has a joke or song ready",
+                            NULL, NULL, NULL);
+    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
+                "A hearty dagger sure to take your breath away... for good",
+                true, 20, 5, 0); 
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
-                     BATTLE_AI_GREEDY, HOSTILE, 0, NULL, NULL);
+                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -241,7 +247,14 @@ Test(battle_print, print_player_move_miss)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0, NULL, NULL);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                "Charismatic, always has a joke or song ready",
+                                NULL, NULL, NULL);
+    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
+                "A hearty dagger sure to take your breath away... for good",
+                true, 20, 5, 0); 
+    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
+                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
