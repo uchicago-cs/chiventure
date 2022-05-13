@@ -140,3 +140,84 @@ Test(skill_test, sequential_skill_execute){
     cr_assert_eq(sequential_skill_execute(complex, ctx), 0,
     "Error: failed test skill_new_test on skill->effect\n");
 }
+
+/* Tests complex_skill_xp_up when the return value is success */
+Test(skill_test, complex_skill_xp_up_success){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    int xp = 2;
+
+    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
+    x = complex_skill_xp_up(complex, xp);
+    cr_assert_eq(x, 1, "Error: failed test complex_skill_level_up_test");
+}
+
+/* Tests complex_skill_xp_up when the return value is failure */
+Test(skill_test, complex_skill_xp_up_success){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    int xp = 0;
+
+    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
+    x = complex_skill_xp_up(complex, xp);
+    cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
+}
+
+/* Tests complex_skill_level_up when the return value is success */
+Test(skill_test, complex_skill_level_up_success){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
+    x = complex_skill_level_up(complex);
+    cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
+}
+
+/* Tests skill_level_up when return value is failure */
+Test(skill_tests, complex_skill_level_up_failure)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        1, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        1, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
+    x = complex_skill_level_up(complex);
+    cr_assert_eq(x, 1, "Error: failed test complex_skill_level_up_test");
+}

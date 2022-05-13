@@ -109,9 +109,9 @@ int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_
  *  - complex_skill: A complex skill.
  *
  * Returns:
- * 0 if leveling up worked.
- * 1 if the maximum level was already achieved, so levelling up won't happen.
- * -1 if leveling up failed, such as invalid parameters for instance, or if 
+ * SUCCESS if leveling up worked.
+ * FAILURE if the maximum level was already achieved, so levelling up won't happen 
+ * or if leveling up failed, such as invalid parameters for instance, or if 
  *  not every subskill was able to be leveled up
  */
 int complex_skill_level_up(complex_skill_t* complex_skill);
@@ -124,9 +124,9 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
  *  - xp_gained: Amount of xp to add onto a skill.
  *
  * Returns:
- * 0 if incrementing experience worked.
- * 1 if the maximum level was already reached and you tried to level up again.
- * -1 if incrementing xp failed, such as giving invalid parameters, or if 
+ * SUCCESS if incrementing experience worked.
+ * FAILURE if the maximum level was already reached and you tried to level up again
+ * or if incrementing xp failed, such as giving invalid parameters, or if 
  *  not every subskill was able to be incremented. 
  */
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
