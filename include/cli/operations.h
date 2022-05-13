@@ -279,4 +279,15 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Initiates battle between NPC and Player
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventuree context struct
+ *
+ * Returns:
+ * TBD, but currently it will return void.
+ */
+void battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 #endif /* _CLI_INCLUDE_OPERATIONS_H */
