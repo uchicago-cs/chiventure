@@ -134,6 +134,8 @@ char **parse(char *input)
         words[i] = token;
         token = strtok(NULL, " ");
         // if (words[i]) {
+
+            //test test
         //     pos += (strlen(words[i]) - 1);
         // }
 
