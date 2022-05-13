@@ -94,13 +94,11 @@ typedef struct stat_reader_effect{
 } stat_reader_effect_t;
 
 typedef struct reader_effect{
-    //Idk if this is how unions work, this would be helpful though
-    union Reader {
-        attr_reader_effect_t att_reader;
+    reader_type_t type;
+    
+    attr_reader_effect_t att_reader;
 
-        stat_reader_effect_t stat_reader;
-    } reader;
-
+    stat_reader_effect_t stat_reader;
 } reader_effect_t; 
 
 /* ======================== */
