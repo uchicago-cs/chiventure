@@ -29,10 +29,25 @@ reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t* att
     return reader;
 }
 
-int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t att_reader,
-                  stat_reader_effect_t stat_reader){
+/*See reader.h*/
+int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t* att_reader,
+                  stat_reader_effect_t* stat_reader){
     assert(reader != NULL);
 
     reader->type = type;
+    reader->attr_reader = att_reader;
+    reader->stat_reader = stat_reader;
 
+    return SUCCESS;
+}
+
+/*See reader.h*/
+int reader_effect_free(reader_effect_t* reader){
+    assert(reader != NULL);
+
+    free(reader->attr_reader);
+    free(reader->stat_reader);
+    free(reader);
+    
+    return SUCCESS;
 }
