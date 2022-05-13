@@ -270,7 +270,7 @@ move_t *get_random_default_move()
     }
     else if (rand == 9)
     {
-        user_mod = stat_changes_new()
+        user_mod = stat_changes_new();
         stat_changes_init(user_mod);
         user_mod->hp = 15;
         opp_mod = stat_changes_new();

@@ -7,10 +7,11 @@
 
 
 /* See battle_moves.h */
-int move_init(move_t *move, int id, char* name, char* info, damage_type_t dmg_type, 
-		target_type_t stat_mods, target_type_t effects, battle_item_t *req_item, 
-		target_count_t count, int sp_cost, int accuracy, int damage, 
-		stat_changes_t* user_mods, stat_changes_t* opponent_mods)
+int move_init(move_t* move, int id, char* name, char* info, damage_type_t dmg_type,
+                 target_type_t stat_mods, target_type_t effects, target_count_t count,
+                 int sp_cost, battle_item_t* req_item, int damage, int accuracy,
+                 stat_changes_t* user_mods, stat_changes_t* opponent_mods, move_t* prev,
+                 move_t* next)
 {
     assert(move != NULL);
 
@@ -36,17 +37,19 @@ int move_init(move_t *move, int id, char* name, char* info, damage_type_t dmg_ty
     move->accuracy = accuracy;
     move->sp_cost = sp_cost;
 
-    move->next = NULL;
-    move->prev = NULL;
+    move->next = next;
+    move->prev = prev;
 
     return SUCCESS;
 }
 
 
 /* See battle_moves.h */
-move_t *move_new(int id, char* name, char* info, damage_type_t dmg_type, target_type_t stat_mods,
-		target_type_t effects, target_count_t count, int sp_cost, battle_item_t *req_item, 
-		int damage, int accuracy, stat_changes_t *user_mods, stat_changes_t *opponent_mods)
+move_t* move_new(int id, char* name, char* info, damage_type_t dmg_type,
+                 target_type_t stat_mods, target_type_t effects, target_count_t count,
+                 int sp_cost, battle_item_t* req_item, int damage, int accuracy,
+                 stat_changes_t* user_mods, stat_changes_t* opponent_mods, move_t* prev,
+                 move_t* next)
 {
     move_t *move;
     int rc;
@@ -58,8 +61,8 @@ move_t *move_new(int id, char* name, char* info, damage_type_t dmg_type, target_
         return NULL;
     }
 
-    rc = move_init(move, id, name, info, dmg_type, stat_mods, effects, req_item, count,
-		    sp_cost, accuracy, damage, user_mods, opponent_mods);
+    rc = move_init(move, id, name, info, dmg_type, stat_mods, effects, count,
+		    sp_cost, req_item, damage, accuracy, user_mods, opponent_mods, NULL, NULL);
 
     if(rc != SUCCESS)
     {
