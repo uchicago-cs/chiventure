@@ -43,4 +43,4 @@ int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_
  * Returns:
  *  - 1 if freed succesfully, 0 if failure
  */
-int reader_effect_init(reader_effect_t* reader);
+int reader_effect_free(reader_effect_t* reader);
