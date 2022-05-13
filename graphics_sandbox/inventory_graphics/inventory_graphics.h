@@ -1,53 +1,72 @@
 /*
  * This module defines an inventory struct and the
- * necessary functions for manipulating this window
+ * necessary functions for manipulating an inventory 
+ * pop-up window
  */
+
 
 #include "item.h"
 #include "read_gdl.h"
 
-/* The set of background colors availible for the inventory */
-typedef enum color {
-    WHITE,
-    GRAY,
-    BLACK,
-    RED,
-    BLUE,
-    GREEN,
-    YELLOW,
-    ORANGE,
-    PURPLE,
-    PINK,
-} color;
-
-
-// define a hash table?
-
-/* Defines the custom inventory represenation specified by the game developer */
-typedef struct inventory_display {
-    unsigned int rows;
-    unsigned int columns;
-    color color;
-} inventory_display_t;
 
 /*
- * Defines the player inventory
+ * Defines the player inventory based on the display
+ * preferences of the game developer and a 2D array
+ * of items
+ *
+ * Note:
+ * A matrix was chosen to implement inventory items over
+ * an adjancency list and hash table. Adjacency lists,
+ * while sparse, require traversal and are thus slow
+ * to search. Hash tables require a bit more complexity
+ * than 2D arrays and require a seperate hash struct.
+ * 2D arrays, given that the item struct has been edited
+ * to contain a row and column field are quickly accessible
+ * due to indexing. Moreover, we do not anticipate much wasted
+ * space because game inventories tend to be small anyways.
  */ 
 typedef struct player_inventory {
     inventory_display_t display;
-// hash?    item **items;
+    item **items;
 } player_inventory_t;
 
-// read graphics struct -- init invenetory display
-// take gdl -> graphics info necessary for display struct
+/* Allocates and initializes a player's inventory
+ *
+ * Parameters:
+ * - The graphics information as specified by the author in the GDL
+ *
+ * Returns:
+ * - A player inventory struct
+ */
+player_inventory_t* new_player_inventory(graphics_t *graphics);
 
-// init inventory - game struct + initalized display
+/* Frees an inventory struct
+ *
+ * Parameters:
+ * - The player's inventory struct
+ *
+ * Returns:
+ * - void
+ */
+void free_player_inventory(player_inventory_t *player_inventory);
 
+/* Updates the player's inventory once a game changing event occurs
+ *
+ * Parameters:
+ * - the player's current inventory
+ * - the new game state
+ *
+ * Returns:
+ * - void (the changes occur as a side-effect)
+ */
+void update_player_inventory(player_inventory_t *player_inventory, game_t *game);
 
-// free inventory (player)
-
-// free display
-
-// draw inventory (player_inv) -> window
-
-// update ...
+/* Draws the inventory window on screen
+ *
+ * Parameters:
+ * - The player's inventory
+ *
+ * Returns:
+ * - void
+ */
+void draw_player_inventory(player_inventory_t *player_inventory);
