@@ -4,6 +4,15 @@
 #include <stdarg.h>
 
 #include "playerclass/class_prefabs.h"
+#include "playerclass/class.h"
+#include "playerclass/class_structs.h"
+#include "common/ctx.h"
+#include "libobj/obj.h"
+#include "game-state/stats.h"
+#include "common/uthash.h"
+#include "skilltrees/skill.h"
+#include "skilltrees/skilltree.h" 
+#include "skilltrees/inventory.h"
 
 /* Rudimentary id system for prefab classes (internal) */
 
@@ -144,7 +153,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     char* short_desc;
     char* long_desc;
     /* attributes are not yet customized by each class */
-    obj_t* attributes = obj_new("class_attributes");
+    obj_t* attributes = obj_new("attributes");
     stats_hash_t* stats = NULL;
     /* effects for each class not yet provided, so this will remain NULL */
     effects_hash_t* effects = NULL;

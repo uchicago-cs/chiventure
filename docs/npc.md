@@ -13,6 +13,10 @@
 - Next steps for dialogue
 - NPCs in Rooms
 - Next steps for NPCs in rooms
+- NPC movement
+- Next steps for NPC movement
+- NPC Battles
+- Next steps for NPC battles
 ### Directories
 - include/npc
 - src/npc
@@ -57,17 +61,36 @@
     - Instead of offering dialogue options based on keywords, numeric options will be given where the player will simply input an integer to indicate which dialogue option they would like to choose. This will not be a significant structural change to how the dialogue functions, but it adheres to dialogue styles present in many other games.
 
 ### NPCs in Rooms Module
-- Contains code relating to NPCs in rooms and NPC movement
+- Contains code relating to NPCs in rooms and moving NPCs to/from rooms
 - See `chiventure/include/rooms-npc.h` for in-code documentation on the nitty-gritty technical details of NPC movement.
 - The npcs_in_room struct essentially contains all the NPCs that exist in a room
+
+### Next Steps for NPCs in Rooms
+- The `npcs_in_room` struct needs to be then further integrated into the room struct where the room struct will hold this specific npcs_in_room struct for each room. This would therefore contain a list of npcs that exist in the room.
+- A feature that can be implemented would be NPC movement. The primary issue with this is that often times adjacent rooms may not have the same `room_tag`, thus the NPC will be restricted to a single room. But in the case that adjacent rooms may be of a `room_tag` that that particular npc_class has been associated to both `room_tag`, then this can facilitate continuous movement between rooms.
+
+### NPC Movement Module
+- Contains code relating to the `movement` member of the `npc` struct
+- See `chiventure/include/npc_move.h` for in-code documentation on the nitty-gritty technical details of NPC movement.
 - For each NPC there is a `npc_mov_t` struct that addresses the movement of the NPCs between rooms. This struct holds a union determining what kind of movement the NPC is participating in, and this can fall under two categories
     - A definite path: this is the first case when an NPC is required to move from point A to point B for a specific reason (that being for a quest, etc.). In this case the NPC is merely moving from point A to point B and the movement ends at point B.
         - If an NPC is static and will only stay in one room, it will still fall into the definite path category.
     - An indefinite path: this is the second case when an NPC is simply moving through the map but without a definite end point. This is simulate the open-world so that NPCs will be continuously moving through the world. In this case the NPC will also hold a linked list of rooms to move through, but in addition it must have a hash table that holds the time that it should spend in each room in seconds.
-
-### Next Steps for NPCs in Rooms
-- The `npcs_in_room` struct needs to be then further integrated into the room struct where the room struct will hold this specific npcs_in_room struct for each room. This would therefore contain a list of npcs that exist in the room.
-- A feature that can be implemented would be NPC movement. The primary issue with this is that often times adjacent rooms may not have the same `room_tag`, thus the NPC will be restricted to a single room. But in the case that adjacent rooms may be of a `room_tag` that that particular npc_class has been associated to both `room_tag`, then this can facilitate movement between rooms.
+### Next Steps for NPC Movement
+- Currently, issues may arise if the same room is in multiple parts of an NPC's movement path, or if the room an NPC is currently located is also added later into the path of an NPC. This stems from the `room_id` being the only key to members of an NPC's movement path, so the addition of another key may be needed.
+### NPC Battles Module
+- Contains code relating to an NPC's battling capabilities and characteristics
+- See `chiventure/include/npc_battle.h` for in-code documentation on the nitty-gritty technical details of NPC battles.
+- For each NPC there is an `npc_battle` struct that contains the following information about the NPC
+    - Health level
+    - Stats (speed, defense, strength, etc.)
+    - Moveset
+    - AI Difficulty
+    - Hostility Level (Friendly, Conditionally Friendly, or Hostile)
+    - Health level at which the NPC will surrender
+- So far this module is focused on the creation and deletion of `npc_battle` structs, but also has the functionality of moving the items from an NPC's `inventory` to the `room` struct upon defeat.
+### Next Steps for NPC Battles
+- TBD
 
 ## Directories
 
@@ -76,6 +99,8 @@
 - [npc.h](/include/npc/npc.h) - Contains the structs for the foundational aspects of NPCs
 - [dialogue.h](/include/npc/dialogue.h) - Contains the strcts for all of the NPC dialogue functionality
 - [rooms-npc.h](/include/npc/rooms-npc.h) - Contains the structs for handling NPCs in rooms
+- [npc_move.h](/include/npc/npc_move.h) - Contains the structs for handling the movement of NPCs
+- [npc_battle.h](/include/npc/npc_battle.h) - Contains the structs and functions for battles involving NPCs
 
 ### chiventure/src/npc
 - [CMakeLists.txt](/src/npc/CMakeLists.txt) - CMake file for examples

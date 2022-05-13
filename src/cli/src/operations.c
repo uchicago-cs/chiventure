@@ -4,11 +4,14 @@
 #include <unistd.h>
 
 #include "cli/operations.h"
+#include "npc/npc.h"
+#include "npc/dialogue.h"
 #include "ui/print_functions.h"
 #include "cli/shell.h"
 #include "wdl/load_game.h"
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
+#include "cli/util.h"
 
 #define NUM_ACTIONS 29
 #define BUFFER_SIZE (100)
@@ -35,7 +38,7 @@ int compare(char* word, char* action)
     {
         if (&action[i] != NULL && &word[i] != NULL) 
         {
-            if (word[i] == action[i])
+            if (tolower(word[i]) == tolower(action[i]))
             {
                 current++;
             }
@@ -105,7 +108,7 @@ char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     command_list_t *temp = new_command_list(NULL);
 
     print_to_cli(ctx, "Start of command history: \n");
-    LL_FOREACH(ctx->command_history, temp)
+    LL_FOREACH(ctx->cli_ctx->command_history, temp)
     {
         if (temp->command != NULL) 
         {
@@ -141,23 +144,6 @@ bool validate_wdl_filename(char *filename)
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     int valid_path;
-
-    /* The following while loop is only necessary because case insensitivity is
-     * currently being implemented in the parser by making all letters caps. Once
-     * the changes in the cli/case_insensitivity branch are implemented it will no 
-     * longer be necessary.
-     * NOTE: If cli/case_insensitivity hasn't been implemented by the end of 
-     * Sprint 4 (05/28/2021), then this message should be modified to reflect that
-     */
-    int i = 0;
-    char ch;
-    while(tokens[1][i])
-    {
-        ch = tolower(tokens[1][i]);
-        tokens[1][i] = ch;
-        i++;
-    }
-
 
     valid_path = access(tokens[1], F_OK);
 
@@ -247,7 +233,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         print_to_cli(ctx, tokens[0]);
         return ( "Error! We need a loaded room to do the above action. \n");
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
     if(tokens[1] == NULL)
     {
@@ -273,7 +259,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             if (rc == SUCCESS)
             {
                 action_success = true;
-                if(strcmp(tokens[0], "TAKE") == 0 || strcmp(tokens[0], "PICKUP") == 0)
+                if(strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
                     add_item_to_player(game->curr_player, curr_item);
@@ -295,7 +281,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
     if(tokens[1] == NULL)
     {
@@ -330,7 +316,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
     if(tokens[1] == NULL || tokens[3] == NULL)
     {
@@ -567,6 +553,37 @@ char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 }
 
 
+char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if(game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to check NPCs.\n";
+    }
+
+    npc_t *npc_tmp, *npc_elt;
+    int i = 0;
+    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+    {   
+        i++;
+        if (npc_elt->npc_battle->health > 0) 
+        {
+            print_to_cli(ctx, npc_elt->npc_id);
+        }
+    }
+
+    if (i >= 1) 
+    {
+        return "These are the NPCs in the room";
+    } 
+    else 
+    {
+        return "There is no NPC in the room";
+    }
+}
+
+
 char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     toggle_map(ctx);
@@ -579,40 +596,20 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "Layout switched.";
 }
 
-/* A function that capitalizes a word to be used in name_operation
- * Parameters:
- * - word: A pointer to a string to be capitalized.
- * Output:
- * - The newly capitalized string.
-*/
-char *capitalize(char *word)
-{
-    char *command = word;
-    int i = 0;
-    char ch;
-
-    while(command[i])
-    {
-        ch = toupper(command[i]);
-        command[i] = ch;
-        i++;
-    }
-    return word;
-}
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    capitalize(tokens[1]);
-    capitalize(tokens[2]);
-    if(find_entry(tokens[1], (ctx->table)) == NULL)
+    case_insensitize(tokens[1]);
+    case_insensitize(tokens[2]);
+    if(find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
     }
-    if(find_entry(tokens[2],(ctx->table)) != NULL)
+    if(find_entry(tokens[2],(ctx->cli_ctx->table)) != NULL)
     {
         return "You can't change the meaning of a word that's already defined!";
     }
-    add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (find_action(tokens[1],(ctx->table))), (ctx->table));
+    add_entry(tokens[2],(find_operation(tokens[1],(ctx->cli_ctx->table))), (find_action(tokens[1],(ctx->cli_ctx->table))), (ctx->cli_ctx->table));
     return "The two words are now synonyms!";
 }
 
@@ -623,20 +620,20 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "Please input a theme";
     }
-    capitalize(tokens[1]);
-    if(strcmp(tokens[1], "DEFAULT") == 0)
+    case_insensitize(tokens[1]);
+    if(strcmp(tokens[1], "default") == 0)
     {
         n = 1;
     }
-    if(strcmp(tokens[1], "NIGHT") == 0)
+    if(strcmp(tokens[1], "night") == 0)
     {
         n = 2;
     }
-    if(strcmp(tokens[1], "BRIGHT") == 0)
+    if(strcmp(tokens[1], "bright") == 0)
     {
         n = 3;
     }
-    if(strcmp(tokens[1], "PAIN") == 0)
+    if(strcmp(tokens[1], "pain") == 0)
     {
         n = 4;
     }
@@ -648,4 +645,38 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "The color palette has been changed";
     }
     return "I don't have that palette yet. You must make do with the current style.";
+}
+
+/* See cmd.h */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL || tokens[2] == NULL)
+    {
+        return "You must identify an NPC to talk to.";
+    }
+
+    int rc;
+
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[2]);
+
+    if (npc == NULL)
+    {
+        return "No one by that name wants to talk.";
+    }
+
+    if (npc->dialogue == NULL)
+    {
+        return "This person has nothing to say.";
+    }
+
+    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
+
+    assert(rc != -1); //checking for conversation error
+
+    if (rc == 0)
+    {
+        set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+    }
+
+    return str;
 }

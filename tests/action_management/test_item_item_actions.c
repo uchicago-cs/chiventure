@@ -195,7 +195,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         item_free(indirect);  //For all tests expect for test 8 free indirect
     }
     game_free(ctx_test->game);
-    lookup_t_free(ctx_test->table);
+    lookup_t_free(ctx_test->cli_ctx->table);
     chiventure_ctx_free(ctx_test);
 
     action_type_free(a);

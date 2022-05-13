@@ -42,10 +42,10 @@ convo_t *create_oak_conversation()
     convo_t *c = convo_new();
 
     add_node(c, "1", "Hello there! Welcome to the world of Pokemon!\n"
-                "My name is Oak! People call me the Pokemon Prof!\n"
-                "This world is inhabited by creatures called Pokemon!\n"
-                "For some people, Pokemon are pets. Others use them for fights.\n"
-                "Myself... I study Pokemon as a profession.");
+             "My name is Oak! People call me the Pokemon Prof!\n"
+             "This world is inhabited by creatures called Pokemon!\n"
+             "For some people, Pokemon are pets. Others use them for fights.\n"
+             "Myself... I study Pokemon as a profession.");
 
     add_node(c, "1.5", "First, what is your name?");
 
@@ -54,18 +54,18 @@ convo_t *create_oak_conversation()
     add_node(c, "2c", "So your name is Misty?");
 
     add_node(c, "3a", "Right! your name is Red! This is my grandson. He's been your\n"
-                      "rival since you were a baby. ...Erm, what is his name again?");
+             "rival since you were a baby. ...Erm, what is his name again?");
     add_node(c, "3b", "Right! your name is Ash! This is my grandson. He's been your\n"
-                      "rival since you were a baby. ...Erm, what is his name again?");
+             "rival since you were a baby. ...Erm, what is his name again?");
     add_node(c, "3c", "Right! your name is Misty! This is my grandson. He's been your\n"
-                      "rival since you were a baby. ...Erm, what is his name again?");
+             "rival since you were a baby. ...Erm, what is his name again?");
 
     add_node(c, "4a", "That's right! I remember now! His name is Blue! Now, your very\n"
-                      "own Pokemon legend is about to unfold! A world of dreams and\n"
-                      "adventures with Pokemon awaits! Let's go!");
+             "own Pokemon legend is about to unfold! A world of dreams and\n"
+             "adventures with Pokemon awaits! Let's go!");
     add_node(c, "4b", "That's right! I remember now! His name is Gary! Now, your very\n"
-                      "own Pokemon legend is about to unfold! A world of dreams and\n"
-                      "adventures with Pokemon awaits! Let's go!");
+             "own Pokemon legend is about to unfold! A world of dreams and\n"
+             "adventures with Pokemon awaits! Let's go!");
 
     add_edge(c, "I'm excited to play Pokemon!", "1", "1.5", NULL);
     add_edge(c, "Red", "1.5", "2a", NULL);
@@ -89,7 +89,11 @@ convo_t *create_oak_conversation()
     return c;
 }
 
-/* Defines an CLI operation for talking to an npc */
+/*
+ * This monkey patch talk operation is replaced with the
+ * operation now implemented in operations.h
+ */
+/* Defines an CLI operation for talking to an npc
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     char *npc_id = "Oak"; //change to "Steve" for conversation with Steve.
@@ -100,17 +104,18 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (!rc)
     {
-        game_mode_init(ctx->game->mode, CONVERSATION, 
+        game_mode_init(ctx->game->mode, CONVERSATION,
                        run_conversation_mode, npc_id);
     }
 
     return str;
 }
+ */
 
 /*
  * Creates a chiventure context with a sample game and npc.
  *
- * Returns: a chiventure context with 
+ * Returns: a chiventure context with
  */
 chiventure_ctx_t *create_sample_ctx()
 {
@@ -122,32 +127,34 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
 
-    /* 
-     * To run example with Steve instead of Professor Oak 
+    /*
+     * To run example with Steve instead of Professor Oak
      * change the npc_id in talk_operation to "Steve"
      */
 
     /* Creating merchant npc */
-    char *npc_id = "Steve";
+    char *npc_id = "STEVE";
     npc_t *steve = npc_new(npc_id,
-                         "Steve is a merchant.",
-                         "Steve is the best merchant in town.",
-                         NULL, NULL, 0);
+                           "Steve is a merchant.",
+                           "Steve is the best merchant in town.",
+                           NULL, NULL, 0);
 
     convo_t *c = create_steve_conversation();
 
     add_convo_to_npc(steve, c);
     add_npc_to_game(game, steve);
+    add_npc_to_room(room2->npcs, steve);
 
     /* Create Professor oak */
-    char *oak_id = "Oak";
+    char *oak_id = "OAK";
     npc_t *oak = npc_new(oak_id, "Oak is a Pokemon Prof!",
-                                 "Professor Oak studies Pokemon in Pallet Town",
-                                 NULL, NULL, 0);
+                         "Professor Oak studies Pokemon in Pallet Town",
+                         NULL, NULL, 0);
 
     convo_t *starting_speech = create_oak_conversation();
     add_convo_to_npc(oak, starting_speech);
     add_npc_to_game(game, oak);
+    add_npc_to_room(room1->npcs, oak);
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
@@ -159,8 +166,9 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
 
+
     /* Monkeypatching in a talk action to support dialogue */
-    add_entry("TALK", talk_operation, NULL, ctx->table);
+    add_entry("TALK", talk_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);

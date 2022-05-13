@@ -10,6 +10,30 @@
 #include "stats.h"
 #include "item.h"
 #include "playerclass/class.h"
+#include "skilltrees/skilltrees_enums.h"
+#include "skilltrees/inventory.h"
+#include "battle/battle_structs.h"
+
+#define QUEST_NAME_MAX_LEN 100
+
+/* Forward declaration for skilltrees */
+typedef struct skill skill_t;
+
+/* A reference to a given quest from game_state that the player has unlocked */
+typedef struct player_quest {
+    char *quest_id;
+    int completion;
+    UT_hash_handle hh;
+} player_quest_t;
+typedef struct player_quest player_quest_hash_t;
+
+/* A reference to a given task (for quests) from game_state that the player has unlocked */
+typedef struct player_task {
+    char *task_id;
+    bool completed;
+    UT_hash_handle hh;
+} player_task_t;
+typedef struct player_task player_task_hash_t;
 
 /* Forward declarations. Full typedefs can be found in item.h */
 typedef struct item item_t;
@@ -50,6 +74,15 @@ typedef struct player {
 
     /* The current items held by the player*/
     item_hash_t *inventory;
+
+    /* The current quests associated with the player */
+    player_quest_hash_t* player_quests;
+
+    /* The current tasks associated with the player */
+    player_task_hash_t* player_tasks;
+
+    /* The current moves available to the player */
+    move_t *moves;
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are 
@@ -57,6 +90,78 @@ typedef struct player {
 * to hash player_t structs with the UTHASH macros as specified
 * in src/common/include */
 typedef struct player player_hash_t;
+
+/* 
+ * Creates and initializes a new player_quest
+ *
+ * Parameters:
+ * - quest_id: The quest id this player_quest is referencing
+ * - completion: The current completion status of the quest
+ * 
+ * Returns:
+ * - A pointer to the new player_quest or NULL if there was an error
+*/
+player_quest_t *player_quest_new(char *quest_id, int completion);
+
+/* 
+ * Creates and initializes a new player_task
+ *
+ * Parameters:
+ * - task_id: The task id this player_task is referencing
+ * - completed: Whether this task is already completed
+ * 
+ * Returns:
+ * - A pointer to the new player_task or NULL if there was an error
+*/
+player_task_t *player_task_new(char *task_id, bool completed);
+
+/*
+ * Initializes a player quest
+ * 
+ * Parameters:
+ * - pquest: The player_quest getting initialized
+ * - quest_id: The quest_id this quest is referencing
+ * - completion: The current completion status of the quest
+ * 
+ * Returns:
+ * - SUCCESS if initialized successfully, FAILURE if an error occured
+*/
+int player_quest_init(player_quest_t *pquest, char *quest_id, int completion);
+
+/*
+ * Initializes a player task
+ * 
+ * Parameters:
+ * - ptask: The player_task getting initialized
+ * - task_id: The task_id this task is referencing
+ * - completed: Whether this task is already completed
+ * 
+ * Returns:
+ * - SUCCESS if initialized successfully, FAILURE if an error occured
+*/
+int player_task_init(player_task_t *ptask, char *task_id, bool completed);
+
+/*
+ * Frees a player_quest hash table
+ * 
+ * Parameters:
+ * - player_quests: The player_quest table to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_quest_hash_free(player_quest_hash_t *player_quests);
+
+/*
+ * Frees a player_task hash table
+ * 
+ * Parameters:
+ * - player_tasks: The player_task table to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_task_hash_free(player_task_hash_t *player_tasks);
 
 /*
  * Allocates and creates a new player with given ID, starting at level
@@ -74,12 +179,12 @@ player_t *player_new(char *player_id);
  * Frees resources associated with a player
  *
  * Parameters:
- *  plyr: the player to be freed
+ *  player: the player to be freed
  *
  * Returns:
  *  SUCCESS if successful
  */
-int player_free(player_t *plyr);
+int player_free(player_t *player);
 
 /* Deletes a hashtable of players
  * Implemented with macros provided by uthash.h
@@ -94,85 +199,88 @@ int delete_all_players(player_hash_t* players);
 
 /*
  * Sets an allocated player_t object's player_class field to given class_t class
+ *          Makes deep copies of the given class's "starting_skills",
+ *          "base_stats", and "effects fields" and updates the corresponding
+ *          fields in the player struct
  *
  * Parameters:
- *  plyr: A player. Must point to already allocated memory.
+ *  player: A player. Must point to already allocated memory.
  *  player_class: The player's class. Contains starting fields for
  *                skills and stats
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_set_class(player_t *plyr, class_t *player_class);
+int player_set_class(player_t *player, class_t *player_class);
 
 /*
  * Sets an allocated player_t's race field to the given string
  *
  * Parameters:
- *  plyr: A player. Must point to already allocated memory.
+ *  player: A player. Must point to already allocated memory.
  *  player_race: A string containing the player's race
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int player_set_race(player_t *plyr, char *player_race);
+int player_set_race(player_t *player, char *player_race);
 
 /*
  * Returns the level of the player
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *
  * Returns:
  *  int, the player's level
  */
-int get_level(player_t *plyr);
+int get_level(player_t *player);
 
 /*
  * Increments the level of the player by given amt
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *  change: the desired amount to increment in player level
  *
  * Returns:
  *  int, the new level
  */
-int change_level(player_t *plyr, int change);
+int change_level(player_t *player, int change);
 
 /*
  * Returns the experience points of the player
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *
  * Returns:
  *  int, the player's experience
  */
-int get_xp(player_t *plyr);
+int get_xp(player_t *player);
 
 /*
  * Changes the experience (xp) points of the player
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *  points: how much to change xp (positive or negative)
  *
  * Returns:
  *  int, the player's new xp
  */
-int change_xp(player_t *plyr, int points);
+int change_xp(player_t *player, int points);
 
 /*
  * Returns the inventory list
  *
  * Parameters:
- *  plyr: the player
+ *  player: the player
  *
  * Returns:
  *  hashtable of items, the inventory
  */
-item_hash_t* get_inventory(player_t *plyr);
+item_hash_t* get_inventory(player_t *player);
 
 
 /* Adds an item to the given player
@@ -231,7 +339,7 @@ bool item_in_inventory(player_t *player, item_t *item);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int assign_stats_player(player_t *plyr, stats_hash_t *sh);
+int assign_stats_player(player_t *player, stats_hash_t *sh);
 
 /*
  * Adds a skill to a player's respective skill inventory
@@ -352,5 +460,19 @@ int player_add_stat(player_t *player, stats_t *s);
  * Note: Same return value as add_stat_effect()
  */
 int player_add_stat_effect(player_t *player, stat_effect_t *effect);
+
+/*
+ * Adds a move to the player's list of moves 
+ *
+ * Parameters:
+ *  - player: A player. Must be allocated with player_new()
+ *  - move: pointer to the move to be added
+ *
+ * Returns:
+ *  - Success or failure and modifies the status
+ *
+ */
+int add_move(player_t *player, move_t *move);
+
 
 #endif

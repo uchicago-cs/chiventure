@@ -1,4 +1,4 @@
-set(NPC_EXAMPLES dialogue_example npc_example conversation_mode_example)
+set(NPC_EXAMPLES dialogue_example npc_example conversation_mode_example battle_move_example_2021)
 
 add_executable(dialogue_example
                dialogue_example.c)
@@ -8,6 +8,9 @@ add_executable(npc_example
 
 add_executable(conversation_mode_example
                conversation_mode_example.c)
+
+add_executable(battle_move_example_2021
+               battle_move_example_2021.c)
 
 # Link with chiventure libraries
 foreach(example ${NPC_EXAMPLES})

@@ -1,7 +1,26 @@
 #include "game-state/game_action.h"
+#include "cli/util.h"
 
 #define BUFFER_SIZE 100
 
+/* See common_game_action.h */
+int game_action_init(game_action_t *new_action, char *act_name,
+                     char *success_str, char *fail_str)
+{
+    assert(new_action != NULL);
+    if (new_action == NULL)
+    {
+        return FAILURE;
+    }
+    strncpy(new_action->action_name, act_name, strlen(act_name));
+    case_insensitize(new_action->action_name);
+    new_action->conditions = NULL; //by UTLIST rules
+    new_action->effects = NULL;    //by UTLIST rules
+    strncpy(new_action->success_str, success_str, strlen(success_str));
+    strncpy(new_action->fail_str, fail_str, strlen(fail_str));
+
+    return SUCCESS;
+}
 
 // ------------------------- ACTION FUNCTIONS -------------------------
 
@@ -10,18 +29,18 @@
 game_action_t *get_action(agent_t *agent, char *action_name)
 {
     game_action_t *action;
-    if(agent->npc == NULL){
-    HASH_FIND(hh, agent->item->actions, action_name, strlen(action_name), action);
-    if (action == NULL)
-    {
-        return NULL;
-    }}
-    if(agent->item == NULL){
-    HASH_FIND(hh, agent->npc->actions, action_name, strlen(action_name), action);
-    if (action == NULL)
-    {
-        return NULL;
-    }}
+    if (agent->npc == NULL) {
+        HASH_FIND(hh, agent->item->actions, action_name, strlen(action_name), action);
+        if (action == NULL)
+            return NULL;
+    }
+    if (agent->item == NULL) {
+        HASH_FIND(hh, agent->npc->actions, action_name, strlen(action_name), action);
+        if (action == NULL)
+        {
+            return NULL;
+        }
+    }
     
     return action;
 }
@@ -31,16 +50,13 @@ int add_action(agent_t *agent, char *action_name, char *success_str, char *fail_
 {
     game_action_t *check = get_action(agent, action_name);
     if (check != NULL)
-    {
         return FAILURE;
-    }
     game_action_t *action = game_action_new(action_name, success_str, fail_str);
-    if(agent->item != NULL){
-    HASH_ADD_KEYPTR(hh, agent->item->actions, action_name, strlen(action_name), action);
-    }
-    if(agent->npc != NULL){
+    if (agent->item != NULL)
+        HASH_ADD_KEYPTR(hh, agent->item->actions, action_name, strlen(action_name), action);
+    if (agent->npc != NULL)
     HASH_ADD_KEYPTR(hh, agent->npc->actions, action_name, strlen(action_name), action);
-    }
+
     return SUCCESS;
 }
 
@@ -51,9 +67,7 @@ int possible_action(agent_t *agent, char *action_name)
     if (possible_action == NULL)
     {
         return FAILURE;
-    }
-    else
-    {
+    } else {
         return SUCCESS;
     }
 }
@@ -61,12 +75,10 @@ int possible_action(agent_t *agent, char *action_name)
 /* see game_action.h */
 game_action_hash_t *get_all_actions(agent_t *agent)
 {
-    if(agent->item != NULL){
+    if(agent->item != NULL)
         return agent->item->actions;
-    }
-    if(agent->npc != NULL){
+    if(agent->npc != NULL)
         return agent->npc->actions;
-    }
     return NULL;
 }
 

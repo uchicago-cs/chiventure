@@ -1,22 +1,24 @@
 #include "game-state/player.h"
 #include "game-state/item.h"
+#include "battle/battle_structs.h"
+#include "game-state/stats.h"
 
 /* See player.h */
-int player_set_race(player_t *plyr, char *player_race)
+int player_set_race(player_t *player, char *player_race)
 {
-    if (plyr == NULL || player_race == NULL)
+    if (player == NULL || player_race == NULL)
     {
         return FAILURE;
     }
 
-    plyr->player_race = malloc(MAX_ID_LEN);
+    player->player_race = malloc(MAX_ID_LEN);
     
-    if (plyr->player_race == NULL)
+    if (player->player_race == NULL)
     {
         return FAILURE;
     }
 
-    strncpy(plyr->player_race, player_race, MAX_ID_LEN);
+    strncpy(player->player_race, player_race, MAX_ID_LEN);
 
 
     return SUCCESS;
@@ -24,14 +26,45 @@ int player_set_race(player_t *plyr, char *player_race)
 
 
 /* See player.h */
-int player_set_class(player_t *plyr, class_t *player_class)
+int player_set_class(player_t *player, class_t *player_class)
 {
-    if (plyr == NULL || player_class == NULL)
+    if (player == NULL || player_class == NULL)
     {
         return FAILURE;
     }
 
-    plyr->player_class = player_class;
+    player->player_class = player_class;
+
+    if (player_class->base_stats != NULL)
+    {
+        stats_t *curr, *tmp;
+        HASH_ITER(hh, player_class->base_stats, curr, tmp)
+        {
+            stats_t *to_add = copy_stat(curr);
+
+            add_stat(&player->player_stats, to_add);
+        }
+    }
+
+    if (player_class->effects != NULL)
+    {
+        stat_effect_t *curr, *tmp;
+        HASH_ITER(hh, player_class->effects, curr, tmp)
+        {
+            stat_effect_t *to_add = copy_effect(curr);
+
+            add_stat_effect(&player->player_effects, to_add);
+        }
+    }
+
+    if (player_class->starting_skills != NULL)
+    {
+        skill_inventory_t *to_add = 
+        copy_inventory(player_class->starting_skills);
+
+        player->player_skills = to_add;
+    }
+
   
     return SUCCESS;
 }
@@ -40,53 +73,169 @@ int player_set_class(player_t *plyr, class_t *player_class)
 /* See player.h */
 player_t* player_new(char *player_id)
 {
-    player_t *plyr;
-    plyr = malloc(sizeof(player_t));
-    assert(plyr != NULL);
+    player_t *player;
+    player = malloc(sizeof(player_t));
+    assert(player != NULL);
 
-    memset(plyr, 0, sizeof(player_t));
-    plyr->player_id = malloc(MAX_ID_LEN);
+    memset(player, 0, sizeof(player_t));
+    player->player_id = malloc(MAX_ID_LEN);
 
     assert(player_id != NULL);
 
-    strncpy(plyr->player_id, player_id, MAX_ID_LEN);
-    plyr->level = 1;
-    plyr->xp = 0;
+    strncpy(player->player_id, player_id, MAX_ID_LEN);
+    player->level = 1;
+    player->xp = 0;
 
-    plyr->player_class = NULL;
-    plyr->player_stats = NULL;
-    plyr->player_skills = NULL;
-    plyr->player_effects = NULL;
-    plyr->player_race = NULL;
-    plyr->inventory = NULL;
+    player->player_class = NULL;
+    player->player_stats = NULL;
+    player->player_skills = NULL;
+    player->player_effects = NULL;
+    player->player_race = NULL;
+    player->player_quests = NULL;
+    player->player_tasks = NULL;
+    player->inventory = NULL;
 
-    return plyr;
+    return player;
 }
 
 /* See player.h */
-int player_free(player_t* plyr)
+int player_free(player_t* player)
 {
-    assert(plyr != NULL);
+    assert(player != NULL);
 
-    free(plyr->player_id);
+    free(player->player_id);
 
-    if (plyr->player_race != NULL)
+    if (player->player_race != NULL)
     {
-        free(plyr->player_race);
+        free(player->player_race);
     }
 
-    if (plyr->player_class != NULL)
+    delete_all_items(&player->inventory);
+
+    if (player->player_skills != NULL)
     {
-        class_free(plyr->player_class);
+        inventory_free(player->player_skills);
     }
 
-    delete_all_items(&plyr->inventory);
+    if (player->player_stats != NULL)
+    {
+        free_stats_table(player->player_stats);
+    }
 
-    free(plyr);
+    if (player->player_effects != NULL)
+    {
+        delete_all_stat_effects(player->player_effects);
+    }
+
+    if (player->player_quests != NULL)
+    {
+        player_quest_hash_free(player->player_quests);
+    }
+
+    if (player->player_tasks != NULL)
+    {
+        player_task_hash_free(player->player_tasks);
+    }
+
+    free(player);
     
     return SUCCESS;
 }
 
+/* See player.h */
+player_quest_t *player_quest_new(char *quest_id, int completion)
+{
+    player_quest_t *pquest;
+    int rc;
+    pquest = malloc(sizeof(player_quest_t));
+
+    if(pquest == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player quest!\n");
+        return NULL;
+    }
+
+    rc = player_quest_init(pquest, quest_id, completion);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player quest struct!\n");
+        return NULL;
+    }
+
+    return pquest;
+}
+
+/* See player.h */
+player_task_t *player_task_new(char *task_id, bool completed)
+{
+    player_task_t *ptask;
+    int rc;
+    ptask = calloc(1, sizeof(player_task_t));
+
+    if(ptask == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player task!\n");
+        return NULL;
+    }
+
+    rc = player_task_init(ptask, task_id, completed);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player task struct!\n");
+        return NULL;
+    }
+
+    return ptask;
+}
+
+/* See player.h */
+int player_quest_init(player_quest_t *pquest, char *quest_id, int completion)
+{
+    assert(pquest != NULL);
+
+    pquest->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
+    pquest->completion = completion;
+    return SUCCESS;
+}
+
+/* See player.h */
+int player_task_init(player_task_t *ptask, char *task_id, bool completed)
+{
+    assert(ptask != NULL);
+
+    ptask->task_id = strndup(task_id, QUEST_NAME_MAX_LEN);
+    ptask->completed = completed;
+    return SUCCESS;
+}
+
+/* See player.h */
+int player_quest_hash_free(player_quest_hash_t *player_quests)
+{
+    assert(player_quests != NULL);
+
+    player_quest_hash_t *current_player_quest, *tmp;
+    HASH_ITER(hh, player_quests, current_player_quest, tmp)
+    {
+        HASH_DEL(player_quests, current_player_quest);
+        free(current_player_quest);
+    }
+    return SUCCESS;
+}
+
+int player_task_hash_free(player_task_hash_t *player_tasks)
+{
+    assert(player_tasks != NULL);
+
+    player_task_t *current_player_task, *tmp;
+    HASH_ITER(hh, player_tasks, current_player_task, tmp)
+    {
+        HASH_DEL(player_tasks, current_player_task);
+        free(current_player_task);
+    }
+    return SUCCESS;
+}
+
+/* See player.h */
 int delete_all_players(player_hash_t* players)
 {
     player_t *current_player, *tmp;
@@ -99,36 +248,36 @@ int delete_all_players(player_hash_t* players)
 }
 
 /* See player.h */
-int get_level(player_t* plyr)
+int get_level(player_t* player)
 {
-    return plyr->level;
+    return player->level;
 }
 
 /* See player.h */
-int change_level(player_t* plyr, int change)
+int change_level(player_t* player, int change)
 {
-    plyr->level += change;
-    return plyr->level;
+    player->level += change;
+    return player->level;
 }
 
 /* See player.h */
-int get_xp(player_t* plyr)
+int get_xp(player_t* player)
 {
-    return plyr->xp;
+    return player->xp;
 }
 
 /* See player.h */
-int change_xp(player_t* plyr, int points)
+int change_xp(player_t* player, int points)
 {
-    plyr->xp += points;
-    return plyr->xp;
+    player->xp += points;
+    return player->xp;
 }
 
 
 /* See player.h */
-item_hash_t* get_inventory(player_t* plyr)
+item_hash_t* get_inventory(player_t* player)
 {
-    return plyr->inventory;
+    return player->inventory;
 }
 
 /* See player.h */
@@ -267,4 +416,23 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect)
     rc = add_stat_effect(&(player->player_effects), effect);
 
     return rc;
+}
+
+/* see player.h */
+int add_move(player_t *player, move_t *move) {
+    assert(player != NULL);
+    assert(move != NULL);
+
+    move_t *last_move = player->moves;
+    
+    if (player->moves == NULL){
+        player->moves = move;
+        return SUCCESS;
+    }
+
+    while (last_move->next != NULL) {
+        last_move = last_move->next;
+    }
+    last_move->next = move;
+    return SUCCESS;
 }

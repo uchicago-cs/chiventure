@@ -6,54 +6,39 @@
 #include "battle/battle_state.h"
 #include "battle/battle_logic.h"
 #include "battle/battle_default_objects.h"
+#include "npc/npc.h"
+#include "npc/npc_battle.h"
 #include <time.h>
-
+/*
 #define MAX_COMMAND_LINE_LENGTH (100)
 #define MAX_COMMAND_LENGTH (100)
 #define MAX_ARGS (5)
-
+*/
 /* initializes a dummy wizard class */
+/*
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
-
+*/
 /* initializes a dummy bard class */
+/*
 class_t *make_bard()
 {
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
 }
+*/
 
-/* This ensures that the user's inputted move exists
- * Parameters:
- *  ctx: main structure of the game
- * Returns:
- *  a pointer to the found move or NULL for no move 
- */ 
-move_t *find_player_move(chiventure_ctx_battle_t *ctx, char *move_name)
-{
-    move_t *temp;
-    move_t *player_move = NULL;
-
-    DL_FOREACH(ctx->game->battle->player->moves, temp)
-    {
-        if (strncmp(temp->info, move_name, MAX_MOVE_INFO_LEN) == 0)
-        {
-            player_move = temp;
-            return player_move;
-        }
-    }
-    return NULL;
-}
 
 /* Helper function to print the result of a turn
  * Parameters:
- *  ctx: main structure of the game
+ *  ctx: main structure of the battle
  *  player_move: the name of the player's move
  * Returns:
  *  Always returns SUCCESS
  */ 
-int print_battle_result(chiventure_ctx_battle_t *ctx, move_t *player_move)
+ /*
+int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
 {
     char *action_string;
     // everything below allows us to print what just happened
@@ -91,14 +76,15 @@ int print_battle_result(chiventure_ctx_battle_t *ctx, move_t *player_move)
     }
     return SUCCESS;
 }
-
+*/
 /* Prints out the avaliable moves for the player
  * Parameter:
- *  ctx: the main structure of the game
+ *  ctx: the main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int print_moves(chiventure_ctx_battle_t *ctx)
+ /*
+int print_moves2(battle_ctx_t *ctx)
 {
     move_t *temp;
     printf("\nMOVES LIST:\n");
@@ -108,14 +94,15 @@ int print_moves(chiventure_ctx_battle_t *ctx)
     }
     return SUCCESS;
 }
-
+*/
 /* Prints out the avaliable battle_items for the player
  * Parameter:
- *  ctx: the main structure of the game
+ *  ctx: the main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int print_battle_items(chiventure_ctx_battle_t *ctx)
+ /*
+int print_battle_items2(battle_ctx_t *ctx)
 {
     battle_item_t *temp;
     printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
@@ -130,15 +117,16 @@ int print_battle_items(chiventure_ctx_battle_t *ctx)
     }
     return SUCCESS;
 }
-
+*/
 /* Reads the user's input and converts that into an action
  * Parameters:
  *  args: array of strings that display the user's input
- *  ctx: the main structure of the game
+ *  ctx: the main structure of the battle
  * Returns:
  *  SUCCESS or FAILURE
  */
-int read_move(char **args, chiventure_ctx_battle_t *ctx)
+ /*
+int read_move(char **args, battle_ctx_t *ctx)
 {
     int res;
 
@@ -170,7 +158,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
 
         printf("\nBeginning call to battle_flow() function\n");
         // calling the function which is the heart of the battle
-        res = battle_flow(ctx, player_move, args[4]);
+        battle_flow_move(ctx, player_move, args[4]);
 
         // prints result of attacks
         int battle_res = print_battle_result(ctx, player_move);
@@ -181,7 +169,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as MOVE LIST\n\n");
-        res = print_moves(ctx);
+        res = print_moves2(ctx);
         printf("\n");
         return res;
     }
@@ -190,7 +178,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
     {
         printf("Determined command as ITEM LIST\n\n");
-        res = print_battle_items(ctx);
+        res = print_battle_items2(ctx);
         printf("\n");
         return res;
     }
@@ -208,7 +196,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     // handles the command USE <battle_item>
     else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
-        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, atoi(args[1]));
+        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, args[1]);
         printf("Determined command as USE %s\n\n", item->name);
         if (item == NULL)
         {
@@ -221,7 +209,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             return FAILURE;
         }
 
-        res = use_battle_item(ctx->game->battle->player, atoi(args[1]));
+        res = use_battle_item(ctx->game->battle->player, ctx->game->battle, args[1]);
         if (res == FAILURE) 
         {
             return FAILURE;
@@ -234,13 +222,9 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
             printf("New Defense is %d\n\n", player_stats->defense);
         }
 
-        res = enemy_make_move(ctx);
-        move_t *enemy_move = give_move(ctx->game->battle->player,
-                                       ctx->game->battle->enemy,
-                                       ctx->game->battle->enemy->ai);
-        char* action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
-        printf("%s\n", action_string);
-        return res;
+        char* str = enemy_make_move(ctx);
+        printf("%s\n", str);
+        return SUCCESS;
     }
     else
     {
@@ -249,7 +233,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
     }
     return res;
 }
-
+*/
 /* Parses a command into an array of strings
  * Parameters:
  *  out: the array of strings
@@ -257,6 +241,7 @@ int read_move(char **args, chiventure_ctx_battle_t *ctx)
  * Returns:
  *  Array of strings with parsed input
  */ 
+ /*
 int parse_command(char **out, char *input)
 {
     for (int i = 0; i < MAX_ARGS; i++)
@@ -265,14 +250,15 @@ int parse_command(char **out, char *input)
     }
     return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
 }
-
+*/
 /* Allows a battle to continue with taking input from the user via command line
  * Parameter:
- *  ctx: main structure of the game
+ *  ctx: main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
-int continue_battle(chiventure_ctx_battle_t *ctx)
+ /*
+int continue_battle(battle_ctx_t *ctx)
 {
     char buf[MAX_COMMAND_LENGTH + 1] = {0};
     char **args = calloc(MAX_ARGS, sizeof(char *));
@@ -306,10 +292,11 @@ int continue_battle(chiventure_ctx_battle_t *ctx)
     free(args);
     return SUCCESS;
 }
-
+*/
 // where everything is called
 int main()
 {
+    /*
     srand(time(0)); // sets seed
     printf("\nbeginning to create the player and enemy...\n");
     // creates the stats of the player to begin the battle
@@ -337,14 +324,17 @@ int main()
     printf("item created for the player!\n");
 
     // this creates the player and enemy so that they are inside of ctx
-    npc_enemy_t *e = NULL;
-    DL_APPEND(e, make_npc_enemy("Goblin", make_bard(), e_stats, NULL, NULL, BATTLE_AI_GREEDY));
+    move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
+    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard(), NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    e->npc_battle = npc_b;
+
     printf("enemy created!\n");
     battle_player_t *p = new_ctx_player("John", make_wizard(), p_stats, NULL, p_item);
     printf("player created!\n\n");
 
-    chiventure_ctx_battle_t *ctx =
-        (chiventure_ctx_battle_t *)calloc(1, sizeof(chiventure_ctx_battle_t));
+    battle_ctx_t *ctx =
+        (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
 
     // new_game creates a game that is then attached to ctx
     battle_game_t *g = new_battle_game();
@@ -352,14 +342,16 @@ int main()
     ctx->game = g;
 
     ctx->game->player = p;
-
+    */
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
+    /*
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
-
+    */
     /* this checks to ensure that the user has moves, if not, 
        the executable will not work since it revolves around moves! */
+    /*
     if (ctx->game->battle->player->moves == NULL)
     {
         printf("=== oh no! the player's moves do not exist!!! ===\n");
@@ -394,6 +386,6 @@ int main()
     case NO_BATTLE:
         fprintf(stderr, "ERROR, battle should not return as no_battle");
     }
-    
+    */
     return 0;
 }

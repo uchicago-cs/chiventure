@@ -4,6 +4,7 @@ add_executable(${TEST_EXE}
         test_dialogue.c
         test_npc.c
         test_rooms_npc.c
+	test_npc_battle.c
         test_npc_move.c
         main.c)
 

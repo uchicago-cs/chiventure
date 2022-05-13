@@ -1,0 +1,6 @@
+name: cs220-dsl
+channels:
+  - conda-forge
+dependencies:
+  - lark-parser
+  - python>=3.9

@@ -30,7 +30,6 @@ typedef struct condition condition_list_t;
 typedef struct player player_t;
 typedef struct player player_hash_t;
 
-
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
 // and conducting actions

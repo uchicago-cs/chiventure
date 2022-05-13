@@ -290,10 +290,10 @@ int remove_condition(path_t *path, list_action_type_t *a);
  * Implemented with macros provided by uthash.h
  *
  * Parameters:
- *  hashtable of rooms that need to be deleted
+ *  a pointer to the hashtable of rooms that need to be deleted
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int delete_all_rooms(room_hash_t* rooms);
+int delete_all_rooms(room_hash_t **rooms);
 
 #endif

@@ -6,7 +6,10 @@
 #define INCLUDE_INVENTORY_H_
 
 #include "skilltrees/skilltrees_common.h"
-#include "skilltrees/skill.h"
+
+/* Forward declaration so that playerclass can make deep copies */
+
+typedef struct skill skill_t;
 
 /* ================================= */
 /* === INVENTORY DATA STRUCTURES === */
@@ -72,6 +75,17 @@ int inventory_free(skill_inventory_t* inventory);
  *  - 0 on success, 1 if an error occurs
  */
 int inventory_skill_add(skill_inventory_t* inventory, skill_t* skill);
+
+
+
+/* copy_inventory: Creates a deep memory copy of a skill_inventory_t struct
+ *
+ * Input:
+ *      - original: The skill_inventory_t struct to copy
+ * 
+ * Return: Pointer the newly made deep copy struct
+ */
+skill_inventory_t* copy_inventory(skill_inventory_t* original);
 
 /*
  * Searches for a skill in a player's skill inventory.
