@@ -287,7 +287,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     return string;
 }
 /* see battle_flow.h */
-int apply_stat_changes(stat_changes_t* changes, stat_t* target_stats) 
+int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
 {
     target_stats->speed += changes->speed;
     target_stats->max_sp += changes->max_sp;
@@ -336,7 +336,7 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 int calculate_accuracy(int user_accuracy, int move_accuracy)
 {
     int chance = randnum(0, 100);
-    if(chance <= (user_accuracy * move_accuracy)){
+    if(chance <= ((user_accuracy * move_accuracy) / 100)){
         return 1;
     }else{
         return 0;

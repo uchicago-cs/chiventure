@@ -157,7 +157,7 @@ char *enemy_make_move(battle_ctx_t *ctx);
  * Returns:
  *  - Always success
  */
-int apply_stat_changes(stat_changes_t* changes, stat_t* target_stats);
+int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
 
 /*
  * Uses a stat changing move. Works for stat changes
