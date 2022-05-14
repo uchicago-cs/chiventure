@@ -23,7 +23,7 @@ Test(class_moves, bard)
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
-    cr_assert_eq(ret_player->moves->id, 100, "move_new() didn't set move id");
+    cr_assert_eq(ret_player->moves->id, 0, "move_new() didn't set move id");
 
     cr_assert_str_eq(ret_player->moves->name, "",
                      "move_new() didn't set move info");
@@ -72,7 +72,7 @@ Test(class_moves, wizard)
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
-    cr_assert_eq(ret_player->moves->id, 130, "move_new() didn't set move id");
+    cr_assert_eq(ret_player->moves->id, 1, "move_new() didn't set move id");
 
     cr_assert_str_eq(ret_player->moves->name, "",
                      "move_new() didn't set move info");
@@ -122,7 +122,7 @@ Test(class_moves, knight)
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
-    cr_assert_eq(ret_player->moves->id, 130, "move_new() didn't set move id");
+    cr_assert_eq(ret_player->moves->id, 2, "move_new() didn't set move id");
 
     cr_assert_str_eq(ret_player->moves->name, "",
                      "move_new() didn't set move info");
