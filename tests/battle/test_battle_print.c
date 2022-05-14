@@ -95,7 +95,7 @@ Test(battle_print, print_player_move)
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
-                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
