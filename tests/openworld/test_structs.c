@@ -99,7 +99,7 @@ Test(roomspec, free1)
 
 /* Tests the specgraph_new function to validate that a specgraph can
  * be made successfully. */
-Test(specgraph, new2)
+Test(specgraph, new)
 {
 
     roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
@@ -124,7 +124,7 @@ Test(specgraph, new2)
 
 /* Tests the specgraph_init function to validate that a specgraph can
  * be initialized successfully. */
-Test(specgraph, init2)
+Test(specgraph, init)
 {
     roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
     cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
@@ -147,7 +147,7 @@ Test(specgraph, init2)
 
 /* Tests the specgraph_free function to validate that a specgraph can
  * be freed successfully. */
-Test(specgraph, free2)
+Test(specgraph, free)
 {
     roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
     cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
