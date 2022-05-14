@@ -188,6 +188,25 @@ battle_item_t *get_random_default_consumable()
 /* See battle_default_objects.h */
 move_t *get_random_default_move()
 {
+    int rand = randnum(1,10) - 1;
+    char *name_array[] = {"SLAP", "JAB", "KICK", "HEADBUTT", "GRAPPLE", 
+                          "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
+
+    battle_item_t *item = get_random_default_consumable();
+    int id = rand + 1;
+    int info_len = strlen(name_array[rand]);
+    char* info = (char*)calloc(info_len + 1, sizeof(char));
+    strncpy(info, name_array[rand], info_len + 1);
+    //bool attack = true;
+    int damage = rand * 5 + 40;
+    //int defense = rand * 10 + 5;
+
+    move_t *rv_move = move_new(id, "", info, PHYS, NO_TARGET, NO_TARGET, SINGLE,
+                               0, NULL, damage, 100, NULL, NULL, NULL, NULL);
+    
+    assert(rv_move != NULL);
+    return rv_move;
+/* PROSPECTIVE CHANGES
     //Array of possible moves and descriptions.
     int rand = randnum(1,10) - 1;
     char *name_array[] = {"punch", "kick", "jab", "headbutt", "grapple", 
@@ -283,7 +302,7 @@ move_t *get_random_default_move()
                                user_mod, opp_mod, NULL, NULL);
     
     assert(rv_move != NULL);
-    return rv_move;
+    return rv_move; */
 }
 
 /* See battle_default_objects.h */

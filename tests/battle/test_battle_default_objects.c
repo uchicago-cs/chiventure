@@ -188,85 +188,85 @@ Test(battle_default_objects, default_moves)
     {
         // SLAP
         cr_assert_str_eq(test_move->info, "SLAP", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 45, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 15, "get_random_default_move() did not set defense correctly");                                            
+                               
     }        
     else if (id == 2)
     {
         // JAB
         cr_assert_str_eq(test_move->info, "JAB", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 50, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 25, "get_random_default_move() did not set defense correctly");                                            
+                               
     }      
     else if (id == 3)
     {
         // KICK
         cr_assert_str_eq(test_move->info, "KICK", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 55, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 35, "get_random_default_move() did not set defense correctly");                                            
+                                
     }     
     else if (id == 4)
     {
         // HEADBUTT
         cr_assert_str_eq(test_move->info, "headbutt", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 60, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 45, "get_random_default_move() did not set defense correctly");                                            
+                                           
     }     
     else if (id == 5)
     {
         // GRAPPLE
         cr_assert_str_eq(test_move->info, "GRAPPLE", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 65, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 55, "get_random_default_move() did not set defense correctly");                                            
+                                      
     }     
     else if (id == 6)
     {
         // UPPERCUT
         cr_assert_str_eq(test_move->info, "UPPERCUT", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 70, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 65, "get_random_default_move() did not set defense correctly");                                            
+                                  
     }     
     else if (id == 7)
     {
         // HAMMERFIST
         cr_assert_str_eq(test_move->info, "HAMMERFIST", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 75, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 75, "get_random_default_move() did not set defense correctly");                                            
+                                   
     }     
     else if (id == 8)
     {
         // BITE
         cr_assert_str_eq(test_move->info, "BITE", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 80, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 85, "get_random_default_move() did not set defense correctly");                                            
+                               
     }     
     else if (id == 9)
     {
         // THRASH
         cr_assert_str_eq(test_move->info, "THRASH", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 85, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 95, "get_random_default_move() did not set defense correctly");                                            
+                               
     }     
     else if (id == 10)
     {
         // THROW
         cr_assert_str_eq(test_move->info, "THROW", "get_random_default_move() did not set info correctly");
-        cr_assert_eq(test_move->attack, true, "get_random_default_move() did not set attack correctly");
+
         cr_assert_eq(test_move->damage, 90, "get_random_default_move() did not set damage correctly");
-        cr_assert_eq(test_move->defense, 105, "get_random_default_move() did not set defense correctly");                                            
+                            
     }     
     else
     {
-        cr_assert_fail("get_random_default_weapon() did not set id correctly");
+        cr_assert_fail("get_random_default_move() did not set id correctly");
     }
 }
 
