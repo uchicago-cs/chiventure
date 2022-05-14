@@ -109,7 +109,7 @@ Test(battle_print, print_player_move)
     move->stat_mods = NO_TARGET;
     move->effects = NO_TARGET;
     move->accuracy = 100;
-    move->info = "Punch";
+    move->name = "Punch";
     b->player->moves = move;
     b->enemy->stats->hp = 21;
 
@@ -164,7 +164,7 @@ Test(battle_print, print_player_move_crit)
     move->stat_mods = NO_TARGET;
     move->effects = NO_TARGET;
     move->accuracy = 100;
-    move->info = "Punch";
+    move->name = "Punch";
     b->player->moves = move;
     b->enemy->stats->hp = 16;
 
@@ -217,7 +217,7 @@ Test(battle_print, print_player_move_miss)
     move->stat_mods = NO_TARGET;
     move->effects = NO_TARGET;
     move->accuracy = 100;
-    move->info = "Punch";
+    move->name = "Punch";
     b->player->moves = move;
     b->enemy->stats->hp = 30;
 
@@ -273,7 +273,7 @@ Test(battle_print, print_enemy_move)
     move->stat_mods = NO_TARGET;
     move->effects = NO_TARGET;
     move->accuracy = 100;
-    move->info = "Laugh";
+    move->name = "Laugh";
     b->player->moves = move;
     b->player->stats->hp = 42;
     char* string = print_battle_move(b, ENEMY, move);
