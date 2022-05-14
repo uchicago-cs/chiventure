@@ -8,7 +8,8 @@
 /* Tests for move unlock effects */
 Test(effect_tests, define_move_effect_test)
 {
-    move_t *move = move_new("abc", 1, NULL, true, 10, 55);
+    move_t *move = move_new(1, "abc", "", PHYS, NO_TARGET, NO_TARGET, 
+                            SINGLE, 0, NULL, 55, 100, NULL, NULL, NULL, NULL);
     cr_assert_not_null(move, "Error: move_new failed to create move");
     move_effect_t* moveeffect = define_move_effect(move);
     cr_assert_not_null(moveeffect, "Error: define_move_effect failed to create move effect");
@@ -35,7 +36,8 @@ Test(effect_tests, execute_move_effect_test_empty_list)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
 
-    move_t *move = move_new("abc", 1, NULL, true, 10, 55);
+    move_t *move = move_new(1, "abc", "", PHYS, NO_TARGET, NO_TARGET, 
+                            SINGLE, 0, NULL, 55, 100, NULL, NULL, NULL, NULL);
     cr_assert_not_null(move, "Error: move_new failed to create move");
     move_effect_t* moveeffect = define_move_effect(move);
     cr_assert_not_null(moveeffect, "Error: define_move_effect failed to create move effect");
@@ -50,7 +52,8 @@ Test(effect_tests, execute_move_effect_test_existing_list)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
     
-    move_t *old_move = move_new("def", 2, NULL, false, 100, 22);
+    move_t *old_move = move_new(2, "def", "", PHYS, NO_TARGET, NO_TARGET, 
+                                SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     cr_assert_not_null(old_move, "Error: move_new failed to create move");
     move_effect_t* moveeffect1 = define_move_effect(old_move);
     cr_assert_not_null(moveeffect1, "Error: define_move_effect failed to create move effect");
@@ -58,7 +61,9 @@ Test(effect_tests, execute_move_effect_test_existing_list)
     int check1 = execute_move_effect(ctx, moveeffect1);
     cr_assert_eq(check1, SUCCESS, "Error: Failure of execute_move_effect");
 
-    move_t *new_move = move_new("ghi", 3, NULL, false, 1, 14);
+    move_t *new_move = move_new(3, "ghi", "", PHYS, NO_TARGET, NO_TARGET, 
+                                SINGLE, 0, NULL, 1, 100, NULL, NULL, NULL, NULL);
+    
     cr_assert_not_null(new_move, "Error: move_new failed to create move");
     move_effect_t* moveeffect2 = define_move_effect(new_move);
     cr_assert_not_null(moveeffect2, "Error: define_move_effect failed to create move effect");
@@ -66,7 +71,8 @@ Test(effect_tests, execute_move_effect_test_existing_list)
     int check2 = execute_move_effect(ctx, moveeffect2);
     cr_assert_eq(check2, SUCCESS, "Error: Failure of execute_move_effect");
     
-    move_t *new_move2 = move_new("pqr", 6, NULL, false, 1, 14);
+    move_t *new_move2 = move_new(6, "pqr", "", PHYS, NO_TARGET, NO_TARGET, 
+                                SINGLE, 0, NULL, 1, 100, NULL, NULL, NULL, NULL);
     cr_assert_not_null(new_move2, "Error: move_new failed to create move");
     move_effect_t* moveeffect3 = define_move_effect(new_move2);
     cr_assert_not_null(moveeffect3, "Error: define_move_effect failed to create move effect");
