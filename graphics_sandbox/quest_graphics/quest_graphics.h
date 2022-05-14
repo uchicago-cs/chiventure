@@ -33,5 +33,8 @@ int getTreeMaxWidth(task_tree_mockup_t* taskTree);
 int getTreeMaxHeight(task_tree_mockup_t* taskTree);
 
 
+void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize,          
+                        Vector2 segmentDimension, char*current_task_name, float squareside,
+                        Vector2 drawStartPos, bool showRemainingHorizontal);
 
 #endif
