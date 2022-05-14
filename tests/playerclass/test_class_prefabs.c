@@ -86,6 +86,8 @@ Test(class_prefabs, Bard) {
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
 
+    class_prefab_add_skills(c);
+
     char* skill_list[] = {"Magic Word", "Poetic Line", "Enchanted Stanza"};
     check_skill_presence(c, 3, skill_list);
 
@@ -101,6 +103,8 @@ Test(class_prefabs, Monk) {
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
 
+    class_prefab_add_skills(c);
+
     char* skill_list[] = {"Acrobatic Powers", "Spirit of Strength", "Supernova Circle"};
     check_skill_presence(c, 3, skill_list);
 
@@ -115,6 +119,8 @@ Test(class_prefabs, Ranger) {
     check_field_presence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
+
+    class_prefab_add_skills(c);
 
     char* skill_list[] = {"Close Shot", "Mid-range Shot", "Long Shot"};
     check_skill_presence(c, 3, skill_list);
