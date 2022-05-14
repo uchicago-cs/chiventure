@@ -19,6 +19,8 @@ property: _NL phrase "FOR" id ":" ESCAPED_STRING -> misplaced_property
 connections.5: _NL "connections:" connection ((","|_NL) connection)*
 connection: phrase "TO" phrase
 
+npc: _NL "NPC" id "IN" location property* item*
+
 id: phrase
 
 location: phrase
