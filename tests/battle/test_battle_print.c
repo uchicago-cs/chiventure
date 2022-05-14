@@ -118,7 +118,7 @@ Test(battle_print, print_player_move)
     /* print_battle_move only prints the moved use. Further
         test will need to be done to account for damage,
         stat change printing, and effects. */
-    char *expected_string = "You used Punch!\n"
+    char *expected_string = "You used Punch!\n";
 
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
 
@@ -150,7 +150,7 @@ Test(battle_print, print_player_move_crit)
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
-                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -258,7 +258,7 @@ Test(battle_print, print_enemy_move)
     enemy_stats->speed = 9;
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
-                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -278,7 +278,7 @@ Test(battle_print, print_enemy_move)
     b->player->stats->hp = 42;
     char* string = print_battle_move(b, ENEMY, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    char *expected_string = "bob used Laugh!\n"
+    char *expected_string = "bob used Laugh!\n";
 
     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string %s", string);
 
