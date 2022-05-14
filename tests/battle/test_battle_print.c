@@ -18,7 +18,7 @@ Test(battle_print, print_start_battle)
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
-                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -45,7 +45,7 @@ Test(battle_print, print_hp_one_enemy)
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
-                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -105,6 +105,10 @@ Test(battle_print, print_player_move)
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
     move->damage = 60;
+    move->dmg_type = PHYS;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
+    move->accuracy = 100;
     move->info = "Punch";
     b->player->moves = move;
     b->enemy->stats->hp = 21;
@@ -156,6 +160,10 @@ Test(battle_print, print_player_move_crit)
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
     move->damage = 60;
+    move->dmg_type = PHYS;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
+    move->accuracy = 100;
     move->info = "Punch";
     b->player->moves = move;
     b->enemy->stats->hp = 16;
@@ -195,7 +203,7 @@ Test(battle_print, print_player_move_miss)
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
-                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -205,6 +213,10 @@ Test(battle_print, print_player_move_miss)
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
     move->damage = 60;
+    move->dmg_type = PHYS;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
+    move->accuracy = 100;
     move->info = "Punch";
     b->player->moves = move;
     b->enemy->stats->hp = 30;
@@ -257,6 +269,10 @@ Test(battle_print, print_enemy_move)
     // Set up a move
     move_t *move = calloc(1,sizeof(move_t));
     move->damage = 99;
+    move->dmg_type = PHYS;
+    move->stat_mods = NO_TARGET;
+    move->effects = NO_TARGET;
+    move->accuracy = 100;
     move->info = "Laugh";
     b->player->moves = move;
     b->player->stats->hp = 42;
