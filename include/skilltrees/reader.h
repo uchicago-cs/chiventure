@@ -92,7 +92,7 @@ int stat_reader_effect_free(stat_reader_effect* reader);
  *  - ctx - A context object to pull data from to execute the reader
  *
  * Returns:
- *  - 0 if reader is true, 1 if reader is false
+ *  - 0 if reader is false, 1 if reader is true
  */
 int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx );
 
@@ -104,7 +104,7 @@ int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx );
  *  - ctx - A context object to pull data from to execute the reader
  *
  * Returns:
- *  - 0 if reader is true, 1 if reader is false
+ *  - 0 if reader is false, 1 if reader is true
  */
 int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* ctx);
 
@@ -116,6 +116,6 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
  *  - ctx - A context object to pull data from to execute the reader
  *
  * Returns:
- *  - 0 if reader is true, 1 if reader is false
+ *  - 0 if reader is false, 1 if reader is true
  */
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx);

@@ -105,6 +105,35 @@ int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx){
         return execute_stat_reader_effect(reader->stat_reader_effect);
     }
 
-    return 1;
+    return 0;
+}
+
+/*See reader.h*/
+int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* ctx){
+
+    switch(reader->location){
+        case READ_PLAYER:
+            if(0 == strcmp(reader->value, ctx->game->curr_player->player_class->name)){
+                return true;
+            } else {
+                return false;
+            }
+
+        case READ_SINGLE_TARGET:
+            if(0 == strcmp(reader->value, ctx->game->battle_ctx->enemy->player_class->name)){
+                return true;
+            } else {
+                return false;
+            }
+
+        case READ_WORLD:
+            if(0 == strcmp(reader->value, ctx->game->curr_room->room_id)){
+                return true;
+            } else {
+                return false;
+            }
+    }
+
+    return false;
 }
 
