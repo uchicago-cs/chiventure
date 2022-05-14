@@ -137,7 +137,12 @@ Test(class_prefabs, Rogue) {
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"Quick Hit", "Backstab", "Leg Swipe"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Quick Hit", "failed to initialize skill inventory");
 }
 
 /* Tests whether the warrior class is initialized as expected.
@@ -171,5 +176,10 @@ Test(class_prefabs, Wizard) {
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"Blinding Charm", "Paralyze Spell", "Arcane Explosion"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Blinding Charm", "failed to initialize skill inventory");
 }
