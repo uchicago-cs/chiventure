@@ -28,7 +28,7 @@ Test(class_moves, bard)
     cr_assert_str_eq(ret_player->moves->name, "Diss Track",
                      "move_new() didn't set move name");
 
-    cr_assert_str_eq(ret_player->moves->info, "No description.",
+    cr_assert_str_eq(ret_player->moves->info, "No Description.",
                      "move_new() didn't set move info");
 
     cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
@@ -77,7 +77,7 @@ Test(class_moves, wizard)
     cr_assert_str_eq(ret_player->moves->name, "Fireball",
                      "move_new() didn't set move name");
 
-    cr_assert_str_eq(ret_player->moves->info, "No description.",
+    cr_assert_str_eq(ret_player->moves->info, "No Description.",
                      "move_new() didn't set move info");
 
     cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
@@ -127,7 +127,7 @@ Test(class_moves, knight)
     cr_assert_str_eq(ret_player->moves->name, "Sword Slash",
                      "move_new() didn't set move name");
 
-    cr_assert_str_eq(ret_player->moves->info, "No description.",
+    cr_assert_str_eq(ret_player->moves->info, "No Description.",
                      "move_new() didn't set move info");
 
     cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
