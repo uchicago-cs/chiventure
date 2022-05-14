@@ -227,13 +227,13 @@ int specgraph_free(specgraph_t *specgraph)
     for(int i=0; i<num_roomspecs; i++){
         free((specgraph->roomspecs)[i]);
     }
-    free(specgraph->roomspecs);
+    //free(specgraph->roomspecs);
 
     //Free the adjacency matrix
-    for(int i=0; i<num_roomspecs; i++){
+    /*for(int i=0; i<num_roomspecs; i++){
         free((specgraph->edges)[i]);
     }
-    free(specgraph->edges);
+    free(specgraph->edges); */
 
     //Free specgraph itself
     free(specgraph);
