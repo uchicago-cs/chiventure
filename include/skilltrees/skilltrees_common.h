@@ -88,6 +88,9 @@ typedef struct attr_reader_effect{
 typedef struct stat_reader_effect{
     int value;
 
+    //Might want to switch with enum later
+    int stat_type;
+
     comparison_t comparison;
 
     reader_location_t location;

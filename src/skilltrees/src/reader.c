@@ -53,7 +53,7 @@ int reader_effect_free(reader_effect_t* reader){
 }
 
 /*See reader.h*/
-stat_reader_effect_t* stat_reader_effect_new(int value, comparison_t comp, reader_location_t location){
+stat_reader_effect_t* stat_reader_effect_new(int value, int stat_type, comparison_t comp, reader_location_t location){
     stat_reader_effect_t* reader;
     int rc;
 
@@ -63,7 +63,7 @@ stat_reader_effect_t* stat_reader_effect_new(int value, comparison_t comp, reade
         return NULL;
     }
 
-    rc = int reader_effect_init(reader, value, comp, location);
+    rc = int reader_effect_init(reader,stat_type, value, comp, location);
 
     if (rc) {
         fprintf(stderr, "stat_reader_effect_init: initialization failed\n");
@@ -74,11 +74,12 @@ stat_reader_effect_t* stat_reader_effect_new(int value, comparison_t comp, reade
 }
 
 /*See reader.h*/
-int stat_reader_effect_init(stat_reader_effect_t* reader,int value,
+int stat_reader_effect_init(stat_reader_effect_t* reader,int value, int stat_type,
                             comparison_t comp, reader_location_t location){
     assert(reader != NULL);
 
     reader->value = value;
+    reader->stat_type = stat_type;
     reader->comp = comp;
     reader->location = location;
 
