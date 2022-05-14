@@ -14,11 +14,35 @@
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
+char *count_rocks(object_t *ot){
+    char *str = malloc(80 * sizeof(char));
+    int rocks = int_t_get(ot);
+    sprintf(str, "There is a stack of %i rocks", rocks);
+    return str;
+}
+
+char *eat_rock(object_t *ot){
+    static int ct = 0;
+    char *str = malloc(80 * sizeof(char));
+    int rocks = int_t_get(ot);
+
+    ot->data.i = rocks;
+
+    fprintf(stderr, "rock count is %d", ct);
+    ct++;
+    sprintf(str, "You ate one rock. There are %i rocks remaining in the stack", rocks - 1);
+    return str;
+}
+
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
-    game_t *game = game_new("Welcome to Chiventure!");
 
+    lua_State *L = luaL_newstate();
+    luaL_openlibs(L);
+    luaL_dofile(L, "sample.lua");
+
+    game_t *game = game_new("Welcome to Chiventure!");
 
     /* Create two rooms (room1 and room2). room1 is the initial room */
     room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
@@ -29,25 +53,13 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "room1", "room2", "NORTH");
 
     /* Create a rock in room1 */
-    item_t *rock = item_new("ROCK","It is a rock.",
-                   "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
+    object_t *rocks = obj_t_int(20, NULL);
+    item_t *rock = item_new("ROCK", "It is a rock", count_rocks(rocks));
     add_item_to_room(room1, rock);
-
-
-    /* Where custom_type comes into play, create a dynamic string (hold different values) depending
-       on what the user enters at the start of the game */
-    char string_num;
-    printf("Enter either 1 or 2 (1 for non-caps, 2 for caps): ");
-    scanf("%c", &string_num);  
-    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
-    ot = obj_add_arg_char(ot, string_num);
-    char* custom_string = (char*)malloc(100);
-    custom_string = str_t_get(ot);
-
-
+    
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(rock, "TASTE", custom_string, "It has a gravel-ey bouquet.");
+    add_action(rock, "TASTE", eat_rock(rocks), "It has a gravel-ey bouquet.");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
