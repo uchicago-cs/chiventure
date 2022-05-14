@@ -136,12 +136,13 @@ Test(roomspec, free1)
 Test(specgraph, free2)
 {
     roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
-    cr_assert_not_null(spec, "failed to create new roomspec_t\n");
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
 
     roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
-    cr_assert_not_null(spec, "failed to create new roomspec_t\n");
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
 
     roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     roomspec_t *roomspecs[3]=[spec1, spec2, spec3];
 
     int edges[3][3]=[3, 4, 5][0, 2, 3][4, 3, 2];
