@@ -31,7 +31,7 @@ int build_moves(combatant_t *c)
         {
             appened = true;
             ret_move = move_new(tmp->id, tmp->spell, "No Description.", MAG, 
-                                NO_TARGET, NO_TARGET, SINGLE, 0, NULL, 
+                                NO_TARGET, NO_TARGET, SINGLE, 10, NULL, 
                                 tmp->damage, 100, NULL, NULL, NULL, NULL);
             DL_APPEND(c->moves, ret_move);
         }
