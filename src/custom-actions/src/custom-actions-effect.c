@@ -195,15 +195,6 @@ int gen_attrval(int min, int max, attribute_t *a)
     }
 }
 
-// already implemented in game.h
-/* See custom-actions-effect.h */
-// int move_player(game_t *game, room_t *new_room)
-// {
-
-// }
-
 /* TO BE IMPLEMENTED:
- *
  * int say_phrase(attribute_t *a);
- * int move_player(player_t *p, room_t *r);
  */
