@@ -311,13 +311,13 @@ int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 
 
 /* specgraph_new
-* Creates a specgraph_t struct with the given paramaters.
+* Creates a new heap-allocated specgraph_t struct with the given paramaters.
 *
 * parameters:
 * - spec: the pointer to the roomspec_t
 *
 * returns:
-* specgraph_t *listnew = the new specgraph
+* specgraph_t *specgraph = the new specgraph
 * NULL - if failed to create a specgraph
 */
 specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges);
@@ -326,7 +326,7 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 * Frees a specgraph_t struct and returns whether or not it was successful
 *
 * parameters:
-* - list: the pointer to the specgraph_t we are freeing
+* - specgraph: the pointer to the specgraph_t we are freeing
 *
 * returns:
 * SUCCESS - for SUCCESS
