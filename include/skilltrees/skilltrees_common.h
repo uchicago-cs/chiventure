@@ -89,7 +89,7 @@ typedef struct stat_reader_effect{
     int value;
 
     //Might want to switch with enum later
-    int stat_type;
+    stats_type_t stat_type;
 
     comparison_t comparison;
 

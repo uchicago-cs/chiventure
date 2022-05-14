@@ -25,12 +25,14 @@ typedef enum skill_type {
 
 } skill_type_t;
 
+/*Types of readers*/
 typedef enum reader_type{
     READER_ATTRIBUTE,
 
     READER_STATISTIC
 } reader_type_t;
 
+/*Locations of readers*/
 typedef enum reader_location{
     READ_PLAYER,
 
@@ -39,7 +41,7 @@ typedef enum reader_location{
     READ_WORLD
 } reader_location_t;
 
-//Enums for stat reader and comparisons
+/*Enums for stat reader and comparisons*/
 typedef enum comparison {
     EQUALS,
 
@@ -53,5 +55,18 @@ typedef enum comparison {
 
     LESSER_EQUAL
 } comparison_t;
+
+/*Different types of stats used in stats reader*/
+typedef enum stats{
+    SPEED,
+
+    DEFENSE,
+
+    STRENGTH,
+
+    HP,
+
+    MAX_HP,
+} stats_type_t;
 
 #endif /*SKILLTREES_ENUMS_H*/

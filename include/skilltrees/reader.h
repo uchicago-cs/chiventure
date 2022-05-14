@@ -3,6 +3,7 @@
 
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/skilltrees_enums.h"
+#include "battle/battle_structs.h"
 #include "skilltrees/effect.h"
 
 /*
@@ -56,7 +57,7 @@ int reader_effect_free(reader_effect_t* reader);
  * Returns:
  *  - A pointer to the stat reader, or NULL if reader cannot be allocated
  */
-stat_reader_effect_t* stat_reader_effect_new(int value, int stat_type,
+stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type,
                       comparison_t comp, reader_location_t location);
 
 /*
@@ -71,7 +72,7 @@ stat_reader_effect_t* stat_reader_effect_new(int value, int stat_type,
  * Returns:
  *  - 1 if initalized succesfully, 0 if failure
  */
-int stat_reader_effect_init(stat_reader_effect_t* reader,int value, int stat_type
+int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stat_type_t stat_type
                             comparison_t comp, reader_location_t location);
 
 /*

@@ -53,7 +53,8 @@ int reader_effect_free(reader_effect_t* reader){
 }
 
 /*See reader.h*/
-stat_reader_effect_t* stat_reader_effect_new(int value, int stat_type, comparison_t comp, reader_location_t location){
+stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type, 
+                                comparison_t comp, reader_location_t location){
     stat_reader_effect_t* reader;
     int rc;
 
@@ -74,7 +75,7 @@ stat_reader_effect_t* stat_reader_effect_new(int value, int stat_type, compariso
 }
 
 /*See reader.h*/
-int stat_reader_effect_init(stat_reader_effect_t* reader,int value, int stat_type,
+int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stat_type_t stat_type,
                             comparison_t comp, reader_location_t location){
     assert(reader != NULL);
 
@@ -114,27 +115,92 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
 
     switch(reader->location){
         case READ_PLAYER:
-            if(0 == strcmp(reader->value, ctx->game->curr_player->player_class->name)){
+            if(0 == strcmp(reader->attr_reader->value, ctx->game->curr_player->player_class->name)){
                 return true;
             } else {
                 return false;
             }
 
         case READ_SINGLE_TARGET:
-            if(0 == strcmp(reader->value, ctx->game->battle_ctx->enemy->player_class->name)){
+            if(0 == strcmp(reader->attr_reader->value, ctx->game->battle_ctx->enemy->player_class->name)){
                 return true;
             } else {
                 return false;
             }
 
         case READ_WORLD:
-            if(0 == strcmp(reader->value, ctx->game->curr_room->room_id)){
+            if(0 == strcmp(reader->attr_reader->value, ctx->game->curr_room->room_id)){
                 return true;
             } else {
                 return false;
             }
     }
 
-    return false;
+    return NULL;
 }
 
+//Helper function for execute_stat_reader
+int compare_values(int val1, int val2, comparison_t comp){
+    switch(comp){
+        case EQUALS:
+            return (val1 == val2);
+        
+        case NOT:
+            return(val1 != val2);
+
+        case GREATER:
+            return(val1 > val2);
+
+        case LESSER:
+            return (val1 < val2);
+
+        case GREATER_EQUAL:
+            return(val1 >= val2);
+
+        case LESSER_EQUAL:
+            return (val1 <= val2);
+    }
+    return NULL;
+}
+
+//Helper function for execute_stat_reader
+int check_stats(int value, stat_type_t type, comparison_t comp, stats_t* stats){
+    switch(type){
+            case SPEED:
+                return compare_values(value, stats_t->speed, comp);
+
+            case DEFENSE:
+                return compare_values(value, stats_t->phys_def, comp);
+
+            case STRENGTH:
+                return compare_values(value, stats_t->phys_atk, comp);
+
+            case HP:
+                return compare_values(value, stats_t->hp, comp);
+
+            case MAX_HP:
+                return compare_values(value, stats_t->max_hp, comp);
+    }
+    return NULL;
+}
+
+
+/*See reader.h*/
+int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx){
+    switch(reader->location){
+        case READ_PLAYER:
+            return check_stats(reader->value, reader->stat_type, reader->comp, 
+                        ctx->game->battle_ctx->player->stats);
+
+
+        case READ_SINGLE_TARGET:
+            return check_stats(reader->value, reader->stat_type, reader->comp, 
+                        ctx->game->battle_ctx->enemy->stats);
+
+        //Not aware of any stats for READ_WORLD at this time
+        // case READ_WORLD:
+
+    }
+
+    return NULL;
+}
