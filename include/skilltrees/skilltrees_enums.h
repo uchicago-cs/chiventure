@@ -57,7 +57,7 @@ typedef enum comparison {
 } comparison_t;
 
 /*Different types of stats used in stats reader*/
-typedef enum stats{
+typedef enum reader_stats{
     SPEED,
 
     DEFENSE,
