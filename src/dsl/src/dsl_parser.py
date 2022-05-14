@@ -140,7 +140,7 @@ class TreeToDict(Transformer):
         # since the key is guaranteed to be the string "ITEM"
         d["items"] = [v for k, v in s if k == "ITEM"]
         
-        return ('ROOM', (room_id, d))
+        return ('NPC', (npc_id, d))
     
     def misplaced_property(self, s: list[Token]) -> str:
         raise Exception('"property FOR object" syntax is not yet supported')
