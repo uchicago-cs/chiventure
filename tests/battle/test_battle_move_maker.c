@@ -43,7 +43,7 @@ Test(class_moves, bard)
 
     cr_assert_null(ret_player->moves->req_item, "move_new() didn't set battle_item to NULL");
 
-    cr_assert_eq(ret_player->moves->damage, 15, "move_new() didn't set move id");
+    cr_assert_eq(ret_player->moves->damage, 80, "move_new() didn't set move id");
 
     cr_assert_eq(ret_player->moves->accuracy, 100, "move_new() didn't set move id");
 
@@ -92,7 +92,7 @@ Test(class_moves, wizard)
 
     cr_assert_null(ret_player->moves->req_item, "move_new() didn't set battle_item to NULL");
 
-    cr_assert_eq(ret_player->moves->damage, 10, "move_new() didn't set move id");
+    cr_assert_eq(ret_player->moves->damage, 100, "move_new() didn't set move id");
 
     cr_assert_eq(ret_player->moves->accuracy, 100, "move_new() didn't set move id");
 
@@ -142,7 +142,7 @@ Test(class_moves, knight)
 
     cr_assert_null(ret_player->moves->req_item, "move_new() didn't set battle_item to NULL");
 
-    cr_assert_eq(ret_player->moves->damage, 10, "move_new() didn't set move id");
+    cr_assert_eq(ret_player->moves->damage, 90, "move_new() didn't set move id");
 
     cr_assert_eq(ret_player->moves->accuracy, 100, "move_new() didn't set move id");
 
