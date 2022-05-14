@@ -1,24 +1,13 @@
 #include "wdl/load_openworld.h"
 
-/* load_itemspecs
- * takes in wdl object and load loads itemspecs into itemspec struct to be used by openworld 
-*module
- *
- * parameters:
- * - dialogue_obj: the itemspec object
- * - itemspecs: the itemspec struct it is being loaded into
- *
- * returns;
- * - SUCCESS for successful parse
- * - FAILURE for unsuccessful parse
- */
-int load_itemspecs( obj_t  *doc,  itemspec_t* itemspec)
+/*takes in wdl format and populates item_specs, returns success if successful*/
+int load_itemspecs( obj_t  *doc,  itemspec_t* itemspecs)
 {
     return 0;
 }
 
 
-/*takes in wdl format and populates room_specs, returns success if successful*/
+/*takes in wdl format and populates room_spec, returns success if successful*/
 int load_roomspec( obj_t  *doc,  roomspec_t* roomspec )
 {
     return 0;

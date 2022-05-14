@@ -15,23 +15,23 @@
 *module
  *
  * parameters:
- * - dialogue_obj: the itemspec object
- * - itemspecs: the itemspec struct it is being loaded into
+ * - doc: the document object
+ * - itemspec: the itemspec struct it is being loaded into
  *
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
  */
-int load_itemspecs( obj_t  *doc,  itemspec_t* itemspec);
+int load_itemspecs( obj_t  *doc,  itemspec_t* itemspecs);
 
 
-/* load_itemspecs
- * takes in wdl object and load loads itemspecs into itemspec struct to be used by openworld 
+/* load_roomspec
+ * takes in wdl object and load loads roomspecs into roomspec struct to be used by openworld 
 *module
  *
  * parameters:
- * - dialogue_obj: the itemspec object
- * - itemspecs: the itemspec struct it is being loaded into
+ * - doc: the document object
+ * - roomspec: the roomspec struct it is being loaded into
  *
  * returns;
  * - SUCCESS for successful parse
@@ -40,13 +40,13 @@ int load_itemspecs( obj_t  *doc,  itemspec_t* itemspec);
 int load_roomspec( obj_t  *doc,  roomspec_t* roomspec );
 
 
-/* load_itemspecs
+/* load_gen_context
  * takes in wdl object and load loads itemspecs into itemspec struct to be used by openworld 
 *module
  *
  * parameters:
- * - dialogue_obj: the itemspec object
- * - itemspecs: the itemspec struct it is being loaded into
+ * - doc: the document object
+ * - gencontext: the gencontext struct it is being loaded into
  *
  * returns;
  * - SUCCESS for successful parse
@@ -55,13 +55,13 @@ int load_roomspec( obj_t  *doc,  roomspec_t* roomspec );
 int load_gen_context( obj_t  *doc,  gencontext_t* gencontext );
 
 
-/* load_itemspecs
- * takes in wdl object and load loads itemspecs into itemspec struct to be used by openworld 
+/* load_roomlevel
+ * takes in wdl object and load loads roomlevel into roomlevel struct to be used by openworld 
 *module
  *
  * parameters:
- * - dialogue_obj: the itemspec object
- * - itemspecs: the itemspec struct it is being loaded into
+ * - doc: the document object
+ * - roomlevel: the roomlevel struct it is being loaded into
  *
  * returns;
  * - SUCCESS for successful parse
@@ -70,13 +70,13 @@ int load_gen_context( obj_t  *doc,  gencontext_t* gencontext );
 int load_roomlevel ( obj_t  *doc,  roomlevel_t* roomlevel );
 
 
-/* load_itemspecs
- * takes in wdl object and load loads itemspecs into itemspec struct to be used by openworld 
+/* load_levelspecs
+ * takes in wdl object and load loads levelspecs into levelspec struct to be used by openworld 
 *module
  *
  * parameters:
- * - dialogue_obj: the itemspec object
- * - itemspecs: the itemspec struct it is being loaded into
+ * - doc: the document object
+ * - level: the levelspec struct it is being loaded into
  *
  * returns;
  * - SUCCESS for successful parse
