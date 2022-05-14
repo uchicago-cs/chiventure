@@ -128,6 +128,7 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
         float y = drawStartPos.y;
         float xtmp, ytmp, xcopy, ycopy;
         int thismove;
+        int lastmove = tracker >> (stepstotal-1);
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -194,7 +195,8 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
             tracker >>= 1;
         }
 
-
+        DrawCircleLines(x,y,squareside,RED);
+        
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
