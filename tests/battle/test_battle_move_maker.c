@@ -50,10 +50,6 @@ Test(class_moves, bard)
     cr_assert_null(ret_player->moves->user_mods, "move_new() didn't set battle_item to NULL");
 
     cr_assert_null(ret_player->moves->opponent_mods, "move_new() didn't set battle_item to NULL");
-
-    cr_assert_null(ret_player->moves->prev, "move_new() didn't set battle_item to NULL");
-
-    cr_assert_null(ret_player->moves->next, "move_new() didn't set battle_item to NULL");
 }
 
 
@@ -99,11 +95,6 @@ Test(class_moves, wizard)
     cr_assert_null(ret_player->moves->user_mods, "move_new() didn't set battle_item to NULL");
 
     cr_assert_null(ret_player->moves->opponent_mods, "move_new() didn't set battle_item to NULL");
-
-    cr_assert_null(ret_player->moves->prev, "move_new() didn't set battle_item to NULL");
-
-    cr_assert_null(ret_player->moves->next, "move_new() didn't set battle_item to NULL");
-
 }
 
 
@@ -149,8 +140,4 @@ Test(class_moves, knight)
     cr_assert_null(ret_player->moves->user_mods, "move_new() didn't set battle_item to NULL");
 
     cr_assert_null(ret_player->moves->opponent_mods, "move_new() didn't set battle_item to NULL");
-
-    cr_assert_null(ret_player->moves->prev, "move_new() didn't set battle_item to NULL");
-
-    cr_assert_null(ret_player->moves->next, "move_new() didn't set battle_item to NULL");
 }
