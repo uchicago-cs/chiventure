@@ -17,12 +17,12 @@ void runMAPGraphics();
 
 // We use a Vector2 to mockup the coordinate struct
 
-struct map_graphics() {
+typedef struct map_graphics {
     Vector2 WindowPos;
     Vector2 WindowSize;
     const char* MapImagePath;
     const char* MapTitle;
-};
+} map_graphics_t;
 
 
 

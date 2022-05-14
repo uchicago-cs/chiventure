@@ -2,14 +2,19 @@
 
 #include "raylib.h"
 
-void runMapGraphics(void)
+void runMapGraphics(map_graphics_t* info)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = (int)info->WindowSize.x;
+    const int screenHeight = (int)info->WindowSize.y;
+    int windowposx = (int)info->WindowPos.x;
+    int windowposy = (int)info->WindowPos.y;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
+    InitWindow(screenWidth, screenHeight, info->MapTitle);
+    SetWindowPosition(windowposx,windowposy);
+
+    Texture2D MapTexture = LoadTexture(info->MapImagePath);
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -28,7 +33,7 @@ void runMapGraphics(void)
 
             ClearBackground(RAYWHITE);
 
-            DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
+            DrawTexture(MapTexture,(screenWidth-MapTexture.width)/2,(screenHeight-MapTexture.height)/2,RAYWHITE);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -38,10 +43,9 @@ void runMapGraphics(void)
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
-
-    return 0;
 }
 
 int main(void) {
-    
+    //runMapGraphics();
+    return 0;
 }
