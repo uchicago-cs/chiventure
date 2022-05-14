@@ -111,7 +111,9 @@ Test(battle_print, print_player_move)
 
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    
+    /* print_battle_move only prints the moved use. Further
+        test will need to be done to account for damage,
+        stat change printing, and effects. */
     char *expected_string = "You used Punch!\n"
 
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
