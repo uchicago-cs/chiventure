@@ -86,7 +86,10 @@ Test(class_prefabs, Bard) {
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    char* skill_list[] = {"Magic Word", "Poetic Line", "Enchanted Stanza"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Magic Word", "failed to initialize skill inventory");
 }
 
 /* Tests the monk class */
@@ -98,7 +101,10 @@ Test(class_prefabs, Monk) {
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    char* skill_list[] = {"Acrobatic Powers", "Spirit of Strength", "Supernova Circle"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Acrobatic Powers", "failed to initialize skill inventory");
 }
 
 /* Tests the ranger class */
@@ -110,7 +116,10 @@ Test(class_prefabs, Ranger) {
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    char* skill_list[] = {"Close Shot", "Mid-range Shot", "Long Shot"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Close Shot", "failed to initialize skill inventory");
 }
 
 /* Tests the rogue class */
