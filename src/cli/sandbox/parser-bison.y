@@ -15,6 +15,8 @@ void yyerror(char* s);
 
 %%
 /* TODO */
+
+
 letter: CHR
       | CHR EOL { $$ = 'a'; }
 %%
@@ -33,7 +35,7 @@ int parse_string(const char* in) {
 
 int main(int argc, char **argv)
 {
-    yyparse();
+    parse_string();
 
     return 0;
 }
