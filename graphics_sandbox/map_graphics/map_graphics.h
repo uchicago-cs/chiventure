@@ -20,6 +20,7 @@ void runMAPGraphics();
 typedef struct map_graphics {
     Vector2 WindowPos;
     Vector2 WindowSize;
+    Vector2 MaxCoordinates;
     const char* MapImagePath;
     const char* MapTitle;
 } map_graphics_t;

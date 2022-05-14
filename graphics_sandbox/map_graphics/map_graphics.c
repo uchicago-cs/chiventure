@@ -15,6 +15,7 @@ void runMapGraphics(map_graphics_t* info)
     const int screenHeight = (int)info->WindowSize.y;
     int windowposx = (int)info->WindowPos.x;
     int windowposy = (int)info->WindowPos.y;
+    Vector2 playerPosition = (Vector2){screenWidth/2,screenHeight/2};
 
     InitWindow(screenWidth, screenHeight, info->MapTitle);
     SetWindowPosition(windowposx,windowposy);
@@ -31,7 +32,12 @@ void runMapGraphics(map_graphics_t* info)
         //----------------------------------------------------------------------------------
         // TODO: Update your variables here
         //----------------------------------------------------------------------------------
+        if (IsKeyDown(KEY_RIGHT)||IsKeyDown(KEY_D)) playerPosition.x += 1.0f;
+        else if (IsKeyDown(KEY_LEFT)||IsKeyDown(KEY_A)) playerPosition.x -= 1.0f;
+        else if (IsKeyDown(KEY_DOWN)||IsKeyDown(KEY_S)) playerPosition.y += 1.0f;
+        else if (IsKeyDown(KEY_UP)||IsKeyDown(KEY_W)) playerPosition.y -= 1.0f;
 
+        
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
@@ -39,6 +45,8 @@ void runMapGraphics(map_graphics_t* info)
             ClearBackground(RAYWHITE);
 
             DrawTexture(MapTexture,(screenWidth-MapTexture.width)/2,(screenHeight-MapTexture.height)/2,RAYWHITE);
+
+            DrawCircleV(playerPosition,10,RED);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
