@@ -2,6 +2,11 @@
 
 #include "raylib.h"
 
+Vector2 getCurrentCoordinate() {
+    //Todo
+    return GetMousePosition();
+}
+
 void runMapGraphics(map_graphics_t* info)
 {
     // Initialization
@@ -47,5 +52,11 @@ void runMapGraphics(map_graphics_t* info)
 
 int main(void) {
     //runMapGraphics();
+    map_graphics_t info;
+    info.WindowPos = (Vector2){200,200};
+    info.WindowSize = (Vector2) {600,600};
+    info.MapImagePath = "map_example/simplemap.png";
+    info.MapTitle = "Just a simple map";
+    runMapGraphics(&info);
     return 0;
 }
