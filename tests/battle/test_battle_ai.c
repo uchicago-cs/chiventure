@@ -194,7 +194,7 @@ move_t* expected_move_random()
     int randomish = rand() % 3;
     move_t* rock_throw = move_new(randomish, "", "", PHYS, NO_TARGET, 
                                   NO_TARGET, SINGLE, 0, NULL, 90, 100, 
-                                  NULL, NULL, NULL, NULL)
+                                  NULL, NULL, NULL, NULL);
     return rock_throw;
 }
 
