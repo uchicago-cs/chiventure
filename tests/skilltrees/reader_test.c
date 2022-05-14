@@ -9,7 +9,7 @@
 #include "skilltrees/effect.h"
 #include "test_init.h"
 
-// come back to these first three
+// TO DO : Five tests on lines 15, 18, 21, 101, 104, check test line 108 for passability 
 
 /* Test reader_effect_new */
 Test(reader_test, reader_effect_new_test)
@@ -96,11 +96,42 @@ Test(reader_test, attr_reader_effect_free_test){
     cr_assert_eq(rc, 1, "Error: failed test stat_reader_effect_free_test\n");
 }
 
-/* Test execute_reader_effect */
-Test(reader_test, execute_reader_effect_test)
 
-/* Test execute_attr_reader_effect */
-Test(reader_test, execute_attr_reader_effect_test)
+/* Test execute_reader_effect for true */
+Test(reader_test, execute_reader_effect_test_true)
 
-/* Test execute_stat_reader_effect */
-Test(reader_test, execute_stat_reader_effect_test)
+/* Test execute_reader_effect for false */
+Test(reader_test, execute_reader_effect_test_false)
+
+// Not sure this will work because of the case coverage in reader.c -- come back to this!
+/* Test execute_attr_reader_effect for true*/
+Test(reader_test, execute_attr_reader_effect_test_true){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
+    int rc = execute_reader_effect(reader, ctx);
+    cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
+}
+
+/* Test execute_attr_reader_effect for false*/
+Test(reader_test, execute_attr_reader_effect_test_false){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
+    int rc = execute_reader_effect(reader, ctx);
+    cr_assert_eq(rc, 0, "Error: failed test execute_attr_reader_effect_test for false\n");
+}
+
+/* Test execute_stat_reader_effect for true*/
+Test(reader_test, execute_stat_reader_effect_test_false){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, EQUALS, READ_PLAYER);
+    int rc = execute_stat_reader_effect(sr, ctx);
+    cr_assert_eq(rc, 1, "Error: failed test execute_stat_reader_effect_test for true\n");
+}
+
+/* Test execute_stat_reader_effect for false*/
+Test(reader_test, execute_stat_reader_effect_test_false){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, NOT, READ_PLAYER);
+    int rc = execute_stat_reader_effect(sr, ctx);
+    cr_assert_eq(rc, 0, "Error: failed test execute_stat_reader_effect_test for false\n");
+}
