@@ -307,7 +307,7 @@ int roomspec_free(roomspec_t *spec);
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_specgraph(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges);
+int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
 
 /* specgraph_new
@@ -320,7 +320,7 @@ int init_specgraph(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 * specgraph_t *listnew = the new specgraph
 * NULL - if failed to create a specgraph
 */
-specgraph_t* specgraph_new(roomspec_t *spec);
+specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
 /* specgraph_free
 * Frees a specgraph_t struct and returns whether or not it was successful
