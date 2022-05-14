@@ -206,7 +206,7 @@ int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 /* see gen_structs.h */
 specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges)
 {
-    specgraph_t *specnew = (*specgraph_t)malloc(sizeof(specgraph_t));
+    specgraph_t *specnew = (specgraph_t*)malloc(sizeof(specgraph_t));
 
     if (specnew == NULL) {
         fprintf(stderr, "calloc failed to allocate space for specnew. \n");
@@ -218,13 +218,12 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 }
 
 /* see gen_structs.h */
-/*int specgraph_free(specgraph_t *list)
+/*int specgraph_free(specgraph_t *specgraph);
 {
-
-    if (list == NULL)
+    if (specgraph == NULL)
         return FAILURE;
 
-    free(list);
+    free(specgraph);
     return SUCCESS;
 }*/
 
