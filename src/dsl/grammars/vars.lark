@@ -35,5 +35,6 @@ other: /[^\$]+/
 %import .util._STRING_ESC_INNER
 %import .util.STRING
 
+%import common.INT
 %import common.WS_INLINE
 %ignore WS_INLINE
