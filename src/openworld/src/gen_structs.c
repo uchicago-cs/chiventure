@@ -218,14 +218,28 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 }
 
 /* see gen_structs.h */
-/*int specgraph_free(specgraph_t *specgraph);
+int specgraph_free(specgraph_t *specgraph)
 {
     if (specgraph == NULL)
         return FAILURE;
+    //Free the roomspecs
+    int num_roomspecs=specgraph->num_roomspecs;
+    for(int i=0, i<num_roomspecs, i++){
+        free((specgraph->roomspecs)[i]);
+    }
+    free(specgraph->roomspecs);
 
+    //Free the adjacency matrix
+    for(int i=0; i<num_roomspecs, i++){
+        free((specgraph->edges)[i]);
+    }
+    free(specgraph->edges);
+
+    //Free specgraph itself
     free(specgraph);
+
     return SUCCESS;
-}*/
+}
 
 /* see gen_structs.h */
 /*int specgraph_free_all(specgraph_t *list)

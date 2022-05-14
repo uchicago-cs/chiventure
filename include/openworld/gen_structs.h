@@ -298,9 +298,9 @@ int roomspec_free(roomspec_t *spec);
 * must be pointing to some valid memory.
 *
 * parameters:
-* - specgraph: the pointer to the specgraph_t we are initializing
+* - specgraph_t *specgraph: the pointer to the specgraph_t we are initializing
 * - int num_roomspecs: the number of roomspecs in the graph
-* - roomspec_t **roomspecs: an array of pointers to the roomspecs 
+* - roomspec_t **roomspecs: An array of pointers to the roomspecs 
 * - int **edges: A 2D array representing the weights in the adjacency matrix
 *
 * returns:
@@ -314,7 +314,9 @@ int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 * Creates a new heap-allocated specgraph_t struct with the given paramaters.
 *
 * parameters:
-* - spec: the pointer to the roomspec_t
+* - int num_roomspecs: the number of roomspecs in the graph
+* - roomspec_t **roomspecs: An array of pointers to the roomspecs 
+* - int **edges: A 2D array representing the weights in the adjacency matrix
 *
 * returns:
 * specgraph_t *specgraph = the new specgraph
@@ -323,7 +325,7 @@ int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
 /* specgraph_free
-* Frees a specgraph_t struct and returns whether or not it was successful
+* Frees a specgraph_t struct and all associated memory and returns whether or not it was successful
 *
 * parameters:
 * - specgraph: the pointer to the specgraph_t we are freeing
