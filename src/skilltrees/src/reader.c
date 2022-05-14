@@ -59,12 +59,12 @@ stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type,
     int rc;
 
     reader = (stat_reader_effect_t*)malloc(sizeof(stat_reader_effect_t));
-    if (skill == NULL) {
+    if (reader == NULL) {
         fprintf(stderr, "stat_reader_effect_new: memory allocation failed\n");
         return NULL;
     }
 
-    rc = int reader_effect_init(reader,stat_type, value, comp, location);
+    rc = int stat_reader_effect_init(reader,stat_type, value, comp, location);
 
     if (rc) {
         fprintf(stderr, "stat_reader_effect_init: initialization failed\n");
@@ -89,6 +89,48 @@ int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stat_type_t 
 
 /*See reader.h*/
 int stat_reader_effect_free(stat_reader_effect* reader){
+    assert(reader != NULL);
+
+    free(reader);
+
+    return SUCCESS;
+}
+
+/*See reader.h*/
+attr_reader_effect_t* attr_reader_effect_new(char *value, int str_len, reader_location_t location){
+    attr_reader_effect_t* reader;
+    int rc;
+
+    reader = (attr_reader_effect_t*)malloc(sizeof(attr_reader_effect_t));
+    if (reader == NULL) {
+        fprintf(stderr, "attr_reader_effect_new: memory allocation failed\n");
+        return NULL;
+    }
+
+    rc = int attr_reader_effect_init(reader, value, str_len, location);
+
+    if (rc) {
+        fprintf(stderr, "attr_reader_effect_init: initialization failed\n");
+        return NULL;
+    }
+
+    return reader;
+}
+
+/*See reader.h*/
+int attr_reader_effect_init(attr_reader_effect_t* reader,char *value,
+                            int str_len, reader_location_t location){
+    assert(reader != NULL);
+
+    reader->value = value;
+    reader->str_len = str_len;
+    reader->location = location;
+
+    return SUCCESS;
+}
+
+/*See reader.h*/
+int attr_reader_effect_free(attr_reader_effect* reader){
     assert(reader != NULL);
 
     free(reader);

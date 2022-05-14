@@ -76,7 +76,6 @@ typedef struct skill {
 
 } skill_t;
 
-
 typedef struct attr_reader_effect{
     char* value;
 

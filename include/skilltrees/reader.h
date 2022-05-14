@@ -61,7 +61,7 @@ stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type,
                       comparison_t comp, reader_location_t location);
 
 /*
- * Initalizes a reader
+ * Initalizes a statistic reader
  *
  * Parameters:
  *  - reader: Pointer to the stat reader being initalized
@@ -85,6 +85,45 @@ int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stat_type_t 
  *  - 1 if freed succesfully, 0 if failure
  */
 int stat_reader_effect_free(stat_reader_effect* reader);
+
+/*
+ * Allocates an attribute reader in the heap.
+ *
+ * Parameters:
+ *  - value: string being compared
+ *  - str_len: the length of the value string
+ *  - location: Location of value being compared
+ *
+ * Returns:
+ *  - A pointer to the attribute reader, or NULL if reader cannot be allocated
+ */
+attr_reader_effect_t* attr_reader_effect_new(char *value, int str_len, reader_location_t location);
+
+/*
+ * Initalizes an attribute reader
+ *
+ * Parameters:
+ *  - reader: Pointer to the attribute reader being initalized
+ *  - value: string being compared
+ *  - str_len: length of string
+ *  - location: Location of value being compared
+ *
+ * Returns:
+ *  - 1 if initalized succesfully, 0 if failure
+ */
+int attr_reader_effect_init(attr_reader_effect_t* reader,char *value,
+                            int str_len, reader_location_t location);
+
+/*
+ * Frees an attribute reader in the heap.
+ *
+ * Parameters:
+ *  - reader: Pointer to the attribute reader being freed
+ *
+ * Returns:
+ *  - 1 if freed succesfully, 0 if failure
+ */
+int attr_reader_effect_free(attr_reader_effect* reader);
 
 /*
  * Reads a reader effect
