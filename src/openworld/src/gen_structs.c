@@ -213,7 +213,7 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
         return NULL;
     }
 
-    specgraph_init(specnew, num_roomspecs, num_roomspecs, edges);
+    specgraph_init(specnew, num_roomspecs, roomspecs, edges);
     return specnew;
 }
 
