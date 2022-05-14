@@ -23,22 +23,37 @@ Test(class_moves, bard)
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
-    cr_assert_null(ret_player->moves->item,
-                   "add_class_move() didn't set battle_item to NULL");
-   
-    cr_assert_eq(ret_player->moves->id, 0, "add_class_move() didn't set id");
+    cr_assert_eq(ret_player->moves->id, 100, "move_new() didn't set move id");
 
-    cr_assert_str_eq(ret_player->moves->info, "Diss Track",
-                    "add_class_move() didn't set move/spell info");
+    cr_assert_str_eq(ret_player->moves->name, "",
+                     "move_new() didn't set move info");
 
-    cr_assert(ret_player->moves->attack,
-             "add_class_move() didn't set attack to true");
+    cr_assert_str_eq(ret_player->moves->info, "Diss track",
+                     "move_new() didn't set move info");
 
-    cr_assert_eq(ret_player->moves->damage, 80,
-                 "add_class_move() didn't set damage");
+    cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->defense, 0,
-                 "add_class_move() didn't set defense");
+    cr_assert_eq(ret_player->moves->stat_mods, NO_TARGET, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->effects, NO_TARGET, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->count, 0, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->sp_cost, 10, "move_new() didn't set move id");
+
+    cr_assert_null(ret_player->moves->req_item, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_eq(ret_player->moves->damage, 15, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->accuracy, 100, "move_new() didn't set move id");
+
+    cr_assert_null(ret_player->moves->user_mods, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->opponent_mods, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->prev, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->next, "move_new() didn't set battle_item to NULL");
 }
 
 
@@ -57,22 +72,38 @@ Test(class_moves, wizard)
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
-    cr_assert_null(ret_player->moves->item,
-                   "add_class_move() didn't set battle_item to NULL");
+    cr_assert_eq(ret_player->moves->id, 130, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->id, 1, "add_class_move() didn't set id");
+    cr_assert_str_eq(ret_player->moves->name, "",
+                     "move_new() didn't set move info");
 
     cr_assert_str_eq(ret_player->moves->info, "Fireball",
-                    "add_class_move() didn't set move/spell info");
+                     "move_new() didn't set move info");
 
-    cr_assert(ret_player->moves->attack,
-             "add_class_move() didn't set attack to true");
+    cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->damage, 100,
-                 "add_class_move() didn't set damage");
+    cr_assert_eq(ret_player->moves->stat_mods, NO_TARGET, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->defense, 0,
-                 "add_class_move() didn't set defense");
+    cr_assert_eq(ret_player->moves->effects, NO_TARGET, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->count, 0, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->sp_cost, 10, "move_new() didn't set move id");
+
+    cr_assert_null(ret_player->moves->req_item, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_eq(ret_player->moves->damage, 10, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->accuracy, 100, "move_new() didn't set move id");
+
+    cr_assert_null(ret_player->moves->user_mods, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->opponent_mods, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->prev, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->next, "move_new() didn't set battle_item to NULL");
+
 }
 
 
@@ -91,20 +122,35 @@ Test(class_moves, knight)
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
-    cr_assert_null(ret_player->moves->item,
-                   "add_class_move() didn't set battle_item to NULL");
+    cr_assert_eq(ret_player->moves->id, 130, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->id, 2, "add_class_move() didn't set id");
+    cr_assert_str_eq(ret_player->moves->name, "",
+                     "move_new() didn't set move info");
 
-    cr_assert_str_eq(ret_player->moves->info, "Sword Slash",
-                    "add_class_move() didn't set move/spell info");
+    cr_assert_str_eq(ret_player->moves->info, "Fireball",
+                     "move_new() didn't set move info");
 
-    cr_assert(ret_player->moves->attack,
-             "add_class_move() didn't set attack to true");
+    cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->damage, 90,
-                 "add_class_move() didn't set damage");
+    cr_assert_eq(ret_player->moves->stat_mods, NO_TARGET, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->defense, 0,
-                 "add_class_move() didn't set defense");
+    cr_assert_eq(ret_player->moves->effects, NO_TARGET, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->count, 0, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->sp_cost, 10, "move_new() didn't set move id");
+
+    cr_assert_null(ret_player->moves->req_item, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_eq(ret_player->moves->damage, 10, "move_new() didn't set move id");
+
+    cr_assert_eq(ret_player->moves->accuracy, 100, "move_new() didn't set move id");
+
+    cr_assert_null(ret_player->moves->user_mods, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->opponent_mods, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->prev, "move_new() didn't set battle_item to NULL");
+
+    cr_assert_null(ret_player->moves->next, "move_new() didn't set battle_item to NULL");
 }
