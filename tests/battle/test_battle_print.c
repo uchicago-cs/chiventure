@@ -17,7 +17,8 @@ Test(battle_print, print_start_battle)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -43,7 +44,8 @@ Test(battle_print, print_hp_one_enemy)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    move_t *move = move_new("Test", 0, NULL, true, 80, 0);
+    move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -92,7 +94,8 @@ Test(battle_print, print_player_move)
     enemy_stats->speed = 9;
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
+    move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -109,9 +112,7 @@ Test(battle_print, print_player_move)
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
     
-    char *expected_string = "You used Punch! It did 9 damage.\n"
-                            "-- Your HP: 50\n"
-                            "-- bob's HP: 21\n";
+    char *expected_string = "You used Punch!\n"
 
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
 
@@ -142,7 +143,8 @@ Test(battle_print, print_player_move_crit)
     enemy_stats->speed = 9;
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
+    move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -159,9 +161,7 @@ Test(battle_print, print_player_move_crit)
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
     
-    char *expected_string = "You used Punch! It did 14 damage.\n"
-                            "-- Your HP: 50\n"
-                            "-- bob's HP: 16\n";
+    char *expected_string = "You used Punch!\n";
 
     cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s\n. We got %s", string, expected_string);
 
@@ -192,7 +192,8 @@ Test(battle_print, print_player_move_miss)
     enemy_stats->speed = 9;
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
+    move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -242,7 +243,8 @@ Test(battle_print, print_enemy_move)
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
-    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
+    move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
     npc_enemy->npc_battle = npc_b;
@@ -258,9 +260,7 @@ Test(battle_print, print_enemy_move)
     b->player->stats->hp = 42;
     char* string = print_battle_move(b, ENEMY, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    char *expected_string = "bob used Laugh! It did 8 damage.\n"
-                            "-- Your HP: 42\n"
-                            "-- bob's HP: 30\n";
+    char *expected_string = "bob used Laugh!\n"
 
     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string %s", string);
 
