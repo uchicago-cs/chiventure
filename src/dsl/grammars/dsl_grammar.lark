@@ -21,7 +21,9 @@ connection: phrase "TO" phrase
 
 npc: _NL "NPC" id "IN" location property* item* dialogue
 
-dialogue: _NL "DIALOGUE" 
+dialogue: _NL "DIALOGUE" node*
+node: "NODE" id edge* property
+edge: "EDGE" id "TO" id property
 
 
 id: phrase
