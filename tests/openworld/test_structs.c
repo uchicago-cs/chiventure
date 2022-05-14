@@ -145,7 +145,7 @@ Test(specgraph, free2)
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     roomspec_t *roomspecs[3]={spec1, spec2, spec3};
 
-    int edges[3][3]=[3, 4, 5][0, 2, 3][4, 3, 2];
+    int edges[3][3]={3, 4, 5}{0, 2, 3}{4, 3, 2};
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
