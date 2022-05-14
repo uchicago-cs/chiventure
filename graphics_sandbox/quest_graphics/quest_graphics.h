@@ -14,6 +14,19 @@ struct task_tree_mockup {
 };
 
 
+typedef struct pos_in_tree {
+    /*
+     * Every bit denotes a movement,
+     * 1 means going to the right;
+     * 0 means going down
+     * Start from the first bit
+     */
+    int movement_tracker;
+    // Tallying the total number of steps
+    char totalsteps;
+} pos_int_tree_t;
+
+
 int getTreeMaxWidth(task_tree_mockup_t* taskTree);
 
 int getTreeMaxHeight(task_tree_mockup_t* taskTree);

@@ -12,7 +12,7 @@ int getTreeMaxHeight(task_tree_mockup_t* taskTree) {
     return 3;
 }
 
-task_tree_mockup_t* synthesizeTest() {
+task_tree_mockup_t* synthesizeTest1() {
     task_tree_mockup_t *TreeA = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
     task_tree_mockup_t *TreeB = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
     task_tree_mockup_t *TreeC = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
@@ -37,7 +37,7 @@ task_tree_mockup_t* synthesizeTest() {
     TreeC->parent=NULL;
     TreeD->task_name="D";
     TreeD->rsibling=NULL;
-    TreeD->lmostchild=TreeG;
+    TreeD->lmostchild=NULL;
     TreeD->parent=NULL;
     TreeE->task_name="E";
     TreeE->rsibling=NULL;
@@ -64,9 +64,14 @@ task_tree_mockup_t* synthesizeTest() {
 
 }
 
+int findTask(task_tree_mockup_t* taskTree, char* wanted_task_name) {
+
+    
+
+}
 
 
-void drawTaskTree(task_tree_mockup_t* taskTree, double widthSegment, 
+void drawTaskTree(task_tree_mockup_t* taskTree, char* current_task_name, double widthSegment, 
                   double heightSegment,Vector2 startPos) 
 {
     
