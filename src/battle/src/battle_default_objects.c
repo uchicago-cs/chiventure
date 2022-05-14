@@ -188,15 +188,15 @@ battle_item_t *get_random_default_consumable()
 /* See battle_default_objects.h */
 move_t *get_random_default_move()
 {
-    int rand = randnum(1,10) - 1;
+    int rand = randnum(1,10);
     char *name_array[] = {"SLAP", "JAB", "KICK", "HEADBUTT", "GRAPPLE", 
                           "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
 
     battle_item_t *item = get_random_default_consumable();
-    int id = rand + 1;
-    int info_len = strlen(name_array[rand]);
+    int id = rand;
+    int info_len = strlen(name_array[rand - 1]);
     char* info = (char*)calloc(info_len + 1, sizeof(char));
-    strncpy(info, name_array[rand], info_len + 1);
+    strncpy(info, name_array[rand - 1], info_len + 1);
     //bool attack = true;
     int damage = rand * 5 + 40;
     //int defense = rand * 10 + 5;
