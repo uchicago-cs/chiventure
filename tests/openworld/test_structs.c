@@ -117,6 +117,9 @@ Test(specgraph, new2)
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
     cr_assert_not_null(specgraph, "failed to create new specgraph_t\n");
+    cr_assert_eq(specgraph->num_roomspecs, 3, "specgraph_new() failed gathering num_roomspecs");
+    cr_assert_eq(specgraph->roomspecs, roomspecs, "specgraph_new() failed gathering roomspecs");
+    cr_assert_eq(specgraph->edges, edges, "specgraph_new() failed gathering edges");
 }
 
 /* Tests the specgraph_init function to validate that a specgraph can
