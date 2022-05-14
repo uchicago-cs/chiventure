@@ -1,6 +1,7 @@
 #include "quest_graphics.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 int getTreeMaxWidth(task_tree_mockup_t* taskTree) {
     //To do
@@ -85,7 +86,7 @@ pos_in_tree_t* getTaskPos(task_tree_mockup_t* taskTree, char* wanted_task_name) 
 
 void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize,          
                         Vector2 segmentDimension, char*current_task_name, float squareside,
-                        Vector2 drawStartPos)
+                        Vector2 drawStartPos, bool showRemainingHorizontal)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -125,7 +126,7 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
         int tracker = pos_data->movement_tracker;
         float x = drawStartPos.x;
         float y = drawStartPos.y;
-        float xtmp, ytmp;
+        float xtmp, ytmp, xcopy, ycopy;
         int thismove;
 
         // Draw
@@ -152,6 +153,20 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
         for(int i = 0; i < stepstotal; i++) {
             thismove = tracker & 1;
             if (thismove == 0) {
+                if (showRemainingHorizontal) {
+                    task_tree_mockup_t* copy = current_taskTree;
+                    xcopy = x;
+                    ycopy = y;
+                    while ((copy = copy->rsibling)) {
+                        xcopy += squareside/2;
+                        xtmp = xcopy;
+                        xcopy += widthSegment;
+                        DrawLine(xtmp, ycopy, xcopy, ycopy, BLACK);
+                        DrawRectangleLines(xcopy,ycopy-(squareside/2),squareside,squareside,BLACK);
+                        DrawText(copy->task_name,xcopy+(squareside*0.3),(ycopy-squareside*0.2),20,BLACK);
+                        xcopy += squareside/2;
+                    }
+                }
                 if((current_taskTree = current_taskTree->lmostchild)) {
                     y += squareside/2;
                     ytmp = y;
@@ -196,7 +211,7 @@ int main() {
     task_tree_mockup_t *TreeA = synthesizeTest1();
 
     runTaskTreeGraphics(TreeA, (Vector2){80,80},(Vector2){600,400},
-                        (Vector2){50,50},"F",30,(Vector2){150,150});
+                        (Vector2){50,50},"F",30,(Vector2){150,150}, true);
     //Free
     return 0;
 }
