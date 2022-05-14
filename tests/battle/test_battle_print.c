@@ -118,10 +118,11 @@ Test(battle_print, print_player_move)
     /* print_battle_move only prints the moved use. Further
         test will need to be done to account for damage,
         stat change printing, and effects. */
-    char *expected_string = "You used Punch!";
+    char *expected_string = "You used Punch! ";
 
-    cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
-
+    cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s"
+                                                  " Instead got %s\n", 
+                                                expected_string, string);
     free(string);
 }
 
@@ -171,7 +172,7 @@ Test(battle_print, print_player_move_crit)
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
     
-    char *expected_string = "You used Punch!";
+    char *expected_string = "You used Punch! ";
 
     cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s\n. We got %s", string, expected_string);
 
@@ -278,9 +279,11 @@ Test(battle_print, print_enemy_move)
     b->player->stats->hp = 42;
     char* string = print_battle_move(b, ENEMY, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    char *expected_string = "bob used Laugh!";
+    char *expected_string = "bob used Laugh! ";
 
-    cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string %s."
+                                              " Instead got %s\n", 
+                                                expected_string, string);
 
     free(string);
 }
