@@ -111,4 +111,22 @@ int award_xp(stat_t *stats, double xp);
  */
 int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
 
+/* Finds the actions (items and moves) that are available to the player to use
+ * in a given turn component
+ *
+ * Parameters:
+ * - items: an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - moves an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - comp: the current turn_component_t struct
+ * - battle: the current battle_t struct
+ * 
+ * Returns:
+ * - populates the linked lists of moves and items with the available moves and items
+ *   leaves the lists NULL if there are no available moves or items respectively
+ */
+void get_legal_actions(battle_item_t *items, 
+                       move_t *moves, 
+                       turn_component_t comp, 
+                       battle_t *battle);
+
 #endif
