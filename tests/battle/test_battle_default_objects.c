@@ -211,7 +211,7 @@ Test(battle_default_objects, default_moves)
     else if (id == 4)
     {
         // HEADBUTT
-        cr_assert_str_eq(test_move->info, "headbutt", "get_random_default_move() did not set info correctly");
+        cr_assert_str_eq(test_move->info, "HEADBUTT", "get_random_default_move() did not set info correctly");
 
         cr_assert_eq(test_move->damage, 60, "get_random_default_move() did not set damage correctly");
                                            
