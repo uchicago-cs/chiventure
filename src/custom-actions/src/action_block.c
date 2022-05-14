@@ -57,6 +57,12 @@ AST_block_t *AST_action_block_new(action_enum_t action_type, int num_args,
         return NULL;
     }
 
+    if (ast == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory\n");
+        return NULL;
+    }
+
     new_action = action_block_init(action, action_type, num_args, action_params);
     if (new_action != SUCCESS)
     {
@@ -65,6 +71,13 @@ AST_block_t *AST_action_block_new(action_enum_t action_type, int num_args,
     }
 
     block_t *block = malloc(sizeof(block));
+
+    if (block == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory\n");
+        return NULL;
+    }
+
     block->action_block = action;
     ast = AST_block_new(block, block_type);
     return ast;

@@ -17,8 +17,8 @@ Test(action_block_t, new_SET)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -51,8 +51,8 @@ Test(action_block_t, new_SAY)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -85,8 +85,8 @@ Test(action_block_t, new_TELEPORT)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -119,8 +119,8 @@ Test(action_block_t, new_ADDITION)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -153,8 +153,8 @@ Test(action_block_t, new_GEN)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -187,8 +187,8 @@ Test(action_block_t, new_EXEC)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -221,8 +221,8 @@ Test(AST_action_block_t, new_ast_SET)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -258,8 +258,8 @@ Test(AST_action_block_t, new_ast_SAY)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -295,8 +295,8 @@ Test(AST_action_block_t, new_ast_TELEPORT)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -332,8 +332,8 @@ Test(AST_action_block_t, new_ast_ADDITION)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh; 
@@ -369,8 +369,8 @@ Test(AST_action_block_t, new_ast_GEN)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -406,8 +406,8 @@ Test(AST_action_block_t, new_ast_EXEC)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -445,8 +445,8 @@ Test(action_block_t, init_SET)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -477,8 +477,8 @@ Test(action_block_t, init_SAY)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -509,8 +509,8 @@ Test(action_block_t, init_MOVE)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -541,8 +541,8 @@ Test(action_block_t, init_ADDITION)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -573,8 +573,8 @@ Test(action_block_t, init_GEN)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -605,8 +605,8 @@ Test(action_block_t, init_EXEC)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -637,8 +637,8 @@ Test(action_block_t, free_SET)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -668,8 +668,8 @@ Test(action_block_t, free_SAY)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -699,8 +699,8 @@ Test(action_block_t, free_TELEPORT)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -730,8 +730,8 @@ Test(action_block_t, free_ADDITION)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -761,8 +761,8 @@ Test(action_block_t, free_GEN)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -792,8 +792,8 @@ Test(action_block_t, free_EXEC)
     attribute_value_t attribute_value;
     attribute_value.int_val = 1;
     action_param_t *action_params = malloc(sizeof(action_param_t));
-    attribute_t** args = malloc(sizeof(attribute_t*));
-    attribute_t* arg = malloc(sizeof(attribute_t));
+    attribute_t **args = malloc(sizeof(attribute_t*));
+    attribute_t *arg = malloc(sizeof(attribute_t));
     args[0] = arg; 
     action_params->args = args; 
     UT_hash_handle hh = hh;
@@ -841,16 +841,16 @@ Test(exec_action_block, set)
     val3.char_val = 'b';
     attr3->attribute_value = val3;
 
-    args1 = (attribute_t **)malloc(sizeof(attribute_t *) * 2);
+    args1 = (attribute_t**)malloc(sizeof(attribute_t*) * 2);
     args1[0] = attr1;
     args1[1] = attr2;
 
-    args2 = (attribute_t **)malloc(sizeof(attribute_t *) * 2);
+    args2 = (attribute_t**)malloc(sizeof(attribute_t*) * 2);
     args2[0] = attr1;
     args2[1] = attr3;
 
-    action_params1 = (action_param_t *)malloc(sizeof(action_param_t));
-    action_params2 = (action_param_t *)malloc(sizeof(action_param_t));
+    action_params1 = (action_param_t*)malloc(sizeof(action_param_t));
+    action_params2 = (action_param_t*)malloc(sizeof(action_param_t));
 
     action_params1->args = args1;
     action_params2->args = args2;
@@ -910,18 +910,18 @@ void test_arithmetic_act(int i1, int i2, int exp, action_enum_t op)
     val4.int_val = 0;
     attr4->attribute_value = val4;
 
-    args1 = (attribute_t **)malloc(sizeof(attribute_t *) * 3);
+    args1 = (attribute_t**)malloc(sizeof(attribute_t*) * 3);
     args1[0] = attr1;
     args1[1] = attr2;
     args1[2] = attr4;
 
-    args2 = (attribute_t **)malloc(sizeof(attribute_t *) * 3);
+    args2 = (attribute_t**)malloc(sizeof(attribute_t*) * 3);
     args2[0] = attr1;
     args2[1] = attr3;
     args2[2] = attr4;
 
-    action_params1 = (action_param_t *)malloc(sizeof(action_param_t));
-    action_params2 = (action_param_t *)malloc(sizeof(action_param_t));
+    action_params1 = (action_param_t*)malloc(sizeof(action_param_t));
+    action_params2 = (action_param_t*)malloc(sizeof(action_param_t));
 
     action_params1->args = args1;
     action_params2->args = args2;
@@ -1014,18 +1014,18 @@ Test(exec_action_block, gen)
     val4.int_val = 0;
     attr4->attribute_value = val4;
 
-    args1 = (attribute_t **)malloc(sizeof(attribute_t *) * 3);
+    args1 = (attribute_t**)malloc(sizeof(attribute_t*) * 3);
     args1[0] = attr1;
     args1[1] = attr2;
     args1[2] = attr4;
 
-    args2 = (attribute_t **)malloc(sizeof(attribute_t *) * 3);
+    args2 = (attribute_t**)malloc(sizeof(attribute_t*) * 3);
     args2[0] = attr1;
     args2[1] = attr3;
     args2[2] = attr4;
 
-    action_params1 = (action_param_t *)malloc(sizeof(action_param_t));
-    action_params2 = (action_param_t *)malloc(sizeof(action_param_t));
+    action_params1 = (action_param_t*)malloc(sizeof(action_param_t));
+    action_params2 = (action_param_t*)malloc(sizeof(action_param_t));
 
     action_params1->args = args1;
     action_params2->args = args2;
@@ -1092,13 +1092,13 @@ Test(exec_action_block, teleport)
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                               "returned FAILURE with action type GEN");
+                               "returned FAILURE with action type TELEPORT");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
                                "invalid number of arguments");
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                               "returned FAILURE with action type GEN");
+                               "returned FAILURE with action type TELEPORT");
     cr_assert_str_eq(game1->curr_room->room_id, room2->room_id,
                      "Expected curr_room to be room2"
                      "returned a different room with action type TELEPORT");

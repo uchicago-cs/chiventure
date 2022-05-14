@@ -114,18 +114,6 @@ int gen_attrval(int min, int max, attribute_t *a);
  *  - SUCCEEDS/FAILS int status code
  *
  * int say_phrase(attribute_t *a);
- *
- *
- *
- * move_player - move player to a room
- *
- * Arguments
- *  - p: player
- *  - r: destination room
- *
- * Returns
- *  - SUCCEEDS/FAILS int status code
- */
-int move_player(game_t *game, room_t *r);
+ */ 
 
 #endif /* CUSTOM_ACTIONS_EFFECT_H */

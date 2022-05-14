@@ -82,7 +82,7 @@ AST_block_t *AST_action_block_new(action_enum_t action_type, int num_args,
  * - action block. Must point to already allocated memory.
  * - enum representing the action type
  * - integer containing the number of arguments
- * - pointer to a list of action parameters
+ * - pointer to a struct of action parameters
  *
  * Returns:
  * - SUCCESS if success, FAILURE if error occurs
