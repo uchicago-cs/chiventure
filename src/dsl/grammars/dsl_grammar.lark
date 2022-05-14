@@ -25,11 +25,19 @@ location: phrase
 
 phrase: STRING+
 
+class: _NL "CLASS" id property* attribute* base_stats*
+
+attribute: _NL phrase "SET" ("TRUE"|"FALSE")
+
+base_stats: _NL phrase "CURRENT" INTEGER "MAX" INTEGER
+
 // NEWLINE(s), whitespace, and comments
 _NL: ( /(\r?\n[\t ]*)/ | COMMENT) +
 
 %import .util.STRING
 %import .util.ESCAPED_STRING
+
+%import common.INT
 
 %import .util.COMMENT
 %ignore COMMENT
