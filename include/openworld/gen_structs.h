@@ -309,7 +309,6 @@ int roomspec_free(roomspec_t *spec);
 */
 int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
-
 /* specgraph_new
 * Creates a new heap-allocated specgraph_t struct with the given paramaters.
 *
@@ -348,8 +347,6 @@ int specgraph_free(specgraph_t *specgraph);
 * FAILURE - if failed to free
 */
 int specgraph_free_all(specgraph_t *list);
-
-
 
 /* roomlevel */
 
