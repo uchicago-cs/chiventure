@@ -64,22 +64,66 @@ task_tree_mockup_t* synthesizeTest1() {
 
 }
 
-int findTask(task_tree_mockup_t* taskTree, char* wanted_task_name) {
+pos_in_tree_t* getTaskPos(task_tree_mockup_t* taskTree, char* wanted_task_name) {
 
-    
+    pos_in_tree_t *res = (pos_in_tree_t *)malloc(sizeof(pos_in_tree_t));
+    res->movement_tracker = 5;
+    res->totalsteps = 4;
 
+    return res;
 }
 
 
-void drawTaskTree(task_tree_mockup_t* taskTree, char* current_task_name, double widthSegment, 
-                  double heightSegment,Vector2 startPos) 
+void drawTaskTree(task_tree_mockup_t* taskTree, char* current_task_name, float widthSegment, 
+                  float heightSegment,Vector2 startPos, float squareside) 
 {
-    
+    pos_in_tree_t* pos_data = getTaskPos(taskTree, current_task_name);
+    task_tree_mockup_t* current_taskTree = taskTree;
+    char stepsremaining = pos_data->totalsteps;
+    int tracker = pos_data->movement_tracker;
+    float x = startPos.x;
+    float y = startPos.y;
+    float xtmp, ytmp;
+
+    DrawRectangleLines(x,y,squareside,squareside,BLACK);
+    DrawText(current_taskTree->task_name,xtmp+(squareside*0.1),y+(squareside*0.5),20,BLACK);
+
+    while(stepsremaining > 0) {
+        int thismove = tracker & 1;
+        if (thismove == 0) {
+            float xloop = x;
+            float yloop = y;
+
+            //Draw the whole horizontal line
+            //Draw the task names
+            current_taskTree = current_taskTree->lmostchild;
+            ytmp = y;
+            y += heightSegment;
+            DrawLine(x, ytmp, x, y, BLACK);
+            DrawRectangleLines(xtmp-(squareside/2),y,squareside,squareside,BLACK);
+            DrawText(current_taskTree->task_name,xtmp-(squareside*0.4),y+(squareside*0.5),20,BLACK);
+            y += squareside;
+
+        }
+
+        if (thismove == 1) {
+            current_taskTree = current_taskTree->rsibling;
+            xtmp = x;
+            x += widthSegment;
+            DrawLine(xtmp, y, x, y, BLACK);
+            DrawRectangleLines(xtmp,y+(squareside/2),squareside,squareside,BLACK);
+            DrawText(current_taskTree->task_name,xtmp+(squareside*0.1),y,20,BLACK);
+            x += squareside;
+        }  
+        stepsremaining --;
+        tracker = tracker>>1;
+    }
 
 }
 
 
-void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize)
+void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize,          
+                        char*current_taskname)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -125,6 +169,8 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
 
             DrawText(TextFormat("xp: %02i", xp), 20, 80, 20, BLUE);
 
+            drawTaskTree(taskTree,"F",20,20,(Vector2){50,50},10);
+
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
@@ -138,7 +184,9 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
 
 
 int main() {
-    task_tree_mockup_t* taskTree = synthesizeTest();
-    runTaskTreeGraphics(taskTree, (Vector2){50,80},(Vector2){600,400});
+    task_tree_mockup_t* taskTree = synthesizeTest1();
+    runTaskTreeGraphics(taskTree, (Vector2){50,80},(Vector2){600,400},"F");
+    task_tree_mockup_t* next;
+    //Free
     return 0;
 }
