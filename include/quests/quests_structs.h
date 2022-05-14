@@ -6,7 +6,6 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
-#include "game-state/player.h"
 
 /* Forward declaration */
 typedef struct npc npc_t;
@@ -48,14 +47,14 @@ typedef struct active_mission {
 } active_mission_t;
 
 /*
- * This union represents a mission. Can be used to create a task.
+ * This struct represents a mission. Can be used to create a task.
  * 
  * Components:
  *  a_mission: an active mission
  *  p_mission: a passive mission
  *
  */
-typedef union mission {
+typedef struct mission {
     active_mission_t *a_mission;
     passive_mission_t *p_mission;
 } mission_t;
@@ -79,13 +78,11 @@ typedef struct reward {
  *  mission: mission to be completed
  *  id: string identifier for the task
  *  reward: reward for completing the task.
- *  completed: bool for if task is completed
  */
 typedef struct task {
     mission_t *mission;
     char *id;
     reward_t *reward;
-    bool completed;     //0 is not completed, 1 is completed
 } task_t;
 
 /*
@@ -124,17 +121,12 @@ typedef struct stat_req {
  *                   tasks that make up a quest
  * reward: reward of the quest is either experience, an item, or both
  * stat_req: stat requirement for the quest
- * status: -1: failed quest
- *          0: quest has not been started
- *          1: quest has been started but not completed
- *          2: quest has been completed
  */
 typedef struct quest  {
     char *quest_id;
     task_tree_t *task_tree;
     reward_t *reward;
     stat_req_t *stat_req;
-    int status;  
     UT_hash_handle hh;
 } quest_t;
 
