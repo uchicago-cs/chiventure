@@ -332,7 +332,7 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to free
 */
-int specgraph_free(specgraph_t *list);
+int specgraph_free(specgraph_t *specgraph);
 
 /* specgraph_free_all
 * Frees all specgraph's from the given list
