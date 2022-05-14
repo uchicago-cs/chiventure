@@ -27,8 +27,9 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 
      return move;
  }
+*/
 
-* Creates + initializes a battle_item*
+/* Creates + initializes a battle_item */
  battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
             bool battle, int attack, int defense, int hp)
  {
@@ -45,7 +46,6 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 
      return item;
  }
-*/
 
 /* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats_norm()
