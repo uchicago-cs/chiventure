@@ -49,8 +49,7 @@ enum action_kind {
 /* Each enum corresponds to a different object of the self action type.
    e.g. The STATS in VIEW STATS*/
 typedef enum {
-    STATS = 1,
-    INVENTORY = 2
+    STATS = 1
 } self_action_object;
 
 
