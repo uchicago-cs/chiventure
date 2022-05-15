@@ -1,3 +1,4 @@
+
 #ifndef INCLUDE_READER_H_
 #define INCLUDE_READER_H_
 
@@ -57,7 +58,7 @@ int reader_effect_free(reader_effect_t* reader);
  * Returns:
  *  - A pointer to the stat reader, or NULL if reader cannot be allocated
  */
-stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type,
+stat_reader_effect_t* stat_reader_effect_new(int value, stats_type_t stat_type,
                       comparison_t comp, reader_location_t location);
 
 /*
@@ -72,7 +73,7 @@ stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type,
  * Returns:
  *  - 1 if initalized succesfully, 0 if failure
  */
-int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stat_type_t stat_type
+int stat_reader_effect_init(stat_reader_effect_t* reader, int value, stats_type_t stat_type,
                             comparison_t comp, reader_location_t location);
 
 /*
@@ -84,7 +85,7 @@ int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stat_type_t 
  * Returns:
  *  - 1 if freed succesfully, 0 if failure
  */
-int stat_reader_effect_free(stat_reader_effect* reader);
+int stat_reader_effect_free(stat_reader_effect_t* reader);
 
 /*
  * Allocates an attribute reader in the heap.
@@ -123,7 +124,7 @@ int attr_reader_effect_init(attr_reader_effect_t* reader,char *value,
  * Returns:
  *  - 1 if freed succesfully, 0 if failure
  */
-int attr_reader_effect_free(attr_reader_effect* reader);
+int attr_reader_effect_free(attr_reader_effect_t* reader);
 
 /*
  * Reads a reader effect
@@ -160,3 +161,5 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
  *  - 0 if reader is false, 1 if reader is true
  */
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx);
+
+#endif /*INCLUDE_READER_H*/

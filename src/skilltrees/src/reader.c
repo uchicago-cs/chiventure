@@ -20,7 +20,7 @@ reader_effect_t* reader_effect_new(reader_type_t type, attr_reader_effect_t* att
         return NULL;
     }
 
-    rc = reader_effect_init(reader, type, att_reader, stat_reader);
+    rc = reader_effect_init(reader, type, attr_reader, stat_reader);
     if (rc) {
         fprintf(stderr, "reader_effect_new: initialization failed\n");
         return NULL;
@@ -35,7 +35,7 @@ int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_
     assert(reader != NULL);
 
     reader->type = type;
-    reader->attr_reader = att_reader;
+    reader->attr_reader = attr_reader;
     reader->stat_reader = stat_reader;
 
     return SUCCESS;
@@ -53,7 +53,7 @@ int reader_effect_free(reader_effect_t* reader){
 }
 
 /*See reader.h*/
-stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type, 
+stat_reader_effect_t* stat_reader_effect_new(int value, stats_type_t stat_type, 
                                 comparison_t comp, reader_location_t location){
     stat_reader_effect_t* reader;
     int rc;
@@ -64,7 +64,7 @@ stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type,
         return NULL;
     }
 
-    rc = int stat_reader_effect_init(reader,stat_type, value, comp, location);
+    rc = stat_reader_effect_init(reader,stat_type, value, comp, location);
 
     if (rc) {
         fprintf(stderr, "stat_reader_effect_init: initialization failed\n");
@@ -75,20 +75,20 @@ stat_reader_effect_t* stat_reader_effect_new(int value, stat_type_t stat_type,
 }
 
 /*See reader.h*/
-int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stat_type_t stat_type,
+int stat_reader_effect_init(stat_reader_effect_t* reader,int value, stats_type_t stat_type,
                             comparison_t comp, reader_location_t location){
     assert(reader != NULL);
 
     reader->value = value;
     reader->stat_type = stat_type;
-    reader->comp = comp;
+    reader->comparison = comp;
     reader->location = location;
 
     return SUCCESS;
 }
 
 /*See reader.h*/
-int stat_reader_effect_free(stat_reader_effect* reader){
+int stat_reader_effect_free(stat_reader_effect_t* reader){
     assert(reader != NULL);
 
     free(reader);
@@ -107,7 +107,7 @@ attr_reader_effect_t* attr_reader_effect_new(char *value, int str_len, reader_lo
         return NULL;
     }
 
-    rc = int attr_reader_effect_init(reader, value, str_len, location);
+    rc = attr_reader_effect_init(reader, value, str_len, location);
 
     if (rc) {
         fprintf(stderr, "attr_reader_effect_init: initialization failed\n");
@@ -130,7 +130,7 @@ int attr_reader_effect_init(attr_reader_effect_t* reader,char *value,
 }
 
 /*See reader.h*/
-int attr_reader_effect_free(attr_reader_effect* reader){
+int attr_reader_effect_free(attr_reader_effect_t* reader){
     assert(reader != NULL);
 
     free(reader);
@@ -140,13 +140,13 @@ int attr_reader_effect_free(attr_reader_effect* reader){
 
 /*See reader.h*/
 int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx){
-    if(reader->type == READ_ATTRIBUTE){
-        assert(reader->attr_reader_effect != NULL);
-        return execute_attr_reader_effect(reader->attr_reader_effect);
+    if(reader->type == READER_ATTRIBUTE){
+        assert(reader->attr_reader != NULL);
+        return execute_attr_reader_effect(reader->attr_reader, ctx);
     }
-    if(reader->type == READ_STATISTIC){
-        assert(reader->stat_reader_effect != NULL);
-        return execute_stat_reader_effect(reader->stat_reader_effect);
+    if(reader->type == READER_STATISTIC){
+        assert(reader->stat_reader != NULL);
+        return execute_stat_reader_effect(reader->stat_reader, ctx);
     }
 
     return 0;
@@ -157,28 +157,28 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
 
     switch(reader->location){
         case READ_PLAYER:
-            if(0 == strcmp(reader->attr_reader->value, ctx->game->curr_player->player_class->name)){
+            if(0 == strcmp(reader->value, ctx->game->curr_player->player_class->name)){
                 return true;
             } else {
                 return false;
             }
 
         case READ_SINGLE_TARGET:
-            if(0 == strcmp(reader->attr_reader->value, ctx->game->battle_ctx->enemy->player_class->name)){
+            if(0 == strcmp(reader->value, ctx->game->battle_ctx->game->battle->enemy->class_type->name)){
                 return true;
             } else {
                 return false;
             }
 
         case READ_WORLD:
-            if(0 == strcmp(reader->attr_reader->value, ctx->game->curr_room->room_id)){
+            if(0 == strcmp(reader->value, ctx->game->curr_room->room_id)){
                 return true;
             } else {
                 return false;
             }
     }
 
-    return NULL;
+    return -1;
 }
 
 //Helper function for execute_stat_reader
@@ -202,28 +202,28 @@ int compare_values(int val1, int val2, comparison_t comp){
         case LESSER_EQUAL:
             return (val1 <= val2);
     }
-    return NULL;
+    return -1;
 }
 
 //Helper function for execute_stat_reader
-int check_stats(int value, stat_type_t type, comparison_t comp, stats_t* stats){
+int check_stats(int value, stats_type_t type, comparison_t comp, stat_t* stats){
     switch(type){
             case SPEED:
-                return compare_values(value, stats_t->speed, comp);
+                return compare_values(value, stats->speed, comp);
 
             case DEFENSE:
-                return compare_values(value, stats_t->phys_def, comp);
+                return compare_values(value, stats->phys_def, comp);
 
             case STRENGTH:
-                return compare_values(value, stats_t->phys_atk, comp);
+                return compare_values(value, stats->phys_atk, comp);
 
             case HP:
-                return compare_values(value, stats_t->hp, comp);
+                return compare_values(value, stats->hp, comp);
 
             case MAX_HP:
-                return compare_values(value, stats_t->max_hp, comp);
+                return compare_values(value, stats->max_hp, comp);
     }
-    return NULL;
+    return -1;
 }
 
 
@@ -231,18 +231,18 @@ int check_stats(int value, stat_type_t type, comparison_t comp, stats_t* stats){
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx){
     switch(reader->location){
         case READ_PLAYER:
-            return check_stats(reader->value, reader->stat_type, reader->comp, 
-                        ctx->game->battle_ctx->player->stats);
+            return check_stats(reader->value, reader->stat_type, reader->comparison, 
+                        ctx->game->battle_ctx->game->battle->player->stats);
 
 
         case READ_SINGLE_TARGET:
-            return check_stats(reader->value, reader->stat_type, reader->comp, 
-                        ctx->game->battle_ctx->enemy->stats);
+            return check_stats(reader->value, reader->stat_type, reader->comparison, 
+                        ctx->game->battle_ctx->game->battle->enemy->stats);
 
         //Not aware of any stats for READ_WORLD at this time
         // case READ_WORLD:
 
     }
 
-    return NULL;
+    return -1;
 }

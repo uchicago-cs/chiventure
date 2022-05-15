@@ -98,9 +98,9 @@ typedef struct stat_reader_effect{
 typedef struct reader_effect{
     reader_type_t type;
     
-    attr_reader_effect_t att_reader;
+    attr_reader_effect_t* attr_reader;
 
-    stat_reader_effect_t stat_reader;
+    stat_reader_effect_t* stat_reader;
 } reader_effect_t; 
 
 /* ======================== */
