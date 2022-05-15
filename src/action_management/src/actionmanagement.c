@@ -8,7 +8,6 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 #include "npc/npc.h"
-#include "game-state/mode.h"
 
 
 #define BUFFER_SIZE (300)
@@ -407,7 +406,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
                 return CONDITIONS_NOT_MET;
             }
             // initiates conversation (set_game_mode to CONVERSATION)
-            int switch_mode;
+            int switch_mode; // check in examples if this is how a convo is initiated
             switch_mode = set_game_mode(c->game, CONVERSATION, "NORMAL");
             if (switch_mode == FAILURE)
             {
@@ -447,15 +446,14 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 
 /* KIND 5
  * See npc_action.h */
-int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string)
+int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
+                       npc_t *npc, char **ret_string)
 {
     agent_t *agent_n = NULL;
     agent_n->npc = npc;
 
-    if(a->kind != NPC_ITEM)
-    {
-        return WRONG_KIND;
-    }
+    if(a->kind != NPC_ITEM) return WRONG_KIND;
+    
     // get the game action struct
     game_action_t *game_act = get_action(agent_n, a->c_name);
     char *string = malloc(BUFFER_SIZE);
@@ -467,24 +465,58 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_
         sprintf(string, "%s", game_act->fail_str);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
-    }
+    } // does this check to see if npc is present??
     if(item_in_npc_inventory(npc, item) || item_in_inventory(c->game->curr_player, item))
     {
         *ret_string = "Items Allocated";
         return SUCCESS;
         
-    } else{
+    } else {
         *ret_string = "Action cannot be completed since item is not in either inventory";
         return CONDITIONS_NOT_MET;
     }
-    
+
+    npc_t *npc = get_npc_in_room(c->game->curr_room, c->game->mode->mode_ctx);
+
+    // case for GIVE
+    if (a == GIVE)
+    {
+        if(remove_item_from_player(c->game->curr_player, item) != SUCCESS)
+        {   
+            return FAILURE;
+        }
+        if(add_item_to_npc(npc, item) != SUCCESS)
+        {
+            return FAILURE;
+        }
+        return SUCCESS;
+    }
+
+    // case for STEAL
+    if (a == STEAL)
+    {
+        if(remove_item_from_npc(npc, item) != SUCCESS)
+        {
+            return FAILURE;
+        }
+        if(add_item_to_player(c->game->curr_player, item))
+        {
+            return FAILURE;
+        }
+    }
+
+    // case for all other actions 
+    if (a != GIVE || a != STEAL) {
+        sprintf(string, "cannot perform %s with do_npc_item_action", *a);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
 }
 
 /* KIND 6
  * See npc_action.h */
 int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item)
 {
-
     agent_t *agent_n = NULL;
     agent_n->npc = npc;
 
@@ -509,20 +541,29 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
         *ret_string = "NPC doesn't have desired item in inventory";
         return CONDITIONS_NOT_MET;
         
-    } else{
-        int cost = strlen(item->short_desc);
-        item_list_t *player_inventory;
-        player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
-        bool can_buy = false;
-        while(player_inventory != NULL){
-            if(strlen(player_inventory->item->short_desc) >= cost){
-                can_buy = true;
-                ret_item = player_inventory->item;
-                return SUCCESS;
+    } else {
+
+        if (a == TRADE)
+        {
+            int cost = strlen(item->short_desc); // is short_desc a num? if so why char*? no indication that this is monetary cost
+            item_list_t *player_inventory;
+            player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
+            bool can_buy = false;
+            while(player_inventory != NULL){
+                if(strlen(player_inventory->item->short_desc) >= cost){
+                    can_buy = true;
+                    ret_item = player_inventory->item;
+                    return SUCCESS;
+                }
+                player_inventory = player_inventory->next;
             }
-            player_inventory = player_inventory->next;
+            *ret_string = "Action cannot be completed since you have no items of equal or greater value";
+            return CONDITIONS_NOT_MET;
         }
-        *ret_string = "Action cannot be completed since you have no items of equal or greater value";
-        return CONDITIONS_NOT_MET;
+
+        else if (a == BUY)
+        {
+            // todo
+        }
     }
 }
