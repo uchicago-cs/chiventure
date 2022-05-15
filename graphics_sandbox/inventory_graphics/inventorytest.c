@@ -4,7 +4,9 @@
 
 #define MAX_INVENTORY    21          // Maximum Number of Inventory Items
 
-int main(void)
+
+void runInventoryGrahpics(Vector2 screeDimension, Vector2 windowPosition, unsigned max_inventory
+                          )
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -86,5 +88,11 @@ int main(void)
     CloseWindow();                // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
+
+}
+
+
+int main(void)
+{
     return 0;
 }
