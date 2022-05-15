@@ -9,16 +9,98 @@
 #include "skilltrees/effect.h"
 #include "test_init.h"
 
-// TO DO : Five tests on lines 15, 18, 21, 101, 104, check test line 108 for passability 
+// TO DO : check test line 194, 211 for passability 
 
-/* Test reader_effect_new */
-Test(reader_test, reader_effect_new_test)
+/* Test reader_effect_new for attribute reader */
+Test(reader_test, reader_effect_new_test_attr){
+    reader_type_t type = READER_ATTRIBUTE;
+    stat_reader_effect_t* sr = NULL;
+    attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
 
-/* Test reader_effect_init */
-Test(reader_test, reader_effect_init_test)
+    reader_effect_t *new = reader_effect_new(type, ar, sr);
+    cr_assert_eq(new->type,READER_ATTRIBUTE,
+        "Error: failed test reader_effect_new_test_attr on new->type\n");
+    cr_assert_eq(new->attr_reader_effect_t,ar,
+        "Error: failed test reader_effect_new_test_attr on new->attr_reader_effect_t\n");
+    cr_assert_eq(new->stat_reader_effect_t,NULL,
+        "Error: failed test reader_effect_new_test_attr on new->stat_reader_effect_t\n");
+}
 
-/* Test reader_effect_free */
-Test(reader_test, reader_effect_free_test)
+/* Test reader_effect_new for statistic reader */
+Test(reader_test, reader_effect_new_test_stat){
+    reader_type_t type = READER_STATISTIC;
+    attr_reader_effect_t* ar = NULL;
+    stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
+
+    reader_effect_t *new = reader_effect_new(type, ar, sr);
+    cr_assert_eq(new->type,READER_ATTRIBUTE,
+        "Error: failed test reader_effect_new_test_stat on new->type\n");
+    cr_assert_eq(new->attr_reader_effect_t,NULL,
+        "Error: failed test reader_effect_new_test_stat on new->attr_reader_effect_t\n");
+    cr_assert_eq(new->stat_reader_effect_t,sr,
+        "Error: failed test reader_effect_new_test_stat on new->stat_reader_effect_t\n");
+}
+
+int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t* attr_reader,
+                  stat_reader_effect_t* stat_reader){
+
+/* Test reader_effect_init for attribute reader */
+Test(reader_test, reader_effect_init_test_attr){
+    reader_effect_t* new = (reader_effect_t*)malloc(sizeof(reader_effect_t));
+    if (new == NULL) {
+        fprintf(stderr, "reader_effect_init: memory allocation failed\n");
+        return NULL;
+    }
+    reader_type_t type = READER_ATTRIBUTE;
+    attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
+    stat_reader_effect_t *sr = NULL;
+
+    int rc = reader_effect_init(reader, type, ar, sr);
+    cr_assert_eq(rc,1,
+        "Error: failed test reader_effect_new_test_attr, initialization failed\n");
+    cr_assert_eq(new->type,READER_ATTRIBUTE,
+        "Error: failed test reader_effect_new_test_attr on new->type\n");
+    cr_assert_eq(new->attr_reader_effect_t,ar,
+        "Error: failed test reader_effect_new_test_attr on new->attr_reader_effect_t\n");
+    cr_assert_eq(new->stat_reader_effect_t,NULL,
+        "Error: failed test reader_effect_new_test_attr on new->stat_reader_effect_t\n");
+}
+
+/* Test reader_effect_init for statistics reader */
+Test(reader_test, reader_effect_init_test_stat){
+    reader_effect_t* new = (reader_effect_t*)malloc(sizeof(reader_effect_t));
+    if (new == NULL) {
+        fprintf(stderr, "reader_effect_init: memory allocation failed\n");
+        return NULL;
+    }
+    reader_type_t type = READER_STATISTIC;
+    attr_reader_effect_t* ar = NULL;
+    stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
+
+    int rc = reader_effect_init(reader, type, ar, sr);
+    cr_assert_eq(rc,1,
+        "Error: failed test reader_effect_init_test_stat, initialization failed\n");
+    cr_assert_eq(new->type,READER_ATTRIBUTE,
+        "Error: failed test reader_effect_new_test_stat on new->type\n");
+    cr_assert_eq(new->attr_reader_effect_t,NULL,
+        "Error: failed test reader_effect_new_test_stat on new->attr_reader_effect_t\n");
+    cr_assert_eq(new->stat_reader_effect_t,sr,
+        "Error: failed test reader_effect_new_test_stat on new->stat_reader_effect_t\n");
+}
+
+/* Test reader_effect_free for stat freeing*/
+Test(reader_test, reader_effect_free_test_stat){
+    stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
+    int rc = stat_reader_effect_free(sr);
+    cr_assert_eq(rc, 1, "Error: failed test reader_effect_free_test for stat\n"); 
+}
+
+/* Test reader_effect_free for attr freeing*/
+Test(reader_test, reader_effect_free_test_attr){
+    attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
+    int rc = attr_reader_effect_free(ar);
+    cr_assert_eq(rc, 1, "Error: failed test stat_reader_effect_free_test\n");
+}
 
 /* Test stat_reader_effect_new */
 Test(reader_test, stat_reader_effect_new_test){
@@ -54,9 +136,7 @@ Test(reader_test, stat_reader_effect_init_test){
 /* Test stat_reader_effect_free */
 Test(reader_test, stat_reader_effect_free_test){
     stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
-
     int rc = stat_reader_effect_free(sr);
-
     cr_assert_eq(rc, 1, "Error: failed test stat_reader_effect_free_test\n");
 }
 
@@ -90,25 +170,49 @@ Test(reader_test, attr_reader_effect_init_test){
 /* Test attr_reader_effect_free */
 Test(reader_test, attr_reader_effect_free_test){
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
-
     int rc = attr_reader_effect_free(ar);
-
     cr_assert_eq(rc, 1, "Error: failed test stat_reader_effect_free_test\n");
 }
 
+/* Test execute_reader_effect for statistic reader, true */
+Test(reader_test, execute_reader_effect_test_true){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, EQUALS, READ_PLAYER);
+    int rc = execute_reader_effect(sr, ctx);
+    cr_assert_eq(rc, 1, "Error: failed test execute_reader_effect_test_true for stat\n");  
+}
 
-/* Test execute_reader_effect for true */
-Test(reader_test, execute_reader_effect_test_true)
+/* Test execute_reader_effect for statistic reader, false */
+Test(reader_test, execute_reader_effect_test_false){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, NOT, READ_PLAYER);
+    int rc = execute_reader_effect(sr, ctx);
+    cr_assert_eq(rc, 0, "Error: failed test execute_reader_effect_test_false for stat\n");
+}
 
-/* Test execute_reader_effect for false */
-Test(reader_test, execute_reader_effect_test_false)
+// Not sure this will work because of the case coverage in reader.c -- come back to this!
+/* Test execute_reader_effect for attribute reader, true */
+Test(reader_test, execute_reader_effect_test_true){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    attr_reader_effect_t *ar = attr_reader_effect_new("TEST CHARACTER", 14, READ_PLAYER);
+    int rc = execute_reader_effect(reader, ctx);
+    cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
+}
+
+/* Test execute_reader_effect for attribute reader, false */
+Test(reader_test, execute_reader_effect_test_false){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
+    int rc = execute_reader_effect(reader, ctx);
+    cr_assert_eq(rc, 0, "Error: failed test execute_reader_effect_test_false for attr\n");
+}
 
 // Not sure this will work because of the case coverage in reader.c -- come back to this!
 /* Test execute_attr_reader_effect for true*/
 Test(reader_test, execute_attr_reader_effect_test_true){
     chiventure_ctx_t* ctx = create_player_and_stats();
-    attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
-    int rc = execute_reader_effect(reader, ctx);
+    attr_reader_effect_t *ar = attr_reader_effect_new("TEST CHARACTER", 14, READ_PLAYER);
+    int rc = execute_attr_reader_effect(reader, ctx);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
 
@@ -116,12 +220,12 @@ Test(reader_test, execute_attr_reader_effect_test_true){
 Test(reader_test, execute_attr_reader_effect_test_false){
     chiventure_ctx_t* ctx = create_player_and_stats();
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
-    int rc = execute_reader_effect(reader, ctx);
+    int rc = execute_attr_reader_effect(reader, ctx);
     cr_assert_eq(rc, 0, "Error: failed test execute_attr_reader_effect_test for false\n");
 }
 
 /* Test execute_stat_reader_effect for true*/
-Test(reader_test, execute_stat_reader_effect_test_false){
+Test(reader_test, execute_stat_reader_effect_test_true){
     chiventure_ctx_t* ctx = create_player_and_stats();
     stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, EQUALS, READ_PLAYER);
     int rc = execute_stat_reader_effect(sr, ctx);
