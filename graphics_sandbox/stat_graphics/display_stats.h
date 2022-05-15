@@ -5,6 +5,7 @@
 #include "player.h"
 #include "game.h"
 
+#define DISPLAY_STATS_CONTEXT_ID 5
 /* 
  * Note:
  *

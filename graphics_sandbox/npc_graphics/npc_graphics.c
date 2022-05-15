@@ -180,7 +180,7 @@ void runNPCGraphics(npc_graphics_t* npc_graphics) {
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(NPC_CONTEXT_ID);
 
             ClearBackground(RAYWHITE);
             
