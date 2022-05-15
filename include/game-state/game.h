@@ -182,12 +182,12 @@ int add_room_to_game(game_t *game, room_t *room);
  *
  * Parameters:
  *  pointer to game struct
- *  pointer to coord struct
+ *  pointer to coords struct
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_coord_to_game(game_t *game, coord_t *coord);
+int add_coords_to_game(game_t *game, coords_t *coords);
 
 /* Adds an item to the given game
  *

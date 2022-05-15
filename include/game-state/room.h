@@ -42,17 +42,11 @@ typedef struct npc npc_t;
 
 /* This struct represents coordinates for a room from a global perspective                    
  * It contains:
- *      the coords_id
  *      the x coordinate
- *      the y coordinate                           
- *      the room at the coordinate */
+ *      the y coordinate */
 typedef struct coords {
-    /* hh is used for hashtable, as provided in uthash.h */
-    UT_hash_handle hh;
-    char *coords_id;
     int x;
     int y;
-    room_t *room;
 } coords_t;
 
 /* This typedef is to distinguish between coords_t pointers which are
@@ -75,6 +69,7 @@ typedef struct room {
     char *room_id;
     char *short_desc;
     char *long_desc;
+    coords_t *coords;
     item_hash_t *items;
     path_hash_t *paths;
     npcs_in_room_t *npcs;
@@ -336,7 +331,7 @@ int coords_init(coords_t *new_coords, char *coords_id, int x, int y);
 
 int coords_free(coords_t *coords);
 
-/* Adds a room to the given coordinate if there isn't a room already
+/* Adds a coordinate to a room
  *
  * Parameters:
  *  pointer to coord struct
@@ -345,25 +340,15 @@ int coords_free(coords_t *coords);
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_room_to_coord(coords_t *coords, room_t *room);
+int add_coords_to_room(coords_t *coords, room_t *room);
 
-/* Returns pointer to room given a coordinate
+/* Returns pointer to the coordinates of a given room
 * Parameters:
-* pointer to coord
+* pointer to room
 *
 * Returns:
-* pointer to room or NULL if not found
+* pointer to coordinates or NULL if not found
 */
-room_t *find_room_at_coord(coords_t *coords);
-
-/* Deletes a hashtable of coords
- * Implemented with macros provided by uthash.h
- *
- * Parameters:
- *  a pointer to the hashtable of coords that need to be deleted
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int delete_all_coords(coords_hash_t **coords);
+coords_t *find_coords_of_room(room_t *room);
 
 #endif
