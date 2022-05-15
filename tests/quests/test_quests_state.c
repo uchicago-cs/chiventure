@@ -391,8 +391,8 @@ Test(quest, fail_quest)
 }
 
 
-/* Tests the function that completes the task */
-Test(quest, complete_task)
+/* Tests the function that completes the task when the task has a mission */
+Test(quest, complete_task_mission)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
@@ -424,6 +424,49 @@ Test(quest, complete_task)
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 
     player_t *player = player_new("test player");
+    start_quest(quest, player);
+
+    bool completed = is_task_completed(task_to_complete, player);
+    cr_assert_eq(completed, false, "is_task_completed() returned true when it shouldn't have!");
+
+    reward_t *new_reward = complete_task(task_to_complete, player);
+    if (new_reward == NULL)
+        res = FAILURE;
+
+    cr_assert_eq(res, SUCCESS, "complete_task() failed!");
+    player_free(player);
+}
+
+/* Tests the function that completes the task when the task has a prereq*/
+Test(quest, complete_task_prereq)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    prereq_t *prereq = prereq_new(hp, level);
+
+    quest_t* quest = quest_new("test", NULL, rewards, prereq);
+
+    class_t* class = generate_test_class();
+
+
+    char *id = "test mission";
+
+	task_t* task_to_complete = task_new(NULL, id, rewards, prereq);
+
+    int res = add_task_to_quest(quest, task_to_complete, "NULL");
+
+    cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
+
+    player_t *player = player_new("test player");
+    stats_global_t *global = stats_global_new("health", hp);
+    stats_t *health_stat = stats_new(global, hp);
+    player_add_stat(player, health_stat);
+    player->level = level;
     start_quest(quest, player);
 
     bool completed = is_task_completed(task_to_complete, player);
@@ -466,6 +509,7 @@ Test(quest,is_quest_completed)
     int res = add_task_to_quest(quest, task, NULL);
 
     player_t *player = player_new("test player");
+
     start_quest(quest, player);
     reward_t *the_reward = complete_task(task, player);
     if (the_reward == NULL) {

@@ -281,6 +281,8 @@ int start_quest(quest_t *quest, player_t *player);
 int fail_quest(quest_t *quest, player_t *player);
 
 /* Completes a task in a quest for a given player
+ * - If the task has a mission, forces completion
+ * - If the task doesn't have a mission, only completes if prereqs are met
  * 
  * Parameters:
  * - task: pointer to the task
@@ -306,9 +308,8 @@ reward_t *complete_task(task_t *task, player_t *player);
  */
 bool is_quest_completed(quest_t *quest, player_t *player);
 
-/* Checks if a player completed a given task and updates the 
- * reference to the task in the player's task table accordingly
- * - Always returns true if the task has a mission and checks the 
+/* Checks if a player completed a given task
+ * - Always returns false if the task has a mission and checks the 
  *  prerequisite if it does not
  * 
  * Parameter:

@@ -265,7 +265,7 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     }
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
-
+    
     if (health < prereq->hp || player->level < prereq->level) {
         return false;
     }
@@ -483,14 +483,13 @@ bool is_task_completed(task_t *task, player_t *player)
     if(!ptask) {
         return false;
     }
-    if(ptask->completed || task->mission != NULL) {
-        ptask->completed = true;
+    if(ptask->completed) {
         return true;
     }
-    bool prereqs_met = meets_prereqs(player, task->prereq);
-    ptask->completed = prereqs_met;
-    return prereqs_met;
-    
+    if(task->mission != NULL) {
+        return false;
+    }
+    return meets_prereqs(player, task->prereq);
 }
 
 /* Refer to quests_state.h */
@@ -679,8 +678,15 @@ task_t *find_task_in_quest(task_tree_t *tree, char *id)
 /* Refer quests_state.h */
 reward_t *complete_task(task_t *task, player_t *player)
 {
-    if (get_player_task_status(task, player) == true)
+    assert(task != NULL);
+    assert(player != NULL);
+    if (task->mission != NULL || is_task_completed(task, player) == true) 
+    {
+        get_player_task_from_hash(task->id, player->player_tasks)->completed = true;
         return task->reward;
+    } 
     else
+    {
         return NULL;
+    }
 }
