@@ -11,52 +11,21 @@
 typedef struct npc npc_t;
 
 /*
- * This struct represents a passive mission.
- * 
- * A passive mission is one that the player does not
- * manually explore chiventure to acquire.
- *
- * Components:
- *  xp: integer list of xp milestones
- *  levels: integer list of level milestones
- *  health: integer list of health milestones
- */
-typedef struct passive_mission{
-    int xp;
-    int levels;
-    int health;
-} passive_mission_t;
-
-/*
- * This struct represents an active mission.
- * 
- * An active mission is one that the player
- * has to explore chiventure to acquire. 
+ * This struct represents a mission.
  *
  * Components:
  *  item_to_collect: an item to collect
  *  npc_to_meet: an npc to meet
  *  npc_to_kill: an npc to kill
  *  room_to_visit: a room to visit
+ * 
+ * Note: Only one of these can be active (not NULL) at a time
  */
-typedef struct active_mission {
+typedef struct mission {
     item_t *item_to_collect;
     npc_t *npc_to_meet;
     npc_t *npc_to_kill;
     room_t *room_to_visit;
-} active_mission_t;
-
-/*
- * This struct represents a mission. Can be used to create a task.
- * 
- * Components:
- *  a_mission: an active mission
- *  p_mission: a passive mission
- *
- */
-typedef struct mission {
-    active_mission_t *a_mission;
-    passive_mission_t *p_mission;
 } mission_t;
 
 /* 

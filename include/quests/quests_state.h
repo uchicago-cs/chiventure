@@ -6,18 +6,7 @@
 #include "quests_structs.h"
 #include "game-state/player.h"
 
-/* Creates a new passive mission struct (allocates memory)
- * 
- * Parameters:
- * - xp: integer experience milestone to reach
- * - levels: integer level milestone to reach
- * - health: integer health milestone to reach
- *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
- */
-passive_mission_t *passive_mission_new(int xp, int levels, int health);
-
-/* Creates a new active mission struct (allocates memory)
+/* Creates a new mission struct (allocates memory)
  * 
  * Parameters:
  * - item_to_collect: the item to be collected for the mission
@@ -25,9 +14,9 @@ passive_mission_t *passive_mission_new(int xp, int levels, int health);
  * - npc_to_kill: the npc to kill for the mission
  * - room_to_visit: the room to visit for the mission 
  *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
+ * Returns: a pointer to the newly allocated mission, that is not completed
  */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
+mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
                               npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Creates a new reward struct for completing a quest 
@@ -85,10 +74,10 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward);
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
                     reward_t *reward, prereq_t *stat_req);
 
-/* Initialize an already allocated passive mission struct 
+/* Initialize an already allocated mission struct 
  *
  * Parameters:
- * - mission: an already allocated mission_t (of passive type)
+ * - mission: an already allocated mission_t 
  * - item_to_collect: the item to be collected for the mission
  * - npc_to_meet: the npc to be met for the mission
  * 
@@ -96,20 +85,7 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int passive_mission_init(passive_mission_t *mission, int xp, int level, int health);
-
-/* Initialize an already allocated active mission struct 
- *
- * Parameters:
- * - mission: an already allocated mission_t (of active type)
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
- * 
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
+int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
                         npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Initializes an already allocated reward struct
@@ -183,7 +159,7 @@ int prereq_init(prereq_t * prereq, int hp, int level);
 int id_list_init(id_list_t *id_list);
 
 /* 
- * Frees a passive mission struct from memory
+ * Frees a mission struct from memory
  * 
  * Parameter:
  * - mission: the mission to be freed
@@ -192,19 +168,7 @@ int id_list_init(id_list_t *id_list);
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int passive_mission_free(passive_mission_t *mission);
-
-/* 
- * Frees an active mission struct from memory
- * 
- * Parameter:
- * - mission: the mission to be freed
- * 
- * Returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
- */
-int active_mission_free(active_mission_t *mission);
+int active_mission_free(mission_t *mission);
 
 /* 
  * Frees a task struct from memory but does not free 

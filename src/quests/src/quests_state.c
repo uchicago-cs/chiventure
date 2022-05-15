@@ -5,26 +5,10 @@
 #include "quests/quests_state.h"
 
 /* Refer to quests_state.h */
-passive_mission_t *passive_mission_new(int xp, int levels, int health)
-{
-    passive_mission_t *mission = malloc(sizeof(passive_mission_t));
-    int rc;
-
-    rc = passive_mission_init(mission, xp, levels, health);
-
-    if (rc != SUCCESS)
-    {
-        fprintf(stderr, "\nCould not initialize  mission struct!\n");
-    }
-
-    return mission;
-}
-
-/* Refer to quests_state.h */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
+mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
                               npc_t *npc_to_kill, room_t *room_to_visit)
 {
-    active_mission_t *mission = malloc(sizeof(active_mission_t));
+    mission_t *mission = malloc(sizeof(mission_t));
     int rc;
 
     rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
@@ -119,19 +103,7 @@ id_list_t *id_list_new() {
 }
 
 /* Refer to quests_state.h */
-int passive_mission_init(passive_mission_t *mission, int xp, int levels, int health)
-{
-    assert(mission != NULL);
-
-    mission->xp = xp;
-    mission->levels = levels;
-    mission->health = health;
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, 
+int mission_init(mission_t *mission, item_t *item_to_collect, 
                         npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
 {
     assert(mission != NULL);
@@ -204,19 +176,8 @@ int id_list_init(id_list_t *id_list) {
     return SUCCESS;
 }
 
-
 /* Refer to quests_state.h */
-int passive_mission_free(passive_mission_t *mission)
-{
-    assert(mission != NULL);
-
-    free(mission);
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
-int active_mission_free(active_mission_t *mission)
+int mission_free(mission_t *mission)
 {
     assert(mission != NULL);
 
