@@ -1,3 +1,6 @@
+#ifndef INVENTORY_GRAPHICS_H
+#define INVENTORY_GRAPHICS_H
+
 /*
  * This module defines an inventory struct and the
  * necessary functions for manipulating an inventory 
@@ -6,16 +9,9 @@
 
 
 #include "item.h"
+#include "player.h"
 #include "read_gdl.h"
-
-
-typedef struct inventory_graphics_info {
-    
-
-}
-
-
-
+#include <stdlib.h>
 
 /*
  * Defines the player inventory based on the display
@@ -34,7 +30,7 @@ typedef struct inventory_graphics_info {
  * space because game inventories tend to be small anyways.
  */ 
 typedef struct player_inventory {
-    inventory_display_t display;
+    inventory_display_t *display;
     item **items;
 } player_inventory_t;
 
@@ -78,3 +74,5 @@ void update_player_inventory(player_inventory_t *player_inventory, game_t *game)
  * - void
  */
 void draw_player_inventory(player_inventory_t *player_inventory);
+
+#endif
