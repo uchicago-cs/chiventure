@@ -154,5 +154,21 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
+/* A function that executes KIND 4 actions (ACTION <player>)
+ *
+ * Parameters:
+ * - c: A context struct encapsulating the shared state in chiventure
+ * - a: An action type struct
+ * - i: A player struct 
+ * - ret_string: A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ * - 6 if conditions for the action haven't been met, failure string as an out parameter
+ * - 7 if an effect for the action wasn't applied, failure string as an out parameter
+ */
+int do_player_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, char **ret_string);
 
 #endif

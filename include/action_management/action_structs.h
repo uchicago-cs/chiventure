@@ -32,7 +32,10 @@ enum actions {
 
     /* KIND 3 ACTIONS - ACTION <item_item> */
     USE_ON,
-    PUT
+    PUT,
+
+    /* KIND 4 ACTIONS - ACTION <player_> */ 
+    VIEW,
 };
 
 

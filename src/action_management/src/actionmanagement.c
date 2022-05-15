@@ -342,4 +342,11 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     return FAILURE;
 }
 
+/* KIND 4
+ * See actionmanagement.h */
+int do_player_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, char **ret_string)
+{
+    return;
+}
+
 
