@@ -8,6 +8,7 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 #include "npc/npc.h"
+#include "game-state/mode.h"
 
 
 #define BUFFER_SIZE (300)
@@ -360,8 +361,6 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     assert(c->game);
     assert(a);
     assert(npc);
-    
-    game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -398,31 +397,50 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     }
     else
     {
-        // implement the action (i.e. dole out the effects)
-        // maybe incorporates and initialize conversation function to
-        int applied_effects;
-        applied_effects = do_all_effects(agent, a->c_name);
-        if (applied_effects == FAILURE)
-        {
-            sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
-            *ret_string = string;
-            return EFFECT_NOT_APPLIED;
-        }
-        else
-        {
-	    //remove action from any conditions
-	    int rc;
-	    rc = helper_remove(a);
-
-            // successfully carried out action
-            sprintf(string, "%s", game_act->success_str);
-            if (is_game_over(game))
-            {
-                string = strcat(string, " Congratulations, you've won the game! "
-                        "Press ctrl+D to quit.");
+       // check game over case just in case
+       // case for TALK_TO
+        if (a == TALK_TO) {
+            // check if NPC has TALK_TO in their list_npc_action_t
+            if (contains_action(npc, TALK_TO) == 0) {
+                sprintf(string, "Player cannot TALK_TO the NPC");
+                *ret_string = string;
+                return CONDITIONS_NOT_MET;
             }
+            // initiates conversation (set_game_mode to CONVERSATION)
+            int switch_mode;
+            switch_mode = set_game_mode(c->game, CONVERSATION, "NORMAL");
+            if (switch_mode == FAILURE)
+            {
+                sprintf(string, "Failed to switch to normal mode");
+                return FAILURE;
+            }
+        }
+
+        // case for IGNORE
+        if (a == IGNORE) {
+            // check if NPC has IGNORE in their list_npc_action_t
+            if (contains_action(npc, IGNORE) == 0) {
+                sprintf(string, "Player cannot IGNORE the NPC");
+                *ret_string = string;
+                return CONDITIONS_NOT_MET;
+            }
+
+            // exits conversation (set_game_mode to NORMAL)
+            int switch_mode;
+
+            switch_mode = set_game_mode(c->game, NORMAL, "CONVERSATION");
+            if (switch_mode == FAILURE)
+            {
+                sprintf(string, "Failed to switch to CONVERSATION mode");
+                return FAILURE;
+            }
+        }
+
+        // case for all other actions 
+        if (a != TALK_TO || a != IGNORE) {
+            sprintf(string, "cannot perform %s with do_npc_action", *a);
             *ret_string = string;
-            return SUCCESS;
+            return CONDITIONS_NOT_MET;
         }
     }
 } 

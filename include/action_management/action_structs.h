@@ -70,6 +70,8 @@ enum actions {
     // NPC ACTIONS
     /* KIND 4 ACTIONS */
     ATTACK,
+    TALK_TO,
+    IGNORE,
     
     /* KIND 5 ACTIONS */
     GIVE,
