@@ -6,6 +6,7 @@
  *  to the game*/
 //#include "npc/npc.h"
 
+#define NPC_CONTEXT_ID 2;
 
 typedef struct npc_action npc_action_t;
 /*
