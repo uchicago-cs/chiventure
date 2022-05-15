@@ -141,9 +141,13 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time)
     int check = register_npc_room_time(npc_mov, room_id_to_add, time);
 
     if (check != SUCCESS)
+    {
         return FAILURE;
+    }
     else
+    {
         return SUCCESS;
+    }
 }
 
 
@@ -159,8 +163,13 @@ char *get_next_npc_room_id(npc_mov_t *npc_mov)
     room_id_dll_t *current_room;
 
     if (npc_mov->mov_type == NPC_MOV_INDEFINITE)
+    {
         current_room = npc_mov->npc_mov_type.npc_mov_indefinite->npc_path;
-    else current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
+    }
+    else
+    {
+        current_room = npc_mov->npc_mov_type.npc_mov_definite->npc_path;
+    }
 
     npc_path_direction_t direction = npc_mov->npc_path_direction;
     unsigned int path_pos = npc_mov->npc_path_pos;
@@ -186,10 +195,19 @@ char *get_next_npc_room_id(npc_mov_t *npc_mov)
 
     if (direction == NPC_MOV_ORIGINAL)
     {
-        if (current_room->next == NULL) return NULL;
-        else return current_room->next->room_id;
+        if (current_room->next == NULL)
+        {
+            return NULL;
+        }
+        else
+        {
+            return current_room->next->room_id;
+        }
     }
-    else return current_room->prev->room_id;
+    else
+    {
+        return current_room->prev->room_id;
+    }
 }
 
 /* See npc_move.h */
@@ -215,7 +233,10 @@ int flip_npc_path_direction(npc_mov_t *npc_mov)
     {
         npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
     }
-    else return FAILURE;
+    else
+    {
+        return FAILURE;
+    }
 
     return SUCCESS;
 }
@@ -266,7 +287,9 @@ int move_npc_definite(npc_mov_t *npc_mov)
 
     if(((direction == NPC_MOV_ORIGINAL) && (current_room->next == NULL))
             || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
+    {
         return 1;
+    }
 
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
     {
@@ -281,12 +304,16 @@ int move_npc_definite(npc_mov_t *npc_mov)
             npc_mov->npc_path_pos--;
         }
         else
+        {
             return 0;
+        }
 
         return 2;
     }
     else
+    {
         return 0;
+    }
 }
 
 /* See npc_move.h */
@@ -329,12 +356,16 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
             npc_mov->npc_path_pos--;
         }
         else
+        {
             return 0;
+        }
 
         return 2;
     }
     else
+    {
         return 0;
+    }
 }
 
 /* See npc_move.h */
@@ -343,11 +374,17 @@ int move_npc_mov(npc_mov_t *npc_mov)
     npc_mov_enum_t mov_type = npc_mov->mov_type;
 
     if (mov_type == NPC_MOV_DEFINITE)
+    {
         return move_npc_definite(npc_mov);
+    }
     else if (mov_type == NPC_MOV_INDEFINITE)
+    {
         return move_npc_indefinite(npc_mov);
+    }
     else
+    {
         return 0;
+    }
 }
 
 /* See npc_move.h */
