@@ -346,7 +346,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
 
 /* KIND 4
  * See actionmanagement.h */
-int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, char **ret_string)
+int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_action_object obj, char **ret_string)
 {
     assert(c);
     assert(c->game);
@@ -366,8 +366,12 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, char **re
         return WRONG_KIND;
     }
 
-    // retrieve stats from the player
-    string = display_stats(p->player_stats);
+    if(strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
+        if(obj == STATS) {
+        // retrieve stats from the player
+        string = display_stats(p->player_stats);
+        }
+    }
 
     *ret_string = string;
     return SUCCESS;

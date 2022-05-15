@@ -34,10 +34,9 @@ enum actions {
     USE_ON,
     PUT,
 
-    /* KIND 4 ACTIONS - ACTION <player_> */ 
+    /* KIND 4 ACTIONS - ACTION <self> */ 
     VIEW,
 };
-
 
 // Each enum corresponds to a different "KIND" of action
 enum action_kind {
@@ -46,6 +45,13 @@ enum action_kind {
     ITEM_ITEM = 3, // ACTION <item> <item> i.e. Action Type 3
     SELF = 4 //// ACTION <self> i.e. Action Type 4
 };
+
+/* Each enum corresponds to a different object of the self action type.
+   e.g. The STATS in VIEW STATS*/
+typedef enum {
+    STATS = 1,
+    INVENTORY = 2
+} self_action_object;
 
 
 /* Forward room declaration */
