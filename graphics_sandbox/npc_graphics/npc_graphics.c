@@ -91,8 +91,8 @@ npc_line_t* GetLine(char* line_name, npc_info_t* npc_graphics) {
 }
 
 /* See npc.h */
-npc_info_t* GetNPC(char* NPC_name, npc_info_t** npcs) {
-    npc_info_t* current_npc = npcs[0];
+npc_info_t* GetNPC(char* NPC_name, npc_info_t* npcs) {
+    npc_info_t* current_npc = npcs;
     do {
         if(!(strcmp(NPC_name,current_npc->npc_name))) {
             return current_npc;
@@ -131,21 +131,20 @@ npc_info_t* synthesizeTest3() {
     return res;
 }
 
-void runNPCGraphics(npc_info_t** npcs, char* NPCname, char* action, char* line_name,
-                    Vector2 windowloc, Vector2 windowsize, Color textcolor) {
+void runNPCGraphics(npc_graphics_t* npc_graphics) {
 
  // Initialization
     //--------------------------------------------------------------------------------------
 
 
-    npc_info_t* current_npc = GetNPC(NPCname,npcs);
+    npc_info_t* current_npc = GetNPC(npc_graphics->current_npc,npc_graphics->npc_linkedlist);
     
 
-    const int screenWidth = windowsize.x;
-    const int screenHeight = windowsize.y;
+    const int screenWidth = npc_graphics->WindowSize.x;
+    const int screenHeight = npc_graphics->WindowSize.y;
 
     InitWindow(screenWidth, screenHeight, current_npc->npc_name);
-    SetWindowPosition(windowloc.x, windowloc.y);
+    SetWindowPosition(npc_graphics->WindowPos.x, npc_graphics->WindowPos.y);
 
     Texture2D texture = LoadTexture((const char*)current_npc->head_action->action_image_path);
     
@@ -164,7 +163,7 @@ void runNPCGraphics(npc_info_t** npcs, char* NPCname, char* action, char* line_n
     int framescounter = 0;
     double frameSpeed = current_npc->head_action->switch_frequency;
 
-    const char* NPC_line = (GetLine(line_name,current_npc))->line;
+    const char* NPC_line = (GetLine(npc_graphics->current_line,current_npc))->line;
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -187,7 +186,7 @@ void runNPCGraphics(npc_info_t** npcs, char* NPCname, char* action, char* line_n
             
                 DrawTextureRec(texture, frameRec,(Vector2){0,0},RAYWHITE);
                 DrawRectangle(0,(GetScreenHeight()-60),GetScreenWidth(),GetScreenHeight(),WHITE);
-                DrawText(NPC_line, 20, (GetScreenHeight()-40), 20, textcolor);
+                DrawText(NPC_line, 20, (GetScreenHeight()-40), 20, npc_graphics->textcolor);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -214,9 +213,14 @@ int main(void)
     //runNPCGraphics(&current_npc, "Dhirpal", "Default","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
     //npc_info_t* current_npc = synthesizeTest2();
 
-
-    npc_info_t* current_npc = synthesizeTest3();
-    runNPCGraphics(&current_npc, "Fire", "Burn","Crack", (Vector2){1200,0},(Vector2){160,500},BLACK);
+    npc_info_t* npc_1 = synthesizeTest();
+    npc_info_t* npc_2 = synthesizeTest2();
+    npc_info_t* npc_3 = synthesizeTest3();
+    npc_info_t* npcs = npc_1;
+    npcs->next = npc_2;
+    npcs->next->next = npc_3;
+    npc_graphics_t npc_graphics = {(Vector2){1200,0},(Vector2){160,500},RED,"Fire","Burn","Crack",npcs};
+    runNPCGraphics(&npc_graphics);
 
 
     return 0;

@@ -59,7 +59,16 @@ struct npc_info {
     npc_info_t* next;
 };
 
-/* */
+
+typedef struct npc_graphics{
+    Vector2 WindowPos;
+    Vector2 WindowSize;
+    Color textcolor;
+    char* current_npc;
+    char* current_action;
+    char* current_line;
+    npc_info_t* npc_linkedlist;
+} npc_graphics_t;
 
 
 npc_action_t* ActionNew(char* action_name, char* action_image_path, unsigned frame_number,
@@ -112,24 +121,18 @@ npc_line_t* GetLine(char* line_name, npc_info_t* npc_info);
  * Return:
  *      The graphcis information, in npc_info_t, for
  *      the specified NPC. */
-npc_info_t* GetNPC(char* NPC_name, npc_info_t** npcs);
+npc_info_t* GetNPC(char* NPC_name, npc_info_t* npcs);
 
 
 /*
  * The main runing function for NPC Graphics
  *
  * Parameters:
- *      npcs: the linked list for all NPCs
- *      NPCname: the name of the NPC, needs to be exact
- *      action: the action that needs to be printed out
- *      line_name: the name of the line that needs to be printed out
- *      windloc: the location of the upper-left corner of the window
- *      windowsize: the size of the window (width, height)
+ *      npc_graphics_t: All information required for the npc window
  * 
  * Return:
  *      Nothing.
  */
-void runNPCGraphics(npc_info_t** npcs, char* NPCname, char* action, char* line_name,
-                    Vector2 windowloc, Vector2 windowsize, Color textcolor);
+void runNPCGraphics(npc_graphics_t* npc_graphics);
 
 #endif
