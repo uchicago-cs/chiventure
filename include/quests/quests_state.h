@@ -118,6 +118,10 @@ int reward_init(reward_t *rewards, int xp, item_t *item);
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
+ * 
+ * Note: Also returns FAILURE if there is both a mission and prereqs. Missions should all be in their own tasks.
+ *       If you want a task to have a mission and a prereq, make the mission's tasks a prereq for the actual task
+ *       that has the prereqs.
  */
 int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
 
@@ -312,11 +316,6 @@ bool is_quest_completed(quest_t *quest, player_t *player);
  * Returns:
  * - false if task is incomplete
  * - true if task is complete
- * 
- * Note: Currently always returns true assuming there's no error, as the 
- *       current mission system makes checking essentially impossible.
- *       Once quest prerequisites are added, this function must be updated
- *       to add this functionality.
  */
 bool is_task_completed(task_t *task, player_t *player);
 

@@ -146,7 +146,7 @@ int reward_init(reward_t *rewards, int xp, item_t *item)
 int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
 {
     assert(task != NULL);
-
+    assert(mission == NULL || prereq == NULL);
     task->mission = mission;
     task->reward = reward;
     task->id = id;
@@ -477,8 +477,13 @@ bool is_task_completed(task_t *task, player_t *player)
     if(!ptask) {
         return false;
     }
-    ptask->completed = true;
-    return true;
+    if(ptask->completed || task->mission != NULL) {
+        ptask->completed = true;
+        return true;
+    }
+    bool prereqs_met = meets_prereqs(player, task->prereq);
+    ptask->completed = prereqs_met;
+    return prereqs_met;
     
 }
 
@@ -662,18 +667,6 @@ task_t *find_task_in_quest(task_tree_t *tree, char *id)
     {
         return find_task_in_quest(tree->rsibling, id);
     }
-    return NULL;
-}
-
-/* Refer to quests_state.h */
-task_t *find_task(player_t *player, char *id){
-    /* TODO */
-    return NULL;
-}
-
-/* Refer to quests_state.h */
-quest_t *find_quest(player_t *player, char *id) {
-    /* TODO */
     return NULL;
 }
 
