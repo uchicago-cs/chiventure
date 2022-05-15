@@ -38,6 +38,7 @@ typedef union windows {
     quest_graphics_t quest_graphics;
     input_box_graphics_t input_box_graphics;
     inventory_graphics_t inventory_graphics;
+    //To Add
 } windows_t;
 
 typedef struct ui_linkedlist ui_linkedlist_t;
