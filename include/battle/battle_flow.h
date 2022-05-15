@@ -138,4 +138,16 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label);
  */
 char *enemy_make_move(battle_ctx_t *ctx);
 
+/* Runs a turn component, which includes allowing user to choose their action,
+ * using the action, and reporting results
+ * 
+ * Parameters:
+ * - ctx: the current chiventure context
+ * - component: the turn component being run
+ *
+ * Returns:
+ * - returns void, everything that changed will simply be updated
+ */
+void run_turn_component(chiventure_ctx_t *ctx, turn_component_t component);
+
 #endif

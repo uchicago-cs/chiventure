@@ -235,3 +235,46 @@ char *enemy_make_move(battle_ctx_t *ctx)
     return string;
 }
 
+
+/* see battle_flow.h */
+void run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *callback_args, cli_callback callback_func){
+
+    // print to cli
+    print_to_cli(ctx, strg);
+    // printf("%s", strg);
+    // take in user input
+    char *input;
+    scanf("%s", &input);
+    if (input[0] == 'M'){
+        // take the index of the move, under the assumption of the 
+        int index = (int) input[1];
+        for (int k = 0; k < index; k++){
+            if (linkedlist == NULL){
+                return callback_func(ctx, "That move does not exist.", callback_args);
+            }
+            if (k == index-1){
+                battle_flow_move(ctx->game->battle_ctx, move, ctx->game->battle_ctx->game->battle->enemy);
+            }
+            else {
+                //iterate through linked list
+            }
+        }
+    } else if (input[0] == 'I'){
+        int index = (int) input[1];
+        for (int k = 0; k < index; k++){
+            if (linkedlist == NULL){
+                return callback_func(ctx, "That item does not exist.", callback_args);
+            }
+            if (k == index-1){
+                battle_flow_item(ctx->game->battle_ctx, item);
+            }
+            else {
+                //iterate through linked list
+            }
+        }
+    } else {
+        return callback_func(ctx, "That action does not exist.", callback_args);
+    }
+
+    return void;
+}
