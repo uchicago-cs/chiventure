@@ -122,7 +122,9 @@ int attr_reader_effect_init(attr_reader_effect_t* reader,char *value,
                             int str_len, reader_location_t location){
     assert(reader != NULL);
 
-    reader->value = value;
+    reader->value = malloc((str_len + 1)*sizeof(char));
+    strcpy(reader->value, value);
+    // reader->value = value;
     reader->str_len = str_len;
     reader->location = location;
 
@@ -133,6 +135,7 @@ int attr_reader_effect_init(attr_reader_effect_t* reader,char *value,
 int attr_reader_effect_free(attr_reader_effect_t* reader){
     assert(reader != NULL);
 
+    free(reader->value);
     free(reader);
 
     return SUCCESS;
@@ -157,24 +160,31 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
 
     switch(reader->location){
         case READ_PLAYER:
-            if(0 == strcmp(reader->value, ctx->game->curr_player->player_class->name)){
-                return true;
+            if(NULL == ctx->game->curr_player->player_class->name){
+                if(0 == strcmp(reader->value, ctx->game->curr_player->player_class->name)){
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return -1;
             }
-
         case READ_SINGLE_TARGET:
-            if(0 == strcmp(reader->value, ctx->game->battle_ctx->game->battle->enemy->class_type->name)){
-                return true;
-            } else {
-                return false;
+            if(NULL ==  ctx->game->battle_ctx->game->battle->enemy->class_type->name){
+                if(0 == strcmp(reader->value,  ctx->game->battle_ctx->game->battle->enemy->class_type->name)){
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
         case READ_WORLD:
-            if(0 == strcmp(reader->value, ctx->game->curr_room->room_id)){
-                return true;
-            } else {
-                return false;
+            if(NULL ==  ctx->game->curr_room->room_id){
+                if(0 == strcmp(reader->value,  ctx->game->curr_room->room_id)){
+                    return true;
+                } else {
+                    return false;
+                }
             }
     }
 
@@ -231,13 +241,17 @@ int check_stats(int value, stats_type_t type, comparison_t comp, stat_t* stats){
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx){
     switch(reader->location){
         case READ_PLAYER:
-            return check_stats(reader->value, reader->stat_type, reader->comparison, 
+            if(NULL == ctx->game->battle_ctx->game->battle->player->stats){
+                return check_stats(reader->value, reader->stat_type, reader->comparison, 
                         ctx->game->battle_ctx->game->battle->player->stats);
+            }
 
 
         case READ_SINGLE_TARGET:
-            return check_stats(reader->value, reader->stat_type, reader->comparison, 
-                        ctx->game->battle_ctx->game->battle->enemy->stats);
+            if(NULL == ctx->game->battle_ctx->game->battle->enemy->stats){
+                return check_stats(reader->value, reader->stat_type, reader->comparison, 
+                    ctx->game->battle_ctx->game->battle->enemy->stats);
+            }
 
         //Not aware of any stats for READ_WORLD at this time
         // case READ_WORLD:

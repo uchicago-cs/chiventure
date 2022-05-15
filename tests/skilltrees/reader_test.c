@@ -138,7 +138,7 @@ Test(reader_tests, stat_reader_effect_free_test){
 Test(reader_tests, attr_reader_effect_new_test){
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
 
-    cr_assert_eq(ar->value,"undead",
+    cr_assert_str_eq(ar->value,"undead",
         "Error: failed test attr_reader_effect_new_test on ar->value\n");
     cr_assert_eq(ar->str_len,6,
         "Error: failed test attr_reader_effect_new_test on ar->str_len\n");
@@ -151,9 +151,9 @@ Test(reader_tests, attr_reader_effect_init_test){
     attr_reader_effect_t *ar = (attr_reader_effect_t*)malloc(sizeof(attr_reader_effect_t));
     int rc = attr_reader_effect_init(ar, "undead", 6, READ_PLAYER);
     
-    cr_assert_eq(rc,1,
+    cr_assert_eq(rc,SUCCESS,
         "Error: failed test attr_reader_effect_init_test, initialization failed\n");
-    cr_assert_eq(ar->value,"undead",
+    cr_assert_str_eq(ar->value,"undead",
         "Error: failed test attr_reader_effect_init_test on ar->value\n");
     cr_assert_eq(ar->str_len,6,
         "Error: failed test attr_reader_effect_init_test on ar->str_len\n");
@@ -165,7 +165,7 @@ Test(reader_tests, attr_reader_effect_init_test){
 Test(reader_tests, attr_reader_effect_free_test){
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     int rc = attr_reader_effect_free(ar);
-    cr_assert_eq(rc, 1, "Error: failed test stat_reader_effect_free_test\n");
+    cr_assert_eq(rc, SUCCESS, "Error: failed test stat_reader_effect_free_test\n");
 }
 
 /* Test execute_reader_effect for statistic reader, true */
