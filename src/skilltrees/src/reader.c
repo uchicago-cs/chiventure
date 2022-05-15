@@ -64,7 +64,7 @@ stat_reader_effect_t* stat_reader_effect_new(int value, stats_type_t stat_type,
         return NULL;
     }
 
-    rc = stat_reader_effect_init(reader,stat_type, value, comp, location);
+    rc = stat_reader_effect_init(reader,value, stat_type, comp, location);
 
     if (rc) {
         fprintf(stderr, "stat_reader_effect_init: initialization failed\n");
@@ -160,18 +160,16 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
 
     switch(reader->location){
         case READ_PLAYER:
-            if(NULL == ctx->game->curr_player->player_class->name){
+            if(NULL != ctx->game->curr_player->player_class->name && NULL != reader->value){
                 if(0 == strcmp(reader->value, ctx->game->curr_player->player_class->name)){
                     return true;
                 } else {
                     return false;
                 }
-            } else {
-                return -1;
             }
         case READ_SINGLE_TARGET:
-            if(NULL ==  ctx->game->battle_ctx->game->battle->enemy->class_type->name){
-                if(0 == strcmp(reader->value,  ctx->game->battle_ctx->game->battle->enemy->class_type->name)){
+            if(NULL != ctx->game->battle_ctx->game->battle->enemy->class_type->name && NULL != reader->value){
+                if(0 == strcmp(reader->value, ctx->game->battle_ctx->game->battle->enemy->class_type->name)){
                     return true;
                 } else {
                     return false;
@@ -179,8 +177,8 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
             }
 
         case READ_WORLD:
-            if(NULL ==  ctx->game->curr_room->room_id){
-                if(0 == strcmp(reader->value,  ctx->game->curr_room->room_id)){
+            if(NULL !=  ctx->game->curr_room->room_id && NULL != reader->value){
+                if(0 == strcmp(reader->value, ctx->game->curr_room->room_id)){
                     return true;
                 } else {
                     return false;
@@ -241,14 +239,14 @@ int check_stats(int value, stats_type_t type, comparison_t comp, stat_t* stats){
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx){
     switch(reader->location){
         case READ_PLAYER:
-            if(NULL == ctx->game->battle_ctx->game->battle->player->stats){
+            if(NULL != ctx->game->battle_ctx->game->battle->player->stats && NULL != reader->value){
                 return check_stats(reader->value, reader->stat_type, reader->comparison, 
                         ctx->game->battle_ctx->game->battle->player->stats);
             }
 
 
         case READ_SINGLE_TARGET:
-            if(NULL == ctx->game->battle_ctx->game->battle->enemy->stats){
+            if(NULL != ctx->game->battle_ctx->game->battle->enemy->stats && NULL != reader->value){
                 return check_stats(reader->value, reader->stat_type, reader->comparison, 
                     ctx->game->battle_ctx->game->battle->enemy->stats);
             }

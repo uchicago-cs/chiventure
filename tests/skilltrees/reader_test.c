@@ -34,7 +34,7 @@ Test(reader_tests, reader_effect_new_test_stat){
     stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
 
     reader_effect_t *new = reader_effect_new(type, ar, sr);
-    cr_assert_eq(new->type,READER_ATTRIBUTE,
+    cr_assert_eq(new->type,READER_STATISTIC,
         "Error: failed test reader_effect_new_test_stat on new->type\n");
     cr_assert_eq(new->attr_reader,NULL,
         "Error: failed test reader_effect_new_test_stat on new->attr_reader\n");
@@ -54,7 +54,7 @@ Test(reader_tests, reader_effect_init_test_attr){
     stat_reader_effect_t *sr = NULL;
 
     int rc = reader_effect_init(new, type, ar, sr);
-    cr_assert_eq(rc,1,
+    cr_assert_eq(rc,SUCCESS,
         "Error: failed test reader_effect_new_test_attr, initialization failed\n");
     cr_assert_eq(new->type,READER_ATTRIBUTE,
         "Error: failed test reader_effect_new_test_attr on new->type\n");
@@ -72,9 +72,9 @@ Test(reader_tests, reader_effect_init_test_stat){
     stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
 
     int rc = reader_effect_init(new, type, ar, sr);
-    cr_assert_eq(rc,1,
+    cr_assert_eq(rc,SUCCESS,
         "Error: failed test reader_effect_init_test_stat, initialization failed\n");
-    cr_assert_eq(new->type,READER_ATTRIBUTE,
+    cr_assert_eq(new->type,READER_STATISTIC,
         "Error: failed test reader_effect_new_test_stat on new->type\n");
     cr_assert_eq(new->attr_reader,NULL,
         "Error: failed test reader_effect_new_test_stat on new->attr_reader\n");
@@ -86,14 +86,14 @@ Test(reader_tests, reader_effect_init_test_stat){
 Test(reader_tests, reader_effect_free_test_stat){
     stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
     int rc = stat_reader_effect_free(sr);
-    cr_assert_eq(rc, 1, "Error: failed test reader_effect_free_test for stat\n"); 
+    cr_assert_eq(rc, SUCCESS, "Error: failed test reader_effect_free_test for stat\n"); 
 }
 
 /* Test reader_effect_free for attr freeing*/
 Test(reader_tests, reader_effect_free_test_attr){
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     int rc = attr_reader_effect_free(ar);
-    cr_assert_eq(rc, 1, "Error: failed test stat_reader_effect_free_test\n");
+    cr_assert_eq(rc, SUCCESS, "Error: failed test stat_reader_effect_free_test\n");
 }
 
 /* Test stat_reader_effect_new */
@@ -115,7 +115,7 @@ Test(reader_tests, stat_reader_effect_init_test){
     stat_reader_effect_t* sr = (stat_reader_effect_t*)malloc(sizeof(stat_reader_effect_t));
     int rc = stat_reader_effect_init(sr, 50, SPEED, GREATER, READ_PLAYER);
 
-    cr_assert_eq(rc,1,
+    cr_assert_eq(rc,SUCCESS,
         "Error: failed test stat_reader_effect_init_test, initialization failed\n");
     cr_assert_eq(sr->value,50,
         "Error: failed test stat_reader_effect_init_test on sr->value\n");
@@ -131,7 +131,7 @@ Test(reader_tests, stat_reader_effect_init_test){
 Test(reader_tests, stat_reader_effect_free_test){
     stat_reader_effect_t *sr = stat_reader_effect_new(50, SPEED, GREATER, READ_PLAYER);
     int rc = stat_reader_effect_free(sr);
-    cr_assert_eq(rc, 1, "Error: failed test stat_reader_effect_free_test\n");
+    cr_assert_eq(rc, SUCCESS, "Error: failed test stat_reader_effect_free_test\n");
 }
 
 /* Test attr_reader_effect_new */
