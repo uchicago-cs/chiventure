@@ -30,7 +30,7 @@ class_t* generate_test_class()
 }
 
 /* Tests init function for mission struct */
-Test(mission, init)
+Test(mission, init1)
 {   
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -44,6 +44,40 @@ Test(mission, init)
     int check = mission_init(mission, NULL, mission_meet_npc, NULL, NULL);
 
     cr_assert_eq(check,SUCCESS,"mission_init() failed");
+    cr_assert_eq(mission->npc_to_meet, mission_meet_npc, "mission_init() initialized mission with wrong value");
+}
+
+/* Tests init function for mission struct */
+Test(mission, init2)
+{   
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+
+    npc_t *mission_kill_npc = npc_new(npc_meet_id ,"npc1", "npc to kill",
+                                class, NULL, false);
+
+    mission_t *mission = malloc(sizeof(mission_t));
+
+    int check = mission_init(mission, NULL, NULL, mission_kill_npc,  NULL);
+
+    cr_assert_eq(check,SUCCESS,"mission_init() failed");
+    cr_assert_eq(mission->npc_to_kill, mission_kill_npc, "mission_init() initialized mission with wrong value");
+}
+
+/* Tests init function for mission struct */
+Test(mission, init3)
+{   
+    class_t* class = generate_test_class();
+    item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    
+    mission_t *mission = malloc(sizeof(mission_t));
+
+    int check = mission_init(mission, item_to_get, NULL, NULL,  NULL);
+
+    cr_assert_eq(check,SUCCESS,"mission_init() failed");
+    cr_assert_eq(mission->item_to_collect, item_to_get, "mission_init() initialized mission with wrong value");
 }
 
 /* Tests init function for task struct */
@@ -67,6 +101,7 @@ Test(task, init)
 	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
 
+/* Tests new function for reward struct */
 Test(reward, new)
 {
     int xp = 40;
@@ -80,6 +115,8 @@ Test(reward, new)
     cr_assert_eq(rewards->xp, 40,  "reward_new did not set xp");                 
 }
 
+
+/* Tests new function for prereq struct */
 Test(prereq, new)
 {
     int hp = 20;
@@ -93,6 +130,7 @@ Test(prereq, new)
 }
 
 
+/* Tests init function for prereq struct */
 Test(prereq, init)
 {
     int hp = 40;
@@ -134,6 +172,51 @@ Test(quest, init)
 	int check = quest_init(q, "test", NULL, rewards, prereq);
 
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
+}
+
+/* Tests new function for mission struct */
+Test(mission, new1)
+{
+    item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    char *id = "test mission";
+
+    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
+    cr_assert_not_null(mission, "mission_new() test failed");
+
+    cr_assert_eq(item_to_get, mission->item_to_collect, "mission_new() did not allocate correct value");
+}
+
+/* Tests new function for mission struct */
+Test(mission, new2)
+{
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+
+    npc_t *mission_kill_npc = npc_new(npc_meet_id ,"npc1", "npc to kill",
+                                class, NULL, false);
+
+    mission_t *mission = mission_new(NULL, NULL, mission_kill_npc, NULL);
+    cr_assert_not_null(mission, "mission_new() test failed");
+
+    cr_assert_eq(mission_kill_npc, mission->npc_to_kill, "mission_new() did not allocate correct value");
+}
+
+/* Tests new function for mission struct */
+Test(mission, new3)
+{
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+
+    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
+                                class, NULL, false);
+
+    mission_t *mission = mission_new(NULL, mission_meet_npc, NULL, NULL);
+    cr_assert_not_null(mission, "mission_new() test failed");
+
+    cr_assert_eq(mission_meet_npc, mission->npc_to_meet, "mission_new() did not allocate correct value");
 }
 
 /* Tests new task malloc (new uses init) */
