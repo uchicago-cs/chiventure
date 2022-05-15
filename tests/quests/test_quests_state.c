@@ -90,10 +90,11 @@ Test(task, init)
     "test item for item_new()");
     int xp = 40;
     reward_t *rewards = reward_new(xp, item);
+    prereq_t *prereq = prereq_new(50, 50);
 
     task_t *task = malloc(sizeof(task_t));
 
-	int check = task_init(task, mission, id, rewards);
+	int check = task_init(task, mission, id, rewards, prereq);
 
 	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
@@ -184,8 +185,9 @@ Test(task, new)
     "test item for item_new()");
     int xp = 40;
     reward_t *rewards = reward_new(xp, item);
+    prereq_t *prereq = prereq_new(50, 50);
 
-	task_t* task = task_new(mission, id, rewards);
+	task_t* task = task_new(mission, id, rewards, prereq);
 
 	cr_assert_not_null(task, "task_new() test has failed!");
 }
@@ -235,8 +237,9 @@ Test(task, free)
     "test item for item_new()");
     int xp = 30;
     reward_t *rewards = reward_new(xp, item);
+    prereq_t *prereq = prereq_new(50, 50);
 
-	task_t* task_to_free = task_new(mission, id, rewards);
+	task_t* task_to_free = task_new(mission, id, rewards, prereq);
 
 
 	cr_assert_not_null(task_to_free, "task_free(): room is null");
@@ -364,7 +367,7 @@ Test(quest, add_task_to_quest)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	task_t* task_to_add = task_new(mission, id, rewards);
+	task_t* task_to_add = task_new(mission, id, rewards, prereq);
 
     int res = add_task_to_quest(quest, task_to_add, "NULL");
 
@@ -525,7 +528,7 @@ Test(quest, complete_task)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-	task_t* task_to_complete = task_new(mission, id, rewards);
+	task_t* task_to_complete = task_new(mission, id, rewards, NULL);
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
 
@@ -581,7 +584,7 @@ Test(quest,is_quest_completed)
     mission->a_mission = a_mission;
     mission->p_mission = NULL;
 
-    task_t *task = task_new(mission, "mission", rewards);
+    task_t *task = task_new(mission, "mission", rewards, NULL);
 
     int res = add_task_to_quest(quest, task, NULL);
 
