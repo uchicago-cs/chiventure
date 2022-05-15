@@ -348,7 +348,29 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * See actionmanagement.h */
 int do_player_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, char **ret_string)
 {
-    return;
+    assert(c);
+    assert(c->game);
+    assert(a);
+    assert(p);
+    
+    game_t *game = c->game;
+
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    // checks if the action type is the correct kind
+    if (a->kind != PLAYER)
+    {
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
+    }
+
+    // retrieve stats from the player
+    string = display_stats(p->player_stats);
+
+    *ret_string = string;
+    return SUCCESS;
 }
 
 
