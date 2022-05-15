@@ -84,20 +84,20 @@ pos_in_tree_t* getTaskPos(task_tree_mockup_t* taskTree, char* wanted_task_name) 
 
 
 
-void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize,          
-                        Vector2 segmentDimension, char*current_task_name, float squareside,
-                        Vector2 drawStartPos, bool showRemainingHorizontal)
+void runTaskTreeGraphics(quest_graphics_t* quest_graphics)
 {
+
+
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = windowsize.x;
-    const int screenHeight = windowsize.y;
+    const int screenWidth = quest_graphics->WindowSize.x;
+    const int screenHeight = quest_graphics->WindowSize.y;
 
     InitWindow(screenWidth, screenHeight, "Quest");
-    SetWindowPosition(windowpos.x, windowpos.y);
+    SetWindowPosition(quest_graphics->WindowPos.x, quest_graphics->WindowPos.y);
 
-    double widthSegment = segmentDimension.x;
-    double heightSegment = segmentDimension.y;
+    double widthSegment = quest_graphics->SegmentDimension.x;
+    double heightSegment = quest_graphics->SegmentDimension.y;
 
     //Currently Hardcoded, need to be flexible in the future as
     // as we read in from the real quest struct;
@@ -120,15 +120,16 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
         //xp = getExperience();
         xp = 400;
 
-        pos_in_tree_t* pos_data = getTaskPos(taskTree, current_task_name);
-        task_tree_mockup_t* current_taskTree = taskTree;
+        pos_in_tree_t* pos_data = getTaskPos(quest_graphics->TaskTree, quest_graphics->CurrentTaskName);
+        task_tree_mockup_t* current_taskTree = quest_graphics->TaskTree;
         char stepstotal = pos_data->totalsteps;
         int tracker = pos_data->movement_tracker;
-        float x = drawStartPos.x;
-        float y = drawStartPos.y;
+        float x = quest_graphics->DrawStartPosition.x;
+        float y = quest_graphics->DrawStartPosition.y;
         float xtmp, ytmp, xcopy, ycopy;
         int thismove;
         int lastmove = tracker >> (stepstotal-1);
+        float squareside = quest_graphics->SquareeSide;
 
         // Draw
         //----------------------------------------------------------------------------------
@@ -154,7 +155,7 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
         for(int i = 0; i < stepstotal; i++) {
             thismove = tracker & 1;
             if (thismove == 0) {
-                if (showRemainingHorizontal) {
+                if (quest_graphics->ShowRemainingHorizontal) {
                     task_tree_mockup_t* copy = current_taskTree;
                     xcopy = x;
                     ycopy = y;
@@ -212,8 +213,19 @@ void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector
 int main() {
     task_tree_mockup_t *TreeA = synthesizeTest1();
 
-    runTaskTreeGraphics(TreeA, (Vector2){80,80},(Vector2){600,400},
-                        (Vector2){50,50},"F",30,(Vector2){150,150}, true);
+    quest_graphics_t quest_graphics;
+
+    quest_graphics.TaskTree=TreeA;
+    quest_graphics.WindowPos=(Vector2){80,80};
+    quest_graphics.WindowSize=(Vector2){600,400};
+    quest_graphics.DrawStartPosition=(Vector2){150,150};
+    quest_graphics.SegmentDimension=(Vector2){50,50};
+    quest_graphics.SquareeSide=30;
+    quest_graphics.CurrentTaskName="F";
+    quest_graphics.ShowRemainingHorizontal=true;
+
+
+    runTaskTreeGraphics(&quest_graphics);
     //Free
     return 0;
 }
