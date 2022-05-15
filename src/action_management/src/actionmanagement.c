@@ -556,6 +556,22 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
                 if(strlen(player_inventory->item->short_desc) >= cost){
                     can_buy = true;
                     ret_item = player_inventory->item;
+                    if(remove_item_from_player(c->game->curr_player, ret_item) != SUCCESS)
+                    {   
+                        return FAILURE;
+                    }
+                    if(add_item_to_npc(npc, ret_item) != SUCCESS)
+                    {
+                        return FAILURE;
+                    }
+                    if(remove_item_from_npc(npc, item) != SUCCESS)
+                    {   
+                        return FAILURE;
+                    }
+                    if(add_item_to_player(c->game->curr_player, item) != SUCCESS)
+                    {
+                        return FAILURE;
+                    }
                     return SUCCESS;
                 }
                 player_inventory = player_inventory->next;
@@ -567,6 +583,7 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
         else if (a == BUY)
         {
             // todo
+            return FAILURE;
         }
     }
 }
