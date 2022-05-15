@@ -74,7 +74,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward);
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
                     reward_t *reward, prereq_t *stat_req);
 
-/* Initialize an already allocated mission struct 
+/* Initialize an already allocated mission struct
  *
  * Parameters:
  * - mission: an already allocated mission_t 
@@ -84,6 +84,10 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
+ * 
+ * Note: Also ensures that the mission only includes a single thing to do. If
+ *       there is more than one pointer that is not NULL (excluding mission),
+ *       this function will return FAILURE.
  */
 int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
                         npc_t *npc_to_kill, room_t *room_to_visit);
@@ -168,7 +172,7 @@ int id_list_init(id_list_t *id_list);
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int active_mission_free(mission_t *mission);
+int mission_free(mission_t *mission);
 
 /* 
  * Frees a task struct from memory but does not free 

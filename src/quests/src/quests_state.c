@@ -108,6 +108,21 @@ int mission_init(mission_t *mission, item_t *item_to_collect,
 {
     assert(mission != NULL);
 
+    int count = 0;
+    if(item_to_collect != NULL) {
+        count++;
+    }
+    if(npc_to_meet != NULL) {
+        count++;
+    }
+    if(npc_to_kill != NULL) {
+        count++;
+    }
+    if(room_to_visit != NULL) {
+        count++;
+    }
+    assert(count < 2);
+
     mission->item_to_collect = item_to_collect;
     mission->npc_to_meet = npc_to_meet;
     mission->npc_to_kill = npc_to_kill;
