@@ -197,9 +197,7 @@ move_t *get_random_default_move()
     int info_len = strlen(name_array[rand - 1]);
     char* info = (char*)calloc(info_len + 1, sizeof(char));
     strncpy(info, name_array[rand - 1], info_len + 1);
-    //bool attack = true;
     int damage = rand * 5 + 40;
-    //int defense = rand * 10 + 5;
 
     move_t *rv_move = move_new(id, "", info, PHYS, NO_TARGET, NO_TARGET, SINGLE,
                                0, NULL, damage, 100, NULL, NULL, NULL, NULL);
