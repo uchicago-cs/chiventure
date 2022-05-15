@@ -11,7 +11,7 @@ mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet,
     mission_t *mission = malloc(sizeof(mission_t));
     int rc;
 
-    rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
+    rc = mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
                       room_to_visit);
 
     if (rc != SUCCESS)
@@ -257,6 +257,12 @@ int id_list_free(id_list_t *id_list) {
 
 /* Refer to quests_state.h */
 bool meets_prereqs(player_t *player, prereq_t *prereq) {
+    if(player == NULL) {
+        return false;
+    }
+    if(prereq == NULL) {
+        return true;
+    }
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
 

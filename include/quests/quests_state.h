@@ -306,8 +306,10 @@ reward_t *complete_task(task_t *task, player_t *player);
  */
 bool is_quest_completed(quest_t *quest, player_t *player);
 
-/* Checks if a player completed a given rask and updates the 
+/* Checks if a player completed a given task and updates the 
  * reference to the task in the player's task table accordingly
+ * - Always returns true if the task has a mission and checks the 
+ *  prerequisite if it does not
  * 
  * Parameter:
  * - task: pointer to the task
