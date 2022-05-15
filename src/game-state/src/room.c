@@ -230,3 +230,69 @@ npc_t *get_npc_in_room(room_t *room, char *npc_id)
               strnlen(npc_id, MAX_ID_LEN), npc);
     return npc;
 }
+
+/* Coordinate functions */
+
+/* See room.h */
+int coords_init(coords_t *new_coords, char *coords_id, int x, int y){
+    assert(new_coords != NULL);
+
+    strncpy(new_coords->coords_id, coords_id, strlen(coords_id)+1);
+    case_insensitize(new_coords->coords_id);
+
+    coords->x = x;
+    coords->y = y;
+
+    return SUCCESS;
+}
+
+/* See room.h */
+coords_t *coords_new(char *coords_id, int x, int y){
+    coords_t *coords = malloc(sizeof(coords_t));
+    coords->coords_id = malloc(MAX_ID_LEN);
+    int check = coords_init(coords, coords_id, x, y);
+
+    if (coords == NULL || coords->coords_id == NULL)
+        return NULL;
+
+    if (check != SUCCESS)
+        return NULL;
+
+    return coords;
+}
+
+/* See room.h */
+int coords_free(coords_t *coords){
+    free(coords->coords_id);
+    room_free(coords->room);
+    free(coords);
+    return SUCCESS;
+}
+
+/* See room.h */
+int add_room_to_coord(coords_t *coords, room_t *room){
+    if (coords == NULL || room == NULL)
+        return FAILURE;
+
+    if (coords->room != NULL)
+        return FAILURE;
+
+    coords->room = room;
+    return SUCCESS;
+}
+
+/* See room.h */
+room_t *find_room_at_coord(coords_t *coords){
+    return coords->room;
+}
+
+/* See room.h */
+int delete_all_coords(coords_hash_t **coords){
+    coords_t *current_coords, *tmp;
+    HASH_ITER(hh, *coords, current_coords, tmp)
+    {
+        HASH_DEL(*coords, current_coords);  /* deletes (rooms advances to next) */
+        room_free(current_coords);             /* free it */
+    }
+    return SUCCESS;
+}

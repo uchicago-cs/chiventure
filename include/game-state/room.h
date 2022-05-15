@@ -40,11 +40,33 @@ typedef struct path path_hash_t;
 typedef struct npcs_in_room npcs_in_room_t;
 typedef struct npc npc_t;
 
+/* This struct represents coordinates for a room from a global perspective                    
+ * It contains:
+ *      the coords_id
+ *      the x coordinate
+ *      the y coordinate                           
+ *      the room at the coordinate */
+typedef struct coords {
+    /* hh is used for hashtable, as provided in uthash.h */
+    UT_hash_handle hh;
+    char *coords_id;
+    int x;
+    int y;
+    room_t *room;
+} coords_t;
+
+/* This typedef is to distinguish between coords_t pointers which are
+* used to point to the coords_t structs in the traditional sense,
+* and those which are used to hash coords_t structs with the
+* UTHASH macros as specified in src/common/include */
+typedef struct coords coords_hash_t;
+
 /* This struct represents a single room.
  * It contains:
  *      the room_id
  *      short description
  *      long description
+ *      its coordinates
  *      a hashtable of items to be found there
  *      a hashtable of paths accessible from the room. */
 typedef struct room {
@@ -278,5 +300,70 @@ int remove_condition(path_t *path, list_action_type_t *a);
  *  SUCCESS if successful, FAILURE if failed
  */
 int delete_all_rooms(room_hash_t **rooms);
+
+// COORDINATE DEFINITIONS AND HEADERS   
+
+/* Mallocs space for a new coordinate
+ *
+ * Parameters:
+ *  a unique coordinate id
+ *
+ * Returns:
+ *  a pointer to new coordinate
+ */
+coords_t *coords_new(char *coords_id, int x, int y);
+
+/* coord_init() initializes a coord struct with given values
+ * Parameters:
+ *  a malloced new coordinate pointer
+ *  x coordinate value
+ *  y coordinate value
+ *
+ * Returns:
+ *   FAILURE for failure, SUCCESS for success
+*/
+int coords_init(coords_t *new_coords, char *coords_id, int x, int y);
+
+
+/* Frees the space in memory taken by given coordinate
+ *
+ * Parameters:
+ *  pointer to the coords struct to be freed
+ *
+ * Returns:
+ *  Always returns SUCCESS
+ */
+
+int coords_free(coords_t *coords);
+
+/* Adds a room to the given coordinate if there isn't a room already
+ *
+ * Parameters:
+ *  pointer to coord struct
+ *  pointer to room struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_room_to_coord(coords_t *coords, room_t *room);
+
+/* Returns pointer to room given a coordinate
+* Parameters:
+* pointer to coord
+*
+* Returns:
+* pointer to room or NULL if not found
+*/
+room_t *find_room_at_coord(coords_t *coords);
+
+/* Deletes a hashtable of coords
+ * Implemented with macros provided by uthash.h
+ *
+ * Parameters:
+ *  a pointer to the hashtable of coords that need to be deleted
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int delete_all_coords(coords_hash_t **coords);
 
 #endif
