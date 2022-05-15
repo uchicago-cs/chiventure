@@ -239,14 +239,14 @@ int check_stats(int value, stats_type_t type, comparison_t comp, stat_t* stats){
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx){
     switch(reader->location){
         case READ_PLAYER:
-            if(NULL != ctx->game->battle_ctx->game->battle->player->stats && NULL != reader->value){
+            if(NULL != ctx->game->battle_ctx->game->battle->player->stats){
                 return check_stats(reader->value, reader->stat_type, reader->comparison, 
                         ctx->game->battle_ctx->game->battle->player->stats);
             }
 
 
         case READ_SINGLE_TARGET:
-            if(NULL != ctx->game->battle_ctx->game->battle->enemy->stats && NULL != reader->value){
+            if(NULL != ctx->game->battle_ctx->game->battle->enemy->stats){
                 return check_stats(reader->value, reader->stat_type, reader->comparison, 
                     ctx->game->battle_ctx->game->battle->enemy->stats);
             }
