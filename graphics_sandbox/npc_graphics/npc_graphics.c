@@ -43,7 +43,7 @@ int ActionFree(npc_action_t* pointer) {
 
 
 /* See npc.h */
-npc_action_t* GetAction(char* action_name, npc_graphics_t* npc_graphics) {
+npc_action_t* GetAction(char* action_name, npc_info_t* npc_graphics) {
     npc_action_t* current_action = npc_graphics->head_action;
     do {
         if(!strcmp(action_name, current_action->action_name)) {
@@ -80,7 +80,7 @@ int LineFree(npc_line_t* pointer) {
 
 
 /* See npc.h */
-npc_line_t* GetLine(char* line_name, npc_graphics_t* npc_graphics) {
+npc_line_t* GetLine(char* line_name, npc_info_t* npc_graphics) {
     npc_line_t* current_line = npc_graphics->head_line;
     do {
         if(!strcmp(line_name, current_line->line_name)) {
@@ -91,8 +91,8 @@ npc_line_t* GetLine(char* line_name, npc_graphics_t* npc_graphics) {
 }
 
 /* See npc.h */
-npc_graphics_t* GetNPC(char* NPC_name, npc_graphics_t** npcs) {
-    npc_graphics_t* current_npc = npcs[0];
+npc_info_t* GetNPC(char* NPC_name, npc_info_t* npcs) {
+    npc_info_t* current_npc = npcs;
     do {
         if(!(strcmp(NPC_name,current_npc->npc_name))) {
             return current_npc;
@@ -102,9 +102,9 @@ npc_graphics_t* GetNPC(char* NPC_name, npc_graphics_t** npcs) {
 }
 
 /* A testing input for NPC graphics */
-npc_graphics_t* synthesizeTest() {
-    npc_graphics_t* res;
-    res = malloc(sizeof(npc_graphics_t));
+npc_info_t* synthesizeTest() {
+    npc_info_t* res;
+    res = malloc(sizeof(npc_info_t));
     res->npc_name = "Dhirpal";
     res->head_action = ActionNew("Default","testimages/dhirpal/action/default.png",3,3);
     res->head_line = LineNew("TedTalk", "Welcome to my Ted Talk");
@@ -112,31 +112,39 @@ npc_graphics_t* synthesizeTest() {
 }
 
 /* Another testing input for NPC graphics */
-npc_graphics_t* synthesizeTest2() {
-    npc_graphics_t* res;
-    res = malloc(sizeof(npc_graphics_t));
+npc_info_t* synthesizeTest2() {
+    npc_info_t* res;
+    res = malloc(sizeof(npc_info_t));
     res->npc_name = "GangnamStyle";
     res->head_action = ActionNew("Dance","testimages/GangnamStyle/Dance/GangnamStyle.png",22,7);
     res->head_line = LineNew("Default", "Let's Dance");
     return res;
 }
 
+/* Another testing input for NPC graphics */
+npc_info_t* synthesizeTest3() {
+    npc_info_t* res;
+    res = malloc(sizeof(npc_info_t));
+    res->npc_name = "Fire";
+    res->head_action = ActionNew("Burn","testimages/Fire/Default/fire.png",6,6);
+    res->head_line = LineNew("Crack", "Crack crack...");
+    return res;
+}
 
-void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* line_name,
-                    Vector2 windowloc, Vector2 windowsize, Color textcolor) {
+void runNPCGraphics(npc_graphics_t* npc_graphics) {
 
  // Initialization
     //--------------------------------------------------------------------------------------
 
 
-    npc_graphics_t* current_npc = GetNPC(NPCname,npcs);
+    npc_info_t* current_npc = GetNPC(npc_graphics->current_npc,npc_graphics->npc_linkedlist);
     
 
-    const int screenWidth = windowsize.x;
-    const int screenHeight = windowsize.y;
+    const int screenWidth = npc_graphics->WindowSize.x;
+    const int screenHeight = npc_graphics->WindowSize.y;
 
     InitWindow(screenWidth, screenHeight, current_npc->npc_name);
-    SetWindowPosition(windowloc.x, windowloc.y);
+    SetWindowPosition(npc_graphics->WindowPos.x, npc_graphics->WindowPos.y);
 
     Texture2D texture = LoadTexture((const char*)current_npc->head_action->action_image_path);
     
@@ -155,7 +163,7 @@ void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* li
     int framescounter = 0;
     double frameSpeed = current_npc->head_action->switch_frequency;
 
-    const char* NPC_line = (GetLine(line_name,current_npc))->line;
+    const char* NPC_line = (GetLine(npc_graphics->current_line,current_npc))->line;
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -178,7 +186,7 @@ void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* li
             
                 DrawTextureRec(texture, frameRec,(Vector2){0,0},RAYWHITE);
                 DrawRectangle(0,(GetScreenHeight()-60),GetScreenWidth(),GetScreenHeight(),WHITE);
-                DrawText(NPC_line, 20, (GetScreenHeight()-40), 20, textcolor);
+                DrawText(NPC_line, 20, (GetScreenHeight()-40), 20, npc_graphics->textcolor);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -196,18 +204,23 @@ void runNPCGraphics(npc_graphics_t** npcs, char* NPCname, char* action, char* li
 
 int main(void)
 {   
-    //npc_graphics_t* current_npc = synthesizeTest();
+    //npc_info_t* current_npc = synthesizeTest();
 
     //runNPCGraphics(&current_npc, "Dhirpal", "Default","Tedtalk", (Vector2){800,0},(Vector2){600,400},BLACK);
-    //npc_graphics_t* current_npc = synthesizeTest2();
+    //npc_info_t* current_npc = synthesizeTest2();
 
 
     //runNPCGraphics(&current_npc, "Dhirpal", "Default","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
-    npc_graphics_t* current_npc = synthesizeTest2();
+    //npc_info_t* current_npc = synthesizeTest2();
 
-
-    npc_graphics_t* current_npc = synthesizeTest3();
-    runNPCGraphics(&current_npc, "Fire", "Burn","Crack", (Vector2){1200,0},(Vector2){160,500},BLACK);
+    npc_info_t* npc_1 = synthesizeTest();
+    npc_info_t* npc_2 = synthesizeTest2();
+    npc_info_t* npc_3 = synthesizeTest3();
+    npc_info_t* npcs = npc_1;
+    npcs->next = npc_2;
+    npcs->next->next = npc_3;
+    npc_graphics_t npc_graphics = {(Vector2){1200,0},(Vector2){160,500},RED,"Fire","Burn","Crack",npcs};
+    runNPCGraphics(&npc_graphics);
 
 
     return 0;

@@ -9,6 +9,14 @@
 #include "read_gdl.h"
 
 
+typedef struct inventory_graphics_info {
+    
+
+}
+
+
+
+
 /*
  * Defines the player inventory based on the display
  * preferences of the game developer and a 2D array
