@@ -689,18 +689,6 @@ task_t *find_task_in_quest(task_tree_t *tree, char *id)
     return NULL;
 }
 
-/* Refer to quests_state.h */
-task_t *find_task(player_t *player, char *id){
-    /* TODO */
-    return NULL;
-}
-
-/* Refer to quests_state.h */
-quest_t *find_quest(player_t *player, char *id) {
-    /* TODO */
-    return NULL;
-}
-
 /* Refer quests_state.h */
 reward_t *complete_task(task_t *task, player_t *player)
 {
