@@ -37,7 +37,22 @@ void runMapGraphics(map_graphics_t* info)
         else if (IsKeyDown(KEY_DOWN)||IsKeyDown(KEY_S)) playerPosition.y += 1.0f;
         else if (IsKeyDown(KEY_UP)||IsKeyDown(KEY_W)) playerPosition.y -= 1.0f;
 
+        if (playerPosition.x < (screenWidth-MapTexture.width)/2) {
+            playerPosition.x = (screenWidth-MapTexture.width)/2;
+        }
+
+        if (playerPosition.x > screenWidth - (screenWidth-MapTexture.width)/2) {
+            playerPosition.x = screenWidth - (screenWidth-MapTexture.width)/2;
+        }
         
+        if (playerPosition.y < (screenHeight-MapTexture.height)/2) {
+            playerPosition.y = (screenHeight-MapTexture.height)/2;
+        }
+
+        if (playerPosition.y > screenHeight - (screenHeight-MapTexture.height)/2) {
+            playerPosition.y = screenHeight - (screenHeight-MapTexture.height)/2;
+        }
+
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
