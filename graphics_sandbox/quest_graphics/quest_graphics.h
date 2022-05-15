@@ -2,6 +2,7 @@
 #define QUEST_GRAPHICS_H
 
 #include "raylib.h"
+#include <stdbool.h>
 
 typedef struct task_tree_mockup task_tree_mockup_t;
 
@@ -27,6 +28,16 @@ typedef struct pos_in_tree {
     char totalsteps;
 } pos_in_tree_t;
 
+typedef struct quest_graphics{
+    Vector2 WindowPos;
+    Vector2 WindowSize;
+    Vector2 SegmentDimension;
+    Vector2 DrawStartPosition;
+    task_tree_mockup_t *headtree;
+    char* CurrentTaskName;
+    bool ShowRemainingHorizontal;
+    float SquareeSide;
+} quest_graphics_t;
 
 int getTreeMaxWidth(task_tree_mockup_t* taskTree);
 
