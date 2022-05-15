@@ -1,5 +1,3 @@
-#include "raylib.h"
-
 #if defined(PLATFORM_DESKTOP)
     #define GLSL_VERSION            330
 #else   // PLATFORM_RPI, PLATFORM_ANDROID, PLATFORM_WEB
@@ -180,7 +178,7 @@ void runNPCGraphics(npc_graphics_t* npc_graphics) {
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(NPC_CONTEXT_ID);
 
             ClearBackground(RAYWHITE);
             

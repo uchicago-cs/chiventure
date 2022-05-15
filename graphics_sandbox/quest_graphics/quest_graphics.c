@@ -133,7 +133,7 @@ void runTaskTreeGraphics(quest_graphics_t* quest_graphics)
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(QUEST_CONTEXT_ID);
 
             ClearBackground(RAYWHITE);
 

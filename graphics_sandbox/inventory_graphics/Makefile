@@ -1,5 +1,5 @@
 test:
-	cc inventorytest.c -framework IOKit -framework Cocoa -framework OpenGL `pkg-config --libs --cflags raylib` -I./ -o test
+	cc inventorytest.c ` -I./ -I../raylib_itself/raylib-multiple-contexts-hack/src -lraylib -o test
 
 clean:
 	rm test

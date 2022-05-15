@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 
+#define INPUT_BOX_CONTEXT_ID 6
 
 
 typedef struct input_box_graphics{

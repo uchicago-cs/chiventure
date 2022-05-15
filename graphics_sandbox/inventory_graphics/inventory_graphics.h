@@ -7,6 +7,7 @@
  * pop-up window
  */
 
+#define INVENTORY_CONTEXT_ID 4;
 
 #include "item.h"
 #include "player.h"

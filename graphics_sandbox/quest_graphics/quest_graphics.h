@@ -1,6 +1,8 @@
 #ifndef QUEST_GRAPHICS_H
 #define QUEST_GRAPHICS_H
 
+#define QUEST_CONTEXT_ID 3
+
 #include "raylib.h"
 #include <stdbool.h>
 
