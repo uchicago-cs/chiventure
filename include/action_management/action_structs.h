@@ -44,6 +44,7 @@ enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     PATH = 2, // ACTION <path i.e. Action Type 2
     ITEM_ITEM = 3 // ACTION <item> <item> i.e. Action Type 3
+    PLAYER = 4 //// ACTION <view> i.e. Action Type 4
 };
 
 
