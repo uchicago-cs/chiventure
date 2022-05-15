@@ -205,3 +205,21 @@ void get_legal_actions(battle_item_t *items,
   
   return;
 }
+
+int num_moves(move_t *moves) {
+  int count = 0;
+  while(moves) {
+    moves = moves->next;
+    count++;
+  }
+  return count;
+}
+
+int num_items(battle_item_t *items) {
+  int count = 0;
+  while(items) {
+    items = items->next;
+    count++;
+  }
+  return count;
+}

@@ -129,4 +129,25 @@ void get_legal_actions(battle_item_t *items,
                        turn_component_t comp, 
                        battle_t *battle);
 
+/* gives the number of moves in the given linked list of moves
+ *
+ * Parameters:
+ * - moves: the head of the linked list of moves
+ * 
+ * Returns:
+ * - the number of moves in the linked list 
+ */
+int num_moves(move_t *moves);
+
+/* gives the number of items in the given linked list of items
+ *
+ * Parameters:
+ * - items: the head of the linked list of items
+ * 
+ * Returns:
+ * - the number of items in the linked list 
+ */
+int num_items(battle_item_t *items);
+
 #endif
+
