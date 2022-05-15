@@ -359,7 +359,7 @@ int do_player_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, char **
     memset(string, 0, BUFFER_SIZE);
 
     // checks if the action type is the correct kind
-    if (a->kind != CHARACTER)
+    if (a->kind != SELF)
     {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
