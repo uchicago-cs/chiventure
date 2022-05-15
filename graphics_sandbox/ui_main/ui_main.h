@@ -49,5 +49,5 @@ struct ui_linkedlist {
     window_t* Window;
     ui_linkedlist_t* next;
 };
-
+ 
 #endif
