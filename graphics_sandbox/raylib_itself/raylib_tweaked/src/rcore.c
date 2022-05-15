@@ -407,7 +407,7 @@ typedef struct CoreData {
         char **dropFilesPath;               // Store dropped files paths as strings
         int dropFileCount;                  // Count dropped files strings
 
-    } Window;
+    } Window[MAX_CONTEXTS];
 #if defined(PLATFORM_ANDROID)
     struct {
         bool appEnabled;                    // Flag to detect if app is active ** = true

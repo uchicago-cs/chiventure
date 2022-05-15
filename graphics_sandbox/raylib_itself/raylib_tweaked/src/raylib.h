@@ -82,6 +82,10 @@
 
 #define RAYLIB_VERSION  "4.1-dev"
 
+#ifndef MAX_CONTEXTS
+    #define MAX_CONTEXTS 10
+#endif
+
 // Function specifiers in case library is build/used as a shared library (Windows)
 // NOTE: Microsoft specifiers to tell compiler that symbols are imported/exported from a .dll
 #if defined(_WIN32)
