@@ -195,7 +195,8 @@ Test(reader_test, execute_reader_effect_test_false){
 Test(reader_test, execute_reader_effect_test_true){
     chiventure_ctx_t* ctx = create_player_and_stats();
     attr_reader_effect_t *ar = attr_reader_effect_new("TEST CHARACTER", 14, READ_PLAYER);
-    int rc = execute_reader_effect(reader, ctx);
+    reader_effect_t *effect = reader_effect_new(ATTRIBUTE, ar, NULL);
+    int rc = execute_reader_effect(effect, ctx);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
 
