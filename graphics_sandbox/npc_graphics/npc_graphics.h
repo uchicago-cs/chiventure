@@ -6,7 +6,10 @@
  *  to the game*/
 //#include "npc/npc.h"
 
-#define NPC_CONTEXT_ID 2;
+#define NPC_CONTEXT_ID 2
+
+
+#include "raylib.h"
 
 typedef struct npc_action npc_action_t;
 /*

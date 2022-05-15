@@ -158,7 +158,7 @@
 #define ShowWindow  UnhideWindow
 #define LoadText    LoadFileText
 //#define Fade(c, a)  ColorAlpha(c, a)
-#define MAX_CONTEXTS 2
+#define MAX_CONTEXTS 10
 //----------------------------------------------------------------------------------
 // Structures Definition
 //----------------------------------------------------------------------------------
