@@ -19,21 +19,21 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
 }
 
 /* See npc_battle.h */
-npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
-		             difficulty_t ai, hostility_t hostility_level, 
-			     int surrender_level)
+npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
+                             difficulty_t ai, hostility_t hostility_level,
+                             int surrender_level)
 {
     npc_battle_t *npc_battle;
     npc_battle = malloc(sizeof(npc_battle_t));
     memset(npc_battle, 0, sizeof(npc_battle_t));
     npc_battle->stats = malloc(sizeof(stat_t));
-    npc_battle->moves = malloc(sizeof(move_t)); 
+    npc_battle->moves = malloc(sizeof(move_t));
 
-    int check = npc_battle_init(npc_battle, health, stats, moves, ai, 
+    int check = npc_battle_init(npc_battle, health, stats, moves, ai,
                                 hostility_level, surrender_level);
 
-    if (npc_battle == NULL || npc_battle->stats == NULL ||  
-        npc_battle->moves == NULL || check != SUCCESS)
+    if (npc_battle == NULL || npc_battle->stats == NULL ||
+            npc_battle->moves == NULL || check != SUCCESS)
     {
         return NULL;
     }
@@ -72,7 +72,7 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     {
         add_item_to_room(room, current_item);
     }
-    
+
     HASH_ITER(hh, npc->inventory, current_item, tmp)
     {
         remove_item_from_npc(npc, current_item);
