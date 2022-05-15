@@ -16,6 +16,7 @@
  *  - type: The complex skill type
  *  - skills: A list of the sub-skills to be stored within complex_skill
  *  - num_skills: The number of sub-skills the complex skill will use
+ *  - reader: Optional reader if skill is conditional
  *
  * Returns:
  *  - A pointer to the complex skill, or NULL if a complex skill cannot be allocated
@@ -28,13 +29,16 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
  *
  * Parameters:
  *  - complex_skill: A complex skill. Must pointer to skill allocated with complex_skill_new
+ *  - type: Type of complex skill 
  *  - skills: A list of the sub-skills to be stored within complex_skill
- * 
+ *  - num_skills: number of sub-skills in skills list
+ *  - reader: Optional reader if skill is conditional
+ *
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int complex_skill_init(complex_skill_t* complex_skill, skill_t** skills, int num_skills,
-                       reader_effect_t* reader);
+int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type, 
+                       skill_t** skills, int num_skills, reader_effect_t* reader);
 
 /*
  * Frees the resources associated with a complex skill.
@@ -88,9 +92,9 @@ reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t t
  *  - type: Location of condition (player, world, enemy, etc.)
  *
  * Returns:
- *  - A pointer to the reader, or NULL if a reader cannot be allocated
+ *  - 0 if successful, 1 if not
  */
-reader_effect_t* reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type);
+int reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type);
 
 /*
  * Frees the resources associated with a reader
@@ -166,3 +170,5 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
  *  not every subskill was able to be incremented. 
  */
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
+
+#endif /*INCLUDE_COMPLEX_SKILLS_H*/

@@ -20,7 +20,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
 
     complex = (complex_skill_t*)malloc(sizeof(complex_skill_t));
 
-    if (skill == NULL) {
+    if (complex == NULL) {
         fprintf(stderr, "complex_skill_new: memory allocation failed\n");
         return NULL;
     }
@@ -33,7 +33,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
         return NULL;
     }
 
-    int rc = complex_skill_init(complex, skills, num_skills, reader);
+    int rc = complex_skill_init(complex, type, skills, num_skills, reader);
 
     if (rc) {
         fprintf(stderr, "complex_skill_new: initialization failed\n");
@@ -59,7 +59,7 @@ int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type
 /*See complex_skills.h */
 int complex_skill_free(complex_skill_t* complex_skill){
 
-    for(int i = 0; i < num_skills; i++){
+    for(int i = 0; i < complex_skill->num_skills; i++){
         free(complex_skill->skills[i]);
     }
     free(complex_skill->skills);
@@ -96,19 +96,13 @@ reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t t
         return NULL;
     }
 
-    if (len == 0)
+    if (str_len == 0)
     {
         fprintf(stderr, "reader_effect_new: condition invalid");
         return NULL;
     }
 
-    if (type == NULL)
-    {
-        fprintf(stderr, "reader_effect_new: type invalid");
-        return NULL;
-    }
-
-    reader = (reader_type_t*)malloc(sizeof(reader_effect_t));
+    reader = (reader_effect_t*)malloc(sizeof(reader_effect_t));
     rc = reader_effect_init(reader, condition, str_len, type);
 
     if (rc)
@@ -121,7 +115,7 @@ reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t t
 }
 
 /* See complex_hills.h */
-reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type)
+int reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type)
 {
 
     assert (reader != NULL);
@@ -143,17 +137,20 @@ int reader_effect_free(reader_effect_t* reader)
 /* See complex_skills.h */
 int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx)
 {
-    if(complex_skill->type != CONDITIONAL) {
+    if(skill->type != COMPLEX_CONDITIONAL) {
         return FAILURE; 
     }
 
-    int rc;
-    if(reader_effect_read(complex_skill->reader, ctx)) {
-        rc = skill_execute(complex_skill->skills[0], ctx);
-    }
-    else {
-        rc = skill_execute(complex_skill->skills[1], ctx);
-    }
+    int rc = 1;
+
+    //Following will be implemented when reader_effect_execute is written in sperate issue
+
+    // if(reader_effect_execute(skill->reader, ctx)) {
+    //     rc = skill_execute(skill->skills[0], ctx);
+    // }
+    // else {
+    //     rc = skill_execute(skill->skills[1], ctx);
+    // }
 
     return rc; 
 }

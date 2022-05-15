@@ -3,6 +3,7 @@ set(TEST_EXE test-skilltrees)
 add_executable(${TEST_EXE}
         test_init.c
         effect_test.c
+        complex_skill_test.c
         inventory_test.c
         skill_test.c
         skilltree_test.c

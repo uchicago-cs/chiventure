@@ -47,7 +47,7 @@ Test(skill_test, complex_skill_init_test)
     skills[1] = skill2;
 
     complex_skill_t* complex = malloc(sizeof(complex_skill_t));
-    complex_skill_init(complex, skills, 2, NULL);
+    complex_skill_init(complex, COMBINED, skills, 2, NULL);
 
     cr_assert_eq(complex->type, COMBINED,
         "Error: failed test complex_skill_new_test on complex->type\n");
@@ -115,8 +115,8 @@ Test(skill_test, conditonal_skill_execute){
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(COMPLEX_CONDITIONAL, skills, 2);
+    complex_skill_t* complex = complex_skill_new(COMPLEX_CONDITIONAL, skills, 2, NULL);
 
-    cr_assert_eq(conditonal_skill_execute(complex, ctx), 0,
+    cr_assert_eq(conditional_skill_execute(complex, ctx),
     "Error: failed test skill_new_test on skill->effect\n");
 }
