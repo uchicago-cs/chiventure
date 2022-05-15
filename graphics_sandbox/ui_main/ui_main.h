@@ -33,11 +33,19 @@ typedef enum window_type {
 } window_type_t;
 
 typedef union windows {
-    npc_graphics_t* npc_graphics;
-    map_graphics_t* map_graphics;
-    quest_graphics_t* quest_graphics;
-    input_box_graphics_t* input_box_graphics;
-    inventory_graphics_t* inventory_graphics;
+    npc_graphics_t npc_graphics;
+    map_graphics_t map_graphics;
+    quest_graphics_t quest_graphics;
+    input_box_graphics_t input_box_graphics;
+    inventory_graphics_t inventory_graphics;
 } windows_t;
+
+typedef struct ui_linkedlist ui_linkedlist_t;
+
+struct ui_linkedlist {
+    window_type_t WindowType;
+    window_t* Window;
+    ui_linkedlist_t* next;
+};
 
 #endif
