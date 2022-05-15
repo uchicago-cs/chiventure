@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcommon.a  CMakeFiles/common.dir/src/ctx.c.o CMakeFiles/common.dir/src/sample_game.c.o
-/usr/bin/ranlib libcommon.a

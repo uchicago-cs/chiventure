@@ -1,2 +1,0 @@
-/usr/bin/ar qc libnpc.a  CMakeFiles/npc.dir/src/npc.c.o CMakeFiles/npc.dir/src/rooms-npc.c.o CMakeFiles/npc.dir/src/dialogue.c.o CMakeFiles/npc.dir/src/npc_move.c.o CMakeFiles/npc.dir/src/npc_battle.c.o
-/usr/bin/ranlib libnpc.a

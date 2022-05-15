@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsound.a  CMakeFiles/sound.dir/src/sound.c.o
-/usr/bin/ranlib libsound.a
