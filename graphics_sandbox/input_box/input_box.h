@@ -2,6 +2,19 @@
 #define INPUT_BOX_H
 
 #include "raylib.h"
+
+
+
+typedef struct input_box_graphics{
+    Vector2 WindowPos;
+    Vector2 WindowSize;
+    Color BoxColor;
+    Color TextColor;
+    Color AnnotationColor;
+    Color OutlineColor;
+    const char* Annotation;
+} input_box_graphics_t;
+
 /*
  * Runs the input box window and really enables data input
  *
@@ -13,17 +26,6 @@
  * Return:
  *      Nothing
  */
-void run_input_box(Vector2 windowDimension, Vector2 windowPosition, char* input_buffer);
-
-
-typedef struct input_box_graphics{
-    Vector2 WindowPos;
-    Vector2 WindowSize;
-    unsigned MaxCharNum;
-    Color BoxColor;
-    Color TestColor;
-    Color AnnotationColor;
-    const char* Annotation;
-} input_box_graphics_t;
+void run_input_box(input_box_graphics_t *input_box_graphics, char* input_buffer);
 
 #endif
