@@ -271,7 +271,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     agent_t *agentdir = NULL;
     agentdir->item = direct;
 
-    
+
     game_t *game = c->game;
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -413,6 +413,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
                 sprintf(string, "Failed to switch to normal mode");
                 return FAILURE;
             }
+            return SUCCESS;
         }
 
         // case for IGNORE
@@ -433,6 +434,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
                 sprintf(string, "Failed to switch to CONVERSATION mode");
                 return FAILURE;
             }
+            return SUCCESS;
         }
 
         // case for all other actions 
@@ -499,10 +501,11 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
         {
             return FAILURE;
         }
-        if(add_item_to_player(c->game->curr_player, item))
+        if(add_item_to_player(c->game->curr_player, item) != SUCCESS)
         {
             return FAILURE;
         }
+        return SUCCESS;
     }
 
     // case for all other actions 
