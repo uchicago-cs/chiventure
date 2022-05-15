@@ -66,10 +66,11 @@ id_list_t *id_list_new();
  * - mission: the mission to be completed for the quest
  * - id: the id of the task
  * - reward: the reward of the task
+ * - prereq: the prerequisite of the task
  *
  * Returns: a pointer to the newly allocated task that is not completed
  */
-task_t *task_new(mission_t *mission, char *id, reward_t *reward);
+task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
 
 /* Creates a new quest struct (allocates memory)
  * 
@@ -132,12 +133,13 @@ int reward_init(reward_t *rewards, int xp, item_t *item);
  * - mission: the mission to be completed for the task
  * - id: the id of the task
  * - reward: the reward of the task
+ * - prereq: the prerequisite of the task
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
+int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
 
 /* Initialize an already allocated quest struct
  *
