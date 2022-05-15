@@ -311,16 +311,6 @@
 //     reward_t *reward_passive = reward_new(0, item_new("Portal Gun", "this gun can create portals on special walls",
 //     "Reward for completing passive missions."));
 
-    /*quest layout: start in room1 -> go to room2 -> go to room3 -> get emerald -> go to room4 -> fight wolf and WIN -> get potion -> meet npc for reward
-                                                                                                / |
-                                                                                               /  |
-                                                                                              /   v
-                                                                                             /    fight wolf and lose -> die
-                                                                                            |
-                                                                                            |
-                                                                                            v
-                                                                                            negotiate with wolf and wolf takes potion -> npc gives xp instead  */
-
 //     stat_req_t *stat_req_passive = stat_req_new(0, 0);
 //     quest_t *quest_passive = make_passive_quest("Quest 1", reward_passive, stat_req_passive);
 //     /*quest layout: start in room1 -> go to room2 -> go to room3 -> get emerald -> go to room4 -> fight wolf and WIN -> get potion -> meet npc for reward
