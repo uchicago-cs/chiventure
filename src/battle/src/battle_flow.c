@@ -243,6 +243,16 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
     get_legal_actions(legal_items, legal_moves, component, ctx->game->battle_ctx->game->battle);
+    if (ctx->game->battle_ctx->game->battle->turn == ENEMY){
+        battle_flow_move(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->moves, 
+                                ctx->game->battle_ctx->game->battle->player->name);
+        char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->battle->enemy->moves);
+        //print_to_cli(ctx, movestr);
+        printf("%s",movestr);
+    }
     char *strg = print_battle_action_menu(legal_items, legal_moves);
     // print to cli
       //_cli(ctx, strg);
@@ -259,7 +269,6 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                 return callback_func(ctx, "That move does not exist.", callback_args);
             }
             if (k == index-1){
-                if (ctx->game->battle_ctx->game->battle->turn == PLAYER){
                     battle_flow_move(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->moves, 
                                 ctx->game->battle_ctx->game->battle->enemy->name);
@@ -268,16 +277,7 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                                 ctx->game->battle_ctx->game->player->moves);
                     //print_to_cli(ctx, movestr);
                     printf("%s",movestr);
-                } else {
-                    battle_flow_move(ctx->game->battle_ctx, 
-                                ctx->game->battle_ctx->game->player->moves, 
-                                ctx->game->battle_ctx->game->battle->player->name);
-                    char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
-                                ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->battle->enemy->moves);
-                    //print_to_cli(ctx, movestr);
-                    printf("%s",movestr);
-                }
+                
             }
             else {
                 ctx->game->battle_ctx->game->player->moves = 
