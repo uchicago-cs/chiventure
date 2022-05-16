@@ -560,66 +560,8 @@ Test(autogenerate, valid_multi_room3)
     cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school", 3));
 }
 
-/*Test(autogenerate, valid_multi_room3)
-{
-    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
-    specgraph_t *spec = NULL;
-    specgraph_from_hash(&spec, hash);
-
-    roomspec_t *sample1 = random_room_lookup(spec);
-    room_t *sample_room1 = roomspec_to_room(sample1);
-    roomspec_t *sample2 = random_room_lookup(spec);
-    room_t *sample_room2 = roomspec_to_room(sample2);
-
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "north");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "north");
-    assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
-
-    game_t *g = game_new("start desc");
-
-    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
-
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    specgraph_t *sample_specgraph = specgraph_new(sample_roomspec);
-    cr_assert_not_null(sample_specgraph, "sample_specgraph should not be NULL");
-
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_specgraph);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    roomspec_t *sample_roomspec2 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    roomspec_t *sample_roomspec3 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    // 3 roomspec case
-    specgraph_t *mid = specgraph_new(sample_roomspec2);
-    cr_assert_not_null(mid, "Could not create new specgraph");
-    specgraph_t *tail = specgraph_new(sample_roomspec3);
-    cr_assert_not_null(tail, "Could not create new specgraph");
-
-    // Doubly linked
-    specgraph_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->specgraph);
-    DL_APPEND(sample_gencontext->specgraph, mid);
-    DL_APPEND(sample_gencontext->specgraph, tail);
-
-    // Ensure game->curr_room does not have paths
-    g->curr_room = sample_room1;
-    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school", 3));
-}*/
-
 /* testing specgraph_from_hash for school bucket*/
-/*
+
 Test(specgraph, school_hash)
 {
     roomspec_t *roomspec0 = make_default_room("school",NULL,NULL);
@@ -633,13 +575,18 @@ Test(specgraph, school_hash)
     // while loop is wrong because specgraph does not reach NULL
     // need to use the number of roomspecs to create a for loop
     int counter = 0;
-    while (tmp != NULL) {
-        if(!strcmp(specgraph->roomspecs[counter]->room_name, "classroom") &&
-                !)
-        counter += 1;
+    for (int i = 0; i < specgraph->num_roomspecs; i++) {
+        if (!strcmp(specgraph->roomspecs[i]->room_name, "classroom") &&
+                !strcmp(specgraph->roomspecs[i]->room_name, "closet") &&
+                !strcmp(specgraph->roomspecs[i]->room_name, "cafeteria") &&
+                !strcmp(specgraph->roomspecs[i]->room_name, "hallway")&&
+                !strcmp(specgraph->roomspecs[i]->room_name, "library")) {
+            cr_assert_str_neq(specgraph->roomspecs[i]->room_name, "classroom");
+                }
     }
+
 }
-*/
+
 
 
 /*Test(specgraph, school_hash)
