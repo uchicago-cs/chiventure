@@ -239,16 +239,16 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves)
   // int representing the length of each move name
   int name_len;
   // string representing the menu label for each item
-  char label[] = "M0 - ";
+  char move_label[] = "M0 - ";
   
   // loop through each move and add an entry to the menu string for each one
   int i;
   for(i=1; i<=moves_count; i++)
   {
     // set label number (the character '0' corrisponds to the int 30 in ascii)
-    label[1] = (char)(30+i);
+    move_label[1] = (char)(30+i);
     // add label to the string and account for its length in index
-    memcpy(menu+index, label, 6);
+    memcpy(menu+index, move_label, 6);
     index += 5;
     
     // get the length of the move name
@@ -268,13 +268,13 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves)
     index++;
 
   // loop through each item and add an entry to the menu string for each one
-  label = "I0 - ";
+  char item_label[] = "I0 - ";
   for(i=1; i<=moves_count; i++)
   {
     // set label number 
-    label[1] = (char)(30+i);
+    item_label[1] = (char)(30+i);
     // add label to the string and account for its length in index
-    memcpy(menu+index, label, 6);
+    memcpy(menu+index, item_label, 6);
     index += 5;
     
     // get the length of the item name
