@@ -366,10 +366,10 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_acti
         return WRONG_KIND;
     }
 
-    if(strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
-        if(obj == STATS) {
-        // retrieve stats from the player
-        string = display_stats(p->player_stats);
+    if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
+        if (obj == STATS) {
+            // retrieve stats from the player
+            string = display_stats(p->player_stats);
         }
     }
 
