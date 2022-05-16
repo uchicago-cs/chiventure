@@ -266,12 +266,12 @@ Test(autogenerate, room_generate_success_one)
     
     roomspec_t *room1 = random_room_lookup(specgraph);
     cr_assert_not_null(room1, "room2 should not be NULL");
-    /*
+    
 
     // having 2 roomspec case
     roomspec_t *graph_roomspec1 = make_default_room("dungeon", NULL, NULL);
     roomspecs[1] = graph_roomspec1;
-
+    /*
     
     // create roomspec 
     roomspec_t *roomspec1 = random_room_lookup(specgraph);
