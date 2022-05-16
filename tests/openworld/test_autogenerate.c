@@ -537,7 +537,7 @@ Test(autogenerate, valid_multi_room3)
     roomspec_t *sample_roomspec = random_room_lookup(specgraph);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
-    specgraph_t *sample_specgraph = specgraph_new(sample_roomspec);
+    specgraph_t *sample_specgraph = specgraph_new(1,roomspecs,edges);
     cr_assert_not_null(sample_specgraph, "sample_specgraph should not be NULL");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_specgraph);
@@ -619,6 +619,22 @@ Test(autogenerate, valid_multi_room3)
 }*/
 
 /* testing specgraph_from_hash for school bucket*/
+Test(specgraph, school_hash)
+{
+    roomspec_t *roomspec0 = make_default_room("school",NULL,NULL);
+    roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*3);
+    roomspecs[0] = roomspec0;
+    int **edges = (int**)malloc(sizeof(int*));
+    specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+
+    specgraph_t *tmp = specgraph;
+
+    while (tmp != NULL) {
+        if(!strcmp(specgraph->))
+    }
+
+
+}
 /*Test(specgraph, school_hash)
 {
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
