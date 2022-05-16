@@ -72,9 +72,11 @@ typedef struct roomspec rspec_hash_t;
  * The struct contains:
  * - int num_roomspecs: The number of different roomspecs available in the game
  * - roomspec_t roomspecs: list of pointers to roomspecs corresponding to each node on specgraph
- * - int **edges: edges of graph representing the relationship between each roomspec
- *                the higher the number, the more likely rooms of this roomspec appear
- *                next to each other
+ * - int **edges: Edges of graph representing the relationship between each roomspec (i.e. the adjacency matrix).
+ *                These values will range from 0-5 and will be used to determine, for a room generated using the  
+ *                room_autogenerate function, the probability that the roomspec associated with the newly generated 
+ *                room will be a given roomspec. Thus, the higher the number, the more likely rooms of those roomspec 
+ *                will appear next to each other.
  */
 
 typedef struct specgraph {
