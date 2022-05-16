@@ -584,34 +584,38 @@ Test(specgraph, school_hash)
             cr_assert_str_neq(specgraph->roomspecs[i]->room_name, "classroom");
                 }
     }
+}
 
+
+/* testing specgraph_from_hash for farmhouse bucket*/
+Test(specgraph, farm_hash)
+{
+    roomspec_t *roomspec0 = make_default_room("farmhouse",NULL,NULL);
+    roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*3);
+    roomspecs[0] = roomspec0;
+    int **edges = (int**)malloc(sizeof(int*));
+    specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+
+    specgraph_t *tmp = specgraph;
+
+    // while loop is wrong because specgraph does not reach NULL
+    // need to use the number of roomspecs to create a for loop
+    int counter = 0;
+    for (int i = 0; i < specgraph->num_roomspecs; i++) {
+        if (!strcmp(specgraph->roomspecs[i]->room_name, "barn") &&
+                !strcmp(specgraph->roomspecs[i]->room_name, "closet") &&
+                !strcmp(specgraph->roomspecs[i]->room_name, "kitchen") &&
+                !strcmp(specgraph->roomspecs[i]->room_name, "living room")&&
+                !strcmp(specgraph->roomspecs[i]->room_name, "open field")) {
+            cr_assert_str_neq(specgraph->roomspecs[i]->room_name, "barn");
+                }
+    }
 }
 
 
 
-/*Test(specgraph, school_hash)
-{
-    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
-    specgraph_t *spec = NULL;
-    specgraph_from_hash(&spec, hash);
-    cr_assert_not_null(spec);
 
-    specgraph_t *tmp = spec;
-
-    while (tmp != NULL) {
-        if (!strcmp(spec->spec->room_name, "classroom") &&
-                !strcmp(spec->spec->room_name, "closet") &&
-                !strcmp(spec->spec->room_name, "cafeteria") &&
-                !strcmp(spec->spec->room_name, "hallway")&&
-                !strcmp(spec->spec->room_name, "library")) {
-            cr_assert_str_neq(spec->spec->room_name, "classroom");
-        }
-        tmp = tmp->next;
-    }
-}*/
-
-/* testing specgraph_from_hash for farmhouse bucket*/
-/*Test(specgraph, farm_hash)
+/*
 {
     rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
     specgraph_t *spec = NULL;
