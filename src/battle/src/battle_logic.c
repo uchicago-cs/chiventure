@@ -190,22 +190,23 @@ void get_legal_actions(battle_item_t *items,
                        turn_component_t comp, 
                        battle_t *battle) {
   // this is the combatant who's turn it is (player or enemy)
-  combatant* current_actor = battle->turn == PLAYER ? battle->player : battle->enemy;
+  combatant_t *current_actor = (battle->turn == PLAYER) ? battle->player : battle->enemy;
 
   // if the current turn component allows the combatant to use an item,
   // add the combatant's items to the return value for possible items
-  if(comp->move) {
-    moves = current_actor->items
+  if(comp.item) {
+    item = current_actor->items;
   }
   // if the current turn component allows the combatant to make a move,
   // add the combatant's moves to the return value for possible moves
-  if(comp->move) {
+  if(comp.move) {
     moves = current_actor->moves;
   }
   
   return;
 }
 
+/* see battle_logic.h */
 int num_moves(move_t *moves) {
   int count = 0;
   while(moves) {
@@ -215,6 +216,7 @@ int num_moves(move_t *moves) {
   return count;
 }
 
+/* see battle_logic.h */
 int num_items(battle_item_t *items) {
   int count = 0;
   while(items) {
