@@ -6,13 +6,6 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 
-typedef enum target_type {
-  USER, //A move that targets the user.
-  TARGET; //A move that would target the target.
-  BOTH; //A move that targets both the user and target. How it affects both can be different.
-  NONE; //A move that does not target the opponent nor the user that is not an attacking move.
-}
-
 /* battle_items stub */
 typedef struct battle_item {
     int id;
