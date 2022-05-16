@@ -560,7 +560,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 /* See operations.h */
-void battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     if (tokens[1] == NULL) {
         return "You must identify an NPC to fight. What are you going to do, fight yourself?";

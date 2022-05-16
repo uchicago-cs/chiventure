@@ -286,8 +286,8 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *  - ctx: pointer to a chiventuree context struct
  *
  * Returns:
- * TBD, but currently it will return void.
+ * a string that describes what control flow was taken
  */
-void battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+char *battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */
