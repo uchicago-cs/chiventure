@@ -75,7 +75,7 @@ int main(void)
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(BLACK);
 
             // Draw everything in the render texture, note this will not be rendered on screen, yet

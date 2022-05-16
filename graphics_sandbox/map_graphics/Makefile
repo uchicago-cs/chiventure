@@ -1,2 +1,5 @@
 map_graphics: map_graphics.c
-	cc map_graphics.c  -I./ -I../raylib_itself/raylib-multiple-contexts-hack/src -lraylib -o map_graphics
+	cc map_graphics.c -framework IOKit -framework Cocoa -framework OpenGL `pkg-config --libs --cflags raylib` -I. -o map_graphics
+
+clean:
+	rm map_graphics

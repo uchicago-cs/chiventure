@@ -55,7 +55,7 @@ void runMapGraphics(map_graphics_t* info)
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing(MAP_CONTEXT_ID);
+        BeginDrawing();
 
             ClearBackground(RAYWHITE);
 
