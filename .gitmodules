@@ -1,0 +1,6 @@
+[submodule "include/custom-scripts/--foorce"]
+	path = include/custom-scripts/--foorce
+	url = https://github.com/troydhanson/uthash.git
+[submodule "include/custom-scripts/utlist"]
+	path = include/custom-scripts/utlist
+	url = https://github.com/troydhanson/uthash.git
