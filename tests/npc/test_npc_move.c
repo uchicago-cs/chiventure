@@ -254,6 +254,25 @@ Test(npc_mov, reverse_path)
                      "reverse_path() failed to track room");
 }
 
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_test_class()
+{
+    class_t *c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
 
 /* Tests auto_gen_movement for definite movement function */
 Test(npc_mov, auto_gen_movement_definite)
@@ -271,6 +290,7 @@ Test(npc_mov, auto_gen_movement_definite)
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+    class_t *c = generate_test_class();
     npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
 
     rc = auto_gen_movement(npc, game);
@@ -327,9 +347,10 @@ Test(npc_mov, auto_gen_movement_indefinite)
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
+    class_t *c = generate_test_class();
     npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
 
-    rc = auto_gen_movement(npc->movement, game);
+    rc = auto_gen_movement(npc, game);
     room_list_t *elt;
 
     LL_FOREACH(npc->movement->npc_mov_type.npc_mov_indefinite->npc_path, elt)
