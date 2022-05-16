@@ -240,7 +240,6 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
     roomspecs[0] = graph_roomspec0;
     int **edges = (int**)malloc(sizeof(int*)*2);
-    // edges[0][0] = 1;
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
 
@@ -310,7 +309,6 @@ Test(autogenerate, room_generate_success_two)
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
     roomspecs[0] = graph_roomspec0;
     int **edges = (int**)malloc(sizeof(int*)*2);
-    edges[0][0] = 1;
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
     
@@ -321,7 +319,22 @@ Test(autogenerate, room_generate_success_two)
 
     cr_assert_eq(SUCCESS, add_item_to_room(room0,item0), "could not add item to room");
 
+    // Path to room0
+    path_t *path_to_room0 = path_new(room0, "north");
 
+    roomspec_t *roomspec1 = random_room_lookup(specgraph);
+    cr_assert_not_null(roomspec1,"roomspec1 should not be NULL");
+
+    roomspec_t *roomspec2 = random_room_lookup(specgraph);
+    cr_assert_not_null(roomspec2,"roomspec2 should not be NULL");
+
+    room_t *room1 = room_new("string_1", "string_2", "string_3");
+
+    // Path to room1
+    path_t* path_to_room1 = path_new(room1,"north");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room1, 5, 1, specgraph);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
 }
 
