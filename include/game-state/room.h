@@ -89,7 +89,6 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc);
     a unique room id
     a short description of the room
     a long description of the room
-
   Returns:
     FAILURE for failure, SUCCESS for success
 */
