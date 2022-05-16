@@ -270,8 +270,8 @@ Test(autogenerate, room_generate_success_one)
 
     // having 2 roomspec case
     roomspec_t *graph_roomspec1 = make_default_room("dungeon", NULL, NULL);
-    roomspecs[1] = graph_roomspec1;
     /*
+    roomspecs[1] = graph_roomspec1;
     
     // create roomspec 
     roomspec_t *roomspec1 = random_room_lookup(specgraph);
