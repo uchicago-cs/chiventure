@@ -300,7 +300,7 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                                 ctx->game->battle_ctx->game->player->moves);
                 //print_to_cli(ctx, itemstr);
                 //printf("%s",itemstr);
-                callback_func(ctx, movestr, callback_args);
+                callback_func(ctx, itemstr, callback_args);
             }
             else {
                 ctx->game->battle_ctx->game->player->items = 
