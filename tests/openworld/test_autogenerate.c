@@ -245,7 +245,7 @@ Test(autogenerate, room_generate_success_one)
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
 
     // Path to sample room1
-    path_t* path_to_room0 = path_new(g->curr_room,"north");
+    path_t* path_to_curr_room = path_new(g->curr_room,"north");
 
     roomspec_t *roomspec0 = random_room_lookup(specgraph);
     cr_assert_not_null(roomspec0, "sample_roomspec should not be NULL");
