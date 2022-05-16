@@ -711,28 +711,6 @@ Test(specgraph, farm_lookup)
     }
 }
 
-/*
-{
-    rspec_hash_t *hash = make_default_room("farmhouse", NULL, NULL);
-    specgraph_t *spec = NULL;
-    specgraph_from_hash(&spec, hash);
-    cr_assert_not_null(spec);
-
-    roomspec_t *r = random_room_lookup(spec);
-    cr_assert_not_null(r);
-    cr_assert_not_null(r->room_name);
-    cr_assert_not_null(r->short_desc);
-    cr_assert_not_null(r->long_desc);
-
-    if (!strcmp(r->room_name, "barn") &&
-            !strcmp(r->room_name, "closet") &&
-            !strcmp(r->room_name, "kitchen") &&
-            !strcmp(r->room_name, "living room") &&
-            !strcmp(r->room_name, "open field")) {
-        cr_assert_str_neq(r->room_name, "barn");
-    }
-}*/
-
 /* testing random room lookup for castle specgraph*/
 Test(specgraph, castle_lookup)
 {
@@ -757,27 +735,6 @@ Test(specgraph, castle_lookup)
         cr_assert_str_neq(r->room_name, "classroom");
     }
 }
-/*
-{
-    rspec_hash_t *hash = make_default_room("castle", NULL, NULL);
-    specgraph_t *spec = NULL;
-    specgraph_from_hash(&spec, hash);
-    cr_assert_not_null(spec);
-
-    roomspec_t *r = random_room_lookup(spec);
-    cr_assert_not_null(r);
-    cr_assert_not_null(r->room_name);
-    cr_assert_not_null(r->short_desc);
-    cr_assert_not_null(r->long_desc);
-
-    if (!strcmp(r->room_name, "throne room") &&
-            !strcmp(r->room_name, "closet") &&
-            !strcmp(r->room_name, "dungeon") &&
-            !strcmp(r->room_name, "hallway") &&
-            !strcmp(r->room_name, "library")) {
-        cr_assert_str_neq(r->room_name, "throne room");
-    }
-}*/
 
 /* testing random_items for barn roomspec*/
 Test(roomspec, barn_item)
@@ -869,8 +826,6 @@ Test(item_hash, three_lookup)
 
     cr_assert_not_null(dst);
 }
-
-
 
 /* Checks that generate_items follows the default behavior,
  * i.e. generate 1 item with 100% probability,
