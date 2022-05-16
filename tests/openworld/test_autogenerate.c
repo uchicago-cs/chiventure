@@ -236,9 +236,9 @@ Test(autogenerate, room_generate_success_one)
 {
     // Initializing specgraph and current room
     game_t *g = game_new("start desc");
-    roomspec_t *roomspec0 = make_default_room("school", NULL,NULL);
+    roomspec_t *graph_roomspec0 = make_default_room("school", NULL,NULL);
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
-    roomspecs[0] = roomspec0;
+    roomspecs[0] = graph_roomspec0;
     int **edges;
     edges[0][0] = 1;
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
@@ -247,32 +247,32 @@ Test(autogenerate, room_generate_success_one)
     // Path to sample room1
     path_t* path_to_room0 = path_new(g->curr_room,"north");
 
-    roomspec_t *roomspec1 = random_room_lookup(specgraph);
-    cr_assert_not_null(roomspec1, "sample_roomspec should not be NULL");
+    roomspec_t *roomspec0 = random_room_lookup(specgraph);
+    cr_assert_not_null(roomspec0, "sample_roomspec should not be NULL");
 
     // haivng 1 roomspec case
     cr_assert_not_null(specgraph, "sample_specgraph should not be NULL");
 
-    room_t *room1 = roomspec_to_room(roomspec1);
+    room_t *room0 = roomspec_to_room(roomspec0);
 
     // Path to sample room2
-    path_t* path_to_room1 = path_new(room1, "north");
+    path_t* path_to_room0 = path_new(room0, "north");
 
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room1, 5, 1, specgraph);
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room0, 5, 1, specgraph);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
-    roomspec_t *room2 = random_room_lookup(specgraph);
-    cr_assert_not_null(room2, "room2 should not be NULL");
+    roomspec_t *room1 = random_room_lookup(specgraph);
+    cr_assert_not_null(room1, "room2 should not be NULL");
 
     // having 2 roomspec case
-    roomspec_t *roomspec1 = make_default_room("dungeon", NULL, NULL);
-    roomspecs[1] = roomspec1;
+    roomspec_t *graph_roomspec1 = make_default_room("dungeon", NULL, NULL);
+    roomspecs[1] = graph_roomspec1;
 
     // create roomspec 
-    roomspec_t *roomspec2 = random_room_lookup(specgraph);
+    roomspec_t *roomspec1 = random_room_lookup(specgraph);
     char direction_to_new[6], direction_to_curr[6];
     pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
-    cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec2, direction_to_curr, direction_to_new),
+    cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec1, direction_to_curr, direction_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
