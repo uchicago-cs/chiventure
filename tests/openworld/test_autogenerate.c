@@ -240,7 +240,7 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
     roomspecs[0] = graph_roomspec0;
     int **edges = (int**)malloc(sizeof(int*)*2);
-    edges[0][0] = 1;
+    // edges[0][0] = 1;
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
 
@@ -302,13 +302,29 @@ Test(autogenerate, room_generate_success_one)
 /* 2 roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (only if game->curr_room is a dead end) */
-/*
 Test(autogenerate, room_generate_success_two)
 {
+    // Initializing specgraph, current room, item
     game_t *g = game_new("start desc");
+    roomspec_t *graph_roomspec0 = make_default_room("school", NULL,NULL);
+    roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
+    roomspecs[0] = graph_roomspec0;
+    int **edges = (int**)malloc(sizeof(int*)*2);
+    edges[0][0] = 1;
+    specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+    g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
+    
+    item_t *item0 = item_new("item_id", "short_desc", "long_desc");
+    
+    roomspec_t *roomspec0 = random_room_lookup(specgraph);
+    room_t *room0 = roomspec_to_room(room0);
+
+    cr_assert_eq(SUCCESS, add_item_to_room(room0,item0), "could not add item to room");
+
+
 
 }
-*/
+
 
 /*Test(autogenerate, room_generate_success_two)
 {
