@@ -88,6 +88,10 @@ bool check_npc_battle(npc_t *npc)
     {
         return false;
     }
+    else if (npc->hostility_level == FRIENDLY && npc->npc_battle != NULL)
+    {
+        return false;
+    }
     else 
     {
         return true;

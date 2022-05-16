@@ -87,13 +87,10 @@ Test(npc_battle, new)
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
 
-    npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY, 
-		                HOSTILE, 25);
+    npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY, HOSTILE);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
-    cr_assert_eq(100, npc_battle->health, 
-		 "npc_battle_new() didn't set health");
     cr_assert_eq(stats, npc_battle->stats, 
 		 "npc_battle_new() didn't set stats");
     cr_assert_eq(moves, npc_battle->moves, 
@@ -102,8 +99,6 @@ Test(npc_battle, new)
                  "npc_battle_new() didn't set ai");
     cr_assert_eq(HOSTILE, npc_battle->hostility_level,
 		 "npc_battle_new() didn't set hostility_level");
-    cr_assert_eq(25, npc_battle->surrender_level,
-		 "npc_battle_new() didn't set surrender_level");
 }
 
 /* Checks that npc_battle_init() initialized the fields in the new npc_battle 
@@ -117,17 +112,14 @@ Test(npc_battle, init)
     stat_t *stats2 = create_enemy_stats2();
     move_t *moves2 = create_enemy_moves2();
 
-    npc_battle = npc_battle_new(100, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    npc_battle = npc_battle_new(stats1, moves1, BATTLE_AI_GREEDY, HOSTILE);
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
     
-    int res = npc_battle_init(npc_battle, 5, stats2, moves2, BATTLE_AI_NONE,
-		              FRIENDLY, 0);
+    int res = npc_battle_init(npc_battle, stats2, moves2, BATTLE_AI_NONE, 
+                              FRIENDLY);
 
     cr_assert_eq(res, SUCCESS, "npc_battle_init() failed");
 
-    cr_assert_eq(5, npc_battle->health,
-	         "npc_battle_init() didn't initialize health");
     cr_assert_eq(stats2, npc_battle->stats,
                  "npc_battle_init() didn't initialize stats");
     cr_assert_eq(moves2, npc_battle->moves,
@@ -136,8 +128,6 @@ Test(npc_battle, init)
                  "npc_battle_init() didn't initialize ai");
     cr_assert_eq(FRIENDLY, npc_battle->hostility_level,
                  "npc_battle_init() didn't initialize hostility_level");
-    cr_assert_eq(0, npc_battle->surrender_level,
-                 "npc_battle_init() didn't initialize surrender_level");
 }
 
 
@@ -149,8 +139,7 @@ Test(npc_battle, free)
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
 
-    npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY, HOSTILE);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
@@ -165,7 +154,7 @@ Test(npc_battle, free)
    transfers them to the room */
 Test(npc_battle, transfer_all_npc_items_dead)
 {
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
     item_t *test_item1 = item_new("item1", "short", "long");
@@ -180,7 +169,7 @@ Test(npc_battle, transfer_all_npc_items_dead)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -208,7 +197,7 @@ Test(npc_battle, transfer_all_npc_items_dead)
    and transfer them to the room */
 Test(npc_battle, transfer_all_npc_items_alive)
 {
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
     item_t *test_item1 = item_new("item1", "short", "long");
@@ -223,7 +212,7 @@ Test(npc_battle, transfer_all_npc_items_alive)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -251,7 +240,7 @@ Test(npc_battle, transfer_all_npc_items_alive)
    inventory */
 Test(npc_battle, transfer_all_npc_items_empty_inventory)
 {
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
     room_t *room = room_new("test_room", "room for testing",
@@ -260,7 +249,7 @@ Test(npc_battle, transfer_all_npc_items_empty_inventory)
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE);
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_null(npc->inventory, "npc->inventory not NULL");

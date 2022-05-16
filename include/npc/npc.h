@@ -130,8 +130,10 @@ int npc_free(npc_t *npc);
  *
  * Returns:
  *  true if:
- *   - the npc's hostility_level is HOSTILE and it's npc_battle is not NULL
- *   - the npc's hostility_level is not HOSTILE
+ *   - the npc's hostility_level is HOSTILE and its npc_battle is not NULL
+ *   - the npc's hostility_level is FRIENDLY and its npc_battle is NULL
+ *   - note: since CONDITIONAL FRIENDLY npcs can fight under certain
+ *           circumstances, its npc_batle could be not NULL
  *  and false otherwise
  */
 hostility_t check_npc_battle(npc_t *npc);

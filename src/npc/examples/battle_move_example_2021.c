@@ -113,9 +113,7 @@ int defense)
 	move_t *move = (move_t*) calloc(1, sizeof(move_t));
 
 	move->id = id;
-
 	move->item = item;
-
 	move->attack = attack;
 	move->damage = damage;
 	move->defense = defense;
@@ -239,16 +237,16 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (game->curr_room == arena) {
         npc_t *npc_tmp, *npc_elt;
         HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) {
-            if (npc_elt->npc_battle->health == 0) {
+            if (npc_elt->npc_battle->stats->hp == 0) {
 	            continue;
-	        } else if (npc_elt->npc_battle->health == 1) {
-                change_npc_health(npc_elt, -1, 100);
+	        } else if (npc_elt->npc_battle->stats->hp == 1) {
+                change_npc_hp(npc_elt, -1);
                 transfer_all_npc_items(npc_elt, game->curr_room);
                 char message1[1000];
                 sprintf(message1, "You killed %s. They've dropped their items, "
                                   "which you can now take.", npc_elt->npc_id);
                 print_to_cli(ctx, message1);
-            } else if (npc_elt->npc_battle->health <= npc_elt->npc_battle->surrender_level) { 
+            } else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) { 
                 char message2[1000];
                 sprintf(message2, "%s has surrendered. You can no longer attack "
                                   "them.", npc_elt->npc_id);
@@ -257,7 +255,7 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
                 change_npc_health(npc_elt, -1, 100);
                 char message3[1000];
                 sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
-                        npc_elt->npc_id, npc_elt->npc_battle->health);
+                        npc_elt->npc_id, npc_elt->npc_battle->stats->hp);
                 print_to_cli(ctx, message3);
 	        }
         }   
@@ -306,12 +304,12 @@ chiventure_ctx_t *create_sample_ctx()
                              "Friendly Fiona is a friendly woman named Fiona.", 
 			                 "Friendly Fiona won't fight you unless you attack "
 			                 "her first, and she'll surrender quickly", class1,
-			                 movement1, true);
+			                 movement1, CONDITIONAL_FRIENDLY);
     /* Add battle info to friendly npc */
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
-    add_battle_to_npc(friendly_fiona, 100, stats1, moves1, BATTLE_AI_GREEDY,
-		      CONDITIONAL_FRIENDLY, 98);
+    add_battle_to_npc(friendly_fiona, stats1, moves1, BATTLE_AI_GREEDY,
+		              CONDITIONAL_FRIENDLY);
 
     /* Add dialogue to friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
@@ -326,12 +324,12 @@ chiventure_ctx_t *create_sample_ctx()
                             "Hostile Harry is a hostile man named"
                             "Harry.", "Hostile Harry will attack you"
                             "first, and he won't surrender until he"
-                            "literally dies", class2, movement2, true);
+                            "literally dies", class2, movement2, HOSTILE);
     /* Add battle info to hostile npc */
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
-    add_battle_to_npc(hostile_harry, 5, stats2, moves2, BATTLE_AI_GREEDY,
-                      HOSTILE, 0);
+    add_battle_to_npc(hostile_harry, stats2, moves2, BATTLE_AI_GREEDY,
+                      HOSTILE);
 
     /* Add items to hostile npc */
     item_t *potion = item_new("POTION","This is a health potion.",
