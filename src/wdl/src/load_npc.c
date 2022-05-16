@@ -89,10 +89,10 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
                         "Node: %s. NPC: %s\n", node_id, npc->npc_id);
                 return FAILURE;
             }
-            add_give_item(convo, node_id, action_id);
+            add_give(convo, node_id, action_id);
         }
         else if (strcmp(action, "TAKE_ITEM") == 0) {
-            add_take_item(convo, node_id, action_id);
+            add_steal(convo, node_id, action_id);
         }
         else {
             fprintf(stderr, "Specified action not currently supported. "
