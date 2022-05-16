@@ -90,6 +90,13 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 }
 
 /* see battle_print.h */
+char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item)
+{
+  char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+  snprintf(string, BATTLE_BUFFER_SIZE, "you used %s", item->name;
+  return string;
+}
+/* see battle_print.h */
 char *print_battle_winner(battle_status_t status, int xp)
 {
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
