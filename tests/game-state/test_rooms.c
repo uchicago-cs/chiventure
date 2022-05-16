@@ -15,6 +15,7 @@ Test(room_start, init)
     empty_room->short_desc = malloc(sizeof(char*)*MAX_SDESC_LEN+1);
     empty_room->room_id = malloc(sizeof(char*)*MAX_ID_LEN+1);
     empty_room->paths = NULL;
+    empty_room->coords = NULL;
     int check = room_init(empty_room, "test_room", "This is a test room",
     "The purpose of this room is testing");
 
@@ -275,3 +276,54 @@ room_t *find_room_from_dir(room_t *curr, char* direction);
 int delete_all_conditions(condition_list_t conditions);
 
 */
+
+/* testing coords struct functions */
+Test(coords, init)
+{
+    coords_t *new_coords = malloc(sizeof(coords_t));
+    int check = coords_init(new_coords, 0, 0);
+
+    cr_assert_eq(check, SUCCESS, "coords_init() test 1 has failed!");
+    coords_free(new_coords);
+}
+
+Test(coords, new)
+{
+    coords_t *new_coords = coords_new(0, 0);
+
+    cr_assert_not_null(new_coords, "coords_new() test 1 has failed!");
+    coords_free(new_coords);
+}
+
+Test(coords, free)
+{
+    coords_t *coords_tofree = coords_new(0, 0);
+
+    cr_assert_not_null(coords_tofree, "coords_free(): coords is null");
+    int freed = coords_free(coords_tofree);
+
+    cr_assert_eq(freed, SUCCESS, "coords_free() test 1 has failed!");   
+}
+
+Test(coords, add_coords_to_room)
+{
+    room_t *new_room = room_new("test_room", "room for testing",
+    "testing if memory is correctly allocated for new rooms");
+    coords_t *add_these_coords = coords_new(1,1);
+    cr_assert_not_null(add_these_coords, "add_coords_to_room(): coords is null");
+
+    add_coords_to_room(add_these_coords, new_room);
+    cr_assert_eq(new_room->coords, add_these_coords, "add_coords_to_room() test 1 has failed");
+}
+
+Test(coords, find_coords_of_room)
+{
+    room_t *new_room = room_new("test_room", "room for testing",
+    "testing if memory is correctly allocated for new rooms");
+    coords_t *add_these_coords = coords_new(1,1);
+    cr_assert_not_null(add_these_coords, "find_coords_of_room(): coords is null");
+    add_coords_to_room(add_these_coords, new_room);
+
+    coords_t *check_coords = find_coords_of_room(new_room);
+    cr_assert_eq(check_coords, add_these_coords, "find_coords_of_room() test 1 has failed");
+}
