@@ -39,7 +39,7 @@ Test(custom_type, obj_t_new_bool)
 Test(custom_type, obj_t_new_bool_lua)
 {   
     data.b = true;
-    object_t *ot = obj_t_bool(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test.lua");
+    object_t *ot = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test.lua");
     cr_assert_eq(ot->type, BOOL_TYPE, "obj_t_bool: failed type assignment");
     cr_assert_eq(ot->is_lua, true, "obj_t_bool: failed is_lua assignment");
     cr_assert_eq(ot->data.lua, "../../../tests/custom-scripts/Lua_file/bool_test.lua",
@@ -68,7 +68,7 @@ Test(custom_type, obj_t_new_char)
 Test(custom_type, obj_t_new_char_lua)
 {   
     data.c = 'a';
-    object_t *ot = obj_t_char(data, CHAR_TYPE, "../../../tests/custom-scripts/Lua_file/char_test.lua");
+    object_t *ot = obj_t_init(data, CHAR_TYPE, "../../../tests/custom-scripts/Lua_file/char_test.lua");
     cr_assert_eq(ot->type, CHAR_TYPE, "obj_t_char: failed type assignment");
     cr_assert_eq(ot->is_lua, true, "obj_t_char: failed is_lua assignment");
     cr_assert_eq(ot->data.lua, "../../../tests/custom-scripts/Lua_file/char_test.lua",
@@ -176,7 +176,7 @@ Test(custom_type, arg_t_new_int)
 {
     data.s = "Placeholder object";
     data.i = 10;
-    object_t *ot = obj_t_str(data, STR_TYPE, NULL);
+    object_t *ot = obj_t_init(data, STR_TYPE, NULL);
     ot = obj_add_arg(ot, data, INT_TYPE);
     
     arg_t *at = ot->args;
@@ -265,7 +265,7 @@ Test(custom_type, obj_t_get_bool)
 Test(custom_type, obj_t_get_bool_lua)
 {
     data.b = true;
-    object_t *ot = obj_t_bool(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test.lua");
+    object_t *ot = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test.lua");
     data_t got = arg_t_get(ot);
     bool rv = got.b;
     cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
@@ -392,7 +392,7 @@ Test(custom_type, obj_t_get_int_lua_args)
     cr_assert_eq(rv, 15, "obj_t_get_int: failed int direct retrieval");
 
     // Arguments of an object don't have to be of the same type!
-    object_t *ot2 = obj_t_int(data, INT_TYPE,
+    object_t *ot2 = obj_t_init(data, INT_TYPE,
         "../../../tests/custom-scripts/Lua_file/int_test_args.lua");
     ot2 = obj_add_arg(obj_add_arg(ot2, data, CHAR_TYPE), data2, CHAR_TYPE);
     data_t got2 = arg_t_get(ot2);
