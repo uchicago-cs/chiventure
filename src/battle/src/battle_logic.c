@@ -195,7 +195,7 @@ void get_legal_actions(battle_item_t *items,
   // if the current turn component allows the combatant to use an item,
   // add the combatant's items to the return value for possible items
   if(comp.item) {
-    item = current_actor->items;
+    items = current_actor->items;
   }
   // if the current turn component allows the combatant to make a move,
   // add the combatant's moves to the return value for possible moves
