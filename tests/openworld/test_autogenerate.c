@@ -263,10 +263,10 @@ Test(autogenerate, room_generate_success_one)
     gencontext_t *sample_gencontext = gencontext_new(path_to_room0, 5, 1, specgraph);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
-    /*
+    
     roomspec_t *room1 = random_room_lookup(specgraph);
     cr_assert_not_null(room1, "room2 should not be NULL");
-
+    /*
 
     // having 2 roomspec case
     roomspec_t *graph_roomspec1 = make_default_room("dungeon", NULL, NULL);
