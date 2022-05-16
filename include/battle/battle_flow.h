@@ -146,8 +146,9 @@ char *enemy_make_move(battle_ctx_t *ctx);
  * - component: the turn component being run
  *
  * Returns:
- * - returns void, everything that changed will simply be updated
+ * - returns int 1 if everything runs smoothly,
+ *   or calls callback function if invalid input
  */
-void run_turn_component(chiventure_ctx_t *ctx, turn_component_t component);
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component);
 
 #endif

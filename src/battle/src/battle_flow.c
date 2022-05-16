@@ -237,15 +237,15 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
 
 /* see battle_flow.h */
-void run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *callback_args, cli_callback callback_func){
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *callback_args, cli_callback callback_func){
 
     // print to cli
     print_to_cli(ctx, strg);
     // printf("%s", strg);
     // take in user input
     char *input;
-    scanf("%s", &input);
-    if (input[0] == 'M'){
+    scanf("%s", input);
+    if (input[0] == 'M' || input[0] == 'm'){
         // take the index of the move, under the assumption that the list is less than 10 moves long
         
         int index = (int) input[1];
@@ -260,7 +260,7 @@ void run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void 
                 ctx->game->battle_ctx->game->player->moves = ctx->game->battle_ctx->game->player->moves->next;
             }
         }
-    } else if (input[0] == 'I'){
+    } else if (input[0] == 'I' || input[0] == 'i'){
         int index = (int) input[1];
         for (int k = 0; k < index; k++){
             if (ctx->game->battle_ctx->game->player->items == NULL){
@@ -273,9 +273,9 @@ void run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void 
                 ctx->game->battle_ctx->game->player->items = ctx->game->battle_ctx->game->player->items->next;
             }
         }
-    } else {
+    } else if (input[0] != 'D' || input[0] != 'd') {
         return callback_func(ctx, "That action does not exist.", callback_args);
     }
 
-    return void;
+    return 1;
 }
