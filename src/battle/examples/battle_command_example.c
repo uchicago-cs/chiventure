@@ -107,7 +107,7 @@ int print_battle_items2(battle_ctx_t *ctx)
         printf("Description: %s\n", temp->description);
         printf("Quantity: %d\n", temp->quantity);
         printf("Attack: %d, Defense: %d, HP: %d\n", 
-                temp->attack, temp->defense, temp->hp);
+                temp->attack, temp->phys_def, temp->hp);
     }
     return SUCCESS;
 }
@@ -211,8 +211,7 @@ int read_move(char **args, battle_ctx_t *ctx)
         {
             stat_t *player_stats = ctx->game->battle->player->stats;
             printf("New HP is %d\n", player_stats->hp);
-            printf("New Strength is %d\n", player_stats->strength);
-            printf("New Defense is %d\n\n", player_stats->defense);
+            printf("New Defense is %d\n\n", player_stats->phys_def);
         }
 
         char* str = enemy_make_move(ctx);
@@ -293,21 +292,23 @@ int main()
     stat_t *p_stats = get_random_stat();
     printf("\nPlayer stats:\n");
     printf("HP: %d\n", p_stats->hp);
-    printf("Strength: %d\n", p_stats->strength);
-    printf("Defense: %d\n", p_stats->defense);
+    printf("SP: %d\n", p_stats->sp);
+    printf("Defense: %d\n", p_stats->phys_def);
     printf("XP: %d\n", p_stats->xp);
     printf("Level: %d\n", p_stats->level);
     printf("Speed: %d\n", p_stats->speed);
+    printf("Accuracy: %d\n", p_stats->accuracy);
     
     // creates the stats of the enemy to begin the battle
     stat_t *e_stats = get_random_stat();
     printf("\nEnemy stats:\n");
     printf("HP: %d\n", e_stats->hp);
-    printf("Strength: %d\n", e_stats->strength);
-    printf("Defense: %d\n", e_stats->defense);
+    printf("SP: %d\n", e_stats->sp);
+    printf("Defense: %d\n", e_stats->phys_def);
     printf("XP: %d\n", e_stats->xp);
     printf("Level: %d\n", e_stats->level);
     printf("Speed: %d\n\n", e_stats->speed);
+    printf("Accuracy: %d\n", e_stats->accuracy);
 
     // creates consumable for the player
     battle_item_t *p_item = get_random_default_consumable();
