@@ -69,7 +69,7 @@ Test(battle_print, print_hp_one_enemy)
 }
 
 /* Tests print_battle_move() on a player move */
-Test(battle_print, print_player_move)
+/*Test(battle_print, print_player_move)
 {
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
@@ -111,10 +111,10 @@ Test(battle_print, print_player_move)
     cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
 
     free(string);
-}
+}*/
 
 /* Tests print_battle_move() on an enemy move */
-Test(battle_print, print_enemy_move)
+/*Test(battle_print, print_enemy_move)
 {
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
@@ -155,7 +155,7 @@ Test(battle_print, print_enemy_move)
     cr_expect_str_eq(string, expected_string, "print_enemy_move() failed to set string %s", string);
 
     free(string);
-}
+}*/
 
 /* Tests print_battle_winner() when player wins */
 Test(battle_print, print_player_winner)
