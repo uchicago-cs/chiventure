@@ -219,7 +219,7 @@ Test(parse_r, two_words_quote)
 }
 
 /*
- * Tests the parsing of an input with two tokens, one being a two words surrounded by quotes
+ * Tests the parsing of an input with two tokens, one being a multiple words surrounded by quotes
  */
 Test(parse_r, double_word_in_quote)
 {
