@@ -20,7 +20,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
 
     complex = (complex_skill_t*)malloc(sizeof(complex_skill_t));
 
-    if (skill == NULL) {
+    if (complex == NULL) {
         fprintf(stderr, "complex_skill_new: memory allocation failed\n");
         return NULL;
     }
@@ -33,7 +33,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
         return NULL;
     }
 
-    int rc = complex_skill_init(complex, skills, num_skills);
+    int rc = complex_skill_init(complex, type, list, num_skills);
 
     if (rc) {
         fprintf(stderr, "complex_skill_new: initialization failed\n");
@@ -57,7 +57,7 @@ int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type
 /*See complex_skills.h */
 int complex_skill_free(complex_skill_t* complex_skill){
 
-    for(int i = 0; i < num_skills; i++){
+    for(int i = 0; i < complex_skill->num_skills; i++){
         free(complex_skill->skills[i]);
     }
     free(complex_skill->skills);
@@ -69,16 +69,16 @@ int complex_skill_free(complex_skill_t* complex_skill){
 /*See complex_skills.h */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
     if(complex_skill->type == COMBINED){
-        return combined_skill_execute(complex_skill, ctx);
+        return combined_complex_skill_execute(complex_skill, ctx);
     }
     if(complex_skill->type == SEQUENTIAL){
-        return sequential_skill_execute(complex_skill, ctx);
+        return sequential_complex_skill_execute(complex_skill, ctx);
     }
     return FAILURE;
 }
 
 /*See complex_skills.h */
-int combined_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
+int combined_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
     if(complex_skill->type != COMBINED){
         return FAILURE;
     }
@@ -111,7 +111,7 @@ int complex_skill_level_up(complex_skill_t* complex_skill){
     
     int x;
     for (int i = 0; i < complex_skill->num_skills; i++){
-        x = skill_level_up(complex_sill->skills[i]);
+        x = skill_level_up(complex_skill->skills[i]);
         if(x == FAILURE){
             return FAILURE;
         }

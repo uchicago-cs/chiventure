@@ -29,7 +29,9 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
  * Parameters:
  *  - complex_skill: A complex skill. Must pointer to skill allocated with 
  *    complex_skill_new
+ *  - complex_skill_type_t: the type of complex skill it is.
  *  - skills: A list of the sub-skills to be stored within complex_skill
+ *  - num_skills: The number of sub-skills the complex skill will use
  * 
  * Returns:
  *  - 0 on success, 1 if an error occurs
@@ -130,3 +132,5 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
  *  not every subskill was able to be incremented. 
  */
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
+
+#endif
