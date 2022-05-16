@@ -262,11 +262,18 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                     battle_flow_move(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->moves, 
                                 ctx->game->battle_ctx->game->battle->enemy->name);
-                // report move result
+                    char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->player->moves);
+                    print_to_cli(ctx, movestr);
                 } else {
                     battle_flow_move(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->moves, 
                                 ctx->game->battle_ctx->game->battle->player->name);
+                    char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->enemy->moves);
+                    print_to_cli(ctx, movestr);
                 }
             }
             else {
@@ -283,7 +290,10 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
             if (k == index-1){
                 battle_flow_item(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->items);
-                // report item result
+                char *itemstr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->player->moves);
+                print_to_cli(ctx, itemstr);
             }
             else {
                 ctx->game->battle_ctx->game->player->items = 
