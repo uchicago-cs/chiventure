@@ -3,14 +3,6 @@
 
 #include "arg_custom_type.h"
 
-typedef union data {
-    bool b;
-    char c;
-    int  i;
-    char *s;
-    char *lua;
-} data_t;
-
 typedef struct obj_t
 {
     // Type of underlying data

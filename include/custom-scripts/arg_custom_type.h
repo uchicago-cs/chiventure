@@ -28,6 +28,7 @@ typedef union data {
     char c;
     int  i;
     char *s;
+    char *lua;
 } data_t;
 
 typedef struct arg_t
