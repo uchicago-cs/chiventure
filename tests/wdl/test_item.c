@@ -64,6 +64,8 @@ void item_check(char *room, char *item)
     // checking fields were correctly filled
     room_t *r = find_room_from_game(g, room);
     item_t *i = get_item_in_room(r, item);
+    agent_t *agent;
+    agent->item = i;
 
     obj_t *item_obj = obj_get_attr(doc, "ITEMS", false);
     item_obj = obj_get_attr(item_obj, item, false);
@@ -83,7 +85,7 @@ void item_check(char *room, char *item)
     obj_t *curr;
     DL_FOREACH(actions->data.lst, curr)
     {
-        rc = possible_action(i, obj_get_str(curr, "action"));
+        rc = possible_action(agent->item, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
     }
 }
