@@ -27,7 +27,7 @@ static action_type_t valid_actions[] =
     {"use_on", ITEM_ITEM},
     {"put", ITEM_ITEM},
     // KIND 4
-    {"view", PLAYER}
+    {"view", SELF}
 };
 
 
