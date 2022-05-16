@@ -274,6 +274,6 @@ int add_coords_to_room(coords_t *coords, room_t *room){
 }
 
 /* See room.h */
-coords_t *find_coords_of_room(coords_t *room){
+coords_t *find_coords_of_room(room_t *room){
     return room->coords;
 }
