@@ -10,51 +10,31 @@ arg_t *arg_t_new() {
 }
 
 // see arg_custom_type.h
-arg_t *arg_t_bool(bool b) {
+arg_t *arg_t_init(data_t d, data_type_t t) {
     arg_t *arg = arg_t_new();
-    arg->type = BOOL_TYPE;
-    arg->data.b = b;
-    return arg;
-}
+    arg->type = t;
 
-// see arg_custom_type.h
-arg_t *arg_t_char(char c) {
-    arg_t *arg = arg_t_new();
-    arg->type = CHAR_TYPE;
-    arg->data.c = c;
-    return arg;
-}
-
-// see arg_custom_type.h
-arg_t *arg_t_int(int i) {
-    arg_t *arg = arg_t_new();
-    arg->type = INT_TYPE;
-    arg->data.i = i;
-    return arg;
-}
-
-// see arg_custom_type.h
-arg_t *arg_t_str(char *s) {
-    arg_t *arg = arg_t_new();
-    arg->type = STR_TYPE;
-    arg->data.s = s;
+    switch (t) {
+    case BOOL_TYPE:
+        arg->data.b = d.b;
+        break;
+    case CHAR_TYPE:
+        arg->data.c = d.c;
+        break;
+    case INT_TYPE:
+        arg->data.i = d.i;
+        break;
+    case STR_TYPE:
+        arg->data.s = d.s;
+        break;
+    default:  
+        break;
+    }
     return arg;
 }
 
 // see arg_custom_type.h
 arg_t *arg_t_add(arg_t *head, arg_t *add) {
-    if (add == NULL) {
-        return head;
-    } else if (head == NULL) {
-        return add;
-    } else {
-        arg_t *temp = head;
-        // iterating over linked list to last node
-        while(temp->next) {
-            temp = temp->next;
-        }
-        temp->next = add;
-        temp->next->prev = temp;
-        return head;
-    }
+    // from UTLIST library
+    DL_APPEND(head, add);
 }

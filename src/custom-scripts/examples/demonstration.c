@@ -7,7 +7,7 @@
  */
 
 #include <stdio.h>
-#include <custom-scripts/custom_type.h>
+#include <custom-scripts/get_custom_type.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
@@ -36,11 +36,13 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
        on what the user enters at the start of the game */
+    data_t data;
     char string_num;
+    data.c = string_num;
     printf("Enter either 1 or 2 (1 for non-caps, 2 for caps): ");
     scanf("%c", &string_num);  
     object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
-    ot = obj_add_arg_char(ot, string_num);
+    ot = obj_add_arg(ot, data, STR_TYPE);
     char* custom_string = (char*)malloc(100);
     custom_string = str_t_get(ot);
 
