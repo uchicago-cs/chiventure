@@ -270,7 +270,6 @@ Test(autogenerate, room_generate_success_one)
 
     // having 2 roomspec case
     roomspec_t *graph_roomspec1 = make_default_room("school", NULL, NULL);
-    /*
     roomspecs[1] = graph_roomspec1;
     
     // create roomspec 
@@ -297,7 +296,6 @@ Test(autogenerate, room_generate_success_one)
     }
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-    */
 }
 
 
