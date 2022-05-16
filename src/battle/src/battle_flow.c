@@ -246,30 +246,31 @@ void run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void 
     char *input;
     scanf("%s", &input);
     if (input[0] == 'M'){
-        // take the index of the move, under the assumption of the 
+        // take the index of the move, under the assumption that the list is less than 10 moves long
+        
         int index = (int) input[1];
         for (int k = 0; k < index; k++){
-            if (linkedlist == NULL){
+            if (ctx->game->battle_ctx->game->player->moves == NULL){
                 return callback_func(ctx, "That move does not exist.", callback_args);
             }
             if (k == index-1){
-                battle_flow_move(ctx->game->battle_ctx, move, ctx->game->battle_ctx->game->battle->enemy);
+                battle_flow_move(ctx->game->battle_ctx, ctx->game->battle_ctx->game->player->moves, ctx->game->battle_ctx->game->battle->enemy);
             }
             else {
-                //iterate through linked list
+                ctx->game->battle_ctx->game->player->moves = ctx->game->battle_ctx->game->player->moves->next;
             }
         }
     } else if (input[0] == 'I'){
         int index = (int) input[1];
         for (int k = 0; k < index; k++){
-            if (linkedlist == NULL){
+            if (ctx->game->battle_ctx->game->player->items == NULL){
                 return callback_func(ctx, "That item does not exist.", callback_args);
             }
             if (k == index-1){
-                battle_flow_item(ctx->game->battle_ctx, item);
+                battle_flow_item(ctx->game->battle_ctx, ctx->game->battle_ctx->game->player->items);
             }
             else {
-                //iterate through linked list
+                ctx->game->battle_ctx->game->player->items = ctx->game->battle_ctx->game->player->items->next;
             }
         }
     } else {
