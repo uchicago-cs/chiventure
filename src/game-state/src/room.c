@@ -238,8 +238,8 @@ npc_t *get_npc_in_room(room_t *room, char *npc_id)
 int coords_init(coords_t *new_coords, int x, int y){
     assert(new_coords != NULL);
 
-    coords->x = x;
-    coords->y = y;
+    new_coords->x = x;
+    new_coords->y = y;
 
     return SUCCESS;
 }
