@@ -307,25 +307,14 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-<<<<<<< HEAD
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement1, arena);
-
-    friendly_fiona = npc_new(npc_id1, 
-                             "Friendly Fiona is a friendly woman named Fiona.", 
-			                 "Friendly Fiona won't fight you unless you attack "
-			                 "her first, and she'll surrender quickly", class1,
-			                 movement1, CONDITIONAL_FRIENDLY);
-=======
     npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
     extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
                              "Friendly Fiona won't fight you unless you attack "
                              "her first, and she'll surrender quickly", class1,
-                             movement1, true);
+                             movement1, CONDITIONAL_FRIENDLY);
 
->>>>>>> c1a3c1ab8ffdae7d6a4f70cd3eb437a1d534ed08
     /* Add battle info to friendly npc */
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();

@@ -111,7 +111,7 @@ Test(npc, new)
                      movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      "npc_new didn't set npc_path");
     cr_assert_eq(npc->hostility_level, FRIENDLY, 
-                      "npc_new didn't set hostility_level");
+                 "npc_new didn't set hostility_level");
 }
 
 
@@ -150,7 +150,7 @@ Test(npc, init)
                      movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      "npc_new didn't set npc_path");
     cr_assert_eq(npc->hostility_level, FRIENDLY, 
-                      "npc_init didn't set hostility_level");
+                 "npc_init didn't set hostility_level");
 }
 
 
