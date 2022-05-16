@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "custom-scripts/custom_type.h"
+#include "custom-scripts/get_custom_type.h"
 
 /** 
  * Checks that the object_t struct contains the right data when obj_t_new() called
