@@ -107,7 +107,7 @@ int print_battle_items2(battle_ctx_t *ctx)
         printf("Description: %s\n", temp->description);
         printf("Quantity: %d\n", temp->quantity);
         printf("Attack: %d, Defense: %d, HP: %d\n", 
-                temp->attack, temp->phys_def, temp->hp);
+                temp->attack, temp->defense, temp->hp);
     }
     return SUCCESS;
 }
