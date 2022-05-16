@@ -80,7 +80,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 
     snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s on %s! It did %d damage.\n"
                                           "%s has %d health remaining.\n",
-                                          mover_name, target_name, move_name, dmg, 
+                                          mover_name, move_name, target_name, dmg, 
                                           target_name, target_remaining_hp);
 
     int rc = print_hp(b, string);
