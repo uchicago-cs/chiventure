@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "npc/npc_move.h"
+#include "npc/npc.h"
 #include "game-state/room.h"
 
 /* Tests new() of npc_mov struct */
@@ -270,11 +271,12 @@ Test(npc_mov, auto_gen_movement_definite)
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+    npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
 
-    rc = auto_gen_movement(npc_mov, game);
+    rc = auto_gen_movement(npc, game);
     room_list_t *elt;
 
-    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
+    LL_FOREACH(npc->movement->npc_mov_type.npc_mov_definite->npc_path, elt)
     {
         cnt++;
         curr_room = elt->room;
@@ -295,14 +297,14 @@ Test(npc_mov, auto_gen_movement_definite)
         }
     }
 
-    num_rooms_in_npc = get_npc_num_rooms(npc_mov);
+    num_rooms_in_npc = get_npc_num_rooms(npc->movement);
   
     cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, "
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
   
     cr_assert_eq(delete_room_llist
-                 (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
+                 (npc->movement->npc_mov_type.npc_mov_definite->npc_path),
                  SUCCESS, "delete llist failed");
 
     game_free(game);
@@ -325,11 +327,12 @@ Test(npc_mov, auto_gen_movement_indefinite)
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
+    npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
 
-    rc = auto_gen_movement(npc_mov, game);
+    rc = auto_gen_movement(npc->movement, game);
     room_list_t *elt;
 
-    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
+    LL_FOREACH(npc->movement->npc_mov_type.npc_mov_indefinite->npc_path, elt)
     {
         cnt++;
         curr_room = elt->room;
@@ -350,13 +353,13 @@ Test(npc_mov, auto_gen_movement_indefinite)
         }
     }
 
-    num_rooms_in_npc = get_npc_num_rooms(npc_mov);
+    num_rooms_in_npc = get_npc_num_rooms(npc->movement);
     cr_assert_eq(cnt, num_rooms_in_npc, 
                  "room_count returns %d, but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
     cr_assert_eq(delete_room_llist
-                 (npc_mov->npc_mov_type.npc_mov_indefinite->npc_path),
+                 (npc->movement->npc_mov_type.npc_mov_indefinite->npc_path),
                  SUCCESS, "delete llist failed");
 
     game_free(game);
