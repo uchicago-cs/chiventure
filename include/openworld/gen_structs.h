@@ -86,12 +86,16 @@ typedef struct specgraph {
 /* gencontext_t struct
 * This struct will carry the info for the generation algorithm
 * The struct contains:
+* - int num_roomspecs: The number of different roomspecs available in the game
+* - roomspec_t **roomspecs: A list of pointers to all the different available roomspecs
 * - path_t *open_paths: the open path we are connecting the room to;
 * - int level: this is the players current level
 * - int num_open_paths: the number of openpaths that need to be generated in the room.
 * - specgraph_t *specgraph: the llist of roomspect_t that each hold the room info.
 */
 typedef struct gencontext {
+    int num_roomspecs;
+    roomspec_t **roomspecs;
     path_t *open_paths;
     int num_open_paths;
     int level;
