@@ -6,10 +6,9 @@
 #ifndef UI_MAIN_H
 #define UI_MAIN_H
 
-#include "raylib.h"
 #include "input_box.h"
 #include "inventory_graphics.h"
-#include "npc_graphics.h"
+#include "../npc_graphics/npc_graphics.h"
 #include "quest_graphics.h"
 #include "scene_graphics.h"
 #include "map_graphics.h"
