@@ -79,7 +79,7 @@ typedef struct roomspec rspec_hash_t;
 
 typedef struct specgraph {
     int num_roomspecs;
-    roomspec_t **roomspecs;
+    roomspec_t *roomspecs;
     int **edges;
 } specgraph_t;
 
