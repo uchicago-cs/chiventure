@@ -117,8 +117,8 @@ Test(multiclass, basic_shortdesc){
 
     cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
 
-    cr_assert_str_eq(shortdesc, "Multiclass of warrior and bard",
-                                "expected: Multiclass of warrior and bard, got %s", shortdesc);
+    char* expected = "Multiclass of warrior and bard";
+    cr_assert_str_eq(shortdesc, expected, "expected: %s. got %s", expected, shortdesc);
 }
 
 Test(multiclass, iterated_shortdesc){
@@ -139,6 +139,88 @@ Test(multiclass, iterated_shortdesc){
 
     char* shortdesc = multiclass->shortdesc;
 
-    cr_assert_str_eq(shortdesc, "Multiclass of warrior, bard, and rogue",
-                                "expected: Multiclass of warrior, bard and rogue. Got %s", shortdesc);
+    char* expected = "Multiclass of warrior, bard, and rogue";
+    cr_assert_str_eq(shortdesc, expected, "expected: %s. Got %s", expected, shortdesc);
+}
+
+Test(multiclass, shortdesc_exceeds_max_length){
+
+    chiventure_ctx_t* ctx = init_incomplete_context();
+    int succ;
+
+    class_t* c1 = class_prefab_new(ctx->game, "warrior");
+    strcpy(c1->name, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY");
+    class_t* c2 = class_prefab_new(ctx->game, "bard");
+    strcpy(c2->name, "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA");
+
+    check_field_presence(c1);
+    check_field_presence(c2);
+
+    char* shortdesc = multiclass_shortdesc(c1, c2, &succ);
+
+    cr_assert_eq(succ, FAILURE, "max length should have been exceeded but flag was not raised");
+    cr_assert_str_eq(shortdesc, c1->shortdesc, "expected: %s. Got %s", c1->shortdesc, shortdesc);
+}
+
+Test(multiclass, basic_longdesc){
+
+    chiventure_ctx_t* ctx = init_incomplete_context();
+    int succ;
+
+    class_t* c1 = class_prefab_new(ctx->game, "warrior");
+    class_t* c2 = class_prefab_new(ctx->game, "bard");
+
+    check_field_presence(c1);
+    check_field_presence(c2);
+
+    char* longdesc = multiclass_longdesc(c1, c2, &succ);
+
+    cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
+
+    char* expected = "A mighty warrior.\n\nA skilled musician and magician."
+    cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expectd, longdesc);
+
+}
+
+Test(multiclass, iterated_longdesc){
+
+    chiventure_ctx_t* ctx = init_incomplete_context();
+
+    class_t* c1 = class_prefab_new(ctx->game, "warrior");
+    class_t* c2 = class_prefab_new(ctx->game, "bard");
+    class_t* c3 = class_prefab_new(ctx->game, "rogue");
+
+    check_field_presence(c1);
+    check_field_presence(c2);
+    check_field_presence(c3);
+
+    class_t* multiclass = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
+
+    check_field_presence(multiclass);
+
+    char* longdesc = multiclass->longdesc;
+
+    char* expected = "A mighty warrior.\n\nA skilled musician and magician.\n\nA sibling of the shadows.";
+    cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expected, longdesc);
+}
+
+Test(multiclass, longdesc_exceeds_max_length){
+
+    chiventure_ctx_t* ctx = init_incomplete_context();
+    int succ;
+
+    class_t* c1 = class_prefab_new(ctx->game, "warrior");
+    strcpy(c1->shortdesc, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY"
+                          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY");
+    class_t* c2 = class_prefab_new(ctx->game, "bard");
+    strcpy(c2->shortdesc, "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA"
+                          "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA");
+
+    check_field_presence(c1);
+    check_field_presence(c2);
+
+    char* longdesc = multiclass_longdesc(c1, c2, &succ);
+
+    cr_assert_eq(succ, FAILURE, "max length should have been exceeded but flag was not raised");
+    cr_assert_str_eq(longdesc, c1->longdesc, "expected: %s. Got %s", c1->longdesc, longdesc);
 }
