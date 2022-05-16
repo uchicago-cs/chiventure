@@ -458,6 +458,7 @@ Test(autogenerate, valid_multi_room2)
 {
     roomspec_t *roomspec0 = make_default_room("school",NULL,NULL);
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
+    roomspecs[0] = roomspec0;
     int **edges = (int**)malloc(sizeof(int*));
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
 
@@ -496,7 +497,11 @@ Test(autogenerate, valid_multi_room2)
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_specgraph);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
+    // Ensure game->curr_room does not have paths
+    g->curr_room = sample_room1;
 
+    cr_assert_eq(SUCCESS, multi_room_generate(g, sample_gencontext, "school", 2),
+                 "multi_room_generate() returned FAILURE instead of SUCCESS");
 }
 
 /*Test(autogenerate, valid_multi_room2)
