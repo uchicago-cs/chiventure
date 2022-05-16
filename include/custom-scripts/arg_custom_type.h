@@ -9,6 +9,7 @@
 #include "lauxlib.h"
 #include "lua.h"
 #include "lualib.h"
+#include "utlist.h"
 
 /* File consisting of the custom pseudo-type created by Custom Scripts (inspired by libobj)
    =========================================================================== */
@@ -22,23 +23,23 @@ typedef enum data_type
     STR_TYPE = 4,
 } data_type_t;
 
+union {
+    bool b;
+    char c;
+    int  i;
+    char *s;
+} data_t;
+
 typedef struct arg_t
 {
     // Type of underlying data
     data_type_t type;
-    
+
     // Data associated with the argument
-    union
-    {
-        bool b;
-        char c;
-        int  i;
-        char *s;
-    } data;
+    data_t data;
 
     // Pointer to the previous and next arguments
-    struct arg_t *prev;
-    struct arg_t *next;
+    struct arg_t *prev, *next;
 } arg_t;
 
 /**
@@ -51,25 +52,7 @@ arg_t *arg_t_new();
  * Creates an argument structure with the specified boolean
  * Helper function for obj_add_arg_bool
  */
-arg_t *arg_t_bool(bool b);
-
-/**
- * Creates an argument structure with the specified character
- * Helper function for obj_add_arg_char
- */
-arg_t *arg_t_char(char c);
-
-/**
- * Creates an argument structure with the specified integer
- * Helper function for obj_add_arg_int
- */
-arg_t *arg_t_int(int i);
-
-/**
- * Creates an argument structure with the specified string
- * Helper function for obj_add_arg_str
- */
-arg_t *arg_t_str(char *s);
+arg_t *arg_t_init(data_t d, data_type_t t);
 
 /**
  * Adds an argument structure to the end of the argument linked list
