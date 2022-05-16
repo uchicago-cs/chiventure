@@ -84,7 +84,7 @@ class TreeToDict(Transformer):
         into a dictionary which is labeled "ITEM" """
         return ('ITEM', dict(s))
 
-    def class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    def Class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
         """Takes a list of key-value pairs which belong to a class and places them
         into a dictionary which is labeled "CLASS" """
         return ('CLASS', dict(s))
