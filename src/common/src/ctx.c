@@ -1,7 +1,6 @@
 #include <stdlib.h>
 
 #include "common/ctx.h"
-#include "cli/cli_ctx.h"
 
 
 /* See ctx.h */
