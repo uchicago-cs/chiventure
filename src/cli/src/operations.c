@@ -560,7 +560,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 /* See operations.h */
-char *battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     if (tokens[1] == NULL) {
         return "You must identify an NPC to fight. What are you going to do, fight yourself?";
@@ -574,12 +574,14 @@ char *battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "No one by that name want to fight.";
     }
 
-    if (npx->will_fight == 0) {
-        return "%s does not want to fight.";
+    if (npc->will_fight == 0) {
+        return "%s does not want to fight.", tokens[1];
     }
 
-    set_game_mode(ctx->game, BATTLE, npc->npc_id);
+    set_game_mode(ctx->game, BATTLE, npc->npc_id); 
+    //Apparently this should automatically call function that initialize and run battle
+    
+    return "Beginning battle.";
 
-    /* TODO: do we need to check if npc_battle struct initialized? 
-     *       should we call run_battle or something else? do we need a return value? */
+    /* TODO: do we need to check if npc_battle struct initialized? */ 
 }
