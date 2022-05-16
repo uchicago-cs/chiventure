@@ -483,7 +483,7 @@ Test(autogenerate, valid_multi_room2)
 
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
+    roomspec_t *sample_roomspec = random_room_lookup(specgraph);
     roomspec_t **sample_roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*));
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
     cr_assert_not_null(sample_roomspecs, "sample_roomspecs should not be NULL");
@@ -496,7 +496,7 @@ Test(autogenerate, valid_multi_room2)
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_specgraph);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
-    
+
 }
 
 /*Test(autogenerate, valid_multi_room2)
