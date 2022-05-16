@@ -226,7 +226,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 /* See operation.h */
-char *view_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //expecting token string list to be "view" "arg2"
     //support for each arg2 to be specified (as of 5/2/2022)
@@ -241,6 +241,8 @@ char *view_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "Second argument needed. Pick from: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
     }
+
+    pass into the do_self_action
     if(strcmp(arg2,"stats") == 0)
     {
         //TODO: Ask action management what they want to happen, 
