@@ -9,25 +9,22 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 #include <time.h>
-/*
+
 #define MAX_COMMAND_LINE_LENGTH (100)
 #define MAX_COMMAND_LENGTH (100)
 #define MAX_ARGS (5)
-*/
+
 /* initializes a dummy wizard class */
-/*
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
-*/
+
 /* initializes a dummy bard class */
-/*
 class_t *make_bard()
 {
     return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
 }
-*/
 
 
 /* Helper function to print the result of a turn
@@ -37,7 +34,6 @@ class_t *make_bard()
  * Returns:
  *  Always returns SUCCESS
  */ 
- /*
 int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
 {
     char *action_string;
@@ -76,14 +72,13 @@ int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
     }
     return SUCCESS;
 }
-*/
+
 /* Prints out the avaliable moves for the player
  * Parameter:
  *  ctx: the main structure of the battle
  * Returns:
  *  Always SUCCESS
- */ 
- /*
+ */
 int print_moves2(battle_ctx_t *ctx)
 {
     move_t *temp;
@@ -94,14 +89,13 @@ int print_moves2(battle_ctx_t *ctx)
     }
     return SUCCESS;
 }
-*/
+
 /* Prints out the avaliable battle_items for the player
  * Parameter:
  *  ctx: the main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
- /*
 int print_battle_items2(battle_ctx_t *ctx)
 {
     battle_item_t *temp;
@@ -117,7 +111,7 @@ int print_battle_items2(battle_ctx_t *ctx)
     }
     return SUCCESS;
 }
-*/
+
 /* Reads the user's input and converts that into an action
  * Parameters:
  *  args: array of strings that display the user's input
@@ -125,7 +119,6 @@ int print_battle_items2(battle_ctx_t *ctx)
  * Returns:
  *  SUCCESS or FAILURE
  */
- /*
 int read_move(char **args, battle_ctx_t *ctx)
 {
     int res;
@@ -233,7 +226,7 @@ int read_move(char **args, battle_ctx_t *ctx)
     }
     return res;
 }
-*/
+
 /* Parses a command into an array of strings
  * Parameters:
  *  out: the array of strings
@@ -241,7 +234,6 @@ int read_move(char **args, battle_ctx_t *ctx)
  * Returns:
  *  Array of strings with parsed input
  */ 
- /*
 int parse_command(char **out, char *input)
 {
     for (int i = 0; i < MAX_ARGS; i++)
@@ -250,14 +242,13 @@ int parse_command(char **out, char *input)
     }
     return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
 }
-*/
+
 /* Allows a battle to continue with taking input from the user via command line
  * Parameter:
  *  ctx: main structure of the battle
  * Returns:
  *  Always SUCCESS
  */ 
- /*
 int continue_battle(battle_ctx_t *ctx)
 {
     char buf[MAX_COMMAND_LENGTH + 1] = {0};
@@ -292,11 +283,10 @@ int continue_battle(battle_ctx_t *ctx)
     free(args);
     return SUCCESS;
 }
-*/
+
 // where everything is called
 int main()
 {
-    /*
     srand(time(0)); // sets seed
     printf("\nbeginning to create the player and enemy...\n");
     // creates the stats of the player to begin the battle
@@ -342,16 +332,14 @@ int main()
     ctx->game = g;
 
     ctx->game->player = p;
-    */
+
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
-    /*
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
-    */
+
     /* this checks to ensure that the user has moves, if not, 
        the executable will not work since it revolves around moves! */
-    /*
     if (ctx->game->battle->player->moves == NULL)
     {
         printf("=== oh no! the player's moves do not exist!!! ===\n");
@@ -386,6 +374,6 @@ int main()
     case NO_BATTLE:
         fprintf(stderr, "ERROR, battle should not return as no_battle");
     }
-    */
+
     return 0;
 }

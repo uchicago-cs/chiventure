@@ -7,7 +7,6 @@
 
 int main()
 {
-    /*
     stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
     p_stats->hp = 100;
     p_stats->xp = 10;
@@ -77,7 +76,6 @@ int main()
         case NO_BATTLE:
             fprintf(stderr, "ERROR, battle should not return as no_battle");
     }
-    */
     return 0;
 }
 
