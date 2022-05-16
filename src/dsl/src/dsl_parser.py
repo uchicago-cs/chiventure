@@ -84,6 +84,11 @@ class TreeToDict(Transformer):
         into a dictionary which is labeled "ITEM" """
         return ('ITEM', dict(s))
 
+    def class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        """Takes a list of key-value pairs which belong to a class and places them
+        into a dictionary which is labeled "CLASS" """
+        return ('CLASS', dict(s))
+
     def action(self, s: list) -> tuple[str, tuple[str, dict]]:
         """S contains a list of key-value pairs. The first element will be a list of action ids, while the
         rest will be properties that correspond to specific actions. This function associates properties
