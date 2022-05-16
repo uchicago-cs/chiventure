@@ -242,9 +242,9 @@ Test(parse_r, three_words_quote)
 }
 
 /*
- * Tests the parsing of an input with two tokens, both being surrounded by quotes
+ * Tests the parsing of an input with two tokens, the first being surrounded by quotes
  */
-Test(parse_r, all_quotes)
+Test(parse_r, first_quote)
 {
     char str[] = "\"GO\" EAST";
     char **words = parse(str);
