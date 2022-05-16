@@ -43,6 +43,10 @@ void add_action_entries(lookup_t **table)
         {
             add_entry(curr_action->c_name, kind3_action_operation, curr_action, table);
         }
+        else if(curr_action->kind == 4)
+        {
+            add_entry(curr_action->c_name, kind4_action_operation, curr_action, table);
+        }
 
         all_actions = all_actions->next;
     }
@@ -122,7 +126,6 @@ int lookup_t_init(lookup_t **t)
     add_entry("LOAD", load_wdl_operation, NULL, t);
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
-    add_entry("VIEW", view_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
     add_entry("TALK", talk_operation, NULL, t);
 
