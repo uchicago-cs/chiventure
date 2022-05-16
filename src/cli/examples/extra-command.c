@@ -32,7 +32,7 @@ chiventure_ctx_t *create_sample_ctx()
                    "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
     agent_t *agent;
     agent->item = rock;
-    add_item_to_room(room1, agent->time);
+    add_item_to_room(room1, agent->item);
 
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */

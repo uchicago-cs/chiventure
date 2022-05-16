@@ -85,7 +85,7 @@ void item_check(char *room, char *item)
     obj_t *curr;
     DL_FOREACH(actions->data.lst, curr)
     {
-        rc = possible_action(agent->item, obj_get_str(curr, "action"));
+        rc = possible_action(agent, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
     }
 }
