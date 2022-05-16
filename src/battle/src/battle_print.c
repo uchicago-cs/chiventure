@@ -240,7 +240,10 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves, char *string
     // go to the next item
     items = items->next;
   }
-  *(menu+index) = '\0';
+
+  // add do nothing option (including null terminator)
+  char do_nothing_option[] = "D - Do nothing";
+  memcpy(menu+index, do_nothing_option, 15);
 
   return menu;
 }
@@ -271,7 +274,8 @@ int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
       buff_len += strlen(items->name) + 6;
       items = items->next;
     }
-    return buff_len;
+    // account for "D - Do nothing"
+    return buff_len + 15;
   }
 }
 
