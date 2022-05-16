@@ -189,16 +189,20 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
         tokenized_cmds* parsed_cmds = parse_r(cmd_string);
         LL_FOREACH(parsed_cmds,temp)
         {
-            cmd *c = cmd_from_string(temp->cmds, ctx);
-            if (!c)
-            {
-                print_to_cli(ctx, "Error: Malformed input (4 words max)");
-            }
-            else
-            {
-                int rc = do_cmd(c, cli_ui_callback, NULL, ctx);
+            cmd **c = cmd_from_string(temp->cmds, ctx);
+            int i = 0;
+            while (c[i]) {   
+                if (!c && (i == 0))
+                {
+                    print_to_cli(ctx, "Error: Malformed input (4 words max)");
+                }
+                else
+                {
+                    int rc = do_cmd(c[i], cli_ui_callback, NULL, ctx);
+                    i++;
+                }
             }  
-        }
+        } 
     }
     else
     {

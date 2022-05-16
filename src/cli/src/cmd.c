@@ -235,23 +235,34 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 }
 
 /* See cmd.h */
-cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
+cmd** cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
+    char* currcmd;
+    cmd** actions;
+    actions = (cmd**)malloc(sizeof(cmd) * TOKEN_LIST_SIZE);
+    int count = 0;
+    
+    while ((currcmd = strtok_r(s, ";", &s)))
+    {
+        if (s != NULL) 
+        {
+            command_list_t *new_command = new_command_list(currcmd);
+            LL_APPEND(ctx->cli_ctx->command_history, new_command);
+        }
 
-    if (s != NULL) 
-    {
-        command_list_t *new_command = new_command_list(s);
-        LL_APPEND(ctx->cli_ctx->command_history, new_command);
+        char **parsed_input = parse(currcmd);
+        if (parsed_input == NULL)
+        {
+            return NULL;
+        }
+
+        lookup_t **table = ctx->cli_ctx->table;
+        actions[count] = cmd_from_tokens(parsed_input, table);
+        count++;
     }
-    
-    char **parsed_input = parse(s);
-    if (parsed_input == NULL)
-    {
-        return NULL;
-    }
-    
-    lookup_t **table = ctx->cli_ctx->table;
-    return cmd_from_tokens(parsed_input, table);
+
+    return actions;
+
 }
 
 /* =================================== */
