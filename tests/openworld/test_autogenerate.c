@@ -431,8 +431,8 @@ Test(autogenerate, valid_multi_room1)
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
     roomspec_t *sample_roomspec = random_room_lookup(specgraph);
-    cr_assert_not_null(sample3, "sample_roomspec should not be NULL");
-    roomspec_t **sample_roomspecs[0] = sample_roomspec;
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+    roomspec_t *sample_roomspecs[0] = sample_roomspec;
     int **sample_edges = (int**)malloc(sizeof(int*));
 
     // 1 roomspec case
