@@ -241,23 +241,6 @@ int specgraph_free(specgraph_t *specgraph)
     return SUCCESS;
 }
 
-/* see gen_structs.h */
-/*int specgraph_free_all(specgraph_t *list)
-{
-
-    if (list == NULL)
-        return FAILURE;
-
-    specgraph_t *elt, *tmp;
-    DL_FOREACH_SAFE(list, elt, tmp) {
-        DL_DELETE(list, elt);
-        specgraph_free(elt);
-    }
-    return SUCCESS;
-}*/
-
-
-
 /* See gen_structs.h */
 int init_roomlevel(roomlevel_t *roomlevel, char *room_name, int difficulty_level)
 {

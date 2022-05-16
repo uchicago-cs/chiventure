@@ -337,19 +337,6 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 */
 int specgraph_free(specgraph_t *specgraph);
 
-/* specgraph_free_all
-* Frees all specgraph's from the given list
-* However, this function will not free the roomspec's inside of specgraph
-*
-* parameters:
-* - list: the specgraph we are freeing from and onward.
-*
-* returns:
-* SUCCESS - for SUCCESS
-* FAILURE - if failed to free
-*/
-int specgraph_free_all(specgraph_t *list);
-
 /* roomlevel */
 
 /* init_roomlevel
