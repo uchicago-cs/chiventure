@@ -15,6 +15,7 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 #include "ui/print_functions.h"
+#include "common/ctx.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
