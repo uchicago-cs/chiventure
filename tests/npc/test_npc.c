@@ -449,7 +449,7 @@ Test(npc, get_npc_max_hp)
     cr_assert_not_null(npc, "npc_new() failed");
 
     int max_hp = get_npc_max_hp(npc);
-    cr_assert_eq(hp, -1, 
+    cr_assert_eq(max_hp, -1, 
 		         "get_npc_max_hp() failed for npc with NULL npc_battle");
 
     stat_t *stats = create_enemy_stats();
