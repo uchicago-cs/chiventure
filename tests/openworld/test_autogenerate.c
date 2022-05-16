@@ -408,6 +408,7 @@ Test(autogenerate, valid_multi_room1)
 {
     roomspec_t *roomspec0 = make_default_room("school",NULL,NULL);
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
+    roomspecs[0] = roomspec0;
     int **edges = (int**)malloc(sizeof(int*)*2);
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
 
