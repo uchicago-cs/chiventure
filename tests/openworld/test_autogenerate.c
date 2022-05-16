@@ -404,11 +404,13 @@ Test(autogenerate,invalid_multi_room)
 
 /* Checks that multi_room_generate successfully generates/adds rooms from a
 * context (gencontext_t) struct's specgraph field when one room is requested */
+/*
 Test(autogenerate, valid_multi_room1)
 {
     roomspec_t *roomspec0 = make_default_room("school",NULL,NULL);
-    specgraph *specgraph = (specgraph*)malloc(sizeof())
+    specgraph_t *specgraph = (specgraph*)malloc(sizeof())
 }
+*/
 
 /*Test(autogenerate, valid_multi_room1)
 {
