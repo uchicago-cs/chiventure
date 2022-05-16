@@ -34,7 +34,7 @@ object_t *obj_t_new();
  * Returns:
  * - pointer to an object struct containing the bool
  */
-object_t *obj_t_init(bool b, char *lua);
+object_t *obj_t_init(data_t d, data_type_t t, char *lua);
 
 // ============================================================================
 
