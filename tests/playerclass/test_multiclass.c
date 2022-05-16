@@ -84,3 +84,19 @@ void check_skill_pressence(class_t* c, int num_skills, char** names) {
     for(int i = 0; i < num_skills; i++)
         cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
 }
+
+Test(multiclass, basic_shortdesc){
+
+    chiventure_ctx_t* ctx = init_incomplete_context();
+    int succ;
+
+    class_t* c1 = class_prefab_new(ctx->game, "warrior");
+    class_t* c2 = class_prefab_new(ctx->game, "bard");
+
+    char* shortdesc = multiclass_shortdesc(c1, c2, &succ);
+
+    cr_assert_eq(succ, success, "exceeded maximum length flag was raised");
+
+    cr_assert_str_eq(shortdesc, "Multiclass of warrior and bard",
+                                "expected: Multiclass of warrior and bard, got %s", shortdesc);
+}
