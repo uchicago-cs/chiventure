@@ -1,6 +1,7 @@
 #include <stdlib.h>
 
 #include "common/ctx.h"
+#include "cli/cli_ctx.h"
 
 
 /* See ctx.h */
@@ -56,7 +57,7 @@ int chiventure_ctx_free(chiventure_ctx_t *ctx)
     assert(ctx != NULL);
 
     /* Add calls to component-specific freeing functions here */
-    assert(free_cli_ctx(ctx->cli_ctx) == SUCCESS);
+    assert(cli_ctx_free(ctx->cli_ctx) == SUCCESS);
     free(ctx);
 
     return SUCCESS;
