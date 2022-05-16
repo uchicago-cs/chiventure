@@ -4,7 +4,7 @@
 #include "game_state_common.h"
 #include "item.h"
 #include "npc/npc.h"
-#include "npc/rooms-npc.h"
+#include "npc/rooms_npc.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
@@ -35,10 +35,7 @@ typedef struct path {
 * UTHASH macros as specified in src/common/include */
 typedef struct path path_hash_t;
 
-// ROOM STRUCT DEFINITION -----------------------------------------------------
-/* Forward declarations */
-typedef struct npcs_in_room npcs_in_room_t;
-typedef struct npc npc_t;
+// ROOM STRUCT DEFINITION ----------------------------------------------------
 
 /* This struct represents coordinates for a room from a global perspective                    
  * It contains:
@@ -106,7 +103,6 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc);
     a unique room id
     a short description of the room
     a long description of the room
-
   Returns:
     FAILURE for failure, SUCCESS for success
 */
@@ -351,5 +347,43 @@ int add_coords_to_room(coords_t *coords, room_t *room);
 * pointer to coordinates or NULL if not found
 */
 coords_t *find_coords_of_room(room_t *room);
+
+#endif
+/*
+ * Generates a random movement struct for an NPC based on the current rooms in
+ * the map and a given npc_mov_t struct.
+ *
+ * Parameters:
+ *  - npc_mov: npc_mov_t struct with a known npc_mov_type
+ *  - game: current game, this is necessary for determining the current rooms in the map
+ *
+ * Returns:
+ *  - returns SUCCESS on success, returns FAILURE on failure
+ *  - Updates npc_mov to have a new, randomly generated movement path.
+ *    Maintains the same type of movement (indefinite / definite)
+ */
+int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms);
+
+/* Moves an npc one step down its path
+ *
+ * Parameters:
+ *  - npc_t: Pointer to NPC
+ *
+ *  Returns:
+ *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
+ */
+int npc_one_move(npc_t *npc, room_hash_t *all_rooms);
+
+/*
+ * Deletes all items from npc inventory and adds them to the room struct.
+ *
+ * Parameters:
+ *  npc: the npc whose items are being transferred
+ *  room: the room that the items are being tranferred to
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurs
+ */
+int transfer_all_npc_items(npc_t *npc, room_t *room);
 
 #endif
