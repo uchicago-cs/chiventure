@@ -136,7 +136,7 @@ int npc_free(npc_t *npc);
  *           circumstances, its npc_batle could be not NULL
  *  and false otherwise
  */
-hostility_t check_npc_battle(npc_t *npc);
+bool check_npc_battle(npc_t *npc);
 
 /*
  * Checks if an item is in the NPC's inventory.
@@ -148,7 +148,7 @@ hostility_t check_npc_battle(npc_t *npc);
  * Returns:
  *  true if the item is in the NPC's inventory, false otherwise
  */
-hostility_t item_in_npc_inventory(npc_t *npc, char *item_id);
+bool item_in_npc_inventory(npc_t *npc, char *item_id);
 
 // "GET" FUNCTIONS ------------------------------------------------------------
 
