@@ -682,7 +682,30 @@ Test(specgraph, castle_hash)
 }*/
 
 /* testing random room lookup for school specgraph*/
-/*Test(specgraph, school_lookup)
+Test(specgraph, school_lookup)
+{
+    roomspec_t *roomspec0 = make_default_room("farmhouse",NULL,NULL);
+    roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*3);
+    roomspecs[0] = roomspec0;
+    int **edges = (int**)malloc(sizeof(int*));
+    specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+
+    roomspec_t *r = random_room_lookup(specgraph);
+    cr_assert_not_null(r);
+    cr_assert_not_null(r->room_name);
+    cr_assert_not_null(r->short_desc);
+    cr_assert_not_null(r->long_desc);
+
+    if (!strcmp(r->room_name, "classroom") &&
+            !strcmp(r->room_name, "closet") &&
+            !strcmp(r->room_name, "cafeteria") &&
+            !strcmp(r->room_name, "hallway") &&
+            !strcmp(r->room_name, "library")) {
+        //bogus error code if doesn't match any of the 5 room types
+        cr_assert_str_neq(r->room_name, "classroom");
+    }
+}
+/*
 {
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     specgraph_t *spec = NULL;
