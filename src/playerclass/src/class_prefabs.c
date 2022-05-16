@@ -422,15 +422,15 @@ int class_prefab_add_skills(class_t* class) {
         /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Acrobatic Powers", 
-                                    "enhanced dexterity to surprise your opponent"
+                                    "enhanced dexterity to surprise your opponent "
                                     "with unique kicks and movements.", 1, 120, 
                                      NULL);                          
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Spirit of Strength", 
-                                    "Uses inner spirit and peace to unleash"
+                                    "Uses inner spirit and peace to unleash "
                                      "powerful hits and kicks!", 1, 220, 
                                      NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Supernova Circle", 
-                                    "Powerful circular motions that allows for the"
+                                    "Powerful circular motions that allows for the "
                                     "most powerful jumps, kicks, and punchess!", 1, 420, 
                                      NULL);
 
@@ -457,11 +457,12 @@ int class_prefab_add_skills(class_t* class) {
         /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Quick Hit", 
-                                     "You deal damage to your opponent with "
-                                     "just a word.", 1, 125, NULL);
+                                     "You hit your opponent with a quick jab.",
+                                      1, 125, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Backstab", 
-                                     "A full line of poetry hits your " 
-                                     "opponent!", 1, 250, NULL);
+                                     "You attack your opponent from behind, "
+                                     "catching them by surprise!", 1, 250, 
+                                     NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Leg Swipe", 
                                      "You knock your opponent’s legs out from "
                                      "under them, bringing them to the"
@@ -528,7 +529,7 @@ int class_prefab_add_skills(class_t* class) {
                                      "Your opponent is paralyzed!", 1, 150, 
                                      NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Arcane Explosion", 
-                                     "You slash your sword, thrice!", 1, 200, 
+                                     "A powerful spell that causes a massive explosion with high area damage!", 1, 200, 
                                      NULL);
 
         /* Add skills to tree */
