@@ -36,7 +36,7 @@
 player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p)
 {
     player_inventory_t *inventory = (player_inventory_t*)mailloc(sizeof(player_inventory_t);
-
+    
     inventory->display->rows = graphics->inventory->rows;
     inventory->display->columns = graphics->inventory->columns;
     inventory->display->color = graphics->inventory->color;
