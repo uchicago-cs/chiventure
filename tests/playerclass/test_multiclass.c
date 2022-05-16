@@ -54,7 +54,7 @@ chiventure_ctx_t* init_statless_context() {
 }
 
 /* Checks whether the class and its basic fields are not null */
-void check_field_pressence(class_t* c) {
+void check_field_presence(class_t* c) {
     cr_assert_not_null(c, "failed to be initialized (NULL)");
     cr_assert_not_null(c->name, "failed to initialize name");
     cr_assert_not_null(c->shortdesc, "failed to initialize short description");
@@ -77,7 +77,7 @@ void check_field_pressence(class_t* c) {
 
 /* Checks whether skill fields are present, and whether the initialized skills 
  * match the expected list */
-void check_skill_pressence(class_t* c, int num_skills, char** names) {
+void check_skill_presence(class_t* c, int num_skills, char** names) {
     cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
     cr_assert_not_null(c->starting_skills, "failed to initialize skill inventory");
 
@@ -93,9 +93,33 @@ Test(multiclass, basic_shortdesc){
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
     class_t* c2 = class_prefab_new(ctx->game, "bard");
 
+    check_field_presence(c1);
+    check_field_presence(c2);
+
     char* shortdesc = multiclass_shortdesc(c1, c2, &succ);
 
-    cr_assert_eq(succ, success, "exceeded maximum length flag was raised");
+    cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
+
+    cr_assert_str_eq(shortdesc, "Multiclass of warrior and bard",
+                                "expected: Multiclass of warrior and bard, got %s", shortdesc);
+}
+
+Test(multiclass, iterated_shortdesc){
+
+    chiventure_ctx_t* ctx = init_incomplete_context();
+    int succ;
+
+    class_t* c1 = class_prefab_new(ctx->game, "warrior");
+    class_t* c2 = class_prefab_new(ctx->game, "bard");
+    class_t* c3 = class_prefab_new(ctx->game, "rogue");
+
+    check_field_presence(c1);
+    check_field_presence(c2);
+    check_field_presence(c3);
+
+    char* shortdesc = multiclass_shortdesc(c1, c2, &succ);
+
+    cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
 
     cr_assert_str_eq(shortdesc, "Multiclass of warrior and bard",
                                 "expected: Multiclass of warrior and bard, got %s", shortdesc);
