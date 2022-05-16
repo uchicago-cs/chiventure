@@ -307,10 +307,11 @@ Test(autogenerate, room_generate_success_two)
     game_t *g = game_new("start desc");
     roomspec_t *graph_roomspec0 = make_default_room("school", NULL,NULL);
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
+    roomspecs[0] = graph_roomspec0;
     int **edges = (int**)malloc(sizeof(int*)*2);
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
-    /*
+    
     item_t *item0 = item_new("item_id", "short_desc", "long_desc");
     
     roomspec_t *roomspec0 = random_room_lookup(specgraph);
@@ -363,7 +364,6 @@ Test(autogenerate, room_generate_success_two)
     }
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-    */
 }
 
 /* Checks that multi_room_generate returns FAILURE if the current room of the
