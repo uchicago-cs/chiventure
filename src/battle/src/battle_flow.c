@@ -4,7 +4,6 @@
 #include <string.h>
 #include "battle/battle_flow.h"
 #include "battle/battle_print.h"
-#include "ui/print_functions.h"
 
 /* see battle_flow.h */
 int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)

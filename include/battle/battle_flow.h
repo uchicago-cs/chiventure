@@ -14,8 +14,11 @@
 #include "common/utlist.h"
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
-#include "ui/print_functions.h"
 #include "cli/cli_ctx.h"
+#include "common/ctx.h"
+#include "ui/print_functions.h"
+#include "cli/operations.h"
+#include "ui/ui.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
