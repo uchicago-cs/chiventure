@@ -272,8 +272,7 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t *roomspec1 = random_room_lookup(specgraph);
     char direction_to_new[6], direction_to_curr[6];
     pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
-    cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec1, direction_to_curr, direction_to_new),
-                 "room_generate() returned FAILURE when it should have returned SUCCESS");
+    cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec1, direction_to_curr, direction_to_new), "room_generate() returned FAILURE when it should have returned SUCCESS");
 
     path_hash_t *current, *tmp;
     room_t *new_room;
