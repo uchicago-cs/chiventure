@@ -69,7 +69,7 @@ int main(void)
             DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
         EndTextureMode();               // End drawing to texture (now we have a blank texture available for the shader)
 
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(RAYWHITE);  // Clear screen background
 
             BeginShaderMode(shader);

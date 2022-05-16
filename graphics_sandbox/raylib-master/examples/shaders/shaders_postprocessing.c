@@ -133,7 +133,7 @@ int main(void)
             EndMode3D();                // End 3d mode drawing, returns to orthographic 2d mode
         EndTextureMode();               // End drawing to texture (now we have a texture available for next passes)
         
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(RAYWHITE);  // Clear screen background
 
             // Render generated texture using selected postprocessing shader

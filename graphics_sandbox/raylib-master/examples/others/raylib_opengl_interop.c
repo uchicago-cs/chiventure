@@ -103,7 +103,7 @@ int main()
     {
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(WHITE);
 
             DrawRectangle(10, 10, 210, 30, MAROON);

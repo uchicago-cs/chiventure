@@ -90,7 +90,7 @@ int main(void)
             DrawText(TextFormat("Virtual Mouse: [%i , %i]", (int)virtualMouse.x, (int)virtualMouse.y), 350, 55, 20, YELLOW);
         EndTextureMode();
         
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(BLACK);     // Clear screen background
 
             // Draw render texture to screen, properly scaled

@@ -56,7 +56,7 @@ int main()
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
 
             ClearBackground(RAYWHITE);
 

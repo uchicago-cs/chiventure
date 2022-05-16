@@ -122,7 +122,7 @@ int main(void)
             EndVrStereoMode();
         EndTextureMode();
         
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(RAYWHITE);
             BeginShaderMode(distortion);
                 DrawTexturePro(target.texture, sourceRec, destRec, (Vector2){ 0.0f, 0.0f }, 0.0f, WHITE);

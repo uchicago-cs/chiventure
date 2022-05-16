@@ -135,7 +135,7 @@ int main(void)
         EndTextureMode();
 
         // Draw both views render textures to the screen side by side
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(BLACK);
             DrawTextureRec(screenPlayer1.texture, splitScreenRect, (Vector2){ 0, 0 }, WHITE);
             DrawTextureRec(screenPlayer2.texture, splitScreenRect, (Vector2){ screenWidth/2.0f, 0 }, WHITE);

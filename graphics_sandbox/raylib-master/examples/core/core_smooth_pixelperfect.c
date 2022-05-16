@@ -92,7 +92,7 @@ int main(void)
             EndMode2D();
         EndTextureMode();
 
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(RED);
 
             BeginMode2D(screenSpaceCamera);

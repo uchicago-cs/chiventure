@@ -156,7 +156,7 @@ int main(void)
             DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), BLACK);
         EndTextureMode();
             
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(BLACK);     // Clear screen background
 
             // Draw the saved texture and rendered julia set with shader

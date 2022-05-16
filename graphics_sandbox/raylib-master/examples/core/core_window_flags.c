@@ -133,7 +133,7 @@ int main(void)
 
         // Draw
         //-----------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
 
         if (IsWindowState(FLAG_WINDOW_TRANSPARENT)) ClearBackground(BLANK);
         else ClearBackground(RAYWHITE);

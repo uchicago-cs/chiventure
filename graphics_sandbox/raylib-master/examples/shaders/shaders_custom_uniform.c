@@ -97,7 +97,7 @@ int main(void)
             DrawText("TEXT DRAWN IN RENDER TEXTURE", 200, 10, 30, RED);
         EndTextureMode();               // End drawing to texture (now we have a texture available for next passes)
 
-        BeginDrawing();
+        BeginDrawing(0);
             ClearBackground(RAYWHITE);  // Clear screen background
 
             // Enable shader using the custom uniform
