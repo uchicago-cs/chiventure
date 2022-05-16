@@ -95,8 +95,12 @@ void runTaskTreeGraphics(quest_graphics_t* quest_graphics)
     const int screenHeight = quest_graphics->WindowSize.y;
 
 
-    InitWindow(screenWidth, screenHeight, "anotherone");
-    InitWindow(screenWidth, screenHeight, "Quest");
+
+    InitWindow(screenWidth, screenHeight, "four!");
+    InitWindow(screenWidth, screenHeight, "not three!");
+    InitWindow(screenWidth, screenHeight, "not two...");
+    InitWindow(screenWidth, screenHeight, "not one...");
+    InitWindow(screenWidth, screenHeight, "Take my talents to South Beach");
     SetWindowPosition(quest_graphics->WindowPos.x, quest_graphics->WindowPos.y);
 
     double widthSegment = quest_graphics->SegmentDimension.x;
@@ -208,6 +212,9 @@ void runTaskTreeGraphics(quest_graphics_t* quest_graphics)
     // De-Initialization
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
+    CloseWindow();
+    CloseWindow();
+    CloseWindow();
     CloseWindow();
     //--------------------------------------------------------------------------------------
 }
