@@ -232,6 +232,67 @@ Test(autogenerate, pick_random_direction_only_open_paths)
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (if game->curr_room has available path directions) */
+Test(autogenerate, room_generate_success_one)
+{
+    // Initializing specgraph and current room
+    game_t *g = game_new("start desc");
+    roomspec_t *roomspec0 = make_default_room("school", NULL,NULL);
+    roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
+    roomspecs[0] = roomspec0;
+    int **edges;
+    edges[0][0] = 1;
+    specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+    g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
+
+    // Path to sample room1
+    path_t* path_to_room0 = path_new(g->curr_room,"north");
+
+    roomspec_t *roomspec1 = random_room_lookup(specgraph);
+    cr_assert_not_null(roomspec1, "sample_roomspec should not be NULL");
+
+    // haivng 1 roomspec case
+    cr_assert_not_null(spec, "sample_specgraph should not be NULL");
+
+    room_t *room1 = roomspec_to_room(roomspec1);
+
+    // Path to sample room2
+    path_t* path_to_room1 = path_new(room1, "north");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room1, 5, 1, specgraph);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    roomspec_t *room2 = random_room_lookup(specgraph);
+    cr_assert_not_null(room2, "room2 should not be NULL");
+
+    // having 2 roomspec case
+    roomspecs[1] = room1;
+
+    // create roomspec 
+    roomspec_t *roomspec2 = random_room_lookup(specgraph);
+    char direction_to_new[6], direction_tocurr[6];
+    pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec2, direction_to_curr, direction_to_new),
+                 "room_generate() returned FAILURE when it should have returned SUCCESS");
+
+    path_hash_t *current, *temp;
+    room_t *new_room;
+    HASH_ITER(hh, g->curr_room_paths, current, temp) {
+        // current is an outward path from curr_room
+        new_room = current->dest;
+        break;
+    }
+
+    current = NULL;
+    tmp = NULL;
+    unsigned int count = 0;
+    HASH_ITER(hh, new_room->paths, current, tmp) {
+        count++;
+    }
+
+    cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
+}
+
+
 /*Test(autogenerate, room_generate_success_one)
 {
     game_t *g = game_new("start desc");
