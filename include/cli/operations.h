@@ -242,6 +242,19 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  */
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Validates game state and passes action struct to 
+ * action management's function that handles ACTION SELF_ATTRIBUTE
+ *
+ * eg: VIEW stats
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validated)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ *  - Status message based on control flow.
+ */
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /* Toggles the map by calling the toggle_map function in ui_ctx.c. Essentially a
  * wrapper, passing on the context struct only.
