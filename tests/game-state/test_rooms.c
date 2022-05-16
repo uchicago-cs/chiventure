@@ -16,6 +16,7 @@ Test(room_start, init)
     empty_room->room_id = malloc(sizeof(char*)*MAX_ID_LEN+1);
     empty_room->paths = NULL;
     empty_room->coords = NULL;
+    empty_room->tag = 0;
     int check = room_init(empty_room, "test_room", "This is a test room",
     "The purpose of this room is testing");
 

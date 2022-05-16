@@ -62,7 +62,9 @@ typedef struct coords coords_hash_t;
  *      long description
  *      its coordinates
  *      a hashtable of items to be found there
- *      a hashtable of paths accessible from the room. */
+ *      a hashtable of paths accessible from the room 
+ *      npcs in the room
+ *      the room's corresponding room_spec tag in specgraph so we can find its relation to other rooms */
 typedef struct room {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
@@ -73,6 +75,7 @@ typedef struct room {
     item_hash_t *items;
     path_hash_t *paths;
     npcs_in_room_t *npcs;
+    int tag;
 } room_t;
 
 /* This typedef is to distinguish between room_t pointers which are
