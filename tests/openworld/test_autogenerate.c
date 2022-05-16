@@ -256,7 +256,7 @@ Test(autogenerate, room_generate_success_one)
 
     room_t *room0 = roomspec_to_room(roomspec0);
 
-    /*
+    
     // Path to sample room2
     path_t* path_to_room0 = path_new(room0, "north");
 
@@ -277,6 +277,7 @@ Test(autogenerate, room_generate_success_one)
     cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec1, direction_to_curr, direction_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
+    /*
     path_hash_t *current, *tmp;
     room_t *new_room;
     HASH_ITER(hh, g->curr_room->paths, current, tmp) {
