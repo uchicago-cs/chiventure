@@ -37,10 +37,10 @@ int sound_free(sound_t *sound)
         fprintf(stderr, "no sound objects present\n");
         exit(1);
     } else if (sound->type == BACKGROUND) {
-        Mix_FreeMusic(backgroundSound); // frees resources assocateed with the music
+        Mix_FreeMusic(sound->name); // frees resources assocateed with the music
         return 1;
     } else if (sound->type == SOUND_EFFECT) {
-        Mix_FreeChunk(soundEffect); // frees resources assocateed with the sound effect
+        Mix_FreeChunk(sound->name); // frees resources assocateed with the sound effect
         return 1;
     }
     return 0;
@@ -54,12 +54,12 @@ int play_sound(sound_t *sound, int delay)
         exit(1);
     }else if (sound->type == BACKGROUND) {
         SDL_Delay(delay); // do a delay if there is one
-        Mix_PlayMusic(backgroundSound, -1); // play the music
+        Mix_PlayMusic(sound->name, -1); // play the music
         return 1;
     } 
     else if (sound->type == SOUND_EFFECT){
         SDL_Delay(delay); // do a delay if there is one
-        Mix_PlayChannel(-1, soundEffect, 0) // play the sound effect
+        Mix_PlayChannel(-1, sound->name, 0); // play the sound effect
         return 1;
     }
     return 0;
