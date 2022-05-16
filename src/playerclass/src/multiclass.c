@@ -27,11 +27,12 @@
  * Returns:
  *  - a pointer to a string with the new shortdesc.
  */
-char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
+char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ) {
  
     int num_multiclass = 2 + base_class->num_parent_class + second_class->num_parent_class;
 
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
+    *succ = SUCCESS;
     strncat(new_shortdesc, "Multiclass of ", 15);
     strncat(new_shortdesc, base_class->name, strlen(base_class->name));
     if (num_multiclass == 2){
@@ -79,8 +80,9 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
  * Returns:
  *  - a pointer to a string with the new longdesc.
  */
-char* multiclass_longdesc(class_t* base_class, class_t* second_class) {
+char* multiclass_longdesc(class_t* base_class, class_t* second_class, int *succ) {
     char* new_longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
+    *succ = SUCCESS;
     strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
     strncat(new_longdesc, "\n\n", 3);
     strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
@@ -274,8 +276,9 @@ obj_t* multiclass_attributes(obj_t* base_attributes, obj_t* second_attributes, c
 
 /* See multiclass.h */
 class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
-    char* new_shortdesc = multiclass_shortdesc(base_class, second_class);
-    char* new_longdesc = multiclass_longdesc(base_class, second_class);
+    int shortdesc_succ, longdesc_succ;
+    char* new_shortdesc = multiclass_shortdesc(base_class, second_class, &shortdesc_succ);
+    char* new_longdesc = multiclass_longdesc(base_class, second_class, &longdesc_succ);
     obj_t* combined_attr = multiclass_attributes(base_class->attributes, second_class->attributes, name);
     effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
