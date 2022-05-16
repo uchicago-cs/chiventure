@@ -297,12 +297,13 @@ int delete_all_rooms(room_hash_t **rooms);
 /* Mallocs space for a new coordinate
  *
  * Parameters:
- *  a unique coordinate id
+ *  x coordinate
+ *  y coordinate
  *
  * Returns:
  *  a pointer to new coordinate
  */
-coords_t *coords_new(char *coords_id, int x, int y);
+coords_t *coords_new(int x, int y);
 
 /* coord_init() initializes a coord struct with given values
  * Parameters:
@@ -313,7 +314,7 @@ coords_t *coords_new(char *coords_id, int x, int y);
  * Returns:
  *   FAILURE for failure, SUCCESS for success
 */
-int coords_init(coords_t *new_coords, char *coords_id, int x, int y);
+int coords_init(coords_t *new_coords, int x, int y);
 
 
 /* Frees the space in memory taken by given coordinate
