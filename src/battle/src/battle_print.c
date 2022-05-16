@@ -57,23 +57,31 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
     int player_hp = b->player->stats->hp;
     int enemy_hp = b->enemy->stats->hp;
     char* enemy_name = b->enemy->name;
-    char* combatant_name;
+    int target_remaining_hp;
+    char* mover_name;
+    char* target_name;
     int dmg;
 
     if (turn == PLAYER)
     {
-        combatant_name = "You";
+        mover_name = "You";
+        target_name = enemy_name;
+        target_remaining_hp = enemy_hp;
         dmg = damage(b->enemy, move, b->player);
     } else
     {
-        combatant_name = enemy_name;
+        mover_name = enemy_name;
+        target_name = "you";
+        target_remaining_hp = player_hp;
         dmg = damage(b->player, move, b->enemy);
     }
 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s! It did %d damage.\n",
-             combatant_name, move_name, dmg);
+    snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s on %s! It did %d damage.\n
+                                          %s has %d health remaining.\n",
+                                          mover_name, target_name, move_name, dmg, 
+                                          target_name, target_remaining_hp);
 
     int rc = print_hp(b, string);
     assert(rc == SUCCESS);
