@@ -207,7 +207,7 @@ int path_free(path_t *path);
 //  * Returns:
 //  *  SUCCESS if successful
 //  */
-// int path_new_conditions(path_t *path, list_action_type_t *act);
+int path_new_conditions(path_t *path, list_action_type_t *act);
 
 
 /* Returns path given room and direction
