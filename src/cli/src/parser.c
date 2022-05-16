@@ -132,47 +132,18 @@ char **parse(char *input)
     {
 
         words[i] = token;
-        token = strtok(NULL, " ");
-        // if (words[i]) {
+        token = strtok(NULL, "\"");
+        pos += strlen(token) + 1;
 
-            //test test
-        //     pos += (strlen(words[i]) - 1);
-        // }
+        if (strcmp(input[pos + 2], "\"") == 0) {
+            int n = 0;
+            while (input[pos + 1] != "\"") {
+                token2[n] = input[pos];
+                pos += 1;
+                n += 1;
+            }
 
-        // if (input[pos + 2] == '\"') {
-        //     int n = 0;
-        //     pos += 3;
-        //     while (input[pos] != '\"') {
-        //         token2[n] = input[pos];
-        //         pos++;
-        //         n++;
-        //     }
-            
-        //     i++;
-        //     strcpy(words[i], token2);
-        //     break;
-        // }
-        // if (words[i]) {
-        //     pos += (strlen(words[i]) - 1);
-        // }
-
-        // if (input[pos + 2] == '\"') {
-        //     token = strtok(input, "\"");
-        //     for (int n = 0; n < 2; n++) {
-        //         if (n == 1) {
-        //             words[i] = token;
-        //         }else{
-        //             strtok(NULL, "\"");
-        //         }
-        //     }
-
-        //     break;
-        // }else{
-    }
-
-    for (int j = 0; j < 4; j++) {
-        if (!(words[j])) {
-            words[j] = temp[1];
+            strcpy(words[i], token2);
             break;
         }
     }
