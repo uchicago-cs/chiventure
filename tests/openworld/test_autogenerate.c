@@ -619,6 +619,7 @@ Test(autogenerate, valid_multi_room3)
 }*/
 
 /* testing specgraph_from_hash for school bucket*/
+/*
 Test(specgraph, school_hash)
 {
     roomspec_t *roomspec0 = make_default_room("school",NULL,NULL);
@@ -629,12 +630,18 @@ Test(specgraph, school_hash)
 
     specgraph_t *tmp = specgraph;
 
+    // while loop is wrong because specgraph does not reach NULL
+    // need to use the number of roomspecs to create a for loop
+    int counter = 0;
     while (tmp != NULL) {
-        if(!strcmp(specgraph->))
+        if(!strcmp(specgraph->roomspecs[counter]->room_name, "classroom") &&
+                !)
+        counter += 1;
     }
-
-
 }
+*/
+
+
 /*Test(specgraph, school_hash)
 {
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
