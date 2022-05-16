@@ -42,19 +42,17 @@ stat_t *create_enemy_stats2()
 /* Creates + initializes a move. Taken from test_battle_ai.c */
 move_t *create_move(int id, battle_item_t* item, bool attack, int damage, 
 		    int defense)
- {
-     move_t *move = (move_t*) calloc(1, sizeof(move_t));
+{
+    move_t *move = (move_t*)calloc(1, sizeof(move_t));
 
-     move->id = id;
+    move->id = id;
+    move->item = item;
+    move->attack = attack;
+    move->damage = damage;
+    move->defense = defense;
 
-     move->item = item;
-
-     move->attack = attack;
-     move->damage = damage;
-     move->defense = defense;
-
-     return move;
- }
+    return move;
+}
 
 /* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves1()
@@ -89,12 +87,12 @@ Test(npc_battle, new)
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
 
-    npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY, 
-		                HOSTILE, 25);
+    npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY, 
+		                HOSTILE);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
-    cr_assert_eq(100, npc_battle->health, 
+    cr_assert_eq(100, npc_battle->stats->hp, 
 		 "npc_battle_new() didn't set health");
     cr_assert_eq(stats, npc_battle->stats, 
 		 "npc_battle_new() didn't set stats");

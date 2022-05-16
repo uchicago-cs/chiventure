@@ -3,25 +3,21 @@
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
 /* See npc_battle.h */
-int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
-                    move_t* moves, difficulty_t ai, hostility_t hostility_level,
-                    int surrender_level)
+int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
+                    move_t* moves, difficulty_t ai, hostility_t hostility_level)
 {
     assert(npc_battle != NULL);
-    npc_battle->health = health;
     npc_battle->stats = stats;
     npc_battle->moves = moves;
     npc_battle->ai = ai;
     npc_battle->hostility_level = hostility_level;
-    npc_battle->surrender_level = surrender_level;
 
     return SUCCESS;
 }
 
 /* See npc_battle.h */
-npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
-		             difficulty_t ai, hostility_t hostility_level, 
-			     int surrender_level)
+npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves, 
+		             difficulty_t ai, hostility_t hostility_level)
 {
     npc_battle_t *npc_battle;
     npc_battle = malloc(sizeof(npc_battle_t));
@@ -29,8 +25,8 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
     npc_battle->stats = malloc(sizeof(stat_t));
     npc_battle->moves = malloc(sizeof(move_t)); 
 
-    int check = npc_battle_init(npc_battle, health, stats, moves, ai, 
-                                hostility_level, surrender_level);
+    int check = npc_battle_init(npc_battle, stats, moves, ai, 
+                                hostility_level);
 
     if (npc_battle == NULL || npc_battle->stats == NULL ||  
         npc_battle->moves == NULL || check != SUCCESS)
@@ -54,10 +50,10 @@ int npc_battle_free(npc_battle_t *npc_battle)
 
 
 // "SET" FUNCTIONS ------------------------------------------------------------
-/* See npc.h  */
+/* See npc_battle.h  */
 int transfer_all_npc_items(npc_t *npc, room_t *room)
 {
-    if (get_npc_health(npc) > 0)
+    if (get_npc_hp(npc) > 0)
     {
         return FAILURE;
     }
