@@ -49,10 +49,6 @@ typedef struct game {
     /* using the macros provided in uthash.h */
     room_hash_t *all_rooms;
 
-    /* an iteratable hashtable of coordinatess */
-    /* using the macros provided in uthash.h */
-    coords_hash_t *all_coords;
-
     /* an iteratable hashtable of items */
     /* using the macros provided in uthash.h */
     item_hash_t *all_items;
@@ -177,17 +173,6 @@ int add_player_to_game(game_t *game, player_t *player);
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_room_to_game(game_t *game, room_t *room);
-
-/* Adds a coordinate to the given game
- *
- * Parameters:
- *  pointer to game struct
- *  pointer to coords struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_coords_to_game(game_t *game, coords_t *coords);
 
 /* Adds an item to the given game
  *
