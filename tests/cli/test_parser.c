@@ -246,7 +246,7 @@ Test(parse_r, three_words_quote)
  */
 Test(parse_r, all_quotes)
 {
-    char str[] = "\"GO\" \"EAST\"";
+    char str[] = "\"GO\" EAST";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"go", "parse() did not create first token");
     cr_assert_str_eq(words[1],"east", "parse() did not create second token");
