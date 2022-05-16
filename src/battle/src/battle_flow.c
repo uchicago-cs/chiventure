@@ -241,7 +241,7 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                         void *callback_args, cli_callback callback_func){
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
-    get_legal_actions(legal_moves, legal_moves, component, ctx->game->battle_ctx->game->battle);
+    get_legal_actions(legal_items, legal_moves, component, ctx->game->battle_ctx->game->battle);
     char *strg = print_battle_action_menu(legal_items, legal_moves);
     // print to cli
     print_to_cli(ctx, strg);
@@ -272,7 +272,7 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                                 ctx->game->battle_ctx->game->battle->player->name);
                     char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->enemy->moves);
+                                ctx->game->battle_ctx->game->battle->enemy->moves);
                     print_to_cli(ctx, movestr);
                 }
             }
