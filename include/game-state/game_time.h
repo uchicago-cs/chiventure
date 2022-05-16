@@ -6,8 +6,8 @@
 
 typedef struct time_dll
 {
-    time_t *curr;
     time_t *start; // will serve as the key for searching
+    double curr;
     struct time_dll *prev;
     struct time_dll *next;
 } time_dll_t;
@@ -20,8 +20,8 @@ int time_dll_init(time_dll_t *prev, time_dll_t *time_dll, time_dll_t *next);
 
 time_dll_t *time_dll_new(time_dll_t *prev, time_dll_t *next);
 
-int time_dll_free(time_dll_t *game_time);
+int time_dll_free(time_dll_t *time_dll);
 
-double time_dll_diff(time_dll_t *game_time);
+double time_dll_diff(time_dll_t *time_dll);
 
 #endif
