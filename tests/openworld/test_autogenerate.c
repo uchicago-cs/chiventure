@@ -240,7 +240,7 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
     roomspecs[0] = graph_roomspec0;
     int **edges;
-    edges[0][0] = 1;
+    // edges[0][0] = 1;
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
 
