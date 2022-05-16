@@ -45,6 +45,7 @@ int npc_battle_free(npc_battle_t *npc_battle)
     free(npc_battle);
 
     return SUCCESS;
+<<<<<<< HEAD
 }
 
 
@@ -74,4 +75,6 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     }
 
     return SUCCESS;
+=======
+>>>>>>> c1a3c1ab8ffdae7d6a4f70cd3eb437a1d534ed08
 }

@@ -13,7 +13,6 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
-#include "npc/npc_battle.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
