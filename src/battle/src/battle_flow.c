@@ -4,11 +4,7 @@
 #include <string.h>
 #include "battle/battle_flow.h"
 #include "battle/battle_print.h"
-#include "cli/cli_ctx.h"
-#include "common/ctx.h"
-#include "ui/print_functions.h"
-#include "cli/operations.h"
-#include "ui/ui.h"
+
 
 /* see battle_flow.h */
 int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)
@@ -249,8 +245,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
     get_legal_actions(legal_items, legal_moves, component, ctx->game->battle_ctx->game->battle);
     char *strg = print_battle_action_menu(legal_items, legal_moves);
     // print to cli
-    print_to_cli(ctx, strg);
-    // printf("%s", strg);
+      //_cli(ctx, strg);
+    printf("%s", strg);
     // take in user input
     char *input;
     scanf("%s", input);
@@ -270,7 +266,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                     char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->player->moves);
-                    print_to_cli(ctx, movestr);
+                    //print_to_cli(ctx, movestr);
+                    printf("%s",movestr);
                 } else {
                     battle_flow_move(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->moves, 
@@ -278,7 +275,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                     char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->battle->enemy->moves);
-                    print_to_cli(ctx, movestr);
+                    //print_to_cli(ctx, movestr);
+                    printf("%s",movestr);
                 }
             }
             else {
@@ -298,7 +296,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                 char *itemstr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->player->moves);
-                print_to_cli(ctx, itemstr);
+                //print_to_cli(ctx, itemstr);
+                printf("%s",itemstr);
             }
             else {
                 ctx->game->battle_ctx->game->player->items = 
@@ -308,7 +307,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
     } else if (input[0] == 'D' || input[0] == 'd') {
         char *str = (char *) malloc (sizeof(char) * 17);
         str = "You did nothing.";
-        print_to_cli(ctx, str);
+        //print_to_cli(ctx, str);
+        printf("%s",str);
         return 1;
     } else {
         return callback_func(ctx, "That action does not exist.", callback_args);
