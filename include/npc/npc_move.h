@@ -264,6 +264,6 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  *  - Updates npc_mov to have a new, randomly generated movement path.
  *    Maintains the same type of movement (indefinite / definite)
  */
-int auto_gen_movement(npc_t npc, game_t *game);
+int auto_gen_movement(npc_t *npc, game_t *game);
 
 #endif
