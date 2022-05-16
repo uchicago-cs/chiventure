@@ -254,26 +254,6 @@ Test(npc_mov, reverse_path)
                      "reverse_path() failed to track room");
 }
 
-/* Creates a sample class. Taken from test_class.c */
-class_t *generate_test_class()
-{
-    class_t *c;
-    char *name, *shortdesc, *longdesc;
-
-    name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on up-close physical "
-                "damage with weapons and survives enemy attacks "
-                "using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and weapons expert,"
-                " relying on physical strength and years of training to "
-                "deal with any obstacle. Mechanically, the warrior focuses "
-                "on up-close physical damage with weapons and survives enemy "
-                "attacks using heavy armor.\n";
-
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
-
-}
-
 /* Tests auto_gen_movement for definite movement function */
 Test(npc_mov, auto_gen_movement_definite)
 {
