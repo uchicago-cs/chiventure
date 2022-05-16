@@ -106,27 +106,24 @@ char **parse(char *input)
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
-    char **temp;
-    temp = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
-    char **temp2;
-    temp2 = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    char **by_quotes;
+    by_quotes = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+
 
     //Initializes all words to NULL
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         words[i] = NULL;
-        temp[i] = NULL;
-        temp2[i] = NULL;
+        by_quotes[i] = NULL;
     }
 
     char *token2 = strtok(input, "\"");
-    int pos = 0;
 
-    //Populates temp array with tokens separated by " character
+    //Populates by_quotes array with tokens separated by " character
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
 
-        temp[i] = token2;
+        by_quotes[i] = token2;
         token2 = strtok(NULL, "\"");
 
     }
@@ -142,18 +139,17 @@ char **parse(char *input)
 
             words[i] = token;
             token = strtok(NULL, " ");
-
-
+ 
         }
 
-        // iterates through words array until it finds a null, inserts the temp value
+        // iterates through words array until it finds a null, inserts the by_quotes value
         // corresponding to words in between the two quotes ("example"). This assumes
         // only one pair of double quotes is used
         for (int j = 0; j < TOKEN_LIST_SIZE; j++) 
         {
             if (!(words[j])) 
             {
-                words[j] = temp[1];
+                words[j] = by_quotes[1];
                 break;
             }
         }
@@ -170,29 +166,38 @@ char **parse(char *input)
 
     //If the first character of the input is "
     }else{
-
+        
+        char* token;
         // tokenises using spaces the contents between the two airquotes
-        // which have already been tokenized into temp array.
-        char* token3 = strtok(temp[0], " ");
+        // which have already been tokenized into by_quotes array.
+        words[0] = by_quotes[0];
 
-        //Populates temp2 array with tokens separated by space (" ") character
-        for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+
+        if (by_quotes[1]) 
         {
+            
+            token = strtok(by_quotes[1], " ");
 
-            temp2[i] = token3;
-            token3 = strtok(NULL, " ");
+            //Populates words array with tokens separated by space (" ") character
+            for(int i = 1; i < TOKEN_LIST_SIZE; i++)
+            {
 
+                words[i] = token;
+                token = strtok(NULL, " ");
+
+            }
+        
         }
 
         //If there are more than 4 words, parser returns NULL and does not attempt
         //to pass the first four words as tokens
 
-        if(token3 != NULL)
+        if(token != NULL)
         {
         return NULL;
         }
 
-        return temp2;
+        return words;
     }
 
 }
