@@ -26,8 +26,8 @@ int main()
     e_stats->strength = 70;
 
     move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
-    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE);
     e->npc_battle = npc_b;
 
     battle_ctx_t *ctx = 

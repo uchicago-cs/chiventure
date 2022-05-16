@@ -56,8 +56,8 @@ Test(battle_flow_move, set_one_enemy)
 
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
-    npc_t *npc_enemy = npc_new("enemy_name", "Enemy!", "Enemy!", test_class, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("enemy_name", "Enemy!", "Enemy!", test_class, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(stats, move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
 
     combatant_t *comb_enemy = set_enemy(npc_enemy);
@@ -87,8 +87,8 @@ Test(battle_flow_move, set_battle)
     battle_player_t *ctx_player = new_ctx_player("set_battle_name", NULL, NULL, NULL, NULL);
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
-    npc_t *npc_enemy = npc_new("set_battle_name", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("set_battle_name", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(stats, move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_DESERT;
@@ -126,8 +126,8 @@ Test(battle_flow_move, start_battle)
     ctx->status = BATTLE_IN_PROGRESS;
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
-    npc_t *npc_enemy = npc_new("start_battle_Name", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("start_battle_Name", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(stats, move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_SNOW;
 
@@ -159,8 +159,8 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     estats->strength = 150;
     estats->defense = 20;
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(estats, e_move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
@@ -199,8 +199,8 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     estats->level = 5;
     estats->strength = 150;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
@@ -261,8 +261,8 @@ Test(battle_flow_move, battle_over_by_player)
     estats->strength = 150;
     estats->defense = 20;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
@@ -324,8 +324,8 @@ Test(battle_flow_move, battle_over_by_enemy)
     estats->strength = 200;
     estats->defense = 30;
     move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 

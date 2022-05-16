@@ -18,8 +18,8 @@ Test(battle_print, print_start_battle)
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -44,8 +44,8 @@ Test(battle_print, print_hp_one_enemy)
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -89,8 +89,8 @@ Test(battle_print, print_player_move)
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -135,8 +135,8 @@ Test(battle_print, print_enemy_move)
     enemy_stats->speed = 9;
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
