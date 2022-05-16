@@ -58,6 +58,13 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class) {
     }
 
     strncat(new_shortdesc, ".", 2);
+
+    if (strlen(new_shortdesc) > MAX_SHORT_DESC_LEN + 1) {
+        fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length, second shortdesc not appended");
+        *succ = FAILURE;
+        return base_class->shortdesc;
+    }
+
     return new_shortdesc;
 }
 
@@ -77,6 +84,13 @@ char* multiclass_longdesc(class_t* base_class, class_t* second_class) {
     strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
     strncat(new_longdesc, "\n\n", 3);
     strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
+
+    if (strlen(new_longdesc) > MAX_LONG_DESC_LEN + 1) {
+        fprintf(stderr, "multiclass_longdesc: Longdesc longer than max length, second longdesc not appended");
+        *succ = FAILURE;
+        return base_class->longdesc;
+    }
+
     return new_longdesc;
 }
 
