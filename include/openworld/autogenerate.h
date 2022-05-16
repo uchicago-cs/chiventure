@@ -167,20 +167,6 @@ int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspe
 int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms);
 
 /*
-* specgraph_from_hash
-* Iterate through all the rooms in a roomspec hash and append them to
-* original specgraph in a doubly linked list.
-*
-* parameters:
-* - hash: a roomspec hash that has multiple roomspecs
-*
-* returns:
-* - NULL if hash is NULL
-* - specgraph_t* a new specgraph with all the roomspecs stored in hash copied
-*/
-int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash);
-
-/*
 * random_room_lookup
 * Iterate through all the roomspec of the specgraph a "random" number of times
 * and returns one of these roomspecs.
