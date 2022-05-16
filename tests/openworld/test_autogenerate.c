@@ -432,7 +432,8 @@ Test(autogenerate, valid_multi_room1)
 
     roomspec_t *sample_roomspec = random_room_lookup(specgraph);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-    roomspec_t *sample_roomspecs[0] = sample_roomspec;
+    roomspec_t **sample_roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*));
+    sample_roomspecs[0] = sample_roomspec;
     int **sample_edges = (int**)malloc(sizeof(int*));
 
     // 1 roomspec case
@@ -494,6 +495,16 @@ Test(autogenerate, valid_multi_room1)
 
 /* Checks that multi_room_generate successfully generates/adds rooms from a
 * context (gencontext_t) struct's specgraph field when two rooms are requested */
+/*
+Test(autogenerate, valid_multi_room2)
+{
+    roomspec_t *roomspec0 = make_default_room("school",NULL,NULL);
+    roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
+    int **edges = (int**)malloc(sizeof(int*)*2);
+    specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+}
+*/
+
 /*Test(autogenerate, valid_multi_room2)
 {
     rspec_hash_t *hash =make_default_room("school", NULL, NULL);
