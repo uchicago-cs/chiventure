@@ -45,8 +45,9 @@ typedef union windows {
 typedef struct ui_linkedlist ui_linkedlist_t;
 
 struct ui_linkedlist {
+    const int CONTEXT_ID;
     window_type_t WindowType;
-    window_t* Window;
+    windows_t* Window;
     ui_linkedlist_t* next;
 };
  

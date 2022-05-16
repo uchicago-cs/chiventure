@@ -1,2 +1,5 @@
 npc_graphics: npc_graphics.c
-	cc npc_graphics.c -framework IOKit -framework Cocoa -framework OpenGL `pkg-config --libs --cflags raylib` -I./ -o npc_graphics
+	cc npc_graphics.c -framework IOKit -framework Cocoa -framework OpenGL `pkg-config --libs --cflags raylib` -I. -o npc_graphics
+
+clean:
+	rm npc_graphics

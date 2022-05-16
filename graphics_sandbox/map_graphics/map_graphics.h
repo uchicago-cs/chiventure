@@ -1,6 +1,8 @@
 #ifndef MAP_GRAPHICS_H
 #define MAP_GRAPHICS_H
 
+#define MAP_CONTEXT_ID 1
+
 #include "raylib.h"
 #include <stdlib.h>
 #include <stdio.h>
