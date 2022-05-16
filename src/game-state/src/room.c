@@ -238,8 +238,8 @@ npc_t *get_npc_in_room(room_t *room, char *npc_id)
 int coords_init(coords_t *new_coords, int x, int y){
     assert(new_coords != NULL);
 
-    coords->x = x;
-    coords->y = y;
+    new_coords->x = x;
+    new_coords->y = y;
 
     return SUCCESS;
 }
@@ -274,6 +274,6 @@ int add_coords_to_room(coords_t *coords, room_t *room){
 }
 
 /* See room.h */
-coords_t *find_coords_of_room(coords_t *room){
+coords_t *find_coords_of_room(room_t *room){
     return room->coords;
 }
