@@ -33,7 +33,7 @@ typedef struct quest_graphics{
     Vector2 WindowSize;
     Vector2 SegmentDimension;
     Vector2 DrawStartPosition;
-    task_tree_mockup_t *headtree;
+    task_tree_mockup_t *TaskTree;
     char* CurrentTaskName;
     bool ShowRemainingHorizontal;
     float SquareeSide;
@@ -44,8 +44,6 @@ int getTreeMaxWidth(task_tree_mockup_t* taskTree);
 int getTreeMaxHeight(task_tree_mockup_t* taskTree);
 
 
-void runTaskTreeGraphics(task_tree_mockup_t* taskTree, Vector2 windowpos, Vector2 windowsize,          
-                        Vector2 segmentDimension, char*current_task_name, float squareside,
-                        Vector2 drawStartPos, bool showRemainingHorizontal);
+void runTaskTreeGraphics(quest_graphics_t* quest_graphics);
 
 #endif

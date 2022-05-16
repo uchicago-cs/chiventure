@@ -12,6 +12,7 @@
 #include "npc_graphics.h"
 #include "quest_graphics.h"
 #include "scene_graphics.h"
+#include "map_graphics.h"
 #include "read_gdl.h"
 
 /*
@@ -48,5 +49,5 @@ struct ui_linkedlist {
     window_t* Window;
     ui_linkedlist_t* next;
 };
-
+ 
 #endif
