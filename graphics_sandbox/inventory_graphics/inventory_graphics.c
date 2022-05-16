@@ -22,11 +22,8 @@
     }
 
     while (itemlst->next != NULL){
-        for(int i = 0; i < graphics->inventory->rows; i++){
-            for(int j = 0; j < graphics->inventory->columns; j++){
-                inv[i][j] = itemlst->item;
-            }
-        }
+        inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos] 
+            == itemlst->item;
         itemlst = itemlst->next;
     }
 
