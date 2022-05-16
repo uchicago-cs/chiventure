@@ -3,6 +3,8 @@
 
 #include "arg_custom_type.h"
 
+
+
 typedef struct obj_t
 {
     // Type of underlying data
@@ -11,15 +13,7 @@ typedef struct obj_t
     // Whether this data will be represented by a Lua script
     bool is_lua;
 
-    // Data associated with the object
-    union
-    {
-        bool b;
-        char c;
-        int  i;
-        char *s;
-        char *lua;
-    } data;
+    data_t data;
 
     // Linked list of arguments
     arg_t *args;

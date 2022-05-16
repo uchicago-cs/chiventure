@@ -1,7 +1,7 @@
 #include "custom-scripts/get_custom_type.h"
 
 // see get_custom_types.h
-data_t arg_t_get(object_t *ot, data_t d) {
+data_t arg_t_get(object_t *ot) {
     data_t d;
 
     switch (ot->type) {
@@ -27,7 +27,7 @@ data_t arg_t_get(object_t *ot, data_t d) {
             const char *result = lua_tostring(L, -1);
             lua_pop(L, 1);
             char *result1 = strdup(result);
-            d.c = *result1
+            d.c = *result1;
             return d;
         } else {
             return ot->data;
@@ -54,7 +54,7 @@ data_t arg_t_get(object_t *ot, data_t d) {
             const char *result = lua_tostring(L, -1);
             lua_pop(L, 1);
             char *result1 = strdup(result);
-            d.s = result1
+            d.s = result1;
             return d;
         } else {
             return ot->data;
