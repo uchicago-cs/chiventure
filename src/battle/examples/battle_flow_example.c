@@ -9,21 +9,23 @@ int main()
 {
     stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
     p_stats->hp = 100;
+    p_stats->max_hp = 100;
     p_stats->xp = 10;
     p_stats->speed = 10;
     p_stats->level = 3;
-    p_stats->defense = 3;
-    p_stats->strength = 80;
+    p_stats->phys_def = 3;
+    p_stats->accuracy = 80;
 
     battle_player_t *p = new_ctx_player("John", NULL, p_stats, NULL, NULL);
 
     stat_t *e_stats = (stat_t*) calloc(1, sizeof(stat_t));
     e_stats->hp = 70;
+    e_stats->max_hp = 70;
     e_stats->xp = 10;
     e_stats->speed = 9;
     e_stats->level = 6;
-    e_stats->defense = 2;
-    e_stats->strength = 70;
+    e_stats->phys_def = 2;
+    e_stats->accuracy = 70;
 
     move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", NULL, NULL, HOSTILE);
