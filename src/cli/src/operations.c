@@ -233,15 +233,29 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     game_t *game = ctx->game;
     char *arg2 = tokens[1];
     if(game == NULL)
-    //TODO look exactly what the game pointer being NULL means
     {
         return "No game found!\n";
     }
     if(arg2 == NULL)
     {
-        return "Second argument needed. Pick from: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
+        return "Second argument needed. Pick from: TODO: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
     }
 
+    lookup_t **table = ctx->cli_ctx->table;
+
+    /* uses the find_action command to go from string to action,
+     * this table is made using the add_action_entry and lookup_t_init 
+     * in cmd.c*/
+    action_type_t *action = find_action(tokens[0], table);
+
+    /* placeholder for error string that do_self_action will modify */
+    char *str;
+        
+    //TODO add description here of what the return codes mean
+    int rc = do_self_action(ctx, action, curr_item, arg2, &str);
+    return str;
+
+    /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT (5/16/2022) - faruk badur
     pass into the do_self_action
     if(strcmp(arg2,"stats") == 0)
     {
@@ -257,6 +271,7 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     }
     //all possible options should have been matched before this
     return "Invalid second argument\n";
+    */
 }
 
 /* See operation.h */
