@@ -251,7 +251,7 @@ Test(autogenerate, room_generate_success_one)
     cr_assert_not_null(roomspec1, "sample_roomspec should not be NULL");
 
     // haivng 1 roomspec case
-    cr_assert_not_null(spec, "sample_specgraph should not be NULL");
+    cr_assert_not_null(specgraph, "sample_specgraph should not be NULL");
 
     room_t *room1 = roomspec_to_room(roomspec1);
 
@@ -265,18 +265,19 @@ Test(autogenerate, room_generate_success_one)
     cr_assert_not_null(room2, "room2 should not be NULL");
 
     // having 2 roomspec case
-    roomspecs[1] = room1;
+    roomspec_t *roomspec1 = make_default_room("dungeon", NULL, NULL);
+    roomspecs[1] = roomspec1;
 
     // create roomspec 
     roomspec_t *roomspec2 = random_room_lookup(specgraph);
-    char direction_to_new[6], direction_tocurr[6];
+    char direction_to_new[6], direction_to_curr[6];
     pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
     cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec2, direction_to_curr, direction_to_new),
                  "room_generate() returned FAILURE when it should have returned SUCCESS");
 
-    path_hash_t *current, *temp;
+    path_hash_t *current, *tmp;
     room_t *new_room;
-    HASH_ITER(hh, g->curr_room_paths, current, temp) {
+    HASH_ITER(hh, g->curr_room->paths, current, tmp) {
         // current is an outward path from curr_room
         new_room = current->dest;
         break;
