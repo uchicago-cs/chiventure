@@ -125,4 +125,4 @@ char *print_moves(battle_t *b, char* moves);
  * Returns:
  *  A string containing the labeled menu items
  */ 
-char *print_battle_action_menu(battle_item_t *items, move_t *moves, char *string);
+char *print_battle_action_menu(battle_item_t *items, move_t *moves);

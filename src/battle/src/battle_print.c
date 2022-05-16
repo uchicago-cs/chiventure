@@ -78,8 +78,8 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
-    snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s on %s! It did %d damage.\n
-                                          %s has %d health remaining.\n",
+    snprintf(string, BATTLE_BUFFER_SIZE, "%s used %s on %s! It did %d damage.\n"
+                                          "%s has %d health remaining.\n",
                                           mover_name, target_name, move_name, dmg, 
                                           target_name, target_remaining_hp);
 
@@ -93,9 +93,10 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item)
 {
   char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-  snprintf(string, BATTLE_BUFFER_SIZE, "you used %s", item->name;
+  snprintf(string, BATTLE_BUFFER_SIZE, "you used %s", item->name);
   return string;
 }
+
 /* see battle_print.h */
 char *print_battle_winner(battle_status_t status, int xp)
 {
@@ -189,7 +190,8 @@ int *print_battle_items(battle_t *b, char *string)
 }
 
 /* see battle_print.h */
-char *print_battle_action_menu(battle_item_t *items, move_t *moves, char *string) 
+
+char *print_battle_action_menu(battle_item_t *items, move_t *moves)
 {
   
   // get the number of moves and number of items
@@ -235,7 +237,7 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves, char *string
     index++;
 
   // loop through each item and add an entry to the menu string for each one
-  char label[] = "I0 - ";
+  label[] = "I0 - ";
   for(i=1; i<=moves_count; i++)
   {
     // set label number 
