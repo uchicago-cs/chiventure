@@ -69,17 +69,6 @@ int add_room_to_game(game_t *game, room_t *room)
 }
 
 /* See game.h */
-int add_coords_to_game(game_t *game, coords_t *coords){
-    coords_t *check;
-    HASH_FIND(hh, game->all_coords, coords->coords_id, strnlen(coords->coords_id, MAX_ID_LEN), check);
-
-    if(check != NULL)
-        return FAILURE; //coords id is already in use
-    
-    HASH_ADD_KEYPTR(hh, game->all_coords, coords->coords_id, strnlen(coords->coords_id, MAX_ID_LEN), coords);
-}
-
-/* See game.h */
 int add_item_to_game(game_t *game, item_t *item)
 {
     return add_item_to_all_items_hash(&(game->all_items), item);
