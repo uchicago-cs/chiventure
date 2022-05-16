@@ -1,4 +1,4 @@
-#include "espeak-ng/src/include/espeak-ng/speak_lib.h"
+#include <espeak-ng/speak_lib.h>
  
  espeak_AUDIO_OUTPUT output = AUDIO_OUTPUT_SYNCH_PLAYBACK;
  char *path = NULL;
@@ -7,7 +7,7 @@
  
  int main(int argc, char* argv[]) {
    char voicename[] = {"English"}; // Set voice by its name
-   char text[] = {"Hello world!"};
+   char text[] = {"Hello Parker!"};
    int buflength = 500, options = 0;
    unsigned int position = 0, position_type = 0, end_position = 0, flags = espeakCHARS_AUTO;
    espeak_Initialize(output, buflength, path, options);
