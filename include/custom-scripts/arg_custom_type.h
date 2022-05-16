@@ -23,7 +23,7 @@ typedef enum data_type
     STR_TYPE = 4,
 } data_type_t;
 
-union {
+typedef union data {
     bool b;
     char c;
     int  i;
