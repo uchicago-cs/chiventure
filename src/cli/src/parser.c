@@ -106,25 +106,25 @@ char **parse(char *input)
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
-    char **by_quotes;
-    by_quotes = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    char **quote_word;
+    quote_word = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
 
 
     //Initializes all words to NULL
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         words[i] = NULL;
-        by_quotes[i] = NULL;
+        quote_word[i] = NULL;
     }
 
-    char *token2 = strtok(input, "\"");
+    char *token_quotes = strtok(input, "\"");
 
-    //Populates by_quotes array with tokens separated by " character
+    //Populates quote_word array with tokens separated by " character
     for(int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
 
-        by_quotes[i] = token2;
-        token2 = strtok(NULL, "\"");
+        quote_word[i] = token_quotes;
+        token_quotes = strtok(NULL, "\"");
 
     }
 
@@ -134,7 +134,7 @@ char **parse(char *input)
         char *token = strtok(input, " ");
 
         //Populates words array with tokens separated by space (" ") character
-        for(int i = 0; i < 4; i++)
+        for(int i = 0; i < TOKEN_LIST_SIZE; i++)
         {
 
             words[i] = token;
@@ -142,14 +142,14 @@ char **parse(char *input)
  
         }
 
-        // iterates through words array until it finds a null, inserts the by_quotes value
+        // iterates through words array until it finds a null, inserts the quote_word value
         // corresponding to words in between the two quotes ("example"). This assumes
         // only one pair of double quotes is used
         for (int j = 0; j < TOKEN_LIST_SIZE; j++) 
         {
             if (!(words[j])) 
             {
-                words[j] = by_quotes[1];
+                words[j] = quote_word[1];
                 break;
             }
         }
@@ -169,14 +169,14 @@ char **parse(char *input)
         
         char* token;
         // tokenises using spaces the contents between the two airquotes
-        // which have already been tokenized into by_quotes array.
-        words[0] = by_quotes[0];
+        // which have already been tokenized into quote_word array.
+        words[0] = quote_word[0];
 
 
-        if (by_quotes[1]) 
+        if (quote_word[1]) 
         {
             
-            token = strtok(by_quotes[1], " ");
+            token = strtok(quote_word[1], " ");
 
             //Populates words array with tokens separated by space (" ") character
             for(int i = 1; i < TOKEN_LIST_SIZE; i++)
