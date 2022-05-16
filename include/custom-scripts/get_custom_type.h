@@ -11,6 +11,6 @@
  * Returns:
  * - bool from ot
  */
-data_t arg_t_get(object_t *ot, data_t d);
+data_t arg_t_get(object_t *ot);
 
 #endif
