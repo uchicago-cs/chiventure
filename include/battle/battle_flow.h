@@ -149,6 +149,6 @@ char *enemy_make_move(battle_ctx_t *ctx);
  * - returns int 1 if everything runs smoothly,
  *   or calls callback function if invalid input
  */
-int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component);
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *callback_args, cli_callback callback_func);
 
 #endif

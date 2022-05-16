@@ -237,8 +237,12 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
 
 /* see battle_flow.h */
-int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *callback_args, cli_callback callback_func){
-
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
+                        void *callback_args, cli_callback callback_func){
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(legal_moves, legal_moves, component, ctx->game->battle_ctx->game->battle);
+    char *strg = print_battle_action_menu(legal_items, legal_moves);
     // print to cli
     print_to_cli(ctx, strg);
     // printf("%s", strg);
@@ -254,10 +258,20 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *
                 return callback_func(ctx, "That move does not exist.", callback_args);
             }
             if (k == index-1){
-                battle_flow_move(ctx->game->battle_ctx, ctx->game->battle_ctx->game->player->moves, ctx->game->battle_ctx->game->battle->enemy);
+                if (ctx->game->battle_ctx->game->battle->turn == PLAYER){
+                    battle_flow_move(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->moves, 
+                                ctx->game->battle_ctx->game->battle->enemy->name);
+                // report move result
+                } else {
+                    battle_flow_move(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->moves, 
+                                ctx->game->battle_ctx->game->battle->player->name);
+                }
             }
             else {
-                ctx->game->battle_ctx->game->player->moves = ctx->game->battle_ctx->game->player->moves->next;
+                ctx->game->battle_ctx->game->player->moves = 
+                ctx->game->battle_ctx->game->player->moves->next;
             }
         }
     } else if (input[0] == 'I' || input[0] == 'i'){
@@ -267,13 +281,21 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *
                 return callback_func(ctx, "That item does not exist.", callback_args);
             }
             if (k == index-1){
-                battle_flow_item(ctx->game->battle_ctx, ctx->game->battle_ctx->game->player->items);
+                battle_flow_item(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->items);
+                // report item result
             }
             else {
-                ctx->game->battle_ctx->game->player->items = ctx->game->battle_ctx->game->player->items->next;
+                ctx->game->battle_ctx->game->player->items = 
+                ctx->game->battle_ctx->game->player->items->next;
             }
         }
-    } else if (input[0] != 'D' || input[0] != 'd') {
+    } else if (input[0] == 'D' || input[0] == 'd') {
+        char *str = (char *) malloc (sizeof(char) * 17);
+        str = "You did nothing.";
+        print_to_cli(ctx, str);
+        return 1;
+    } else {
         return callback_func(ctx, "That action does not exist.", callback_args);
     }
 
