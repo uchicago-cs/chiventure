@@ -1,3 +1,0 @@
-[submodule "include/custom-scripts/uthash"]
-	path = include/custom-scripts/uthash
-	url = https://github.com/troydhanson/uthash.git

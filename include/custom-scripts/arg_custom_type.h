@@ -9,7 +9,7 @@
 #include "lauxlib.h"
 #include "lua.h"
 #include "lualib.h"
-#include "uthash @ 44a66f3/src/utlist.h"
+#include "uthash/src/utlist.h"
 
 /* File consisting of the custom pseudo-type created by Custom Scripts (inspired by libobj)
    =========================================================================== */
