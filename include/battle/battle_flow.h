@@ -14,6 +14,7 @@
 #include "common/utlist.h"
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
+#include "ui/print_functions.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
