@@ -27,6 +27,54 @@ Test(effect_tests, make_move_effect_test)
 
 }
 
+/* Tests for execute_move_effect function */
+
+/* This test checks if execute_move_effect correctly adds a move effect to an empty list */
+
+Test(effect_tests, execute_move_effect_test_empty_list)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+
+    move_t *move = move_new("abc", 1, NULL, true, 10, 55);
+    cr_assert_not_null(move, "Error: move_new failed to create move");
+    move_effect_t* moveeffect = define_move_effect(move);
+    cr_assert_not_null(moveeffect, "Error: define_move_effect failed to create move effect");
+    
+    int check = execute_move_effect(ctx, moveeffect);
+    cr_assert_eq(check, SUCCESS, "Error: Failure of execute_move_effect");
+}
+
+/* This test checks if execute_move_effect correctly adds a move effect to an existing list of effects */
+
+Test(effect_tests, execute_move_effect_test_existing_list)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    
+    move_t *old_move = move_new("def", 2, NULL, false, 100, 22);
+    cr_assert_not_null(old_move, "Error: move_new failed to create move");
+    move_effect_t* moveeffect1 = define_move_effect(old_move);
+    cr_assert_not_null(moveeffect1, "Error: define_move_effect failed to create move effect");
+    
+    int check1 = execute_move_effect(ctx, moveeffect1);
+    cr_assert_eq(check1, SUCCESS, "Error: Failure of execute_move_effect");
+
+    move_t *new_move = move_new("ghi", 3, NULL, false, 1, 14);
+    cr_assert_not_null(new_move, "Error: move_new failed to create move");
+    move_effect_t* moveeffect2 = define_move_effect(new_move);
+    cr_assert_not_null(moveeffect2, "Error: define_move_effect failed to create move effect");
+    
+    int check2 = execute_move_effect(ctx, moveeffect2);
+    cr_assert_eq(check2, SUCCESS, "Error: Failure of execute_move_effect");
+    
+    move_t *new_move2 = move_new("pqr", 6, NULL, false, 1, 14);
+    cr_assert_not_null(new_move2, "Error: move_new failed to create move");
+    move_effect_t* moveeffect3 = define_move_effect(new_move2);
+    cr_assert_not_null(moveeffect3, "Error: define_move_effect failed to create move effect");
+    
+    int check3 = execute_move_effect(ctx, moveeffect3);
+    cr_assert_eq(check3, SUCCESS, "Error: Failure of execute_move_effect");
+}
+   
 //Tests for stat mod effects
 
 /* This test checks if the define function works correctly if all values provided are valid */
