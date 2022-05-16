@@ -217,5 +217,5 @@ Test(parse_r, two_words_quote)
     char str[] = "GO \"South\"";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"GO", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"\"South\"", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"South", "parse() did not create first token");
 }
