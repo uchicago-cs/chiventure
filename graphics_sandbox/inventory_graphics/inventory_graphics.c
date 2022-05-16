@@ -22,10 +22,20 @@
     }
 
     while (itemlst->next != NULL){
+        for(int i = 0; i < graphics->inventory->rows; i++){
+            for(int j = 0; j < graphics->inventory->columns; j++){
+                inv[i][j] = itemlst->item;
+            }
+        }
+        itemlst = itemlst->next;
+    }
+/* Once item_t is properly updated, this will be used to actually populate
+ * the 2D array 
         inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos] 
             == itemlst->item;
         itemlst = itemlst->next;
-    }
+    } 
+*/
 
     return inv;
 }
