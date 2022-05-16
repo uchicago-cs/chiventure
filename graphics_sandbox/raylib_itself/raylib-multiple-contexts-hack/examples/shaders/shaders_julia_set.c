@@ -144,7 +144,7 @@ int main(void)
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
 
             ClearBackground(BLACK);         // Clear the screen of the previous frame.
 

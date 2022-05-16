@@ -194,7 +194,7 @@ int main(int argc, char **argv)
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
 
             ClearBackground(RAYWHITE);
 

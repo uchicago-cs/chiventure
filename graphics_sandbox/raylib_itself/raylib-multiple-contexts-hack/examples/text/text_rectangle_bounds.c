@@ -84,7 +84,7 @@ tempor incididunt ut labore et dolore magna aliqua. Nec ullamcorper sit amet ris
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
 
             ClearBackground(RAYWHITE);
 

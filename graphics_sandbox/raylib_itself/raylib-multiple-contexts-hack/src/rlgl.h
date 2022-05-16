@@ -100,6 +100,7 @@
 
 #include "raymath.h"            // Required for: Vector3, Matrix
 
+#define MAX_CONTEXTS 10
 // Security check in case no GRAPHICS_API_OPENGL_* defined
 #if !defined(GRAPHICS_API_OPENGL_11) && \
     !defined(GRAPHICS_API_OPENGL_21) && \
@@ -888,7 +889,7 @@ typedef struct rlglData {
 // Global Variables Definition
 //----------------------------------------------------------------------------------
 #if defined(GRAPHICS_API_OPENGL_33) || defined(GRAPHICS_API_OPENGL_ES2)
-static rlglData RLGL[MAX_CONTEXTS];
+static rlglData RLGL[10];
 unsigned int currentContext = 0;
 unsigned int numContexts = 0;
 #endif  // GRAPHICS_API_OPENGL_33 || GRAPHICS_API_OPENGL_ES2
@@ -1538,7 +1539,7 @@ void rlglInit(int width, int height)
 {
     currentContext = numContexts;
     if (numContexts == 0) //initialize the struct for the first time
-        memset(RLGL, 0, sizeof(rlglData) * MAX_CONTEXTS);
+        memset(RLGL, 0, sizeof(rlglData) * 10);
     numContexts++;
     // Check OpenGL information and capabilities
     //------------------------------------------------------------------------------

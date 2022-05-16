@@ -130,7 +130,7 @@ int main(void)
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(0);
 
             ClearBackground(RAYWHITE);
 
