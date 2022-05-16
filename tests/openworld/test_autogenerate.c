@@ -336,6 +336,34 @@ Test(autogenerate, room_generate_success_two)
     gencontext_t *sample_gencontext = gencontext_new(path_to_room1, 5, 1, specgraph);
     cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 
+    // having 2 roomspec case
+    roomspec_t *graph_roomspec1 = make_default_room("school", NULL, NULL);
+    roomspecs[1] = graph_roomspec1;
+
+    // create roomspec 
+    roomspec_t *roomspec1 = random_room_lookup(specgraph);
+    char direction_to_new[6], direction_to_curr[6];
+    pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
+    cr_assert_eq(SUCCESS, room_generate(g,g->curr_room, roomspec1, direction_to_curr, direction_to_new),
+                 "room_generate() returned FAILURE when it should have returned SUCCESS");
+
+    
+    path_hash_t *current, *tmp;
+    room_t *new_room;
+    HASH_ITER(hh, g->curr_room->paths, current, tmp) {
+        // current is an outward path from curr_room
+        new_room = current->dest;
+        break;
+    }
+
+    current = NULL;
+    tmp = NULL;
+    unsigned int count = 0;
+    HASH_ITER(hh, new_room->paths, current, tmp) {
+        count++;
+    }
+
+    cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
 
 
