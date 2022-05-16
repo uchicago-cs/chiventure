@@ -17,7 +17,7 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
 
 /* See npc_battle.h */
 npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves, 
-		             difficulty_t ai, hostility_t hostility_level)
+		                     difficulty_t ai, hostility_t hostility_level)
 {
     npc_battle_t *npc_battle;
     npc_battle = malloc(sizeof(npc_battle_t));

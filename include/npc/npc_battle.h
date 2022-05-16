@@ -63,7 +63,7 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
  *  pointer to allocated npc_battle
  */
 npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves, 
-		             difficulty_t ai, hostility_t hostility_level);
+		                     difficulty_t ai, hostility_t hostility_level);
 
 /*
  * Frees resources associated with an npc_battle struct.

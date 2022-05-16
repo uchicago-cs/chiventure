@@ -143,8 +143,8 @@ Test(battle_print, print_player_move_crit)
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -163,7 +163,9 @@ Test(battle_print, print_player_move_crit)
                             "-- Your HP: 50\n"
                             "-- bob's HP: 16\n";
 
-    cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s\n. We got %s", string, expected_string);
+    cr_expect_str_eq(string, expected_string, 
+                     "print_player_move_crit() failed to set string %s\n. We got %s", 
+                     string, expected_string);
 
     free(string);
 }
@@ -193,8 +195,8 @@ Test(battle_print, print_player_move_miss)
 
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
