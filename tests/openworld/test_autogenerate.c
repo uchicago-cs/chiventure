@@ -235,6 +235,19 @@ Test(autogenerate, pick_random_direction_only_open_paths)
 Test(autogenerate, room_generate_success_one)
 {
     game_t *g = game_new("start desc");
+    roomspec_t *roomspec1 = make_default_room("school",NULL,NULL);
+    roomspec_t **roomspecs = (roomspec**)malloc(sizeof(roomspec*));
+    
+
+
+    rspec_hash_t *hash = make_default_room("school",NULL,NULL);
+
+
+
+    specgraph_t *spec = NULL;
+    
+
+
     rspec_hash_t *hash = make_default_room("school", NULL, NULL);
     specgraph_t *spec = NULL;
     specgraph_from_hash(&spec, hash);
