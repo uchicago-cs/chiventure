@@ -2,21 +2,21 @@
 #define _NPC_MOVE_H
 
 #include "game-state/game_state_common.h"
-#include "game-state/room.h"
-#include "action_management/action_structs.h"
-#include "game-state/item.h"
-#include "game-state/game.h"
+#include "common/utlist.h"
+#include "common/uthash.h"
 
-typedef struct room room_t;
-
-typedef struct room room_hash_t;
-
-typedef struct room_wrapped_for_llist room_list_t;
-
-/* Forward declaration */
-typedef struct room_wrapped_for_llist room_list_t;
-typedef struct game game_t;
-
+/* Doubly-Linked List of Room IDs Struct
+ *
+ * Components:
+ * room_id: The name of the room
+ * prev: the pointer to the previous entry in the list
+ * next: the pointer to the next entry in the list
+ */
+typedef struct room_id_dll {
+    char *room_id;
+    struct room_id_dll *prev;
+    struct room_id_dll *next;
+} room_id_dll_t;
 
 /* 
  * Struct to encapsulate the time an NPC should stay in that particular room 
@@ -45,7 +45,7 @@ typedef struct npc_room_time npc_room_time_hash_t;
  *  npc_path: The list of rooms that the NPC will go through
  */
 typedef struct npc_mov_definite {
-    room_list_t *npc_path;
+    room_id_dll_t *npc_path;
 } npc_mov_definite_t;
 
 
@@ -59,7 +59,7 @@ typedef struct npc_mov_definite {
  *  room_time: Time in miliseconds for the NPC corresponding to each room
  */
 typedef struct npc_mov_indefinite {
-    room_list_t *npc_path;
+    room_id_dll_t *npc_path;
     npc_room_time_hash_t *room_time;
 } npc_mov_indefinite_t;
 
@@ -125,22 +125,23 @@ typedef struct npc_mov {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, room_t *room);
+int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id);
 
 
 /*
- * Allocates a new npc_mov struct in the heap
+ * Returns newly heap allocated npc_mov struct on success, 
+ * and NULL if an error occurs
  *
  * Parameters:
  *  npc_id: The ID of the NPC that is being referred to; must point to
  *          allocated memory
  *  mov_type: The type of movement that the npc will have
- *  room: The room that the npc will begin in
+ *  room_id: The room_id that the npc will begin in
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, room_t *room);
+npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id);
 
 
 /*
@@ -167,7 +168,7 @@ int npc_mov_free(npc_mov_t *npc_mov);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int register_npc_room_time(npc_mov_t *npc_mov, room_t *room, int time);
+int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int time);
 
 
 /*
@@ -180,7 +181,7 @@ int register_npc_room_time(npc_mov_t *npc_mov, room_t *room, int time);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int extend_path_definite(npc_mov_t *npc_mov, room_t *room_to_add);
+int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add);
 
 
 /*
@@ -195,7 +196,7 @@ int extend_path_definite(npc_mov_t *npc_mov, room_t *room_to_add);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time);
+int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time);
 
 
 /*
@@ -208,6 +209,19 @@ int extend_path_indefinite(npc_mov_t *npc_mov, room_t *room_to_add, int time);
  *  The room the NPC is in as a char*, NULL if error.
  */
 char *get_npc_curr_room_id(npc_mov_t *npc_mov);
+
+/*
+ * Returns the room id of the room that 
+ *  the npc will move to next if/when it is called to
+ *
+ * Parameters:
+ *  npc_mov: The NPC movement struct
+ *
+ * Returns:
+ *  The room id of the room that the npc 
+ *  will move to next if/when it is called to
+ */
+char *get_next_npc_room_id(npc_mov_t *npc_mov);
 
 /* 
 * Returns the index position of the room that the npc is currently in
@@ -254,22 +268,23 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
 int get_npc_num_rooms(npc_mov_t *npc_mov);
 
 /* Compares the room_id of the current rooms between two
- *   room_list_t structs
+ *   room_id_dll_t structs
  *
- * Paramters:
+ * Parameters:
  * room1, room2: Two room_list structs
  * 
  * Returns:
+ * The strcmp(room1_id, room2_id), so
  * 0 if the room_id of the current rooms in both
- *   room_list_t structs are the same, otherwise it
+ *   room_id_dll_t structs are the same, otherwise it
  *   will return a non-zero number
  */
-int room_id_cmp(room_list_t *room1, room_list_t *room2);
+int room_id_cmp(room_id_dll_t *room1, room_id_dll_t *room2);
 
 /*
  * Moves the npc to the next room for npcs with definite movement
  *
- * Paramters:
+ * Parameters:
  * npc_mov: The NPC movement struct
  *
  * Returns:
@@ -277,13 +292,14 @@ int room_id_cmp(room_list_t *room1, room_list_t *room2);
  * 1 npc has reached the end of the path, flip_npc_path_direction is called, but
  *   the move is not implemented
  * 2 successful move to the next room
+ * 3 npc has nowhere to move
 */
 int move_npc_definite(npc_mov_t *npc_mov);
 
 /*
  * Moves the npc to the next room for npcs with indefinite movement
  *
- * Paramters:
+ * Parameters:
  * npc_mov: The NPC movement struct
  *
  * Returns:
@@ -291,22 +307,34 @@ int move_npc_definite(npc_mov_t *npc_mov);
  * 1 npc has reached the end of the path, flip_npc_path_direction is called, but
  *   the move is not implemented
  * 2 successful move to the next room
+ * 3 npc has nowhere to move
  */
 int move_npc_indefinite(npc_mov_t *npc_mov);
 
 /*
- * Generates a random movement struct for an NPC based on the current rooms in
- * the map and a given npc_mov_t struct.
+ * Moves an npc to the next room
  *
  * Parameters:
- *  - npc_mov: npc_mov_t struct with a known npc_mov_type
- *  - game: current game, this is necessary for determining the current rooms in the map
+ * npc_mov: The NPC movement struct
  *
  * Returns:
- *  - returns SUCCESS on success, returns FAILURE on failure
- *  - Updates npc_mov to have a new, randomly generated movement path.
- *    Maintains the same type of movement (indefinite / definite)
+ * 0 if move is unsuccessful
+ * 1 npc has reached the end of the path, reverse_path is called, but
+ *   the move is not implemented
+ * 2 successful move to the next room
+ * 3 npc has nowhere to move
  */
-int auto_gen_movement(npc_mov_t *npc_mov, game_t *game);
+int move_npc_mov(npc_mov_t *npc_mov);
+
+/*
+ * Function to delete a doubly-linked list (utlist)
+ *
+ * Parameters:
+ *  doubly-linked list of pointers to room_ids
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
+int delete_room_id_dll(room_id_dll_t *head);
 
 #endif

@@ -106,21 +106,6 @@ bool check_npc_battle(npc_t *npc)
     }
 }
 
-/* See npc.h */
-bool item_in_npc_inventory(npc_t *npc, char *item_id)
-{
-    item_t *check;
-    char *insensitized_id = case_insensitized_string(item_id);
-    HASH_FIND(hh, npc->inventory, insensitized_id,
-              strnlen(item_id, MAX_ID_LEN), check);
-    free(insensitized_id);
-    if (check != NULL)
-    {
-        return true;
-    }
-    return false;
-}
-
 // "GET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
 char *get_sdesc_npc(npc_t *npc)
@@ -271,3 +256,4 @@ int delete_all_npcs(npc_hash_t *npcs)
     }
     return SUCCESS;
 }
+

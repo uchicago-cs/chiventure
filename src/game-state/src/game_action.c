@@ -1,26 +1,8 @@
 #include "game-state/game_action.h"
 #include "cli/util.h"
+#include "npc/npc.h"
 
 #define BUFFER_SIZE 100
-
-/* See common_game_action.h */
-int game_action_init(game_action_t *new_action, char *act_name,
-                     char *success_str, char *fail_str)
-{
-    assert(new_action != NULL);
-    if (new_action == NULL)
-    {
-        return FAILURE;
-    }
-    strncpy(new_action->action_name, act_name, strlen(act_name));
-    case_insensitize(new_action->action_name);
-    new_action->conditions = NULL; //by UTLIST rules
-    new_action->effects = NULL;    //by UTLIST rules
-    strncpy(new_action->success_str, success_str, strlen(success_str));
-    strncpy(new_action->fail_str, fail_str, strlen(fail_str));
-
-    return SUCCESS;
-}
 
 // ------------------------- ACTION FUNCTIONS -------------------------
 
@@ -202,7 +184,7 @@ int add_action_effect(game_action_t *action, agent_t *agent_to_add, attribute_t 
         return ITEM_MODIFY_NULL;
     }
 
-    game_action_effect_t *new_effect = effect_new(agent_to_add, attribute, new_value);
+    game_action_effect_t *new_effect = effect_new(agent_to_add->item, attribute, new_value);
 
     LL_APPEND(action->effects, new_effect);
 

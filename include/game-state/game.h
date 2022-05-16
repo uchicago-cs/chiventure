@@ -5,9 +5,8 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
-#include "quests/quests_state.h"
 #include "quests/quests_structs.h"
-#include "npc/npc.h"
+#include "npc/dialogue.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -32,6 +31,9 @@ typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
 typedef struct quest quest_t;
 typedef struct quest quest_hash_t;
+typedef struct path path_t;
+typedef struct gencontext gencontext_t;
+typedef struct levelspec levelspec_t;
 
 /* Forward declarations. Full typedefs can be found in room.h */
 typedef struct room room_t;
@@ -97,6 +99,12 @@ typedef struct game {
 
     /* starting string description to be presented at beginning of game */
     char *start_desc;
+
+    /* pointer to gencontext struct used for autogeneration module */
+    gencontext_t *genctx;
+
+    /* pointer to levelspec struct used for level-oriented generation */
+    levelspec_t *levelspec;
 
     /* time when game started */
     //int time_start;
@@ -451,5 +459,41 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  */
 int add_condition(game_t *game, game_action_t *action, condition_t *condition);
 
-#endif
+/**********************************************
+ *       DIALOGUE EXECUTION FUNCTIONS         *
+ **********************************************/
 
+/* Starts a conversation.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - rc: return code
+ *  - game: the Chiventure game being run
+ *
+ * Returns:
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
+ */
+char *start_conversation(convo_t *c, int *rc, game_t *game);
+
+/* Runs a step of the conversation.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - input: integer (1, 2, ..., c->cur_node->num_available_edges)
+ *  - rc: return code
+ *  - game: the Chiventure game being run
+ *
+ * Returns:
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
+ */
+char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
+
+#endif

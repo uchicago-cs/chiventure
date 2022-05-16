@@ -38,7 +38,7 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 }
 
 /* See load_item.h */
-int load_actions(obj_t *item_obj, item_t *i)
+int load_actions(obj_t *item_obj, agent_t *agent)
 {
     // getting a list of actions from item
     obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
@@ -67,15 +67,15 @@ int load_actions(obj_t *item_obj, item_t *i)
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
-            add_action(i, action, obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
+            add_action(agent, action, obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
         }
         else if(obj_get_str(curr, "text_success") != NULL)
         {
-            add_action(i, action, obj_get_str(curr, "text_success"), "Action failed");
+            add_action(agent, action, obj_get_str(curr, "text_success"), "Action failed");
         }
         else
         {
-            add_action(i, action, "Action succeeded", obj_get_str(curr, "text_fail"));
+            add_action(agent, action, "Action succeeded", obj_get_str(curr, "text_fail"));
         }
 
         free(action);
@@ -115,15 +115,17 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc);
         /* in parameter yet to implemented by game-state
         item_t *item = item_new(id, short_desc, long_desc, in); */
+        agent_t *agent;
+        agent->item = item;
 
         // load actions into item
-        if(load_actions(curr, item) == FAILURE)
+        if(load_actions(curr, agent) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;
         }
 
-        add_item_to_game(g, item);
+        add_item_to_game(g, agent->item);
 
         // add item to its room, unless it is meant to be an NPC-held item
         if (strcmp(in, "npc") != 0) {

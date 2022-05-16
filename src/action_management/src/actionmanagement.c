@@ -4,10 +4,10 @@
 #include <string.h>
 
 #include "action_management/action_structs.h"
+#include "npc/npc.h"
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
 #include "game-state/room.h"
-#include "npc/npc.h"
 
 
 #define BUFFER_SIZE (300)
@@ -352,8 +352,31 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     return FAILURE;
 }
 
+/*
+ * helper function that checks if the action is listed on the list_npc_action_t of an npc
+ *
+ * Parameters:
+ *    - npc: An npc_t. 
+ *    - action: An actions_t. 
+ *
+ * Returns:
+ *    - 0 if action is not contained, 1 if action is contained
+ */
+int contains_action(npc_t *npc, enum actions a) {
+	list_action_t *pos_actions = npc->npc_actions;
+    enum actions *act = NULL;
+	while (pos_actions != NULL) {
+        act = pos_actions->npc_action;
+		if (*act == a) {
+			return 1;
+        }
+        pos_actions = pos_actions->next;
+	}
+	return 0;
+}
+
 /* KIND 4
- * See npc_action.h */
+ * See action_management.h */
 int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string)
 {
     assert(c);
@@ -398,7 +421,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     {
        // check game over case just in case
        // case for TALK_TO
-        if (a == TALK_TO) {
+        if (strcmp(a->c_name, "talk_to") == 0) {
             // check if NPC has TALK_TO in their list_npc_action_t
             if (contains_action(npc, TALK_TO) == 0) {
                 sprintf(string, "Player cannot TALK_TO the NPC");
@@ -417,7 +440,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
         }
 
         // case for IGNORE
-        if (a == IGNORE) {
+        if (strcmp(a->c_name, "ignore") == 0) {
             // check if NPC has IGNORE in their list_npc_action_t
             if (contains_action(npc, IGNORE) == 0) {
                 sprintf(string, "Player cannot IGNORE the NPC");
@@ -438,8 +461,8 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
         }
 
         // case for all other actions 
-        if (a != TALK_TO || a != IGNORE) {
-            sprintf(string, "cannot perform %s with do_npc_action", *a);
+        else {
+            sprintf(string, "cannot perform %s with do_npc_action", a->c_name);
             *ret_string = string;
             return CONDITIONS_NOT_MET;
         }
@@ -447,7 +470,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 } 
 
 /* KIND 5
- * See npc_action.h */
+ * See action_management.h */
 int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
                        npc_t *npc, char **ret_string)
 {
@@ -478,10 +501,10 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
         return CONDITIONS_NOT_MET;
     }
 
-    npc_t *npc = get_npc_in_room(c->game->curr_room, c->game->mode->mode_ctx);
+    npc = get_npc_in_room(c->game->curr_room, c->game->mode->mode_ctx);
 
     // case for GIVE
-    if (a == GIVE)
+    if (strcmp(a->c_name, "give") == 0)
     {
         if(remove_item_from_player(c->game->curr_player, item) != SUCCESS)
         {   
@@ -495,7 +518,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
     }
 
     // case for STEAL
-    if (a == STEAL)
+    if (strcmp(a->c_name, "steal") == 0)
     {
         if(remove_item_from_npc(npc, item) != SUCCESS)
         {
@@ -509,15 +532,15 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
     }
 
     // case for all other actions 
-    if (a != GIVE || a != STEAL) {
-        sprintf(string, "cannot perform %s with do_npc_item_action", *a);
+    else {
+        sprintf(string, "cannot perform %s with do_npc_item_action", a->c_name);
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
 }
 
 /* KIND 6
- * See npc_action.h */
+ * See action_management.h */
 int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item)
 {
     agent_t *agent_n = NULL;
@@ -546,7 +569,8 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
         
     } else {
 
-        if (a == TRADE)
+        // case for TRADE
+        if (strcmp(a->c_name, "trade") == 0)
         {
             int cost = strlen(item->short_desc); // is short_desc a num? if so why char*? no indication that this is monetary cost
             item_list_t *player_inventory;
@@ -580,10 +604,18 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
             return CONDITIONS_NOT_MET;
         }
 
-        else if (a == BUY)
+        // case for buy
+        if (strcmp(a->c_name, "buy") == 0)
         {
             // todo
             return FAILURE;
+        }
+
+        // case for all other actions
+        else {
+            sprintf(string, "cannot perform %s with do_npc_exchange_action", a->c_name);
+            *ret_string = string;
+            return CONDITIONS_NOT_MET;
         }
     }
 }

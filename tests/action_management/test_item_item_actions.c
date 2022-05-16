@@ -24,16 +24,20 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
-    add_action(direct, allowed_act_name1, "success1", "fail1");
+    agent_t *agent_d;
+    agent_t *agent_i;
+    agent_d->item = direct;
+    agent_i->item = indirect;
+    add_action(agent_d, allowed_act_name1, "success1", "fail1");
     char *string = malloc(BUFFER_SIZE);
     game_action_t *ga;
     if (strcmp(act_name, allowed_act_name1) == 0)
     {
-        ga = get_action(direct, act_name);
+        ga = get_action(agent_d, act_name);
     }
     else
     {
-        ga = get_action(direct, allowed_act_name1);
+        ga = get_action(agent_d, allowed_act_name1);
     }
     int rc;
     attribute_value_t *value;
@@ -41,7 +45,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     set_str_attr(indirect, "DUMMYATTRDEFAULT", 0);
     attr = get_attribute(indirect, "DUMMYATTRDEFAULT");
     value->int_val = 1;
-    add_action_effect(ga, indirect, attr, value);
+    add_action_effect(ga, agent_i, attr, value);
 
 
     player_t *player = player_new("player1");
@@ -116,7 +120,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         set_str_attr(indirect, "DUMMYATTR", "old");
         attr = get_attribute(indirect, "DUMMYATTR");
         value->str_val = "new";
-        add_action_effect(ga, indirect, attr, value);
+        add_action_effect(ga, agent_i, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (strcmp(get_str_attr(indirect, "DUMMYATTR"), "new") == 0)
         {
@@ -129,7 +133,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         set_int_attr(indirect, "DUMMYATTR", 0);
         attr = get_attribute(indirect, "DUMMYATTR");
         value->int_val = 1;
-        add_action_effect(ga, indirect, attr, value);
+        add_action_effect(ga, agent_i, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_int_attr(indirect, "DUMMYATTR") == 1)
         {
@@ -142,7 +146,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         set_double_attr(indirect, "DUMMYATTR", 0.0);
         attr = get_attribute(indirect, "DUMMYATTR");
         value->double_val = 1.0;
-        add_action_effect(ga, indirect, attr, value);
+        add_action_effect(ga, agent_i, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_double_attr(indirect, "DUMMYATTR") == 1.0)
         {
@@ -155,7 +159,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         set_char_attr(indirect, "DUMMYATTR", 'a');
         attr = get_attribute(indirect, "DUMMYATTR");
         value->char_val = 'b';
-        add_action_effect(ga, indirect, attr, value);
+        add_action_effect(ga, agent_i, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_char_attr(indirect, "DUMMYATTR") == 'b')
         {
@@ -168,7 +172,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         set_bool_attr(indirect, "DUMMYATTR", false);
         attr = get_attribute(indirect, "DUMMYATTR");
         value->bool_val = true;
-        add_action_effect(ga, indirect, attr, value);
+        add_action_effect(ga, agent_i, attr, value);
         do_item_item_action(ctx_test, a, direct, indirect, &string);
         if (get_bool_attr(indirect, "DUMMYATTR") == true)
         {

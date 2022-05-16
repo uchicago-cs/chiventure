@@ -1,8 +1,8 @@
 #ifndef _DIALOGUE_H
 #define _DIALOGUE_H
 
-#include "game-state/game.h"
 #include "game-state/condition.h"
+#include "cli/util.h"
 
 /* Forward declaration. Full typedef can be found in condition.h */
 typedef struct condition condition_t;
@@ -162,44 +162,6 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
              condition_t *conditions);
-
-
-/**********************************************
- *       DIALOGUE EXECUTION FUNCTIONS         *
- **********************************************/
-
-/* Starts a conversation.
- *
- * Parameters:
- *  - c: pointer to a convo
- *  - rc: return code
- *  - game: the Chiventure game being run
- *
- * Returns:
- *  - A string of NPC dialogue and dialogue options that can be directly
- *    printed by the CLI.
- *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
- *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
- *    occured.
- */
-char *start_conversation(convo_t *c, int *rc, game_t *game);
-
-/* Runs a step of the conversation.
- *
- * Parameters:
- *  - c: pointer to a convo
- *  - input: integer (1, 2, ..., c->cur_node->num_available_edges)
- *  - rc: return code
- *  - game: the Chiventure game being run
- *
- * Returns:
- *  - A string of NPC dialogue and dialogue options that can be directly
- *    printed by the CLI.
- *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
- *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
- *    occured.
- */
-char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 
 
 /**********************************************
