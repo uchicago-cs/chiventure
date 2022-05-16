@@ -282,7 +282,7 @@ int remove_item_from_npc(npc_t *npc, item_t *item);
  * Returns:
  *    true or false
  */
-bool item_in_npc_inventory(npc_t *npc, item_t *item);
+bool item_in_npc_inventory(npc_t *npc, char *item_id);
 
 /*
  * Adds the given convo to the given npc.

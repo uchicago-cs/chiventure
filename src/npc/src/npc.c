@@ -80,10 +80,10 @@ int npc_free(npc_t *npc)
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
 /* See npc.h */
-bool item_in_npc_inventory(npc_t *npc, item_t *item)
+bool item_in_npc_inventory(npc_t *npc, char *item_id)
 {
     item_t *check;
-    HASH_FIND(hh, npc->inventory, item->item_id, strlen(item->item_id),
+    HASH_FIND(hh, npc->inventory, item_id, strlen(item_id),
               check);
     if(check != NULL){
         return true;

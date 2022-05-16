@@ -491,7 +491,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     } // does this check to see if npc is present??
-    if(item_in_npc_inventory(npc, item) || item_in_inventory(c->game->curr_player, item))
+    if(item_in_npc_inventory(npc, item->item_id) || item_in_inventory(c->game->curr_player, item))
     {
         *ret_string = "Items Allocated";
         return SUCCESS;
@@ -562,7 +562,7 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     }
-    if(!item_in_npc_inventory(npc, item))
+    if(!item_in_npc_inventory(npc, item->item_id))
     {
         *ret_string = "NPC doesn't have desired item in inventory";
         return CONDITIONS_NOT_MET;
