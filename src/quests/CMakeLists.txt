@@ -1,8 +1,11 @@
-add_library(quests
-            src/quests_state.c)
+cmake_minimum_required(VERSION 3.10)
 
-target_include_directories(quests PRIVATE src/)
+include_directories(../../include/)
 
-# EXAMPLES
+add_library(quests STATIC
+            src/quest_hash.c
+            src/quest.c
+            src/task.c)
+
 add_subdirectory(examples
                  EXCLUDE_FROM_ALL)

@@ -27,3 +27,4 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
     HASH_ADD_STR(*hash_table, quest_id,quest);
     return SUCCESS;
 }
+
