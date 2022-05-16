@@ -411,7 +411,7 @@ Test(autogenerate, valid_multi_room1)
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
 
     roomspec_t *sample1 = random_room_lookup(specgraph);
-    room_t *sample_room = roomspec_to_room(sample1);
+    room_t *sample_room1 = roomspec_to_room(sample1);
     roomspec_t *sample2 = random_room_lookup(specgraph);
     room_t *sample_room2 = roomspec_to_room(sample2);
 
