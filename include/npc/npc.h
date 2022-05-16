@@ -227,7 +227,7 @@ int get_npc_max_hp(npc_t *npc);
  * Returns:
  *  the npc's hp or -1 if its npc_battle field is NULL
  */
-int get_npc_hp(npc_t *npc)
+int get_npc_hp(npc_t *npc);
 
 /*
 * Function to get an npc's npc_mov struct or NULL
