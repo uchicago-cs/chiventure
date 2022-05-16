@@ -77,9 +77,9 @@ typedef struct statistics_display {
  * inventory and statistics preferences 
  */
 typedef struct graphics {
-    display_dimensions_t dimensions;
-    inventory_display_t inventory;
-    statistics_display_t statistics;
+    display_dimensions_t *dimensions;
+    inventory_display_t *inventory;
+    statistics_display_t *statistics;
 } graphics_t;
 
 graphics_t* read_gdl(FILE *gdl);
