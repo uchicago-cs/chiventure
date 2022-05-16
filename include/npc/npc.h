@@ -12,7 +12,7 @@
 
 /* Forward declaration. Full typedef can be found in npc_battle.h */
 typedef struct npc_battle npc_battle_t;
-typedef enum hostility hostility_t;
+// typedef enum hostility hostility_t;
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
@@ -49,7 +49,7 @@ typedef struct npc {
     npc_mov_t *movement;
 
     /* enum indicating hostility level of the npc */
-    enum hostility hostility_level;
+    hostility_t hostility_level;
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
