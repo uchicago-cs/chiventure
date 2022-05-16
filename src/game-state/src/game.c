@@ -400,6 +400,8 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
 {
 
     item_t *item_src = get_item_from_game(game, item_src_name);
+    agent_t *agent;
+    agent->item = item_src;
     if(item_src == NULL)
     {
         return ITEM_SRC_NULL;
@@ -409,7 +411,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     {
         return ITEM_MODIFY_NULL;
     }
-    game_action_t *action = get_action(item_src, action_name);
+    game_action_t *action = get_action(agent, action_name);
     if(action == NULL)
     {
         return ACTION_NULL;
@@ -419,7 +421,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     {
         return ATTRIBUTE_NULL;
     }
-    int check = add_action_effect(action, item_src, attribute, new_value);
+    int check = add_action_effect(action, agent, attribute, new_value);
 
     return check;
 }
