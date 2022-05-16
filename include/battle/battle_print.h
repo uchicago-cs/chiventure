@@ -101,3 +101,14 @@ int *print_battle_items(battle_t *b, char *string);
  */ 
 char *print_moves(battle_t *b, char* moves);
  #endif
+
+/* Creates a string that shows a labeled menu of the avaliable actions for the player
+ * based on the given moves and items
+ * Parameters:
+ *  - battle: pointer to the battle
+ *  - items: a linked list of available items
+ *  - moves: a linked list of available items
+ * Returns:
+ *  A string containing the labeled menu items
+ */ 
+char *print_battle_action_menu(battle_item_t *items, move_t *moves, char *string);
