@@ -310,7 +310,7 @@ Test(autogenerate, room_generate_success_two)
     int **edges = (int**)malloc(sizeof(int*)*2);
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
-    
+    /*
     item_t *item0 = item_new("item_id", "short_desc", "long_desc");
     
     roomspec_t *roomspec0 = random_room_lookup(specgraph);
@@ -363,6 +363,7 @@ Test(autogenerate, room_generate_success_two)
     }
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
+    */
 }
 
 /* Checks that multi_room_generate returns FAILURE if the current room of the
@@ -502,6 +503,38 @@ Test(autogenerate, valid_multi_room2)
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
     int **edges = (int**)malloc(sizeof(int*)*2);
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+
+    roomspec_t *sample1 = random_room_lookup(specgraph);
+    room_t *sample_room1 = roomspec_to_room(sample1);
+    roomspec_t *sample2 = random_room_lookup(specgraph);
+    room_t *sample_room2 = roomspec_to_room(sample2);
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "north");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "north");
+    assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
+
+    game_t *g = game_new("start desc");
+
+    cr_assert_eq(SUCCESS, add_room_to_game(g, sample_room2), "Could not add room sample_room2 to game g");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+    item_t *sample_item2 = item_new("item_id2", "short_desc", "long_desc");
+    item_t *sample_item3 = item_new("item_id3", "short_desc", "long_desc");
+
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
+
+    roomspec_t *sample_roomspec = random_room_lookup(spec);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    // 1 roomspec case
+    specgraph_t *sample_specgraph = specgraph_new(sample_roomspec);
+    cr_assert_not_null(sample_specgraph, "sample_specgraph should not be NULL");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, sample_specgraph);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
 }
 */
 
