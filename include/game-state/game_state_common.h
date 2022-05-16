@@ -38,4 +38,7 @@
 #define ROOM_SRC_NULL 2
 #define ROOM_DEST_NULL 3
 
+//Macros for quests
+#define QUEST_NAME_MAX_LEN 100
+
 #endif

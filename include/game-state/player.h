@@ -19,7 +19,14 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
-/* A reference to a given quest from game_state that the player has unlocked */
+/* A reference to a given quest from game_state that the player has unlocked 
+ * 
+ * Completion functions as follows:
+ *   -1: failed quest
+ *    0: quest has not been started
+ *    1: quest has been started but not completed
+ *    2: quest has been completed
+*/
 typedef struct player_quest {
     char *quest_id;
     int completion;
@@ -381,6 +388,19 @@ int player_remove_skill(player_t *player, skill_t *skill);
  *  Note: Same return value as inventory_has_skill()
  */
 int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
+
+/*
+ * Changes the base value of a given player's stat by the specified amount
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  quest_id: the id of the quest
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ */
+int player_add_quest(player_t *player, char *quest_id);
 
 /*
  * Changes the base value of a given player's stat by the specified amount

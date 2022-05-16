@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "quests_structs.h"
+#include "game-state/player.h"
 
 /* Creates a new passive mission struct (allocates memory)
  * 
@@ -147,8 +148,6 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
  * - task_tree: non-binary tree struct holding a tree of 
  *                     tasks that make up a quest
  * - reward: reward of the quest is an item
- * - status: int indicating the status of the quest (refer to
- *           quests_structs.h for all possible statuses)
  * 
  * Returns:
  * - SUCCESS for successful init
@@ -156,7 +155,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
  * 
  */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
-               reward_t *reward, stat_req_t *stat_req, int status);
+               reward_t *reward, stat_req_t *stat_req);
 
 /* 
  * Frees a passive mission struct from memory
@@ -217,10 +216,10 @@ int quest_free(quest_t *quest);
  * - player: a player
  * 
  * Returns:
- * - 1: a player can start the quest
- * - 0: a player cannot start the quest
+ * - true: a player can start the quest
+ * - false: a player cannot start the quest
  */
-int can_start_quest(quest_t *quest, player_t *player);
+bool can_start_quest(quest_t *quest, player_t *player);
 
 /* Adds a task to the tree given an parent tree id
  *
@@ -238,88 +237,177 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id);
 /* Updates a quest's status to started
  *
  * Parameter:
- * - quest: pointer to quest to be marked started
+ * - quest: pointer to quest to be started
+ * - player: pointer to player starting the quest
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int start_quest(quest_t *quest);
+int start_quest(quest_t *quest, player_t *player);
 
 /* Updates a quest's status to failed
  *
  * Parameter:
  * - quest: pointer to quest to be marked failed
+ * - player: pointer to player failing the quest
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int fail_quest(quest_t *quest);
+int fail_quest(quest_t *quest, player_t *player);
 
-/* Completes a task in a quest by checking if a given
- * task ID matches any incomplete tasks in the
- * appropriate level of the task tree. Returns the reward
- * of the completed task.
+/* Completes a task in a quest for a given player
  * 
  * Parameters:
- * - quest: pointer to the quest
- * - id: the string identifier of the completed task
+ * - task: pointer to the task
+ * - player: pointer to player completing the task
  *  
  * Returns:
  * - the task's reward item
  * - NULL if the task is incomplete
  * 
  */
-reward_t *complete_task(quest_t *quest, char *id);
+reward_t *complete_task(task_t *task, player_t *player);
 
-/* Checks if a quest is completed
+/* Checks if a player completed a given quest and updates the 
+ * reference to the quest in the player's quest table accordingly
  * 
  * Parameter:
  * - quest: pointer to the quest
+ * - player: pointer to player with the quest
  *
  * Returns:
- * - 0 if quest is incomplete
- * - 1 if quest is complete
+ * - false if quest is incomplete
+ * - true if quest is complete
  */
-int is_quest_completed(quest_t *quest);
+bool is_quest_completed(quest_t *quest, player_t *player);
+
+/* Checks if a player completed a given rask and updates the 
+ * reference to the task in the player's task table accordingly
+ * 
+ * Parameter:
+ * - task: pointer to the task
+ * - player: pointer to player with the task
+ *
+ * Returns:
+ * - false if task is incomplete
+ * - true if task is complete
+ * 
+ * Note: Currently always returns true assuming there's no error, as the 
+ *       current mission system makes checking essentially impossible.
+ *       Once quest prerequisites are added, this function must be updated
+ *       to add this functionality.
+ */
+bool is_task_completed(task_t *task, player_t *player);
 
 /* Gets a quest from the given hash table
  *
  * Parameters:
- *  quest id string
- *  pointer to quest hash table
+ *  quest_id: the quest's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
  *
  * Returns:
  *  quest struct if successful, NULL if quest is not found
  */
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
 
+/* Gets a task from the given hash table
+ *
+ * Parameters:
+ *  id: the task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
+ *
+ * Returns:
+ *  task struct if successful, NULL if task is not found
+ */
+task_t *get_task_from_hash(char *id, quest_hash_t *hash_table);
+
 /* Adds a quest to the given hash table
  *
  * Parameters:
- *  pointer to quest struct
- *  pointer to a pointer quest hash table
+ *  quest: pointer to quest struct
+ *  hash_table: pointer to a hashtable of quests, ideally from game_state
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
 
+
+/* Gets a player quest from the given hash table
+ *
+ * Parameters:
+ *  quest_id: the quest's id string
+ *  hash_table: a hashtable of player_quests from the player
+ *
+ * Returns:
+ *  player_quest struct if successful, NULL if the quest is not found
+ */
+player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table);
+
+/* Gets a player task from the given hash table
+ *
+ * Parameters:
+ *  id: the task's id string
+ *  hash_table: a hashtable of player_tasks from the player
+ *
+ * Returns:
+ *  player_task struct if successful, NULL if the task is not found
+ */
+player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table);
+
+/* Adds a player quest to the given hash table
+ *
+ * Parameters:
+ *  quest: pointer to quest struct
+ *  hash_table: pointer to player quest hash table
+ *  completion: the completion status of the quest
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, int completion);
+
+/* Adds a player task to the given hash table
+ *
+ * Parameters:
+ *  tasj: pointer to task struct
+ *  hash_table: pointer to player task hash table
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table);
+
 /* Checks a quest's status.
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player with the quest
  * 
  * Returns: 
- * - the quest's status code, as described in quests_structs.h
+ * - the quest's completion for the given player
  */
-int get_quest_status(quest_t *quest);
+int get_player_quest_status(quest_t *quest, player_t *player);
+
+/* Checks a task's status.
+ *
+ * Parameter:
+ * - task: pointer to a task
+ * - player: pointer to player with the task
+ * 
+ * Returns: 
+ * - the task's completion for the given player (true = complete, false = incomplete)
+ */
+bool get_player_task_status(task_t *task, player_t *player);
 
 /* Returns the quest's reward item if the quest has been completed.
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player completing the quest
  * 
  * Returns:
  * - the quest's reward item
@@ -328,7 +416,21 @@ int get_quest_status(quest_t *quest);
  * Note:
  * The status of the quest should first be checked before this function is called
  */
-reward_t *complete_quest(quest_t *quest);
+reward_t *complete_quest(quest_t *quest, player_t *player);
 
+/* Returns the task's reward item if the task has been completed.
+ *
+ * Parameter:
+ * - task: pointer to a task
+ * - player: pointer to player completing the task
+ * 
+ * Returns:
+ * - the task's reward item
+ * - NULL if the task is incomplete
+ * 
+ * Note:
+ * The status of the task should first be checked before this function is called
+ */
+reward_t *complete_task(task_t *task, player_t *player);
 
 #endif /* QUESTS_STATE_H */

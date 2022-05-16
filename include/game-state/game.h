@@ -5,9 +5,8 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
-#include "quests/quests_state.h"
-#include "quests/quests_structs.h"
 #include "npc/npc.h"
+#include "quests/quests_structs.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -33,6 +32,9 @@ typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
 typedef struct quest quest_t;
 typedef struct quest quest_hash_t;
+typedef struct path path_t;
+typedef struct gencontext gencontext_t;
+typedef struct levelspec levelspec_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -89,6 +91,12 @@ typedef struct game {
 
     /* pointer to the time_dll struct */
     time_dll_t *game_time;
+
+    /* pointer to gencontext struct used for autogeneration module */
+    gencontext_t *genctx;
+
+    /* pointer to levelspec struct used for level-oriented generation */
+    levelspec_t *levelspec;
 
     /* pointer to the current battle context */
     battle_ctx_t *battle_ctx;
