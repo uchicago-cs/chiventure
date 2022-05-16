@@ -109,7 +109,6 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc);
     a unique room id
     a short description of the room
     a long description of the room
-
   Returns:
     FAILURE for failure, SUCCESS for success
 */
@@ -298,6 +297,7 @@ int remove_condition(path_t *path, list_action_type_t *a);
  *  SUCCESS if successful, FAILURE if failed
  */
 int delete_all_rooms(room_hash_t **rooms);
+
 
 // COORDINATE DEFINITIONS AND HEADERS   
 
