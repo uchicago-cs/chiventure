@@ -182,9 +182,14 @@ int stat_changes_init(stat_changes_t *sc) {
     assert(sc != NULL);
 
     sc->speed = 0;
-    sc->defense = 0;
-    sc->strength = 0;
-    sc->dexterity = 0;
+    sc->max_sp = 0;
+    sc->sp = 0;
+    sc->phys_atk = 0;
+    sc->phys_def = 0;
+    sc->mag_atk = 0;
+    sc->mag_def = 0;
+    sc->crit = 0;
+    sc->accuracy = 0;
     sc->hp = 0;
     sc->max_hp = 0;
     sc->turns_left = -1;
@@ -284,10 +289,15 @@ int stat_changes_undo(stat_changes_t *sc, combatant_t *c)
 {
     c->stats->hp -= sc->hp;
     c->stats->max_hp -= sc->max_hp;
-    c->stats->strength -= sc->strength;
-    c->stats->defense -= sc->defense;
+    c->stats->phys_atk -= sc->phys_atk;
+    c->stats->mag_atk -= sc->mag_atk;
+    c->stats->phys_def -= sc->phys_def;
+    c->stats->mag_def -= sc->mag_def;
+    c->stats->crit -= sc->crit;
+    c->stats->accuracy -= sc->accuracy;
+    c->stats->sp -= sc->sp;
+    c->stats->max_sp -= sc->max_sp;
     c->stats->speed -= sc->speed;
-    c->stats->dexterity -= sc->dexterity;
 
     return SUCCESS;
 }
