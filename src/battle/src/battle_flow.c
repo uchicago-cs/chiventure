@@ -251,12 +251,14 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->battle->enemy->moves);
         //print_to_cli(ctx, movestr);
-        printf("%s",movestr);
+        //printf("%s",movestr);
+        callback_func(ctx, movestr, callback_args);
     }
     char *strg = print_battle_action_menu(legal_items, legal_moves);
     // print to cli
       //_cli(ctx, strg);
-    printf("%s", strg);
+    //printf("%s", strg);
+    callback_func(ctx, strg, callback_args);
     // take in user input
     char *input;
     scanf("%s", input);
@@ -276,8 +278,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->player->moves);
                     //print_to_cli(ctx, movestr);
-                    printf("%s",movestr);
-                
+                    //printf("%s",movestr);
+                    callback_func(ctx, movestr, callback_args);
             }
             else {
                 ctx->game->battle_ctx->game->player->moves = 
@@ -297,7 +299,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->player->moves);
                 //print_to_cli(ctx, itemstr);
-                printf("%s",itemstr);
+                //printf("%s",itemstr);
+                callback_func(ctx, movestr, callback_args);
             }
             else {
                 ctx->game->battle_ctx->game->player->items = 
@@ -308,7 +311,8 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
         char *str = (char *) malloc (sizeof(char) * 17);
         str = "You did nothing.";
         //print_to_cli(ctx, str);
-        printf("%s",str);
+        //printf("%s",str);
+        callback_func(ctx, "You did nothing.", callback_args);
         return 1;
     } else {
         return callback_func(ctx, "That action does not exist.", callback_args);
