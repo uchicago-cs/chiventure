@@ -188,6 +188,7 @@ int *print_battle_items(battle_t *b, char *string)
    
 }
 
+/* see battle_print.h */
 char *print_battle_action_menu(battle_item_t *items, move_t *moves, char *string) 
 {
   

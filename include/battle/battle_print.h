@@ -41,6 +41,20 @@ char *print_start_battle(battle_t *b);
  */
  char *print_battle_move(battle_t *b, turn_t turn, move_t *move);
 
+/*
+ * Stores the message to be printed at the end of an item use in the return
+ * string. The message varies based off whether it is the battle_player or enemy move.
+ *
+ * Parameters:
+ *  - b = pointer to the battle
+ *  - turn = whose turn it is for this item use
+ *  - item = pointer to the item just used
+ *
+ * Returns:
+ *  - malloced string with the message about the recent item use
+ */
+char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item);
+
  /*
   * Stores a message about a list of the enemy HP to a previously allocated string.
   * Appends this message to the end of any message that might already be in
