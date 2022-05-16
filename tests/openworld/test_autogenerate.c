@@ -366,151 +366,42 @@ Test(autogenerate, room_generate_success_two)
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
 }
 
-
-/*Test(autogenerate, room_generate_success_two)
-{
-    game_t *g = game_new("start desc");
-    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
-    specgraph_t *spec = NULL;
-    specgraph_from_hash(&spec, hash);
-    g->curr_room = roomspec_to_room(random_room_lookup(spec));
-
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-
-    roomspec_t *room2 = random_room_lookup(spec);
-    room_t *sample_room1 = roomspec_to_room(room2);
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "north");
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    roomspec_t *sample_roomspec2 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec2, "sample_roomspec2 should not be NULL");
-
-    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
-
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "north");
-
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    // 2 roomspec case
-    specgraph_t *tail = specgraph_new(sample_roomspec2);
-    cr_assert_not_null(tail, "Could not create new specgraph");
-
-    // Doubly linked
-    specgraph_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->specgraph);
-    DL_APPEND(sample_gencontext->specgraph, tail);
-
-    //create roomspec
-    roomspec_t *rspec = random_room_lookup(spec);
-    char direction_to_new[6], direction_to_curr[6];
-    pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
-    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, direction_to_curr, direction_to_new),
-                 "room_generate() returned FAILURE when it should have returned SUCCESS");
-
-    path_hash_t *current, *tmp;
-    room_t *new_room;
-    HASH_ITER(hh, g->curr_room->paths, current, tmp) {
-        // current is an outward path from curr_room
-        new_room = current->dest;
-        break;
-    }
-
-    current = NULL;
-    tmp = NULL;
-    unsigned int count = 0;
-    HASH_ITER(hh, new_room->paths, current, tmp) {
-        count++;
-    }
-
-    cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-}*/
-
-/* 3 roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
-* room_generate correctly creates a room from the head of the context
-* and adds it to the game via a path (only if game->curr_room is a dead end) */
-/*Test(autogenerate, room_generate_success_three)
-{
-    game_t *g = game_new("start desc");
-    rspec_hash_t *hash = make_default_room("school", NULL, NULL);
-    specgraph_t *spec = NULL;
-    specgraph_from_hash(&spec, hash);
-    g->curr_room = roomspec_to_room(random_room_lookup(spec));
-
-    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
-
-    roomspec_t * sample1 = random_room_lookup(spec);;
-    room_t *sample_room1 = roomspec_to_room(sample1);
-
-    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
-
-    // Path to sample_room1
-    path_t* path_to_room = path_new(sample_room1, "north");
-
-    roomspec_t *sample_roomspec = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
-
-    roomspec_t *sample_roomspec2 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec2, "sample_roomspec2 should not be NULL");
-
-    roomspec_t *sample_roomspec3 = random_room_lookup(spec);
-    cr_assert_not_null(sample_roomspec3, "sample_roomspec3 should not be NULL");
-
-    room_t *sample_room2 = room_new("string_1", "string_2", "string_3");
-
-    // Path to sample_room2
-    path_t* path_to_room2 = path_new(sample_room2, "north");
-
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, spec);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
-    // 3 roomspec case
-    specgraph_t *mid = specgraph_new(sample_roomspec2);
-    cr_assert_not_null(mid, "Could not create new specgraph");
-    specgraph_t *tail = specgraph_new(sample_roomspec3);
-    cr_assert_not_null(tail, "Could not create new specgraph");
-
-    // Doubly linked
-    specgraph_t *head = NULL;
-    DL_APPEND(head, sample_gencontext->specgraph);
-    DL_APPEND(sample_gencontext->specgraph, mid);
-    DL_APPEND(sample_gencontext->specgraph, tail);
-
-    //create roomspec
-    roomspec_t *rspec = random_room_lookup(spec);
-    char direction_to_new[6], direction_to_curr[6];
-    pick_random_direction(g->curr_room, direction_to_curr, direction_to_new);
-    cr_assert_eq(SUCCESS, room_generate(g, g->curr_room, rspec, direction_to_curr, direction_to_new),
-                 "room_generate() returned FAILURE when it should have returned SUCCESS");
-
-    path_hash_t *current, *tmp;
-    room_t *new_room;
-    HASH_ITER(hh, g->curr_room->paths, current, tmp) {
-        // current is an outward path from curr_room
-        new_room = current->dest;
-        break;
-    }
-
-    current = NULL;
-    tmp = NULL;
-    unsigned int count = 0;
-    HASH_ITER(hh, new_room->paths, current, tmp) {
-        count++;
-    }
-
-    cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-}*/
-
-
 /* Checks that multi_room_generate returns FAILURE if the current room of the
 * given game is not a dead end, i.e. there are outward paths */
+Test(autogenerate,invalid_multi_room)
+{
+    room_t *sample_room1 = room_new("string1", "string2", "string3");
+    room_t *sample_room2 = room_new("anotherString1", "anotherString2", "anotherString3");
+
+    // Path to sample_room2
+    path_t* path_to_room2 = path_new(sample_room2, "north");
+
+    // Path to sample_room1
+    path_t* path_to_room = path_new(sample_room1, "north");
+    assert(SUCCESS == add_path_to_room(sample_room2, path_to_room));
+
+    game_t *g = game_new("start desc");
+
+    cr_assert_eq(SUCCESS, add_room_to_game(g,sample_room2), "could not add room sample_room2 to game g");
+
+    item_t *sample_item = item_new("item_id", "short_desc", "long_desc");
+
+    cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
+
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
+
+    gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, NULL);
+    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
+
+    // Ensure game->curr_room does not have paths
+    g->curr_room = sample_room1;
+
+    cr_assert_eq(FAILURE, multi_room_generate(g, sample_gencontext, "school", 1),
+                 "multi_room_generate() returned SUCCESS instead of FAILURE");
+
+}
+
 /*Test(autogenerate, invalid_multi_room)
 {
     room_t *sample_room1 = room_new("string1", "string2", "string3");
