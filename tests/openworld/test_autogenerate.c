@@ -312,7 +312,6 @@ Test(autogenerate, room_generate_success_two)
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
     
-    /*
     item_t *item0 = item_new("item_id", "short_desc", "long_desc");
     
     roomspec_t *roomspec0 = random_room_lookup(specgraph);
@@ -365,7 +364,6 @@ Test(autogenerate, room_generate_success_two)
     }
 
     cr_assert_eq(1, count, "There should be one (backwards) path into the current room");
-    */
 }
 
 
