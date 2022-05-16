@@ -184,7 +184,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 1 Magic Attack
      * 1 Max Mana 
      * These stats can be off the scale stupid because why not? This is a placeholder class */ 
-    if (!strncmp(temp_name, "basic", MAX_NAME_LEN)) {
+    else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)) {
         short_desc = "An ordinary person.";
         long_desc = "This is just an ordinary human being. There's nothing special about this guy.";
         set_stats_hashtable(game, &stats, 50, 1, 1, 1, 1, 1, 1, 1);
