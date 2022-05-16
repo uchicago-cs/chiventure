@@ -33,13 +33,8 @@ typedef struct move {
     bool attack;
     int damage;
     int defense;
-    target_type_t stat_mods; //whether a move changes a user's stats, the opponent's stats, both, or neither
-    target_type_t effects; //whether a move has an effect that targets the user, opponent, both, or neither
     struct move *next;
     struct move *prev;
-
-    //stub to be replaced when merging with other team
-    target_count_t count; 
 } move_t;
 
 /* stats stub */
