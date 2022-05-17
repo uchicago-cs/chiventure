@@ -2,21 +2,28 @@
 https://gigi.nullneuron.net/gigilabs/playing-a-wav-file-using-sdl2/
 to gain an understanding of basic SDL Library functions */
 
+/* SDL_Mixer README.md link:
+https://www.libsdl.org/projects/SDL_mixer/docs/SDL_mixer.html#SEC52 */
+
 #include "sound/sound.h"
 
-#define NUM_WAVEFORMS 2
 
 const char* _waveFileNames[] =
 {
-    "../../../../sound_library/Kick-Drum-1.wav",
-    "../../../../sound_library/Snare-Drum-1.wav",
+    "file_example_WAV_1MG.wav",
+    "four_seasons_l'invierno.wav",
 };
 
-#define NUM_MUSIC 1
+// update 05/2022: NUM_WAVEFORMS now actually depends on length of array
+#define NUM_WAVEFORMS sizeof(_waveFileNames) / sizeof(_waveFileNames[0])
+
+
 const char* _mp3FileNames[] =
 {
-    "../../../../sound_library/Cardi-B-ft.-Megan-Thee-Stallion-–-Wap.mp3"
+    "glamorous_fergie.mp3"
 };
+
+#define NUM_MUSIC sizeof(_mp3FileNames) / sizeof(_mp3FileNames[0])
 
 Mix_Chunk* _chunks[NUM_WAVEFORMS];
 
@@ -74,8 +81,8 @@ int main(int argc, char** argv)
 
     SDL_CreateWindow("Sounds", SDL_WINDOWPOS_UNDEFINED,
                      SDL_WINDOWPOS_UNDEFINED,
-                     256,
-                     256,
+                     512,
+                     512,
                      SDL_WINDOW_RESIZABLE);
 
     // Application specific Initialize of data structures
@@ -89,6 +96,7 @@ int main(int argc, char** argv)
     while (!done)
     {
         bool gotEvent = SDL_PollEvent(&Event);
+        // SDL_PollEvent checks if there are unplayed music yet
 
         while (!done && gotEvent)
         {
@@ -105,6 +113,12 @@ int main(int argc, char** argv)
                     break;
                 case 'e':
                     Mix_PlayMusic(_music[0], 1);
+                    break;
+                case ' ':
+                    Mix_PauseMusic();
+                    break;
+                case 'r':
+                    Mix_ResumeMusic();
                     break;
                 default:
                     break;
