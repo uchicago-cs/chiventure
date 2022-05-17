@@ -93,6 +93,14 @@ tokenized_cmds *parse_r(char *input)
     }
     return head;
 }
+
+
+// /* See parser.h */
+// char **remove_fillers(char **parsed_input){
+
+// }
+
+
 /* See parser.h */
 char **parse(char *input)
 {
@@ -195,6 +203,12 @@ char **parse(char *input)
         {
         return NULL;
         }
+
+
+
+        // before returning the tokens, we must run through them
+        // and remove all "fillers", such as prepositions
+        // like "the" and "to"
 
         return words;
     }
