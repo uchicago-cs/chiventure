@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "../../include/custom-scripts/get_custom_type.h"
+#include "custom-scripts/get_custom_type.h"
 
 data_t data, data2, data3, data4;
 
