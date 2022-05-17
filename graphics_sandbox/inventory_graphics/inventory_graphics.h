@@ -7,7 +7,6 @@
  * pop-up window
  */
 
-#define INVENTORY_CONTEXT_ID 4;
 
 #include "item.h"
 #include "player.h"
@@ -32,18 +31,18 @@
  */ 
 typedef struct player_inventory {
     inventory_display_t *display;
-    item **items;
+    item_t **items;
 } player_inventory_t;
 
 /* Allocates and initializes a player's inventory
  *
  * Parameters:
  * - The graphics information as specified by the author in the GDL
- *
+ * - A pointer to a heap allocated player struct
  * Returns:
  * - A player inventory struct
  */
-player_inventory_t* new_player_inventory(graphics_t *graphics);
+player_inventory_t* new_player_inventory(graphics_t *graphics, player_t *p);
 
 /* Frees an inventory struct
  *

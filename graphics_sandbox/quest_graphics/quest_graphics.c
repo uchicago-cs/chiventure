@@ -281,7 +281,7 @@ int main() {
     quest_graphics.SegmentDimension=(Vector2){50,50};
     quest_graphics.SquareSide=30;
     quest_graphics.CurrentTaskName="F";
-    quest_graphics.ShowRemainingHorizontal=true;
+    quest_graphics.ShowRemainingHorizontal=false;
 
 
     runTaskTreeGraphics(&quest_graphics);
