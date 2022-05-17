@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <string.h>
 #include "skilltrees/effect.h"
 
 
@@ -34,6 +35,7 @@ player_stat_effect_t* define_player_stat_effect(char* player_stat_effect_name, c
         
         if (curr == NULL)
         {
+            fprintf(stderr, "%s", stat_names[i]);
             fprintf(stderr, "Error: Given player statistic does not exist. \n");
             return NULL;
         }
@@ -71,7 +73,7 @@ item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum att
         fprintf(stderr, "Attribute not found \n");
         return NULL;
     }
-    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t*));
+    item_attr_effect_t* item_attr_effect = (item_attr_effect_t*)malloc(sizeof(item_attr_effect_t));
     if (item_attr_effect == NULL)
     {
         fprintf(stderr, "Malloc Failed \n");
@@ -161,7 +163,7 @@ effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
         fprintf(stderr, "Error: Given NULL item attribute effect");
         return NULL;
     }
-    effect_t* new_attr_effect = (effect_t*)malloc(sizeof(effect_t));
+    effect_t* new_attr_effect = malloc(sizeof(effect_t));
     if (new_attr_effect == NULL)
     {
         fprintf(stderr, "Error: Could not allocate memory for effect");
@@ -214,10 +216,7 @@ int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 {
     assert(ctx != NULL);
     assert(effect != NULL);
-    /* ctx->game->curr_player->moves currently hasn't been implemented. 
-     * We are working with battles to do so.
-     */
-    //add_move(ctx->game->curr_player->moves, effect->move);
+    add_move(ctx->game->curr_player, effect->move); 
     return SUCCESS;
 }
 
