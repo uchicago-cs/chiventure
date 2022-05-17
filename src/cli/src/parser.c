@@ -185,9 +185,9 @@ char **parse(char *input)
         // before returning the tokens, we must run through them
         // and remove all "fillers", such as prepositions
         // like "the" and "to"
-        remove_fillers(words);
+        //remove_fillers(words);
 
-        return words;
+        //return words;
 
     //If the first character of the input is "
     }else{
@@ -223,7 +223,9 @@ char **parse(char *input)
         }
 
 
-        return words;
+        //return words;
     }
+
+    return words;
 
 }
