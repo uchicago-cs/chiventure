@@ -234,11 +234,13 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     char *arg2 = tokens[1];
     if(game == NULL)
     {
-        return "No game found!\n";
+        //return "No game found!\n";
+        return "game null";
     }
     if(arg2 == NULL)
     {
-        return "Second argument needed. Pick from: TODO: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
+        //return "Second argument needed. Pick from: TODO: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
+        return "arg2 null";
     }
 
     lookup_t **table = ctx->cli_ctx->table;
@@ -253,7 +255,8 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         
     //TODO add description here of what the return codes mean
     //int rc = do_self_action(ctx, action, curr_item, arg2, &str);
-    return "do_self_action would have been called\n";
+    //return str;
+    return "normal";
 
     /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
      * and is thus defunct
