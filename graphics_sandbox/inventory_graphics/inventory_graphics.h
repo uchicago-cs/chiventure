@@ -13,6 +13,7 @@
 #include "read_gdl.h"
 #include <stdlib.h>
 
+
 /*
  * Defines the player inventory based on the display
  * preferences of the game developer and a 2D array
@@ -34,6 +35,7 @@ typedef struct player_inventory {
     item_t **items;
 } player_inventory_t;
 
+
 /* Allocates and initializes a player's inventory
  *
  * Parameters:
@@ -43,6 +45,7 @@ typedef struct player_inventory {
  * - A player inventory struct
  */
 player_inventory_t* new_player_inventory(graphics_t *graphics, player_t *p);
+
 
 /* Frees an inventory struct
  *
@@ -54,16 +57,18 @@ player_inventory_t* new_player_inventory(graphics_t *graphics, player_t *p);
  */
 void free_player_inventory(player_inventory_t *player_inventory);
 
+
 /* Updates the player's inventory once a game changing event occurs
  *
  * Parameters:
  * - the player's current inventory
- * - the new game state
+ * - the item to be added
  *
  * Returns:
  * - void (the changes occur as a side-effect)
  */
-void update_player_inventory(player_inventory_t *player_inventory, game_t *game);
+void add_item_inventory(player_inventory_t *player_inventory, item_t *item);
+
 
 /* Draws the inventory window on screen
  *
@@ -74,5 +79,6 @@ void update_player_inventory(player_inventory_t *player_inventory, game_t *game)
  * - void
  */
 void draw_player_inventory(player_inventory_t *player_inventory);
+
 
 #endif
