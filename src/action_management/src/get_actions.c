@@ -25,7 +25,9 @@ static action_type_t valid_actions[] =
     {"walk", PATH},
     // KIND 3
     {"use_on", ITEM_ITEM},
-    {"put", ITEM_ITEM}
+    {"put", ITEM_ITEM},
+    // KIND 4
+    {"view", SELF}
 };
 
 
