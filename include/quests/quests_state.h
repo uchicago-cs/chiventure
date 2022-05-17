@@ -486,7 +486,8 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
 
 /* Checks if a task's prereqs are met and if they are, completes the task, 
  * returning the task's reward on success. After completing the task, checks 
- * if the task completion also completed the task's quest.
+ * if the task completion also completed the task's quest, adds any new tasks
+ * from the tree if not and accepts the quest's rewards if so.
  *
  * Parameter:
  * - tree: pointer to a task tree who's immediate task is getting completed
@@ -499,7 +500,7 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
 reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash);
 
 
-/* returns the hash after deleting one or all quest.
+/* Returns the hash after deleting one or all quest.
  *
  * Parameter:
  * - pointer to a hash table
@@ -511,7 +512,7 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
 int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
 
 
-/* returns the hash after deleting one or all quest.
+/* Returns the hash after deleting one or all quest.
  *
  * Parameter:
  * - pointer to a hash table
@@ -520,6 +521,18 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * - 0 if the removal was failure, 1 if successful 
  */
 int remove_quest_all(quest_hash_t *hash_table);
+
+/* Adds the contents of a reward struct to the player struct
+ * 
+ * Parameters:
+ * - reward: the reward getting accepted
+ * - player: the player accepting the reward
+ * 
+ * Returns:
+ * - SUCCESS if added successfully, FAILURE if an error occured
+ * 
+*/
+int accept_reward(reward_t *reward, player_t *player);
 
 
 #endif /* QUESTS_STATE_H */

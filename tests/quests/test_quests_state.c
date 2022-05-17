@@ -429,7 +429,9 @@ Test(quest, complete_task_mission)
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, false, "is_task_completed() returned true when it shouldn't have!");
 
-    reward_t *new_reward = complete_task(task_to_complete, player, quest);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+    reward_t *new_reward = complete_task(task_to_complete->id, player, hash);
     if (new_reward == NULL)
         res = FAILURE;
 
@@ -472,7 +474,7 @@ Test(quest, complete_task_prereq)
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, true, "is_task_completed() failed!");
 
-    reward_t *new_reward = complete_task(task_to_complete, player, quest);
+    reward_t *new_reward = complete_task(task_to_complete->id, player, quest);
     if (new_reward == NULL)
         res = FAILURE;
 
@@ -511,7 +513,7 @@ Test(quest,is_quest_completed)
     player_t *player = player_new("test player");
 
     start_quest(quest, player);
-    reward_t *the_reward = complete_task(task, player, quest);
+    reward_t *the_reward = complete_task(task->id, player, quest);
     if (the_reward == NULL) {
         res = FAILURE;
     }

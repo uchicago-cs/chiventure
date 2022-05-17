@@ -305,6 +305,37 @@ int compare_tasks(task_t *a1, task_t *a2)
     }
     return 1;
 }
+/*
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
+ *
+ * Returns:
+ * - pointer to the tree immediately containing the task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: Traversal no longer relies on task completion, so 
+ *       runtime is now O(T) where T is the number of tasks
+ *       in the game
+ */
+task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
+{
+    if(tree == NULL) {
+        return NULL;
+    }
+    assert(tree->task != NULL);
+
+    if (strcmp(tree->task->id, id) == 0)
+    {
+        return tree;
+    }
+    task_tree_t * newTree;
+    newTree = find_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_in_tree(tree->lmostchild, id);
+}
 
 /* Refer to quests_state.h */
 int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
@@ -355,7 +386,11 @@ int start_quest(quest_t *quest, player_t *player)
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
     while(cur) {
-        assert(add_task_to_player_hash(cur->task, &player->player_tasks) == SUCCESS);
+        add_task_to_player_hash(cur->task, &player->player_tasks);
+        if(is_task_completed(cur->task, player)) {
+            accept_reward(complete_task(cur->task->id, player, quest), player);
+            break;
+        }
         cur = cur->rsibling;
     }   
 
@@ -443,38 +478,6 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
     HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
                     strnlen(quest->quest_id, MAX_ID_LEN), quest);
     return SUCCESS;
-}
-
-/*
- * Traverses the task tree to find the task with the
- * given string identifier along a valid quest path.
- *
- * Parameters:
- * - tree: pointer to the task tree to be traversed
- * - id: pointer to a string identifier for the desired task
- *
- * Returns:
- * - pointer to the tree immediately containing the task, OR
- * - NULL if task cannot be found along a valid path
- *
- * Note: Traversal no longer relies on task completion, so 
- *       runtime is now O(T) where T is the number of tasks
- *       in the game
- */
-task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
-{
-    if(tree == NULL) {
-        return NULL;
-    }
-    assert(tree->task != NULL);
-
-    if (strcmp(tree->task->id, id) == 0)
-    {
-        return tree;
-    }
-    task_tree_t * newTree;
-    newTree = find_task_in_tree(tree->rsibling, id);
-    return (newTree != NULL) ? newTree : find_task_in_tree(tree->lmostchild, id);
 }
 
 /* Refer to quests_state.h */
@@ -673,15 +676,15 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
         get_player_task_from_hash(tree->task->id, player->player_tasks)->completed = true;
         
         for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
-            add_task_to_player_hash(cur->task, player->player_tasks);
+            add_task_to_player_hash(cur->task, &player->player_tasks);
             if(is_task_completed(cur->task, player)) {
-                return complete_task(cur->task->id, player, quest_hash);
+                accept_reward(complete_task(cur->task->id, player, quest_hash), player);
                 break;
             }
         }
-        quest_t *quest_of_task = get_quest_of_task(tree->task, quest_hash);
+        quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
         if(is_quest_completed(quest_of_task, player)) {
-            complete_quest(quest_of_task, player);
+            accept_reward(complete_quest(quest_of_task, player), player);
         }
         return tree->task->reward;
     } 
@@ -691,9 +694,10 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
     }
 }
 
+/* Refer to quest_state.h */
 int accept_reward(reward_t *reward, player_t *player) {
     assert(reward != NULL);
     assert(player != NULL);
     player->xp += reward->xp;
-    // Add item
+    add_item_to_hash(&player->inventory, reward->item);
 }
