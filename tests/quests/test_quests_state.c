@@ -799,13 +799,12 @@ Test(quest, remove_quest_one)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
     char *quest1_id = "remove quest";
     char *quest2_id = "keep quest";
 
-    quest_t *quest1 = quest_new("remove quest", NULL, rewards, stat_req);
-    quest_t *quest2 = quest_new("keep quest", NULL, rewards, stat_req);
+    quest_t *quest1 = quest_new("remove quest", NULL, rewards, NULL);
+    quest_t *quest2 = quest_new("keep quest", NULL, rewards, NULL);
 
     quest_hash_t *test_hash_table = NULL;
 
@@ -827,10 +826,9 @@ Test(quest, remove_quest_all)
 
     int hp = 50;
     int level = 5;
-    stat_req_t *stat_req = create_sample_stat_req(hp, level);
 
-    quest_t *quest1 = quest_new("remove quest one", NULL, rewards, stat_req);
-    quest_t *quest2 = quest_new("remove quest two", NULL, rewards, stat_req);
+    quest_t *quest1 = quest_new("remove quest one", NULL, rewards, NULL);
+    quest_t *quest2 = quest_new("remove quest two", NULL, rewards, NULL);
 
     quest_hash_t *test_hash_table = NULL;
 
