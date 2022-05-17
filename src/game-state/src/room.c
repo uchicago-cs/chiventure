@@ -261,6 +261,7 @@ coords_t *coords_new(int x, int y){
 /* See room.h */
 int coords_free(coords_t *coords){
     free(coords);
+}
 
 /*
  * helper function for auto_gen_movement to find number of rooms in game
