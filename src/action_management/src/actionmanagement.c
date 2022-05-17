@@ -6,6 +6,8 @@
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
 #include "game-state/room.h"
+#include "game-state/player.h"
+
 
 #define BUFFER_SIZE (300)
 #define WRONG_KIND (2)
@@ -340,6 +342,39 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         }
     }
     return FAILURE;
+}
+
+/* KIND 4
+ * See actionmanagement.h */
+int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_action_object obj, char **ret_string)
+{
+    assert(c);
+    assert(c->game);
+    assert(a);
+    assert(p);
+    
+    game_t *game = c->game;
+
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    // checks if the action type is the correct kind
+    if (a->kind != SELF)
+    {
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
+    }
+
+    if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
+        if (obj == STATS) {
+            // retrieve stats from the player
+            string = display_stats(p->player_stats);
+        }
+    }
+
+    *ret_string = string;
+    return SUCCESS;
 }
 
 

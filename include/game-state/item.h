@@ -66,6 +66,9 @@ typedef struct item {
     attribute_hash_t *attributes; // a hashtable for all attributes
     effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
     struct item *next; // points to item w/ identical id, if it exists
+    char *item_image; // a file path to an image of an item
+    unsigned int *inventory_x_pos; // a x-coordinate for an item's position in an inventory
+    unsigned int *inventory_y_pos; // a y-coordinate for an item's position in an inventory
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are

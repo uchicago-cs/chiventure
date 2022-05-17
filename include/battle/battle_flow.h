@@ -13,7 +13,6 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
-#include "npc/npc_battle.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
@@ -72,6 +71,14 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
                       environment_t env);
 
 /*
+* Determines whether a move hits based on accuracy stat.
+ * Parameters:
+ * - accuracy : the accuracy of the user using the move
+ * returns: the 1 or 0 depending on if the move hits
+ */
+int calculate_accuracy(int accuracy);
+
+/*
  * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
@@ -87,6 +94,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
  *  - A string consisting of the output from the turn
  */
 char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char *target);
+
 
 /*
  * Carries out one iteration of the battle flow loop when an item is used
