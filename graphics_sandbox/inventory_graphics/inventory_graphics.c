@@ -30,14 +30,8 @@
         }
         itemlst = itemlst->next;
     }
-/* Once item_t is properly updated, this will be used to actually populate
- * the 2D array 
-        inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos] 
-            == itemlst->item;
-        itemlst = itemlst->next;
-    } 
-*/
-
+    inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos] == itemlst->item;
+    itemlst = itemlst->next;
     return inv;
 }
 
@@ -70,14 +64,14 @@ void free_player_inventory(player_inventory_t *player_inventory)
 
 
 /* See inventory_graphics.h */
-void add_item_inventory(player_inventory_t *player_inventory, item_t **item);
+void add_item_inventory(player_inventory_t *player_inventory, item_t *item);
 {
     change = 0;
     for(int i; i < player_inventory->display->rows; i++) {
         for(int j; j < player_inventory->display->columns; j++) {
-            if (player_inventory->items[i][j] != ) {
+            if (player_inventory->items[i][j] == 0) {
                 player_inventory->items[i][j] = item;
-                flag = 1;
+                change = 1;
                 break;
             }
         }
@@ -90,3 +84,5 @@ void add_item_inventory(player_inventory_t *player_inventory, item_t **item);
     }
     return;
 }
+
+
