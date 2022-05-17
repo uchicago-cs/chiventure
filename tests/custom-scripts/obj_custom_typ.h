@@ -1,6 +1,8 @@
 #ifndef _OBJ_CUSTOM_TYPE_H_
 #define _OBJ_CUSTOM_TYPE_H_
 
+#include "arg_custom_typ.h"
+
 typedef struct obj_t
 {
     // Type of underlying data
