@@ -116,7 +116,6 @@ typedef struct task {
     char *id;
     reward_t *reward;
     prereq_t *prereq;
-    bool completed;     //0 is not completed, 1 is completed
 } task_t;
 
 /*

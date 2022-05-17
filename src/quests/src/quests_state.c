@@ -662,32 +662,6 @@ int prereq_add_task(prereq_t *prereq, char *task_id) {
     assert(task_id != NULL);
     return id_list_add(prereq->task_list, task_id);
 }
-/* Refer to quests_state.h */
-task_t *find_task_in_quest(task_tree_t *tree, char *id)
-{
-    task_t *task = tree->task;
-
-    assert(task != NULL);
-
-    if (strcmp(task->id, id) == 0)
-    {
-        if (task->completed == 1) return NULL;
-        return task;
-    }
-    else if (task->completed == 1)
-    {
-        if (tree->lmostchild != NULL)
-        {
-            return find_task_in_quest(tree->lmostchild, id);
-        }
-        return NULL;
-    }
-    else if (tree->rsibling != NULL)
-    {
-        return find_task_in_quest(tree->rsibling, id);
-    }
-    return NULL;
-}
 
 /* Refer quests_state.h */
 reward_t *complete_task(task_t *task, player_t *player)
