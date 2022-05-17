@@ -351,8 +351,6 @@ int add_coords_to_room(coords_t *coords, room_t *room);
 */
 coords_t *find_coords_of_room(room_t *room);
 
-#endif
-
 /*
  * Generates a random movement struct for an NPC based on the current rooms in
  * the map and a given npc_mov_t struct.
