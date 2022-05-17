@@ -610,6 +610,7 @@ reward_t *complete_quest(quest_t *quest, player_t *player)
         return NULL;
 }
 
+
 /* Refer to quests_state.h */
 int id_list_add(id_list_t *id_list, char *id) {
     assert(id_list != NULL);
@@ -648,31 +649,38 @@ int prereq_add_task(prereq_t *prereq, char *task_id) {
     assert(task_id != NULL);
     return id_list_add(prereq->task_list, task_id);
 }
-/* Refer to quests_state.h */
-task_t *find_task_in_quest(task_tree_t *tree, char *id)
+
+
+
+/* refer to quests_state.h */
+int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id) 
 {
-    task_t *task = tree->task;
+    quest_t *check; 
+    check = get_quest_from_hash(quest_id, hash_table);
 
-    assert(task != NULL);
+    if (check == NULL){ 
+        return FAILURE; /* quest is not in hash_table) */
+    } 
 
-    if (strcmp(task->id, id) == 0)
-    {
-        if (task->completed == 1) return NULL;
-        return task;
+    HASH_DEL(hash_table,check); 
+    quest_free(check); 
+    if (get_quest_from_hash(quest_id, hash_table) != NULL){
+        return FAILURE;
     }
-    else if (task->completed == 1)
-    {
-        if (tree->lmostchild != NULL)
-        {
-            return find_task_in_quest(tree->lmostchild, id);
-        }
-        return NULL;
+    return SUCCESS;
+
+}
+
+/* refer to quests_state.h */
+int remove_quest_all(quest_hash_t *hash_table)
+{ 
+    quest_t *current_quest, *temp; 
+    HASH_ITER(hh, hash_table, current_quest, temp) 
+    { 
+        HASH_DEL(hash_table, current_quest);
+        free(current_quest);
     }
-    else if (tree->rsibling != NULL)
-    {
-        return find_task_in_quest(tree->rsibling, id);
-    }
-    return NULL;
+    return SUCCESS; 
 }
 
 /* Refer quests_state.h */

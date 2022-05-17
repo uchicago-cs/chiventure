@@ -7,8 +7,8 @@
 
 
 #include "common.h"
-#include "game-state/game.h"
 #include "cli/cli_ctx.h"
+#include "game-state/game.h"
 
 
 // Forward declaration
