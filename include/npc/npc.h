@@ -277,6 +277,9 @@ int add_convo_to_npc(npc_t *npc, convo_t *c);
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level
  *  surrender_level: the level of health at which the npc surrenders the battle
+ *  class_type: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  items: An inventory of items that can be used in battle
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.

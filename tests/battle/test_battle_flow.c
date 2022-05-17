@@ -401,7 +401,7 @@ Test(battle_flow_move, battle_over_by_player)
 }
 
 /*
- * Testing if the battle_player is determiend as the winner if the enemy
+ * Testing if the battle_player is determined as the winner if the enemy
  * is defeated.
  */
 Test(battle_flow_move, battle_over_by_enemy)
