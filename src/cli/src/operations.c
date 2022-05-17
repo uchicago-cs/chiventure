@@ -255,7 +255,10 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     int rc = do_self_action(ctx, action, curr_item, arg2, &str);
     return str;
 
-    /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT (5/16/2022) - faruk badur
+    /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
+     * and is thus defunct
+     * This is to be removed once the kind4 actions work as expected on dev
+     * (5/16/2022) - faruk badur
     pass into the do_self_action
     if(strcmp(arg2,"stats") == 0)
     {
