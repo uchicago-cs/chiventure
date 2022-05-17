@@ -50,45 +50,7 @@ stat_t *create_enemy_stats2()
     return test_stats;
 }
 
-/* Creates + initializes a move. Taken from test_battle_ai.c */
-<<<<<<< HEAD
-/* This is no longer used, has been replaced by move_new() */
-/*
-move_t *create_move(int id, battle_item_t* item, bool attack, int damage, 
-		    int defense)
- {
-     move_t *move = (move_t*) calloc(1, sizeof(move_t));
-=======
-move_t *create_move(int id, battle_item_t* item, bool attack, int damage,
-                    int defense)
-{
-    move_t *move = (move_t*) calloc(1, sizeof(move_t));
->>>>>>> 47a152fd88a0a5ff508fc49b894f05a57ab4cd3a
 
-    move->id = id;
-
-<<<<<<< HEAD
-     move->item = item;
-    
-     move->attack = attack;
-     move->damage = damage;
-     move->defense = defense;
-
-     return move;
- }
-*/
-=======
-    move->item = item;
-
-    move->attack = attack;
-    move->damage = damage;
-    move->defense = defense;
-
-    return move;
-}
-
->>>>>>> 47a152fd88a0a5ff508fc49b894f05a57ab4cd3a
-/* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves1()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
