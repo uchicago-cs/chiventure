@@ -498,4 +498,28 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
  */
 reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash);
 
+
+/* returns the hash after deleting one or all quest.
+ *
+ * Parameter:
+ * - pointer to a hash table
+ * - quest ID, 
+ * 
+ * Returns:
+ * - 0 if the removal was failure, 1 if successful 
+ */
+int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
+
+
+/* returns the hash after deleting one or all quest.
+ *
+ * Parameter:
+ * - pointer to a hash table
+ * 
+ * Returns:
+ * - 0 if the removal was failure, 1 if successful 
+ */
+int remove_quest_all(quest_hash_t *hash_table);
+
+
 #endif /* QUESTS_STATE_H */
