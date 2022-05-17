@@ -242,6 +242,11 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         //return "Second argument needed. Pick from: TODO: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
         return "arg2 null";
     }
+    if(tokens[2] != NULL)
+    {
+        //return "Sorry, only one page can be viewed at a time :(\n";
+        return "arg3 not null";
+    }
 
     lookup_t **table = ctx->cli_ctx->table;
 
