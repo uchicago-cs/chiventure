@@ -478,8 +478,7 @@ Test(npc, check_npc_battle)
     cr_assert_not_null(npc2, "npc_new() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true, 
-                 "check_npc_battle failed; hostility_level=CONDITIONAL_FRIENDLY,
-                 npc_battle=NULL");
+                 "check_npc_battle failed; hostility_level=CONDITIONAL_FRIENDLY, npc_battle=NULL");
     cr_assert_eq(check_npc_battle(npc2), false,
                  "check_npc_battle failed; hostility_level=HOSTILE, npc_battle=NULL");
 
