@@ -5,6 +5,7 @@
 #include "npc/npc_battle.h"
 #include "battle/battle_common.h"
 #include "battle/battle_moves.h"
+#include "game-state/room.h"
 
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats1()

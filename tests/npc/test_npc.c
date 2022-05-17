@@ -398,7 +398,7 @@ Test (npc, change_npc_hp)
                  "change_npc_hp() didn't change hp in npc_battle struct");
 
     int hp4 = change_npc_hp(npc, 5);
-    cr_assert_eq(hp3, 115,
+    cr_assert_eq(hp4, 115,
                  "change_npc_hp() didn't increase health correctly");
     cr_assert_eq(npc->npc_battle->stats->hp, 115,
                  "change_npc_hp() didn't change hp in npc_battle struct");
@@ -472,13 +472,14 @@ Test(npc, get_npc_max_hp)
 Test(npc, check_npc_battle)
 {
     char *npc_id = "npc";
-    npc_t *npc1 = npc_new(npc_id, "short", "long", NULL, NULL, FRIENDLY);
+    npc_t *npc1 = npc_new(npc_id, "short", "long", NULL, NULL, CONDITIONAL_FRIENDLY);
     cr_assert_not_null(npc1, "npc_new() failed");
     npc_t *npc2 = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc2, "npc_new() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true, 
-                 "check_npc_battle failed; hostility_level=FRIENDLY, npc_battle=NULL");
+                 "check_npc_battle failed; hostility_level=CONDITIONAL_FRIENDLY,
+                 npc_battle=NULL");
     cr_assert_eq(check_npc_battle(npc2), false,
                  "check_npc_battle failed; hostility_level=HOSTILE, npc_battle=NULL");
 
