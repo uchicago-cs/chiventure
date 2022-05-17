@@ -35,7 +35,6 @@ chiventure_ctx_t *create_sample_ctx()
     add_room_to_game(game, room1);
     game->curr_room = room1;
 
-    game_free(ctx->game);
     ctx->game = game;
 
     return ctx;
