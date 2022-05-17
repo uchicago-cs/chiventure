@@ -98,6 +98,18 @@ Test(operation, kind4_four_args)
     char *return_string = kind4_action_operation(tokens,ctx);
     cr_assert_str_eq(return_string,"arg3 not null","arg3 was not null, but did not match that control flow (4 arg test)\n");
 }
+
+/* White-Box testing for the normal control flow*/
+Test(operation, kind4_four_args)
+{
+    chiventure_ctx_t *ctx = maketest_ctx();
+    char **tokens = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
+    tokens[0] = "VIEW";
+    tokens[1] = "STATS";
+
+    char *return_string = kind4_action_operation(tokens,ctx);
+    cr_assert_str_eq(return_string,"normal","normal control flow (VIEW STATS) did not match normal control flow\n");
+}
 ///* Creates a chiventure context with a sample game
 // *
 // * Parameters: None
