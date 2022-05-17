@@ -1,7 +1,7 @@
 #ifndef _LUA_CUSTOM_TYPE_H_
 #define _LUA_CUSTOM_TYPE_H_
 
-#include "obj_custom_type.h"
+#include "obj_custom_typ.h"
 
 /**
  * Helper function used to push the arguments in the linked list
