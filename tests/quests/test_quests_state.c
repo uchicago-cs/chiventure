@@ -497,7 +497,6 @@ Test(quest, complete_task_mission)
 
     mission_t *mission = mission_new(NULL, NULL, mission_meet_kill, NULL); 
 
-
     char *id = "test mission";
 
 	task_t* task_to_complete = task_new(mission, id, rewards, NULL);
