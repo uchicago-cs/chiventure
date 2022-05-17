@@ -89,8 +89,8 @@ typedef struct game {
     /* starting string description to be presented at beginning of game */
     char *start_desc;
 
-    /* pointer to the time_dll struct */
-    time_dll_t *game_time;
+    /* pointer to the time_dll struct used for time-keeping and checking */
+    time_dll_t *time_dll;
 
     /* pointer to gencontext struct used for autogeneration module */
     gencontext_t *genctx;
@@ -484,5 +484,7 @@ char *start_conversation(convo_t *c, int *rc, game_t *game);
  *    occured.
  */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
+
+int add_new_time_dll_to_game(game_t *game);
 
 #endif

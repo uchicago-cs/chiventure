@@ -719,3 +719,18 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     return ret_str;
 }
+
+/* See game.h */
+int add_new_time_dll_to_game(game_t *game)
+{
+    if (game->time_dll == NULL)
+    {
+        game->time_dll = time_dll_new(NULL, NULL);
+        return SUCCESS;
+    }
+    else
+    {
+        game->time_dll = time_dll_new(game->time_dll, NULL);
+        return SUCCESS;
+    }
+}
