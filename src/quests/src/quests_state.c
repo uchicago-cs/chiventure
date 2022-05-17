@@ -306,48 +306,6 @@ int compare_tasks(task_t *a1, task_t *a2)
     return 1;
 }
 
-/*
- * Helper function that finds a task tree given its string ID.
- * It's called find_parent() because of its use to find parent nodes
- * in add_task_to_quest().
- *
- * Parameters:
- * - tree: a pointer to an task tree
- * - id: the string identifier of the task being searched for
- *
- * Returns:
- * - NULL if task cannot be found
- * - The task tree being searched for
- */ 
-task_tree_t *find_parent(task_tree_t *tree, char *id)
-{
-
-    assert(tree != NULL);
-
-    task_tree_t *cur = tree;
-
-    while(cur != NULL)
-    {
-
-        if(strcmp(cur->task->id, id) == 0)
-        {
-            return cur;
-        }
-        else if(cur->rsibling != NULL)
-        {
-            cur = cur->rsibling;
-        }
-        else if(cur->parent->rsibling != NULL)
-        {
-            cur = cur->parent->rsibling;
-        }
-        else
-        {
-            return NULL;
-        }
-    }
-}
-
 /* Refer to quests_state.h */
 int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 {
@@ -363,7 +321,7 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
         quest->task_tree = tree;
         return SUCCESS;
     }
-    tree = find_parent(quest->task_tree, parent_id);
+    tree = find_task_in_tree(quest->task_tree, parent_id);
     assert(tree != NULL);
 
     if (tree->lmostchild == NULL)
