@@ -255,13 +255,14 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
                 sprintf(message1, "You killed %s. They've dropped their items, "
                         "which you can now take.", npc_elt->npc_id);
                 print_to_cli(ctx, message1);
-            } else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) { 
-                char message2[1000];
-                sprintf(message2, "%s has surrendered. You can no longer attack "
-                        "them.", npc_elt->npc_id);
-                print_to_cli(ctx, message2);
+            /* Battles can uncomment this once surrender_level gets incorporated into stat_t */
+            // } else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) { 
+            //     char message2[1000];
+            //     sprintf(message2, "%s has surrendered. You can no longer attack "
+            //             "them.", npc_elt->npc_id);
+            //     print_to_cli(ctx, message2);
             } else {
-                change_npc_health(npc_elt, -1, 100);
+                change_npc_hp(npc_elt, -1);
                 char message3[1000];
                 sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
                         npc_elt->npc_id, npc_elt->npc_battle->stats->hp);
