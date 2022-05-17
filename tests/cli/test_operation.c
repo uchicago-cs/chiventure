@@ -3,7 +3,7 @@
 #include <ui/ui.h>
 #include "game-state/game.h"
 #include "common/ctx.h"
-#include "cli/operation.h"
+#include "cli/operations.h"
 #include "cli/parser.h"
 /* the parser include is for the TOKEN_LIST_SIZE constant */
 
