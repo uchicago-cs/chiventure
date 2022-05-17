@@ -18,7 +18,7 @@
  *
  * Returns:
  *   - a pointer to a game object on success
- 8   - NULL if error
+ *   - NULL if error
  *
  */
 game_t *load_game(obj_t *obj_store);

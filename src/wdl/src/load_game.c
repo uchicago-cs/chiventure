@@ -60,6 +60,12 @@ game_t *load_game(obj_t *obj_store)
         return NULL;
     }
 
+    rc = add_new_time_node_to_game(game);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "Error adding time")
+    }
+
     obj_t *game_obj = obj_get_attr(obj_store, "GAME", false);
     char *start_room = obj_get_str(game_obj, "start");
     game->curr_room = find_room_from_game(game, start_room);
