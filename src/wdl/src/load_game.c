@@ -63,7 +63,7 @@ game_t *load_game(obj_t *obj_store)
     rc = add_new_time_node_to_game(game);
     if (rc != SUCCESS)
     {
-        fprintf(stderr, "Error adding time")
+        fprintf(stderr, "Error adding time");
     }
 
     obj_t *game_obj = obj_get_attr(obj_store, "GAME", false);
