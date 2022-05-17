@@ -307,7 +307,7 @@ int compare_tasks(task_t *a1, task_t *a2)
 }
 
 /*
- * Helper function that finds an task tree given its string ID.
+ * Helper function that finds a task tree given its string ID.
  * It's called find_parent() because of its use to find parent nodes
  * in add_task_to_quest().
  *
@@ -415,36 +415,6 @@ int fail_quest(quest_t *quest, player_t *player)
     return SUCCESS;
 }
 
-/*
- * Traverses the task tree to find the task with the
- * given string identifier along a valid quest path.
- *
- * Parameters:
- * - tree: pointer to the task tree to be traversed
- * - id: pointer to a string identifier for the desired task
- *
- * Returns:
- * - pointer to the desired task, OR
- * - NULL if task cannot be found along a valid path
- *
- * Note: Traversal no longer relies on task completion, so 
- *       runtime is now O(T) where T is the number of tasks
- *       in the game
- */
-task_t *find_task_in_tree(task_tree_t *tree, char *id)
-{
-    task_t *task = tree->task;
-
-    assert(task != NULL);
-
-    if (strcmp(task->id, id) == 0)
-    {
-        return task;
-    }
-    task = find_task_in_tree(tree->rsibling, id);
-    return (task != NULL) ? task : find_task_in_tree(tree->lmostchild, id);
-}
-
 /* Refer to quests_state.h */
 bool is_quest_completed(quest_t *quest, player_t *player)
 {
@@ -517,16 +487,66 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
     return SUCCESS;
 }
 
+/*
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
+ *
+ * Returns:
+ * - pointer to the tree immediately containing the task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: Traversal no longer relies on task completion, so 
+ *       runtime is now O(T) where T is the number of tasks
+ *       in the game
+ */
+task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
+{
+    if(tree == NULL) {
+        return NULL;
+    }
+    assert(tree->task != NULL);
+
+    if (strcmp(tree->task->id, id) == 0)
+    {
+        return tree;
+    }
+    task_tree_t * newTree;
+    newTree = find_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_in_tree(tree->lmostchild, id);
+}
+
 /* Refer to quests_state.h */
-task_t *get_task_from_hash(char *id, quest_hash_t *hash_table) {
-    task_t *task = NULL;
+task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table) {
+    task_tree_t *tree = NULL;
     for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next) {
-        task = find_task_in_tree(cur->task_tree, id);
-        if(task != NULL) {
+        tree = find_task_in_tree(cur->task_tree, id);
+        if(tree != NULL) {
             break;
         }
     }
-    return task;
+    return tree;
+}
+
+/* Refer to quests_state.h */
+task_t *get_task_from_hash(char *id, quest_hash_t *hash_table) {
+    return get_task_tree_from_hash(id, hash_table)->task;
+}
+
+/* Refer to quests_state.h */
+quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table) {
+    task_tree_t *tree = NULL;
+    quest_t *cur;
+    for(cur = hash_table; cur != NULL; cur = cur->hh.next) {
+        tree = find_task_in_tree(cur->task_tree, task_id);
+        if(tree != NULL) {
+            break;
+        }
+    }
+    return cur;
 }
 
 /* Refer to quests_state.h */
@@ -650,14 +670,24 @@ int prereq_add_task(prereq_t *prereq, char *task_id) {
 }
 
 /* Refer quests_state.h */
-reward_t *complete_task(task_t *task, player_t *player)
+reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash)
 {
-    assert(task != NULL);
     assert(player != NULL);
-    if (task->mission != NULL || is_task_completed(task, player) == true) 
+    task_tree_t *tree = get_task_tree_from_hash(task_id, quest_hash);
+    assert(tree != NULL);
+
+    if (meets_prereqs(player, tree->task->prereq)) 
     {
-        get_player_task_from_hash(task->id, player->player_tasks)->completed = true;
-        return task->reward;
+        get_player_task_from_hash(tree->task->id, player->player_tasks)->completed = true;
+        
+        for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
+            add_task_to_player_hash(cur->task, player->player_tasks);
+        }
+        quest_t *quest_of_task = get_quest_of_task(tree->task, quest_hash);
+        if(is_quest_completed(quest_of_task, player)) {
+            complete_quest(quest_of_task, player);
+        }
+        return tree->task->reward;
     } 
     else
     {

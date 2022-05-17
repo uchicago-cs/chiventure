@@ -280,21 +280,6 @@ int start_quest(quest_t *quest, player_t *player);
  */
 int fail_quest(quest_t *quest, player_t *player);
 
-/* Completes a task in a quest for a given player
- * - If the task has a mission, forces completion
- * - If the task doesn't have a mission, only completes if prereqs are met
- * 
- * Parameters:
- * - task: pointer to the task
- * - player: pointer to player completing the task
- *  
- * Returns:
- * - the task's reward item
- * - NULL if the task is incomplete
- * 
- */
-reward_t *complete_task(task_t *task, player_t *player);
-
 /* Checks if a player completed a given quest and updates the 
  * reference to the quest in the player's quest table accordingly
  * 
@@ -332,6 +317,28 @@ bool is_task_completed(task_t *task, player_t *player);
  *  quest struct if successful, NULL if quest is not found
  */
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
+
+/* Gets a task tree who's immediate task has a given id from the given hash table
+ *
+ * Parameters:
+ *  id: the task tree's immediate task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
+ *
+ * Returns:
+ *  task_tree struct if successful, NULL if task is not found
+ */
+task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table);
+
+/* Gets the quest that has the given task as one of its tasks
+ *
+ * Parameters:
+ *  task_id: the task tree's immediate task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
+ *
+ * Returns:
+ *  quest struct if successful, NULL if task is not found
+ */
+quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table);
 
 /* Gets a task from the given hash table
  *
@@ -439,25 +446,6 @@ bool get_player_task_status(task_t *task, player_t *player);
 reward_t *complete_quest(quest_t *quest, player_t *player);
 
 /*
- * Traverses the task tree to find the task with the
- * given string identifier along a valid quest path.
- *
- * Parameters:
- * - tree: pointer to the task tree to be traversed
- * - id: pointer to a string identifier for the desired task
- *
- * Returns:
- * - pointer to the desired task, OR
- * - NULL if task cannot be found along a valid path
- *
- * Note: tasks must be completed in order according to this
- *       traversal. Only one task on each level can be completed,
- *       so this "locks" a user into a path once they've begun
- *       completing tasks.
- */
-task_t *find_task_in_quest(task_tree_t *tree, char *id);
-
-/*
  * Adds an id to an id_list
  *
  * Parameters:
@@ -496,19 +484,18 @@ int prereq_add_quest(prereq_t *prereq, char *quest_id);
 */
 int prereq_add_task(prereq_t *prereq, char *task_id);
 
-/* Returns the task's reward item if the task has been completed.
+/* Checks if a task's prereqs are met and if they are, completes the task, 
+ * returning the task's reward on success. After completing the task, checks 
+ * if the task completion also completed the task's quest.
  *
  * Parameter:
- * - task: pointer to a task
+ * - tree: pointer to a task tree who's immediate task is getting completed
  * - player: pointer to player completing the task
  * 
  * Returns:
  * - the task's reward item
  * - NULL if the task is incomplete
- * 
- * Note:
- * The status of the task should first be checked before this function is called
  */
-reward_t *complete_task(task_t *task, player_t *player);
+reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash);
 
 #endif /* QUESTS_STATE_H */
