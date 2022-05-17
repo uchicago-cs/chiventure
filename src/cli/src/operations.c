@@ -420,8 +420,8 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * to action management's `do_self_action()` command */
     if(tokens[2] != NULL)
     {
-        //return "Sorry, only one page can be viewed at a time :(\n";
-        return "arg3 not null";
+        return "Sorry, only one page can be viewed at a time :(\n";
+        //return "arg3 not null";
     }
 
     lookup_t **table = ctx->cli_ctx->table;
@@ -434,10 +434,16 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     /* placeholder for error string that do_self_action will modify */
     //char *str;
         
-    //TODO add description here of what the return codes mean
-    //int rc = do_self_action(ctx, action, curr_item, arg2, &str);
-    //return str;
-    return "normal";
+    //TODO for CLI: add description here of what the return codes mean
+
+    /*
+     * THIS IS TO BE COMMENTED BACK IN BY ACTION MANAGEMENT 
+     * WHEN THEY HAVE FULLY IMPLEMENTED DO_SELF_ACTION
+    int rc = do_self_action(ctx, action, curr_item, arg2, &str);
+    return str;
+    */
+
+    return "do_self_action is not yet implemented";
 
     /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
      * and is thus defunct
@@ -446,8 +452,6 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     pass into the do_self_action
     if(strcmp(arg2,"stats") == 0)
     {
-        //TODO: Ask action management what they want to happen, 
-        //as they likely want to call some other function.
         return "Second argument was \"stats\"";
     }
     if(strcmp(arg2,"advanced") == 0)
