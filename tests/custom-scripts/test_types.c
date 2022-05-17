@@ -3,10 +3,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "get_custom_type.h"
-#include "arg_custom_type.h"
-#include "obj_custom_type.h"
-#include "lua_custom_type.h"
+#include "get_custom_typ.h"
+#include "arg_custom_typ.h"
+#include "obj_custom_typ.h"
+#include "lua_custom_typ.h"
 
 data_t data, data2, data3, data4;
 
