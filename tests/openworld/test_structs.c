@@ -116,9 +116,15 @@ Test(specgraph, new)
     for(int i=0; i<3; i++){
         edges[i]=(int*)malloc(3*sizeof(int));
     } 
-    edges[0]={5, 4, 5};
-    edges[1]={0, 5, 3};
-    edges[2]={4, 3, 5};
+    edges[0][0]=5;
+    edges[0][1]=4;
+    edges[0][2]=5; 
+    edges[1][0]=0; 
+    edges[1][1]=5;  
+    edges[1][2]=3;
+    edges[2][0]=4; 
+    edges[2][1]=3;  
+    edges[2][2]=5;
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
@@ -146,9 +152,15 @@ Test(specgraph, init)
     for(int i=0; i<3; i++){
         edges[i]=(int*)malloc(3*sizeof(int));
     } 
-    edges[0]={5, 4, 5};
-    edges[1]={0, 5, 3};
-    edges[2]={4, 3, 5};
+    edges[0][0]=5;
+    edges[0][1]=4;
+    edges[0][2]=5; 
+    edges[1][0]=0; 
+    edges[1][1]=5;  
+    edges[1][2]=3;
+    edges[2][0]=4; 
+    edges[2][1]=3;  
+    edges[2][2]=5;
 
     specgraph_t specgraph;
 
