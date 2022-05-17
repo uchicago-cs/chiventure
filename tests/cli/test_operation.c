@@ -54,7 +54,7 @@ Test(operation, kind4_game_null)
 
     ctx->game = NULL;
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_str_eq(return_string,"game null","game null flow was not matched when game was null");
+    cr_assert_str_eq(return_string,"No game found!\n","game null flow was not matched when game was null");
 }
 
 /* White-Box testing for there not being a second string in token array */
@@ -66,7 +66,7 @@ Test(operation, kind4_missing_arg)
     tokens[1] = NULL;
 
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_str_eq(return_string,"arg2 null","arg2 was not null but kind4 didn't match to that control flow\n");
+    cr_assert_str_eq(return_string,"Second argument needed.\n","arg2 was not null but kind4 didn't match to that control flow\n");
 }
 
 /* White-Box testing for there being more than 1 argument after the action*/
@@ -79,7 +79,7 @@ Test(operation, kind4_three_args)
     tokens[2] = "NOW";
 
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_str_eq(return_string,"arg3 not null","arg3 was not null, but did not match that control flow\n");
+    cr_assert_str_eq(return_string,"Sorry, only one page can be viewed at a time :(\n","arg3 was not null, but did not match that control flow\n");
 }
 
 /* White-Box testing for there being 4 args specifically, 
