@@ -45,9 +45,10 @@ chiventure_ctx_t *maketest_ctx()
  *				    char *tokens[TOKEN_LIST_SIZE],
  *				    chiventure_ctx_t *ctx)
  * */
+
+/* White-Box testing for game struct being null on kind4_operation*/
 Test(operation, kind4_game_null)
 {
-    int quit;
     chiventure_ctx_t *ctx = maketest_ctx();
     char **tokens = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
     tokens[0] = "VIEW";
@@ -56,7 +57,18 @@ Test(operation, kind4_game_null)
     ctx->game = NULL;
     char *return_string = kind4_action_operation(tokens,ctx);
     cr_assert_str_eq(return_string,"game null","game null flow was not matched when game was null");
+}
 
+/* White-Box testing for there not being a second string in token array */
+Test(operation, kind4_missing_arg)
+{
+    chiventure_ctx_t *ctx = maketest_ctx();
+    char **tokens = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
+    tokens[0] = "VIEW";
+    tokens[1] = NULL;
+
+    char *return_string = kind4_action_operation(tokens,ctx);
+    cr_assert_str_eq(return_string,"arg2 null","arg2 was not null but kind4 didn't match to that control flow\n");
 }
 
 ///* Creates a chiventure context with a sample game
