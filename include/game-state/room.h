@@ -37,27 +37,11 @@ typedef struct path path_hash_t;
 
 // ROOM STRUCT DEFINITION ----------------------------------------------------
 
-/* This struct represents coordinates for a room from a global perspective                    
- * It contains:
- *      the x coordinate
- *      the y coordinate */
-typedef struct coords {
-    int x;
-    int y;
-} coords_t;
-
-/* This typedef is to distinguish between coords_t pointers which are
-* used to point to the coords_t structs in the traditional sense,
-* and those which are used to hash coords_t structs with the
-* UTHASH macros as specified in src/common/include */
-typedef struct coords coords_hash_t;
-
 /* This struct represents a single room.
  * It contains:
  *      the room_id
  *      short description
  *      long description
- *      its coordinates
  *      a hashtable of items to be found there
  *      a hashtable of paths accessible from the room. */
 typedef struct room {
@@ -66,7 +50,6 @@ typedef struct room {
     char *room_id;
     char *short_desc;
     char *long_desc;
-    coords_t *coords;
     item_hash_t *items;
     path_hash_t *paths;
     npcs_in_room_t *npcs;
@@ -292,63 +275,6 @@ int remove_condition(path_t *path, list_action_type_t *a);
  */
 int delete_all_rooms(room_hash_t **rooms);
 
-// COORDINATE DEFINITIONS AND HEADERS   
-
-/* Mallocs space for a new coordinate
- *
- * Parameters:
- *  x coordinate
- *  y coordinate
- *
- * Returns:
- *  a pointer to new coordinate
- */
-coords_t *coords_new(int x, int y);
-
-/* coord_init() initializes a coord struct with given values
- * Parameters:
- *  a malloced new coordinate pointer
- *  x coordinate value
- *  y coordinate value
- *
- * Returns:
- *   FAILURE for failure, SUCCESS for success
-*/
-int coords_init(coords_t *new_coords, int x, int y);
-
-
-/* Frees the space in memory taken by given coordinate
- *
- * Parameters:
- *  pointer to the coords struct to be freed
- *
- * Returns:
- *  Always returns SUCCESS
- */
-
-int coords_free(coords_t *coords);
-
-/* Adds a coordinate to a room
- *
- * Parameters:
- *  pointer to coord struct
- *  pointer to room struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_coords_to_room(coords_t *coords, room_t *room);
-
-/* Returns pointer to the coordinates of a given room
-* Parameters:
-* pointer to room
-*
-* Returns:
-* pointer to coordinates or NULL if not found
-*/
-coords_t *find_coords_of_room(room_t *room);
-
-#endif
 /*
  * Generates a random movement struct for an NPC based on the current rooms in
  * the map and a given npc_mov_t struct.
