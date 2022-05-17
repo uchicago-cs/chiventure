@@ -94,10 +94,20 @@ tokenized_cmds *parse_r(char *input)
     return head;
 }
 
-
-// /* See parser.h */
+/* See parser.h */
 // char **remove_fillers(char **parsed_input){
+//     //loooping through the four words in the parsed input
+//     for (size_t i = 0; i < 3; i++)
+//     {
+//         // determine if this word is a filler
+//         if(strcmp("to",parsed_input[i]) == 0){
+//             //if so, remove it and push every word to the left in the 
+//             // array
 
+            
+//         }
+//     }
+    
 // }
 
 
