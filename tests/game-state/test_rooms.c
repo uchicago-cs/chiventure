@@ -320,6 +320,7 @@ Test(npc_battle, transfer_all_npc_items_dead)
     cr_assert_not_null(npc->inventory, "add_item_to_npc() failed to add item");
     cr_assert_not_null(actual, "add_item_to_hash() failed to add items");
 
+    change_npc_hp(npc, -1*(npc->npc_battle->stats->hp));
     int rc = transfer_all_npc_items(npc, room);
 
     cr_assert_eq(rc, SUCCESS, "transfer_all_npc_items() failed");
@@ -390,6 +391,7 @@ Test(npc_battle, transfer_all_npc_items_empty_inventory)
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_null(npc->inventory, "npc->inventory not NULL");
+    change_npc_hp(npc, -1*(npc->npc_battle->stats->hp));
 
     int rc = transfer_all_npc_items(npc, room);
 
