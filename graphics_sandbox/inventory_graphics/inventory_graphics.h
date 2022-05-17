@@ -42,7 +42,7 @@ typedef struct player_inventory {
  * Returns:
  * - A player inventory struct
  */
-player_inventory_t* new_player_inventory(graphics_t *graphics, player_t *p);
+player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p);
 
 /* Frees an inventory struct
  *
@@ -50,9 +50,9 @@ player_inventory_t* new_player_inventory(graphics_t *graphics, player_t *p);
  * - The player's inventory struct
  *
  * Returns:
- * - void
+ * - Always returns 0
  */
-void free_player_inventory(player_inventory_t *player_inventory);
+int free_player_inventory(player_inventory_t *player_inventory);
 
 /* Updates the player's inventory once a game changing event occurs
  *
