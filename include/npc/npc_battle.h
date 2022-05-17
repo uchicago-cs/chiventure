@@ -4,10 +4,6 @@
 #include "battle/battle_common.h"
 #include "battle/battle_structs.h"
 #include "battle/battle_moves.h"
-#include "npc/npc.h"
-
-/* Forward declaration. Full typedef can be found in npc.h */
-typedef struct npc npc_t;
 
 // NPC_BATTLE STRUCTURE DEFINITION --------------------------------------------
 
@@ -91,19 +87,5 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
  *  SUCCESS if successful, FAILURE if an error occurs
  */
 int npc_battle_free(npc_battle_t *npc_battle);
-
-
-// "SET" FUNCTIONS ------------------------------------------------------------
-/*
- * Deletes all items from npc inventory and adds them to the room struct.
- *
- * Parameters:
- *  npc: the npc whose items are being transferred
- *  room: the room that the items are being tranferred to
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if an error occurs
- */
-int transfer_all_npc_items(npc_t *npc, room_t *room);
 
 #endif
