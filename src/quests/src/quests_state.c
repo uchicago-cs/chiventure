@@ -328,7 +328,7 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
     {
         tree->lmostchild = malloc(sizeof(task_tree_t));
         tree->lmostchild->task = task_to_add;
-        tree->lmostchild->parent = find_parent(quest->task_tree, parent_id);
+        tree->lmostchild->parent = find_task_in_tree(quest->task_tree, parent_id);
     }
     else
     {
@@ -338,7 +338,7 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
         }
         tree->rsibling = malloc(sizeof(task_tree_t));
         tree->rsibling->task = task_to_add;
-        tree->rsibling->parent = find_parent(quest->task_tree, parent_id);
+        tree->rsibling->parent = find_task_in_tree(quest->task_tree, parent_id);
     }
 
     return SUCCESS;
@@ -674,6 +674,10 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
         
         for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
             add_task_to_player_hash(cur->task, player->player_tasks);
+            if(is_task_completed(cur->task, player)) {
+                return complete_task(cur->task->id, player, quest_hash);
+                break;
+            }
         }
         quest_t *quest_of_task = get_quest_of_task(tree->task, quest_hash);
         if(is_quest_completed(quest_of_task, player)) {
@@ -685,4 +689,11 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
     {
         return NULL;
     }
+}
+
+int accept_reward(reward_t *reward, player_t *player) {
+    assert(reward != NULL);
+    assert(player != NULL);
+    player->xp += reward->xp;
+    // Add item
 }
