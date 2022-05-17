@@ -235,6 +235,172 @@ Test(iter_macro, iter_paths)
     room_free(room3);
 }
 
+/* Creates + initializes a move. Taken from test_battle_ai.c */
+move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
+ {
+     move_t* move = (move_t*) calloc(1, sizeof(move_t));
+
+     move->id = id;
+
+     move->item = item;
+
+     move->attack = attack;
+     move->damage = damage;
+     move->defense = defense;
+
+     return move;
+ }
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats1()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->mag_def = 10;
+    test_stats->mag_atk = 10;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+    test_stats->crit = 0;
+    test_stats->accuracy = 100;
+    test_stats->sp = 50;
+    test_stats->max_sp = 50;
+
+    return test_stats;
+}
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves1()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = create_move(1, NULL, true, 100, 0);
+    poke = create_move(2, NULL, true, 40, 0);
+    rock_throw = create_move(3, NULL, true, 90, 0);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+    return head;
+}
+
+/* Checks that transfer_all_npc_items() removes items from a dead npc and
+   transfers them to the room */
+Test(npc_battle, transfer_all_npc_items_dead)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
+    room_t *room = room_new("test_room", "room for testing",
+                            "testing if memory is correctly allocated for new rooms");
+
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(test_item1, "item_new() 1 failed");
+    cr_assert_not_null(test_item2, "item_new() 2 failed");
+    cr_assert_not_null(test_item3, "item_new() 3 failed");
+    cr_assert_not_null(room, "room_new() failed");
+
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE);
+    add_item_to_npc(npc, test_item1);
+    add_item_to_npc(npc, test_item2);
+    add_item_to_npc(npc, test_item3);
+
+    item_hash_t *actual = NULL;
+    add_item_to_hash(&actual, test_item1);
+    add_item_to_hash(&actual, test_item2);
+    add_item_to_hash(&actual, test_item3);
+
+    cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
+    cr_assert_not_null(npc->inventory, "add_item_to_npc() failed to add item");
+    cr_assert_not_null(actual, "add_item_to_hash() failed to add items");
+
+    int rc = transfer_all_npc_items(npc, room);
+
+    cr_assert_eq(rc, SUCCESS, "transfer_all_npc_items() failed");
+    cr_assert_eq(actual, room->items,
+                 "transfer_all_npc_items() failed to add room items");
+    cr_assert_null(npc->inventory,
+                   "transfer_all_npc_items() failed to remove npc items");
+
+}
+
+/* Checks that transfer_all_npc_items() does not remove items from a living npc
+   and transfer them to the room */
+Test(npc_battle, transfer_all_npc_items_alive)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
+    item_t *test_item1 = item_new("item1", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
+    room_t *room = room_new("test_room", "room for testing",
+                            "testing if memory is correctly allocated for new rooms");
+
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(test_item1, "item_new() 1 failed");
+    cr_assert_not_null(test_item2, "item_new() 2 failed");
+    cr_assert_not_null(test_item3, "item_new() 3 failed");
+    cr_assert_not_null(room, "room_new() failed");
+
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE);
+    add_item_to_npc(npc, test_item1);
+    add_item_to_npc(npc, test_item2);
+    add_item_to_npc(npc, test_item3);
+
+    item_hash_t *actual = NULL;
+    add_item_to_hash(&actual, test_item1);
+    add_item_to_hash(&actual, test_item2);
+    add_item_to_hash(&actual, test_item3);
+
+    cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
+    cr_assert_not_null(npc->inventory, "add_item_to_npc() failed to add items");
+    cr_assert_not_null(actual, "add_item_to_hash() failed to add items");
+
+    int rc = transfer_all_npc_items(npc, room);
+
+    cr_assert_eq(rc, FAILURE, "transfer_all_npc_items() transferred items");
+    cr_assert_null(room->items,
+                   "transfer_all_npc_items() added room items");
+    cr_assert_eq(actual, npc->inventory,
+                 "transfer_all_npc_items() removed npc items");
+
+}
+
+/* Checks that transfer_all_npc_items() works when the npc has an empty
+   inventory */
+Test(npc_battle, transfer_all_npc_items_empty_inventory)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
+    stat_t *stats = create_enemy_stats1();
+    move_t *moves = create_enemy_moves1();
+    room_t *room = room_new("test_room", "room for testing",
+                            "testing if memory is correctly allocated for new rooms");
+
+    cr_assert_not_null(npc, "npc_new() failed");
+    cr_assert_not_null(room, "room_new() failed");
+
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE);
+
+    cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
+    cr_assert_null(npc->inventory, "npc->inventory not NULL");
+
+    int rc = transfer_all_npc_items(npc, room);
+
+    cr_assert_eq(rc, SUCCESS, "transfer_all_npc_items() failed");
+    cr_assert_null(room->items,
+                   "transfer_all_npc_items() added room items");
+    cr_assert_null(npc->inventory,
+                   "transfer_all_npc_items() still has npc items");
+
+}
+
 // Conditions not done yet. Leave it for now.
 /*
 Test(iter_macro, iter_conditions)
@@ -275,3 +441,4 @@ room_t *find_room_from_dir(room_t *curr, char* direction);
 int delete_all_conditions(condition_list_t conditions);
 
 */
+

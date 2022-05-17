@@ -5,7 +5,6 @@
 #include "game-state/item.h"
 #include "playerclass/class.h"
 
-
 /* Creates a sample class. Taken from test_class.c */
 class_t *generate_test_class()
 {
