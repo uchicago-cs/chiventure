@@ -114,7 +114,7 @@ Test(specgraph, new)
 
     int edges[3][3]={{5, 4, 5},{0, 5, 3},{4, 3, 5}};
 
-    specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+    specgraph_t *specgraph = specgraph_new(3, roomspecs, &edges);
 
     cr_assert_not_null(specgraph, "failed to create new specgraph_t\n");
     cr_assert_eq(specgraph->num_roomspecs, 3, "specgraph_new() failed gathering num_roomspecs");

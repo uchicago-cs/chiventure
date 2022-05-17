@@ -72,7 +72,8 @@ typedef struct roomspec rspec_hash_t;
  * The struct contains:
  * - int num_roomspecs: The number of different roomspecs available in the game
  * - roomspec_t roomspecs: list of pointers to roomspecs corresponding to each node on specgraph
- * - int *edges: Edges of graph representing the relationship between each roomspec (i.e. the adjacency matrix).
+ * - int **edges: This is a pointer to a 2D array containing the information about the edges of the graph.
+ *                Edges of graph represent the relationship between each roomspec (i.e. the adjacency matrix).
  *                These values will range from 0-5 and will be used to determine, for a room generated using the  
  *                room_autogenerate function, the probability that the roomspec associated with the newly generated 
  *                room will be a given roomspec. Thus, the higher the number, the more likely rooms of those roomspec 
@@ -82,7 +83,7 @@ typedef struct roomspec rspec_hash_t;
 typedef struct specgraph {
     int num_roomspecs;
     roomspec_t **roomspecs;
-    int *edges;
+    int **edges;
 } specgraph_t;
 
 /* gencontext_t struct
@@ -303,13 +304,13 @@ int roomspec_free(roomspec_t *spec);
 * - specgraph_t *specgraph: the pointer to the specgraph_t we are initializing
 * - int num_roomspecs: the number of roomspecs in the graph
 * - roomspec_t **roomspecs: An array of pointers to the roomspecs 
-* - int *edges: A 2D array representing the weights in the adjacency matrix
+* - int **edges: A pointer to a 2D array representing the weights in the adjacency matrix
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int *edges);
+int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
 /* specgraph_new
 * Creates a new heap-allocated specgraph_t struct with the given paramaters.
@@ -317,13 +318,13 @@ int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 * parameters:
 * - int num_roomspecs: the number of roomspecs in the graph
 * - roomspec_t **roomspecs: An array of pointers to the roomspecs 
-* - int *edges: A 2D array representing the weights in the adjacency matrix
+* - int **edges: A pointer to a 2D array representing the weights in the adjacency matrix
 *
 * returns:
 * specgraph_t *specgraph = the new specgraph
 * NULL - if failed to create a specgraph
 */
-specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int *edges);
+specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
 /* specgraph_free
 * Frees a specgraph_t struct and all associated memory and returns whether or not it was successful

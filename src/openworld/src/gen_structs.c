@@ -192,7 +192,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
 }
 
 /* see gen_structs.h */
-int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int *edges)
+int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges)
 {
     if (specgraph == NULL)
         return FAILURE;
@@ -204,7 +204,7 @@ int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 }
 
 /* see gen_structs.h */
-specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int *edges)
+specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges)
 {
     specgraph_t *specnew = (specgraph_t*)malloc(sizeof(specgraph_t));
 
