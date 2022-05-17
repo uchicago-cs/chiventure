@@ -71,6 +71,33 @@ Test(operation, kind4_missing_arg)
     cr_assert_str_eq(return_string,"arg2 null","arg2 was not null but kind4 didn't match to that control flow\n");
 }
 
+/* White-Box testing for there being more than 1 argument after the action*/
+Test(operation, kind4_three_args)
+{
+    chiventure_ctx_t *ctx = maketest_ctx();
+    char **tokens = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
+    tokens[0] = "VIEW";
+    tokens[1] = "STATS";
+    tokens[2] = "NOW";
+
+    char *return_string = kind4_action_operation(tokens,ctx);
+    cr_assert_str_eq(return_string,"arg3 not null","arg3 was not null, but did not match that control flow\n");
+}
+
+/* White-Box testing for there being 4 args specifically, 
+ * should fall under same control flow as the kind4_three_arg test*/
+Test(operation, kind4_four_args)
+{
+    chiventure_ctx_t *ctx = maketest_ctx();
+    char **tokens = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
+    tokens[0] = "VIEW";
+    tokens[1] = "STATS";
+    tokens[2] = "NOW";
+    tokens[3] = "PLEASE";
+
+    char *return_string = kind4_action_operation(tokens,ctx);
+    cr_assert_str_eq(return_string,"arg3 not null","arg3 was not null, but did not match that control flow (4 arg test)\n");
+}
 ///* Creates a chiventure context with a sample game
 // *
 // * Parameters: None
