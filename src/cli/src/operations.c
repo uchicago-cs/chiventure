@@ -406,13 +406,12 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     char *arg2 = tokens[1];
     if(game == NULL)
     {
-        //return "No game found!\n";
-        return "game null";
+        return "No game found!\n";
     }
     if(arg2 == NULL)
     {
-        //return "Second argument needed. Pick from: TODO: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
-        return "arg2 null";
+        //(potential) TODO: add list of possible parameters
+        return "Second argument needed.\n";
     }
     /* checking if there is more than one argument
      * for now this returns null, but if actions wants any kind4 to have 
@@ -421,7 +420,6 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     if(tokens[2] != NULL)
     {
         return "Sorry, only one page can be viewed at a time :(\n";
-        //return "arg3 not null";
     }
 
     lookup_t **table = ctx->cli_ctx->table;
