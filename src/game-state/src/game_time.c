@@ -1,4 +1,4 @@
-#include "include/game-state/game_time.h"
+#include "game-state/game_time.h"
 
 /* See game_time.h */
 int time_init(time_t *t)
