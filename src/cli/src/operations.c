@@ -225,69 +225,6 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "specified item not found\n";
 }
 
-/* See operation.h */
-char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    //expecting token string list to be "view" "arg2"
-    //support for each arg2 to be specified (as of 5/2/2022)
-    game_t *game = ctx->game;
-    char *arg2 = tokens[1];
-    if(game == NULL)
-    {
-        //return "No game found!\n";
-        return "game null";
-    }
-    if(arg2 == NULL)
-    {
-        //return "Second argument needed. Pick from: TODO: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
-        return "arg2 null";
-    }
-    /* checking if there is more than one argument
-     * for now this returns null, but if actions wants any kind4 to have 
-     * more than 1 argument, this check can be removed and onus transfers
-     * to action management's `do_self_action()` command */
-    if(tokens[2] != NULL)
-    {
-        //return "Sorry, only one page can be viewed at a time :(\n";
-        return "arg3 not null";
-    }
-
-    lookup_t **table = ctx->cli_ctx->table;
-
-    /* uses the find_action command to go from string to action,
-     * this table is made using the add_action_entry and lookup_t_init 
-     * in cmd.c*/
-    //action_type_t *action = find_action(tokens[0], table);
-
-    /* placeholder for error string that do_self_action will modify */
-    //char *str;
-        
-    //TODO add description here of what the return codes mean
-    //int rc = do_self_action(ctx, action, curr_item, arg2, &str);
-    //return str;
-    return "normal";
-
-    /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
-     * and is thus defunct
-     * This is to be removed once the kind4 actions work as expected on dev
-     * (5/16/2022) - faruk badur
-    pass into the do_self_action
-    if(strcmp(arg2,"stats") == 0)
-    {
-        //TODO: Ask action management what they want to happen, 
-        //as they likely want to call some other function.
-        return "Second argument was \"stats\"";
-    }
-    if(strcmp(arg2,"advanced") == 0)
-    {
-        //TODO: Ask action management what they want to happen, 
-        //as they likely want to call some other function.
-        return "Second argument was \"advanced\"";
-    }
-    //all possible options should have been matched before this
-    return "Invalid second argument\n";
-    */
-}
 
 /* See operation.h */
 char *exit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -460,6 +397,69 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 }
 
 
+/* See operation.h */
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    //expecting token string list to be "view" "arg2"
+    //support for each arg2 to be specified (as of 5/2/2022)
+    game_t *game = ctx->game;
+    char *arg2 = tokens[1];
+    if(game == NULL)
+    {
+        //return "No game found!\n";
+        return "game null";
+    }
+    if(arg2 == NULL)
+    {
+        //return "Second argument needed. Pick from: TODO: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
+        return "arg2 null";
+    }
+    /* checking if there is more than one argument
+     * for now this returns null, but if actions wants any kind4 to have 
+     * more than 1 argument, this check can be removed and onus transfers
+     * to action management's `do_self_action()` command */
+    if(tokens[2] != NULL)
+    {
+        //return "Sorry, only one page can be viewed at a time :(\n";
+        return "arg3 not null";
+    }
+
+    lookup_t **table = ctx->cli_ctx->table;
+
+    /* uses the find_action command to go from string to action,
+     * this table is made using the add_action_entry and lookup_t_init 
+     * in cmd.c*/
+    //action_type_t *action = find_action(tokens[0], table);
+
+    /* placeholder for error string that do_self_action will modify */
+    //char *str;
+        
+    //TODO add description here of what the return codes mean
+    //int rc = do_self_action(ctx, action, curr_item, arg2, &str);
+    //return str;
+    return "normal";
+
+    /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
+     * and is thus defunct
+     * This is to be removed once the kind4 actions work as expected on dev
+     * (5/16/2022) - faruk badur
+    pass into the do_self_action
+    if(strcmp(arg2,"stats") == 0)
+    {
+        //TODO: Ask action management what they want to happen, 
+        //as they likely want to call some other function.
+        return "Second argument was \"stats\"";
+    }
+    if(strcmp(arg2,"advanced") == 0)
+    {
+        //TODO: Ask action management what they want to happen, 
+        //as they likely want to call some other function.
+        return "Second argument was \"advanced\"";
+    }
+    //all possible options should have been matched before this
+    return "Invalid second argument\n";
+    */
+}
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
