@@ -102,9 +102,49 @@ int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_d
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new, 
                   char *direction_to_curr, char *direction_to_new);
 
+/* roomspec_autogenerate
+ * Given a roomspec, generates a new roomspec based on the adjacency matrix
+ * that quantifies the similarity between different roomspecs.
+ *
+ * Parameters:
+ * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+ * - roomspec: The roomspec of the current room 
+ *
+ *
+ * returns:
+ * - Returns a pointer to the newly generated roomspec
+ */
+
+roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
+
+/* room_autogenerate
+ * Creates a room directly north, south, east, or west of a given room. 
+ * The roomspec of the newly created room will be chosen using roomspec_autogenerate
+ *
+ * Parameters:
+ * - game: A pointer to a game struct. Should not be NULL.
+ * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+ * - curr: A pointer to the room_t with which the newly generated room will be connected.         
+ *         Must be in the game->all_rooms hash. Should not be NULL.
+ * - roomspec: The roomspec of the current room 
+ * - direction_to_curr: Direction for the path from new -> curr. Should not be NULL.
+ * - direction_to_new: Direction for the path from curr -> new. Should not be NULL.
+ *   NOTE: MUST BE AN AVAILABLE DIRECTION! (Available as in no path for that direction exists.)
+ *
+ * * side effects:
+ * - Changes input game to hold the newly generated room. Allocated on the heap.
+
+ * returns:
+ * - Always returns SUCCESS 
+ *   Any internal failure results in crash (by triggering an assert).
+ */
+
+int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
+                      char *direction_to_curr, char *direction_to_new);
+
 /*
 * multi_room_generate
-* Iterate through all the rooms of the speclist field of the given context
+* Iterate through all the rooms of the specgraph field of the given context
 * (gencontext_t pointer) and create a "domain" of rooms around the current
 * room. Only succeeds when the current room has no outward paths, i.e. is
 * a "dead end".
@@ -127,32 +167,32 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
 int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms);
 
 /*
-* speclist_from_hash
+* specgraph_from_hash
 * Iterate through all the rooms in a roomspec hash and append them to
-* original speclist in a doubly linked list.
+* original specgraph in a doubly linked list.
 *
 * parameters:
 * - hash: a roomspec hash that has multiple roomspecs
 *
 * returns:
 * - NULL if hash is NULL
-* - speclist_t* a new speclist with all the roomspecs stored in hash copied
+* - specgraph_t* a new specgraph with all the roomspecs stored in hash copied
 */
-int speclist_from_hash(speclist_t **orig, rspec_hash_t *hash);
+int specgraph_from_hash(specgraph_t **orig, rspec_hash_t *hash);
 
 /*
 * random_room_lookup
-* Iterate through all the rooms of the speclist a "random" number of times
+* Iterate through all the roomspec of the specgraph a "random" number of times
 * and returns one of these roomspecs.
 *
 * parameters:
-* - speclist_t *spec: the speclist from which to pull a roomspec
+* - specgraph_t *spec: the specgraph from which to pull a roomspec
 *
 * returns:
 * - NULL if failure
-* - roomspec_t* new roomspec from the speclist
+* - roomspec_t* new roomspec from the specgraph
 */
-roomspec_t *random_room_lookup(speclist_t *spec);
+roomspec_t *random_room_lookup(specgraph_t *spec);
 
 /*
 * random_items
@@ -239,24 +279,24 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
                                  int difficulty_level);
 
 
-/* filter_speclist_with_difficulty
- * Creates a speclist by filtering the given speclist with a difficulty level
- * so that the returned speclist only contains roomspecs of the given level
+/* filter_specgraph_with_difficulty
+ * Creates a specgraph by filtering the given specgraph with a difficulty level
+ * so that the returned specgraph only contains roomspecs of the given level
  * 
  * Notes:
- * - original speclist is unaltered
- * - filtered speclist uses roomspec pointers of original speclist
+ * - original specgraph is unaltered
+ * - filtered specgraph uses roomspec pointers of original specgraph
  *   (in other words, no new roomspecs are declared/initialized)
  *
  * Parameters:
- * - speclist: pointer to the speclist we want to filter
+ * - specgraph: pointer to the specgraph we want to filter
  * - roomlevels: pointer to the hash table for room levels
  * - difficulty_level: the difficulty level
  * 
  * Returns:
- * - pointer to the filtered speclist, NULL if no spec matches the level
+ * - pointer to the filtered specgraph, NULL if no spec matches the level
  */
-speclist_t* filter_speclist_with_difficulty(speclist_t *speclist, 
+specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph, 
                                             roomlevel_hash_t **roomlevels, 
                                             int difficulty_level);
 
@@ -316,7 +356,6 @@ int multi_room_level_generate(game_t *game, gencontext_t *context,
 int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
                        int radius, char **directions, int num_directions, char *direction_to_parent);
                                
-
 #endif /* INCLUDE_AUTOGENERATE_H */
 
 

@@ -624,6 +624,7 @@ reward_t *complete_quest(quest_t *quest, player_t *player)
         return NULL;
 }
 
+
 /* Refer to quests_state.h */
 int id_list_add(id_list_t *id_list, char *id) {
     assert(id_list != NULL);
@@ -661,6 +662,39 @@ int prereq_add_task(prereq_t *prereq, char *task_id) {
     assert(prereq != NULL);
     assert(task_id != NULL);
     return id_list_add(prereq->task_list, task_id);
+}
+
+
+
+/* refer to quests_state.h */
+int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id) 
+{
+    quest_t *check; 
+    check = get_quest_from_hash(quest_id, hash_table);
+
+    if (check == NULL){ 
+        return FAILURE; /* quest is not in hash_table) */
+    } 
+
+    HASH_DEL(hash_table,check); 
+    quest_free(check); 
+    if (get_quest_from_hash(quest_id, hash_table) != NULL){
+        return FAILURE;
+    }
+    return SUCCESS;
+
+}
+
+/* refer to quests_state.h */
+int remove_quest_all(quest_hash_t *hash_table)
+{ 
+    quest_t *current_quest, *temp; 
+    HASH_ITER(hh, hash_table, current_quest, temp) 
+    { 
+        HASH_DEL(hash_table, current_quest);
+        free(current_quest);
+    }
+    return SUCCESS; 
 }
 
 /* Refer quests_state.h */
