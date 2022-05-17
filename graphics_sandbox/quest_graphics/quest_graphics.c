@@ -3,6 +3,65 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+quest_graphics_t* quest_graphics_new(Vector2 WindowPos, Vector2 WindowSize,
+    Vector2 SegmentDimension, Vector2 DrawStartPosition, 
+    task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
+    bool ShowRemainingHorizontal, float SquareSide)
+{
+    quest_graphics_t *questGraphics;
+    int rc;
+
+    questGraphics = malloc(sizeof(quest_graphics_t));
+
+    if (questGraphics == NULL)
+    {
+        error("Could not allocate memory");
+        return NULL;
+    }
+
+    rc = quest_graphics_init(questGraphics, WindowPos, WindowSize,
+        SegmentDimension, DrawStartPosition, TaskTree, CurrentTaskName, 
+        ShowRemainingHorizontal, SquareSide);
+
+    if(rc == 1)
+    {
+        error("Could not initialize quest");
+        return NULL;
+    }
+
+    return questGraphics;
+}
+
+int quest_graphics_init(quest_graphics_t *questGraphics, Vector2 WindowPos,
+    Vector2 WindowSize, Vector2 SegmentDimension, Vector2 DrawStartPosition, 
+    task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
+    bool ShowRemainingHorizontal, float SquareSide)
+{
+    assert(questGraphics != NULL);
+    assert(TaskTree != NULL);
+    assert(CurrentTaskName != NULL);
+
+    questGraphics->WindowPos = WindowPos;
+    questGraphics->WindowSize = WindowSize;
+    questGraphics->SegmentDimension = SegmentDimension;
+    questGraphics->DrawStartPosition = DrawStartPosition;
+    questGraphics->TaskTree = TaskTree;
+    questGraphics->CurrentTaskName = CurrentTaskName;
+    questGraphics->ShowRemainingHorizontal = ShowRemainingHorizontal;
+    questGraphics->SquareSide = SquareSide;
+
+    return 1;
+}
+
+int quest_graphics_free(quest_graphics_t *questGraphics)
+{
+    assert(questGraphics != NULL);
+
+    free(questGraphics);
+
+    return 1;
+}
+
 int getTreeMaxWidth(task_tree_mockup_t* taskTree) {
     //To do
     return 4;
@@ -129,11 +188,11 @@ void runTaskTreeGraphics(quest_graphics_t* quest_graphics)
         float xtmp, ytmp, xcopy, ycopy;
         int thismove;
         int lastmove = tracker >> (stepstotal-1);
-        float squareside = quest_graphics->SquareeSide;
+        float squareside = quest_graphics->SquareSide;
 
         // Draw
         //----------------------------------------------------------------------------------
-        BeginDrawing();
+        BeginDrawing(QUEST_CONTEXT_ID);
 
             ClearBackground(RAYWHITE);
 
@@ -220,7 +279,7 @@ int main() {
     quest_graphics.WindowSize=(Vector2){600,400};
     quest_graphics.DrawStartPosition=(Vector2){150,150};
     quest_graphics.SegmentDimension=(Vector2){50,50};
-    quest_graphics.SquareeSide=30;
+    quest_graphics.SquareSide=30;
     quest_graphics.CurrentTaskName="F";
     quest_graphics.ShowRemainingHorizontal=true;
 

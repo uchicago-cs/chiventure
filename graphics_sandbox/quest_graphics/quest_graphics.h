@@ -16,7 +16,6 @@ struct task_tree_mockup {
     int visited;
 };
 
-
 typedef struct pos_in_tree {
     /*
      * Every bit denotes a movement,
@@ -38,7 +37,7 @@ typedef struct quest_graphics{
     task_tree_mockup_t *TaskTree;
     char* CurrentTaskName;
     bool ShowRemainingHorizontal;
-    float SquareeSide;
+    float SquareSide;
 } quest_graphics_t;
 
 int getTreeMaxWidth(task_tree_mockup_t* taskTree);
