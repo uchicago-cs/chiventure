@@ -125,7 +125,6 @@ char **parse(char *input)
 
         quote_word[i] = token_quotes;
         token_quotes = strtok(NULL, "\"");
-
     }
 
     //If the first character of the input is not "
