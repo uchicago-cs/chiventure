@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 #include "get_custom_type.h"
+#include "arg_custom_type.h"
+#include "obj_custom_type.h"
+#include "lua_custom_type.h"
 
 data_t data, data2, data3, data4;
 
