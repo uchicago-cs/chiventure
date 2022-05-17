@@ -1,8 +1,20 @@
 #include "scene_graphics.h"
-#include "raylib.h"
 
 
+/* See scene_graphics.h */
 
+
+/* See scene_graphics.h */
+void free_scene_graphics(scene_graphics_t* scene_graphics);
+{
+    free(scene_graphics->title);
+    free(scene_graphics->image_path);
+    free(scene_graphics);
+    return;
+}
+
+
+/* See scene_graphics.h */
 void runSceneGraphics(scene_graphics_t* scene_graphics)
 {
     // Initialization
@@ -55,6 +67,7 @@ void runSceneGraphics(scene_graphics_t* scene_graphics)
     CloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 }
+
 
 int main(void) {
 
