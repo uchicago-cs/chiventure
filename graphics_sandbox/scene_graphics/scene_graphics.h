@@ -15,6 +15,5 @@ struct scene_graphics {
     Vector2 WindowSize;
     Vector2 SceneSize;
     Vector2 PlayerPosition;
-    scene_graphics_t* Next;
 };
 
