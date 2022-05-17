@@ -94,7 +94,7 @@ Test(operation, kind4_four_args)
     tokens[3] = "PLEASE";
 
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_str_eq(return_string,"arg3 not null","arg3 was not null, but did not match that control flow (4 arg test)\n");
+    cr_assert_str_eq(return_string,"Sorry, only one page can be viewed at a time :(\n","arg3 was not null, but did not match that control flow (4 arg test)\n");
 }
 
 /* White-Box testing for the normal control flow*/
@@ -106,5 +106,5 @@ Test(operation, kind4_normal_flow1)
     tokens[1] = "STATS";
 
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_str_eq(return_string,"normal","normal control flow (VIEW STATS) did not match normal control flow\n");
+    cr_assert_str_eq(return_string,"do_self_action is not yet implemented\n","normal control flow (VIEW STATS) did not match normal control flow\n");
 }

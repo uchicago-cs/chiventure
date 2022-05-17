@@ -441,7 +441,7 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     return str;
     */
 
-    return "do_self_action is not yet implemented";
+    return "do_self_action is not yet implemented\n";
 
     /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
      * and is thus defunct
