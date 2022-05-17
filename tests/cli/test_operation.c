@@ -3,6 +3,7 @@
 #include <ui/ui.h>
 #include "game-state/game.h"
 #include "common/ctx.h"
+#include "cli/operation.h"
 #include "cli/parser.h"
 /* the parser include is for the TOKEN_LIST_SIZE constant */
 
@@ -44,12 +45,6 @@ chiventure_ctx_t *maketest_ctx()
  *				    char *tokens[TOKEN_LIST_SIZE],
  *				    chiventure_ctx_t *ctx)
  * */
-
-
-
-
-
-/* filler test */
 Test(operation, kind4_game_null)
 {
     int quit;
@@ -59,7 +54,8 @@ Test(operation, kind4_game_null)
     tokens[1] = "STATS";
 
     ctx->game = NULL;
-
+    char *return_string = kind4_action_operation(tokens,ctx);
+    cr_assert_eq(return_string,"No game found!\n","game null flow was not matched when game was null");
 
 }
 
