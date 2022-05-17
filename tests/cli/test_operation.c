@@ -55,7 +55,7 @@ Test(operation, kind4_game_null)
 
     ctx->game = NULL;
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_eq(return_string,"No game found!\n","game null flow was not matched when game was null");
+    cr_assert_str_eq(return_string,"game null","game null flow was not matched when game was null");
 
 }
 
