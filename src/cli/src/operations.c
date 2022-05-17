@@ -246,14 +246,14 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     /* uses the find_action command to go from string to action,
      * this table is made using the add_action_entry and lookup_t_init 
      * in cmd.c*/
-    action_type_t *action = find_action(tokens[0], table);
+    //action_type_t *action = find_action(tokens[0], table);
 
     /* placeholder for error string that do_self_action will modify */
-    char *str;
+    //char *str;
         
     //TODO add description here of what the return codes mean
-    int rc = do_self_action(ctx, action, curr_item, arg2, &str);
-    return str;
+    //int rc = do_self_action(ctx, action, curr_item, arg2, &str);
+    return "do_self_action would have been called\n";
 
     /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
      * and is thus defunct
