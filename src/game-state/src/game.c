@@ -750,5 +750,5 @@ void update_time(game_t *game)
 /* See game.h */
 double total_elapsed_time(game_t *game)
 {
-    return time_since_first_start(game->time);
+    return time_since_first_start(game->time_dll);
 }
