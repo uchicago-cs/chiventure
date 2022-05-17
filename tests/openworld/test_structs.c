@@ -141,7 +141,10 @@ Test(specgraph, init)
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     roomspec_t *roomspecs[3]={spec1, spec2, spec3};
 
-    int edges[3][3]={{5, 4, 5},{0, 5, 3},{4, 3, 5}};
+    int **edges=(int**)malloc(3, sizeof(int*));
+    edges[0]={5, 4, 5};
+    edges[1]={0, 5, 3};
+    edges[2]={4, 3, 5};
 
     specgraph_t specgraph;
 

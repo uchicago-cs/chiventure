@@ -227,6 +227,7 @@ int specgraph_free(specgraph_t *specgraph)
     for(int i=0; i<num_roomspecs; i++)
         free((specgraph->roomspecs)[i]);
     
+    free(specgraph->edges);
     free(specgraph);
 
     return SUCCESS;
