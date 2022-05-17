@@ -50,8 +50,6 @@ stat_t *create_enemy_stats()
     return test_stats;
 }
 
-<<<<<<< HEAD
-=======
 /* Creates + initializes a move. Taken from test_battle_ai.c */
 move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
                      int defense)
@@ -69,7 +67,6 @@ move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
     return move;
 }
 
->>>>>>> 47a152fd88a0a5ff508fc49b894f05a57ab4cd3a
 /* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves()
 {
