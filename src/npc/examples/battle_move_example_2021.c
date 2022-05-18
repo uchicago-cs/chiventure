@@ -107,31 +107,17 @@ stat_t *create_enemy_stats()
     return test_stats;
 }
 
-/* Creates + initializes a move. Taken from test_battle_ai.c */
-move_t *create_move(int id, battle_item_t* item, bool attack, int damage,
-                    int defense)
-{
-    move_t *move = (move_t*) calloc(1, sizeof(move_t));
-
-    move->id = id;
-
-    move->item = item;
-
-    move->attack = attack;
-    move->damage = damage;
-    move->defense = defense;
-
-    return move;
-}
-
 /* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
-    poke = create_move(2, NULL, true, 40, 0);
-    rock_throw = create_move(3, NULL, true, 90, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
