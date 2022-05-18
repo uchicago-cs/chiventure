@@ -1,15 +1,15 @@
 #include <espeak-ng/speak_lib.h>
  
-// in order to run this, in the chiventure/src/sound/sandbox directory run 
-// gcc test-espeak.c -lespeak-ng -o test-espeak
-// especially anytime after a change is made and then use
-// ./test-espeak
-// in order to hear the text
+/* in order to run this, in the chiventure/src/sound/sandbox directory run 
+ gcc test-espeak.c -lespeak-ng -o test-espeak
+ especially anytime after a change is made and then use
+ ./test-espeak
+ in order to hear the text */
 
  espeak_AUDIO_OUTPUT output = AUDIO_OUTPUT_SYNCH_PLAYBACK;
- char *path = NULL;
+ char* path = NULL;
  void* user_data;
- unsigned int *identifier;
+ unsigned int* identifier;
  
  int main(int argc, char* argv[]) {
    char voicename[] = {"English"}; // Set voice by its name
