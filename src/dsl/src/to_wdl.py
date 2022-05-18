@@ -23,7 +23,9 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
 
     rooms = []
     items = []
+    players = []
 
+    # print(intermediate)
     if "rooms" not in intermediate:
         warn("This game has no rooms.")
     else:
@@ -41,16 +43,26 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents))
     
+    if "players" in intermediate:
+        players_dict = intermediate.pop("players")
+        for player in players_dict:
+            for attr, val in player.items():
+                player_values = {"attributes": val["attributes"], "stats": val["stats"]}
+
+                players.append(Player(player_values))
+    
     game = Game(intermediate)
     
     # acts as a "union" operation on multiple dictionaries
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
     items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
+    players_wdl = dict(ChainMap(*[p.to_wdl_structure() for p in players]))
 
     out = json.dumps({
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
-        "ITEMS": items_wdl
+        "ITEMS": items_wdl,
+        "PLAYERS": players_wdl
         }, indent=2)
 
     if debug and "end" in debug_modes:
@@ -224,7 +236,7 @@ class Item:
                 else:
                     action_wdl_dict[k] = v
             out.append(action_wdl_dict)
- 
+        print(out)
         return out
 
 
@@ -273,11 +285,8 @@ class Game:
             warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 
 class Player:
-    def __init__(self, parent_class: str, name: str, contents: dict, default: str):
-        self.parent_class = parent_class
-        self.name = name
+    def __init__(self, contents: dict):
         self.contents = contents
-        self.default = default
 
         self.wdl_contents = {}
 
@@ -294,14 +303,10 @@ class Player:
         for k, v in self.contents.items():
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
-            elif k == "Attributes":
-                self.wdl_contents["Attributes"] = self.attributes_list()
-            elif k == "Base_Stats":
-                self.wdl_contents["Base_Stats"] = self.base_stats_list()
-            elif k == "Combot_Actions":
-                self.wdl_contents["Combot_Actions"] = self.actions_list()
-            elif k == "Effects":
-                self.wdl_contents["Effects"] = self.effects_list()
+            elif k == "attributes":
+                self.wdl_contents["attributes"] = self.contents["attributes"]
+            elif k == "stats":
+                self.wdl_contents["stats"] = self.contents["stats"]
         self.generate_defaults()
         return {'PLAYER': self.wdl_contents}
 
@@ -322,59 +327,3 @@ class Player:
         if 'short_desc' not in self.wdl_contents:
             self.wdl_contents['short_desc'] = f"{self.id}"
             warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
-
-
-        lst = ['attributes', 'base_stats', 'actions', 'effects']
-
-        # generate default interaction text for actions
-        for val in lst:
-            for i in self.wdl_contents.get(val, []):
-                if 'text_success' not in i:
-                    i['text_success'] = f"You {i[val].lower()} the {self.id}."
-                    warn(f'''missing: success text for {val} {i[val]} for item {self.id}, generated default: {i['text_success']}''')
-                if 'text_fail' not in i:
-                    i['text_fail'] = f"You cannot {i[val].lower()} the {self.id}."
-                    warn(f'''missing: failure text for {val} {i[val]} for item {self.id}, generated default: {i['text_fail']}''')
-
-    def attributes_list(self) -> list:
-        out = []
-        for name, attributes_dict in self.contents.get('Attributes', {}).items():
-            attributes_wdl_dict = {"Attributes": name}
-            for k,v in attributes_dict.items():
-                attributes_wdl_dict[k] = v
-            out.append(attributes_wdl_dict)
- 
-        return out
-
-    def base_stats_list(self) -> list:
-        out = []
-        for name, base_stats_dict in self.contents.get('Base_Stats', {}).items():
-            base_stats_wdl_dict = {"action": name}
-            for k,v in base_stats_dict.items():
-                base_stats_wdl_dict[k] = v
-            out.append(base_stats_dict)
- 
-        return out
-
-    def effects_list(self) -> list:
-        out = []
-        for name, effects_dict in self.contents.get('Effects', {}).items():
-            effects_wdl_dict = {"Effects": name}
-            for k,v in effects_dict.items():
-                effects_wdl_dict[k] = v
-            out.append(effects_wdl_dict)
- 
-        return out
-
-    def actions_list(self) -> list:
-        out = []
-        for name, action_dict in self.contents.get('actions', {}).items():
-            action_wdl_dict = {"action": name}
-            for k,v in action_dict.items():
-                if k in ACTION_ALIASES:
-                    action_wdl_dict[ACTION_ALIASES[k]] = v
-                else:
-                    action_wdl_dict[k] = v
-            out.append(action_wdl_dict)
- 
-        return out
