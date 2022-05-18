@@ -12,7 +12,7 @@ PLAYER_CLASS Knight
     short desc: "short desc"
     long desc: "long desc"
     attributes: noble, hot-headed
-    stats:
+    base-stats:
         health: 
             current: 20
             max: 100
@@ -24,7 +24,7 @@ PLAYER_CLASS Bishop
     short desc: "Bishop"
     long desc: "This is a bishop"
     attributes: noble, hot-headed
-    stats:
+    base-stats:
         health: 
             current: 20
             max: 100

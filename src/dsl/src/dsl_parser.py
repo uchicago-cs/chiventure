@@ -102,7 +102,7 @@ class TreeToDict(Transformer):
         # since the key is guaranteed to be the string "base_stats"
         d["base_stats"] = [v for k, v in s if k == "base_stats"]
         
-        return ('player_class', (class_id, d))
+        return ('PLAYER_CLASS', (class_id, d))
 
     # s contains several objects of the form ('type', <value>) and
     # we want to group all objects with type "attributes" and "base_stats" into their own list
