@@ -6,8 +6,9 @@ from __future__ import annotations
 # export_dict parses the dsl file and transforms it to an intermediate stage
 from dsl_parser import export_dict
 
-# parsed_dict_to_json transforms the inttermediate stage to the wdl json output
-from to_wdl import parsed_dict_to_json
+# parsed_dict_to_json transforms the intermediate stage to the wdl json output
+from to_wdl.dict_to_json import parsed_dict_to_json
+
 
 import sys
 from pathlib import Path
