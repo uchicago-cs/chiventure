@@ -2,16 +2,15 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
-#include "y.tab.h"
+//#include "y.tab.h"
 #include "parser-bison.tab.h"
 %}
 
 %%
 [A-Za-z0-9*&#-]  { return CHR; }
+"go"             { return W; }
 " "              { return SPC; }
 \n               { return EOL; }
-[ \t]            { /* ignore whitespace */ }
-.                { printf("Unknown character: %c\n", *yytext); }
 %%
 
 /* scans a null terminated string */

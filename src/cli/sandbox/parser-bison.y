@@ -1,3 +1,7 @@
+%union {
+    char c;
+}
+
 %{
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,16 +13,16 @@ void yyerror(char* s);
 %}
 
 /* tokens */
-%token CHR /* any character that isn't a space or a newline */
-%token SPC /* a space */
-%token EOL /* end of line, newline char */
+%token <c> CHR /* any character that isn't a space or a newline */
+%token <c> SPC /* a space */
+%token <c> EOL /* end of line, newline char */
+%token GO
 
 %%
 /* TODO */
 
-
-letter: CHR
-      | CHR EOL { $$ = 'a'; }
+: GO { printf("%s", $1); }
+      ;
 %%
 
 /* Declarations */
@@ -35,8 +39,7 @@ int parse_string(const char* in) {
 
 int main(int argc, char **argv)
 {
-    parse_string();
-
+    yyparse();   
     return 0;
 }
 
