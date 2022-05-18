@@ -6,23 +6,30 @@
 int load_wav(sound_t *sound)
 {
     //This initializes the all SDL2 assets
-    SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_VIDEO); 
+    SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_VIDEO);
 
     //Basic Audio Format, future teams may want to experiment with this
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2, 2048);
 
-    if (sound == NULL){ // error check, nothing passed into function
+    if (sound == NULL)  // error check, nothing passed into function
+    {
         fprintf(stderr, "no sound objects present\n");
         exit(1);
-    } else if (sound->type == BACKGROUND) {
+    }
+    else if (sound->type == BACKGROUND)
+    {
         Mix_Music *mus = Mix_LoadMUS(sound->name); // loads the music to be played
-        if (!mus){ // error check
+        if (!mus)  // error check
+        {
             printf("Background music is not loaded\n");
             return 1;
         }
-    } else if (sound->type == SOUND_EFFECT){ 
+    }
+    else if (sound->type == SOUND_EFFECT)
+    {
         Mix_Chunk *wav = Mix_LoadWAV(sound->name); // loads the sound effect to be played
-        if (!wav){ // error check
+        if (!wav)  // error check
+        {
             printf("Sound effect is not loaded\n");
             return 1;
         }
@@ -33,13 +40,18 @@ int load_wav(sound_t *sound)
 /* See sound.h for details */
 int sound_free(sound_t *sound)
 {
-    if (sound == NULL){ // error check, nothing passed into function
+    if (sound == NULL)  // error check, nothing passed into function
+    {
         fprintf(stderr, "no sound objects present\n");
         exit(1);
-    } else if (sound->type == BACKGROUND) {
+    }
+    else if (sound->type == BACKGROUND)
+    {
         Mix_FreeMusic(sound->name); // frees resources assocateed with the music
         return 1;
-    } else if (sound->type == SOUND_EFFECT) {
+    }
+    else if (sound->type == SOUND_EFFECT)
+    {
         Mix_FreeChunk(sound->name); // frees resources assocateed with the sound effect
         return 1;
     }
@@ -49,15 +61,19 @@ int sound_free(sound_t *sound)
 /* See sound.h for details */
 int play_sound(sound_t *sound, int delay)
 {
-    if (sound == NULL) { // error check, nothing passed into function
+    if (sound == NULL)   // error check, nothing passed into function
+    {
         fprintf(stderr, "no sound objects present\n");
         exit(1);
-    }else if (sound->type == BACKGROUND) {
+    }
+    else if (sound->type == BACKGROUND)
+    {
         SDL_Delay(delay); // do a delay if there is one
         Mix_PlayMusic(sound->name, -1); // play the music
         return 1;
-    } 
-    else if (sound->type == SOUND_EFFECT){
+    }
+    else if (sound->type == SOUND_EFFECT)
+    {
         SDL_Delay(delay); // do a delay if there is one
         Mix_PlayChannel(-1, sound->name, 0); // play the sound effect
         return 1;
