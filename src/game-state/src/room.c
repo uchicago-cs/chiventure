@@ -265,19 +265,19 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 
     for (int i = 0; i < num_rooms_to_add; i++)
     {
-        room_to_add = head->room;
-        head = head->next;
         if(npc_mov->mov_type == NPC_MOV_DEFINITE)
         {
-            rc = extend_path_definite(npc_mov, room_to_add->room_id);
+            rc = extend_path_definite(npc_mov, head->room->room_id);
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
             int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
             int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
             int time_in_room = (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
-            rc = extend_path_indefinite(npc_mov, room_to_add->room_id, time_in_room);
+            rc = extend_path_indefinite(npc_mov, head->room->room_id, time_in_room);
         }
+
+        head = head->next;
 
         if(rc == FAILURE)
         {
