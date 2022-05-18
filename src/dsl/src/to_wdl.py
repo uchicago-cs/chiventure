@@ -48,7 +48,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
     # }
 
     if "players" in intermediate:
-        players_dict = players2.pop("player_classes")
+        players_dict = intermediate.pop("player_classes")
         for curr in players_dict:
             for player, val in curr.items():
                 players.append(Player(player, val))
