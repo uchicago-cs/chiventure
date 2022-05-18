@@ -376,7 +376,7 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 }
 
 /* Refer to quests_state.h */
-int start_quest(quest_t *quest, player_t *player)
+int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash)
 {
     assert(quest != NULL);
     assert(player != NULL);
@@ -386,7 +386,7 @@ int start_quest(quest_t *quest, player_t *player)
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
     while(cur) {
-        add_task_to_player_hash(cur->task, &player->player_tasks);
+        add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
         if(is_task_completed(cur->task, player)) {
             accept_reward(complete_task(cur->task->id, player, quest), player);
             break;
@@ -562,11 +562,11 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest
     HASH_ADD_KEYPTR(hh, *hash_table, task->id,
                     strnlen(task->id, MAX_ID_LEN), player_task);
 
-    id_list_node *temp = task->prereq->task_list->head;
+    id_list_node_t *temp = task->prereq->task_list->head;
     while (temp != NULL) {
         task_t *new_task = get_task_from_hash(temp->id, quest_hash);
-        add_task_to_player_hash(new_task, *hash_table);
-        temp = temp->next
+        add_task_to_player_hash(new_task, *hash_table, quest_hash);
+        temp = temp->next;
     }
   
     return SUCCESS;
@@ -683,7 +683,7 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
         get_player_task_from_hash(tree->task->id, player->player_tasks)->completed = true;
         
         for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
-            add_task_to_player_hash(cur->task, &player->player_tasks);
+            add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
             if(is_task_completed(cur->task, player)) {
                 accept_reward(complete_task(cur->task->id, player, quest_hash), player);
                 break;

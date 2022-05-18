@@ -356,8 +356,12 @@ Test(quest, start_quest)
     prereq_t *prereq = prereq_new(hp, level);
 
 	quest_t *quest = quest_new("test", NULL, rewards, prereq);
+
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
     player_t *player = player_new("test player");
-    int check = start_quest(quest, player);
+    int check = start_quest(quest, player, hash);
 
     cr_assert_eq(check, SUCCESS, "start_quest() failed");
     int status = get_player_quest_status(quest, player);
@@ -380,7 +384,10 @@ Test(quest, fail_quest)
 	quest_t* quest = quest_new("test", NULL, rewards, prereq);
     player_t *player = player_new("test player");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+    
+    start_quest(quest, player, hash);
 
     int check = fail_quest(quest, player);
 
@@ -405,6 +412,9 @@ Test(quest, complete_task_mission)
 
     quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash); 
+
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
     char *npc_kill_id = "kill_npc";
@@ -424,13 +434,11 @@ Test(quest, complete_task_mission)
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 
     player_t *player = player_new("test player");
-    start_quest(quest, player);
+    start_quest(quest, player, hash);
 
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, false, "is_task_completed() returned true when it shouldn't have!");
 
-    quest_hash_t *hash = NULL;
-    add_quest_to_hash(quest, &hash);
     reward_t *new_reward = complete_task(task_to_complete->id, player, hash);
     if (new_reward == NULL)
         res = FAILURE;
@@ -453,6 +461,9 @@ Test(quest, complete_task_prereq)
 
     quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
     class_t* class = generate_test_class();
 
 
@@ -469,7 +480,7 @@ Test(quest, complete_task_prereq)
     stats_t *health_stat = stats_new(global, hp);
     player_add_stat(player, health_stat);
     player->level = level;
-    start_quest(quest, player);
+    start_quest(quest, player, hash);
 
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, true, "is_task_completed() failed!");
@@ -512,7 +523,10 @@ Test(quest,is_quest_completed)
 
     player_t *player = player_new("test player");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
     reward_t *the_reward = complete_task(task->id, player, quest);
     if (the_reward == NULL) {
         res = FAILURE;
@@ -545,7 +559,10 @@ Test(quest,get_player_quest_status)
 
     cr_assert_eq(check, 0, "get_player_quest_status() failed with not statred status");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
     check = get_player_quest_status(quest, player);
 
     cr_assert_eq(check,1,"get_player_quest_status() failed with started status");
@@ -570,7 +587,10 @@ Test(quest,complete_quest)
 
     cr_assert_eq(check, 0, "get_quest_status() failed with not statred status");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
     check = get_player_quest_status(quest, player);
 
     cr_assert_eq(check,1,"get_quest_status() failed with started status");
@@ -597,7 +617,10 @@ Test(quest,complete_quest2)
 	quest_t* quest = quest_new("test", NULL, rewards, prereq);
     player_t *player = player_new("test player");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
 
     reward_t *res = complete_quest(quest, player);
 

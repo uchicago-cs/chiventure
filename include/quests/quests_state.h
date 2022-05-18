@@ -261,12 +261,13 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id);
  * Parameter:
  * - quest: pointer to quest to be started
  * - player: pointer to player starting the quest
- * 
+ * - quest_hash: pointer to hash table of all quests
+ *
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int start_quest(quest_t *quest, player_t *player);
+int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash);
 
 /* Updates a quest's status to failed
  *
@@ -400,13 +401,14 @@ int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, i
 /* Adds a player task to the given hash table
  *
  * Parameters:
- *  tasj: pointer to task struct
+ *  task: pointer to task struct
  *  hash_table: pointer to player task hash table
+ *  quest_hash: pointer to hash table of all quests
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table);
+int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest_hash_t *quest_hash);
 
 /* Checks a quest's status.
  *
