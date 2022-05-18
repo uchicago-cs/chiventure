@@ -157,7 +157,7 @@ int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx){
 
 /*See reader.h*/
 int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* ctx){
-
+    
     switch(reader->location){
         case READ_PLAYER:
             if(NULL != ctx->game->curr_player->player_class->name && NULL != reader->value){
@@ -234,27 +234,67 @@ int check_stats(int value, stats_type_t type, comparison_t comp, stat_t* stats){
     return -1;
 }
 
+//Helper function to check if structs are allocated
+//Yes, we know that this is awful. Blame C for not letting us search through structs. 
+int check_battle_null(chiventure_ctx_t* ctx){
+    if(ctx != NULL){
+        if(ctx->game != NULL){
+            if(ctx->game->battle_ctx != NULL){
+                if(ctx->game->battle_ctx->game != NULL){
+                    if(ctx->game->battle_ctx->game->battle != NULL){
+                        if(ctx->game->battle_ctx->game->battle){
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 1;
+}
 
 /*See reader.h*/
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx){
+    fprintf(stderr, "INSIDE STAT READER\n");
+
+    //Check for presense of battle struct
+    if(check_battle_null(ctx) == 1){
+        return -1;
+    }
+
+    battle_t* battle = ctx->game->battle_ctx->game->battle;
+
     switch(reader->location){
         case READ_PLAYER:
-            if(NULL != ctx->game->battle_ctx->game->battle->player->stats){
-                return check_stats(reader->value, reader->stat_type, reader->comparison, 
-                        ctx->game->battle_ctx->game->battle->player->stats);
-            }
+            fprintf(stderr, "WITHIN READ_PLAYER\n");
+
+            if(battle->player != NULL){
+                if(battle->player->stats != NULL){
+                    return check_stats(reader->value, reader->stat_type, reader->comparison, 
+                            ctx->game->battle_ctx->game->battle->player->stats);
+                }
+            }     
+            break;
 
 
         case READ_SINGLE_TARGET:
-            if(NULL != ctx->game->battle_ctx->game->battle->enemy->stats){
-                return check_stats(reader->value, reader->stat_type, reader->comparison, 
-                    ctx->game->battle_ctx->game->battle->enemy->stats);
-            }
-
+            if(battle->enemy != NULL){
+                if(battle->enemy->stats != NULL){
+                    fprintf(stderr, "GOT HERE\n");
+                    return check_stats(reader->value, reader->stat_type, reader->comparison, 
+                            ctx->game->battle_ctx->game->battle->enemy->stats); 
+                } 
+            } 
+            break;
+        
         //Not aware of any stats for READ_WORLD at this time
         // case READ_WORLD:
 
-    }
+        default :
+            fprintf(stderr, "IN DEFAULT CASE\n");
+            return -1;
 
+    }
+    fprintf(stderr, "RETURNED -1\n");
     return -1;
 }
