@@ -435,6 +435,9 @@ Test(npc_mov, check_if_npc_mov_indefinite_needs_moved)
     rc = register_npc_room_time(npc_mov, room1->room_id, 1000);
     cr_assert_eq(rc, SUCCESS, "register_npc_room_time() failed");
 
+    rb = check_if_npc_mov_indefinite_needs_moved(npc_mov);
+    cr_assert_eq(rb, false, "check_if_npc_mov_indefinite_needs_moved() failed");
+
     sleep(1);
     rb = check_if_npc_mov_indefinite_needs_moved(npc_mov);
     cr_assert_eq(rb, true, "check_if_npc_mov_indefinite_needs_moved() failed");
