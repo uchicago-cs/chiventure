@@ -186,26 +186,121 @@ battle_item_t *get_random_default_consumable()
 }
 
 /* See battle_default_objects.h */
-/* !!We will update this when we made move implementation changes */
 move_t *get_random_default_move()
 {
     int rand = randnum(1,10);
-    char *name_array[] = {"slap", "jab", "kick", "headbutt", "grapple", 
-                          "upperrcut", "hammerfist", "bite", "thrash", "throw"};
+    char *name_array[] = {"SLAP", "JAB", "KICK", "HEADBUTT", "GRAPPLE", 
+                          "UPPERCUT", "HAMMERFIST", "BITE", "THRASH", "THROW"};
 
     battle_item_t *item = get_random_default_consumable();
     int id = rand;
     int info_len = strlen(name_array[rand - 1]);
     char* info = (char*)calloc(info_len + 1, sizeof(char));
     strncpy(info, name_array[rand - 1], info_len + 1);
-    bool attack = true;
     int damage = rand * 5 + 40;
-    int defense = rand * 10 + 5;
 
-    move_t *rv_move = move_new(info, id, item, attack, damage, defense);
+    move_t *rv_move = move_new(id, "", info, PHYS, NO_TARGET, NO_TARGET, SINGLE,
+                               0, NULL, damage, 100, NULL, NULL, NULL, NULL);
     
     assert(rv_move != NULL);
     return rv_move;
+/* PROSPECTIVE CHANGES
+    //Array of possible moves and descriptions.
+    int rand = randnum(1,10) - 1;
+    char *name_array[] = {"punch", "kick", "jab", "headbutt", "grapple", 
+                          "fireball", "water gun", "shocking grasp", "freeze", "drain"};
+    char *desc_array[] = {"A standard punch. Kapow!", "A standard kick.", 
+                          "A jab aimed at a vital area.", "A standard headbutt.", 
+                          "The opponent is temporarily grappled, reducing their speed.",
+                          "A fireball hot enough to cook a steak. And the opponent, too.",
+                          "The opponent is hit by a blast of water.", 
+                          "The opponent is grabbed and shocked with electricity.",
+                          "The opponent is frozen, reducing their speed.",
+                          "The opponent's HP is drained and added to the user's."};
+    
+    // Sets the id, name, and description.
+    int id = rand;
+    char name[20], desc[75];
+    strcpy(name, name_array[rand]);
+    strcpy(desc, desc_array[rand]);
+
+    //Sets the damage type.
+    damage_type_t dmg_type;
+    if (rand < 5)
+    {
+        dmg_type = PHYS; 
+    } 
+    else 
+    {
+        dmg_type = MAG;
+    }
+
+    //Sets the appropriate targets for stat mods and effects.
+    target_type_t stat_mods, effects;
+    if (rand == 4 || rand == 8)
+    {
+        stat_mods = TARGET;
+    } 
+    else if (rand == 9)
+    {
+        stat_mods == BOTH;
+    }
+    else
+    {
+        stat_mods = NO_TARGET;
+    }
+    effects == NO_TARGET;
+    
+    //Sets the amount of targets.
+    target_count_t count = SINGLE;
+
+    //Sets the sp cost.
+    int sp_cost;
+    if (rand < 5)
+    {
+        sp_cost = 0;
+    }
+    else
+    {
+        sp_cost = 10;
+    }
+
+    //Sets the required item.
+    battle_item_t* req_item = NULL;
+
+    //Sets the damage and accuracy.
+    int damage = randnum(50, 100), accuracy = randnum(85, 100);
+
+    //Sets the stat changes.
+    stat_changes_t *user_mod, *opp_mod;
+    if (!(rand == 4) && rand < 8)
+    {
+        user_mod == NULL;
+        opp_mod == NULL;
+    }
+    else if (rand == 4 || rand == 8)
+    {
+        user_mod == NULL;
+        opp_mod = stat_changes_new();
+        stat_changes_init(opp_mod);
+        opp_mod->speed = -10;
+    }
+    else if (rand == 9)
+    {
+        user_mod = stat_changes_new();
+        stat_changes_init(user_mod);
+        user_mod->hp = 15;
+        opp_mod = stat_changes_new();
+        stat_changes_init(opp_mod);
+        opp_mod->hp = -15;
+    }
+
+    move_t *rv_move = move_new(id, name, desc, dmg_type, stat_mods, effects, 
+                               count, sp_cost, req_item, damage, accuracy, 
+                               user_mod, opp_mod, NULL, NULL);
+    
+    assert(rv_move != NULL);
+    return rv_move; */
 }
 
 /* See battle_default_objects.h */
