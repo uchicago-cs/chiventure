@@ -42,14 +42,16 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[]) -> str:
                 room_items_objs.append(item_obj)
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents))
-    
-    if "players" in intermediate:
-        players_dict = intermediate.pop("players")
-        for player in players_dict:
-            for attr, val in player.items():
-                player_values = {"attributes": val["attributes"], "stats": val["stats"]}
+    # players2 = {"player_classes": 
+    # [{"Knight": {"attributes": ["noble", "hot-headed"], "stats": {"health": {"current": 20, "max": 100}, "mana": {"current":20, "max":100}}}},
+    # {"Bishop": {"attributes": ["noble", "hot-headed"], "stats": {"health": {"current": 20, "max": 100}, "mana": {"current":20, "max":100}}}}]
+    # }
 
-                players.append(Player(player_values))
+    if "players" in intermediate:
+        players_dict = players2.pop("player_classes")
+        for curr in players_dict:
+            for player, val in curr.items():
+                players.append(Player(player, val))
     
     game = Game(intermediate)
     
@@ -285,8 +287,9 @@ class Game:
             warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 
 class Player:
-    def __init__(self, contents: dict):
+    def __init__(self, name: str, contents: dict):
         self.contents = contents
+        self.name = name
 
         self.wdl_contents = {}
 
@@ -308,7 +311,7 @@ class Player:
             elif k == "stats":
                 self.wdl_contents["stats"] = self.contents["stats"]
         self.generate_defaults()
-        return {'PLAYER': self.wdl_contents}
+        return {f"{self.name}": self.wdl_contents}
 
     def generate_defaults(self):
         """
@@ -319,11 +322,11 @@ class Player:
         # generate default for long description
         if 'long_desc' not in self.wdl_contents:
             short_desc = self.wdl_contents.get('short_desc', '')
-            default = f"This is a {self.id}. {short_desc}"
+            default = f"This is a {self.name}. {short_desc}"
             self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
+            warn(f'''missing: long description for {self.name}, generated default: {self.wdl_contents['long_desc']}''')
                 
         # generate default for short description
         if 'short_desc' not in self.wdl_contents:
-            self.wdl_contents['short_desc'] = f"{self.id}"
-            warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
+            self.wdl_contents['short_desc'] = f"{self.name}"
+            warn(f'''missing: short description for {self.name}, generated default: {self.wdl_contents['short_desc']}''')
