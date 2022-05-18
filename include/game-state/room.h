@@ -281,7 +281,7 @@ int delete_all_rooms(room_hash_t **rooms);
  *
  * Parameters:
  *  - npc_mov: npc_mov_t struct with a known npc_mov_type
- *  - game: current game, this is necessary for determining the current rooms in the map
+ *  - all_rooms: Pointer to a list of all of a game's rooms
  *
  * Returns:
  *  - returns SUCCESS on success, returns FAILURE on failure
@@ -294,11 +294,24 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms);
  *
  * Parameters:
  *  - npc_t: Pointer to NPC
+ *  - all_rooms: Pointer to a game's room hash table
  *
- *  Returns:
- *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
+ * Returns:
+ *  - SUCCESS on success, FAILURE if error or NPC cannot be moved
  */
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms);
+
+/* Checks if an indefinite npc has been in its current room longer than it is
+ * supposed to, and moves it if so.
+ *
+ * Parameters:
+ *  - npcs: Pointer to NPC hash table
+ *  - all_rooms: Pointer to a game's room hash table
+ *
+ * Returns:
+ *  - nothing
+ */
+void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms);
 
 /*
  * Deletes all items from npc inventory and adds them to the room struct.

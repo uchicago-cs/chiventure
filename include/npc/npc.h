@@ -137,6 +137,19 @@ bool check_npc_battle(npc_t *npc);
  */
 bool item_in_npc_inventory(npc_t *npc, char *item_id);
 
+/* Checks if an indefinite npc needs moved based on how long it's been in its
+ * current room
+ *
+ * Parameters:
+ *  - npc: The NPC struct
+ * 
+ * Returns:
+ *  - true if the npc does need moved
+ *  - false if the npc does not need moved,
+ *      or the npc has a definite movement path
+ */
+bool check_if_npc_indefinite_needs_moved(npc_t *npc);
+
 // "GET" FUNCTIONS ------------------------------------------------------------
 
 /* 
@@ -292,20 +305,6 @@ int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
  */
 int change_npc_health(npc_t *npc, int change, int max);
 
-// HASH TABLE FUNCTIONS ---------------------------------------------------
-
-/*
- * Deletes and frees the elements of a hashtable of NPCs.
- * Implemented with macros provided by uthash.h
- * 
- * Parameters:
- *  npcs: a hashtable of npcs to be deleted
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if an error occurred.
- */
-int delete_all_npcs(npc_hash_t *npcs);
-
 /*
  * Moves an npc to the next room
  *
@@ -321,8 +320,18 @@ int delete_all_npcs(npc_hash_t *npcs);
  */
 int move_npc(npc_t *npc);
 
-bool check_if_npc_indefinite_needs_moved(npc_t *npc);
+// HASH TABLE FUNCTIONS ---------------------------------------------------
 
-void move_indefinite_npcs_if_needed(npc_hash_t *npcs);
+/*
+ * Deletes and frees the elements of a hashtable of NPCs.
+ * Implemented with macros provided by uthash.h
+ * 
+ * Parameters:
+ *  npcs: a hashtable of npcs to be deleted
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int delete_all_npcs(npc_hash_t *npcs);
 
 #endif

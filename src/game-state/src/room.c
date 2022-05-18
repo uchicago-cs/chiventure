@@ -265,8 +265,6 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 
     for (int i = 0; i < num_rooms_to_add; i++)
     {
-        room_t *room_to_add = malloc(sizeof(room_t));
-
         room_to_add = head->room;
         head = head->next;
         if(npc_mov->mov_type == NPC_MOV_DEFINITE)
@@ -307,16 +305,9 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
                         npcs_in_room_t *new_npc_room)
 {
-    assert(npc->movement->mov_type == NPC_MOV_INDEFINITE ||
-           npc->movement->mov_type == NPC_MOV_DEFINITE );
-
-    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
-        move_npc_indefinite(npc->movement);
-    else
-        move_npc_definite(npc->movement);
-
-    add_npc_to_room(new_npc_room,npc);
-    delete_npc_from_room(old_npc_room,npc);
+    assert(move_npc(npc) != 0);
+    add_npc_to_room(new_npc_room, npc);
+    delete_npc_from_room(old_npc_room, npc);
 
     return SUCCESS;
 }
@@ -324,7 +315,6 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
 /* See room.h */
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
-
     if(npc->movement == NULL)
     {
         return FAILURE;
@@ -352,6 +342,19 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 
     // this call does all of the moving
     return npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
+}
+
+/* See room.h */
+void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        if (check_if_npc_indefinite_needs_moved(current_npc))
+        {
+            assert(npc_one_move(current_npc, all_rooms) != FAILURE);
+        }
+    }
 }
 
 /* See room.h  */

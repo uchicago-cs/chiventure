@@ -725,7 +725,7 @@ void time_dependent_functions(game_t *game)
 {
     while (game != NULL)
     {
-        move_indefinite_npcs_if_needed(game->all_npcs);
+        move_indefinite_npcs_if_needed(game->all_npcs, game->all_rooms);
         sleep(1);
     }
 }

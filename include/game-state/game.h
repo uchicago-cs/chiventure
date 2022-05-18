@@ -485,6 +485,14 @@ char *start_conversation(convo_t *c, int *rc, game_t *game);
  */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 
+/* Runs all time-dependent functions every second
+*
+* Parameters:
+*   - game: Pointer to the game being run
+*
+* Returns
+*   - nothing
+*/
 void time_dependent_functions(game_t *game);
 
 #endif
