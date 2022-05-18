@@ -111,7 +111,7 @@ char **remove_fillers(char **parsed_input){
     {
         if(parsed_input[i] == NULL){ break; }
         // determine if this word is a filler
-        if(strcmp("to", parsed_input[i]) == 0){
+        if(strcmp("to", parsed_input[i]) == 0 || strcmp("the", parsed_input[i]) == 0){
             //if so, remove it and push every word to the left in the 
             // array
             for (int j = i; j < 4 - i; j++)
