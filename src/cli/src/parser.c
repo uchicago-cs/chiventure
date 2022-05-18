@@ -6,6 +6,14 @@
 #include "common/utlist.h"
 #include "cli/util.h"
 
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#include "cli/parser.h"
+#include "common/utlist.h"
+#include "cli/util.h"
+
 /*
  * - input: 
  *   s: a string from the command line, 
@@ -93,41 +101,6 @@ tokenized_cmds *parse_r(char *input)
     }
     return head;
 }
-
-/*removes filler words from input: currently "to", "the", and "into"*/
-char **remove_fillers(char **parsed_input){
-    //first, count the NULL chars
-    // this is important, as you want
-    // to avoid using strcmp with NULL as an input
-    int null_count = 0;
-    for (size_t i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        if (parsed_input[i] == NULL)
-        {
-            null_count++;
-        }
-    }
-    
-    //loooping through the four words in the parsed input
-    for (int i = 0; i < TOKEN_LIST_SIZE - null_count; i++)
-    {
-        if(parsed_input[i] == NULL){ break; }
-        // determine if this word is a filler
-        if(strcmp("to", parsed_input[i]) == 0 || strcmp("the", parsed_input[i]) == 0
-            || strcmp("into", parsed_input[i]) == 0){
-            //if so, remove it and push every word to the left in the 
-            // array
-            for (int j = i; j < TOKEN_LIST_SIZE - i; j++)
-            {
-                parsed_input[j] = parsed_input[j + 1];
-            }
-            parsed_input[TOKEN_LIST_SIZE - 1] = NULL;
-            i = i - 1;
-        }
-    }
-    return parsed_input;
-}
-
 /* See parser.h */
 char **parse(char *input)
 {
@@ -162,9 +135,5 @@ char **parse(char *input)
         return NULL;
     }
 
-    //     before returning the tokens, we must run through them
-    // and remove all "fillers", such as prepositions
-    // like "the" and "to"
-    remove_fillers(words);
     return words;
 }
