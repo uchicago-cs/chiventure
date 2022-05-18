@@ -59,7 +59,8 @@ int main()
     int player_response;
 
 
-    while (rc != 1) {
+    while (rc != 1) 
+    {
         if (rc < 0) printf("%s", start_conversation(c, &rc, NULL));
         else printf("%s", run_conversation_step(c, player_response, &rc, NULL));
 

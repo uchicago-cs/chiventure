@@ -59,7 +59,8 @@ int npc_battle_free(npc_battle_t *npc_battle)
     class_free(npc_battle->class_type);
 
     battle_item_t *curr = npc_battle->items;
-    while(curr) {
+    while(curr)
+    {
         battle_item_t *next = curr->next;
         free(curr);
         curr = next;
