@@ -55,10 +55,10 @@ Test(game, look)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     char *cmd_str = strdup("LOOK");
-    cmd **cmd = cmd_from_string(cmd_str, ctx);
+    cmd *cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
-    do_cmd(cmd[0], test_callback, "Verily, this is the first room.", ctx);
+    do_cmd(cmd, test_callback, "Verily, this is the first room.", ctx);
 
     free(cmd_str);
     game_free(ctx->game);
@@ -82,10 +82,10 @@ Test(game, go)
     cr_assert_eq(ctx->game->curr_room, room1);
 
     char *cmd_str = strdup("GO NORTH");
-    cmd **cmd = cmd_from_string(cmd_str, ctx);
+    cmd *cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
-    do_cmd(cmd[0], NULL, NULL, ctx);
+    do_cmd(cmd, NULL, NULL, ctx);
 
     /* Check that current room has changed */
     cr_assert_eq(ctx->game->curr_room, room2,

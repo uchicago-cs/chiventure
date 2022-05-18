@@ -202,7 +202,7 @@ void cmd_show(cmd *c, chiventure_ctx_t *ctx);
  * Returns:
  * - pointer to command struct, NULL if parse fails
  */
-cmd **cmd_from_string(char *s, chiventure_ctx_t *ctx);
+cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx);
 
 
 /*

@@ -47,7 +47,7 @@ tokenized_cmds *parse_r(char *input);
  *   words than this fixed size, the rest of the list will be null.
  *
  */
-char **remove_fillers(char **parsed_input);
+//char **remove_fillers(char **parsed_input);
 
 /*
  * Parses a string into a list of words, breaking on spaces
