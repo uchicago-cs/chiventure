@@ -1,10 +1,10 @@
 #ifndef INVENTORY_GRAPHICS_H
 #define INVENTORY_GRAPHICS_H
 
+
 /*
- * This module defines an inventory struct and the
- * necessary functions for manipulating an inventory 
- * pop-up window
+ * This module defines an inventory struct and the necessary 
+ * functions for manipulating an inventory pop-up window
  */
 
 
