@@ -14,7 +14,7 @@ CLASS KNIGHT
     attributes: “noble” set TRUE
                 “hot-headed” set TRUE
     base_stats: “health” CURRENT 20 MAX 100
-                “mana” CURRENT 20 MAX 100
+                “mana” CURRENT 20 MAX 100       
 # effects: 
 # skill_tree: 
 # starting_skill: 

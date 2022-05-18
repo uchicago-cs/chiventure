@@ -73,6 +73,76 @@ class TreeToDict(Transformer):
         d["items"] = [v for k, v in s if k == "ITEM"]
         
         return ('ROOM', (room_id, d))
+    
+    # s contains several objects of the form ('type', <value>) and
+    # we want to group all objects with type "attributes" and "base_stats" into their own list
+    def player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        """
+        S contains several objects of the form ('type', <value>), where
+        value is dependent upon the type. This function creates a dictionary
+        based on the key or type, and also places all items into their own list
+        for convenience.
+        """
+        
+        # gets the player class id.
+        class_id = s.pop(0)[1]
+
+        # first place all non-item objects into a dict
+        # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+        # action and action attributes, etc.
+        d = dict((k, v) for k, v in s if k != "attributes" and k != "base_stats")
+
+        # create a list of attributes and place it in its own entry of the dict
+        # the values placed into this entry will correspond to item attributes
+        # since the key is guaranteed to be the string "attributes"
+        d["attributes"] = [v for k, v in s if k == "attributes"]
+
+        # create a list of base_stats and place it in its own entry of the dict
+        # the values placed into this entry will correspond to item attributes
+        # since the key is guaranteed to be the string "base_stats"
+        d["base_stats"] = [v for k, v in s if k == "base_stats"]
+        
+        return ('player_class', (class_id, d))
+
+    # s contains several objects of the form ('type', <value>) and
+    # we want to group all objects with type "attributes" and "base_stats" into their own list
+    def npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        """
+        S contains several objects of the form ('type', <value>), where
+        value is dependent upon the type. This function creates a dictionary
+        based on the key or type, and also places all items into their own list
+        for convenience.
+        """
+        
+        # gets the player class id.
+        name = s.pop(0)[1]
+
+        # first place all non-item objects into a dict
+        # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+        # action and action attributes, etc.
+        d = dict((k, v) for k, v in s if k != "inventory")
+
+        # create a list of attributes and place it in its own entry of the dict
+        # the values placed into this entry will correspond to item attributes
+        # since the key is guaranteed to be the string "attributes"
+        d["inventory"] = [v for k, v in s if k == "inventory"]
+        
+        return ('NPCS', (name, d))
+
+    def inventory(self, s:list[tuple[str, str]]) -> tuple[str, dict]:
+        """Takes a list of key-value pairs which belong to an attributes and places them
+        into a dictionary which is labeled "attributes" """
+        return ('inventory', dict(s))
+
+    def attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        """Takes a list of key-value pairs which belong to an attributes and places them
+        into a dictionary which is labeled "attributes" """
+        return ('attributes', dict(s))
+
+    def base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        """Takes a list of key-value pairs which belong to an base_stats and places them
+        into a dictionary which is labeled "base_stats" """
+        return ('base_stats', dict(s))
 
     def connections(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
         """Takes a list of room-direction string pairs and outputs a dictionary
@@ -83,11 +153,6 @@ class TreeToDict(Transformer):
         """Takes a list of key-value pairs which belong to an item and places them
         into a dictionary which is labeled "ITEM" """
         return ('ITEM', dict(s))
-
-    def Class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
-        """Takes a list of key-value pairs which belong to a class and places them
-        into a dictionary which is labeled "CLASS" """
-        return ('CLASS', dict(s))
 
     def action(self, s: list) -> tuple[str, tuple[str, dict]]:
         """S contains a list of key-value pairs. The first element will be a list of action ids, while the

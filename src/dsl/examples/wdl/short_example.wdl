@@ -40,5 +40,25 @@
       "in": "room B",
       "long_desc": "This is a Door. A large wooden door"
     }
+  },
+  "PLAYERS": {
+    "PLAYER": {
+      "attributes": [
+        "noble",
+        "hot-headed"
+      ],
+      "stats": {
+        "health": {
+          "current": 20,
+          "max": 100
+        },
+        "mana": {
+          "current": 20,
+          "max": 100
+        }
+      },
+      "long_desc": "This is a Knight. ",
+      "short_desc": "Knight"
+    }
   }
 }
