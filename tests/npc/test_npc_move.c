@@ -81,7 +81,7 @@ Test(npc_mov, register_npc_room_time)
     cr_assert_eq(check2->time, time,
                  "register_npc_room_time() did not set time");
     cr_assert_not_null(check2->start,
-                       "register_npc_room_time() did not initialize start time")
+                       "register_npc_room_time() did not initialize start time");
 }
 
 
