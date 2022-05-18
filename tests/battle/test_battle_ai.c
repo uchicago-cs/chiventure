@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_ai.h"
-
+#include "battle/battle_moves.h"
 
 class_t *create_test_class()
 {
@@ -11,8 +11,8 @@ class_t *create_test_class()
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
 }
-
-/* Creates + initializes a move*/
+/*
+* Creates + initializes a move*
 move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
  {
      move_t* move = (move_t*) calloc(1, sizeof(move_t));
@@ -27,8 +27,9 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 
      return move;
  }
+*/
 
-/* Creates + initializes a battle_item*/
+/* Creates + initializes a battle_item */
  battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
             bool battle, int attack, int defense, int hp)
  {
@@ -149,9 +150,12 @@ move_t* create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
-    poke = create_move(2, NULL, true, 40, 0);
-    rock_throw = create_move(3, NULL, true, 90, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
@@ -163,9 +167,12 @@ move_t* create_battle_player_moves()
 {
     move_t *head, *fire_blast, *punch, *blaze_kick;
     head = NULL;
-    fire_blast = create_move(4, NULL, true, 100, 0);
-    punch = create_move(5, NULL, true, 20, 0);
-    blaze_kick = create_move(6, NULL, true, 60, 0);
+    fire_blast = move_new(4, "fire blast", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    punch = move_new(5, "punch", "", PHYS, NO_TARGET, NO_TARGET,
+                     SINGLE, 0, NULL, 20, 100, NULL, NULL, NULL, NULL);
+    blaze_kick = move_new(6, "blaze kick", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 60, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, fire_blast);
     DL_APPEND(head, punch);
     DL_APPEND(head, blaze_kick);
@@ -175,7 +182,8 @@ move_t* create_battle_player_moves()
 /* Creates the expected return value for when the AI should return the greediest move*/
 move_t* expected_move_greedy()
 {
-    move_t* earthquake = create_move(1, NULL, true, 100, 0);
+    move_t* earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+                                  SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     return earthquake;
 }
 
@@ -184,7 +192,9 @@ move_t* expected_move_random()
 {
     srand(1);
     int randomish = rand() % 3;
-    move_t* rock_throw = create_move(randomish, NULL, true, 90, 0);
+    move_t* rock_throw = move_new(randomish, "", "", PHYS, NO_TARGET, 
+                                  NO_TARGET, SINGLE, 0, NULL, 90, 100, 
+                                  NULL, NULL, NULL, NULL);
     return rock_throw;
 }
 

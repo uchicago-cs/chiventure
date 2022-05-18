@@ -10,16 +10,7 @@
 #include "npc/npc_move.h"
 #include "cli/util.h"
 
-/* Forward declaration. Full typedef can be found in npc.h */
-typedef struct npc_battle npc_battle_t;
-typedef enum hostility hostility_t;
-
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
-
-/* Forward declaration */
-typedef struct npc_mov npc_mov_t;
-typedef struct convo convo_t;
-
 
 /* A non-playable character in game */
 typedef struct npc {

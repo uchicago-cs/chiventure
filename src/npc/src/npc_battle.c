@@ -1,4 +1,6 @@
+#include "npc/npc.h"
 #include "npc/npc_battle.h"
+
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 

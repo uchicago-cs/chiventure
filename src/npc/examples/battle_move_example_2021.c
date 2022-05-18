@@ -18,11 +18,11 @@
  *            looting functionalities can be used in battles in the future.
  *
  *  - NPC:    This is a CLI operation that prints out all the NPCs in the
- *            current room to the CLI. It utilizes the backend of rooms-npc
+ *            current room to the CLI. It utilizes the backend of rooms_npc
  *            module while printing to chiventure's CLI. Specifically, it uses
  *            a field in the room_t struct called npcs, which contains a list
  *            of NPCs in the current room and the total number of them. For
- *            deatils about this field, see rooms-npc.h.
+ *            deatils about this field, see rooms_npc.h.
  *
  *  - ARENA:  This is a CLI operation that moves the player from the lobby to
  *            the arena room. Since the main focus of this example is not player
@@ -92,36 +92,19 @@ class_t *generate_sample_class()
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats()
 {
-	stat_t *test_stats = calloc(1, sizeof(stat_t));
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
 
-	test_stats->speed = 50;
-	test_stats->phys_def = 20;
-	test_stats->phys_atk = 150;
-	test_stats->accuracy = 100;
-  test_stats->crit = 0;
-	test_stats->hp = 200;
-	test_stats->max_hp = 200;
-	test_stats->xp = 0;
-	test_stats->level = 5;
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->accuracy = 100;
+    test_stats->crit = 0;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
 
-	return test_stats;
-}
-
-/* Creates + initializes a move. Taken from test_battle_ai.c */
-move_t *create_move(int id, battle_item_t* item, bool attack, int damage,
-                    int defense)
-{
-    move_t *move = (move_t*) calloc(1, sizeof(move_t));
-
-    move->id = id;
-
-    move->item = item;
-
-    move->attack = attack;
-    move->damage = damage;
-    move->defense = defense;
-
-    return move;
+    return test_stats;
 }
 
 /* Creates example moves. Taken from test_battle_ai.c */
@@ -129,9 +112,12 @@ move_t *create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
-    poke = create_move(2, NULL, true, 40, 0);
-    rock_throw = create_move(3, NULL, true, 90, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
@@ -318,13 +304,14 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement1, arena);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
                              "Friendly Fiona won't fight you unless you attack "
                              "her first, and she'll surrender quickly", class1,
                              movement1, true);
+
     /* Add battle info to friendly npc */
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
@@ -339,8 +326,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement2, arena);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    extend_path_definite(movement2, arena->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
                             "Harry.", "Hostile Harry will attack you"
