@@ -25,11 +25,14 @@ location: phrase
 
 phrase: STRING+
 
-class: _NL "CLASS" id property* attribute* base_stats*
+player_class: _NL "PLAYER_CLASS" id (property | attribute | base_stats)*
 
-attribute: _NL phrase "SET" ("TRUE"|"FALSE")
+attribute: _NL "attributes:" attribute_ids
+attribute_ids: id ("," id)*
 
-base_stats: _NL phrase "CURRENT" NUMBER "MAX" NUMBER
+base_stats: _NL "stats:" stat_class*
+stat_class: _NL phrase ":" stat_setting*
+stat_setting: _NL "current:" NUMBER _NL "max:" NUMBER 
 
 // NEWLINE(s), whitespace, and comments
 _NL: ( /(\r?\n[\t ]*)/ | COMMENT) +
