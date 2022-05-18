@@ -427,7 +427,7 @@ bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov)
     npc_room_time_t *tmp;
     HASH_FIND(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
                 npc_mov->track, strlen(npc_mov->track), tmp);
-    if (seconds_past_toom_time(tmp->start, tmp->time) >= 0)
+    if (seconds_past_room_time(tmp->start, tmp->time) >= 0)
     {
         return true;
     }
