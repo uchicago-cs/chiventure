@@ -111,11 +111,11 @@ int complex_skill_level_up(complex_skill_t* complex_skill){
     assert(complex_skill != NULL);
     
     int x;
-        for (int i = 0; i < complex_skill->num_skills; i++){
+    for (int i = 0; i < complex_skill->num_skills; i++){
         x = skill_level_up(complex_skill->skills[i]);
-            if(x == FAILURE){
-                return FAILURE;
-            }
+        if (x == FAILURE){
+            return FAILURE;
+        }
     }
     return SUCCESS;
 }
