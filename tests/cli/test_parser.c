@@ -237,8 +237,7 @@ Test(parse_r, three_words_quote)
     char str[] = "LOOK TO \"EAST\"";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"look", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"to", "parse() did not create second token");
-    cr_assert_str_eq(words[2],"east", "parse() did not create third token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
 }
 
 /*
