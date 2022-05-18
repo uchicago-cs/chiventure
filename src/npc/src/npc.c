@@ -260,3 +260,33 @@ int delete_all_npcs(npc_hash_t *npcs)
     return SUCCESS;
 }
 
+/* See npc.h */
+int move_npc(npc_t *npc)
+{
+    return move_npc_mov(npc->movement);
+}
+
+/* See npc.h */
+bool check_if_npc_indefinite_needs_moved(npc_t *npc)
+{
+    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
+    {
+        return check_if_npc_mov_indefinite_needs_moved(npc->movement);
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void move_indefinite_npcs_if_needed(npc_hash_t *npcs)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        if (check_if_npc_indefinite_needs_moved(current_npc))
+        {
+            assert(move_npc(current_npc) != 0);
+        }
+    }
+}

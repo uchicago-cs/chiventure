@@ -491,4 +491,6 @@ void update_time(game_t *game);
 
 double total_elapsed_time(game_t *game);
 
+void time_dependent_functions(game_t *game);
+
 #endif

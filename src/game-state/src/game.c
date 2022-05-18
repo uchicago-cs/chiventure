@@ -752,3 +752,13 @@ double total_elapsed_time(game_t *game)
 {
     return time_since_first_start(game->time_dll);
 }
+
+/* See game.h */
+void time_dependent_functions(game_t *game)
+{
+    while (game != NULL)
+    {
+        move_indefinite_npcs_if_needed(game->all_npcs);
+        sleep(1);
+    }
+}

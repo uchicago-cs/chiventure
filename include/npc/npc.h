@@ -306,4 +306,23 @@ int change_npc_health(npc_t *npc, int change, int max);
  */
 int delete_all_npcs(npc_hash_t *npcs);
 
+/*
+ * Moves an npc to the next room
+ *
+ * Parameters:
+ * npc: The NPC struct
+ *
+ * Returns:
+ * 0 if move is unsuccessful
+ * 1 npc has reached the end of the path, reverse_path is called, but
+ *   the move is not implemented
+ * 2 successful move to the next room
+ * 3 npc has nowhere to move
+ */
+int move_npc(npc_t *npc);
+
+bool check_if_npc_indefinite_needs_moved(npc_t *npc);
+
+void move_indefinite_npcs_if_needed(npc_hash_t *npcs);
+
 #endif

@@ -97,6 +97,8 @@ int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int time)
     memset(new_npc_room_time, 0, sizeof(npc_room_time_t));
     new_npc_room_time->room_id = malloc(MAX_ID_LEN);
     strcpy(new_npc_room_time->room_id, room_id);
+    time_t start;
+    new_npc_room_time->start = time(&start);
     new_npc_room_time->time = time;
 
     HASH_REPLACE(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
@@ -397,4 +399,40 @@ int delete_room_id_dll(room_id_dll_t *head)
         free(elt);
     }
     return SUCCESS;
+}
+
+/* See npc_move.h */
+double get_npc_indefinite_room_time(npc_mov_t *npc_mov)
+{
+    assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
+    npc_room_time_t *tmp;
+    HASH_FIND(hh, npc_mov->npc_mov_type->npc_mov_indefinite->room_time,
+                npc_mov->track, strlen(npc_mov->track), tmp);
+    return (double) tmp->time;
+}
+
+/* Helper Function for check_if_npc_mov_indefinite_needs_moved()
+*/
+double seconds_past_room_time(time_t start, int room_time)
+{
+    double rt = (double) room_time;
+    time_t curr;
+    return (difftime(time(&curr), start) - (rt/1000));
+}
+
+/* See npc_move.h */
+bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov)
+{
+    assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
+    npc_room_time_t *tmp;
+    HASH_FIND(hh, npc_mov->npc_mov_type->npc_mov_indefinite->room_time,
+                npc_mov->track, strlen(npc_mov->track), tmp);
+    if (seconds_past_toom_time(tmp->start, tmp->time) >= 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

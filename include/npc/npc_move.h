@@ -29,6 +29,7 @@ typedef struct room_id_dll {
 typedef struct npc_room_time {
     UT_hash_handle hh;
     char *room_id;
+    time_t start;
     int time;
 } npc_room_time_t;
 
@@ -336,5 +337,9 @@ int move_npc_mov(npc_mov_t *npc_mov);
  *  SUCCESS on success, FAILURE if an error occurs.
  */
 int delete_room_id_dll(room_id_dll_t *head);
+
+double get_npc_indefinite_room_time(npc_mov_t *npc_mov);
+
+bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov);
 
 #endif
