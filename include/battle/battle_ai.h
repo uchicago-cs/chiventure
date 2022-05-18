@@ -9,7 +9,7 @@
 #include "battle/battle_structs.h"
 #include "battle/battle_moves.h"
 #include "common/utlist.h"
-
+#include "battle/battle_default_objects.h"
 /* Given a difficulty level, the player the move is going to be used 
  *      against, and the enemy, give_move returns a move
  * Inputs:
@@ -45,6 +45,6 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy);
  *      move - the move being played
  * Outputs:
  *      damage - the damage dealt     */
-double damage(combatant_t* target, move_t* move, combatant_t* source);
+int damage(combatant_t* target, move_t* move, combatant_t* source);
 
 #endif

@@ -1,6 +1,6 @@
 add_library(npc
             src/npc.c
-            src/rooms-npc.c
+            src/rooms_npc.c
             src/dialogue.c
             src/npc_move.c
 	    src/npc_battle.c)

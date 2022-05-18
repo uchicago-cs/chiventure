@@ -94,7 +94,7 @@ class Room:
                 self.wdl_contents[k] = v
 
         if self.default == "no-defaults":
-            warn(f'''warning: no default values generated for {id}, wdl file may not run''')
+            warn(f'''warning: no default values generated for {self.id}, wdl file may not run''')
         self.generate_defaults()
         return {self.id: self.wdl_contents}
         
@@ -198,11 +198,11 @@ class Item:
             neccesary information (like short and long description) that is not 
             included with its default values.
         """
-        if self.default =="no-defaults":
+        if self.default == "no-defaults":
            warn(f'''warning: no default values generated for item, wdl file may not run''')
            return
         
-        if self.default == "some_defaults" or "":
+        else: #generate required defaults (for some-defaults flag) and maybe generate all defaults
             # generate default for long description
             if 'long_desc' not in self.wdl_contents:
                 short_desc = self.wdl_contents.get('short_desc', '')
@@ -214,16 +214,17 @@ class Item:
             if 'short_desc' not in self.wdl_contents:
                 self.wdl_contents['short_desc'] = f"{self.id}"
                 warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
-        
-        if self.default =="":
+
+            if self.default == "":
             # generate default interaction text for actions
-            for i in self.wdl_contents.get('actions', []):
-                if 'text_success' not in i:
-                    i['text_success'] = f"You {i['action'].lower()} the {self.id}."
-                    warn(f'''missing: success text for action {i['action']} for item {self.id}, generated default: {i['text_success']}''')
-                if 'text_fail' not in i:
-                    i['text_fail'] = f"You cannot {i['action'].lower()} the {self.id}."
-                    warn(f'''missing: failure text for action {i['action']} for item {self.id}, generated default: {i['text_fail']}''')
+                for i in self.wdl_contents.get('actions', []):
+                    if 'text_success' not in i:
+                        i['text_success'] = f"You {i['action'].lower()} the {self.id}."
+                        warn(f'''missing: success text for action {i['action']} for item {self.id}, generated default: {i['text_success']}''')
+                    if 'text_fail' not in i:
+                        i['text_fail'] = f"You cannot {i['action'].lower()} the {self.id}."
+                        warn(f'''missing: failure text for action {i['action']} for item {self.id}, generated default: {i['text_fail']}''')
+            
 
     # to do: action conditions -- how?
     def actions_list(self) -> list:
@@ -285,7 +286,6 @@ class Game:
         """
         if self.default == "no-defaults":
             warn(f'''warning: no default values generated for game, wdl file may not run''')
-            return
         else:
             # generate default for introduction
             if 'intro' not in self.wdl_contents:

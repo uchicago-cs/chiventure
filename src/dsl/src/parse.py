@@ -55,6 +55,9 @@ def main():
         --debug=intermediate  prints the intermediate stage
         --debug=end           prints the final json file
         --debug=all           does all of the above
+    There is also the defaults flags:
+        --no-defaults         will not generate any default values
+        --some-defaults       only generates the required default values
     Note that multiple debug flags can be specified and the --debug flag 
     defaults to --debug=intermediate"""
 
