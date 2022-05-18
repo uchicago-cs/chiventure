@@ -485,12 +485,6 @@ char *start_conversation(convo_t *c, int *rc, game_t *game);
  */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 
-int add_new_time_node_to_game(game_t *game);
-
-void update_time(game_t *game);
-
-double total_elapsed_time(game_t *game);
-
 void time_dependent_functions(game_t *game);
 
 #endif

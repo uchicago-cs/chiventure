@@ -721,39 +721,6 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 }
 
 /* See game.h */
-int add_new_time_node_to_game(game_t *game)
-{
-    if (game->time_dll == NULL)
-    {
-        game->time_dll = time_dll_new(NULL, NULL);
-    }
-    else
-    {
-        game->time_dll = time_dll_new(game->time_dll, NULL);
-    }
-    if (game->time_dll == NULL)
-    {
-        return FAILURE;
-    }
-    else
-    {
-        return SUCCESS;
-    }
-}
-
-/* See game.h */
-void update_time(game_t *game)
-{
-    time_dll_update(game->time_dll);
-}
-
-/* See game.h */
-double total_elapsed_time(game_t *game)
-{
-    return time_since_first_start(game->time_dll);
-}
-
-/* See game.h */
 void time_dependent_functions(game_t *game)
 {
     while (game != NULL)
