@@ -89,14 +89,14 @@ typedef struct game {
     /* starting string description to be presented at beginning of game */
     char *start_desc;
 
-    /* pointer to the time_dll struct used for time-keeping and checking */
-    time_dll_t *time_dll;
-
     /* pointer to gencontext struct used for autogeneration module */
     gencontext_t *genctx;
 
     /* pointer to levelspec struct used for level-oriented generation */
     levelspec_t *levelspec;
+
+    /* time when game started */
+    //int time_start;
 
     /* pointer to the current battle context */
     battle_ctx_t *battle_ctx;

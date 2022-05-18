@@ -1,7 +1,6 @@
 add_library(game-state
         src/game.c
         src/game_action.c
-        src/game_time.c
         src/item.c
         src/mode.c
         src/path.c
