@@ -206,3 +206,33 @@ Test(parse, many_spaces)
     cr_assert_str_eq(words[2], "me", "parse() did not create third token");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
+
+Test(parse, rm_multiple_filler_words)
+{
+    char str[] = "go to the South";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "south", "parse() did not create second token");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+Test(parse, rm_filler_word)
+{
+    char str[] = "go to South";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "south", "parse() did not create second token");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+Test(parse, rm_no_filler_word)
+{
+    char str[] = "go South";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "south", "parse() did not create second token");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
