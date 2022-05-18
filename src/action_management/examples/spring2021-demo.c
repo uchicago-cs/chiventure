@@ -58,7 +58,7 @@ char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
   attribute_t *dmgIncrease = int_attr_new("Dmg", 3);
   attribute_t *dmgCap = int_attr_new("Dmg", 15);
   
-  attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "A sword"), "Dmg");
+  attribute_t *wepDmg = get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "a sword"), "Dmg");
 
   args[0] = dmgIncrease;
   args[1] = wepDmg;
@@ -110,7 +110,7 @@ char *raiseDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *seeDmg(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-  int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "A sword"), "Dmg")->attribute_value.int_val;
+  int num =  get_attribute(get_item_in_hash(ctx->game->curr_player->inventory, "a sword"), "Dmg")->attribute_value.int_val;
   /* Weapon damage will never become 4 digits unless RAISEDMG is run over 300 times. */  
   char *str = malloc(sizeof(char) *4);
   sprintf(str, "%d", num);

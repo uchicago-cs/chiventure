@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_ai.h"
-
+#include "battle/battle_moves.h"
 
 class_t *create_test_class()
 {
@@ -11,8 +11,8 @@ class_t *create_test_class()
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
 }
-
-/* Creates + initializes a move*/
+/*
+* Creates + initializes a move*
 move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
  {
      move_t* move = (move_t*) calloc(1, sizeof(move_t));
@@ -27,8 +27,9 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 
      return move;
  }
+*/
 
-/* Creates + initializes a battle_item*/
+/* Creates + initializes a battle_item */
  battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
             bool battle, int attack, int defense, int hp)
  {
@@ -47,14 +48,41 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
  }
 
 /* Creates example hardcoded stats for the enemy*/
-stat_t* create_enemy_stats()
+stat_t* create_enemy_stats_norm()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
 
     test_stats->speed = 50;
-    test_stats->defense = 20;
-    test_stats->strength = 150;
-    test_stats->dexterity = 10;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->mag_atk = 150;
+    test_stats->mag_def = 20;
+    test_stats->max_sp = 20;
+    test_stats->sp = 20;
+    test_stats->crit = 0;
+    test_stats->accuracy = 100;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+
+    return test_stats;
+}
+
+/* Creates example hardcoded stats for the enemy*/
+stat_t* create_enemy_stats_crit()
+{
+    stat_t* test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->mag_atk = 150;
+    test_stats->mag_def = 20;
+    test_stats->max_sp = 20;
+    test_stats->sp = 20;
+    test_stats->crit = 100;
+    test_stats->accuracy = 100;
     test_stats->hp = 200;
     test_stats->max_hp = 200;
     test_stats->xp = 0;
@@ -67,11 +95,15 @@ stat_t* create_enemy_stats()
 stat_t* create_battle_player_stats()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
-
     test_stats->speed = 50;
-    test_stats->defense = 30;
-    test_stats->strength = 200;
-    test_stats->dexterity = 10;
+    test_stats->phys_def = 30;
+    test_stats->phys_atk = 200;
+    test_stats->mag_atk = 200;
+    test_stats->mag_def = 30;
+    test_stats->max_sp = 20;
+    test_stats->sp = 20;
+    test_stats->crit = 0;
+    test_stats->accuracy = 100;
     test_stats->hp = 150;
     test_stats->max_hp = 150;
     test_stats->xp = 0;
@@ -118,9 +150,12 @@ move_t* create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
-    poke = create_move(2, NULL, true, 40, 0);
-    rock_throw = create_move(3, NULL, true, 90, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
@@ -132,9 +167,12 @@ move_t* create_battle_player_moves()
 {
     move_t *head, *fire_blast, *punch, *blaze_kick;
     head = NULL;
-    fire_blast = create_move(4, NULL, true, 100, 0);
-    punch = create_move(5, NULL, true, 20, 0);
-    blaze_kick = create_move(6, NULL, true, 60, 0);
+    fire_blast = move_new(4, "fire blast", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    punch = move_new(5, "punch", "", PHYS, NO_TARGET, NO_TARGET,
+                     SINGLE, 0, NULL, 20, 100, NULL, NULL, NULL, NULL);
+    blaze_kick = move_new(6, "blaze kick", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 60, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, fire_blast);
     DL_APPEND(head, punch);
     DL_APPEND(head, blaze_kick);
@@ -144,7 +182,8 @@ move_t* create_battle_player_moves()
 /* Creates the expected return value for when the AI should return the greediest move*/
 move_t* expected_move_greedy()
 {
-    move_t* earthquake = create_move(1, NULL, true, 100, 0);
+    move_t* earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+                                  SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     return earthquake;
 }
 
@@ -153,7 +192,9 @@ move_t* expected_move_random()
 {
     srand(1);
     int randomish = rand() % 3;
-    move_t* rock_throw = create_move(randomish, NULL, true, 90, 0);
+    move_t* rock_throw = move_new(randomish, "", "", PHYS, NO_TARGET, 
+                                  NO_TARGET, SINGLE, 0, NULL, 90, 100, 
+                                  NULL, NULL, NULL, NULL);
     return rock_throw;
 }
 
@@ -163,7 +204,7 @@ combatant_t* new_enemy()
     char* name = "Skeleton";
     bool is_friendly = false;
     class_t *c_type = create_test_class();
-    stat_t *stats = create_enemy_stats();
+    stat_t *stats = create_enemy_stats_norm();
     move_t *moves = create_enemy_moves();
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
@@ -171,6 +212,23 @@ combatant_t* new_enemy()
     return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
 
 }
+
+/* Creates sandbox enemy with crit value 100% */
+combatant_t* new_enemy_crit()
+{
+    char* name = "Skeleton";
+    bool is_friendly = false;
+    class_t *c_type = create_test_class();
+    stat_t *stats = create_enemy_stats_crit();
+    move_t *moves = create_enemy_moves();
+    battle_item_t *items = create_enemy_battle_items();
+    struct combatant *next = NULL;
+    struct combatant *prev = NULL;
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
+
+}
+
+
 
 /* Creates sandbox battle_player*/
 combatant_t* new_battle_player()
@@ -250,8 +308,8 @@ Test(battle_ai, find_greedy)
     cr_assert_eq(actual_move->id, expected_move->id, "find_greedy did not find the hardest move!");
 }
 
-/* Ensures damage is calculated correctly*/
-Test(battle_ai, damage)
+/* Ensures normal damage is calculated correctly*/
+Test(battle_ai, damage_norm)
 {
     combatant_t *player, *enemy;
     move_t* move;
@@ -260,7 +318,7 @@ Test(battle_ai, damage)
     enemy = new_enemy();
     move = expected_move_greedy();
 
-    double expected = 24.0;
+    double expected = 1.0*24.0;
     double actual = damage(player, move, enemy);
 
     cr_assert_not_null(player, "combatant_new() failed");
@@ -268,3 +326,24 @@ Test(battle_ai, damage)
 
     cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
 }
+
+/* Ensures critical damage is calculated correctly*/
+Test(battle_ai, damage_crit)
+{
+    combatant_t *player, *enemy;
+    move_t* move;
+
+    player = new_battle_player();
+    enemy = new_enemy_crit();
+    move = expected_move_greedy();
+
+    double expected = 1.5*24.0;
+    double actual = damage(player, move, enemy);
+
+    cr_assert_not_null(player, "combatant_new() failed");
+    cr_assert_not_null(enemy, "combatant_new() failed");
+
+    cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
+}
+
+

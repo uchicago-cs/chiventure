@@ -10,6 +10,7 @@
 
 /* Forward declaration to make code compatible with playerclass code */
 typedef struct effect effect_t;
+
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
 /* ============================= */

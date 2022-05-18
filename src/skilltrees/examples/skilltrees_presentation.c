@@ -337,12 +337,12 @@ int main(int argc, char **argv) {
                                      10, 0, &effect_implementation);
 
     // Initialize skill nodes
-    skill_node_t* design_node = skill_node_new(design_skill, 0, 0);
-    skill_node_t* test_node = skill_node_new(test_skill, 1, 0);
-    node_prereq_add(test_node, design_node);
+    skill_node_t* design_node = skill_node_new(design_skill, 0, 0, 0);
+    skill_node_t* test_node = skill_node_new(test_skill, 1, 0, 0);
+    node_prereq_add(test_node, design_node, 0);
     skill_node_t* implementation_node = skill_node_new(implementation_skill, 2,
-                                                       0);
-    node_prereq_add(implementation_node, test_node);
+                                                       0, 0);
+    node_prereq_add(implementation_node, test_node, 0);
 
     // Initialize skill tree
     skill_tree = skill_tree_new(0, "Software Development Skill Tree", 3);
