@@ -80,6 +80,8 @@ Test(npc_mov, register_npc_room_time)
                      "register_npc_room_time() did not set room_id");
     cr_assert_eq(check2->time, time,
                  "register_npc_room_time() did not set time");
+    cr_assert_not_null(check2->start,
+                       "register_npc_room_time() did not initialize start time")
 }
 
 
@@ -354,7 +356,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
     rc = auto_gen_movement(npc_mov, get_all_rooms(game));
     room_id_dll_t *elt;
 
-    LL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
+    DL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
     {
         cnt++;
         curr_room_id = elt->room_id;
@@ -387,4 +389,33 @@ Test(npc_mov, auto_gen_movement_indefinite)
                  SUCCESS, "delete room_id_dll failed");
 
     game_free(game);
+}
+
+Test(npc_mov, get_npc_indefinite_room_time)
+{
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+
+    int rc;
+    double room_time;
+
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, room1->room_id);
+    rc = register_npc_room_time(npc_mov, room1->room_id, 30000);
+    cr_assert_eq(rc, SUCCESS, "");
+    rc = extend_path_indefinite(room2->room_id, 40000);
+    cr_assert_eq(rc, SUCCESS, "");
+    rc = extend_path_indefinite(room3->room_id, 50000);
+    cr_assert_eq(rc, SUCCESS, "");
+
+    room_time = get_npc_indefinite_room_time(npc_mov);
+    cr_assert_eq(room_time, (double) 30000, "add");
+
+    move_npc_mov(npc_mov);
+    room_time = get_npc_indefinite_room_time(npc_mov);
+    cr_assert_eq(room_time, (double) 40000, "");
+
+    move_npc_mov(npc_mov);
+    room_time = get_npc_indefinite_room_time(npc_mov);
+    cr_assert_eq(room_time, (double) 50000, "");
 }
