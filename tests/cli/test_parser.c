@@ -252,3 +252,4 @@ Test(parse_r, first_quote)
     cr_assert_str_eq(words[0],"go", "parse() did not create first token");
     cr_assert_str_eq(words[1],"east", "parse() did not create second token");
 }
+
