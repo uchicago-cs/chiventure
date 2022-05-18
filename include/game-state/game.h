@@ -13,7 +13,6 @@
 #include "mode.h"
 #include "npc/npc.h"
 #include "battle/battle_flow_structs.h"
-#include "game_time.h"
 
 #define ITER_ALL_ROOMS(game, curr_room) room_t *ITTMP_ROOM;\
 HASH_ITER(hh, (game)->all_rooms, (curr_room), ITTMP_ROOM)

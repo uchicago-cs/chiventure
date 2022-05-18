@@ -403,9 +403,9 @@ Test(npc_mov, get_npc_indefinite_room_time)
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, room1->room_id);
     rc = register_npc_room_time(npc_mov, room1->room_id, 30000);
     cr_assert_eq(rc, SUCCESS, "");
-    rc = extend_path_indefinite(room2->room_id, 40000);
+    rc = extend_path_indefinite(npc_mov, room2->room_id, 40000);
     cr_assert_eq(rc, SUCCESS, "");
-    rc = extend_path_indefinite(room3->room_id, 50000);
+    rc = extend_path_indefinite(npc_mov, room3->room_id, 50000);
     cr_assert_eq(rc, SUCCESS, "");
 
     room_time = get_npc_indefinite_room_time(npc_mov);
