@@ -111,16 +111,17 @@ char **remove_fillers(char **parsed_input){
     {
         if(parsed_input[i] == NULL){ break; }
         // determine if this word is a filler
-        if(strcmp("to", parsed_input[i]) == 0 || strcmp("the", parsed_input[i]) == 0){
+        if(strcmp("to", parsed_input[i]) == 0 || strcmp("the", parsed_input[i]) == 0
+            || strcmp("into", parsed_input[i]) == 0 || strcmp("at", parsed_input[i]) == 0){
             //if so, remove it and push every word to the left in the 
             // array
-            for (int j = i; j < 4 - i; j++)
+            for (int j = i; j < TOKEN_LIST_SIZE - i; j++)
             {
                 parsed_input[j] = parsed_input[j + 1];
             }
-            //parsed_input[3] = NULL;
+            parsed_input[3] = NULL;
+            i = i - 1;
         }
-        parsed_input[3] = NULL;
     }
     return parsed_input;
 }
