@@ -155,7 +155,26 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
-/* A function that executes KIND 4 actions (ACTION <npc>)
+/* A function that executes KIND 4 actions (ACTION <player>)
+ *
+ * Parameters:
+ * - c: A context struct encapsulating the shared state in chiventure
+ * - a: An action type struct
+ * - p: A player struct
+ * - obj: An enum describing what self-related object (STATS, etc)
+ *        needs to be acted on
+ * - ret_string: A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ * - 6 if conditions for the action haven't been met, failure string as an out parameter
+ */
+int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p,
+                  self_action_object obj, char **ret_string);
+
+/* A function that executes KIND 5 actions (ACTION <npc>)
  * * Parameters:
  *  - c: A context struct encapsulating the shared state in chiventure
  *  - a: An NPC action type struct
@@ -169,7 +188,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  */
 int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string);
 
-/* A function that executes KIND 5 actions (ACTION <npc> <item>)
+/* A function that executes KIND 6 actions (ACTION <npc> <item>)
  *
  * Parameters:
  *  - c: A context struct encapsulating the shared state in chiventure
@@ -186,7 +205,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string);
 
 /* 
- * A function that executes KIND 6 actions (ACTION <npc> <item> <item>)
+ * A function that executes KIND 7 actions (ACTION <npc> <item> <item>)
  * 
  * Parameters:
  *  - c: A context struct encapsulating the shared state in chiventure

@@ -8,6 +8,8 @@
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
 #include "game-state/room.h"
+#include "game-state/player.h"
+
 
 
 #define BUFFER_SIZE (300)
@@ -352,6 +354,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     return FAILURE;
 }
 
+<<<<<<< HEAD
 /*
  * helper function that checks if the action is listed on the list_npc_action_t of an npc
  *
@@ -378,26 +381,43 @@ int contains_action(npc_t *npc, enum actions a) {
 /* KIND 4
  * See action_management.h */
 int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string)
+=======
+/* KIND 4
+ * See actionmanagement.h */
+int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_action_object obj, char **ret_string)
+>>>>>>> ff8fbb040677c35f66af1b7e03a22b404b799353
 {
     assert(c);
     assert(c->game);
     assert(a);
+<<<<<<< HEAD
     assert(npc);
+=======
+    assert(p);
+    
+    game_t *game = c->game;
+>>>>>>> ff8fbb040677c35f66af1b7e03a22b404b799353
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
+<<<<<<< HEAD
     agent_t *agent = NULL;
     agent->npc = npc;
 
     // checks if the action type is the correct kind
     if (a->kind != NPC)
+=======
+    // checks if the action type is the correct kind
+    if (a->kind != SELF)
+>>>>>>> ff8fbb040677c35f66af1b7e03a22b404b799353
     {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
     }
 
+<<<<<<< HEAD
     // checks if the action is possible
     if (possible_action(agent, a->c_name) == FAILURE)
     {
@@ -409,6 +429,19 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 
     // get the game action struct
     game_action_t *game_act = get_action(agent, a->c_name);
+=======
+    if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
+        if (obj == STATS) {
+            // retrieve stats from the player
+            string = display_stats(p->player_stats);
+        }
+    }
+
+    *ret_string = string;
+    return SUCCESS;
+}
+
+>>>>>>> ff8fbb040677c35f66af1b7e03a22b404b799353
 
     // check if all conditions are met
     if (!all_conditions_met(game_act->conditions))

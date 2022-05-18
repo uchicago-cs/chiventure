@@ -50,17 +50,20 @@ enum actions {
     USE_ON,
     PUT,
 
+    /* KIND 4 ACTIONS - ACTION <self> */ 
+    VIEW,
+
     // NPC ACTIONS
-    /* KIND 4 ACTIONS */
+    /* KIND 5 ACTIONS */
     ATTACK,
     TALK_TO,
     IGNORE,
     
-    /* KIND 5 ACTIONS */
+    /* KIND 6 ACTIONS */
     GIVE,
     STEAL,
 
-    /* KIND 6 ACTIONS */
+    /* KIND 7 ACTIONS */
     TRADE,
     BUY
 } actions_t;
@@ -75,6 +78,9 @@ enum actions {
     struct list_action *next;
 } list_action_t;
 
+    /* KIND 4 ACTIONS - ACTION <self> */ 
+    VIEW,
+};
 
 // Each enum corresponds to a different "KIND" of action
 enum action_kind {
@@ -82,11 +88,18 @@ enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     PATH = 2, // ACTION <path i.e. Action Type 2
     ITEM_ITEM = 3, // ACTION <item> <item> i.e. Action Type 3
+    SELF = 4 //// ACTION <self> i.e. Action Type 4
 // NPC ACTIONS
-    NPC = 4,
-    NPC_ITEM = 5,
-    NPC_ITEM_ITEM = 6
+    NPC = 5,
+    NPC_ITEM = 6,
+    NPC_ITEM_ITEM = 7
 };
+
+/* Each enum corresponds to a different object of the self action type.
+   e.g. The STATS in VIEW STATS*/
+typedef enum {
+    STATS = 1
+} self_action_object;
 
 
 /* Forward room declaration */
