@@ -547,7 +547,7 @@ int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, i
 }
 
 /* Refer to quests_state.h */
-int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
+int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest_hash_t *quest_hash)
 {
     player_task_t *check;
     
@@ -561,6 +561,13 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 
     HASH_ADD_KEYPTR(hh, *hash_table, task->id,
                     strnlen(task->id, MAX_ID_LEN), player_task);
+
+    id_list_node *temp = task->prereq->task_list->head;
+    while (temp != NULL) {
+        task_t *new_task = get_task_from_hash(temp->id, quest_hash);
+        add_task_to_player_hash(new_task, *hash_table);
+        temp = temp->next
+    }
   
     return SUCCESS;
 }
