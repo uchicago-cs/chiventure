@@ -97,6 +97,8 @@ tokenized_cmds *parse_r(char *input)
 /* See parser.h */
 char **remove_fillers(char **parsed_input){
     //first, count the NULL chars
+    // this is important, as you want
+    // to avoid using strcmp with NULL as an input
     int null_count = 0;
     for (size_t i = 0; i < TOKEN_LIST_SIZE; i++)
     {
