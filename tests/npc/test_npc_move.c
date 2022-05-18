@@ -1,6 +1,8 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <time.h>
+#include <unistd.h>
 #include "npc/npc_move.h"
 #include "game-state/room.h"
 #include "game-state/game.h"
@@ -402,20 +404,38 @@ Test(npc_mov, get_npc_indefinite_room_time)
 
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, room1->room_id);
     rc = register_npc_room_time(npc_mov, room1->room_id, 30000);
-    cr_assert_eq(rc, SUCCESS, "");
+    cr_assert_eq(rc, SUCCESS, "register_npc_room_time() failed");
     rc = extend_path_indefinite(npc_mov, room2->room_id, 40000);
-    cr_assert_eq(rc, SUCCESS, "");
+    cr_assert_eq(rc, SUCCESS, "extend_path_indefinite() failed");
     rc = extend_path_indefinite(npc_mov, room3->room_id, 50000);
-    cr_assert_eq(rc, SUCCESS, "");
+    cr_assert_eq(rc, SUCCESS, "extend_path_indefinite() failed");
 
     room_time = get_npc_indefinite_room_time(npc_mov);
-    cr_assert_eq(room_time, (double) 30000, "add");
-
-    move_npc_mov(npc_mov);
-    room_time = get_npc_indefinite_room_time(npc_mov);
-    cr_assert_eq(room_time, (double) 40000, "");
+    cr_assert_eq(room_time, (double) 30000, 
+                 "get_npc_indefinite_room_time() failed");
 
     move_npc_mov(npc_mov);
     room_time = get_npc_indefinite_room_time(npc_mov);
-    cr_assert_eq(room_time, (double) 50000, "");
+    cr_assert_eq(room_time, (double) 40000, 
+                 "get_npc_indefinite_room_time() failed");
+
+    move_npc_mov(npc_mov);
+    room_time = get_npc_indefinite_room_time(npc_mov);
+    cr_assert_eq(room_time, (double) 50000, 
+                 "get_npc_indefinite_room_time() failed");
+}
+
+Test(npc_mov, check_if_npc_mov_indefinite_needs_moved)
+{
+    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    int rc;
+    bool rb;
+
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, room1->room_id);
+    rc = register_npc_room_time(npc_mov, room1->room_id, 1000);
+    cr_assert_eq(rc, SUCCESS, "register_npc_room_time() failed");
+
+    sleep(1);
+    rb = check_if_npc_mov_indefinite_needs_moved(npc_mov);
+    cr_assert_eq(rb, true, "check_if_npc_mov_indefinite_needs_moved() failed");
 }
