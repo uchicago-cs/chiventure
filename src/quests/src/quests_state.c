@@ -241,6 +241,18 @@ int task_free(task_t *task)
 }
 
 /* Refer to quests_state.h */
+int task_tree_free(task_tree_t *task_tree)
+{
+    assert(task_tree != NULL);
+
+    free(task_tree->task);
+    task_tree_free(task_tree->parent);
+    task_tree_free(task_tree->rsibling);
+    task_tree_free(task_tree->lmostchild);
+    free(task_tree);
+}
+
+/* Refer to quests_state.h */
 int quest_free(quest_t *q)
 {
     assert(q != NULL);
@@ -325,45 +337,35 @@ int compare_tasks(task_t *a1, task_t *a2)
 }
 
 /*
- * Helper function that finds an task tree given its string ID.
- * It's called find_parent() because of its use to find parent nodes
- * in add_task_to_quest().
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
  *
  * Parameters:
- * - tree: a pointer to an task tree
- * - id: the string identifier of the task being searched for
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
  *
  * Returns:
- * - NULL if task cannot be found
- * - The task tree being searched for
- */ 
-task_tree_t *find_parent(task_tree_t *tree, char *id)
+ * - pointer to the tree immediately containing the task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: Traversal no longer relies on task completion, so 
+ *       runtime is now O(T) where T is the number of tasks
+ *       in the game
+ */
+task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
 {
-
-    assert(tree != NULL);
-
-    task_tree_t *cur = tree;
-
-    while(cur != NULL)
-    {
-
-        if(strcmp(cur->task->id, id) == 0)
-        {
-            return cur;
-        }
-        else if(cur->rsibling != NULL)
-        {
-            cur = cur->rsibling;
-        }
-        else if(cur->parent->rsibling != NULL)
-        {
-            cur = cur->parent->rsibling;
-        }
-        else
-        {
-            return NULL;
-        }
+    if(tree == NULL) {
+        return NULL;
     }
+    assert(tree->task != NULL);
+
+    if (strcmp(tree->task->id, id) == 0)
+    {
+        return tree;
+    }
+    task_tree_t * newTree;
+    newTree = find_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_in_tree(tree->lmostchild, id);
 }
 
 /* Refer to quests_state.h */
@@ -381,14 +383,14 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
         quest->task_tree = tree;
         return SUCCESS;
     }
-    tree = find_parent(quest->task_tree, parent_id);
+    tree = find_task_in_tree(quest->task_tree, parent_id);
     assert(tree != NULL);
 
     if (tree->lmostchild == NULL)
     {
         tree->lmostchild = malloc(sizeof(task_tree_t));
         tree->lmostchild->task = task_to_add;
-        tree->lmostchild->parent = find_parent(quest->task_tree, parent_id);
+        tree->lmostchild->parent = find_task_in_tree(quest->task_tree, parent_id);
     }
     else
     {
@@ -398,7 +400,7 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
         }
         tree->rsibling = malloc(sizeof(task_tree_t));
         tree->rsibling->task = task_to_add;
-        tree->rsibling->parent = find_parent(quest->task_tree, parent_id);
+        tree->rsibling->parent = find_task_in_tree(quest->task_tree, parent_id);
     }
 
     return SUCCESS;

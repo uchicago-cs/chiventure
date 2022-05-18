@@ -221,6 +221,18 @@ int active_mission_free(active_mission_t *mission);
  */
 int task_free(task_t *task);
 
+/*
+ * Frees a task tree from memory and its nodes
+ *
+ * Parameter:
+ * - task_tree: the task tree to be freed
+ *
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int task_tree_free(task_tree_t *task_tree);
+
 /* 
  * Frees a quest struct from memory including the task list
  * and reward, but otherwise does not free associated pointers
