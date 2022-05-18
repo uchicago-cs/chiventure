@@ -14,7 +14,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
     complex_skill_t* complex;
 
     if (num_skills == 0) {
-        fprintf(stderr, "skill_new: max_level is invalid\n");
+        fprintf(stderr, "skill_new: num_skills is invalid (given 0)\n");
         return NULL;
     }
 
@@ -98,8 +98,9 @@ int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_
 
     // Stop execution once a sub_skill fails
     for(int i = 0; i < complex_skill->num_skills; i++){
-        if (skill_execute(complex_skill->skills[i], ctx) == FAILURE)
+        if (skill_execute(complex_skill->skills[i], ctx) == FAILURE){
             break;
+        }
         skill_execute(complex_skill->skills[i], ctx);
     }
     return SUCCESS;
@@ -110,12 +111,11 @@ int complex_skill_level_up(complex_skill_t* complex_skill){
     assert(complex_skill != NULL);
     
     int x;
-    for (int i = 0; i < complex_skill->num_skills; i++){
+        for (int i = 0; i < complex_skill->num_skills; i++){
         x = skill_level_up(complex_skill->skills[i]);
-        if(x == FAILURE){
-            return FAILURE;
-        }
-        // printf("Skill level up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
+            if(x == FAILURE){
+                return FAILURE;
+            }
     }
     return SUCCESS;
 }
@@ -130,7 +130,6 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
         if(x == FAILURE){
             return FAILURE;
         }
-        // printf("Skill xp up for sub-skill %s returned %d", complex_skill->skills[i]->name, x);
     }
     return SUCCESS;
 }
