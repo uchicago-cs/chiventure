@@ -135,6 +135,11 @@ char **remove_fillers(char **parsed_input)
             //to the left one.  Thus, the last token must be set to NULL to 
             //maintain either being NULL or a valid token
             //in the output
+
+            //additionally, you must move i back one, as
+            // every token is moved to the left and 
+            // therefore the same index could contain another
+            // filler word
             parsed_input[TOKEN_LIST_SIZE - 1] = NULL;
             i = i - 1;
         }
