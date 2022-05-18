@@ -104,6 +104,36 @@ class TreeToDict(Transformer):
         
         return ('player_class', (class_id, d))
 
+    # s contains several objects of the form ('type', <value>) and
+    # we want to group all objects with type "attributes" and "base_stats" into their own list
+    def npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        """
+        S contains several objects of the form ('type', <value>), where
+        value is dependent upon the type. This function creates a dictionary
+        based on the key or type, and also places all items into their own list
+        for convenience.
+        """
+        
+        # gets the player class id.
+        name = s.pop(0)[1]
+
+        # first place all non-item objects into a dict
+        # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+        # action and action attributes, etc.
+        d = dict((k, v) for k, v in s if k != "inventory")
+
+        # create a list of attributes and place it in its own entry of the dict
+        # the values placed into this entry will correspond to item attributes
+        # since the key is guaranteed to be the string "attributes"
+        d["inventory"] = [v for k, v in s if k == "inventory"]
+        
+        return ('NPCS', (name, d))
+
+    def inventory(self, s:list[tuple[str, str]]) -> tuple[str, dict]:
+        """Takes a list of key-value pairs which belong to an attributes and places them
+        into a dictionary which is labeled "attributes" """
+        return ('inventory', dict(s))
+
     def attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
         """Takes a list of key-value pairs which belong to an attributes and places them
         into a dictionary which is labeled "attributes" """
