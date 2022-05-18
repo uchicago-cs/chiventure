@@ -23,15 +23,16 @@
     }
 
     while (itemlst->next != NULL){
-        for(int i = 0; i < graphics->inventory->rows; i++){
-            for(int j = 0; j < graphics->inventory->columns; j++){
-                inv[i][j] = itemlst->item;
-            }
-        }
-        itemlst = itemlst->next;
+        inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos]
+            = itemlst->item;
+        itemlst = itemlst->next;    
     }
+<<<<<<< HEAD
     inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos] == itemlst->item;
     itemlst = itemlst->next;
+=======
+    
+>>>>>>> a435d295d5d84bc61242c6a5ec7a7a176a893b3b
     return inv;
 }
 
@@ -50,16 +51,15 @@ player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p)
 
 
 /* See inventory_graphics.h */
-void free_player_inventory(player_inventory_t *player_inventory)
+int free_player_inventory(player_inventory_t *player_inventory)
 {
     for(int i = 0; i < player-inventory->display->rows; i++){
         free(player_inventory->items[i]);
     }
-    
+    free(player_inventory->items);
     free(player_inventory->display);
     free(player_inventory);
-
-    return;
+    return 0;
 }
 
 
