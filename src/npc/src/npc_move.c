@@ -75,6 +75,10 @@ npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
 /* See npc_move.h */
 int npc_path_dll_free(npc_path_dll_t *head)
 {
+    while (head->prev != NULL)
+    {
+        head = head->prev;
+    }
     npc_path_dll_t *elt, *tmp;
     DL_FOREACH_SAFE(head, elt, tmp)
     {
