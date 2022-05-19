@@ -13,7 +13,7 @@ NPC OAK IN room B
     long desc: "Enjoys exploring human-Pokemon relationships"
 	age: "25"
 	gender: "Male"
-    inventory: ITEM CHARMANDER
+    INVENTORY: ITEM CHARMANDER
                 ITEM SQUIRTLE
                 ITEM BULBASAUR
                 ITEM POKEBALL
