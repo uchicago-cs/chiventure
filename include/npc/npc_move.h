@@ -171,7 +171,16 @@ int npc_mov_free(npc_mov_t *npc_mov);
  */
 int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int time);
 
-
+/* Resets a the start time of the current room an indefinite NPC is located in
+ *
+ * Paramters:
+ *  - npc_mov: the npc_mov struct
+ *
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs.
+ */
+ int reset_indefinite_npc_room_start_time(npc_mov_t *npc_mov);
+ 
 /*
  * Adds a room to the path of definite NPC movement - changes destination of the NPC
  *

@@ -104,6 +104,7 @@ int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int timetime)
     HASH_REPLACE(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
                  room_id, strlen(room_id),
                  new_npc_room_time, return_time);
+    free(return_time->room_id);
     free(return_time);
 
     HASH_ADD_KEYPTR(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
@@ -112,6 +113,17 @@ int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int timetime)
     return SUCCESS;
 }
 
+/* See npc_move.h */
+int reset_indefinite_npc_room_start_time(npc_mov_t *npc_mov)
+{
+    assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
+    time_t start;
+    npc_room_time_t *curr_room_time;
+    HASH_FIND(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
+              npc_mov->track, strlen(npc_mov->track), curr_room_time);
+    curr_room_time->start = time(&start);
+    return SUCCESS;
+}
 
 /* See npc_move.h */
 int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add)
@@ -329,7 +341,10 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
     unsigned int path_pos = npc_mov->npc_path_pos;
 
     if ((current_room->next == NULL) && (current_room->prev == NULL))
+    {
+        assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
         return 3; // NPC has nowhere to move
+    }
 
     if (path_pos != 0)
     {
@@ -343,6 +358,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
             || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
     {
         assert(flip_npc_path_direction(npc_mov) == SUCCESS);
+        assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
         return 1;
     }
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
@@ -361,7 +377,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
         {
             return 0;
         }
-
+        assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
         return 2;
     }
     else

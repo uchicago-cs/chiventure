@@ -86,6 +86,11 @@ Test(npc_mov, register_npc_room_time)
                        "register_npc_room_time() did not initialize start time");
 }
 
+/* Tests reset_indefinite_npc_room_start_time function */
+Test(npc_mov, reset_indefinite_npc_room_start_time)
+{
+    
+}
 
 /* Tests extend_path_def fucntion */
 Test(npc_mov, extend_path_definite)
@@ -428,13 +433,25 @@ Test(npc_mov, get_npc_indefinite_room_time)
 Test(npc_mov, check_if_npc_mov_indefinite_needs_moved)
 {
     room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
     int rc;
     bool rb;
 
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, room1->room_id);
-    rc = register_npc_room_time(npc_mov, room1->room_id, 1000);
+    rc = register_npc_room_time(npc_mov, room1->room_id, 500);
     cr_assert_eq(rc, SUCCESS, "register_npc_room_time() failed");
+    rc = extend_path_indefinite(npc_mov, room2->room_id, 1000);
+    cr_assert_eq(rc, SUCCESS, "extend_path_indefinite() failed");
 
+    rb = check_if_npc_mov_indefinite_needs_moved(npc_mov);
+    cr_assert_eq(rb, false, "check_if_npc_mov_indefinite_needs_moved() failed");
+
+    sleep(1);
+    rb = check_if_npc_mov_indefinite_needs_moved(npc_mov);
+    cr_assert_eq(rb, true, "check_if_npc_mov_indefinite_needs_moved() failed");
+
+    rc = move_npc_mov(npc_mov);
+    cr_assert_eq(rc, 2, "move_npc_mov () failed");
     rb = check_if_npc_mov_indefinite_needs_moved(npc_mov);
     cr_assert_eq(rb, false, "check_if_npc_mov_indefinite_needs_moved() failed");
 
