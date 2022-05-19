@@ -2,6 +2,24 @@
 #include "common/utlist.h"
 #include <ctype.h>
 
+
+/* see battle_flow.h */
+int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
+{
+    target_stats->speed += changes->speed;
+    target_stats->max_sp += changes->max_sp;
+    target_stats->sp += changes->sp;
+    target_stats->phys_atk += changes->phys_atk;
+    target_stats->mag_atk += changes->mag_atk;
+    target_stats->phys_def += changes->phys_def;
+    target_stats->mag_def += changes->mag_def;
+    target_stats->crit += changes->crit;
+    target_stats->accuracy += changes->accuracy;
+    target_stats->hp += changes->hp;
+    target_stats->max_hp += changes->max_hp;
+    return SUCCESS;
+}
+
 /* check battle_logic.h */
 combatant_t* check_target(battle_t *b, char *target)
 {

@@ -286,22 +286,6 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
     return string;
 }
-/* see battle_flow.h */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
-{
-    target_stats->speed += changes->speed;
-    target_stats->max_sp += changes->max_sp;
-    target_stats->sp += changes->sp;
-    target_stats->phys_atk += changes->phys_atk;
-    target_stats->mag_atk += changes->mag_atk;
-    target_stats->phys_def += changes->phys_def;
-    target_stats->mag_def += changes->mag_def;
-    target_stats->crit += changes->crit;
-    target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
-    target_stats->max_hp += changes->max_hp;
-    return SUCCESS;
-}
 
 /* see battle_flow.h */
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
