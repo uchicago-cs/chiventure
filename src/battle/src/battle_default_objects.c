@@ -250,11 +250,11 @@ battle_item_t *get_random_default_consumable()
     } 
     else if (rand == 3) 
     {
-        rv_item->attributes->phys_atk = mod_array[rand-1];
+        rv_item->attributes->phys_def = mod_array[rand-1];
     } 
     else 
     {
-        rv_item->attributes->phys_def = mod_array[rand-1];
+        rv_item->attributes->phys_atk = mod_array[rand-1];
     }
 
     rv_item->quantity = randnum(1, 3);
