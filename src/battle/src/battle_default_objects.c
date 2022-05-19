@@ -219,7 +219,7 @@ battle_item_t *get_random_default_consumable()
     battle_item_t *rv_item = calloc(1, sizeof(battle_item_t));
     assert(rv_item != NULL);
 
-    int rand = randnum(1, 4) - 1; 
+    int rand = randnum(1, 4); 
     char* name_array[]= {"elixir of life ", "healing potion ", 
                          "defense up ", "strength up "};
     char* description_array[] = {"Adds 50 to your HP!", "Adds 20 to your HP!", 
