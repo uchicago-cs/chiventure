@@ -119,28 +119,29 @@ class TreeToDict(Transformer):
         return ("actions", actions_dictionary)
     
     # s contains several objects of the form ('type', <value>) and
-    # we want to group all objects with type "ITEM" into their own list
-    def npc(self, s: list) -> tuple[str, tuple[str, dict]]:
+    # we want to group all objects with type "attributes" and "base_stats" into their own list
+    def npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
         """
         S contains several objects of the form ('type', <value>), where
         value is dependent upon the type. This function creates a dictionary
         based on the key or type, and also places all items into their own list
         for convenience.
         """
-        npc_id = s.pop(0)[1]
         
+        # gets the player class id.
+        name = s.pop(0)[1]
 
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
         # action and action attributes, etc.
-        d = dict((k, v) for k, v in s if k != "ITEM")
+        d = dict((k, v) for k, v in s if k != "inventory")
 
-        # create a list of items and place it in its own entry of the dict
+        # create a list of attributes and place it in its own entry of the dict
         # the values placed into this entry will correspond to item attributes
-        # since the key is guaranteed to be the string "ITEM"
-        d["items"] = [v for k, v in s if k == "ITEM"]
+        # since the key is guaranteed to be the string "attributes"
+        d["inventory"] = [v for k, v in s if k == "inventory"]
         
-        return ('NPC', (npc_id, d))
+        return ('NPCS', (name, d))
     
     def misplaced_property(self, s: list[Token]) -> str:
         raise Exception('"property FOR object" syntax is not yet supported')
