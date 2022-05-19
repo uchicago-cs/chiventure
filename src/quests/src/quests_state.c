@@ -380,7 +380,7 @@ int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash)
 {
     assert(quest != NULL);
     assert(player != NULL);
-    int rc = add_quest_to_player_hash(quest, &player->player_quests, 1); // 1 means the quest started, should be replaced when completion status is replaced with enums
+    int rc = add_quest_to_player(quest, player, 1, quest_hash); // 1 means the quest started, should be replaced when completion status is replaced with enums
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
@@ -528,10 +528,11 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
 }
 
 /* Refer to quests_state.h */
-int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, int completion)
+int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_hash_t *quest_hash)
 {
     player_quest_t *check;
     
+    player_quest_hash_t **hash_table = &player->player_quests;
     check = get_player_quest_from_hash(quest->quest_id, *hash_table);
 
     if (check != NULL) 
@@ -542,6 +543,16 @@ int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, i
 
     HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
                     strnlen(quest->quest_id, MAX_ID_LEN), player_quest);
+
+    player_task_hash_t **task_hash = &player->player_tasks;
+    if(quest->prereq) {
+        id_list_node_t *temp = quest->prereq->task_list->head;
+        while (temp != NULL) {
+            task_t *new_task = get_task_from_hash(temp->id, quest_hash);
+            add_task_to_player_hash(new_task, task_hash, quest_hash);
+            temp = temp->next;
+        }
+    }
     return SUCCESS;
 }
 
