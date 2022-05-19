@@ -9,10 +9,10 @@ ROOM room B
         EAST TO room C
 
 NPC OAK IN room B
-    short desc: “Kanto’s premier Pokemon expert”
-    long desc: “Enjoys exploring human-Pokemon relationships”
-	age: “25”
-	gender: “Male”
+    short desc: "Kanto’s premier Pokemon expert"
+    long desc: "Enjoys exploring human-Pokemon relationships"
+	age: "25"
+	gender: "Male"
     inventory:
         ITEM CHARMANDER
         ITEM SQUIRTLE
