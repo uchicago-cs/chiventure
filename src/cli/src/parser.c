@@ -151,7 +151,8 @@ char **remove_fillers(char **parsed_input)
 /* See parser.h */
 char **parse(char *input)
 {
-    if(strcmp(input, "") == 0)
+
+    if (strcmp(input, "") == 0)
     {
         return NULL;
     }
@@ -169,21 +170,6 @@ char **parse(char *input)
     {
         words[i] = NULL;
         by_quotes[i] = NULL;
-    }
-
-    char *token = strtok(input, " ");
-
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        words[i] = token;
-        token = strtok(NULL, " ");
-    }
-
-    //If there are more than 4 words, parser returns NULL and does not attempt
-    //to pass the first four words as tokens
-    if(token != NULL)
-    {
-        return NULL;
     }
 
     char *token_quotes = strtok(input, "\"");
@@ -231,6 +217,10 @@ char **parse(char *input)
             return NULL;
         }
 
+        remove_fillers(words);
+
+        return words;
+
     //If the first character of the input is "
     }
     else
@@ -271,13 +261,8 @@ char **parse(char *input)
             return NULL;
         }
 
+        remove_fillers(words);
+        return words;
     }
-
-    // before returning the tokens, we must run through them
-    // and remove all "fillers", such as prepositions
-    // like "the" and "to"
-    //remove_fillers(words);
-
-    return words;
 
 }
