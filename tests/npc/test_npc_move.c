@@ -38,7 +38,7 @@ Test (npc_mov, init)
     
     int check2 = npc_mov_init(npc_mov, NPC_MOV_INDEFINITE, test_room1->room_id, 10);
     cr_assert_eq(npc_mov->path->room_time->assigned_time, 10,
-                 "npc_mov_init() failed to set assigned_time")
+                 "npc_mov_init() failed to set assigned_time");
 }
 
 
@@ -267,7 +267,7 @@ Test(npc_mov, auto_gen_movement_definite)
     rc = auto_gen_movement(npc_mov, all_rooms);
     npc_path_dll_t *elt;
 
-    DL_FOREACH(npc_mov->npc_path, elt)
+    DL_FOREACH(npc_mov->path, elt)
     {
         cnt++;
         curr_room_id = elt->room_id;
@@ -324,7 +324,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
     rc = auto_gen_movement(npc_mov, get_all_rooms(game));
     npc_path_dll_t *elt;
 
-    LL_FOREACH(npc_mov->path, elt)
+    DL_FOREACH(npc_mov->path, elt)
     {
         cnt++;
         curr_room_id = elt->room_id;
