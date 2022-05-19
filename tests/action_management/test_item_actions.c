@@ -17,11 +17,10 @@
 int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_act_name, int choose_condition, int choose_effect)
 {
     chiventure_ctx_t *ctx_test = chiventure_ctx_new(NULL);
-  
     action_type_t *a = action_type_new(act_name, kind);
-    item_t *item = item_new("item", "The item item", "The itemmost object of interest");
-    agent_t *agent;
-    agent->item = item;
+    //item_t *item = item_new("item", "The item item", "The itemmost object of interest");
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = item_new("item", "The item item", "The itemmost object of interest");
     add_action(agent, allowed_act_name, "success1", "fail1");
     char *string = malloc(BUFFER_SIZE);
     game_action_t *ga;
@@ -147,6 +146,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     chiventure_ctx_free(ctx_test);
     free(string);
     item_free(agent->item);
+    free(agent);
     action_type_free(a);
     game_action_free(ga);
 
@@ -156,7 +156,7 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
 Test(item_actions, correct_kind_1_and_allowed_action)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy", 0, 0);
-
+    
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_action returned %d for correct kind 1, expected SUCCESS (0)", rc);
 }
@@ -181,7 +181,6 @@ Test(item_actions, wrong_kind_3)
 Test(item_actions, correct_allowed_action)
 {
     int rc = execute_do_item_action("dummy", ITEM, "dummy", 0, 0);
-
     cr_assert_eq(rc, SUCCESS,
                  "execute_do_item_action returned %d for correct allowed action, expected SUCCESS (0)", rc);
 }

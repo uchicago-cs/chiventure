@@ -10,9 +10,10 @@
 /* see game_action.h */
 game_action_t *get_action(agent_t *agent, char *action_name)
 {
+    char *action_name_case = case_insensitized_string(action_name);
     game_action_t *action;
     if (agent->npc == NULL) {
-        HASH_FIND(hh, agent->item->actions, action_name, strlen(action_name), action);
+        HASH_FIND(hh, agent->item->actions, action_name_case, strlen(action_name_case), action);
         if (action == NULL)
             return NULL;
     }
@@ -23,7 +24,7 @@ game_action_t *get_action(agent_t *agent, char *action_name)
             return NULL;
         }
     }
-    
+    free(action_name_case);
     return action;
 }
 
@@ -34,11 +35,10 @@ int add_action(agent_t *agent, char *action_name, char *success_str, char *fail_
     if (check != NULL)
         return FAILURE;
     game_action_t *action = game_action_new(action_name, success_str, fail_str);
-    if (agent->item != NULL)
+    if (agent->item != NULL) 
         HASH_ADD_KEYPTR(hh, agent->item->actions, action_name, strlen(action_name), action);
     if (agent->npc != NULL)
     HASH_ADD_KEYPTR(hh, agent->npc->actions, action_name, strlen(action_name), action);
-
     return SUCCESS;
 }
 

@@ -60,6 +60,7 @@ typedef union agent
    item_t *item;
    npc_t *npc;
 } agent_t;
+
 enum agent_tag {ITEMS, NPCS};
 
 // ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
