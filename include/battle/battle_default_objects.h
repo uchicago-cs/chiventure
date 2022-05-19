@@ -39,7 +39,7 @@ battle_item_t *get_random_offensive item();
  * Returns:
  *  - a pointer to the weapon
  */
-battle_equipment_t *get_random_equip_weapon()
+battle_equipment_t *get_random_equip_weapon();
 
 /* 
  * Generates a piece of armor equipment from a previously-initialized 
@@ -49,7 +49,7 @@ battle_equipment_t *get_random_equip_weapon()
  * Returns:
  *  - a pointer to the armor
  */
-battle_equipment_t *get_random_equip_armor()
+battle_equipment_t *get_random_equip_armor();
 
 /* 
  * Generates a piece of accessory equipment from a previously-initialized 
@@ -59,7 +59,7 @@ battle_equipment_t *get_random_equip_armor()
  * Returns:
  *  - a pointer to the accessory
  */
-battle_equipment_t *get_random_equip_accessory()
+battle_equipment_t *get_random_equip_accessory();
 
 /*
  * Generates a random consumable item from a list of previously-initialized consumables
