@@ -176,7 +176,8 @@ chiventure_ctx_t *ctx_example(void)
         fprintf(stderr, "ctx_error: memory allocation failed for class\n");
         return NULL;
     }
-    class->name = "HUMAN";
+    char* name = "HUMAN";
+    class->name = name;
 
     player_t *curr_player = malloc(sizeof(player_t));
     if (curr_player == NULL) {
@@ -253,7 +254,7 @@ Test(reader_tests, execute_reader_effect_with_stat_test_false){
 /* Test execute_reader_effect for attribute reader, true */
 Test(reader_tests, execute_reader_effect_with_attr_test_true){
     chiventure_ctx_t* ctx = ctx_example();
-    attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 14, READ_PLAYER);
+    attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 5, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_ATTRIBUTE, ar, NULL);
     int rc = execute_reader_effect(effect, ctx);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
@@ -271,7 +272,7 @@ Test(reader_tests, execute_reader_effect_with_attr_test_false){
 /* Test execute_attr_reader_effect for true*/
 Test(reader_tests, execute_attr_reader_effect_test_true){
     chiventure_ctx_t* ctx = ctx_example();
-    attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 14, READ_PLAYER);
+    attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 5, READ_PLAYER);
     int rc = execute_attr_reader_effect(ar, ctx);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
