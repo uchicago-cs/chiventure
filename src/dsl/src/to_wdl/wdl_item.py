@@ -1,25 +1,10 @@
 # This file contains the code that defines Item class
-#
-# Alex Lee, Andi Liu
-#
-# Defines a Item class for conversion of elements related to items to WDL.
+# Defines a Item class and its methods for conversion to WDL.
 import json
+from to_wdl.util import PROPERTY_ALIASES, ACTION_ALIASES
+
 from warnings import warn
 from collections import ChainMap
-
-
-PROPERTY_ALIASES = {
-    "short desc": "short_desc",
-    "short": "short_desc",
-    "long desc": "long_desc",
-    "long": "long_desc",
-    "introduction": "intro"
-}
-ACTION_ALIASES = {
-    "success": "text_success",
-    "failure": "text_fail",
-    "fail": "text_fail"
-}
 
 
 class Item:
