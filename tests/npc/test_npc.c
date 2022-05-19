@@ -5,7 +5,7 @@
 #include "game-state/item.h"
 #include "playerclass/class.h"
 
- battle_item_t *generate_test_battle_item(int id, int quantity, char* description, 
+ battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes)
  {
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
