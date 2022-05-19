@@ -47,7 +47,7 @@ npc_mov_t *generate_test_npc_mov()
 {
     npc_mov_t *npc_mov;
     char *test_room_id = "test";
-    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id);
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id, 0);
 }
 
 /* Creates example stats. Taken from test_battle_ai.c */
