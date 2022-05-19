@@ -3,23 +3,6 @@
 #include <ctype.h>
 
 
-/* see battle_flow.h */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
-{
-    target_stats->speed += changes->speed;
-    target_stats->max_sp += changes->max_sp;
-    target_stats->sp += changes->sp;
-    target_stats->phys_atk += changes->phys_atk;
-    target_stats->mag_atk += changes->mag_atk;
-    target_stats->phys_def += changes->phys_def;
-    target_stats->mag_def += changes->mag_def;
-    target_stats->crit += changes->crit;
-    target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
-    target_stats->max_hp += changes->max_hp;
-    return SUCCESS;
-}
-
 /* check battle_logic.h */
 combatant_t* check_target(battle_t *b, char *target)
 {
@@ -104,29 +87,7 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 /* see battle_logic.h */
 int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
-    if ((c->stats->hp + item->hp) > c->stats->max_hp)
-    {
-        c->stats->hp = c->stats->max_hp;
-    }
-    else
-    {
-        c->stats->hp += item->hp;
-    }
-    c->stats->phys_atk += item->attack;
-    c->stats->phys_def += item->defense;
-    /* Will be implemented once battle_item_t is updated
-    c->stats->phys_atk += item->phys_atk;
-    c->stats->phys_def += item->phys_def;
-    c->stats->mag_atk += item->mag_atk;
-    c->stats->mag_def += item->mag_def;
-    if((c->stats->sp + item->sp) > c->stats->max_sp){
-        c->stats->sp = c->stats->max_sp;
-    }else{
-        c->stats->sp += item->sp;
-    }
-    c->stats->accuracy += item->accuracy;
-    c->stats->crit += item->crit;
-    */
+    apply_stat_changes(c->stats, item->attributes);
     return 0;
 }
 
@@ -145,16 +106,14 @@ int use_battle_item(combatant_t *c, battle_t *battle, char *name)
         return FAILURE;
     }
 
-    if (item->is_weapon)
+    if (item->attack)
     {
         consume_battle_item(battle->enemy, item);
-        item->durability -= 10;
     } else
     {
         consume_battle_item(c, item);
-        item->quantity -= 1;
     }
-
+    item->quantity -= 1;
     if (item->quantity == 0)
     {
         remove_battle_item(c, item);
@@ -204,6 +163,36 @@ int award_xp(stat_t *stats, double xp)
     return 0;
 }
 
+/* see battle_logic.h */
+int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
+{
+    target_stats->speed += changes->speed;
+    target_stats->max_sp += changes->max_sp;
+    if ((target_stats->sp + changes->sp) <= target_stats->max_sp)
+    {
+        target_stats->sp += changes->sp;
+    }else
+    {
+        target_stats->sp = target_stats->max_sp;
+    }
+    target_stats->phys_atk += changes->phys_atk;
+    target_stats->mag_atk += changes->mag_atk;
+    target_stats->phys_def += changes->phys_def;
+    target_stats->mag_def += changes->mag_def;
+    target_stats->crit += changes->crit;
+    target_stats->accuracy += changes->accuracy;
+    target_stats->hp += changes->hp;
+    target_stats->max_hp += changes->max_hp;
+    if ((target_stats->hp += changes->hp) <= target_stats->max_hp)
+    {
+        target_stats->hp += changes->hp;
+    }else
+    {
+        target_stats->hp = target_stats->max_hp;
+    }
+    return SUCCESS;
+}
+
 /* See Battle_logic.h */
 int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 {
@@ -214,24 +203,22 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     while (sc->next != NULL) {
         sc = sc->next;
     }
+    stat_changes_t *changes = item->attributes;
+    sc->hp += changes->hp;
+    sc->phys_atk += changes->attack;
+    sc->phys_def += changes->defense;
 
-    sc->hp += item->hp;
-    sc->phys_atk += item->attack;
-    sc->phys_def += item->defense;
-    /* Will be implemented once battle_item_t is updated
-    sc->phys_atk += item->phys_atk;
-    sc->phys_def += item->phys_def; 
-    sc->mag_atk += item->mag_atk;
-    sc->mag_def += item->mag_def;
-    sc->speed += item->speed;
-    if((sc->sp + item->sp) > sc->max_sp){
+    sc->phys_atk += changes->phys_atk;
+    sc->phys_def += changes->phys_def; 
+    sc->mag_atk += changes->mag_atk;
+    sc->mag_def += changes->mag_def;
+    sc->speed += changes->speed;
+    if((sc->sp + changes->sp) > sc->max_sp){
         sc->sp = sc->max_sp;
     }else{
-        sc->sp += item->sp;
+        sc->sp += changes->sp;
     }
-    sc->crit += item->crit;
-    sc->accuracy += item->accuracy;
-    */
-
+    sc->crit += changes->crit;
+    sc->accuracy += changes->accuracy;
     return SUCCESS;
 }
