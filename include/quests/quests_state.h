@@ -6,6 +6,8 @@
 #include "quests_structs.h"
 #include "game-state/player.h"
 
+typedef struct item_wrapped_for_llist item_list_t; // Forward declaration
+
 /* Creates a new mission struct (allocates memory)
  * 
  * Parameters:
@@ -226,11 +228,21 @@ int prereq_free(prereq_t *prereq);
 */
 int id_list_free(id_list_t *id_list);
 
+/* Determines whether a player completed a mission (if possible for that mission type)
+ *
+ * Parameters:
+ *  - mission: a mission object
+ *  - player: a player
+ * 
+ * Returns:
+ * - true if the player completed the mission, false if not
+*/
+bool completed_mission(mission_t *mission, player_t *player);
 
 /* 
  * Determines whether a player meets a set of prerequisites
  * 
- * Parameter:
+ * Parameters:
  * - prereq: a prerequisite object
  * - player: a player
  * 

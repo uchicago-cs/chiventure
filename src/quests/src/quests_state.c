@@ -3,7 +3,6 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quests_state.h"
-
 /* Refer to quests_state.h */
 mission_t *mission_new(char *target_name, mission_types_t type)
 {
@@ -232,6 +231,30 @@ int id_list_free(id_list_t *id_list) {
 }
 
 /* Refer to quests_state.h */
+bool completed_mission(mission_t *mission, player_t *player) {
+    assert(player != NULL);
+    if(mission == NULL) {
+        return true;
+    }
+    switch(mission->type) {
+        case VISIT_ROOM:
+            return !(strcmp(mission->target_name, player->crnt_room));
+            break;
+        case COLLECT_ITEM:
+            ; // You can't have a declaration immediately after a switch statement for some reason?!
+            item_list_t *cur = get_all_items_in_inventory(player);
+            while(cur != NULL) {
+                if(!strcmp(mission->target_name, cur->item->item_id)) {
+                    return true;
+                }
+            }
+            return false;
+            break;
+    }
+    return true;
+}
+
+/* Refer to quests_state.h */
 bool meets_prereqs(player_t *player, prereq_t *prereq) {
     if(player == NULL) {
         return false;
@@ -424,10 +447,7 @@ bool is_task_completed(task_t *task, player_t *player)
     if(ptask->completed) {
         return true;
     }
-    if(task->mission != NULL) {
-        return false;
-    }
-    return meets_prereqs(player, task->prereq);
+    return completed_mission(task->mission, player) && meets_prereqs(player, task->prereq);
 }
 
 /* Refer to quests_state.h */

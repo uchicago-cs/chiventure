@@ -490,6 +490,7 @@ Test(quest,is_quest_completed)
     int res = add_task_to_quest(quest, task, NULL);
 
     player_t *player = player_new("test player");
+    player->crnt_room = "Grand ballroom";
 
     quest_hash_t *hash = NULL;
     add_quest_to_hash(quest, &hash);
@@ -659,7 +660,7 @@ Test(test, add_task_test1)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -687,7 +688,7 @@ Test(test, add_task_test2)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;

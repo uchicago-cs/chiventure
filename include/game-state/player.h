@@ -58,6 +58,12 @@ typedef struct player {
 
     /* A string containing the player's race */
     char *player_race;
+    
+    /* A string containing the name of current room of the player. Right now, every player 
+       must be in the same room, which is stored in the game struct, but this may change at 
+       some point to allow players to explore at different paces. For now, this is necessary
+       to allow certain modules to access the current room without causing circular dependencies. */
+    char *crnt_room;
 
     /* The player's current class. class_t contains the base stats, and skills for that class at
     the beginning of a game. These may change throughout the game, so their current states are stored 
