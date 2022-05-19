@@ -252,11 +252,13 @@ Test(branch_block_t, IFELSE_success)
   action_enum_t action_type = SET;
 
   attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params->args = args; 
   args[0] = left;
   args[1] = right;
 
   int num_attributes = 2;
-  AST_block_t* actions  = AST_action_block_new(action_type, num_attributes, args);
+  AST_block_t* actions  = AST_action_block_new(action_type, num_attributes, action_params);
   cr_assert_not_null(actions, "action_block_new failed");
 
   
@@ -374,18 +376,22 @@ Test(branch_block_t, multiple_conditions)
   control_type_t control_type = IFELSE;
   action_enum_t action_type = SET;
 
-  attribute_t **args = malloc(sizeof(attribute_t*) * 2);
-  args[0] = left;
-  args[1] = right;
+  attribute_t **args1 = malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params1 = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params1->args = args1; 
+  args1[0] = left;
+  args1[1] = right;
 
   attribute_t **args2 = malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params2 = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params2->args = args2; 
   args2[0] = right;
   args2[1] = a3;
   
   int num_attributes = 2;
   AST_block_t** actions  = malloc(sizeof(AST_block_t*) * 2);
-  actions[0] = AST_action_block_new(action_type, num_attributes, args);
-  actions[1] = AST_action_block_new(action_type, num_attributes, args2);
+  actions[0] = AST_action_block_new(action_type, num_attributes, action_params1);
+  actions[1] = AST_action_block_new(action_type, num_attributes, action_params2);
 
   // allocates the new branch block
   branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
@@ -445,17 +451,21 @@ Test(branch_block_t, default_if)
   action_enum_t action_type = SET;
 
   attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params->args = args; 
   args[0] = left;
   args[1] = right;
 
   attribute_t **args2 = malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params2 = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params2->args = args2; 
   args2[0] = right;
   args2[1] = a3;
 
   int num_attributes = 2;
   AST_block_t** actions  = malloc(sizeof(AST_block_t*) * 2);
-  actions[0] = AST_action_block_new(action_type, num_attributes, args);
-  actions[1] = AST_action_block_new(action_type, num_attributes, args2);
+  actions[0] = AST_action_block_new(action_type, num_attributes, action_params);
+  actions[1] = AST_action_block_new(action_type, num_attributes, action_params2);
 
   // allocates the new branch block
   branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
@@ -516,13 +526,15 @@ Test(branch_block_t, while_sucess)
   action_enum_t action_type = ADDITION;
 
   attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params->args = args; 
   args[0] = left;
   args[1] = right;
   args[2] = right;
 
   int num_attributes = 3;
   AST_block_t** actions  = malloc(sizeof(AST_block_t*));
-  actions[0] = AST_action_block_new(action_type, num_attributes, args);
+  actions[0] = AST_action_block_new(action_type, num_attributes, action_params);
   
   // allocates the new branch block
   branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
@@ -584,13 +596,15 @@ Test(branch_block_t, end_while)
   action_enum_t action_type = ADDITION;
 
   attribute_t **args = malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params->args = args; 
   args[0] = left;
   args[1] = right;
   args[2] = right;
 
   int num_attributes = 3;
   AST_block_t** actions  = malloc(sizeof(AST_block_t*));
-  actions[0] = AST_action_block_new(action_type, num_attributes, args);
+  actions[0] = AST_action_block_new(action_type, num_attributes, action_params);
 
   // allocates the new branch block
   branch_block_t* new_branch = branch_block_new(num_conditionals, conditionals,
