@@ -290,18 +290,6 @@ int change_xp(player_t *player, int points);
  */
 item_hash_t* get_inventory(player_t *player);
 
-
-/* Adds an item to the given player
- *
- * Parameters:
- *  player struct
- *  item struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_item_to_player(player_t *player, item_t *item);
-
 /* Removes an item from the given player
  * Note that the memory associated with this item is not freed
  * 

@@ -683,21 +683,27 @@ int remove_quest_all(quest_hash_t *hash_table)
 reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash)
 {
     assert(player != NULL);
+
     task_tree_t *tree = get_task_tree_from_hash(task_id, quest_hash);
     assert(tree != NULL);
 
-    if (meets_prereqs(player, tree->task->prereq)) 
+    quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
+    int pquest_exists = !!get_player_quest_from_hash(quest_of_task->quest_id, player->player_quests);
+
+    if (is_task_completed(tree->task, player)) 
     {
         get_player_task_from_hash(tree->task->id, player->player_tasks)->completed = true;
         
-        for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
-            add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
-            if(is_task_completed(cur->task, player)) {
-                accept_reward(complete_task(cur->task->id, player, quest_hash), player);
-                break;
+        if(pquest_exists) {
+            for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
+                add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
+                if(is_task_completed(cur->task, player)) {
+                    accept_reward(complete_task(cur->task->id, player, quest_hash), player);
+                    break;
+                }
             }
         }
-        quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
+        
         if(is_quest_completed(quest_of_task, player)) {
             accept_reward(complete_quest(quest_of_task, player), player);
         }
@@ -715,4 +721,12 @@ int accept_reward(reward_t *reward, player_t *player) {
     assert(player != NULL);
     player->xp += reward->xp;
     add_item_to_hash(&player->inventory, reward->item);
+}
+
+/* Refer to quest_state.h */
+int update_player_quests(player_t *player, quest_hash_t *quest_hash) {
+    assert(player != NULL);
+    for(player_task_hash_t *cur = player->player_tasks; cur!= NULL; cur = cur->hh.next) {
+        accept_reward(complete_task(cur->task_id, player, quest_hash), player);
+    }
 }

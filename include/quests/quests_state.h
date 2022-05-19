@@ -545,5 +545,15 @@ int remove_quest_all(quest_hash_t *hash_table);
 */
 int accept_reward(reward_t *reward, player_t *player);
 
+/* Checks if all of the player's tasks are complete and updates them accordingly
+ * 
+ * Parameter:
+ * - player: the player getting checked
+ * - quest_hash: a hash table of all of the quests in the game
+ * 
+ * Returns:
+ * - SUCCESS if tasks are checked successfully, FAILURE if an error occured
+*/
+int update_player_quests(player_t *player, quest_hash_t *quest_hash);
 
 #endif /* QUESTS_STATE_H */
