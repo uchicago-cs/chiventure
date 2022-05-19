@@ -186,12 +186,6 @@ char **parse(char *input)
         return NULL;
     }
 
-    // before returning the tokens, we must run through them
-    // and remove all "fillers", such as prepositions
-    // like "the" and "to"
-    remove_fillers(words);
-
-    return words;
     char *token_quotes = strtok(input, "\"");
 
     //Populates by_quotes array with tokens separated by " character
@@ -237,8 +231,6 @@ char **parse(char *input)
             return NULL;
         }
 
-        return words;
-
     //If the first character of the input is "
     }
     else
@@ -279,7 +271,13 @@ char **parse(char *input)
             return NULL;
         }
 
-        return words;
     }
+
+    // before returning the tokens, we must run through them
+    // and remove all "fillers", such as prepositions
+    // like "the" and "to"
+    //remove_fillers(words);
+
+    return words;
 
 }
