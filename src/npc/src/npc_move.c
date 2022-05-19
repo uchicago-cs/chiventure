@@ -357,7 +357,8 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
             || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
     {
         assert(flip_npc_path_direction(npc_mov) == SUCCESS);
-        assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
+        assert(register_npc_room_time(npc_mov, npc_mov->track,
+                (int) get_npc_indefinite_room_time(npc_mov)) == SUCCESS);
         return 1;
     }
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
@@ -376,7 +377,8 @@ int move_npc_indefinite(npc_mov_t *npc_mov)
         {
             return 0;
         }
-        assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
+        assert(register_npc_room_time(npc_mov, npc_mov->track,
+                (int) get_npc_indefinite_room_time(npc_mov)) == SUCCESS);
         return 2;
     }
     else
