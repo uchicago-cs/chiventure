@@ -240,12 +240,21 @@ battle_item_t *get_random_default_consumable()
     strncpy(rv_item->description, description_array[rand - 1], description_len + 1);
 
     rv_item->attributes = stat_changes_new();
-    if (rand < 2) {
-        rv_item->attributes->hp = mod_array[rand];
-    } else if (rand == 2) {
-        rv_item->attributes->phys_atk = mod_array[rand];
-    } else {
-        rv_item->attributes->phys_def = mod_array[rand];
+    if(rand == 1) 
+    {
+        rv_item->attributes->hp = mod_array[rand-1];
+    }
+    else if (rand == 2)
+    {
+        rv_item->attributes->hp = mod_array[rand-1];
+    } 
+    else if (rand == 3) 
+    {
+        rv_item->attributes->phys_atk = mod_array[rand-1];
+    } 
+    else 
+    {
+        rv_item->attributes->phys_def = mod_array[rand-1];
     }
 
     rv_item->quantity = randnum(1, 3);
