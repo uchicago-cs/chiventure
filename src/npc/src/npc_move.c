@@ -19,7 +19,7 @@ time_ray_t *time_ray_new(double assigned_time)
 {
     time_ray_t *time_ray;
     time_ray = malloc(sizeof(time_ray_t));
-    memset(time_ray, 0, sizeof(time_ray_t));
+    //memset(time_ray, 0, sizeof(time_ray_t));
     assert(time_ray_init(time_ray, assigned_time) == SUCCESS);
     return time_ray;
 }
@@ -66,7 +66,7 @@ npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
                                  double room_time)
 {
     npc_path_dll_t *path = malloc(sizeof(npc_path_dll_t));
-    memset(path, 0, sizeof(npc_path_dll_t));
+    //memset(path, 0, sizeof(npc_path_dll_t));
     path->room_id = malloc(MAX_ID_LEN);
     assert(npc_path_dll_init(path, mov_type, room_id, room_time) == SUCCESS);
     return path;
@@ -113,7 +113,7 @@ npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id, double room_time)
 {
     npc_mov_t *npc_mov;
     npc_mov = malloc(sizeof(npc_mov_t));
-    memset(npc_mov, 0, sizeof(npc_mov_t));
+    //memset(npc_mov, 0, sizeof(npc_mov_t));
     npc_mov->track = malloc(MAX_ID_LEN);
 
     int check = npc_mov_init(npc_mov, mov_type, room_id, room_time);
