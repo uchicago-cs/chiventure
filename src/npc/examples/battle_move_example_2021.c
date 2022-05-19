@@ -18,11 +18,11 @@
  *            looting functionalities can be used in battles in the future.
  *
  *  - NPC:    This is a CLI operation that prints out all the NPCs in the
- *            current room to the CLI. It utilizes the backend of rooms-npc
+ *            current room to the CLI. It utilizes the backend of rooms_npc
  *            module while printing to chiventure's CLI. Specifically, it uses
  *            a field in the room_t struct called npcs, which contains a list
  *            of NPCs in the current room and the total number of them. For
- *            deatils about this field, see rooms-npc.h.
+ *            deatils about this field, see rooms_npc.h.
  *
  *  - ARENA:  This is a CLI operation that moves the player from the lobby to
  *            the arena room. Since the main focus of this example is not player
@@ -92,19 +92,19 @@ class_t *generate_sample_class()
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats()
 {
-	stat_t *test_stats = calloc(1, sizeof(stat_t));
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
 
-	test_stats->speed = 50;
-	test_stats->phys_def = 20;
-	test_stats->phys_atk = 150;
-	test_stats->accuracy = 100;
-  test_stats->crit = 0;
-	test_stats->hp = 200;
-	test_stats->max_hp = 200;
-	test_stats->xp = 0;
-	test_stats->level = 5;
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->accuracy = 100;
+    test_stats->crit = 0;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
 
-	return test_stats;
+    return test_stats;
 }
 
 /* Creates + initializes a move. Taken from test_battle_ai.c */
@@ -318,13 +318,14 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement1, arena);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
                              "Friendly Fiona won't fight you unless you attack "
                              "her first, and she'll surrender quickly", class1,
                              movement1, true);
+
     /* Add battle info to friendly npc */
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
@@ -338,8 +339,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement2, arena);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    extend_path_definite(movement2, arena->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
                             "Harry.", "Hostile Harry will attack you"

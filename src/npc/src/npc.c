@@ -259,3 +259,4 @@ int delete_all_npcs(npc_hash_t *npcs)
     }
     return SUCCESS;
 }
+
