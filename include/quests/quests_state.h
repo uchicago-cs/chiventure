@@ -382,17 +382,18 @@ player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *
  */
 player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table);
 
-/* Adds a player quest to the given hash table
+/* Adds a player quest to the given player's player quest table
  *
  * Parameters:
- *  quest: pointer to quest struct
- *  hash_table: pointer to player quest hash table
- *  completion: the completion status of the quest
+ * - quest: pointer to quest struct
+ * - pointer: pointer to player
+ * - completion: the completion status of the quest
+ * - quest_hash: pointer to hash table of all quests
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, int completion);
+int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_hash_t *quest_hash);
 
 /* Adds a player task to the given hash table
  *

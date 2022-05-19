@@ -8,6 +8,7 @@
 #include "game-state/item.h"
 #include "game-state/room.h"
 #include "game-state/player.h"
+#include "game-state/game.h"
 
 /* Creates a sample class. Taken from test_class.c */
 class_t* generate_test_class()
@@ -651,6 +652,64 @@ Test(quest,get_quest2)
     cr_assert_eq(answer, NULL, "There is an quest with ID of beeppop ");
 }
 
+
+/*test for add task when 2 unique task_ID */ 
+Test(test, add_task_test1)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    prereq_t *prereq = prereq_new(hp, level);
+
+    char *task1_id = "task one";
+    char *task2_id = "task two";
+
+    quest_hash_t *qhash = NULL;
+
+    task_t *task1 = task_new(NULL, task1_id, rewards, prereq);
+    task_t *task2 = task_new(NULL, task2_id, rewards, prereq);
+
+    player_task_hash_t *test_hash_table = NULL;
+
+    int add_task1 = add_task_to_player_hash(task1, &test_hash_table, qhash);
+    int add_task2 = add_task_to_player_hash(task2, &test_hash_table, qhash); 
+
+    cr_assert_eq(add_task1, SUCCESS, "Could not sucessfully add task1"); 
+    cr_assert_eq(add_task2, SUCCESS, "Could not sucessfully add task2"); 
+}
+/*test for add task when a task with same ID already exists in hash*/
+Test(test, add_task_test2)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    prereq_t *prereq = prereq_new(hp, level);
+
+    char *task1_id = "task one";
+    char *task2_id = "task one";
+
+    quest_hash_t *qhash = NULL;
+
+    task_t *task1 = task_new(NULL, task1_id, rewards, prereq);
+    task_t *task2 = task_new(NULL, task2_id, rewards, prereq);
+
+    player_task_hash_t *test_hash_table = NULL;
+
+    int add_task1 = add_task_to_player_hash(task1, &test_hash_table, qhash);
+    int add_task2 = add_task_to_player_hash(task2, &test_hash_table, qhash); 
+
+    cr_assert_eq(add_task1, SUCCESS, "Could not sucessfully add task1"); 
+    cr_assert_eq(add_task2, FAILURE, "task2 added even though task_id already present in hash table"); 
+}
+
 /*test for add quest when 2 unique quest_ID */ 
 Test(test, add_quest_test1)
 {
@@ -677,7 +736,7 @@ Test(test, add_quest_test1)
     cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add quest1"); 
     cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add quest2"); 
 }
-/*test for add quest when a quest with same ID aredy exist in hash*/
+/*test for add quest when a quest with same ID already exists in hash*/
 Test(test, add_quest_test2)
 {
     int xp = 50;
