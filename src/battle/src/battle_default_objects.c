@@ -227,7 +227,7 @@ battle_item_t *get_random_default_consumable()
                                  "Adds 5 to your strength!"};
     int mod_array[] = {50, 20, 5, 5};
 
-    rv_item->id = rand + 1;
+    rv_item->id = rand ;
 
     // sets name
     int name_len = strlen(name_array[rand - 1]);
