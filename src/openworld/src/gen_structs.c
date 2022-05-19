@@ -76,7 +76,7 @@ int itemspec_free(itemspec_t *itemspec)
 }
 
 /* see gen_structs.h */
-int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist)
+int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, specgraph_t *specgraph)
 {
 
     if (context == NULL)
@@ -85,13 +85,13 @@ int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int nu
     context->level = level;
     context->open_paths = open_paths;
     context->num_open_paths = num_open_paths;
-    context->speclist = speclist;
+    context->specgraph = specgraph;
     return SUCCESS;
 }
 
 
 /* see gen_structs.h */
-gencontext_t* gencontext_new(path_t *open_paths, int level, int num_open_paths, speclist_t *speclist)
+gencontext_t* gencontext_new(path_t *open_paths, int level, int num_open_paths, specgraph_t *specgraph)
 {
 
     gencontext_t *contextnew = calloc(1, sizeof(gencontext_t));
@@ -101,7 +101,7 @@ gencontext_t* gencontext_new(path_t *open_paths, int level, int num_open_paths, 
         return NULL;
     }
 
-    init_gencontext(contextnew, open_paths, level, num_open_paths, speclist);
+    init_gencontext(contextnew, open_paths, level, num_open_paths, specgraph);
     return contextnew;
 }
 
@@ -192,60 +192,54 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
 }
 
 /* see gen_structs.h */
-int init_speclist(speclist_t *list, roomspec_t *spec)
+int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges)
 {
-
-    if (list == NULL)
+    if (specgraph == NULL)
         return FAILURE;
 
-    list->spec = spec;
-    list->prev = NULL;
-    list->next = NULL;
+    specgraph->num_roomspecs = num_roomspecs;
+    specgraph->roomspecs = roomspecs;
+    specgraph->edges = edges;
     return SUCCESS;
 }
 
 /* see gen_structs.h */
-speclist_t* speclist_new(roomspec_t *spec)
+specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges)
 {
+    specgraph_t *specnew = (specgraph_t*)malloc(sizeof(specgraph_t));
 
-    speclist_t *listnew = calloc(1, sizeof(speclist_t));
-
-    if (listnew == NULL) {
-        fprintf(stderr, "calloc failed to allocate space for listnew. \n");
+    if (specnew == NULL) {
+        fprintf(stderr, "calloc failed to allocate space for specnew. \n");
         return NULL;
     }
 
-    init_speclist(listnew, spec);
-    return listnew;
+    specgraph_init(specnew, num_roomspecs, roomspecs, edges);
+    return specnew;
 }
 
 /* see gen_structs.h */
-int speclist_free(speclist_t *list)
+int specgraph_free(specgraph_t *specgraph)
 {
-
-    if (list == NULL)
+    if (specgraph == NULL)
         return FAILURE;
-
-    free(list);
-    return SUCCESS;
-}
-
-/* see gen_structs.h */
-int speclist_free_all(speclist_t *list)
-{
-
-    if (list == NULL)
-        return FAILURE;
-
-    speclist_t *elt, *tmp;
-    DL_FOREACH_SAFE(list, elt, tmp) {
-        DL_DELETE(list, elt);
-        speclist_free(elt);
+    //Free the roomspecs
+    int num_roomspecs=specgraph->num_roomspecs;
+    for(int i=0; i<num_roomspecs; i++){
+        free((specgraph->roomspecs)[i]);
     }
+    //free(specgraph->roomspecs);
+
+    //Free the adjacency matrix
+    /*for(int i=0; i<num_roomspecs; i++){
+        free((specgraph->edges)[i]);
+    }
+    free(specgraph->edges); */
+
+    //Free specgraph itself
+    free(specgraph);
+
     return SUCCESS;
 }
-
-
 
 /* See gen_structs.h */
 int init_roomlevel(roomlevel_t *roomlevel, char *room_name, int difficulty_level)
