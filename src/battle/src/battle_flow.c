@@ -100,7 +100,7 @@ combatant_t *set_enemy(npc_t *npc_enemy)
     battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
     difficulty_t ai = npc_enemy->npc_battle->ai;
     battle_equipment_t *weapon = npc_enemy->weapon; 
-    battle_equipment_t *accessory npc_enemy->accessory; 
+    battle_equipment_t *accessory = npc_enemy->accessory; 
     battle_equipment_t *armor = npc_enemy->armor;
     // we will need to update npc_battle_t after npc is done with their merge
     stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
