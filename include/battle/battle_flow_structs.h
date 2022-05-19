@@ -51,7 +51,11 @@ typedef struct battle_ctx {
  *
  * Returns: a newly allocated battle_player_t with p_id, stats, moves, battle_items
  */
-battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items);
+battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, 
+                                move_t *moves, battle_item_t* items,
+                                battle_equipment_t *weapon, 
+                                battle_equipment_t *accessory, 
+                                battle_equipment_t *armor);
 
 /* Stub for the game_new function in game.h game-state module
  *

@@ -17,7 +17,7 @@ int randnum(int min, int max)
 }
 
 /* See battle_default_objects.h */
-battle_item_t *get_random_offensive item()
+battle_item_t *get_random_offensive_item()
 {
     battle_item_t *rv_offitem = calloc(1, sizeof(battle_item_t));
     assert(rv_offitem != NULL);
@@ -75,7 +75,7 @@ battle_item_t *get_random_offensive item()
 
 battle_equipment_t *get_random_equip_weapon()
 {
-    battle_item_t *rv_weapon = calloc(1, sizeof(battle_equipment_t));
+    battle_equipment_t *rv_weapon = calloc(1, sizeof(battle_equipment_t));
     assert(rv_weapon != NULL);
 
     int rand = (randnum(1, 4)) - 1; 

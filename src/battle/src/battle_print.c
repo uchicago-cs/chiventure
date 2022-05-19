@@ -384,9 +384,9 @@ int *print_battle_item_details(battle_item_t *item, char *string)
     int max_sp = changes->max_sp;
     int sp = changes->sp;
     int max_hp = changes->max_hp;
-    int hp = item->hp;
-    int crit = item->crit;
-    int accuracy = item->accuracy;
+    int hp = changes->hp;
+    int crit = changes->crit;
+    int accuracy = changes->accuracy;
     int quantity = item->quantity;
 
     n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\n"
@@ -398,7 +398,7 @@ int *print_battle_item_details(battle_item_t *item, char *string)
                 "\tCritical Rate: %d\n\tAccuracy: %d\n"
                 "\nQuantity: %d\n", 
                 name, description, phys_atk, mag_atk, phys_def, mag_def,
-                max_sp, sp, max_hp, hp, crit, accuracy);
+                max_sp, sp, max_hp, hp, crit, accuracy, quantity);
 
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
     slen += n;
