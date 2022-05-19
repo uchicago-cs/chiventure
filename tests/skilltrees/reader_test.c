@@ -164,10 +164,77 @@ Test(reader_tests, attr_reader_effect_free_test){
 }
 
 //The following execute tests don't work without a proper ctx object, to be implemented in a future release
+// fields that must be filled to pass
+// ctx->game->curr_player->player_class->name - "HUMAN"
+// ctx->game->battle_ctx->game->battle->player->stats - health = 50 hp
+
+/* Helper ctx object for below tests */
+chiventure_ctx_t *ctx_example(void) 
+{
+    class_t *class = malloc(sizeof(class_t));
+    if (class == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for class\n");
+        return NULL;
+    }
+    class->name = "HUMAN";
+
+    player_t *curr_player = malloc(sizeof(player_t));
+    if (curr_player == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for curr_player\n");
+        return NULL;
+    }
+    curr_player->player_class = class;
+    
+    stat_t *stats = malloc(sizeof(stat_t));
+    if (stats == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for stats\n");
+        return NULL;
+    }
+    stats->hp = 50;
+
+    combatant_t *player = malloc(sizeof(combatant_t));
+    if (player == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for player\n");
+        return NULL;
+    }
+    player->stats = stats;
+
+    battle_t *battle = malloc(sizeof(battle_t));
+    if (battle == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for battle\n");
+        return NULL;
+    }
+    battle->player = player;
+
+    battle_game_t *battle_game = malloc(sizeof(battle_game_t));
+    if (battle_game == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for battle_game\n");
+        return NULL;
+    }
+    battle_game->battle = battle;
+
+    battle_ctx_t *battle_ctx = malloc(sizeof(battle_ctx_t));
+    if (battle_ctx == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for battle_ctx\n");
+        return NULL;
+    }
+    battle_ctx->game = battle_game;
+
+    game_t *game = malloc(sizeof(game_t));
+    if (game == NULL) {
+        fprintf(stderr, "ctx_error: memory allocation failed for game\n");
+        return NULL;
+    }
+    game->curr_player = curr_player;
+    game->battle_ctx = battle_ctx;
+
+    chiventure_ctx_t* ctx = chiventure_ctx_new(game);
+    return ctx;
+}
 
 /* Test execute_reader_effect for statistic reader, true */
 Test(reader_tests, execute_reader_effect_with_stat_test_true){
-    chiventure_ctx_t* ctx = create_player_and_stats();
+    chiventure_ctx_t* ctx = ctx_example();
     stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, EQUALS, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_STATISTIC, NULL, sr);
     int rc = execute_reader_effect(effect, ctx);
@@ -176,7 +243,7 @@ Test(reader_tests, execute_reader_effect_with_stat_test_true){
 
 /* Test execute_reader_effect for statistic reader, false */
 Test(reader_tests, execute_reader_effect_with_stat_test_false){
-    chiventure_ctx_t* ctx = create_player_and_stats();
+    chiventure_ctx_t* ctx = ctx_example();
     stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, NOT, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_STATISTIC, NULL, sr);
     int rc = execute_reader_effect(effect, ctx);
@@ -185,8 +252,8 @@ Test(reader_tests, execute_reader_effect_with_stat_test_false){
 
 /* Test execute_reader_effect for attribute reader, true */
 Test(reader_tests, execute_reader_effect_with_attr_test_true){
-    chiventure_ctx_t* ctx = create_player_and_stats();
-    attr_reader_effect_t *ar = attr_reader_effect_new("TEST CHARACTER", 14, READ_PLAYER);
+    chiventure_ctx_t* ctx = ctx_example();
+    attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 14, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_ATTRIBUTE, ar, NULL);
     int rc = execute_reader_effect(effect, ctx);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
@@ -194,7 +261,7 @@ Test(reader_tests, execute_reader_effect_with_attr_test_true){
 
 /* Test execute_reader_effect for attribute reader, false */
 Test(reader_tests, execute_reader_effect_with_attr_test_false){
-    chiventure_ctx_t* ctx = create_player_and_stats();
+    chiventure_ctx_t* ctx = ctx_example();
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_ATTRIBUTE, ar, NULL);
     int rc = execute_reader_effect(effect, ctx);
@@ -203,15 +270,15 @@ Test(reader_tests, execute_reader_effect_with_attr_test_false){
 
 /* Test execute_attr_reader_effect for true*/
 Test(reader_tests, execute_attr_reader_effect_test_true){
-    chiventure_ctx_t* ctx = create_player_and_stats();
-    attr_reader_effect_t *ar = attr_reader_effect_new("TEST CHARACTER", 14, READ_PLAYER);
+    chiventure_ctx_t* ctx = ctx_example();
+    attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 14, READ_PLAYER);
     int rc = execute_attr_reader_effect(ar, ctx);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
 
 /* Test execute_attr_reader_effect for false*/
 Test(reader_tests, execute_attr_reader_effect_test_false){
-    chiventure_ctx_t* ctx = create_player_and_stats();
+    chiventure_ctx_t* ctx = ctx_example();
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     int rc = execute_attr_reader_effect(ar, ctx);
     cr_assert_eq(rc, 0, "Error: failed test execute_attr_reader_effect_test for false\n");
@@ -219,7 +286,7 @@ Test(reader_tests, execute_attr_reader_effect_test_false){
 
 /* Test execute_stat_reader_effect for true*/
 Test(reader_tests, execute_stat_reader_effect_test_true){
-    chiventure_ctx_t* ctx = create_player_and_stats();
+    chiventure_ctx_t* ctx = ctx_example();
     stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, EQUALS, READ_PLAYER);
     int rc = execute_stat_reader_effect(sr, ctx);
     cr_assert_eq(rc, 1, "Error: failed test execute_stat_reader_effect_test for true\n");
@@ -227,7 +294,7 @@ Test(reader_tests, execute_stat_reader_effect_test_true){
 
 /* Test execute_stat_reader_effect for false*/
 Test(reader_tests, execute_stat_reader_effect_test_false){
-    chiventure_ctx_t* ctx = create_player_and_stats();
+    chiventure_ctx_t* ctx = ctx_example();
     stat_reader_effect_t *sr = stat_reader_effect_new(50, HP, NOT, READ_PLAYER);
     int rc = execute_stat_reader_effect(sr, ctx);
     cr_assert_eq(rc, 0, "Error: failed test execute_stat_reader_effect_test for false\n");
