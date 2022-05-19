@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "inventory_graphics/inventory_graphics.h"
 
-Test(inventory, new)
+    Test(inventory, new)
 {
     player_t *p = player_new("1");
     display_dimensions_t dd;
