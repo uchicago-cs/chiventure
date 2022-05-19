@@ -213,7 +213,7 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     sc->speed += changes->speed;
     sc->crit += changes->crit;
     sc->accuracy += changes->accuracy;
-    sc->max_sp += changes->max_sp
+    sc->max_sp += changes->max_sp;
     sc->sp += changes->sp;
 
     return SUCCESS;
