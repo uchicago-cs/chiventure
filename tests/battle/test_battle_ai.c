@@ -30,19 +30,18 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 */
 
 /* Creates + initializes a battle_item */
- battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
-            bool battle, int attack, int defense, int hp)
+ battle_item_t *create_battle_item(int id, int quantity, int durability, char* description, 
+                                        char *name, bool attack, stat_changes_t *changes)
  {
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
      item->id = id;
-     item->quantity = quantity;
-     item->durability = durability;
+     item->name = name
      item->description = description;
-     item->battle = battle;
+     item->quantity = quantity;
+     item->description = description;
      item->attack = attack;
-     item->hp = hp;
-     item->defense = defense;
+     item->attributes = changes;
 
      return item;
  }
@@ -117,11 +116,26 @@ battle_item_t* create_player_battle_items()
 {
     battle_item_t *head, *dagger, *tea_leaves, *medicine;
     head = NULL;
-    dagger = create_battle_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
-    tea_leaves = create_battle_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
-    0, 0, 10);
-    medicine = create_battle_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;
+    dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger"
+    true, dagger_changes;
+
+    stat_changes_t *tea_changes = stat_changes_new();
+    tea_changes->hp = 10;
+    tea_changes->phys_atk = 0;
+    tea_changes->phys_def = 0;
+    tea_leaves = create_battle_item(2, 1, "Make yourself a warm cup of tea to heal your wounds!", "Tea Leaves", 
+                                    true, tea_changes);
+    
+    stat_changes_t *medicine_changes = stat_changes_new();
+    medicine_changes->hp = 30;
+    medicine_changes->phys_atk = 0;
+    medicine_changes->phys_def = 0;
+    medicine = create_battle_item(3, 1, "A first aid kit, straight from your doctor!", "Medicine",
+                                true, medicine_changes);
     DL_APPEND(head, dagger);
     DL_APPEND(head, tea_leaves);
     DL_APPEND(head, medicine);
@@ -131,14 +145,29 @@ battle_item_t* create_player_battle_items()
 /* Creates example hardcoded items for the enemy*/
 battle_item_t* create_enemy_battle_items()
 {
+    /* I am adding these for a temporary fix, however, these will be changed
+       as battle items are no longer weapons */
     battle_item_t *head, *mace, *diamond_sword, *force_shield;
     head = NULL;
-    mace = create_battle_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true,
-        0, -30, 0);
-    diamond_sword = create_battle_item(5, 1, 50, "Brings quick death to those who dare battle you...",
-        true, 20, 0, 0);
-    force_shield = create_battle_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move",
-        true, 0, 30, 5);
+    stat_changes_t *mace_changes = stat_changes_new();
+    mace_changes->phys_atk = 0;
+    mace_changes->phys_def = -30;
+    mace_changes->hp = 0;
+    mace = create_battle_item(4, 20, "Temporary blindness leaves you quite vulnerable...", "Mace", true,
+                                mace_changes);
+    stat_changes_t *sword_changes = stat_changes_new();
+    sword_changes->phys_atk = 20;
+    sword_changes->phys_def = 0;
+    sword_changes->hp = 0;
+    diamond_sword = create_battle_item(5, 50, "Brings quick death to those who dare battle you...", "Diamond Sword",
+        true, sword_changes);
+
+    stat_changes_t *shield_changes = stat_changes_new();
+    shield_changes->phys_atk = 0;
+    shield_changes->phys_def = 30;
+    shield_changes->hp = 5;    
+    force_shield = create_battle_item(6, 30, "Rest comfortably as this shield protects you for 1 move", "Force Shield"
+        true, shield_changes;
     DL_APPEND(head, mace);
     DL_APPEND(head, diamond_sword);
     DL_APPEND(head, force_shield);
