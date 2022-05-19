@@ -6,22 +6,32 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 
+/* Defines the type of equipment a piece of equipment is */
+enum equipment_type{
+    ACCESSORY,
+    ARMOR,
+    WEAPON
+};
 
-/* battle_items stub */
-typedef struct battle_item {
-    int id;
-    bool is_weapon;
-    int effectiveness_decrement;
-    int quantity;
-    int durability;
-    char* name;
-    char* description;
-    bool battle;
-    int attack;
-    int defense;
-    int hp;
-    struct battle_item *next;
-    struct battle_item *prev;
+/* A data structure of a piece of equipment */ 
+typedef struct battle_equipment{
+    int id; // the id of the equipment, should be unique for each individual type of equipment.
+    char *name; // the name of the equipment
+    char *description; // the description of the equipment
+    stat_changes_t *attributes; // the stats that are changed by the equipment
+    equipment_type type; // determines the type of equipment (armor, weapon, accessory)
+} battle_equipment_t;
+
+/* This defines battle items */
+typedef struct battle_item{
+    int id; // the id of the item, should be unique for each individual type of item.
+    char *name; // the name of the item
+    char *description; // the description of the item
+    stat_changes_t *attributes; // the stats that are changed by the item
+    int quantity; // the amount of items we have of this item
+    bool attack; // determines whether the item is used as an attack against the enemy, or as a defensive item for player
+    struct battle_item *next; // the next battle item
+    struct battle_item *prev; // the previous battle item
 } battle_item_t;
 
 /* This defines what type of damage if any the move would do. 
