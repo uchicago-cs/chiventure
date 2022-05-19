@@ -77,10 +77,10 @@ time_ray_t *time_ray_new(double assigned_time);
 
 int time_ray_free(time_ray_t *time_ray);
 
-int npc_path_dll_init(npc_path_dll_t *head, char *room_id,
-                      npc_mov_enum_t mov_type, double room_time);
+int npc_path_dll_init(npc_path_dll_t *head, npc_mov_enum_t mov_type,
+                      char *room_id, double room_time);
 
-npc_path_dll_t *npc_path_dll_new(char *room_id, npc_mov_enum_t mov_type,
+npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
                                  double room_time);
 
 /*

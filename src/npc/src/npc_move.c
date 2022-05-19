@@ -35,8 +35,8 @@ int time_ray_free(time_ray_t *time_ray)
 }
 
 /* See npc_move.h */
-int npc_path_dll_init(npc_path_dll_t *head, char *room_id,
-                      npc_mov_enum_t mov_type, double room_time)
+int npc_path_dll_init(npc_path_dll_t *head, npc_mov_enum_t mov_type,
+                      char *room_id, double room_time)
 {
     if (head == NULL)
     {
@@ -53,7 +53,7 @@ int npc_path_dll_init(npc_path_dll_t *head, char *room_id,
     }
     else
     {
-        return FAILURE
+        return FAILURE;
     }
     head->prev = NULL;
     head->next = NULL;
@@ -68,7 +68,7 @@ npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
     npc_path_dll_t *path = malloc(sizeof(npc_path_dll_t));
     memset(path, 0, sizeof(npc_path_dll_t));
     path->room_id = malloc(MAX_ID_LEN);
-    assert(npc_path_dll_init(path, room_id, mov_type, room_time) == SUCCESS);
+    assert(npc_path_dll_init(path, mov_type, room_id, room_time) == SUCCESS);
     return path;
 }
 
