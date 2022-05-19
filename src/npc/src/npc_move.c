@@ -104,7 +104,6 @@ int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int timetime)
     HASH_REPLACE(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
                  room_id, strlen(room_id),
                  new_npc_room_time, return_time);
-    free(return_time->room_id);
     free(return_time);
 
     HASH_ADD_KEYPTR(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
