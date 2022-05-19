@@ -121,7 +121,7 @@ battle_item_t* create_player_battle_items()
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;
     dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
-                                true, dagger_changes;
+                                true, dagger_changes);
 
     stat_changes_t *tea_changes = stat_changes_new();
     tea_changes->hp = 10;
@@ -238,7 +238,7 @@ combatant_t* new_enemy()
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
 }
 
@@ -271,7 +271,7 @@ combatant_t* new_battle_player()
     battle_item_t *items = create_player_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_NONE);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items,  NULL, NULL, NULL, BATTLE_AI_NONE);
 }
 
 /* Called by test functions to check give_move returns properly*/
