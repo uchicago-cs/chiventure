@@ -116,7 +116,7 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
  *
  * Parameters:
  * - items: an initially empty (NULL) linked list of battle_item_ts that can be used
- * - moves an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - moves: an initially empty (NULL) linked list of battle_item_ts that can be used
  * - comp: the current turn_component_t struct
  * - battle: the current battle_t struct
  * 

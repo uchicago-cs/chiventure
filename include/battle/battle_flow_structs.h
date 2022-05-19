@@ -28,6 +28,9 @@ typedef struct battle_game {
 
 /* A turn component lets the player and system know what a player can do at
  * a certain point of the turn
+ * If the int is 1, then the player can use that action at the turn component
+ * Ex: if the move and item ints are 1, then the player can choose to either 
+ * use a move or consume an item.
  */
 typedef struct turn_component {
     int move;
@@ -111,7 +114,9 @@ turn_component_list_t *new_turn_component_list(turn_component_t t, turn_componen
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-turn_component_list_t *init_turn_component_list(turn_component_list_t *turn, turn_component_list_t *r, turn_component_t c);
+turn_component_list_t *init_turn_component_list(turn_component_list_t *turn, 
+                                                turn_component_list_t *r, 
+                                                turn_component_t c);
 
 /*
  * Frees the resources associated with a turn component list

@@ -189,14 +189,12 @@ int *print_battle_items(battle_t *b, char *string)
    
 }
 
-/* see battle_print.h */
-
 /* Gets the expected length of a menu of possible actions based on 
  * the given items and moves
  * 
  * Parameters:
  *  - items: a linked list of available items
- *  - moves: a linked list of available items
+ *  - moves: a linked list of available moves
  * Returns:
  *  The expected length of the menu
  */ 
@@ -222,6 +220,7 @@ int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
   }
 }
 
+/* see battle_print.h */
 char *print_battle_action_menu(battle_item_t *items, move_t *moves)
 {
   
@@ -243,7 +242,7 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves)
   
   // loop through each move and add an entry to the menu string for each one
   int i;
-  for(i=1; i<=moves_count; i++)
+  for(i = 1; i <= moves_count; i++)
   {
     // set label number (the character '0' corrisponds to the int 30 in ascii)
     move_label[1] = (char)(30+i);
@@ -269,7 +268,7 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves)
 
   // loop through each item and add an entry to the menu string for each one
   char item_label[] = "I0 - ";
-  for(i=1; i<=moves_count; i++)
+  for(i = 1; i <= moves_count; i++)
   {
     // set label number 
     item_label[1] = (char)(30+i);

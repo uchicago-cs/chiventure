@@ -149,11 +149,14 @@ char *enemy_make_move(battle_ctx_t *ctx);
  * Parameters:
  * - ctx: the current chiventure context
  * - component: the turn component being run
+ * - callback_func: pointer to a callback function
+ * - callback_args: additional arguments to callback function
  *
  * Returns:
  * - returns int 1 if everything runs smoothly,
  *   or calls callback function if invalid input
  */
-int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component, void *callback_args, cli_callback callback_func);
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
+                        void *callback_args, cli_callback callback_func);
 
 #endif

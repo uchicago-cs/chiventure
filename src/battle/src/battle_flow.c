@@ -239,84 +239,90 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
 /* see battle_flow.h */
 int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
-                        void *callback_args, cli_callback callback_func){
+                        void *callback_args, cli_callback callback_func)
+{
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
-    get_legal_actions(legal_items, legal_moves, component, ctx->game->battle_ctx->game->battle);
-    if (ctx->game->battle_ctx->game->battle->turn == ENEMY){
+    get_legal_actions(legal_items, legal_moves, component, 
+                        ctx->game->battle_ctx->game->battle);
+    if (ctx->game->battle_ctx->game->battle->turn == ENEMY)
+    {
         battle_flow_move(ctx->game->battle_ctx, 
-                                ctx->game->battle_ctx->game->player->moves, 
-                                ctx->game->battle_ctx->game->battle->player->name);
+                        ctx->game->battle_ctx->game->player->moves, 
+                        ctx->game->battle_ctx->game->battle->player->name);
         char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->battle->enemy->moves);
-        //print_to_cli(ctx, movestr);
-        //printf("%s",movestr);
         callback_func(ctx, movestr, callback_args);
     }
     char *strg = print_battle_action_menu(legal_items, legal_moves);
     // print to cli
-      //_cli(ctx, strg);
-    //printf("%s", strg);
     callback_func(ctx, strg, callback_args);
     // take in user input
     char *input;
     scanf("%s", input);
-    if (input[0] == 'M' || input[0] == 'm'){
+    if (input[0] == 'M' || input[0] == 'm')
+    {
         // take the index of the move, under the assumption that the list is less than 10 moves long
-        
-        int index = (int) input[1];
-        for (int k = 0; k < index; k++){
-            if (ctx->game->battle_ctx->game->player->moves == NULL){
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->moves == NULL)
+            {
                 return callback_func(ctx, "That move does not exist.", callback_args);
             }
-            if (k == index-1){
+            if (k == index-1)
+            {
                     battle_flow_move(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->moves, 
                                 ctx->game->battle_ctx->game->battle->enemy->name);
                     char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->player->moves);
-                    //print_to_cli(ctx, movestr);
-                    //printf("%s",movestr);
                     callback_func(ctx, movestr, callback_args);
             }
-            else {
+            else
+            {
                 ctx->game->battle_ctx->game->player->moves = 
                 ctx->game->battle_ctx->game->player->moves->next;
             }
         }
-    } else if (input[0] == 'I' || input[0] == 'i'){
-        int index = (int) input[1];
-        for (int k = 0; k < index; k++){
-            if (ctx->game->battle_ctx->game->player->items == NULL){
+    } 
+    else if (input[0] == 'I' || input[0] == 'i')
+    {
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->items == NULL)
+            {
                 return callback_func(ctx, "That item does not exist.", callback_args);
             }
-            if (k == index-1){
+            if (k == index-1)
+            {
                 battle_flow_item(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->items);
                 char *itemstr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
                                 ctx->game->battle_ctx->game->player->moves);
-                //print_to_cli(ctx, itemstr);
-                //printf("%s",itemstr);
                 callback_func(ctx, itemstr, callback_args);
             }
-            else {
+            else 
+            {
                 ctx->game->battle_ctx->game->player->items = 
                 ctx->game->battle_ctx->game->player->items->next;
             }
         }
-    } else if (input[0] == 'D' || input[0] == 'd') {
+    } 
+    else if (input[0] == 'D' || input[0] == 'd') 
+    {
         char *str = (char *) malloc (sizeof(char) * 17);
         str = "You did nothing.";
-        //print_to_cli(ctx, str);
-        //printf("%s",str);
         callback_func(ctx, "You did nothing.", callback_args);
         return 1;
-    } else {
+    } 
+    else 
+    {
         return callback_func(ctx, "That action does not exist.", callback_args);
     }
-
     return 1;
 }

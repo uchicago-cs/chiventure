@@ -68,6 +68,8 @@ Test(battle_print, print_hp_one_enemy)
     free(string);
 }
 
+// test to be changed - will be resolved by merging with and 
+// accepting changes from the stat_change pull request
 /* Tests print_battle_move() on a player move */
 /*Test(battle_print, print_player_move)
 {
@@ -113,6 +115,8 @@ Test(battle_print, print_hp_one_enemy)
     free(string);
 }*/
 
+// test to be changed - will be resolved by merging with and 
+// accepting changes from the stat_change pull request
 /* Tests print_battle_move() on an enemy move */
 /*Test(battle_print, print_enemy_move)
 {

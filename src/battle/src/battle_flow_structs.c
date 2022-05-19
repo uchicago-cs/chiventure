@@ -32,7 +32,8 @@ battle_game_t *new_battle_game()
 }
 
 /* see battle_flow_structs.h */
-turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p){
+turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p)
+{
       tc.move = m;
       tc.item = i;
       tc.pass = p;
@@ -40,8 +41,11 @@ turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p){
 }
 
 /* see battle_flow_structs.h */
-turn_component_list_t *new_turn_component_list(turn_component_t t, turn_component_list_t *r){
-      turn_component_list_t *new_tcl = (turn_component_list_t *) malloc (sizeof(turn_component_list_t));
+turn_component_list_t *new_turn_component_list(turn_component_t t, 
+                                                turn_component_list_t *r)
+{
+      turn_component_list_t *new_tcl = (turn_component_list_t *) 
+                                    malloc (sizeof(turn_component_list_t));
       if (new_tcl == NULL){
             perror("Could not allocate memory");
             return NULL;
@@ -53,7 +57,10 @@ turn_component_list_t *new_turn_component_list(turn_component_t t, turn_componen
 }
 
 /* see battle_flow_structs.h */
-turn_component_list_t *init_turn(turn_component_list_t *tcl, turn_component_list_t *r, turn_component_t c){
+turn_component_list_t *init_turn(turn_component_list_t *tcl, 
+                                    turn_component_list_t *r, 
+                                    turn_component_t c)
+{
       assert(tcl != NULL);
       assert(r != NULL);
       tcl->current = c;
@@ -62,9 +69,15 @@ turn_component_list_t *init_turn(turn_component_list_t *tcl, turn_component_list
 }
 
 /* see battle_flow_structs.h */
-int turn_free(turn_component_list_t *tcl){
-      free(tcl->rest);
-      free(tcl);
+int turn_free(turn_component_list_t *tcl)
+{
+      while (tcl != NULL)
+      {
+            turn_component_list_t *buf = tcl;
+            tcl = tcl->rest;
+            free(buf);
+      }
+      return 0;
 }
 
 

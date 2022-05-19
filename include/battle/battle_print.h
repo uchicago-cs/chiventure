@@ -121,7 +121,7 @@ char *print_moves(battle_t *b, char* moves);
  * Parameters:
  *  - battle: pointer to the battle
  *  - items: a linked list of available items
- *  - moves: a linked list of available items
+ *  - moves: a linked list of available moves
  * Returns:
  *  A string containing the labeled menu items
  */ 
