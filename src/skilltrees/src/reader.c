@@ -158,15 +158,20 @@ int execute_reader_effect(reader_effect_t* reader, chiventure_ctx_t* ctx){
 //Helper function for execute_attr_reader_effect to check if structs are allocated
 //Yes, we know that this is abhorrent. Blame C for not letting us search through structs. 
 int check_attribute_null(chiventure_ctx_t* ctx, reader_location_t location){
-    if (location = READ_PLAYER) {
+    if (location == READ_PLAYER) {
         if (ctx != NULL){
             if (ctx->game != NULL){
-                if (ctx->game->curr_player != NULL){
-                    if (ctx->game->curr_player->player_class != NULL){
-                        if (ctx->game->curr_player->player_class->name != NULL){
-                            if (ctx->game->curr_player->player_class->name){
-                                return 0;
+                if (ctx->game->battle_ctx != NULL){
+                    if (ctx->game->battle_ctx->game != NULL){
+                        if (ctx->game->battle_ctx->game->battle != NULL){
+                            if (ctx->game->battle_ctx->game->battle->player != NULL){
+                                if (ctx->game->battle_ctx->game->battle->player->class_type != NULL){
+                                    if (ctx->game->battle_ctx->game->battle->player->class_type->name != NULL){         
+                                        return 0;
+                                    }
+                                }
                             }
+
                         }
                     }
                 }
@@ -184,9 +189,7 @@ int check_attribute_null(chiventure_ctx_t* ctx, reader_location_t location){
                             if (ctx->game->battle_ctx->game->battle->enemy != NULL){
                                 if (ctx->game->battle_ctx->game->battle->enemy->class_type != NULL){
                                     if (ctx->game->battle_ctx->game->battle->enemy->class_type->name != NULL){
-                                        if (ctx->game->battle_ctx->game->battle->enemy->class_type->name){
-                                        return 0;
-                                        }
+                                        return 0;  
                                     }
                                 }
                             }
@@ -224,6 +227,7 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
             //Check for presence of struct
             loc = READ_PLAYER;
             if (check_attribute_null(ctx, loc) == 1){
+                fprintf(stderr, "ATTR READER IN PLAYER RETURNED -1\n");
                 return -1;
             }
             if (NULL != reader->value){
@@ -331,7 +335,6 @@ int check_battle_null(chiventure_ctx_t* ctx){
 
 /*See reader.h*/
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx){
-    fprintf(stderr, "INSIDE STAT READER\n");
 
     //Check for presence of battle struct
     if (check_battle_null(ctx) == 1){
@@ -342,7 +345,6 @@ int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* c
 
     switch(reader->location){
         case READ_PLAYER:
-            fprintf(stderr, "WITHIN READ_PLAYER\n");
 
             if (battle->player != NULL){
                 if (battle->player->stats != NULL){
@@ -356,7 +358,6 @@ int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* c
         case READ_SINGLE_TARGET:
             if (battle->enemy != NULL){
                 if (battle->enemy->stats != NULL){
-                    fprintf(stderr, "GOT HERE\n");
                     return check_stats(reader->value, reader->stat_type, reader->comparison, 
                             ctx->game->battle_ctx->game->battle->enemy->stats); 
                 } 
@@ -367,10 +368,8 @@ int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* c
         // case READ_WORLD:
 
         default :
-            fprintf(stderr, "IN DEFAULT CASE\n");
             return -1;
 
     }
-    fprintf(stderr, "RETURNED -1\n");
     return -1;
 }

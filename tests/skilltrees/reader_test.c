@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include "skilltrees/reader.h"
 #include "skilltrees/skilltree.h"
 #include "skilltrees/skill.h"
@@ -176,7 +177,8 @@ chiventure_ctx_t *ctx_example(void)
         fprintf(stderr, "ctx_error: memory allocation failed for class\n");
         return NULL;
     }
-    char* name = "HUMAN";
+    char* name = "HUMAN";//(char*)malloc(sizeof(char)*6);
+    // strcpy(name, "HUMAN");
     class->name = name;
 
     player_t *curr_player = malloc(sizeof(player_t));
@@ -199,6 +201,7 @@ chiventure_ctx_t *ctx_example(void)
         return NULL;
     }
     player->stats = stats;
+    player->class_type = class;
 
     battle_t *battle = malloc(sizeof(battle_t));
     if (battle == NULL) {
@@ -257,6 +260,7 @@ Test(reader_tests, execute_reader_effect_with_attr_test_true){
     attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 5, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_ATTRIBUTE, ar, NULL);
     int rc = execute_reader_effect(effect, ctx);
+    printf("HERE %d", rc);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
 
@@ -266,6 +270,7 @@ Test(reader_tests, execute_reader_effect_with_attr_test_false){
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_ATTRIBUTE, ar, NULL);
     int rc = execute_reader_effect(effect, ctx);
+    printf("HERE %d", rc);
     cr_assert_eq(rc, 0, "Error: failed test execute_reader_effect_test_false for attr\n");
 }
 
@@ -274,6 +279,7 @@ Test(reader_tests, execute_attr_reader_effect_test_true){
     chiventure_ctx_t* ctx = ctx_example();
     attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 5, READ_PLAYER);
     int rc = execute_attr_reader_effect(ar, ctx);
+    printf("HERE %d", rc);
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
 
@@ -282,6 +288,7 @@ Test(reader_tests, execute_attr_reader_effect_test_false){
     chiventure_ctx_t* ctx = ctx_example();
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     int rc = execute_attr_reader_effect(ar, ctx);
+    printf("HERE %d", rc);
     cr_assert_eq(rc, 0, "Error: failed test execute_attr_reader_effect_test for false\n");
 }
 
