@@ -119,7 +119,7 @@ battle_equipment_t *get_random_equip_weapon()
 
 battle_equipment_t *get_random_equip_armor()
 {
-    battle_item_t *rv_armor = calloc(1, sizeof(battle_equipment_t));
+    battle_equipment_t *rv_armor = calloc(1, sizeof(battle_equipment_t));
     assert(rv_armor != NULL);
 
     int rand = (randnum(1, 4)) - 1; 
@@ -165,7 +165,7 @@ battle_equipment_t *get_random_equip_armor()
 
 battle_equipment_t *get_random_equip_accessory()
 {
-    battle_item_t *rv_access = calloc(1, sizeof(battle_equipment_t));
+    battle_equipment_t *rv_access = calloc(1, sizeof(battle_equipment_t));
     assert(rv_access != NULL);
 
     int rand = (randnum(1, 4)) - 1; 
