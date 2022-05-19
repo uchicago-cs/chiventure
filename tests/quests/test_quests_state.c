@@ -32,28 +32,20 @@ class_t* generate_test_class()
 /* Tests init function for mission struct */
 Test(mission, init)
 {   
-    class_t* class = generate_test_class();
-    char *npc_meet_id = "meet_npc";
-    char *npc_kill_id = "kill_npc";
+    mission_t mission;
 
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
-
-    mission_t *mission = malloc(sizeof(mission_t));
-
-    int check = mission_init(mission, NULL, mission_meet_npc, NULL, NULL);
+    int check = mission_init(&mission, "Poseidon", KILL_NPC);
 
     cr_assert_eq(check,SUCCESS,"mission_init() failed");
+    cr_assert_eq(mission.target_name, "Poseidon", "mission_init() failed to set target name!");
+    cr_assert_eq(mission.type, KILL_NPC, "mission_init() failed to set type!");
 }
 
 /* Tests init function for task struct */
 Test(task, init)
 {
-	item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
     char *id = "test mission";
-
-    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
+    mission_t *mission = mission_new("Trident", COLLECT_ITEM);
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
@@ -107,43 +99,34 @@ Test(prereq, init)
     cr_assert_eq(prereq.level, 5, "prereq_init did not set level");  
 }
 
-reward_t *create_sample_rewards(int xp, item_t *item)
-{
-    reward_t *rewards = malloc(sizeof(reward_t));
-
-    rewards->xp = xp;
-    rewards->item = item;
-
-    return rewards;
-}
-
 /* Tests init function for quest struct */
 Test(quest, init)
 {   
-    quest_t *q = malloc(sizeof(quest_t));
+    quest_t q;
 
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
     prereq_t *prereq = prereq_new(hp, level);
 
-	int check = quest_init(q, "test", NULL, rewards, prereq);
+	int check = quest_init(&q, "test", NULL, rewards, prereq);
 
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
+    cr_assert_eq(q.prereq, prereq, "quest_init() failed to set prereq!");
+    cr_assert_eq(q.reward, rewards, "quest_init() failed to set reward!");
+
 }
 
 /* Tests new task malloc (new uses init) */
 Test(task, new)
 {
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
     char *id = "test mission";
 
-    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
+    mission_t *mission = mission_new("Steve", MEET_NPC);
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
@@ -161,7 +144,7 @@ Test(quest, new)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -187,18 +170,12 @@ Test(quest, new)
 /* Tests task_free function */
 Test(task, free)
 {
-	item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    char *id = "test mission";
+    char *id = "test task";
 
-    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
-
-    item_t *item = item_new("reward_item", "item for rewarding",
-    "test item for item_new()");
     int xp = 30;
-    reward_t *rewards = reward_new(xp, item);
+    reward_t *rewards = reward_new(xp, NULL);
 
-	task_t* task_to_free = task_new(mission, id, rewards, NULL);
+	task_t* task_to_free = task_new(NULL, id, rewards, NULL);
 
 
 	cr_assert_not_null(task_to_free, "task_free(): room is null");
@@ -211,14 +188,7 @@ Test(task, free)
 /* Tests mission_free function */
 Test(mission, free)
 {
-    class_t* class = generate_test_class();
-    char *npc_meet_id = "meet_npc";
-    char *npc_kill_id = "kill_npc";
-
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-
-    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
+    mission_t *mission = mission_new("Atlantis", VISIT_ROOM);
 
     cr_assert_not_null(mission, "mission_free(): room is null");
     
@@ -233,7 +203,7 @@ Test(quest, free)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -255,7 +225,7 @@ Test(quest, add_task_to_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -265,9 +235,7 @@ Test(quest, add_task_to_quest)
     "test item for item_new()");
     char *id = "test mission";
 
-    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
-
-	task_t* task_to_add = task_new(mission, id, rewards, NULL);
+	task_t* task_to_add = task_new(NULL, id, rewards, NULL);
 
     int res = add_task_to_quest(quest, task_to_add, "NULL");
 
@@ -349,7 +317,7 @@ Test(quest, start_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -375,7 +343,7 @@ Test(quest, fail_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -404,7 +372,7 @@ Test(quest, complete_task_mission)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -419,7 +387,7 @@ Test(quest, complete_task_mission)
     npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
                                        class, NULL, false);
 
-    mission_t *mission = mission_new(NULL, NULL, mission_meet_kill, NULL); 
+    mission_t *mission = mission_new("Trident", COLLECT_ITEM); 
 
 
     char *id = "test mission";
@@ -452,7 +420,7 @@ Test(quest, complete_task_prereq)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -498,7 +466,7 @@ Test(quest,is_quest_completed)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -512,7 +480,7 @@ Test(quest,is_quest_completed)
 
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
-    mission_t *mission = mission_new(NULL, NULL, NULL, room_to_visit); 
+    mission_t *mission = mission_new("Grand ballroom", VISIT_ROOM); 
 
     char *id = "test mission";
 
@@ -546,7 +514,7 @@ Test(quest,get_player_quest_status)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -574,7 +542,7 @@ Test(quest,complete_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -607,7 +575,7 @@ Test(quest,complete_quest2)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -634,7 +602,7 @@ Test(quest,get_quest1)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -662,7 +630,7 @@ Test(quest,get_quest2)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -689,7 +657,7 @@ Test(test, add_quest_test1)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -715,7 +683,7 @@ Test(test, add_quest_test2)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -740,7 +708,7 @@ Test(quest, remove_quest_one)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;
@@ -767,7 +735,7 @@ Test(quest, remove_quest_all)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-    reward_t *rewards = create_sample_rewards(xp, item);
+    reward_t *rewards = reward_new(xp, item);
 
     int hp = 50;
     int level = 5;

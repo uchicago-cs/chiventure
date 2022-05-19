@@ -5,14 +5,12 @@
 #include "quests/quests_state.h"
 
 /* Refer to quests_state.h */
-mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit)
+mission_t *mission_new(char *target_name, mission_types_t type)
 {
     mission_t *mission = malloc(sizeof(mission_t));
     int rc;
 
-    rc = mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
-                      room_to_visit);
+    rc = mission_init(mission, target_name, type);
 
     if (rc != SUCCESS)
     {
@@ -103,30 +101,13 @@ id_list_t *id_list_new() {
 }
 
 /* Refer to quests_state.h */
-int mission_init(mission_t *mission, item_t *item_to_collect, 
-                        npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
+int mission_init(mission_t *mission, char *target_name, mission_types_t type)
 {
     assert(mission != NULL);
+    assert(target_name != NULL);
 
-    int count = 0;
-    if(item_to_collect != NULL) {
-        count++;
-    }
-    if(npc_to_meet != NULL) {
-        count++;
-    }
-    if(npc_to_kill != NULL) {
-        count++;
-    }
-    if(room_to_visit != NULL) {
-        count++;
-    }
-    assert(count < 2);
-
-    mission->item_to_collect = item_to_collect;
-    mission->npc_to_meet = npc_to_meet;
-    mission->npc_to_kill = npc_to_kill;
-    mission->room_to_visit = room_to_visit;
+    mission->target_name = target_name;
+    mission->type = type;
 
     return SUCCESS;
 }
@@ -196,11 +177,6 @@ int id_list_init(id_list_t *id_list) {
 int mission_free(mission_t *mission)
 {
     assert(mission != NULL);
-
-    free(mission->item_to_collect);
-    free(mission->npc_to_meet);
-    free(mission->npc_to_kill);
-    free(mission->room_to_visit);
     free(mission);
 
     return SUCCESS;
