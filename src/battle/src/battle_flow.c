@@ -28,10 +28,14 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
     stat_t *stats = ctx_player->stats;
     move_t *moves = ctx_player->moves;
     battle_item_t *items = ctx_player->items;
+    battle_equipment_t *weapon = ctx_player->weapon; 
+    battle_equipment_t *accessory ctx_player->accessory; 
+    battle_equipment_t *armor = ctx_player->armor;
 
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name, is_friendly, c_type, stats,
-                                             moves, items, BATTLE_AI_NONE);
+                                             moves, items, weapon, accessory,
+                                             armer, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
 
