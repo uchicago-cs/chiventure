@@ -22,7 +22,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *c_type,
     }
 
     rc = combatant_init(c, name, is_friendly, c_type, stats, moves, items, weapon,
-                        accesory, armor, ai);
+                        accessory, armor, ai);
     if(rc != SUCCESS)
     {
         fprintf(stderr, "Could not initialize character\n");
