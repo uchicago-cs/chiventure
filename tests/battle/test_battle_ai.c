@@ -120,8 +120,8 @@ battle_item_t* create_player_battle_items()
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;
-    dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger"
-    true, dagger_changes;
+    dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes;
 
     stat_changes_t *tea_changes = stat_changes_new();
     tea_changes->hp = 10;
@@ -166,8 +166,8 @@ battle_item_t* create_enemy_battle_items()
     shield_changes->phys_atk = 0;
     shield_changes->phys_def = 30;
     shield_changes->hp = 5;    
-    force_shield = create_battle_item(6, 30, "Rest comfortably as this shield protects you for 1 move", "Force Shield"
-        true, shield_changes;
+    force_shield = create_battle_item(6, 30, "Rest comfortably as this shield protects you for 1 move", "Force Shield",
+                                        true, shield_changes);
     DL_APPEND(head, mace);
     DL_APPEND(head, diamond_sword);
     DL_APPEND(head, force_shield);
@@ -253,7 +253,7 @@ combatant_t* new_enemy_crit()
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
 }
 
