@@ -368,7 +368,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     }
 
     if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
-        if (obj == STATS) {
+        if (strcmp(target, "stats") == 0) {
             // retrieve stats from the player
             string = display_stats(c->game->curr_player->player_stats);
         }
