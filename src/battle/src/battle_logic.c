@@ -205,14 +205,7 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     }
     stat_changes_t *changes = item->attributes;
     sc->max_hp += changes->max_hp;
-    if ((sc->hp + changes->hp) <= sc->max_hp)
-    {
-        sc->hp += changes->hp;
-    }else
-    {
-        sc->hp += sc->max_hp;
-    }
-    
+    sc->hp += changes->hp;    
     sc->phys_atk += changes->phys_atk;
     sc->phys_def += changes->phys_def; 
     sc->mag_atk += changes->mag_atk;
@@ -220,12 +213,8 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     sc->speed += changes->speed;
     sc->crit += changes->crit;
     sc->accuracy += changes->accuracy;
-    if ((sc->sp + changes->sp) > sc->max_sp)
-    {
-        sc->sp = sc->max_sp;
-    }
-    else{
-        sc->sp += changes->sp;
-    }
+    sc->max_sp += changes->max_sp
+    sc->sp += changes->sp;
+
     return SUCCESS;
 }
