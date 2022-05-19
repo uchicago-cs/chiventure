@@ -226,17 +226,3 @@ int check_gte(attribute_t *a1, attribute_t *a2)
  * int check_in(attribute_t *a, item_t *c)
  */
 
-
-/* See custom-actions-common.h */
-attribute_t *attribute_new(enum attribute_tag tag, attribute_value_t value) {
-
-    attribute_t *res = (attribute_t*) malloc(sizeof(attribute_t));
-    if (!res) {
-        fprintf(stderr, "attribute_new: failed to allocate attribute");
-        exit(1);
-    }
-
-    res->attribute_key = NULL;
-    res->attribute_tag = tag;
-    res->attribute_value = value;
-}
