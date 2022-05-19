@@ -225,6 +225,7 @@ battle_item_t *get_random_default_consumable()
     char* description_array[] = {"Adds 50 to your HP!", "Adds 20 to your HP!", 
                                  "Adds 5 to your defense!", 
                                  "Adds 5 to your strength!"};
+    int mod_array[] = {50, 20, 5, 5};
 
     rv_item->id = rand + 1;
 
