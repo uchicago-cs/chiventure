@@ -213,9 +213,11 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     sc->mag_atk += changes->mag_atk;
     sc->mag_def += changes->mag_def;
     sc->speed += changes->speed;
-    if((sc->sp + changes->sp) > sc->max_sp){
+    if ((sc->sp + changes->sp) > sc->max_sp)
+    {
         sc->sp = sc->max_sp;
-    }else{
+    }
+    else{
         sc->sp += changes->sp;
     }
     sc->crit += changes->crit;
