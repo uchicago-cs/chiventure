@@ -32,6 +32,8 @@ battle_item_t *get_random_offensive_item()
                                  "Reduces enemy's DEFENSE by 10", 
                                  "Reduces enemy's DEFENSE by 15"};
 
+    int mod_array[] = {-20, -10, -5, -10, -10, -15};
+
     rv_offitem->id = rand + 1;
     
     /* sets name */
