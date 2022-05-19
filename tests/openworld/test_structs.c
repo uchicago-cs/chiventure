@@ -132,6 +132,11 @@ Test(specgraph, new)
     cr_assert_eq(specgraph->num_roomspecs, 3, "specgraph_new() failed gathering num_roomspecs");
     cr_assert_eq(specgraph->roomspecs, roomspecs, "specgraph_new() failed gathering roomspecs");
     cr_assert_eq(specgraph->edges, edges, "specgraph_new() failed gathering edges");
+
+    for(int i=0; i<3; i++){
+        free(edges[i]);
+        free(edges);
+    }
 }
 
 /* Tests the specgraph_init function to validate that a specgraph can
@@ -167,6 +172,11 @@ Test(specgraph, init)
     int rc = specgraph_init(&specgraph, 3, roomspecs, edges);
 
     cr_assert_eq(rc, SUCCESS, "failed to initialize a specgraph_t\n");
+
+    for(int i=0; i<3; i++){
+        free(edges[i]);
+        free(edges);
+    }    
 }
 
 /* Tests the specgraph_free function to validate that a specgraph can
@@ -204,6 +214,11 @@ Test(specgraph, free)
     int check = specgraph_free(specgraph);
 
     cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
+
+    for(int i=0; i<3; i++){
+        free(edges[i]);
+        free(edges);
+    }
 }
 
 /* Tests the free_all_specgraphs function to validate that it can
