@@ -275,9 +275,9 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
             double time_in_room;
             time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1))
                 + mintime_in_room);
-            rc = extend_path_indefinite(npc_mov, room_to_add->room_id, time_in_room);
+            rc = extend_path_indefinite(npc_mov, head->room->room_id, time_in_room);
         }
-        
+
         head = head->next;
 
         if(rc == FAILURE)
