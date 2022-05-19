@@ -412,9 +412,6 @@ Test(quest, complete_task_mission)
 
     quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
-    quest_hash_t *hash = NULL;
-    add_quest_to_hash(quest, &hash); 
-
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
     char *npc_kill_id = "kill_npc";
@@ -431,8 +428,10 @@ Test(quest, complete_task_mission)
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
 
-    cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash); 
 
+    cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
     player_t *player = player_new("test player");
     start_quest(quest, player, hash);
 

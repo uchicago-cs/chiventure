@@ -380,7 +380,6 @@ int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash)
 {
     assert(quest != NULL);
     assert(player != NULL);
-
     int rc = add_quest_to_player_hash(quest, &player->player_quests, 1); // 1 means the quest started, should be replaced when completion status is replaced with enums
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
@@ -562,11 +561,13 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest
     HASH_ADD_KEYPTR(hh, *hash_table, task->id,
                     strnlen(task->id, MAX_ID_LEN), player_task);
 
-    id_list_node_t *temp = task->prereq->task_list->head;
-    while (temp != NULL) {
-        task_t *new_task = get_task_from_hash(temp->id, quest_hash);
-        add_task_to_player_hash(new_task, *hash_table, quest_hash);
-        temp = temp->next;
+    if(task->prereq) {
+        id_list_node_t *temp = task->prereq->task_list->head;
+        while (temp != NULL) {
+            task_t *new_task = get_task_from_hash(temp->id, quest_hash);
+            add_task_to_player_hash(new_task, hash_table, quest_hash);
+            temp = temp->next;
+        }
     }
   
     return SUCCESS;
