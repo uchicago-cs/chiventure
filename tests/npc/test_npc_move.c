@@ -87,10 +87,7 @@ Test(npc_mov, register_npc_room_time)
 }
 
 /* Tests reset_indefinite_npc_room_start_time function */
-Test(npc_mov, reset_indefinite_npc_room_start_time)
-{
-    
-}
+//Test(npc_mov, reset_indefinite_npc_room_start_time)
 
 /* Tests extend_path_def fucntion */
 Test(npc_mov, extend_path_definite)
