@@ -266,7 +266,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
     {
         if(npc_mov->mov_type == NPC_MOV_DEFINITE)
         {
-            rc = extend_path_definite(npc_mov, room_to_add->room_id);
+            rc = extend_path_definite(npc_mov, head->room->room_id);
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
@@ -277,6 +277,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
                 + mintime_in_room);
             rc = extend_path_indefinite(npc_mov, room_to_add->room_id, time_in_room);
         }
+        
         head = head->next;
 
         if(rc == FAILURE)
