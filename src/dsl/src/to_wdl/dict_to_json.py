@@ -1,3 +1,8 @@
+# This file contains the function parsed_dict_to_json
+#
+# Alex Lee, Andi Liu
+#
+# Convert the intermediate data structures that is given by the parser into a working WDL or JSON format.
 import json
 from warnings import warn
 from collections import ChainMap

@@ -1,3 +1,8 @@
+# This file contains the code that defines Room class
+#
+# Alex Lee, Andi Liu
+#
+# Defines a Room class for conversion of elements related to room to WDL.
 import json
 from warnings import warn
 from collections import ChainMap

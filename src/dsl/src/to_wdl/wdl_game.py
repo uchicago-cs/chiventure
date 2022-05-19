@@ -1,3 +1,8 @@
+# This file contains the code that defines Game class
+#
+# Alex Lee, Andi Liu
+#
+# Defines a Game class for conversion of elements related to game to WDL.
 import json
 from warnings import warn
 from collections import ChainMap

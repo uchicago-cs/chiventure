@@ -1,3 +1,8 @@
+# This file contains the code that defines Item class
+#
+# Alex Lee, Andi Liu
+#
+# Defines a Item class for conversion of elements related to items to WDL.
 import json
 from warnings import warn
 from collections import ChainMap
