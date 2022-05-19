@@ -29,7 +29,7 @@ int randnum(int min, int max);
  * Returns:
  * -a pointer to a default battle weapon
  */
-battle_item_t *get_random_offensive item();
+battle_item_t *get_random_offensive_item();
 
 /* 
  * Generates a random piece of weapon equipment from a previously-initialized 
