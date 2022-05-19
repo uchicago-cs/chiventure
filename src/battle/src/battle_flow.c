@@ -29,7 +29,7 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
     move_t *moves = ctx_player->moves;
     battle_item_t *items = ctx_player->items;
     battle_equipment_t *weapon = ctx_player->weapon; 
-    battle_equipment_t *accessory ctx_player->accessory; 
+    battle_equipment_t *accessory = ctx_player->accessory; 
     battle_equipment_t *armor = ctx_player->armor;
     stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
     with_equipment = stats;
@@ -75,7 +75,7 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
     // Allocating new combatant_t for the player in memory
     combatant_t *comb_player = combatant_new(name, is_friendly, c_type, with_equipment,
                                              moves, items, weapon, accessory,
-                                             armer, BATTLE_AI_NONE);
+                                             armor, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
 
@@ -99,9 +99,9 @@ combatant_t *set_enemy(npc_t *npc_enemy)
     move_t *moves = npc_enemy->npc_battle->moves;
     battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
     difficulty_t ai = npc_enemy->npc_battle->ai;
-    battle_equipment_t *weapon = ctx_player->weapon; 
-    battle_equipment_t *accessory ctx_player->accessory; 
-    battle_equipment_t *armor = ctx_player->armor;
+    battle_equipment_t *weapon = npc_enemy->weapon; 
+    battle_equipment_t *accessory npc_enemy->accessory; 
+    battle_equipment_t *armor = npc_enemy->armor;
     // we will need to update npc_battle_t after npc is done with their merge
     stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
     with_equipment = stats;
