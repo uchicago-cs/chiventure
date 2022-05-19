@@ -42,7 +42,7 @@ int npc_path_dll_init(npc_path_dll_t *head, npc_mov_enum_t mov_type,
     {
         return FAILURE;
     }
-    strncpy(head->room_id, room_id, MAX_ID_LEN);
+    strcpy(head->room_id, room_id);
     if (mov_type == NPC_MOV_INDEFINITE)
     {
         head->room_time = time_ray_new(room_time);
