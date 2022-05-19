@@ -39,6 +39,15 @@ typedef struct npc_battle {
 
     /* An inventory of items that can be used in battle */
     battle_item_t *items;
+
+    /* armor that an npc can equip*/ 
+    battle_equipment_t *armor;
+
+    /* an accessory that an npc can equip*/ 
+    battle_equipment_t *accessory;
+
+    /* weapon that an npc can equip*/ 
+    battle_equipment_t *weapon;
 } npc_battle_t;
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
