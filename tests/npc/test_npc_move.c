@@ -36,8 +36,9 @@ Test (npc_mov, init)
     cr_assert_str_eq(npc_mov->track, "test_room1",
                      "npc_mov_init() did not set track");
     
-    int check2 = npc_mov_init(npc_mov, NPC_MOV_INDEFINITE, test_room1->room_id, 10);
-    cr_assert_eq(npc_mov->path->room_time->assigned_time, 10,
+    npc_mov_t *npc_mov2 = malloc(sizeof(npc_mov_t));
+    int check2 = npc_mov_init(npc_mov2, NPC_MOV_INDEFINITE, test_room1->room_id, 10);
+    cr_assert_eq(npc_mov2->path->room_time->assigned_time, 10,
                  "npc_mov_init() failed to set assigned_time");
 }
 
