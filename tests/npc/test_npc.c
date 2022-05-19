@@ -4,6 +4,7 @@
 #include "npc/npc.h"
 #include "game-state/item.h"
 #include "playerclass/class.h"
+#include "battle/battle_state.h"
 
  battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes)
