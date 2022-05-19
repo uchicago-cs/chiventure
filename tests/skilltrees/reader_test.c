@@ -10,8 +10,6 @@
 #include "skilltrees/effect.h"
 #include "test_init.h"
 
-// TO DO : check test line 194, 211 for passability 
-
 /* Test reader_effect_new for attribute reader */
 Test(reader_tests, reader_effect_new_test_attr){
     reader_type_t type = READER_ATTRIBUTE;
@@ -41,9 +39,6 @@ Test(reader_tests, reader_effect_new_test_stat){
     cr_assert_eq(new->stat_reader,sr,
         "Error: failed test reader_effect_new_test_stat on new->stat_reader\n");
 }
-
-// int reader_effect_init(reader_effect_t* reader, reader_type_t type, attr_reader_effect_t* attr_reader,
-//                   stat_reader_effect_t* stat_reader)
 
 
 /* Test reader_effect_init for attribute reader */
@@ -188,7 +183,6 @@ Test(reader_tests, execute_reader_effect_with_stat_test_false){
     cr_assert_eq(rc, 0, "Error: failed test execute_reader_effect_test_false for stat\n");
 }
 
-// Not sure this will work because of the case coverage in reader.c -- come back to this!
 /* Test execute_reader_effect for attribute reader, true */
 Test(reader_tests, execute_reader_effect_with_attr_test_true){
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -207,7 +201,6 @@ Test(reader_tests, execute_reader_effect_with_attr_test_false){
     cr_assert_eq(rc, 0, "Error: failed test execute_reader_effect_test_false for attr\n");
 }
 
-// Not sure this will work because of the case coverage in reader.c -- come back to this!
 /* Test execute_attr_reader_effect for true*/
 Test(reader_tests, execute_attr_reader_effect_test_true){
     chiventure_ctx_t* ctx = create_player_and_stats();
