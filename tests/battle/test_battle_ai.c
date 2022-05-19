@@ -30,13 +30,13 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 */
 
 /* Creates + initializes a battle_item */
- battle_item_t *create_battle_item(int id, int quantity, int durability, char* description, 
+ battle_item_t *create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes)
  {
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
      item->id = id;
-     item->name = name
+     item->name = name;
      item->description = description;
      item->quantity = quantity;
      item->description = description;
