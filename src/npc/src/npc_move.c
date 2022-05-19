@@ -149,7 +149,7 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id)
 /* See npc_move.h */
 int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id, double room_time)
 {
-    assert(room_id_to_add != NULL);
+    assert(room_id != NULL);
 
     npc_path_dll_t *new;
     new = npc_path_dll_new(NPC_MOV_INDEFINITE, room_id, room_time);
