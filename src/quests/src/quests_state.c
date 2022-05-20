@@ -713,11 +713,20 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
         }
         ptask->completed = true;
         if(pquest_exists) {
+            // Add next tasks from quest to player
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
                 add_task_to_player_hash(cur->task, qctx);
                 if(is_task_completed(cur->task, player)) {
                     update_task(cur->task->id, qctx);
                     break;
+                }
+            }
+            // Remove tasks from other paths from player
+            if(tree->parent != NULL) {
+                for(task_tree_t *cur = tree->parent->lmostchild; cur != NULL; cur = cur->rsibling) {
+                    if(!get_player_task_status(cur->task, player)) {
+                        remove_task_in_player_hash(qctx->player->player_tasks, cur->task->id);
+                    }
                 }
             }
         }
