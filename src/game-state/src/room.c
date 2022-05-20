@@ -53,6 +53,7 @@ int room_free(room_t *room)
     free(room->room_id);
     free(room->short_desc);
     free(room->long_desc);
+    free(room->coords);
     delete_all_paths(room->paths);
     delete_all_items(&room->items);
     npcs_in_room_free(room->npcs);
