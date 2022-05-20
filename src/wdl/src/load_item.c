@@ -117,6 +117,7 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
     {
         char *action = case_insensitized_string(obj_get_str(curr_action, "action"));
         obj_t *conditions_obj = obj_get_attr(curr_action, "conditions", false);
+        
         if (conditions_obj != NULL) 
         {
            game_action_t* act = get_action(item, action);
@@ -138,7 +139,8 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
 /* See load_item.h */
 int load_items(obj_t *doc, game_t *g)
 {
-    // we use extract_objects() instead of obj_list_attr() because the former does type checking
+    /* we use extract_objects() instead of obj_list_attr() 
+       because the former does type checking */
     obj_t *items_obj = obj_get_attr(doc, "ITEMS", false);
     if (items_obj == NULL)
     {
