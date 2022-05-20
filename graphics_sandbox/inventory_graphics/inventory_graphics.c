@@ -22,9 +22,16 @@
         inv[i] = (slot_t*)malloc(sizeof(slot_t) * graphics->inventory->columns;
     }
 
+    for (int i = 0; i < graphics->inventory->rows; i++){
+        for (int j = 0; j < graphics->inventory->columns; j++){
+            int[i][j]->status = EMPTY;
+            int[i][j]->item = NULL;
+        }
+    }
+
     while (itemlst->next != NULL){
         for (int i = 0; i < graphics->inventory->rows; i++){
-            for(j = 0; j < graphics->inventory->columns; j++){
+            for(int j = 0; j < graphics->inventory->columns; j++){
                 if inv[i][j]->status == EMPTY{
                     inv[i][j]->status = FULL;
                     inv[i][j]->item = itemlst->item;
