@@ -66,7 +66,7 @@ npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
                                  double room_time)
 {
     npc_path_dll_t *path = malloc(sizeof(npc_path_dll_t));
-    //memset(path, 0, sizeof(npc_path_dll_t));
+    memset(path, 0, sizeof(npc_path_dll_t));
     path->room_id = malloc(MAX_ID_LEN);
     assert(npc_path_dll_init(path, mov_type, room_id, room_time) == SUCCESS);
     return path;
@@ -96,7 +96,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
 {
     assert(npc_mov != NULL);
     npc_mov->mov_type = mov_type;
-    strncpy(npc_mov->track, room_id, MAX_ID_LEN);
+    strcpy(npc_mov->track, room_id);
     npc_mov->npc_path_pos = 0;
     npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
     npc_mov->path = npc_path_dll_new(mov_type, room_id, room_time);
