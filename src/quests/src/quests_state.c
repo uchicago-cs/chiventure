@@ -5,29 +5,13 @@
 #include "quests/quests_state.h"
 
 /* Refer to quests_state.h */
-passive_mission_t *passive_mission_new(int xp, int levels, int health)
-{
-    passive_mission_t *mission = malloc(sizeof(passive_mission_t));
-    int rc;
-
-    rc = passive_mission_init(mission, xp, levels, health);
-
-    if (rc != SUCCESS)
-    {
-        fprintf(stderr, "\nCould not initialize  mission struct!\n");
-    }
-
-    return mission;
-}
-
-/* Refer to quests_state.h */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
+mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
                               npc_t *npc_to_kill, room_t *room_to_visit)
 {
-    active_mission_t *mission = malloc(sizeof(active_mission_t));
+    mission_t *mission = malloc(sizeof(mission_t));
     int rc;
 
-    rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
+    rc = mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
                       room_to_visit);
 
     if (rc != SUCCESS)
@@ -119,22 +103,25 @@ id_list_t *id_list_new() {
 }
 
 /* Refer to quests_state.h */
-int passive_mission_init(passive_mission_t *mission, int xp, int levels, int health)
-{
-    assert(mission != NULL);
-
-    mission->xp = xp;
-    mission->levels = levels;
-    mission->health = health;
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, 
+int mission_init(mission_t *mission, item_t *item_to_collect, 
                         npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
 {
     assert(mission != NULL);
+
+    int count = 0;
+    if(item_to_collect != NULL) {
+        count++;
+    }
+    if(npc_to_meet != NULL) {
+        count++;
+    }
+    if(npc_to_kill != NULL) {
+        count++;
+    }
+    if(room_to_visit != NULL) {
+        count++;
+    }
+    assert(count < 2);
 
     mission->item_to_collect = item_to_collect;
     mission->npc_to_meet = npc_to_meet;
@@ -159,7 +146,7 @@ int reward_init(reward_t *rewards, int xp, item_t *item)
 int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
 {
     assert(task != NULL);
-
+    assert(mission == NULL || prereq == NULL);
     task->mission = mission;
     task->reward = reward;
     task->id = id;
@@ -205,19 +192,8 @@ int id_list_init(id_list_t *id_list) {
     return SUCCESS;
 }
 
-
 /* Refer to quests_state.h */
-int passive_mission_free(passive_mission_t *mission)
-{
-    assert(mission != NULL);
-
-    free(mission);
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
-int active_mission_free(active_mission_t *mission)
+int mission_free(mission_t *mission)
 {
     assert(mission != NULL);
 
@@ -281,9 +257,15 @@ int id_list_free(id_list_t *id_list) {
 
 /* Refer to quests_state.h */
 bool meets_prereqs(player_t *player, prereq_t *prereq) {
+    if(player == NULL) {
+        return false;
+    }
+    if(prereq == NULL) {
+        return true;
+    }
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
-
+    
     if (health < prereq->hp || player->level < prereq->level) {
         return false;
     }
@@ -501,9 +483,13 @@ bool is_task_completed(task_t *task, player_t *player)
     if(!ptask) {
         return false;
     }
-    ptask->completed = true;
-    return true;
-    
+    if(ptask->completed) {
+        return true;
+    }
+    if(task->mission != NULL) {
+        return false;
+    }
+    return meets_prereqs(player, task->prereq);
 }
 
 /* Refer to quests_state.h */
@@ -700,8 +686,15 @@ int remove_quest_all(quest_hash_t *hash_table)
 /* Refer quests_state.h */
 reward_t *complete_task(task_t *task, player_t *player)
 {
-    if (get_player_task_status(task, player) == true)
+    assert(task != NULL);
+    assert(player != NULL);
+    if (task->mission != NULL || is_task_completed(task, player) == true) 
+    {
+        get_player_task_from_hash(task->id, player->player_tasks)->completed = true;
         return task->reward;
+    } 
     else
+    {
         return NULL;
+    }
 }
