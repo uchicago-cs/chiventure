@@ -14,9 +14,11 @@ item: _NL "ITEM" id "IN" location property* action*
 
 class: _NL "PLAYER_CLASS" id property* attribute* base_stats*
 
-attribute: _NL "attributes:" id "set" bool
-attribute_ids: id ("," id)*
-base_stats: _NL "base_stats:" id "CURRENT" NUMBER "MAX" NUMBER
+attribute: _NL "attributes:" attribute_ids*
+attribute_ids: _NL id "set" bool
+
+base_stats: _NL "base_stats:" stat_setting*
+stat_setting: _NL id _NL "CURRENT" NUMBER _NL "MAX" NUMBER
 
 
 action: _NL ("action:"|"actions:") action_ids property*

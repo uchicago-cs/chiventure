@@ -10,5 +10,9 @@ ROOM room B
 PLAYER_CLASS KNIGHT
     short desc: "this a knight"
     long desc: "he is out to save the world"
-    attributes: noble set TRUE
-    base_stats: health CURRENT 20 MAX 100
+    attributes: 
+        noble set TRUE
+    base_stats: 
+        health 
+            CURRENT 20 
+            MAX 100
