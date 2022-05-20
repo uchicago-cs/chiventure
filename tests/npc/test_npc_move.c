@@ -48,7 +48,7 @@ Test (npc_mov, init)
 }
 
 
-/* Tests freeing of npcs_in_room struct */
+/* Tests freeing of npc_mov struct */
 Test (npc_mov, free)
 {
     npc_mov_t *npc_mov;
@@ -133,18 +133,38 @@ Test(npc_mov, get_npc_num_rooms_indef)
 }
 
 
-/* Tests get_npc_curr_room_id function */
-Test(npc_mov, get_npc_curr_room_id)
+/* Tests get_npc_curr_room_id and get_next_npc_room_id functions */
+Test(npc_mov, get_npc_room_id)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 5);
+    cr_assert_eq(extend_path_indefinite(npc_mov, "test2", 10), SUCCESS,
+                 "extend_path_indef() failed");
 
     char* room_id_track = get_npc_curr_room_id(npc_mov);
-
     cr_assert_str_eq(room_id_track, "test_room", "get_npc_curr_room_id() failed");
+
+    room_id_track = get_next_npc_room_id(npc_mov);
+    cr_assert_str_eq(room_id_track, "test2", "get_next_npc_room_id() failed");
 }
 
+/* Tests get_npc_num_rooms function */
+Test(npc_mov, get_npc_num_rooms)
+{
+    room_t *room1 = room_new("r1", "room1", "room one");
+    room_t *room2 = room_new("r2", "room2", "room two");
+    room_t *room3 = room_new("r3", "room3", "room three");
 
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, room1->room_id, 0);
+    cr_assert_eq(extend_path_definite(npc_mov, room2->room_id), SUCCESS,
+                 "extend_path_def() failed");
+    cr_assert_eq(extend_path_definite(npc_mov, room3->room_id), SUCCESS,
+                 "extend_path_def()2 failed");
+    cr_assert_eq(extend_path_definite(npc_mov, room1->room_id), SUCCESS,
+                 "extend_path_def()3 failed");
+    
+    cr_assert_eq(get_npc_num_rooms(npc_mov), 4, "get_npc_num_rooms() failed");
+}
 /* Tests move_npc_mov function for definite NPCs */
 Test(npc_mov, move_npc_mov_def)
 {
