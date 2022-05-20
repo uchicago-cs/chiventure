@@ -231,6 +231,52 @@ npc_t *get_npc_in_room(room_t *room, char *npc_id)
     return npc;
 }
 
+/* Coordinate functions */
+
+/* See room.h */
+int coords_init(coords_t *new_coords, int x, int y){
+    assert(new_coords != NULL);
+
+    new_coords->x = x;
+    new_coords->y = y;
+
+    return SUCCESS;
+}
+
+/* See room.h */
+coords_t *coords_new(int x, int y){
+    coords_t *coords = malloc(sizeof(coords_t));
+    int check = coords_init(coords, x, y);
+
+    if (coords == NULL)
+        return NULL;
+
+    if (check != SUCCESS)
+        return NULL;
+
+    return coords;
+}
+
+/* See room.h */
+int coords_free(coords_t *coords){
+    free(coords);
+    return SUCCESS;
+}
+
+/* See room.h */
+int add_coords_to_room(coords_t *coords, room_t *room){
+    if (coords == NULL || room == NULL)
+        return FAILURE;
+
+    room->coords = coords;
+    return SUCCESS;
+}
+
+/* See room.h */
+coords_t *find_coords_of_room(room_t *room){
+    return room->coords;
+}
+
 /*
  * helper function for auto_gen_movement to find number of rooms in game
  *
@@ -317,11 +363,8 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
 
     add_npc_to_room(new_npc_room,npc);
     delete_npc_from_room(old_npc_room,npc);
+} 
 
-    return SUCCESS;
-}
-
-/* See room.h */
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
 
