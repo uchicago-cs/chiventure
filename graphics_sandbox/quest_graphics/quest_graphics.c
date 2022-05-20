@@ -3,16 +3,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-int getTreeMaxWidth(task_tree_mockup_t* taskTree) {
-    //To do
-    return 4;
-}
-
-int getTreeMaxHeight(task_tree_mockup_t* taskTree) {
-    //To do
-    return 3;
-}
-
 task_tree_mockup_t* synthesizeTest1() {
     task_tree_mockup_t *TreeA = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
     task_tree_mockup_t *TreeB = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
