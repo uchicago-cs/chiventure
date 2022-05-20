@@ -13,22 +13,38 @@
  * Returns:
  * 2D array of items corresponding to items in player's inventory
  */
-**item_t populate_items(player_t *p, graphics_t *graphics)
+**slot_t populate_items(player_t *p, graphics_t *graphics)
 {
     item_list_t *itemlst = get_all_items_in_hash(p->inventory);
     
-    item_t **inv = (item_t**)malloc(sizeof(item_t*)*graphics->inventory->rows);
+    slot_t **inv = (slot_t**)malloc(sizeof(slot_t*)*graphics->inventory->rows);
     for (unsigned int i = 0; i < graphics->inventory->rows; i++){
-        inv[i] = (item_t*)malloc(sizeof(item_t) * graphics->inventory->columns;
+        inv[i] = (slot_t*)malloc(sizeof(slot_t) * graphics->inventory->columns;
     }
 
     while (itemlst->next != NULL){
+        for (int i = 0; i < graphics->inventory->rows; i++){
+            for(j = 0; j < graphics->inventory->columns; j++){
+                if inv[i][j]->status == EMPTY{
+                    inv[i][j]->status = FULL;
+                    inv[i][j]->item = itemlst->item;
+                    itemlst->item->inventory_x_pos = i;
+                    itemlst->item->inventory_y_pos = j;
+                }
+            }
+        }
+    itemlst = itemlst->next;
+    }
+    
+/*
+{
         inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos]
             = itemlst->item;
         itemlst = itemlst->next;    
     }
     inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos] == itemlst->item;
     itemlst = itemlst->next;
+*/
     return inv;
 }
 
@@ -67,6 +83,7 @@ void add_item_inventory(player_inventory_t *player_inventory, item_t *item)
         for(int j; j < player_inventory->display->columns; j++) {
             if (player_inventory->slots[i][j].status == EMPTY) {
                 player_inventory->items[i][j] = item;
+// should this line be player_inventory->slots[i][j]->item = item;
                 change = 1;
                 break;
             }
