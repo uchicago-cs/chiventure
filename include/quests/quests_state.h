@@ -535,7 +535,6 @@ int remove_quest_all(quest_hash_t **hash_table);
  * 
  * Returns:
  * - SUCCESS if added successfully, FAILURE if an error occured
- * 
 */
 int accept_reward(reward_t *reward, quest_ctx_t *qctx);
 

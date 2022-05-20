@@ -73,10 +73,20 @@ quest_t *create_sample_quest(char *quest_id,
     
     assert(quest_id != NULL);
 
+<<<<<<< HEAD
     reward_t *reward = NULL;
     if(create_reward) {
         reward = reward_new(reward_xp, reward_item);
     }
+=======
+/* Tests init function for mission struct */
+
+Test(mission, init)
+{   
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+>>>>>>> 1623c2cde02dc6a08bdc61e7b5995d53724dddd9
 
     prereq_t *prereq = NULL;
     if(create_prereq) {
@@ -106,6 +116,7 @@ player_t *create_sample_player(char *player_id, int health, int level) {
     return player;
 }
 
+<<<<<<< HEAD
 /* A helper function that creates a quest ctx with a default player (hp: 50, level: 5) and an 
  * empty quest hash table
  * 
@@ -137,6 +148,9 @@ Test(mission, new)
     cr_assert_not_null(mission, "mission_new() failed");
     cr_assert_eq(mission->target_name, "Poseidon", "mission_init() failed to set target name!");
     cr_assert_eq(mission->type, KILL_NPC, "mission_init() failed to set type!");
+=======
+    cr_assert_eq(check,SUCCESS,"mission_init() failed");
+>>>>>>> 1623c2cde02dc6a08bdc61e7b5995d53724dddd9
 }
 
 /* Tests init function for task struct */
@@ -474,6 +488,7 @@ Test(quest, complete_task_prereq)
 	task_t* task_to_complete = create_sample_task("test", false, NULL, KILL_NPC, false, 0, NULL, true, 50, 5);
     add_task_to_quest(quest, task_to_complete, NULL);
 
+<<<<<<< HEAD
     quest_ctx_t *qctx = create_sample_ctx();
     add_quest_to_hash(quest, &qctx->quest_hash);
     start_quest(quest, qctx);
@@ -482,6 +497,43 @@ Test(quest, complete_task_prereq)
     cr_assert_eq(completed, true, "is_task_completed() failed!");
 
     cr_assert_eq(get_player_task_from_hash(task_to_complete->id, qctx->player->player_tasks)->completed, true, "start_quest didn't call complete_task() properly failed!");
+=======
+    int hp = 50;
+    int level = 5;
+    prereq_t *prereq = prereq_new(hp, level);
+
+    quest_t* quest = quest_new("test", NULL, rewards, prereq);
+
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    class_t* class = generate_test_class();
+
+    char *id = "test mission";
+
+	task_t* task_to_complete = task_new(NULL, id, rewards, prereq);
+
+    int res = add_task_to_quest(quest, task_to_complete, "NULL");
+
+    cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
+
+    player_t *player = player_new("test player");
+    stats_global_t *global = stats_global_new("health", hp);
+    stats_t *health_stat = stats_new(global, hp);
+    player_add_stat(player, health_stat);
+    player->level = level;
+    start_quest(quest, player, hash);
+
+    bool completed = is_task_completed(task_to_complete, player);
+    cr_assert_eq(completed, true, "is_task_completed() returned false!");
+
+    reward_t *new_reward = complete_task(task_to_complete->id, player, hash);
+    if (new_reward == NULL)
+        res = FAILURE;
+
+    cr_assert_eq(res, SUCCESS, "complete_task() failed!");
+    player_free(player);
+>>>>>>> 1623c2cde02dc6a08bdc61e7b5995d53724dddd9
 }
 
 /* Function that tests if a quest is completed */
@@ -499,8 +551,18 @@ Test(quest,is_quest_completed)
     add_quest_to_hash(quest, &qctx->quest_hash);
     qctx->player->crnt_room = "Grand ballroom";
 
+<<<<<<< HEAD
     start_quest(quest, qctx);
     accept_reward(complete_task(task->id, qctx), qctx);
+=======
+    task_t *task = task_new(mission, "mission", rewards, NULL);
+
+    int res = add_task_to_quest(quest, task, NULL);
+
+    player_t *player = player_new("test player");
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+>>>>>>> 1623c2cde02dc6a08bdc61e7b5995d53724dddd9
 
     bool in_inventory = item_in_inventory(qctx->player, item);
     cr_assert_eq(in_inventory, true, "complete task didn't properly give the reward");
@@ -650,7 +712,11 @@ Test(quest, remove_quest_all)
     cr_assert_null(result2, "Quest 2 not removed properly!");
 }
 
+<<<<<<< HEAD
 /* Tests the function that adds the contents of a reward struct into a player struct */
+=======
+/* Tests the function that adds a reward to the player class */
+>>>>>>> 1623c2cde02dc6a08bdc61e7b5995d53724dddd9
 Test(quest, accept_reward) {
     item_t *item = item_new("test item!", "item for testing", "This item is made for testing purposes only and is not intended to give the player any sense of enjoyment.");
     reward_t *reward = reward_new(40, item);
