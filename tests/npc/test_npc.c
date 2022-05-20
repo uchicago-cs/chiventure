@@ -494,7 +494,7 @@ Test(npc, check_npc_battle)
     dagger_changes1->phys_atk = 20;
     dagger_changes1->phys_def = 5;
     dagger_changes1->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes1,
                                 20, true);
 
     stat_changes_t *dagger_changes2 = stat_changes_new();
