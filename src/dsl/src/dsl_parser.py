@@ -59,18 +59,22 @@ class TreeToDict(Transformer):
         based on the key or type, and also places all items into their own list
         for convenience.
         """
+        print("Room")
+        print(s)
         room_id = s.pop(0)[1]
-        
+
 
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
         # action and action attributes, etc.
-        d = dict((k, v) for k, v in s if k != "ITEM")
+        d = dict((k, v) for k, v in s if (k != "ITEM" and k != "NPC"))
 
         # create a list of items and place it in its own entry of the dict
         # the values placed into this entry will correspond to item attributes
         # since the key is guaranteed to be the string "ITEM"
         d["items"] = [v for k, v in s if k == "ITEM"]
+
+        d["npcs"] = [v for k, v in s if k == "NPC"]
         
         return ('ROOM', (room_id, d))
 
@@ -127,22 +131,26 @@ class TreeToDict(Transformer):
         based on the key or type, and also places all items into their own list
         for convenience.
         """
+        print("npc")
+        print(s)
         
+        # return ('npc', [])
         # gets the player class id.
         name = s.pop(0)[1]
 
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
         # action and action attributes, etc.
-        d = dict((k, v) for k, v in s if k != "inventory")
+        d = dict((k, v) for k, v in s)
 
-        # create a list of attributes and place it in its own entry of the dict
-        # the values placed into this entry will correspond to item attributes
-        # since the key is guaranteed to be the string "attributes"
-        d["inventory"] = [v for k, v in s if k == "inventory"]
-        
         return ('NPCS', (name, d))
     
+
+    def inventory(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+        """Takes a list of key-values pairs which belong to inventory, places them
+        into a dictionary which is labeled "INVENTORY" """
+        return ('INVENTORY', dict(s))
+
     def misplaced_property(self, s: list[Token]) -> str:
         raise Exception('"property FOR object" syntax is not yet supported')
     

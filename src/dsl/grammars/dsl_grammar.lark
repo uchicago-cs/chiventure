@@ -22,6 +22,7 @@ connection: phrase "TO" phrase
 npc: _NL "NPC" id "IN" location property* inventory dialogue
     | _NL "NPC" id  property* inventory dialogue
     | _NL "NPC" id "IN" location property* inventory
+    | _NL "NPC" id "IN" location property*
 
 inventory: _NL "INVENTORY" property*
 
