@@ -27,6 +27,12 @@ typedef struct npc_battle {
     
     /* hostility level of the npc */
     hostility_t hostility_level;
+
+    /* class of the npc */
+    class_t *class_type;
+
+    /* An inventory of items that can be used in battle */
+    battle_item_t *items;
 } npc_battle_t;
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -42,12 +48,16 @@ typedef struct npc_battle {
            moves (see /include/battle/battle_structs.h)
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level 
+ *  class_type: the class struct of the npc
+ *  items: a doubly linked list of items that the npc can use during battle
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats, 
-                    move_t* moves, difficulty_t ai, hostility_t hostility_level);
+                    move_t* moves, difficulty_t ai, hostility_t hostility_level,
+                    class_t *class_type, battle_item_t *items);
+
 /*
  * Allocates a new npc_battle struct in the heap.
  *
@@ -57,13 +67,16 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
  *  moves: a pointer to an existing move_t struct defining the npc's battle 
            moves (see /include/battle/battle_structs.h)
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
- *  hostility_level: the npc's hostility level
+ *  hostility_level: the npc's hostility level 
+ *  class_type: the class struct of the npc
+ *  items: a doubly linked list of items that the npc can use during battle
  *
  * Returns:
  *  pointer to allocated npc_battle
  */
 npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves, 
-		                     difficulty_t ai, hostility_t hostility_level);
+		                     difficulty_t ai, hostility_t hostility_level, 
+			                 class_t *class_type, battle_item_t *items);
 
 /*
  * Frees resources associated with an npc_battle struct.

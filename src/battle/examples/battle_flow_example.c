@@ -4,7 +4,6 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 
-
 int main()
 {
     stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
@@ -29,7 +28,8 @@ int main()
 
     move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", NULL, NULL, HOSTILE);
-    npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, 
+                                         HOSTILE, NULL, NULL);
     e->npc_battle = npc_b;
 
     battle_ctx_t *ctx = 

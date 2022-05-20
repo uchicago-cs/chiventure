@@ -281,12 +281,16 @@ int add_convo_to_npc(npc_t *npc, convo_t *c);
            moves (see /include/battle/battle_structs.h)
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level
+ *  class_type: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  items: An inventory of items that can be used in battle
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
-                      difficulty_t ai, hostility_t hostility_level);
+                      difficulty_t ai, hostility_t hostility_level,
+                      class_t *class_type, battle_item_t *items);
 
 /*
  * Changes the hp level of the npc.
