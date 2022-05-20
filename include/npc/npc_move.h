@@ -71,31 +71,6 @@ typedef struct npc_mov {
 
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
-
-
-int time_ray_init(time_ray_t *time_ray, double assigned_time);
-
-time_ray_t *time_ray_new(double assigned_time);
-
-int time_ray_free(time_ray_t *time_ray);
-
-int npc_path_dll_init(npc_path_dll_t *head, npc_mov_enum_t mov_type,
-                      char *room_id, double room_time);
-
-npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
-                                 double room_time);
-
-/*
- * Function to delete a doubly-linked list (utlist)
- *
- * Parameters:
- *  doubly-linked list of pointers to room_ids
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int npc_path_dll_free(npc_path_dll_t *head);
-
 /*
  * Initializes the struct that handles the movement of an npc
  *

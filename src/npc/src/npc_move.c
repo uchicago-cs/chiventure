@@ -1,7 +1,15 @@
 #include "npc/npc_move.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
-/* See npc_move.h */
+/* Initializes time_ray_t struct
+ * Parameters
+ *  - time_ray: pointer to malloc'd time_ray_t
+ *  - assigned_time: the number of seconds the phenomenon is supposed to occur
+ *
+ * Returns
+ *  - SUCCESS: if successful
+ *  - FAILURE: if unsuccessful
+ */
 int time_ray_init(time_ray_t *time_ray, double assigned_time)
 {
     if (time_ray == NULL)
@@ -14,7 +22,13 @@ int time_ray_init(time_ray_t *time_ray, double assigned_time)
     return SUCCESS;
 }
 
-/* See npc_move.h */
+/* Creates and allocates a new time_ray_t struct
+ * Parameters
+ *  - assigned_time: the number of seconds the phenomenon is supposed to occur
+ *
+ * Returns
+ *  - pointer to the time_ray_t
+ */
 time_ray_t *time_ray_new(double assigned_time)
 {
     time_ray_t *time_ray;
@@ -24,7 +38,14 @@ time_ray_t *time_ray_new(double assigned_time)
     return time_ray;
 }
 
-/* See npc_move.h */
+/* Frees a time_ray_t struct
+ * Parameters
+ *  - time_ray: pointer to a time_ray_t struct
+ *
+ * Returns:
+ *  - SUCCESS: if successful
+ *  - FAILURE: if unsuccessful
+ */
 int time_ray_free(time_ray_t *time_ray)
 {
     if (time_ray != NULL)
@@ -34,7 +55,17 @@ int time_ray_free(time_ray_t *time_ray)
     return SUCCESS;
 }
 
-/* See npc_move.h */
+/* Initializes npc_path_dll_t struct
+ * Parameters
+ *  - head: pointer to the npc_path_dll being initialized
+ *  - mov_type: NPC_MOV_DEFINITE or NPC_MOV_INDEFINITE
+ *  - room_id: room id of the room being represented in this step of the path
+ *  - room_time: the number of seconds the npc should spend in the room
+ *
+ * Returns
+ *  - SUCCESS: if successful
+ *  - FAILURE: if unsuccessful
+ */
 int npc_path_dll_init(npc_path_dll_t *head, npc_mov_enum_t mov_type,
                       char *room_id, double room_time)
 {
@@ -61,7 +92,15 @@ int npc_path_dll_init(npc_path_dll_t *head, npc_mov_enum_t mov_type,
     return SUCCESS;
 }
 
-/* See npc_move.h */
+/* Creates and allocates a new npc_path_dll_t struct
+ * Parameters
+ *  - mov_type: NPC_MOV_DEFINITE or NPC_MOV_INDEFINITE
+ *  - room_id: room id of the room being represented in this step of the path
+ *  - room_time: the number of seconds the npc should spend in the room
+ *
+ * Returns
+ *  - pointer to the npc_path_dll_t struct
+ */
 npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
                                  double room_time)
 {
@@ -73,7 +112,14 @@ npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
     return path;
 }
 
-/* See npc_move.h */
+/* Frees a (doubly-linked) list of npc_path_dll_t's
+ * Parameters
+ *  - head: pointer to the head of the list of npc_path_dll_t being freed
+ *
+ * Returns:
+ *  - SUCCESS: if successful
+ *  - FAILURE: if unsuccessful
+ */
 int npc_path_dll_free(npc_path_dll_t *head)
 {
     npc_path_dll_t *tmp;
