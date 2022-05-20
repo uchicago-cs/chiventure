@@ -65,7 +65,8 @@ int npc_path_dll_init(npc_path_dll_t *head, npc_mov_enum_t mov_type,
 npc_path_dll_t *npc_path_dll_new(npc_mov_enum_t mov_type, char *room_id,
                                  double room_time)
 {
-    npc_path_dll_t *path = malloc(sizeof(npc_path_dll_t));
+    npc_path_dll_t *path = NULL;
+    path = malloc(sizeof(npc_path_dll_t));
     memset(path, 0, sizeof(npc_path_dll_t));
     path->room_id = malloc(MAX_ID_LEN);
     assert(npc_path_dll_init(path, mov_type, room_id, room_time) == SUCCESS);
