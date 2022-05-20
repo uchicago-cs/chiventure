@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-<<<<<<< HEAD
 quest_graphics_t* quest_graphics_new(Vector2 WindowPos, Vector2 WindowSize,
     Vector2 SegmentDimension, Vector2 DrawStartPosition, 
     task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
@@ -63,18 +62,6 @@ int quest_graphics_free(quest_graphics_t *questGraphics)
     return 1;
 }
 
-int getTreeMaxWidth(task_tree_mockup_t* taskTree) {
-    //To do
-    return 4;
-}
-
-int getTreeMaxHeight(task_tree_mockup_t* taskTree) {
-    //To do
-    return 3;
-}
-
-=======
->>>>>>> 493cc2e8c1006986c1180413359acc7b31669d1c
 task_tree_mockup_t* synthesizeTest1() {
     task_tree_mockup_t *TreeA = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
     task_tree_mockup_t *TreeB = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
