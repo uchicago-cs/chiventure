@@ -201,7 +201,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id, double room_time)
     npc_path_dll_t *new;
     new = npc_path_dll_new(NPC_MOV_INDEFINITE, room_id, room_time);
     DL_APPEND(npc_mov->path, new);
-    
+
     return SUCCESS;
 }
 

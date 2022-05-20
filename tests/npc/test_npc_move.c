@@ -38,7 +38,7 @@ Test (npc_mov, init)
                  "npc_mov_init() did not set mov_type");
     cr_assert_str_eq(npc_mov->track, "test_room1",
                      "npc_mov_init() did not set track");
-    
+
     npc_mov_t *npc_mov2 = malloc(sizeof(npc_mov_t));
     memset(npc_mov2, 0, sizeof(npc_mov_t));
     npc_mov2->track = malloc(MAX_ID_LEN);
@@ -162,7 +162,7 @@ Test(npc_mov, get_npc_num_rooms)
                  "extend_path_def()2 failed");
     cr_assert_eq(extend_path_definite(npc_mov, room1->room_id), SUCCESS,
                  "extend_path_def()3 failed");
-    
+
     cr_assert_eq(get_npc_num_rooms(npc_mov), 4, "get_npc_num_rooms() failed");
 }
 /* Tests move_npc_mov function for definite NPCs */
