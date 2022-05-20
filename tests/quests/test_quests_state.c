@@ -535,9 +535,7 @@ Test(quest, complete_task_prereq)
 
     class_t* class = generate_test_class();
 
-
     char *id = "test mission";
-
 	task_t* task_to_complete = task_new(NULL, id, rewards, prereq);
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
