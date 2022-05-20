@@ -40,9 +40,6 @@ typedef struct quest_graphics{
     float SquareSide;
 } quest_graphics_t;
 
-int getTreeMaxWidth(task_tree_mockup_t* taskTree);
-
-int getTreeMaxHeight(task_tree_mockup_t* taskTree);
 
 
 void runTaskTreeGraphics(quest_graphics_t* quest_graphics);
