@@ -294,6 +294,12 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
 */
 int roomspec_free(roomspec_t *spec);
 
+int edges_init(int** res, int* inp, int num_rows, int num_cols);
+
+int** edges_new(int* inp, int num_rows, int num_cols);
+
+int edges_free(int** edges);
+
 /* SPECGRAPH */
 
 /* init_specgraph
