@@ -10,25 +10,13 @@
 #include "quests/quest_hash.h"
 
 
-/* Creates a sample class. Taken from test_class.c */
-class_t* generate_test_class()
-{
-    class_t* c;
-    char *name, *shortdesc, *longdesc;
+/* From test_task.c */
+reward_t *create_sample_rewards(int xp, item_t *item);
+stat_req_t *create_sample_stat_req(int hp, int level);
 
-    name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on up-close physical "
-                "damage with weapons and survives enemy attacks "
-                "using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and weapons expert,"
-                " relying on physical strength and years of training to "
-                "deal with any obstacle. Mechanically, the warrior focuses "
-                "on up-close physical damage with weapons and survives enemy "
-                "attacks using heavy armor.\n";
+/* From test_class.c */
+class_t* generate_test_class();
 
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
-
-}
 
 /*Tests adding task to a quest */
 Test(quest, add_task_to_quest)
@@ -167,7 +155,7 @@ Test(test, add_quest_test2)
 }
 
 
-* Tests the function that removes one quest from hash table */
+/* Tests the function that removes one quest from hash table */
 Test(quest, remove_quest_one)
 {
     int xp = 50;

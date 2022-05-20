@@ -252,7 +252,7 @@ int task_free(task_t *task);
  * Returns:
  * - a pointer to the tree with no children on the left side of the tree
  */
-task_tree_t *get_bottom_node(task_tree_t *t)
+task_tree_t *get_bottom_node(task_tree_t *t);
 
 /*
  * Function that finds an task tree given its string ID.
@@ -267,7 +267,7 @@ task_tree_t *get_bottom_node(task_tree_t *t)
  * - NULL if task cannot be found
  * - The task tree being searched for
  */ 
-task_tree_t *find_parent(task_tree_t *tree, char *id)
+task_tree_t *find_parent(task_tree_t *tree, char *id);
 
 /*
  * Traverses the task tree to find the task with the
@@ -286,6 +286,6 @@ task_tree_t *find_parent(task_tree_t *tree, char *id)
  *       so this "locks" a user into a path once they've begun
  *       completing tasks.
  */
-task_t *find_task(task_tree_t *tree, char *id)
+task_t *find_task(task_tree_t *tree, char *id);
 
 #endif /* TASK_H */

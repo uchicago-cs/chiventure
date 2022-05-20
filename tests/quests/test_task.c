@@ -8,8 +8,7 @@
 #include "game-state/room.h"
 #include "game-state/player.h"
 #include "quests/task.h"
-
-
+#include "quests/quest.h"
 /* Creates a sample class. Taken from test_class.c */
 class_t* generate_test_class()
 {

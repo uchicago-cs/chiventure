@@ -34,4 +34,26 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
  */
 int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
 
+/* returns the hash after deleting one or all quest.
+ *
+ * Parameter:
+ * - pointer to a hash table
+ * - quest ID, 
+ * 
+ * Returns:
+ * - 0 if the removal was failure, 1 if successful 
+ */
+int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
+
+
+/* returns the hash after deleting one or all quest.
+ *
+ * Parameter:
+ * - pointer to a hash table
+ * 
+ * Returns:
+ * - 0 if the removal was failure, 1 if successful 
+ */
+int remove_quest_all(quest_hash_t *hash_table);
+
 #endif /* QUEST_HASH_H */

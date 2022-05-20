@@ -11,25 +11,11 @@
 
 
 
-/* Creates a sample class. Taken from test_class.c */
-class_t* generate_test_class()
-{
-    class_t* c;
-    char *name, *shortdesc, *longdesc;
-
-    name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on up-close physical "
-                "damage with weapons and survives enemy attacks "
-                "using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and weapons expert,"
-                " relying on physical strength and years of training to "
-                "deal with any obstacle. Mechanically, the warrior focuses "
-                "on up-close physical damage with weapons and survives enemy "
-                "attacks using heavy armor.\n";
-
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
-
-}
+/* From test_task.c */
+reward_t *create_sample_rewards(int xp, item_t *item);
+stat_req_t *create_sample_stat_req(int hp, int level);
+/* From test_class.c */
+class_t* generate_test_class();
 
 /* Tests init function for quest struct */
 Test(quest, init)
