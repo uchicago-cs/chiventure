@@ -5,6 +5,22 @@
 #include "game-state/item.h"
 #include "playerclass/class.h"
 
+battle_item_t *generate_test_battle_item(int id, int quantity, int durability, 
+                            char* description, bool battle, int attack, int defense, int hp)
+{
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+     item->id = id;
+     item->quantity = quantity;
+     item->durability = durability;
+     item->description = description;
+     item->battle = battle;
+     item->attack = attack;
+     item->hp = hp;
+     item->defense = defense;
+
+     return item;
+}
 
 /* Creates a sample class. Taken from test_class.c */
 class_t *generate_test_class()
@@ -308,8 +324,13 @@ Test(npc, add_battle_to_npc)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
+    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, 
+		                HOSTILE, 25, generate_test_class(), dagger);
+
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     cr_assert_not_null(npc->npc_battle,
                        "add_battle_to_npc() didn't set npc_battle");
@@ -336,8 +357,12 @@ Test(npc, get_npc_battle)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
     int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+                                HOSTILE, 25, generate_test_class(), dagger);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     npc_battle_t *npc_battle = get_npc_battle(npc);
@@ -362,33 +387,37 @@ Test (npc, change_npc_health)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
     int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+                                HOSTILE, 25, generate_test_class(), dagger);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     int health1 = change_npc_health(npc, 30, 100);
     cr_assert_eq(health1, 100,
-                 "change_npc_health() increased health past max");
+                "change_npc_health() increased health past max");
     cr_assert_eq(npc->npc_battle->health, 100,
                  "change_npc_health didn't change health in npc_battle struct");
 
     int health2 = change_npc_health(npc, -20, 100);
     cr_assert_eq(health2, 80,
-                 "change_npc_health() didn't decrease health correctly");
+                "change_npc_health() didn't decrease health correctly");
     cr_assert_eq(npc->npc_battle->health, 80,
-                 "change_npc_health didn't change health in npc_battle struct");
+                "change_npc_health didn't change health in npc_battle struct");
 
     int health3 = change_npc_health(npc, 3, 100);
     cr_assert_eq(health3, 83,
-                 "change_npc_health() didn't increase health correctly");
+                "change_npc_health() didn't increase health correctly");
     cr_assert_eq(npc->npc_battle->health, 83,
-                 "change_npc_health didn't change health in npc_battle struct");
+                "change_npc_health didn't change health in npc_battle struct");
 
     int health4 = change_npc_health(npc, -90, 100);
     cr_assert_eq(health4, 0,
-                 "change_npc_health() set a negative health");
+                "change_npc_health() set a negative health");
     cr_assert_eq(npc->npc_battle->health, 0,
-                 "change_npc_health didn't change health in npc_battle struct");
+                "change_npc_health didn't change health in npc_battle struct");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -409,8 +438,12 @@ Test(npc, get_npc_health)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
     int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+                                HOSTILE, 25, generate_test_class(), dagger);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     health = get_npc_health(npc);
@@ -441,17 +474,25 @@ Test(npc, check_npc_battle)
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
 
+    battle_item_t *dagger1 = generate_test_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
+    battle_item_t *dagger2 = generate_test_battle_item(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
     int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+                                HOSTILE, 25, generate_test_class(), dagger1);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
-                            HOSTILE, 25);
+                                HOSTILE, 25, generate_test_class(), dagger2);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true,
-                 "check_npc_battle failed; will_fight=false, npc_battle!=NULL");
+                "check_npc_battle failed; will_fight=false, npc_battle!=NULL");
     cr_assert_eq(check_npc_battle(npc2), true,
-                 "check_npc_battle failed; will_fight=true, npc_battle!=NULL");
+                "check_npc_battle failed; will_fight=true, npc_battle!=NULL");
 
     res = npc_free(npc1);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
