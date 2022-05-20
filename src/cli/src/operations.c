@@ -225,45 +225,6 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "specified item not found\n";
 }
 
-
-/* See operation.h */
-char *exit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    //expecting token string list to be "exit" "arg2"
-    //support for each arg2 to be specified (as of 5/2/2022)
-    game_t *game = ctx->game;
-    char *arg2 = tokens[1];
-    if(game == NULL)
-    //TODO look exactly what the game pointer being NULL means
-    {
-        return "No game found!\n";
-    }
-    if(arg2 == NULL)
-    {
-        return "Second argument needed. Pick from: [LIST OF WANTED SECOND ARGUMENTS HERE]\n";
-    }
-    if(strcmp(arg2,"stats") == 0)
-    {
-        //TODO: Ask action management what they want to happen, 
-        //as they likely want to call some other function.
-
-        // If the user exits stats, the GUI function that
-        // removes the stats from the screen should be called.
-        return "Second argument was \"stats\"";
-    }
-    if(strcmp(arg2,"advanced") == 0)
-    {
-        //TODO: Ask action management what they want to happen, 
-        //as they likely want to call some other function.
-
-        // If the user exits advanced, the GUI function that
-        // removes the advanced stats from the screen should be called.
-        return "Second argument was \"advanced\"";
-    }
-    //all possible options should have been matched before this
-    return "Invalid second argument\n";
-}
-
 //KIND 1:   ACTION <item>
 char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -395,7 +356,6 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     
     return str;
 }
-
 
 /* See operation.h */
 char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
