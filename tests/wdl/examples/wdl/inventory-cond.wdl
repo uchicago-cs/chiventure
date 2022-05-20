@@ -73,7 +73,13 @@
                 {
                     "action": "PUSH",
                     "text_success": "You push the table",
-                    "text_fail": "You cannot push this table"
+                    "text_fail": "You cannot push this table",
+                    "conditions": [
+                        {
+                            "type": "INVENTORY",
+                            "item_id": "CHAIR"
+                        }
+                    ]
                 },
                 {
                     "action": "PULL",
