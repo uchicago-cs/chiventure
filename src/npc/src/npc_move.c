@@ -278,7 +278,7 @@ int reset_indefinite_npc_room_start_time(npc_mov_t *npc_mov)
         return FAILURE;
     }
     npc_path_dll_t *curr = get_npc_curr_path_step(npc_mov);
-    curr->room_time = time_ray_init(curr->room_time, curr->room_time->assigned_time);
+    assert(time_ray_init(curr->room_time, curr->room_time->assigned_time) == SUCCESS);
     return SUCCESS;
 }
 
