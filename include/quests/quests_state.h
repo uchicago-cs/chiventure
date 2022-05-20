@@ -51,28 +51,26 @@ id_list_t *id_list_new();
 /* Creates a new task struct (allocates memory)
  * 
  * Parameters:
- * - mission: the mission to be completed for the quest
  * - id: the id of the task
+ * - mission: the mission to be completed for the quest
  * - reward: the reward of the task
  * - prereq: the prerequisite of the task
  *
  * Returns: a pointer to the newly allocated task that is not completed
  */
-task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
+task_t *task_new(char *id, mission_t *mission, reward_t *reward, prereq_t *prereq);
 
 /* Creates a new quest struct (allocates memory)
  * 
  * Parameters:
  * - quest_id: string representing the specific quest_id 
- * - task_tree: non-binary tree  struct holding a tree of 
- *                     tasks that make up a quest
  * - reward: reward of the quest is an item
+ * - prereq: prerequisites for the quest
  * 
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started)
  */
-quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                    reward_t *reward, prereq_t *prereq);
+quest_t *quest_new(char *quest_id, reward_t *reward, prereq_t *prereq);
 
 /* Initialize an already allocated mission struct
  *
@@ -108,8 +106,8 @@ int reward_init(reward_t *rewards, int xp, item_t *item);
  *
  * Parameters:
  * - task: an already allocated task
- * - mission: the mission to be completed for the task
  * - id: the id of the task
+ * - mission: the mission to be completed for the task
  * - reward: the reward of the task
  * - prereq: the prerequisite of the task
  * 
@@ -121,24 +119,22 @@ int reward_init(reward_t *rewards, int xp, item_t *item);
  *       If you want a task to have a mission and a prereq, make the mission's tasks a prereq for the actual task
  *       that has the prereqs.
  */
-int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
+int task_init(task_t *task, char *id, mission_t *mission, reward_t *reward, prereq_t *prereq);
 
 /* Initialize an already allocated quest struct
  *
  * Parameters:
  * - q: an already allocated quest
  * - quest_id: string representing the specific quest_id 
- * - task_tree: non-binary tree struct holding a tree of 
- *                     tasks that make up a quest
  * - reward: reward of the quest is an item
+ * - prereq: prerequisites for the quest
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  * 
  */
-int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
-               reward_t *reward, prereq_t *stat_req);
+int quest_init(quest_t *q, char *quest_id, reward_t *reward, prereq_t *prereq);
 
 /* 
  * Initializes a prereq object with the given parameters
@@ -529,19 +525,19 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * Returns:
  * - 0 if the removal was failure, 1 if successful 
  */
-int remove_quest_all(quest_hash_t *hash_table);
+int remove_quest_all(quest_hash_t **hash_table);
 
 /* Adds the contents of a reward struct to the player struct
  * 
  * Parameters:
  * - reward: the reward getting accepted
- * - player: the player accepting the reward
+ * - qctx: pointer to the quest context struct with information on player and all quests
  * 
  * Returns:
  * - SUCCESS if added successfully, FAILURE if an error occured
  * 
 */
-int accept_reward(reward_t *reward, player_t *player);
+int accept_reward(reward_t *reward, quest_ctx_t *qctx);
 
 /* Checks if all of the player's tasks are complete and updates them accordingly
  * 

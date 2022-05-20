@@ -36,13 +36,13 @@ reward_t *reward_new(int xp, item_t *item)
 }
 
 /* Refer to quests_state.h */
-task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
+task_t *task_new(char *id, mission_t *mission, reward_t *reward, prereq_t *prereq)
 {
     task_t *task;
     int rc;
     task = malloc(sizeof(task_t));
 
-    rc = task_init(task, mission, id, reward, prereq);
+    rc = task_init(task, id, mission, reward, prereq);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize task struct!\n");
@@ -52,9 +52,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prere
 }
 
 /* Refer to quests_state.h */
-quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                   reward_t *reward, prereq_t *prereq) 
-
+quest_t *quest_new(char *quest_id, reward_t *reward, prereq_t *prereq) 
 {
     quest_t *q;
     int rc;
@@ -66,7 +64,7 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, task_tree, reward, prereq);
+    rc = quest_init(q, quest_id, reward, prereq);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -123,10 +121,9 @@ int reward_init(reward_t *rewards, int xp, item_t *item)
 }
 
 /* Refer to quests_state.h */
-int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
+int task_init(task_t *task, char *id, mission_t *mission, reward_t *reward, prereq_t *prereq)
 {
     assert(task != NULL);
-    assert(mission == NULL || prereq == NULL);
     task->mission = mission;
     task->reward = reward;
     task->id = id;
@@ -136,14 +133,13 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prer
 }
 
 /* Refer to quests_state.h */
-int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
-                reward_t *reward, prereq_t *prereq)
+int quest_init(quest_t *q, char *quest_id, reward_t *reward, prereq_t *prereq)
 
 {
     assert(q != NULL);
 
     q->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
-    q->task_tree = task_tree;
+    q->task_tree = NULL;
     q->reward = reward;
     q->prereq = prereq;
     
@@ -243,7 +239,6 @@ bool completed_mission(mission_t *mission, player_t *player) {
         case COLLECT_ITEM:
             for(item_list_t *cur = get_all_items_in_inventory(player); cur != NULL; cur = cur->next) {
                 if(!strcmp(mission->target_name, cur->item->item_id)) {
-                    printf("True");
                     return true;
                 }
             }
@@ -321,7 +316,7 @@ int compare_tasks(task_t *a1, task_t *a2)
  */
 task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
 {
-    if(tree == NULL) {
+    if(!tree || !id) {
         return NULL;
     }
     assert(tree->task != NULL);
@@ -341,35 +336,23 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
     assert(quest != NULL);
 
     task_tree_t *tree = malloc(sizeof(task_tree_t));
-    if (quest->task_tree == NULL)
-    {
-        tree->task = task_to_add;
-        tree->parent = NULL;
-        tree->rsibling = NULL;
-        tree->lmostchild = NULL;
-        quest->task_tree = tree;
-        return SUCCESS;
-    }
-    tree = find_task_in_tree(quest->task_tree, parent_id);
-    assert(tree != NULL);
+    tree->task = task_to_add;
 
-    if (tree->lmostchild == NULL)
-    {
-        tree->lmostchild = malloc(sizeof(task_tree_t));
-        tree->lmostchild->task = task_to_add;
-        tree->lmostchild->parent = find_task_in_tree(quest->task_tree, parent_id);
+    task_tree_t *parent = find_task_in_tree(quest->task_tree, parent_id);
+    tree->parent = parent;
+    task_tree_t **location;
+
+    if(parent == NULL) {
+        location = &quest->task_tree;
     }
-    else
-    {
-        while (tree->rsibling != NULL)
-        {
-            tree = tree->rsibling;
-        }
-        tree->rsibling = malloc(sizeof(task_tree_t));
-        tree->rsibling->task = task_to_add;
-        tree->rsibling->parent = find_task_in_tree(quest->task_tree, parent_id);
+    else {
+        location = &parent->lmostchild;
     }
 
+    while(*location != NULL) {
+        location = &(*location)->rsibling;
+    }
+    *location = tree;
     return SUCCESS;
 }
 
@@ -388,7 +371,7 @@ int start_quest(quest_t *quest, quest_ctx_t *qctx)
     while(cur) {
         add_task_to_player_hash(cur->task, qctx);
         if(is_task_completed(cur->task, player)) {
-            accept_reward(complete_task(cur->task->id, qctx), player);
+            accept_reward(complete_task(cur->task->id, qctx), qctx);
             break;
         }
         cur = cur->rsibling;
@@ -676,14 +659,16 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id)
 }
 
 /* refer to quests_state.h */
-int remove_quest_all(quest_hash_t *hash_table)
+int remove_quest_all(quest_hash_t **hash_table)
 { 
+    quest_hash_t *original = *hash_table;
     quest_t *current_quest, *temp; 
-    HASH_ITER(hh, hash_table, current_quest, temp) 
+    HASH_ITER(hh, *hash_table, current_quest, temp) 
     { 
-        HASH_DEL(hash_table, current_quest);
+        HASH_DEL(*hash_table, current_quest);
         free(current_quest);
     }
+    original = NULL;
     return SUCCESS; 
 }
 
@@ -691,6 +676,9 @@ int remove_quest_all(quest_hash_t *hash_table)
 reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
 {
     assert(qctx != NULL);
+    if(task_id == NULL) {
+        return NULL;
+    }
     player_t *player = qctx->player;
     quest_hash_t *quest_hash = qctx->quest_hash;
     
@@ -701,7 +689,6 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
     
     quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
     int pquest_exists = !!get_player_quest_from_hash(quest_of_task->quest_id, player->player_quests);
-
     if (is_task_completed(tree->task, player)) 
     {
         player_task_t *ptask = get_player_task_from_hash(tree->task->id, player->player_tasks);
@@ -713,14 +700,14 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
                 add_task_to_player_hash(cur->task, qctx);
                 if(is_task_completed(cur->task, player)) {
-                    accept_reward(complete_task(cur->task->id, qctx), player);
+                    accept_reward(complete_task(cur->task->id, qctx), qctx);
                     break;
                 }
             }
         }
         
         if(is_quest_completed(quest_of_task, player)) {
-            accept_reward(complete_quest(quest_of_task, player), player);
+            accept_reward(complete_quest(quest_of_task, player), qctx);
         }
         return tree->task->reward;
     } 
@@ -731,14 +718,18 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
 }
 
 /* Refer to quest_state.h */
-int accept_reward(reward_t *reward, player_t *player) {
-    assert(player != NULL);
+int accept_reward(reward_t *reward, quest_ctx_t *qctx) {
+    if(qctx == NULL) {
+        return FAILURE;
+    }
+    player_t *player = qctx->player;
     if(reward == NULL) {
         return FAILURE;
     }
 
     player->xp += reward->xp;
-    add_item_to_hash(&player->inventory, reward->item);
+    add_item_to_player_without_checks(player, reward->item);
+    update_player_quests(qctx);
     return SUCCESS;
 }
 
@@ -748,12 +739,12 @@ int update_player_quests(quest_ctx_t *qctx) {
     player_t *player = qctx->player;
     quest_hash_t *quest_hash = qctx->quest_hash;
     assert(player != NULL);
-
-    for(player_task_hash_t *cur = player->player_tasks; cur!= NULL; cur = cur->hh.next) {
-        accept_reward(complete_task(cur->task_id, qctx), player);
+    for(player_task_hash_t *cur = player->player_tasks; cur != NULL; cur = cur->hh.next) {
+        accept_reward(complete_task(cur->task_id, qctx), qctx);
     }
 }
 
+/* Refer to quests_state.h */
 quest_ctx_t *quest_ctx_new(player_t *player, quest_hash_t *quest_hash) {
     quest_ctx_t *quest_ctx = malloc(sizeof(quest_ctx_t));
 
@@ -771,7 +762,6 @@ int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest
 {
     assert(quest_ctx != NULL);
     assert(player != NULL);
-    assert(quest_hash != NULL);
 
     quest_ctx->player = player;
     quest_ctx->quest_hash = quest_hash;
