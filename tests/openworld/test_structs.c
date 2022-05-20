@@ -96,6 +96,64 @@ Test(roomspec, free1)
     cr_assert_eq(check, SUCCESS, "failed to free a roomspec_t\n");
 }
 
+/* Tests the edges function to validate that an adjacency matrix (edges) can
+ * be initialized successfully. */
+Test(edges, init)
+{
+    int* array=[5,4,5,0,5,3,4,3,5];
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    int rc=edges_init(edges, array, 3, 3);
+
+    cr_assert_eq(rc, SUCCESS, "failed to initialize edges\n");
+    cr_assert_eq(edges[0][0], 5, "failed to set edges [0][0] correctly\n");
+    cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
+    cr_assert_eq(edges[0][2], 5, "failed to set edges [0][2] correctly\n");
+    cr_assert_eq(edges[1][0], 0, "failed to set edges [1][0] correctly\n");
+    cr_assert_eq(edges[1][1], 5, "failed to set edges [1][1] correctly\n");
+    cr_assert_eq(edges[1][2], 3, "failed to set edges [1][2] correctly\n");
+    cr_assert_eq(edges[2][0], 4, "failed to set edges [2][0] correctly\n");
+    cr_assert_eq(edges[2][1], 3, "failed to set edges [2][1] correctly\n");
+    cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
+}
+
+/* Tests the specgraph_init function to validate that a specgraph can
+ * be initialized successfully. */
+Test(specgraph, init)
+{
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    edges[0][0]=5;
+    edges[0][1]=4;
+    edges[0][2]=5; 
+    edges[1][0]=0; 
+    edges[1][1]=5;  
+    edges[1][2]=3;
+    edges[2][0]=4; 
+    edges[2][1]=3;  
+    edges[2][2]=5;
+
+    specgraph_t specgraph;
+
+    int rc = specgraph_init(&specgraph, 3, roomspecs, edges);
+
+    cr_assert_eq(rc, SUCCESS, "failed to initialize a specgraph_t\n");
+}
 
 /* Tests the specgraph_new function to validate that a specgraph can
  * be made successfully. */
@@ -132,41 +190,6 @@ Test(specgraph, new)
     cr_assert_eq(specgraph->num_roomspecs, 3, "specgraph_new() failed gathering num_roomspecs");
     cr_assert_eq(specgraph->roomspecs, roomspecs, "specgraph_new() failed gathering roomspecs");
     cr_assert_eq(specgraph->edges, edges, "specgraph_new() failed gathering edges");
-}
-
-/* Tests the specgraph_init function to validate that a specgraph can
- * be initialized successfully. */
-Test(specgraph, init)
-{
-    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
-    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
-
-    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
-    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
-
-    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
-    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
-    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
-
-    int **edges=(int**)malloc(3*sizeof(int*));
-    for(int i=0; i<3; i++){
-        edges[i]=(int*)malloc(3*sizeof(int));
-    } 
-    edges[0][0]=5;
-    edges[0][1]=4;
-    edges[0][2]=5; 
-    edges[1][0]=0; 
-    edges[1][1]=5;  
-    edges[1][2]=3;
-    edges[2][0]=4; 
-    edges[2][1]=3;  
-    edges[2][2]=5;
-
-    specgraph_t specgraph;
-
-    int rc = specgraph_init(&specgraph, 3, roomspecs, edges);
-
-    cr_assert_eq(rc, SUCCESS, "failed to initialize a specgraph_t\n");
 }
 
 /* Tests the specgraph_free function to validate that a specgraph can
