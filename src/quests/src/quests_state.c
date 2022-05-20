@@ -241,10 +241,9 @@ bool completed_mission(mission_t *mission, player_t *player) {
             return !(strcmp(mission->target_name, player->crnt_room));
             break;
         case COLLECT_ITEM:
-            ; // You can't have a declaration immediately after a switch statement for some reason?!
-            item_list_t *cur = get_all_items_in_inventory(player);
-            while(cur != NULL) {
+            for(item_list_t *cur = get_all_items_in_inventory(player); cur != NULL; cur = cur->next) {
                 if(!strcmp(mission->target_name, cur->item->item_id)) {
+                    printf("True");
                     return true;
                 }
             }
@@ -439,7 +438,7 @@ bool is_task_completed(task_t *task, player_t *player)
 {
     assert(task != NULL);
     assert(player != NULL);
-    
+
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
     if(!ptask) {
         return false;
@@ -686,14 +685,17 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
 
     task_tree_t *tree = get_task_tree_from_hash(task_id, quest_hash);
     assert(tree != NULL);
-
+    
     quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
     int pquest_exists = !!get_player_quest_from_hash(quest_of_task->quest_id, player->player_quests);
 
     if (is_task_completed(tree->task, player)) 
     {
-        get_player_task_from_hash(tree->task->id, player->player_tasks)->completed = true;
-        
+        player_task_t *ptask = get_player_task_from_hash(tree->task->id, player->player_tasks);
+        if(ptask->completed == true) {
+            return NULL;
+        }
+        ptask->completed = true;
         if(pquest_exists) {
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
                 add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
@@ -717,15 +719,20 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
 
 /* Refer to quest_state.h */
 int accept_reward(reward_t *reward, player_t *player) {
-    assert(reward != NULL);
     assert(player != NULL);
+    if(reward == NULL) {
+        return FAILURE;
+    }
+
     player->xp += reward->xp;
     add_item_to_hash(&player->inventory, reward->item);
+    return SUCCESS;
 }
 
 /* Refer to quest_state.h */
 int update_player_quests(player_t *player, quest_hash_t *quest_hash) {
     assert(player != NULL);
+
     for(player_task_hash_t *cur = player->player_tasks; cur!= NULL; cur = cur->hh.next) {
         accept_reward(complete_task(cur->task_id, player, quest_hash), player);
     }

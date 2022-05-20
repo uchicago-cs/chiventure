@@ -379,39 +379,32 @@ Test(quest, complete_task_mission)
     int level = 5;
     prereq_t *prereq = prereq_new(hp, level);
 
-    quest_t* quest = quest_new("test", NULL, rewards, prereq);
+    quest_t* quest = quest_new("test", NULL, rewards, NULL);
 
-    class_t* class = generate_test_class();
-    char *npc_meet_id = "meet_npc";
-    char *npc_kill_id = "kill_npc";
+    item_t *trident= item_new("trident", "Poseidon's sacred trident", "The epic trident that Poseidon weilds to protect the World's Oldest Bubble from harm");
+    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
 
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
-
-    mission_t *mission = mission_new("Trident", COLLECT_ITEM); 
-
+    mission_t *mission = mission_new("trident", COLLECT_ITEM); 
 
     char *id = "test mission";
 
 	task_t* task_to_complete = task_new(mission, id, rewards, NULL);
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
-
-    quest_hash_t *hash = NULL;
-    add_quest_to_hash(quest, &hash); 
+    
+    add_quest_to_game(ctx->game, quest); 
 
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
     player_t *player = player_new("test player");
-    start_quest(quest, player, hash);
+    start_quest(quest, player, ctx->game->all_quests);
 
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, false, "is_task_completed() returned true when it shouldn't have!");
 
-    reward_t *new_reward = complete_task(task_to_complete->id, player, hash);
-    if (new_reward == NULL)
-        res = FAILURE;
+    add_item_to_player(player, trident, ctx->game);
 
-    cr_assert_eq(res, SUCCESS, "complete_task() failed!");
+    res = get_player_quest_status(quest, player);
+    cr_assert_eq(res, 2, "complete_task() failed!");
     player_free(player);
 }
 
@@ -449,15 +442,11 @@ Test(quest, complete_task_prereq)
     player_add_stat(player, health_stat);
     player->level = level;
     start_quest(quest, player, hash);
-
+    
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, true, "is_task_completed() failed!");
 
-    reward_t *new_reward = complete_task(task_to_complete->id, player, quest);
-    if (new_reward == NULL)
-        res = FAILURE;
-
-    cr_assert_eq(res, SUCCESS, "complete_task() failed!");
+    cr_assert_eq(get_player_task_from_hash(task_to_complete->id, player->player_tasks)->completed, true, "start_quest didn't call complete_task() properly failed!");
     player_free(player);
 }
 
