@@ -20,9 +20,10 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
     npc_battle->surrender_level = surrender_level;
     npc_battle->class_type = class_type;
     npc_battle->items = items;
+    npc_battle->armor = armor;
     npc_battle->accessory = accessory;
     npc_battle->weapon = weapon;
-    npc_battle->armor = armor;
+
 
     return SUCCESS;
 }
