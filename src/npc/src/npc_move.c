@@ -104,11 +104,8 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
     strcpy(npc_mov->track, room_id);
     npc_mov->npc_path_pos = 0;
     npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
-    npc_mov->path = npc_path_dll_new(mov_type, room_id, room_time);
-    if (npc_mov->path == NULL)
-    {
-        return FAILURE;
-    }
+    npc_mov->path = NULL;
+    DL_APPEND(npc_mov->path, npc_path_dll_new(mov_type, room_id, room_time));
     return SUCCESS;
 }
 
