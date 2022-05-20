@@ -71,6 +71,8 @@ typedef struct npc_mov {
 
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
+
+
 int time_ray_init(time_ray_t *time_ray, double assigned_time);
 
 time_ray_t *time_ray_new(double assigned_time);

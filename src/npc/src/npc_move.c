@@ -83,7 +83,7 @@ int npc_path_dll_free(npc_path_dll_t *head)
         free(head->room_id);
         if (head->room_time != NULL)
         {
-            free(head->room_time);
+            assert(time_ray_free(head->room_time) == SUCCESS);
         }
         free(head);
         head = tmp;
