@@ -176,7 +176,7 @@ cmd *assign_action(char **ts, lookup_t ** table)
 {
     cmd *output = cmd_new(ts);
     output->func_of_cmd = find_operation(ts[0], table);
-    if(output->func_of_cmd == NULL)
+    if (output->func_of_cmd == NULL)
     {
         output->func_of_cmd = action_error_operation;
     }
@@ -187,13 +187,13 @@ cmd *assign_action(char **ts, lookup_t ** table)
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         return "Room not found! Error! We need a room to be loaded to LOOK!\n";
     }
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
-        if(game != NULL)
+        if (game != NULL)
         {
             return game->curr_room->long_desc;
         }
@@ -204,7 +204,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     item_t *curr_item = NULL;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if(curr_item != NULL)
+    if (curr_item != NULL)
     {
         char *string = malloc(BUFFER_SIZE);
         sprintf(string, "%s", curr_item->long_desc);
@@ -229,24 +229,24 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return ( "Error! We need a loaded room to do the above action. \n");
     }
     lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must identify an object to act on\n";
     }
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "Sorry, act upon one item \n";
     }
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if(curr_item != NULL)
+    if (curr_item != NULL)
     {
         action_type_t *action = find_action(tokens[0], table);
         char *str;
@@ -260,7 +260,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             if (rc == SUCCESS)
             {
                 action_success = true;
-                if(strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
+                if (strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
                     add_item_to_player(game->curr_player, curr_item);
@@ -277,18 +277,18 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
     lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must specify a direction to go \n";
     }
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "Sorry, you can only go one direction \n";
     }
@@ -296,7 +296,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
-        if(strcmp(curr_path->direction,tokens[1]) == 0)
+        if (strcmp(curr_path->direction,tokens[1]) == 0)
         {
             action_type_t *action = find_action(tokens[0], table);
 
@@ -312,14 +312,14 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
     lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL || tokens[3] == NULL)
+    if (tokens[1] == NULL || tokens[3] == NULL)
     {
         return "You must identify two objects to act on";
     }
@@ -328,7 +328,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     item1 = get_item_in_room(game->curr_room, tokens[1]);
     item2 = get_item_in_room(game->curr_room, tokens[3]);
 
-    if(item1 == NULL || item2 == NULL)
+    if (item1 == NULL || item2 == NULL)
     {
         return "The object(s) could not be found";
     }
@@ -361,14 +361,13 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //expecting token string list to be "view" "arg2"
-    //support for each arg2 to be specified (as of 5/2/2022)
     game_t *game = ctx->game;
     char *arg2 = tokens[1];
-    if(game == NULL)
+    if (game == NULL)
     {
         return "No game found!\n";
     }
-    if(arg2 == NULL)
+    if (arg2 == NULL)
     {
         //(potential) TODO: add list of possible parameters
         return "Second argument needed.\n";
@@ -377,7 +376,7 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * for now this returns null, but if actions wants any kind4 to have 
      * more than 1 argument, this check can be removed and onus transfers
      * to action management's `do_self_action()` command */
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "Sorry, only one page can be viewed at a time :(\n";
     }
@@ -408,11 +407,11 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * This is to be removed once the kind4 actions work as expected on dev
      * (5/16/2022) - faruk badur
     pass into the do_self_action
-    if(strcmp(arg2,"stats") == 0)
+    if (strcmp(arg2,"stats") == 0)
     {
         return "Second argument was \"stats\"";
     }
-    if(strcmp(arg2,"advanced") == 0)
+    if (strcmp(arg2,"advanced") == 0)
     {
         //TODO: Ask action management what they want to happen, 
         //as they likely want to call some other function.
@@ -449,7 +448,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_player == NULL)
+    if (game == NULL || game->curr_player == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded player to check inventory.\n";
@@ -480,7 +479,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to check items.\n";
@@ -499,7 +498,7 @@ char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to check NPCs.\n";
@@ -544,11 +543,11 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     case_insensitize(tokens[1]);
     case_insensitize(tokens[2]);
-    if(find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
+    if (find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
     }
-    if(find_entry(tokens[2],(ctx->cli_ctx->table)) != NULL)
+    if (find_entry(tokens[2],(ctx->cli_ctx->table)) != NULL)
     {
         return "You can't change the meaning of a word that's already defined!";
     }
@@ -564,23 +563,23 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Please input a theme";
     }
     case_insensitize(tokens[1]);
-    if(strcmp(tokens[1], "default") == 0)
+    if (strcmp(tokens[1], "default") == 0)
     {
         n = 1;
     }
-    if(strcmp(tokens[1], "night") == 0)
+    if (strcmp(tokens[1], "night") == 0)
     {
         n = 2;
     }
-    if(strcmp(tokens[1], "bright") == 0)
+    if (strcmp(tokens[1], "bright") == 0)
     {
         n = 3;
     }
-    if(strcmp(tokens[1], "pain") == 0)
+    if (strcmp(tokens[1], "pain") == 0)
     {
         n = 4;
     }
-    if(n != 0)
+    if (n != 0)
     {
         wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
         wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
