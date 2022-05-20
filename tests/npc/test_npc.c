@@ -6,7 +6,7 @@
 #include "playerclass/class.h"
 #include "battle/battle_state.h"
 
- battle_item_t *npc_create_battle_item_new(int id, char *name, char* description, stat_changes_t *attributes 
+ battle_item_t *npc_create_battle_item_new(int id, char *name, char* description, stat_changes_t *attributes, 
                                          int quantity, bool attack)
  {
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
