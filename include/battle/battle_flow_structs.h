@@ -48,6 +48,9 @@ typedef struct battle_ctx {
  *     - stats: player stats stub
  *     - moves: player moves stub
  *     - items: player battle_items stub
+ *     - weapon: the player's equiped weapon
+ *     - accessory: the player's equiped accessory
+ *     - armor: the player's equiped armor
  *
  * Returns: a newly allocated battle_player_t with p_id, stats, moves, battle_items
  */

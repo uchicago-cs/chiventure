@@ -220,14 +220,14 @@ battle_item_t *get_random_default_consumable()
     assert(rv_item != NULL);
 
     int rand = randnum(1, 4); 
-    char* name_array[]= {"elixir of life ", "healing potion ", 
-                         "defense up ", "strength up "};
+    char* name_array[]= {"Elixir of Life", "Healing Potion", 
+                         "Defense Up", "Strength Up"};
     char* description_array[] = {"Adds 50 to your HP!", "Adds 20 to your HP!", 
-                                 "Adds 5 to your defense!", 
-                                 "Adds 5 to your strength!"};
+                                 "Adds 5 to your Physical Defense!", 
+                                 "Adds 5 to your Physical Attack!"};
     int mod_array[] = {50, 20, 5, 5};
 
-    rv_item->id = rand ;
+    rv_item->id = rand;
 
     // sets name
     int name_len = strlen(name_array[rand - 1]);
@@ -240,21 +240,19 @@ battle_item_t *get_random_default_consumable()
     strncpy(rv_item->description, description_array[rand - 1], description_len + 1);
 
     rv_item->attributes = stat_changes_new();
-    if(rand == 1) 
-    {
-        rv_item->attributes->hp = mod_array[rand-1];
-    }
-    else if (rand == 2)
-    {
-        rv_item->attributes->hp = mod_array[rand-1];
-    } 
-    else if (rand == 3) 
-    {
-        rv_item->attributes->phys_def = mod_array[rand-1];
-    } 
-    else 
-    {
-        rv_item->attributes->phys_atk = mod_array[rand-1];
+    switch(rand){
+
+        case 1:
+            rv_item->attributes->hp = mod_array[rand-1];
+            break;
+        case 2:
+            rv_item->attributes->hp = mod_array[rand-1];
+            break;
+        case 3:
+            rv_item->attributes->phys_def = mod_array[rand-1];
+            break;
+        default:
+            rv_item->attributes->phys_atk = mod_array[rand-1];
     }
 
     rv_item->quantity = randnum(1, 3);

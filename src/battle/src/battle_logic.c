@@ -109,7 +109,8 @@ int use_battle_item(combatant_t *c, battle_t *battle, char *name)
     if (item->attack)
     {
         consume_battle_item(battle->enemy, item);
-    } else
+    }
+    else
     {
         consume_battle_item(c, item);
     }
@@ -171,7 +172,8 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     if ((target_stats->sp + changes->sp) <= target_stats->max_sp)
     {
         target_stats->sp += changes->sp;
-    }else
+    }
+    else
     {
         target_stats->sp = target_stats->max_sp;
     }

@@ -67,6 +67,9 @@ typedef struct npc_battle {
  *  surrender_level: the level of health at which the npc surrenders the battle
  *  class_type: the class struct of the npc
  *  items: a doubly linked list of items that the npc can use during battle
+ * - weapon: the weapon equiped to the npc during battle
+ * - accessory: the accessory equiped to the npc during battle
+ * - armor: the armor equiped to the npc during battle
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
@@ -90,6 +93,9 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
  *  surrender_level: the level of health at which the npc surrenders the battle
  *  class_type: the class struct of the npc
  *  items: a doubly linked list of items that the npc can use during battle
+ * - weapon: the weapon equiped to the npc during battle
+ * - accessory: the accessory equiped to the npc during battle
+ * - armor: the armor equiped to the npc during battle
  *
  * Returns:
  *  pointer to allocated npc_battle
