@@ -500,7 +500,7 @@ Test(quest,is_quest_completed)
     qctx->player->crnt_room = "Grand ballroom";
 
     start_quest(quest, qctx);
-    accept_reward(complete_task(task->id, qctx), qctx);
+    update_task(task->id, qctx);
 
     bool in_inventory = item_in_inventory(qctx->player, item);
     cr_assert_eq(in_inventory, true, "complete task didn't properly give the reward");
