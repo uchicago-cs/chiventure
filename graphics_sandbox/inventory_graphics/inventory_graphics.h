@@ -43,7 +43,7 @@ typedef struct slot {
  */ 
 typedef struct player_inventory {
     inventory_display_t *display;
-    item_t **slots;
+    slot_t **slots;
 } player_inventory_t;
 
 
