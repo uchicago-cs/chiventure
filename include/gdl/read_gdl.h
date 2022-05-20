@@ -14,6 +14,8 @@
 
 
 #include "stats.h"
+#include "stdio.h"
+#include "stdlib.h"
 
 
 /* Contains the display_dimensions for all pop-up windows */
@@ -24,10 +26,10 @@ typedef struct display_dimensions {
 
 
 /* This includes camera size information to display scenes */
-typedef struct camera_size {
+typedef struct camera {
     unsigned int width;
     unsigned int height;
-} camera_size_t;
+} camera_t;
 
 
 /* The set of background colors availible for the inventory */
@@ -94,33 +96,97 @@ typedef struct graphics {
 } graphics_t;
 
 
+/*
+ * Reads through a gdl file to allocate and initialize a graphics structure
+ * 
+ * Parameters:
+ * - the gdl file
+ *
+ * Returns:
+ * - a graphics struct whose fields correspond to specifications of the author
+ */
 graphics_t* read_gdl(FILE *gdl);
 
 
+/*
+ * frees a graphics structure from the heap
+ *
+ * Parameters:
+ * - a pointer to a graphics structure on the heap
+ *
+ * Returns:
+ * - void (this all happens as a side effect)
+ */
 void free_graphics(graphics_t* graphics);
 
 
-display_dimensions_t* init_display_dimensions(unsigned int width, unsigned int height);
+/*
+ * allocates and initializes a display structure on the heap
+ *
+ * Parameters:
+ * - window width
+ * - window height
+ *
+ * Returns:
+ * - a pointer to the display structure on the heap
+ */
+display_dimensions_t* make_display_dimensions(unsigned int width, unsigned int height);
 
 
+/*
+ * frees a display structure from the heap
+ *
+ * Parameters:
+ * - a pointer to a display structure on the heap
+ *
+ * Returns:
+ * - void (this all happens as a side effect)
+ */
 void free_display_dimensions(display_dimensions_t *display_dimensions);
 
 
-camera_size_t* init_camera_size(unsigned int width, unsigned int height;
+camera_t* make_camera(unsigned int width, unsigned int height;
 
 
-void free_camera_size(camera_size_t *camera_size);
+/*
+ * frees a camera structure from the heap
+ *
+ * Parameters:
+ * - a pointer to a cameray structure on the heap
+ *
+ * Returns:
+ * - void (this all happens as a side effect)
+ */
+void free_camera(camera_t *camera);
 
 
-inventory_display_t* init_inventory_display(unsigned int rows, unsigned int columns, color color);
+inventory_display_t* make_inventory_display(unsigned int rows, unsigned int columns, color color);
 
-
+/*
+ * frees an inventory structure from the heap
+ *
+ * Parameters:
+ * - a pointer to an inventory structure on the heap
+ *
+ * Returns:
+ * - void (this all happens as a side effect)
+ */
 void free_inventory_display(inventory_display_t *inventory_display);
 
 
-statistics_display_t* init_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode);
+
+statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode);
 
 
+/*
+ * frees a statistics structure from the heap
+ *
+ * Parameters:
+ * - a pointer to a statistics structure on the heap
+ *
+ * Returns:
+ * - void (this all happens as a side effect)
+ */
 void free_display_statistics(statistics_display *statistics_display);
 
 
