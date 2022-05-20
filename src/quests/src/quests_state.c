@@ -243,7 +243,6 @@ bool completed_mission(mission_t *mission, player_t *player) {
         case COLLECT_ITEM:
             for(item_list_t *cur = get_all_items_in_inventory(player); cur != NULL; cur = cur->next) {
                 if(!strcmp(mission->target_name, cur->item->item_id)) {
-                    printf("True");
                     return true;
                 }
             }
