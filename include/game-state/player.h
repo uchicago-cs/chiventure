@@ -19,6 +19,14 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
+/* An enum representing the possible quest completion statuses currently supportd */
+typedef enum completion_status {
+    FAILED = -1,
+    UNACQUIRED,
+    STARTED,
+    COMPLETED,
+} completion_status_t;
+
 /* A reference to a given quest from game_state that the player has unlocked 
  * 
  * Completion functions as follows:

@@ -267,8 +267,7 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     id_list_t *task_list = prereq->task_list;
     for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next) {
         player_quest_t *pquest = get_player_quest_from_hash(cur->id, player->player_quests);
-        // 2 is the quest status, should be changed if status is switched to an enum
-        if(pquest->completion != 2) {
+        if(pquest->completion != COMPLETED) {
             return false;
         }
     }
@@ -365,13 +364,16 @@ int start_quest(quest_t *quest, quest_ctx_t *qctx)
     quest_hash_t *quest_hash = qctx->quest_hash;
     assert(quest != NULL);
     assert(player != NULL);
-    int rc = add_quest_to_player(quest, qctx, 1); // 1 means the quest started, should be replaced when completion status is replaced with enums
+    int rc = add_quest_to_player(quest, qctx, STARTED);
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
     while(cur) {
         add_task_to_player_hash(cur->task, qctx);
-        update_task(cur->task->id, qctx);
+        if(is_task_completed(cur->task, player)) {
+            accept_reward(complete_task(cur->task->id, qctx), qctx);
+            break;
+        }
         cur = cur->rsibling;
     }   
 
@@ -384,7 +386,7 @@ int fail_quest(quest_t *quest, player_t *player)
     assert(quest != NULL);
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id,
                              player->player_quests);
-    pquest->completion = -1;
+    pquest->completion = FAILED;
 
     return SUCCESS;
 }
@@ -397,7 +399,7 @@ bool is_quest_completed(quest_t *quest, player_t *player)
     task_tree_t *cur = quest->task_tree;
 
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
-    if(!pquest || pquest->completion == -1) {
+    if(!pquest || pquest->completion == FAILED) {
         return false;
     }
 
@@ -413,7 +415,7 @@ bool is_quest_completed(quest_t *quest, player_t *player)
         cur = cur->rsibling;
         crntStatus = false;
     }
-    pquest->completion = crntStatus ? 2 : 1;
+    pquest->completion = crntStatus ? COMPLETED : STARTED;
     return crntStatus;
 }
 
@@ -589,7 +591,7 @@ bool get_player_task_status(task_t *task, player_t *player)
 /* Refer quests_state.h */
 reward_t *complete_quest(quest_t *quest, player_t *player)
 {
-    if (get_player_quest_status(quest, player) == 2)
+    if (get_player_quest_status(quest, player) == COMPLETED)
         return quest->reward;
     else
         return NULL;
@@ -714,7 +716,7 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
                 add_task_to_player_hash(cur->task, qctx);
                 if(is_task_completed(cur->task, player)) {
-                    update_task(task_id, qctx);
+                    accept_reward(complete_task(cur->task->id, qctx), qctx);
                     break;
                 }
             }
@@ -754,7 +756,7 @@ int update_player_quests(quest_ctx_t *qctx) {
     quest_hash_t *quest_hash = qctx->quest_hash;
     assert(player != NULL);
     for(player_task_hash_t *cur = player->player_tasks; cur != NULL; cur = cur->hh.next) {
-        update_task(cur->task_id, qctx);
+        accept_reward(complete_task(cur->task_id, qctx), qctx);
     }
 }
 
@@ -788,9 +790,4 @@ int quest_ctx_free(quest_ctx_t *quest_ctx) {
     assert(quest_ctx != NULL);
     free(quest_ctx);
     return SUCCESS;
-}
-
-/* Refer to quests_state.h */
-void update_task(char *task_id, quest_ctx_t *qctx) {
-    accept_reward(complete_task(task_id, qctx), qctx);
 }
