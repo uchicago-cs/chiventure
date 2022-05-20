@@ -737,3 +737,35 @@ int update_player_quests(player_t *player, quest_hash_t *quest_hash) {
         accept_reward(complete_task(cur->task_id, player, quest_hash), player);
     }
 }
+
+quest_ctx_t *quest_ctx_new(player_t *player, quest_hash_t *quest_hash) {
+    quest_ctx_t *quest_ctx = malloc(sizeof(quest_ctx_t));
+
+    int rc = quest_ctx_init(quest_ctx, player, quest_hash);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize quest_ctx struct!\n");
+    }
+
+    return quest_ctx;
+}
+
+/* Refer to quests_state.h */
+int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest_hash)
+{
+    assert(quest_ctx != NULL);
+    assert(player != NULL);
+    assert(quest_hash != NULL);
+
+    quest_ctx->player = player;
+    quest_ctx->quest_hash = quest_hash;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int quest_ctx_free(quest_ctx_t *quest_ctx) {
+    assert(quest_ctx != NULL);
+    free(quest_ctx);
+    return SUCCESS;
+}
