@@ -417,7 +417,7 @@ Test(quest, start_quest)
     cr_assert_eq(check, SUCCESS, "start_quest() failed");
     
     int status = get_player_quest_status(quest, qctx->player);
-    cr_assert_eq(status, STARTED, "start_quest() failed to set status (incorrectly returned %d)", status);
+    cr_assert_eq(status, Q_STARTED, "start_quest() failed to set status (incorrectly returned %d)", status);
 }
 
 /* Tests the function  that fails a quest */
@@ -435,7 +435,7 @@ Test(quest, fail_quest)
     int check = fail_quest(quest, qctx->player);
     cr_assert_eq(check, SUCCESS, "fail_quest() failed");
 
-    cr_assert_eq(get_player_quest_status(quest, qctx->player), FAILED, "fail_quest() failed to set status");
+    cr_assert_eq(get_player_quest_status(quest, qctx->player), Q_FAILED, "fail_quest() failed to set status");
 }
 
 
@@ -464,7 +464,7 @@ Test(quest, complete_task_mission)
 
     add_item_to_player(qctx->player, trident, ctx->game);
     int res = get_player_quest_status(quest, qctx->player);
-    cr_assert_eq(res, COMPLETED, "complete_task() failed!");
+    cr_assert_eq(res, Q_COMPLETED, "complete_task() failed!");
 }
 
 /* Tests the function that completes the task when the task has a prereq*/
@@ -511,7 +511,7 @@ Test(quest,is_quest_completed)
     completed = is_quest_completed(quest, qctx->player);
     cr_assert_eq(completed, true, "is_quest_completed() failed!");
     
-    cr_assert_eq(get_player_quest_status(quest, qctx->player), COMPLETED,"is_quest_completed() failed!");
+    cr_assert_eq(get_player_quest_status(quest, qctx->player), Q_COMPLETED,"is_quest_completed() failed!");
     player_free(qctx->player);
 }
 
@@ -529,7 +529,7 @@ Test(quest,get_player_quest_status)
     start_quest(quest, qctx);
 
     check = get_player_quest_status(quest, qctx->player);
-    cr_assert_eq(check, STARTED, "get_player_quest_status() failed with started status");
+    cr_assert_eq(check, Q_STARTED, "get_player_quest_status() failed with started status");
 }
 
 /* Tests the function that reward the item after a quest*/
@@ -541,15 +541,15 @@ Test(quest,complete_quest)
     add_quest_to_hash(quest, &qctx->quest_hash);
 
     int check = get_player_quest_status(quest, qctx->player);
-    cr_assert_eq(check, UNACQUIRED, "get_quest_status() returned something interesting even though the quest hasn't started yet!");
+    cr_assert_eq(check, Q_UNACQUIRED, "get_quest_status() returned something interesting even though the quest hasn't started yet!");
 
     start_quest(quest, qctx);
     check = get_player_quest_status(quest, qctx->player);
-    cr_assert_eq(check, STARTED, "get_quest_status() failed to set starting status!");
+    cr_assert_eq(check, Q_STARTED, "get_quest_status() failed to set starting status!");
 
     cr_assert_eq(is_quest_completed(quest, qctx->player), true, "quest created in complete_quest is not complete");
     reward_t *res = complete_quest(quest, qctx->player);
-    cr_assert_eq(get_player_quest_status(quest, qctx->player), COMPLETED, "complete_quest failed to complete the quest");
+    cr_assert_eq(get_player_quest_status(quest, qctx->player), Q_COMPLETED, "complete_quest failed to complete the quest");
     cr_assert_str_eq(res->item->item_id, "test_item", "complete_quest failed to reward the item");
 }
 

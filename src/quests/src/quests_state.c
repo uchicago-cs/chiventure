@@ -267,7 +267,7 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     id_list_t *task_list = prereq->task_list;
     for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next) {
         player_quest_t *pquest = get_player_quest_from_hash(cur->id, player->player_quests);
-        if(pquest->completion != COMPLETED) {
+        if(pquest->completion != Q_COMPLETED) {
             return false;
         }
     }
@@ -364,14 +364,14 @@ int start_quest(quest_t *quest, quest_ctx_t *qctx)
     quest_hash_t *quest_hash = qctx->quest_hash;
     assert(quest != NULL);
     assert(player != NULL);
-    int rc = add_quest_to_player(quest, qctx, STARTED);
+    int rc = add_quest_to_player(quest, qctx, Q_STARTED);
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
     while(cur) {
         add_task_to_player_hash(cur->task, qctx);
         if(is_task_completed(cur->task, player)) {
-            accept_reward(complete_task(cur->task->id, qctx), qctx);
+            update_task(cur->task->id, qctx);
             break;
         }
         cur = cur->rsibling;
@@ -386,7 +386,7 @@ int fail_quest(quest_t *quest, player_t *player)
     assert(quest != NULL);
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id,
                              player->player_quests);
-    pquest->completion = FAILED;
+    pquest->completion = Q_FAILED;
 
     return SUCCESS;
 }
@@ -399,7 +399,7 @@ bool is_quest_completed(quest_t *quest, player_t *player)
     task_tree_t *cur = quest->task_tree;
 
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
-    if(!pquest || pquest->completion == FAILED) {
+    if(!pquest || pquest->completion == Q_FAILED) {
         return false;
     }
 
@@ -415,7 +415,7 @@ bool is_quest_completed(quest_t *quest, player_t *player)
         cur = cur->rsibling;
         crntStatus = false;
     }
-    pquest->completion = crntStatus ? COMPLETED : STARTED;
+    pquest->completion = crntStatus ? Q_COMPLETED : Q_STARTED;
     return crntStatus;
 }
 
@@ -591,7 +591,7 @@ bool get_player_task_status(task_t *task, player_t *player)
 /* Refer quests_state.h */
 reward_t *complete_quest(quest_t *quest, player_t *player)
 {
-    if (get_player_quest_status(quest, player) == COMPLETED)
+    if (get_player_quest_status(quest, player) == Q_COMPLETED)
         return quest->reward;
     else
         return NULL;
@@ -658,17 +658,17 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id)
 }
 
 /* Refer to quests_state.h */
-int remove_task_in_player_hash(player_quest_hash_t *pquests, char *quest_id) {
-    player_quest_t *check; 
-    check = get_player_quest_from_hash(quest_id, pquests);
+int remove_task_in_player_hash(player_task_hash_t *ptasks, char *task_id) {
+    player_task_t *check; 
+    check = get_player_task_from_hash(task_id, ptasks);
 
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
 
-    HASH_DEL(pquests, check); 
-    player_quest_free(check); 
-    if (get_quest_from_hash(quest_id, pquests) != NULL){
+    HASH_DEL(ptasks, check); 
+    player_task_free(check); 
+    if (get_player_task_from_hash(task_id, ptasks) != NULL){
         return FAILURE;
     }
     return SUCCESS;
@@ -716,7 +716,7 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
                 add_task_to_player_hash(cur->task, qctx);
                 if(is_task_completed(cur->task, player)) {
-                    accept_reward(complete_task(cur->task->id, qctx), qctx);
+                    update_task(cur->task->id, qctx);
                     break;
                 }
             }
@@ -756,7 +756,7 @@ int update_player_quests(quest_ctx_t *qctx) {
     quest_hash_t *quest_hash = qctx->quest_hash;
     assert(player != NULL);
     for(player_task_hash_t *cur = player->player_tasks; cur != NULL; cur = cur->hh.next) {
-        accept_reward(complete_task(cur->task_id, qctx), qctx);
+        update_task(cur->task_id, qctx);
     }
 }
 
@@ -790,4 +790,9 @@ int quest_ctx_free(quest_ctx_t *quest_ctx) {
     assert(quest_ctx != NULL);
     free(quest_ctx);
     return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+void update_task(char *task_id, quest_ctx_t *qctx) {
+    accept_reward(complete_task(task_id, qctx), qctx);
 }

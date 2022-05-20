@@ -516,16 +516,16 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx);
  */
 int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
 
-/* Removes a quest from a player hash table
+/* Removes a task from a player hash table
  *
  * Parameter:
- * - pointer to a player quest hash table
+ * - pointer to a player task hash table
  * - quest ID, 
  * 
  * Returns:
  * - 0 if the removal was failure, 1 if successful 
  */
-int remove_quest_in_player_hash(player_quest_hash_t *hash_table, char *quest_id);
+int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
 
 
 /* Returns the hash after deleting one or all quest.
