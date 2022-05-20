@@ -144,7 +144,16 @@ display_dimensions_t* make_display_dimensions(unsigned int width, unsigned int h
  */
 void free_display_dimensions(display_dimensions_t *display_dimensions);
 
-
+/*
+ * allocates and initializes a camera structure on the heap
+ *
+ * Parameters:
+ * - window width
+ * - window height
+ *
+ * Returns:
+ * - a pointer to the camera structure on the heap
+ */
 camera_t* make_camera(unsigned int width, unsigned int height;
 
 
@@ -159,8 +168,19 @@ camera_t* make_camera(unsigned int width, unsigned int height;
  */
 void free_camera(camera_t *camera);
 
-
+/*
+ * allocates and initializes an inventory structure on the heap
+ *
+ * Parameters:
+ * - number of rows
+ * - number of solumns
+ * - the background color of the display
+ *
+ * Returns:
+ * - a pointer to the inventory structure on the heap
+ */
 inventory_display_t* make_inventory_display(unsigned int rows, unsigned int columns, color color);
+
 
 /*
  * frees an inventory structure from the heap
@@ -174,8 +194,19 @@ inventory_display_t* make_inventory_display(unsigned int rows, unsigned int colu
 void free_inventory_display(inventory_display_t *inventory_display);
 
 
-
-statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode);
+/*
+ * allocates and initializes a statistics structure on the heap
+ *
+ * Parameters:
+ * - the corner if the screne it will reside in
+ * - an array of statistics to be displayed
+ * - the number of statstics to be displayed
+ * - the mode (represenation) of the statistcs
+ *
+ * Returns:
+ * - a pointer to the inventory structure on the heap
+ */
+statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode *modes);
 
 
 /*
