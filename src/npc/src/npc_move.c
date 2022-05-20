@@ -80,13 +80,17 @@ int npc_path_dll_free(npc_path_dll_t *head)
     {
         head = head->prev;
     }
-    npc_path_dll_t *elt, *tmp;
-    DL_FOREACH_SAFE(head, elt, tmp)
+    npc_path_dll_t *tmp;
+    while (head != NULL)
     {
-        DL_DELETE(head, elt);
-        free(elt->room_id);
-        assert(time_ray_free(elt->room_time) == SUCCESS);
-        free(elt);
+        tmp = head->next;
+        free(head->room_id);
+        if (head->room_time != NULL)
+        {
+            free(head->room_time);
+        }
+        free(head);
+        head = tmp;
     }
     return SUCCESS;
 }
