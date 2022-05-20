@@ -268,14 +268,14 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id);
  *
  * Parameter:
  * - quest: pointer to quest to be started
- * - player: pointer to player starting the quest
- * - quest_hash: pointer to hash table of all quests
+ * - qctx: pointer to quest_ctx that indicates player starting the quest
+ *         and a hash table of all quests
  *
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash);
+int start_quest(quest_t *quest, quest_ctx_t *qctx);
 
 /* Updates a quest's status to failed
  *
@@ -398,26 +398,24 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
  *
  * Parameters:
  * - quest: pointer to quest struct
- * - pointer: pointer to player
+ * - qctx: pointer to quest context struct with info on player and all quests
  * - completion: the completion status of the quest
- * - quest_hash: pointer to hash table of all quests
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_hash_t *quest_hash);
+int add_quest_to_player(quest_t *quest, quest_ctx_t *qctx, int completion);
 
 /* Adds a player task to the given hash table
  *
  * Parameters:
  *  task: pointer to task struct
- *  hash_table: pointer to player task hash table
- *  quest_hash: pointer to hash table of all quests
+ *  qctx: pointer to quest context struct with information about player and all quests
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest_hash_t *quest_hash);
+int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx);
 
 /* Checks a quest's status.
  *
@@ -502,13 +500,13 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
  *
  * Parameter:
  * - tree: pointer to a task tree who's immediate task is getting completed
- * - player: pointer to player completing the task
+ * - qctx: pointer to quest context struct with information on player and all quests
  * 
  * Returns:
  * - the task's reward item
  * - NULL if the task is incomplete
  */
-reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash);
+reward_t *complete_task(char *task_id, quest_ctx_t *qctx);
 
 
 /* Returns the hash after deleting one or all quest.
@@ -548,13 +546,12 @@ int accept_reward(reward_t *reward, player_t *player);
 /* Checks if all of the player's tasks are complete and updates them accordingly
  * 
  * Parameter:
- * - player: the player getting checked
- * - quest_hash: a hash table of all of the quests in the game
+ * - qctx: pointer to quest context struct with information on player and all quests
  * 
  * Returns:
  * - SUCCESS if tasks are checked successfully, FAILURE if an error occured
 */
-int update_player_quests(player_t *player, quest_hash_t *quest_hash);
+int update_player_quests(quest_ctx_t *qctx);
 
 /* Allocates memory for and initializes a new quest_ctx object
  * 

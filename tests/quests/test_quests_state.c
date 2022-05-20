@@ -330,7 +330,8 @@ Test(quest, start_quest)
     add_quest_to_hash(quest, &hash);
 
     player_t *player = player_new("test player");
-    int check = start_quest(quest, player, hash);
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
+    int check = start_quest(quest, qctx);
 
     cr_assert_eq(check, SUCCESS, "start_quest() failed");
     int status = get_player_quest_status(quest, player);
@@ -355,8 +356,10 @@ Test(quest, fail_quest)
 
     quest_hash_t *hash = NULL;
     add_quest_to_hash(quest, &hash);
+
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
     
-    start_quest(quest, player, hash);
+    start_quest(quest, qctx);
 
     int check = fail_quest(quest, player);
 
@@ -396,7 +399,9 @@ Test(quest, complete_task_mission)
 
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
     player_t *player = player_new("test player");
-    start_quest(quest, player, ctx->game->all_quests);
+    quest_ctx_t *qctx = quest_ctx_new(player, ctx->game->all_quests);
+
+    start_quest(quest, qctx);
 
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, false, "is_task_completed() returned true when it shouldn't have!");
@@ -441,7 +446,9 @@ Test(quest, complete_task_prereq)
     stats_t *health_stat = stats_new(global, hp);
     player_add_stat(player, health_stat);
     player->level = level;
-    start_quest(quest, player, hash);
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
+
+    start_quest(quest, qctx);
     
     bool completed = is_task_completed(task_to_complete, player);
     cr_assert_eq(completed, true, "is_task_completed() failed!");
@@ -483,9 +490,10 @@ Test(quest,is_quest_completed)
 
     quest_hash_t *hash = NULL;
     add_quest_to_hash(quest, &hash);
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
 
-    start_quest(quest, player, hash);
-    reward_t *the_reward = complete_task(task->id, player, quest);
+    start_quest(quest, qctx);
+    reward_t *the_reward = complete_task(task->id, qctx);
     if (the_reward == NULL) {
         res = FAILURE;
     }
@@ -519,8 +527,9 @@ Test(quest,get_player_quest_status)
 
     quest_hash_t *hash = NULL;
     add_quest_to_hash(quest, &hash);
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
 
-    start_quest(quest, player, hash);
+    start_quest(quest, qctx);
     check = get_player_quest_status(quest, player);
 
     cr_assert_eq(check,1,"get_player_quest_status() failed with started status");
@@ -547,8 +556,9 @@ Test(quest,complete_quest)
 
     quest_hash_t *hash = NULL;
     add_quest_to_hash(quest, &hash);
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
 
-    start_quest(quest, player, hash);
+    start_quest(quest, qctx);
     check = get_player_quest_status(quest, player);
 
     cr_assert_eq(check,1,"get_quest_status() failed with started status");
@@ -577,8 +587,9 @@ Test(quest,complete_quest2)
 
     quest_hash_t *hash = NULL;
     add_quest_to_hash(quest, &hash);
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
 
-    start_quest(quest, player, hash);
+    start_quest(quest, qctx);
 
     reward_t *res = complete_quest(quest, player);
 
@@ -658,15 +669,18 @@ Test(test, add_task_test1)
     char *task1_id = "task one";
     char *task2_id = "task two";
 
-    quest_hash_t *qhash = NULL;
+    quest_hash_t *hash = NULL;
+    quest_t *quest = quest_new("test", NULL, rewards, prereq);
+    add_quest_to_hash(quest, &hash);
 
     task_t *task1 = task_new(NULL, task1_id, rewards, prereq);
     task_t *task2 = task_new(NULL, task2_id, rewards, prereq);
 
-    player_task_hash_t *test_hash_table = NULL;
+    player_t *player = player_new("test player");
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
 
-    int add_task1 = add_task_to_player_hash(task1, &test_hash_table, qhash);
-    int add_task2 = add_task_to_player_hash(task2, &test_hash_table, qhash); 
+    int add_task1 = add_task_to_player_hash(task1, qctx);
+    int add_task2 = add_task_to_player_hash(task2, qctx); 
 
     cr_assert_eq(add_task1, SUCCESS, "Could not sucessfully add task1"); 
     cr_assert_eq(add_task2, SUCCESS, "Could not sucessfully add task2"); 
@@ -686,15 +700,18 @@ Test(test, add_task_test2)
     char *task1_id = "task one";
     char *task2_id = "task one";
 
-    quest_hash_t *qhash = NULL;
-
+    quest_hash_t *hash = NULL;
+    quest_t *quest = quest_new("test", NULL, rewards, prereq);
+    add_quest_to_hash(quest, &hash);
+    
     task_t *task1 = task_new(NULL, task1_id, rewards, prereq);
     task_t *task2 = task_new(NULL, task2_id, rewards, prereq);
 
-    player_task_hash_t *test_hash_table = NULL;
+    player_t *player = player_new("test player");
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
 
-    int add_task1 = add_task_to_player_hash(task1, &test_hash_table, qhash);
-    int add_task2 = add_task_to_player_hash(task2, &test_hash_table, qhash); 
+    int add_task1 = add_task_to_player_hash(task1, qctx);
+    int add_task2 = add_task_to_player_hash(task2, qctx); 
 
     cr_assert_eq(add_task1, SUCCESS, "Could not sucessfully add task1"); 
     cr_assert_eq(add_task2, FAILURE, "task2 added even though task_id already present in hash table"); 

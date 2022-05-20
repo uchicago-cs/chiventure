@@ -374,18 +374,21 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 }
 
 /* Refer to quests_state.h */
-int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash)
+int start_quest(quest_t *quest, quest_ctx_t *qctx)
 {
+    assert(qctx != NULL);
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
     assert(quest != NULL);
     assert(player != NULL);
-    int rc = add_quest_to_player(quest, player, 1, quest_hash); // 1 means the quest started, should be replaced when completion status is replaced with enums
+    int rc = add_quest_to_player(quest, qctx, 1); // 1 means the quest started, should be replaced when completion status is replaced with enums
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
     while(cur) {
-        add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
+        add_task_to_player_hash(cur->task, qctx);
         if(is_task_completed(cur->task, player)) {
-            accept_reward(complete_task(cur->task->id, player, quest), player);
+            accept_reward(complete_task(cur->task->id, qctx), player);
             break;
         }
         cur = cur->rsibling;
@@ -523,10 +526,12 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
 }
 
 /* Refer to quests_state.h */
-int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_hash_t *quest_hash)
+int add_quest_to_player(quest_t *quest, quest_ctx_t *qctx, int completion)
 {
+    assert(qctx != NULL);
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
     player_quest_t *check;
-    
     player_quest_hash_t **hash_table = &player->player_quests;
     check = get_player_quest_from_hash(quest->quest_id, *hash_table);
 
@@ -544,7 +549,7 @@ int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_
         id_list_node_t *temp = quest->prereq->task_list->head;
         while (temp != NULL) {
             task_t *new_task = get_task_from_hash(temp->id, quest_hash);
-            add_task_to_player_hash(new_task, task_hash, quest_hash);
+            add_task_to_player_hash(new_task, qctx);
             temp = temp->next;
         }
     }
@@ -552,8 +557,12 @@ int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_
 }
 
 /* Refer to quests_state.h */
-int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest_hash_t *quest_hash)
+int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx)
 {
+    assert(qctx != NULL);
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
+    player_task_hash_t **hash_table = &player->player_tasks;
     player_task_t *check;
     
     check = get_player_task_from_hash(task->id, *hash_table);
@@ -571,7 +580,7 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest
         id_list_node_t *temp = task->prereq->task_list->head;
         while (temp != NULL) {
             task_t *new_task = get_task_from_hash(temp->id, quest_hash);
-            add_task_to_player_hash(new_task, hash_table, quest_hash);
+            add_task_to_player_hash(new_task, qctx);
             temp = temp->next;
         }
     }
@@ -679,8 +688,12 @@ int remove_quest_all(quest_hash_t *hash_table)
 }
 
 /* Refer quests_state.h */
-reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash)
+reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
 {
+    assert(qctx != NULL);
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
+    
     assert(player != NULL);
 
     task_tree_t *tree = get_task_tree_from_hash(task_id, quest_hash);
@@ -698,9 +711,9 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
         ptask->completed = true;
         if(pquest_exists) {
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
-                add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
+                add_task_to_player_hash(cur->task, qctx);
                 if(is_task_completed(cur->task, player)) {
-                    accept_reward(complete_task(cur->task->id, player, quest_hash), player);
+                    accept_reward(complete_task(cur->task->id, qctx), player);
                     break;
                 }
             }
@@ -730,10 +743,13 @@ int accept_reward(reward_t *reward, player_t *player) {
 }
 
 /* Refer to quest_state.h */
-int update_player_quests(player_t *player, quest_hash_t *quest_hash) {
+int update_player_quests(quest_ctx_t *qctx) {
+    assert(qctx != NULL);
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
     assert(player != NULL);
 
     for(player_task_hash_t *cur = player->player_tasks; cur!= NULL; cur = cur->hh.next) {
-        accept_reward(complete_task(cur->task_id, player, quest_hash), player);
+        accept_reward(complete_task(cur->task_id, qctx), player);
     }
 }

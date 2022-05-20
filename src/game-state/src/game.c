@@ -309,7 +309,8 @@ int move_room(game_t *game, room_t *new_room)
     // Update quests on room transition
     for(player_hash_t *cur = game->all_players; cur != NULL; cur = cur->hh.next) {
         cur->crnt_room = new_room->room_id;
-        update_player_quests(cur, game->all_quests);
+        quest_ctx_t *qctx = quest_ctx_new(cur, game->all_quests);
+        update_player_quests(qctx);
     }
 
     if(new_room == game->final_room)
@@ -414,7 +415,8 @@ int add_item_to_player(player_t *player, item_t *item, game_t *game)
 
     rc = add_item_to_hash(&(player->inventory), item);
     
-    update_player_quests(player, game->all_quests);
+    quest_ctx_t *qctx = quest_ctx_new(player, game->all_quests);
+    update_player_quests(qctx);
 
     return rc;
 }
