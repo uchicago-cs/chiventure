@@ -8,6 +8,7 @@
 #include "game-state/item.h"
 #include "game-state/room.h"
 #include "game-state/player.h"
+#include "game-state/game.h"
 
 /* Creates a sample class. Taken from test_class.c */
 class_t* generate_test_class()
@@ -29,48 +30,22 @@ class_t* generate_test_class()
 
 }
 
-/* Tests init function for passive mission struct */
-Test(passive_mission, init)
-{
-    int xp = 30;
-    int levels = 5;
-    int health = 10;
+/* Tests init function for mission struct */
 
-    passive_mission_t *p_mission = passive_mission_new(xp, levels, health);
-
-    int check = passive_mission_init(p_mission, xp, levels, health);
-
-    cr_assert_eq(check, SUCCESS,"passive_mission_init() failed");
-    cr_assert_eq(p_mission->xp, 30,
-                    "mission_init() did not set xp");
-    cr_assert_eq(p_mission->levels, 5,
-                    "mission_init() did not set levels");   
-    cr_assert_eq(p_mission->health, 10,
-                    "mission_init() did not set health");   
-}
-
-/* Tests init function for active mission struct */
-Test(active_mission, init)
+Test(mission, init)
 {   
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
     char *npc_kill_id = "kill_npc";
 
-   	item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
                                 class, NULL, false);
 
-    npc_t *mission_meet_kill = npc_new(npc_kill_id , "npc to kill", 
-                                       "An npc to kill", class, NULL, false);
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
+    mission_t *mission = malloc(sizeof(mission_t));
 
-    active_mission_t *a_mission = malloc(sizeof(active_mission_t));
+    int check = mission_init(mission, NULL, mission_meet_npc, NULL, NULL);
 
-    int check = active_mission_init(a_mission, item_to_get, mission_meet_npc,
-                             mission_meet_kill, room_to_visit);
-
-    cr_assert_eq(check,SUCCESS,"active_mission_init() failed");
+    cr_assert_eq(check,SUCCESS,"mission_init() failed");
 }
 
 /* Tests init function for task struct */
@@ -80,25 +55,21 @@ Test(task, init)
     "test item for item_new()");
     char *id = "test mission";
 
-    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
-
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
+    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
     int xp = 40;
-    reward_t *rewards = reward_new(xp, item);
-    prereq_t *prereq = prereq_new(50, 50);
+    reward_t *rewards = reward_new(xp, item);;
 
     task_t *task = malloc(sizeof(task_t));
 
-	int check = task_init(task, mission, id, rewards, prereq);
+	int check = task_init(task, mission, id, rewards, NULL);
 
 	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
 
+/* Tests new function for reward struct */
 Test(reward, new)
 {
     int xp = 40;
@@ -112,6 +83,8 @@ Test(reward, new)
     cr_assert_eq(rewards->xp, 40,  "reward_new did not set xp");                 
 }
 
+
+/* Tests new function for prereq struct */
 Test(prereq, new)
 {
     int hp = 20;
@@ -125,6 +98,7 @@ Test(prereq, new)
 }
 
 
+/* Tests init function for prereq struct */
 Test(prereq, init)
 {
     int hp = 40;
@@ -168,6 +142,51 @@ Test(quest, init)
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
 }
 
+/* Tests new function for mission struct */
+Test(mission, new1)
+{
+    item_t *item_to_get = item_new("test_item", "item for testing",
+    "test item for item_new()");
+    char *id = "test mission";
+
+    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
+    cr_assert_not_null(mission, "mission_new() test failed");
+
+    cr_assert_eq(item_to_get, mission->item_to_collect, "mission_new() did not allocate correct value");
+}
+
+/* Tests new function for mission struct */
+Test(mission, new2)
+{
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+
+    npc_t *mission_kill_npc = npc_new(npc_meet_id ,"npc1", "npc to kill",
+                                class, NULL, false);
+
+    mission_t *mission = mission_new(NULL, NULL, mission_kill_npc, NULL);
+    cr_assert_not_null(mission, "mission_new() test failed");
+
+    cr_assert_eq(mission_kill_npc, mission->npc_to_kill, "mission_new() did not allocate correct value");
+}
+
+/* Tests new function for mission struct */
+Test(mission, new3)
+{
+    class_t* class = generate_test_class();
+    char *npc_meet_id = "meet_npc";
+    char *npc_kill_id = "kill_npc";
+
+    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
+                                class, NULL, false);
+
+    mission_t *mission = mission_new(NULL, mission_meet_npc, NULL, NULL);
+    cr_assert_not_null(mission, "mission_new() test failed");
+
+    cr_assert_eq(mission_meet_npc, mission->npc_to_meet, "mission_new() did not allocate correct value");
+}
+
 /* Tests new task malloc (new uses init) */
 Test(task, new)
 {
@@ -175,19 +194,14 @@ Test(task, new)
     "test item for item_new()");
     char *id = "test mission";
 
-    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
-
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
+    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
     int xp = 40;
     reward_t *rewards = reward_new(xp, item);
-    prereq_t *prereq = prereq_new(50, 50);
 
-	task_t* task = task_new(mission, id, rewards, prereq);
+	task_t* task = task_new(mission, id, rewards, NULL);
 
 	cr_assert_not_null(task, "task_new() test has failed!");
 }
@@ -228,18 +242,14 @@ Test(task, free)
     "test item for item_new()");
     char *id = "test mission";
 
-    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
+    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
 
     item_t *item = item_new("reward_item", "item for rewarding",
     "test item for item_new()");
     int xp = 30;
     reward_t *rewards = reward_new(xp, item);
-    prereq_t *prereq = prereq_new(50, 50);
 
-	task_t* task_to_free = task_new(mission, id, rewards, prereq);
+	task_t* task_to_free = task_new(mission, id, rewards, NULL);
 
 
 	cr_assert_not_null(task_to_free, "task_free(): room is null");
@@ -249,8 +259,8 @@ Test(task, free)
 	cr_assert_eq(freed, SUCCESS, "task_free() test has failed!");
 }
 
-/* Tests passive_mission_free function */
-Test(active_mission, free)
+/* Tests mission_free function */
+Test(mission, free)
 {
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
@@ -258,69 +268,14 @@ Test(active_mission, free)
 
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
 
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
+    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
 
-    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
-                                                     mission_meet_kill, room_to_visit); 
-
-    cr_assert_not_null(a_mission, "active_mission_free(): room is null");
+    cr_assert_not_null(mission, "mission_free(): room is null");
     
-    int freed = active_mission_free(a_mission);
+    int freed = mission_free(mission);
 
-    cr_assert_eq(freed, SUCCESS, "active_mission_free() test has failed!");
-}
-
-/* Tests passive_mission_free function by making xp node */
-Test(passive_mission_xp, free)
-{   
-    int xp = 5;
-    int level = 1;
-    int health = 10;
-
-    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
-
-    cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
-
-    int freed = passive_mission_free(p_mission);
-
-	cr_assert_eq(freed, SUCCESS, "passive_mission_free() test has failed!");
-}
-
-/* Tests passive_mission_free function by making xp node */
-Test(passive_mission_levels, free)
-{   
-    int xp = 5;
-    int level = 1;
-    int health = 10;
-
-    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
-
-    cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
-
-    int freed = passive_mission_free(p_mission);
-
-	cr_assert_eq(freed, SUCCESS, "passive_mission_free() test has failed!");
-}
-
-/* Tests passive_mission_free function by making xp node */
-Test(passive_mission_health, free)
-{   
-    int xp = 5;
-    int level = 1;
-    int health = 10;
-
-    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
-
-    cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
-
-    int freed = passive_mission_free(p_mission);
-
-	cr_assert_eq(freed, SUCCESS, "passive_mission_free() test has failed!");
+    cr_assert_eq(freed, SUCCESS, "mission_free() test has failed!");
 }
 
 /* Tests quest_free function */
@@ -355,19 +310,15 @@ Test(quest, add_task_to_quest)
 
     int hp = 50;
     int level = 5;
-    prereq_t *prereq = prereq_new(hp, level);
 
-	quest_t* quest = quest_new("test", NULL, rewards, prereq);
+	quest_t* quest = quest_new("test", NULL, rewards, NULL);
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     char *id = "test mission";
 
-    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
+    mission_t *mission = mission_new(item_to_get, NULL, NULL, NULL);
 
-	task_t* task_to_add = task_new(mission, id, rewards, prereq);
+	task_t* task_to_add = task_new(mission, id, rewards, NULL);
 
     int res = add_task_to_quest(quest, task_to_add, "NULL");
 
@@ -456,8 +407,12 @@ Test(quest, start_quest)
     prereq_t *prereq = prereq_new(hp, level);
 
 	quest_t *quest = quest_new("test", NULL, rewards, prereq);
+
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
     player_t *player = player_new("test player");
-    int check = start_quest(quest, player);
+    int check = start_quest(quest, player, hash);
 
     cr_assert_eq(check, SUCCESS, "start_quest() failed");
     int status = get_player_quest_status(quest, player);
@@ -480,7 +435,10 @@ Test(quest, fail_quest)
 	quest_t* quest = quest_new("test", NULL, rewards, prereq);
     player_t *player = player_new("test player");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+    
+    start_quest(quest, player, hash);
 
     int check = fail_quest(quest, player);
 
@@ -491,8 +449,8 @@ Test(quest, fail_quest)
 }
 
 
-/* Tests the function that completes the task */
-Test(quest, complete_task)
+/* Tests the function that completes the task when the task has a mission */
+Test(quest, complete_task_mission)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
@@ -509,38 +467,73 @@ Test(quest, complete_task)
     char *npc_meet_id = "meet_npc";
     char *npc_kill_id = "kill_npc";
 
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
-
     npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
                                        class, NULL, false);
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
-    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
-                                                     mission_meet_kill, room_to_visit); 
-
+    mission_t *mission = mission_new(NULL, NULL, mission_meet_kill, NULL); 
 
     char *id = "test mission";
 
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
-
 	task_t* task_to_complete = task_new(mission, id, rewards, NULL);
+
+    int res = add_task_to_quest(quest, task_to_complete, "NULL");
+
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash); 
+
+    cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
+    player_t *player = player_new("test player");
+    start_quest(quest, player, hash);
+
+    bool completed = is_task_completed(task_to_complete, player);
+    cr_assert_eq(completed, false, "is_task_completed() returned true when it shouldn't have!");
+
+    reward_t *new_reward = complete_task(task_to_complete->id, player, hash);
+    if (new_reward == NULL)
+        res = FAILURE;
+
+    cr_assert_eq(res, SUCCESS, "complete_task() failed!");
+    player_free(player);
+}
+
+/* Tests the function that completes the task when the task has a prereq*/
+Test(quest, complete_task_prereq)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    prereq_t *prereq = prereq_new(hp, level);
+
+    quest_t* quest = quest_new("test", NULL, rewards, prereq);
+
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    class_t* class = generate_test_class();
+
+    char *id = "test mission";
+
+	task_t* task_to_complete = task_new(NULL, id, rewards, prereq);
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
 
     cr_assert_eq(res, SUCCESS, "add_task_to_quest() failed!");
 
     player_t *player = player_new("test player");
-    start_quest(quest, player);
+    stats_global_t *global = stats_global_new("health", hp);
+    stats_t *health_stat = stats_new(global, hp);
+    player_add_stat(player, health_stat);
+    player->level = level;
+    start_quest(quest, player, hash);
 
     bool completed = is_task_completed(task_to_complete, player);
-    cr_assert_eq(completed, true, "is_task_completed() failed!");
+    cr_assert_eq(completed, true, "is_task_completed() returned false!");
 
-    reward_t *new_reward = complete_task(task_to_complete, player);
+    reward_t *new_reward = complete_task(task_to_complete->id, player, hash);
     if (new_reward == NULL)
         res = FAILURE;
 
@@ -566,31 +559,22 @@ Test(quest,is_quest_completed)
     char *npc_meet_id = "meet_npc";
     char *npc_kill_id = "kill_npc";
 
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
-
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
-    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
-                                                     mission_meet_kill, room_to_visit); 
+    mission_t *mission = mission_new(NULL, NULL, NULL, room_to_visit); 
 
     char *id = "test mission";
-
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
 
     task_t *task = task_new(mission, "mission", rewards, NULL);
 
     int res = add_task_to_quest(quest, task, NULL);
 
     player_t *player = player_new("test player");
-    start_quest(quest, player);
-    reward_t *the_reward = complete_task(task, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
+    reward_t *the_reward = complete_task(task->id, player, quest);
     if (the_reward == NULL) {
         res = FAILURE;
     }
@@ -622,7 +606,10 @@ Test(quest,get_player_quest_status)
 
     cr_assert_eq(check, 0, "get_player_quest_status() failed with not statred status");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
     check = get_player_quest_status(quest, player);
 
     cr_assert_eq(check,1,"get_player_quest_status() failed with started status");
@@ -647,7 +634,10 @@ Test(quest,complete_quest)
 
     cr_assert_eq(check, 0, "get_quest_status() failed with not statred status");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
     check = get_player_quest_status(quest, player);
 
     cr_assert_eq(check,1,"get_quest_status() failed with started status");
@@ -674,7 +664,10 @@ Test(quest,complete_quest2)
 	quest_t* quest = quest_new("test", NULL, rewards, prereq);
     player_t *player = player_new("test player");
 
-    start_quest(quest, player);
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+
+    start_quest(quest, player, hash);
 
     reward_t *res = complete_quest(quest, player);
 
@@ -738,6 +731,64 @@ Test(quest,get_quest2)
     cr_assert_eq(answer, NULL, "There is an quest with ID of beeppop ");
 }
 
+
+/*test for add task when 2 unique task_ID */ 
+Test(test, add_task_test1)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    prereq_t *prereq = prereq_new(hp, level);
+
+    char *task1_id = "task one";
+    char *task2_id = "task two";
+
+    quest_hash_t *qhash = NULL;
+
+    task_t *task1 = task_new(NULL, task1_id, rewards, prereq);
+    task_t *task2 = task_new(NULL, task2_id, rewards, prereq);
+
+    player_task_hash_t *test_hash_table = NULL;
+
+    int add_task1 = add_task_to_player_hash(task1, &test_hash_table, qhash);
+    int add_task2 = add_task_to_player_hash(task2, &test_hash_table, qhash); 
+
+    cr_assert_eq(add_task1, SUCCESS, "Could not sucessfully add task1"); 
+    cr_assert_eq(add_task2, SUCCESS, "Could not sucessfully add task2"); 
+}
+/*test for add task when a task with same ID already exists in hash*/
+Test(test, add_task_test2)
+{
+    int xp = 50;
+    item_t *item = item_new("test_item", "item for testing",
+    "test item");
+    reward_t *rewards = create_sample_rewards(xp, item);
+
+    int hp = 50;
+    int level = 5;
+    prereq_t *prereq = prereq_new(hp, level);
+
+    char *task1_id = "task one";
+    char *task2_id = "task one";
+
+    quest_hash_t *qhash = NULL;
+
+    task_t *task1 = task_new(NULL, task1_id, rewards, prereq);
+    task_t *task2 = task_new(NULL, task2_id, rewards, prereq);
+
+    player_task_hash_t *test_hash_table = NULL;
+
+    int add_task1 = add_task_to_player_hash(task1, &test_hash_table, qhash);
+    int add_task2 = add_task_to_player_hash(task2, &test_hash_table, qhash); 
+
+    cr_assert_eq(add_task1, SUCCESS, "Could not sucessfully add task1"); 
+    cr_assert_eq(add_task2, FAILURE, "task2 added even though task_id already present in hash table"); 
+}
+
 /*test for add quest when 2 unique quest_ID */ 
 Test(test, add_quest_test1)
 {
@@ -764,7 +815,7 @@ Test(test, add_quest_test1)
     cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add quest1"); 
     cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add quest2"); 
 }
-/*test for add quest when a quest with same ID aredy exist in hash*/
+/*test for add quest when a quest with same ID already exists in hash*/
 Test(test, add_quest_test2)
 {
     int xp = 50;
@@ -840,3 +891,18 @@ Test(quest, remove_quest_all)
     cr_assert_eq(res,SUCCESS, "remove_quest_all() failed to 2nd test");
 }
 
+/* Tests the function that adds a reward to the player class */
+Test(quest, accept_reward) {
+    item_t *item = item_new("test item", "item for testing", "This item is made for testing purposes only and is not intended to give the player any sense of enjoyment.");
+    reward_t *reward = reward_new(40, item);
+    player_t *player = player_new("Steve");
+
+    cr_assert_eq(player->xp, 0, "player xp not initialized to 0!");
+
+    accept_reward(reward, player);
+
+    cr_assert_eq(player->xp, 40, "accept_reward() didn't properly give xp!");
+    item_t *search_item = get_item_in_hash(player->inventory, item->item_id);
+    cr_assert_not_null(search_item, "item not added to player's inventory");
+    
+}
