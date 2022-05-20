@@ -3,16 +3,13 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quests_state.h"
-
 /* Refer to quests_state.h */
-mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit)
+mission_t *mission_new(char *target_name, mission_types_t type)
 {
     mission_t *mission = malloc(sizeof(mission_t));
     int rc;
 
-    rc = mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
-                      room_to_visit);
+    rc = mission_init(mission, target_name, type);
 
     if (rc != SUCCESS)
     {
@@ -103,30 +100,13 @@ id_list_t *id_list_new() {
 }
 
 /* Refer to quests_state.h */
-int mission_init(mission_t *mission, item_t *item_to_collect, 
-                        npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
+int mission_init(mission_t *mission, char *target_name, mission_types_t type)
 {
     assert(mission != NULL);
+    assert(target_name != NULL);
 
-    int count = 0;
-    if(item_to_collect != NULL) {
-        count++;
-    }
-    if(npc_to_meet != NULL) {
-        count++;
-    }
-    if(npc_to_kill != NULL) {
-        count++;
-    }
-    if(room_to_visit != NULL) {
-        count++;
-    }
-    assert(count < 2);
-
-    mission->item_to_collect = item_to_collect;
-    mission->npc_to_meet = npc_to_meet;
-    mission->npc_to_kill = npc_to_kill;
-    mission->room_to_visit = room_to_visit;
+    mission->target_name = target_name;
+    mission->type = type;
 
     return SUCCESS;
 }
@@ -196,11 +176,6 @@ int id_list_init(id_list_t *id_list) {
 int mission_free(mission_t *mission)
 {
     assert(mission != NULL);
-
-    free(mission->item_to_collect);
-    free(mission->npc_to_meet);
-    free(mission->npc_to_kill);
-    free(mission->room_to_visit);
     free(mission);
 
     return SUCCESS;
@@ -253,6 +228,28 @@ int id_list_free(id_list_t *id_list) {
     }
     free(id_list);
     return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+bool completed_mission(mission_t *mission, player_t *player) {
+    assert(player != NULL);
+    if(mission == NULL) {
+        return true;
+    }
+    switch(mission->type) {
+        case VISIT_ROOM:
+            return !(strcmp(mission->target_name, player->crnt_room));
+            break;
+        case COLLECT_ITEM:
+            for(item_list_t *cur = get_all_items_in_inventory(player); cur != NULL; cur = cur->next) {
+                if(!strcmp(mission->target_name, cur->item->item_id)) {
+                    return true;
+                }
+            }
+            return false;
+            break;
+    }
+    return true;
 }
 
 /* Refer to quests_state.h */
@@ -440,7 +437,7 @@ bool is_task_completed(task_t *task, player_t *player)
 {
     assert(task != NULL);
     assert(player != NULL);
-    
+
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
     if(!ptask) {
         return false;
@@ -448,10 +445,7 @@ bool is_task_completed(task_t *task, player_t *player)
     if(ptask->completed) {
         return true;
     }
-    if(task->mission != NULL) {
-        return false;
-    }
-    return meets_prereqs(player, task->prereq);
+    return completed_mission(task->mission, player) && meets_prereqs(player, task->prereq);
 }
 
 /* Refer to quests_state.h */
@@ -687,21 +681,30 @@ int remove_quest_all(quest_hash_t *hash_table)
 reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash)
 {
     assert(player != NULL);
+
     task_tree_t *tree = get_task_tree_from_hash(task_id, quest_hash);
     assert(tree != NULL);
+    
+    quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
+    int pquest_exists = !!get_player_quest_from_hash(quest_of_task->quest_id, player->player_quests);
 
-    if (meets_prereqs(player, tree->task->prereq)) 
+    if (is_task_completed(tree->task, player)) 
     {
-        get_player_task_from_hash(tree->task->id, player->player_tasks)->completed = true;
-        
-        for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
-            add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
-            if(is_task_completed(cur->task, player)) {
-                accept_reward(complete_task(cur->task->id, player, quest_hash), player);
-                break;
+        player_task_t *ptask = get_player_task_from_hash(tree->task->id, player->player_tasks);
+        if(ptask->completed == true) {
+            return NULL;
+        }
+        ptask->completed = true;
+        if(pquest_exists) {
+            for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
+                add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
+                if(is_task_completed(cur->task, player)) {
+                    accept_reward(complete_task(cur->task->id, player, quest_hash), player);
+                    break;
+                }
             }
         }
-        quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
+        
         if(is_quest_completed(quest_of_task, player)) {
             accept_reward(complete_quest(quest_of_task, player), player);
         }
@@ -715,8 +718,21 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
 
 /* Refer to quest_state.h */
 int accept_reward(reward_t *reward, player_t *player) {
-    assert(reward != NULL);
     assert(player != NULL);
+    if(reward == NULL) {
+        return FAILURE;
+    }
+
     player->xp += reward->xp;
     add_item_to_hash(&player->inventory, reward->item);
+    return SUCCESS;
+}
+
+/* Refer to quest_state.h */
+int update_player_quests(player_t *player, quest_hash_t *quest_hash) {
+    assert(player != NULL);
+
+    for(player_task_hash_t *cur = player->player_tasks; cur!= NULL; cur = cur->hh.next) {
+        accept_reward(complete_task(cur->task_id, player, quest_hash), player);
+    }
 }

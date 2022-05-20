@@ -6,18 +6,17 @@
 #include "quests_structs.h"
 #include "game-state/player.h"
 
+typedef struct item_wrapped_for_llist item_list_t; // Forward declaration
+
 /* Creates a new mission struct (allocates memory)
  * 
  * Parameters:
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
- * - npc_to_kill: the npc to kill for the mission
- * - room_to_visit: the room to visit for the mission 
+ * - target_name: The name of the mission's target (the NPC's name, the item's name, etc)
+ * 
  *
  * Returns: a pointer to the newly allocated mission, that is not completed
  */
-mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit);
+mission_t *mission_new(char *target_name, mission_types_t type);
 
 /* Creates a new reward struct for completing a quest 
  * 
@@ -73,14 +72,14 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prere
  *         (not started)
  */
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                    reward_t *reward, prereq_t *stat_req);
+                    reward_t *reward, prereq_t *prereq);
 
 /* Initialize an already allocated mission struct
  *
  * Parameters:
  * - mission: an already allocated mission_t 
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
+ * - target_name: the name of the mission's target (NPC, item, etc)
+ * - type: The type of mission
  * 
  * Returns:
  * - SUCCESS for successful init
@@ -90,8 +89,7 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
  *       there is more than one pointer that is not NULL (excluding mission),
  *       this function will return FAILURE.
  */
-int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
-                        npc_t *npc_to_kill, room_t *room_to_visit);
+int mission_init(mission_t *mission, char *target_name, mission_types_t type);
 
 /* Initializes an already allocated reward struct
  * 
@@ -230,11 +228,21 @@ int prereq_free(prereq_t *prereq);
 */
 int id_list_free(id_list_t *id_list);
 
+/* Determines whether a player completed a mission (if possible for that mission type)
+ *
+ * Parameters:
+ *  - mission: a mission object
+ *  - player: a player
+ * 
+ * Returns:
+ * - true if the player completed the mission, false if not
+*/
+bool completed_mission(mission_t *mission, player_t *player);
 
 /* 
  * Determines whether a player meets a set of prerequisites
  * 
- * Parameter:
+ * Parameters:
  * - prereq: a prerequisite object
  * - player: a player
  * 
@@ -537,5 +545,15 @@ int remove_quest_all(quest_hash_t *hash_table);
 */
 int accept_reward(reward_t *reward, player_t *player);
 
+/* Checks if all of the player's tasks are complete and updates them accordingly
+ * 
+ * Parameter:
+ * - player: the player getting checked
+ * - quest_hash: a hash table of all of the quests in the game
+ * 
+ * Returns:
+ * - SUCCESS if tasks are checked successfully, FAILURE if an error occured
+*/
+int update_player_quests(player_t *player, quest_hash_t *quest_hash);
 
 #endif /* QUESTS_STATE_H */
