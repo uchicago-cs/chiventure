@@ -33,7 +33,7 @@ time_ray_t *time_ray_new(double assigned_time)
 {
     time_ray_t *time_ray;
     time_ray = malloc(sizeof(time_ray_t));
-    //memset(time_ray, 0, sizeof(time_ray_t));
+    memset(time_ray, 0, sizeof(time_ray_t));
     assert(time_ray_init(time_ray, assigned_time) == SUCCESS);
     return time_ray;
 }
