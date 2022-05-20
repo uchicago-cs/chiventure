@@ -78,18 +78,57 @@ int load_actions(obj_t *item_obj, item_t *i, game_t *g)
         {
             add_action(i, action, "Action succeeded", obj_get_str(curr, "text_fail"));
         }
-        
-        // Adds conditions, if any, to the action.
-        if (obj_get_str(curr, "conditions") != NULL) {
-            game_action_t* new_action;
-            condition_t* conditions;
-
-            new_action = get_action(i, action);
-            conditions = build_conditions(obj_get_list(curr, "conditions"), g);
-            add_condition(g, new_action, conditions);
-        }
 
         free(action);
+    }
+
+    return SUCCESS;
+}
+
+/* load_conditions()
+ * A helper function to load_items that loads action conditions to an item.
+ * Assumes that the item has already been added into the game.
+ * 
+ * Parameters:
+ * - item_obj: a pointer to the item object
+ * - g: the game to which the item has been added
+ * - item: the item struct in the game
+ * 
+ * Returns:
+ * - SUCCESS if conditions are loaded successfully, FAILURE otherwise
+ */
+int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
+    
+    // getting a list of actions from item
+    obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
+    if (action_ls == NULL)
+    {
+        fprintf(stderr, "action list is empty\n");
+        return FAILURE;
+    }
+    else if (list_type_check(action_ls, action_type_check) == FAILURE)
+    {
+        fprintf(stderr, "object actions failed typechecking\n");
+        return FAILURE;
+    }
+
+    obj_t *curr_action;
+    DL_FOREACH(action_ls->data.lst, curr_action)
+    {
+        char *action = case_insensitized_string(obj_get_str(curr_action, "action"));
+        obj_t *conditions_obj = obj_get_attr(curr_action, "conditions", false);
+        if (conditions_obj != NULL) 
+        {
+           game_action_t* act = get_action(item, action);
+           condition_t* conditions_ls = build_conditions(conditions_obj, g);
+
+           while(conditions_ls != NULL)
+           {
+               add_condition(g, act, conditions_ls);
+               conditions_ls = conditions_ls->next;
+           }
+           
+        }
     }
 
     return SUCCESS;
@@ -135,6 +174,13 @@ int load_items(obj_t *doc, game_t *g)
         }
 
         add_item_to_game(g, item);
+        
+        // load conditions into item
+        if(load_conditions(curr, g, item) == FAILURE)
+        {
+            fprintf(stderr, "actions have not been loaded properly");
+            return FAILURE;
+        }
 
         // add item to its room, unless it is meant to be an NPC-held item
         if (strcmp(in, "npc") != 0) {
