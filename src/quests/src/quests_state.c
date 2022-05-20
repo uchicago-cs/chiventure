@@ -318,7 +318,7 @@ int compare_tasks(task_t *a1, task_t *a2)
  *       runtime is now O(T) where T is the number of tasks
  *       in the game
  */
-task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
+task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
 {
     if(tree == NULL) {
         return NULL;
@@ -330,8 +330,8 @@ task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
         return tree;
     }
     task_tree_t * newTree;
-    newTree = find_task_in_tree(tree->rsibling, id);
-    return (newTree != NULL) ? newTree : find_task_in_tree(tree->lmostchild, id);
+    newTree = find_task_tree_of_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_tree_of_task_in_tree(tree->lmostchild, id);
 }
 
 /* Refer to quests_state.h */
@@ -349,14 +349,14 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
         quest->task_tree = tree;
         return SUCCESS;
     }
-    tree = find_task_in_tree(quest->task_tree, parent_id);
+    tree = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     assert(tree != NULL);
 
     if (tree->lmostchild == NULL)
     {
         tree->lmostchild = malloc(sizeof(task_tree_t));
         tree->lmostchild->task = task_to_add;
-        tree->lmostchild->parent = find_task_in_tree(quest->task_tree, parent_id);
+        tree->lmostchild->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     }
     else
     {
@@ -366,7 +366,7 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
         }
         tree->rsibling = malloc(sizeof(task_tree_t));
         tree->rsibling->task = task_to_add;
-        tree->rsibling->parent = find_task_in_tree(quest->task_tree, parent_id);
+        tree->rsibling->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     }
 
     return SUCCESS;
@@ -477,7 +477,7 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table) {
     task_tree_t *tree = NULL;
     for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next) {
-        tree = find_task_in_tree(cur->task_tree, id);
+        tree = find_task_tree_of_task_in_tree(cur->task_tree, id);
         if(tree != NULL) {
             break;
         }
@@ -495,7 +495,7 @@ quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table) {
     task_tree_t *tree = NULL;
     quest_t *cur;
     for(cur = hash_table; cur != NULL; cur = cur->hh.next) {
-        tree = find_task_in_tree(cur->task_tree, task_id);
+        tree = find_task_tree_of_task_in_tree(cur->task_tree, task_id);
         if(tree != NULL) {
             break;
         }

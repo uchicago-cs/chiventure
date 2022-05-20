@@ -501,8 +501,9 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
  * from the tree if not and accepts the quest's rewards if so.
  *
  * Parameter:
- * - tree: pointer to a task tree who's immediate task is getting completed
- * - player: pointer to player completing the task
+ * - task_id: the stringid of the task getting completed
+ * - player: the player completing the task
+ * - quest_hash: A hash table of all quests, ideally game->all_quests
  * 
  * Returns:
  * - the task's reward item
@@ -541,7 +542,6 @@ int remove_quest_all(quest_hash_t *hash_table);
  * 
  * Returns:
  * - SUCCESS if added successfully, FAILURE if an error occured
- * 
 */
 int accept_reward(reward_t *reward, player_t *player);
 

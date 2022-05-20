@@ -31,6 +31,7 @@ class_t* generate_test_class()
 }
 
 /* Tests init function for mission struct */
+
 Test(mission, init)
 {   
     mission_t mission;
@@ -60,6 +61,7 @@ Test(task, init)
 	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
 
+/* Tests new function for reward struct */
 Test(reward, new)
 {
     int xp = 40;
@@ -73,6 +75,8 @@ Test(reward, new)
     cr_assert_eq(rewards->xp, 40,  "reward_new did not set xp");                 
 }
 
+
+/* Tests new function for prereq struct */
 Test(prereq, new)
 {
     int hp = 20;
@@ -86,6 +90,7 @@ Test(prereq, new)
 }
 
 
+/* Tests init function for prereq struct */
 Test(prereq, init)
 {
     int hp = 40;
@@ -427,7 +432,6 @@ Test(quest, complete_task_prereq)
 
     class_t* class = generate_test_class();
 
-
     char *id = "test mission";
 
 	task_t* task_to_complete = task_new(NULL, id, rewards, prereq);
@@ -444,7 +448,7 @@ Test(quest, complete_task_prereq)
     start_quest(quest, player, hash);
     
     bool completed = is_task_completed(task_to_complete, player);
-    cr_assert_eq(completed, true, "is_task_completed() failed!");
+    cr_assert_eq(completed, true, "is_task_completed() returned false!");
 
     cr_assert_eq(get_player_task_from_hash(task_to_complete->id, player->player_tasks)->completed, true, "start_quest didn't call complete_task() properly failed!");
     player_free(player);
@@ -802,6 +806,7 @@ Test(quest, remove_quest_all)
     cr_assert_eq(res,SUCCESS, "remove_quest_all() failed to 2nd test");
 }
 
+/* Tests the function that adds a reward to the player class */
 Test(quest, accept_reward) {
     item_t *item = item_new("test item", "item for testing", "This item is made for testing purposes only and is not intended to give the player any sense of enjoyment.");
     reward_t *reward = reward_new(40, item);
