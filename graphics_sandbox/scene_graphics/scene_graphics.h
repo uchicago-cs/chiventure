@@ -1,9 +1,9 @@
+#ifndef SCENE_GRAPHICS_H
+#define SCENE_GRAPHICS_H
+
 #include "raylib.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-
-#define SCENE_CONTEXT_ID 0;
 
 
 typedef struct scene_graphics scene_graphics_t;
@@ -43,3 +43,6 @@ scene_graphics_t* new_scene_graphics(char* SceneName, char* ImagePath, Vector2 W
  *      1 on success 
  */
 int free_scene_graphics(scene_graphics_t* SceneGraphics);
+
+
+#endif

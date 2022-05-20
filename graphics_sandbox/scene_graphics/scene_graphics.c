@@ -32,7 +32,7 @@ void runSceneGraphics(scene_graphics_t* scene_graphics)
     const int screenWidth = scene_graphics->WindowSize.x;
     const int screenHeight = scene_graphics->WindowSize.y;
 
-    InitWindow(screenWidth, screenHeight, "NSFW SCENE!!!");
+    InitWindow(screenWidth, screenHeight, scene_graphics->SceneName);
 
 
     Texture2D scene = LoadTexture(scene_graphics->ImagePath);
@@ -80,17 +80,14 @@ void runSceneGraphics(scene_graphics_t* scene_graphics)
 
 int main(void) {
 
-    scene_graphics_t scene_graphics;
+    scene_graphics_t* scene_graphics;
 
-    scene_graphics.SceneName="NSWF";
-    scene_graphics.SceneSize=(Vector2) {400,400};
-    scene_graphics.PlayerPosition=(Vector2) {400,400};
-    scene_graphics.WindowSize=(Vector2) {440,440};
-    scene_graphics.WindowPos=(Vector2) {100,100};
-    scene_graphics.ImagePath="nsfw.png";
+    scene_graphics = new_scene_graphics("NSWF","nsfw.png",(Vector2){100,100},(Vector2){440,440},(Vector2){400,400},(Vector2){400,400});
 
 
-    runSceneGraphics(&scene_graphics);
+    runSceneGraphics(scene_graphics);
+
+    free(scene_graphics);
 
     return 0;
 }
