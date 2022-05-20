@@ -505,16 +505,27 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
 reward_t *complete_task(char *task_id, quest_ctx_t *qctx);
 
 
-/* Returns the hash after deleting one or all quest.
+/* Removes a quest from a hash table
  *
  * Parameter:
- * - pointer to a hash table
+ * - pointer to a quest hash table
  * - quest ID, 
  * 
  * Returns:
  * - 0 if the removal was failure, 1 if successful 
  */
 int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
+
+/* Removes a quest from a player hash table
+ *
+ * Parameter:
+ * - pointer to a player quest hash table
+ * - quest ID, 
+ * 
+ * Returns:
+ * - 0 if the removal was failure, 1 if successful 
+ */
+int remove_quest_in_player_hash(player_quest_hash_t *hash_table, char *quest_id);
 
 
 /* Returns the hash after deleting one or all quest.

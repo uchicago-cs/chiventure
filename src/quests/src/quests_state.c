@@ -653,7 +653,23 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id)
         return FAILURE;
     }
     return SUCCESS;
+}
 
+/* Refer to quests_state.h */
+int remove_task_in_player_hash(player_quest_hash_t *pquests, char *quest_id) {
+    player_quest_t *check; 
+    check = get_player_quest_from_hash(quest_id, pquests);
+
+    if (check == NULL){ 
+        return FAILURE; /* quest is not in hash_table) */
+    } 
+
+    HASH_DEL(pquests, check); 
+    player_quest_free(check); 
+    if (get_quest_from_hash(quest_id, pquests) != NULL){
+        return FAILURE;
+    }
+    return SUCCESS;
 }
 
 /* refer to quests_state.h */
