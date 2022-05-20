@@ -45,6 +45,6 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy);
  *      move - the move being played
  * Outputs:
  *      damage - the damage dealt     */
-double damage(combatant_t* target, move_t* move, combatant_t* source);
+int damage(combatant_t* target, move_t* move, combatant_t* source);
 
 #endif
