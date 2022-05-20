@@ -40,15 +40,25 @@ active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet
  */
 reward_t *reward_new(int xp, item_t *item);
 
-/* Creates a new stats requirement struct to start the quest
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
+/* 
+ * Creates a new prereq object on the heap
  *
- * Returns: a pointer to the newly allocated stats requirement struct
+ * Parameters:
+ * - hp: health points required to begin quest
+ * - level: level required to begin quest
+ *
+ * Returns: a pointer to the newly allocated prereq, or NULL if there was an error
  */
-stat_req_t *stat_req_new(int hp, int level);
+prereq_t *prereq_new(int hp, int level);
+
+/* 
+ * Creates a new id_list object on the heap
+ *
+ * Returns: a pointer to the newly allocated id_list, or NULL if there was an error
+ * 
+*/
+id_list_t *id_list_new();
+
 
 /* Creates a new task struct (allocates memory)
  * 
@@ -56,10 +66,11 @@ stat_req_t *stat_req_new(int hp, int level);
  * - mission: the mission to be completed for the quest
  * - id: the id of the task
  * - reward: the reward of the task
+ * - prereq: the prerequisite of the task
  *
  * Returns: a pointer to the newly allocated task that is not completed
  */
-task_t *task_new(mission_t *mission, char *id, reward_t *reward);
+task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
 
 /* Creates a new quest struct (allocates memory)
  * 
@@ -73,7 +84,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward);
  *         (not started)
  */
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                    reward_t *reward, stat_req_t *stat_req);
+                    reward_t *reward, prereq_t *stat_req);
 
 /* Initialize an already allocated passive mission struct 
  *
@@ -114,31 +125,21 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_
  */
 int reward_init(reward_t *rewards, int xp, item_t *item);
 
-/* Initializes an already allocated stats requirement struct
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
- *
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int stat_req_init(stat_req_t *stat_req, int xp, int level);
-
-/* Initialize an already allocated task struct
+/* 
+ * Initialize an already allocated task struct
  *
  * Parameters:
  * - task: an already allocated task
  * - mission: the mission to be completed for the task
  * - id: the id of the task
  * - reward: the reward of the task
+ * - prereq: the prerequisite of the task
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
-int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
+int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
 
 /* Initialize an already allocated quest struct
  *
@@ -155,7 +156,33 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
  * 
  */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
-               reward_t *reward, stat_req_t *stat_req);
+               reward_t *reward, prereq_t *stat_req);
+
+/* 
+ * Initializes a prereq object with the given parameters
+ *
+ * Parameters:
+ * - prereq: The prereq getting initialized
+ * - hp: health points required to begin quest
+ * - level: level required to begin quest
+ *
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int prereq_init(prereq_t * prereq, int hp, int level);
+
+/* 
+ * Initializes an id_list as an empty list
+ *
+ * Parameters:
+ * - id_list: The id_list getting initialized
+ * 
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+*/
+int id_list_init(id_list_t *id_list);
 
 /* 
  * Frees a passive mission struct from memory
@@ -207,19 +234,42 @@ int task_free(task_t *task);
  */
 int quest_free(quest_t *quest);
 
+/*
+ * Frees a prereq struct from memory including the task list and quest list.
+ *
+ * Parameter:
+ * - prereq: the prereq to be freed
+ *
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int prereq_free(prereq_t *prereq);
 
-/* 
- * Determines whether a player can start a quest with their base stats
+/*
+ * Frees an id_list from memory
  * 
  * Parameter:
- * - quest: a quest
+ * - id_list: the id_list to be freed
+ * 
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+*/
+int id_list_free(id_list_t *id_list);
+
+
+/* 
+ * Determines whether a player meets a set of prerequisites
+ * 
+ * Parameter:
+ * - prereq: a prerequisite object
  * - player: a player
  * 
  * Returns:
- * - true: a player can start the quest
- * - false: a player cannot start the quest
+ * - true if the player meets the prerequisites, false if the player does not
  */
-bool can_start_quest(quest_t *quest, player_t *player);
+bool meets_prereqs(player_t *player, prereq_t *prereq);
 
 /* Adds a task to the tree given an parent tree id
  *
@@ -417,6 +467,64 @@ bool get_player_task_status(task_t *task, player_t *player);
  * The status of the quest should first be checked before this function is called
  */
 reward_t *complete_quest(quest_t *quest, player_t *player);
+
+/*
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
+ *
+ * Returns:
+ * - pointer to the desired task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: tasks must be completed in order according to this
+ *       traversal. Only one task on each level can be completed,
+ *       so this "locks" a user into a path once they've begun
+ *       completing tasks.
+ */
+task_t *find_task_in_quest(task_tree_t *tree, char *id);
+
+/*
+ * Adds an id to an id_list
+ *
+ * Parameters:
+ * - id_list: The id_list getting added to
+ * - id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int id_list_add(id_list_t *id_list, char *id);
+
+/*
+ * Adds a quest id to a prereq's quest id list
+ *
+ * Parameters:
+ * - prereq: The prereq getting added to
+ * - quest_id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int prereq_add_quest(prereq_t *prereq, char *quest_id);
+
+/*
+ * Adds a task id to a prereq's task id list
+ *
+ * Parameters:
+ * - prereq: The prereq getting added to
+ * - task_id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int prereq_add_task(prereq_t *prereq, char *task_id);
 
 /* Returns the task's reward item if the task has been completed.
  *

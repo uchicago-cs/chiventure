@@ -263,7 +263,7 @@ int coords_free(coords_t *coords){
     free(coords);
     return SUCCESS;
 }
-  
+
 /* See room.h */
 int add_coords_to_room(coords_t *coords, room_t *room){
     if (coords == NULL || room == NULL)
@@ -364,6 +364,7 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
 
     add_npc_to_room(new_npc_room,npc);
     delete_npc_from_room(old_npc_room,npc);
+
 }
 
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
