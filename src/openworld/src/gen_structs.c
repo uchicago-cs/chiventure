@@ -198,12 +198,32 @@ int edges_init(int** edges, int* inp_array, int num_rows, int num_cols)
     
     for (unsigned int i = 0; i < num_rows; i++) 
     {
-        for (unsigned int j = 0; j < num_columns; j++) 
+        for (unsigned int j = 0; j < num_cols; j++) 
         {
             edges[i][j] = inp_array[i * num_cols + j];
         }
     }
 
+    return SUCCESS;
+}
+
+int** edges_new(int* inp, int num_rows, int num_cols)
+{
+    int** edges = (edges**)malloc(sizeof(edges*) * num_rows);
+
+    if (edges == NULL) {
+        fprintf(stderr, "malloc failed to allocate space for edges. \n");
+        return NULL;
+    }
+    for (unsigned int i = 0; i < num_rows; i++)
+    {
+        if (edges[i] == NULL)
+        {
+            fprintf(stderr, "malloc failed to allocate space for edges. \n");
+            return NULL;
+        }
+    }
+    edges_init(edges, inp, num_rows, num_cols);
     return SUCCESS;
 }
 
