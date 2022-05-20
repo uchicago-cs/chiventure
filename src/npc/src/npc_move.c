@@ -230,7 +230,7 @@ char* get_npc_curr_room_id(npc_mov_t *npc_mov)
 /* See npc_move.h */
 char *get_next_npc_room_id(npc_mov_t *npc_mov)
 {
-    npc_path_dll_t *curr = get_npc_curr_path_step(npc_mov);
+    npc_path_dll_t *current_room = get_npc_curr_path_step(npc_mov);
     npc_path_direction_t direction = npc_mov->npc_path_direction;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
