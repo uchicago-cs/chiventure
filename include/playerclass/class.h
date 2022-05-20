@@ -8,6 +8,7 @@
 #include "common/utlist.h"
 #include "playerclass/class_structs.h"
 #include "game-state/stats.h"
+#include "playerclass/multiclass.h"
 
 /* 
  * Allocates memory for a new player class. Only creates a deep copies of the 
