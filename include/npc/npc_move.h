@@ -6,7 +6,7 @@
 #include "common/uthash.h"
 
 /* Struct for containing the start time of a certain phenomenon
- * and the number of seconds that phenomenon is supposed to last,
+ * and the number of SECONDS that phenomenon is supposed to last,
  * used in NPC movement for keeping track of when an (indefinite) moving
  * NPC entered a room and how long it is supposed to be in that room.
  */
