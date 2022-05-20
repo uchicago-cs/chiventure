@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quests_state.h"
+
 /* Refer to quests_state.h */
 mission_t *mission_new(char *target_name, mission_types_t type)
 {
