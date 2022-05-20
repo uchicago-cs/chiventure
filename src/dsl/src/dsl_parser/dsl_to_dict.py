@@ -9,7 +9,8 @@ from pathlib import Path
 from warnings import warn
 import json
 
-import dsl_parser.transformers, dsl_parser.simple_modifiers
+import dsl_parser.transformers as trans
+import dsl_parser.simple_modifiers as mod
 
 
 grammar_path = Path(__file__).parent.parent.parent / "grammars"
@@ -33,36 +34,74 @@ def export_dict(file_str, debug=False, debug_modes=[]):
     return intermediate
 
 
+
 class TreeToDict(Transformer):
-    #for documentation of these transformations, see transformers.py
-    game = transform_game
+    # for documentation of these transformations, see transformers.py
+    #game = transform_game
 
-    room = transform_room
+    game = trans.transform_game
 
-    connections = transform_connections
-
-    item = transform_item
+    room = trans.transform_room
     
-    action = transform_action
+    connections = trans.transform_connections
 
-    misplaced_property = transform_misplaced
+    item = trans.transform_item
+
+    action = trans.transform_action
+
+    misplaced_property = trans.transform_misplaced
+    
+
+    # the functions below do simple transformations
+
+    def ESCAPED_STRING(self, s: Token) -> str:
+        """replace escaped characters with unicode equivalents"""
+        decoded = bytes(s[1:-1], "utf-8").decode("unicode_escape")
+        return decoded
+
+    def start_g(self, s: list[str]) -> tuple[str, str]:
+        """Labels the start location as "start" """
+        return ("start", s[0])
+
+    def end_g(self, s: list[str]) -> tuple[str, str]:
+        """labels the end location as "end" """
+        return ("end", s[0])
+
+    def id(self, s: list[str]) -> tuple[str, str]:
+        """labels the id as an id"""
+        return ("id", s[0])
+
+    def action_ids(self, s: list[tuple[str, str]]):
+        """Takes a list of ("id", <str>) pairs corresponding to action ids, and
+        extracts the action ids into a list. This list is then labelled as
+        "action_ids" """
+        action_names = [name for _, name in s]
+        return ("action_ids", action_names)
+
+    def location(self, s: list[str]) -> tuple[str, str]:
+        """Labels the location as a location"""
+        return ("location", s[0])
+
+    def phrase(self, s: list[Token]) -> str:
+        """Joins a list of strings contained within token objects"""
+        return ' '.join(s)
+
 
     #for documentation of the below transformations, see simple_transformers.py
 
-    ESCAPED_STRING = mod_ESCAPED_STRING
+    ESCAPED_STRING = mod.mod_ESCAPED_STRING
     
-    starg_g = mod_start_g
+    starg_g = mod.mod_start_g
 
-    end_g = mod_end_g
+    end_g = mod.mod_end_g
 
-    id = mod_id_label
+    id = mod.mod_id_label
 
-    action_ids = mod_action_ids
+    action_ids = mod.mod_action_ids
 
-    location = mod_location
+    location = mod.mod_location
 
-    phrase = mod_phrase
-
+    phrase = mod.mod_phrase
 
     connection = tuple
     property = tuple

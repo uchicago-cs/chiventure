@@ -5,6 +5,8 @@ DSL grammars to an intermediate stage
 """
 
 from lark.lexer import Token
+from warnings import warn
+import warnings
 
 def transform_game(self, s: list) -> dict:
     """
@@ -99,6 +101,3 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
 
-
-connection = tuple
-property = tuple
