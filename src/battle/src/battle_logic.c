@@ -86,9 +86,29 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 /* see battle_logic.h */
 int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
-    c->stats->hp += item->hp;
-    c->stats->strength += item->attack;
-    c->stats->defense += item->defense;
+    if ((c->stats->hp + item->hp) > c->stats->max_hp)
+    {
+        c->stats->hp = c->stats->max_hp;
+    }
+    else
+    {
+        c->stats->hp += item->hp;
+    }
+    c->stats->phys_atk += item->attack;
+    c->stats->phys_def += item->defense;
+    /* Will be implemented once battle_item_t is updated
+    c->stats->phys_atk += item->phys_atk;
+    c->stats->phys_def += item->phys_def;
+    c->stats->mag_atk += item->mag_atk;
+    c->stats->mag_def += item->mag_def;
+    if((c->stats->sp + item->sp) > c->stats->max_sp){
+        c->stats->sp = c->stats->max_sp;
+    }else{
+        c->stats->sp += item->sp;
+    }
+    c->stats->accuracy += item->accuracy;
+    c->stats->crit += item->crit;
+    */
     return 0;
 }
 
@@ -178,8 +198,22 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     }
 
     sc->hp += item->hp;
-    sc->strength += item->attack;
-    sc->defense += item->defense;
+    sc->phys_atk += item->attack;
+    sc->phys_def += item->defense;
+    /* Will be implemented once battle_item_t is updated
+    sc->phys_atk += item->phys_atk;
+    sc->phys_def += item->phys_def; 
+    sc->mag_atk += item->mag_atk;
+    sc->mag_def += item->mag_def;
+    sc->speed += item->speed;
+    if((sc->sp + item->sp) > sc->max_sp){
+        sc->sp = sc->max_sp;
+    }else{
+        sc->sp += item->sp;
+    }
+    sc->crit += item->crit;
+    sc->accuracy += item->accuracy;
+    */
 
     return SUCCESS;
 }

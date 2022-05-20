@@ -29,12 +29,14 @@ class_t *make_bard2()
 }
 
 /* initializes a dummy wizard class */
+
 class_t *make_wizard2()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
 
 /* Defines an CLI operation for starting a fight */
+
 char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //int rc;
@@ -72,7 +74,8 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = get_random_default_move();
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, 
+                                        BATTLE_AI_GREEDY, HOSTILE, 0, NULL, NULL);
     e->npc_battle = npc_b;
     battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item);
 
@@ -89,6 +92,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
+
     int rc = start_battle(battle_ctx, e, ENV_GRASS);
 
     // prints the beginning of the battle 
@@ -112,6 +116,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
  *
  * Returns: a chiventure context with 
  */
+ 
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
@@ -120,6 +125,7 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
 
     /* Create context */
+
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
@@ -127,15 +133,17 @@ chiventure_ctx_t *create_sample_ctx()
 
 int main(int argc, char **argv)
 {
+    /*
     chiventure_ctx_t *ctx = create_sample_ctx();
-
+*/
     /* Monkeypatching in a fight action to support dialogue */
-    add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);
+
+    //add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
-    start_ui(ctx, banner);
+    //start_ui(ctx, banner);
 
-    game_free(ctx->game);
+    //game_free(ctx->game);
 
     return 0;
 }

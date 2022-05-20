@@ -155,9 +155,14 @@ Test(stat_changes, stat_changes_new)
     cr_assert_not_null(sc, "stat_changes_new() failed");
 
     cr_assert_eq(sc->speed, 0, "stat_changes_new() didn't set speed correctly");
-    cr_assert_eq(sc->defense, 0, "stat_changes_new() didn't set defnse correctly");
-    cr_assert_eq(sc->strength, 0, "stat_changes_new() didn't set strength correctly");
-    cr_assert_eq(sc->dexterity, 0, "stat_changes_new() didn't set dexterity correctly");
+    cr_assert_eq(sc->phys_def, 0, "stat_changes_new() didn't set phys_def correctly");
+    cr_assert_eq(sc->phys_atk, 0, "stat_changes_new() didn't set phys_atk correctly");
+    cr_assert_eq(sc->mag_def, 0, "stat_changes_new() didn't set mag_def correctly");
+    cr_assert_eq(sc->mag_atk, 0, "stat_changes_new() didn't set mag_atk correctly");
+    cr_assert_eq(sc->crit, 0, "stat_changes_new() didn't set critical correctly");
+    cr_assert_eq(sc->accuracy, 0, "stat_changes_new() didn't set accuracy correctly");
+    cr_assert_eq(sc->max_sp, 0, "stat_changes_new() didn't set max_sp correctly");
+    cr_assert_eq(sc->sp, 0, "stat_changes_new() didn't set sp correctly");
     cr_assert_eq(sc->hp, 0, "stat_changes_new() didn't set hp correctly");
     cr_assert_eq(sc->max_hp, 0, "stat_changes_new() didn't max_hp speed correctly");
     cr_assert_eq(sc->turns_left, -1, "stat_changes_new() didn't set turns_left correctly");
@@ -180,9 +185,14 @@ Test(stat_changes, stat_changes_init)
     cr_assert_eq(rc, SUCCESS, "stat_changes_init() failed");
 
     cr_assert_eq(sc->speed, 0, "stat_changes_init() didn't set speed correctly");
-    cr_assert_eq(sc->defense, 0, "stat_changes_init() didn't set defnse correctly");
-    cr_assert_eq(sc->strength, 0, "stat_changes_init() didn't set strength correctly");
-    cr_assert_eq(sc->dexterity, 0, "stat_changes_init() didn't set dexterity correctly");
+    cr_assert_eq(sc->phys_def, 0, "stat_changes_init() didn't set phys_def correctly");
+    cr_assert_eq(sc->phys_atk, 0, "stat_changes_init() didn't set phys_atk correctly");
+    cr_assert_eq(sc->mag_def, 0, "stat_changes_init() didn't set mag_def correctly");
+    cr_assert_eq(sc->mag_atk, 0, "stat_changes_init() didn't set mag_atk correctly");
+    cr_assert_eq(sc->crit, 0, "stat_changes_init() didn't set critical correctly");
+    cr_assert_eq(sc->accuracy, 0, "stat_changes_init() didn't set accuracy correctly");
+    cr_assert_eq(sc->max_sp, 0, "stat_changes_init() didn't set max_sp correctly");
+    cr_assert_eq(sc->sp, 0, "stat_changes_init() didn't set sp correctly");
     cr_assert_eq(sc->hp, 0, "stat_changes_init() didn't set hp correctly");
     cr_assert_eq(sc->max_hp, 0, "stat_changes_init() didn't max_hp speed correctly");
     cr_assert_eq(sc->turns_left, -1, "stat_changes_init() didn't set turns_left correctly");
@@ -324,9 +334,8 @@ Test(stat_changes, stat_changes_turn_increment_complex_decrement)
     head = stat_changes_new();
 
     c->stats->speed = 1;
-    c->stats->defense = 1;
-    c->stats->strength = 1;
-    c->stats->dexterity = 1;
+    c->stats->phys_def = 1;
+    c->stats->phys_atk = 1;
     c->stats->hp = 1;
     c->stats->max_hp = 1;
     c->stats->xp = 1;
@@ -357,9 +366,8 @@ Test(stat_changes, stat_changes_undo)
     sc = stat_changes_new();
 
     c->stats->speed = 1;
-    c->stats->defense = 1;
-    c->stats->strength = 1;
-    c->stats->dexterity = 1;
+    c->stats->phys_def = 1;
+    c->stats->phys_atk = 1;
     c->stats->hp = 1;
     c->stats->max_hp = 1;
     c->stats->xp = 1;
