@@ -344,11 +344,13 @@ Test(battle_logic, do_not_find_item)
 Test(battle_logic, use_battle_weapon)
 {
     stat_t *player_stats = calloc(1, sizeof(stat_t));
+    player_stats->max_hp= 1000;
     
     stat_t *enemy_stats = calloc(1, sizeof(stat_t));
+    enemy_stats->max_hp= 1000;
     enemy_stats->hp = 100;
-    enemy_stats->strength = 90;
-    enemy_stats->defense = 80;
+    enemy_stats->phys_atk = 90;
+    enemy_stats->phys_def = 80;
     battle_item_t *weapon = get_random_default_weapon();
 
     combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, weapon, BATTLE_AI_NONE);
@@ -360,13 +362,13 @@ Test(battle_logic, use_battle_weapon)
     battle->enemy = enemy;
     
     int expected_hp = battle->enemy->stats->hp + weapon->hp;
-    int expected_strength = battle->enemy->stats->strength + weapon->attack;
-    int expected_defense = battle->enemy->stats->defense + weapon->defense; 
+    int expected_strength = battle->enemy->stats->phys_atk + weapon->attack;
+    int expected_defense = battle->enemy->stats->phys_def + weapon->defense; 
     int expected_durability = weapon->durability - 10;
     use_battle_item(player, battle, weapon->name);
-    cr_assert_eq(battle->enemy->stats->hp, expected_hp, "consume_battle_weapon() does correctly set enemy hp after use");
-    cr_assert_eq(battle->enemy->stats->strength, expected_strength, "consume_battle_weapon() does correctly set enemy strength after use");
-    cr_assert_eq(battle->enemy->stats->defense, expected_defense, "consume_battle_weapon() does correctly set enemy defense after use");
+    cr_assert_eq(battle->enemy->stats->hp, expected_hp, "consume_battle_weapon() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
+    cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "consume_battle_weapon() does correctly set enemy physical attack after use");
+    cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "consume_battle_weapon() does correctly set enemy physical defense after use");
     cr_assert_eq(player->items->durability, expected_durability, "consume_battle_weapon() does correctly set item durablity after use");
 }
 
@@ -381,8 +383,8 @@ Test(battle_logic, consume_an_battle_item)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
-    pstats->defense = 15;
-    pstats->strength = 15;
+    pstats->phys_def = 15;
+    pstats->phys_atk = 15;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -396,8 +398,8 @@ Test(battle_logic, consume_an_battle_item)
 
     cr_assert_eq(res, 0, "consume_battle_item() does not return 0!");
     cr_assert_eq(p->stats->hp, 20, "consume_battle_item() failed for hp!");
-    cr_assert_eq(p->stats->defense, 15, "consume_battle_item() failed for defense!");
-    cr_assert_eq(p->stats->strength, 15, "consume_battle_item() failed for strength!");
+    cr_assert_eq(p->stats->phys_def, 15, "consume_battle_item() failed for physical defense!");
+    cr_assert_eq(p->stats->phys_atk, 15, "consume_battle_item() failed for physical attack!");
 
     combatant_free(p);
 }
@@ -434,8 +436,8 @@ Test(battle_logic, uses_battle_item_correctly)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 15;
     pstats->max_hp = 25;
-    pstats->defense = 15;
-    pstats->strength = 15;
+    pstats->phys_def = 15;
+    pstats->phys_atk = 15;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL,head, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -445,8 +447,8 @@ Test(battle_logic, uses_battle_item_correctly)
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
-    cr_assert_eq(p->stats->defense, 15, "use_battle_item() failed for defense!");
-    cr_assert_eq(p->stats->strength, 15, "use_battle_item() failed for strength!");
+    cr_assert_eq(p->stats->phys_def, 15, "use_battle_item() failed for physical defense!");
+    cr_assert_eq(p->stats->phys_atk, 15, "use_battle_item() failed for physical attack!");
 }
 
 /*
@@ -491,8 +493,8 @@ Test(battle_logic, no_more_battle_items)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 15;
     pstats->max_hp = 25;
-    pstats->defense = 15;
-    pstats->strength = 15;
+    pstats->phys_def = 15;
+    pstats->phys_atk = 15;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, head, BATTLE_AI_NONE);
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
@@ -555,8 +557,8 @@ Test(stat_changes, add_item_node)
 
     cr_assert_eq(rc, SUCCESS, "stat_changes_add_item_node failed");
     cr_assert_not_null(sc->next, "stat_changes_add_item_node() failed to add a new node");
-    cr_assert_eq(sc->next->defense, 0, "stat_changes_add_item_node() failed for defense!");
-    cr_assert_eq(sc->next->strength, 0, "stat_changes_add_item_node() failed for strength!");
+    cr_assert_eq(sc->next->phys_def, 0, "stat_changes_add_item_node() failed for physical defense!");
+    cr_assert_eq(sc->next->phys_atk, 0, "stat_changes_add_item_node() failed for physical attack!");
     cr_assert_eq(sc->next->hp, 10, "stat_changes_add_item_node() failed for hp!");
 
     stat_changes_free_all(sc);
@@ -580,8 +582,8 @@ Test(battle_logic, remove_single_item)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
-    pstats->defense = 15;
-    pstats->strength = 15;
+    pstats->phys_atk = 15;
+    pstats->phys_def = 15;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -629,8 +631,8 @@ Test(battle_logic, remove_item_of_multiple)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
-    pstats->defense = 15;
-    pstats->strength = 15;
+    pstats->phys_def = 15;
+    pstats->phys_atk = 15;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -680,8 +682,8 @@ Test(battle_logic, remove_last_item_of_multiple)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
-    pstats->defense = 15;
-    pstats->strength = 15;
+    pstats->phys_def = 15;
+    pstats->phys_atk = 15;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 

@@ -6,7 +6,8 @@ char *name;
 enum scene {wellMet, privacyVio, homeExpl, FightFlwr, FightStnd, Leave, ERROR};
 char *scene_name(enum scene s)
 {
-    switch(s) {
+    switch(s)
+    {
     case 1:
         return "WellMet";
     case 2:
@@ -65,7 +66,8 @@ void npc_print(char *dialog)
     char *to_print;
     char *remaining = strdup(dialog);
     int color = 1; /* Increments with each print; odd = gold, even = yel */
-    while ((to_print = strtok_r(remaining, divider, &remaining)) != NULL) {
+    while ((to_print = strtok_r(remaining, divider, &remaining)) != NULL)
+    {
         if (color % 2 == 1)
             print_gold(to_print);
         else
@@ -81,7 +83,8 @@ void npc_print(char *dialog)
  *  - head[]: an array of node pointers (list of included nodes)
  *
  */
-typedef struct convo {
+typedef struct convo
+{
     int node_count;
     struct node *head[];
 } convo_t;
@@ -95,7 +98,8 @@ typedef struct convo {
  *  - connections[]: an array of edge pointers (list of attached edges)
  *
  */
-typedef struct node {
+typedef struct node
+{
     enum scene tag;
     char *dialog;
     int connection_count;
@@ -110,7 +114,8 @@ typedef struct node {
  *  - quip: a string of what the player's character says if they enter the edge
  *
  */
-typedef struct edge {
+typedef struct edge
+{
     node_t *toward;
     char *keyword;
     char *quip;
@@ -131,7 +136,8 @@ void print_node(node_t *n)
 {
     printf("%s:\n\t%s\n edges count: %d\n",
            scene_name(n->tag), n->dialog, n->connection_count);
-    for(int i = 0; i < (int)n->connection_count; i++) {
+    for(int i = 0; i < (int)n->connection_count; i++)
+    {
         print_edge(n->connections[i]);
     }
     printf("\n");
@@ -139,7 +145,8 @@ void print_node(node_t *n)
 
 void print_convo(convo_t *c)
 {
-    for(int i = 0; i < (int)c->node_count; i++) {
+    for(int i = 0; i < (int)c->node_count; i++)
+    {
         print_node(c->head[i]);
     }
 }
@@ -235,11 +242,14 @@ void add_edge(node_t *n, edge_t *edge)
 int read_input(node_t *n, char *input)
 {
     char *adj_input = strtok(input, "\n");
-    if (adj_input == NULL) {
+    if (adj_input == NULL)
+    {
         return -1;
     }
-    for (int i = 0; i < n->connection_count; i++) {
-        if (!strcmp(adj_input, n->connections[i]->keyword)) {
+    for (int i = 0; i < n->connection_count; i++)
+    {
+        if (!strcmp(adj_input, n->connections[i]->keyword))
+        {
             return i;
         }
     }
@@ -261,12 +271,15 @@ int traverse_edge(node_t *n)
     fgets(input, buffer_size, stdin);
     int index;
     index = read_input(n, input);
-    if (index >= 0) {
+    if (index >= 0)
+    {
         printf("\n%s\n\n", n->connections[index]->quip);
         n = n->connections[index]->toward;
         npc_print(n->dialog);
         return index;
-    } else {
+    }
+    else
+    {
         print_gold("The hell you say?\n");
         return -1;
     }
@@ -301,10 +314,12 @@ void run_convo(convo_t *c)
     int start_node = 1;
     npc_print(c->head[start_node]->dialog);
     int index;
-    while (c->head[start_node]->connection_count != 0) {
+    while (c->head[start_node]->connection_count != 0)
+    {
         printf("\n\n> Talk about: ");
         index = traverse_edge(c->head[start_node]);
-        if (index != -1) {
+        if (index != -1)
+        {
             c->head[start_node] =
                 c->head[start_node]->connections[index]->toward;
         }
@@ -343,61 +358,61 @@ int main()
      * Initialize each node with it's primary NPC dialog
      */
     node_t *WellMet = make_node(1,
-           "Mhm fine, that's wonderful, now go ahead and turn around and "
-           "get outta #my house#.  You can't #come and go# as you wish.",
-           MAX_EDGES);
+                                "Mhm fine, that's wonderful, now go ahead and turn around and "
+                                "get outta #my house#.  You can't #come and go# as you wish.",
+                                MAX_EDGES);
     node_t *PrivacyVio = make_node(2,
-           "Woah, hey, y-you can't just walk in here and #poke around# "
-           "the place without consulting #the owner#!!  Shouldn't I at "
-           "least know #who you are#?!",
-           MAX_EDGES);
+                                   "Woah, hey, y-you can't just walk in here and #poke around# "
+                                   "the place without consulting #the owner#!!  Shouldn't I at "
+                                   "least know #who you are#?!",
+                                   MAX_EDGES);
     node_t *HomeExpl = make_node(3,
-           "Yes, well, just because the #door's unlocked# and I'm a #bit "
-           "messy# don't make it public property. Now take off and "
-           "#leave#, or else I'm gonna #force# you to.",
-           MAX_EDGES);
+                                 "Yes, well, just because the #door's unlocked# and I'm a #bit "
+                                 "messy# don't make it public property. Now take off and "
+                                 "#leave#, or else I'm gonna #force# you to.",
+                                 MAX_EDGES);
     node_t *FightStnd = make_node(4,
-           "As his arm flashes behind his back, "
-           "the robber raises a knife to you.",
-           MAX_EDGES);
+                                  "As his arm flashes behind his back, "
+                                  "the robber raises a knife to you.",
+                                  MAX_EDGES);
     node_t *FightFlwr = make_node(5,
-           "The last thing you heard before it all went dark was "
-           "'NOO MY PRESSED FLOWER COLLECTION'",
-           MAX_EDGES);
+                                  "The last thing you heard before it all went dark was "
+                                  "'NOO MY PRESSED FLOWER COLLECTION'",
+                                  MAX_EDGES);
     node_t *Leave = make_node(6,
-           "As soon as your eyes glance to the doorway, the man's hands "
-           "are at your back ushering you away. The door snaps shut and "
-           "you hear the distinct click of a lock turning.",
-           MAX_EDGES);
+                              "As soon as your eyes glance to the doorway, the man's hands "
+                              "are at your back ushering you away. The door snaps shut and "
+                              "you hear the distinct click of a lock turning.",
+                              MAX_EDGES);
 
     /*
      * Adding all edge options to each node:
      */
     add_edge(WellMet, make_edge(HomeExpl, "my house",
-                      "Shucks, seemed abandoned to me."));
+                                "Shucks, seemed abandoned to me."));
     add_edge(WellMet, make_edge(HomeExpl, "come and go",
-                      "I'm not trying to take your home, I just thought "
-                      "it would be a place to rest in some shade for a bit."));
+                                "I'm not trying to take your home, I just thought "
+                                "it would be a place to rest in some shade for a bit."));
     add_edge(PrivacyVio, make_edge(HomeExpl, "the owner",
-                      "The owner? With the state of this place, "
-		      "I'd have pegged you for more of a burglar, heh."));
+                                   "The owner? With the state of this place, "
+                                   "I'd have pegged you for more of a burglar, heh."));
     add_edge(PrivacyVio, make_edge(WellMet, "who you are",
-                      "Just someone looking for someone to talk to."));
+                                   "Just someone looking for someone to talk to."));
     add_edge(PrivacyVio, make_edge(FightFlwr, "poke around",
-                      "Unperturbed by the smelly squatter, you continue "
-		      "rifling for valuables in the piles. As you hum "
-		      "patronizingly, angry footsteps quickly "
-		      "approach your back."));
+                                   "Unperturbed by the smelly squatter, you continue "
+                                   "rifling for valuables in the piles. As you hum "
+                                   "patronizingly, angry footsteps quickly "
+                                   "approach your back."));
     add_edge(HomeExpl, make_edge(FightStnd, "door's unlocked",
-                      "You walk over and pop a squat on the couch. "
-                      "'You know what they say, open home, open heart!"));
+                                 "You walk over and pop a squat on the couch. "
+                                 "'You know what they say, open home, open heart!"));
     add_edge(HomeExpl, make_edge(FightStnd, "bit messy",
-                      "Really doesn't smell too good either. In fact, the place "
-                      "is looking a bit ransacked--"));
+                                 "Really doesn't smell too good either. In fact, the place "
+                                 "is looking a bit ransacked--"));
     add_edge(HomeExpl, make_edge(FightStnd, "force",
-                      "Hey, give it your best shot."));
+                                 "Hey, give it your best shot."));
     add_edge(HomeExpl, make_edge(Leave, "leave",
-                      "Jeez fine.."));
+                                 "Jeez fine.."));
 
     /*
      * Adding the nodes to the mockup:

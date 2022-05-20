@@ -207,6 +207,7 @@ Test(parse, many_spaces)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
+
 /*
  * Tests the parsing of an input with two tokens, one being a single word surrounded by quotes
  */
@@ -220,6 +221,7 @@ Test(parse_r, two_words_quote)
 
 /*
  * Tests the parsing of an input with two tokens, one being a two words surrounded by quotes
+ * Tests the parsing of an input with two tokens, one being multiple words surrounded by quotes
  */
 Test(parse_r, double_word_in_quote)
 {
@@ -251,3 +253,4 @@ Test(parse_r, first_quote)
     cr_assert_str_eq(words[0],"go", "parse() did not create first token");
     cr_assert_str_eq(words[1],"east", "parse() did not create second token");
 }
+
