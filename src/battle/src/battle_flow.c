@@ -5,6 +5,7 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_print.h"
 
+
 /* see battle_flow.h */
 int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)
 {
@@ -302,6 +303,97 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     return SUCCESS;
 }
 
+
+/* see battle_flow.h */
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
+                        void *callback_args, cli_callback callback_func)
+{
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(legal_items, legal_moves, component, 
+                        ctx->game->battle_ctx->game->battle);
+    if (ctx->game->battle_ctx->game->battle->turn == ENEMY)
+    {
+        battle_flow_move(ctx->game->battle_ctx, 
+                        ctx->game->battle_ctx->game->player->moves, 
+                        ctx->game->battle_ctx->game->battle->player->name);
+        char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->battle->enemy->moves);
+        callback_func(ctx, movestr, callback_args);
+    }
+    char *strg = print_battle_action_menu(legal_items, legal_moves);
+    // print to cli
+    callback_func(ctx, strg, callback_args);
+    // take in user input
+    char *input;
+    scanf("%s", input);
+    if (input[0] == 'M' || input[0] == 'm')
+    {
+        // take the index of the move, under the assumption that the list is less than 10 moves long
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->moves == NULL)
+            {
+                return callback_func(ctx, "That move does not exist.", callback_args);
+            }
+            if (k == index-1)
+            {
+                    battle_flow_move(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->moves, 
+                                ctx->game->battle_ctx->game->battle->enemy->name);
+                    char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->player->moves);
+                    callback_func(ctx, movestr, callback_args);
+            }
+            else
+            {
+                ctx->game->battle_ctx->game->player->moves = 
+                ctx->game->battle_ctx->game->player->moves->next;
+            }
+        }
+    } 
+    else if (input[0] == 'I' || input[0] == 'i')
+    {
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->items == NULL)
+            {
+                return callback_func(ctx, "That item does not exist.", callback_args);
+            }
+            if (k == index-1)
+            {
+                battle_flow_item(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->items);
+                char *itemstr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->player->moves);
+                callback_func(ctx, itemstr, callback_args);
+            }
+            else 
+            {
+                ctx->game->battle_ctx->game->player->items = 
+                ctx->game->battle_ctx->game->player->items->next;
+            }
+        }
+    } 
+    else if (input[0] == 'D' || input[0] == 'd') 
+    {
+        char *str = (char *) malloc (sizeof(char) * 17);
+        str = "You did nothing.";
+        callback_func(ctx, "You did nothing.", callback_args);
+        return 1;
+    } 
+    else 
+    {
+        return callback_func(ctx, "That action does not exist.", callback_args);
+    }
+    return 1;
+}
+
 /* see battle_flow.h */
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 {
@@ -337,7 +429,9 @@ int calculate_accuracy(int user_accuracy, int move_accuracy)
     int chance = randnum(0, 100);
     if(chance <= ((user_accuracy * move_accuracy) / 100)){
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }

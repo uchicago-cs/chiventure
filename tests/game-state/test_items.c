@@ -5,6 +5,7 @@
 #include "game-state/player.h"
 
 #include "game-state/item.h"
+#include "game-state/game.h"
 #include "game-state/room.h"
 
 // BASIC ITEM UNIT TESTS ------------------------------------------------------
@@ -1294,6 +1295,7 @@ Test(item, deletion_in_room)
 /* Checks deletion of all items within a player struct */
 Test(item, deletion_in_player)
 {
+    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
     player_t *test_player = player_new("test_player");
     item_t *test_item1 = item_new("hat", "fedora", "Indiana Jones vibes");
     item_t *test_item2 = item_new("lightsaber", "weapon",
@@ -1301,9 +1303,9 @@ Test(item, deletion_in_player)
     item_t *test_item3 = item_new("apple", "fujis are the best",
     "a player's gotta nourish");
 
-    int item_add1 = add_item_to_player(test_player, test_item1);
-    int item_add2 = add_item_to_player(test_player, test_item2);
-    int item_add3 = add_item_to_player(test_player, test_item3);
+    int item_add1 = add_item_to_player(test_player, test_item1, ctx->game);
+    int item_add2 = add_item_to_player(test_player, test_item2, ctx->game);
+    int item_add3 = add_item_to_player(test_player, test_item3, ctx->game);
 
     cr_assert_eq(item_add1, SUCCESS,
         "del_all_items test: item1 was not added!");
