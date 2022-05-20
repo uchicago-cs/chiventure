@@ -210,7 +210,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id, double room_time)
 npc_path_dll_t *get_npc_curr_path_step(npc_mov_t *npc_mov)
 {
     npc_path_dll_t *curr = npc_mov->path;
-    unsigned int pos = npc_mov->path_pos;
+    unsigned int pos = npc_mov->npc_path_pos;
     if (pos != 0)
     {
         for (int i = 0; i < pos; i++)
