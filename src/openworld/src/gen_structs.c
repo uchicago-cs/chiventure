@@ -207,6 +207,26 @@ int edges_init(int** edges, int* inp_array, int num_rows, int num_cols)
     return SUCCESS;
 }
 
+int** edges_new(int* inp, int num_rows, int num_cols)
+{
+    int** edges = (edges**)malloc(sizeof(edges*) * num_rows);
+
+    if (edges == NULL) {
+        fprintf(stderr, "malloc failed to allocate space for edges. \n");
+        return NULL;
+    }
+    for (unsigned int i = 0; i < num_rows; i++)
+    {
+        if (edges[i] == NULL)
+        {
+            fprintf(stderr, "malloc failed to allocate space for edges. \n");
+            return NULL;
+        }
+    }
+    edges_init(edges, inp, num_rows, num_cols);
+    return SUCCESS;
+}
+
 
 
 /* see gen_structs.h */
