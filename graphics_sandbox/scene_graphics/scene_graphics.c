@@ -16,12 +16,12 @@ scene_graphics_t* new_scene_graphics(char *title, char *image_path, graphics_t *
 }
 
 /* See scene_graphics.h */
-void free_scene_graphics(scene_graphics_t* scene_graphics);
+int free_scene_graphics(scene_graphics_t* scene_graphics);
 {
     free(scene_graphics->title);
     free(scene_graphics->image_path);
     free(scene_graphics);
-    return;
+    return 1;
 }
 
 
@@ -63,8 +63,6 @@ void draw_scene_graphics(scene_graphics_t* scene_graphics)
 
             ClearBackground(RAYWHITE);
 
-            // Draw scene image twice
-            // NOTE: Texture is scaled twice its size
             DrawTextureRec(scene, showScene, drawPosition, WHITE);
 
         EndDrawing();

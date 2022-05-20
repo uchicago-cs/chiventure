@@ -1,10 +1,10 @@
 #ifndef SCENE_GRAPHICS_H
-#define SCENE_GRAPICS_H
+#define SCENE_GRAPHICS_H
 
 #include "raylib.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include "read_gdl.h"
+/*#include "read_gdl.h"*/ //do this later
 #include "game.h"
 
 
@@ -12,7 +12,7 @@
 
 
 /* Defines the information required to display a scene */
-struct scene_graphics {
+typedef struct scene_graphics {
     char* title;
     char* image_path; 
     Vector2 window_size; 
@@ -53,9 +53,9 @@ void free_scene_graphics(scene_graphics_t* scene_graphics);
  * - scene graphics struct
  *
  * Returns:
- * - nothing - functions as a side effect
+ * - 1 on success
  */
-void draw_scene_graphics(scene_graphics_t* scene_graphics);
+int draw_scene_graphics(scene_graphics_t* scene_graphics);
 
 
 #endif
