@@ -20,9 +20,9 @@ Test(inventory_test, deep_copy_inventory_no_skills)
     cr_assert_not_null(copy, "copy_inventory() failed to create copy");
 
     /* Check that fields where set correctly */
-    cr_assert_eq(copy->num_active, inventory->num_active, 
+    cr_assert_eq(copy->num_active, inventory->num_active,
                  "number of active skills differ between copy and original");
-    cr_assert_eq(copy->num_passive, inventory->num_passive, 
+    cr_assert_eq(copy->num_passive, inventory->num_passive,
                  "number of passive skills differ between copy and original");
     cr_assert_eq(copy->max_active, inventory->max_active,
                  "maximum number of active skills differ between copy and original");
@@ -78,9 +78,9 @@ Test(inventory_test, deep_copy_inventory_with_skills)
     cr_assert_not_null(copy, "copy_inventory() failed to create copy");
 
     /* Check that fields where set correctly */
-    cr_assert_eq(copy->num_active, inventory->num_active, 
+    cr_assert_eq(copy->num_active, inventory->num_active,
                  "number of active skills differ between copy and original");
-    cr_assert_eq(copy->num_passive, inventory->num_passive, 
+    cr_assert_eq(copy->num_passive, inventory->num_passive,
                  "number of passive skills differ between copy and original");
     cr_assert_eq(copy->max_active, inventory->max_active,
                  "maximum number of active skills differ between copy and original");
@@ -119,19 +119,19 @@ Test(inventory_tests, inventory_skill_add_active_safe)
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
     effect_t* defusebombeffect = make_bomb_effect(bomb);
-    
+
     item_t* tree = add_chop_item(ctx);
     effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, defusebombeffect);
+                                    2, 5, defusebombeffect);
     skill_t* tree_skill = skill_new(1001, ACTIVE, "chop tree", "chops a bomb",
-        3, 6, choptreeeffect);
+                                    3, 6, choptreeeffect);
     int ret = inventory_skill_add(inventory, bomb_skill);
     cr_assert_eq(ret,SUCCESS,"Error: failed test inventory_skill_add_active_safe");
     cr_assert_eq(inventory->active[0]->sid,1000,
-        "Error: failed test inventory_skill_add_active_safe");
+                 "Error: failed test inventory_skill_add_active_safe");
 }
 
 /*Tests inventory_skill_add for an active skill, when active inventory full. */
@@ -141,18 +141,18 @@ Test(inventory_tests, inventory_skill_add_active_full)
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
     effect_t* defusebombeffect = make_bomb_effect(bomb);
-    
+
     item_t* tree = add_chop_item(ctx);
     effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        2, 5, defusebombeffect);
+                                    2, 5, defusebombeffect);
     skill_t* tree_skill = skill_new(1001, ACTIVE, "chop tree", "chops a bomb",
-        3, 6, choptreeeffect);
+                                    3, 6, choptreeeffect);
     inventory_skill_add(inventory, bomb_skill);
     int ret = inventory_skill_add(inventory, tree_skill);
-    
+
     cr_assert_eq(ret,FAILURE,"Error: failed test inventory_skill_add_active_full");
 }
 
@@ -164,15 +164,15 @@ Test(inventory_tests, inventory_skill_add_passive_safe)
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
     effect_t* defusebombeffect = make_bomb_effect(bomb);
-    
+
     item_t* tree = add_chop_item(ctx);
     effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
-        2, 5, defusebombeffect);
+                                    2, 5, defusebombeffect);
     skill_t* tree_skill = skill_new(1001, PASSIVE, "chop tree", "chops a bomb",
-        3, 6, choptreeeffect);
+                                    3, 6, choptreeeffect);
     int ret = inventory_skill_add(inventory, bomb_skill);
     cr_assert_eq(ret,SUCCESS,"Error: failed test inventory_skill_add_passive_safe");
 }
@@ -185,15 +185,15 @@ Test(inventory_tests, inventory_skill_add_passive_full)
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
     effect_t* defusebombeffect = make_bomb_effect(bomb);
-    
+
     item_t* tree = add_chop_item(ctx);
     effect_t* choptreeeffect  = make_choptree_effect(tree);
 
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
-        2, 5, defusebombeffect);
+                                    2, 5, defusebombeffect);
     skill_t* tree_skill = skill_new(1001, PASSIVE, "chop tree", "chops a bomb",
-        3, 6, choptreeeffect);
+                                    3, 6, choptreeeffect);
     inventory_skill_add(inventory, bomb_skill);
     int ret = inventory_skill_add(inventory, tree_skill);
     cr_assert_eq(ret,FAILURE,"Error: failed test inventory_skill_add_passive_full");
@@ -206,14 +206,14 @@ Test(inventory_tests, inventory_has_skill_has_not_passive)
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
     effect_t* defusebombeffect = make_bomb_effect(bomb);
-    
+
     skill_inventory_t* inventory = inventory_new(1,1);
     skill_t* bomb_skill = skill_new(1000, PASSIVE, "defuse bomb", "defuses a bomb",
-      2, 5, defusebombeffect);
+                                    2, 5, defusebombeffect);
     inventory_skill_add(inventory, bomb_skill);
     int ret = inventory_has_skill(inventory, 1000, ACTIVE);
     cr_assert_eq(ret, -1,
-    "Error: failed test inventory_has_skill_has_passive\n");
+                 "Error: failed test inventory_has_skill_has_passive\n");
 }
 
 /* Tests inventory_has_skill when it has an active, but is checking for a passive. */
@@ -221,50 +221,50 @@ Test(inventory_tests, inventory_has_skill_has_not_passive)
 Test(inventory_tests, inventory_has_skill_has_not_active)
 {
 
-  chiventure_ctx_t* ctx = create_player_and_stats();
-  item_t* bomb = add_bomb_item(ctx);
-  effect_t* defusebombeffect = make_bomb_effect(bomb);
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
 
-  skill_inventory_t* inventory = inventory_new(1,1);
-  skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, defusebombeffect);
-  
-  inventory_skill_add(inventory, bomb_skill);
-  int ret = inventory_has_skill(inventory, 1000, PASSIVE);
-  cr_assert_eq(ret, -1,
-    "Error: failed test inventory_has_skill_has_active\n");
+    skill_inventory_t* inventory = inventory_new(1,1);
+    skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+                                    2, 5, defusebombeffect);
+
+    inventory_skill_add(inventory, bomb_skill);
+    int ret = inventory_has_skill(inventory, 1000, PASSIVE);
+    cr_assert_eq(ret, -1,
+                 "Error: failed test inventory_has_skill_has_active\n");
 }
 
 /* Tests inventory_has_skill on active skill it does not have. */
 
 Test(inventory_tests, inventory_has_skill_has_not)
 {
-  chiventure_ctx_t* ctx = create_player_and_stats();
-  item_t* bomb = add_bomb_item(ctx);
-  effect_t* defusebombeffect = make_bomb_effect(bomb);
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
 
-  skill_inventory_t* inventory = inventory_new(1,1);
-  skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, defusebombeffect);
-  int ret = inventory_has_skill(inventory, 1000, PASSIVE);
-  cr_assert_eq(ret, -1,
-    "Error: failed test inventory_has_skill_has_not\n");
+    skill_inventory_t* inventory = inventory_new(1,1);
+    skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+                                    2, 5, defusebombeffect);
+    int ret = inventory_has_skill(inventory, 1000, PASSIVE);
+    cr_assert_eq(ret, -1,
+                 "Error: failed test inventory_has_skill_has_not\n");
 }
 
 /* Tests inventory_skill_remove on a skill it does not have. */
 
 Test(inventory_tests, inventory_skill_remove_has_not)
 {
-  chiventure_ctx_t* ctx = create_player_and_stats();
-  item_t* bomb = add_bomb_item(ctx);
-  effect_t* defusebombeffect = make_bomb_effect(bomb);
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
 
-  skill_inventory_t* inventory = inventory_new(1,1);
-  skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-      2, 5, defusebombeffect);
-  int ret = inventory_skill_remove(inventory, bomb_skill);
-  cr_assert_eq(ret, FAILURE,
-    "Error: failed test inventory_has_skill_has_not\n");
+    skill_inventory_t* inventory = inventory_new(1,1);
+    skill_t* bomb_skill = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+                                    2, 5, defusebombeffect);
+    int ret = inventory_skill_remove(inventory, bomb_skill);
+    cr_assert_eq(ret, FAILURE,
+                 "Error: failed test inventory_has_skill_has_not\n");
 }
 
 /*Tests after this line fail and are skipped.*/

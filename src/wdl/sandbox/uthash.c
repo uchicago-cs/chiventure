@@ -7,12 +7,12 @@
 /*
  * uthash.c
  * by: Elaine Wan
- * 
+ *
  * sandbox for exploring uthash functions:
  *  - hash struct
  *  - add_item
  *  - find_item
- * 
+ *
  * to run: clang -Wall uthash.c -o uthash
  */
 
@@ -21,79 +21,84 @@
 
 #define ID_SIZE 20
 
-typedef enum namespace { 
-    action, 
-    object, 
-    npc, 
-    dialogue 
+typedef enum namespace
+{
+action,
+object,
+npc,
+dialogue
 } namespace_t;
 
 /*
  * hash struct
  * for simplicity's sake, using id as key for now
  */
-typedef struct hash {
+typedef struct hash
+{
     namespace_t n; // category, e.g. "npc"
     char *id; // item id, e.g. "villager"
     int *obj; // dummy ptr to actual object
     UT_hash_handle hh;
-} hash_t; 
+} hash_t;
 
 
 /*
  * compound key struct
  * essentially, a wrapper for id and namespace_t
  */
-typedef struct cmpkey {
+typedef struct cmpkey
+{
     char id[ID_SIZE]; // item id, e.g. "villager"
     namespace_t n; // category, e.g. "npc"
- } cmpkey_t;
+} cmpkey_t;
 
 /*
  * hash struct with compound key
  * cmpkey struct as key
  */
-typedef struct cmphash {
+typedef struct cmphash
+{
     cmpkey_t key;
     int *obj; // dummy ptr to actual object
     UT_hash_handle hh;
-} cmphash_t; 
+} cmphash_t;
 
 
 /* ------ SIMPLE HASH FUNCTIONS ------ */
 
-/* 
+/*
  * find_item - finds item in hash table
- * 
+ *
  * Parameters:
  *  **t: double ptr to hash table
  *  *newid: key string (used for search)
- * 
+ *
  * Returns:
  *  ptr to item (NULL if none found)
  */
-hash_t *find_item(hash_t **t, char *newid) 
+hash_t *find_item(hash_t **t, char *newid)
 {
     hash_t *res;
     HASH_FIND_STR(*t, newid, res);
     return res;
 }
 
-/* 
+/*
  * add_item - allocates space for and adds item to hash table
- * 
+ *
  * Parameters:
  *  **t: double ptr to hash table
  *  name: enum denoting category
  *  *newid: string for new key
- * 
+ *
  * Returns:
  *  SUCCESS on completion
  */
 int add_item(hash_t **t, namespace_t name, char *newid, int *o)
 {
     hash_t *new = find_item(t, newid); // see if key already exists in hash
-    if (new == NULL) {
+    if (new == NULL)
+    {
         new = malloc(sizeof(hash_t));
         new->n = name;
         new->id = malloc(sizeof(char) * (strlen(newid) + 1));
@@ -105,12 +110,12 @@ int add_item(hash_t **t, namespace_t name, char *newid, int *o)
 }
 
 /* print_hash - prints all items in hash
- * 
+ *
  * Parameters:
  *  **t: double ptr to hash table
- * 
+ *
  * Returns: none
- * 
+ *
  */
 void print_hash(hash_t **t)
 {
@@ -124,10 +129,10 @@ void print_hash(hash_t **t)
 }
 
 /* free_hash - deletes & frees hash table
- * 
+ *
  * Parameters:
  *  **t: double ptr to hash table
- * 
+ *
  * Returns: SUCCESS if hash freed complete, FAILURE if **t == NULL
  */
 void free_hash(hash_t **t)
@@ -148,12 +153,12 @@ void free_hash(hash_t **t)
 /* ------ COMPOUND HASH FUNCTIONS ------ */
 
 /* find_cmp - finds item in hash table with struct as key
- * 
+ *
  * Parameters:
  *  **h: double ptr to hash table of cmphash_t type
  *  *newid: key string (used for search)
  *  name: indicates namespace_t (used for search)
- * 
+ *
  * Returns:
  *  ptr to item (NULL if none found)
  */
@@ -171,20 +176,21 @@ cmphash_t *find_cmp(cmphash_t **h, namespace_t name, char *newid)
 }
 
 /* add_cmp - allocates space for and adds item to cmphash_t table
- * 
+ *
  * Parameters:
  *  **h: double ptr to hash table
  *  name: enum denoting category
  *  *newid: string for new key
  *  *o: ptr to "object"
- * 
+ *
  * Returns:
  *  SUCCESS on completion
  */
 int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
 {
     cmphash_t *new = find_cmp(h, name, newid); // see if key already exists in hash
-    if (new == NULL) {
+    if (new == NULL)
+    {
         new = calloc(1, sizeof(cmphash_t));
         new->key.n = name;
         strcpy(new->key.id, newid);
@@ -197,10 +203,10 @@ int add_cmp(cmphash_t **h, namespace_t name, char *newid, int *o)
 }
 
 /* free_cmp - deletes & frees hash table
- * 
+ *
  * Parameters:
  *  **h: double ptr to cmphash_t table
- * 
+ *
  * Returns: SUCCESS if hash table deleted & items freed, else FAILURE
  */
 int free_cmp(cmphash_t **h)
@@ -217,10 +223,10 @@ int free_cmp(cmphash_t **h)
 }
 
 /* print_cmp -  prints all items in cmphash_t
- * 
+ *
  * Parameters:
  *  **h: double ptr to hash table
- * 
+ *
  * Returns: none
  */
 void print_cmp(cmphash_t **h)
@@ -246,7 +252,7 @@ int main()
     add_item(&test, 2, "villager", &x);
     add_item(&test, 0, "LOOK", &x);
     print_hash(&test);
-    
+
     // test find_item
     printf("\nfind_item tests\n");
     hash_t *find = find_item(&test, "villager");
@@ -262,7 +268,7 @@ int main()
     {
         printf("free success!\n");
     }
-    
+
     // test cmphash_t
     cmphash_t *test_cmp = NULL;
 
@@ -271,7 +277,7 @@ int main()
     add_cmp(&test_cmp, 1, "TABLE", &x);
     add_cmp(&test_cmp, 1, "CHAIR", &x);
     print_cmp(&test_cmp);
-    
+
     // test find_cmp
     printf("\nfind_cmp tests\n");
     cmphash_t *res = find_cmp(&test_cmp, 1, "TABLE");

@@ -39,7 +39,7 @@ obj_t *load_obj_store(char *path)
         // TODO
     }
     // add other parsing formats here
-    
+
     if (rc != EXIT_SUCCESS)
     {
         obj_free_all(obj);

@@ -29,7 +29,8 @@ Test(gencontext, init)
 
     gencontext_t *context = calloc(1, sizeof(gencontext_t));
 
-    if (context == NULL) {
+    if (context == NULL)
+    {
         fprintf(stderr, "failed to calloc for context. \n");
     }
 
@@ -73,7 +74,8 @@ Test(roomspec, init1)
 
     roomspec_t *spec = calloc(1, sizeof(roomspec_t));
 
-    if (spec == NULL) {
+    if (spec == NULL)
+    {
         fprintf(stderr, "failed to calloc for spec. \n");
     }
 
@@ -110,9 +112,9 @@ Test(specgraph, new)
 
     roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
-    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+    roomspec_t *roomspecs[3]= {spec1, spec2, spec3};
 
-    int edges[3][3]={{5, 4, 5},{0, 5, 3},{4, 3, 5}};
+    int edges[3][3]= {{5, 4, 5},{0, 5, 3},{4, 3, 5}};
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
@@ -134,9 +136,9 @@ Test(specgraph, init)
 
     roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
-    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+    roomspec_t *roomspecs[3]= {spec1, spec2, spec3};
 
-    int edges[3][3]={{5, 4, 5},{0, 5, 3},{4, 3, 5}};
+    int edges[3][3]= {{5, 4, 5},{0, 5, 3},{4, 3, 5}};
 
     specgraph_t specgraph;
 
@@ -157,9 +159,9 @@ Test(specgraph, free)
 
     roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
-    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+    roomspec_t *roomspecs[3]= {spec1, spec2, spec3};
 
-    int edges[3][3]={{5, 4, 5},{0, 5, 3},{4, 3, 5}};
+    int edges[3][3]= {{5, 4, 5},{0, 5, 3},{4, 3, 5}};
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
@@ -211,18 +213,20 @@ Test(roomlevel, new)
 Test(roomlevel, init)
 {
     roomlevel_t *roomlevel = calloc(1, sizeof(roomlevel_t));
-    if (!roomlevel) { 
+    if (!roomlevel)
+    {
         printf("failed to calloc for roomlevel\n");
     }
     roomlevel->room_name = calloc(1, sizeof(char) * MAX_SDESC_LEN);
-    if (!(roomlevel->room_name)) { 
+    if (!(roomlevel->room_name))
+    {
         printf("failed to calloc for roomlevel->room_name\n");
     }
 
     int check = init_roomlevel(roomlevel, "excellent_name", 4);
-    cr_assert_str_eq(roomlevel->room_name, "excellent_name", 
-                 "failed to initialize roomlevel->room_name\n");
-    cr_assert_eq(4, roomlevel->difficulty_level, 
+    cr_assert_str_eq(roomlevel->room_name, "excellent_name",
+                     "failed to initialize roomlevel->room_name\n");
+    cr_assert_eq(4, roomlevel->difficulty_level,
                  "failed to initialize roomlevel->difficulty_level\n");
     cr_assert_eq(check, SUCCESS, "failed to initialize a roomlevel_t\n");
 }
@@ -248,10 +252,10 @@ Test(roomlevel, free)
 Test(roomlevel, add_roomlevel_to_hash_one)
 {
     roomlevel_hash_t *roomlevel_hash = NULL;
-    char *name = "A"; 
+    char *name = "A";
 
     add_roomlevel_to_hash(&roomlevel_hash, name, 4);
-    
+
     roomlevel_t *out;
     HASH_FIND_STR(roomlevel_hash, name, out);
     cr_assert_not_null(out, "failed to add room A\n");
@@ -264,7 +268,7 @@ Test(roomlevel, add_roomlevel_to_hash_one)
 Test(roomlevel, add_roomlevel_to_hash_two)
 {
     roomlevel_hash_t *roomlevel_hash = NULL;
-    char *name = "Good"; 
+    char *name = "Good";
 
     add_roomlevel_to_hash(&roomlevel_hash, name, 1);
     roomlevel_t *out;
@@ -274,7 +278,7 @@ Test(roomlevel, add_roomlevel_to_hash_two)
 
 
 
-/* Tests the levelspec_new function to validate that 
+/* Tests the levelspec_new function to validate that
  * a levelspec can be made successfully. */
 Test(levelspec, new)
 {
@@ -287,27 +291,30 @@ Test(levelspec, new)
 }
 
 
-/* Tests the init_levelspec function to validate that 
+/* Tests the init_levelspec function to validate that
  * a levelspec can be initialized successfully. */
 Test(levelspec, init)
 {
     int num_thresholds = 4;
     int thresholds[4] = {0, 10, 20, 30};
-    
+
     levelspec_t *levelspec = calloc(1, sizeof(levelspec_t));
-    if (!levelspec) { 
+    if (!levelspec)
+    {
         printf("failed to calloc for levelspec\n");
     }
 
     levelspec->thresholds = calloc(1, sizeof(int) * num_thresholds);
-    if (!(levelspec->thresholds)) { 
+    if (!(levelspec->thresholds))
+    {
         printf("failed to calloc for levelspec->thresholds\n");
     }
 
     int check = init_levelspec(levelspec, num_thresholds, thresholds);
     cr_assert_eq(levelspec->num_thresholds, num_thresholds,
                  "failed to initialize levelspec->num_thresholds\n");
-    for (int i = 0; i < num_thresholds; i++) {
+    for (int i = 0; i < num_thresholds; i++)
+    {
         cr_assert_eq(levelspec->thresholds[i], thresholds[i],
                      "failed to initialize levelspec->threshold[%d]\n", i);
     }
@@ -336,14 +343,14 @@ Test(levelspec, free)
 Test(itemspec, init_success)
 {
     itemspec_t *itemspec = calloc(1, sizeof(itemspec_t));
-    if (itemspec == NULL) 
-    { 
+    if (itemspec == NULL)
+    {
         printf("failed to allocate memory for itemspec\n");
     }
 
     itemspec->item_name = malloc((MAX_SDESC_LEN + 1) * sizeof(char));
-    if (itemspec->item_name == NULL) 
-    { 
+    if (itemspec->item_name == NULL)
+    {
         printf("failed to allocate memory for itemspec->item_name\n");
     }
 
@@ -357,27 +364,27 @@ Test(itemspec, init_success)
 Test(itemspec, init_fail)
 {
     int check;
-    
+
     itemspec_t *itemspec = NULL;
 
     check = init_itemspec(itemspec, "item_name", 0.5, 1, 3);
     cr_assert_eq(check, FAILURE, "init should fail when itemspec is NULL");
 
     itemspec = calloc(1, sizeof(itemspec_t));
-    if (itemspec == NULL) 
-    { 
+    if (itemspec == NULL)
+    {
         printf("failed to allocate memory for itemspec\n");
     }
 
     itemspec->item_name = malloc((MAX_SDESC_LEN + 1) * sizeof(char));
-    if (itemspec->item_name == NULL) 
-    { 
+    if (itemspec->item_name == NULL)
+    {
         printf("failed to allocate memory for itemspec->item_name\n");
     }
 
     check = init_itemspec(itemspec, "item_name", 1.5, 1, 3);
     cr_assert_eq(check, FAILURE, "init should fail when spawn_chance is invalid");
-    
+
     check = init_itemspec(itemspec, "item_name", 0.5, 3, 1);
     cr_assert_eq(check, FAILURE, "init should fail when min_num > max_num");
 }
@@ -399,13 +406,13 @@ Test(itemspec, new_fail)
 {
     itemspec_t *itemspec1 = itemspec_new("item1_name", 1.5, 1, 3);
     cr_assert_null(itemspec1, "new itemspec should be NULL when spawn_chance is invalid");
-    
+
     itemspec_t *itemspec2 = itemspec_new("item2_name", 0.5, 3, 1);
     cr_assert_null(itemspec2, "new itemspec should be NULL when min_num > max_num");
 }
 
 
-/* Tests that the itemspec_free function can 
+/* Tests that the itemspec_free function can
  * free a given itemspec successfully. */
 Test(itemspec, free)
 {

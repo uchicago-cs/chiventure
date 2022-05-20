@@ -45,7 +45,7 @@ move_t* find_random(combatant_t* player, combatant_t* enemy)
         {
             random_move = temp;
         }
-        
+
     }
     return random_move;
 }
@@ -59,7 +59,7 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
 
     DL_FOREACH(enemy->moves, temp)
     {
-        
+
         double cur_damage = damage(player, temp, enemy);
         if (temp == NULL)
         {
@@ -98,13 +98,13 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
 {
     /* If the user does not have enough sp or the item a move requires,
      * damage will return 0 damage. Moves that do no damage will also
-     * return 0 damage. */   
-    if (source->stats->sp < move->sp_cost || move->dmg_type == NO_DAMAGE) 
+     * return 0 damage. */
+    if (source->stats->sp < move->sp_cost || move->dmg_type == NO_DAMAGE)
     {
         return 0;
     }
-    if (move->req_item != NULL && 
-        find_battle_item(source->items, move->req_item->name) == NULL)
+    if (move->req_item != NULL &&
+            find_battle_item(source->items, move->req_item->name) == NULL)
     {
         return 0;
     }
@@ -115,13 +115,13 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
     base_dmg = (double) move->damage;
     crit_mod = crit_modifier(source->stats->crit);
     src_lvl = (double) source->stats->level;
-    
+
     if (move->dmg_type == PHYS)
     {
         src_atk = (double) source->stats->phys_atk;
         tgt_def = (double) target->stats->phys_def;
-    } 
-    else 
+    }
+    else
     {
         src_atk = (double) source->stats->mag_atk;
         tgt_def = (double) target->stats->mag_def;

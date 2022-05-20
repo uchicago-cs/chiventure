@@ -5,7 +5,8 @@
 
 
 /* Test that set_attr() fails when given non-matching types */
-Test(custom_actions_effect, set_fail) {
+Test(custom_actions_effect, set_fail)
+{
     attribute_t *a1, *a2;
     int rc;
 
@@ -25,7 +26,8 @@ Test(custom_actions_effect, set_fail) {
 }
 
 /* Test that set_attr() successfully sets attribute of type double */
-Test(custom_actions_effect, set_double) {
+Test(custom_actions_effect, set_double)
+{
     attribute_t *a1, *a2;
     int rc;
 
@@ -48,7 +50,8 @@ Test(custom_actions_effect, set_double) {
 }
 
 /* Test that set_attr() successfully sets attribute of type boolean */
-Test(custom_actions_effect, set_bool) {
+Test(custom_actions_effect, set_bool)
+{
     attribute_t *a1, *a2;
     int rc;
 
@@ -70,7 +73,8 @@ Test(custom_actions_effect, set_bool) {
 }
 
 /* Test that set_attr() successfully sets attribute of type char */
-Test(custom_actions_effect, set_char) {
+Test(custom_actions_effect, set_char)
+{
     attribute_t *a1, *a2;
     int rc;
 
@@ -93,7 +97,8 @@ Test(custom_actions_effect, set_char) {
 }
 
 /* Test that set_attr() successfully sets attribute of type string */
-Test(custom_actions_effect, set_string) {
+Test(custom_actions_effect, set_string)
+{
     attribute_t *a1, *a2;
     int rc;
 
@@ -116,7 +121,8 @@ Test(custom_actions_effect, set_string) {
 }
 
 /* Test that set_attr() successfully sets attribute of type int */
-Test(custom_actions_effect, set_int) {
+Test(custom_actions_effect, set_int)
+{
     attribute_t *a1, *a2;
     int rc;
 
@@ -140,7 +146,8 @@ Test(custom_actions_effect, set_int) {
 
 /* Test that attribute arithmetic functions fail when given non-matching
  *  types or invalid types */
-Test(custom_actions_effect, attr_arithmetic_fail) {
+Test(custom_actions_effect, attr_arithmetic_fail)
+{
     attribute_t *a1, *a2, *a3, *a4, *a5;
     int rc1, rc2;
 
@@ -176,7 +183,8 @@ Test(custom_actions_effect, attr_arithmetic_fail) {
 
 /* Template function for testing attribute arithmetic functions */
 void test_attr_arithmetic(double d1, double d2, double exp1,
-                          int i1, int i2, int exp2, arithmetic_op_t op) {
+                          int i1, int i2, int exp2, arithmetic_op_t op)
+{
     char ops[4][5] = {"ADD", "SUB", "MULT", "DIV"};
     attribute_t *a1, *a2, *a3, *a4, *a5, *a6;
     int rc1, rc2;
@@ -192,22 +200,23 @@ void test_attr_arithmetic(double d1, double d2, double exp1,
     a5 = int_attr_new(temp_attr_name, i2);
     a6 = int_attr_new(temp_attr_name, i3);
 
-    switch (op) {
-        case ADD:
-            rc1 = add_attr(a1, a2, a3);
-            rc2 = add_attr(a4, a5, a6);
-            break;
-        case SUB:
-            rc1 = sub_attr(a1, a2, a3);
-            rc2 = sub_attr(a4, a5, a6);
-            break;
-        case MULT:
-            rc1 = mult_attr(a1, a2, a3);
-            rc2 = mult_attr(a4, a5, a6);
-            break;
-        default:
-            rc1 = div_attr(a1, a2, a3);
-            rc2 = div_attr(a4, a5, a6);
+    switch (op)
+    {
+    case ADD:
+        rc1 = add_attr(a1, a2, a3);
+        rc2 = add_attr(a4, a5, a6);
+        break;
+    case SUB:
+        rc1 = sub_attr(a1, a2, a3);
+        rc2 = sub_attr(a4, a5, a6);
+        break;
+    case MULT:
+        rc1 = mult_attr(a1, a2, a3);
+        rc2 = mult_attr(a4, a5, a6);
+        break;
+    default:
+        rc1 = div_attr(a1, a2, a3);
+        rc2 = div_attr(a4, a5, a6);
     }
 
     cr_assert_eq(rc1, SUCCEEDS,
@@ -238,34 +247,39 @@ void test_attr_arithmetic(double d1, double d2, double exp1,
 
 /* Testing that add_attr() succeeds and sets proper value of result attribute
  */
-Test(custom_actions_effect, add_attr) {
+Test(custom_actions_effect, add_attr)
+{
     test_attr_arithmetic(1.0, 2.0, 3.0,
                          1, 2, 3, ADD);
 }
 
 /* Testing that sub_attr() succeeds and sets proper value of result attribute
  */
-Test(custom_actions_effect, sub_attr) {
+Test(custom_actions_effect, sub_attr)
+{
     test_attr_arithmetic(5.0, 2.0, 3.0,
                          5, 2, 3, SUB);
 }
 
 /* Testing that mult_attr() succeeds and sets proper value of result attribute
  */
-Test(custom_actions_effect, mult_attr) {
+Test(custom_actions_effect, mult_attr)
+{
     test_attr_arithmetic(5.0, 4.0, 20.0,
                          5, 4, 20, MULT);
 }
 
 /* Testing that div_attr() succeeds and sets proper value of result attribute
  */
-Test(custom_actions_effect, div_attr) {
+Test(custom_actions_effect, div_attr)
+{
     test_attr_arithmetic(10.0, 2.0, 5.0,
                          10, 2, 5, DIV);
 }
 
 /* Testing that gen_attrval() fails when given an invalid type */
-Test(custom_actions_effect, gen_attrval_fail) {
+Test(custom_actions_effect, gen_attrval_fail)
+{
     attribute_t *a;
     int rc;
 
@@ -285,7 +299,8 @@ Test(custom_actions_effect, gen_attrval_fail) {
 
 /* Testing that gen_attrval() succeeds and produces a value within the
  *  specified range for an attribute value of type double */
-Test(custom_actions_effect, gen_attrval_double) {
+Test(custom_actions_effect, gen_attrval_double)
+{
     attribute_t *a;
     int rc;
 
@@ -307,7 +322,8 @@ Test(custom_actions_effect, gen_attrval_double) {
 
 /* Testing that gen_attrval() succeeds and produces a value within the
  *  specified range for an attribute value of type int */
-Test(custom_actions_effect, gen_attrval_int) {
+Test(custom_actions_effect, gen_attrval_int)
+{
     attribute_t *a;
     int rc;
 

@@ -23,7 +23,7 @@ Test(asset, new_asset_success)
     asset_t *asset = new_asset(0, "test");
     cr_assert_not_null(asset, "new_asset() failed to allocate memory");
     cr_assert_eq(asset->type, 0, "new_asset() failed to set type");
-    cr_assert_str_eq(asset->filename, "test", 
+    cr_assert_str_eq(asset->filename, "test",
                      "new_asset() failed to set filename");
     cr_assert_null(asset->asset, "new_asset() failed to set asset");
 }

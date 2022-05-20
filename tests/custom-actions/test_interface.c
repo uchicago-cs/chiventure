@@ -16,7 +16,7 @@ Test(custom_action_t, add_actions)
     char *item1 = "obj_SPINACH";
     char *type1 = "druid";
     custom_action_t *new_action1 = custom_action_new(action_name1, context1,
-                                                     item1, type1, head1);
+                                   item1, type1, head1);
 
     cr_assert_not_null(new_action1, "custom_action_new failed");
 
@@ -35,7 +35,7 @@ Test(custom_action_t, add_actions)
     char *item2 = "obj_SPINACH";
     char *type2 = "warlock";
     custom_action_t *new_action2 = custom_action_new(action_name2, context2,
-                                                     item2, type2, head2);
+                                   item2, type2, head2);
 
     cr_assert_not_null(new_action2, "custom_action_new failed");
 
@@ -59,7 +59,7 @@ Test(custom_action_t, find_existing)
     char *type1 = "mage";
 
     custom_action_t *new_action1 = custom_action_new(action_name1, context1,
-                                                     item1, type1, head1);
+                                   item1, type1, head1);
 
     cr_assert_not_null(new_action1, "custom_action_new failed");
 
@@ -73,10 +73,10 @@ Test(custom_action_t, find_existing)
     custom_action_t *found = search_for_custom_action(action_name1);
 
     cr_assert_not_null(found, "search_for_custom_action did not find a custom "
-                              "action it was expected to find");
+                       "action it was expected to find");
 
     cr_assert_eq(found->action_name, action_name1, "search_for_custom_action "
-                                                   "returned the wrong result");
+                 "returned the wrong result");
 }
 
 Test(custom_action_t, find_empty_list)
@@ -88,7 +88,7 @@ Test(custom_action_t, find_empty_list)
     custom_action_t *found = search_for_custom_action(action_name1);
 
     cr_assert_null(found, "search_for_custom_action returned the wrong "
-                          "result");
+                   "result");
 }
 
 Test(custom_action_t, find_multiple)
@@ -103,7 +103,7 @@ Test(custom_action_t, find_multiple)
     char *item1 = "obj_SPINACH";
     char *type1 = "wizard";
     custom_action_t *new_action1 = custom_action_new(action_name1, context1,
-                                                     item1, type1, head1);
+                                   item1, type1, head1);
     cr_assert_not_null(new_action1, "custom_action_new failed");
 
     block_t *block2 = malloc(sizeof(block_t));
@@ -114,7 +114,7 @@ Test(custom_action_t, find_multiple)
     char *item2 = "obj_SPADE";
     char *type2 = "druid";
     custom_action_t *new_action2 = custom_action_new(action_name2, context2,
-                                                     item2, type2, head2);
+                                   item2, type2, head2);
     cr_assert_not_null(new_action2, "custom_action_new failed");
 
     block_t *block3 = malloc(sizeof(block_t));
@@ -125,7 +125,7 @@ Test(custom_action_t, find_multiple)
     char *item3 = "obj_ORANGE_SEED";
     char *type3 = "ranger";
     custom_action_t *new_action3 = custom_action_new(action_name3, context3,
-                                                     item3, type3, head3);
+                                   item3, type3, head3);
     cr_assert_not_null(new_action3, "custom_action_new failed");
 
     // adds all 3 custom actions to the game
@@ -144,26 +144,26 @@ Test(custom_action_t, find_multiple)
 
     custom_action_t *found = search_for_custom_action(action_name1);
     cr_assert_not_null(found, "search_for_custom_action did not find a custom"
-                              " action it was expcted to find");
+                       " action it was expcted to find");
     cr_assert_eq(found->action_name, action_name1, "search_for_custom_action"
-                                                   " returned the wrong result");
+                 " returned the wrong result");
 
     found = search_for_custom_action(action_name3);
     cr_assert_not_null(found, "search_for_custom_action did not find a custom"
-                              " action it was expcted to find");
+                       " action it was expcted to find");
     cr_assert_eq(found->action_name, action_name3, "search_for_custom_action"
-                                                   " returned the wrong result");
+                 " returned the wrong result");
 
     found = search_for_custom_action(action_name2);
     cr_assert_not_null(found, "search_for_custom_action did not find a custom"
-                              " action it was expcted to find");
+                       " action it was expcted to find");
     cr_assert_eq(found->action_name, action_name2, "search_for_custom_action"
-                                                   " returned the wrong result");
+                 " returned the wrong result");
 
     // now tries to find an action that is NOT in the list
 
     char *action_name4 = "act_EAT";
     found = search_for_custom_action(action_name4);
     cr_assert_null(found, "search_for_custom_action returned the wrong "
-                          "result");
+                   "result");
 }

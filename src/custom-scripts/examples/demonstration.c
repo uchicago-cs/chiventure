@@ -2,7 +2,7 @@
  * This example program runs a full instance of chiventure with an in-memory game,
  * and where the CLI is monkeypatched to accept a new operation:
  *
- *  - TASTE: A "kind 1" action that operates on an item. We support customization for the 
+ *  - TASTE: A "kind 1" action that operates on an item. We support customization for the
  *           output string upon running the action.
  */
 
@@ -30,7 +30,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Create a rock in room1 */
     item_t *rock = item_new("ROCK","It is a rock.",
-                   "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
+                            "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
     add_item_to_room(room1, rock);
 
 
@@ -38,7 +38,7 @@ chiventure_ctx_t *create_sample_ctx()
        on what the user enters at the start of the game */
     char string_num;
     printf("Enter either 1 or 2 (1 for non-caps, 2 for caps): ");
-    scanf("%c", &string_num);  
+    scanf("%c", &string_num);
     object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
     ot = obj_add_arg_char(ot, string_num);
     char* custom_string = (char*)malloc(100);

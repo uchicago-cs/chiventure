@@ -19,14 +19,14 @@ int main(void)
     /* This is for initialization of a movable ball that could later function as a pointer/cursor for the player. */
     Vector2 cursorBallPosition = {(float) screenWidth / 2, (float) screenHeight / 2};
     Color cursorBallColor = WHITE;
-    
+
     /* This value corresponds to the sensitivity of the cursor. Increasing move_unit increases the distance it covers
      * while keys are pressed.
      */
     float move_unit = 5.0;
-    
+
     float cursorBallRadius = 8;
-    
+
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ int main(void)
     create_connection(game, "room3", "room4", "NORTH");
     create_connection(game, "room3", "room5", "SOUTH");
 
-    while (!WindowShouldClose())   
+    while (!WindowShouldClose())
     {
 
         /* Updates ball cursor with arrow keys or WASD*/
@@ -73,7 +73,7 @@ int main(void)
         ClearBackground(BLACK);
 
         posY = 170; //starting map Y position
-            
+
         if (game->curr_room != NULL)
         {
             centerXPos = screenWidth/4*2;
@@ -85,7 +85,7 @@ int main(void)
         }
 
         /*starting at a room, draw a room that either exists near it in any direction */
-        if (find_room_from_dir(room1 , "WEST") != NULL)
+        if (find_room_from_dir(room1, "WEST") != NULL)
         {
             posX = screenWidth/4 - 70;
 
@@ -96,21 +96,21 @@ int main(void)
 
         if (find_room_from_dir(game->curr_room, "EAST") != NULL)
         {
-            DrawRectangle(posX, posY, roomWidth, roomHeight, GREEN);       
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GREEN);
         }
-            
+
         if (find_room_from_dir(room3, "NORTH") != NULL)
         {
             posY = 40;
 
-            DrawRectangle(posX, posY, roomWidth, roomHeight, GOLD);       
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GOLD);
         }
 
         if (find_room_from_dir(room3, "SOUTH") != NULL)
         {
             posY = 300;
 
-            DrawRectangle(posX, posY, roomWidth, roomHeight, GRAY);       
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GRAY);
         }
 
         /* Draws the ball cursor in the current position according to user input */

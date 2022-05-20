@@ -6,6 +6,7 @@
 
 int main()
 {
+    /*
     stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
     p_stats->hp = 100;
     p_stats->max_hp = 100;
@@ -26,13 +27,15 @@ int main()
     e_stats->phys_def = 2;
     e_stats->accuracy = 70;
 
-    move_t *e_move = move_new("Diss Track", 0, NULL, true, 80, 0);
+    move_t *e_move = move_new(0, "Diss Track", "No Description",
+                              MAG, NO_TARGET, NO_TARGET, 0, 10, NULL,
+                              100, 100, NULL, NULL, NULL, NULL);
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", NULL, NULL, HOSTILE);
-    npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, 
+    npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY,
                                          HOSTILE, NULL, NULL);
     e->npc_battle = npc_b;
 
-    battle_ctx_t *ctx = 
+    battle_ctx_t *ctx =
         (battle_ctx_t*) calloc(1, sizeof(battle_ctx_t));
 
     battle_game_t *g = new_battle_game();
@@ -65,19 +68,21 @@ int main()
         }
     }
     battle_status_t winner = battle_over(ctx->game->battle);
-    switch (winner) {
-        case BATTLE_IN_PROGRESS:
-            fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
-            break;
-        case BATTLE_VICTOR_PLAYER:
-            fprintf(stderr, "SUCCESS: battle flow loop exited and player won\n");
-            break;
-        case BATTLE_VICTOR_ENEMY:
-            fprintf(stderr, "SUCCESS: battle flow loop exited and enemy won\n");
-            break;
-        case NO_BATTLE:
-            fprintf(stderr, "ERROR, battle should not return as no_battle");
+    switch (winner)
+    {
+    case BATTLE_IN_PROGRESS:
+        fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
+        break;
+    case BATTLE_VICTOR_PLAYER:
+        fprintf(stderr, "SUCCESS: battle flow loop exited and player won\n");
+        break;
+    case BATTLE_VICTOR_ENEMY:
+        fprintf(stderr, "SUCCESS: battle flow loop exited and enemy won\n");
+        break;
+    case NO_BATTLE:
+        fprintf(stderr, "ERROR, battle should not return as no_battle");
     }
+    */
     return 0;
 }
 

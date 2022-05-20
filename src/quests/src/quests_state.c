@@ -21,14 +21,14 @@ passive_mission_t *passive_mission_new(int xp, int levels, int health)
 }
 
 /* Refer to quests_state.h */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit)
+active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet,
+                                     npc_t *npc_to_kill, room_t *room_to_visit)
 {
     active_mission_t *mission = malloc(sizeof(active_mission_t));
     int rc;
 
     rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
-                      room_to_visit);
+                             room_to_visit);
 
     if (rc != SUCCESS)
     {
@@ -72,7 +72,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prere
 
 /* Refer to quests_state.h */
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                   reward_t *reward, prereq_t *prereq) 
+                   reward_t *reward, prereq_t *prereq)
 
 {
     quest_t *q;
@@ -86,7 +86,8 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
     }
 
     rc = quest_init(q, quest_id, task_tree, reward, prereq);
-    if(rc != SUCCESS){
+    if(rc != SUCCESS)
+    {
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
     }
@@ -95,11 +96,13 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
 }
 
 /* Refer to quests_state.h */
-prereq_t *prereq_new(int hp, int level) {
+prereq_t *prereq_new(int hp, int level)
+{
     prereq_t *prereq = malloc(sizeof(prereq_t));
 
     int rc = prereq_init(prereq, hp, level);
-    if(rc != SUCCESS) {
+    if(rc != SUCCESS)
+    {
         fprintf(stderr, "\nCould not initialize prereq struct!\n");
         return NULL;
     }
@@ -107,15 +110,17 @@ prereq_t *prereq_new(int hp, int level) {
 }
 
 /* Refer to id_list.h */
-id_list_t *id_list_new() {
+id_list_t *id_list_new()
+{
     id_list_t *id_list = malloc(sizeof(id_list_t));
 
     int rc = id_list_init(id_list);
-    if(rc != SUCCESS) {
+    if(rc != SUCCESS)
+    {
         fprintf(stderr, "\nCould not initialize id_list struct!\n");
         return NULL;
     }
-    return id_list;  
+    return id_list;
 }
 
 /* Refer to quests_state.h */
@@ -131,7 +136,7 @@ int passive_mission_init(passive_mission_t *mission, int xp, int levels, int hea
 }
 
 /* Refer to quests_state.h */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, 
+int active_mission_init(active_mission_t *mission, item_t *item_to_collect,
                         npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
 {
     assert(mission != NULL);
@@ -170,7 +175,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prer
 
 /* Refer to quests_state.h */
 int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
-                reward_t *reward, prereq_t *prereq)
+               reward_t *reward, prereq_t *prereq)
 
 {
     assert(q != NULL);
@@ -179,12 +184,13 @@ int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
     q->task_tree = task_tree;
     q->reward = reward;
     q->prereq = prereq;
-    
+
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int prereq_init(prereq_t * prereq, int hp, int level) {
+int prereq_init(prereq_t * prereq, int hp, int level)
+{
     assert(prereq != NULL);
 
     prereq->hp = hp;
@@ -196,7 +202,8 @@ int prereq_init(prereq_t * prereq, int hp, int level) {
 }
 
 /* Refer to quests_state.h */
-int id_list_init(id_list_t *id_list) {
+int id_list_init(id_list_t *id_list)
+{
     assert(id_list != NULL);
 
     id_list->head = NULL;
@@ -255,12 +262,15 @@ int quest_free(quest_t *q)
 }
 
 /* Refer to quests_state.h */
-int prereq_free(prereq_t *prereq) {
+int prereq_free(prereq_t *prereq)
+{
     assert(prereq != NULL);
-    if(prereq->quest_list) {
+    if(prereq->quest_list)
+    {
         id_list_free(prereq->quest_list);
     }
-    if(prereq->task_list) {
+    if(prereq->task_list)
+    {
         id_list_free(prereq->task_list);
     }
     free(prereq);
@@ -268,10 +278,12 @@ int prereq_free(prereq_t *prereq) {
 }
 
 /* Refer to quests_state.h */
-int id_list_free(id_list_t *id_list) {
+int id_list_free(id_list_t *id_list)
+{
     assert(id_list != NULL);
     id_list_node_t *next = NULL;
-    for(id_list_node_t *cur = id_list->head; cur != NULL; cur = next) {
+    for(id_list_node_t *cur = id_list->head; cur != NULL; cur = next)
+    {
         next = cur->next;
         free(cur);
     }
@@ -280,25 +292,31 @@ int id_list_free(id_list_t *id_list) {
 }
 
 /* Refer to quests_state.h */
-bool meets_prereqs(player_t *player, prereq_t *prereq) {
+bool meets_prereqs(player_t *player, prereq_t *prereq)
+{
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
 
-    if (health < prereq->hp || player->level < prereq->level) {
+    if (health < prereq->hp || player->level < prereq->level)
+    {
         return false;
     }
     id_list_t *quest_list = prereq->quest_list;
     id_list_t *task_list = prereq->task_list;
-    for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next) {
+    for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next)
+    {
         player_quest_t *pquest = get_player_quest_from_hash(cur->id, player->player_quests);
         // 2 is the quest status, should be changed if status is switched to an enum
-        if(pquest->completion != 2) {
+        if(pquest->completion != 2)
+        {
             return false;
         }
     }
-    for(id_list_node_t *cur = task_list->head; cur != NULL; cur = cur->next) {
+    for(id_list_node_t *cur = task_list->head; cur != NULL; cur = cur->next)
+    {
         player_task_t *ptask = get_player_task_from_hash(cur->id, player->player_tasks);
-        if(!ptask->completed) {
+        if(!ptask->completed)
+        {
             return false;
         }
     }
@@ -336,7 +354,7 @@ int compare_tasks(task_t *a1, task_t *a2)
  * Returns:
  * - NULL if task cannot be found
  * - The task tree being searched for
- */ 
+ */
 task_tree_t *find_parent(task_tree_t *tree, char *id)
 {
 
@@ -414,10 +432,11 @@ int start_quest(quest_t *quest, player_t *player)
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
-    while(cur) {
+    while(cur)
+    {
         assert(add_task_to_player_hash(cur->task, &player->player_tasks) == SUCCESS);
         cur = cur->rsibling;
-    }   
+    }
 
     return SUCCESS;
 }
@@ -445,7 +464,7 @@ int fail_quest(quest_t *quest, player_t *player)
  * - pointer to the desired task, OR
  * - NULL if task cannot be found along a valid path
  *
- * Note: Traversal no longer relies on task completion, so 
+ * Note: Traversal no longer relies on task completion, so
  *       runtime is now O(T) where T is the number of tasks
  *       in the game
  */
@@ -471,15 +490,18 @@ bool is_quest_completed(quest_t *quest, player_t *player)
     task_tree_t *cur = quest->task_tree;
 
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
-    if(!pquest || pquest->completion == -1) {
+    if(!pquest || pquest->completion == -1)
+    {
         return false;
     }
 
     bool crntStatus = true;
     player_task_t *temp;
-    while(cur) {
+    while(cur)
+    {
         temp = get_player_task_from_hash(cur->task->id, player->player_tasks);
-        if(temp && temp->completed) {
+        if(temp && temp->completed)
+        {
             cur = cur->lmostchild;
             crntStatus = true;
             continue;
@@ -496,14 +518,15 @@ bool is_task_completed(task_t *task, player_t *player)
 {
     assert(task != NULL);
     assert(player != NULL);
-    
+
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
-    if(!ptask) {
+    if(!ptask)
+    {
         return false;
     }
     ptask->completed = true;
     return true;
-    
+
 }
 
 /* Refer to quests_state.h */
@@ -518,10 +541,10 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 {
     quest_t *check;
-  
+
     check = get_quest_from_hash(quest->quest_id, *hash_table);
 
-    if (check != NULL) 
+    if (check != NULL)
     {
         return FAILURE; //quest id is already in the hash table
     }
@@ -532,11 +555,14 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 }
 
 /* Refer to quests_state.h */
-task_t *get_task_from_hash(char *id, quest_hash_t *hash_table) {
+task_t *get_task_from_hash(char *id, quest_hash_t *hash_table)
+{
     task_t *task = NULL;
-    for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next) {
+    for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next)
+    {
         task = find_task_in_tree(cur->task_tree, id);
-        if(task != NULL) {
+        if(task != NULL)
+        {
             break;
         }
     }
@@ -555,8 +581,8 @@ player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *
 player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table)
 {
     player_task_t *t;
-    HASH_FIND(hh, hash_table, id,  
-            strnlen(id, MAX_ID_LEN), t);
+    HASH_FIND(hh, hash_table, id,
+              strnlen(id, MAX_ID_LEN), t);
 
     return t;
 }
@@ -565,10 +591,10 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
 int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, int completion)
 {
     player_quest_t *check;
-    
+
     check = get_player_quest_from_hash(quest->quest_id, *hash_table);
 
-    if (check != NULL) 
+    if (check != NULL)
     {
         return FAILURE; //quest id is already in the hash table
     }
@@ -583,10 +609,10 @@ int add_quest_to_player_hash(quest_t *quest, player_quest_hash_t **hash_table, i
 int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 {
     player_task_t *check;
-    
+
     check = get_player_task_from_hash(task->id, *hash_table);
 
-    if (check != NULL) 
+    if (check != NULL)
     {
         return FAILURE; //task id is already in the hash table
     }
@@ -594,7 +620,7 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 
     HASH_ADD_KEYPTR(hh, *hash_table, task->id,
                     strnlen(task->id, MAX_ID_LEN), player_task);
-  
+
     return SUCCESS;
 }
 
@@ -602,7 +628,8 @@ int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table)
 int get_player_quest_status(quest_t *quest, player_t *player)
 {
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
-    if(!pquest) {
+    if(!pquest)
+    {
         return 0;
     }
     return pquest->completion;
@@ -626,7 +653,8 @@ reward_t *complete_quest(quest_t *quest, player_t *player)
 
 
 /* Refer to quests_state.h */
-int id_list_add(id_list_t *id_list, char *id) {
+int id_list_add(id_list_t *id_list, char *id)
+{
     assert(id_list != NULL);
     assert(id != NULL);
 
@@ -635,30 +663,35 @@ int id_list_add(id_list_t *id_list, char *id) {
 
     node->id = id;
     node->next = NULL;
-    
-    if(id_list->head == NULL) {
+
+    if(id_list->head == NULL)
+    {
         id_list->head = node;
     }
-    else {
+    else
+    {
         id_list_node_t *cur = id_list->head;
-        while(cur->next != NULL) {
+        while(cur->next != NULL)
+        {
             cur = cur->next;
         }
         cur->next = node;
     }
     id_list->length++;
     return SUCCESS;
-} 
+}
 
 /*Refer to quests_state.h */
-int prereq_add_quest(prereq_t *prereq, char *quest_id) {
+int prereq_add_quest(prereq_t *prereq, char *quest_id)
+{
     assert(prereq != NULL);
     assert(quest_id != NULL);
     return id_list_add(prereq->quest_list, quest_id);
 }
 
 /*Refer to quests_state.h */
-int prereq_add_task(prereq_t *prereq, char *task_id) {
+int prereq_add_task(prereq_t *prereq, char *task_id)
+{
     assert(prereq != NULL);
     assert(task_id != NULL);
     return id_list_add(prereq->task_list, task_id);
@@ -667,18 +700,20 @@ int prereq_add_task(prereq_t *prereq, char *task_id) {
 
 
 /* refer to quests_state.h */
-int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id) 
+int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id)
 {
-    quest_t *check; 
+    quest_t *check;
     check = get_quest_from_hash(quest_id, hash_table);
 
-    if (check == NULL){ 
+    if (check == NULL)
+    {
         return FAILURE; /* quest is not in hash_table) */
-    } 
+    }
 
-    HASH_DEL(hash_table,check); 
-    quest_free(check); 
-    if (get_quest_from_hash(quest_id, hash_table) != NULL){
+    HASH_DEL(hash_table,check);
+    quest_free(check);
+    if (get_quest_from_hash(quest_id, hash_table) != NULL)
+    {
         return FAILURE;
     }
     return SUCCESS;
@@ -687,14 +722,14 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id)
 
 /* refer to quests_state.h */
 int remove_quest_all(quest_hash_t *hash_table)
-{ 
-    quest_t *current_quest, *temp; 
-    HASH_ITER(hh, hash_table, current_quest, temp) 
-    { 
+{
+    quest_t *current_quest, *temp;
+    HASH_ITER(hh, hash_table, current_quest, temp)
+    {
         HASH_DEL(hash_table, current_quest);
         free(current_quest);
     }
-    return SUCCESS; 
+    return SUCCESS;
 }
 
 /* Refer quests_state.h */

@@ -74,7 +74,7 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
 /* ========================================================================== */
 
 
-/* 
+/*
  * helper function that removes condition
  *
  * Parameter:
@@ -85,22 +85,22 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
  */
 int helper_remove(action_type_t *a)
 {
-            path_t *closed_path;
-            closed_path = path_search(a->room,a->direction);
-            /* only if action is a condition to something (action with
-               null room and direction produce null path) */
-            if (closed_path)
-            {
-                list_action_type_t *delete_node;
-                int condition;
-                closed_path = path_search(a->room,a->direction);
-                delete_node = find_act(closed_path->conditions,a);
-                condition = remove_condition(closed_path,delete_node);
-                if (condition != SUCCESS)
-                {
-                    return CONDITIONS_NOT_MET;
-                }
-            }
+    path_t *closed_path;
+    closed_path = path_search(a->room,a->direction);
+    /* only if action is a condition to something (action with
+       null room and direction produce null path) */
+    if (closed_path)
+    {
+        list_action_type_t *delete_node;
+        int condition;
+        closed_path = path_search(a->room,a->direction);
+        delete_node = find_act(closed_path->conditions,a);
+        condition = remove_condition(closed_path,delete_node);
+        if (condition != SUCCESS)
+        {
+            return CONDITIONS_NOT_MET;
+        }
+    }
     return SUCCESS;
 }
 
@@ -113,7 +113,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     assert(c->game);
     assert(a);
     assert(i);
-    
+
     game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
@@ -128,10 +128,10 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     }
 
     /* use representative c_name for action synonyms */
-    if(strncmp(a->c_name, "pickup", BUFFER_SIZE) == 0) 
+    if(strncmp(a->c_name, "pickup", BUFFER_SIZE) == 0)
     {
         a->c_name = "take";
-    } 
+    }
     else if(strncmp(a->c_name, "use", BUFFER_SIZE) == 0 || strncmp(a->c_name, "eat", BUFFER_SIZE) == 0 || strncmp(a->c_name, "drink", BUFFER_SIZE) == 0)
     {
         a->c_name = "consume";
@@ -169,16 +169,16 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         }
         else
         {
-	    //remove action from any conditions
-	    int rc;
-	    rc = helper_remove(a);
+            //remove action from any conditions
+            int rc;
+            rc = helper_remove(a);
 
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
             if (is_game_over(game))
             {
                 string = strcat(string, " Congratulations, you've won the game! "
-                        "Press ctrl+D to quit.");
+                                "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
@@ -231,9 +231,10 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     rc = helper_remove(a);
 
     // successfully carried out action
-    if (is_game_over(g)) {
+    if (is_game_over(g))
+    {
         sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
-                 room_dest->room_id);
+                room_dest->room_id);
         *ret_string = string;
         return SUCCESS;
     }
@@ -244,7 +245,8 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
         *ret_string = string;
         return SUCCESS;
     }
-    else {
+    else
+    {
         sprintf(string, "Move action %s via %s into %s failed.",
                 a->c_name, direction, room_dest->room_id);
         *ret_string = string;
@@ -263,7 +265,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     assert(a);
     assert(direct);
     assert(indirect);
-    
+
     game_t *game = c->game;
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -335,7 +337,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
             if (is_game_over(game))
             {
                 string = strcat(string, " Congratulations, you've won the game! "
-                        "Press ctrl+D to quit.");
+                                "Press ctrl+D to quit.");
             }
             *ret_string = string;
             return SUCCESS;
@@ -352,7 +354,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_acti
     assert(c->game);
     assert(a);
     assert(p);
-    
+
     game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
@@ -366,8 +368,10 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_acti
         return WRONG_KIND;
     }
 
-    if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
-        if (obj == STATS) {
+    if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0)
+    {
+        if (obj == STATS)
+        {
             // retrieve stats from the player
             string = display_stats(p->player_stats);
         }

@@ -7,14 +7,14 @@
 #include "cli/util.h"
 
 /*
- * - input: 
- *   s: a string from the command line, 
- *   delim: the delimiter string used to tokenize, 
+ * - input:
+ *   s: a string from the command line,
+ *   delim: the delimiter string used to tokenize,
  *   save_ptr: pointer to s
- * 
- * - returns: 
+ *
+ * - returns:
  *   the first tokenized string
- * 
+ *
  */
 char *strtokstr_r(char *s, char *delim, char **save_ptr)
 {
@@ -44,10 +44,10 @@ char *strtokstr_r(char *s, char *delim, char **save_ptr)
         *save_ptr = s + strlen(s);
         return s;
     }
-        // Terminate the token and make *SAVE_PTR point past it.
-        memset(end, 0, strlen(delim));
-        *save_ptr = end + strlen(delim);
-        return s;
+    // Terminate the token and make *SAVE_PTR point past it.
+    memset(end, 0, strlen(delim));
+    *save_ptr = end + strlen(delim);
+    return s;
 }
 
 /* See parser.h */
@@ -71,9 +71,9 @@ tokenized_cmds *parse_r(char *input)
 
     tokenized_cmds *head = NULL;
     char **save_ptr = &input;
-    
-    //puts tokenized segments of the inputted string in 
-    //the command line with a delimiter "AND" into a 
+
+    //puts tokenized segments of the inputted string in
+    //the command line with a delimiter "AND" into a
     //utlist until the end of the string
     char *token = strtokstr_r(input, "AND", save_ptr);
     while (token != NULL)
@@ -84,7 +84,7 @@ tokenized_cmds *parse_r(char *input)
         LL_APPEND(head, added_cmd);
         token = strtokstr_r(input, "AND", save_ptr);
     }
-   
+
     //If there are more than 4 words, parser returns NULL and does not attempt
     //to pass the first four words as tokens
     if (token != NULL)
@@ -139,15 +139,15 @@ char **parse(char *input)
 
             words[i] = token;
             token = strtok(NULL, " ");
- 
+
         }
 
         // iterates through words array until it finds a null, inserts the by_quotes value
         // corresponding to words in between the two quotes ("example"). This assumes
         // only one pair of double quotes is used
-        for (int j = 0; j < TOKEN_LIST_SIZE; j++) 
+        for (int j = 0; j < TOKEN_LIST_SIZE; j++)
         {
-            if (!(words[j])) 
+            if (!(words[j]))
             {
                 words[j] = by_quotes[1];
                 break;
@@ -164,11 +164,11 @@ char **parse(char *input)
 
         return words;
 
-    //If the first character of the input is "
+        //If the first character of the input is "
     }
     else
     {
-        
+
         char* token;
         int len = strlen(input) - 1;
         // tokenises using spaces the contents between the two airquotes
@@ -176,9 +176,9 @@ char **parse(char *input)
         words[0] = by_quotes[0];
 
 
-        if (input[len] != '\"') 
+        if (input[len] != '\"')
         {
-            
+
             token = strtok(by_quotes[1], " ");
 
             //Populates words array with tokens separated by space (" ") character
@@ -189,7 +189,7 @@ char **parse(char *input)
                 token = strtok(NULL, " ");
 
             }
-        
+
         }
         else
         {

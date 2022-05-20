@@ -29,7 +29,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Create a rock in room1 */
     item_t *rock = item_new("ROCK","It is a rock.",
-                   "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
+                            "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
     add_item_to_room(room1, rock);
 
     /* Associate action "TASTE" with the rock.
