@@ -11,7 +11,23 @@
 #include "game-state/player.h"
 #include "game-state/game.h"
 
-/* A helper function that creates a task and all parameters associated with it for testing */
+/* A helper function that creates a task and all parameters associated with it for testing 
+ *
+ * Parameters: 
+ * - task_id: The id of the task getting created
+ * - create_mission: Whether to create a mission for the task
+ * - mission_target_name: The target name of the new mission (ignored if not creating a mission)
+ * - mission_type: The type of the new mission (ignored if not creating a mission)
+ * - create_reward: Whether to create a reward for the task
+ * - reward_xp: The xp for the reward (ignored if not creating a reward)
+ * - reward_item: A pointer to a preexisting item for the reward (ignored if not creating a reward)
+ * - create_prereq: Whether to create a prereq for the task
+ * - prereq_hp: The hp for the prereq (ignored if not creating a prereq)
+ * - prereq_level: The level for the prereq (ignored if not creating a prereq)
+ * 
+ * Returns: 
+ * - A pointer to the new task struct or NULL if there was an error
+*/
 task_t *create_sample_task(char *task_id, 
     bool create_mission, char *mission_target_name, mission_types_t mission_type,
     bool create_reward, int reward_xp, item_t *reward_item, 
@@ -37,6 +53,20 @@ task_t *create_sample_task(char *task_id,
     return task_new(task_id, mission, reward, prereq);
 }
 
+/* A helper function that creates a quest and all parameters associated with it for testing 
+ *
+ * Parameters: 
+ * - quest_id: The id of the quest getting created
+ * - create_reward: Whether to create a reward for the quest
+ * - reward_xp: The xp for the reward (ignored if not creating a reward)
+ * - reward_item: A pointer to a preexisting item for the reward (ignored if not creating a reward)
+ * - create_prereq: Whether to create a prereq for the quest
+ * - prereq_hp: The hp for the prereq (ignored if not creating a prereq)
+ * - prereq_level: The level for the prereq (ignored if not creating a prereq)
+ * 
+ * Returns: 
+ * - A pointer to the new quest struct or NULL if there was an error
+*/
 quest_t *create_sample_quest(char *quest_id,
     bool create_reward, int reward_xp, item_t *reward_item,
     bool create_prereq, int prereq_hp, int prereq_level) {
@@ -55,6 +85,16 @@ quest_t *create_sample_quest(char *quest_id,
     return quest_new(quest_id, reward, prereq);
 }
 
+/* A helper function that creates a player and all parameters associated with it for testing 
+ *
+ * Parameters: 
+ * - player_id: The id of the player getting created
+ * - health: The health of the player
+ * - level: The level of the player
+ * 
+ * Returns: 
+ * - A pointer to the new player struct or NULL if there was an error
+*/
 player_t *create_sample_player(char *player_id, int health, int level) {
     player_t* player = player_new(player_id);
 
@@ -66,6 +106,12 @@ player_t *create_sample_player(char *player_id, int health, int level) {
     return player;
 }
 
+/* A helper function that creates a quest ctx with a default player (hp: 50, level: 5) and an 
+ * empty quest hash table
+ * 
+ * Returns: 
+ * - A pointer to the new quest_ctx struct or NULL if there was an error
+*/
 quest_ctx_t *create_sample_ctx() {
     player_t *player = create_sample_player("player", 50, 5);
     return quest_ctx_new(player, NULL);
@@ -101,6 +147,7 @@ Test(task, init)
 	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
 
+/* Tests new function for reward struct */
 Test(reward, new)
 {
     int xp = 40;
@@ -114,6 +161,7 @@ Test(reward, new)
     cr_assert_eq(rewards->xp, 40,  "reward_new did not set xp");                 
 }
 
+/* tests init function for prereq struct */
 Test(prereq, init)
 {
     int hp = 40;
@@ -128,6 +176,7 @@ Test(prereq, init)
     cr_assert_eq(prereq.level, 5, "prereq_init did not set level");  
 }
 
+/* Tests new function for prereq struct */
 Test(prereq, new)
 {
     int hp = 20;
@@ -309,7 +358,16 @@ Test(quest, add_task_to_quest)
     cr_assert_eq(quest->task_tree->lmostchild->rsibling->task, task_child_sibling, "add_task_to_quest() didn't set child's sibling");
 }
 
-/* Tests if the player meets prereqs */
+/* Tests if a player created with specified stats meets prereqs of different specifie stats
+ *
+ * Parameters:
+ * - player_hp: The health of the player getting created
+ * - player_level: The level of the player getting created
+ * - prereq_hp: The health for the prereq getting created
+ * - prereq_level: The level for the prereq getting created
+ * - expected_result: Whether or not the player is supposed to meet the prereqs
+ *   
+*/
 void meets_prereqs_test(int player_hp, int player_level, int prereq_hp, int prereq_level, bool expected_result) {
     player_t *player = create_sample_player("player1", player_hp, player_level);
     prereq_t *prereq = prereq_new(prereq_hp, prereq_level);
@@ -582,6 +640,7 @@ Test(quest, remove_quest_all)
     cr_assert_null(result2, "Quest 2 not removed properly!");
 }
 
+/* Tests the function that adds the contents of a reward struct into a player struct */
 Test(quest, accept_reward) {
     item_t *item = item_new("test item!", "item for testing", "This item is made for testing purposes only and is not intended to give the player any sense of enjoyment.");
     reward_t *reward = reward_new(40, item);
