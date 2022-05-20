@@ -1,6 +1,7 @@
 #ifndef READ_GDL
 #define READ_GDL
 
+
 /*
  * This is a Graphics Description Language
  * reading device
@@ -11,13 +12,22 @@
  * of just a few rules
  */
 
+
 #include "stats.h"
+
 
 /* Contains the display_dimensions for all pop-up windows */
 typedef struct display_dimensions {
     unsigned int width;
     unsigned int height;
 } display_dimensions_t;
+
+
+/* This includes camera size information to display scenes */
+typedef struct camera_size {
+    unsigned int width;
+    unsigned int height;
+} camera_size_t;
 
 
 /* The set of background colors availible for the inventory */
@@ -65,6 +75,7 @@ typedef enum mode {
 typedef struct statistics_display {
     corner corner;
     stats_t *statistics;
+    unsigned int num_statistics;
     mode mode;
 } statistics_display_t;
 
@@ -82,27 +93,32 @@ typedef struct graphics {
     statistics_display_t *statistics;
 } graphics_t;
 
-graphics_t* read_gdl(display_dimensions_t *display_dimensions, inventory_display_t *inventory_display), statistics_display_t * statistics_display);
+
+graphics_t* read_gdl(FILE *gdl);
 
 
-display_dimensions_t* init_display_dimensions(FILE *gdl);
+void free_graphics(graphics_t* graphics);
+
+
+display_dimensions_t* init_display_dimensions(unsigned int width, unsigned int height);
 
 
 void free_display_dimensions(display_dimensions_t *display_dimensions);
 
 
-inventory_display_t* init_inventory_display(FILE *gdl);
-{
-    inventory_display_t *display;                                               
-    display = (inventory_display_t*)malloc(sizeof(inventory_display_t);
-    // todo                                       
-    return display;
-}
+camera_size_t* init_camera_size(unsigned int width, unsigned int height;
+
+
+void free_camera_size(camera_size_t *camera_size);
+
+
+inventory_display_t* init_inventory_display(unsigned int rows, unsigned int columns, color color);
+
 
 void free_inventory_display(inventory_display_t *inventory_display);
 
 
-statistics_display_t* init_statistics_display(FILE *gdl);
+statistics_display_t* init_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode);
 
 
 void free_display_statistics(statistics_display *statistics_display);
