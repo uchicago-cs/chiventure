@@ -4,6 +4,8 @@ DSL grammars to an intermediate stage
 
 """
 
+from lark.lexer import Token
+
 def transform_game(self, s: list) -> dict:
     """
     S contains several objects of the form ('type', <value>), where
@@ -27,25 +29,25 @@ def transform_game(self, s: list) -> dict:
 # we want to group all objects with type "ITEM" into their own list
 def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     """
-        S contains several objects of the form ('type', <value>), where
-        value is dependent upon the type. This function creates a dictionary
-        based on the key or type, and also places all items into their own list
-        for convenience.
-        """
-        room_id = s.pop(0)[1]
-        
+    S contains several objects of the form ('type', <value>), where
+    value is dependent upon the type. This function creates a dictionary
+    based on the key or type, and also places all items into their own list
+    for convenience.
+    """
+    room_id = s.pop(0)[1]
+    
 
-        # first place all non-item objects into a dict
-        # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
-        # action and action attributes, etc.
-        d = dict((k, v) for k, v in s if k != "ITEM")
+    # first place all non-item objects into a dict
+    # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+    # action and action attributes, etc.
+    d = dict((k, v) for k, v in s if k != "ITEM")
 
-        # create a list of items and place it in its own entry of the dict
-        # the values placed into this entry will correspond to item attributes
-        # since the key is guaranteed to be the string "ITEM"
-        d["items"] = [v for k, v in s if k == "ITEM"]
-        
-        return ('ROOM', (room_id, d))
+    # create a list of items and place it in its own entry of the dict
+    # the values placed into this entry will correspond to item attributes
+    # since the key is guaranteed to be the string "ITEM"
+    d["items"] = [v for k, v in s if k == "ITEM"]
+    
+    return ('ROOM', (room_id, d))
 
 
 def transform_connections(self, s: list[tuple[str, str]]) -> tuple[str, dict]:

@@ -9,10 +9,10 @@ from pathlib import Path
 from warnings import warn
 import json
 
-from dsl_parser import transformers, simple_modifiers
+import dsl_parser.transformers, dsl_parser.simple_modifiers
 
 
-grammar_path = Path(__file__).parent.parent / "grammars"
+grammar_path = Path(__file__).parent.parent.parent / "grammars"
 grammar_f = open(grammar_path / "dsl_grammar.lark")
 dsl_grammar = grammar_f.read()
 grammar_f.close()

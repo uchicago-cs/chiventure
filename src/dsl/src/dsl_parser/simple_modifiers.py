@@ -1,5 +1,6 @@
 """This module defines simple transformers/modifiers that perform utility functions"""
 
+from lark.lexer import Token
 
 def mod_ESCAPED_STRING(self, s: Token) -> str:
     """replace escaped characters with unicode equivalents"""
