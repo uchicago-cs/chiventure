@@ -5,27 +5,25 @@
 #include "game-state/item.h"
 #include "common/common.h"
 #include "common/utlist.h"
-#include "npc/npc.h"
 
-/* Forward declaration */
-typedef struct npc npc_t;
+/* An enum representing the possible mission types currently supported */
+typedef enum mission_types {
+    MEET_NPC,
+    KILL_NPC,
+    COLLECT_ITEM,
+    VISIT_ROOM,
+} mission_types_t;
 
 /*
  * This struct represents a mission.
  *
  * Components:
- *  item_to_collect: an item to collect
- *  npc_to_meet: an npc to meet
- *  npc_to_kill: an npc to kill
- *  room_to_visit: a room to visit
- * 
- * Note: Only one of these can be active (not NULL) at a time
+ * - target_name: The name of the mission's target (ie the NPC's name, the item's name, etc)
+ * - type: The type of 
  */
 typedef struct mission {
-    item_t *item_to_collect;
-    npc_t *npc_to_meet;
-    npc_t *npc_to_kill;
-    room_t *room_to_visit;
+    char *target_name;
+    mission_types_t type;
 } mission_t;
 
 /* 
