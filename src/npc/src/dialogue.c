@@ -1,5 +1,5 @@
 #include "npc/dialogue.h"
-
+#include "quests/quests_state.h"
 
 /**********************************************
  *        DIALOGUE BUILDING FUNCTIONS         *
