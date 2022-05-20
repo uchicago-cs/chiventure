@@ -1,6 +1,6 @@
 ?start: _NL? game? _NL?
 
-game: "GAME" (start_g end_g | end_g start_g) property* room*
+game: "GAME" (start_g end_g | end_g start_g) property* (room | class)*
 
 
 start_g: "START" phrase
@@ -14,12 +14,9 @@ item: _NL "ITEM" id "IN" location property* action*
 
 class: _NL "PLAYER_CLASS" id property* attribute* base_stats*
 
-attribute: _NL "attributes:" attribute_ids
+attribute: _NL "attributes:" id "set" bool
 attribute_ids: id ("," id)*
-
-base_stats: _NL "base-stats:" stat_class*
-stat_class: _NL phrase ":" stat_setting*
-stat_setting: _NL "current:" NUMBER _NL "max:" NUMBER 
+base_stats: _NL "base_stats:" id "CURRENT" NUMBER "MAX" NUMBER
 
 
 action: _NL ("action:"|"actions:") action_ids property*
@@ -36,6 +33,8 @@ id: phrase
 location: phrase
 
 phrase: STRING+
+
+bool: phrase
 
 
 // NEWLINE(s), whitespace, and comments
