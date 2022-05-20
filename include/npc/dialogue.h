@@ -218,12 +218,13 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id);
 
 
 /**********************************************
- *             ACTION FUNCTIONS               *
+ *             QUEST FUNCTIONS               *
  **********************************************/
 /* Switches between normal npc convo_t and quest/task-specific convo_t.
  *
  * Parameters:
- *  - c: pointer to a convo
+ *  - norm_c: pointer to a convo
+ *  - quest_c: task
  *  - node_id: ID of the target node
  *  - battle_id: ID of the battle
  *
