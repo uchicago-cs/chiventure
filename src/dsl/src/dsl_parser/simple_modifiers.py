@@ -1,5 +1,6 @@
 """This module defines simple transformers/modifiers that perform utility functions"""
 
+
 def mod_ESCAPED_STRING(self, s: Token) -> str:
     """replace escaped characters with unicode equivalents"""
     decoded = bytes(s[1:-1], "utf-8").decode("unicode_escape")

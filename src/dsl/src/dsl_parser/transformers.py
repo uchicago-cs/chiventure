@@ -1,5 +1,5 @@
 """
-This module containds definitions for transformers that convert 
+This module contains definitions for transformers that convert 
 DSL grammars to an intermediate stage
 
 """
@@ -21,6 +21,7 @@ def transform_game(self, s: list) -> dict:
     # the values placed into this entry will correspond to room attributes
     game_dictionary["rooms"] = dict([value for key_type, value in s if key_type == "ROOM"])
     return game_dictionary
+
 
 # s contains several objects of the form ('type', <value>) and
 # we want to group all objects with type "ITEM" into their own list
@@ -91,6 +92,7 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
         if matched == False:
             warn(f"Unexpected object under actions will be ignored: {action_property}")
     return ("actions", actions_dictionary)
+
 
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')

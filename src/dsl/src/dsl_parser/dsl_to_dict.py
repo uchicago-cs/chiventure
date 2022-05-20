@@ -9,7 +9,7 @@ from pathlib import Path
 from warnings import warn
 import json
 
-from dsl_parser import transformers, simple_transformers
+from dsl_parser import transformers, simple_modifiers
 
 
 grammar_path = Path(__file__).parent.parent / "grammars"
