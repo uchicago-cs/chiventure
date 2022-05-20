@@ -20,7 +20,6 @@ attribute_ids: _NL id "set" bool
 base_stats: _NL "base_stats:" stat_setting*
 stat_setting: _NL id _NL "CURRENT" NUMBER _NL "MAX" NUMBER
 
-
 action: _NL ("action:"|"actions:") action_ids property*
 action_ids: id ("," id)*
 
