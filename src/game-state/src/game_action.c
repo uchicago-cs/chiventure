@@ -95,7 +95,7 @@ int possible_action(item_t *item, char *action_name)
 
 /* see game_action.h */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item,
-                         attribute_t *cond_attribute, attribute_value_t cond_value)
+                         attribute_t *cond_attribute, attribute_value_t *cond_value)
 {
     if (cond_item == NULL)
     {
@@ -199,7 +199,7 @@ int delete_action(list_action_type_t **head, list_action_type_t *act)
 
 /* see game_action.h */
 //we either use item_to_add or action as action is loacted within item_to_add
-int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t new_value)
+int add_action_effect(game_action_t *action, item_t *item_to_add, attribute_t *attribute, attribute_value_t *new_value)
 {
     if (action == NULL)
     {
@@ -230,7 +230,7 @@ int delete_action_effect_llist(action_effect_list_t *effects)
 }
 
 /* see common-game-action.h */
-game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t new_value)
+game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute, attribute_value_t *new_value)
 {
 
     if (item_to_modify == NULL || attribute == NULL)
@@ -238,7 +238,8 @@ game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute,
         return NULL;
     }
     game_action_effect_t *effect = malloc(sizeof(game_action_effect_t));
-    effect->item = item_to_modify;
+    effect->agent = malloc(sizeof(agent_t));
+    effect->agent->item = item_to_modify;
     effect->attribute_to_modify = attribute;
     effect->new_value = new_value;
     effect->next = NULL;
@@ -250,23 +251,23 @@ game_action_effect_t *effect_new(item_t *item_to_modify, attribute_t *attribute,
 int do_effect(game_action_effect_t *effect)
 {
     attribute_t *attr = effect->attribute_to_modify;
-    attribute_value_t new_val = effect->new_value;
+    attribute_value_t *new_val = effect->new_value;
     switch (attr->attribute_tag)
     {
     case (DOUBLE):
-        attr->attribute_value.double_val = new_val.double_val;
+        attr->attribute_value.double_val = new_val->double_val;
         return SUCCESS;
     case (BOOLE):
-        attr->attribute_value.bool_val = new_val.bool_val;
+        attr->attribute_value.bool_val = new_val->bool_val;
         return SUCCESS;
     case (CHARACTER):
-        attr->attribute_value.char_val = new_val.char_val;
+        attr->attribute_value.char_val = new_val->char_val;
         return SUCCESS;
     case (STRING):
-        attr->attribute_value.str_val = new_val.str_val;
+        attr->attribute_value.str_val = new_val->str_val;
         return SUCCESS;
     case (INTEGER):
-        attr->attribute_value.int_val = new_val.int_val;
+        attr->attribute_value.int_val = new_val->int_val;
         return SUCCESS;
     }
     return FAILURE;

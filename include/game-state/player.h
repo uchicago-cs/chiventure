@@ -17,6 +17,11 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
+/* Forward declarations. Full typedefs can be found in item.h */
+typedef struct item item_t;
+typedef struct item item_hash_t;
+typedef struct item_wrapped_for_llist item_list_t;
+
 /* A player in game */
 typedef struct player {
     /* hh is used for hashtable, as provided in uthash.h*/

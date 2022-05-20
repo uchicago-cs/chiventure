@@ -7,7 +7,7 @@
 #include "item.h"
 #include "quests/quests_state.h"
 #include "quests/quests_structs.h"
-#include "npc/npc.h"
+#include "npc/dialogue.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -420,7 +420,7 @@ item_list_t *get_all_items_in_game(game_t *game);
 * - ATTRIBUTE_NULL if attribute is null
 */
 int add_effect(game_t *game, char* action_name, char* item_src_name,
-           char* item_modify_name, char* attribute_name, attribute_value_t new_value);
+           char* item_modify_name, char* attribute_name, attribute_value_t *new_value);
 
 /* add_condition adds the given condition struct to the action pointed to
  * Parameters:

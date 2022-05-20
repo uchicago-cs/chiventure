@@ -1,11 +1,26 @@
 #ifndef _GAME_ACTION_H
 #define _GAME_ACTION_H
 
+#include "item.h"
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
 #include "condition.h"
-#include "item.h"
+#include "npc/npc.h"
 
+// Forward declartions. Full typedefs can be found in action_structs.h
+typedef struct game_action game_action_t;
+typedef struct game_action game_action_hash_t;
+typedef struct game_action_effect game_action_effect_t;
+
+/* Forward declarations. Full typedefs can be found in item.h */
+//typedef struct attribute attribute_t;
+//typedef struct attribute_wrapped_for_llist attribute_list_t;
+//typedef union attribute_value attribute_value_t;
+//typedef struct attribute attribute_hash_t;
+//typedef struct item item_t;
+//typedef struct item item_hash_t;
+//typedef struct item_wrapped_for_llist item_list_t;
+typedef struct game_action_effect action_effect_list_t;
 
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions
@@ -80,7 +95,7 @@ int game_action_free(game_action_t *action_tofree);
  *  ITEM_MODIFY_NULL if the item ID does not exist
  */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item, 
-			 attribute_t *cond_attribute, attribute_value_t cond_value);
+			 attribute_t *cond_attribute, attribute_value_t *cond_value);
 
 /* add_action_inventory_condition() creates a new inventory condition for an item's action and
  * adds to the action's condition list
@@ -150,7 +165,7 @@ int delete_action(list_action_type_t **head, list_action_type_t *act);
  * ITEM_MODIFY_NULL if item to modify is null
  */
 int add_action_effect(game_action_t *action, item_t *item_to_add, 
-		      attribute_t *attribute, attribute_value_t new_value);
+		      attribute_t *attribute, attribute_value_t *new_value);
 
 /* delete_action_effect_llist frees a linked list of action effects
  * Parameters:
@@ -221,6 +236,6 @@ int do_effect(game_action_effect_t *effect);
  * NULL or game_action_effect_t
  */
 game_action_effect_t *effect_new(item_t *item_to_modify, 
-				 attribute_t *attribute, attribute_value_t new_value);
+				 attribute_t *attribute, attribute_value_t *new_value);
 
 #endif

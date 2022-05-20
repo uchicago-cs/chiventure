@@ -302,7 +302,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         while (act_effects)
         {
             // apply the effects of the direct item action (use, put) on the indirect item
-            if (strcmp(act_effects->item->item_id, indirect->item_id) == 0)
+            if (strcmp(act_effects->agent->item->item_id, indirect->item_id) == 0)
             {
                 applied_effect = do_effect(act_effects);
                 if (applied_effect == FAILURE)

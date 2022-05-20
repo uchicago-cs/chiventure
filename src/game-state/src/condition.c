@@ -159,9 +159,9 @@ int delete_condition_llist(condition_list_t *conditions)
     return SUCCESS;
 }
 
-/* see game_action.h */
+/* see condition.h */
 condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_name,
-                                     attribute_value_t new_value)
+                                     attribute_value_t *new_value)
 {
     attribute_t *attribute = get_attribute(item_to_modify, attribute_name);
     if (item_to_modify == NULL || attribute == NULL)
@@ -170,6 +170,7 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
     }
 
     attribute_condition_t *new_condition = malloc(sizeof(attribute_condition_t));
+    
     new_condition->item = item_to_modify;
     new_condition->attribute_to_check = attribute;
     new_condition->expected_value = new_value;
@@ -203,35 +204,35 @@ bool check_attribute_condition(attribute_condition_t *condition)
     {
     case (DOUBLE):
         if (actual_attribute->attribute_value.double_val ==
-            condition->expected_value.double_val)
+            condition->expected_value->double_val)
         {
             return true;
         }
         break;
     case (BOOLE):
         if (actual_attribute->attribute_value.bool_val ==
-            condition->expected_value.bool_val)
+            condition->expected_value->bool_val)
         {
             return true;
         }
         break;
     case (CHARACTER):
         if (actual_attribute->attribute_value.char_val ==
-            condition->expected_value.char_val)
+            condition->expected_value->char_val)
         {
             return true;
         }
         break;
     case (STRING):
         if (!strcmp(actual_attribute->attribute_value.str_val,
-                    condition->expected_value.str_val))
+                    condition->expected_value->str_val))
         {
             return true;
         }
         break;
     case (INTEGER):
         if (actual_attribute->attribute_value.int_val ==
-            condition->expected_value.int_val)
+            condition->expected_value->int_val)
         {
             return true;
         }

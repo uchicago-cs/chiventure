@@ -1,6 +1,17 @@
 #ifndef _ACTION_STRUCTS_H_
 #define _ACTION_STRUCTS_H_
 
+/* Forward declarations. Full typedefs can be found in item.h */
+typedef struct attribute attribute_t;
+//typedef struct attribute_wrapped_for_llist attribute_list_t;
+typedef union attribute_value attribute_value_t;
+//typedef struct attribute attribute_hash_t;
+typedef struct item item_t;
+typedef struct item item_hash_t;
+typedef struct item_wrapped_for_llist item_list_t;
+
+/* Forward declaration. Full typedef can be found in condition.h */
+typedef struct condition condition_list_t;
 
 /* File consisting of all action structs created by action management
    =========================================================================== */

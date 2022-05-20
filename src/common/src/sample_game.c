@@ -187,8 +187,8 @@ game_t *create_sample_game_gs()
     add_action(table, "PUT",
                "You have put the macintosh on the table", "Can't perform that action!");
     set_str_attr(apple, "ripeness", "very_sour");
-    attribute_value_t ripe;
-    ripe.str_val = "ripe";
+    attribute_value_t *ripe;
+    ripe->str_val = "ripe";
 
     /* conditions */
     condition_t *cond = attribute_condition_new(apple, "ripeness", ripe);
