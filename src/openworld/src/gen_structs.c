@@ -198,7 +198,7 @@ int edges_init(int** edges, int* inp_array, int num_rows, int num_cols)
     
     for (unsigned int i = 0; i < num_rows; i++) 
     {
-        for (unsigned int j = 0; j < num_columns; j++) 
+        for (unsigned int j = 0; j < num_cols; j++) 
         {
             edges[i][j] = inp_array[i * num_cols + j];
         }
