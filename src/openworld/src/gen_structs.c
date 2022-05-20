@@ -191,6 +191,24 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
     return roomspecnew;
 }
 
+int edges_init(int** edges, int* inp_array, int num_rows, int num_cols) 
+{
+    if (edges == NULL)
+        return FAILURE;
+    
+    for (unsigned int i = 0; i < num_rows; i++) 
+    {
+        for (unsigned int j = 0; j < num_columns; j++) 
+        {
+            edges[i][j] = inp_array[i * num_cols + j];
+        }
+    }
+
+    return SUCCESS;
+}
+
+
+
 /* see gen_structs.h */
 int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges)
 {
