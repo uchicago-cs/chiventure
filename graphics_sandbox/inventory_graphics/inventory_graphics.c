@@ -27,12 +27,8 @@
             = itemlst->item;
         itemlst = itemlst->next;    
     }
-<<<<<<< HEAD
     inv[itemlst->item->inventory_x_pos][itemlst->item->inventory_y_pos] == itemlst->item;
     itemlst = itemlst->next;
-=======
-    
->>>>>>> a435d295d5d84bc61242c6a5ec7a7a176a893b3b
     return inv;
 }
 
@@ -64,12 +60,12 @@ int free_player_inventory(player_inventory_t *player_inventory)
 
 
 /* See inventory_graphics.h */
-void add_item_inventory(player_inventory_t *player_inventory, item_t *item);
+void add_item_inventory(player_inventory_t *player_inventory, item_t *item)
 {
     change = 0;
     for(int i; i < player_inventory->display->rows; i++) {
         for(int j; j < player_inventory->display->columns; j++) {
-            if (player_inventory->items[i][j] == 0) {
+            if (player_inventory->slots[i][j].status == EMPTY) {
                 player_inventory->items[i][j] = item;
                 change = 1;
                 break;
@@ -86,3 +82,17 @@ void add_item_inventory(player_inventory_t *player_inventory, item_t *item);
 }
 
 
+/* See inventory_graphics.h */
+void draw_player_inventory(player_inventory_t *player_inventory);
+
+
+/* See inventory_graphics.h */
+void remove_item_inventory(player_inventory_t *player_inventory, item_t *item)
+{
+    if (player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].status != EMPTY) {
+        free(player_inventory->items[item->inventory_x_pos][item->inventory_y_pos]);
+    } else {
+        fprintf(stderr, "inventory empty at position (%d,%d)\n", item->inventory_x_pos, item->inventory_y_pos);
+    }
+    return;
+}

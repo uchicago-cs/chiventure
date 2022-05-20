@@ -14,6 +14,17 @@
 #include <stdlib.h>
 
 
+/* Defines the status for a slot */
+typedef enum status {EMPTY, FULL} status;
+
+
+/* Define a slot containing an item and a tag / status */
+typedef struct slot {
+    status status;
+    item_t *item;
+} slot_t;
+
+
 /*
  * Defines the player inventory based on the display
  * preferences of the game developer and a 2D array
@@ -32,7 +43,7 @@
  */ 
 typedef struct player_inventory {
     inventory_display_t *display;
-    item_t **items;
+    item_t **slots;
 } player_inventory_t;
 
 
@@ -69,6 +80,19 @@ int free_player_inventory(player_inventory_t *player_inventory);
  */
 void add_item_inventory(player_inventory_t *player_inventory, item_t *item);
 
+
+/*
+ * Removes an item from a player's inventory
+ *
+ * Parameters:
+ * - the player's inventory
+ * - the item to be removed
+ *
+ * Returns:
+ * - void (this all occurs as a side effect)
+ */
+void remove_item_inventory(player_inventory_t *player_inventory, item_t *item);
+ 
 
 /* Draws the inventory window on screen
  *
