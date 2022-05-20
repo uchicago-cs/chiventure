@@ -246,7 +246,7 @@ int task_tree_free(task_tree_t *task_tree)
     if (task_tree == NULL){
         return SUCCESS;
     } else {
-    free(task_tree->task);
+    task_free(task_tree->task);
     task_tree_free(task_tree->parent);
     task_tree_free(task_tree->rsibling);
     task_tree_free(task_tree->lmostchild);
