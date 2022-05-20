@@ -581,4 +581,12 @@ int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest
 */
 int quest_ctx_free(quest_ctx_t *quest_ctx);
 
+/* Checks a task for completion and accepts th reward if it is
+* 
+* Parameters:
+* - task_id: The string id of the task getting checked
+* - qctx: A quest context containing the player and a list of all quests
+*/
+void update_task(char *task_id, quest_ctx_t *qctx);
+
 #endif /* QUESTS_STATE_H */

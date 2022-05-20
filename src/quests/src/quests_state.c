@@ -371,10 +371,7 @@ int start_quest(quest_t *quest, quest_ctx_t *qctx)
     task_tree_t *cur = quest->task_tree;
     while(cur) {
         add_task_to_player_hash(cur->task, qctx);
-        if(is_task_completed(cur->task, player)) {
-            accept_reward(complete_task(cur->task->id, qctx), qctx);
-            break;
-        }
+        update_task(cur->task->id, qctx);
         cur = cur->rsibling;
     }   
 
@@ -701,7 +698,7 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
                 add_task_to_player_hash(cur->task, qctx);
                 if(is_task_completed(cur->task, player)) {
-                    accept_reward(complete_task(cur->task->id, qctx), qctx);
+                    update_task(task_id, qctx);
                     break;
                 }
             }
@@ -741,7 +738,7 @@ int update_player_quests(quest_ctx_t *qctx) {
     quest_hash_t *quest_hash = qctx->quest_hash;
     assert(player != NULL);
     for(player_task_hash_t *cur = player->player_tasks; cur != NULL; cur = cur->hh.next) {
-        accept_reward(complete_task(cur->task_id, qctx), qctx);
+        update_task(cur->task_id, qctx);
     }
 }
 
@@ -775,4 +772,9 @@ int quest_ctx_free(quest_ctx_t *quest_ctx) {
     assert(quest_ctx != NULL);
     free(quest_ctx);
     return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+void update_task(char *task_id, quest_ctx_t *qctx) {
+    accept_reward(complete_task(task_id, qctx), qctx);
 }
