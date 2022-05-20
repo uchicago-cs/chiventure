@@ -243,13 +243,18 @@ int task_free(task_t *task)
 /* Refer to quests_state.h */
 int task_tree_free(task_tree_t *task_tree)
 {
-    assert(task_tree != NULL);
-
+    if (task_tree == NULL){
+        return SUCCESS;
+    } else {
     free(task_tree->task);
     task_tree_free(task_tree->parent);
     task_tree_free(task_tree->rsibling);
     task_tree_free(task_tree->lmostchild);
     free(task_tree);
+    }
+
+
+
 }
 
 /* Refer to quests_state.h */
@@ -383,10 +388,12 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
         quest->task_tree = tree;
         return SUCCESS;
     }
-    tree = find_task_in_tree(quest->task_tree, parent_id);
-    assert(tree != NULL);
+    task_t *t = find_task_in_tree(quest->task_tree, parent_id);
+    if (t == NULL){ 
+        return FAILURE; 
+    }
 
-    if (tree->lmostchild == NULL)
+    if (quest->task_tree->lmostchild == NULL)
     {
         tree->lmostchild = malloc(sizeof(task_tree_t));
         tree->lmostchild->task = task_to_add;
@@ -433,36 +440,6 @@ int fail_quest(quest_t *quest, player_t *player)
     pquest->completion = -1;
 
     return SUCCESS;
-}
-
-/*
- * Traverses the task tree to find the task with the
- * given string identifier along a valid quest path.
- *
- * Parameters:
- * - tree: pointer to the task tree to be traversed
- * - id: pointer to a string identifier for the desired task
- *
- * Returns:
- * - pointer to the desired task, OR
- * - NULL if task cannot be found along a valid path
- *
- * Note: Traversal no longer relies on task completion, so 
- *       runtime is now O(T) where T is the number of tasks
- *       in the game
- */
-task_t *find_task_in_tree(task_tree_t *tree, char *id)
-{
-    task_t *task = tree->task;
-
-    assert(task != NULL);
-
-    if (strcmp(task->id, id) == 0)
-    {
-        return task;
-    }
-    task = find_task_in_tree(tree->rsibling, id);
-    return (task != NULL) ? task : find_task_in_tree(tree->lmostchild, id);
 }
 
 /* Refer to quests_state.h */
