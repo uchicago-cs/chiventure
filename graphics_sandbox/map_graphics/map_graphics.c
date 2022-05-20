@@ -1,13 +1,41 @@
 #include "map_graphics.h"
-
 #include "raylib.h"
+
 
 Vector2 getCurrentCoordinate() {
     //Todo
     return GetMousePosition();
 }
 
-void runMapGraphics(map_graphics_t* info)
+/* See map_graphics.h for documentation */ 
+map_graphics_t* new_map_graphics();
+{
+    map_graphics_t *map;
+    map = (map_graphics_t*)malloc(sizeof(map_graphics_t));
+
+    map->title = title;
+    map->image_path = image_path;
+
+    // needs to be filled -> there should be a call to a gdl function here
+
+    return map;
+}
+
+/* See map_graphics.h for documentation */ 
+void free_map_graphics(map_graphics_t *map_graphics)
+{
+    free(map_graphics->title);
+    free(map_graphics->image_path);
+
+    // this may also need some editing
+
+    free(map_graphics);
+    return
+}
+
+
+/* See map_graphics.h for documentation */
+void draw_map_graphics(map_graphics_t* info)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -74,12 +102,12 @@ void runMapGraphics(map_graphics_t* info)
 }
 
 int main(void) {
-    //runMapGraphics();
+    //runMapGraphics(); // update this entire function to use new functions
     map_graphics_t info;
     info.WindowPos = (Vector2){200,200};
     info.WindowSize = (Vector2) {600,600};
     info.MapImagePath = "map_example/simplemap.png";
     info.MapTitle = "Just a simple map";
-    runMapGraphics(&info);
+    draw_map_graphics(&info);
     return 0;
 }
