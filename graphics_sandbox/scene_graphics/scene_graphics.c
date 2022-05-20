@@ -2,7 +2,18 @@
 
 
 /* See scene_graphics.h */
+scene_graphics_t* new_scene_graphics(char *title, char *image_path, graphics_t *graphics);
+{
+    scene_graphics_t *scene;
+    scene = (scene_graphics_t*)malloc(sizeof(scene_graphics_t));
 
+    scene->title = title;
+    scene->image_path = image_path;
+
+    // the rest must come from the GDL?
+
+    return scene;
+}
 
 /* See scene_graphics.h */
 void free_scene_graphics(scene_graphics_t* scene_graphics);
@@ -71,7 +82,7 @@ void runSceneGraphics(scene_graphics_t* scene_graphics)
 
 int main(void) {
 
-    scene_graphics_t scene_graphics;
+    scene_graphics_t scene_graphics; // replace: = new_scene_graphics();
 
     scene_graphics.SceneName="NSWF";
     scene_graphics.SceneSize=(Vector2) {400,400};

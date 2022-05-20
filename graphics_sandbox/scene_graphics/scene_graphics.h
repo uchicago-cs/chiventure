@@ -7,19 +7,31 @@
 #include "read_gdl.h"
 #include "game.h"
 
+
 #define SCENE_CONTEXT_ID 0;
 
 
 /* Defines the information required to display a scene */
 struct scene_graphics {
     char* title;
-    char* image_path; // the file path where the image is located
-    Vector2 window_size; // refers to display dimensions specified in the GDL
-    Vector2 player_position; // what is this? - waht about room_t *curr_room?
+    char* image_path; 
+    Vector2 window_size; 
+    Vector2 player_position; 
 } scene_graphics_t;
 
-// to be written
-// scene_graphics_t* new_scene_graphics(char *title, char *image_path, graphics_t *graphics, room_t *curr_room);
+
+/*
+ * Allocates and initializes a new scene struct
+ *
+ * Parameters:
+ * - a title for the scene
+ * - the file path where the scene is located
+ * - a graphics struct
+ *
+ * Returns:
+ * - a pointer to a scene struct with initialzed fields on the heap
+ */
+scene_graphics_t* new_scene_graphics(char *title, char *image_path, graphics_t *graphics);
 
 
 /*
