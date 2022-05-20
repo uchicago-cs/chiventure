@@ -2,8 +2,9 @@
 #define CUSTOM_ACTIONS_EFFECT_H
 
 #include "game-state/item.h"
+#include "game-state/game.h"
+#include "game-state/room.h"
 #include "custom-actions-common.h"
-
 
 /*
  * custom-actions-effect.h: effect-applying functions
@@ -14,15 +15,14 @@
  * Author: Brent DeVries
  */
 
-
 /* Enumerative type for arithmetic effects */
-typedef enum {
+typedef enum
+{
     ADD,
     SUB,
     MULT,
     DIV
 } arithmetic_op_t;
-
 
 /* set_attr - set attribute a1 to the value of attribute a2
  *
@@ -34,7 +34,6 @@ typedef enum {
  *  - SUCCEEDS/FAILS int status code
  */
 int set_attr(attribute_t *a1, attribute_t *a2);
-
 
 /* add_attr - store sum of first two attributes in third attribute
  *
@@ -48,7 +47,6 @@ int set_attr(attribute_t *a1, attribute_t *a2);
  *  - SUCCEEDS/FAILS int status code
  */
 int add_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
-
 
 /* sub_attr - subtract second attribute from first attribute and store
  *  difference in third attribute
@@ -64,8 +62,7 @@ int add_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  */
 int sub_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
 
-
-/* mult_attr - store product of first two attributes in third attribute 
+/* mult_attr - store product of first two attributes in third attribute
  *
  * Note: supports attributes of type int or double only (must match)
  *
@@ -77,7 +74,6 @@ int sub_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  *  - SUCCEEDS/FAILS int status code
  */
 int mult_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
-
 
 /* div_attr - divide first attribute by second attribute and store quotient in
  *  third
@@ -93,7 +89,6 @@ int mult_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  */
 int div_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
 
-
 /* gen_attrval - generates a random integer between min and max and stores it
  *  in the attribute
  *
@@ -107,7 +102,6 @@ int div_attr(attribute_t *a1, attribute_t *a2, attribute_t *a3);
  */
 int gen_attrval(int min, int max, attribute_t *a);
 
-
 /* TO BE IMPLEMENTED
  *
  *
@@ -120,20 +114,6 @@ int gen_attrval(int min, int max, attribute_t *a);
  *  - SUCCEEDS/FAILS int status code
  *
  * int say_phrase(attribute_t *a);
- *
- *
- *
- * move_player - move player to a room
- *
- * Arguments
- *  - p: player
- *  - r: destination room
- *
- * Returns
- *  - SUCCEEDS/FAILS int status code
- * 
- * int move_player(player_t *p, room_t *r);
- */
-
+ */ 
 
 #endif /* CUSTOM_ACTIONS_EFFECT_H */
