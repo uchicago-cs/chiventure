@@ -77,6 +77,15 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
                       environment_t env);
 
 /*
+* Determines whether a move hits based on accuracy stat.
+ * Parameters:
+ * - user_accuracy : the accuracy of the user using the move
+ * - move_accuracy : the accuracy of the move itself
+ * returns: the 1 or 0 depending on if the move hits
+ */
+int calculate_accuracy(int user_accuracy, int move_accuracy);
+
+/*
  * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
@@ -92,6 +101,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
  *  - A string consisting of the output from the turn
  */
 char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char *target);
+
 
 /*
  * Carries out one iteration of the battle flow loop when an item is used
@@ -158,5 +168,29 @@ char *enemy_make_move(battle_ctx_t *ctx);
  */
 int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                         void *callback_args, cli_callback callback_func);
+/*
+ * Applies stat changes to a target.
+ * 
+ * Parameters: 
+ *  - changes: the stat changes
+ *  - target_stats: the stats to be changes
+ * Returns:
+ *  - Always success
+ */
+int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
+
+/*
+ * Uses a stat changing move. Works for stat changes
+ * that affect the player, opponent, or both.
+ * 
+ * Parameters: 
+ *  - move: the move used
+ *  - target: the target the move is used on
+ *  - source: the user that is using the move
+ * Returns:
+ *  - A success if the move was done correctly
+ */
+int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
+
 
 #endif
