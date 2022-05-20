@@ -223,10 +223,9 @@ Test(battle_print, print_player_move_crit)
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
     
-    char *expected_string = "You used Punch on bob! It did 9 damage.\n"
-                            "bob has 21 hp remaining.\n";
+    char *expected_string = "You used Punch!";
 
-    cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s\n. We got %s", string, expected_string);
+    cr_expect_str_eq(string, expected_string, "print_player_move_crit() failed to set string %s\n We got %s", string, expected_string);
 
     free(string);
 }
