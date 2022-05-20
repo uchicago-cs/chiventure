@@ -77,10 +77,11 @@ typedef struct npc_mov {
  * Parameters:
  *  npc_mov: The id of the npc that is being addressed; must point to already
  *          allocated memory
- *  npc_id: The npc that is being referred to; must ppint to allocated
- *          memory
  *  mov_type: The tpye of movement that the npc will have
- *  room: The room that the npc will start in
+ *  room_id: The room id of the room that the npc will start in
+ *  room_time: For indefinite NPCs: the number of seconds the npc will spend
+ *              in its initial room
+ *             Definite NPCs: doesn't matter, it won't be used, convention is 0
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -93,10 +94,11 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
  * and NULL if an error occurs
  *
  * Parameters:
- *  npc_id: The ID of the NPC that is being referred to; must point to
- *          allocated memory
  *  mov_type: The type of movement that the npc will have
  *  room_id: The room_id that the npc will begin in
+ *  room_time: For indefinite NPCs: the number of seconds the npc will spend
+ *              in its initial room
+ *             Definite NPCs: doesn't matter, it won't be used, convention is 0
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -120,7 +122,7 @@ int npc_mov_free(npc_mov_t *npc_mov);
  *
  * Parameters:
  *  npc_mov: The NPC movement struct
- *  room_to_add: The room that has to be added to the path
+ *  room_id_to_add: The room that has to be added to the path
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
