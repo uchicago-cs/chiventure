@@ -754,3 +754,4 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     return ret_str;
 }
+
