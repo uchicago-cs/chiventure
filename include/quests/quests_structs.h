@@ -6,6 +6,12 @@
 #include "common/common.h"
 #include "common/utlist.h"
 
+/* Stores important information necessary for the majority of quest functions */
+typedef struct quest_ctx {
+    player_t *player;
+    quest_hash_t *quest_hash;
+} quest_ctx_t;
+
 /* An enum representing the possible mission types currently supported */
 typedef enum mission_types {
     MEET_NPC,
@@ -126,6 +132,5 @@ typedef struct quest  {
  * in include/common
  */
 typedef struct quest quest_hash_t;
-
 
 #endif 

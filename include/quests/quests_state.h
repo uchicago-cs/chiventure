@@ -556,4 +556,37 @@ int accept_reward(reward_t *reward, player_t *player);
 */
 int update_player_quests(player_t *player, quest_hash_t *quest_hash);
 
+/* Allocates memory for and initializes a new quest_ctx object
+ * 
+ * Parameters:
+ * - player: a player
+ * - quest_hash: A quest hash table, ideally game->all_quests
+ * 
+ * Returns:
+ * - A pointer to an initialized quest_ctx_t object
+*/
+quest_ctx_t *quest_ctx_new(player_t *player, quest_hash_t *quest_hash);
+
+/* Initializes a new quest_ctx object
+ * 
+ * Parameters:
+ * - quest_ctx: An already allocated quest_ctx object
+ * - player: a player
+ * - quest_hash: A quest hash table, ideally game->all_quests
+ * 
+ * Returns:
+ * - SUCCESS if initialized successfully, FAILURE if any problems occured
+*/
+int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest_hash);
+
+/* Frees a quest_ctx object, but does not free the player or quest hash in the obejct
+ *
+ * Parameter:
+ * - quest_ctx: The quest_ctx to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int quest_ctx_free(quest_ctx_t *quest_ctx);
+
 #endif /* QUESTS_STATE_H */
