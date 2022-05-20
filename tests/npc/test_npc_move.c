@@ -324,8 +324,8 @@ Test(npc_mov, auto_gen_movement_definite)
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
-    cr_assert_eq(npc_path_dll_free(npc_mov->path),
-                 SUCCESS, "delete npc_path_dll failed");
+    cr_assert_eq(npc_mov_free(npc_mov),
+                 SUCCESS, "npc_mov_free failed");
 
     game_free(game);
 }
@@ -385,38 +385,6 @@ Test(npc_mov, auto_gen_movement_indefinite)
                  SUCCESS, "delete npc_path_dll failed");
 
     game_free(game);
-}
-
-Test(npc_mov, get_npc_indefinite_room_time)
-{
-    room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
-    room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
-    room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
-
-    int rc;
-    double room_time;
-
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, room1->room_id);
-    rc = register_npc_room_time(npc_mov, room1->room_id, 30000);
-    cr_assert_eq(rc, SUCCESS, "register_npc_room_time() failed");
-    rc = extend_path_indefinite(npc_mov, room2->room_id, 40000);
-    cr_assert_eq(rc, SUCCESS, "extend_path_indefinite() failed");
-    rc = extend_path_indefinite(npc_mov, room3->room_id, 50000);
-    cr_assert_eq(rc, SUCCESS, "extend_path_indefinite() failed");
-
-    room_time = get_npc_indefinite_room_time(npc_mov);
-    cr_assert_eq(room_time, (double) 30000, 
-                 "get_npc_indefinite_room_time() failed");
-
-    move_npc_mov(npc_mov);
-    room_time = get_npc_indefinite_room_time(npc_mov);
-    cr_assert_eq(room_time, (double) 40000, 
-                 "get_npc_indefinite_room_time() failed");
-
-    move_npc_mov(npc_mov);
-    room_time = get_npc_indefinite_room_time(npc_mov);
-    cr_assert_eq(room_time, (double) 50000, 
-                 "get_npc_indefinite_room_time() failed");
 }
 
 Test(npc_mov, check_if_npc_mov_indefinite_needs_moved)
