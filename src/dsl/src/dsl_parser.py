@@ -128,16 +128,16 @@ class TreeToDict(Transformer):
         for convenience.
         """
         
-        # gets the player class id.
+        # gets the npc name.
         name = s.pop(0)[1]
 
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
-        # action and action attributes, etc.
+        # inventory and inventory attributes, etc.
         d = dict((k, v) for k, v in s if k != "inventory")
 
         # create a list of attributes and place it in its own entry of the dict
-        # the values placed into this entry will correspond to item attributes
+        # the values placed into this entry will correspond to inventory
         # since the key is guaranteed to be the string "attributes"
         d["inventory"] = [v for k, v in s if k == "inventory"]
         
