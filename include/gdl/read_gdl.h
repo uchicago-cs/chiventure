@@ -60,17 +60,17 @@ typedef struct inventory_display {
 
 
 typedef enum corner {
-    TOP_LEFT;
-    TOP_RIGHT;
-    BOTTOM_LEFT;
-    BOTTOM_RIGHT;
+    TOP_LEFT,
+    TOP_RIGHT,
+    BOTTOM_LEFT,
+    BOTTOM_RIGHT
 } corner;
 
 
 typedef enum mode {
-    NUMERICAL;
-    GEOMETRICAL;
-    GRAPHICAL;
+    NUMERICAL,
+    GEOMETRICAL,
+    GRAPHICAL
 } mode;
 
 
@@ -218,7 +218,7 @@ statistics_display_t* make_statistics_display(corner corner, stats_t *statistics
  * Returns:
  * - void (this all happens as a side effect)
  */
-void free_display_statistics(statistics_display *statistics_display);
+void free_display_statistics(statistics_display_t *statistics_display);
 
 
 #endif
