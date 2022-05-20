@@ -113,7 +113,7 @@ npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id, double room_time)
 {
     npc_mov_t *npc_mov;
     npc_mov = malloc(sizeof(npc_mov_t));
-    //memset(npc_mov, 0, sizeof(npc_mov_t));
+    memset(npc_mov, 0, sizeof(npc_mov_t));
     npc_mov->track = malloc(MAX_ID_LEN);
 
     int check = npc_mov_init(npc_mov, mov_type, room_id, room_time);

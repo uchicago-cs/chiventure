@@ -26,8 +26,9 @@ Test (npc_mov, new)
 Test (npc_mov, init)
 {
     room_t *test_room1 = room_new("test_room1", "test1", "test test1");
-    npc_mov_t *npc_mov = malloc(sizeof(npc_mov_t));
-    //memset(npc_mov, 0, sizeof(npc_mov_t));
+    npc_mov_t *npc_mov;
+    npc_mov = malloc(sizeof(npc_mov_t));
+    memset(npc_mov, 0, sizeof(npc_mov_t));
     npc_mov->track = malloc(MAX_ID_LEN);
 
     int check = npc_mov_init(npc_mov, NPC_MOV_DEFINITE, test_room1->room_id, 0);
