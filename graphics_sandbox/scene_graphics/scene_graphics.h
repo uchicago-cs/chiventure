@@ -45,6 +45,4 @@ scene_graphics_t* new_scene_graphics(char* SceneName, char* ImagePath, Vector2 W
 int free_scene_graphics(scene_graphics_t* SceneGraphics);
 
 
-void runSceneGraphics(scene_graphics_t* scene_graphics);
-
 #endif
