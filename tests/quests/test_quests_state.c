@@ -129,6 +129,16 @@ Test(mission, init)
     cr_assert_eq(mission.type, KILL_NPC, "mission_init() failed to set type!");
 }
 
+/* Tests init function for mission struct */
+Test(mission, new)
+{   
+    mission_t *mission = mission_new("Poseidon", KILL_NPC);
+
+    cr_assert_not_null(mission, "mission_new() failed");
+    cr_assert_eq(mission->target_name, "Poseidon", "mission_init() failed to set target name!");
+    cr_assert_eq(mission->type, KILL_NPC, "mission_init() failed to set type!");
+}
+
 /* Tests init function for task struct */
 Test(task, init)
 {
