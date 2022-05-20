@@ -26,7 +26,7 @@ void free_scene_graphics(scene_graphics_t* scene_graphics);
 
 
 /* See scene_graphics.h */
-void runSceneGraphics(scene_graphics_t* scene_graphics)
+void draw_scene_graphics(scene_graphics_t* scene_graphics)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
