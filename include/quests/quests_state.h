@@ -6,18 +6,7 @@
 #include "quests_structs.h"
 #include "game-state/player.h"
 
-/* Creates a new passive mission struct (allocates memory)
- * 
- * Parameters:
- * - xp: integer experience milestone to reach
- * - levels: integer level milestone to reach
- * - health: integer health milestone to reach
- *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
- */
-passive_mission_t *passive_mission_new(int xp, int levels, int health);
-
-/* Creates a new active mission struct (allocates memory)
+/* Creates a new mission struct (allocates memory)
  * 
  * Parameters:
  * - item_to_collect: the item to be collected for the mission
@@ -25,9 +14,9 @@ passive_mission_t *passive_mission_new(int xp, int levels, int health);
  * - npc_to_kill: the npc to kill for the mission
  * - room_to_visit: the room to visit for the mission 
  *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
+ * Returns: a pointer to the newly allocated mission, that is not completed
  */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
+mission_t *mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
                               npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Creates a new reward struct for completing a quest 
@@ -86,31 +75,22 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prere
 quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
                     reward_t *reward, prereq_t *stat_req);
 
-/* Initialize an already allocated passive mission struct 
+/* Initialize an already allocated mission struct
  *
  * Parameters:
- * - mission: an already allocated mission_t (of passive type)
+ * - mission: an already allocated mission_t 
  * - item_to_collect: the item to be collected for the mission
  * - npc_to_meet: the npc to be met for the mission
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
- */
-int passive_mission_init(passive_mission_t *mission, int xp, int level, int health);
-
-/* Initialize an already allocated active mission struct 
- *
- * Parameters:
- * - mission: an already allocated mission_t (of active type)
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
  * 
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
+ * Note: Also ensures that the mission only includes a single thing to do. If
+ *       there is more than one pointer that is not NULL (excluding mission),
+ *       this function will return FAILURE.
  */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
+int mission_init(mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
                         npc_t *npc_to_kill, room_t *room_to_visit);
 
 /* Initializes an already allocated reward struct
@@ -138,6 +118,10 @@ int reward_init(reward_t *rewards, int xp, item_t *item);
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
+ * 
+ * Note: Also returns FAILURE if there is both a mission and prereqs. Missions should all be in their own tasks.
+ *       If you want a task to have a mission and a prereq, make the mission's tasks a prereq for the actual task
+ *       that has the prereqs.
  */
 int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
 
@@ -185,7 +169,7 @@ int prereq_init(prereq_t * prereq, int hp, int level);
 int id_list_init(id_list_t *id_list);
 
 /* 
- * Frees a passive mission struct from memory
+ * Frees a mission struct from memory
  * 
  * Parameter:
  * - mission: the mission to be freed
@@ -194,19 +178,7 @@ int id_list_init(id_list_t *id_list);
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int passive_mission_free(passive_mission_t *mission);
-
-/* 
- * Frees an active mission struct from memory
- * 
- * Parameter:
- * - mission: the mission to be freed
- * 
- * Returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
- */
-int active_mission_free(active_mission_t *mission);
+int mission_free(mission_t *mission);
 
 /* 
  * Frees a task struct from memory but does not free 
@@ -309,6 +281,8 @@ int start_quest(quest_t *quest, player_t *player);
 int fail_quest(quest_t *quest, player_t *player);
 
 /* Completes a task in a quest for a given player
+ * - If the task has a mission, forces completion
+ * - If the task doesn't have a mission, only completes if prereqs are met
  * 
  * Parameters:
  * - task: pointer to the task
@@ -334,8 +308,9 @@ reward_t *complete_task(task_t *task, player_t *player);
  */
 bool is_quest_completed(quest_t *quest, player_t *player);
 
-/* Checks if a player completed a given rask and updates the 
- * reference to the task in the player's task table accordingly
+/* Checks if a player completed a given task
+ * - Always returns false if the task has a mission and checks the 
+ *  prerequisite if it does not
  * 
  * Parameter:
  * - task: pointer to the task
@@ -344,11 +319,6 @@ bool is_quest_completed(quest_t *quest, player_t *player);
  * Returns:
  * - false if task is incomplete
  * - true if task is complete
- * 
- * Note: Currently always returns true assuming there's no error, as the 
- *       current mission system makes checking essentially impossible.
- *       Once quest prerequisites are added, this function must be updated
- *       to add this functionality.
  */
 bool is_task_completed(task_t *task, player_t *player);
 
