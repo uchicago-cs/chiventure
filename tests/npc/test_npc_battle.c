@@ -6,6 +6,45 @@
 #include "battle/battle_common.h"
 #include "battle/battle_moves.h"
 
+/* Creates a sample battle item. Taken from test_battle_ai.c */
+battle_item_t *generate_npc_test_battleitem(int id, int quantity, 
+                            int durability,  char* description, 
+                            bool battle, int attack, int defense, int hp)
+{
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+     item->id = id;
+     item->quantity = quantity;
+     item->durability = durability;
+     item->description = description;
+     item->battle = battle;
+     item->attack = attack;
+     item->hp = hp;
+     item->defense = defense;
+
+     return item;
+}
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_npcbattle_test_class()
+{
+    class_t *c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
+
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats1()
 {
@@ -50,31 +89,17 @@ stat_t *create_enemy_stats2()
     return test_stats;
 }
 
-/* Creates + initializes a move. Taken from test_battle_ai.c */
-move_t *create_move(int id, battle_item_t* item, bool attack, int damage,
-                    int defense)
-{
-    move_t *move = (move_t*) calloc(1, sizeof(move_t));
 
-    move->id = id;
-
-    move->item = item;
-
-    move->attack = attack;
-    move->damage = damage;
-    move->defense = defense;
-
-    return move;
-}
-
-/* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves1()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
-    poke = create_move(2, NULL, true, 40, 0);
-    rock_throw = create_move(3, NULL, true, 90, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
@@ -86,7 +111,8 @@ move_t *create_enemy_moves2()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     return head;
 }
@@ -100,8 +126,12 @@ Test(npc_battle, new)
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
 
-    npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
+    npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY, 
+		                HOSTILE, 25, generate_npcbattle_test_class(), dagger);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
@@ -130,12 +160,17 @@ Test(npc_battle, init)
     stat_t *stats2 = create_enemy_stats2();
     move_t *moves2 = create_enemy_moves2();
 
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
     npc_battle = npc_battle_new(100, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+                                HOSTILE, 25, generate_npcbattle_test_class(),
+                                dagger);
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
     int res = npc_battle_init(npc_battle, 5, stats2, moves2, BATTLE_AI_NONE,
-                              FRIENDLY, 0);
+		              FRIENDLY, 0, generate_npcbattle_test_class(), dagger);
 
     cr_assert_eq(res, SUCCESS, "npc_battle_init() failed");
 
@@ -162,8 +197,13 @@ Test(npc_battle, free)
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
 
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+                                HOSTILE, 25, generate_npcbattle_test_class(),
+                                dagger);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
@@ -193,7 +233,12 @@ Test(npc_battle, transfer_all_npc_items_dead)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
+    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE,
+            25, generate_npcbattle_test_class(), dagger);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -236,7 +281,12 @@ Test(npc_battle, transfer_all_npc_items_alive)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
+    add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, HOSTILE,
+            25, generate_npcbattle_test_class(), dagger);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -273,7 +323,12 @@ Test(npc_battle, transfer_all_npc_items_empty_inventory)
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE, 25);
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
+    "A hearty dagger sure to take your breath away... for good",
+    true, 20, 5, 0);
+
+    add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE,
+            25, generate_npcbattle_test_class(), dagger);
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_null(npc->inventory, "npc->inventory not NULL");

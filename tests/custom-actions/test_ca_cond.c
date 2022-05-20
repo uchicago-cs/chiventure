@@ -5,33 +5,31 @@
 
 
 /* Checks that check_eq() fails when given attributes with conflicting types */
-Test(custom_actions_cond, equals_fail)
-{
-    attribute_value_t v1, v2;
+Test(custom_actions_cond, equals_fail) {
     attribute_t *a1, *a2;
     int rc;
 
-    v1.str_val = "hi";
-    v2.int_val = 6;
+    char* s1 = "hi";
+    int i1 = 6;
+    char* temp_attr_name = "temp";
 
-    a1 = attribute_new(STRING, v1);
-    a2 = attribute_new(INTEGER, v2);
+    a1 = str_attr_new(temp_attr_name, s1);
+    a2 = int_attr_new(temp_attr_name, i1);
 
     rc = check_eq(a1, a2);
 
-    cr_assert_eq(rc, FAILS, "check_eq() failed to recognize conflicting "
-                              "types");
+    cr_assert_eq(rc, FAILS,
+                 "check_eq() failed to recognize conflicting "
+                 "types");
 
     attribute_free(a1);
     attribute_free(a2);
 }
 
-
 /* Template function for testing check_eq() */
 void test_eq(double d1, double d2, int exp1, bool b1, bool b2, int exp2,
              char c1, char c2, int exp3, char* s1, char* s2, int exp4,
-             int i1, int i2, int exp5)
-{
+             int i1, int i2, int exp5) {
     char ret[3][8] = {"TRUE", "FALSE", "FAILS"};
     attribute_value_t v0, v1, v2, v3, v4, v5, v6, v7, v8, v9;
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5, *a6, *a7, *a8, *a9;
@@ -48,16 +46,18 @@ void test_eq(double d1, double d2, int exp1, bool b1, bool b2, int exp2,
     v8.int_val = i1;
     v9.int_val = i2;
 
-    a0 = attribute_new(DOUBLE, v0);
-    a1 = attribute_new(DOUBLE, v1);
-    a2 = attribute_new(BOOLE, v2);
-    a3 = attribute_new(BOOLE, v3);
-    a4 = attribute_new(CHARACTER, v4);
-    a5 = attribute_new(CHARACTER, v5);
-    a6 = attribute_new(STRING, v6);
-    a7 = attribute_new(STRING, v7);
-    a8 = attribute_new(INTEGER, v8);
-    a9 = attribute_new(INTEGER, v9);
+    char* temp_attr_name = "temp";
+
+    a0 = double_attr_new(temp_attr_name, d1);
+    a1 = double_attr_new(temp_attr_name, d2);
+    a2 = bool_attr_new(temp_attr_name, b1);
+    a3 = bool_attr_new(temp_attr_name, b2);
+    a4 = char_attr_new(temp_attr_name, c1);
+    a5 = char_attr_new(temp_attr_name, c2);
+    a6 = str_attr_new(temp_attr_name, s1);
+    a7 = str_attr_new(temp_attr_name, s2);
+    a8 = int_attr_new(temp_attr_name, i1);
+    a9 = int_attr_new(temp_attr_name, i2);
 
     rc1 = check_eq(a0, a1);
     rc2 = check_eq(a2, a3);
@@ -88,10 +88,8 @@ void test_eq(double d1, double d2, int exp1, bool b1, bool b2, int exp2,
     attribute_free(a9);
 }
 
-
 /* Testing check_eq() for each type of attribute when true */
-Test(custom_actions_cond, equals)
-{
+Test(custom_actions_cond, equals) {
     test_eq(2.0, 2.0, 1,
             true, true, 1,
             'a', 'a', 1,
@@ -99,10 +97,8 @@ Test(custom_actions_cond, equals)
             4, 4, 1);
 }
 
-
 /* Testing check_eq() for each type of attribute when false */
-Test(custom_actions_cond, not_equals)
-{
+Test(custom_actions_cond, not_equals) {
     test_eq(1.0, 2.0, 0,
             true, false, 0,
             'a', 'b', 0,
@@ -110,42 +106,43 @@ Test(custom_actions_cond, not_equals)
             4, 3, 0);
 }
 
-
 /* Testing that numerical comparisons fail when given conflicting or
  * non-numerical types
  *
  * Note: characters are being considered as numerical
  */
-Test(custom_actions_cond, num_comp_fail)
-{
-    attribute_value_t v0, v1, v2, v3, v4, v5;
+Test(custom_actions_cond, num_comp_fail) {
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5;
     int rc1, rc2, rc3;
 
-    v0.double_val = 2.0;
-    v1.int_val = 3;
-    v2.str_val = "hi";
-    v3.str_val = "ho";
-    v4.bool_val = true;
-    v5.bool_val = true;
+    double d1 = 2.0;
+    int i1 = 3;
+    char* s1 = "hi";
+    char* s2 = "ho";
+    bool b1 = true;
+    bool b2 = true;
+    char* temp_attr_name = "temp";
 
-    a0 = attribute_new(DOUBLE, v0);
-    a1 = attribute_new(INTEGER, v1);
-    a2 = attribute_new(STRING, v2);
-    a3 = attribute_new(STRING, v3);
-    a4 = attribute_new(BOOLE, v4);
-    a5 = attribute_new(BOOLE, v5);
+    a0 = double_attr_new(temp_attr_name, d1);
+    a1 = int_attr_new(temp_attr_name, i1);
+    a2 = str_attr_new(temp_attr_name, s1);
+    a3 = str_attr_new(temp_attr_name, s2);
+    a4 = bool_attr_new(temp_attr_name, b1);
+    a5 = bool_attr_new(temp_attr_name, b2);
 
     rc1 = check_lt(a0, a1);
     rc2 = check_lt(a2, a3);
     rc3 = check_lt(a4, a5);
 
-    cr_assert_eq(rc1, FAILS, "numerical comparisons fail to recognize "
-                               "conflicting types %d, rc1");
-    cr_assert_eq(rc2, FAILS, "numerical comparisons fail to recognize "
-                               "invalid string type");
-    cr_assert_eq(rc3, FAILS, "numerical comparisons fail to recognize "
-                               "invalid boolean type");
+    cr_assert_eq(rc1, FAILS,
+                 "numerical comparisons fail to recognize "
+                 "conflicting types %d, rc1");
+    cr_assert_eq(rc2, FAILS,
+                 "numerical comparisons fail to recognize "
+                 "invalid string type");
+    cr_assert_eq(rc3, FAILS,
+                 "numerical comparisons fail to recognize "
+                 "invalid boolean type");
 
     attribute_free(a0);
     attribute_free(a1);
@@ -155,14 +152,12 @@ Test(custom_actions_cond, num_comp_fail)
     attribute_free(a5);
 }
 
-
 /* Template function for testing numerical comparison functions
  *
  * Note: op argument used to select specific comparative operator
  */
 void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
-               int i1, int i2, int exp3, num_comp_t op)
-{
+               int i1, int i2, int exp3, num_comp_t op) {
     char ret[3][8] = {"TRUE", "FALSE", "FAILS"};
     attribute_value_t v0, v1, v2, v3, v4, v5;
     attribute_t *a0, *a1, *a2, *a3, *a4, *a5;
@@ -174,16 +169,16 @@ void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
     v3.char_val = c2;
     v4.int_val = i1;
     v5.int_val = i2;
+    char* temp_attr_name = "temp";
 
-    a0 = attribute_new(DOUBLE, v0);
-    a1 = attribute_new(DOUBLE, v1);
-    a2 = attribute_new(CHARACTER, v2);
-    a3 = attribute_new(CHARACTER, v3);
-    a4 = attribute_new(INTEGER, v4);
-    a5 = attribute_new(INTEGER, v5);
+    a0 = double_attr_new(temp_attr_name, d1);
+    a1 = double_attr_new(temp_attr_name, d2);
+    a2 = char_attr_new(temp_attr_name, c1);
+    a3 = char_attr_new(temp_attr_name, c2);
+    a4 = int_attr_new(temp_attr_name, i1);
+    a5 = int_attr_new(temp_attr_name, i2);
 
     switch (op) {
-
         case LT:
             rc1 = check_lt(a0, a1);
             rc2 = check_lt(a2, a3);
@@ -203,9 +198,8 @@ void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
             rc1 = check_gte(a0, a1);
             rc2 = check_gte(a2, a3);
             rc3 = check_gte(a4, a5);
-    } 
- 
- 
+    }
+
     cr_assert_eq(rc1, exp1, "expected %s but check_eq() returned %s",
                  ret[exp1], ret[rc1]);
     cr_assert_eq(rc2, exp2, "expected %s but check_eq() returned %s",
@@ -221,73 +215,57 @@ void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
     attribute_free(a5);
 }
 
-
 /* Testing check_lt() for each attribute type when true */
-Test(custom_actions_cond, less_than)
-{
+Test(custom_actions_cond, less_than) {
     test_comp(1.0, 2.0, 1,
               'a', 'b', 1,
               2, 3, 1, LT);
 }
 
-
 /* Testing check_lt() for each attribute type when false */
-Test(custom_actions_cond, not_less_than)
-{
+Test(custom_actions_cond, not_less_than) {
     test_comp(1.0, 1.0, 0,
               'b', 'a', 0,
               3, 2, 0, LT);
 }
 
-
 /* Testing check_gt() for each attribute type when true */
-Test(custom_actions_cond, greater_than)
-{
+Test(custom_actions_cond, greater_than) {
     test_comp(2.0, 1.0, 1,
               'b', 'a', 1,
               3, 2, 1, GT);
 }
 
-
 /* Testing check_gt() for each attribute type when false */
-Test(custom_actions_cond, not_greater_than)
-{
+Test(custom_actions_cond, not_greater_than) {
     test_comp(1.0, 2.0, 0,
               'a', 'b', 0,
               2, 3, 0, GT);
 }
 
-
 /* Testing check_lte() for each attribute type when true */
-Test(custom_actions_cond, less_than_eq)
-{
+Test(custom_actions_cond, less_than_eq) {
     test_comp(1.0, 2.0, 1,
               'a', 'a', 1,
               2, 2, 1, LTE);
 }
 
-
 /* Testing check_lte() for each attribute type when false */
-Test(custom_actions_cond, not_less_than_eq)
-{
+Test(custom_actions_cond, not_less_than_eq) {
     test_comp(2.0, 1.0, 0,
               'b', 'a', 0,
               3, 2, 0, LTE);
 }
 
-
 /* Testing check_gte() for each attribute type when true */
-Test(custom_actions_cond, greater_than_eq)
-{
+Test(custom_actions_cond, greater_than_eq) {
     test_comp(2.0, 1.0, 1,
               'b', 'a', 1,
               2, 2, 1, GTE);
 }
 
-
 /* Testing check_gte() for each attribute type when false */
-Test(custom_actions_cond, not_greater_than_eq)
-{
+Test(custom_actions_cond, not_greater_than_eq) {
     test_comp(1.0, 2.0, 0,
               'a', 'b', 0,
               2, 3, 0, GTE);
