@@ -398,7 +398,7 @@ Test(battle_print, print_enemy_surrender)
     char* string = print_battle_winner(status, xp);
     cr_assert_not_null(string, "print_start_battle() failed");
 
-    char* expected_string = "Your oppoenent has surrendered!\n";
+    char* expected_string = "Your opponent has surrendered!\n";
     cr_expect_str_eq(string, expected_string, 
 		    "print_enemy_surrender() failed to set string");
 }
