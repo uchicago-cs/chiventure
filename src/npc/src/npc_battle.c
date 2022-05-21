@@ -42,9 +42,7 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
                                 hostility_level, surrender_level, class_type,
                                 items);
 
-    if (npc_battle == NULL || npc_battle->stats == NULL ||
-            npc_battle->moves == NULL || npc_battle->class_type == NULL ||
-            npc_battle->items == NULL || check != SUCCESS)
+    if (npc_battle == NULL || check != SUCCESS)
     {
         return NULL;
     }
