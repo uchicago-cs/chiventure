@@ -14,6 +14,9 @@
 #include "common/utlist.h"
 #include "cli/util.h"
 
+#define NUM_FILLERS 3
+char* filler_words[NUM_FILLERS] = {"to","the","into"};
+
 /*
  * - input: 
  *   s: a string from the command line, 
