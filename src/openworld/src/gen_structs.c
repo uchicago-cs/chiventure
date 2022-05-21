@@ -209,7 +209,7 @@ int edges_init(int** edges, int* inp_array, int num_rows, int num_cols)
 
 int** edges_new(int* inp, int num_rows, int num_cols)
 {
-    int** edges = (int**)malloc(sizeof(ints*) * num_rows);
+    int** edges = (int**)malloc(sizeof(int*) * num_rows);
 
     if (edges == NULL) {
         fprintf(stderr, "malloc failed to allocate space for edges. \n");
