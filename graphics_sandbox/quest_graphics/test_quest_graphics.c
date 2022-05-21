@@ -15,7 +15,7 @@ Test(quest_graphics, new)
     cr_assert_not_null(q, "new_quest_graphics failed");
     cr_assert_str_eq(q->CurrentTaskName,"test","new_quest_graphis failed to set currentTaskName");
     cr_assert_eq(q->WindowPos.x,200,"new_quest_graphics failed to set WindowPos.x");
-    cr_assert_eq(q->WindowPos.x,210,"new_quest_graphics failed to set WindowPos.y");
+    cr_assert_eq(q->WindowPos.y,210,"new_quest_graphics failed to set WindowPos.y");
     cr_assert_eq(q->WindowSize.x,400,"new_quest_graphics failed to set WindowSize.x");
     cr_assert_eq(q->WindowSize.y,420,"new_quest_graphics failed to set WindowSize.y");
     cr_assert_eq(q->SegmentDimension.x,50,"new_quest_graphics failed to set SegmentDimension.x");
@@ -37,7 +37,7 @@ Test(quest_graphics, init)
 
     cr_assert_str_eq(q.CurrentTaskName,"test","new_quest_graphis failed to set currentTaskName");
     cr_assert_eq(q.WindowPos.x,200,"new_quest_graphics failed to set WindowPos.x");
-    cr_assert_eq(q.WindowPos.x,210,"new_quest_graphics failed to set WindowPos.y");
+    cr_assert_eq(q.WindowPos.y,210,"new_quest_graphics failed to set WindowPos.y");
     cr_assert_eq(q.WindowSize.x,400,"new_quest_graphics failed to set WindowSize.x");
     cr_assert_eq(q.WindowSize.y,420,"new_quest_graphics failed to set WindowSize.y");
     cr_assert_eq(q.SegmentDimension.x,50,"new_quest_graphics failed to set SegmentDimension.x");

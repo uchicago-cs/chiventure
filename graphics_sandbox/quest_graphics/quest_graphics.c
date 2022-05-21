@@ -24,7 +24,7 @@ quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
         SegmentDimension, DrawStartPosition, TaskTree, CurrentTaskName, 
         ShowRemainingHorizontal, SquareSide);
 
-    if(rc == 1)
+    if(rc != 1)
     {
         fprintf(stderr,"Could not initialize quest_graphics");
         return NULL;
@@ -39,7 +39,7 @@ int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
     bool ShowRemainingHorizontal, float SquareSide)
 {
     assert(questGraphics != NULL);
-    assert(TaskTree != NULL);
+    //assert(TaskTree != NULL);
     assert(CurrentTaskName != NULL);
 
     questGraphics->WindowPos = WindowPos;
