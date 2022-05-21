@@ -145,19 +145,19 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     int x=coords->x;
     int y=coords->y;
 
-    if (strcmp("north", direction) == 0){
+    if (strcmp("north", direction_to_new) == 0){
         y+=1;
     }
 
-    else if (strcmp("south", direction) == 0){
+    else if (strcmp("south", direction_to_new) == 0){
         y-=1;
     }
 
-    else if (strcmp("east", direction) == 0){
+    else if (strcmp("east", direction_to_new) == 0){
         x+=1;
     }
 
-    else if (strcmp("west", direction) == 0){
+    else if (strcmp("west", direction_to_new) == 0){
         x-=1;
     }    
     /* create new combination of rooms/items from randomly picked roomspec
