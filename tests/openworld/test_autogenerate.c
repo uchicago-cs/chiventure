@@ -244,6 +244,7 @@ Test(autogenerate, room_generate_success_one)
     for(int i=0; i<2; i++){
         roomspecs[i]=(roomspec_t*)malloc(sizeof(roomspec_t));
     }
+    cr_assert_eq(0, 1, "crash did not occur in roomspec malloc");
     roomspecs[0] = graph_roomspec0;
     int *matrix = (int*)malloc(sizeof(int)*4);
     matrix[0]=1;
