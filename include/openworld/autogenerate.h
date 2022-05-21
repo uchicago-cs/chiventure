@@ -148,7 +148,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  * - roomspec: The roomspec of the current room 
  * - direction_to_curr: Direction for the path from new -> curr. Should not be NULL.
  * - direction_to_new: Direction for the path from curr -> new. Should not be NULL.
-* - coords: The coordinates of the new room.
+ * - coords: The coordinates of the new room.
  *   NOTE: MUST BE AN AVAILABLE DIRECTION! (Available as in no path for that direction exists.)
  *
  * * side effects:
@@ -160,7 +160,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  */
 
 int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
-                      char *direction_to_curr, char *direction_to_new, coords_t coords);
+                      char *direction_to_curr, char *direction_to_new, coords_t *coords);
 
 /*
 * random_room_lookup

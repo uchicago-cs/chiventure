@@ -138,7 +138,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
 /* See autogenerate.h */
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
-                  char *direction_to_curr, char *direction_to_new, coords_t coords)
+                  char *direction_to_curr, char *direction_to_new, coords_t *coords)
 {
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of context->specgraph only */
