@@ -45,6 +45,46 @@ bool path_exists_in_direction(room_t *r, char *direction)
 }
 
 /* See autogenerate.h */
+bool room_exists_in_direction(game* t, room_t *r, char *direction)
+{
+    /*Find coordinates of current room*/
+    coords_t *coords=r->coords;
+    int x=coords->x;
+    int y=coords->y;
+
+    if (strcmp("north", direction) == 0){
+        y+=1;
+    }
+
+    else if (strcmp("south", direction) == 0){
+        y-=1;
+    }
+
+    else if (strcmp("east", direction) == 0){
+        x+=1;
+    }
+
+    else if (strcmp("west", direction) == 0){
+        x-=1;
+    }
+
+    /*Determine whether there is a room in the given direction*/
+    room_hash_t *current, *tmp;
+    HASH_ITER(hh, game->allrooms, current, tmp) {
+        /* If the room is adjacent to the current room and in the correct direction, return true */
+
+        coords_t *coords=current->coords;
+        int currx=coords->x;
+        int curry=coords->y;
+
+        if(currx==x && curry==y){
+            return true;
+        }
+    }
+    return false;
+}
+
+/* See autogenerate.h */
 room_t* roomspec_to_room(roomspec_t *roomspec)
 {
     /* moved- generate the unique room id here and pass it to the room; don't mess with the roomspec */

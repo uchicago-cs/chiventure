@@ -40,6 +40,22 @@
 */
 bool path_exists_in_direction(room_t *r, char *direction);
 
+/*
+* room_exists_in_direction
+* Determines whether there is a room adjacent to the given room in a certain direction
+* Return a boolean.
+*
+* parameters:
+* - game: A pointer to a game struct. Should not be NULL and should contain at least one room
+* - r: A room pointer for the input room. Should not be NULL.
+* - direction: A string specifying the direction to check for
+*              ("NORTH", "EAST", SOUTH", or "WEST")
+*
+* returns:
+* - true if there is a room adjacent to the given room in the given direction
+* - false if there is no room adjacent to the given room in the given direction
+*/
+bool room_exists_in_direction(game* t, room_t *r, char *direction);
 
 /*
 * roomspec_to_room
@@ -60,7 +76,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec);
 
 /** pick_random_direction
  * Picks random OPEN NESW (compass) direction around given room 
- * (open as in not filled with a path).
+ * (open as in does not contain an adjacenct room based on coordinates)
  * 
  * parameters:
  * - curr: pointer to a room. not NULL.
@@ -213,7 +229,7 @@ int random_item_lookup(item_hash_t **dst, item_hash_t *src, int num_iters);
 
 /* generate_items
  * Generates an item hash according to the item_hash and itemspec_hash 
- * specified in in the given roomspec.
+ * specified in the given roomspec.
  * 
  * If the corresponding itemspec for an item is not defined,
  * generate_items resorts to default behavior: 
