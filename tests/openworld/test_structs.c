@@ -96,11 +96,11 @@ Test(roomspec, free1)
     cr_assert_eq(check, SUCCESS, "failed to free a roomspec_t\n");
 }
 
-/* Tests the edges function to validate that an adjacency matrix (edges) can
+/* Tests the edges_init function to validate that an adjacency matrix (edges) can
  * be initialized successfully. */
 Test(edges, init)
 {
-    int* array=[5,4,5,0,5,3,4,3,5];
+    int* array={5,4,5,0,5,3,4,3,5};
 
     int **edges=(int**)malloc(3*sizeof(int*));
     for(int i=0; i<3; i++){
@@ -110,6 +110,25 @@ Test(edges, init)
 
     cr_assert_eq(rc, SUCCESS, "failed to initialize edges\n");
     cr_assert_eq(edges[0][0], 5, "failed to set edges [0][0] correctly\n");
+    cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
+    cr_assert_eq(edges[0][2], 5, "failed to set edges [0][2] correctly\n");
+    cr_assert_eq(edges[1][0], 0, "failed to set edges [1][0] correctly\n");
+    cr_assert_eq(edges[1][1], 5, "failed to set edges [1][1] correctly\n");
+    cr_assert_eq(edges[1][2], 3, "failed to set edges [1][2] correctly\n");
+    cr_assert_eq(edges[2][0], 4, "failed to set edges [2][0] correctly\n");
+    cr_assert_eq(edges[2][1], 3, "failed to set edges [2][1] correctly\n");
+    cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
+}
+
+/* Tests the edges_free function to validate that an adjacency matrix (edges) can
+ * be made successfully. */
+Test(edges, new)
+{
+    int* array={5,4,5,0,5,3,4,3,5};
+
+    int **edges=edges_new(array, 3, 3);
+
+    cr_assert_not_null(edges, "failed to create new edges\n");    
     cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
     cr_assert_eq(edges[0][2], 5, "failed to set edges [0][2] correctly\n");
     cr_assert_eq(edges[1][0], 0, "failed to set edges [1][0] correctly\n");
@@ -474,5 +493,6 @@ Test(itemspec, free)
 
     int check = itemspec_free(itemspec);
 
+    cr_assert_eq(check, SUCCESS, "failed to free an itemspec_t\n");
 }
 
