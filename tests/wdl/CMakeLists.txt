@@ -6,6 +6,8 @@ add_executable(${TEST_EXE}
         test_room.c
         test_class.c
         test_validation.c
+        test_conditions.c
+        test_wdl.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY} ${JSONC_LIBRARIES} ${LIBZIP_LIBRARIES})
