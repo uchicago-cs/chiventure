@@ -5,6 +5,15 @@
 #include "game-state/player.h"
 
 /*
+ * This typedef distinguishes between quest_t pointers
+ * which are used to point to quest_t structs in the 
+ * traditional sense and those which are used to hash
+ * quest_t structs with the UTHASH macros as specified
+ * in include/common
+ */
+typedef struct quest quest_hash_t;
+
+/*
  * Helper function to compare two tasks.
  *
  * Parameters:
@@ -33,15 +42,6 @@ int compare_tasks(task_t *a1, task_t *a2);
  *       in the game
  */
 task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id);
-
-/*
- * This typedef distinguishes between quest_t pointers
- * which are used to point to quest_t structs in the 
- * traditional sense and those which are used to hash
- * quest_t structs with the UTHASH macros as specified
- * in include/common
- */
-typedef struct quest quest_hash_t;
 
 /* Gets a quest from the given hash table
  *
