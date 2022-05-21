@@ -72,7 +72,7 @@ graphics_t* read_gdl();
     unsigned long display = hash("\"Display_Dimensions\":");
     unsigned long camera = hash("\"Camera\":");
     unsigned long inventory hash("\"Inventory\":");
-    unsigned long map = hash("\"map\":");
+    // wishlist item    unsigned long map = hash("\"map\":");
     unsigned long statistics = hash("\"Statistics\":");
 
     // Define useful variables for the reading function
