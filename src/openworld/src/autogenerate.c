@@ -85,7 +85,7 @@ bool room_exists_in_direction(game_t* game, room_t *r, char *direction)
 }
 
 /* See autogenerate.h */
-room_t* roomspec_to_room(roomspec_t *roomspec)
+room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
 {
     /* moved- generate the unique room id here and pass it to the room; don't mess with the roomspec */
     char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
@@ -99,6 +99,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec)
     res->items = generate_items(roomspec);
 
     res->paths = NULL;
+    res->coords=coords;
     return res;
 }
 
@@ -137,11 +138,11 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
 /* See autogenerate.h */
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
-                  char *direction_to_curr, char *direction_to_new)
+                  char *direction_to_curr, char *direction_to_new, coords_t coords)
 {
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of context->specgraph only */
-    room_t *new_room = roomspec_to_room(rspec_new);
+    room_t *new_room = roomspec_to_room(rspec_new, coords);
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
     /* Path to the generated room */
@@ -191,35 +192,11 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
 /* See autogenerate.h */
 int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
-                      char *direction_to_curr, char *direction_to_new){
+                      char *direction_to_curr, char *direction_to_new, coords_t coords){
 
     roomspec_t *newroomspec=roomspec_autogenerate(context, roomspec);    
-    assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new)==SUCCESS);
+    assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new, coords)==SUCCESS);
 
-    return SUCCESS;
-}
-
-/* See autogenerate.h */
-int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
-{
-    /* If game->curr_room is not a dead end or there are no roomspec_t elements
-    * in context->specgraph, then do not autogenerate */
-    if (context->specgraph == NULL) {
-        return FAILURE;
-    }
-
-    /* Iterate through the specgraph field, generating and adding rooms for each */
-    for (int i = 0; i < num_rooms; i++) {
-        roomspec_t *rspec = random_room_lookup(context->specgraph);
-        /* Increments tmp->spec->num_built */
-
-        char direction_to_curr[MAX_DIRECTION_STRLEN], direction_to_new[MAX_DIRECTION_STRLEN];
-
-        if (pick_random_direction(game, game->curr_room, direction_to_curr, direction_to_new) == FAILURE) 
-            return FAILURE; // failed to generate at least one room
-        
-        room_generate(game, game->curr_room, rspec, direction_to_curr, direction_to_new);
-    }
     return SUCCESS;
 }
 

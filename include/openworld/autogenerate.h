@@ -59,7 +59,7 @@ bool room_exists_in_direction(game_t* game, room_t *r, char *direction);
 
 /*
 * roomspec_to_room
-* Given a roomspec_t pointer (type roomspec_t*), returns
+* Given a roomspec_t pointer (type roomspec_t*), and a coords struct returns
 * a room_t pointer generated from its specifications, with a room_id that
 * is uniquely generated from the given game (different from the game's rooms).
 *
@@ -67,11 +67,12 @@ bool room_exists_in_direction(game_t* game, room_t *r, char *direction);
 *
 * parameters:
 * - roomspec: A pointer to a roomspec_t (type gencontext_t*). Should not be NULL.
+* - coords: The coordinates of the new room.
 *
 * returns:
 * The generated room_t struct pointer.
 */
-room_t* roomspec_to_room(roomspec_t *roomspec);
+room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords);
 
 
 /** pick_random_direction
@@ -108,6 +109,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
  * - direction_to_new: Direction for path curr -> new. Should not be NULL
  *                     NOTE: MUST BE AN AVAILABLE DIRECTION!
  *                     (Available as in no path for that direction exists.)
+ * - coords: The coordinates of the new room.
  * 
  * side effects:
  * - Changes input game to hold the newly generated room. Allocated on the heap
@@ -116,8 +118,8 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
  * - Always returns SUCCESS
  *   Any internal failure results in crash (by triggering an assert).
  */
-int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new, 
-                  char *direction_to_curr, char *direction_to_new);
+int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
+                  char *direction_to_curr, char *direction_to_new, coords_t coords);
 
 /* roomspec_autogenerate
  * Given a roomspec, generates a new roomspec based on the adjacency matrix
@@ -146,6 +148,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  * - roomspec: The roomspec of the current room 
  * - direction_to_curr: Direction for the path from new -> curr. Should not be NULL.
  * - direction_to_new: Direction for the path from curr -> new. Should not be NULL.
+* - coords: The coordinates of the new room.
  *   NOTE: MUST BE AN AVAILABLE DIRECTION! (Available as in no path for that direction exists.)
  *
  * * side effects:
@@ -157,31 +160,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  */
 
 int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
-                      char *direction_to_curr, char *direction_to_new);
-
-/*
-* multi_room_generate
-* Iterate through all the rooms of the specgraph field of the given context
-* (gencontext_t pointer) and create a "domain" of rooms around the current
-* room. Only succeeds when the current room has no outward paths, i.e. is
-* a "dead end".
-*
-* Connects the newly-generated room to the old room via paths.
-*
-* parameters:
-* - game: A pointer to a game struct. Should not be NULL.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
-* - room_id: A unique room_id string for the to-be-generated room.i
-* - num_rooms: specifies how many new rooms will be generated
-*
-* side effects:
-* - Changes input game to hold the newly generated room(s). Allocated on the heap
-*
-* returns:
-* - SUCCESS if the new rooms were generated and added (SUCCESS)
-* - FAILURE if the new rooms were not generated/added (FAILURE)
-*/
-int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms);
+                      char *direction_to_curr, char *direction_to_new, coords_t coords);
 
 /*
 * random_room_lookup
