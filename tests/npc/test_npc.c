@@ -5,21 +5,21 @@
 #include "game-state/item.h"
 #include "playerclass/class.h"
 
-battle_item_t *generate_test_battle_item(int id, int quantity, int durability, char* description, 
-                                         bool battle, int attack, int defense, int hp)
+battle_item_t *generate_test_battle_item(int id, int quantity, int durability, char* description,
+        bool battle, int attack, int defense, int hp)
 {
-     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+    battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
-     item->id = id;
-     item->quantity = quantity;
-     item->durability = durability;
-     item->description = description;
-     item->battle = battle;
-     item->attack = attack;
-     item->hp = hp;
-     item->defense = defense;
+    item->id = id;
+    item->quantity = quantity;
+    item->durability = durability;
+    item->description = description;
+    item->battle = battle;
+    item->attack = attack;
+    item->hp = hp;
+    item->defense = defense;
 
-     return item;
+    return item;
 }
 
 /* Creates a sample class. Taken from test_class.c */
@@ -71,7 +71,7 @@ move_t *create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
                           SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
                     SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
@@ -111,7 +111,7 @@ Test(npc, new)
     cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      "npc_new didn't set npc_path");
-    cr_assert_eq(npc->hostility_level, FRIENDLY, 
+    cr_assert_eq(npc->hostility_level, FRIENDLY,
                  "npc_new didn't set hostility_level");
 }
 
@@ -127,13 +127,13 @@ Test(npc, init)
     char *npc_id2 = "test";
 
     npc = npc_new(npc_id2, "woman", "short woman", NULL, movement, FRIENDLY);
-  
+
     c = generate_test_class();
     movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
-    res = npc_init(npc, npc_id, "man", "tall man", c, movement, FRIENDLY); 
+    res = npc_init(npc, npc_id, "man", "tall man", c, movement, FRIENDLY);
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
@@ -150,7 +150,7 @@ Test(npc, init)
     cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      "npc_new didn't set npc_path");
-    cr_assert_eq(npc->hostility_level, FRIENDLY, 
+    cr_assert_eq(npc->hostility_level, FRIENDLY,
                  "npc_init didn't set hostility_level");
 }
 
@@ -324,16 +324,16 @@ Test(npc, add_battle_to_npc)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
 
-    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
-		                        HOSTILE, generate_test_class(), dagger);
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_test_class(), dagger);
 
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
-    cr_assert_not_null(npc->npc_battle, 
-		               "add_battle_to_npc() didn't set npc_battle");
+    cr_assert_not_null(npc->npc_battle,
+                       "add_battle_to_npc() didn't set npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -355,16 +355,16 @@ Test(npc, get_npc_battle)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
 
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_test_class(), dagger);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     npc_battle_t *npc_battle = get_npc_battle(npc);
-    cr_assert_not_null(npc_battle, 
+    cr_assert_not_null(npc_battle,
                        "get_npc_battle() returned NULL given NPC with non-NULL"
                        "npc_battle");
 
@@ -383,10 +383,10 @@ Test (npc, change_npc_hp)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
-    
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
+
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_test_class(), dagger);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
@@ -396,9 +396,9 @@ Test (npc, change_npc_hp)
     cr_assert_eq(hp1, 170,
                  "change_npc_hp() didn't decrease hp correctly");
     cr_assert_eq(npc->npc_battle->stats->hp, 170,
-		         "change_npc_hp() didn't change hp in npc_battle struct");
+                 "change_npc_hp() didn't change hp in npc_battle struct");
 
-     /* current max_hp level set in create_enemy_stats() is 200 */
+    /* current max_hp level set in create_enemy_stats() is 200 */
     int hp2 = change_npc_hp(npc, 40);
     cr_assert_eq(hp2, 200,
                  "change_npc_hp() increased hp past max_hp");
@@ -436,15 +436,15 @@ Test(npc, get_npc_hp)
     cr_assert_not_null(npc, "npc_new() failed");
 
     int hp = get_npc_hp(npc);
-    cr_assert_eq(hp, -1, 
-		         "get_npc_hp() failed for npc with NULL npc_battle");
+    cr_assert_eq(hp, -1,
+                 "get_npc_hp() failed for npc with NULL npc_battle");
 
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
 
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_test_class(), dagger);
@@ -452,7 +452,7 @@ Test(npc, get_npc_hp)
 
     hp = get_npc_hp(npc);
     cr_assert_eq(hp, 200,
-		         "get_npc_hp() failed for npc with non-NULL npc_battle");
+                 "get_npc_hp() failed for npc with non-NULL npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -467,19 +467,23 @@ Test(npc, get_npc_max_hp)
     cr_assert_not_null(npc, "npc_new() failed");
 
     int max_hp = get_npc_max_hp(npc);
-    cr_assert_eq(max_hp, -1, 
-		         "get_npc_max_hp() failed for npc with NULL npc_battle");
+    cr_assert_eq(max_hp, -1,
+                 "get_npc_max_hp() failed for npc with NULL npc_battle");
 
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
+
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE);
+                                HOSTILE, generate_test_class(), dagger);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     max_hp = get_npc_max_hp(npc);
     cr_assert_eq(max_hp, 200,
-		         "get_npc_max_hp() failed for npc with non-NULL npc_battle");
+                 "get_npc_max_hp() failed for npc with non-NULL npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -495,7 +499,7 @@ Test(npc, check_npc_battle)
     npc_t *npc2 = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc2, "npc_new() failed");
 
-    cr_assert_eq(check_npc_battle(npc1), true, 
+    cr_assert_eq(check_npc_battle(npc1), true,
                  "check_npc_battle failed; hostility_level=CONDITIONAL_FRIENDLY, npc_battle=NULL");
     cr_assert_eq(check_npc_battle(npc2), false,
                  "check_npc_battle failed; hostility_level=HOSTILE, npc_battle=NULL");
@@ -505,13 +509,13 @@ Test(npc, check_npc_battle)
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
 
-    battle_item_t *dagger1 = generate_test_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger1 = generate_test_battle_item(1, 1, 20,
+                             "A hearty dagger sure to take your breath away... for good",
+                             true, 20, 5, 0);
 
-    battle_item_t *dagger2 = generate_test_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger2 = generate_test_battle_item(1, 1, 20,
+                             "A hearty dagger sure to take your breath away... for good",
+                             true, 20, 5, 0);
 
     int res = add_battle_to_npc(npc1, stats1, moves1, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_test_class(), dagger1);
@@ -521,9 +525,9 @@ Test(npc, check_npc_battle)
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true,
-                "check_npc_battle failed; will_fight=false, npc_battle!=NULL");
+                 "check_npc_battle failed; will_fight=false, npc_battle!=NULL");
     cr_assert_eq(check_npc_battle(npc2), true,
-                "check_npc_battle failed; will_fight=true, npc_battle!=NULL");
+                 "check_npc_battle failed; will_fight=true, npc_battle!=NULL");
 
     res = npc_free(npc1);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
