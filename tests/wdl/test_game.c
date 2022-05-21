@@ -7,7 +7,6 @@
 #include "test_wdl.h"
 
 
-
 /* check to see if rooms are added to game struct correctly */
 Test(game, create_game)
 {
@@ -22,7 +21,7 @@ Test(game, create_game)
 /* check to see if the load game function works */
 Test(game, load_game)
 {
-    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
+    obj_t *obj_store = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     cr_assert_not_null(obj_store, "Object store is NULL.\n");
     game_t *g = load_game(obj_store);
     cr_assert_not_null(g, "load_game() did not load game correctly.\n");
