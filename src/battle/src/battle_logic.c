@@ -27,7 +27,11 @@ battle_status_t battle_over(battle_t *b)
     combatant_t *temp;
     DL_FOREACH(b->enemy, temp)
     {
-        if(temp->stats->hp > 0)
+        if (temp->stats->surrender_level >= temp->stats->hp)
+        {
+            return BATTLE_ENEMY_SURRENDER;
+        }
+        else if (temp->stats->hp > 0)
         {
             return BATTLE_IN_PROGRESS;
         }
