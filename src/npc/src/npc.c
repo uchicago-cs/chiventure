@@ -5,7 +5,7 @@
 
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             class_t *class, npc_mov_t *movement, bool will_fight, npc_battle_t *battle)
+             class_t *class, npc_mov_t *movement, bool will_fight)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
@@ -15,11 +15,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->inventory = NULL;
     npc->class = class;
     npc->will_fight = will_fight;
-    if (will_fight)
-    {
-        npc->npc_battle = battle;
-    }
-    else
+    if (will_fight == false)
     {
         npc->npc_battle = NULL;
     }
@@ -30,7 +26,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement, bool will_fight, npc_battle_t *battle)
+               class_t *class, npc_mov_t *movement, bool will_fight)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -48,7 +44,7 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     char *insensitized_id = case_insensitized_string(npc_id);
 
     int check = npc_init(npc, insensitized_id, short_desc, long_desc,
-                         class, movement, will_fight, battle);
+                         class, movement, will_fight);
 
     free(insensitized_id);
 
