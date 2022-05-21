@@ -111,9 +111,7 @@ Test(edges, init)
     array[7]=3;
     array[8]=5;
     //array={5,4,5,0,5,3,4,3,5};
-
-    int **edges=edges_new(array, 3, 3);
-
+    
     int **edges=(int**)malloc(3*sizeof(int*));
     for(int i=0; i<3; i++){
         edges[i]=(int*)malloc(3*sizeof(int));
