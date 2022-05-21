@@ -67,20 +67,63 @@ typedef struct quest_graphics{
 } quest_graphics_t;
 
 
-
+/* 
+ * Parameters:
+ *      Everything in the quest_graphics struct
+ * 
+ * Returns:
+ *      A pointer to the initialized quest_graphics struct that contains
+ *      all the information provided through the parameters
+ * 
+ */
 quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
     Vector2 SegmentDimension, Vector2 DrawStartPosition, 
     task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
     bool ShowRemainingHorizontal, float SquareSide);
 
 
+/*
+ * Parameters:
+ *      A pointer to a quest_graphics struct (allocated memory),
+ *      and everythiing in the quest_graphics struct
+ * 
+ * Function:
+ *      Initialize the memory allocated to the quest_graphics struct
+ *      with information provided through the parameters
+ * 
+ * Returns:
+ *      1 on success
+ */
 int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
     Vector2 WindowSize, Vector2 SegmentDimension, Vector2 DrawStartPosition, 
     task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
     bool ShowRemainingHorizontal, float SquareSide);
     
+
+/*
+ * Parameters:
+ *      questGraphics: a pointer to a piece of memory allocated for a quest_graphics struct
+ * 
+ * Function:
+ *      Frees the memory pointed to by the given pointer
+ * 
+ * Returns:
+ *      1 on success
+ *
+ */
 int free_quest_graphics(quest_graphics_t *questGraphics);
 
+/*
+ * Parameters:
+ *      quest_graphics: a pointer to a piece of memory allocated for a quest_graphics struct
+ *                      that contains information needed to draw the graphics
+ * 
+ * Function:
+ *      modularly toplevel function that runs graphics for quests
+ * 
+ * Returns:
+ *      nothing, it just runs.
+ */
 void runTaskTreeGraphics(quest_graphics_t* quest_graphics);
 
 #endif
