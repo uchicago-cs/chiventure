@@ -7,22 +7,22 @@
 #include "battle/battle_moves.h"
 
 /* Creates a sample battle item. Taken from test_battle_ai.c */
-battle_item_t *generate_npc_test_battleitem(int id, int quantity, 
-                            int durability,  char* description, 
-                            bool battle, int attack, int defense, int hp)
+battle_item_t *generate_npc_test_battleitem(int id, int quantity,
+        int durability,  char* description,
+        bool battle, int attack, int defense, int hp)
 {
-     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+    battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
-     item->id = id;
-     item->quantity = quantity;
-     item->durability = durability;
-     item->description = description;
-     item->battle = battle;
-     item->attack = attack;
-     item->hp = hp;
-     item->defense = defense;
+    item->id = id;
+    item->quantity = quantity;
+    item->durability = durability;
+    item->description = description;
+    item->battle = battle;
+    item->attack = attack;
+    item->hp = hp;
+    item->defense = defense;
 
-     return item;
+    return item;
 }
 
 /* Creates a sample class. Taken from test_class.c */
@@ -36,10 +36,10 @@ class_t *generate_npcbattle_test_class()
                 "damage with weapons and survives enemy attacks "
                 "using heavy armor.\n";
     longdesc = "The warrior is the ultimate armor and weapons expert,"
-                " relying on physical strength and years of training to "
-                "deal with any obstacle. Mechanically, the warrior focuses "
-                "on up-close physical damage with weapons and survives enemy "
-                "attacks using heavy armor.\n";
+               " relying on physical strength and years of training to "
+               "deal with any obstacle. Mechanically, the warrior focuses "
+               "on up-close physical damage with weapons and survives enemy "
+               "attacks using heavy armor.\n";
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
 
@@ -94,7 +94,7 @@ move_t *create_enemy_moves1()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
                           SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
                     SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
@@ -111,7 +111,7 @@ move_t *create_enemy_moves2()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
                           SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     return head;
@@ -126,23 +126,23 @@ Test(npc_battle, new)
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
 
-    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
 
-    npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY, 
-		                        HOSTILE, generate_npcbattle_test_class(), dagger);
+    npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_npcbattle_test_class(), dagger);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
-    cr_assert_eq(stats, npc_battle->stats, 
+    cr_assert_eq(stats, npc_battle->stats,
                  "npc_battle_new() didn't set stats");
-    cr_assert_eq(moves, npc_battle->moves, 
-		         "npc_battle_new() didn't set moves");
+    cr_assert_eq(moves, npc_battle->moves,
+                 "npc_battle_new() didn't set moves");
     cr_assert_eq(BATTLE_AI_GREEDY, npc_battle->ai,
                  "npc_battle_new() didn't set ai");
     cr_assert_eq(HOSTILE, npc_battle->hostility_level,
-		         "npc_battle_new() didn't set hostility_level");
+                 "npc_battle_new() didn't set hostility_level");
 }
 
 /* Checks that npc_battle_init() initialized the fields in the new npc_battle
@@ -156,9 +156,9 @@ Test(npc_battle, init)
     stat_t *stats2 = create_enemy_stats2();
     move_t *moves2 = create_enemy_moves2();
 
-    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
 
     npc_battle = npc_battle_new(stats1, moves1, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_npcbattle_test_class(),
@@ -166,7 +166,7 @@ Test(npc_battle, init)
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
     int res = npc_battle_init(npc_battle, stats2, moves2, BATTLE_AI_NONE,
-		                      FRIENDLY, generate_npcbattle_test_class(), dagger);
+                              FRIENDLY, generate_npcbattle_test_class(), dagger);
 
     cr_assert_eq(res, SUCCESS, "npc_battle_init() failed");
 
@@ -189,9 +189,9 @@ Test(npc_battle, free)
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
 
-    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    battle_item_t *dagger = generate_npc_test_battleitem(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
 
     npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_npcbattle_test_class(),

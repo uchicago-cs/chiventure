@@ -8,10 +8,10 @@
 
 /* See battle_moves.h */
 int move_init(move_t* move, int id, char* name, char* info, damage_type_t dmg_type,
-                 target_type_t stat_mods, target_type_t effects, target_count_t count,
-                 int sp_cost, battle_item_t* req_item, int damage, int accuracy,
-                 stat_changes_t* user_mods, stat_changes_t* opponent_mods, move_t* prev,
-                 move_t* next)
+              target_type_t stat_mods, target_type_t effects, target_count_t count,
+              int sp_cost, battle_item_t* req_item, int damage, int accuracy,
+              stat_changes_t* user_mods, stat_changes_t* opponent_mods, move_t* prev,
+              move_t* next)
 {
     assert(move != NULL);
 
@@ -62,7 +62,7 @@ move_t* move_new(int id, char* name, char* info, damage_type_t dmg_type,
     }
 
     rc = move_init(move, id, name, info, dmg_type, stat_mods, effects, count,
-		    sp_cost, req_item, damage, accuracy, user_mods, opponent_mods, NULL, NULL);
+                   sp_cost, req_item, damage, accuracy, user_mods, opponent_mods, NULL, NULL);
 
     if(rc != SUCCESS)
     {
@@ -109,15 +109,15 @@ int move_free(move_t *move)
 }
 
 
- /* Creates test move for bard
-  *
-  * Parameters:
-  *  none, values are hard coded in
-  *
-  * Returns:
-  *  - A pointer to the test move
-  *
-  */
+/* Creates test move for bard
+ *
+ * Parameters:
+ *  none, values are hard coded in
+ *
+ * Returns:
+ *  - A pointer to the test move
+ *
+ */
 move_t *test_move_bard()
 {
     move_t* move = (move_t*) calloc(1, sizeof(move_t));
@@ -202,7 +202,7 @@ move_t *test_move_paladin()
 
     move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
     strncpy(move->info, "360 no scope", MAX_MOVE_INFO_LEN + 1);
-    
+
     move->id = 120;
     move->name = "";
 
@@ -241,12 +241,12 @@ move_t *test_move_wizard()
 
     move->info = (char*) calloc(MAX_MOVE_INFO_LEN + 1, sizeof(char));
     strncpy(move->info, "Fireball", MAX_MOVE_INFO_LEN);
-    
+
     move->id = 130;
     move->name = "";
 
     move->req_item = NULL;
-    
+
     move->dmg_type = MAG;
 
     move->stat_mods = NO_TARGET;

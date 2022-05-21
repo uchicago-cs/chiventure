@@ -14,9 +14,9 @@ Test(class_moves, bard)
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
-    
+
     battle_player_t *player = new_ctx_player("name", test_class,
-                                          NULL, NULL, NULL);
+                              NULL, NULL, NULL);
     combatant_t *ret_player = set_battle_player(player);
 
     int rc = build_moves(ret_player);
@@ -60,7 +60,7 @@ Test(class_moves, wizard)
                                     NULL, NULL, NULL);
 
     battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL);
+                              NULL, NULL, NULL);
 
     combatant_t *ret_player = set_battle_player(player);
 
@@ -105,10 +105,10 @@ Test(class_moves, knight)
                                     NULL, NULL, NULL);
 
     battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL);
+                              NULL, NULL, NULL);
 
     combatant_t *ret_player = set_battle_player(player);
-    
+
     int rc = build_moves(ret_player);
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");

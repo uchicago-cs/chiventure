@@ -11,23 +11,27 @@
 /* See skill.h */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   effect_t* skill_effect) {
+                   effect_t* skill_effect)
+{
     skill_t* skill;
     int rc;
 
-    if (max_level == 0) {
+    if (max_level == 0)
+    {
         fprintf(stderr, "skill_new: max_level is invalid\n");
         return NULL;
     }
 
     skill = (skill_t*)malloc(sizeof(skill_t));
-    if (skill == NULL) {
+    if (skill == NULL)
+    {
         fprintf(stderr, "skill_new: memory allocation failed\n");
         return NULL;
     }
 
     rc = skill_init(skill, sid, type, name, desc, 1, 0, max_level, min_xp, skill_effect);
-    if (rc) {
+    if (rc)
+    {
         fprintf(stderr, "skill_new: initialization failed\n");
         return NULL;
     }
@@ -39,18 +43,21 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               effect_t* skill_effect) {
+               effect_t* skill_effect)
+{
     assert(skill != NULL);
 
     skill->sid = sid;
     skill->type = type;
     skill->name = strdup(name);
-    if (skill->name == NULL) {
+    if (skill->name == NULL)
+    {
         fprintf(stderr, "skill_init: name copy failed\n");
         return FAILURE;
     }
     skill->desc = strdup(desc);
-    if (skill->desc == NULL) {
+    if (skill->desc == NULL)
+    {
         fprintf(stderr, "skill_init: description copy failed\n");
         return FAILURE;
     }
@@ -64,7 +71,8 @@ int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
 }
 
 /* See skill.h */
-int skill_free(skill_t* skill) {
+int skill_free(skill_t* skill)
+{
     assert(skill != NULL);
 
     free(skill->name);
@@ -75,7 +83,7 @@ int skill_free(skill_t* skill) {
 }
 
 /* See skill.h */
-int skill_execute(skill_t* skill, chiventure_ctx_t* ctx) 
+int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
 {
     if (skill == NULL)
     {
@@ -113,39 +121,48 @@ int skill_execute(skill_t* skill, chiventure_ctx_t* ctx)
         assert(check==0);
         return check;
     }
-    return 0; //Keeping this line makes it easier to add other effect types later 
+    return 0; //Keeping this line makes it easier to add other effect types later
 }
 
 /* See skill.h */
-int skill_level_up(skill_t* skill) {
-    if (skill == NULL) {
+int skill_level_up(skill_t* skill)
+{
+    if (skill == NULL)
+    {
         return -1;
     }
     unsigned int level = skill->level;
     unsigned int min_xp = skill->min_xp;
-    if (skill->max_level == level) {
+    if (skill->max_level == level)
+    {
         // Maximum level already achieved.
         return 1;
     }
     level += 1;
-    min_xp = min_xp^level; 
+    min_xp = min_xp^level;
     skill->min_xp = min_xp;
     return 0;
 }
 
 /* See skill.h */
-int skill_xp_up(skill_t* skill, unsigned int xp_gained) {
+int skill_xp_up(skill_t* skill, unsigned int xp_gained)
+{
     assert(skill != NULL);
-    while (1) {
+    while (1)
+    {
         int xp_to_next_level = skill->min_xp - skill->xp;
-        if (xp_to_next_level > xp_gained) {
+        if (xp_to_next_level > xp_gained)
+        {
             skill->xp += xp_gained;
             return 0;
-        } else {
+        }
+        else
+        {
             xp_gained -= xp_to_next_level;
             skill->xp = 0;
             int res = skill_level_up(skill);
-            if (res != 0) {
+            if (res != 0)
+            {
                 return res;
             }
         }

@@ -21,8 +21,8 @@ static obj_t *__get_doc_obj()
     // Create the zip
     int error = 0;
     zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
-    cr_assert_eq(error, ZIP_ET_NONE, 
-        "Could not create zip file; code: %d", error);
+    cr_assert_eq(error, ZIP_ET_NONE,
+                 "Could not create zip file; code: %d", error);
 
     // Add DEFAULT.json to the zip
     char *data_name = "DEFAULT.json";
@@ -33,14 +33,14 @@ static obj_t *__get_doc_obj()
     cr_assert_not_null(zip_src, "Could not create zip source; code: %d", zip_error_system_type(&err));
 
     zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add file to zip file; check archive code");
+    cr_assert_neq(idx, -1,
+                  "Could not add file to zip file; check archive code");
 
     // Write and save to disk
     int rc = zip_close(zip);
     zip_error_t *close = zip_get_error(zip);
-    cr_assert_neq(rc, -1, 
-        "Could not close zip file; check archive code: %s", zip_error_strerror(close));
+    cr_assert_neq(rc, -1,
+                  "Could not close zip file; check archive code: %s", zip_error_strerror(close));
 
     int open_status;
     zip = zip_open(zip_name, 0, &open_status);
@@ -108,21 +108,21 @@ void check_room_descs(game_t *g, char *id, char *sdesc, char *ldesc)
  * helper function for checking add_connections_to_rooms
  * returns a game pointer containing the added connections and rooms
  */
- game_t *add_conns_check()
- {
-     // first add rooms to game  and ensure it has run correctly
-     obj_t *doc = __get_doc_obj();
-     game_t *g = game_new("Welcome to UChicago");
+game_t *add_conns_check()
+{
+    // first add rooms to game  and ensure it has run correctly
+    obj_t *doc = __get_doc_obj();
+    game_t *g = game_new("Welcome to UChicago");
 
-     int rc = add_rooms_to_game(doc, g);
-     cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
+    int rc = add_rooms_to_game(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding rooms to game failed");
 
-     // next add connections to room and ensure it has run correctly
-     rc = add_connections_to_rooms(doc, g);
-     cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
+    // next add connections to room and ensure it has run correctly
+    rc = add_connections_to_rooms(doc, g);
+    cr_assert_eq(rc, SUCCESS, "adding connections to rooms failed");
 
-     return g;
- }
+    return g;
+}
 
 /*
  * check_conns

@@ -4,11 +4,12 @@
 #include "playerclass/class_prefabs.h"
 #include "common/ctx.h"
 #include "game-state/game.h"
-#include "skilltrees/skilltree.h" 
+#include "skilltrees/skilltree.h"
 
 /* In this case, the stat hashtable is incomplete: some of our stats exists,
    some are not yet declared. */
-chiventure_ctx_t* init_incomplete_context() {
+chiventure_ctx_t* init_incomplete_context()
+{
     game_t* game = game_new("Sample game, incomplete context");
     chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
@@ -37,7 +38,8 @@ chiventure_ctx_t* init_incomplete_context() {
 
 /* In this case, the stat hashtable is NULL: all stats will have to be generated
    when the class is. */
-chiventure_ctx_t* init_statless_context() {
+chiventure_ctx_t* init_statless_context()
+{
     game_t* game = game_new("Sample game, statless context");
     chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
@@ -45,7 +47,8 @@ chiventure_ctx_t* init_statless_context() {
 }
 
 /* Checks whether the class and its basic fields are not null */
-void check_field_presence(class_t* c) {
+void check_field_presence(class_t* c) 
+{
     cr_assert_not_null(c, "failed to be initialized (NULL)");
     cr_assert_not_null(c->name, "failed to initialize name");
     cr_assert_not_null(c->shortdesc, "failed to initialize short description");
@@ -66,9 +69,10 @@ void check_field_presence(class_t* c) {
     cr_assert_neq(get_stat_current(c->base_stats, "max_mana"), -1, "failed to add stat");
 }
 
-/* Checks whether skill fields are present, and whether the initialized skills 
+/* Checks whether skill fields are present, and whether the initialized skills
  * match the expected list */
-void check_skill_presence(class_t* c, int num_skills, char** names) {
+void check_skill_presence(class_t* c, int num_skills, char** names) 
+{
     cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
     cr_assert_not_null(c->starting_skills, "failed to initialize skill inventory");
 
@@ -77,7 +81,8 @@ void check_skill_presence(class_t* c, int num_skills, char** names) {
 }
 
 /* Tests the bard class */
-Test(class_prefabs, Bard) {
+Test(class_prefabs, Bard)
+{
     chiventure_ctx_t* ctx = init_statless_context();
 
     /* Tests if we can find the name even if its case is wrong */
@@ -95,7 +100,8 @@ Test(class_prefabs, Bard) {
 }
 
 /* Tests the monk class */
-Test(class_prefabs, Monk) {
+Test(class_prefabs, Monk)
+{
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "monk");
@@ -112,7 +118,8 @@ Test(class_prefabs, Monk) {
 }
 
 /* Tests the ranger class */
-Test(class_prefabs, Ranger) {
+Test(class_prefabs, Ranger)
+{
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "ranger");
@@ -129,7 +136,8 @@ Test(class_prefabs, Ranger) {
 }
 
 /* Tests the rogue class */
-Test(class_prefabs, Rogue) {
+Test(class_prefabs, Rogue)
+{
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "rogue");
@@ -146,9 +154,10 @@ Test(class_prefabs, Rogue) {
 }
 
 /* Tests whether the warrior class is initialized as expected.
- * This test is a little more in depth than the rest, since the warrior has 
+ * This test is a little more in depth than the rest, since the warrior has
  * stats currently, unlike most of the other classes.  */
-Test(class_prefabs, Warrior) {
+Test(class_prefabs, Warrior)
+{
     /* Tests a context were SOME stats were not declared */
     chiventure_ctx_t* ctx = init_incomplete_context();
 
@@ -160,7 +169,7 @@ Test(class_prefabs, Warrior) {
     cr_assert_eq(get_stat_current(c->base_stats, "speed"), 15, "failed to initialize new stat");
 
     class_prefab_add_skills(c);
-        
+
     char* skill_list[] = {"Sword Slash", "Double Slash", "Triple Slash"};
     check_skill_presence(c, 3, skill_list);
 
@@ -168,7 +177,8 @@ Test(class_prefabs, Warrior) {
 }
 
 /* Tests the rogue class */
-Test(class_prefabs, Wizard) {
+Test(class_prefabs, Wizard)
+{
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "WIZARD");

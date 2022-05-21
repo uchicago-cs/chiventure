@@ -1,5 +1,5 @@
 /*
- * Alternate class list to integrate with battle systems. 
+ * Alternate class list to integrate with battle systems.
  * This class list does not use skill_inventory.
  * See skill-list.h for more information.
  */
@@ -9,11 +9,13 @@
 #define MAX_SPELL_DESC_LEN (50)
 
 /* See skill-list.h */
-skill_list_t* new_skill_list(class_t* c, skill_t* spell) {
-    
+skill_list_t* new_skill_list(class_t* c, skill_t* spell)
+{
+
     skill_list_t* list = (skill_list_t*) calloc(1, sizeof(skill_list_t));
 
-    if (list == NULL) {
+    if (list == NULL)
+    {
         fprintf(stderr, "Could not allocate memory for new_skill_list()");
         exit(1);
     }
@@ -28,7 +30,8 @@ skill_list_t* new_skill_list(class_t* c, skill_t* spell) {
 
 
 /* see skill-list.h */
-skill_list_t* skill_list() {
+skill_list_t* skill_list()
+{
 
     skill_list_t *head = NULL;
 
@@ -43,7 +46,7 @@ skill_list_t* skill_list() {
     class_t *wizard = class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
     skill_t *fireball = skill_new(1, ACTIVE, "Fireball", "A Wizard attack spell that deals 10 damage.", 2, 5, effect_fireball);
     skill_list_t *wizardlist = new_skill_list(wizard, fireball);
-    
+
     // Knight
 
     class_t *knight = class_new("Knight", "Brave", "Brave and shiny", NULL, NULL, NULL);

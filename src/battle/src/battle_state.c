@@ -7,7 +7,7 @@
 
 /* See battle_state.h */
 combatant_t *combatant_new(char *name, bool is_friendly, class_t *c_type, stat_t *stats,
-    move_t *moves, battle_item_t *items, difficulty_t ai)
+                           move_t *moves, battle_item_t *items, difficulty_t ai)
 {
     combatant_t *c;
     int rc;
@@ -31,7 +31,7 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *c_type, stat_t
 
 /* See battle_state.h */
 int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *c_type, stat_t *stats,
-    move_t *moves, battle_item_t *items, difficulty_t ai)
+                   move_t *moves, battle_item_t *items, difficulty_t ai)
 {
     assert(c != NULL);
 
@@ -105,7 +105,7 @@ int combatant_free_all(combatant_t *c)
 
 /* See battle_state.h */
 battle_t *battle_new(combatant_t *player, combatant_t *enemy,
-    environment_t env, turn_t turn)
+                     environment_t env, turn_t turn)
 {
     battle_t *b;
     int rc;
@@ -129,7 +129,7 @@ battle_t *battle_new(combatant_t *player, combatant_t *enemy,
 
 /* See battle_state.h */
 int battle_init(battle_t *b, combatant_t *player, combatant_t *enemy,
-    environment_t env, turn_t turn)
+                environment_t env, turn_t turn)
 {
     assert(b != NULL);
 
@@ -155,7 +155,8 @@ int battle_free(battle_t *b)
 }
 
 /* See battle_state.h */
-stat_changes_t *stat_changes_new() {
+stat_changes_t *stat_changes_new()
+{
     stat_changes_t* sc;
     int rc;
 
@@ -174,11 +175,12 @@ stat_changes_t *stat_changes_new() {
         return NULL;
     }
 
-    return sc;    
+    return sc;
 }
 
 /* See battle_state.h */
-int stat_changes_init(stat_changes_t *sc) {
+int stat_changes_init(stat_changes_t *sc)
+{
     assert(sc != NULL);
 
     sc->speed = 0;
@@ -200,20 +202,23 @@ int stat_changes_init(stat_changes_t *sc) {
 }
 
 /* See battle_state.h */
-int stat_changes_free_node(stat_changes_t *sc) {
+int stat_changes_free_node(stat_changes_t *sc)
+{
     assert(sc != NULL);
-        
+
     free(sc);
 
     return SUCCESS;
 }
 
 /* See battle_state.h */
-int stat_changes_free_all(stat_changes_t *sc) {
+int stat_changes_free_all(stat_changes_t *sc)
+{
     stat_changes_t *current = sc;
     stat_changes_t *next = NULL;
 
-    while (current->next != NULL) {
+    while (current->next != NULL)
+    {
         next = current->next;
         free(current);
         current = next;
@@ -225,8 +230,10 @@ int stat_changes_free_all(stat_changes_t *sc) {
 /* As somewhat higher level functions, do these still belong here or should I move them? */
 
 /* See battle_state.h */
-int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc) {
-    while (base->next != NULL) {
+int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc)
+{
+    while (base->next != NULL)
+    {
         base = base->next;
     }
 
@@ -237,7 +244,8 @@ int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc) {
 }
 
 /* See battle_state.h */
-int stat_changes_add_node(stat_changes_t *sc) {
+int stat_changes_add_node(stat_changes_t *sc)
+{
     stat_changes_t *new_node = stat_changes_new();
 
     stat_changes_append_node(sc, new_node);
@@ -246,37 +254,44 @@ int stat_changes_add_node(stat_changes_t *sc) {
 }
 
 /* See battle_state.h */
-int stat_changes_remove_node(stat_changes_t *sc) {
+int stat_changes_remove_node(stat_changes_t *sc)
+{
     stat_changes_t *after = sc->next;
     stat_changes_t *before = sc->prev;
 
     before->next = after;
 
-    if (sc->next != NULL) {
+    if (sc->next != NULL)
+    {
         after->prev = before;
     }
-    
+
     stat_changes_free_node(sc);
 
     return SUCCESS;
 }
 
 /* See battle_state.h */
-int stat_changes_turn_increment(stat_changes_t *sc, combatant_t *c) {
+int stat_changes_turn_increment(stat_changes_t *sc, combatant_t *c)
+{
     stat_changes_t *current = sc->next;
     stat_changes_t *remove = sc->next;
 
-    while (current != NULL) {
+    while (current != NULL)
+    {
         current->turns_left -= 1;
-        
-        
-        if (current->turns_left == 0) {
+
+
+        if (current->turns_left == 0)
+        {
             remove = current;
             current = current->next;
 
             stat_changes_undo(remove, c);
             stat_changes_remove_node(remove);
-        } else {
+        }
+        else
+        {
             current = current->next;
         }
     }

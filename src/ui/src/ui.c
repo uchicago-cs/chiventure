@@ -27,10 +27,10 @@ void start_ui(chiventure_ctx_t *ctx, const char *banner)
     signal(SIGINT, SIG_IGN);
 
     int ch;
-    int *quitval; 
+    int *quitval;
     quitval = malloc(sizeof(int));
     *quitval = 1;
-    
+
 
     // starts curses mode
     setlocale(LC_ALL, "");

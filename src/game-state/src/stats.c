@@ -68,7 +68,7 @@ stats_t *stats_new(stats_global_t *global_stat, double init)
     return new_stat;
 }
 
-/* See stats.h */ 
+/* See stats.h */
 stats_t* copy_stat(stats_t* stat)
 {
     assert(stat != NULL);
@@ -139,7 +139,7 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
     stat_effect_t *effect = calloc(1, sizeof(stat_effect_t));
 
     int check = stat_effect_init(effect, global);
-    
+
     if (check != SUCCESS || effect == NULL || effect->global == NULL)
     {
         return NULL;
@@ -148,12 +148,12 @@ stat_effect_t *stat_effect_new(effects_global_t *global)
     return effect;
 }
 
-/* See stats.h */ 
+/* See stats.h */
 stat_effect_t* copy_effect(stat_effect_t* stat_effect)
 {
     assert(stat_effect != NULL);
 
-    stat_effect_t* copy = stat_effect_new(stat_effect->global); 
+    stat_effect_t* copy = stat_effect_new(stat_effect->global);
 
     /* Point to the stats affected */
     copy->stat_list = stat_effect->stat_list;
@@ -162,7 +162,8 @@ stat_effect_t* copy_effect(stat_effect_t* stat_effect)
 }
 
 /* See stats.h */
-int stat_mod_init(stat_mod_t *mod, stats_t *stat, double modifier, int duration) {
+int stat_mod_init(stat_mod_t *mod, stats_t *stat, double modifier, int duration)
+{
     assert(mod != NULL);
     mod->stat = stat;
     mod->modifier = modifier;
@@ -171,12 +172,14 @@ int stat_mod_init(stat_mod_t *mod, stats_t *stat, double modifier, int duration)
 }
 
 /* See stats.h */
-stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration) {
+stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration)
+{
     stat_mod_t *s = malloc(sizeof(stat_mod_t));
 
     int check = stat_mod_init(s, stat, modifier, duration);
 
-    if (check != SUCCESS || s == NULL || s->stat == NULL) {
+    if (check != SUCCESS || s == NULL || s->stat == NULL)
+    {
         return NULL;
     }
 
@@ -186,28 +189,33 @@ stat_mod_t *stat_mod_new(stats_t *stat, double modifier, int duration) {
 /* See stats.h */
 int change_stat(stats_hash_t *sh, char *stat, double change)
 {
-     
-    if (sh == NULL) {
+
+    if (sh == NULL)
+    {
         return FAILURE;
     }
 
     stats_t *curr;
-    
+
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
-    if (curr == NULL) {
-       return FAILURE;
+    if (curr == NULL)
+    {
+        return FAILURE;
     }
-    
+
     double changed_stat = curr->val + change;
 
-    if ((changed_stat > curr->global->max) || (changed_stat > curr->max)) {
+    if ((changed_stat > curr->global->max) || (changed_stat > curr->max))
+    {
         curr->val = curr->max;
-    } else {
+    }
+    else
+    {
         curr->val = changed_stat;
     }
 
-   return SUCCESS;
+    return SUCCESS;
 }
 
 /* See stats.h */
@@ -221,9 +229,12 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
     }
     double new_max = s->max + change;
 
-    if (new_max > s->global->max) {
+    if (new_max > s->global->max)
+    {
         s->max = s->global->max;
-    } else {
+    }
+    else
+    {
         s->max = new_max;
     }
 
@@ -233,20 +244,23 @@ int change_stat_max(stats_hash_t *sh, char *stat, double change)
 /* See stats.h */
 double get_stat_current(stats_hash_t *sh, char *stat)
 {
-    if (sh == NULL) {
+    if (sh == NULL)
+    {
         return -1;
     }
 
     stats_hash_t *curr;
-    
+
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
-    if (curr == NULL) {
-       return -1;
+    if (curr == NULL)
+    {
+        return -1;
     }
     double res = (curr->modifier) * (curr->val);
 
-    if (res > curr->global->max) {
+    if (res > curr->global->max)
+    {
         res = curr->global->max;
     }
     return res;
@@ -255,36 +269,40 @@ double get_stat_current(stats_hash_t *sh, char *stat)
 /* See stats.h */
 double get_stat_max(stats_hash_t *sh, char *stat)
 {
-    if (sh == NULL) {
+    if (sh == NULL)
+    {
         return -1;
     }
 
     stats_t *curr;
-    
+
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
-    if (curr == NULL) {
-       return -1;
+    if (curr == NULL)
+    {
+        return -1;
     }
-    
+
     return (curr->max);
 }
 
 /* See stats.h */
 double get_stat_mod(stats_hash_t *sh, char *stat)
 {
-    if (sh == NULL) {
+    if (sh == NULL)
+    {
         return -1;
     }
 
     stats_hash_t *curr;
-    
+
     HASH_FIND(hh, sh, stat, strlen(stat), curr);
 
-    if (curr == NULL) {
-       return -1;
+    if (curr == NULL)
+    {
+        return -1;
     }
-    
+
     return (curr->modifier);
 }
 
@@ -292,7 +310,7 @@ double get_stat_mod(stats_hash_t *sh, char *stat)
 int add_stat(stats_hash_t **sh, stats_t *s)
 {
     stats_t *check;
-    
+
     HASH_FIND(hh, *sh, s->key, strlen(s->key), check);
 
     if (check != NULL)
@@ -315,14 +333,15 @@ char* display_stats(stats_hash_t *s)
 
     strcpy(list, "");
 
-    if (s == NULL) {
+    if (s == NULL)
+    {
         return "\n";
     }
 
     HASH_ITER(hh, s, stat, tmp)
     {
         stat_val = stat->val * stat->modifier;
-        sprintf(line, "%s [%.2f / %.2f]\n", stat->key, 
+        sprintf(line, "%s [%.2f / %.2f]\n", stat->key,
                 stat_val, stat->max);
         strcat(list, line);
     }
@@ -333,7 +352,8 @@ char* display_stats(stats_hash_t *s)
 
 
 /* See stats.h */
-int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
+int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect)
+{
     stat_effect_t *check;
     HASH_FIND(hh, *hash, effect->key, strlen(effect->key), check);
 
@@ -347,28 +367,34 @@ int add_stat_effect(effects_hash_t **hash, stat_effect_t *effect) {
 }
 
 /* See stats.h */
-int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2) {
+int stat_mod_equal(stat_mod_t *m1, stat_mod_t *m2)
+{
     return strcmp(m1->stat->key, m2->stat->key);
 }
 
 /* See stats.h */
-int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats, 
-                 double *intensities, int *durations, int num_stats) {
-                     
+int apply_effect(effects_hash_t **hash, stat_effect_t  *effect, stats_t **stats,
+                 double *intensities, int *durations, int num_stats)
+{
+
     add_stat_effect(hash, effect);
     stat_effect_t *player_effect;
     HASH_FIND(hh, *hash, effect->key, strlen(effect->key), player_effect);
 
     stat_mod_t *new, *tmp;
-    for (int i = 0; i < num_stats; i++) {
+    for (int i = 0; i < num_stats; i++)
+    {
         stats[i]->modifier *= intensities[i];
         stat_mod_t *new = stat_mod_new(stats[i], intensities[i], durations[i]);
         LL_SEARCH(player_effect->stat_list, tmp, new, stat_mod_equal);
-        if (tmp != NULL) {
+        if (tmp != NULL)
+        {
             tmp->modifier = new->modifier;
             tmp->duration = new->duration;
             free_stat_mod(new);
-        } else {
+        }
+        else
+        {
             LL_APPEND(player_effect->stat_list, new);
         }
     }
@@ -394,7 +420,8 @@ char *display_stat_effects(effects_hash_t *hash)
 
     strcpy(list, "");
 
-    if (hash == NULL) {
+    if (hash == NULL)
+    {
         return "\n";
     }
 
@@ -404,7 +431,7 @@ char *display_stat_effects(effects_hash_t *hash)
         strcat(list, line);
         LL_FOREACH(effect->stat_list, mod)
         {
-            sprintf(line, "\t[ %s ] modifier: %.2f, duration: %d\n", 
+            sprintf(line, "\t[ %s ] modifier: %.2f, duration: %d\n",
                     mod->stat->key, mod->modifier, mod->duration);
             strcat(list, line);
         }
@@ -435,7 +462,7 @@ int free_stats_table(stats_hash_t *stats_table)
 {
     stats_t *current_stat, *tmp;
     HASH_ITER(hh, stats_table, current_stat, tmp)
-    {     
+    {
         HASH_DEL(stats_table, current_stat);
         free_stats(current_stat);
     }
@@ -447,7 +474,7 @@ int free_stats_global_table(stats_global_hash_t *gst)
 {
     stats_global_t *current_gs, *tmp;
     HASH_ITER(hh, gst, current_gs, tmp)
-    {     
+    {
         HASH_DEL(gst, current_gs);
         free_stats_global(current_gs);
     }
@@ -455,7 +482,7 @@ int free_stats_global_table(stats_global_hash_t *gst)
 }
 
 /* See stats.h */
-int free_stat_mod(stat_mod_t *mod) 
+int free_stat_mod(stat_mod_t *mod)
 {
     free(mod);
     return SUCCESS;
@@ -478,13 +505,13 @@ int delete_single_stat_effect(stat_effect_t *effect, effects_hash_t *hash)
     assert(effect != NULL);
     HASH_DEL(hash, effect);
     stat_mod_t *current, *tmp;
-    
+
     LL_FOREACH_SAFE(effect->stat_list, current, tmp)
     {
         LL_DELETE(effect->stat_list, current);
         free_stat_mod(current);
     }
-    
+
     free_stat_effect(effect);
 
     return SUCCESS;
@@ -515,7 +542,7 @@ int free_global_effect(effects_global_t* effect)
 }
 
 /* See stats.h */
-int delete_single_global_effect(effects_global_t *effect, 
+int delete_single_global_effect(effects_global_t *effect,
                                 effects_global_hash_t *hash)
 {
     assert(effect != NULL);

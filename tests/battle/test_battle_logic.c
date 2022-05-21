@@ -345,7 +345,7 @@ Test(battle_logic, use_battle_weapon)
 {
     stat_t *player_stats = calloc(1, sizeof(stat_t));
     player_stats->max_hp= 1000;
-    
+
     stat_t *enemy_stats = calloc(1, sizeof(stat_t));
     enemy_stats->max_hp= 1000;
     enemy_stats->hp = 100;
@@ -360,10 +360,10 @@ Test(battle_logic, use_battle_weapon)
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = player;
     battle->enemy = enemy;
-    
+
     int expected_hp = battle->enemy->stats->hp + weapon->hp;
     int expected_strength = battle->enemy->stats->phys_atk + weapon->attack;
-    int expected_defense = battle->enemy->stats->phys_def + weapon->defense; 
+    int expected_defense = battle->enemy->stats->phys_def + weapon->defense;
     int expected_durability = weapon->durability - 10;
     use_battle_item(player, battle, weapon->name);
     cr_assert_eq(battle->enemy->stats->hp, expected_hp, "consume_battle_weapon() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
@@ -421,7 +421,7 @@ Test(battle_logic, uses_battle_item_correctly)
     i1->hp = 10;
     i1->quantity = 2;
     i1->name = "ITEM1";
-    
+
     i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
     i2->attack = 0;
@@ -429,7 +429,7 @@ Test(battle_logic, uses_battle_item_correctly)
     i2->hp = 20;
     i2->quantity = 2;
     i2->name = "ITEM2";
-    
+
     DL_APPEND(head, i1);
     DL_APPEND(head, i2);
 
@@ -511,8 +511,8 @@ Test(battle_logic, no_more_battle_items)
 Test(battle_logic, award_xp)
 {
     class_t* test_class = class_new("Bard", "Music boi",
-				    "Charismatic, always has a joke or song ready",
-				    NULL, NULL, NULL);
+                                    "Charismatic, always has a joke or song ready",
+                                    NULL, NULL, NULL);
 
     double xp_gain = 15;
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -542,7 +542,7 @@ Test(battle_logic, award_xp)
 Test(stat_changes, add_item_node)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
-    
+
     i1->id = 100;
     i1->attack = 0;
     i1->defense = 0;
@@ -600,7 +600,7 @@ Test(battle_logic, remove_single_item)
 
 Test(battle_logic, remove_item_of_multiple)
 {
-    
+
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
     i1->id = 100;
     i1->attack = 0;
@@ -663,7 +663,7 @@ Test(battle_logic, remove_last_item_of_multiple)
     strcpy(i1->name, "item1");
     i1->description = calloc(15, sizeof(char));
     strcpy(i1->description, "description");
-    
+
 
     battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;
@@ -674,7 +674,7 @@ Test(battle_logic, remove_last_item_of_multiple)
     i2->name = calloc(6, sizeof(char));
     strcpy(i2->name, "item2");
     i2->description = calloc(15, sizeof(char));
-    strcpy(i2->description, "description");    
+    strcpy(i2->description, "description");
 
     i1->next = i2;
     i2->prev = i1;

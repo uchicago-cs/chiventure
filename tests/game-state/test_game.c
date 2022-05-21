@@ -4,11 +4,13 @@
 #include <stdio.h>
 #include "game-state/game.h"
 
-void setup(void) {
+void setup(void)
+{
     puts("Ready to go!");
 }
 
-void teardown(void) {
+void teardown(void)
+{
     puts("Runs after the test");
 }
 
@@ -19,8 +21,8 @@ Test(game_start, new)
     game_t *game = game_new("hello and welcome to this awesome game");
     cr_assert_not_null(game, "game_new() failed");
     cr_assert_eq(strncmp(game->start_desc,
-        "hello and welcome to this awesome game", MAX_START_DESC_LEN), 0,
-        "game_new() failed to set the starting description");
+                         "hello and welcome to this awesome game", MAX_START_DESC_LEN), 0,
+                 "game_new() failed to set the starting description");
     game_free(game);
 }
 
@@ -193,10 +195,10 @@ Test(game_player, set_curr_player)
     set_curr_player(game, plyr1);
 
     int check = strncmp(game->curr_player->player_id, plyr1->player_id,
-        MAX_ID_LEN);
+                        MAX_ID_LEN);
     set_curr_player(game, plyr2);
     int check2 = strncmp(game->curr_player->player_id, plyr2->player_id,
-        MAX_ID_LEN);
+                         MAX_ID_LEN);
     int chk_fail = set_curr_player(game, NULL);
     cr_assert_eq(check, SUCCESS, "set_curr_player to player_one failed");
     cr_assert_eq(check2, SUCCESS, "set_curr_player to player_two failed");
@@ -224,7 +226,7 @@ Test(game_player, get_player)
     game_free(game);
 }
 
-/* Checks that add_npc_to_game() adds an npc to the game's npc hash table 
+/* Checks that add_npc_to_game() adds an npc to the game's npc hash table
  * Checks that get_npc() correctly finds an npc in game's npc hash table.
  */
 Test(game_npc, add_and_get_npc)
@@ -246,7 +248,7 @@ Test(game_npc, add_and_get_npc)
 }
 
 /* Checks that add_end_condition_to_game() adds valid end conditions to a game
- * Additionally insures that bad end conditions are not added 
+ * Additionally insures that bad end conditions are not added
  */
 Test(game_end_condition, add_end_condition_to_game)
 {
@@ -259,14 +261,14 @@ Test(game_end_condition, add_end_condition_to_game)
 
 
 
-    item_t *test_item_1 = item_new("test_item_1", 
-    "test item 1 for end conditions",
-    "item for testing add_end_condition_to_game()");
+    item_t *test_item_1 = item_new("test_item_1",
+                                   "test item 1 for end conditions",
+                                   "item for testing add_end_condition_to_game()");
     set_str_attr(test_item_1, "Test_Attribute_1", "Test_Value_1");
-    
-    item_t *test_item_2 = item_new("test_item_2", 
-    "test item 2 for end conditions",
-    "item for testing add_end_condition_to_game()");
+
+    item_t *test_item_2 = item_new("test_item_2",
+                                   "test item 2 for end conditions",
+                                   "item for testing add_end_condition_to_game()");
     set_str_attr(test_item_2, "Test_Attribute_2", "Test_Value_2");
 
     add_item_to_game(game, test_item_1);
@@ -275,16 +277,16 @@ Test(game_end_condition, add_end_condition_to_game)
     condition_t *condition_2 = attribute_condition_new(test_item_1, "Test_Attribute_2", test_value_2);
     condition_t *condition_3 = attribute_condition_new(test_item_2, "Test_Attribute_1", test_value_1);
     condition_t *condition_4 = attribute_condition_new(test_item_2, "Test_Attribute_2", test_value_2);
-    
+
     int add_1 = add_end_condition_to_game(game, condition_1);
     cr_assert_eq(add_1, SUCCESS, "add_end_condition_to_game() did not add condition_1");
-    
-    int add_2 = add_end_condition_to_game(game, condition_2);    
+
+    int add_2 = add_end_condition_to_game(game, condition_2);
     cr_assert_neq(add_2, SUCCESS, "add_end_condition_to_game() added an invalid condition (2)");
-    
+
     int add_3 = add_end_condition_to_game(game, condition_3);
     cr_assert_neq(add_3, SUCCESS, "add_end_condition_to_game() added an invalid condition (3)");
-    
+
     int add_4 = add_end_condition_to_game(game, condition_4);
     cr_assert_neq(add_4, SUCCESS, "add_end_condition_to_game() added an invalid condition (4)");
 
@@ -294,53 +296,53 @@ Test(game_end_condition, add_end_condition_to_game)
     game_free(game);
 }
 
-/* Checks that end_conditions_met() properly assesses when 
- * all end conditions of a game have been met 
+/* Checks that end_conditions_met() properly assesses when
+ * all end conditions of a game have been met
  */
 Test(game_end_condition, end_conditions_met)
 {
     game_t *game = game_new("Welcome to Chiventure!");
-    
+
     bool test_1 = end_conditions_met(game);
     cr_assert_eq(test_1, false, "end_conditions_met() does not return false when there are no end conditions");
-    
+
     attribute_value_t expected;
     expected.str_val = "Valid_Value";
-    
-    item_t *test_item_1 = item_new("test_item_1", 
-    "test item 1 for end conditions",
-    "item for testing end_conditions_met()");
+
+    item_t *test_item_1 = item_new("test_item_1",
+                                   "test item 1 for end conditions",
+                                   "item for testing end_conditions_met()");
     set_str_attr(test_item_1, "Test_Attribute_1", "Invalid_Value_1");
     add_item_to_game(game, test_item_1);
 
     condition_t *condition_1 = attribute_condition_new(test_item_1, "Test_Attribute_1", expected);
     add_end_condition_to_game(game, condition_1);
-    
-    item_t *test_item_2 = item_new("test_item_2", 
-    "test item 2 for end conditions",
-    "item for testing end_conditions_met()");
+
+    item_t *test_item_2 = item_new("test_item_2",
+                                   "test item 2 for end conditions",
+                                   "item for testing end_conditions_met()");
     set_str_attr(test_item_2, "Test_Attribute_2", "Invalid_Value_2");
     add_item_to_game(game, test_item_2);
 
     condition_t *condition_2 = attribute_condition_new(test_item_2, "Test_Attribute_2", expected);
     add_end_condition_to_game(game, condition_2);
-    
-    item_t *test_item_3 = item_new("test_item_3", 
-    "test item 3 for end conditions",
-    "item for testing end_conditions_met()");
+
+    item_t *test_item_3 = item_new("test_item_3",
+                                   "test item 3 for end conditions",
+                                   "item for testing end_conditions_met()");
     set_str_attr(test_item_3, "Test_Attribute_3", "Invalid_Value_3");
     add_item_to_game(game, test_item_3);
-    
+
     condition_t *condition_3 = attribute_condition_new(test_item_3, "Test_Attribute_3", expected);
     add_end_condition_to_game(game, condition_3);
-    
+
     bool test_2 = end_conditions_met(game);
     cr_assert_eq(test_2, false, "end_conditions_met() returns true when not all conditions are met");
 
     set_str_attr(test_item_1, "Test_Attribute_1", "Valid_Value");
     bool test_3 = end_conditions_met(game);
     cr_assert_eq(test_3, false, "end_conditions_met() returns true when not all conditions are met");
-    
+
     set_str_attr(test_item_3, "Test_Attribute_3", "Valid_Value");
     bool test_4 = end_conditions_met(game);
     cr_assert_eq(test_4, false, "end_conditions_met() returns true when not all conditions are met");
@@ -355,38 +357,38 @@ Test(game_end_condition, end_conditions_met)
 game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
 {
     game_t *game = game_new("Welcome to Chiventure!");
-    
+
     attribute_value_t expected, unexpected;
     expected.str_val = "Valid_Value";
     unexpected.str_val = "Invalid_Value";
-    
-    item_t *test_item = item_new("test_item", 
-    "test item for is_game_over",
-    "item for testing is_game_over()");
+
+    item_t *test_item = item_new("test_item",
+                                 "test item for is_game_over",
+                                 "item for testing is_game_over()");
     set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
     add_item_to_game(game, test_item);
-    
+
     room_t *test_room1 = room_new("test_room1", "room1 short", "room1 long long long");
     room_t *test_room2 = room_new("test_room2", "room2 short", "room2 long long long");
-    
+
     add_item_to_game(game, test_item);
     add_room_to_game(game, test_room1);
     add_room_to_game(game, test_room2);
     game->curr_room = test_room1;
-    
+
     if (has_end_conditions)
     {
         condition_t *condition;
         condition = attribute_condition_new(test_item, "Test_Attribute",
-                                  expected);
+                                            expected);
         add_end_condition_to_game(game, condition);
     }
-    
+
     if (has_final_room)
     {
         add_final_room_to_game(game, test_room2);
     }
-    
+
     return game;
 }
 
@@ -405,7 +407,7 @@ Test(game_end_condition, is_game_over_neverending)
 Test(game_end_condition, is_game_over_end_conditions)
 {
     game_t *game = setup_is_game_over_test(false, true);
-    
+
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "end conditions have not been met & no final room exists");
     item_t *item = get_item_from_game(game, "test_item");
@@ -420,7 +422,7 @@ Test(game_end_condition, is_game_over_end_conditions)
 Test(game_end_condition, is_game_over_final_room)
 {
     game_t *game = setup_is_game_over_test(true, false);
-    
+
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "player has yet to reach final room & no end conditions exist");
     move_room(game, game->final_room);
@@ -434,16 +436,16 @@ Test(game_end_condition, is_game_over_final_room)
 Test(game_end_condition, is_game_over_end_conditions_final_room)
 {
     game_t *game = setup_is_game_over_test(true, true);
-    
+
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "player has yet to reach final room & "
                  "end conditions have not been met");
-    
+
     move_room(game, game->final_room);
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "player has reached final room but "
                  "end conditions have not been met");
-    
+
     room_t *room = find_room_from_game(game, "test_room1");
     move_room(game, room);
     item_t *item = get_item_from_game(game, "test_item");
@@ -451,7 +453,7 @@ Test(game_end_condition, is_game_over_end_conditions_final_room)
     cr_assert_eq(is_game_over(game), false, "is_game_over() returns true when "
                  "end conditions have been met but "
                  "player has yet to reach final room");
-    
+
     move_room(game, game->final_room);
     cr_assert_eq(is_game_over(game), true, "is_game_over() returns false when "
                  "end conditions have been met and "
@@ -470,18 +472,26 @@ Test(iter_macro, iter_rooms)
     add_room_to_game(game, room3);
     int cnt = 0;
     room_t *curr_room;
-    ITER_ALL_ROOMS(game, curr_room) {
+    ITER_ALL_ROOMS(game, curr_room)
+    {
         cnt++;
-        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
-            "ldesc does not correspond");
-        } else {
+                             "ldesc does not correspond");
+        }
+        else
+        {
             cr_assert_fail("non-existent room detected");
         }
     }
@@ -489,7 +499,8 @@ Test(iter_macro, iter_rooms)
     game_free(game);
 }
 
-Test(iter, get_all_rooms_macro) {
+Test(iter, get_all_rooms_macro)
+{
     game_t *game = game_new("Welcome to Chiventure!");
     room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
     room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
@@ -501,19 +512,27 @@ Test(iter, get_all_rooms_macro) {
     room_t *curr_room;
     room_list_t *list = get_all_rooms(game);
     room_list_t *elt;
-    LL_FOREACH(list, elt) {
+    LL_FOREACH(list, elt)
+    {
         cnt++;
         curr_room = elt->room;
-        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
-            "ldesc does not correspond");
-        } else {
+                             "ldesc does not correspond");
+        }
+        else
+        {
             cr_assert_fail("non-existent room detected");
         }
     }
@@ -522,7 +541,8 @@ Test(iter, get_all_rooms_macro) {
     game_free(game);
 }
 
-Test(iter, get_all_rooms) {
+Test(iter, get_all_rooms)
+{
     game_t *game = game_new("Welcome to Chiventure!");
     room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
     room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
@@ -534,19 +554,27 @@ Test(iter, get_all_rooms) {
     room_t *curr_room;
     room_list_t *list = get_all_rooms(game);
     room_list_t *elt;
-    LL_FOREACH(list, elt) {
+    LL_FOREACH(list, elt)
+    {
         cnt++;
         curr_room = elt->room;
-        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN)) {
+        if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
-            "ldesc does not correspond");
-        } else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN)) {
+                             "ldesc does not correspond");
+        }
+        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+        {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
-            "ldesc does not correspond");
-        } else {
+                             "ldesc does not correspond");
+        }
+        else
+        {
             cr_assert_fail("non-existent room detected");
         }
     }

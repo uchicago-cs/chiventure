@@ -48,29 +48,37 @@ int main()
     map_center_on(ctx, 0, 0, 0);
 
     char ch;
-    while (true) {
+    while (true)
+    {
         ch = wgetch(ctx->ui_ctx->map->pad);
         ch = tolower(ch);
 
-        if (ch == 'w') {
+        if (ch == 'w')
+        {
             cur_y -= incr;
         }
-        if (ch == 's') {
+        if (ch == 's')
+        {
             cur_y += incr;
         }
-        if (ch == 'a') {
+        if (ch == 'a')
+        {
             cur_x -= incr;
         }
-        if (ch == 'd') {
+        if (ch == 'd')
+        {
             cur_x += incr;
         }
-        if (ch == 'u') {
+        if (ch == 'u')
+        {
             cur_z += 1;
         }
-        if (ch == 'i') {
+        if (ch == 'i')
+        {
             cur_z -= 1;
         }
-        if (ch == 'q') {
+        if (ch == 'q')
+        {
             break;
         }
         set_player_loc(ctx, cur_x, cur_y, cur_z);
@@ -80,6 +88,6 @@ int main()
     //Ends the ncurses UI
     endwin();
 
-    chiventure_ctx_free(ctx);    
+    chiventure_ctx_free(ctx);
     return 0;
 }

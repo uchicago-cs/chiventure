@@ -170,7 +170,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
     {
         return;
     }
-    
+
     if (!strcasecmp(cmd_string, "quit"))
     {
         *retval = 0;
@@ -178,11 +178,11 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
 
 
 
-    if (ctx->game->mode->curr_mode == NORMAL) 
+    if (ctx->game->mode->curr_mode == NORMAL)
     {
-        /* 
-         * iteratively goes through each tokenized cmds 
-         * in the utlist and calls cmd_from_string on 
+        /*
+         * iteratively goes through each tokenized cmds
+         * in the utlist and calls cmd_from_string on
          * it to be executed
          */
         tokenized_cmds* temp;
@@ -197,7 +197,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
             else
             {
                 int rc = do_cmd(c, cli_ui_callback, NULL, ctx);
-            }  
+            }
         }
     }
     else

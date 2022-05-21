@@ -26,11 +26,11 @@ int set_item_attributes(chiventure_ctx_t *ctx)
     val_false.bool_val = false;
     room_t *dining_room = find_room_from_game(game, "dining room");
     room_t *living_room = find_room_from_game(game, "living room");
-    
+
     /* Add bool attribute "CONSUMED" to all food items
      * Add condition "CONSUMED" == false to "EAT" action
      * Add effect "CONSUMED" == true to "EAT" action
-     */ 
+     */
     for (int i = 0; i < 4; i++)
     {
         item_t *item;
@@ -45,13 +45,13 @@ int set_item_attributes(chiventure_ctx_t *ctx)
         case 2:
             item = get_item_in_room(dining_room, "WATER");
             break;
-        case 3: 
+        case 3:
             item = get_item_in_room(dining_room, "SPAGHETTI");
             break;
         default:
             break;
         }
-        
+
         set_bool_attr(item, "CONSUMED", false);
         attribute_t *attr = get_attribute(item, "CONSUMED");
         game_action_t *act = get_action(item, "CONSUME");
@@ -59,11 +59,11 @@ int set_item_attributes(chiventure_ctx_t *ctx)
         add_action_attribute_condition(act, item, attr, val_false);
         add_action_effect(act, item, attr, val_true);
     }
-    
+
     /* Add bool attribute "OPEN" to door
      * Add condition "OPEN" == false to "OPEN" action
      * Add effect "OPEN" == true to "OPEN" action
-     */ 
+     */
     item_t *door = get_item_in_room(living_room, "DOOR");
     set_bool_attr(door, "OPEN", false);
     attribute_t *attr = get_attribute(door, "OPEN");
@@ -71,7 +71,7 @@ int set_item_attributes(chiventure_ctx_t *ctx)
 
     add_action_attribute_condition(act, door, attr, val_false);
     add_action_effect(act, door, attr, val_true);
-    
+
     return 0;
 }
 
@@ -84,7 +84,7 @@ int add_end_conditions(chiventure_ctx_t *ctx)
     attribute_value_t val_false;
     val_false.bool_val = false;
     room_t *dining_room = find_room_from_game(game, "dining room");
-    
+
     /* Add end condition that "CONSUMED" must equal true for all food items */
     for (int i = 0; i < 4; i++)
     {
@@ -100,19 +100,19 @@ int add_end_conditions(chiventure_ctx_t *ctx)
         case 2:
             item = get_item_in_room(dining_room, "WATER");
             break;
-        case 3: 
+        case 3:
             item = get_item_in_room(dining_room, "SPAGHETTI");
             break;
         default:
             break;
         }
-        
+
         add_item_to_game(game, item); // necessary for add_end_condition_to_game
         condition_t *new_condition = attribute_condition_new(item, "CONSUMED", val_true);
         add_end_condition_to_game(game, new_condition);
     }
-    
-    
+
+
     return 0;
 }
 
@@ -124,7 +124,7 @@ int add_inventory_conditions(chiventure_ctx_t *ctx)
     room_t *dining_room = find_room_from_game(game, "dining room");
     room_t *kitchen = find_room_from_game(game, "kitchen");
     item_t *fork = get_item_in_room(kitchen, "FORK");
-    
+
     /* Add condition that fork must be in inventory
      * to consume salad & spaghetti */
     for (int i = 0; i < 2; i++)
@@ -141,11 +141,11 @@ int add_inventory_conditions(chiventure_ctx_t *ctx)
         default:
             break;
         }
-        
+
         game_action_t *act = get_action(item, "CONSUME");
         add_action_inventory_condition(act, player, fork);
     }
-    
+
     return 0;
 }
 

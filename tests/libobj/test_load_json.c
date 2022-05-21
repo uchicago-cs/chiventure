@@ -103,7 +103,7 @@ Test(test_load_json, load_list)
 Test(test_load_json, load_obj_json)
 {
     obj_t *obj = obj_new("test_id");
-    
+
     char *json_str =
         "{"
         "    \"short_desc\":\"A red sign.\","
@@ -127,24 +127,24 @@ Test(test_load_json, load_obj_json)
     cr_assert_eq(rc, EXIT_SUCCESS, "_load_obj_json failed");
 
     cr_assert_str_eq("A red sign.", obj_get_str(obj, "short_desc"),
-        "_load_obj_json didn't return the correct value");
+                     "_load_obj_json didn't return the correct value");
     cr_assert_eq(12, obj_get_int(obj, "props.length"),
-        "_load_obj_json didn't return the correct value");
+                 "_load_obj_json didn't return the correct value");
     cr_assert_eq(true, obj_get_bool(obj, "props.open"),
-        "_load_obj_json didn't return the correct value");
+                 "_load_obj_json didn't return the correct value");
 
     obj_list_t *lst = obj_get_list(obj, "actions");
     cr_assert_not_null(lst, "_load_obj_json didn't load the list correctly");
 
     obj_t *cur = lst;
     cr_assert_str_eq("take", obj_get_str(cur, "name"),
-        "_load_obj_json didn't return the correct value");
+                     "_load_obj_json didn't return the correct value");
     cr_assert_eq(false, obj_get_bool(cur, "condition"),
-        "_load_obj_json didn't return the correct value");
+                 "_load_obj_json didn't return the correct value");
 
     cur = cur->next;
     cr_assert_str_eq("pull", obj_get_str(cur, "name"),
-        "_load_obj_json didn't return the correct value");
+                     "_load_obj_json didn't return the correct value");
     cr_assert_eq(true, obj_get_bool(cur, "condition"),
-        "_load_obj_json didn't return the correct value");
+                 "_load_obj_json didn't return the correct value");
 }

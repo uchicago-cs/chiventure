@@ -20,7 +20,7 @@ int count_attrs(obj_t *obj, char *path, int expected)
         count++;
     }
 
-    cr_assert_eq(count, expected, 
+    cr_assert_eq(count, expected,
                  "obj_t '%s' has the wrong number of attrs at '%s'- expected: %d, got %d",
                  obj->id, path, expected, count);
 }

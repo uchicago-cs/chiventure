@@ -12,7 +12,7 @@ Test(battle_flow_structs, new_ctx_player)
                                     NULL, NULL, NULL);
 
     battle_player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL);
+                                  NULL, NULL, NULL);
 
     cr_assert_not_null(ctx_player, "new_ctx_player() failed");
     cr_assert_str_eq(ctx_player->player_id, "new_ctx_player_Name", "new_ctx_player() didn't set id");

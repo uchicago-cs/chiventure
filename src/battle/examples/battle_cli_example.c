@@ -42,7 +42,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     srand(time(0)); // sets seed
     // creates the stats of the player to begin the battle
     stat_t *p_stats = get_random_stat();
-    
+
     // creates the stats of the enemy to begin the battle
     stat_t *e_stats = get_random_stat();
 
@@ -50,7 +50,8 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     battle_item_t *p_item = get_random_default_consumable();
     battle_item_t *p_item2 = get_random_default_consumable();
 
-    while (p_item2->id == p_item->id) {
+    while (p_item2->id == p_item->id)
+    {
         p_item2 = get_random_default_consumable();
     }
 
@@ -60,13 +61,14 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     move_t *p_move = get_random_default_move();
     move_t *p_move2 = get_random_default_move();
 
-    while (p_move2->id == p_move->id) {
+    while (p_move2->id == p_move->id)
+    {
         p_move2 = get_random_default_move();
     }
 
     p_move->next = p_move2;
     p_move2->prev = p_move;
-    
+
 
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = get_random_default_move();
@@ -86,12 +88,12 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
 
-    /* start_battle begins the battle by finalizing 
+    /* start_battle begins the battle by finalizing
        all finishing touches for a battle to begin */
 
     int rc = start_battle(battle_ctx, e, ENV_GRASS);
 
-    // prints the beginning of the battle 
+    // prints the beginning of the battle
     char *start = print_start_battle(battle_ctx->game->battle);
     int start_rc = print_to_cli(ctx, start);
     char *turn_start = print_start_turn(battle_ctx->game->battle);
@@ -99,8 +101,8 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (!rc)
     {
-        
-        game_mode_init(ctx->game->mode, BATTLE, 
+
+        game_mode_init(ctx->game->mode, BATTLE,
                        run_battle_mode, "Goblin");
     }
 
@@ -110,7 +112,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /*
  * Creates a chiventure context with a sample game.
  *
- * Returns: a chiventure context with 
+ * Returns: a chiventure context with
  */
 chiventure_ctx_t *create_sample_ctx()
 {
@@ -127,7 +129,7 @@ chiventure_ctx_t *create_sample_ctx()
 
 int main(int argc, char **argv)
 {
-    
+
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatching in a fight action to support dialogue */
