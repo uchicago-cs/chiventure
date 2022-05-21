@@ -76,9 +76,10 @@ room_t* roomspec_to_room(roomspec_t *roomspec);
 
 /** pick_random_direction
  * Picks random OPEN NESW (compass) direction around given room 
- * (open as in does not contain an adjacenct room based on coordinates)
+ * (open as in does not contain an adjacent room based on coordinates)
  * 
  * parameters:
+ * - game: A pointer to a game struct. Should not be NULL and should contain at least one room
  * - curr: pointer to a room. not NULL.
  * - out_direction_to_new: Random direction going OUT FROM curr. Outparameter.
  *                   Array must have enough space for any NESW direction. 
@@ -92,7 +93,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec);
  * - SUCCESS: if an open direction is available
  * - FAILURE: otherwise
  */
-int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_direction_to_new);
+int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_curr, char *out_direction_to_new);
 
 /** room_generate
  * Generates a room based on the given roomspec and adds it to the game.
