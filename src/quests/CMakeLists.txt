@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 3.10)
 include_directories(../../include/)
 
 add_library(quests STATIC
-            src/quest_hash.c
+            src/quests_hash.c
+            src/prereq.c
+            src/quests_state.c
             src/quest.c
             src/task.c)
 

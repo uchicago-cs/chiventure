@@ -6,7 +6,7 @@
 #include "npc/npc.h"
 #include "battle/battle_flow_structs.h"
 #include "cli/util.h"
-#include "quests/quest_hash.h"
+#include "quests/quests_state.h"
 
 /* see game.h */
 game_t *game_new(char *desc)

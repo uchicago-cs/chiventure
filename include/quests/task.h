@@ -1,9 +1,72 @@
 #ifndef TASK_H
 #define TASK_H
 
-#include "quest_hash.h"
+#include "game-state/item.h"
+#include "prereq.h"
 
-typedef struct item_wrapped_for_llist item_list_t; // Forward declaration
+/* An enum representing the possible mission types currently supported */
+typedef enum mission_types {
+    MEET_NPC,
+    KILL_NPC,
+    COLLECT_ITEM,
+    VISIT_ROOM,
+} mission_types_t;
+
+/*
+ * This struct represents a mission.
+ *
+ * Components:
+ * - target_name: The name of the mission's target (ie the NPC's name, the item's name, etc)
+ * - type: The type of 
+ */
+typedef struct mission {
+    char *target_name;
+    mission_types_t type;
+} mission_t;
+
+/* 
+ * This struct represents a reward for completing a quest or task.
+ *
+ * Components:
+ *  xp: an xp amount gained
+ *  item: an item gained
+ */
+typedef struct reward {
+   int xp;
+   item_t *item;
+} reward_t;
+
+/* 
+ * This struct represents a task.
+ * 
+ * Components:
+ *  mission: mission to be completed
+ *  id: string identifier for the task
+ *  reward: reward for completing the task.
+ *  prereq: prerequisite for beginning a task
+ */
+typedef struct task {
+    mission_t *mission;
+    char *id;
+    reward_t *reward;
+    prereq_t *prereq;
+} task_t;
+
+/*
+ * This is a non-binary tree struct of tasks (to replace linked list)
+ *
+ * Components:
+ *  task: task in tree
+ *  parent: parent node of task
+ *  rsibling: the nearest right-hand sibling of the task node
+ *  lmostchild: the leftmost child of the task node
+ */
+typedef struct task_tree {
+    task_t *task;
+    struct task_tree *parent;
+    struct task_tree *rsibling;
+    struct task_tree *lmostchild;
+} task_tree_t;
 
 /* task functionality */
 
@@ -113,53 +176,6 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prer
  * - FAILURE for unsuccessful free
  */
 int task_free(task_t *task);
-
-/* Determines whether a player completed a mission (if possible for that mission type)
- *
- * Parameters:
- *  - mission: a mission object
- *  - player: a player
- * 
- * Returns:
- * - true if the player completed the mission, false if not
-*/
-bool completed_mission(mission_t *mission, player_t *player);
-
-/* Checks if a player completed a given task
- * - Always returns false if the task has a mission and checks the 
- *  prerequisite if it does not
- * 
- * Parameter:
- * - task: pointer to the task
- * - player: pointer to player with the task
- *
- * Returns:
- * - false if task is incomplete
- * - true if task is complete
- */
-bool is_task_completed(task_t *task, player_t *player);
-
-/* Checks a task's status.
- *
- * Parameter:
- * - task: pointer to a task
- * - player: pointer to player with the task
- * 
- * Returns: 
- * - the task's completion for the given player (true = complete, false = incomplete)
- */
-bool get_player_task_status(task_t *task, player_t *player);
-
-/* Adds the contents of a reward struct to the player struct
- * 
- * Parameters:
- * - reward: the reward getting accepted
- * - player: the player accepting the reward
- * 
- * Returns:
- * - SUCCESS if added successfully, FAILURE if an error occured
-*/
-int accept_reward(reward_t *reward, player_t *player);
 
 
 #endif /* TASK_H */

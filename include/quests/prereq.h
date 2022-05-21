@@ -1,12 +1,18 @@
 #ifndef PREREQ_H
 #define PREREQ_H
 
-#include "game-state/item.h"
 #include "common/common.h"
 #include "common/utlist.h"
-#include "game-state/player.h"
 
 /* structs related to prereqs */
+
+/*
+ * A single quest/task id node for the linked list
+ */
+typedef struct id_list_node {
+    char *id;
+    struct id_list_node *next;
+} id_list_node_t;
 
 /*
  * A linked list of quest/task ids
@@ -32,69 +38,8 @@ typedef struct prereq {
     id_list_t *quest_list;
 } prereq_t;
 
-/* An enum representing the possible mission types currently supported */
-typedef enum mission_types {
-    MEET_NPC,
-    KILL_NPC,
-    COLLECT_ITEM,
-    VISIT_ROOM,
-} mission_types_t;
 
-/*
- * This struct represents a mission.
- *
- * Components:
- * - target_name: The name of the mission's target (ie the NPC's name, the item's name, etc)
- * - type: The type of 
- */
-typedef struct mission {
-    char *target_name;
-    mission_types_t type;
-} mission_t;
-
-/* 
- * This struct represents a reward for completing a quest or task.
- *
- * Components:
- *  xp: an xp amount gained
- *  item: an item gained
- */
-typedef struct reward {
-   int xp;
-   item_t *item;
-} reward_t;
-
-/* 
- * This struct represents a task.
- * 
- * Components:
- *  mission: mission to be completed
- *  id: string identifier for the task
- *  reward: reward for completing the task.
- *  prereq: prerequisite for beginning a task
- */
-typedef struct task {
-    mission_t *mission;
-    char *id;
-    reward_t *reward;
-    prereq_t *prereq;
-} task_t;
-
-/*
- * This is a non-binary tree struct of tasks (to replace linked list)
- *
- * Components:
- *  task: task in tree
- *  parent: parent node of task
- *  rsibling: the nearest right-hand sibling of the task node
- *  lmostchild: the leftmost child of the task node
- */
-typedef struct task_tree {
-    task_t *task;
-    struct task_tree *parent;
-    struct task_tree *rsibling;
-    struct task_tree *lmostchild;
-} task_tree_t;
+/* prereq initialization */
 
 /* 
  * Creates a new prereq object on the heap
@@ -154,6 +99,18 @@ id_list_t *id_list_new();
 int id_list_init(id_list_t *id_list);
 
 /*
+ * Frees an id_list from memory
+ * 
+ * Parameter:
+ * - id_list: the id_list to be freed
+ * 
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+*/
+int id_list_free(id_list_t *id_list);
+
+/*
  * Adds an id to an id_list
  *
  * Parameters:
@@ -192,4 +149,4 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
 */
 int prereq_add_quest(prereq_t *prereq, char *quest_id);
 
-#endif
+#endif /* PREREQ_H */

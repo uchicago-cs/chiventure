@@ -1,7 +1,9 @@
 set(TEST_EXE test-quests)
 
 add_executable(${TEST_EXE}
-        test_quest_hash.c
+        test_prereq.c
+        test_quests_state.c
+        test_quests_hash.c
         test_quest.c
         test_task.c
         main.c
