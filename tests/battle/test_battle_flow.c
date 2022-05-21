@@ -361,8 +361,8 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
     estats->phys_def = 20;
     estats->accuracy = 100;
     estats->crit = 0;
-    estats->surrender_level = 180;
-    
+    estats->surrender_level = 199;
+
     move_t *emove = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
