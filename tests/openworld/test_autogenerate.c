@@ -242,8 +242,7 @@ Test(autogenerate, room_generate_success_one)
     int **edges = (int**)malloc(sizeof(int*)*2);
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
     g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
-    g->all_rooms = g->curr_room;
-
+    add_room_to_game(g, g->curr_room);
     
     // Path to sample room1
     path_t* path_to_curr_room = path_new(g->curr_room,"north");
