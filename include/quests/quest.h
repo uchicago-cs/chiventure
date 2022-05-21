@@ -75,6 +75,17 @@ int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
  */
 int quest_free(quest_t *quest);
 
+/* 
+ * Determines whether a player meets a set of prerequisites
+ * 
+ * Parameters:
+ * - prereq: a prerequisite object
+ * - player: a player
+ * 
+ * Returns:
+ * - true if the player meets the prerequisites, false if the player does not
+ */
+bool meets_prereqs(player_t *player, prereq_t *prereq);
 
 /* quest functionality */
 
@@ -129,6 +140,17 @@ int fail_quest(quest_t *quest, player_t *player);
  */
 bool is_quest_completed(quest_t *quest, player_t *player);
 
+/* Gets the quest that has the given task as one of its tasks
+ *
+ * Parameters:
+ *  task_id: the task tree's immediate task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
+ *
+ * Returns:
+ *  quest struct if successful, NULL if task is not found
+ */
+quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table);
+
 /* Checks a quest's status.
  *
  * Parameter:
@@ -170,30 +192,6 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
  * The status of the quest should first be checked before this function is called
  */
 reward_t *complete_quest(quest_t *quest, player_t *player);
-
-/*
- * Adds a quest id to a prereq's quest id list
- *
- * Parameters:
- * - prereq: The prereq getting added to
- * - quest_id: A pointer to a string id getting added
- * 
- * Returns:
- * - SUCCESS if successfully added
- * - FAILURE if something went wrong
-*/
-int prereq_add_quest(prereq_t *prereq, char *quest_id);
-
-/* Adds the contents of a reward struct to the player struct
- * 
- * Parameters:
- * - reward: the reward getting accepted
- * - player: the player accepting the reward
- * 
- * Returns:
- * - SUCCESS if added successfully, FAILURE if an error occured
-*/
-int accept_reward(reward_t *reward, player_t *player);
 
 /* Checks if all of the player's tasks are complete and updates them accordingly
  * 

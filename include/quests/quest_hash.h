@@ -1,7 +1,7 @@
 #ifndef QUEST_HASH_H
 #define QUEST_HASH_H
 
-#include "quest.h"
+#include "prereq.h"
 
 /* Gets a quest from the given hash table
  *
@@ -24,17 +24,6 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
  *  task_tree struct if successful, NULL if task is not found
  */
 task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table);
-
-/* Gets the quest that has the given task as one of its tasks
- *
- * Parameters:
- *  task_id: the task tree's immediate task's id string
- *  hash_table: a hashtable of quests, ideally from game_state
- *
- * Returns:
- *  quest struct if successful, NULL if task is not found
- */
-quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table);
 
 /* Gets a task from the given hash table
  *
