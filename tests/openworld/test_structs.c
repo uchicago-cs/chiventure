@@ -100,7 +100,7 @@ Test(roomspec, free1)
  * be initialized successfully. */
 Test(edges, init)
 {
-    int* array={5,4,5,0,5,3,4,3,5};
+    int array={5,4,5,0,5,3,4,3,5};
 
     int **edges=(int**)malloc(3*sizeof(int*));
     for(int i=0; i<3; i++){
@@ -124,7 +124,7 @@ Test(edges, init)
  * be made successfully. */
 Test(edges, new)
 {
-    int* array={5,4,5,0,5,3,4,3,5};
+    int array={5,4,5,0,5,3,4,3,5};
 
     int **edges=edges_new(&array, 3, 3);
 
