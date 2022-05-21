@@ -308,7 +308,7 @@ chiventure_ctx_t *create_sample_ctx()
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
     add_battle_to_npc(friendly_fiona, stats1, moves1, BATTLE_AI_GREEDY,
-		              CONDITIONAL_FRIENDLY, NULL, NULL);
+		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
 
     /* Add dialogue to friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
@@ -328,7 +328,7 @@ chiventure_ctx_t *create_sample_ctx()
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
     add_battle_to_npc(hostile_harry, stats2, moves2, BATTLE_AI_GREEDY,
-                      HOSTILE, NULL, NULL);
+                      HOSTILE, NULL, NULL, NULL, NULL, NULL);
 
     /* Add items to hostile npc */
     item_t *potion = item_new("POTION","This is a health potion.",
