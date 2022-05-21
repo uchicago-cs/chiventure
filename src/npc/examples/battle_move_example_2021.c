@@ -145,7 +145,7 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to move.\n";
@@ -209,7 +209,7 @@ convo_t *create_sample_convo_fiona()
 char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to move.\n";
@@ -224,7 +224,7 @@ char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to attack.\n";
@@ -233,10 +233,14 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         npc_t *npc_tmp, *npc_elt;
 
-        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) {
-            if (npc_elt->npc_battle->stats->hp == 0) {
+        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+        {
+            if (npc_elt->npc_battle->stats->hp == 0) 
+            {
 	            continue;
-	          } else if (npc_elt->npc_battle->stats->hp == 1) {
+	        } 
+            else if (npc_elt->npc_battle->stats->hp == 1) 
+            {
                 change_npc_hp(npc_elt, -1);
                 transfer_all_npc_items(npc_elt, game->curr_room);
                 char message1[1000];
@@ -249,7 +253,9 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             //     sprintf(message2, "%s has surrendered. You can no longer attack "
             //             "them.", npc_elt->npc_id);
             //     print_to_cli(ctx, message2);
-            } else {
+            } 
+            else 
+            {
                 change_npc_hp(npc_elt, -1);
                 char message3[1000];
                 sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
@@ -257,7 +263,9 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
                 print_to_cli(ctx, message3);
             }
         }
-    } else {
+    } 
+    else 
+    {
         print_to_cli(ctx, "You can't attack unless you're in the arena.");
     }
 
