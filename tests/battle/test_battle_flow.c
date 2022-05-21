@@ -408,10 +408,6 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
             enemy->stats->hp);
 
     // note: this hp value relies on player class implementation of move_list()
-    cr_assert_eq(player->stats->hp,
-                 expected_player_hp,
-                 "battle_flow_move() did not compute damage on player correctly,"
-                 "Actual: %d, Expected: %d",player->stats->hp, expected_player_hp);
     cr_assert_eq(ctx->status, BATTLE_ENEMY_SURRENDER,
                  "battle_flow_move() failed: battle enemy did not surrender");
 }
