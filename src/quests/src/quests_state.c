@@ -370,12 +370,9 @@ int start_quest(quest_t *quest, quest_ctx_t *qctx)
     task_tree_t *cur = quest->task_tree;
     while(cur) {
         add_task_to_player_hash(cur->task, qctx);
-        if(is_task_completed(cur->task, player)) {
-            update_task(cur->task->id, qctx);
-            break;
-        }
         cur = cur->rsibling;
-    }   
+    }
+    update_player_quests(qctx);
 
     return SUCCESS;
 }
