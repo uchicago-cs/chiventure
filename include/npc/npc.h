@@ -70,12 +70,14 @@ typedef struct npc npc_hash_t;
  *  class: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
  *  will_fight: a boolean describing whether the npc will engage in battle
+ *  battle: a pointer to an existing npc_battle_t struct defining the
+ *              NPC's battle characteristics
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             class_t *class, npc_mov_t *movement, bool will_fight);
+             class_t *class, npc_mov_t *movement, bool will_fight, npc_battle_t *battle);
 
 /*
  * Allocates a new npc in the heap.
@@ -91,12 +93,14 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  class: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
  *  will_fight: a boolean describing whether the npc will engage in battle
+ *  battle: a pointer to an existing npc_battle_t struct defining the
+ *              NPC's battle characteristics
  *
  * Returns:
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement, bool will_fight);
+               class_t *class, npc_mov_t *movement, bool will_fight, npc_battle_t *battle);
 
 /*
  * Frees resources associated with an npc.
