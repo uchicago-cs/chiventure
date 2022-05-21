@@ -18,16 +18,22 @@
 
 /* Default Classes in alphabetical order. */
 const char* const DEFAULT_CLASS_NAMES[] = {
+    "alchemist",
     "bard",
+    "chef",
+    "fisherman",
+    "healer",
+    "lord",
     "monk",
     "ranger",
     "rogue",
+    "shopkeeper",
     "warrior",
     "wizard"
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 6;
+const int DEFAULT_CLASS_COUNT = 12;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
@@ -173,6 +179,21 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
     }
 
+    /* Fisherman stats:
+     * 10 Max Health
+     * 15 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 5 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana */ 
+    if (!strncmp(temp_name, "fisherman", MAX_NAME_LEN)) {
+        short_desc = "A patient fisherman.";
+        long_desc = "The Fisherman is a resourceful provider who plays an important role in providing sustenance for their village.";
+        set_stats_hashtable(game, &stats, 10, 15, 5, 5, 5, 5, 5, 5);
+    }
+
     /* Monk stats:
      * 25 Max Health
      * 20 Speed
@@ -221,6 +242,21 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         set_stats_hashtable(game, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
+    /* Shopkeeper stats:
+     * 10 Max Health
+     * 10 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 5 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana */ 
+    if (!strncmp(temp_name, "shopkeeper", MAX_NAME_LEN)) {
+        short_desc = "A dedicated store manager.";
+        long_desc = "The Shopkeeper is a resourceful merchant who provides many eclectic items available for trade.";
+        set_stats_hashtable(game, &stats, 10, 10, 5, 5, 5, 5, 5, 5);
+    }
+
     /* Warrior stats:
      * 20 Max Health
      * 15 Speed
@@ -232,7 +268,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 5 Max Mana */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         short_desc = "A mighty warrior.";
-        long_desc = "An elite, battle-hardened fighter who excels in physical combat.";
+        long_desc = "The Warrior is an elite, battle-hardened fighter who excels in physical combat.";
         set_stats_hashtable(game, &stats, 20, 15, 20, 25, 10, 10, 5, 5);
     }
 
