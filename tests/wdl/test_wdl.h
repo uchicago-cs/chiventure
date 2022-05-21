@@ -16,6 +16,6 @@
  * Returns:
  * - a pointer to an object for the game doc
  */
-static obj_t *__get_doc_obj(char* name, char* file_path);
+void obj_t *__get_doc_obj(char* name, char* file_path);
 
 #endif //CHIVENTURE_TEST_WDL_H
