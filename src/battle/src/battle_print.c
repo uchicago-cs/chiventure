@@ -14,8 +14,8 @@ char *print_start_battle(battle_t *b)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     snprintf(string, BATTLE_BUFFER_SIZE, "You have encountered %s!\n\n"
-             "Let the battle begin!\n",
-             enemy_name);
+                    "Let the battle begin!\n",
+                    enemy_name);
 
     return string;
 }
@@ -62,8 +62,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
     if (turn == PLAYER)
     {
         combatant_name = "You";
-    }
-    else
+    } else
     {
         combatant_name = enemy_name;
     }
@@ -87,8 +86,7 @@ int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
     if (turn == PLAYER)
     {
         dmg = damage(b->enemy, move, b->player);
-    }
-    else
+    } else
     {
         dmg = damage(b->player, move, b->enemy);
     }
@@ -111,8 +109,7 @@ int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes, char *
     if (turn == PLAYER)
     {
         combatant_name = "Your";
-    }
-    else
+    } else
     {
         combatant_name = strcat(b->enemy->name, "\'s");
     }
@@ -123,78 +120,78 @@ int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes, char *
     char temp[BATTLE_BUFFER_SIZE + 1];
     if (changes->speed != 0)
     {
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s speed changed by %d\n", combatant_name,
-                     changes->speed);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s speed changed by %d\n", combatant_name, 
+                    changes->speed);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->max_sp != 0)
     {
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s Max SP changed by %d\n", combatant_name,
-                     changes->max_sp);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s Max SP changed by %d\n", combatant_name, 
+                    changes->max_sp);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->sp != 0)
     {
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s SP changed by %d\n", combatant_name,
-                     changes->sp);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s SP changed by %d\n", combatant_name, 
+                    changes->sp);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->phys_atk != 0)
     {
         n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s physical attack"
-                     " changed by %d\n", combatant_name, changes->phys_atk);
+                " changed by %d\n", combatant_name, changes->phys_atk);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->mag_atk != 0)
     {
         n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s magical attack"
-                     " changed by %d\n", combatant_name, changes->mag_atk);
+                " changed by %d\n", combatant_name, changes->mag_atk);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->phys_def != 0)
     {
         n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s physical defense"
-                     " changed by %d\n", combatant_name, changes->phys_def);
+                " changed by %d\n", combatant_name, changes->phys_def);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->mag_def != 0)
     {
         n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s magical defense"
-                     " changed by %d\n", combatant_name, changes->mag_def);
+                " changed by %d\n", combatant_name, changes->mag_def);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->crit != 0)
     {
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s crit changed by %d\n",
-                     combatant_name, changes->crit);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s crit changed by %d\n", 
+                    combatant_name, changes->crit);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->accuracy != 0)
     {
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s accuracy changed by %d\n",
-                     combatant_name, changes->accuracy);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s accuracy changed by %d\n", 
+                    combatant_name, changes->accuracy);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->hp != 0)
     {
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s HP changed by %d\n",
-                     combatant_name, changes->hp);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s HP changed by %d\n", 
+                    combatant_name, changes->hp);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
     if (changes->max_hp != 0)
     {
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s Max HP changed by %d\n",
-                     combatant_name, changes->max_hp);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s Max HP changed by %d\n", 
+                    combatant_name, changes->max_hp);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
@@ -212,40 +209,40 @@ int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string
     {
         switch(move->stat_mods)
         {
-        case USER:
-            rc = print_stat_changes(b, PLAYER, move->user_mods, string);
-            break;
-        case TARGET:
-            rc = print_stat_changes(b, TARGET, move->opponent_mods, string);
-            break;
-        case BOTH:
-            rc = print_stat_changes(b, PLAYER, move->user_mods, string);
-            assert(rc == SUCCESS);
-            rc = print_stat_changes(b, TARGET, move->opponent_mods, string);
-            break;
-        default:
-            return FAILURE;
-            break;
+            case USER:
+                rc = print_stat_changes(b, PLAYER, move->user_mods, string);
+                break;
+            case TARGET:
+                rc = print_stat_changes(b, TARGET, move->opponent_mods, string);
+                break;
+            case BOTH:
+                rc = print_stat_changes(b, PLAYER, move->user_mods, string);
+                assert(rc == SUCCESS);
+                rc = print_stat_changes(b, TARGET, move->opponent_mods, string);
+                break;
+            default:
+                return FAILURE;
+                break;
         }
     }
     else
     {
         switch(move->stat_mods)
         {
-        case USER:
-            rc = print_stat_changes(b, TARGET, move->user_mods, string);
-            break;
-        case TARGET:
-            rc = print_stat_changes(b, PLAYER, move->opponent_mods, string);
-            break;
-        case BOTH:
-            rc = print_stat_changes(b, PLAYER, move->opponent_mods, string);
-            assert(rc == SUCCESS);
-            rc = print_stat_changes(b, TARGET, move->user_mods, string);
-            break;
-        default:
-            return FAILURE;
-            break;
+            case USER:
+                rc = print_stat_changes(b, TARGET, move->user_mods, string);
+                break;
+            case TARGET:
+                rc = print_stat_changes(b, PLAYER, move->opponent_mods, string);
+                break;
+            case BOTH:
+                rc = print_stat_changes(b, PLAYER, move->opponent_mods, string);
+                assert(rc == SUCCESS);
+                rc = print_stat_changes(b, TARGET, move->user_mods, string);
+                break;
+            default:
+                return FAILURE;
+                break;
         }
     }
     assert(rc == SUCCESS);
@@ -262,7 +259,7 @@ char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
     if (turn == PLAYER)
     {
         combatant_name = "You";
-    }
+    } 
     else
     {
         combatant_name = enemy_name;
@@ -295,8 +292,7 @@ char *print_battle_winner(battle_status_t status, int xp)
     if (status == BATTLE_VICTOR_PLAYER)
     {
         snprintf(string, BATTLE_BUFFER_SIZE, "You've won! You gain %d XP!\n",xp);
-    }
-    else if (status == BATTLE_VICTOR_ENEMY)
+    } else if (status == BATTLE_VICTOR_ENEMY)
     {
         snprintf(string, BATTLE_BUFFER_SIZE, "You have been defeated!\n");
     }
@@ -316,9 +312,9 @@ char *print_start_turn(battle_t *b)
 
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use a Move, type 'Use [insert move name here]'\n\n"
-             "To use an Item, type 'Consume [insert item name here]'\n\n"
-             "To see the list available moves, type 'List Moves'\n\n"
-             "To see the list available items, type 'List Items'\n");
+                                         "To use an Item, type 'Consume [insert item name here]'\n\n"
+                                         "To see the list available moves, type 'List Moves'\n\n"
+                                         "To see the list available items, type 'List Items'\n");
 
     return string;
 }
@@ -329,7 +325,7 @@ char *print_moves(battle_t *b, char* moves)
     move_t *temp;
     int slen = strnlen(moves, BATTLE_BUFFER_SIZE + 1);
     int n;
-
+    
     char temp2[BATTLE_BUFFER_SIZE + 1];
 
     n = snprintf(temp2,BATTLE_BUFFER_SIZE,"\nAVAILABLE MOVES:\n");
@@ -338,9 +334,9 @@ char *print_moves(battle_t *b, char* moves)
 
     DL_FOREACH(b->player->moves, temp)
     {
-
+        
         int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name: %s\nDamage: %d\n",
-                         temp->info, temp->damage);
+        temp->info, temp->damage);
         strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
@@ -356,12 +352,12 @@ int *print_battle_items(battle_t *b, char *string)
     int n;
 
     char temp[BATTLE_BUFFER_SIZE + 1];
-
+    
 
     n = snprintf(temp,BATTLE_BUFFER_SIZE,"\nAVAILABLE ITEMS:\n");
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
     slen += n;
-
+    
     battle_item_t *item;
     DL_FOREACH(player_items, item)
     {
@@ -377,7 +373,7 @@ int *print_battle_items(battle_t *b, char *string)
     }
 
     return SUCCESS;
-
+   
 }
 
 /* Gets the expected length of a menu of possible actions based on 

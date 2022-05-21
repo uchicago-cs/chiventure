@@ -112,7 +112,7 @@ move_t *create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
                           SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
                     SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
@@ -233,39 +233,31 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         npc_t *npc_tmp, *npc_elt;
 
-        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
-        {
-            if (npc_elt->npc_battle->stats->hp == 0)
-            {
-                continue;
-            }
-            else if (npc_elt->npc_battle->stats->hp == 1)
-            {
+        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) {
+            if (npc_elt->npc_battle->stats->hp == 0) {
+	            continue;
+	          } else if (npc_elt->npc_battle->stats->hp == 1) {
                 change_npc_hp(npc_elt, -1);
                 transfer_all_npc_items(npc_elt, game->curr_room);
                 char message1[1000];
                 sprintf(message1, "You killed %s. They've dropped their items, "
                         "which you can now take.", npc_elt->npc_id);
                 print_to_cli(ctx, message1);
-                /* Battles can uncomment this once surrender_level gets incorporated into stat_t */
-                // } else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) {
-                //     char message2[1000];
-                //     sprintf(message2, "%s has surrendered. You can no longer attack "
-                //             "them.", npc_elt->npc_id);
-                //     print_to_cli(ctx, message2);
-            }
-            else
-            {
+            /* Battles can uncomment this once surrender_level gets incorporated into stat_t */
+            // } else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) { 
+            //     char message2[1000];
+            //     sprintf(message2, "%s has surrendered. You can no longer attack "
+            //             "them.", npc_elt->npc_id);
+            //     print_to_cli(ctx, message2);
+            } else {
                 change_npc_hp(npc_elt, -1);
                 char message3[1000];
-                sprintf(message3, "%s has lost 1 HP. They now have %d HP left",
+                sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
                         npc_elt->npc_id, npc_elt->npc_battle->stats->hp);
                 print_to_cli(ctx, message3);
             }
         }
-    }
-    else
-    {
+    } else {
         print_to_cli(ctx, "You can't attack unless you're in the arena.");
     }
 
@@ -316,7 +308,7 @@ chiventure_ctx_t *create_sample_ctx()
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
     add_battle_to_npc(friendly_fiona, stats1, moves1, BATTLE_AI_GREEDY,
-                      CONDITIONAL_FRIENDLY, NULL, NULL);
+		              CONDITIONAL_FRIENDLY, NULL, NULL);
 
     /* Add dialogue to friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();

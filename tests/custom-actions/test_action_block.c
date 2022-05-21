@@ -19,8 +19,8 @@ Test(action_block_t, new_SET)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -32,11 +32,11 @@ Test(action_block_t, new_SET)
     cr_assert_not_null(new_action, "action_block_new() failed");
 
     cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                 "didn't set new_action->action_type");
+                                                       "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                 "set new_action->num_args");
+                                                 "set new_action->num_args");
     cr_assert_eq(new_action->action_params->args, action_params->args, "action_block_new() didn't set "
-                 "new_action->action_params->args");
+                                                                        "new_action->action_params->args");
 
     action_block_free(new_action);
 }
@@ -53,8 +53,8 @@ Test(action_block_t, new_SAY)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -66,11 +66,11 @@ Test(action_block_t, new_SAY)
     cr_assert_not_null(new_action, "action_block_new() failed");
 
     cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                 "didn't set new_action->action_type");
+                                                       "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                 "set new_action->num_args");
+                                                 "set new_action->num_args");
     cr_assert_eq(new_action->action_params->args, action_params->args, "action_block_new() didn't set "
-                 "new_action->action_params->args");
+                                                                        "new_action->action_params->args");
 
     action_block_free(new_action);
 }
@@ -87,8 +87,8 @@ Test(action_block_t, new_TELEPORT)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -100,11 +100,11 @@ Test(action_block_t, new_TELEPORT)
     cr_assert_not_null(new_action, "action_block_new() failed");
 
     cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                 "didn't set new_action->action_type");
+                                                       "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                 "set new_action->num_args");
+                                                 "set new_action->num_args");
     cr_assert_eq(new_action->action_params->args, action_params->args, "action_block_new() didn't set "
-                 "new_action->action_params->args");
+                                                                        "new_action->action_params->args");
 
     action_block_free(new_action);
 }
@@ -121,8 +121,8 @@ Test(action_block_t, new_ADDITION)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -134,11 +134,11 @@ Test(action_block_t, new_ADDITION)
     cr_assert_not_null(new_action, "action_block_new() failed");
 
     cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                 "didn't set new_action->action_type");
+                                                       "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                 "set new_action->num_args");
+                                                 "set new_action->num_args");
     cr_assert_eq(new_action->action_params->args, action_params->args, "action_block_new() didn't set "
-                 "new_action->action_params->args");
+                                                                        "new_action->action_params->args");
 
     action_block_free(new_action);
 }
@@ -155,8 +155,8 @@ Test(action_block_t, new_GEN)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -168,11 +168,11 @@ Test(action_block_t, new_GEN)
     cr_assert_not_null(new_action, "action_block_new() failed");
 
     cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                 "didn't set new_action->action_type");
+                                                       "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                 "set new_action->num_args");
+                                                 "set new_action->num_args");
     cr_assert_eq(new_action->action_params->args, action_params->args, "action_block_new() didn't set "
-                 "new_action->action_params->args");
+                                                                        "new_action->action_params->args");
 
     action_block_free(new_action);
 }
@@ -189,8 +189,8 @@ Test(action_block_t, new_EXEC)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -202,11 +202,11 @@ Test(action_block_t, new_EXEC)
     cr_assert_not_null(new_action, "action_block_new() failed");
 
     cr_assert_eq(new_action->action_type, action_type, "action_block_new() "
-                 "didn't set new_action->action_type");
+                                                       "didn't set new_action->action_type");
     cr_assert_eq(new_action->num_args, num_args, "action_block_new() didn't "
-                 "set new_action->num_args");
+                                                 "set new_action->num_args");
     cr_assert_eq(new_action->action_params->args, action_params->args, "action_block_new() didn't set "
-                 "new_action->action_params->args");
+                                                                        "new_action->action_params->args");
 
     action_block_free(new_action);
 }
@@ -223,8 +223,8 @@ Test(AST_action_block_t, new_ast_SET)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -237,13 +237,13 @@ Test(AST_action_block_t, new_ast_SET)
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
     cr_assert_eq(ast->block->action_block->action_type, action_type, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_type");
+                                                                     "ast->block->action_block->action_type");
     cr_assert_eq(ast->block->action_block->num_args, num_args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->num_args");
+                                                               "ast->block->action_block->num_args");
     cr_assert_eq(ast->block->action_block->action_params->args, action_params->args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_params->args");
+                                                                                      "ast->block->action_block->action_params->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
-                 "ast->block_type");
+                                              "ast->block_type");
 
     AST_block_free(ast);
 }
@@ -260,8 +260,8 @@ Test(AST_action_block_t, new_ast_SAY)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -274,13 +274,13 @@ Test(AST_action_block_t, new_ast_SAY)
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
     cr_assert_eq(ast->block->action_block->action_type, action_type, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_type");
+                                                                     "ast->block->action_block->action_type");
     cr_assert_eq(ast->block->action_block->num_args, num_args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->num_args");
+                                                               "ast->block->action_block->num_args");
     cr_assert_eq(ast->block->action_block->action_params->args, action_params->args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_params->args");
+                                                                                      "ast->block->action_block->action_params->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
-                 "ast->block_type");
+                                              "ast->block_type");
 
     AST_block_free(ast);
 }
@@ -297,8 +297,8 @@ Test(AST_action_block_t, new_ast_TELEPORT)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -311,13 +311,13 @@ Test(AST_action_block_t, new_ast_TELEPORT)
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
     cr_assert_eq(ast->block->action_block->action_type, action_type, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_type");
+                                                                     "ast->block->action_block->action_type");
     cr_assert_eq(ast->block->action_block->num_args, num_args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->num_args");
+                                                               "ast->block->action_block->num_args");
     cr_assert_eq(ast->block->action_block->action_params->args, action_params->args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_params->args");
+                                                                                      "ast->block->action_block->action_params->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
-                 "ast->block_type");
+                                              "ast->block_type");
 
     AST_block_free(ast);
 }
@@ -334,9 +334,9 @@ Test(AST_action_block_t, new_ast_ADDITION)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
-    UT_hash_handle hh = hh;
+    args[0] = arg; 
+    action_params->args = args; 
+    UT_hash_handle hh = hh; 
     args[0]->hh = hh;
     args[0]->attribute_key = attr_name1;
     args[0]->attribute_tag = attribute_tag;
@@ -348,13 +348,13 @@ Test(AST_action_block_t, new_ast_ADDITION)
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
     cr_assert_eq(ast->block->action_block->action_type, action_type, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_type");
+                                                                     "ast->block->action_block->action_type");
     cr_assert_eq(ast->block->action_block->num_args, num_args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->num_args");
+                                                               "ast->block->action_block->num_args");
     cr_assert_eq(ast->block->action_block->action_params->args, action_params->args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_params->args");
+                                                                                      "ast->block->action_block->action_params->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
-                 "ast->block_type");
+                                              "ast->block_type");
 
     AST_block_free(ast);
 }
@@ -371,8 +371,8 @@ Test(AST_action_block_t, new_ast_GEN)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -385,13 +385,13 @@ Test(AST_action_block_t, new_ast_GEN)
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
     cr_assert_eq(ast->block->action_block->action_type, action_type, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_type");
+                                                                     "ast->block->action_block->action_type");
     cr_assert_eq(ast->block->action_block->num_args, num_args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->num_args");
+                                                               "ast->block->action_block->num_args");
     cr_assert_eq(ast->block->action_block->action_params->args, action_params->args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_params->args");
+                                                                                      "ast->block->action_block->action_params->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
-                 "ast->block_type");
+                                              "ast->block_type");
 
     AST_block_free(ast);
 }
@@ -408,8 +408,8 @@ Test(AST_action_block_t, new_ast_EXEC)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -422,13 +422,13 @@ Test(AST_action_block_t, new_ast_EXEC)
     cr_assert_not_null(ast, "AST_action_block_new() failed");
 
     cr_assert_eq(ast->block->action_block->action_type, action_type, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_type");
+                                                                     "ast->block->action_block->action_type");
     cr_assert_eq(ast->block->action_block->num_args, num_args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->num_args");
+                                                               "ast->block->action_block->num_args");
     cr_assert_eq(ast->block->action_block->action_params->args, action_params->args, "AST_action_block_new() didn't set "
-                 "ast->block->action_block->action_params->args");
+                                                                                      "ast->block->action_block->action_params->args");
     cr_assert_eq(ast->block_type, block_type, "AST_action_block_new() didn't set "
-                 "ast->block_type");
+                                              "ast->block_type");
 
     AST_block_free(ast);
 }
@@ -447,8 +447,8 @@ Test(action_block_t, init_SET)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -459,9 +459,9 @@ Test(action_block_t, init_SET)
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
-                 "set action.action_type");
+                                                  "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
-                 "action.num_args");
+                                            "action.num_args");
     cr_assert_eq(action.action_params->args, action_params->args, "action_block_init() didn't set action.action_params->args");
 }
 
@@ -479,8 +479,8 @@ Test(action_block_t, init_SAY)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -491,9 +491,9 @@ Test(action_block_t, init_SAY)
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
-                 "set action.action_type");
+                                                  "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
-                 "action.num_args");
+                                            "action.num_args");
     cr_assert_eq(action.action_params->args, action_params->args, "action_block_init() didn't set action.action_params->args");
 }
 
@@ -511,8 +511,8 @@ Test(action_block_t, init_MOVE)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -523,9 +523,9 @@ Test(action_block_t, init_MOVE)
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
-                 "set action.action_type");
+                                                  "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
-                 "action.num_args");
+                                            "action.num_args");
     cr_assert_eq(action.action_params->args, action_params->args, "action_block_init() didn't set action.action_params->args");
 }
 
@@ -543,8 +543,8 @@ Test(action_block_t, init_ADDITION)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -555,9 +555,9 @@ Test(action_block_t, init_ADDITION)
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
-                 "set action.action_type");
+                                                  "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
-                 "action.num_args");
+                                            "action.num_args");
     cr_assert_eq(action.action_params->args, action_params->args, "action_block_init() didn't set action.action_params->args");
 }
 
@@ -575,8 +575,8 @@ Test(action_block_t, init_GEN)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -587,9 +587,9 @@ Test(action_block_t, init_GEN)
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
-                 "set action.action_type");
+                                                  "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
-                 "action.num_args");
+                                            "action.num_args");
     cr_assert_eq(action.action_params->args, action_params->args, "action_block_init() didn't set action.action_params->args");
 }
 
@@ -607,8 +607,8 @@ Test(action_block_t, init_EXEC)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -619,9 +619,9 @@ Test(action_block_t, init_EXEC)
 
     cr_assert_eq(rc, SUCCESS, "action_block_init() failed");
     cr_assert_eq(action.action_type, action_type, "action_block_init() didn't "
-                 "set action.action_type");
+                                                  "set action.action_type");
     cr_assert_eq(action.num_args, num_args, "action_block_init() didn't set "
-                 "action.num_args");
+                                            "action.num_args");
     cr_assert_eq(action.action_params->args, action_params->args, "action_block_init() didn't set action.action_params->args");
 }
 
@@ -639,8 +639,8 @@ Test(action_block_t, free_SET)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -670,8 +670,8 @@ Test(action_block_t, free_SAY)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -701,8 +701,8 @@ Test(action_block_t, free_TELEPORT)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -732,8 +732,8 @@ Test(action_block_t, free_ADDITION)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -763,8 +763,8 @@ Test(action_block_t, free_GEN)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -794,8 +794,8 @@ Test(action_block_t, free_EXEC)
     action_param_t *action_params = malloc(sizeof(action_param_t));
     attribute_t **args = malloc(sizeof(attribute_t*));
     attribute_t *arg = malloc(sizeof(attribute_t));
-    args[0] = arg;
-    action_params->args = args;
+    args[0] = arg; 
+    action_params->args = args; 
     UT_hash_handle hh = hh;
     args[0]->hh = hh;
     action_params->args[0]->attribute_key = attr_name1;
@@ -864,15 +864,15 @@ Test(exec_action_block, set)
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                 "returned FAILURE with action type SET");
+                               "returned FAILURE with action type SET");
     cr_assert_eq(attr1->attribute_value.int_val, 2,
                  "exec_action_block() failed to set value of attribute");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
-                 "invalid number of arguments");
+                               "invalid number of arguments");
 
     cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
-                 "failure of effect-applying function");
+                               "failure of effect-applying function");
 }
 
 /* Helper to test action block execution with arithmetic action types
@@ -935,15 +935,15 @@ void test_arithmetic_act(int i1, int i2, int exp, action_enum_t op)
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                 "returned FAILURE");
+                               "returned FAILURE");
     cr_assert_eq(attr4->attribute_value.int_val, exp,
                  "exec_action_block() failed to store result in attribute");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
-                 "invalid number of arguments");
+                               "invalid number of arguments");
 
     cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
-                 "failure of effect-applying function");
+                               "failure of effect-applying function");
 }
 
 /* Tests behavior of action block execution function with actions that
@@ -1039,17 +1039,17 @@ Test(exec_action_block, gen)
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                 "returned FAILURE with action type GEN");
+                               "returned FAILURE with action type GEN");
     cr_assert_geq(attr4->attribute_value.int_val, 0,
                   "exec_action_block() failed to store sum in attribute");
     cr_assert_leq(attr4->attribute_value.int_val, 10,
                   "exec_action_block() failed to store sum in attribute");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
-                 "invalid number of arguments");
+                               "invalid number of arguments");
 
     cr_assert_eq(rc3, FAILURE, "exec_action_block() failed to recognize "
-                 "failure of effect-applying function");
+                               "failure of effect-applying function");
 }
 
 /* Tests behavior of action block execution function with actions that
@@ -1092,13 +1092,13 @@ Test(exec_action_block, teleport)
     rc3 = exec_action_block(act3);
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                 "returned FAILURE with action type TELEPORT");
+                               "returned FAILURE with action type TELEPORT");
 
     cr_assert_eq(rc2, FAILURE, "exec_action_block() failed to recognize "
-                 "invalid number of arguments");
+                               "invalid number of arguments");
 
     cr_assert_eq(rc1, SUCCESS, "Expected SUCCESS but exec_action_block "
-                 "returned FAILURE with action type TELEPORT");
+                               "returned FAILURE with action type TELEPORT");
     cr_assert_str_eq(game1->curr_room->room_id, room2->room_id,
                      "Expected curr_room to be room2"
                      "returned a different room with action type TELEPORT");

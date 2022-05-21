@@ -21,24 +21,24 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
 }
 
 /* See npc_battle.h */
-npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves,
-                             difficulty_t ai, hostility_t hostility_level,
-                             class_t *class_type, battle_item_t *items)
+npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves, 
+		                     difficulty_t ai, hostility_t hostility_level, 
+			                 class_t *class_type, battle_item_t *items)
 {
     npc_battle_t *npc_battle;
     npc_battle = malloc(sizeof(npc_battle_t));
     memset(npc_battle, 0, sizeof(npc_battle_t));
     npc_battle->stats = malloc(sizeof(stat_t));
-    npc_battle->moves = malloc(sizeof(move_t));
+    npc_battle->moves = malloc(sizeof(move_t)); 
     npc_battle->class_type = malloc(sizeof(class_t));
     npc_battle->items = malloc(sizeof(battle_item_t));
 
-    int check = npc_battle_init(npc_battle, stats, moves, ai,
+    int check = npc_battle_init(npc_battle, stats, moves, ai, 
                                 hostility_level, class_type, items);
 
-    if (npc_battle == NULL || npc_battle->stats == NULL ||
-            npc_battle->moves == NULL || npc_battle->class_type == NULL ||
-            npc_battle->items == NULL || check != SUCCESS)
+    if (npc_battle == NULL || npc_battle->stats == NULL ||  
+        npc_battle->moves == NULL || npc_battle->class_type == NULL || 
+        npc_battle->items == NULL || check != SUCCESS)
     {
         return NULL;
     }

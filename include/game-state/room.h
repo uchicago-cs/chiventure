@@ -6,7 +6,6 @@
 #include "npc/npc.h"
 #include "npc/rooms_npc.h"
 #include "npc/npc_battle.h"
-#include "battle/battle_moves.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)

@@ -10,12 +10,10 @@ const char *banner = "THIS IS A SOUND EXAMPLE PROGRAM";
 char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if (game == NULL || game->curr_room == NULL)
-    {
+    if (game == NULL || game->curr_room == NULL) {
         return "Error\n";
     }
-    if (tokens[1] != NULL)
-    {
+    if (tokens[1] != NULL) {
         return "What?\n";
     }
 }
@@ -42,8 +40,7 @@ chiventure_ctx_t *create_sample_ctx()
     return ctx;
 }
 
-int main()
-{
+int main() {
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     // sound operations

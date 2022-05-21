@@ -46,11 +46,11 @@ int main()
     add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL);
     add_edge(c, "I'm not trying to take your home, I just thought it would be "
 
-             "a place to rest in some shade for a bit.", "2a", "3a", NULL);
+        "a place to rest in some shade for a bit.", "2a", "3a", NULL);
     add_edge(c, "<Leave>", "2a", "2c", NULL);
     add_edge(c, "I'm Leo.", "2b", "2a", NULL);
     add_edge(c, "The owner? With the state of this place, I'd have pegged you "
-             "for more of a burglar, heh.", "2b", "4", NULL);
+        "for more of a burglar, heh.", "2b", "4", NULL);
     add_edge(c, "<Leave>", "3a", "2c", NULL);
     add_edge(c, "Give it your best shot.", "3a", "4", NULL);
 
@@ -59,7 +59,7 @@ int main()
     int player_response;
 
 
-    while (rc != 1)
+    while (rc != 1) 
     {
         if (rc < 0) printf("%s", start_conversation(c, &rc, NULL));
         else printf("%s", run_conversation_step(c, player_response, &rc, NULL));

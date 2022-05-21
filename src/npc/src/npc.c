@@ -84,7 +84,7 @@ bool check_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);
 
-    if (npc->hostility_level == HOSTILE && npc->npc_battle == NULL)
+    if (npc->hostility_level == HOSTILE && npc->npc_battle == NULL) 
     {
         return false;
     }
@@ -92,7 +92,7 @@ bool check_npc_battle(npc_t *npc)
     {
         return false;
     }
-    else
+    else 
     {
         return true;
     }
@@ -168,11 +168,11 @@ int get_npc_max_hp(npc_t *npc)
 {
     assert(npc != NULL);
 
-    if (npc->npc_battle == NULL)
+    if (npc->npc_battle == NULL) 
     {
         return -1;
-    }
-    else
+    } 
+    else 
     {
         return npc->npc_battle->stats->max_hp;
     }
@@ -240,8 +240,8 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
     assert(npc != NULL);
 
     npc_battle_t *npc_battle = npc_battle_new(stats, moves, ai,
-                               hostility_level,
-                               class_type, items);
+                                              hostility_level,
+                                              class_type, items);
 
     assert(npc_battle != NULL);
 
@@ -259,15 +259,15 @@ int change_npc_hp(npc_t *npc, int change)
     {
         npc->npc_battle->stats->hp = 0;
     }
-    else if ((npc->npc_battle->stats->hp + change) <
+    else if ((npc->npc_battle->stats->hp + change) < 
              (npc->npc_battle->stats->max_hp))
     {
         npc->npc_battle->stats->hp += change;
     }
     else
     {
-        npc->npc_battle->stats->hp =
-            npc->npc_battle->stats->max_hp;
+        npc->npc_battle->stats->hp = 
+        npc->npc_battle->stats->max_hp;
     }
     return npc->npc_battle->stats->hp;
 }

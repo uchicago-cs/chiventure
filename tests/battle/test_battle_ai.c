@@ -30,22 +30,22 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 */
 
 /* Creates + initializes a battle_item */
-battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
-                                  bool battle, int attack, int defense, int hp)
-{
-    battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+ battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
+            bool battle, int attack, int defense, int hp)
+ {
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
-    item->id = id;
-    item->quantity = quantity;
-    item->durability = durability;
-    item->description = description;
-    item->battle = battle;
-    item->attack = attack;
-    item->hp = hp;
-    item->defense = defense;
+     item->id = id;
+     item->quantity = quantity;
+     item->durability = durability;
+     item->description = description;
+     item->battle = battle;
+     item->attack = attack;
+     item->hp = hp;
+     item->defense = defense;
 
-    return item;
-}
+     return item;
+ }
 
 /* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats_norm()
@@ -118,9 +118,9 @@ battle_item_t* create_player_battle_items()
     battle_item_t *head, *dagger, *tea_leaves, *medicine;
     head = NULL;
     dagger = create_battle_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
-                                true, 20, 5, 0);
+    true, 20, 5, 0);
     tea_leaves = create_battle_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
-                                    0, 0, 10);
+    0, 0, 10);
     medicine = create_battle_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
     DL_APPEND(head, dagger);
     DL_APPEND(head, tea_leaves);
@@ -134,11 +134,11 @@ battle_item_t* create_enemy_battle_items()
     battle_item_t *head, *mace, *diamond_sword, *force_shield;
     head = NULL;
     mace = create_battle_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true,
-                              0, -30, 0);
+        0, -30, 0);
     diamond_sword = create_battle_item(5, 1, 50, "Brings quick death to those who dare battle you...",
-                                       true, 20, 0, 0);
+        true, 20, 0, 0);
     force_shield = create_battle_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move",
-                                      true, 0, 30, 5);
+        true, 0, 30, 5);
     DL_APPEND(head, mace);
     DL_APPEND(head, diamond_sword);
     DL_APPEND(head, force_shield);
@@ -150,7 +150,7 @@ move_t* create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
                           SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
                     SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
@@ -192,8 +192,8 @@ move_t* expected_move_random()
 {
     srand(1);
     int randomish = rand() % 3;
-    move_t* rock_throw = move_new(randomish, "", "", PHYS, NO_TARGET,
-                                  NO_TARGET, SINGLE, 0, NULL, 90, 100,
+    move_t* rock_throw = move_new(randomish, "", "", PHYS, NO_TARGET, 
+                                  NO_TARGET, SINGLE, 0, NULL, 90, 100, 
                                   NULL, NULL, NULL, NULL);
     return rock_throw;
 }
@@ -258,18 +258,18 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
 Test(battle_ai, give_move_random)
 {
     check_give_move(new_battle_player(),
-                    new_enemy(),
-                    BATTLE_AI_RANDOM,
-                    expected_move_random());
+            new_enemy(),
+            BATTLE_AI_RANDOM,
+            expected_move_random());
 }
 
 /* Ensures give_move returns the hardest move when enum is BATTLE_AI_BEST*/
 Test(battle_ai, give_move_greedy)
 {
     check_give_move(new_battle_player(),
-                    new_enemy(),
-                    BATTLE_AI_GREEDY,
-                    expected_move_greedy());
+            new_enemy(),
+            BATTLE_AI_GREEDY,
+            expected_move_greedy());
 }
 
 /* Ensures find_random returns a random move*/

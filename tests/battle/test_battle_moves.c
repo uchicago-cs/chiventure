@@ -12,8 +12,8 @@ Test(move, init)
     move_t move;
     int rc;
 
-    rc = move_init(&move, 1, "Getsuga", "Slash", PHYS, NO_TARGET, NO_TARGET, 7, 20,
-                   NULL, 50, 100, NULL, NULL, NULL, NULL);
+    rc = move_init(&move, 1, "Getsuga", "Slash", PHYS, NO_TARGET, NO_TARGET, 7, 20, 
+		    NULL, 50, 100, NULL, NULL, NULL, NULL);
 
     cr_assert_eq(rc, SUCCESS, "move_init() failed");
 
@@ -23,11 +23,11 @@ Test(move, init)
                      "move_new() didn't set move info");
 
     cr_assert_str_eq(move.info, "Slash",
-                     "move_new() didn't set move info");
+		     "move_new() didn't set move info");
 
     cr_assert_eq(move.dmg_type, PHYS, "move_new() didn't set move id");
 
-    cr_assert_eq(move.stat_mods, NO_TARGET, "move_new() didn't set move id");
+    cr_assert_eq(move.stat_mods, NO_TARGET, "move_new() didn't set move id");    
 
     cr_assert_eq(move.effects, NO_TARGET, "move_new() didn't set move id");
 
@@ -39,12 +39,12 @@ Test(move, init)
 
     cr_assert_eq(move.damage, 50, "move_new() didn't set move id");
 
-    cr_assert_eq(move.accuracy, 100, "move_new() didn't set move id");
+    cr_assert_eq(move.accuracy, 100, "move_new() didn't set move id");    
 
     cr_assert_null(move.user_mods, "move_new() didn't set battle_item to NULL");
 
     cr_assert_null(move.opponent_mods, "move_new() didn't set battle_item to NULL");
-
+     
     cr_assert_null(move.prev, "move_new() didn't set battle_item to NULL");
 
     cr_assert_null(move.next, "move_new() didn't set battle_item to NULL");
@@ -54,7 +54,7 @@ Test(move, init)
 Test(move, new)
 {
     move_t *move = move_new(1, "Getsuga", "Slash", PHYS, NO_TARGET, NO_TARGET, 7, 20,
-                            NULL, 50, 100, NULL, NULL, NULL, NULL);
+		    NULL, 50, 100, NULL, NULL, NULL, NULL);
 
     cr_assert_not_null(move, "move_new() failed");
 
@@ -100,7 +100,7 @@ Test(move, free)
     int rc;
 
     move = move_new(1, "Getsuga", "Slash", PHYS, NO_TARGET, NO_TARGET, 7, 20
-                    ,NULL, 50, 100, NULL, NULL, NULL, NULL);
+		    ,NULL, 50, 100, NULL, NULL, NULL, NULL);
 
     cr_assert_not_null(move, "move_new() failed");
 
@@ -157,7 +157,7 @@ Test(move, bard)
     cr_assert_null(move->prev, "move_new() didn't set battle_item to NULL");
 
     cr_assert_null(move->next, "move_new() didn't set battle_item to NULL");
-}
+}	
 
 
 /* Tests test_move_cleric */

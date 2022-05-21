@@ -158,10 +158,10 @@ int exec_action_block(action_block_t *a)
     case TELEPORT:
         rc = move_room(a->action_params->game, a->action_params->room);
         rc = (rc == SUCCESS) ? SUCCEEDS : FAILS;
-        break;
+        break; 
     case GEN:
         if (a->action_params->args[0]->attribute_tag != INTEGER ||
-                a->action_params->args[1]->attribute_tag != INTEGER)
+            a->action_params->args[1]->attribute_tag != INTEGER)
         {
             return FAILURE;
         }
