@@ -1,6 +1,8 @@
 #ifndef CHIVENTURE_TEST_WDL_H
 #define CHIVENTURE_TEST_WDL_H
 
+#include "../../include/libobj/obj.h"
+
 /* TODO: This should not be hardcoded here. Find a way to incorporate these
  * files into the CMake-Criterion chain */
 #define FILE_PATH_1 "../../../tests/wdl/examples/wdz/connected-rooms/DEFAULT.wdl"
