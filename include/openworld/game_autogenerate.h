@@ -3,12 +3,8 @@
 * Sample-Game-Generation header file
 *
 * sample_generation.h: This file: function prototypes and purposes from
-* the functions defined in chiventure/src/openworld/src/autogenerate.c
+* the functions defined in chiventure/src/openworld/src/game_autogenerate.c
 *
-* Room module that autogenerates and adds room to a game when a "dead end"
-* is reached (i.e. no outward paths from the current room)
-*
-* See sample_generation.c source code file to see function definitions
 */
 
 #ifndef INCLUDE_GAME_AUTOGENERATE_H
@@ -21,8 +17,10 @@
 #include "game-state/game.h"
 #include "gen_structs.h"
 #include "default_rooms.h"
+#include "autogenerate.h"
 
 #define MAX_RAND_ITEMS (100)
+
 
 /*
 * game_autogenerate_static
@@ -32,7 +30,7 @@
 * returns:
 * Integer to indicate if the generation was successful.
 */
-int game_autogenerate_static(game_t* g, gencontext_t context, int num_rooms);
+int game_autogenerate_static(game_t* g, gencontext_t context, int num_rooms, char* first_room);
 
 /*
 * game_autogenerate_dynamic
