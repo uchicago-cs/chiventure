@@ -16,20 +16,29 @@
 
 /* Rudimentary id system for prefab classes (internal) */
 
-/* Default Classes in alphabetical order. */
+/* Default Classes in alphabetical order. 
+ * Currently, we have NPC classes and Playerclasses all integrated inside of playerclass.
+ * For the future, we may want to consider refactoring these out to seperate modules. This 
+ * is because reasonably, we might expect NPC stats to differ sparsly with player stats, with
+ * room for different actionable characteristics. One additional solution to this may also 
+ * be to just add additional stats that are more tailored to NPC/friendly classes.
+ */
 const char* const DEFAULT_CLASS_NAMES[] = {
-    "alchemist",
+    // Here are Player-specific playerclasses
     "bard",
+    "monk",
+    "ranger",
+    "rogue",
+    "warrior",
+    "wizard",
+    
+    // Here are NPC-specifc playerclasses
+    "alchemist",
     "chef",
     "fisherman",
     "healer",
     "lord",
-    "monk",
-    "ranger",
-    "rogue",
-    "shopkeeper",
-    "warrior",
-    "wizard"
+    "shopkeeper"
 };
 
 /* Number of predefined default classes (see above). */
@@ -164,6 +173,12 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     /* effects for each class not yet provided, so this will remain NULL */
     effects_hash_t* effects = NULL;
 
+
+    /*-----------------------------------------------------------------
+     *-------------------Player-specific prefabs-----------------------
+     *-----------------------------------------------------------------
+     */
+
     /* Bard stats:
      * 15 Max Health
      * 15 Speed
@@ -175,23 +190,9 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 20 Max Mana */ 
     if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
         short_desc = "A skilled musician and magician.";
-        long_desc = "The Bard combines their skill as a magician and musician to support their allies or vanquish their foes.";
+        long_desc = "The Bard combines their skill as a magician and musician "
+                    "to support their allies or vanquish their foes.";
         set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
-    }
-
-    /* Fisherman stats:
-     * 10 Max Health
-     * 15 Speed
-     * 5 Physical Defense
-     * 5 Physical Attack
-     * 5 Ranged Attack
-     * 5 Magic Defense
-     * 5 Magic Attack
-     * 5 Max Mana */ 
-    if (!strncmp(temp_name, "fisherman", MAX_NAME_LEN)) {
-        short_desc = "A patient fisherman.";
-        long_desc = "The Fisherman is a resourceful provider who plays an important role in providing sustenance for their village.";
-        set_stats_hashtable(game, &stats, 10, 15, 5, 5, 5, 5, 5, 5);
     }
 
     /* Monk stats:
@@ -205,8 +206,9 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 5 Max Mana */ 
     else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
         short_desc = "An elite martial artist.";
-        long_desc = "The Monk is an expert of unarmed combat, and, through their training-- "
-                    "in accordance with their strict spirituality--have learned how to defend themselves from attackers.";
+        long_desc = "The Monk is an expert of unarmed combat, and, through their "
+                    "training--in accordance with their strict spirituality--have "
+                    "learned how to defend themselves from attackers.";
         set_stats_hashtable(game, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
     }
 
@@ -221,8 +223,9 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 10 Max Mana */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
         short_desc = "A master hunter.";
-        long_desc = "The ranger is the embodiment of an apex predator: while they may tend to lurk away "
-                    "from civilisation in the wild, they are a skilled killer and have no qualms about doing so.";
+        long_desc = "The ranger is the embodiment of an apex predator: while they may "
+                    " tend to lurk away from civilisation in the wild, they are a "
+                    "skilled killer and have no qualms about doing so.";
         set_stats_hashtable(game, &stats, 10, 20, 10, 15, 25, 10, 10, 10);
     }
 
@@ -237,24 +240,10 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 15 Max Mana */
     else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
         short_desc = "A sibling of the shadows.";
-        long_desc = "The Rogue embodies stealth. They are feared by many, and for good reason. "
-                    "They use their exceptional speed and agility to surprise their enemies and attack when least expected.";
+        long_desc = "The Rogue embodies stealth. They are feared by many, and "
+                    "for good reason. They use their exceptional speed and "
+                    "agility to surprise their enemies and attack when least expected.";
         set_stats_hashtable(game, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
-    }
-
-    /* Shopkeeper stats:
-     * 10 Max Health
-     * 10 Speed
-     * 5 Physical Defense
-     * 5 Physical Attack
-     * 5 Ranged Attack
-     * 5 Magic Defense
-     * 5 Magic Attack
-     * 5 Max Mana */ 
-    if (!strncmp(temp_name, "shopkeeper", MAX_NAME_LEN)) {
-        short_desc = "A dedicated store manager.";
-        long_desc = "The Shopkeeper is a resourceful merchant who provides many eclectic items available for trade.";
-        set_stats_hashtable(game, &stats, 10, 10, 5, 5, 5, 5, 5, 5);
     }
 
     /* Warrior stats:
@@ -286,6 +275,77 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         long_desc = "The Wizard is a master of the arcane; a formidable wielder of magic, "
                     "and an academic whose studies delve into its secrets.";
         set_stats_hashtable(game, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
+    }
+
+    /*-----------------------------------------------------------------
+     *-------------------Player-specific prefabs-----------------------
+     *-----------------------------------------------------------------
+     */
+
+    /* Alchemist stats:
+     * 10 Max Health
+     * 20 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 10 Ranged Attack
+     * 20 Magic Defense
+     * 25 Magic Attack
+     * 35 Max Mana */ 
+    else if (!strncmp(temp_name, "alchemist", MAX_NAME_LEN)) {
+        short_desc = "a skillfull alchemist.";
+        long_desc = "The Alchemist is a connoisseur of all things potions, a wise "
+                    "and academic who devotes his life to the craft of alchemy. Creator "
+                    "of arcanic liquids, usable for devious and healing aspects alike, the "
+                    "Alchemist is a precise magician with magical utilities.";
+        set_stats_hashtable(game, &stats, 10, 20, 5, 5, 10, 20, 25, 35);
+    }
+
+    /* Chef stats:
+     * 10 Max Health
+     * 20 Speed
+     * 5 Physical Defense
+     * 25 Physical Attack
+     * 5 Ranged Attack
+     * 5 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana */ 
+    else if (!strncmp(temp_name, "chef", MAX_NAME_LEN)) {
+        short_desc = "A swift chef.";
+        long_desc = "The Chef is a master of the knife, artist of the kitchen. Speedy, aggressive, "
+                    "and efficient, the chef prepares the most exquisite foods from across the globe, "
+                    "ranging from salads to proteins to desserts. These nutritional meals offer bonuses "
+                    "to your current stats, making you beefier, more magical, or faster.";
+        set_stats_hashtable(game, &stats, 10, 20, 5, 25, 5, 5, 5, 5);
+    }
+
+    /* Fisherman stats:
+     * 10 Max Health
+     * 15 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 5 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana */ 
+    if (!strncmp(temp_name, "fisherman", MAX_NAME_LEN)) {
+        short_desc = "A patient fisherman.";
+        long_desc = "The Fisherman is a resourceful provider who plays an important role in providing sustenance for their village.";
+        set_stats_hashtable(game, &stats, 10, 15, 5, 5, 5, 5, 5, 5);
+    }
+
+    /* Shopkeeper stats:
+     * 10 Max Health
+     * 10 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 5 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana */ 
+    if (!strncmp(temp_name, "shopkeeper", MAX_NAME_LEN)) {
+        short_desc = "A dedicated store manager.";
+        long_desc = "The Shopkeeper is a resourceful merchant who provides many eclectic items available for trade.";
+        set_stats_hashtable(game, &stats, 10, 10, 5, 5, 5, 5, 5, 5);
     }
 
     else {
