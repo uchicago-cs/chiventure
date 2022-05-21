@@ -10,21 +10,19 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 
-/* Creates + initializes a battle_item*/
- battle_item_t *npc_create_battle_item(int id, int quantity, int durability, 
-                            char* description, bool battle, int attack,
-                            int defense, int hp)
+ /* Creates + initializes a battle_item */
+ battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
+                                        char *name, bool attack, stat_changes_t *changes)
  {
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
      item->id = id;
-     item->quantity = quantity;
-     item->durability = durability;
+     item->name = name;
      item->description = description;
-     item->battle = battle;
+     item->quantity = quantity;
+     item->description = description;
      item->attack = attack;
-     item->hp = hp;
-     item->defense = defense;
+     item->attributes = changes;
 
      return item;
  }
@@ -35,18 +33,22 @@ Test(battle_print, print_start_battle)
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL
+                                                , NULL, NULL, NULL);
     move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);  
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
-            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -70,18 +72,22 @@ Test(battle_print, print_hp_one_enemy)
     /* Setting up a battle with set_battle */
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+                                                NULL, NULL, NULL);
     move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
-            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -130,18 +136,22 @@ Test(battle_print, print_hp_one_enemy)
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
 
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+                                                NULL, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
-    "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);  
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, 
-            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -193,18 +203,22 @@ Test(battle_print, print_player_move_crit)
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
 
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+                                                NULL, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     class_t* test_class = class_new("Bard", "Music boi",
                             "Charismatic, always has a joke or song ready",
                             NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
-                "A hearty dagger sure to take your breath away... for good",
-                true, 20, 5, 0); 
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
-                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
+                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -254,18 +268,22 @@ Test(battle_print, print_player_move_miss)
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
 
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+                                                NULL, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
-                "A hearty dagger sure to take your breath away... for good",
-                true, 20, 5, 0); 
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
-                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
+                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
@@ -318,18 +336,22 @@ Test(battle_print, print_player_move_miss)
     enemy_stats->xp = 100;
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+                                                NULL, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1, 20, 
-                "A hearty dagger sure to take your breath away... for good",
-                true, 20, 5, 0);                                   
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);                                  
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
-            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger);
+            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
