@@ -119,7 +119,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
  *   Any internal failure results in crash (by triggering an assert).
  */
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
-                  char *direction_to_curr, char *direction_to_new, coords_t coords);
+                  char *direction_to_curr, char *direction_to_new, coords_t* coords);
 
 /* roomspec_autogenerate
  * Given a roomspec, generates a new roomspec based on the adjacency matrix
@@ -304,40 +304,7 @@ specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph,
 int multi_room_level_generate(game_t *game, gencontext_t *context, 
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec);
-
-
-
-/* recursive_generate
- * For a given radius n, generates rooms in a branchwise-fashion up to
- * 'n' paths away from the curr_room, also the 'pivot'
- *      pivot: the room around which more rooms will be generated
- *      branchwise: 1) for each pivot, we fill as many paths/branches around it with new rooms
- *                  (we specify which paths we fill using the directions parameter)
- *                  2) branches are disjoint from each other; we can cross from one branch to another
- *                  only by travelling through the pivot
- * 
- * Parameters:
- * - game: pointer to a game struct. Should not be NULL
- * - room_t *curr_room: pointer to the room to serve as the pivot
- * - gencontex_t *context: pointer to a gencontext. Should not be NULL.
- * - int radius: the max number of paths away from the current pivot that we wish to generate
- * - directions: an array of directions we wish to generate around each pivot
- *               (must be a subset of the default six: "NORTH", "EAST", "SOUTH", "WEST", "UP", "DOWN")
- * - num_directions: array length of directions, i.e. number of directions
- * - direction_to_parent: direction to the parent pivot. Should not be NULL.
- *       parent pivot: the room from which the current room was generated; when we call
- *       recursive_generate manually, the original room has no parent pivot, 
- *       i.e. its direction_to_parent == ""
- * 
- * Side effects:
- * - Changes input game to hold the newly generated room(s), allocated on the heap
- *
- * Returns:
- * Always returns SUCCESS.
- */
-int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
-                       int radius, char **directions, int num_directions, char *direction_to_parent);
-                               
+                      
 #endif /* INCLUDE_AUTOGENERATE_H */
 
 
