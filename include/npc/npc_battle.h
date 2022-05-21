@@ -33,6 +33,15 @@ typedef struct npc_battle {
 
     /* An inventory of items that can be used in battle */
     battle_item_t *items;
+
+    /* armor that an npc can equip*/ 
+    battle_equipment_t *armor;
+
+    /* an accessory that an npc can equip*/ 
+    battle_equipment_t *accessory;
+
+    /* weapon that an npc can equip*/ 
+    battle_equipment_t *weapon;
 } npc_battle_t;
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -50,6 +59,9 @@ typedef struct npc_battle {
  *  hostility_level: the npc's hostility level 
  *  class_type: the class struct of the npc
  *  items: a doubly linked list of items that the npc can use during battle
+ * - weapon: the weapon equiped to the npc during battle
+ * - accessory: the accessory equiped to the npc during battle
+ * - armor: the armor equiped to the npc during battle
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
@@ -70,6 +82,9 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
  *  hostility_level: the npc's hostility level 
  *  class_type: the class struct of the npc
  *  items: a doubly linked list of items that the npc can use during battle
+ * - weapon: the weapon equiped to the npc during battle
+ * - accessory: the accessory equiped to the npc during battle
+ * - armor: the armor equiped to the npc during battle
  *
  * Returns:
  *  pointer to allocated npc_battle

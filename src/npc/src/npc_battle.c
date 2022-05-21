@@ -16,6 +16,10 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
     npc_battle->hostility_level = hostility_level;
     npc_battle->class_type = class_type;
     npc_battle->items = items;
+    npc_battle->armor = armor;
+    npc_battle->accessory = accessory;
+    npc_battle->weapon = weapon;
+
 
     return SUCCESS;
 }
@@ -32,6 +36,9 @@ npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves,
     npc_battle->moves = malloc(sizeof(move_t)); 
     npc_battle->class_type = malloc(sizeof(class_t));
     npc_battle->items = malloc(sizeof(battle_item_t));
+    npc_battle->weapon = malloc(sizeof(battle_equipment_t));
+    npc_battle->accessory = malloc(sizeof(battle_equipment_t));
+    npc_battle->armor = malloc(sizeof(battle_equipment_t));
 
     int check = npc_battle_init(npc_battle, stats, moves, ai, 
                                 hostility_level, class_type, items);

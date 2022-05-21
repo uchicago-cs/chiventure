@@ -284,7 +284,9 @@ int add_convo_to_npc(npc_t *npc, convo_t *c);
  *  class_type: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
  *  items: An inventory of items that can be used in battle
- *
+ *  armor: a pointer to the armor an npc has
+ *  accessory: a pointer to the accessory an npc has
+ *  weapon: a pointer to the weapon an npc has
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
