@@ -12,6 +12,7 @@
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
 #include "cli/util.h"
+#include <ctype.h>
 
 #define NUM_ACTIONS 29
 #define BUFFER_SIZE (100)
@@ -49,6 +50,39 @@ int compare(char* word, char* action)
     return current;
 }
 
+int mini (int a, int b, int c) {
+    if (a < b && a < c) {
+        return a;
+    }else if (b < a && b < c) {
+        return b;
+    }else{
+        return c;
+    }
+}
+
+
+int levenstein(char *action_input, char* action) 
+{
+    int input_len = strlen(action_input);
+    int action_len = strlen(action);
+    char* tail_inp = action_input+1;
+    char* tail_act = action+1;
+    if (action_len == 0) {
+        return input_len;
+    }else if (input_len == 0) {
+        return action_len;
+    }else if (tolower(action_input[0]) == tolower(action[0])) {
+        int both_tails = levenstein(tail_inp, tail_act);
+        return both_tails;
+    }else{
+        int tail_one = levenstein(tail_inp, action);
+        int tail_two = levenstein(action_input, tail_act);
+        int tail_both = levenstein(tail_inp, tail_act);
+        return 1 + mini(tail_one,tail_two,tail_both);
+    }
+
+}
+
 /* 
  * This function returns a string which is the suggestion
  * It finds the suggestion by comparing 
@@ -58,29 +92,43 @@ int compare(char* word, char* action)
  */
 char* suggestions(char *action_input, char** actions)
 {
-    int i = 0;
-    int initial = 0;
-    int temp = 0;
-    int index = -1;
+    // int i = 0;
+    // int initial = 0;
+    // int temp = 0;
+    // int index = -1;
     
-    for (int i = 0; i < NUM_ACTIONS; i++)
+    // for (int i = 0; i < NUM_ACTIONS; i++)
+    // {
+    //     if (action_input != NULL) 
+    //     {
+    //         temp = compare(strdup(action_input), strdup(actions[i]));
+    //         if (temp > initial) 
+    //         {
+    //             index = i;
+    //             initial = temp;
+    //         }
+    //     }
+    // }
+    
+    // if (index == -1) 
+    // {
+    //     return NULL;
+    // }
+ 
+    // return actions[index];
+    //case_insensitize(actions[0]);
+    int min = levenstein(action_input, actions[0]);
+    int index = 0;
+    for (int i = 1; i < NUM_ACTIONS; i++) 
     {
-        if (action_input != NULL) 
+        //case_insensitize(actions[i]);
+        int temp = levenstein(action_input, actions[i]);
+        if (temp < min) 
         {
-            temp = compare(strdup(action_input), strdup(actions[i]));
-            if (temp > initial) 
-            {
-                index = i;
-                initial = temp;
-            }
+            min = temp;
+            index = i;
         }
     }
-    
-    if (index == -1) 
-    {
-        return NULL;
-    }
-
     return actions[index];
 
 }
