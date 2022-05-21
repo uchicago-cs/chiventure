@@ -105,7 +105,7 @@ typedef struct graphics {
  * Returns:
  * - a graphics struct whose fields correspond to specifications of the author
  */
-graphics_t* read_gdl(FILE *gdl);
+graphics_t* read_gdl();
 
 
 /*
