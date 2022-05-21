@@ -67,7 +67,7 @@ room_t *lobby;
 room_t *arena;
 npc_t *friendly_fiona;
 npc_t *hostile_harry;
-npc_t *william;
+//npc_t *william;
 
 
 /* Creates a sample class. Taken from test_class.c */
@@ -353,20 +353,20 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *c_harry = create_sample_convo_harry();
     add_convo_to_npc(hostile_harry, c_harry);
 
-    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
-    extend_path_indefinite(movement3, arena->room_id, 5);
-    william = npc_new("william", "william is friendly",
-     "yes, william is friendly", class2, movement3, false);
+    //npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
+    //extend_path_indefinite(movement3, arena->room_id, 5);
+    //william = npc_new("william", "william is friendly",
+    // "yes, william is friendly", class2, movement3, false);
 
     /* Add the npcs to the game */
     add_npc_to_game(game, friendly_fiona);
     add_npc_to_game(game, hostile_harry);
-    add_npc_to_game(game, william);
+    //add_npc_to_game(game, william);
 
     /* Add the npcs to lobby */
     add_npc_to_room(lobby->npcs, friendly_fiona);
     add_npc_to_room(lobby->npcs, hostile_harry);
-    add_npc_to_room(lobby->npcs, william);
+    //add_npc_to_room(lobby->npcs, william);
 
     /* Free default game and replace it with ours */
     game_free(ctx->game);
