@@ -101,17 +101,18 @@ Test(roomspec, free1)
 Test(edges, init)
 {
     int* array;
-    array[0]=5;
+    *array={5,4,5,0,5,3,4,3,5};
+
+/*    array[0]=5;
     array[1]=4;
     array[2]=5;
     array[3]=0;
     array[4]=5;
     array[5]=3;
     array[6]=4;
-    array[7]=3;
-    array[8]=5;
+    array[7]=3;*/
     //array={5,4,5,0,5,3,4,3,5};
-    
+
     int **edges=(int**)malloc(3*sizeof(int*));
     for(int i=0; i<3; i++){
         edges[i]=(int*)malloc(3*sizeof(int));
@@ -130,7 +131,7 @@ Test(edges, init)
     cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
 }
 
-/* Tests the edges_free function to validate that an adjacency matrix (edges) can
+/* Tests the edges_new function to validate that an adjacency matrix (edges) can
  * be made successfully. */
 Test(edges, new)
 {
@@ -156,6 +157,18 @@ Test(edges, new)
     cr_assert_eq(edges[2][0], 4, "failed to set edges [2][0] correctly\n");
     cr_assert_eq(edges[2][1], 3, "failed to set edges [2][1] correctly\n");
     cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
+}
+
+/* Tests the edges_free function to validate that an adjacency matrix (edges) can
+ * be freed successfully. */
+Test(edges, free)
+{
+    int **edges=edges_new(array, 3, 3);
+
+    cr_assert_not_null(edges, "failed to create new edges\n");
+
+    int rc=edges_free(edges);
+    cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
 }
 
 /* Tests the specgraph_init function to validate that a specgraph can
