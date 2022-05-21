@@ -99,7 +99,7 @@ int load_actions(obj_t *item_obj, item_t *i)
  */
 int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
     
-    // getting a list of actions from item
+    /* Getting a list of actions from the item */ 
     obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
     if (action_ls == NULL)
     {
@@ -112,12 +112,13 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
         return FAILURE;
     }
 
-    obj_t *curr_action;
-    DL_FOREACH(action_ls->data.lst, curr_action)
+    obj_t *curr;
+    DL_FOREACH(action_ls->data.lst, curr)
     {
-        char *action = case_insensitized_string(obj_get_str(curr_action, "action"));
-        obj_t *conditions_obj = obj_get_attr(curr_action, "conditions", false);
-        
+        char *action = case_insensitized_string(obj_get_str(curr, "action"));
+        obj_t *conditions_obj = obj_get_attr(curr, "conditions", false);
+
+        /* Adds conditions to the current action, if conditions object exists */
         if (conditions_obj != NULL) 
         {
            game_action_t* act = get_action(item, action);
