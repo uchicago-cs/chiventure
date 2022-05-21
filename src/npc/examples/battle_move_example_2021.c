@@ -387,9 +387,11 @@ int main(int argc, char **argv)
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
-    start_ui(ctx, banner);
-
-    if (fork() == 0)
+    if (fork() != 0)
+    {
+        start_ui(ctx, banner);
+    }
+    else
     {
         time_dependent_functions(ctx->game);
     }
