@@ -391,7 +391,7 @@ int main(int argc, char **argv)
 
     if (fork() == 0)
     {
-        time_dependent_functions(game);
+        time_dependent_functions(ctx->game);
     }
 
     game_free(ctx->game);
