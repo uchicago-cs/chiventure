@@ -239,8 +239,13 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t *graph_roomspec0 = make_default_room("school", NULL,NULL);
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
     roomspecs[0] = graph_roomspec0;
-    int **edges = (int**)malloc(sizeof(int*)*2);
-    specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
+    int *matrix = (int*)malloc(sizeof(int)*4);
+    matrix[0]=1;
+    matrix[1]=1;
+    matrix[2]=1;
+    matrix[3]=1;
+    int **edges=edges_new(matrix, 2, 2);
+    specgraph_t *specgraph = specgraph_new(2,roomspecs,edges);
     room_t* randomroom = roomspec_to_room(random_room_lookup(specgraph));
     add_room_to_game(g, randomroom);
     g->curr_room=randomroom;
