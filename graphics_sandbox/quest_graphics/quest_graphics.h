@@ -1,13 +1,20 @@
 #ifndef QUEST_GRAPHICS_H
 #define QUEST_GRAPHICS_H
 
-#define QUEST_CONTEXT_ID 3
-
 #include "raylib.h"
 #include <stdbool.h>
 
 typedef struct task_tree_mockup task_tree_mockup_t;
 
+
+/*
+ *  This is a mockup struct that has
+ *  identical fields as the real
+ *  task_tree struct
+ * 
+ *  We came up with this mockup struct
+ *  to route around complex dependencies
+ */
 struct task_tree_mockup {
     const char* task_name;
     task_tree_mockup_t *parent;
@@ -16,6 +23,13 @@ struct task_tree_mockup {
     int visited;
 };
 
+
+/*
+ * This is a struct used to store
+ * a priori knowledge of navigating
+ * to a specific struct for drawing
+ * branchs of a binar tree
+ */
 typedef struct pos_in_tree {
     /*
      * Every bit denotes a movement,
@@ -29,73 +43,87 @@ typedef struct pos_in_tree {
     char totalsteps;
 } pos_in_tree_t;
 
+
+/* This is the top-most-level struct
+ * that stores everything (for now)
+ * needed to dispaly quests*/
 typedef struct quest_graphics{
+    /* The upperleft corner position of the window*/
     Vector2 WindowPos;
+    /* The size of the window, width is x field, height is y field*/
     Vector2 WindowSize;
+    /* The length of the segment, horizontal segment is x field, vertical is y*/
     Vector2 SegmentDimension;
+    /* The starting position to draw the task tree, relative to the window's upper-left corner*/
     Vector2 DrawStartPosition;
+    /* The binary task tree that represents the relationship between tasks*/
     task_tree_mockup_t *TaskTree;
+    /* The name/id of the current Task*/
     char* CurrentTaskName;
+    /* If true, we will print out every horizontal siblings of the parents of the current task*/
     bool ShowRemainingHorizontal;
+    /* The length of the side of the square that represents the task*/
     float SquareSide;
 } quest_graphics_t;
 
-/*
- * Creates a new quest graphics struct
- *
+
+/* 
  * Parameters:
- * - the quest graphics struct
- * - the window position
- * - the window size
- * - the segment dimension
- * - the draw start position
- * - the task tree
- * - the current task name
- * - boolean for whether the remaining tasks should be shown
- * - the square side
- *
+ *      Everything in the quest_graphics struct
+ * 
  * Returns:
- * - the quest graphics struct
+ *      A pointer to the initialized quest_graphics struct that contains
+ *      all the information provided through the parameters
+ * 
  */
-quest_graphics_t* quest_graphics_new(Vector2 WindowPos, Vector2 WindowSize,
+quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
     Vector2 SegmentDimension, Vector2 DrawStartPosition, 
     task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
     bool ShowRemainingHorizontal, float SquareSide);
 
 
 /*
- * Initializes a quest graphics struct
- *
  * Parameters:
- * - the quest graphics struct
- * - the window position
- * - the window size
- * - the segment dimension
- * - the draw start position
- * - the task tree
- * - the current task name
- * - boolean for whether the remaining tasks should be shown
- * - the square side
- *
+ *      A pointer to a quest_graphics struct (allocated memory),
+ *      and everythiing in the quest_graphics struct
+ * 
+ * Function:
+ *      Initialize the memory allocated to the quest_graphics struct
+ *      with information provided through the parameters
+ * 
  * Returns:
- * - 1 on success
+ *      1 on success
  */
-int quest_graphics_init(quest_graphics_t *questGraphics, Vector2 WindowPos,
+int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
     Vector2 WindowSize, Vector2 SegmentDimension, Vector2 DrawStartPosition, 
     task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
     bool ShowRemainingHorizontal, float SquareSide);
+    
 
 /*
- * Frees a quest graphics struct
- *
  * Parameters:
- * - the quest graphics struct
- *
+ *      questGraphics: a pointer to a piece of memory allocated for a quest_graphics struct
+ * 
+ * Function:
+ *      Frees the memory pointed to by the given pointer
+ * 
  * Returns:
- * - 1 on success
+ *      1 on success
+ *
  */
-int quest_graphics_free(quest_graphics_t *questGraphics);
+int free_quest_graphics(quest_graphics_t *questGraphics);
 
+/*
+ * Parameters:
+ *      quest_graphics: a pointer to a piece of memory allocated for a quest_graphics struct
+ *                      that contains information needed to draw the graphics
+ * 
+ * Function:
+ *      modularly toplevel function that runs graphics for quests
+ * 
+ * Returns:
+ *      nothing, it just runs.
+ */
 void runTaskTreeGraphics(quest_graphics_t* quest_graphics);
 
 #endif
