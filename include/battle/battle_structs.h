@@ -6,7 +6,6 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 
-
 /* battle_items stub */
 typedef struct battle_item {
     int id;
