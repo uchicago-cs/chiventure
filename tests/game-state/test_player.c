@@ -262,25 +262,26 @@ Test(player, change_xp)
 /* Checks that get_inventory() returns the player's inventory */
 Test(player, get_inventory)
 {
-    player_t *player = player_new("1");
-    player_t *player2 = player_new("1");
-    item_t *new_item = item_new("test_item", "item for player testing",
-                                "item for testing get_inventory()");
-    add_item_to_player(player2, new_item);
+  chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+  player_t *player = player_new("1");
+  player_t *player2 = player_new("1");
+  item_t *new_item = item_new("test_item", "item for player testing",
+  "item for testing get_inventory()");
+  add_item_to_player(player2, new_item, ctx->game);
 
-    item_hash_t* inv = get_inventory(player);
-    item_hash_t* inv2 = get_inventory(player2);
+  item_hash_t* inv = get_inventory(player);
+  item_hash_t* inv2 = get_inventory(player2);
 
-    cr_assert_not_null(player, "player_new() failed");
-    cr_assert_not_null(player2, "player_new() failed");
-    cr_assert_not_null(new_item, "item_new() failed");
+  cr_assert_not_null(player, "player_new() failed");
+  cr_assert_not_null(player2, "player_new() failed");
+  cr_assert_not_null(new_item, "item_new() failed");
 
-    cr_assert_eq(inv, player->inventory,
-                 "get_inventory() failed to return NULL for empty inventory");
-    cr_assert_eq(inv2, player2->inventory,
-                 "get_inventory() failed to return inventory");
-    player_free(player);
-    player_free(player2);
+  cr_assert_eq(inv, player->inventory,
+      "get_inventory() failed to return NULL for empty inventory");
+  cr_assert_eq(inv2, player2->inventory,
+      "get_inventory() failed to return inventory");
+  player_free(player);
+  player_free(player2);
 }
 
 /* Checks that add_player_to_game adds a player
@@ -302,97 +303,100 @@ Test(player, add_player_to_game)
 /* Checks that add_item_to_player adds item to a player struct's inventory */
 Test(player, add_item_to_player)
 {
-    player_t *player = player_new("1");
-    item_t *new_item = item_new("test_item", "item for player testing",
-                                "item for testing add_item_to_player");
-    item_t *dup_item = item_new("test_item", "item for player testing",
-                                "item for testing add_item_to_player");
-    add_item_to_player(player, new_item);
+  chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+  player_t *player = player_new("1");
+  item_t *new_item = item_new("test_item", "item for player testing",
+                              "item for testing add_item_to_player");
+  item_t *dup_item = item_new("test_item", "item for player testing",
+                              "item for testing add_item_to_player");
+  add_item_to_player(player, new_item, ctx->game);
 
-    cr_assert_not_null(player, "player_new() failed");
-    cr_assert_not_null(new_item, "item_new() failed");
-    cr_assert_not_null(player->inventory,
-                       "add_item_to_player() failed to add item");
-
-    int rc = add_item_to_player(player, dup_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to add "
-                 "item with identical id");
-    player_free(player);
+  cr_assert_not_null(player, "player_new() failed");
+  cr_assert_not_null(new_item, "item_new() failed");
+  cr_assert_not_null(player->inventory,
+                      "add_item_to_player() failed to add item");
+  
+  int rc = add_item_to_player(player, dup_item, ctx->game);
+  cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to add "
+                "item with identical id");
+  player_free(player);
 }
 
 /* Checks that remove_item_from_player properly removes items */
 Test(player, remove_item_from_player)
 {
-    player_t *player = player_new("player");
-    item_t *test_item = item_new("item", "short", "long");
-    item_t *dup_item = item_new("item", "short", "long");
-    item_list_t *item_list;
-    int rc;
-
-    rc = add_item_to_player(player, test_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
-                 "add an item to player");
-    rc = add_item_to_player(player, dup_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
-                 "add an item to player");
-
-    rc = remove_item_from_player(player, test_item);
-    cr_assert_eq(rc, SUCCESS, "remove_item_from_player failed to "
-                 "remove an item from player");
-
-    item_list = get_all_items_in_inventory(player);
-    cr_assert_not_null(item_list, "remove_item_from_player removed "
-                       "both identical items from player");
-    player_free(player);
-    item_free(test_item);
-    delete_item_llist(item_list);
+  chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+  player_t *player = player_new("player");
+  item_t *test_item = item_new("item", "short", "long");
+  item_t *dup_item = item_new("item", "short", "long");
+  item_list_t *item_list;
+  int rc;
+  
+  rc = add_item_to_player(player, test_item, ctx->game);
+  cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
+                "add an item to player");
+  rc = add_item_to_player(player, dup_item, ctx->game);
+  cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
+                "add an item to player");
+  
+  rc = remove_item_from_player(player, test_item);
+  cr_assert_eq(rc, SUCCESS, "remove_item_from_player failed to "
+                "remove an item from player");
+  
+  item_list = get_all_items_in_inventory(player);
+  cr_assert_not_null(item_list, "remove_item_from_player removed "
+                      "both identical items from player");
+  player_free(player);
+  item_free(test_item);
+  delete_item_llist(item_list);
 }
 
 /* Checks that add_item_to_player adds an item with an effect to player's inventory */
 Test(player, add_item_effect_to_player)
 {
-    player_t *player = player_new("1");
-    item_t *new_item = item_new("test_item", "item for player testing",
-                                "item for testing add_item_to_player");
-    new_item->stat_effects = NULL;
-    effects_global_t *g1 = global_effect_new("effect 1");
-    stat_effect_t *e1 = stat_effect_new(g1);
-    stat_effect_t *e2 = stat_effect_new(g1);
-    class_t *class = class_new("class", "short", "long",
-                                   NULL, NULL, NULL);
-    player->player_class = class;
-    add_stat_effect(&player->player_class->effects, e1);
+  chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+  player_t *player = player_new("1");
+  item_t *new_item = item_new("test_item", "item for player testing",
+  "item for testing add_item_to_player");
+  new_item->stat_effects = NULL;
+  effects_global_t *g1 = global_effect_new("effect 1");
+  stat_effect_t *e1 = stat_effect_new(g1);
+  stat_effect_t *e2 = stat_effect_new(g1);
+  class_t *class = class_new("class", "short", "long",
+                   NULL, NULL, NULL);
+  player->player_class = class;
+  add_stat_effect(&player->player_class->effects, e1);
 
-    char *hp = "Health";
+  char *hp = "Health";
+  
+  stats_global_t *health = stats_global_new(hp, 100);
 
-    stats_global_t *health = stats_global_new(hp, 100);
+  stats_t *s1 = malloc(sizeof(stats_t));
+  s1->key = strdup(hp);
+  s1->global = health;
+  s1->val = 50.0;
+  s1->max = 75.0;
+  s1->modifier = 0.75;
 
-    stats_t *s1 = malloc(sizeof(stats_t));
-    s1->key = strdup(hp);
-    s1->global = health;
-    s1->val = 50.0;
-    s1->max = 75.0;
-    s1->modifier = 0.75;
+  add_stat(&player->player_class->base_stats, s1);
 
-    add_stat(&player->player_class->base_stats, s1);
+  stat_mod_t *mod1 = stat_mod_new(s1, 1.5, 5);
+  LL_APPEND(e2->stat_list, mod1);
+  add_stat_effect(&(new_item->stat_effects), e2);
 
-    stat_mod_t *mod1 = stat_mod_new(s1, 1.5, 5);
-    LL_APPEND(e2->stat_list, mod1);
-    add_stat_effect(&(new_item->stat_effects), e2);
+  add_item_to_player(player, new_item, ctx->game);
 
-    add_item_to_player(player, new_item);
-
-    cr_assert_not_null(e1->stat_list,
-                       "add_item did not add stat_mod to effect");
-    cr_assert_eq(player->player_class->base_stats->modifier, 1.125,
-                 "add_item did not update modifier");
-    free_stats_table(class->base_stats);
-    delete_all_stat_effects(class->effects);
-    player_free(player);
-
-    free_stats_global(health);
-    free(g1->name);
-    free(g1);
+  cr_assert_not_null(e1->stat_list, 
+                     "add_item did not add stat_mod to effect");
+  cr_assert_eq(player->player_class->base_stats->modifier, 1.125, 
+               "add_item did not update modifier");
+  free_stats_table(class->base_stats);
+  delete_all_stat_effects(class->effects);
+  player_free(player);
+  
+  free_stats_global(health);
+  free(g1->name);
+  free(g1);
 }
 
 /* Checks that delete_all_players successfully

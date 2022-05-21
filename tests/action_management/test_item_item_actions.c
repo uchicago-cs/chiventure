@@ -77,18 +77,18 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     // Inventory conditional tests
     case 5:
         // Item (direct) is in player inventory
-        add_item_to_player(player, direct);
+        add_item_to_player(player, direct, ctx_test->game);
         add_action_inventory_condition(ga, player, direct);
         break;
     case 6:
         // Item (direct) is not in player inventory
-        add_item_to_player(player, direct);
+        add_item_to_player(player, direct, ctx_test->game);
         add_action_inventory_condition(ga, player, indirect);
         break;
 
     // Testing multiple conditions
     case 7:
-        add_item_to_player(player, direct);
+        add_item_to_player(player, direct, ctx_test->game);
         add_action_inventory_condition(ga, player, direct);
 
         set_int_attr(indirect, "DUMMYCONDITON", 0);
@@ -97,10 +97,10 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         add_action_attribute_condition(ga, indirect, attr, value);
         break;
     case 8:
-        add_item_to_player(player, direct);
+        add_item_to_player(player, direct, ctx_test->game);
         add_action_inventory_condition(ga, player, direct);
 
-        add_item_to_player(player, indirect);
+        add_item_to_player(player, indirect, ctx_test->game);
         add_action_inventory_condition(ga, player, indirect);
         break;
     default:

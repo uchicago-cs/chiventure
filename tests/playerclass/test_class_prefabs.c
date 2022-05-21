@@ -47,7 +47,7 @@ chiventure_ctx_t* init_statless_context()
 }
 
 /* Checks whether the class and its basic fields are not null */
-void check_field_pressence(class_t* c)
+void check_field_presence(class_t* c) 
 {
     cr_assert_not_null(c, "failed to be initialized (NULL)");
     cr_assert_not_null(c->name, "failed to initialize name");
@@ -71,7 +71,7 @@ void check_field_pressence(class_t* c)
 
 /* Checks whether skill fields are present, and whether the initialized skills
  * match the expected list */
-void check_skill_pressence(class_t* c, int num_skills, char** names)
+void check_skill_presence(class_t* c, int num_skills, char** names) 
 {
     cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
     cr_assert_not_null(c->starting_skills, "failed to initialize skill inventory");
@@ -87,11 +87,16 @@ Test(class_prefabs, Bard)
 
     /* Tests if we can find the name even if its case is wrong */
     class_t *c = class_prefab_new(ctx->game, "BARD");
-    check_field_pressence(c);
-
+    check_field_presence(c);
+    
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"Magic Word", "Poetic Line", "Enchanted Stanza"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Magic Word", "failed to initialize skill inventory");
 }
 
 /* Tests the monk class */
@@ -100,11 +105,16 @@ Test(class_prefabs, Monk)
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "monk");
-    check_field_pressence(c);
-
+    check_field_presence(c);
+    
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"Acrobatic Powers", "Spirit of Strength", "Supernova Circle"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Acrobatic Powers", "failed to initialize skill inventory");
 }
 
 /* Tests the ranger class */
@@ -113,11 +123,16 @@ Test(class_prefabs, Ranger)
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "ranger");
-    check_field_pressence(c);
-
+    check_field_presence(c);
+    
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"Close Shot", "Mid-range Shot", "Long Shot"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Close Shot", "failed to initialize skill inventory");
 }
 
 /* Tests the rogue class */
@@ -126,11 +141,16 @@ Test(class_prefabs, Rogue)
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "rogue");
-    check_field_pressence(c);
-
+    check_field_presence(c);
+    
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"Quick Hit", "Backstab", "Leg Swipe"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Quick Hit", "failed to initialize skill inventory");
 }
 
 /* Tests whether the warrior class is initialized as expected.
@@ -143,15 +163,15 @@ Test(class_prefabs, Warrior)
 
     /* Note that the name is always stored lowercase. */
     class_t *c = class_prefab_new(ctx->game, "Warrior");
-    check_field_pressence(c);
-
+    check_field_presence(c);
+    
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 20, "failed to initialize previously declared stat");
     cr_assert_eq(get_stat_current(c->base_stats, "speed"), 15, "failed to initialize new stat");
 
     class_prefab_add_skills(c);
 
     char* skill_list[] = {"Sword Slash", "Double Slash", "Triple Slash"};
-    check_skill_pressence(c, 3, skill_list);
+    check_skill_presence(c, 3, skill_list);
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Sword Slash", "failed to initialize skill inventory");
 }
@@ -162,9 +182,14 @@ Test(class_prefabs, Wizard)
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "WIZARD");
-    check_field_pressence(c);
-
+    check_field_presence(c);
+    
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
 
-    /* Skills not yet done for this class */
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"Blinding Charm", "Paralyze Spell", "Arcane Explosion"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "Blinding Charm", "failed to initialize skill inventory");
 }

@@ -4,6 +4,44 @@
 #include <stdio.h>
 #include "game-state/room.h"
 
+/* Creates a sample battle_item. Taken from test_npc.c */
+battle_item_t *generate_test_battle_item(int id, int quantity, int durability, char* description,
+        bool battle, int attack, int defense, int hp)
+{
+    battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+    item->id = id;
+    item->quantity = quantity;
+    item->durability = durability;
+    item->description = description;
+    item->battle = battle;
+    item->attack = attack;
+    item->hp = hp;
+    item->defense = defense;
+
+    return item;
+}
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_test_class()
+{
+    class_t *c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+               " relying on physical strength and years of training to "
+               "deal with any obstacle. Mechanically, the warrior focuses "
+               "on up-close physical damage with weapons and survives enemy "
+               "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
+
 // BASIC ROOM UNIT TESTS ------------------------------------------------------
 /* Tests init function of room */
 /* manually mallocs */
@@ -15,6 +53,8 @@ Test(room_start, init)
     empty_room->short_desc = malloc(sizeof(char*)*MAX_SDESC_LEN+1);
     empty_room->room_id = malloc(sizeof(char*)*MAX_ID_LEN+1);
     empty_room->paths = NULL;
+    empty_room->coords = NULL;
+    empty_room->tag = 0;
     int check = room_init(empty_room, "test_room", "This is a test room",
                           "The purpose of this room is testing");
 
@@ -313,7 +353,12 @@ Test(npc_battle, transfer_all_npc_items_dead)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE, NULL, NULL);
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
+
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
+    HOSTILE, generate_test_class(), dagger);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -357,7 +402,12 @@ Test(npc_battle, transfer_all_npc_items_alive)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE, NULL, NULL);
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
+
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
+    HOSTILE, generate_test_class(), dagger);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -394,7 +444,12 @@ Test(npc_battle, transfer_all_npc_items_empty_inventory)
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, HOSTILE, NULL, NULL);
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
+
+    add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
+    HOSTILE, generate_test_class(), dagger);
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_null(npc->inventory, "npc->inventory not NULL");
@@ -451,3 +506,53 @@ int delete_all_conditions(condition_list_t conditions);
 
 */
 
+/* testing coords struct functions */
+Test(coords, init)
+{
+    coords_t *new_coords = malloc(sizeof(coords_t));
+    int check = coords_init(new_coords, 0, 0);
+
+    cr_assert_eq(check, SUCCESS, "coords_init() test 1 has failed!");
+    coords_free(new_coords);
+}
+
+Test(coords, new)
+{
+    coords_t *new_coords = coords_new(0, 0);
+
+    cr_assert_not_null(new_coords, "coords_new() test 1 has failed!");
+    coords_free(new_coords);
+}
+
+Test(coords, free)
+{
+    coords_t *coords_tofree = coords_new(0, 0);
+
+    cr_assert_not_null(coords_tofree, "coords_free(): coords is null");
+    int freed = coords_free(coords_tofree);
+
+    cr_assert_eq(freed, SUCCESS, "coords_free() test 1 has failed!");   
+}
+
+Test(coords, add_coords_to_room)
+{
+    room_t *new_room = room_new("test_room", "room for testing",
+    "testing if memory is correctly allocated for new rooms");
+    coords_t *add_these_coords = coords_new(1,1);
+    cr_assert_not_null(add_these_coords, "add_coords_to_room(): coords is null");
+
+    add_coords_to_room(add_these_coords, new_room);
+    cr_assert_eq(new_room->coords, add_these_coords, "add_coords_to_room() test 1 has failed");
+}
+
+Test(coords, find_coords_of_room)
+{
+    room_t *new_room = room_new("test_room", "room for testing",
+    "testing if memory is correctly allocated for new rooms");
+    coords_t *add_these_coords = coords_new(1,1);
+    cr_assert_not_null(add_these_coords, "find_coords_of_room(): coords is null");
+    add_coords_to_room(add_these_coords, new_room);
+
+    coords_t *check_coords = find_coords_of_room(new_room);
+    cr_assert_eq(check_coords, add_these_coords, "find_coords_of_room() test 1 has failed");
+}

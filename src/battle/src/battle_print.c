@@ -280,6 +280,14 @@ char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
 }
 
 /* see battle_print.h */
+char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item)
+{
+  char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+  snprintf(string, BATTLE_BUFFER_SIZE, "you used %s", item->name);
+  return string;
+}
+
+/* see battle_print.h */
 char *print_battle_winner(battle_status_t status, int xp)
 {
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
@@ -372,4 +380,109 @@ int *print_battle_items(battle_t *b, char *string)
 
 }
 
+/* Gets the expected length of a menu of possible actions based on 
+ * the given items and moves
+ * 
+ * Parameters:
+ *  - items: a linked list of available items
+ *  - moves: a linked list of available moves
+ * Returns:
+ *  The expected length of the menu
+ */ 
+int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
+  int buff_len = 2; // leave space for the null terminator and an extra newline between items and moves
+  //loop until all moves and all items have been accounted for
+  while(moves || items) 
+  {
+    //account for a move
+    if(moves) 
+    {
+      buff_len += strlen(moves->name) + 6; //6 adds space for the newline and label (e.g. "M1 - ")
+      moves = moves->next;
+    //account for an item
+    } else if(items)
+    // if all moves are accounted for, account for an item
+    {
+      buff_len += strlen(items->name) + 6;
+      items = items->next;
+    }
+    // account for "D - Do nothing"
+    return buff_len + 15;
+  }
+}
 
+/* see battle_print.h */
+char *print_battle_action_menu(battle_item_t *items, move_t *moves)
+{
+  
+  // get the number of moves and number of items
+  int moves_count = num_moves(moves);
+  int items_count = num_items(items);
+
+  // get the length of the full menu string
+  int buff_len = action_menu_buffer_length(items, moves);
+  // allocate the empty string
+  char *menu = malloc(buff_len);
+
+  // int to keep track of the size of the string as it is built
+  int index = 0;
+  // int representing the length of each move name
+  int name_len;
+  // string representing the menu label for each item
+  char move_label[] = "M0 - ";
+  
+  // loop through each move and add an entry to the menu string for each one
+  int i;
+  for(i = 1; i <= moves_count; i++)
+  {
+    // set label number (the character '0' corrisponds to the int 30 in ascii)
+    move_label[1] = (char)(30+i);
+    // add label to the string and account for its length in index
+    memcpy(menu+index, move_label, 6);
+    index += 5;
+    
+    // get the length of the move name
+    name_len = strlen(moves->name);
+    // add the move name to the menu and account for its length in index
+    memcpy(menu+index, moves->name, name_len);
+    index += name_len;
+    // add a newline character to the string
+    *(menu+index) = '\n';
+    index++;
+    // go to the next move
+    moves = moves->next;
+  }
+
+  // add a newline character between moves and items
+    *(menu+index) = '\n';
+    index++;
+
+  // loop through each item and add an entry to the menu string for each one
+  char item_label[] = "I0 - ";
+  for(i = 1; i <= moves_count; i++)
+  {
+    // set label number 
+    item_label[1] = (char)(30+i);
+    // add label to the string and account for its length in index
+    memcpy(menu+index, item_label, 6);
+    index += 5;
+    
+    // get the length of the item name
+    name_len = strlen(items->name);
+    // add the item name to the menu and account for its length in index
+    memcpy(menu+index, items->name, name_len);
+    index += name_len+1;
+    // add a newline character to the string
+    *(menu+index) = '\n';
+    index++;
+
+    // go to the next item
+    items = items->next;
+  }
+
+  // add do nothing option (including null terminator)
+  char do_nothing_option[] = "D - Do nothing";
+  memcpy(menu+index, do_nothing_option, 15);
+
+  return menu;
+}

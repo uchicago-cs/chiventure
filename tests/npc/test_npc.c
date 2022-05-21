@@ -473,8 +473,12 @@ Test(npc, get_npc_max_hp)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
+    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+                            "A hearty dagger sure to take your breath away... for good",
+                            true, 20, 5, 0);
+
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, NULL, NULL);
+                                HOSTILE, generate_test_class(), dagger);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     max_hp = get_npc_max_hp(npc);
