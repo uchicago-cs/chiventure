@@ -3,7 +3,8 @@
 
 /* TODO: This should not be hardcoded here. Find a way to incorporate these
  * files into the CMake-Criterion chain */
-#define FILE_PATH "../../../tests/wdl/examples/wdz/connected-rooms/DEFAULT.wdl"
+#define FILE_PATH_1 "../../../tests/wdl/examples/wdz/connected-rooms/DEFAULT.wdl"
+#define FILE_PATH_2 "../../../tests/wdl/examples/wdl/inventory-cond.wdl"
 #define TEST_OUT_PATH "./"
 
 /*

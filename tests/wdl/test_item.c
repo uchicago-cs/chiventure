@@ -22,7 +22,7 @@ static obj_t *__get_doc_obj()
 
     // Add DEFAULT.json to the zip
     char *data_name = "DEFAULT.json";
-    char *data_path = FILE_PATH;
+    char *data_path = FILE_PATH_1;
 
     zip_error_t err = {0};
     zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
@@ -86,6 +86,18 @@ void item_check(char *room, char *item)
         rc = possible_action(i, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
     }
+}
+
+void conditions_check(char* room, char* item, char* action)
+{
+    obj_t *doc = __get_doc_obj("inventory-cond.wdl", FILE_PATH_2);
+    game_t *g = game_new("Welcome to UChicago");
+
+    load_items(doc, g);
+
+    //check adding conditions to game
+    item_t* i = get_item_from_game(g, item);
+    game_action_t *a = get_action(i, a);
 }
 
 Test(items, check_chair)

@@ -26,7 +26,7 @@ static obj_t *__get_doc_obj()
 
     // Add DEFAULT.json to the zip
     char *data_name = "DEFAULT.json";
-    char *data_path = FILE_PATH;
+    char *data_path = FILE_PATH_1;
 
     zip_error_t err = {0};
     zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
