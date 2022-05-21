@@ -1,6 +1,10 @@
 #ifndef CHIVENTURE_TEST_WDL_H
 #define CHIVENTURE_TEST_WDL_H
 
+#include <criterion/criterion.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libobj/load.h"
 #include "../../include/libobj/obj.h"
 
 /* TODO: This should not be hardcoded here. Find a way to incorporate these
@@ -18,6 +22,6 @@
  * Returns:
  * - a pointer to an object for the game doc
  */
-void obj_t *__get_doc_obj(char* name, char* file_path);
+obj_t *__get_doc_obj(char* name, char* file_path);
 
 #endif //CHIVENTURE_TEST_WDL_H

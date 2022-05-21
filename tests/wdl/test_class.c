@@ -15,7 +15,7 @@
 /* check to see if the load game function works when there are classes defined */
 Test(class, load_game_with_classes)
 {
-    obj_t *obj_store = __get_doc_obj();
+    obj_t *obj_store = __get_doc_obj("classes.wdl", CLASSES_WDL_PATH);
     game_t *game = load_game(obj_store);
     cr_assert_not_null(game, "load_game() did not load game correctly.\n");
 
