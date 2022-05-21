@@ -100,13 +100,16 @@ Test(roomspec, free1)
  * be initialized successfully. */
 Test(edges, init)
 {
-    int array={5,4,5,0,5,3,4,3,5};
+    int* array;
+    array={5,4,5,0,5,3,4,3,5};
+
+    int **edges=edges_new(array, 3, 3);
 
     int **edges=(int**)malloc(3*sizeof(int*));
     for(int i=0; i<3; i++){
         edges[i]=(int*)malloc(3*sizeof(int));
     } 
-    int rc=edges_init(edges, &array, 3, 3);
+    int rc=edges_init(edges, array, 3, 3);
 
     cr_assert_eq(rc, SUCCESS, "failed to initialize edges\n");
     cr_assert_eq(edges[0][0], 5, "failed to set edges [0][0] correctly\n");
@@ -124,9 +127,10 @@ Test(edges, init)
  * be made successfully. */
 Test(edges, new)
 {
-    int array={5,4,5,0,5,3,4,3,5};
+    int* array;
+    array={5,4,5,0,5,3,4,3,5};
 
-    int **edges=edges_new(&array, 3, 3);
+    int **edges=edges_new(array, 3, 3);
 
     cr_assert_not_null(edges, "failed to create new edges\n");    
     cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
