@@ -230,7 +230,7 @@ int** edges_new(int* inp, int num_rows, int num_cols)
         }
     }
     edges_init(edges, inp, num_rows, num_cols);
-    return SUCCESS;
+    return edges;
 }
 
 int edges_free(int** edges, int num_rows) {
