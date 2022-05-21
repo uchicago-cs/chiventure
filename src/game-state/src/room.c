@@ -66,8 +66,13 @@ int room_free(room_t *room)
 int add_item_to_room(room_t *room, item_t *item)
 {
     //int rc;
-
-    HASH_ADD_STR(room->items, item_id, item);
+    assert(item != NULL);
+    item *tmp;
+    HASH_FIND_STR(room->items, item->item_id, tmp);
+    if (tmp == NULL)
+    {
+        HASH_ADD_STR(room->items, item_id, item);
+    }
     //rc = add_item_to_hash(&(room->items), item);
 
     return SUCCESS;
