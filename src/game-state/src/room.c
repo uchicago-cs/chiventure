@@ -67,7 +67,7 @@ int add_item_to_room(room_t *room, item_t *item)
 {
     //int rc;
     assert(item != NULL);
-    item *tmp;
+    item_t *tmp;
     HASH_FIND_STR(room->items, item->item_id, tmp);
     if (tmp == NULL)
     {
