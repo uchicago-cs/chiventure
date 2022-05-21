@@ -26,32 +26,28 @@ typedef struct quest  {
  * 
  * Parameters:
  * - quest_id: string representing the specific quest_id 
- * - task_tree: non-binary tree  struct holding a tree of 
- *                     tasks that make up a quest
  * - reward: reward of the quest is an item
- * 
+ * - prereq: prerequisites for the quest
+ *
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started)
  */
-quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                    reward_t *reward, prereq_t *prereq);
+quest_t *quest_new(char *quest_id, reward_t *reward, prereq_t *prereq);
 
 /* Initialize an already allocated quest struct
  *
  * Parameters:
  * - q: an already allocated quest
  * - quest_id: string representing the specific quest_id 
- * - task_tree: non-binary tree struct holding a tree of 
- *                     tasks that make up a quest
  * - reward: reward of the quest is an item
+ * - prereq: prerequisites for the quest
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  * 
  */
-int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
-               reward_t *reward, prereq_t *stat_req);
+int quest_init(quest_t *q, char *quest_id, reward_t *reward, prereq_t *prereq);
 
 /* 
  * Frees a quest struct from memory including the task list
@@ -65,6 +61,5 @@ int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
  * - FAILURE for unsuccessful free
  */
 int quest_free(quest_t *quest);
-
 
 #endif /* QUEST_H */

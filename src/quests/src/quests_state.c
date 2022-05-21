@@ -50,14 +50,18 @@ bool get_player_task_status(task_t *task, player_t *player)
 }
 
 /* Refer to quest_state.h */
-int accept_reward(reward_t *reward, player_t *player) {
-    assert(player != NULL);
+int accept_reward(reward_t *reward, quest_ctx_t *qctx) {
+    if(qctx == NULL) {
+        return FAILURE;
+    }
+    player_t *player = qctx->player;
     if(reward == NULL) {
         return FAILURE;
     }
 
     player->xp += reward->xp;
-    add_item_to_hash(&player->inventory, reward->item);
+    add_item_to_player_without_checks(player, reward->item);
+    update_player_quests(qctx);
     return SUCCESS;
 }
 
@@ -79,8 +83,7 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     id_list_t *task_list = prereq->task_list;
     for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next) {
         player_quest_t *pquest = get_player_quest_from_hash(cur->id, player->player_quests);
-        // 2 is the quest status, should be changed if status is switched to an enum
-        if(pquest->completion != 2) {
+        if(pquest->completion != Q_COMPLETED) {
             return false;
         }
     }
@@ -99,55 +102,43 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
     assert(quest != NULL);
 
     task_tree_t *tree = malloc(sizeof(task_tree_t));
-    if (quest->task_tree == NULL)
-    {
-        tree->task = task_to_add;
-        tree->parent = NULL;
-        tree->rsibling = NULL;
-        tree->lmostchild = NULL;
-        quest->task_tree = tree;
-        return SUCCESS;
-    }
-    tree = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
-    assert(tree != NULL);
+    tree->task = task_to_add;
 
-    if (tree->lmostchild == NULL)
-    {
-        tree->lmostchild = malloc(sizeof(task_tree_t));
-        tree->lmostchild->task = task_to_add;
-        tree->lmostchild->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
+    task_tree_t *parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
+    tree->parent = parent;
+    task_tree_t **location;
+
+    if(parent == NULL) {
+        location = &quest->task_tree;
     }
-    else
-    {
-        while (tree->rsibling != NULL)
-        {
-            tree = tree->rsibling;
-        }
-        tree->rsibling = malloc(sizeof(task_tree_t));
-        tree->rsibling->task = task_to_add;
-        tree->rsibling->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
+    else {
+        location = &parent->lmostchild;
     }
 
+    while(*location != NULL) {
+        location = &(*location)->rsibling;
+    }
+    *location = tree;
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash)
+int start_quest(quest_t *quest, quest_ctx_t *qctx)
 {
+    assert(qctx != NULL);
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
     assert(quest != NULL);
     assert(player != NULL);
-    int rc = add_quest_to_player(quest, player, 1, quest_hash); // 1 means the quest started, should be replaced when completion status is replaced with enums
+    int rc = add_quest_to_player(quest, qctx, Q_STARTED);
     assert(rc == SUCCESS);
     player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
     task_tree_t *cur = quest->task_tree;
     while(cur) {
-        add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
-        if(is_task_completed(cur->task, player)) {
-            accept_reward(complete_task(cur->task->id, player, quest), player);
-            break;
-        }
+        add_task_to_player_hash(cur->task, qctx);
         cur = cur->rsibling;
-    }   
+    }
+    update_player_quests(qctx);
 
     return SUCCESS;
 }
@@ -158,7 +149,7 @@ int fail_quest(quest_t *quest, player_t *player)
     assert(quest != NULL);
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id,
                              player->player_quests);
-    pquest->completion = -1;
+    pquest->completion = Q_FAILED;
 
     return SUCCESS;
 }
@@ -171,7 +162,7 @@ bool is_quest_completed(quest_t *quest, player_t *player)
     task_tree_t *cur = quest->task_tree;
 
     player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
-    if(!pquest || pquest->completion == -1) {
+    if(!pquest || pquest->completion == Q_FAILED) {
         return false;
     }
 
@@ -187,7 +178,7 @@ bool is_quest_completed(quest_t *quest, player_t *player)
         cur = cur->rsibling;
         crntStatus = false;
     }
-    pquest->completion = crntStatus ? 2 : 1;
+    pquest->completion = crntStatus ? Q_COMPLETED : Q_STARTED;
     return crntStatus;
 }
 
@@ -215,8 +206,15 @@ int get_player_quest_status(quest_t *quest, player_t *player)
 }
 
 /* Refer quests_state.h */
-reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash)
+reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
 {
+    assert(qctx != NULL);
+    if(task_id == NULL) {
+        return NULL;
+    }
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
+    
     assert(player != NULL);
 
     task_tree_t *tree = get_task_tree_from_hash(task_id, quest_hash);
@@ -224,7 +222,6 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
     
     quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
     int pquest_exists = !!get_player_quest_from_hash(quest_of_task->quest_id, player->player_quests);
-
     if (is_task_completed(tree->task, player)) 
     {
         player_task_t *ptask = get_player_task_from_hash(tree->task->id, player->player_tasks);
@@ -233,17 +230,26 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
         }
         ptask->completed = true;
         if(pquest_exists) {
+            // Add next tasks from quest to player
             for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
-                add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
+                add_task_to_player_hash(cur->task, qctx);
                 if(is_task_completed(cur->task, player)) {
-                    accept_reward(complete_task(cur->task->id, player, quest_hash), player);
+                    update_task(cur->task->id, qctx);
                     break;
+                }
+            }
+            // Remove tasks from other paths from player
+            if(tree->parent != NULL) {
+                for(task_tree_t *cur = tree->parent->lmostchild; cur != NULL; cur = cur->rsibling) {
+                    if(!get_player_task_status(cur->task, player)) {
+                        remove_task_in_player_hash(qctx->player->player_tasks, cur->task->id);
+                    }
                 }
             }
         }
         
         if(is_quest_completed(quest_of_task, player)) {
-            accept_reward(complete_quest(quest_of_task, player), player);
+            accept_reward(complete_quest(quest_of_task, player), qctx);
         }
         return tree->task->reward;
     } 
@@ -256,19 +262,24 @@ reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_has
 /* Refer quests_state.h */
 reward_t *complete_quest(quest_t *quest, player_t *player)
 {
-    if (get_player_quest_status(quest, player) == 2)
+    if (get_player_quest_status(quest, player) == Q_COMPLETED)
         return quest->reward;
     else
         return NULL;
 }
 
 /* Refer to quest_state.h */
-int update_player_quests(player_t *player, quest_hash_t *quest_hash) {
+int update_player_quests(quest_ctx_t *qctx) {
+    assert(qctx != NULL);
+    player_t *player = qctx->player;
+    quest_hash_t *quest_hash = qctx->quest_hash;
     assert(player != NULL);
-
-    for(player_task_hash_t *cur = player->player_tasks; cur!= NULL; cur = cur->hh.next) {
-        accept_reward(complete_task(cur->task_id, player, quest_hash), player);
+    for(player_task_hash_t *cur = player->player_tasks; cur != NULL; cur = cur->hh.next) {
+        update_task(cur->task_id, qctx);
     }
 }
     
-
+/* Refer to quests_state.h */
+void update_task(char *task_id, quest_ctx_t *qctx) {
+    accept_reward(complete_task(task_id, qctx), qctx);
+}

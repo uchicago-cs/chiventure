@@ -3,6 +3,7 @@
 
 #include "common/common.h"
 #include "common/utlist.h"
+#include <string.h>
 
 /* structs related to prereqs */
 

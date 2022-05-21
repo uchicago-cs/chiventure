@@ -6,9 +6,7 @@
 #define QUEST_NAME_MAX_LEN 100
 
 /* Refer to quest.h */
-quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                   reward_t *reward, prereq_t *prereq) 
-
+quest_t *quest_new(char *quest_id, reward_t *reward, prereq_t *prereq) 
 {
     quest_t *q;
     int rc;
@@ -20,7 +18,7 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, task_tree, reward, prereq);
+    rc = quest_init(q, quest_id, reward, prereq);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -30,14 +28,12 @@ quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
 }
 
 /* Refer to quest.h */
-int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
-                reward_t *reward, prereq_t *prereq)
-
+int quest_init(quest_t *q, char *quest_id, reward_t *reward, prereq_t *prereq)
 {
     assert(q != NULL);
 
     q->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
-    q->task_tree = task_tree;
+    q->task_tree = NULL;
     q->reward = reward;
     q->prereq = prereq;
     

@@ -135,22 +135,22 @@ int reward_init(reward_t *rewards, int xp, item_t *item);
 /* Creates a new task struct (allocates memory)
  * 
  * Parameters:
- * - mission: the mission to be completed for the quest
  * - id: the id of the task
+ * - mission: the mission to be completed for the quest
  * - reward: the reward of the task
  * - prereq: the prerequisite of the task
  *
  * Returns: a pointer to the newly allocated task that is not completed
  */
-task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
+task_t *task_new(char *id, mission_t *mission, reward_t *reward, prereq_t *prereq);
 
 /* 
  * Initialize an already allocated task struct
  *
  * Parameters:
  * - task: an already allocated task
- * - mission: the mission to be completed for the task
  * - id: the id of the task
+ * - mission: the mission to be completed for the task
  * - reward: the reward of the task
  * - prereq: the prerequisite of the task
  * 
@@ -162,7 +162,7 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prere
  *       If you want a task to have a mission and a prereq, make the mission's tasks a prereq for the actual task
  *       that has the prereqs.
  */
-int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq);
+int task_init(task_t *task, char *id, mission_t *mission, reward_t *reward, prereq_t *prereq);
 
 /* 
  * Frees a task struct from memory but does not free 
