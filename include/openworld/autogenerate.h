@@ -109,7 +109,6 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
  * - direction_to_new: Direction for path curr -> new. Should not be NULL
  *                     NOTE: MUST BE AN AVAILABLE DIRECTION!
  *                     (Available as in no path for that direction exists.)
- * - coords: The coordinates of the new room.
  * 
  * side effects:
  * - Changes input game to hold the newly generated room. Allocated on the heap
@@ -119,7 +118,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
  *   Any internal failure results in crash (by triggering an assert).
  */
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
-                  char *direction_to_curr, char *direction_to_new, coords_t* coords);
+                  char *direction_to_curr, char *direction_to_new);
 
 /* roomspec_autogenerate
  * Given a roomspec, generates a new roomspec based on the adjacency matrix
@@ -148,7 +147,6 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  * - roomspec: The roomspec of the current room 
  * - direction_to_curr: Direction for the path from new -> curr. Should not be NULL.
  * - direction_to_new: Direction for the path from curr -> new. Should not be NULL.
- * - coords: The coordinates of the new room.
  *   NOTE: MUST BE AN AVAILABLE DIRECTION! (Available as in no path for that direction exists.)
  *
  * * side effects:
@@ -160,7 +158,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  */
 
 int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
-                      char *direction_to_curr, char *direction_to_new, coords_t *coords);
+                      char *direction_to_curr, char *direction_to_new);
 
 /*
 * random_room_lookup

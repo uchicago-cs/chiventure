@@ -138,8 +138,28 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
 /* See autogenerate.h */
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
-                  char *direction_to_curr, char *direction_to_new, coords_t *coords)
+                  char *direction_to_curr, char *direction_to_new)
 {
+    /* Find coords of new room */
+    coords_t *coords=curr->coords;
+    int x=coords->x;
+    int y=coords->y;
+
+    if (strcmp("north", direction) == 0){
+        y+=1;
+    }
+
+    else if (strcmp("south", direction) == 0){
+        y-=1;
+    }
+
+    else if (strcmp("east", direction) == 0){
+        x+=1;
+    }
+
+    else if (strcmp("west", direction) == 0){
+        x-=1;
+    }    
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of context->specgraph only */
     room_t *new_room = roomspec_to_room(rspec_new, coords);
@@ -192,10 +212,10 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
 /* See autogenerate.h */
 int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
-                      char *direction_to_curr, char *direction_to_new, coords_t* coords){
+                      char *direction_to_curr, char *direction_to_new){
 
     roomspec_t *newroomspec=roomspec_autogenerate(context, roomspec);    
-    assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new, coords)==SUCCESS);
+    assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new)==SUCCESS);
 
     return SUCCESS;
 }
