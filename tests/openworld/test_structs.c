@@ -100,17 +100,16 @@ Test(roomspec, free1)
  * be initialized successfully. */
 Test(edges, init)
 {
-    int* array;
-    *array={5,4,5,0,5,3,4,3,5};
-
-/*    array[0]=5;
+    int* array=(int*)malloc(9*sizeof(int));
+    array[0]=5;
     array[1]=4;
     array[2]=5;
     array[3]=0;
     array[4]=5;
     array[5]=3;
     array[6]=4;
-    array[7]=3;*/
+    array[7]=3;
+    array[8]=5;
     //array={5,4,5,0,5,3,4,3,5};
 
     int **edges=(int**)malloc(3*sizeof(int*));
@@ -135,7 +134,7 @@ Test(edges, init)
  * be made successfully. */
 Test(edges, new)
 {
-    int* array;
+    int* array=(int*)malloc(9*sizeof(int));
     array[0]=5;
     array[1]=4;
     array[2]=5;
