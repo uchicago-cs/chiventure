@@ -162,6 +162,17 @@ Test(edges, new)
  * be freed successfully. */
 Test(edges, free)
 {
+    int* array=(int*)malloc(9*sizeof(int));
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
+
     int **edges=edges_new(array, 3, 3);
 
     cr_assert_not_null(edges, "failed to create new edges\n");
