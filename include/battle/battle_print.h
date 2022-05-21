@@ -42,7 +42,20 @@ char *print_start_battle(battle_t *b);
  char *print_battle_move(battle_t *b, turn_t turn, move_t *move);
 
 /*
- * Stores the message to be printed at the end of a move in the return
+ * Stores the message to be printed at the end of an item use in the return
+ * string. The message varies based off whether it is the battle_player or enemy move.
+ *
+ * Parameters:
+ *  - b = pointer to the battle
+ *  - turn = whose turn it is for this item use
+ *  - item = pointer to the item just used
+ *
+ * Returns:
+ *  - malloced string with the message about the recent item use
+ */
+char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item);
+ 
+ /* Stores the message to be printed at the end of a move in the return
  * string that has missed. The message varies based off whether it is 
  * the battle_player or enemy move.
  *
@@ -179,3 +192,14 @@ int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string
   */
 int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char *string);
  #endif
+
+/* Creates a string that shows a labeled menu of the avaliable actions for the player
+ * based on the given moves and items
+ * Parameters:
+ *  - battle: pointer to the battle
+ *  - items: a linked list of available items
+ *  - moves: a linked list of available moves
+ * Returns:
+ *  A string containing the labeled menu items
+ */ 
+char *print_battle_action_menu(battle_item_t *items, move_t *moves);
