@@ -233,7 +233,7 @@ int** edges_new(int* inp, int num_rows, int num_cols)
     return SUCCESS;
 }
 
-int edges_free(int** edges, num_rows) {
+int edges_free(int** edges, int num_rows) {
      for(int i=0; i<num_rows; i++)
         free(edges[i]);   
     free(edges);
