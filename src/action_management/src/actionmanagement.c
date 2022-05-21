@@ -378,8 +378,11 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             // retrieve skill tree from the player
             // TO BE IMPLEMENTED
         } else {
-            // TO BE IMPLEMENTED     
+            sprintf(string, "%s cannot be viewed", target);
         }
+    }
+    else {
+        sprintf(string, "No such %s action available", a->c_name);
     }
     *ret_string = string;
     return SUCCESS;
