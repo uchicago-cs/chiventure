@@ -327,7 +327,7 @@ Test(autogenerate, room_generate_success_two)
     item_t *item0 = item_new("item_id", "short_desc", "long_desc");
     
     roomspec_t *roomspec0 = random_room_lookup(specgraph);
-    coords_t *coord0=coords_new(0,1);
+    coords_t *coords0=coords_new(0,1);
     room_t *room0 = roomspec_to_room(roomspec0, coords0);
 
     cr_assert_eq(SUCCESS, add_item_to_room(room0,item0), "could not add item to room");
