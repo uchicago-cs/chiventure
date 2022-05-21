@@ -242,7 +242,7 @@ Test(autogenerate, room_generate_success_one)
     roomspec_t *graph_roomspec0 = make_default_room("school", NULL,NULL);
     roomspec_t **roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*)*2);
     for(int i=0; i<2; i++){
-        roomspecs[i]=(roomspec_t*)malloc(sizeof(roomspec_t)*2);
+        roomspecs[i]=(roomspec_t*)malloc(sizeof(roomspec_t));
     }
     roomspecs[0] = graph_roomspec0;
     int *matrix = (int*)malloc(sizeof(int)*4);
