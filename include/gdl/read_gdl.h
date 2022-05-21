@@ -91,9 +91,24 @@ typedef struct statistics_display {
  */
 typedef struct graphics {
     display_dimensions_t *dimensions;
+    camera_t *camera;
     inventory_display_t *inventory;
     statistics_display_t *statistics;
 } graphics_t;
+
+/*
+ * Allocates and initializes a graphics struct
+ *
+ * Parameters:
+ * - an initialized dimensions struct
+ * - an initialized camera struct
+ * - an initialized inventory struct
+ * - an initialized statistics struct
+ *
+ * Returns:
+ * - a pointer to the graphics struct on the heap
+ */
+graphics_t* make_graphics(display_dimensions_t *dimensions, camera_t *camera, inventory_display_t *inventory, statistics_display_t *statistics);
 
 
 /*

@@ -68,10 +68,6 @@ graphics_t* read_gdl();
     FILE *gdl;
     gdl = fopen("gdl.txt","r"); // could read from any specific location
 
-    // Initialize graphics struct
-    graphics_t *graphics;
-    graphics = (graphics_t*)malloc(sizeof(graphics_t));
-
     // Define information strings for comparisons
     unsigned long display = hash("\"Display_Dimensions\":");
     unsigned long camera = hash("\"Camera\":");
@@ -92,7 +88,8 @@ graphics_t* read_gdl();
     getc(gdl);
 
     // read through the file
-    while (1) {
+    int at_end = 0;
+    while (!at_end) {
 
         // pull title
         char title[100];
@@ -113,20 +110,26 @@ graphics_t* read_gdl();
                         fscanf(gdl, "%*s %d", width); 
                     }
                     if (h == display) {
-                        make_display_dimensions(width, height);
+                        display_dimensions_t *display_dimension;
+                        display_dimension = make_display_dimensions(width, height);
                     } else {
-                        make_camera(width, height);
+                        camera_t *camera;
+                        camera = make_camera(width, height);
                     }
                     break;
                 case inventory:
                     getc(gdl);
                     for(int i = 0; i < 3; i++) {
                         fscanf(gdl, "%s", &spec);
-                
-                case map:
+                            switch (hash(spec)) {
+                                case hash(rows):
+                                                   
+            /*   
+             *      wishlist item: 
+             *  case map:
                     getc(gdl)
                     fscanf(gdl, "%s", &spec);
-                        
+              */           
                 case statistics:
             }
         }   
@@ -156,6 +159,9 @@ if (strcmp(title, dimensions_str) == 0) {
             }
         } 
 */
+    } else {
+      at_end = 1;
     }
-    fclose(gdl);
+    graphics = make_graphics(display_dimensions_t *dimensions, camera_t *camera, inventory_display_t *inventory, statistics_display_t *statistics);
+    return graphics
 }
