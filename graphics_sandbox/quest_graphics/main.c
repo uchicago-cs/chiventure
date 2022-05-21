@@ -65,19 +65,12 @@ task_tree_mockup_t* synthesizeTest1() {
 int main() {
     task_tree_mockup_t *TreeA = synthesizeTest1();
 
-    quest_graphics_t quest_graphics;
+    quest_graphics_t* quest_graphics=new_quest_graphics((Vector2){80,80},(Vector2){600,400},
+                                    (Vector2){50,50},(Vector2){150,150},TreeA,"F",false,30);
 
-    quest_graphics.TaskTree=TreeA;
-    quest_graphics.WindowPos=(Vector2){80,80};
-    quest_graphics.WindowSize=(Vector2){600,400};
-    quest_graphics.DrawStartPosition=(Vector2){150,150};
-    quest_graphics.SegmentDimension=(Vector2){50,50};
-    quest_graphics.SquareSide=30;
-    quest_graphics.CurrentTaskName="F";
-    quest_graphics.ShowRemainingHorizontal=false;
+    runTaskTreeGraphics(quest_graphics);
 
+    free_quest_graphics(quest_graphics);
 
-    runTaskTreeGraphics(&quest_graphics);
-    //Free
     return 0;
 }
