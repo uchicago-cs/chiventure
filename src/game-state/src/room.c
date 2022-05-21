@@ -64,11 +64,12 @@ int room_free(room_t *room)
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item)
 {
-    int rc;
+    //int rc;
 
-    rc = add_item_to_hash(&(room->items), item);
+    HASH_ADD_KEYPTR(hh, room->items, item->item_id, strlen(item->item_id), item);
+    //rc = add_item_to_hash(&(room->items), item);
 
-    return rc;
+    return SUCCESS;
 }
 
 /* See room.h */
