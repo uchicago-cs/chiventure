@@ -121,20 +121,8 @@ tokenized_cmds *parse_r(char *input)
  */
 char **remove_fillers(char **parsed_input)
 {
-    //first, count the NULL chars
-    // this is important, as you want
-    // to avoid using strcmp with NULL as an input
-    int null_count = 0;
-    for (size_t i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        if (parsed_input[i] == NULL)
-        {
-            null_count++;
-        }
-    }
-    
     //looping through the four words in the parsed input
-    for (int i = 0; i < TOKEN_LIST_SIZE - null_count; i++)
+    for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         if(parsed_input[i] == NULL){ break; }
         // determine if this word is a filler
