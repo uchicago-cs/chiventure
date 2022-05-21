@@ -101,7 +101,16 @@ Test(roomspec, free1)
 Test(edges, init)
 {
     int* array;
-    array={5,4,5,0,5,3,4,3,5};
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
+    //array={5,4,5,0,5,3,4,3,5};
 
     int **edges=edges_new(array, 3, 3);
 
@@ -128,7 +137,15 @@ Test(edges, init)
 Test(edges, new)
 {
     int* array;
-    array={5,4,5,0,5,3,4,3,5};
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
 
     int **edges=edges_new(array, 3, 3);
 
