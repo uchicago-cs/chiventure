@@ -24,10 +24,11 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     "rogue",
     "warrior",
     "wizard"
+    "druid"
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 6;
+const int DEFAULT_CLASS_COUNT = 7;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
@@ -250,6 +251,23 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         long_desc = "The Wizard is a master of the arcane; a formidable wielder of magic, "
                     "and an academic whose studies delve into its secrets.";
         set_stats_hashtable(game, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
+    }
+
+    /* Druid stats:
+     * 15 Max Health
+     * 5 Speed
+     * 10 Physical Defense
+     * 10 Physical Attack
+     * 10 Ranged Attack
+     * 30 Magic Defense
+     * 30 Magic Attack
+     * 25 Max Mana */
+
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
+        short_desc = "A Druid.";
+        long_desc = "Members of the high-ranking class in ancient Celtic cultures."
+                    "Druids were religious leaders as well as adjudicators, and medical professionals. ";
+        set_stats_hashtable(game, &stats, 15, 5, 10, 10, 10, 30, 30, 25);
     }
 
     else {
@@ -537,7 +555,9 @@ int class_prefab_add_skills(class_t* class) {
         add_skill(class, skill_0, 0, 25, true);
         add_skill(class, skill_1, 1, 50, false, 0);
         add_skill(class, skill_2, 1, 34, false, 1);
-    } /*
+    } 
+    
+    /*
     * A simple linear tree for a ranger class
     *
     * starting skill: close_shot
@@ -549,7 +569,7 @@ int class_prefab_add_skills(class_t* class) {
     */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
         class_allocate_skills(class, 3, 3, 0);
-       sid_t skill_id = class->skilltree->tid * 100;
+        sid_t skill_id = class->skilltree->tid * 100;
       
        /* Currently point to null effects */
        /* Skills */
@@ -569,7 +589,38 @@ int class_prefab_add_skills(class_t* class) {
        add_skill(class, skill_2, 1, 34, false, 1);
    }
 
-    
+    /*
+    * A simple linear tree for a druid class
+    *
+    * starting skill: frostbite
+    *  - active: deals 3 damage.
+    * frostbite -> control_flames
+    *  - active: deals 12 damage.
+    * control_flames -> flame_blade
+    *  - active: deals 25 damage.
+    */
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+
+       /* Currently point to null effects */
+       /* Skills */
+       skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "frostbite",
+                                    "weak but cold frostbite", 1, 100,
+                                    NULL);                         
+       skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "control flames",
+                                    "you burned your opponent, stronger effect", 1, 200,
+                                    NULL);
+       skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "flame blade",
+                                    "you sliced your opponent with fire!", 1, 400,      
+                                    NULL);
+
+       /* Add skills to tree */
+       add_skill(class, skill_0, 0, 25, true);
+       add_skill(class, skill_1, 1, 50, false, 0);
+       add_skill(class, skill_2, 1, 34, false, 1);
+   }
+
     else {
         fprintf(stderr, "Could not find class for skill inventories "
                         "in class_prefab_add_skills\n");
