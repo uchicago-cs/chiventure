@@ -192,7 +192,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
 /* See autogenerate.h */
 int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
-                      char *direction_to_curr, char *direction_to_new, coords_t coords){
+                      char *direction_to_curr, char *direction_to_new, coords_t* coords){
 
     roomspec_t *newroomspec=roomspec_autogenerate(context, roomspec);    
     assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new, coords)==SUCCESS);
