@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <stdbool.h>
+#include "libobj/load.h"
 #include "test_wdl.h"
 
 
