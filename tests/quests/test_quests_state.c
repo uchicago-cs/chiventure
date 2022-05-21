@@ -38,53 +38,14 @@ Test(mission, init)
 
     int check = mission_init(&mission, "Poseidon", KILL_NPC);
 
-<<<<<<< HEAD
     cr_assert_eq(check,SUCCESS,"mission_init() failed");
     cr_assert_eq(mission.target_name, "Poseidon", "mission_init() failed to set target name!");
     cr_assert_eq(mission.type, KILL_NPC, "mission_init() failed to set type!");
-=======
-    cr_assert_eq(check, SUCCESS,"passive_mission_init() failed");
-    cr_assert_eq(p_mission->xp, 30,
-                    "mission_init() did not set xp");
-    cr_assert_eq(p_mission->levels, 5,
-                    "mission_init() did not set levels");   
-    cr_assert_eq(p_mission->health, 10,
-                    "mission_init() did not set health");   
-}
-
-/* Tests init function for active mission struct */
-Test(active_mission, init)
-{   
-    class_t* class = generate_test_class();
-    char *npc_meet_id = "meet_npc";
-    char *npc_kill_id = "kill_npc";
-
-   	item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
-
-    npc_t *mission_meet_kill = npc_new(npc_kill_id , "npc to kill", 
-                                       "An npc to kill", class, NULL, false);
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
-
-    active_mission_t *a_mission = malloc(sizeof(active_mission_t));
-
-    int check = active_mission_init(a_mission, item_to_get, mission_meet_npc,
-                             mission_meet_kill, room_to_visit);
-
-    cr_assert_eq(check,SUCCESS,"active_mission_init() failed");
->>>>>>> parent of 5811c8e44... made changes to battle modules
 }
 
 /* Tests init function for task struct */
 Test(task, init)
 {
-<<<<<<< HEAD
-=======
-	item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
->>>>>>> parent of 5811c8e44... made changes to battle modules
     char *id = "test mission";
     mission_t *mission = mission_new("Trident", COLLECT_ITEM);
 
@@ -95,11 +56,7 @@ Test(task, init)
 
     task_t *task = malloc(sizeof(task_t));
 
-<<<<<<< HEAD
 	int check = task_init(task, mission, id, rewards, NULL);
-=======
-	int check = task_init(task, mission, id, rewards, prereq);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
 	cr_assert_eq(check, SUCCESS, "task_init() test has failed!");
 }
@@ -146,65 +103,33 @@ Test(prereq, init)
     cr_assert_eq(rc, SUCCESS, "prereq_init failed!");
     cr_assert_eq(prereq.hp, 40, "prereq_init did not set hp");
     cr_assert_eq(prereq.level, 5, "prereq_init did not set level");  
-<<<<<<< HEAD
-=======
-}
-
-reward_t *create_sample_rewards(int xp, item_t *item)
-{
-    reward_t *rewards = malloc(sizeof(reward_t));
-
-    rewards->xp = xp;
-    rewards->item = item;
-
-    return rewards;
->>>>>>> parent of 5811c8e44... made changes to battle modules
 }
 
 /* Tests init function for quest struct */
 Test(quest, init)
 {   
-<<<<<<< HEAD
     quest_t q;
-=======
-    quest_t *q = malloc(sizeof(quest_t));
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
     prereq_t *prereq = prereq_new(hp, level);
 
-<<<<<<< HEAD
 	int check = quest_init(&q, "test", NULL, rewards, prereq);
 
 	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
     cr_assert_eq(q.prereq, prereq, "quest_init() failed to set prereq!");
     cr_assert_eq(q.reward, rewards, "quest_init() failed to set reward!");
 
-=======
-	int check = quest_init(q, "test", NULL, rewards, prereq);
-
-	cr_assert_eq(check, SUCCESS, "quest_init() test has failed!");
->>>>>>> parent of 5811c8e44... made changes to battle modules
 }
 
 /* Tests new task malloc (new uses init) */
 Test(task, new)
 {
-<<<<<<< HEAD
-=======
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
->>>>>>> parent of 5811c8e44... made changes to battle modules
     char *id = "test mission";
 
     mission_t *mission = mission_new("Steve", MEET_NPC);
@@ -214,11 +139,7 @@ Test(task, new)
     int xp = 40;
     reward_t *rewards = reward_new(xp, item);
 
-<<<<<<< HEAD
 	task_t* task = task_new(mission, id, rewards, NULL);
-=======
-	task_t* task = task_new(mission, id, rewards, prereq);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
 	cr_assert_not_null(task, "task_new() test has failed!");
 }
@@ -229,11 +150,7 @@ Test(quest, new)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -259,7 +176,6 @@ Test(quest, new)
 /* Tests task_free function */
 Test(task, free)
 {
-<<<<<<< HEAD
     char *id = "test task";
 
     int xp = 30;
@@ -269,73 +185,9 @@ Test(task, free)
 
 
 	cr_assert_not_null(task_to_free, "task_free(): room is null");
-=======
-	item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    char *id = "test mission";
-
-    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
-
-    item_t *item = item_new("reward_item", "item for rewarding",
-    "test item for item_new()");
-    int xp = 30;
-    reward_t *rewards = reward_new(xp, item);
-    prereq_t *prereq = prereq_new(50, 50);
-
-	task_t* task_to_free = task_new(mission, id, rewards, prereq);
-
-
-	cr_assert_not_null(task_to_free, "task_free(): room is null");
 
 	int freed = task_free(task_to_free);
 
-	cr_assert_eq(freed, SUCCESS, "task_free() test has failed!");
-}
-
-/* Tests passive_mission_free function */
-Test(active_mission, free)
-{
-    class_t* class = generate_test_class();
-    char *npc_meet_id = "meet_npc";
-    char *npc_kill_id = "kill_npc";
-
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
-
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
-
-    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
-                                                     mission_meet_kill, room_to_visit); 
-
-    cr_assert_not_null(a_mission, "active_mission_free(): room is null");
-    
-    int freed = active_mission_free(a_mission);
-
-    cr_assert_eq(freed, SUCCESS, "active_mission_free() test has failed!");
-}
-
-/* Tests passive_mission_free function by making xp node */
-Test(passive_mission_xp, free)
-{   
-    int xp = 5;
-    int level = 1;
-    int health = 10;
-
-    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
-
-    cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
->>>>>>> parent of 5811c8e44... made changes to battle modules
-
-	int freed = task_free(task_to_free);
-
-<<<<<<< HEAD
 	cr_assert_eq(freed, SUCCESS, "task_free() test has failed!");
 }
 
@@ -343,47 +195,12 @@ Test(passive_mission_xp, free)
 Test(mission, free)
 {
     mission_t *mission = mission_new("Atlantis", VISIT_ROOM);
-=======
-	cr_assert_eq(freed, SUCCESS, "passive_mission_free() test has failed!");
-}
-
-/* Tests passive_mission_free function by making xp node */
-Test(passive_mission_levels, free)
-{   
-    int xp = 5;
-    int level = 1;
-    int health = 10;
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     cr_assert_not_null(mission, "mission_free(): room is null");
     
     int freed = mission_free(mission);
 
-<<<<<<< HEAD
     cr_assert_eq(freed, SUCCESS, "mission_free() test has failed!");
-=======
-    cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
-
-    int freed = passive_mission_free(p_mission);
-
-	cr_assert_eq(freed, SUCCESS, "passive_mission_free() test has failed!");
-}
-
-/* Tests passive_mission_free function by making xp node */
-Test(passive_mission_health, free)
-{   
-    int xp = 5;
-    int level = 1;
-    int health = 10;
-
-    passive_mission_t *p_mission = passive_mission_new(xp, level, health);
-
-    cr_assert_not_null(p_mission, "passive_mission_free(): room is null");
-
-    int freed = passive_mission_free(p_mission);
-
-	cr_assert_eq(freed, SUCCESS, "passive_mission_free() test has failed!");
->>>>>>> parent of 5811c8e44... made changes to battle modules
 }
 
 /* Tests quest_free function */
@@ -392,11 +209,7 @@ Test(quest, free)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -418,34 +231,17 @@ Test(quest, add_task_to_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
 
-<<<<<<< HEAD
 	quest_t* quest = quest_new("test", NULL, rewards, NULL);
-=======
-	quest_t* quest = quest_new("test", NULL, rewards, prereq);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     char *id = "test mission";
 
-<<<<<<< HEAD
 	task_t* task_to_add = task_new(NULL, id, rewards, NULL);
-=======
-    active_mission_t *a_mission = active_mission_new(item_to_get, NULL, NULL, NULL);
-    mission_t *mission = malloc(sizeof(mission_t));
-    mission->a_mission = a_mission;
-    mission->p_mission = NULL;
-
-	task_t* task_to_add = task_new(mission, id, rewards, prereq);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int res = add_task_to_quest(quest, task_to_add, "NULL");
 
@@ -527,27 +323,17 @@ Test(quest, start_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-=======
->>>>>>> parent of 5811c8e44... made changes to battle modules
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
     prereq_t *prereq = prereq_new(hp, level);
 
 	quest_t *quest = quest_new("test", NULL, rewards, prereq);
-<<<<<<< HEAD
 
     quest_hash_t *hash = NULL;
     add_quest_to_hash(quest, &hash);
 
-=======
->>>>>>> parent of 5811c8e44... made changes to battle modules
     player_t *player = player_new("test player");
     int check = start_quest(quest, player, hash);
 
@@ -563,11 +349,7 @@ Test(quest, fail_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -596,11 +378,7 @@ Test(quest, complete_task_mission)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -611,25 +389,11 @@ Test(quest, complete_task_mission)
     item_t *trident= item_new("trident", "Poseidon's sacred trident", "The epic trident that Poseidon weilds to protect the World's Oldest Bubble from harm");
     chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
 
-<<<<<<< HEAD
     mission_t *mission = mission_new("trident", COLLECT_ITEM); 
 
     char *id = "test mission";
 
 	task_t* task_to_complete = task_new(mission, id, rewards, NULL);
-=======
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
-
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
-
-    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
-                                                     mission_meet_kill, room_to_visit); 
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
     
@@ -661,7 +425,6 @@ Test(quest, complete_task_prereq)
     int level = 5;
     prereq_t *prereq = prereq_new(hp, level);
 
-<<<<<<< HEAD
     quest_t* quest = quest_new("test", NULL, rewards, prereq);
 
     quest_hash_t *hash = NULL;
@@ -672,9 +435,6 @@ Test(quest, complete_task_prereq)
     char *id = "test mission";
 
 	task_t* task_to_complete = task_new(NULL, id, rewards, prereq);
-=======
-	task_t* task_to_complete = task_new(mission, id, rewards, NULL);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int res = add_task_to_quest(quest, task_to_complete, "NULL");
 
@@ -700,11 +460,7 @@ Test(quest,is_quest_completed)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -716,23 +472,9 @@ Test(quest,is_quest_completed)
     char *npc_meet_id = "meet_npc";
     char *npc_kill_id = "kill_npc";
 
-<<<<<<< HEAD
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     mission_t *mission = mission_new("Grand ballroom", VISIT_ROOM); 
-=======
-    item_t *item_to_get = item_new("test_item", "item for testing",
-    "test item for item_new()");
-    npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
-
-    npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
-
-    active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
-                                                     mission_meet_kill, room_to_visit); 
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     char *id = "test mission";
 
@@ -741,7 +483,6 @@ Test(quest,is_quest_completed)
     int res = add_task_to_quest(quest, task, NULL);
 
     player_t *player = player_new("test player");
-<<<<<<< HEAD
     player->crnt_room = "Grand ballroom";
 
     quest_hash_t *hash = NULL;
@@ -749,13 +490,7 @@ Test(quest,is_quest_completed)
 
     start_quest(quest, player, hash);
     reward_t *the_reward = complete_task(task->id, player, quest);
-    if (the_reward == NULL) 
-    {
-=======
-    start_quest(quest, player);
-    reward_t *the_reward = complete_task(task, player);
     if (the_reward == NULL) {
->>>>>>> parent of 5811c8e44... made changes to battle modules
         res = FAILURE;
     }
     bool completed = is_task_completed(task, player);
@@ -774,11 +509,7 @@ Test(quest,get_player_quest_status)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -806,11 +537,7 @@ Test(quest,complete_quest)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -843,11 +570,7 @@ Test(quest,complete_quest2)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -874,11 +597,7 @@ Test(quest,get_quest1)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -906,11 +625,7 @@ Test(quest,get_quest2)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -931,7 +646,6 @@ Test(quest,get_quest2)
     cr_assert_eq(answer, NULL, "There is an quest with ID of beeppop ");
 }
 
-<<<<<<< HEAD
 
 /*test for add task when 2 unique task_ID */ 
 Test(test, add_task_test1)
@@ -961,7 +675,6 @@ Test(test, add_task_test1)
     cr_assert_eq(add_task1, SUCCESS, "Could not sucessfully add task1"); 
     cr_assert_eq(add_task2, SUCCESS, "Could not sucessfully add task2"); 
 }
-
 /*test for add task when a task with same ID already exists in hash*/
 Test(test, add_task_test2)
 {
@@ -991,19 +704,13 @@ Test(test, add_task_test2)
     cr_assert_eq(add_task2, FAILURE, "task2 added even though task_id already present in hash table"); 
 }
 
-=======
->>>>>>> parent of 5811c8e44... made changes to battle modules
 /*test for add quest when 2 unique quest_ID */ 
 Test(test, add_quest_test1)
 {
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -1029,11 +736,7 @@ Test(test, add_quest_test2)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -1058,11 +761,7 @@ Test(quest, remove_quest_one)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;
@@ -1089,11 +788,7 @@ Test(quest, remove_quest_all)
     int xp = 50;
     item_t *item = item_new("test_item", "item for testing",
     "test item");
-<<<<<<< HEAD
     reward_t *rewards = reward_new(xp, item);
-=======
-    reward_t *rewards = create_sample_rewards(xp, item);
->>>>>>> parent of 5811c8e44... made changes to battle modules
 
     int hp = 50;
     int level = 5;

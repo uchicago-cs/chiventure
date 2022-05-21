@@ -66,9 +66,11 @@ typedef struct npc_battle {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
-int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats, 
+int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
                     move_t* moves, difficulty_t ai, hostility_t hostility_level,
-                    class_t *class_type, battle_item_t *items);
+                    class_t *class_type, battle_item_t *items,
+                    battle_equipment_t *armor, battle_equipment_t *accessory, 
+                    battle_equipment_t *weapon);
 
 /*
  * Allocates a new npc_battle struct in the heap.
@@ -91,7 +93,9 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
  */
 npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves, 
 		                     difficulty_t ai, hostility_t hostility_level, 
-			                 class_t *class_type, battle_item_t *items);
+			                 class_t *class_type, battle_item_t *items,
+                             battle_equipment_t *armor, battle_equipment_t *accessory, 
+                             battle_equipment_t *weapon);
 
 /*
  * Frees resources associated with an npc_battle struct.

@@ -129,11 +129,13 @@ Test(npc_battle, new)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
-                                20, true);
+    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", 
+                            "A hearty dagger sure to take your breath away... for good", 
+                            dagger_changes, 20, true);
 
     npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY, 
-		                        HOSTILE, generate_npcbattle_test_class(), dagger);
+		                        HOSTILE, generate_npcbattle_test_class(), dagger,
+                                NULL, NULL, NULL);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
@@ -168,11 +170,12 @@ Test(npc_battle, init)
 
     npc_battle = npc_battle_new(stats1, moves1, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_npcbattle_test_class(),
-                                dagger);
+                                dagger, NULL, NULL, NULL);
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
     int res = npc_battle_init(npc_battle, stats2, moves2, BATTLE_AI_NONE,
-		                      FRIENDLY, generate_npcbattle_test_class(), dagger);
+		                      FRIENDLY, generate_npcbattle_test_class(), dagger,
+                              NULL, NULL, NULL);
 
     cr_assert_eq(res, SUCCESS, "npc_battle_init() failed");
 
@@ -204,7 +207,7 @@ Test(npc_battle, free)
 
     npc_battle = npc_battle_new(stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_npcbattle_test_class(),
-                                dagger);
+                                dagger, NULL, NULL, NULL);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 

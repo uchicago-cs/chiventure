@@ -292,7 +292,9 @@ int add_convo_to_npc(npc_t *npc, convo_t *c);
  */
 int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,
-                      class_t *class_type, battle_item_t *items);
+                      class_t *class_type, battle_item_t *items,
+                      battle_equipment_t *armor,
+                      battle_equipment_t *accessory, battle_equipment_t *weapon);
 
 /*
  * Changes the hp level of the npc.

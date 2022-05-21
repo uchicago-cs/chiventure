@@ -4,22 +4,21 @@
 #include <stdio.h>
 #include "game-state/room.h"
 
-/* Creates a sample battle_item. Taken from test_npc.c */
-battle_item_t *generate_test_battle_item(int id, int quantity, int durability, char* description,
-        bool battle, int attack, int defense, int hp)
+/* Creates a sample battle_item. Taken from test_battle_ai.c */
+battle_item_t *generate_test_battle_item(int id, int quantity, char* description, 
+                                         char *name, bool attack, stat_changes_t *changes)
 {
-    battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
-    item->id = id;
-    item->quantity = quantity;
-    item->durability = durability;
-    item->description = description;
-    item->battle = battle;
-    item->attack = attack;
-    item->hp = hp;
-    item->defense = defense;
+     item->id = id;
+     item->name = name;
+     item->description = description;
+     item->quantity = quantity;
+     item->description = description;
+     item->attack = attack;
+     item->attributes = changes;
 
-    return item;
+     return item;
 }
 
 /* Creates a sample class. Taken from test_class.c */
@@ -56,7 +55,7 @@ Test(room_start, init)
     empty_room->coords = NULL;
     empty_room->tag = 0;
     int check = room_init(empty_room, "test_room", "This is a test room",
-    "The purpose of this room is testing");
+                          "The purpose of this room is testing");
 
     cr_assert_eq(check, SUCCESS, "room_init() test 1 has failed!");
     room_free(empty_room);
@@ -66,7 +65,7 @@ Test(room_start, init)
 Test(room_start, new)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
 
     cr_assert_not_null(new_room, "room_new() test 1 has failed!");
     room_free(new_room);
@@ -76,7 +75,7 @@ Test(room_start, new)
 Test(room_start, free)
 {
     room_t *room_tofree = room_new("test_room", "room for testing",
-    "testing if memory is correctly freed for rooms");
+                                   "testing if memory is correctly freed for rooms");
 
     cr_assert_not_null(room_tofree, "room_free(): room is null");
     int freed = room_free(room_tofree);
@@ -92,11 +91,11 @@ Test(room_start, free)
 Test(room_item, add_item_to_room)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     item_t *test_item2 = item_new("test_item2", "item2 for testing",
-    "testing to see if get_item() works 2");
+                                  "testing to see if get_item() works 2");
     int rv = add_item_to_room(new_room, test_item);
     int rc = add_item_to_room(new_room, test_item2);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
@@ -105,24 +104,24 @@ Test(room_item, add_item_to_room)
 }
 
 /* Tests add_item_to_room
- * Adds two duplicate items, succeeding only if items 
+ * Adds two duplicate items, succeeding only if items
  * have different memory addresses
  */
 Test(room_item, add_duplicate_item_to_room)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     item_t *test_item2 = item_new("test_item", "item2 for testing",
-    "testing to see if get_item() exits correctly");
+                                  "testing to see if get_item() exits correctly");
 
     int rv = add_item_to_room(new_room, test_item);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
 
     int check = add_item_to_room(new_room, test_item2);
     cr_assert_eq(check, SUCCESS, "duplicate item not added to room correctly");
-    
+
     check = add_item_to_room(new_room, test_item2);
     cr_assert_eq(check, FAILURE, "item at same memory address as item "
                  "already in room added again to room");
@@ -133,9 +132,9 @@ Test(room_item, add_duplicate_item_to_room)
 Test(room_item, get_item)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     int rv = add_item_to_room(new_room, test_item);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
     item_t *returned_item = get_item_in_room(new_room, "test_item");
@@ -147,9 +146,9 @@ Test(room_item, get_item)
 Test(room_item, get_nonexistent_item)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     item_t *test_item = item_new("test_item", "item for testing",
-    "testing to see if get_item() works");
+                                 "testing to see if get_item() works");
     int rv = add_item_to_room(new_room, test_item);
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
     item_t *returned_item = get_item_in_room(new_room, "test_item_2");
@@ -164,18 +163,18 @@ Test(room_item, remove_item_from_room)
     item_t *dup_item = item_new("item", "short", "long");
     item_list_t *item_list;
     int rc;
-    
+
     rc = add_item_to_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
     rc = add_item_to_room(room, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
-    
+
     rc = remove_item_from_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to "
                  "remove an item from room");
-    
+
     item_list = get_all_items_in_room(room);
     cr_assert_not_null(item_list, "remove_item_from_room removed "
                        "both identical items from room");
@@ -188,16 +187,17 @@ Test(room_item, remove_item_from_room)
 * Runs two small tests
 * Tests same sdesc and different sdesc
 */
-Test(room_get, get_sdesc) {
+Test(room_get, get_sdesc)
+{
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     char test[MAX_SDESC_LEN] = "room for testing";
     char fail[MAX_SDESC_LEN] = "this is supposed to fail";
     int check = strncmp(get_sdesc(new_room), test, MAX_SDESC_LEN);
     int check2 = strncmp(get_sdesc(new_room), fail, MAX_SDESC_LEN);
     //if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
-      check2 = SUCCESS;
+        check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_sdesc: failed to get sdesc");
     cr_assert_eq(check2, SUCCESS, "get_sdesc: failed to fail wrong strncmp");
     room_free(new_room);
@@ -210,15 +210,15 @@ Test(room_get, get_sdesc) {
 Test(room_get, get_ldesc)
 {
     room_t *new_room = room_new("test_room", "room for testing",
-    "testing if memory is correctly allocated for new rooms");
+                                "testing if memory is correctly allocated for new rooms");
     char test[MAX_LDESC_LEN] =
-    "testing if memory is correctly allocated for new rooms";
+        "testing if memory is correctly allocated for new rooms";
     char fail[MAX_LDESC_LEN] = "this is supposed to fail";
     int check = strncmp(get_ldesc(new_room), test, MAX_LDESC_LEN);
     int check2 = strncmp(get_ldesc(new_room), fail, MAX_LDESC_LEN);
     //if check2 returns !SUCCESS, set to SUCCESS
     if(check2 != SUCCESS)
-      check2 = SUCCESS;
+        check2 = SUCCESS;
     cr_assert_eq(check, SUCCESS, "get_ldesc: failed to get sdesc");
     cr_assert_eq(check2, SUCCESS, "get_ldesc: failed to fail wrong strncmp");
     room_free(new_room);
@@ -257,15 +257,21 @@ Test(iter_macro, iter_paths)
     add_path_to_room(room1, path_new(room3, "south"));
     int cnt = 0;
     path_t *curr_path;
-    ITER_ALL_PATHS(room1, curr_path) {
+    ITER_ALL_PATHS(room1, curr_path)
+    {
         cnt++;
-        if (!strncmp(curr_path->dest->room_id, "room3", MAX_ID_LEN)) {
+        if (!strncmp(curr_path->dest->room_id, "room3", MAX_ID_LEN))
+        {
             cr_assert_str_eq(curr_path->direction, "south",
-            "direction does not correspond");
-        } else if (!strncmp(curr_path->dest->room_id, "room2", MAX_ID_LEN)) {
+                             "direction does not correspond");
+        }
+        else if (!strncmp(curr_path->dest->room_id, "room2", MAX_ID_LEN))
+        {
             cr_assert_str_eq(curr_path->direction, "north",
-            "direction does not correspond");
-        } else {
+                             "direction does not correspond");
+        }
+        else
+        {
             cr_assert_fail("non-existent room detected");
         }
     }
@@ -275,21 +281,21 @@ Test(iter_macro, iter_paths)
     room_free(room3);
 }
 
-/* Creates + initializes a move. Taken from test_battle_ai.c */
-move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
- {
-     move_t* move = (move_t*) calloc(1, sizeof(move_t));
-
-     move->id = id;
-
-     move->item = item;
-
-     move->attack = attack;
-     move->damage = damage;
-     move->defense = defense;
-
-     return move;
- }
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+}
 
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats1()
@@ -313,19 +319,19 @@ stat_t *create_enemy_stats1()
     return test_stats;
 }
 
-/* Creates example moves. Taken from test_battle_ai.c */
-move_t *create_enemy_moves1()
-{
-    move_t *head, *earthquake, *poke, *rock_throw;
-    head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
-    poke = create_move(2, NULL, true, 40, 0);
-    rock_throw = create_move(3, NULL, true, 90, 0);
-    DL_APPEND(head, earthquake);
-    DL_APPEND(head, poke);
-    DL_APPEND(head, rock_throw);
-    return head;
-}
+// /* Creates example moves. Taken from test_battle_ai.c */
+// move_t *create_enemy_moves1()
+// {
+//     move_t *head, *earthquake, *poke, *rock_throw;
+//     head = NULL;
+//     earthquake = create_move(1, NULL, true, 100, 0);
+//     poke = create_move(2, NULL, true, 40, 0);
+//     rock_throw = create_move(3, NULL, true, 90, 0);
+//     DL_APPEND(head, earthquake);
+//     DL_APPEND(head, poke);
+//     DL_APPEND(head, rock_throw);
+//     return head;
+// }
 
 /* Checks that transfer_all_npc_items() removes items from a dead npc and
    transfers them to the room */
@@ -333,7 +339,7 @@ Test(npc_battle, transfer_all_npc_items_dead)
 {
     npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
     stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    move_t *moves = create_enemy_moves();
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
     item_t *test_item3 = item_new("item3", "short", "long");
@@ -346,12 +352,12 @@ Test(npc_battle, transfer_all_npc_items_dead)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
                             "A hearty dagger sure to take your breath away... for good",
-                            true, 20, 5, 0);
+                            "dagger", true, NULL);
 
     add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
-    HOSTILE, generate_test_class(), dagger);
+    HOSTILE, generate_test_class(), dagger, NULL, NULL, NULL);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -382,7 +388,7 @@ Test(npc_battle, transfer_all_npc_items_alive)
 {
     npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
     stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    move_t *moves = create_enemy_moves();
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
     item_t *test_item3 = item_new("item3", "short", "long");
@@ -395,12 +401,12 @@ Test(npc_battle, transfer_all_npc_items_alive)
     cr_assert_not_null(test_item3, "item_new() 3 failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
                             "A hearty dagger sure to take your breath away... for good",
-                            true, 20, 5, 0);
+                            "dagger", true, NULL);
 
     add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
-    HOSTILE, generate_test_class(), dagger);
+    HOSTILE, generate_test_class(), dagger, NULL, NULL, NULL);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -430,24 +436,24 @@ Test(npc_battle, transfer_all_npc_items_empty_inventory)
 {
     npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
     stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    move_t *moves = create_enemy_moves();
     room_t *room = room_new("test_room", "room for testing",
                             "testing if memory is correctly allocated for new rooms");
 
     cr_assert_not_null(npc, "npc_new() failed");
     cr_assert_not_null(room, "room_new() failed");
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
                             "A hearty dagger sure to take your breath away... for good",
-                            true, 20, 5, 0);
+                            "dagger", true, NULL);
 
     add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
-    HOSTILE, generate_test_class(), dagger);
+    HOSTILE, generate_test_class(), dagger, NULL, NULL, NULL);
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_null(npc->inventory, "npc->inventory not NULL");
-
     change_npc_hp(npc, -1*(npc->npc_battle->stats->hp));
+
     int rc = transfer_all_npc_items(npc, room);
 
     cr_assert_eq(rc, SUCCESS, "transfer_all_npc_items() failed");

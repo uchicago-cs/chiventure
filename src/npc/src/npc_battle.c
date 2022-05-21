@@ -7,7 +7,9 @@
 /* See npc_battle.h */
 int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
                     move_t* moves, difficulty_t ai, hostility_t hostility_level,
-                    class_t *class_type, battle_item_t *items)
+                    class_t *class_type, battle_item_t *items,
+                    battle_equipment_t *armor, battle_equipment_t *accessory, 
+                    battle_equipment_t *weapon)
 {
     assert(npc_battle != NULL);
     npc_battle->stats = stats;
@@ -27,7 +29,9 @@ int npc_battle_init(npc_battle_t *npc_battle, stat_t* stats,
 /* See npc_battle.h */
 npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves, 
 		                     difficulty_t ai, hostility_t hostility_level, 
-			                 class_t *class_type, battle_item_t *items)
+			                 class_t *class_type, battle_item_t *items,
+                             battle_equipment_t *armor, battle_equipment_t *accessory, 
+                             battle_equipment_t *weapon)
 {
     npc_battle_t *npc_battle;
     npc_battle = malloc(sizeof(npc_battle_t));
@@ -41,7 +45,8 @@ npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves,
     npc_battle->armor = malloc(sizeof(battle_equipment_t));
 
     int check = npc_battle_init(npc_battle, stats, moves, ai, 
-                                hostility_level, class_type, items);
+                                hostility_level, class_type, items,
+                                armor, accessory, weapon);
 
     if (npc_battle == NULL || npc_battle->stats == NULL ||  
         npc_battle->moves == NULL || npc_battle->class_type == NULL || 
