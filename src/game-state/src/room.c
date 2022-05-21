@@ -16,6 +16,7 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
     case_insensitize(new_room->room_id);
     strncpy(new_room->short_desc, short_desc, strlen(short_desc)+1);
     strncpy(new_room->long_desc, long_desc, strlen(long_desc)+1);
+    room->items = NULL;
 
     new_room->npcs = npcs_in_room_new(room_id);
 
