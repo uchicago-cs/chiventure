@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "common/uthash.h"
 #include "game-state/game.h"
 #include "gen_structs.h"
 #include "default_rooms.h"

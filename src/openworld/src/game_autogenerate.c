@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "common/uthash.h"
 #include "game-state/game.h"
 #include "gen_structs.h"
 #include "default_rooms.h"
@@ -64,5 +65,25 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
         
     return SUCCESS;
 }
+
+/* random_room_from_game
+* given a game struct, chooses a random room from the game
+*
+* parameters:
+* - game_t* game: a pointer to the game struct. Must contain at least one room.
+*
+* returns:
+* SUCCESS - if a random room was successfully chosen
+* FAILURE - if a rnadom room could not be chosen (e.g. if game is null or if game contains no rooms)
+*/
+/*
+roomspec_t* random_first_room(game_t* game){
+    if(game==NULL){
+        return FAILURE;
+    }
+
+    int randomint=rand() % num_roomspecs;  
+*/
+
 
 

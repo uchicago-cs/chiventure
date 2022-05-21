@@ -45,7 +45,7 @@ bool path_exists_in_direction(room_t *r, char *direction)
 }
 
 /* See autogenerate.h */
-bool room_exists_in_direction(game* t, room_t *r, char *direction)
+bool room_exists_in_direction(game_t* game, room_t *r, char *direction)
 {
     /*Find coordinates of current room*/
     coords_t *coords=r->coords;

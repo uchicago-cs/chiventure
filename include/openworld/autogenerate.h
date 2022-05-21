@@ -55,7 +55,7 @@ bool path_exists_in_direction(room_t *r, char *direction);
 * - true if there is a room adjacent to the given room in the given direction
 * - false if there is no room adjacent to the given room in the given direction
 */
-bool room_exists_in_direction(game* t, room_t *r, char *direction);
+bool room_exists_in_direction(game_t* game, room_t *r, char *direction);
 
 /*
 * roomspec_to_room
