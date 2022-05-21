@@ -55,7 +55,7 @@ void conditions_check(char* room, char* item, char* action)
 
     //check adding conditions to game
     item_t* i = get_item_from_game(g, item);
-    game_action_t *a = get_action(i, a);
+    game_action_t *a = get_action(i, action);
 }
 
 Test(items, check_chair)
