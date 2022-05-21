@@ -5,6 +5,7 @@
 #include "wdl/load_item.h"
 #include "test_wdl.h"
 
+<<<<<<< HEAD
 /*
  * helper function for parsing a YAML file into an object
  */
@@ -47,10 +48,12 @@ static obj_t *__get_doc_obj()
 
     return obj;
 }
+=======
+>>>>>>> ec5af8bbf854a305b5e03fb93d2eee2c2a13528f
 
 void item_check(char *room, char *item)
 {
-    obj_t *doc = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     game_t *g = game_new("Welcome to UChicago");
 
     // check adding rooms to game

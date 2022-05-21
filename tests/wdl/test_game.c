@@ -7,6 +7,7 @@
 #include "test_wdl.h"
 
 
+<<<<<<< HEAD
 /*
  * helper function for parsing a YAML file into an object
  */
@@ -49,11 +50,13 @@ static obj_t *__get_doc_obj()
 
     return obj;
 }
+=======
+>>>>>>> ec5af8bbf854a305b5e03fb93d2eee2c2a13528f
 
 /* check to see if rooms are added to game struct correctly */
 Test(game, create_game)
 {
-    obj_t *doc = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     game_t *g = create_game(doc);
     cr_assert_not_null(g, "create_game() did not load game correctly");
 
@@ -64,7 +67,7 @@ Test(game, create_game)
 /* check to see if the load game function works */
 Test(game, load_game)
 {
-    obj_t *obj_store = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     cr_assert_not_null(obj_store, "Object store is NULL.\n");
     game_t *g = load_game(obj_store);
     cr_assert_not_null(g, "load_game() did not load game correctly.\n");

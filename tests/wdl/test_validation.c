@@ -10,6 +10,7 @@
  * within validate.h
  */
 
+<<<<<<< HEAD
 /*
  * helper function for parsing a YAML file into an object
  */
@@ -53,11 +54,13 @@ static obj_t *__get_doc_obj()
     return obj;
 }
 
+=======
+>>>>>>> ec5af8bbf854a305b5e03fb93d2eee2c2a13528f
 /* tests whether the game fields are valid */ 
 Test(validate, game_type_check)
 {
     // obtain doc/game objects
-    obj_t *doc = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     obj_t *game = obj_get_attr(doc, "GAME", false);
 
     int rc = game_type_check(game);
@@ -68,7 +71,7 @@ Test(validate, game_type_check)
 Test(validate, room_type_check)
 {
     // obtain doc/room objects
-    obj_t *doc = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     obj_t *rooms = obj_get_attr(doc, "ROOMS", false);
 
     int rc = list_type_check(rooms, room_type_check);
@@ -79,7 +82,7 @@ Test(validate, room_type_check)
 Test(validate, item_type_check)
 {
     // obraint doc/item objects
-    obj_t *doc = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     obj_t *items = obj_get_attr(doc, "ITEMS", false);
 
     int rc = list_type_check(items, item_type_check);

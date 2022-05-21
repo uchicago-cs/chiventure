@@ -10,6 +10,7 @@
 #define ROOM_PATH "../../../tests/wdl/examples/connected_rooms.wdl"
 
 /*
+<<<<<<< HEAD
  * helper function for parsing a YAML file into an object
  */
 static obj_t *__get_doc_obj()
@@ -53,6 +54,8 @@ static obj_t *__get_doc_obj()
 }
 
 /*
+=======
+>>>>>>> ec5af8bbf854a305b5e03fb93d2eee2c2a13528f
  * add_rooms_check
  * helper functions for checking whether the designated rooms from
  * the document object are correctly loaded into a game struct
@@ -61,7 +64,7 @@ game_t *add_rooms_check()
 {
     // get the document object located in FILE_PATH and create a new
     // game pointer
-    obj_t *doc = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
     game_t *g = game_new("Welcome to UChicago");
 
     // check adding rooms to the game pointer
@@ -111,7 +114,7 @@ void check_room_descs(game_t *g, char *id, char *sdesc, char *ldesc)
  game_t *add_conns_check()
  {
      // first add rooms to game  and ensure it has run correctly
-     obj_t *doc = __get_doc_obj();
+     obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_1);
      game_t *g = game_new("Welcome to UChicago");
 
      int rc = add_rooms_to_game(doc, g);
