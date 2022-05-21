@@ -177,7 +177,7 @@ Test(edges, free)
 
     cr_assert_not_null(edges, "failed to create new edges\n");
 
-    int rc=edges_free(edges);
+    int rc=edges_free(edges, 3);
     cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
 }
 

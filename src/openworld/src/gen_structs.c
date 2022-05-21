@@ -215,7 +215,7 @@ int** edges_new(int* inp, int num_rows, int num_cols)
         fprintf(stderr, "malloc failed to allocate space for edges. \n");
         return NULL;
     }
-    
+
     for (unsigned int i = 0; i < num_rows; i++) 
     {
         edges[i] = (int*)malloc(sizeof(int) * num_cols);
@@ -231,6 +231,12 @@ int** edges_new(int* inp, int num_rows, int num_cols)
     }
     edges_init(edges, inp, num_rows, num_cols);
     return SUCCESS;
+}
+
+int edges_free(int** edges, num_rows) {
+     for(int i=0; i<num_rows; i++)
+        free(edges[i]);   
+    free(edges);
 }
 
 
