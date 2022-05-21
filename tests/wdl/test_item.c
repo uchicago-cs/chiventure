@@ -46,6 +46,18 @@ void item_check(char *room, char *item)
     }
 }
 
+void conditions_check(char* room, char* item, char* action)
+{
+    obj_t *doc = __get_doc_obj("inventory-cond.wdl", FILE_PATH_2);
+    game_t *g = game_new("Welcome to UChicago");
+
+    load_items(doc, g);
+
+    //check adding conditions to game
+    item_t* i = get_item_from_game(g, item);
+    game_action_t *a = get_action(i, a);
+}
+
 Test(items, check_chair)
 {
     item_check("room_A", "CHAIR");

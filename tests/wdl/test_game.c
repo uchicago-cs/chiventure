@@ -6,7 +6,6 @@
 #include "wdl/load_item.h"
 #include "test_wdl.h"
 
-
 /* check to see if rooms are added to game struct correctly */
 Test(game, create_game)
 {

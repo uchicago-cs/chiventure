@@ -2,7 +2,7 @@
 
 
 /* See test_wdl.h*/
-void obj_t *__get_doc_obj(char* name, char* file_path)
+obj_t *__get_doc_obj(char* name, char* file_path)
 {
     char zip_name[10 * (MAXLEN_ID + 1)] = {0};
     strcat(zip_name, TEST_OUT_PATH);
