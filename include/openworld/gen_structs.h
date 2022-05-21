@@ -298,7 +298,7 @@ int edges_init(int** edges, int* inp_array, int num_rows, int num_cols);
 
 int** edges_new(int* inp, int num_rows, int num_cols);
 
-int edges_free(int** edges);
+int edges_free(int** edges, int num_rows);
 
 /* SPECGRAPH */
 
