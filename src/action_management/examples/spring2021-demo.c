@@ -194,11 +194,7 @@ int main(int argc, char **argv)
 
     item_t *sword = item_new("A sword", "A sword", "A sword");
     add_attribute_to_hash(sword, wepDmg);
-<<<<<<< HEAD
     add_item_to_player(ctx->game->curr_player, sword, ctx->game);
-=======
-    add_item_to_player(ctx->game->curr_player, sword);
->>>>>>> parent of 5811c8e44... made changes to battle modules
  
     add_entry("SEEDMG", seeDmg, NULL, ctx->cli_ctx->table);
     add_entry("RAISEDMG", raiseDmg, NULL, ctx->cli_ctx->table);

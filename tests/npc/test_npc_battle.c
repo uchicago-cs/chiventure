@@ -7,9 +7,10 @@
 #include "battle/battle_moves.h"
 
 /* Creates a sample battle item. Taken from test_battle_ai.c */
- battle_item_t *npc_create_battle_item(int id, char *name, char* description, 
-                                         stat_changes_t *attributes, int quantity, bool attack)
- {
+battle_item_t *npc_create_battle_item(int id, char *name, char* description, 
+                                      stat_changes_t *attributes, 
+                                      int quantity, bool attack)
+{
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
      item->id = id;
@@ -161,8 +162,9 @@ Test(npc_battle, init)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
-                                20, true);
+    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", 
+    "A hearty dagger sure to take your breath away... for good", 
+    dagger_changes, 20, true);
 
     npc_battle = npc_battle_new(stats1, moves1, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_npcbattle_test_class(),

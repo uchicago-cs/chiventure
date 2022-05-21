@@ -710,6 +710,10 @@ Test(battle_logic, remove_last_item_of_multiple)
     strcpy(i1->name, "item1");
     i1->description = calloc(15, sizeof(char));
     strcpy(i1->description, "description");
+<<<<<<< HEAD
+=======
+    
+>>>>>>> parent of 5811c8e44... made changes to battle modules
 
     battle_item_t *i2 = calloc(1, sizeof(battle_item_t));
     i2->id = 101;

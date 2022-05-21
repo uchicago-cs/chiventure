@@ -329,8 +329,9 @@ Test(npc, add_battle_to_npc)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
-                                20, true);
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", 
+                            "A hearty dagger sure to take your breath away... for good", 
+                            dagger_changes, 20, true);
 
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
 		                        HOSTILE, generate_test_class(), dagger);
@@ -363,8 +364,9 @@ Test(npc, get_npc_battle)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
-                                20, true);
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", 
+                            "A hearty dagger sure to take your breath away... for good", 
+                            dagger_changes, 20, true);
 
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_test_class(), dagger);
@@ -453,8 +455,9 @@ Test(npc, get_npc_hp)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
-                                20, true);
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", 
+                            "A hearty dagger sure to take your breath away... for good", 
+                            dagger_changes, 20, true);
 
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, generate_test_class(), dagger);
