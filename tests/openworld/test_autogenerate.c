@@ -124,7 +124,8 @@ Test(autogenerate, roomspec_to_room1)
 {
     roomspec_t *r = make_default_room("school", NULL, NULL);
     game_t *g = game_new("start desc");
-    room_t *room = roomspec_to_room(r);
+    coords_t *coords=coords_new(0,0);
+    room_t *room = roomspec_to_room(r, coords);
 
     // no need to check short/long desc because we know these are set by default_room
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
@@ -144,7 +145,8 @@ Test(autogenerate, roomspec_to_room2)
 {
     roomspec_t *r = make_default_room("castle", NULL, NULL);
     game_t *g = game_new("start desc");
-    room_t *room = roomspec_to_room(r);
+    coords_t *coords=coords_new(0,0);
+    room_t *room = roomspec_to_room(r, coords);
 
     // no need to check short/long desc because we know these are set by default_room
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
@@ -164,7 +166,8 @@ Test(autogenerate, roomspec_to_room3)
 {
     roomspec_t *r = make_default_room("farmhouse", NULL, NULL);
     game_t *g = game_new("start desc");
-    room_t *room = roomspec_to_room(r);
+    coords_t *coords=coords_new(0,0);
+    room_t *room = roomspec_to_room(r, coords);
 
     // no need to check short/long desc because we know these are set by default_room
     cr_assert_not_null(room, "roomspec_new(): The returned room is NULL");
@@ -318,12 +321,14 @@ Test(autogenerate, room_generate_success_two)
     roomspecs[0] = graph_roomspec0;
     int **edges = (int**)malloc(sizeof(int*)*2);
     specgraph_t *specgraph = specgraph_new(1,roomspecs,edges);
-    g->curr_room = roomspec_to_room(random_room_lookup(specgraph));
+    coords_t *coords=coords_new(0,0);
+    g->curr_room = roomspec_to_room(random_room_lookup(specgraph), coords);
     
     item_t *item0 = item_new("item_id", "short_desc", "long_desc");
     
     roomspec_t *roomspec0 = random_room_lookup(specgraph);
-    room_t *room0 = roomspec_to_room(roomspec0);
+    coords_t *coord0=coords_new(0,1);
+    room_t *room0 = roomspec_to_room(roomspec0, coords0);
 
     cr_assert_eq(SUCCESS, add_item_to_room(room0,item0), "could not add item to room");
 
