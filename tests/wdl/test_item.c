@@ -56,6 +56,11 @@ void conditions_check(char* room, char* item, char* action)
     //check adding conditions to game
     item_t* i = get_item_from_game(g, item);
     game_action_t *a = get_action(i, action);
+
+    //get conditions object from wdl and conditions from action
+    //check:
+    //- if action has (a) condition(s), that all were added
+    //- if an action has no conditions, nothing was added
 }
 
 Test(items, check_chair)
