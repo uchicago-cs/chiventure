@@ -84,6 +84,49 @@ bool room_exists_in_direction(game_t* game, room_t *r, char *direction)
     return false;
 }
 
+room_t* find_room_in_direction(game_t* game, room_t *r, char *direction)
+{
+    /*Find coordinates of current room*/
+    coords_t *coords=r->coords;
+    int x=coords->x;
+    int y=coords->y;
+
+    room_t* adjacentroom=(room_t*)malloc(sizeof(room_t));
+
+    if (strcmp("north", direction) == 0){
+        y+=1;
+    }
+
+    else if (strcmp("south", direction) == 0){
+        y-=1;
+    }
+
+    else if (strcmp("east", direction) == 0){
+        x+=1;
+    }
+
+    else if (strcmp("west", direction) == 0){
+        x-=1;
+    }
+
+    /*Determine whether there is a room in the given direction*/
+    room_hash_t *current, *tmp;
+    HASH_ITER(hh, game->all_rooms, current, tmp) {
+        /* If the room is adjacent to the current room and in the correct direction, return true */
+
+        coords_t *coords=current->coords;
+        int currx=coords->x;
+        int curry=coords->y;
+
+        if(currx==x && curry==y){
+            adjacentroom=current;
+            return adjacentroom;
+        }
+    }
+    free(adjacentroom);
+    return false;
+}
+
 /* See autogenerate.h */
 room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
 {

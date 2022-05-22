@@ -15,6 +15,7 @@
 #include <stdbool.h>
 
 #include "common/uthash.h"
+#include "game-state/room.h"
 #include "game-state/game.h"
 #include "gen_structs.h"
 #include "default_rooms.h"
@@ -77,7 +78,7 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
 * FAILURE - if a random room could not be chosen (e.g. if game is null or if game contains no rooms)
 */
 
-/*roomspec_t* pick_random_room(game_t* game){
+/*roomspec_t* random_room_from_game(game_t* game){
     if(game==NULL){
         return FAILURE;
     }
@@ -143,6 +144,7 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
     return rc;
 }*/
 
+
 /*
 * path_autogenerate
 * Automatically determines whether to generate a path between a given room and all adjacent rooms
@@ -157,4 +159,17 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
 * SUCCESS - if the algorithm ran successfully
 * FAILURE - if the algorithm did not run successfully (e.g. if the game, context, or room are invalid)
 */
-/* 
+/*int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
+    coords_t *coords=find_coords_of_room(curr);
+    int x=coords->x;
+    int y=coords->y;
+
+    room_t *adjacentroom;
+
+    if(room_exists_in_direction(curr, "north"){
+        adjacentroom=find_room_in_direction(curr, "north");
+        
+    }
+
+
+}*/

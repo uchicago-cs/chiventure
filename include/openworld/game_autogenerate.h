@@ -15,10 +15,12 @@
 #include <stdbool.h>
 
 #include "common/uthash.h"
+#include "game-state/room.h"
 #include "game-state/game.h"
 #include "gen_structs.h"
 #include "default_rooms.h"
 #include "autogenerate.h"
+#include "game_autogenerate.h"
 
 #define MAX_RAND_ITEMS (100)
 
