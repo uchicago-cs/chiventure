@@ -253,8 +253,9 @@ Test(autogenerate, room_generate_success_one)
     int **edges=edges_new(matrix, 2, 2);
     specgraph_t *specgraph = specgraph_new(2,roomspecs,edges);
     coords_t *coords=coords_new(0,0);
-    room_t* randomroom = roomspec_to_room(random_room_lookup(specgraph),coords);
+    //This is where the crash is occurring
     cr_assert_eq(0, 1, "crash did not occur in edges malloc");
+    room_t* randomroom = roomspec_to_room(random_room_lookup(specgraph),coords);
     add_room_to_game(g, randomroom);
     g->curr_room=randomroom;
     
