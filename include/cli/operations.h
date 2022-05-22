@@ -283,7 +283,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  *
  * Parameters:
  *  - tokens: parsed input string (validified)
- *  - ctx: pointer to a chiventuree context struct
+ *  - ctx: pointer to a chiventure context struct
  *
  * Note:
  * Changing the game mode to battle mode should automatically call a function that 
