@@ -63,6 +63,6 @@ player_t *create_sample_player(char *player_id, int health, int level);
  * Returns: 
  * - A pointer to the new quest_ctx struct or NULL if there was an error
 */
-quest_ctx_t *create_sample_ctx()
+quest_ctx_t *create_sample_ctx();
 
 #endif /* SAMPLES_H */

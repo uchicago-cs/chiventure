@@ -182,12 +182,11 @@ reward_t *complete_quest(quest_t *quest, player_t *player);
 /* Checks if all of the player's tasks are complete and updates them accordingly
  * 
  * Parameter:
- * - player: the player getting checked
- * - quest_hash: a hash table of all of the quests in the game
+ * - qctx: a quest context struct which includes the player and a list of all quests
  * 
  * Returns:
  * - SUCCESS if tasks are checked successfully, FAILURE if an error occured
 */
-int update_player_quests(player_t *player, quest_hash_t *quest_hash);
+int update_player_quests(quest_ctx_t *qctx);
 
 #endif /* QUESTS_STATE_H */
