@@ -101,7 +101,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
  *             Definite NPCs: doesn't matter, it won't be used, convention is 0
  *
  * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
+ *  Pointer to the new npc_mov_t struct
  */
 npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id, double room_time);
 
