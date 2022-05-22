@@ -54,6 +54,39 @@ int compare_tasks(task_t *a1, task_t *a2)
     }
     return 1;
 }
+
+/*
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
+ *
+ * Returns:
+ * - pointer to the tree immediately containing the task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: Traversal no longer relies on task completion, so 
+ *       runtime is now O(T) where T is the number of tasks
+ *       in the game
+ */
+task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
+{
+    if(!tree || !id) {
+        return NULL;
+    }
+    assert(tree->task != NULL);
+
+    if (strcmp(tree->task->id, id) == 0)
+    {
+        return tree;
+    }
+    task_tree_t * newTree;
+    newTree = find_task_tree_of_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_tree_of_task_in_tree(tree->lmostchild, id);
+}
+
 /* Refer to quests_hash.h */
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 {
