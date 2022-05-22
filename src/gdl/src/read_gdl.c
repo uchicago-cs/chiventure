@@ -399,6 +399,6 @@ graphics_t* read_gdl()
             at_end = 1;
         }
     }
-    graphics_t *graphics = make_graphics(display_dimension, camera, inventory, statistics);
-    return graphics
+    graphics_t *graphics = make_graphics(display_dimensions, camera, inventory, statistics);
+    return graphics;
 }
