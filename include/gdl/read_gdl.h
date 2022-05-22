@@ -108,7 +108,7 @@ typedef struct graphics {
  * Returns:
  * - a pointer to the graphics struct on the heap
  */
-graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
+graphics_t* make_graphics(display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics);
 
 
@@ -146,7 +146,7 @@ int free_graphics(graphics_t* graphics);
  * Returns:
  * - a pointer to the display structure on the heap
  */
-display_dimensions_t* new_display_dimensions(unsigned int width,
+display_dimensions_t* make_display_dimensions(unsigned int width,
     unsigned int height);
 
 
@@ -171,7 +171,7 @@ int free_display_dimensions(display_dimensions_t *display_dimensions);
  * Returns:
  * - a pointer to the camera structure on the heap
  */
-camera_t* new_camera(unsigned int width, unsigned int height;
+camera_t* make_camera(unsigned int width, unsigned int height;
 
 
 /*
@@ -196,7 +196,7 @@ int free_camera(camera_t *camera);
  * Returns:
  * - a pointer to the inventory structure on the heap
  */
-inventory_display_t* new_inventory_display(unsigned int rows,
+inventory_display_t* make_inventory_display(unsigned int rows,
     unsigned int columns, color color);
 
 
@@ -224,7 +224,7 @@ int free_inventory_display(inventory_display_t *inventory_display);
  * Returns:
  * - a pointer to the inventory structure on the heap
  */
-statistics_display_t* new_statistics_display(corner corner, stats_t *statistics,
+statistics_display_t* make_statistics_display(corner corner, stats_t *statistics,
     unsigned int num_statistics, mode mode);
 
 

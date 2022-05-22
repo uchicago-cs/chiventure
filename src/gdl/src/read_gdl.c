@@ -5,6 +5,44 @@
 #include <stdio.h>
 
 
+graphics_t* make_graphics(display_dimensions_t *dimensions, camera_t *camera,
+    inventory_display_t *inventory, statistics_display_t *statistics)
+{
+    graphics_t *graphics;   
+    int rc;
+
+    graphics = (graphics_t*)malloc(sizeof(graphics_t));
+
+    if (graphics == NULL)
+    {
+        fprintf(stderr, "Could not allocate memory");
+        return NULL;
+    }
+
+    rc = init_graphics(graphics, dimensions, camera, inventory, statistics);
+
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr,"Could not initialize graphics");
+        return NULL;
+    }
+
+    return graphics;
+}
+
+int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera_t *camera,
+    inventory_display_t *inventory, statistics_display_t *statistics)
+{
+    assert(graphics != NULL);
+
+    graphics->dimensions = dimensions;
+    graphics->camera = camera;
+    graphics->inventory = inventory;
+    graphics->statistics = statistics;
+
+    return SUCCESS;
+}
+
 int free_graphics(graphics_t* graphics)
 {
 
@@ -23,7 +61,7 @@ int free_graphics(graphics_t* graphics)
 
     return SUCCESS;}
 
-display_dimensions_t* new_display_dimensions(unsigned int width, unsigned int height)
+display_dimensions_t* make_display_dimensions(unsigned int width, unsigned int height)
 {
     display_dimensions_t *dimensions;   
     int rc;
@@ -68,7 +106,7 @@ int free_display_dimensions(display_dimensions_t *dimensions)
     return SUCCESS;
 }
 
-camera_t* new_camera(unsigned int width, unsigned int height)
+camera_t* make_camera(unsigned int width, unsigned int height)
 {
     camera_t *camera;   
     int rc;
@@ -113,7 +151,7 @@ int free_camera(camera_t *camera)
     return SUCCESS;
 }
 
-inventory_display_t* new_inventory_display(unsigned int rows, unsigned int columns, color color)
+inventory_display_t* make_inventory_display(unsigned int rows, unsigned int columns, color color)
 {
     inventory_display_t *inventory;   
     int rc;
@@ -158,7 +196,7 @@ int free_inventory_display(inventory_display_t *inventory)
     return SUCCESS;
 }
 
-statistics_display_t* new_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode *mode)
+statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode *mode)
 {
     statistics_display_t *statistics_display;   
     int rc;
@@ -330,7 +368,7 @@ graphics_t* read_gdl()
                                 fscanf(gdl, "%u", &rows);
                                 break;
                             case hash("columns"):
-                                fscanf(gdl, "%u", &columns);
+                                fscanf(gdl, "%u", &cols);
                                 break;
                             case hash("color"):
                                 fscanf(gdl, "%s", spec);
@@ -339,7 +377,7 @@ graphics_t* read_gdl()
                         }
                     }
                     inventory_display_t *inventory_display;
-                    inventory = make_inventory_display(rows, columns, color);
+                    inventory = make_inventory_display(rows, cols, color);
                     break;
                 // case map: is a wishlist item
                 case statistics:
@@ -361,6 +399,6 @@ graphics_t* read_gdl()
             at_end = 1;
         }
     }
-    graphics = make_graphics(display_dimensions_t *dimensions, camera_t *camera, inventory_display_t *inventory, statistics_display_t *statistics);
+    graphics_t *graphics = make_graphics(display_dimension, camera, inventory, statistics);
     return graphics
 }
