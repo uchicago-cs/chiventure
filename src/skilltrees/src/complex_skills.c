@@ -74,8 +74,15 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
     if (complex_skill->type == SEQUENTIAL){
         return sequential_complex_skill_execute(complex_skill, ctx);
     }
-    if (complex_skill->type == RANDOM_RANGE || complex_skill->type == RANDOM_CHANCE || complex_skill->type == RANDOM_SWITCH)
-        return FAILURE;
+    if (complex_skill->type == RANDOM_RANGE){
+        // fix here once ellipses added for variable arguments
+    }
+    if (complex_skill->type == RANDOM_CHANCE){
+        // fix here
+    }
+    if (complex_skill->type == RANDOM_SWITCH){
+      // fix here
+    }
     return FAILURE;
 }
 

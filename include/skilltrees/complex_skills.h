@@ -57,7 +57,6 @@ int complex_skill_free(complex_skill_t* complex_skill);
  *     success or failure
  *     Sequential skills will stop execution once a sub_skill fails
  *
- * Important note: Random skills are not currently supported by this function.
  *
  * Parameters:
  *  - complex_skill: A complex skill
