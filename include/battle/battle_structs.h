@@ -6,50 +6,21 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 
-/* stat changes stub */
-typedef struct stat_changes {
-    int speed; //the amount speed changes from a stat change
-    int max_sp; //the amount max_sp changes from a stat change
-    int sp; //the amount sp changes from a stat change
-    int phys_atk; //the amount phys_atk changes from a stat change
-    int mag_atk; //the amount mag_atk changes from a stat change
-    int phys_def; //the amount phys_def changes from a stat change
-    int mag_def; //the amount mag_def changes from a stat change
-    int crit; //the amount crit changes from a stat change
-    int accuracy; //the amount accuracy changes from a stat change
-    int hp; //the amount hp changes from a stat change
-    int max_hp; //the amount max_hp changes from a stat change
-    int turns_left; //specifies the turns left of the stat changes
-    struct stat_changes* next; //the next stat_changes in the list, or NULL for no stat_change
-    struct stat_changes* prev; //the previous stat_changes in the list, or NULL for no stat_change
-} stat_changes_t;
-
-/* Defines the type of equipment a piece of equipment is */
-typedef enum equipment_type{
-    ACCESSORY,
-    ARMOR,
-    WEAPON
-} equipment_type_t;
-
-/* A data structure of a piece of equipment */ 
-typedef struct battle_equipment{
-    int id; // the id of the equipment, should be unique for each individual type of equipment.
-    char *name; // the name of the equipment
-    char *description; // the description of the equipment
-    stat_changes_t *attributes; // the stats that are changed by the equipment
-    equipment_type_t type; // determines the type of equipment (armor, weapon, accessory)
-} battle_equipment_t;
-
-/* This defines battle items */
-typedef struct battle_item{
-    int id; // the id of the item, should be unique for each individual type of item.
-    char *name; // the name of the item
-    char *description; // the description of the item
-    stat_changes_t *attributes; // the stats that are changed by the item
-    int quantity; // the amount of items we have of this item
-    bool attack; // determines whether the item is used as an attack against the enemy, or as a defensive item for player
-    struct battle_item *next; // the next battle item
-    struct battle_item *prev; // the previous battle item
+/* battle_items stub */
+typedef struct battle_item {
+    int id;
+    bool is_weapon;
+    int effectiveness_decrement;
+    int quantity;
+    int durability;
+    char* name;
+    char* description;
+    bool battle;
+    int attack;
+    int defense;
+    int hp;
+    struct battle_item *next;
+    struct battle_item *prev;
 } battle_item_t;
 
 /* This defines what type of damage if any the move would do. 
@@ -71,6 +42,24 @@ typedef enum target_count {
     SINGLE, //A move that hits a single target
     MULTI //A move that hits multiple targets
 } target_count_t;
+
+/* stat changes stub */
+typedef struct stat_changes {
+    int speed; //the amount speed changes from a stat change
+    int max_sp; //the amount max_sp changes from a stat change
+    int sp; //the amount sp changes from a stat change
+    int phys_atk; //the amount phys_atk changes from a stat change
+    int mag_atk; //the amount mag_atk changes from a stat change
+    int phys_def; //the amount phys_def changes from a stat change
+    int mag_def; //the amount mag_def changes from a stat change
+    int crit; //the amount crit changes from a stat change
+    int accuracy; //the amount accuracy changes from a stat change
+    int hp; //the amount hp changes from a stat change
+    int max_hp; //the amount max_hp changes from a stat change
+    int turns_left; //specifies the turns left of the stat changes
+    struct stat_changes* next; //the next stat_changes in the list, or NULL for no stat_change
+    struct stat_changes* prev; //the previous stat_changes in the list, or NULL for no stat_change
+} stat_changes_t;
 
 /* moves stub */
 typedef struct move_t {

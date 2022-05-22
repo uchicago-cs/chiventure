@@ -55,9 +55,6 @@ typedef enum battle_status
  * moves: pointer to moves module (stub)
  * items: pointer to battle items module (stub)
  * ai: combatant's ai move strategy
- * weapon: the weapon the combatant is holding
- * accessory: the accessory the combatant is holding
- * armor: the armor the combatant is holding
  * next: allows for combatant lists using utlist.h
  * prev: allows for combatant lists using utlist.h
  */
@@ -70,9 +67,6 @@ typedef struct combatant
     move_t *moves;
     battle_item_t *items;
     difficulty_t ai;
-    battle_equipment_t *weapon;
-    battle_equipment_t *accessory;
-    battle_equipment_t *armor;
     struct combatant *next;
     struct combatant *prev;
 } combatant_t;

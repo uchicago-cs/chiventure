@@ -6,9 +6,7 @@
 
 /* Stub for the player_new function in player.h game-state module */
 
-battle_player_t *new_ctx_player(char* p_id, class_t *c_type, stat_t *stats, move_t *moves, 
-                              battle_item_t* items, battle_equipment_t *weapon, 
-                              battle_equipment_t *accessory, battle_equipment_t *armor)
+battle_player_t *new_ctx_player(char* p_id, class_t *c_type, stat_t *stats, move_t *moves, battle_item_t* items)
 {
       battle_player_t *ctx_player = calloc(1, sizeof(battle_player_t));
       assert(ctx_player != NULL);
@@ -18,9 +16,6 @@ battle_player_t *new_ctx_player(char* p_id, class_t *c_type, stat_t *stats, move
       ctx_player->stats = stats;
       ctx_player->moves = moves;
       ctx_player->items = items;
-      ctx_player->weapon = weapon;
-      ctx_player->accessory = accessory;
-      ctx_player->armor = armor;
 
       return ctx_player;
 }

@@ -39,15 +39,6 @@ typedef struct npc_battle {
 
     /* An inventory of items that can be used in battle */
     battle_item_t *items;
-
-    /* armor that an npc can equip*/ 
-    battle_equipment_t *armor;
-
-    /* an accessory that an npc can equip*/ 
-    battle_equipment_t *accessory;
-
-    /* weapon that an npc can equip*/ 
-    battle_equipment_t *weapon;
 } npc_battle_t;
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -67,9 +58,6 @@ typedef struct npc_battle {
  *  surrender_level: the level of health at which the npc surrenders the battle
  *  class_type: the class struct of the npc
  *  items: a doubly linked list of items that the npc can use during battle
- * - weapon: the weapon equiped to the npc during battle
- * - accessory: the accessory equiped to the npc during battle
- * - armor: the armor equiped to the npc during battle
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
@@ -77,8 +65,7 @@ typedef struct npc_battle {
 int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats, 
                     move_t* moves, difficulty_t ai, hostility_t hostility_level,
                     int surrender_level, class_t *class_type, 
-                    battle_item_t *items, battle_equipment_t *armor,
-                    battle_equipment_t *accessory, battle_equipment_t *weapon);
+                    battle_item_t *items);
 /*
  * Allocates a new npc_battle struct in the heap.
  *
@@ -93,9 +80,6 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
  *  surrender_level: the level of health at which the npc surrenders the battle
  *  class_type: the class struct of the npc
  *  items: a doubly linked list of items that the npc can use during battle
- * - weapon: the weapon equiped to the npc during battle
- * - accessory: the accessory equiped to the npc during battle
- * - armor: the armor equiped to the npc during battle
  *
  * Returns:
  *  pointer to allocated npc_battle
@@ -103,9 +87,7 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
 npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
 		                    difficulty_t ai, hostility_t hostility_level, 
 			                int surrender_level, class_t *class_type,
-                            battle_item_t *items, battle_equipment_t *armor,
-                            battle_equipment_t *accessory,
-                            battle_equipment_t *weapon);
+                            battle_item_t *items);
 
 /*
  * Frees resources associated with an npc_battle struct.

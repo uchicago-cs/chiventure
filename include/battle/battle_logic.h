@@ -99,17 +99,6 @@ int remove_battle_item(combatant_t *c, battle_item_t *item);
  */
 int award_xp(stat_t *stats, double xp);
 
-/*
- * Applies stat changes to a target.
- * 
- * Parameters: 
- *  - changes: the stat changes
- *  - target_stats: the stats to be changes
- * Returns:
- *  - Always success
- */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
-
 /* Adds new temporary status changes from an item. Note: Does
  *     not yet change the number of turns left, because items
  *     do not have that supported yet.

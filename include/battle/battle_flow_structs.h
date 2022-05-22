@@ -12,14 +12,11 @@
 /* Stub for the player struct in game-state */
 typedef struct battle_player {
     // Other fields: hash handle, inventory, other stats
-    char *player_id; // the user's ID
-    class_t *class_type; // the class of the user
-    stat_t *stats; // the stats the user has
-    move_t *moves; // the moves the user had
-    battle_item_t *items; // the items the user holds
-    battle_equipment_t *weapon;  // the weapon the user holds
-    battle_equipment_t *accessory; // the accessory the user holds
-    battle_equipment_t *armor; // the armor the user holds
+    char *player_id;
+    class_t *class_type;
+    stat_t *stats;
+    move_t *moves;
+    battle_item_t *items;
 } battle_player_t;
 
 /* Stub for the game_t struct in game-state */
@@ -66,17 +63,10 @@ typedef struct battle_ctx {
  *     - stats: player stats stub
  *     - moves: player moves stub
  *     - items: player battle_items stub
- *     - weapon: the player's equiped weapon
- *     - accessory: the player's equiped accessory
- *     - armor: the player's equiped armor
  *
  * Returns: a newly allocated battle_player_t with p_id, stats, moves, battle_items
  */
-battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, 
-                                move_t *moves, battle_item_t* items,
-                                battle_equipment_t *weapon, 
-                                battle_equipment_t *accessory, 
-                                battle_equipment_t *armor);
+battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats, move_t *moves, battle_item_t* items);
 
 /* Stub for the game_new function in game.h game-state module
  *

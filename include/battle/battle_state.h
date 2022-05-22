@@ -46,15 +46,11 @@ int battle_free(battle_t *b);
  * - stats: pointer to the stats of the combatant(stub)
  * - moves: pointer to the linked list of moves for the combatant (stub)
  * - items: pointer to the linked list of battle_items for the combatant (stub)
- * - weapon: a pointer to the weapon equiped to the combatant
- * - accessory: a pointer to the accessory equiped to the combatant
- * - armor: a pointer to the weapon equiped to the combatant
  * - ai: combatant's ai move strategy
  * returns: a pointer to the new character
  */
 combatant_t *combatant_new(char *name, bool is_friendly, class_t *c_type,
-            stat_t *stats, move_t *moves, battle_item_t *items, battle_equipment_t *weapon, 
-            battle_equipment_t *accessory, battle_equipment_t *armor, difficulty_t ai);
+             stat_t *stats, move_t *moves, battle_item_t *items, difficulty_t ai);
 
 /* Creates a new combatant struct
  * Parameters:
@@ -65,17 +61,13 @@ combatant_t *combatant_new(char *name, bool is_friendly, class_t *c_type,
  * - stats: a pointer to the stats of the combatant (stub)
  * - moves: a pointer to the linked list of moves for the combatant (stub)
  * - items: a pointer to the linked list of battle_items for the combatant (stub)
- * - weapon: a pointer to the weapon equiped to the combatant
- * - accessory: a pointer to the accessory equiped to the combatant
- * - armor: a pointer to the weapon equiped to the combatant
  * - ai: combatant's ai move strategy
  * returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  */
 int combatant_init(combatant_t *c, char *name, bool is_friendly, class_t *c_type,
-     stat_t *stats, move_t *moves, battle_item_t *items, battle_equipment_t *weapon, 
-     battle_equipment_t *accessory, battle_equipment_t *armor, difficulty_t ai);
+     stat_t *stats, move_t *moves, battle_item_t *items, difficulty_t ai);
 
 /* Frees a combatant struct from memory
  * Parameters:

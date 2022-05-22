@@ -362,55 +362,18 @@ int *print_battle_items(battle_t *b, char *string)
     DL_FOREACH(player_items, item)
     {
         char* name = item->name;
+        int attack = item->attack;
+        int defense = item->defense;
+        int hp = item->hp;
         int quantity = item->quantity;
 
-        n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\nQuantity: %d\n", name, quantity);
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\nAttack: %d\nDefense: %d\nHP: %d\nQuantity: %d\n", name, attack,defense, hp,quantity);
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
 
     return SUCCESS;
    
-}
-/* THIS PR NEEDS TO ACCOUNT FOR THE print_battle_action_menu()
-    from a non merged PR.  */
-
-/* see battle_print.h */
-int *print_battle_item_details(battle_item_t *item, char *string)
-{
-    int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
-    int n;
-    char temp[BATTLE_BUFFER_SIZE + 1];
-
-    char* name = item->name;
-    char* description = item->description;
-    stat_changes_t *changes = item->attributes;
-    int phys_atk = changes->phys_atk;
-    int mag_atk = changes->mag_atk;
-    int phys_def = changes->phys_def;
-    int mag_def = changes->mag_def;
-    int max_sp = changes->max_sp;
-    int sp = changes->sp;
-    int max_hp = changes->max_hp;
-    int hp = changes->hp;
-    int crit = changes->crit;
-    int accuracy = changes->accuracy;
-    int quantity = item->quantity;
-
-    n = snprintf(temp, BATTLE_BUFFER_SIZE, "Name: %s\n"
-                "Description: %s\nStat Changes:\n"
-                "\tPhysical Attack: %d\n\tMagical Attack: %d\n"
-                "\tPhysical Defense: %d\n\tMagical Defense: %d\n"
-                "\tMax_SP: %d\n\tSP: %d\n"
-                "\tMax_HP: %d\n\tSP: %d\n"
-                "\tCritical Rate: %d\n\tAccuracy: %d\n"
-                "\nQuantity: %d\n", 
-                name, description, phys_atk, mag_atk, phys_def, mag_def,
-                max_sp, sp, max_hp, hp, crit, accuracy, quantity);
-
-    strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
-    slen += n;
-    return SUCCESS;
 }
 
 /* Gets the expected length of a menu of possible actions based on 
