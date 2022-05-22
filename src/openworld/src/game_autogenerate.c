@@ -112,7 +112,8 @@ roomspec_t* random_room_from_game(game_t* game){
 * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
 * returns:
 * SUCCESS - if a random room was successfully generated
-* FAILURE - if a random room could not be generate (e.g. if game is null or if game contains no rooms)
+* FAILURE - if a random room could not be generate 
+* (e.g. if game is null, if game contains no rooms, or the chosen room has no empty directions)
 */
 
 int autogenerate_room_in_game(game_t* game, gencontext_t* context){
