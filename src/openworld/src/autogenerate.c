@@ -124,7 +124,9 @@ room_t* find_room_in_direction(game_t* game, room_t *r, char *direction)
         }
     }
     free(adjacentroom);
-    return false;
+    fprintf(stderr, "A room does not exist in the given direction. 
+                     Please use exists_room_in_direction first to confirm a room in the given direction exists");
+    exit(1);
 }
 
 /* See autogenerate.h */

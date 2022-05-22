@@ -58,6 +58,22 @@ bool path_exists_in_direction(room_t *r, char *direction);
 bool room_exists_in_direction(game_t* game, room_t *r, char *direction);
 
 /*
+* find_room_in_direction
+* Finds the room in a given direction from a current room. Returns an error if no such room exists
+*
+* parameters:
+* - game: A pointer to a game struct. Should not be NULL and should contain at least one room
+* - r: A room pointer for the input room. Should not be NULL.
+* - direction: A string specifying the direction to check for
+*              ("NORTH", "EAST", SOUTH", or "WEST")
+*
+* returns:
+* - Returns a pointer to the room in a given direction from a current room. 
+* - Error if no such room exists (must use room_exists_in_direction first to verify such a room does exist)
+*/
+room_t* find_room_in_direction(game_t* game, room_t *r, char *direction);
+
+/*
 * roomspec_to_room
 * Given a roomspec_t pointer (type roomspec_t*), and a coords struct returns
 * a room_t pointer generated from its specifications, with a room_id that
