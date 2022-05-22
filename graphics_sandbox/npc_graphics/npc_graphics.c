@@ -97,6 +97,7 @@ int InitNPCInfo(npc_info_t* pointer, char* npc_name, npc_action_t* head_action, 
     pointer->next=next;
 }
 
+/* See npc_graphics.h*/
 int FreeNPCInfo(npc_info_t* pointer)
 {
     assert(pointer != NULL);
@@ -114,6 +115,52 @@ int FreeNPCInfo(npc_info_t* pointer)
     }
     free(pointer);
 }
+
+
+typedef struct npc_graphics{
+    Vector2 WindowPos;
+    Vector2 WindowSize;
+    Color textcolor;
+    char* current_npc;
+    char* current_action;
+    char* current_line;
+    npc_info_t* npc_linkedlist;
+} npc_graphics_t;
+
+npc_graphics_t* NewNPCGraphics(Vector2 WindowPos, Vector2 WindowSize, Color textcolor,
+                               char* current_npc, char* current_action, char* current_line,
+                               npc_info_t* npc_linkedlist)
+{
+    npc_graphics_t* res = malloc(sizeof(npc_graphics_t));
+    int rc = initNPCGraphics(res,WindowPos,WindowSize,textcolor,
+                            current_npc,current_action,current_line,npc_linkedlist);
+    assert(rc);
+
+}
+
+int InitNPCGraphics(npc_graphics_t* pointer, Vector2 WindowPos, Vector2 WindowSize, Color textcolor,
+                    char* current_npc, char* current_action, char* current_line,
+                    npc_info_t* npc_linkedlist)
+{
+    assert(pointer != NULL);
+    pointer->WindowPos=WindowPos;
+    pointer->WindowSize=WindowSize;
+    pointer->textcolor=textcolor;
+    pointer->current_npc=current_npc;
+    pointer->current_action=current_action;
+    pointer->current_line=current_line;
+    pointer->npc_linkedlist=npc_linkedlist;
+    return 1;
+}
+
+int FreeNPCGraphics(npc_graphics_t* pointer)
+{
+    assert(pointer != NULL);
+    FreeNPCInfo(pointer->npc_linkedlist);
+    free(pointer);
+    return 1;
+}
+
 
 /* See npc.h */
 npc_line_t* GetLine(char* line_name, npc_info_t* npc_graphics) {
