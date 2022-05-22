@@ -307,4 +307,16 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
 int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
                             skill_t* skill);
 
+/*
+ * Prints useful, high-level information about a skilltree
+ * Support for integration with action management for view action
+ *
+ * Parameters: 
+ *  - tree: pointer to a skilltree whose info will be printed
+ * 
+ * Returns:
+ *  - string to be printed
+ */
+char *display_tree(skill_tree_t* tree);
+
 #endif /* INCLUDE_SKILLTREE_H_ */
