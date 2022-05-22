@@ -21,7 +21,10 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
     }
     int hp = obj_get(prereq_obj, "PREREQ_HP");
     int level = obj_get(prereq_obj, "PREREQ_LEVEL");
+    obj_t *quest_list = obj_get(prereq_obj, "QUEST_REQS");
+    obj_t *task_list = obj_get(prereq_obj, "TASK_REQS");
     prereq_t *prereq = prereq_new(hp, level);
+
     return prereq;
 }
 
@@ -34,7 +37,13 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
  * - A pointer to a reward specified according to the WDL object
 */
 reward_t *load_reward(obj_t *reward_obj) {
-    /* TODO */
+    if (reward_obj == NULL)
+    {
+        fprintf(stderr, "reward is null\n");
+        return FAILURE;
+    }
+    int xp = obj_get(reward_obj, "REWARD_XP");
+    item_t *reward_item = item_new
     return NULL;
 }
 
