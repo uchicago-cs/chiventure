@@ -81,3 +81,19 @@ void conditions_check(char* item, char* action)
     }
 
 }
+
+Test(conditions, chair_pull) {
+    conditions_check("CHAIR", "PULL");
+}
+
+Test(conditions, chair_take) {
+    conditions_check("CHAIR", "TAKE");
+}
+
+Test(conditions, table_pull) {
+    conditions_check("TABLE", "PULL");
+}
+
+Test(conditions, table_take) {
+    conditions_check("TABLE", "TAKE");
+}
