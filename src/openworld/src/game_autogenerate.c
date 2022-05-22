@@ -273,7 +273,4 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
         }
     }
         
-    }
-
-
-}*/
+}
