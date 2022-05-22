@@ -162,7 +162,7 @@ int execute_random_chance_complex_skill(complex_skill_t* complex_skill, chiventu
         return FAILURE;
     }
 
-    int value = random_generator(0, 100)
+    int value = random_generator(0, 100);
     if (value < chance_failure){
         for (int i= 0; i < complex_skill->num_skills; i++){
             skill_execute(complex_skill->skills[i], ctx);
