@@ -5,58 +5,25 @@
 #include "game-state/item.h"
 #include "common/common.h"
 #include "common/utlist.h"
-#include "npc/npc.h"
 
-/* Forward declaration */
-typedef struct npc npc_t;
-
-/*
- * This struct represents a passive mission.
- * 
- * A passive mission is one that the player does not
- * manually explore chiventure to acquire.
- *
- * Components:
- *  xp: integer list of xp milestones
- *  levels: integer list of level milestones
- *  health: integer list of health milestones
- */
-typedef struct passive_mission{
-    int xp;
-    int levels;
-    int health;
-} passive_mission_t;
+/* An enum representing the possible mission types currently supported */
+typedef enum mission_types {
+    MEET_NPC,
+    KILL_NPC,
+    COLLECT_ITEM,
+    VISIT_ROOM,
+} mission_types_t;
 
 /*
- * This struct represents an active mission.
- * 
- * An active mission is one that the player
- * has to explore chiventure to acquire. 
+ * This struct represents a mission.
  *
  * Components:
- *  item_to_collect: an item to collect
- *  npc_to_meet: an npc to meet
- *  npc_to_kill: an npc to kill
- *  room_to_visit: a room to visit
- */
-typedef struct active_mission {
-    item_t *item_to_collect;
-    npc_t *npc_to_meet;
-    npc_t *npc_to_kill;
-    room_t *room_to_visit;
-} active_mission_t;
-
-/*
- * This struct represents a mission. Can be used to create a task.
- * 
- * Components:
- *  a_mission: an active mission
- *  p_mission: a passive mission
- *
+ * - target_name: The name of the mission's target (ie the NPC's name, the item's name, etc)
+ * - type: The type of 
  */
 typedef struct mission {
-    active_mission_t *a_mission;
-    passive_mission_t *p_mission;
+    char *target_name;
+    mission_types_t type;
 } mission_t;
 
 /* 
@@ -71,6 +38,38 @@ typedef struct reward {
    item_t *item;
 } reward_t;
 
+/*
+ * A single quest/task id node for the linked list
+*/
+typedef struct id_list_node {
+    char *id;
+    struct id_list_node *next;
+} id_list_node_t;
+
+/*
+ * A linked list of quest/task ids
+*/
+typedef struct id_list {
+    id_list_node_t *head;
+    int length;
+} id_list_t;
+
+/*
+ * This struct represents a prerequisite for a quest or task.
+ *
+ * Components:
+ *  hp: health points 
+ *  level: a number of levels gained
+ *  task_list: a list of task ids that will all be checked for completion
+ *  quest_list: a list of quest ids that will all be checked for completion
+ */
+typedef struct prereq {
+    int hp;
+    int level;
+    id_list_t *task_list;
+    id_list_t *quest_list;
+} prereq_t;
+
 /* 
  * This struct represents a task.
  * 
@@ -83,6 +82,7 @@ typedef struct task {
     mission_t *mission;
     char *id;
     reward_t *reward;
+    prereq_t *prereq;
 } task_t;
 
 /*
@@ -101,18 +101,6 @@ typedef struct task_tree {
     struct task_tree *lmostchild;
 } task_tree_t;
 
-/*
- * This struct represents a skill requirement for a quest.
- *
- * Components:
- *  hp: health points 
- *  level: a number of levels gained
- */
-typedef struct stat_req {
-    int hp;
-    int level;
-} stat_req_t;
-
 /* 
  * This is the hashable struct for a quest 
  * Elements:
@@ -126,7 +114,7 @@ typedef struct quest  {
     char *quest_id;
     task_tree_t *task_tree;
     reward_t *reward;
-    stat_req_t *stat_req;
+    prereq_t *prereq;
     UT_hash_handle hh;
 } quest_t;
 

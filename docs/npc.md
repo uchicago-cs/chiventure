@@ -63,7 +63,7 @@
 
 ### NPCs in Rooms Module
 - Contains code relating to NPCs in rooms and moving NPCs to/from rooms
-- See `chiventure/include/rooms-npc.h` for in-code documentation on the nitty-gritty technical details of NPC movement.
+- See `chiventure/include/rooms_npc.h` for in-code documentation on the nitty-gritty technical details of NPC movement.
 - The npcs_in_room struct essentially contains all the NPCs that exist in a room
 
 ### Next Steps for NPCs in Rooms
@@ -99,7 +99,7 @@
 - Interface of NPC and dialogue modules.
 - [npc.h](/include/npc/npc.h) - Contains the structs for the foundational aspects of NPCs
 - [dialogue.h](/include/npc/dialogue.h) - Contains the strcts for all of the NPC dialogue functionality
-- [rooms-npc.h](/include/npc/rooms-npc.h) - Contains the structs for handling NPCs in rooms
+- [rooms_npc.h](/include/npc/rooms_npc.h) - Contains the structs for handling NPCs in rooms
 - [npc_move.h](/include/npc/npc_move.h) - Contains the structs for handling the movement of NPCs
 - [npc_battle.h](/include/npc/npc_battle.h) - Contains the structs and functions for battles involving NPCs
 
@@ -108,7 +108,7 @@
 - ./src
     - [npc.c](/src/npc/src/npc.c) - Contains the implementation for the foundational aspects of NPCs
     - [dialogue.c](/src/npc/src/dialogue.c) - Contains the implementation for all of the NPC dialogue functionality
-    - [rooms-npc.c](/src/npc/src/rooms-npc.c) - Contains the implementation for handling NPCs in rooms
+    - [rooms_npc.c](/src/npc/src/rooms_npc.c) - Contains the implementation for handling NPCs in rooms
 - ./examples
     - [dialogue_example.c](/src/npc/examples/dialogue_example.c) - Uses the backend of the dialogue module and a frontend that is unfortunately incompatible with chiventure as it stands.
         - Prints possible player responses in a different color.
