@@ -96,29 +96,73 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     return true;
 }
 
+/*
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
+ *
+ * Parameters:
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
+ *
+ * Returns:
+ * - pointer to the tree immediately containing the task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: Traversal no longer relies on task completion, so 
+ *       runtime is now O(T) where T is the number of tasks
+ *       in the game
+ */
+task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
+{
+    if(tree == NULL) {
+        return NULL;
+    }
+    assert(tree->task != NULL);
+
+    if (strcmp(tree->task->id, id) == 0)
+    {
+        return tree;
+    }
+    task_tree_t * newTree;
+    newTree = find_task_tree_of_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_tree_of_task_in_tree(tree->lmostchild, id);
+}
+
 /* Refer to quests_state.h */
 int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 {
     assert(quest != NULL);
 
     task_tree_t *tree = malloc(sizeof(task_tree_t));
-    tree->task = task_to_add;
-
-    task_tree_t *parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
-    tree->parent = parent;
-    task_tree_t **location;
-
-    if(parent == NULL) {
-        location = &quest->task_tree;
+    if (quest->task_tree == NULL)
+    {
+        tree->task = task_to_add;
+        tree->parent = NULL;
+        tree->rsibling = NULL;
+        tree->lmostchild = NULL;
+        quest->task_tree = tree;
+        return SUCCESS;
     }
-    else {
-        location = &parent->lmostchild;
+    tree = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
+    assert(tree != NULL);
+
+    if (tree->lmostchild == NULL)
+    {
+        tree->lmostchild = malloc(sizeof(task_tree_t));
+        tree->lmostchild->task = task_to_add;
+        tree->lmostchild->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
+    }
+    else
+    {
+        while (tree->rsibling != NULL)
+        {
+            tree = tree->rsibling;
+        }
+        tree->rsibling = malloc(sizeof(task_tree_t));
+        tree->rsibling->task = task_to_add;
+        tree->rsibling->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     }
 
-    while(*location != NULL) {
-        location = &(*location)->rsibling;
-    }
-    *location = tree;
     return SUCCESS;
 }
 
