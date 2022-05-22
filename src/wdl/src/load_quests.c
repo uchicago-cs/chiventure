@@ -48,7 +48,7 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
  * Returns:
  * - A pointer to a reward specified according to the WDL object
 */
-reward_t *load_reward(obj_t *reward_obj, item_hash_t *all_items) {
+reward_t *load_reward(obj_t *reward_obj, game_t *game) {
     if (reward_obj == NULL)
     {
         fprintf(stderr, "reward is null\n");
@@ -57,7 +57,7 @@ reward_t *load_reward(obj_t *reward_obj, item_hash_t *all_items) {
 
     int xp = obj_get_int(reward_obj, "XP");
     char *item_id = obj_get_str(reward_obj, "Item");
-    item_t *reward_item = get_item_in_hash(all_items, item_id);
+    item_t *reward_item = get_item_in_hash(game->all_items, item_id);
     reward_t *reward = reward_new(xp, reward_item);
     return reward;
 }
@@ -104,7 +104,7 @@ task_t *load_task(obj_t *task_obj, game_t *game) {
     obj_t *mission_obj = obj_get(task_obj, "Mission");
     mission_t *mission = load_mission(mission_obj);
     obj_t *reward_obj = obj_get(task_obj, "Rewards");
-    reward_t *reward = load_reward(reward_obj, game->all_items);
+    reward_t *reward = load_reward(reward_obj, game);
     obj_t *prereq_obj = obj_get(task_obj, "Prerequisites");
     prereq_t *prereq = load_prereq(prereq_obj);
 
