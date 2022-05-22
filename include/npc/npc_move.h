@@ -236,9 +236,9 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
  *
  * Returns:
  * 0: if move is unsuccessful
- * 1: if npc has reached the end of the path, reverse_path is called
+ * 1: if successful move to the next room
+ * 2: if npc has reached the end of the path, reverse_path is called
  *  (only for indefinite NPCs), but the move is not implemented
- * 2: if successful move to the next room
  * 3: if npc has nowhere to move (only one room in path)
  */
 int move_npc_mov(npc_mov_t *npc_mov);

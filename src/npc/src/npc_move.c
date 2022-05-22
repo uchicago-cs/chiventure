@@ -331,7 +331,7 @@ int move_npc_mov(npc_mov_t *npc_mov)
         {
             assert(flip_npc_path_direction(npc_mov) == SUCCESS);
         }
-        return 1;
+        return 2;
     }
 
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
@@ -351,7 +351,7 @@ int move_npc_mov(npc_mov_t *npc_mov)
             return 0;
         }
 
-        return 2;
+        return 1;
     }
     else
     {
