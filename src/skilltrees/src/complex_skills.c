@@ -137,10 +137,13 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
 }
 
 /* Takes in a lower and upper value and generates random number within that 
-*  range
-*  Helper function for many of the random skills functions
+*  range, helper function for many of the random skills functions
 *  Written with help of https://www.geeksforgeeks.org/generating-random-number-range-c/
 *  
+*  Please note that while the rand() function will work for now, this function 
+*  could be improved in the future by using a third-party library for random 
+*  number generation
+*
 *  Parameters:
 * - lower_bound: the lower bound of the possible generated value
 * - upper_bound: the upper bound of the possible generated value
@@ -178,6 +181,24 @@ int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventur
     for (int j = 0; j < value; j++){
         for (int i= 0; i < complex_skill->num_skills; i++){
             skill_execute(complex_skill->skills[i], ctx);
+        }
+    }
+
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int execute_random_range_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx){
+    if (switch_skill->complex_skill->type != RANDOM_SWITCH){
+        return FAILURE;
+    }
+
+    int value = random_generator(0, 100)
+    // double check the math with this and whether i need to check different bounds
+    // this might execute several sub skills 
+    for (int i = 0; i < switch_skill->complex_skill->num_skills; i++){
+        if (value < switch_skill->complex_skill->skills[i]){
+            skill_execute(switch_skill->complex_skill->skills[i], ctx);
         }
     }
 

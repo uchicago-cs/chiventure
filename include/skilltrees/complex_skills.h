@@ -56,7 +56,8 @@ int complex_skill_free(complex_skill_t* complex_skill);
  * Ex: Combined skills will run skill_execute on each subskill regardless of 
  *     success or failure
  *     Sequential skills will stop execution once a sub_skill fails
- *     Random skills are not currently supported by this function.
+ *
+ * Important note: Random skills are not currently supported by this function.
  *
  * Parameters:
  *  - complex_skill: A complex skill
@@ -165,6 +166,19 @@ int execute_random_chance_complex_skill(complex_skill_t* complex_skill, chiventu
 */
 int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventure_ctx_t* ctx, int upper_bound, int lower_bound);
 
-
+/* 
+* Executes a random skill using a switch effect
+*
+* Parameters:
+* - random_switch_type_t* switch_skill: a struct with complex skill type 
+*       RANDOM_SWITCH and an array of the chances of execution of each subskill
+* - chiventure_ctx_t* ctx: A context object to pull data from to execute the
+*   skill
+*
+* Returns:
+* 0 if success
+* 1 if failure
+*/
+int execute_random_range_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx);
 
 #endif

@@ -95,6 +95,18 @@ typedef struct complex_skill{
 
 } complex_skill_t;
 
+/* Random_switch complex type */
+typedef enum random_switch_type {
+    //Complex skills struct, type must be RANDOM_SWITCH
+    complex_skill_t complex_skill;
+
+    //List of percentages for each subskill
+    // e.g. if there were three subskills and each had an equal chance of being 
+    //      used, this should be an array with chances 0.33, 0.33, 0.33
+    float** chances;
+
+} random_switch_type_t;
+
 /* ======================== */
 /* === COMMON FUNCTIONS === */
 /* ======================== */
