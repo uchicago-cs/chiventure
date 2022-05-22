@@ -125,5 +125,6 @@ int load_quests(obj_t *doc, game_t *game) {
             add_quest_to_game(game, prereq_quest);
         }
     }
+    remove_task_all(task_hash);
     return SUCCESS;
 }
