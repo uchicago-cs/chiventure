@@ -73,10 +73,6 @@ int add_item_to_room(room_t *room, item_t *item)
     {
         HASH_ADD_STR(room->items, item_id, item);
     }
-    else
-    {
-        return FAILURE;
-    }
     //rc = add_item_to_hash(&(room->items), item);
 
     return SUCCESS;
