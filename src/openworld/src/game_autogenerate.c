@@ -111,23 +111,34 @@ roomspec_t* random_room_from_game(game_t* game){
 * - game_t* game: a pointer to the game struct. Must contain at least one room.
 * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
 * returns:
-* SUCCESS - if a random room was successfully generated
-* FAILURE - if a random room could not be generate 
-* (e.g. if game is null, if game contains no rooms, or the chosen room has no empty directions)
+* 1 - if a random room was successfully generated
+* 0 - if a random room could not be generated due to having no empty directions
+* -1 - if a random room could not be generate due to invalid inputs 
+* (e.g. if game is null, if game contains no rooms, etc.)
 */
 
 int autogenerate_room_in_game(game_t* game, gencontext_t* context){
+
+    specgraph=context->specgraph;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    roomspec_t *currroomspec=roomspecs[curr->tag];
+
     if(game==NULL){
-        return FAILURE;
+        return -1;
     }
 
     if(context==NULL){
-        return FAILURE;
+        return -1;
     }
 
     room_t* curr=random_room_from_game(game);
-    char* direction_to_new=pick_random_direction(game, curr);
-    char*direction_to_curr;
+    char* direction_to_new;
+    char* direction_to_curr;
+    int rc=pick_random_direction(game, curr, direction_to_curr, direction_to_new);
+    
+    if(rc==FAILURE){
+        return 0;
+    }
 
     if((strcmp(direction_to_new), "north")==0){
         direction_to_curr="south";
@@ -145,14 +156,10 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
         direction_to_curr="east";
     }
 
-    specgraph=context->specgraph;
-    roomspec_t **roomspecs=specgraph->roomspecs;
-    roomspec_t *currroomspec=roomspecs[curr->tag];
-
-    int rc=room_autogenerate(game, context, curr, currroomspec, 
+    room_autogenerate(game, context, curr, currroomspec, 
                       direction_to_curr, direction_to_new);
     
-    return rc;
+    return 1;
 }
 
 /*
