@@ -286,6 +286,35 @@ int specgraph_free(specgraph_t *specgraph)
     return SUCCESS;
 }
 
+int room_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec){
+
+    int num_roomspecs=specgraph->num_roomspecs;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    int **edges=specgraph->edges;
+
+    int rownumber=-1;
+    int rowcount=0;
+
+    while(rownumber==-1){
+        if(currspec==roomspecs[rowcount])
+            rownumber=rowcount;
+        rowcount++;
+    }
+
+    int *row=edges[rownumber];
+
+    int columnnumber=-1;
+    int columncount=0;
+
+    while(columnnumber==-1){
+        if(adjacentspec==roomspecs[rowcount])
+            columnnumber=columncount;
+        columncount++;
+    }
+
+    return edges[rownumber][columnnumber];
+}
+
 /* See gen_structs.h */
 int init_roomlevel(roomlevel_t *roomlevel, char *room_name, int difficulty_level)
 {

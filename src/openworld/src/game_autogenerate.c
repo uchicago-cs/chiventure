@@ -154,10 +154,44 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
     return rc;
 }
 
+/*
+* path_generate
+* Automatically determines whether to generate a path between a given room and an adjacent room
+* The probability that a path is generated is determined based on the adjacency matrix
+*
+* parameters:
+* - game_t* game: a pointer to the game struct. Must contain at least one room.
+* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - curr: A pointer to the room_t from which the algorithm will determine whether to generate paths to adjacent rooms
+* - adjacentroom: A pointer to the adjacent room we are considering making paths to
+*
+* returns:
+* SUCCESS - if the algorithm ran successfully
+* FAILURE - if the algorithm did not run successfully (e.g. if the game, context, curr, or adjacentroom are invalid)
+*/
+
+int path_generate(game_t* game, gencontext_t* context, room_t* curr, room_t* adjacentroom){
+
+    specgraph_t *specgraph=context->specgraph;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+
+    roomspec_t *currspec=roomspecs[curr->tag];
+    roomspec_t *adjacentspec=roomspecs[adjacent->tag];
+
+    
+
+    if(room_exists_in_direction(curr, "north"){
+        adjacentroom=find_room_in_direction(curr, "north");
+        
+    }
+
+
+}
+
 
 /*
 * path_autogenerate
-* Automatically determines whether to generate a path between a given room and all adjacent rooms
+* Automatically determines whether to generate a path between a given room and all adjacent rooms in a game
 * The probability that a path is generated is determined based on the adjacency matrix
 *
 * parameters:
@@ -169,6 +203,7 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
 * SUCCESS - if the algorithm ran successfully
 * FAILURE - if the algorithm did not run successfully (e.g. if the game, context, or room are invalid)
 */
+
 /*int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
     coords_t *coords=find_coords_of_room(curr);
     int x=coords->x;

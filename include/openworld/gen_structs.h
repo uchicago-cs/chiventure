@@ -344,6 +344,8 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 */
 int specgraph_free(specgraph_t *specgraph);
 
+int room_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec);
+
 /* roomlevel */
 
 /* init_roomlevel
