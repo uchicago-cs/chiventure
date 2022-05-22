@@ -344,7 +344,20 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 */
 int specgraph_free(specgraph_t *specgraph);
 
-int room_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec);
+/* roomspec_correlation
+ * Given a 2 roomspecs, determines their correlation from the adjacency matrix. 
+ * Note that order matters-currspec will specify the row in edges and adjacentspec will specify the column in edges
+ *
+ * Parameters:
+ * - specgraph: The specgraph containing the adjacency matrix information.
+ * - currspec: The roomspec of the current room (the row in the adjacency matrix)
+ * - adjacentspec: The roomspec of the adjacent roomspec (the column in the adjacency matrix)
+ *
+ *
+ * returns:
+ * - Returns an integer (0-5) representing the correlation based on the adjacency matrix
+ */
+int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec);
 
 /* roomlevel */
 

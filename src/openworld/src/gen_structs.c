@@ -286,7 +286,7 @@ int specgraph_free(specgraph_t *specgraph)
     return SUCCESS;
 }
 
-int room_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec){
+int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec){
 
     int num_roomspecs=specgraph->num_roomspecs;
     roomspec_t **roomspecs=specgraph->roomspecs;
