@@ -63,6 +63,12 @@ typedef struct player {
 
     /* A string containing the player's race */
     char *player_race;
+    
+    /* A string containing the name of current room of the player. Right now, every player 
+       must be in the same room, which is stored in the game struct, but this may change at 
+       some point to allow players to explore at different paces. For now, this is necessary
+       to allow certain modules to access the current room without causing circular dependencies. */
+    char *crnt_room;
 
     /* The player's current class. class_t contains the base stats, and skills for that class at
     the beginning of a game. These may change throughout the game, so their current states are stored 
@@ -288,18 +294,6 @@ int change_xp(player_t *player, int points);
  *  hashtable of items, the inventory
  */
 item_hash_t* get_inventory(player_t *player);
-
-
-/* Adds an item to the given player
- *
- * Parameters:
- *  player struct
- *  item struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_item_to_player(player_t *player, item_t *item);
 
 /* Removes an item from the given player
  * Note that the memory associated with this item is not freed
