@@ -5,7 +5,7 @@
 #include "action_management/actionmanagement.h"
 
 
-#define NUM_ACTIONS (17)
+#define NUM_ACTIONS (18)
 
 Test(get_actions, count)
 {
