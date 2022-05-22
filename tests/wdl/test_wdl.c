@@ -1,8 +1,4 @@
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libobj/load.h"
 #include "test_wdl.h"
-
 
 /* See test_wdl.h*/
 obj_t *__get_doc_obj(char* name, char* file_path)
