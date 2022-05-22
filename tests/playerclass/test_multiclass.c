@@ -179,7 +179,7 @@ Test(multiclass, basic_longdesc){
     char* longdesc = mul->longdesc;
 
     char* expected = "A mighty warrior.\n\nA skilled musician and magician.";
-    cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expectd, longdesc);
+    cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expected, longdesc);
 }
 
 Test(multiclass, iterated_longdesc){
