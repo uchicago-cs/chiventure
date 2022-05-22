@@ -14,8 +14,15 @@
  * - A pointer to a prereq specified according to the WDL object
 */
 prereq_t *load_prereq(obj_t *prereq_obj) {
-    /* TODO */
-    return NULL;
+    if (prereq_obj == NULL)
+    {
+        fprintf(stderr, "prereqs list is null\n");
+        return FAILURE;
+    }
+    int hp = obj_get(prereq_obj, "PREREQ_HP");
+    int level = obj_get(prereq_obj, "PREREQ_LEVEL");
+    prereq_t *prereq = prereq_new(hp, level);
+    return prereq;
 }
 
 /* Creates a reward from a WDL reward object
