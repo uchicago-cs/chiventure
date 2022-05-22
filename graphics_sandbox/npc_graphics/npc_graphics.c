@@ -116,17 +116,7 @@ int FreeNPCInfo(npc_info_t* pointer)
     free(pointer);
 }
 
-
-typedef struct npc_graphics{
-    Vector2 WindowPos;
-    Vector2 WindowSize;
-    Color textcolor;
-    char* current_npc;
-    char* current_action;
-    char* current_line;
-    npc_info_t* npc_linkedlist;
-} npc_graphics_t;
-
+/* See npc_graphics.h*/
 npc_graphics_t* NewNPCGraphics(Vector2 WindowPos, Vector2 WindowSize, Color textcolor,
                                char* current_npc, char* current_action, char* current_line,
                                npc_info_t* npc_linkedlist)
@@ -138,6 +128,7 @@ npc_graphics_t* NewNPCGraphics(Vector2 WindowPos, Vector2 WindowSize, Color text
 
 }
 
+/* See npc_grpahics.h*/
 int InitNPCGraphics(npc_graphics_t* pointer, Vector2 WindowPos, Vector2 WindowSize, Color textcolor,
                     char* current_npc, char* current_action, char* current_line,
                     npc_info_t* npc_linkedlist)
@@ -153,6 +144,7 @@ int InitNPCGraphics(npc_graphics_t* pointer, Vector2 WindowPos, Vector2 WindowSi
     return 1;
 }
 
+/* See npc_graphics.h*/
 int FreeNPCGraphics(npc_graphics_t* pointer)
 {
     assert(pointer != NULL);
@@ -162,7 +154,7 @@ int FreeNPCGraphics(npc_graphics_t* pointer)
 }
 
 
-/* See npc.h */
+/* See npc_graphics.h */
 npc_line_t* GetLine(char* line_name, npc_info_t* npc_graphics) {
     npc_line_t* current_line = npc_graphics->head_line;
     do {
@@ -173,7 +165,7 @@ npc_line_t* GetLine(char* line_name, npc_info_t* npc_graphics) {
     return NULL;
 }
 
-/* See npc.h */
+/* See npc_graphics.h */
 npc_info_t* GetNPC(char* NPC_name, npc_info_t* npcs) {
     npc_info_t* current_npc = npcs;
     do {
@@ -214,3 +206,97 @@ npc_info_t* synthesizeTest3() {
     return res;
 }
 
+void runNPCGraphics(npc_graphics_t* npc_graphics) {
+
+ // Initialization
+    //--------------------------------------------------------------------------------------
+
+
+    npc_info_t* current_npc = GetNPC(npc_graphics->current_npc,npc_graphics->npc_linkedlist);
+    
+
+    const int screenWidth = npc_graphics->WindowSize.x;
+    const int screenHeight = npc_graphics->WindowSize.y;
+
+    InitWindow(screenWidth, screenHeight, current_npc->npc_name);
+    SetWindowPosition(npc_graphics->WindowPos.x, npc_graphics->WindowPos.y);
+
+    Texture2D texture = LoadTexture((const char*)current_npc->head_action->action_image_path);
+    
+
+    float textureSize[2] = { (float)texture.width, (float)texture.height };
+    
+    // Set shader values (they can be changed later)
+
+    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    //--------------------------------------------------------------------------------------
+
+    int numframe = current_npc->head_action->frame_number;
+    Rectangle frameRec = { 0.0f, 0.0f, (float)texture.width/numframe, (float)texture.height };
+    int currentFrame = 0;
+
+    int framescounter = 0;
+    double frameSpeed = current_npc->head_action->switch_frequency;
+
+    const char* NPC_line = (GetLine(npc_graphics->current_line,current_npc))->line;
+
+    // Main game loop
+    while (!WindowShouldClose())    // Detect window close button or ESC key
+    {
+        framescounter ++;
+
+        if (framescounter >= 60/frameSpeed) {
+            framescounter = 0;
+            currentFrame ++;
+
+            if (currentFrame > numframe) currentFrame = 0;
+            frameRec.x = (float)currentFrame*(float)texture.width/numframe;
+        }
+
+        // Draw
+        //----------------------------------------------------------------------------------
+        BeginDrawing(NPC_CONTEXT_ID);
+
+            ClearBackground(RAYWHITE);
+            
+                DrawTextureRec(texture, frameRec,(Vector2){0,0},RAYWHITE);
+                DrawRectangle(0,(GetScreenHeight()-60),GetScreenWidth(),GetScreenHeight(),WHITE);
+                DrawText(NPC_line, 20, (GetScreenHeight()-40), 20, npc_graphics->textcolor);
+
+        EndDrawing();
+        //----------------------------------------------------------------------------------
+    }
+
+    // De-Initialization
+    //--------------------------------------------------------------------------------------
+    UnloadTexture(texture);
+
+    CloseWindow();        // Close window and OpenGL context
+    //--------------------------------------------------------------------------------------
+}
+
+
+
+int main(void)
+{   
+    //npc_info_t* current_npc = synthesizeTest();
+
+    //runNPCGraphics(&current_npc, "Dhirpal", "Default","Tedtalk", (Vector2){800,0},(Vector2){600,400},BLACK);
+    //npc_info_t* current_npc = synthesizeTest2();
+
+
+    //runNPCGraphics(&current_npc, "Dhirpal", "Default","Default", (Vector2){800,0},(Vector2){600,400},BLACK);
+    //npc_info_t* current_npc = synthesizeTest2();
+
+    npc_info_t* npc_1 = synthesizeTest();
+    npc_info_t* npc_2 = synthesizeTest2();
+    npc_info_t* npc_3 = synthesizeTest3();
+    npc_info_t* npcs = npc_1;
+    npcs->next = npc_2;
+    npcs->next->next = npc_3;
+    npc_graphics_t npc_graphics = {(Vector2){1200,0},(Vector2){160,500},RED,"Fire","Burn","Crack",npcs};
+    runNPCGraphics(&npc_graphics);
+
+
+    return 0;
+}
