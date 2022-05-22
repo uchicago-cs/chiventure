@@ -272,5 +272,4 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
             add_path_to_room(curr, pathtocurr);            
         }
     }
-        
 }
