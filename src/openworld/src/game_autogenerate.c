@@ -115,7 +115,7 @@ roomspec_t* random_room_from_game(game_t* game){
 * FAILURE - if a random room could not be generate (e.g. if game is null or if game contains no rooms)
 */
 
-/*int autogenerate_room_in_game(game_t* game, gencontext_t* context){
+int autogenerate_room_in_game(game_t* game, gencontext_t* context){
     if(game==NULL){
         return FAILURE;
     }
@@ -152,7 +152,7 @@ roomspec_t* random_room_from_game(game_t* game){
                       direction_to_curr, direction_to_new);
     
     return rc;
-}*/
+}
 
 
 /*
