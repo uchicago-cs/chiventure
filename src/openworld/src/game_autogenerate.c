@@ -78,7 +78,7 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
 * FAILURE - if a random room could not be chosen (e.g. if game is null or if game contains no rooms)
 */
 
-/*roomspec_t* random_room_from_game(game_t* game){
+roomspec_t* random_room_from_game(game_t* game){
     if(game==NULL){
         return FAILURE;
     }
@@ -88,9 +88,19 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
 
     int randomint=rand() % num_rooms; 
 
-    HASH_ITER
+    int count=0;
+    room_t* random_room;
 
-} */
+    room_hash_t *current, *tmp;
+    HASH_ITER(hh, game->all_rooms, current, tmp) {
+
+        if(count==randomint){
+            random_room=current;
+            return random_room;
+        }
+        i++;
+    }
+} 
 
 
 
