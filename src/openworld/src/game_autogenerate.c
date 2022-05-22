@@ -67,23 +67,78 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
 }
 
 /* random_room_from_game
-* given a game struct, chooses a random room from the game
-*
+* given a game struct and a gencontext struct, autogenerates a new room in the game 
+* by choosing a random room and direction and creating the new room based on the adjacency matrix.
 * parameters:
 * - game_t* game: a pointer to the game struct. Must contain at least one room.
 *
 * returns:
 * SUCCESS - if a random room was successfully chosen
-* FAILURE - if a rnadom room could not be chosen (e.g. if game is null or if game contains no rooms)
+* FAILURE - if a random room could not be chosen (e.g. if game is null or if game contains no rooms)
 */
-/*
-roomspec_t* random_first_room(game_t* game){
+
+/*roomspec_t* pick_random_room(game_t* game){
     if(game==NULL){
         return FAILURE;
     }
 
-    int randomint=rand() % num_roomspecs;  
+    room_hash_t *rooms=game->all_rooms;
+    int num_rooms=HASH_COUNT(rooms);
+
+    int randomint=rand() % num_rooms; 
+
+    HASH_ITER
+
+} */
+
+
+
+/* autogenerate_room_in_game
+* given a game struct, chooses a random room from the game
+*
+* parameters:
+* - game_t* game: a pointer to the game struct. Must contain at least one room.
+* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* returns:
+* SUCCESS - if a random room was successfully generated
+* FAILURE - if a random room could not be generate (e.g. if game is null or if game contains no rooms)
 */
 
+/*int autogenerate_room_in_game(game_t* game, gencontext_t* context){
+    if(game==NULL){
+        return FAILURE;
+    }
 
+    if(context==NULL){
+        return FAILURE;
+    }
 
+    room_t* curr=random_room_from_game(game);
+    char* direction_to_new=pick_random_direction(game, curr);
+    char*direction_to_curr;
+
+    if((strcmp(direction_to_new), "north")==0){
+        direction_to_curr="south";
+    }
+
+    else if((strcmp(direction_to_new), "south")==0){
+        direction_to_curr="north";
+    }
+
+    else if((strcmp(direction_to_new), "east")==0){
+        direction_to_curr="west";
+    }
+
+    else if((strcmp(direction_to_new), "west")==0){
+        direction_to_curr="east";
+    }
+
+    specgraph=context->specgraph;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    roomspec_t *currroomspec=roomspecs[curr->tag];
+
+    int rc=room_autogenerate(game, context, curr, currroomspec, 
+                      direction_to_curr, direction_to_new);
+    
+    return rc;
+}*/
