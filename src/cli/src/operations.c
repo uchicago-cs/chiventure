@@ -579,9 +579,8 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     set_game_mode(ctx->game, BATTLE, npc->npc_id); 
-    //Apparently this should automatically call function that initialize and run battle
-    
+   
+    assert(npc->npc_battle != NULL);
+ 
     return "Beginning battle.";
-
-    /* TODO: do we need to check if npc_battle struct initialized? */ 
 }
