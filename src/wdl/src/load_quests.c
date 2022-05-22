@@ -20,6 +20,11 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
         return FAILURE;
     }
 
+    if(prereq_type_check(prereq_obj) == FAILURE) {
+        fprintf(stderr, "prereq is not in the correct format");
+        return FAILURE;
+    }
+
     int hp = obj_get_int(prereq_obj, "Health");
     int level = obj_get_int(prereq_obj, "Level");
     obj_t *quest_list = obj_get(prereq_obj, "Quests");
@@ -55,6 +60,11 @@ reward_t *load_reward(obj_t *reward_obj, game_t *game) {
         return FAILURE;
     }
 
+    if(reward_type_check(reward_obj) == FAILURE) {
+        fprintf(stderr, "reward is not in the correct format");
+        return FAILURE;
+    }
+
     int xp = obj_get_int(reward_obj, "XP");
     char *item_id = obj_get_str(reward_obj, "Item");
     item_t *reward_item = get_item_in_hash(game->all_items, item_id);
@@ -74,6 +84,11 @@ mission_t *load_mission(obj_t *mission_obj) {
     if (mission_obj == NULL)
     {
         fprintf(stderr, "mission is null\n");
+        return FAILURE;
+    }
+
+    if(mission_type_check(mission_obj) == FAILURE) {
+        fprintf(stderr, "mission is not in the correct format");
         return FAILURE;
     }
 
@@ -97,6 +112,11 @@ task_t *load_task(obj_t *task_obj, game_t *game) {
     if (task_obj == NULL)
     {
         fprintf(stderr, "task is null\n");
+        return FAILURE;
+    }
+
+    if(task_type_check(task_obj) == FAILURE) {
+        fprintf(stderr, "task is not in the correct format");
         return FAILURE;
     }
 
@@ -176,6 +196,10 @@ int load_task_tree(obj_t *task_tree_obj, quest_t *quest, task_hash_t *task_hash,
 int *load_quest(obj_t *quest_obj, game_t *game) {
     assert(quest_obj != NULL);
 
+    if(quest_type_check(quest_obj) == FAILURE) {
+        fprintf(stderr, "quest is not in the correct format");
+        return FAILURE;
+    }
     task_hash_t *task_hash = NULL;
     obj_t *task_list_obj = obj_get(quest_obj, "Task List");
     load_task_hash(task_list_obj, game, &task_hash);
@@ -226,10 +250,6 @@ int load_quests(obj_t *doc, game_t *game) {
         }
         fprintf(stderr, "Warning: The game has no quests! \n");
         return SUCCESS;
-    }
-    else if(quests_type_check(quests_obj) == FAILURE) {
-        fprintf(stderr, "items fail type checking\n");
-        return FAILURE;
     }
 
     // iterate through the hash table of quests
