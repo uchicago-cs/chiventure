@@ -435,6 +435,48 @@ int conditions_type_check(obj_t *obj)
     return !type;
 }
 
+// The following functions regard quest type checking
+
+int quest_type_check(obj_t *obj)
+{
+    int name = (obj_get_type(obj, "Quest Name") == TYPE_STR);
+    int task_list = (obj_get_type(obj, "Task List") == TYPE_LIST);
+
+    return !(name && task_list);
+}
+
+int task_type_check(obj_t *obj)
+{
+    int name = (obj_get_type(obj, "Task Name") == TYPE_STR);
+
+    return !name;
+}
+
+int prereq_type_check(obj_t *obj)
+{
+    int health = (obj_get_type(obj, "Health") == TYPE_INT);
+    int level = (obj_get_type(obj, "Level") == TYPE_INT);
+    int task_list = (obj_get_type(obj, "Tasks") == TYPE_LIST);
+    int quest_list = (obj_get_type(obj, "Quests") == TYPE_LIST);
+
+    return !(health && level && task_list && quest_list);
+}
+
+int rewards_type_check(obj_t *obj)
+{
+    int xp = (obj_get_type(obj, "XP") == TYPE_INT);
+    int item = (obj_get_type(obj, "Item") == TYPE_OBJ);
+
+    return !(xp && item);
+}
+
+int mission_type_check(obj_t *obj)
+{
+    int target_name = (obj_get_type(obj, "Target Name") == TYPE_STR);
+    int type = (obj_get_type(obj, "Type") == TYPE_STR);
+
+    return !(target_name && type);
+}
 
 // The following are print functions to print out specific fields within a
 // specified object
