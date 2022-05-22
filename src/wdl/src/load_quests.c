@@ -77,17 +77,53 @@ task_hash_t *load_task_hash(obj_t *quests_list_obj) {
  *
  * Parameters:
  * - quest_obj: A WDL quest object
+ * - task_hash: A hash table of all tasks
  * 
  * Returns:
  * - A pointer to a quest specified according to the WDL object
 */
-quest_t *load_quest(obj_t *quest_obj) {
+quest_t *load_quest(obj_t *quest_obj, task_hash_t *task_hash) {
     /* TODO */
     return NULL;
 }
 
 /* See load_quests.h */
-int load_quests(obj_t *doc, game_t *g) {
-    /* TODO */
-    return 0;
+int load_quests(obj_t *doc, game_t *game) {
+    assert(game != NULL);
+    assert(doc != NULL);
+    obj_t *quests_obj = obj_get(doc, "QUESTS");
+    if(quests_obj == NULL) {
+        quests_obj = obj_get(doc, "QUEST");
+        if(quests_obj != NULL) {
+            fprintf(stderr, "QUESTS is misspelled as QUEST!");
+            return FAILURE;
+        }
+        fprintf(stderr, "Warning: The game has no quests! \n");
+        return SUCCESS;
+    }
+    else if(quests_type_check(quests_obj) == FAILURE) {
+        fprintf(stderr, "items fail type checking\n");
+        return FAILURE;
+    }
+
+    // Load the task hash table
+    task_hash_t *task_hash = load_task_hash(quests_obj);
+
+    // iterate through the hash table of quests
+    // Code shamelessly stolen from load_npc.c
+    obj_t *cur, *tmp;
+    HASH_ITER (hh, quests_obj->data.obj.attr, cur, tmp)
+    {
+        add_quest_to_game(game, load_quest(cur, task_hash));
+    }
+
+    // Creates placeholder quests for prereq tasks that aren't a part of any quest's task tree
+    for(task_hash_t *cur_task = task_hash; cur_task != NULL; cur_task = cur_task->hh.next) {
+        if(get_task_from_quest_hash(cur_task->id, game->all_quests) == NULL) {
+            quest_t *prereq_quest = quest_new(cur_task->id, NULL, NULL);
+            add_task_to_quest(prereq_quest, cur_task->task, NULL);
+            add_quest_to_game(game, prereq_quest);
+        }
+    }
+    return SUCCESS;
 }

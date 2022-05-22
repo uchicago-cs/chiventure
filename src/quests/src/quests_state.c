@@ -278,7 +278,7 @@ int update_player_quests(quest_ctx_t *qctx) {
         update_task(cur->task_id, qctx);
     }
 }
-    
+
 /* Refer to quests_state.h */
 void update_task(char *task_id, quest_ctx_t *qctx) {
     accept_reward(complete_task(task_id, qctx), qctx);

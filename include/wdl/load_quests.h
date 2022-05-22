@@ -7,6 +7,8 @@
 
 #include "wdl_common.h"
 #include "quests/quests_state.h"
+#include "validate.h"
+#include <assert.h>
 
 /* 
  * Accesses the document object and obtain list of quests to parse into the
