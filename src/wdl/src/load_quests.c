@@ -54,24 +54,26 @@ mission_t *load_mission(obj_t *mission_obj) {
  * Returns:
  * - SUCCESS on success, FAILURE if an error occurs
 */
-int load_task_hash_of_quest(obj_t *quest_obj, task_hash_t *hash) {
+int load_task_hash(obj_t *quest_obj, task_hash_t **hash) {
     /* TODO */
     return 0;
 }
 
-/* Creates a task hash table from all of the quest lists from all 
- * of the WDL quest objects in a WDL list of quests
+/* Adds task trees from a task_tree_obj to a quest
  *
  * Parameters:
- * - quests_list_obj: A WDL quests list obj
+ * - task_tree_obj: A WDL task tree object
+ * - quest: The quest to add the tasks to
+ * - task_hash: A hash table of all tasks
  * 
  * Returns:
- * - A pointer to a task_hash specified according to the WDL object
+ * - SUCCESS on success, FAILURE if an error occurs
 */
-task_hash_t *load_task_hash(obj_t *quests_list_obj) {
-    /* TODO */
-    return NULL;
-} 
+int load_task_tree(obj_t *task_tree_obj, quest_t *quest, task_hash_t *task_hash) {
+    assert(task_tree_obj != NULL);
+    assert(quest != NULL);
+    
+}
 
 /* Creates a quest from a WDL quest object
  *
@@ -82,9 +84,45 @@ task_hash_t *load_task_hash(obj_t *quests_list_obj) {
  * Returns:
  * - A pointer to a quest specified according to the WDL object
 */
-quest_t *load_quest(obj_t *quest_obj, task_hash_t *task_hash) {
-    /* TODO */
-    return NULL;
+int *load_quest(obj_t *quest_obj, game_t *game) {
+    assert(quest_obj != NULL);
+
+    task_hash_t *task_hash = NULL;
+    
+    load_task_hash(quest_obj, &task_hash);
+
+    char *quest_id = obj_get_str(quest_obj, "Quest Name");
+
+    obj_t *reward_obj = obj_get(quest_obj, "Rewards");
+    reward_t *reward = NULL;
+    if(reward_obj != NULL) {
+        reward = load_reward(reward_obj);
+    } 
+
+    obj_t *prereq_obj = obj_get(quest_obj, "Prerequisites");
+    prereq_t *prereq = NULL;
+    if(prereq_obj != NULL) {
+        prereq = load_prereq(prereq_obj);
+    }
+
+    quest_t *q = quest_new(quest_id, reward, prereq);
+
+    obj_t *task_tree_obj = obj_get(quest_obj, "Task Tree");
+    load_task_tree(task_tree_obj, q, task_hash);
+
+    add_quest_to_game(q, game);
+
+    // Creates placeholder quests for prereq tasks that aren't a part of the task tree
+    for(task_hash_t *cur_task = task_hash; cur_task != NULL; cur_task = cur_task->hh.next) {
+        if(get_task_from_quest_hash(cur_task->id, game->all_quests) == NULL) {
+            quest_t *prereq_quest = quest_new(cur_task->id, NULL, NULL);
+            add_task_to_quest(prereq_quest, cur_task->task, NULL);
+            add_quest_to_game(game, prereq_quest);
+        }
+    }
+
+    remove_task_all(&task_hash);
+    return SUCCESS;
 }
 
 /* See load_quests.h */
@@ -106,25 +144,13 @@ int load_quests(obj_t *doc, game_t *game) {
         return FAILURE;
     }
 
-    // Load the task hash table
-    task_hash_t *task_hash = load_task_hash(quests_obj);
-
-    // iterate through the hash table of quests
+    // iterate through the hash table of WDL quest objs
     // Code shamelessly stolen from load_npc.c
     obj_t *cur, *tmp;
     HASH_ITER (hh, quests_obj->data.obj.attr, cur, tmp)
     {
-        add_quest_to_game(game, load_quest(cur, task_hash));
+        load_quest(cur, game);
     }
 
-    // Creates placeholder quests for prereq tasks that aren't a part of any quest's task tree
-    for(task_hash_t *cur_task = task_hash; cur_task != NULL; cur_task = cur_task->hh.next) {
-        if(get_task_from_quest_hash(cur_task->id, game->all_quests) == NULL) {
-            quest_t *prereq_quest = quest_new(cur_task->id, NULL, NULL);
-            add_task_to_quest(prereq_quest, cur_task->task, NULL);
-            add_quest_to_game(game, prereq_quest);
-        }
-    }
-    remove_task_all(task_hash);
     return SUCCESS;
 }
