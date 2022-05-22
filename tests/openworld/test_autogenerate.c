@@ -251,12 +251,12 @@ Test(autogenerate, room_generate_success_one)
     matrix[2]=1;
     matrix[3]=1;
     int **edges=edges_new(matrix, 2, 2);
-    cr_assert_eq(0, 1, "crash did not occur in edges malloc");
     specgraph_t *specgraph = specgraph_new(2,roomspecs,edges);
     coords_t *coords=coords_new(0,0);
     room_t* randomroom = roomspec_to_room(random_room_lookup(specgraph),coords);
     add_room_to_game(g, randomroom);
     g->curr_room=randomroom;
+    cr_assert_eq(0, 1, "crash did not occur in edges malloc");
     
     // Path to sample room1
     path_t* path_to_curr_room = path_new(g->curr_room,"north");
