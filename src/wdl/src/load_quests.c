@@ -22,17 +22,19 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
 
     int hp = obj_get_int(prereq_obj, "Health");
     int level = obj_get_int(prereq_obj, "Level");
-    obj_list_t *quest_list = obj_get_list(prereq_obj, "Quests");
-    obj_list_t *task_list = obj_get_list(prereq_obj, "Tasks");
+    obj_t *quest_list = obj_get(prereq_obj, "Quests");
+    obj_t *task_list = obj_get(prereq_obj, "Tasks");
 
     prereq_t *prereq = prereq_new(hp, level);
 
-    HASH_ITER(hh, quest_list, curr, tmp)
+    obj_t *curr, *tmp;
+    HASH_ITER(hh, quest_list->data.obj.attr, curr, tmp)
     {
-        char *id = curr->id;
-        char *short_desc = obj_get_str(curr, "short_desc");
-
-        printf("- %s: %s\n", id, short_desc);
+        prereq_add_quest(prereq, curr->id);
+    }
+    HASH_ITER(hh, task_list->data.obj.attr, curr, tmp)
+    {
+        prereq_add_task(prereq, curr->id);
     }
 
     return prereq;
@@ -69,8 +71,45 @@ reward_t *load_reward(obj_t *reward_obj, item_hash_t *all_items) {
  * - A pointer to a mission specified according to the WDL object
 */
 mission_t *load_mission(obj_t *mission_obj) {
-    /* TODO */
-    return NULL;
+    if (mission_obj == NULL)
+    {
+        fprintf(stderr, "mission is null\n");
+        return FAILURE;
+    }
+
+    char *target = obj_get_str(mission_obj, "Target Name");
+    char *mission_type = obj_get_str(mission_obj, "Type");
+    int type;
+    if (strcmp(mission_type, "Meet NPC") == 0)
+        type = 0;
+    else if (strcmp(mission_type, "Kill NPC") == 0)
+        type = 1;
+    else if (strcmp(mission_type, "Collect Item") == 0)
+        type = 2;
+    else if (strcmp(mission_type, "Visit Room") == 0)
+        type = 3;
+
+    mission_t *mission = mission_new(target, type);
+    return mission;
+}
+
+task_t *load_task(obj_t *task_obj, game_t *game) {
+    if (task_obj == NULL)
+    {
+        fprintf(stderr, "task is null\n");
+        return FAILURE;
+    }
+
+    char *name = obj_get_str(task_obj, "Task Name");
+    obj_t *mission_obj = obj_get(task_obj, "Mission");
+    mission_t *mission = load_mission(mission_obj);
+    obj_t *reward_obj = obj_get(task_obj, "Rewards");
+    reward_t *reward = load_reward(reward_obj, game->all_items);
+    obj_t *prereq_obj = obj_get(task_obj, "Prerequisites");
+    prereq_t *prereq = load_prereq(prereq_obj);
+    
+    task_t *task = task_new(name, mission, reward, prereq);
+    return task;
 }
 
 /* Adds all of the tasks in the task list of a single quest into a 
