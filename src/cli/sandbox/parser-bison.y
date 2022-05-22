@@ -1,48 +1,53 @@
-%union {
-    char c;
-}
-
-%{
+%code requires {
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
+#include "parser-bison.h"
 
 extern int yylex();
 extern int yyparse();
 
 void yyerror(char* s);
-%}
+
+}
+
+// declare the types to be used by bison
+%union {
+  char *word;
+  word_ll *word_list;
+}
 
 /* tokens */
-%token <c> CHR /* any character that isn't a space or a newline */
-%token <c> SPC /* a space */
-%token <c> EOL /* end of line, newline char */
+%token EOL /* end of line, newline char */
 %token GO
+%token TO
+%token<word> WORD
+
+%type<word_list> phrase 
+%type<word_list> go_cmd
 
 %%
-/* TODO */
+line
+  : 
+  | line go_cmd EOL { handle_go_cmd($2); }
+  ;
 
-: GO { printf("%s", $1); }
-      ;
+go_cmd
+  : GO TO phrase { $$ = $3; }
+  | GO phrase { $$ = $2; }
+  ;
+  
+phrase
+  : WORD  { $$ = start_phrase($1); }
+  | phrase WORD { $$ = append_to_phrase($1, $2); }
+  ;
 %%
-
-/* Declarations */
-void set_input_string(const char* in);
-void end_lexical_scan(void);
-
-/* This function parses a string */
-int parse_string(const char* in) {
-  set_input_string(in);
-  int rv = yyparse();
-  end_lexical_scan();
-  return rv;
-}
 
 int main(int argc, char **argv)
 {
     yyparse();   
     return 0;
 }
-
 void yyerror(char *s)
 {
     fprintf(stderr, "parse error: %s\n", s);
