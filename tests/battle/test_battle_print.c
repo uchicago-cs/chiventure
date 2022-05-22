@@ -41,9 +41,13 @@ Test(battle_print, print_start_battle)
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1,
-                            "A hearty dagger sure to take your breath away... for good",
-                            "dagger", true, NULL); 
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;
+    battle_item_t *dagger = npc_create_battle_item(1, 20, 
+                            "A hearty dagger sure to take your breath away... for good", "Dagger",
+                            true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(enemy_stats, move, BATTLE_AI_GREEDY, 
                                          HOSTILE, test_class, dagger, 
                                          NULL, NULL, NULL);
@@ -78,9 +82,13 @@ Test(battle_print, print_hp_one_enemy)
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1,
-                            "A hearty dagger sure to take your breath away... for good",
-                            "dagger", true, NULL);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;
+    battle_item_t *dagger = npc_create_battle_item(1, 20, 
+                            "A hearty dagger sure to take your breath away... for good", "Dagger",
+                            true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(enemy_stats, move, BATTLE_AI_GREEDY, 
                                          HOSTILE, test_class, dagger,
                                          NULL, NULL, NULL);
@@ -204,9 +212,13 @@ Test(battle_print, print_player_move_crit)
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1,
-                            "A hearty dagger sure to take your breath away... for good",
-                            "dagger", true, NULL);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;
+    battle_item_t *dagger = npc_create_battle_item(1, 20, 
+                            "A hearty dagger sure to take your breath away... for good", "Dagger",
+                            true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move, BATTLE_AI_GREEDY, 
                                          HOSTILE, test_class, dagger,
                                          NULL, NULL, NULL);
@@ -269,9 +281,13 @@ Test(battle_print, print_player_move_miss)
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
-    battle_item_t *dagger = npc_create_battle_item(1, 1,
-                            "A hearty dagger sure to take your breath away... for good",
-                            "dagger", true, NULL);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;
+    battle_item_t *dagger = npc_create_battle_item(1, 20, 
+                            "A hearty dagger sure to take your breath away... for good", "Dagger",
+                            true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move, BATTLE_AI_GREEDY, 
                                          HOSTILE, test_class, dagger,
                                          NULL, NULL, NULL);
