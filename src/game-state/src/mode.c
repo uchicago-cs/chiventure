@@ -89,6 +89,17 @@ int set_game_mode(game_t *g, mode_type_t curr_mode, char *mode_ctx)
                                 run_conversation_mode, mode_ctx);
             break;
 
+	case BATTLE:
+	    if (mode_ctx == NULL) 
+	    {
+		return FAILURE;
+	    }
+
+	    rc = game_mode_init(g->mode, BATTLE,
+			        run_battle_mode, mode_ctx);
+
+	    break;
+
         default:
             return FAILURE;
     }
