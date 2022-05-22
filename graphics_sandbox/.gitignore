@@ -1,3 +1,4 @@
 input_box_graphics/input_box
 npc_graphics/npc_graphics
 quest_graphics/quest_graphics
+*.DS_Store
