@@ -142,3 +142,19 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
     
     return rc;
 }*/
+
+/*
+* path_autogenerate
+* Automatically determines whether to generate a path between a given room and all adjacent rooms
+* The probability that a path is generated is determined based on the adjacency matrix
+*
+* parameters:
+* - game_t* game: a pointer to the game struct. Must contain at least one room.
+* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - curr: A pointer to the room_t from which the algorithm will determine whether to generate paths to adjacent rooms
+*
+* returns:
+* SUCCESS - if the algorithm ran successfully
+* FAILURE - if the algorithm did not run successfully (e.g. if the game, context, or room are invalid)
+*/
+/* 
