@@ -2,8 +2,8 @@
  * Complex Skill implementation for chiventure
  */
 
-#ifndef INCLUDE_COMPLEX_SKILLS_H_
-#define INCLUDE_COMPLEX_SKILLS_H_
+#ifndef INCLUDE_COMPLEX_SKILL_H_
+#define INCLUDE_COMPLEX_SKILL_H_
 
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/effect.h"
@@ -66,9 +66,6 @@ int complex_skill_free(complex_skill_t* complex_skill);
  */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
 
-/*********************************************************************************************/
-//Conditonal skills code
-
 /*
  * Allocates a new reader in the heap.
  *
@@ -127,6 +124,29 @@ int reader_effect_read(reader_effect_t* reader, chiventure_ctx_t* ctx);
  *  - skill: A conditional skill
  *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
  *
+/*
+ * Executes a combined skill, executing each subskill regardless of success or 
+ * failure
+ *
+ * Parameters:
+ *  - complex_skill: A complex skill
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the 
+ *    skill
+ * 
+ * Returns:
+ * 0 if success
+ * 1 if failure
+ */
+int combined_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
+
+/*
+ * Executes a sequential skill, stopping execution once a sub_skill fails
+ *
+ * Parameters:
+ *  - complex_skill: A complex skill
+ *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the 
+ *    skill
+ * 
  * Returns:
  * 0 if success
  * 1 if failure
@@ -141,6 +161,7 @@ int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx);
  * These are included depending on that future decision
 */
 /*********************************************************************************************/
+int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
 
 /*
  * Levels each skill within complex_skill using skill_level_up.
@@ -149,9 +170,9 @@ int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx);
  *  - complex_skill: A complex skill.
  *
  * Returns:
- * 0 if leveling up worked.
- * 1 if the maximum level was already achieved, so levelling up won't happen.
- * -1 if leveling up failed, such as invalid parameters for instance, or if 
+ * SUCCESS if leveling up worked.
+ * FAILURE if the maximum level was already achieved, so levelling up won't happen 
+ * or if leveling up failed, such as invalid parameters for instance, or if 
  *  not every subskill was able to be leveled up
  */
 int complex_skill_level_up(complex_skill_t* complex_skill);
@@ -164,11 +185,11 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
  *  - xp_gained: Amount of xp to add onto a skill.
  *
  * Returns:
- * 0 if incrementing experience worked.
- * 1 if the maximum level was already reached and you tried to level up again.
- * -1 if incrementing xp failed, such as giving invalid parameters, or if 
+ * SUCCESS if incrementing experience worked.
+ * FAILURE if the maximum level was already reached and you tried to level up again
+ * or if incrementing xp failed, such as giving invalid parameters, or if 
  *  not every subskill was able to be incremented. 
  */
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
 
-#endif /*INCLUDE_COMPLEX_SKILLS_H*/
+#endif /*INCLUDE_COMPLEX_SKILL_H*/

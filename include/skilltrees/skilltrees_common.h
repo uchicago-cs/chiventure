@@ -11,7 +11,6 @@
 /* Forward declaration to make code compatible with playerclass code */
 typedef struct effect effect_t;
 
-
 typedef struct complex_skill complex_skill_t;
 typedef struct reader_effect reader_effect_t;
 
@@ -75,7 +74,8 @@ typedef struct skill {
     // The minimum number of experience points needed to level up
     unsigned int min_xp;
 
-    // The pointer to the linked list that contains all the effects that a skill can have
+    // The pointer to the linked list that contains all the effects that a skill 
+    // can have
     effect_t* skill_effect;
 
     //The pointer to information on complex skills

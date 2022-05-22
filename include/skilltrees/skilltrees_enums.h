@@ -25,7 +25,7 @@ typedef enum skill_type {
 
 } skill_type_t;
 
-/* Skill type */
+/* Complex skill type */
 typedef enum complex_skill_type {
     //Denotes combined complex skill
     COMBINED,
