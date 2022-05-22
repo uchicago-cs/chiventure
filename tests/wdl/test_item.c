@@ -1,10 +1,5 @@
-#include <criterion/criterion.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libobj/load.h"
 #include "wdl/load_item.h"
 #include "test_wdl.h"
-
 
 void item_check(char *room, char *item)
 {
@@ -44,23 +39,6 @@ void item_check(char *room, char *item)
         rc = possible_action(i, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
     }
-}
-
-void conditions_check(char* room, char* item, char* action)
-{
-    obj_t *doc = __get_doc_obj("inventory-cond.wdl", FILE_PATH_2);
-    game_t *g = game_new("Welcome to UChicago");
-
-    load_items(doc, g);
-
-    //check adding conditions to game
-    item_t* i = get_item_from_game(g, item);
-    game_action_t *a = get_action(i, action);
-
-    //get conditions object from wdl and conditions from action
-    //check:
-    //- if action has (a) condition(s), that all were added
-    //- if an action has no conditions, nothing was added
 }
 
 Test(items, check_chair)
