@@ -327,7 +327,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 5 Magic Defense
      * 5 Magic Attack
      * 5 Max Mana */ 
-    if (!strncmp(temp_name, "fisherman", MAX_NAME_LEN)) {
+    else if (!strncmp(temp_name, "fisherman", MAX_NAME_LEN)) {
         short_desc = "A patient fisherman.";
         long_desc = "The Fisherman is a resourceful provider who plays an important role in providing "
                     "sustenance for their village.";
@@ -343,7 +343,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 5 Magic Defense
      * 5 Magic Attack
      * 5 Max Mana */ 
-    if (!strncmp(temp_name, "shopkeeper", MAX_NAME_LEN)) {
+    else if (!strncmp(temp_name, "shopkeeper", MAX_NAME_LEN)) {
         short_desc = "A dedicated store manager.";
         long_desc = "The Shopkeeper is a resourceful merchant who provides many eclectic items "
                     "available for trade.";
@@ -358,7 +358,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 10 Magic Defense
      * 10 Magic Attack
      * 5 Max Mana */ 
-    if (!strncmp(temp_name, "lord", MAX_NAME_LEN)) {
+    else if (!strncmp(temp_name, "lord", MAX_NAME_LEN)) {
         short_desc = "An all powerful master.";
         long_desc = "The Lord is a powerful master that has magical abilities to "
                     "save those in the village who deserve it, or damage those who "
@@ -374,7 +374,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 10 Magic Defense
      * 5 Magic Attack
      * 10 Max Mana */ 
-    if (!strncmp(temp_name, "healer", MAX_NAME_LEN)) {
+    else if (!strncmp(temp_name, "healer", MAX_NAME_LEN)) {
         short_desc = "A patient healer.";
         long_desc = "The healer is a powerful and magical witch that has magical abilities to "
                     "save anyone in the village that has been injured.";
