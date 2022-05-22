@@ -97,9 +97,9 @@ Test(multiclass, multiclassing){
     check_field_presence(c2);
     check_field_presence(c3);
 
-    class_t* multiclass = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
+    class_t* mul = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
 
-    check_field_presence(multiclass);
+    check_field_presence(mul);
 }
 
 Test(multiclass, basic_shortdesc){
@@ -133,11 +133,11 @@ Test(multiclass, iterated_shortdesc){
     check_field_presence(c2);
     check_field_presence(c3);
 
-    class_t* multiclass = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
+    class_t* mul = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
 
-    check_field_presence(multiclass);
+    check_field_presence(mul);
 
-    char* shortdesc = multiclass->shortdesc;
+    char* shortdesc = mul->shortdesc;
 
     char* expected = "Multiclass of warrior, bard, and rogue";
     cr_assert_str_eq(shortdesc, expected, "expected: %s. Got %s", expected, shortdesc);
@@ -177,7 +177,7 @@ Test(multiclass, basic_longdesc){
 
     cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
 
-    char* expected = "A mighty warrior.\n\nA skilled musician and magician."
+    char* expected = "A mighty warrior.\n\nA skilled musician and magician.";
     cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expectd, longdesc);
 
 }
@@ -194,11 +194,11 @@ Test(multiclass, iterated_longdesc){
     check_field_presence(c2);
     check_field_presence(c3);
 
-    class_t* multiclass = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
+    class_t* mul = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
 
-    check_field_presence(multiclass);
+    check_field_presence(mul);
 
-    char* longdesc = multiclass->longdesc;
+    char* longdesc = mul->longdesc;
 
     char* expected = "A mighty warrior.\n\nA skilled musician and magician.\n\nA sibling of the shadows.";
     cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expected, longdesc);
