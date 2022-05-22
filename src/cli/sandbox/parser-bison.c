@@ -35,3 +35,15 @@ void handle_go_cmd(word_ll *phrase) {
 
     printf("\n");
 }
+
+void handle_fight_cmd(word_ll *phrase) {
+    printf("starting battle with:");
+
+    if (phrase == NULL) {
+        printf(" no one. trying to fight yourself?");
+    } 
+    for (word_ll *p = phrase; p != NULL; p = p->next) {
+        printf(" %s", p->word);
+    }
+    printf("\n");
+}

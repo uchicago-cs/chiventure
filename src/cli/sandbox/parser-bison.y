@@ -21,20 +21,28 @@ void yyerror(char* s);
 %token EOL /* end of line, newline char */
 %token GO
 %token TO
+%token FIGHT
 %token<word> WORD
 
 %type<word_list> phrase 
 %type<word_list> go_cmd
+%type<word_list> fight_cmd
 
 %%
 line
   : 
   | line go_cmd EOL { handle_go_cmd($2); }
+  | line fight_cmd EOL { handle_fight_cmd($2); }
   ;
 
 go_cmd
   : GO TO phrase { $$ = $3; }
   | GO phrase { $$ = $2; }
+  ;
+
+fight_cmd
+  : FIGHT { $$ = NULL; }
+  | FIGHT phrase { $$ = $2; }
   ;
   
 phrase

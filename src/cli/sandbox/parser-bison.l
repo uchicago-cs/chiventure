@@ -13,6 +13,9 @@
 
 TO|to|To|tO   { return TO; }
 
+^fight|battle { return FIGHT; }
+
+
 [a-zA-Z]+  { 
     yylval.word = strdup(yytext);
     return WORD; }
