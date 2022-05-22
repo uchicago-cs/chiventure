@@ -249,8 +249,46 @@ Test(task, free)
 	cr_assert_eq(freed, SUCCESS, "task_free() test has failed!");
 }
 
-/* Tests passive_mission_free function */
-Test(active_mission, free)
+Test(task_tree, free)
+{
+    item_t *parent_item = item_new("parent test item", "item for testing",
+    "test item");
+    item_t *child_item = item_new("child test item", "item", "test item");
+    active_mission_t *pa_mission = active_mission_new(parent_item, NULL, NULL, NULL);
+    mission_t *pmission = malloc(sizeof(mission_t));
+    pmission->a_mission = pa_mission;
+    pmission->p_mission = NULL;
+    mission_t *cmission = malloc(sizeof(mission_t));
+    passive_mission_t *cp_mission = passive_mission_new(3, 50, 40);
+    cmission->a_mission = NULL;
+    cmission->p_mission = cp_mission;
+
+    item_t *preward_item = item_new("parent rewards", "rewards", "reward items");
+    item_t *creward_item = item_new("child rewards", "rewards", "rewards for child");
+    reward_t *preward = reward_new(30, preward_item);
+    reward_t *creward = reward_new(20, creward_item);
+    prereq_t *p_prereq = prereq_new(20, 30);
+    prereq_t *c_prereq = prereq_new(10, 60);
+
+    item_t *item = item_new("test item", "item for testing", "item");
+    reward_t *reward = reward_new(20, item);
+    prereq_t *prereq = prereq_new(50, 50);
+    task_tree_t *task_tree = NULL;
+    quest_t *quest = quest_new("quest", task_tree, reward, prereq);
+
+    task_t *parent_task = task_new(pmission, "parent task", preward, p_prereq);
+    task_t *child_task = task_new(cmission, "child task", creward, c_prereq);
+
+    int add_parent = add_task_to_quest(quest, parent_task, "NULL");
+    int add_child = add_task_to_quest(quest, child_task, "parent task");
+
+    int freed = task_tree_free(quest->task_tree);
+
+    cr_assert_eq(freed, SUCCESS, "task_tree_free() failed");
+}
+
+/* Tests mission_free function */
+Test(mission, free)
 {
     class_t* class = generate_test_class();
     char *npc_meet_id = "meet_npc";
