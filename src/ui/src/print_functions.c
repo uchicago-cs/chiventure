@@ -203,7 +203,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
                     {
                         rc = do_cmd(c[i], cli_ui_callback, NULL, ctx);
                         i++;
-                    }
+                    }          
                 }else{
                     print_to_cli(ctx, "A command failed, aborting 'and' operation");
                     break;
