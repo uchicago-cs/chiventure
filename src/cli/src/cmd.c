@@ -242,7 +242,7 @@ cmd** cmd_from_string(char *s, chiventure_ctx_t *ctx)
     actions = (cmd**)malloc(sizeof(cmd) * TOKEN_LIST_SIZE);
     int count = 0;
     
-    while ((currcmd = strtok_r(s, ";", &s)))
+    while ((currcmd = strtok_r(s, "AND", &s)))
     {
         if (s != NULL) 
         {

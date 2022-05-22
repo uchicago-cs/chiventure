@@ -191,15 +191,22 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
         {
             cmd **c = cmd_from_string(temp->cmds, ctx);
             int i = 0;
+            int rc = 1;
             while (c[i]) {   
-                if (!c && (i == 0))
-                {
-                    print_to_cli(ctx, "Error: Malformed input (4 words max)");
-                }
-                else
-                {
-                    int rc = do_cmd(c[i], cli_ui_callback, NULL, ctx);
-                    i++;
+                if (rc != CLI_CMD_CALLBACK_ERROR) {    
+                    if (!c)
+                    {
+                        print_to_cli(ctx, "Error: Malformed input (4 words max)");
+                        break;
+                    }
+                    else
+                    {
+                        rc = do_cmd(c[i], cli_ui_callback, NULL, ctx);
+                        i++;
+                    }
+                }else{
+                    print_to_cli(ctx, "A command failed, aborting 'and' operation");
+                    break;
                 }
             }  
         } 

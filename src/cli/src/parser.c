@@ -75,14 +75,14 @@ tokenized_cmds *parse_r(char *input)
     //puts tokenized segments of the inputted string in 
     //the command line with a delimiter "AND" into a 
     //utlist until the end of the string
-    char *token = strtokstr_r(input, "AND", save_ptr);
+    char *token = strtokstr_r(input, ";", save_ptr);
     while (token != NULL)
     {
         tokenized_cmds *added_cmd = malloc(sizeof(tokenized_cmds));
         added_cmd->cmds = token;
         added_cmd->next = NULL;
         LL_APPEND(head, added_cmd);
-        token = strtokstr_r(input, "AND", save_ptr);
+        token = strtokstr_r(input, ";", save_ptr);
     }
    
     //If there are more than 4 words, parser returns NULL and does not attempt
@@ -174,7 +174,6 @@ char **parse(char *input)
         // tokenises using spaces the contents between the two airquotes
         // which have already been tokenized into by_quotes array.
         words[0] = by_quotes[0];
-
 
         if (input[len] != '\"') 
         {
