@@ -165,7 +165,6 @@ Test(multiclass, shortdesc_exceeds_max_length){
 Test(multiclass, basic_longdesc){
 
     chiventure_ctx_t* ctx = init_incomplete_context();
-    int succ;
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
     class_t* c2 = class_prefab_new(ctx->game, "bard");
@@ -173,13 +172,14 @@ Test(multiclass, basic_longdesc){
     check_field_presence(c1);
     check_field_presence(c2);
 
-    char* longdesc = multiclass_longdesc(c1, c2, &succ);
+    class_t* mul = multiclass(c1, c2, "basic multiclass");
 
-    cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
+    check_field_presence(mul);
+
+    char* longdesc = mul->longdesc;
 
     char* expected = "A mighty warrior.\n\nA skilled musician and magician.";
     cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expectd, longdesc);
-
 }
 
 Test(multiclass, iterated_longdesc){
