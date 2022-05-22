@@ -175,19 +175,19 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     }
 
     /* Basic class stats:
-     * 50 Max Health
-     * 1 Speed
-     * 1 Physical Defense
-     * 1 Physical Attack
-     * 1 Ranged Attack
-     * 1 Magic Defense
-     * 1 Magic Attack
-     * 1 Max Mana 
+     * 25 Max Health
+     * 5 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 5 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana 
      * These stats can be off the scale stupid because why not? This is a placeholder class */ 
     else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)) {
         short_desc = "An ordinary person.";
         long_desc = "This is just an ordinary human being. There's nothing special about this guy.";
-        set_stats_hashtable(game, &stats, 50, 1, 1, 1, 1, 1, 1, 1);
+        set_stats_hashtable(game, &stats, 25, 5, 5, 5, 5, 5, 5, 5);
     }
 
     /* Monk stats:
