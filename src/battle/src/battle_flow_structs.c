@@ -4,8 +4,37 @@
 #include <string.h>
 #include "battle/battle_flow_structs.h"
 
-/* Stub for the player_new function in player.h game-state module */
+/* see battle_flow_structs.h */
+battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status, 
+                            turn_component_list_t *tcl, int turn_len)
+{
+      battle_ctx_t *new_ctx = (battle_ctx_t *) malloc (sizeof(battle_ctx_t));
+      assert(new_ctx != NULL);
+      assert(game != NULL);
+      assert(tcl != NULL);
+      new_ctx->game = game;
+      new_ctx->status = status;
+      new_ctx->tcl = tcl;
+      new_ctx->turn_length = turn_len;
+      return new_ctx;
+}
 
+/* see battle_flow_structs.h */
+battle_ctx_t *new_battle_ctx(battle_ctx_t *ctx, battle_game_t *game, 
+                             battle_status_t status, turn_component_list_t *tcl, 
+                             int turn_len)
+{
+      assert(ctx != NULL);
+      assert(game != NULL);
+      assert(tcl != NULL);
+      ctx->game = game;
+      ctx->status = status;
+      ctx->tcl = tcl;
+      ctx->turn_length = turn_len;
+      return SUCCESS;
+}
+
+/* Stub for the player_new function in player.h game-state module */
 battle_player_t *new_ctx_player(char* p_id, class_t *c_type, stat_t *stats, move_t *moves, 
                               battle_item_t* items, battle_equipment_t *weapon, 
                               battle_equipment_t *accessory, battle_equipment_t *armor)

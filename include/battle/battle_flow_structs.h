@@ -56,7 +56,37 @@ typedef struct battle_ctx {
     battle_game_t *game;
     // would have lookup table here
     battle_status_t status;
+    // turn component list that the game designer creates
+    turn_component_list_t *tcl;
+    // length of the turn component
+    int turn_length;
 } battle_ctx_t;
+
+/* Allocates a new battle ctx in the heap
+ *
+ * Parameters:
+ *     - game: the battle game
+ *     - status: status of the battle
+ *     - tcl: turn component list that makes up a turn
+ *
+ * Returns: a newly allocated battle_ctx_t with game, status, tcl
+ * or NULL if it cannot be allocated
+ */
+battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status, 
+                            turn_component_list_t *tcl, int tcl_len);
+
+/* Initializes a battle ctx struct
+ *
+ * Parameters:
+ *     - ctx: the battle ctx, should already be allocated in heap
+ *     - game: the battle game
+ *     - status: status of the battle
+ *     - tcl: turn component list that makes up a turn
+ *
+ * Returns: 0 on success, 1 if an error occurs
+ */
+int battle_ctx_init(battle_ctx_t *ctx, battle_game_t *game, battle_status_t status,
+                    turn_component_list_t *tcl, int tcl_len);
 
 /* Stub for the player_new function in player.h game-state module
  *

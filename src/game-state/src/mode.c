@@ -158,6 +158,61 @@ int run_battle_mode (char *input, cli_callback callback_func,
         return FAILURE;
     }
 
+    //int len = ctx->game->battle_ctx->turn_length;
+    // will implement without turn component list length right now, 
+    // commented out in case it is needed--if not, 
+    // take out the length from the battle_ctx_t struct
+
+    turn_component_list_t *buffer = ctx->game->battle_ctx->tcl;
+
+    if (buffer)
+    {
+        char *output = run_action(input);
+        buffer = buffer->rest;
+        if (buffer->current)
+        {
+            move_t *legal_moves = NULL;
+            battle_item_t *legal_items = NULL;
+            get_legal_actions(legal_items, legal_moves, component, 
+                        ctx->game->battle_ctx->game->battle);
+            char *menu = print_battle_action_menu(legal_items, legal_moves);
+            char *output_and_menu = strcat(output, menu);
+            return callback_func(ctx, output_and_menu, callback_args);
+        }
+        else 
+        {
+            char *enemy_turn = enemy_run_turn(); // get what this takes in
+            char *output_and_enemy_turn = strcat(output, enemy_turn);
+            return callback_func(ctx, output_and_enemy_turn, callback_args);
+        }
+    }
+
+    // if buffer is null, that means turn is over,
+    // switch to enemy turn
+    //for (int i = 1; i <= len; i++){
+        // turn_component_t tc = get_turn_component(i, ctx->game->battle_ctx->tcl);
+        // run_turn_component();
+    //}    
+
+
+
+    if (battle_ctx->status != BATTLE_IN_PROGRESS) 
+    {
+        char *battle_over = print_battle_winner (battle_ctx->status, 42);
+        callback_func(ctx, battle_over, callback_args);
+        free(battle_over);
+        
+        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+    }
+    return SUCCESS;
+}
+/*{
+    char **parsed_input = parse(input);
+    if (parsed_input == NULL) 
+    {
+        return FAILURE;
+    }
+
     char *string;    
     int rc;
     battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
@@ -213,4 +268,4 @@ int run_battle_mode (char *input, cli_callback callback_func,
     }
 
     return SUCCESS;
-}
+}*/

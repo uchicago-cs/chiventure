@@ -378,8 +378,8 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
 
 /* see battle_flow.h */
-int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
-                        void *callback_args, cli_callback callback_func)
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component)
+                        //void *callback_args, cli_callback callback_func)
 {
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
@@ -418,7 +418,7 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                                 ctx->game->battle_ctx->game->battle->enemy->name);
                     char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
                                 ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->player->moves);
+                                ctx->game->battle_ctx->game->player->moves); // unnecessary because battle_flow_move outputs a string
                     callback_func(ctx, movestr, callback_args);
             }
             else
@@ -465,6 +465,60 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
         return callback_func(ctx, "That action does not exist.", callback_args);
     }
     return 1;
+}
+
+/* see battle_flow.h */
+char *run_action(char *input)
+{
+    if (input[0] == 'M' || input[0] == 'm')
+    {
+        // take the index of the move, under the assumption that the list is less than 10 moves long
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->moves == NULL)
+            {
+                return "That move does not exist.";
+            }
+            if (k == index-1)
+            {
+                    return battle_flow_move(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->moves, 
+                                ctx->game->battle_ctx->game->battle->enemy->name);
+            }
+            else
+            {
+                ctx->game->battle_ctx->game->player->moves = 
+                ctx->game->battle_ctx->game->player->moves->next;
+            }
+        }
+    } 
+    else if (input[0] == 'I' || input[0] == 'i')
+    {
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->items == NULL)
+            {
+                return "That item does not exist.";
+            }
+            if (k == index-1)
+            {
+                return battle_flow_item(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->items);
+            }
+            else 
+            {
+                ctx->game->battle_ctx->game->player->items = 
+                ctx->game->battle_ctx->game->player->items->next;
+            }
+        }
+    } 
+    else if (input[0] == 'D' || input[0] == 'd') 
+    {
+        return "You did nothing.";
+    } 
+    return "That action does not exist.";
 }
 
 /* see battle_flow.h */
