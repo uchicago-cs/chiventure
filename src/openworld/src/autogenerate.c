@@ -241,7 +241,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
  
     int randomint=rand() % num_roomspecs;  
     int count=0;
-    roomspec_t *newroomspec;
+    roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
     while(randomint>=0){
         if(randomint<row[count])
