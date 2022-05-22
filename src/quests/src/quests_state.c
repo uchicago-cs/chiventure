@@ -339,45 +339,35 @@ int compare_tasks(task_t *a1, task_t *a2)
 }
 
 /*
- * Helper function that finds an task tree given its string ID.
- * It's called find_parent() because of its use to find parent nodes
- * in add_task_to_quest().
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
  *
  * Parameters:
- * - tree: a pointer to an task tree
- * - id: the string identifier of the task being searched for
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
  *
  * Returns:
- * - NULL if task cannot be found
- * - The task tree being searched for
- */ 
-task_tree_t *find_parent(task_tree_t *tree, char *id)
+ * - pointer to the tree immediately containing the task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: Traversal no longer relies on task completion, so 
+ *       runtime is now O(T) where T is the number of tasks
+ *       in the game
+ */
+task_tree_t *find_task_in_tree(task_tree_t *tree, char *id)
 {
-
-    assert(tree != NULL);
-
-    task_tree_t *cur = tree;
-
-    while(cur != NULL)
-    {
-
-        if(strcmp(cur->task->id, id) == 0)
-        {
-            return cur;
-        }
-        else if(cur->rsibling != NULL)
-        {
-            cur = cur->rsibling;
-        }
-        else if(cur->parent->rsibling != NULL)
-        {
-            cur = cur->parent->rsibling;
-        }
-        else
-        {
-            return NULL;
-        }
+    if(tree == NULL) {
+        return NULL;
     }
+    assert(tree->task != NULL);
+
+    if (strcmp(tree->task->id, id) == 0)
+    {
+        return tree;
+    }
+    task_tree_t * newTree;
+    newTree = find_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_in_tree(tree->lmostchild, id);
 }
 
 /*
@@ -428,7 +418,7 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
     tree = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     assert(tree != NULL);
 
-    if (tree->lmostchild == NULL)
+    if (quest->task_tree->lmostchild == NULL)
     {
         tree->lmostchild = malloc(sizeof(task_tree_t));
         tree->lmostchild->task = task_to_add;
