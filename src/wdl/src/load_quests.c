@@ -19,11 +19,21 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
         fprintf(stderr, "prereqs list is null\n");
         return FAILURE;
     }
-    int hp = obj_get(prereq_obj, "PREREQ_HP");
-    int level = obj_get(prereq_obj, "PREREQ_LEVEL");
-    obj_t *quest_list = obj_get(prereq_obj, "QUEST_REQS");
-    obj_t *task_list = obj_get(prereq_obj, "TASK_REQS");
+
+    int hp = obj_get_int(prereq_obj, "Health");
+    int level = obj_get_int(prereq_obj, "Level");
+    obj_list_t *quest_list = obj_get_list(prereq_obj, "Quests");
+    obj_list_t *task_list = obj_get_list(prereq_obj, "Tasks");
+
     prereq_t *prereq = prereq_new(hp, level);
+
+    HASH_ITER(hh, quest_list, curr, tmp)
+    {
+        char *id = curr->id;
+        char *short_desc = obj_get_str(curr, "short_desc");
+
+        printf("- %s: %s\n", id, short_desc);
+    }
 
     return prereq;
 }
@@ -36,15 +46,18 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
  * Returns:
  * - A pointer to a reward specified according to the WDL object
 */
-reward_t *load_reward(obj_t *reward_obj) {
+reward_t *load_reward(obj_t *reward_obj, item_hash_t *all_items) {
     if (reward_obj == NULL)
     {
         fprintf(stderr, "reward is null\n");
         return FAILURE;
     }
-    int xp = obj_get(reward_obj, "REWARD_XP");
-    item_t *reward_item = item_new
-    return NULL;
+
+    int xp = obj_get_int(reward_obj, "XP");
+    char *item_id = obj_get_str(reward_obj, "Item");
+    item_t *reward_item = get_item_in_hash(all_items, item_id);
+    reward_t *reward = reward_new(xp, reward_item);
+    return reward;
 }
 
 /* Creates a mission from a WDL mission object
