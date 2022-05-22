@@ -62,7 +62,51 @@ unsigned long hash(char *str)
 }
 
 
-graphics_t* read_gdl();
+/*
+ * Matches a string of a color to a background color implementable in Raylib
+ *
+ * Parameters:
+ * - the string name for the color
+ *
+ * Returns:
+ * - an integer whose value corresponds to the color
+ */
+int match_color(char *color)
+{
+    char* colors[] = {"White", "Gray", "Black", "Red", "Blue", "Green", "Yellow", "Orange", "Purple", "Pink"};
+    for(int i = 0 i < 10; i++) {
+        if (strcmp(colors[i], color) == 0) {
+            return i;
+        }
+    }
+    fprintf(stderr, "invalid input color");
+    exit(1);
+}
+
+
+/*
+ * Matches a string for a corner to an implementable value
+ *
+ * Paramters:
+ * - the string name of the corner
+ *
+ * Returns:
+ * - an integer with the value of the corner
+ */
+int match_corner(char *corner)
+{
+    char *corners[] = {"Top Left", "Top Right", "Bottom Left", "Bottom Right"};
+    for(int i = 0; i < 4; i ++) {
+        if (strcmp(corners[i], corner) == 0) {
+            return i;
+        }
+    }
+    fprintf(stderr, "invalid input corner");
+    exit(1);
+} 
+
+
+graphics_t* read_gdl()
 {
     // Open the GDL
     FILE *gdl;
@@ -101,7 +145,7 @@ graphics_t* read_gdl();
             switch (h) {
                 case display: case camera:
                     getc(gdl);
-                    fscanf(gdl, "%s", &spec);
+                    fscanf(gdl, "%s", spec);
                     if (strcmp(spec, "\"width\"") == 0) {
                         fscanf(gdl, "%u", width);
                         fscanf(gdl, "%*s %d", height);
@@ -120,47 +164,42 @@ graphics_t* read_gdl();
                 case inventory:
                     getc(gdl);
                     for(int i = 0; i < 3; i++) {
-                        fscanf(gdl, "%s", &spec);
-                            switch (hash(spec)) {
-                                case hash(rows):
-                                                   
-            /*   
-             *      wishlist item: 
-             *  case map:
-                    getc(gdl)
-                    fscanf(gdl, "%s", &spec);
-              */           
+                        fscanf(gdl, "%s", spec);
+                        switch (hash(spec)) {
+                            case hash("rows"):
+                                fscanf(gdl, "%u", &rows);
+                                break;
+                            case hash("columns"):
+                                fscanf(gdl, "%u", &columns);
+                                break;
+                            case hash("color"):
+                                fscanf(gdl, "%s", spec);
+                                color = match_color(spec);
+                                break;
+                        }
+                    }
+                    inventory_display_t *inventory_display;
+                    inventory = make_inventory_display(rows, columns, color);
+                    break;
+                // case map: is a wishlist item
                 case statistics:
+                    getc(gdl);
+                    for(int i = 0; i < 3; i++) {
+                        fscanf(gdl, "%s", spec);
+                        switch (hash(spec)) {
+                            case hash("corner"):
+                                corner = match_corner(spec);
+                                break;
+                            case hash(names):
+                                // where are starting stats specified?
+                        }
+                    }
             }
-        }   
-/*
-if (strcmp(title, dimensions_str) == 0) {
-            // throw away top "{"
-            scanf("%s", &top);
-            char *curr_str;
-            // loop through to pull info until second "}"
-            char *end = "}";
-            // define known info
-            char *width_str = "\"width\":";
-            char *height_str = "\"height\":";
-            unsigned int width, height;
-            // pull and set info
-            while (strcmp(curr_str, end) != 0) {
-                scanf("%s", &curr_str);
-                if (strcmp(width_str, curr_str) == 0) {
-                    scanf("%d", &width);
-                } else if (height_str, strcmp(curr_str) == 0) {
-                    scanf("%d", &height);
-                }
-                else {
-                    error("Unknown parameter in Display_Dimensions");
-                    return NULL;
-                }
-            }
-        } 
-*/
-    } else {
-      at_end = 1;
+            // to pass over the closing brace "}"
+            getc(gdl);
+        } else {
+            at_end = 1;
+        }
     }
     graphics = make_graphics(display_dimensions_t *dimensions, camera_t *camera, inventory_display_t *inventory, statistics_display_t *statistics);
     return graphics

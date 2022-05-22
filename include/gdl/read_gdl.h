@@ -43,7 +43,7 @@ typedef enum color {
     YELLOW,
     ORANGE,
     PURPLE,
-    PINK,
+    PINK
 } color;
 
 
