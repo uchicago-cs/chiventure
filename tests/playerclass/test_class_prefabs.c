@@ -98,8 +98,8 @@ Test(class_prefabs, Basic) {
     class_t* c = class_prefab_new(ctx->game, "basic");
     check_field_pressence(c);
 
-    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 50, "failed to initialize stat");
-    cr_assert_eq(get_stat_current(c->base_stats, "speed"), 1, "failed to initalize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "speed"), 5, "failed to initalize stat");
 
     /* Skills not needed yet for this class */
 }
