@@ -51,36 +51,42 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 // ---------------------------------------------------------------------------
 
 /* see game_action.h */
-game_action_t *get_action(item_t *item, char *action_name)
+game_action_t *get_action(agent_t *agent, char *action_name)
 {
     char *action_name_case = case_insensitized_string(action_name);
-    game_action_t *action;
-    HASH_FIND(hh, item->actions, action_name_case, strlen(action_name_case), action);
-    free(action_name_case);
-    if (action == NULL)
-    {
-        return NULL;
+    game_action_t *action = malloc(sizeof(game_action_t));
+    if (agent->item != NULL) {
+        HASH_FIND(hh, agent->item->actions, action_name_case, strlen(action_name_case), action);
+        if (action == NULL)
+            return NULL;
     }
+    if (agent->npc != NULL) {
+        HASH_FIND(hh, agent->npc->actions, action_name_case, strlen(action_name_case), action);
+        if (action == NULL)
+            return NULL;
+    }
+    free(action_name_case);
     return action;
 }
 
 /* see game_action.h */
-int add_action(item_t *item, char *action_name, char *success_str, char *fail_str)
+int add_action(agent_t *agent, char *action_name, char *success_str, char *fail_str)
 {
-    game_action_t *check = get_action(item, action_name);
+    game_action_t *check = get_action(agent, action_name);
     if (check != NULL)
-    {
         return FAILURE;
-    }
     game_action_t *action = game_action_new(action_name, success_str, fail_str);
-    HASH_ADD_KEYPTR(hh, item->actions, action->action_name, strlen(action->action_name), action);
+    if (agent->item != NULL)
+        HASH_ADD_KEYPTR(hh, agent->item->actions, action->action_name, strlen(action->action_name), action);
+    if (agent->npc != NULL)
+        HASH_ADD_KEYPTR(hh, agent->npc->actions, action->action_name, strlen(action->action_name), action);
     return SUCCESS;
 }
 
 /* see game_action.h */
-int possible_action(item_t *item, char *action_name)
+int possible_action(agent_t *agent, char *action_name)
 {
-    game_action_t *possible_action = get_action(item, action_name);
+    game_action_t *possible_action = get_action(agent, action_name);
     if (possible_action == NULL)
     {
         return FAILURE;
@@ -274,9 +280,9 @@ int do_effect(game_action_effect_t *effect)
 }
 
 /* see game_action.h */
-int do_all_effects(item_t *item, char *action_name)
+int do_all_effects(agent_t *agent, char *action_name)
 {
-    game_action_t *action = get_action(item, action_name);
+    game_action_t *action = get_action(agent, action_name);
     if (action == NULL)
     {
         return FAILURE;

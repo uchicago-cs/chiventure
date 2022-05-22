@@ -43,13 +43,16 @@ typedef struct npc {
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
+
+    /* pointer to game_action hashtable */
+    game_action_hash_t *actions;
 } npc_t;
 
-/* Agent: a union type of things that you can perform actions upon
+/* Agent: a struct of things that you can perform actions upon
  * - item: an item
  * - npc: an NPC
  */
-typedef union agent
+typedef struct agent
 {
    item_t *item;
    npc_t *npc;

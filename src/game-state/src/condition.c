@@ -193,6 +193,8 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
  *  */
 bool check_attribute_condition(attribute_condition_t *condition)
 {
+    if (!condition)
+        return false;
     //check if NULL attribute, return true if true
     attribute_t *actual_attribute = condition->attribute_to_check;
     if (actual_attribute == NULL)
