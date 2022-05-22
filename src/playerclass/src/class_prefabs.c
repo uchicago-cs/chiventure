@@ -26,11 +26,12 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     "wizard",
     "druid",
     "elementalist",
-    "knight"
+    "knight",
+    "sorceror"
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 9;
+const int DEFAULT_CLASS_COUNT = 10;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
@@ -162,7 +163,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     effects_hash_t* effects = NULL;
 
     /* Bard stats:
-     * 15 Max Health
+     * 15 Health
      * 15 Speed
      * 5 Physical Defense
      * 5 Physical Attack
@@ -302,6 +303,22 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         short_desc = "A brave Knight.";
         long_desc = " Professional cavalry warriors, some of whom were vassals holding lands as fiefs from the lords in whose armies they served";
         set_stats_hashtable(game, &stats, 40, 20, 30, 30, 10, 0, 0, 20);
+    }
+
+    /* Sorceror stats:
+     * 15 Max Health
+     * 10 Speed
+     * 5 Physical Defense
+     * 10 Physical Attack
+     * 5 Ranged Attack
+     * 25 Magic Defense
+     * 20 Magic Attack
+     * 25 Max Mana */
+
+    else if (!strncmp(temp_name, "sorceror", MAX_NAME_LEN)) {
+        short_desc = "A slick Sorceror.";
+        long_desc = "Young master of the mystic arts; inherits talent and battle prowess from their family";
+        set_stats_hashtable(game, &stats, 15, 10, 5, 10, 5, 25, 20, 25);
     }
 
     else {
@@ -711,6 +728,38 @@ int class_prefab_add_skills(class_t* class) {
                                     NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "shackle strike",
                                     "Strikes enemy with his shackle", 1, 400,      
+                                    NULL);
+
+       /* Add skills to tree */
+       add_skill(class, skill_0, 0, 25, true);
+       add_skill(class, skill_1, 1, 50, false, 0);
+       add_skill(class, skill_2, 1, 34, false, 1);
+    }
+
+    /*
+    * A simple linear tree for a Sorceror class
+    *
+    * starting skill: dark magic
+    *  - active: deals 5 damage.
+    * dark magic -> moon storm
+    *  - active: deals 12 damage.
+    * moon storm -> gates of rashonmon
+    *  - active: deals 23 damage.
+    */
+    else if (!strncmp(temp_name, "sorceror", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+       sid_t skill_id = class->skilltree->tid * 100;
+
+       /* Currently point to null effects */
+       /* Skills */
+       skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "dark magic",
+                                    "The sorceror activates dark magic!", 1, 100,
+                                    NULL);                         
+       skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "moon storm",
+                                    "Strikes enemy with moon storm!", 1, 200,
+                                    NULL);
+       skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "gates of rashonmon",
+                                    "Strikes enemy with the gates of rashonmon", 1, 400,      
                                     NULL);
 
        /* Add skills to tree */

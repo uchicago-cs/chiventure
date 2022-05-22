@@ -237,3 +237,20 @@ Test(class_prefabs, Knight) {
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "holy strike", "failed to initialize skill inventory");
 } 
+
+/* Tests the Sorceror class */
+Test(class_prefabs, Sorceror) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "sorceror");
+    check_field_presence(c);
+
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
+
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"dark magic", "moon storm", "gates of rashonmon"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "dark magic", "failed to initialize skill inventory");
+} 
