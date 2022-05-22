@@ -136,10 +136,13 @@ int load_task_hash_of_quest(obj_t *quest_obj, task_hash_t *hash) {
  * Returns:
  * - A pointer to a task_hash specified according to the WDL object
 */
-task_hash_t *load_task_hash(obj_t *quests_list_obj) {
-    /* TODO */
-    return NULL;
-} 
+int load_task_tree(obj_t *task_tree_obj, quest_t *quest, task_hash_t *task_hash) {
+    assert(task_tree_obj != NULL);
+    assert(quest != NULL);
+    
+    // obj_t *cur, *tmp;
+    // HASH_ITER(hh)
+}
 
 /* Creates a quest from a WDL quest object
  *
