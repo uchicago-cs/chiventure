@@ -30,11 +30,14 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a rock in room1 */
     item_t *rock = item_new("ROCK","It is a rock.",
                    "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
-    add_item_to_room(room1, rock);
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = rock;
+    agent->npc = NULL;
+    add_item_to_room(room1, agent->item);
 
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(rock, "TASTE", "It has a gravel-ey bouquet.", "You can't taste the rock.");
+    add_action(agent, "TASTE", "It has a gravel-ey bouquet.", "You can't taste the rock.");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
