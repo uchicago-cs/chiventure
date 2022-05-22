@@ -5,6 +5,54 @@
 #include "game-state/player.h"
 
 /*
+ * This typedef distinguishes between quest_t pointers
+ * which are used to point to quest_t structs in the 
+ * traditional sense and those which are used to hash
+ * quest_t structs with the UTHASH macros as specified
+ * in include/common
+ */
+typedef struct quest quest_hash_t;
+
+/* Stores important information necessary for the majority of quest functions */
+typedef struct quest_ctx {
+    player_t *player;
+    quest_hash_t *quest_hash;
+} quest_ctx_t;
+
+/* Allocates memory for and initializes a new quest_ctx object
+ * 
+ * Parameters:
+ * - player: a player
+ * - quest_hash: A quest hash table, ideally game->all_quests
+ * 
+ * Returns:
+ * - A pointer to an initialized quest_ctx_t object
+*/
+quest_ctx_t *quest_ctx_new(player_t *player, quest_hash_t *quest_hash);
+
+/* Initializes a new quest_ctx object
+ * 
+ * Parameters:
+ * - quest_ctx: An already allocated quest_ctx object
+ * - player: a player
+ * - quest_hash: A quest hash table, ideally game->all_quests
+ * 
+ * Returns:
+ * - SUCCESS if initialized successfully, FAILURE if any problems occured
+*/
+int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest_hash);
+
+/* Frees a quest_ctx object, but does not free the player or quest hash in the obejct
+ *
+ * Parameter:
+ * - quest_ctx: The quest_ctx to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int quest_ctx_free(quest_ctx_t *quest_ctx);
+
+/*
  * Helper function to compare two tasks.
  *
  * Parameters:
@@ -33,15 +81,6 @@ int compare_tasks(task_t *a1, task_t *a2);
  *       in the game
  */
 task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id);
-
-/*
- * This typedef distinguishes between quest_t pointers
- * which are used to point to quest_t structs in the 
- * traditional sense and those which are used to hash
- * quest_t structs with the UTHASH macros as specified
- * in include/common
- */
-typedef struct quest quest_hash_t;
 
 /* Gets a quest from the given hash table
  *
@@ -113,31 +152,29 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
  *
  * Parameters:
  * - quest: pointer to quest struct
- * - pointer: pointer to player
+ * - qctx: pointer to quest context struct with info on player and all quests
  * - completion: the completion status of the quest
- * - quest_hash: pointer to hash table of all quests
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_hash_t *quest_hash);
+int add_quest_to_player(quest_t *quest, quest_ctx_t *qctx, int completion);
 
 /* Adds a player task to the given hash table
  *
  * Parameters:
  *  task: pointer to task struct
- *  hash_table: pointer to player task hash table
- *  quest_hash: pointer to hash table of all quests
+ *  qctx: pointer to quest context struct with information about player and all quests
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest_hash_t *quest_hash);
+int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx);
 
-/* Returns the hash after deleting one or all quest.
+/* Removes a quest from a hash table
  *
  * Parameter:
- * - pointer to a hash table
+ * - pointer to a quest hash table
  * - quest ID, 
  * 
  * Returns:
@@ -154,6 +191,17 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * Returns:
  * - 0 if the removal was failure, 1 if successful 
  */
-int remove_quest_all(quest_hash_t *hash_table);
+int remove_quest_all(quest_hash_t **hash_table);
+
+/* Removes a task from a player hash table
+ *
+ * Parameter:
+ * - pointer to a player task hash table
+ * - quest ID, 
+ * 
+ * Returns:
+ * - 0 if the removal was failure, 1 if successful 
+ */
+int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
 
 #endif /* QUEST_HASH_H */

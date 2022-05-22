@@ -69,13 +69,13 @@ int reward_init(reward_t *rewards, int xp, item_t *item)
 }
 
 /* Refer to task.h */
-task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
+task_t *task_new(char *id, mission_t *mission, reward_t *reward, prereq_t *prereq)
 {
     task_t *task;
     int rc;
     task = malloc(sizeof(task_t));
 
-    rc = task_init(task, mission, id, reward, prereq);
+    rc = task_init(task, id, mission, reward, prereq);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize task struct!\n");
@@ -84,11 +84,10 @@ task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prere
     return task;
 }
 
-/* Refer to quests_state.h */
-int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
+/* Refer to task.h */
+int task_init(task_t *task, char *id, mission_t *mission, reward_t *reward, prereq_t *prereq)
 {
     assert(task != NULL);
-    assert(mission == NULL || prereq == NULL);
     task->mission = mission;
     task->reward = reward;
     task->id = id;
@@ -97,7 +96,7 @@ int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prer
     return SUCCESS;
 }
 
-/* Refer to quests_state.h */
+/* Refer to task.h */
 int task_free(task_t *task)
 {
     assert(task != NULL);
