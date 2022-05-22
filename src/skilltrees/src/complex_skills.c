@@ -68,12 +68,14 @@ int complex_skill_free(complex_skill_t* complex_skill){
 
 /*See complex_skills.h */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
-    if(complex_skill->type == COMBINED){
+    if (complex_skill->type == COMBINED){
         return combined_complex_skill_execute(complex_skill, ctx);
     }
-    if(complex_skill->type == SEQUENTIAL){
+    if (complex_skill->type == SEQUENTIAL){
         return sequential_complex_skill_execute(complex_skill, ctx);
     }
+    if (complex_skill->type == RANDOM_RANGE || complex_skill->type == RANDOM_CHANCE || complex_skill->type == RANDOM_SWITCH)
+        return FAILURE;
     return FAILURE;
 }
 
@@ -131,5 +133,53 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
             return FAILURE;
         }
     }
+    return SUCCESS;
+}
+
+/* Takes in a lower and upper value and generates random number within that 
+*  range
+*  Helper function for many of the random skills functions
+*  Written with help of https://www.geeksforgeeks.org/generating-random-number-range-c/
+*  
+*  Parameters:
+* - lower_bound: the lower bound of the possible generated value
+* - upper_bound: the upper bound of the possible generated value
+*
+* Returns;
+* - int: the number randomly generated between the given bounds.
+*/
+int random_generator(int lower_bound, int upper_bound){
+    int value = (rand() % (upper_bound - lower_bound + 1)) + lower_bound;
+    return value;
+}
+
+/*See complex_skills.h */
+int execute_random_chance_complex_skill(complex_skill_t* complex_skill, chiventure_ctx_t* ctx, int chance_failure){
+    if (complex_skill->type != RANDOM_CHANCE){
+        return FAILURE;
+    }
+
+    int value = random_generator(0, 100)
+    if (value < chance_failure){
+        for (int i= 0; i < complex_skill->num_skills; i++){
+            skill_execute(complex_skill->skills[i], ctx);
+        }
+    }
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventure_ctx_t* ctx, int upper_bound, int lower_bound){
+    if (complex_skill->type != RANDOM_RANGE){
+        return FAILURE;
+    }
+
+    int value = random_generator(lower_bound, upper_bound);
+    for (int j = 0; j < value; j++){
+        for (int i= 0; i < complex_skill->num_skills; i++){
+            skill_execute(complex_skill->skills[i], ctx);
+        }
+    }
+
     return SUCCESS;
 }

@@ -56,6 +56,7 @@ int complex_skill_free(complex_skill_t* complex_skill);
  * Ex: Combined skills will run skill_execute on each subskill regardless of 
  *     success or failure
  *     Sequential skills will stop execution once a sub_skill fails
+ *     Random skills are not currently supported by this function.
  *
  * Parameters:
  *  - complex_skill: A complex skill
@@ -132,5 +133,38 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
  *  not every subskill was able to be incremented. 
  */
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
+
+/* 
+* Executes a random skill using a chance effect
+*
+* Parameters:
+* - complex_skill: a complex skill
+* - chiventure_ctx_t* ctx: A context object to pull data from to execute the
+*   skill
+* - int chance_failure: the chance that the skill fails
+*
+* Returns:
+* 0 if success
+* 1 if failure
+*/
+int execute_random_chance_complex_skill(complex_skill_t* complex_skill, chiventure_ctx_t* ctx, int chance_failure);
+
+/* 
+* Executes a random skill using a range effect–executes a skill a random number of times within * the given range
+*
+* Parameters:
+* - complex_skill: a complex skill
+* - chiventure_ctx_t* ctx: A context object to pull data from to execute the
+*   skill
+* - int upper_bound: high bound of number of times skill will be executed
+* - int lower_bound: low bound of number of times skill will be executed
+*
+* Returns:
+* 0 if success
+* 1 if failure
+*/
+int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventure_ctx_t* ctx, int upper_bound, int lower_bound);
+
+
 
 #endif

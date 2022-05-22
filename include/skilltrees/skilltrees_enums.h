@@ -31,7 +31,23 @@ typedef enum complex_skill_type {
     COMBINED,
 
     //Denotes sequential complex skill
-    SEQUENTIAL
+    SEQUENTIAL,
+
+    //Denotes a random range effect
+    RANDOM_RANGE,
+
+    //Denotes a random chance effect
+    RANDOM_CHANCE,
+
+    //Denotes a random switch effect
+    RANDOM_SWITCH
 
 } complex_skill_type_t;
+
+
+
+
+
+
+
 #endif /*SKILLTREES_ENUMS_H*/
