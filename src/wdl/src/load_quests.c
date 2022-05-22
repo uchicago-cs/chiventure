@@ -1,7 +1,8 @@
 #include "wdl/load_quests.h"
 
-// NOTE: We need to add validation functions to validate.c/.h 
+// NOTE: We need to add validation functions to validate.c 
 //       to make sure quest objects are inputted correctly.
+//       Headers are already in validate.h.
 ///      Read through other WDL files for examples.
 
 /* Creates a prereq from a WDL prereq object
