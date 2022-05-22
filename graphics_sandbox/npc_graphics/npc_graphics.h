@@ -127,16 +127,71 @@ npc_line_t* GetLine(char* line_name, npc_info_t* npc_info);
  *      the specified NPC. */
 npc_info_t* GetNPC(char* NPC_name, npc_info_t* npcs);
 
+/*
+ * Parameters:
+ *      eveything in the npc_info_t struct
+ * 
+ * Returns:
+ *      A pointer to an allocated npc_info_t struct
+ *      that contain the information specified in the parameters
+ *
+ */ 
+npc_info_t* NewNPCInfo(char* npc_name, npc_action_t* head_action, npc_line_t* head_line, 
+                       npc_info_t* next) ;
 
 /*
- * The main runing function for NPC Graphics
- *
  * Parameters:
- *      npc_graphics_t: All information required for the npc window
+ *      pointer: a pointer to an already allocated npc_info_t memory
+ *      eveything in the npc_info_t struct
  * 
- * Return:
- *      Nothing.
- */
+ * Returns:
+ *      1 on success
+ * 
+ * Function:
+ *      initializes every field of an npc_info_t struct with the parameterss
+ */ 
+int InitNPCInfo(npc_info_t* pointer, char* npc_name, npc_action_t* head_action, npc_line_t* head_line, 
+                npc_info_t* next);
+
+// Frees the memory allocated for npc_info_t pointed to by the pointer parameter
+// This includes substruct pointers, including linked lists
+int FreeNPCInfo(npc_info_t* pointer);
+
+
+/*
+ * Parameters:
+ *      eveything in the npc_graphics_t struct
+ * 
+ * Returns:
+ *      A pointer to an allocated npc_graphics_t struct
+ *      that contain the information specified in the parameters
+ *
+ */ 
+npc_graphics_t* NewNPCGraphics(Vector2 WindowPos, Vector2 WindowSize, Color textcolor,
+                               char* current_npc, char* current_action, char* current_line,
+                               npc_info_t* npc_linkedlist);
+
+/*
+ * Parameters:
+ *      pointer: a pointer to an already allocated npc_graphics_t memory
+ *      eveything in the npc_info_t struct
+ * 
+ * Returns:
+ *      1 on success
+ * 
+ * Function:
+ *      initializes every field of an npc_graphics_t struct with the parameterss
+ */ 
+int InitNPCGraphics(npc_graphics_t* pointer, Vector2 WindowPos, Vector2 WindowSize, Color textcolor,
+                    char* current_npc, char* current_action, char* current_line,
+                    npc_info_t* npc_linkedlist);
+
+// Frees the memory allocated for npc_graphics_t pointed to by the pointer parameter
+// This includes substruct pointers, including linked lists
+int FreeNPCGraphics(npc_graphics_t* pointer);
+
+
+// Runs NPC Graphics with the given npc_graphics_t struct
 void runNPCGraphics(npc_graphics_t* npc_graphics);
 
 #endif
