@@ -167,6 +167,7 @@ Test(class_prefabs, Warrior) {
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Sword Slash", "failed to initialize skill inventory");
 }
 
+
 /* Tests the Wizard class */
 Test(class_prefabs, Wizard) {
     chiventure_ctx_t* ctx = init_statless_context();
@@ -184,6 +185,7 @@ Test(class_prefabs, Wizard) {
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Blinding Charm", "failed to initialize skill inventory");
 }
 
+
 /* Tests the Druid class */
 Test(class_prefabs, Druid) {
     chiventure_ctx_t* ctx = init_statless_context();
@@ -200,3 +202,38 @@ Test(class_prefabs, Druid) {
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "frostbite", "failed to initialize skill inventory");
 }
+
+/* Tests the Elementalist class */
+Test(class_prefabs, Elementalist) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "elementalist");
+    check_field_presence(c);
+
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 20, "failed to initialize stat");
+
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"stone shards", "arc lightning", "dragon's tooth"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "stone shards", "failed to initialize skill inventory");
+}
+
+
+/* Tests the Knight class */
+Test(class_prefabs, Knight) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "knight");
+    check_field_presence(c);
+
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 40, "failed to initialize stat");
+
+    class_prefab_add_skills(c);
+
+    char* skill_list[] = {"holy strike", "shield strike", "shackle strike"};
+    check_skill_presence(c, 3, skill_list);
+
+    cr_assert_str_eq(c->starting_skills->active[0]->name, "holy strike", "failed to initialize skill inventory");
+} 
