@@ -29,11 +29,35 @@ input_box_graphics_t* newInputboxGraphics(Vector2 WindowPos, Vector2 WindowSize,
                                           const char* Annotation);
 
 
+/*
+ * Parameters:
+ *      A 
+ *      Information for every field in the input_box_graphics struct 
+ * 
+ * Return:
+ *      1 on success
+ * 
+ * Function:
+ *      Fills in every piece of information given in the parameters
+ *      into the memory pointed to by the pointer parameter
+ * 
+ */
 int initInputboxGraphics(input_box_graphics_t* pointer, Vector2 WindowPos, Vector2 WindowSize, 
                          Color BoxColor, Color TextColor, Color AnnotationColor, Color OutlineColor,
                          const char* Annotation);
 
 
+/*
+ * Parameters:
+ *      A pointer to a piece of memory allocated to a input_box_graphics_t struct
+ * 
+ * Return:
+ *      1 on success
+ * 
+ * Function:
+ *      frees the piece of memory allocated to the input_box_graphics struct
+ *      pointed to by the parameter
+ */
 int freeInputboxGraphics(input_box_graphics_t* pointer);
 
 /*
