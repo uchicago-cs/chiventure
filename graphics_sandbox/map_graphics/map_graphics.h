@@ -41,9 +41,9 @@ map_graphics_t* new_map_graphics(char *title, char *image_path); // to be filled
  * - a map graphics struct
  *
  * Returns:
- * - nothing (functions as a side effect)
+ * - 1 if success
  */
-void free_map_graphics(map_graphics_t *map_graphics);
+int free_map_graphics(map_graphics_t *map_graphics);
 
 
 /*
