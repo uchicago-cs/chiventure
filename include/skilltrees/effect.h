@@ -82,9 +82,7 @@ typedef struct item_attr_effect {
 /* Defines an effect that changes the statistic of an item.
  * An item stat effect should take an item and a list of statistics and mods
  * and apply the mods to the statistics in the item's statistic hash table.
- * We expect that the implementation is going to be quite similar to player_stat_effect.
- * For more info, check the skilltrees wiki.  An issue will also be created so that future
- * developers know that they have to do this.
+ * For more info, check the skilltrees design wiki for item_stat_effecr. 
  */
 typedef struct item_stat_effect {
 
@@ -145,10 +143,14 @@ move_effect_t* define_move_effect(move_t* move);
 item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum attribute_tag att_tag, attribute_value_t attribute_mod);
 
 /* Defines an item stat effect and returns a pointer to it
- * Parameters: TO BE IMPLEMENTED
+ * Parameters: (item_t* item:  A pointer to an item
+                 char** stat_names: A pointer to an array of stats that will be modified 
+                 double modifications: A pointer to an array to modify each statistic by (multiplier)
+                 int durations: the duration for which each modification should be applied 
+                int num_stats: the number of statistics
  * Returns: A pointer to the created item stat modifying effect
  */
-item_stat_effect_t* define_item_stat_effect(item_t* item, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx);
+item_stat_effect_t* define_item_stat_effect(item_t* item, char** stat_names, double* modifications, int* durations, int num_stats);
 
 /* Takes the given stats modifying effect and converts it to an effect
  * Parameters: stat_mod_effect_t* stat_effect- Pointer to the stats modifying effect
@@ -204,6 +206,6 @@ int execute_item_attr_effect(item_attr_effect_t* item_attr_effect);
  * Parameters: item_stat_effect_t* item_stat_effect - a pointer to the item stat modifying effect
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_item_stat_effect(item_stat_effect_t* item_stat_effect, chiventure_ctx_t* ctx);
+int execute_item_stat_effect(item_stat_effect_t* item_stat_effect);
 
 #endif /*INCLUDE_EFFECT_H*/
