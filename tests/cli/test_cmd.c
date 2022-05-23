@@ -2,6 +2,14 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "cli/cmd.h"
+#include "cli/operations.h"
+#define NUM_ACTIONS 29
+
+char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "ssCLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
+                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
+                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
+                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
+                        "PALETTE", "ITEMS"};
 
 /* Checks if the memory for a lookup table is successfully allocated */
 Test(lookup, new)
@@ -88,4 +96,21 @@ Test(cmd, free)
     cr_assert_eq(rc, SUCCESS, "cmd_free() failed");
 }
 
+//Tests suggestion for gu, expects go
+Test(suggestion, gu_suggest) 
+{
+    char *cmd_str = strdup("GU");
+    char *suggest = suggestion(cmd_str, actions_for_sug);
+
+    cr_assert_str_eq(cmd_str, "GO");
+}
+
+//Tests suggestion for lok, expects look
+Test(suggestion, gu_suggest) 
+{
+    char *cmd_str = strdup("LOK");
+    char *suggest = suggestion(cmd_str, actions_for_sug);
+
+    cr_assert_str_eq(cmd_str, "LOOK");
+}
 
