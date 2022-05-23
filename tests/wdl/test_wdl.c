@@ -13,7 +13,7 @@ obj_t *__get_doc_obj(char* name, char* file_path)
     cr_assert_eq(error, ZIP_ET_NONE, 
         "Could not create zip file; code: %d", error);
 
-    // Add DEFAULT.json to the zip
+    // Add specified file to the zip
     char *data_name = name;
     char *data_path = file_path;
 

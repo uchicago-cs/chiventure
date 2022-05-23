@@ -1,7 +1,3 @@
-#include <criterion/criterion.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libobj/load.h"
 #include "wdl/load_room.h"
 #include "test_wdl.h"
 
