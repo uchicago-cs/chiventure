@@ -1,6 +1,8 @@
 # common aliases used by wdl conversion functions.
 # Defined here to avoid excessive repeat code throughout modules.
 
+import json
+
 PROPERTY_ALIASES = {
     "short desc": "short_desc",
     "short": "short_desc",
