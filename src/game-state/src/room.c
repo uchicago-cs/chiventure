@@ -422,7 +422,7 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     }
     int rc;
     item_t *current_item, *tmp;
-    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    HASH_ITER(hh_npc, npc->inventory, current_item, tmp)
     {
         rc = add_item_to_room(room, current_item);
         if (rc == FAILURE)
@@ -431,14 +431,7 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
         }
     }
 
-    HASH_ITER(hh, npc->inventory, current_item, tmp)
-    {
-        rc = remove_item_from_npc(npc, current_item);
-        if (rc == FAILURE)
-        {
-            return rc;
-        }
-    }
+    assert(delete_all_items_from_npc(npc) == SUCCESS);
 
     return SUCCESS;
 }

@@ -72,7 +72,7 @@ int npc_free(npc_t *npc)
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    delete_all_items(&npc->inventory);
+    delete_all_items_from_npc(npc);
     class_free(npc->class);
     free(npc);
 
@@ -144,6 +144,17 @@ char *get_ldesc_npc(npc_t *npc)
         return NULL;
     }
     return npc->long_desc;
+}
+
+/* See npc.h */
+item_t *get_item_from_npc(npc_t *npc, char *item_id)
+{
+    item_t *check;
+    char *insensitized_id = case_insensitized_string(item_id);
+    HASH_FIND(hh_npc, npc->inventory, insensitized_id,
+              strlen(insensitized_id), check);
+    free(insensitized_id);
+    return check;
 }
 
 /* See npc.h */
@@ -223,6 +234,12 @@ int remove_item_from_npc(npc_t *npc, item_t *item)
 {
     HASH_DELETE(hh_npc, npc->inventory, item);
     return SUCCESS;
+}
+
+/* See npc.h */
+int delete_all_items_from_npc(npc_t *npc)
+{
+    HASH_CLEAR(hh_npc, npc->inventory);
 }
 
 /* See npc.h */
