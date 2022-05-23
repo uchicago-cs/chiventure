@@ -1,12 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../../../include/cli/operations.h"
-#include "../../../include/cli/parser.h"
 #include "parser-bison.h"
+#include "cli/operations.h"
+#include "cli/cmd.h"
+#include "cli/parser.h"
+#include "common/utlist.h"
+#include <criterion/criterion.h>
+#include <string.h>
+#include <ui/ui.h>
+#include "game-state/game.h"
+#include "common/ctx.h"
 
-/* use utlist for linked list operations (see docs 
-   https://troydhanson.github.io/uthash/utlist.html) */
-#include "../../../include/common/utlist.h"
+/* Creates a chiventure context with a sample game
+ *
+ * Parameters: None
+ *
+ * Returns: a chiventure context
+ */
+chiventure_ctx_t *create_sample_ctx()
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
+    room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    game->curr_room = room1;
+    create_connection(game, "room1", "room2", "NORTH");
+
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+
+    return ctx;
+}
+
 
 /* create an linked list item of a phrase */
 word_ll* start_phrase(char *word) {
@@ -51,7 +77,7 @@ void handle_fight_cmd(word_ll *phrase) {
 }
 
 void handle_credits_cmd(word_ll *phrase) {
-    char **tokens = parse(phrase);
+    char **tokens = parse(phrase->word);
     chiventure_ctx_t *ctx = create_sample_ctx();
     credits_operation(tokens, ctx);
 }
