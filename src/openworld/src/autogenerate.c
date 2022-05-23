@@ -125,6 +125,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
     int num_roomspecs=specgraph->num_roomspecs;
     roomspec_t **roomspecs=specgraph->roomspecs;
     int **edges=specgraph->edges;
+    int tag = roomspec.tag;
 
     int rownumber=-1;
     int rowcount=0;
@@ -139,6 +140,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
  
     int randomint=rand() % num_roomspecs;  
     int count=0;
+    
     roomspec_t *newroomspec;
 
     while(randomint>=0){
