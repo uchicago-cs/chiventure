@@ -217,6 +217,8 @@ Test(effect_tests, define_item_attr_effect_correct_vals)
     cr_assert_eq(disarm_bomb->attribute_mod.bool_val, false, "Error : Did not set value correctly");
 }
 
+
+
 // This test checks if define_item_att_effect works correctly if the inputted value is not correct
 Test(effect_tests, define_item_attr_effect_invalid_vals)
 {    /* Creating values to run define_item_attr_effect */
