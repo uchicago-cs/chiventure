@@ -58,7 +58,7 @@ typedef struct npc {
     /* the npc's class */
     class_t *npc_class;
 
-    int health;
+    //int health;
 
     /* pointer to an existing convo struct */
     convo_t *dialogue;
@@ -229,13 +229,17 @@ npc_task_list_t *npc_task_list_free(npc_task_list_t *task_list);
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
+ *  movement: a pointer to the npc's movement struct
  *  will_fight: a boolean describing whether the npc will engage in battle
+ *  quests: a pointer to a linked list of the npc's quests
+ *  tasks: a pointer to a linked list of the npc's tasks
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             class_t *class, npc_mov_t *movement, bool will_fight);
+             class_t *class, npc_mov_t *movement, bool will_fight, 
+             npc_quest_list_t *quests, npc_task_list_t *tasks);
 
 /*
  * Allocates a new npc in the heap.
@@ -250,13 +254,17 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
+ *  movement: a pointer to the npc's movement struct
  *  will_fight: a boolean describing whether the npc will engage in battle
- *
+ *  quests: a pointer to a linked list of the npc's quests
+ *  tasks: a pointer to a linked list of the npc's tasks
+ * 
  * Returns:
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement, bool will_fight);
+               class_t *class, npc_mov_t *movement, bool will_fight, 
+               npc_quest_list_t *quests, npc_task_list_t *tasks);
 
 /*
  * Frees resources associated with an npc.
