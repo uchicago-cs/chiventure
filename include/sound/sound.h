@@ -9,8 +9,8 @@
 #include "common/uthash.h"
 #include "SDL.h"
 #include "SDL_mixer.h"
-#include "SDL_ttf.h"
-#include "SDL_image.h"
+// #include "SDL_ttf.h"
+// #include "SDL_image.h"
 
 /* This is a enumeration type to differentiate audio types */
 typedef enum {BACKGROUND, SOUND_EFFECT} SoundType;
