@@ -645,6 +645,6 @@ Test(dialogue, take_one_item)
                  "%d when it should have been 1", rc);
     cr_assert_eq(item_in_inventory(p, i), false, "The item was not taken from "
                  "the player's inventory");
-    cr_assert_not_null(get_item_from_npc(npc->inventory, "item"), "The item "
+    cr_assert_not_null(get_item_from_npc(npc, "item"), "The item "
                        "was not given to the NPC");
 }
