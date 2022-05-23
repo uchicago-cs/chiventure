@@ -45,7 +45,8 @@ chiventure_ctx_t* init_statless_context() {
 }
 
 /* Checks whether the class and its basic fields are not null */
-void check_field_presence(class_t* c) {
+void check_field_presence(class_t* c) 
+{
     cr_assert_not_null(c, "failed to be initialized (NULL)");
     cr_assert_not_null(c->name, "failed to initialize name");
     cr_assert_not_null(c->shortdesc, "failed to initialize short description");
@@ -68,7 +69,8 @@ void check_field_presence(class_t* c) {
 
 /* Checks whether skill fields are present, and whether the initialized skills 
  * match the expected list */
-void check_skill_presence(class_t* c, int num_skills, char** names) {
+void check_skill_presence(class_t* c, int num_skills, char** names) 
+{
     cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
     cr_assert_not_null(c->starting_skills, "failed to initialize skill inventory");
 
