@@ -309,7 +309,8 @@ int move_room(game_t *game, room_t *new_room)
     // Update quests on room transition
     for(player_hash_t *cur = game->all_players; cur != NULL; cur = cur->hh.next) {
         cur->crnt_room = new_room->room_id;
-        update_player_quests(cur, game->all_quests);
+        quest_ctx_t *qctx = quest_ctx_new(cur, game->all_quests);
+        update_player_quests(qctx);
     }
 
     if(new_room == game->final_room)
@@ -394,28 +395,10 @@ int delete_room_llist(room_list_t *head)
 /* See game.h */
 int add_item_to_player(player_t *player, item_t *item, game_t *game)
 {
-    int rc;
-
-    if (item->stat_effects != NULL) {
-        stat_effect_t *current, *tmp, *e;
-        stat_mod_t *elt, *search;
-        stats_t *s;
-        HASH_ITER(hh, item->stat_effects, current, tmp) {
-            LL_FOREACH(current->stat_list, elt) {
-                HASH_FIND(hh, player->player_class->base_stats, elt->stat->key, 
-                          strlen(elt->stat->key), s);
-                if (s != NULL) {
-                    apply_effect(&player->player_class->effects, current, &s,
-                                 &elt->modifier, &elt->duration, 1);
-                }
-            }
-        }
-    }
-
-    rc = add_item_to_hash(&(player->inventory), item);
-    
-    update_player_quests(player, game->all_quests);
-
+    int rc = add_item_to_player_without_checks(player, item);
+    quest_ctx_t *qctx = quest_ctx_new(player, game->all_quests);
+    update_player_quests(qctx);
+    quest_ctx_free(qctx);
     return rc;
 }
 
