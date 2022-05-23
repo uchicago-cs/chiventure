@@ -173,7 +173,8 @@
                     "Prerequisites": {
                         "Health": 30,
                         "Level": 12,
-                        "Quests": "Find Steve"
+                        "Quests": ["Find Steve"],
+                        "Tasks": ["Obtain Knife"]
                     },
                     "Rewards": {
                         "XP": 500
@@ -186,11 +187,18 @@
                         "Type": "Collect Item"
                     },
                     "Prerequisites": {
-                        "Quests": "Find Steve",
-                        "Tasks": "Interrogate the Pirate Captain"
+                        "Quests": ["Find Steve"],
+                        "Tasks": ["Interrogate the Pirate Captain"]
                     },
                     "Rewards": {
                         "XP": 100
+                    }
+                },
+                {
+                    "Task Name": "Obtain Knife",
+                    "Mission": {
+                        "Target Name": "Knife",
+                        "Type": "Collect Item"
                     }
                 }
             ]

@@ -114,7 +114,6 @@ mission_t *load_mission(obj_t *mission_obj) {
         type = 3;
 
     mission_t *mission = mission_new(target, type);
-    printf("MISSION: %s\n", mission->target_name);
     return mission;
 }
 
@@ -135,20 +134,17 @@ task_t *load_task(obj_t *task_obj, game_t *game) {
     char *name = malloc(len + 1);
     strncpy(name, orig_name, len);
     name[len] = '\0';
-    printf("HERE! %s\n", name);
 
     obj_t *mission_obj = obj_get(task_obj, "Mission");
     mission_t *mission = load_mission(mission_obj);
-    printf("MISSION AGAIN: %s\n", mission->target_name);
 
     obj_t *reward_obj = obj_get(task_obj, "Rewards");
     reward_t *reward = load_reward(reward_obj, game);
 
     obj_t *prereq_obj = obj_get(task_obj, "Prerequisites");
     prereq_t *prereq = load_prereq(prereq_obj);
-
+    
     task_t *task = task_new(name, mission, reward, prereq);
-    printf("%s\n", task->mission->target_name);
     return task;
 }
 
@@ -169,7 +165,6 @@ int load_task_hash(obj_list_t *task_list_obj, game_t *game, task_hash_t **hash) 
     obj_t *cur, *tmp;
     DL_FOREACH(task_list_obj, cur) {
         task_t *cur_task = load_task(cur, game);
-        printf("LTH: %s\n", cur_task->id);
         add_task_to_hash(cur_task, hash);
     }
     return SUCCESS;
@@ -227,7 +222,6 @@ int load_quest(obj_t *quest_obj, game_t *game) {
     task_hash_t *task_hash = NULL;
     obj_list_t *task_list_obj = obj_get_list(quest_obj, "Task List");
     load_task_hash(task_list_obj, game, &task_hash);
-    printf("Is it fucked here?? %s\n", task_hash->task->mission->target_name);
 
     char *quest_id = obj_get_str(quest_obj, "Quest Name");
 
@@ -247,7 +241,6 @@ int load_quest(obj_t *quest_obj, game_t *game) {
 
     obj_list_t *task_tree_obj = obj_get_list(quest_obj, "Task Tree");
     load_task_tree(task_tree_obj, q, task_hash, NULL);
-    printf("Surely fucked here right? %s\n", task_hash->task->mission->target_name);
     add_quest_to_game(game, q);
     
     // Creates placeholder quests for prereq tasks that aren't a part of the task tree

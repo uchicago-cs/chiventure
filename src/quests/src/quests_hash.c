@@ -167,7 +167,7 @@ int add_task_to_hash(task_t *task, task_hash_t **hash_table)
     thash->id = task->id;
 
     HASH_ADD_KEYPTR(hh, *hash_table, task->id,
-                    strnlen(task->id, MAX_ID_LEN), thash);
+                    strnlen(task->id, QUEST_NAME_MAX_LEN), thash);
     return SUCCESS;
 }
 
@@ -184,7 +184,7 @@ player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_tabl
 {
     player_task_t *t;
     HASH_FIND(hh, hash_table, id,  
-            strnlen(id, MAX_ID_LEN), t);
+            strnlen(id, QUEST_NAME_MAX_LEN), t);
 
     return t;
 }
@@ -206,7 +206,7 @@ int add_quest_to_player(quest_t *quest, quest_ctx_t *qctx, int completion)
     player_quest_t *player_quest = player_quest_new(quest->quest_id, completion);
 
     HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
-                    strnlen(quest->quest_id, MAX_ID_LEN), player_quest);
+                    strnlen(quest->quest_id, QUEST_NAME_MAX_LEN), player_quest);
 
     player_task_hash_t **task_hash = &player->player_tasks;
     if(quest->prereq) {
@@ -238,7 +238,7 @@ int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx)
     player_task_t *player_task = player_task_new(task->id, false);
 
     HASH_ADD_KEYPTR(hh, *hash_table, task->id,
-                    strnlen(task->id, MAX_ID_LEN), player_task);
+                    strnlen(task->id, QUEST_NAME_MAX_LEN), player_task);
 
     if(task->prereq) {
         id_list_node_t *temp = task->prereq->task_list->head;

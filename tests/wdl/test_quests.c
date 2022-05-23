@@ -7,7 +7,7 @@
 #include "wdl/load_game.h"
 #include "quests/quests_state.h"
 
-#define QUESTS_PATH "../tests/wdl/examples/wdl/quests_sample.wdl"
+#define QUESTS_PATH "../../../tests/wdl/examples/wdl/quests_sample.wdl"
 /*
  * helper function for parsing a YAML file into an object
  * shamelessly stolen from test_game.c
@@ -84,10 +84,8 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(land_scout_tree, "Find Steve quest has NULL task tree!");
     task_t *land_scout = land_scout_tree->task;
     cr_assert_not_null(land_scout, "Land Scout task is NULL!");
-    printf("%s\n", land_scout->id);
     cr_assert_str_eq(land_scout->id, "Talk to Land Scout", "Land Scout task has incorrect id!");
     cr_assert_not_null(land_scout->mission, "Land Scout task has no mission!");
-    printf("MISSION TARGET: %s", land_scout->mission->target_name);
     cr_assert_str_eq(land_scout->mission->target_name, "Land Scout", "Land Scout task's mission has the wrong target!");
     cr_assert_eq(land_scout->mission->type, MEET_NPC, "Land Scout task's mission has the wrong type!");
     cr_assert_not_null(land_scout->prereq, "Land Scout task has no prereq!");
@@ -180,7 +178,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_eq(pirate_map->prereq->level, 4, "Pirate Map task's prereq has incorrect level!");
     cr_assert_not_null(pirate_map->prereq->task_list, "Pirate Map task's prereq has no task list!");
     cr_assert_str_eq(pirate_map->prereq->task_list->head->id, "Talk to Sea Scout", "Pirate Map task's prereq has an incorrect task in its task list");
-    cr_assert_eq(pirate_map->prereq->task_list->head->next->id, "Find the Pirate Cove", "Pirate Map task's prereq has an incorrect task in its task list");
+    cr_assert_str_eq(pirate_map->prereq->task_list->head->next->id, "Find the Pirate Cove", "Pirate Map task's prereq has an incorrect task in its task list");
     cr_assert_not_null(pirate_map->reward, "Pirate Map task has no reward!");
     cr_assert_eq(pirate_map->reward->xp, 200, "Pirate Map task's reward has incorrect xp!");
     cr_assert_not_null(pirate_map->reward->item, "Pirate Map task's rewrad has no item!");
@@ -191,7 +189,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(pirate_captain_tree, "Pirate Map task tree has no right sibling!");
     task_t *pirate_captain = pirate_captain_tree->task;
     cr_assert_not_null(pirate_captain, "Pirate Captain task is NULL!");
-    cr_assert_str_eq(pirate_captain->id, "Interrogate the Pirates' Captain", "Pirate Captain task has incorrect id!");
+    cr_assert_str_eq(pirate_captain->id, "Interrogate the Pirate Captain", "Pirate Captain task has incorrect id!");
     cr_assert_not_null(pirate_captain->mission, "Pirate Captain task has no mission!");
     cr_assert_str_eq(pirate_captain->mission->target_name, "Pirate Captain", "Pirate Captain task's mission has the wrong target!");
     cr_assert_eq(pirate_captain->mission->type, MEET_NPC, "Pirate Captain task's mission has the wrong type!");
@@ -224,15 +222,17 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(kill_steve_tree, "Vanquish Steve quest has NULL task tree!");
     task_t *kill_steve = kill_steve_tree->task;
     cr_assert_not_null(kill_steve, "Kill Steve task is NULL!");
-    cr_assert_str_eq(kill_steve->id, "Steve", "Kill Steve task has incorrect id!");
+    cr_assert_str_eq(kill_steve->id, "Kill Steve", "Kill Steve task has incorrect id!");
     cr_assert_not_null(kill_steve->mission, "Kill Steve task has no mission!");
-    cr_assert_str_eq(kill_steve->mission->target_name, "Kill Steve", "Kill Steve task's mission has the wrong target!");
+    cr_assert_str_eq(kill_steve->mission->target_name, "Steve", "Kill Steve task's mission has the wrong target!");
     cr_assert_eq(kill_steve->mission->type, KILL_NPC, "Kill Steve task's mission has the wrong type!");
     cr_assert_not_null(kill_steve->prereq, "Kill Steve task has no prereq!");
     cr_assert_eq(kill_steve->prereq->hp, 30, "Kill Steve task's prereq has incorrect hp!");
     cr_assert_eq(kill_steve->prereq->level, 12, "Kill Steve task's prereq has incorrect level!");
     cr_assert_not_null(kill_steve->prereq->quest_list, "Kill Steve task's prereq has no quest list!");
     cr_assert_str_eq(kill_steve->prereq->quest_list->head->id, "Find Steve", "Kill Steve task's prereq has an incorrect quest in its quest list");
+    cr_assert_not_null(kill_steve->prereq->task_list, "Kill Steve task's prereq has no task list!");
+    cr_assert_str_eq(kill_steve->prereq->task_list->head->id, "Obtain Knife", "Kill Steve task's prereq has an incorrect task in its task list");
     cr_assert_not_null(kill_steve->reward, "Kill Steve task has no reward!");
     cr_assert_eq(kill_steve->reward->xp, 500, "Kill Steve task's reward has incorrect xp!");
 
@@ -252,4 +252,18 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_str_eq(baby_photo->prereq->task_list->head->id, "Interrogate the Pirate Captain", "Baby Photo task's prereq has an incorrect task in its task list");
     cr_assert_not_null(baby_photo->reward, "Baby Photo task has no reward!");
     cr_assert_eq(baby_photo->reward->xp, 100, "Baby Photo task's reward has incorrect xp!");
+
+    // Check quest created by prereq task worked correctly
+    quest_t *knife_quest = get_quest_from_hash("Obtain Knife", game->all_quests);
+    cr_assert_not_null(knife_quest, "Knife Quest does not exist!");
+    cr_assert_str_eq(knife_quest->quest_id, "Obtain Knife", "Knife Quest has incorrect id!");
+    task_tree_t *knife_task_tree = knife_quest->task_tree;
+    cr_assert_not_null(knife_task_tree, "Knife Quest has no task tree!");
+    task_t *knife = knife_task_tree->task;
+    cr_assert_not_null(knife, "Knife Task does not exist!");
+    cr_assert_str_eq(knife->id, "Obtain Knife", "Knife Task has incorrect id!");
+    cr_assert_not_null(knife->mission, "Knife Task has no mission!");
+    cr_assert_str_eq(knife->mission->target_name, "Knife", "Knife Task's mission has incorrect target name");
+    cr_assert_eq(knife->mission->type, COLLECT_ITEM, "Knife Task's mission has incorrect type!");
+
 }
