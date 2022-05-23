@@ -53,11 +53,16 @@ int compare(char* word, char* action)
 /* Calculates the minimum between three values, 
    helper to levenshtein function*/
 int mini (int a, int b, int c) {
-    if (a < b && a < c) {
+    if (a < b && a < c) 
+    {
         return a;
-    }else if (b < a && b < c) {
+    }
+    else if (b < a && b < c) 
+    {
         return b;
-    }else{
+    } 
+    else
+    {
         return c;
     }
 }
@@ -73,18 +78,27 @@ int levenshtein(char *action_input, char* action)
 {
     int input_len = strlen(action_input);
     int action_len = strlen(action);
-    char* tail_inp = action_input+1;
-    char* tail_act = action+1;
-    if (action_len == 0) {
+    if (action_len == 0) 
+    {
         return input_len;
-    }else if (input_len == 0) {
+    } 
+    else if (input_len == 0) 
+    {
         return action_len;
     // NOTE: tolower converts all uppercase letters to lowercase letters,
     // and keeps lowercase letters the same.
-    }else if (tolower(action_input[0]) == tolower(action[0])) {
+    } 
+    else if (tolower(action_input[0]) == tolower(action[0])) 
+    {
+        char* tail_inp = action_input+1;
+        char* tail_act = action+1;
         int both_tails = levenshtein(tail_inp, tail_act);
         return both_tails;
-    }else{
+    }
+    else
+    {
+        char* tail_inp = action_input+1;
+        char* tail_act = action+1;
         int tail_one = levenshtein(tail_inp, action);
         int tail_two = levenshtein(action_input, tail_act);
         int tail_both = levenshtein(tail_inp, tail_act);
@@ -93,22 +107,7 @@ int levenshtein(char *action_input, char* action)
 
 }
 
-/* 
- * This function returns a string which is a suggestion 
- * obtained from comparing the input command with a list
- * of actual commands. This is found by using the Levenshtein's Distance formula, 
- * a fuzzy search mechanism to evaluate word similarity. More details linked here:
- * https://en.wikipedia.org/wiki/Levenshtein_distance
- *
- * Parameters:
- *  - action_input: parsed input command (a string)
- *  - actions: the actions_for_sug array that is globally defined 
- *    here is what the suggestions function is called with currently
- *    but any array of words to suggest would do.
- *
- * Returns:
- *  - a string suggestion, which is a word from the actions array
- */
+// See operations.h
 char* suggestions(char *action_input, char** actions)
 {
 
