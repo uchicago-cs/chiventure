@@ -14,6 +14,10 @@
 * for the sound to play, your team needs to have your sound in an 'mp3' format if it is music, and/or a 'wav' format if it is a sound effect
 * declare a sound_t variable
 * make sure to put the name and type of file in this variable (SOUND or BACKGROUND_EFFECT)
+* if a sound is associated with an action, the sound_t variable should be declared and freed within the function
+* additionally, there are two types of arrays 'Mix_Chunk' and 'Mix_Music'
+    * Mix_Chunk is for sound effects in which multiple effects may not be played at the same time
+    * Mix_Music is for background music in which only one sound could be played at a time
 * if you are in a situation with lots of sounds needed, we recommend creating a folder inside your 'src' folder that specifically hoards the files
 * load the sound in this way, and it should run smoothly (see major drawbacks for error handling as well)
 
