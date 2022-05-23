@@ -13,30 +13,30 @@
  * Returns:
  * 2D array of items corresponding to items in player's inventory
  */
-**slot_t populate_items(player_t *p, graphics_t *graphics)
+slot_t **populate_items(player_t *p, graphics_t *graphics)
 {
-    item_list_t *itemlst = get_all_items_in_hash(p->inventory);
+    item_hash_t **hashinv = get_inventory(p);
+    item_list_t *itemlst = get_all_items_in_hash(hashinv);
     
     slot_t **inv = (slot_t**)malloc(sizeof(slot_t*)*graphics->inventory->rows);
     for (unsigned int i = 0; i < graphics->inventory->rows; i++){
-        inv[i] = (slot_t*)malloc(sizeof(slot_t) * graphics->inventory->columns;
+        inv[i] = (slot_t*)malloc(sizeof(slot_t) * graphics->inventory->columns);
     }
 
     for (int i = 0; i < graphics->inventory->rows; i++){
         for (int j = 0; j < graphics->inventory->columns; j++){
-            int[i][j]->status = EMPTY;
-            int[i][j]->item = NULL;
+            inv[i][j].status = EMPTY;
         }
     }
 
     while (itemlst->next != NULL){
-        for (int i = 0; i < graphics->inventory->rows; i++){
-            for(int j = 0; j < graphics->inventory->columns; j++){
-                if inv[i][j]->status == EMPTY{
-                    inv[i][j]->status = FULL;
-                    inv[i][j]->item = itemlst->item;
-                    itemlst->item->inventory_x_pos = i;
-                    itemlst->item->inventory_y_pos = j;
+        for (unsigned int i = 0; i < graphics->inventory->rows; i++){
+            for(unsigned int j = 0; j < graphics->inventory->columns; j++){
+                if (inv[i][j].status == EMPTY){
+                    inv[i][j].status = FULL;
+                    inv[i][j].item = itemlst->item;
+                    itemlst->item->inventory_x_pos = &i;
+                    itemlst->item->inventory_y_pos = &j;
                 }
             }
         }
@@ -60,10 +60,10 @@
 player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p)
 {
     player_inventory_t *inventory;
-    inventory = (player_inventory_t*)malloc(sizeof(player_inventory_t);
+    inventory = (player_inventory_t*)malloc(sizeof(player_inventory_t));
     
     inventory->display = graphics->inventory;
-    inventory->items = populate_items(p, graphics);
+    inventory->slots = populate_items(p, graphics);
 
     return inventory;
 }
@@ -72,10 +72,10 @@ player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p)
 /* See inventory_graphics.h */
 int free_player_inventory(player_inventory_t *player_inventory)
 {
-    for(int i = 0; i < player-inventory->display->rows; i++){
-        free(player_inventory->items[i]);
+    for(int i = 0; i < player_inventory->display->rows; i++){
+        free(player_inventory->slots[i]);
     }
-    free(player_inventory->items);
+    free(player_inventory->slots);
     free(player_inventory->display);
     free(player_inventory);
     return 0;
@@ -85,11 +85,11 @@ int free_player_inventory(player_inventory_t *player_inventory)
 /* See inventory_graphics.h */
 void add_item_inventory(player_inventory_t *player_inventory, item_t *item)
 {
-    change = 0;
+    int change = 0;
     for(int i; i < player_inventory->display->rows; i++) {
         for(int j; j < player_inventory->display->columns; j++) {
             if (player_inventory->slots[i][j].status == EMPTY) {
-                player_inventory->items[i][j] = item;
+                player_inventory->slots[i][j].item = item;
 // should this line be player_inventory->slots[i][j]->item = item;
                 change = 1;
                 break;
@@ -114,9 +114,9 @@ void draw_player_inventory(player_inventory_t *player_inventory);
 void remove_item_inventory(player_inventory_t *player_inventory, item_t *item)
 {
     if (player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].status != EMPTY) {
-        free(player_inventory->items[item->inventory_x_pos][item->inventory_y_pos]);
+        free(player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos]);
     } else {
-        fprintf(stderr, "inventory empty at position (%d,%d)\n", item->inventory_x_pos, item->inventory_y_pos);
+        fprintf(stderr, "inventory empty at position (%p,%p)\n", item->inventory_x_pos, item->inventory_y_pos);
     }
     return;
 }
