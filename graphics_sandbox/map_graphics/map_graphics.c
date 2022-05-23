@@ -29,7 +29,7 @@ int free_map_graphics(map_graphics_t *map_graphics)
     // this may also need some editing
 
     free(map_graphics);
-    return 1;
+    return SUCCESS;
 }
 
 

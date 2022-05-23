@@ -22,6 +22,6 @@ Test(map_graphics, free)
     cr_assert_str_eq(m->image_path,"I am the map path","new_map_graphics failed to set image path");
     int rc;
     rc = free_map_graphics(m);
-    cr_assert_eq(1,rc,"free_map_graphics has failed");
+    cr_assert_eq(SUCCESS,rc,"free_map_graphics has failed");
 
 }

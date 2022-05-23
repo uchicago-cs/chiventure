@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "common.h"
 
 #define MAP_CONTEXT_ID 1
 
@@ -41,7 +42,7 @@ map_graphics_t* new_map_graphics(char *title, char *image_path); // to be filled
  * - a map graphics struct
  *
  * Returns:
- * - 1 if success
+ * - SUCCESS if success
  */
 int free_map_graphics(map_graphics_t *map_graphics);
 
