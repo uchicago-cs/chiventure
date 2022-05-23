@@ -496,7 +496,8 @@ int add_condition(game_t *game, game_action_t *action, condition_t *condition)
 int do_node_actions(node_t *n, game_t *game)
 {
     node_action_t *cur_action = n->actions;
-
+    npc_t *npc;
+    item_t *item;
     while (cur_action != NULL)
     {
 
@@ -504,10 +505,8 @@ int do_node_actions(node_t *n, game_t *game)
         {
 
         case GIVE_ITEM:
-            npc_t *npc = get_npc_in_room(game->curr_room,
-                                         game->mode->mode_ctx);
-            item_t *item = get_item_from_npc(npc->inventory,
-                                            cur_action->action_id);
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            item = get_item_from_npc(npc->inventory, cur_action->action_id);
             if (item == NULL) return FAILURE;
             if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
             if (add_item_to_player(game->curr_player, item, game) != SUCCESS)
