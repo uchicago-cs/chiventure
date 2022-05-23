@@ -19,4 +19,23 @@ NPC OAK IN room B
         item_id: "SQUIRTLE"
         item_id: "BULBASAUR"
         item_id: "POKEBALL"
+            DIALOGUE: 
+                NODE 1
+                    EDGE 1 TO 2 desc: “Good” 
+                    EDGE 1 TO 3 desc: “I have an ENCYCLOPEDIA that belongs to you.” 	
+                    EDGE 1 TO 4 desc: “I’ve caught the PIDGEY you asked for!” 
+                    desc: “Hello ASH. How are you?”
+
+                NODE 2 “Have a nice day!”
+                NODE 3
+                    EDGE 3 TO 6a desc: “I’ll take Bulbasaur.”
+                    EDGE 3 TO 6b desc: “I’ll take Squirtle”
+                    EDGE 3 TO 6c desc: “I’ll take Charmander”
+                    desc: ”. . . Would you like a Bulbasaur, Squirtle, or Charmander?”
+
+                NODE 4 desc: “ Wonderful, you’re on your way . . . to complete your journey.”
+                NODE 6a desc: “Here is your Bulbasaur. . .”
+                NODE 6b desc: “Here is your Squirtle. . .”
+                NODE 6c desc: “Here is your Charmander. . .”
+
 
