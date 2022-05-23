@@ -40,9 +40,15 @@ def check_cylicality(graph):
     
 
 
-# # This function checks that every node can be reached
-# # in the graph
-# def check_all_nodes(graph):
+# This function checks that every node can be reached
+# in the graph
+def check_all_nodes(graph, start):
+    visited = num_times_visit_node(graph)
+    for i in graph.keys():
+        if visited[i] == 0 and i != start:
+            return True
+    return False
+    
 
 
 # # # Checks if a node is a singleton
