@@ -88,23 +88,37 @@ void handle_credits_cmd(word_ll *phrase) {
     */
 }
 
-char **handle_cmd(word_ll *phrase) {
-    word_ll *p = phrase;
+void print_ll(word_ll *phrase)
+{
+    for(int i = 0; phrase!=NULL;phrase=phrase->next,i++) {
+        printf("%d'th term = [%s]\n",i,phrase->word);
+		
+	} 
+}
+char **handle_cmd(word_ll *p) {
+    int LL_MAX_SIZE = 100;
+    word_ll *og_ll_pointer;
+    print_ll(p);
     if (p == NULL) {
         return NULL;
     }
     char **words;
-    words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    words = (char**)malloc(sizeof(char*)*LL_MAX_SIZE);
     int i = 0;
-    while(p != NULL || i < TOKEN_LIST_SIZE) {
+    while(p != NULL && i < LL_MAX_SIZE) {
         words[i] = p->word;
         p = p->next;
         i++;
     }
 
-    if (p != NULL && i == TOKEN_LIST_SIZE) {
+    /*
+    if (p != NULL && i == LL_MAX_SIZE) {
         return NULL;
     }
+    */
+    for(int j = 0; j<LL_MAX_SIZE && words[j] != NULL; j++) {
+	    printf("%d'th term in array = [%s]\n",j,words[j]);	
+	}
     
     return words;
 }
