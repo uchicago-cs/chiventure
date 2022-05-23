@@ -69,10 +69,10 @@ int add_item_to_room(room_t *room, item_t *item)
     assert(item != NULL);
     item_t *tmp;
     char *id = case_insensitized_string(item->item_id);
-    HASH_FIND(hh, room->items, id, strlen(id), tmp);
+    HASH_FIND(hh_room, room->items, id, strlen(id), tmp);
     if (tmp == NULL)
     {
-        HASH_ADD_KEYPTR(hh, room->items, id, strlen(id), item);
+        HASH_ADD_KEYPTR(hh_room, room->items, id, strlen(id), item);
         return SUCCESS;
     }
     else
@@ -84,11 +84,9 @@ int add_item_to_room(room_t *room, item_t *item)
 /* See room.h */
 int remove_item_from_room(room_t *room, item_t *item)
 {
-    int rc;
-
-    rc = remove_item_from_hash(&(room->items), item);
-
-    return rc;
+    assert((item != NULL) && (room != NULL));
+    HASH_DELETE(hh_room, room->items, item);
+    return SUCCESS;
 }
 
 /* See room.h */
@@ -194,7 +192,7 @@ item_t* get_item_in_room(room_t* room, char* item_id)
 {
     char *item_id_case = case_insensitized_string(item_id);
     item_t* return_value;
-    HASH_FIND(hh, room->items, item_id_case, strlen(item_id_case), return_value);
+    HASH_FIND(hh_room, room->items, item_id_case, strlen(item_id_case), return_value);
     return return_value;
     //if it is NULL, return_value will be equal to NULL by default
 }
@@ -224,10 +222,22 @@ room_t *find_room_from_dir(room_t *curr, char* direction)
 /* See room.h */
 item_list_t *get_all_items_in_room(room_t *room)
 {
-    item_list_t *head;
-
-    head = get_all_items_in_hash(&(room->items));
-
+    item_list_t *head = NULL;
+    item_t *ITTMP_ITEMRM, *curr_item, *dup_item;
+    item_list_t *tmp;
+    
+    HASH_ITER(hh_room, room->items, curr_item, ITTMP_ITEMRM)
+    {
+        /* If item id has no duplicates - only iterates once
+         * If more than one identical id - iterates through all */
+        LL_FOREACH(curr_item, dup_item)
+        {
+            tmp = malloc(sizeof(item_list_t));
+            tmp->item = dup_item;
+            LL_APPEND(head, tmp);
+        }
+    }
+    
     return head;
 }
 
@@ -420,7 +430,7 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     }
     int rc;
     item_t *current_item, *tmp;
-    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    HASH_ITER(hh_npc, npc->inventory, current_item, tmp)
     {
         rc = add_item_to_room(room, current_item);
         if (rc == FAILURE)
@@ -429,7 +439,7 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
         }
     }
 
-    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    HASH_ITER(hh_npc, npc->inventory, current_item, tmp)
     {
         rc = remove_item_from_npc(npc, current_item);
         if (rc == FAILURE)
