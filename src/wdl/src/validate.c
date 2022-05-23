@@ -437,38 +437,76 @@ int conditions_type_check(obj_t *obj)
 
 // The following functions regard quest type checking
 
+const int QUEST_ATTRIBUTES_N = 5;
+const char* const QUEST_ATTRIBUTES[5] = {
+    "Quest Name",
+    "Rewards",
+    "Task Tree",
+    "Task List",
+    "Prerequisites"
+};
 int quest_type_check(obj_t *obj)
 {
+    if(!check_attributes(obj, QUEST_ATTRIBUTES, QUEST_ATTRIBUTES_N)) {
+        fprintf(stderr, "Quest has invalid attributes!");
+        return FAILURE;
+    }
+
     int name = (obj_get_type(obj, "Quest Name") == TYPE_STR);
-    int task_list = (obj_get_type(obj, "Task List") == TYPE_LIST);
-
-    return !(name && task_list);
-}
-
-int task_type_check(obj_t *obj)
-{
-    int name = (obj_get_type(obj, "Task Name") == TYPE_STR);
-
     return !name;
 }
 
+
+const int TASK_ATTRIBUTES_N = 4;
+const char* const TASK_ATTRIBUTES[4] = {
+    "Task Name",
+    "Mission",
+    "Prerequisites",
+    "Rewards"
+};
+int task_type_check(obj_t *obj)
+{
+    if(!check_attributes(obj, TASK_ATTRIBUTES, TASK_ATTRIBUTES_N)) {
+        fprintf(stderr, "Task has invalid attributes!");
+        return FAILURE;
+    }
+
+    int name = (obj_get_type(obj, "Task Name") == TYPE_STR);
+    return !name;
+}
+
+
+const int PREREQ_ATTRIBUTES_N = 4;
+const char* const PREREQ_ATTRIBUTES[4] = {
+    "Health",
+    "Level",
+    "Tasks",
+    "Quests"
+};
 int prereq_type_check(obj_t *obj)
 {
-    int health = (obj_get_type(obj, "Health") == TYPE_INT);
-    int level = (obj_get_type(obj, "Level") == TYPE_INT);
-    int task_list = (obj_get_type(obj, "Tasks") == TYPE_LIST);
-    int quest_list = (obj_get_type(obj, "Quests") == TYPE_LIST);
-
-    return !(health && level && task_list && quest_list);
+    if(!check_attributes(obj, PREREQ_ATTRIBUTES, PREREQ_ATTRIBUTES_N)) {
+        fprintf(stderr, "Prereq has invalid attributes!");
+        return FAILURE;
+    }
+    return SUCCESS;
 }
 
+
+const int REWARDS_ATTRIBUTES_N = 2;
+const char* const REWARDS_ATTRIBUTES[2] = {
+    "XP",
+    "Item"
+};
 int rewards_type_check(obj_t *obj)
 {
-    int xp = (obj_get_type(obj, "XP") == TYPE_INT);
-    int item = (obj_get_type(obj, "Item") == TYPE_OBJ);
-
-    return !(xp && item);
+    if(!check_attributes(obj, REWARDS_ATTRIBUTES, REWARDS_ATTRIBUTES_N)) {
+        fprintf(stderr, "Reward has invalid attributes!");
+        return FAILURE;
+    }
+    return SUCCESS;
 }
+
 
 int mission_type_check(obj_t *obj)
 {

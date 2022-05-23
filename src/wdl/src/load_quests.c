@@ -27,21 +27,25 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
 
     int hp = obj_get_int(prereq_obj, "Health");
     int level = obj_get_int(prereq_obj, "Level");
-    obj_t *quest_list = obj_get(prereq_obj, "Quests");
-    obj_t *task_list = obj_get(prereq_obj, "Tasks");
+    obj_list_t *quest_list = obj_get_list(prereq_obj, "Quests");
+    obj_list_t *task_list = obj_get_list(prereq_obj, "Tasks");
 
     prereq_t *prereq = prereq_new(hp, level);
 
-    obj_t *curr, *tmp;
-    HASH_ITER(hh, quest_list->data.obj.attr, curr, tmp)
-    {
-        prereq_add_quest(prereq, curr->id);
+    obj_t *cur;
+    if(quest_list != NULL) {
+        DL_FOREACH(quest_list, cur)
+        {
+            prereq_add_quest(prereq, cur->data.s);
+        }
     }
-    HASH_ITER(hh, task_list->data.obj.attr, curr, tmp)
-    {
-        prereq_add_task(prereq, curr->id);
+    if(task_list != NULL) {
+        DL_FOREACH(task_list, cur)
+        {
+            prereq_add_task(prereq, cur->data.s);
+        }
     }
-
+    
     return prereq;
 }
 
@@ -67,7 +71,11 @@ reward_t *load_reward(obj_t *reward_obj, game_t *game) {
 
     int xp = obj_get_int(reward_obj, "XP");
     char *item_id = obj_get_str(reward_obj, "Item");
-    item_t *reward_item = get_item_in_hash(game->all_items, item_id);
+    item_t *reward_item = NULL;
+    if(obj_get(reward_obj, "Item") != NULL) {
+        char *item_id = obj_get_str(reward_obj, "Item");
+        reward_item = get_item_from_game(game, item_id);
+    }
     reward_t *reward = reward_new(xp, reward_item);
     return reward;
 }
@@ -93,6 +101,7 @@ mission_t *load_mission(obj_t *mission_obj) {
     }
 
     char *target = obj_get_str(mission_obj, "Target Name");
+
     char *mission_type = obj_get_str(mission_obj, "Type");
     int type;
     if (strcmp(mission_type, "Meet NPC") == 0)
@@ -105,6 +114,7 @@ mission_t *load_mission(obj_t *mission_obj) {
         type = 3;
 
     mission_t *mission = mission_new(target, type);
+    printf("MISSION: %s\n", mission->target_name);
     return mission;
 }
 
@@ -120,15 +130,25 @@ task_t *load_task(obj_t *task_obj, game_t *game) {
         return NULL;
     }
 
-    char *name = obj_get_str(task_obj, "Task Name");
+    char *orig_name = obj_get_str(task_obj, "Task Name");
+    int len = strlen(orig_name);
+    char *name = malloc(len + 1);
+    strncpy(name, orig_name, len);
+    name[len] = '\0';
+    printf("HERE! %s\n", name);
+
     obj_t *mission_obj = obj_get(task_obj, "Mission");
     mission_t *mission = load_mission(mission_obj);
+    printf("MISSION AGAIN: %s\n", mission->target_name);
+
     obj_t *reward_obj = obj_get(task_obj, "Rewards");
     reward_t *reward = load_reward(reward_obj, game);
+
     obj_t *prereq_obj = obj_get(task_obj, "Prerequisites");
     prereq_t *prereq = load_prereq(prereq_obj);
 
     task_t *task = task_new(name, mission, reward, prereq);
+    printf("%s\n", task->mission->target_name);
     return task;
 }
 
@@ -142,13 +162,14 @@ task_t *load_task(obj_t *task_obj, game_t *game) {
  * Returns:
  * - SUCCESS on success, FAILURE if an error occurs
 */
-int load_task_hash(obj_t *task_list_obj, game_t *game, task_hash_t **hash) {
+int load_task_hash(obj_list_t *task_list_obj, game_t *game, task_hash_t **hash) {
     assert(task_list_obj != NULL);
     assert(hash != NULL);
     
     obj_t *cur, *tmp;
-    HASH_ITER(hh, task_list_obj->data.obj.attr, cur, tmp) {
+    DL_FOREACH(task_list_obj, cur) {
         task_t *cur_task = load_task(cur, game);
+        printf("LTH: %s\n", cur_task->id);
         add_task_to_hash(cur_task, hash);
     }
     return SUCCESS;
@@ -163,20 +184,23 @@ int load_task_hash(obj_t *task_list_obj, game_t *game, task_hash_t **hash) {
  * Returns:
  * - A pointer to a task_hash specified according to the WDL object
 */
-int load_task_tree(obj_t *task_tree_obj, quest_t *quest, task_hash_t *task_hash, char *parent_id) {
+int load_task_tree(obj_list_t *task_tree_obj, quest_t *quest, task_hash_t *task_hash, char *parent_id) {
     assert(quest != NULL);
-    assert(quest != NULL);
+    
+    if(task_tree_obj == NULL) {
+        return SUCCESS;
+    }
 
     obj_t *cur, *tmp;
-    HASH_ITER(hh, task_tree_obj->data.obj.attr, cur, tmp) {
+    DL_FOREACH(task_tree_obj, cur) {
         char *task_name = obj_get_str(cur, "Task Name");
         task_t *task = get_task_from_task_hash(task_name, task_hash);
         if(task == NULL) {
-            fprintf(stderr, "Undefined task: %s!", task_name);
+            fprintf(stderr, "Undefined task: %s!\n", task_name);
             return FAILURE;
         }
         add_task_to_quest(quest, task, parent_id);
-        obj_t *next_obj = obj_get(task_tree_obj, "Task Tree");
+        obj_list_t *next_obj = obj_get_list(cur, "Task Tree");
         if(next_obj != NULL) {
             load_task_tree(next_obj, quest, task_hash, task_name);
         }
@@ -201,8 +225,9 @@ int load_quest(obj_t *quest_obj, game_t *game) {
         return FAILURE;
     }
     task_hash_t *task_hash = NULL;
-    obj_t *task_list_obj = obj_get(quest_obj, "Task List");
+    obj_list_t *task_list_obj = obj_get_list(quest_obj, "Task List");
     load_task_hash(task_list_obj, game, &task_hash);
+    printf("Is it fucked here?? %s\n", task_hash->task->mission->target_name);
 
     char *quest_id = obj_get_str(quest_obj, "Quest Name");
 
@@ -220,11 +245,11 @@ int load_quest(obj_t *quest_obj, game_t *game) {
 
     quest_t *q = quest_new(quest_id, reward, prereq);
 
-    obj_t *task_tree_obj = obj_get(quest_obj, "Task Tree");
+    obj_list_t *task_tree_obj = obj_get_list(quest_obj, "Task Tree");
     load_task_tree(task_tree_obj, q, task_hash, NULL);
-
+    printf("Surely fucked here right? %s\n", task_hash->task->mission->target_name);
     add_quest_to_game(game, q);
-
+    
     // Creates placeholder quests for prereq tasks that aren't a part of the task tree
     for(task_hash_t *cur_task = task_hash; cur_task != NULL; cur_task = cur_task->hh.next) {
         if(get_task_from_quest_hash(cur_task->id, game->all_quests) == NULL) {
@@ -233,7 +258,8 @@ int load_quest(obj_t *quest_obj, game_t *game) {
             add_quest_to_game(game, prereq_quest);
         }
     }
-    remove_task_all(&task_hash);
+    //remove_task_all(&task_hash);
+
     return SUCCESS;
 }
 
@@ -241,7 +267,7 @@ int load_quest(obj_t *quest_obj, game_t *game) {
 int load_quests(obj_t *doc, game_t *game) {
     assert(game != NULL);
     assert(doc != NULL);
-    obj_t *quests_obj = obj_get(doc, "QUESTS");
+    obj_list_t *quests_obj = obj_get_list(doc, "QUESTS");
     if(quests_obj == NULL) {
         quests_obj = obj_get(doc, "QUEST");
         if(quests_obj != NULL) {
@@ -254,8 +280,8 @@ int load_quests(obj_t *doc, game_t *game) {
 
     // iterate through the hash table of quests
     // Code shamelessly stolen from load_npc.c
-    obj_t *cur, *tmp;
-    HASH_ITER (hh, quests_obj->data.obj.attr, cur, tmp)
+    obj_t *cur;
+    DL_FOREACH (quests_obj, cur)
     {
         load_quest(cur, game);
     }

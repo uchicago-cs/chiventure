@@ -8,7 +8,7 @@
             "Task Tree": [
                 {
                     "Task Name": "Talk to Land Scout",
-                    "Task Tree" [
+                    "Task Tree": [
                         {
                             "Task Name": "Enter Steve's Lair"
                         },
@@ -19,10 +19,10 @@
                 },
                 {
                     "Task Name": "Talk to Sea Scout",
-                    "Task Tree" [
+                    "Task Tree": [
                         {
                             "Task Name": "Find the Pirate Cove",
-                            "Task Tree" [
+                            "Task Tree": [
                                 {
                                     "Task Name": "Obtain the Pirates' Map"
                                 },
@@ -41,11 +41,11 @@
                         "Target Name": "Land Scout",
                         "Type": "Meet NPC"
                     },
-                    "Prerequisites" {
+                    "Prerequisites": {
                         "Health": 10,
                         "Level": 2
                     },
-                    "Rewards" {
+                    "Rewards": {
                         "XP": 100,
                         "Item": "Search Warrant"
                     }
@@ -53,15 +53,15 @@
                 {
                     "Task Name": "Enter Steve's Lair",
                     "Mission": {
-                        "Target Name": "Steve's Lair:
+                        "Target Name": "Steve's Lair",
                         "Type": "Visit Room"
                     },
-                    "Prerequisites" {
+                    "Prerequisites": {
                         "Health": 12,
                         "Level": 3,
                         "Tasks": ["Talk to Land Scout"]
                     },
-                    "Rewards" {
+                    "Rewards": {
                         "XP": 100
                     }
                 },
@@ -71,12 +71,12 @@
                         "Target Name": "Steve's Mom",
                         "Type": "Meet NPC"
                     },
-                    "Prerequisites" {
+                    "Prerequisites": {
                         "Health": 10,
                         "Level": 2,
                         "Tasks": ["Talk to Land Scout"]
                     },
-                    "Rewards" {
+                    "Rewards": {
                         "XP": 50
                     }
                 },
@@ -86,11 +86,11 @@
                         "Target Name": "Sea Scout",
                         "Type": "Meet NPC"
                     },
-                    "Prerequisites" {
+                    "Prerequisites": {
                         "Health": 15,
                         "Level": 4
                     },
-                    "Rewards" {
+                    "Rewards": {
                         "XP": 100,
                         "Item": "Search Warrant"
                     }
@@ -101,12 +101,12 @@
                         "Target Name": "Pirate Cove",
                         "Type": "Visit Room"
                     },
-                    "Prerequisites" {
+                    "Prerequisites": {
                         "Health": 15,
                         "Level": 4,
                         "Tasks": ["Talk to Sea Scout"]
                     },
-                    "Rewards" {
+                    "Rewards": {
                         "XP": 100
                     }
                 },
@@ -121,15 +121,15 @@
                         "Level": 4,
                         "Tasks": ["Talk to Sea Scout", "Find the Pirate Cove"]
                     },
-                    "Rewards" {
-                        "XP": 200
+                    "Rewards": {
+                        "XP": 200,
                         "Item": "Sailing Handbook"
                     }
                 },
                 {
                     "Task Name": "Interrogate the Pirate Captain",
-                    "Mission":; {
-                        "Target Name": "Pirate Captain"
+                    "Mission": {
+                        "Target Name": "Pirate Captain",
                         "Type": "Meet NPC"
                     },
                     "Prerequisites": {
@@ -137,7 +137,7 @@
                         "Level": 5,
                         "Tasks": ["Talk to Sea Scout", "Find the Pirate Cove"]
                     },
-                    "Rewards" {
+                    "Rewards": {
                         "XP": 250,
                         "Item": "Interrogation Handbook"
                     }
@@ -150,7 +150,7 @@
                 "XP": 1000,
                 "Item": "Legendary Sword of Steve"
             },
-            "Prerequisites" {
+            "Prerequisites": {
                 "Health": 20,
                 "Level": 7,
                 "Quests": ["Find Steve"]
@@ -175,7 +175,7 @@
                         "Level": 12,
                         "Quests": "Find Steve"
                     },
-                    "Reward": {
+                    "Rewards": {
                         "XP": 500
                     }
                 },
@@ -189,7 +189,7 @@
                         "Quests": "Find Steve",
                         "Tasks": "Interrogate the Pirate Captain"
                     },
-                    "Reward" {
+                    "Rewards": {
                         "XP": 100
                     }
                 }

@@ -76,8 +76,7 @@ task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
     if(!tree || !id) {
         return NULL;
     }
-    assert(tree->task != NULL);
-
+    assert(tree->task != NULL && tree->task->id != NULL);
     if (strcmp(tree->task->id, id) == 0)
     {
         return tree;
@@ -109,7 +108,8 @@ task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table) {
 
 /* Refer to quests_hash.h */
 task_t *get_task_from_quest_hash(char *id, quest_hash_t *hash_table) {
-    return get_task_tree_from_hash(id, hash_table)->task;
+    task_tree_t *task_tree = get_task_tree_from_hash(id, hash_table);
+    return task_tree != NULL ? task_tree->task : NULL;
 }
 
 /* Refer to quests_hash.h */
@@ -123,7 +123,11 @@ task_hash_t *search_task_hash(char *id, task_hash_t *hash_table)
 /* Refer to quests_hash.h */
 task_t *get_task_from_task_hash(char *id, task_hash_t *hash_table)
 {
-    search_task_hash(id, hash_table)->task;
+    task_hash_t *result = search_task_hash(id, hash_table);
+    if(result == NULL) {
+        return NULL;
+    }
+    return result->task;
 }
 
 /* Refer to quests_hash.h */
@@ -137,7 +141,6 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
     {
         return FAILURE; //quest id is already in the hash table
     }
-
     HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
                     strnlen(quest->quest_id, MAX_ID_LEN), quest);
     return SUCCESS;
@@ -146,6 +149,9 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 /* Refer to quests_hash.h */
 int add_task_to_hash(task_t *task, task_hash_t **hash_table)
 {
+    if(task == NULL) {
+        return FAILURE;
+    }
     task_t *check;
   
     check = get_task_from_task_hash(task->id, *hash_table);
@@ -306,8 +312,7 @@ int remove_task_all(task_hash_t **hash_table)
     HASH_ITER(hh, *hash_table, current_task, temp) 
     { 
         HASH_DEL(*hash_table, current_task);
-        task_free(current_task->task);
-        free(current_task);
+        //free(current_task);
     }
     original = NULL;
     return SUCCESS; 
