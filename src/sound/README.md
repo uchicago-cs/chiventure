@@ -1,13 +1,21 @@
 =======
 # Sound Library for Chiventure
 
-## About
+## Acknowledgements
 
-* A simple SDL Audio library that will be used to load/play sound file
 * The code was inspired from https://gigi.nullneuron.net/gigilabs/playing-a-wav-file-using-sdl2/
 * The code referenced for the demo is from https://youtu.be/YB2MbgDsLaA)
 * Also recommended to take a look at https://github.com/jakebesworth/Simple-SDL2-Audio, this git repository has an excellent sound library with functioning play/load functions using SDL library 
-* Basic structure and design are provided, but the actual implementation are still premature
+* the SDL library ("Simple DirectMedia Layer") can be read more about here: https://www.geeksforgeeks.org/sdl-library-in-c-c-with-examples/
+
+## General (if you're from another team, look here!)
+
+* a simple SDL Audio library that will be used to load/play sound file
+* for the sound to play, your team needs to have your sound in an 'mp3' format if it is music, and/or a 'wav' format if it is a sound effect
+* declare a sound_t variable
+* make sure to put the name and type of file in this variable (SOUND or BACKGROUND_EFFECT)
+* if you are in a situation with lots of sounds needed, we recommend creating a folder inside your 'src' folder that specifically hoards the files
+* load the sound in this way, and it should run smoothly (see major drawbacks for error handling as well)
 
 ## Basic Structure
 ```c
