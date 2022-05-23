@@ -95,7 +95,30 @@ typedef struct complex_skill{
 
 } complex_skill_t;
 
-/* Random_switch complex type */
+/* Random Chance complex type */
+typedef enum random_chance_type {
+    //Complex skills struct, type must be RANDOM_SWITCH
+    complex_skill_t complex_skill;
+
+    // chance of failure of this skill
+    float chance_failure;
+
+} random_chance_type_t;
+
+/* Random Range complex type */
+typedef enum random_range_type {
+    //Complex skills struct, type must be RANDOM_SWITCH
+    complex_skill_t complex_skill;
+
+    // lower bound of values
+    float lower_bound;
+
+    // upper bound of values
+    float upper_bound;
+
+} random_range_type_t;
+
+/* Random Switch complex type */
 typedef enum random_switch_type {
     //Complex skills struct, type must be RANDOM_SWITCH
     complex_skill_t complex_skill;

@@ -138,32 +138,30 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
 * Executes a random skill using a chance effect
 *
 * Parameters:
-* - complex_skill: a complex skill
-* - chiventure_ctx_t* ctx: A context object to pull data from to execute the
+* - chance_skill: the random_chance_type_t complex skill being used
+* - ctx: A context object to pull data from to execute the
 *   skill
-* - int chance_failure: the chance that the skill fails
 *
 * Returns:
 * 0 if success
 * 1 if failure
 */
-int execute_random_chance_complex_skill(complex_skill_t* complex_skill, chiventure_ctx_t* ctx, int chance_failure);
+int execute_random_chance_complex_skill(random_chance_type_t* chance_skill, chiventure_ctx_t* ctx);
 
 /* 
-* Executes a random skill using a range effect–executes a skill a random number of times within * the given range
+* Executes a random skill using a range effect–executes a skill a random number 
+* of times within the given range
 *
 * Parameters:
-* - complex_skill: a complex skill
+* - range_skill: the random_range_type_t complex skill being used
 * - chiventure_ctx_t* ctx: A context object to pull data from to execute the
 *   skill
-* - int upper_bound: high bound of number of times skill will be executed
-* - int lower_bound: low bound of number of times skill will be executed
 *
 * Returns:
 * 0 if success
 * 1 if failure
 */
-int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventure_ctx_t* ctx, int upper_bound, int lower_bound);
+int execute_random_range_complex_skill(random_chance_type_t* range_skill, chiventure_ctx_t* ctx);
 
 /* 
 * Executes a random skill using a switch effect
@@ -178,6 +176,6 @@ int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventur
 * 0 if success
 * 1 if failure
 */
-int execute_random_range_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx);
+int execute_random_switch_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx);
 
 #endif
