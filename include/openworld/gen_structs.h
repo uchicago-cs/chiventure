@@ -262,6 +262,7 @@ int itemspec_free(itemspec_t *itemspec);
 * - items: ptr to the hash table of the items
 * - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Does not affect itemspec hash. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
+* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
 *
 * returns:
 * SUCCESS - for SUCCESS
@@ -279,7 +280,8 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - items: ptr to the hash table of the items
 * - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
-*
+* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
+* 
 * returns:
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
