@@ -206,7 +206,6 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     free(agent_dir);
     free(agent_indir);
     action_type_free(a);
-    //game_action_free(ga);
     player_free(player);
     free(value);
 

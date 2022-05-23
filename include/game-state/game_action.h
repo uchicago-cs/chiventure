@@ -7,19 +7,12 @@
 #include "condition.h"
 #include "npc/npc.h"
 
-// Forward declartions. Full typedefs can be found in action_structs.h
+/* Forward declartions. Full typedefs can be found in action_structs.h */
 typedef struct game_action game_action_t;
 typedef struct game_action game_action_hash_t;
 typedef struct game_action_effect game_action_effect_t;
 
-/* Forward declarations. Full typedefs can be found in item.h */
-//typedef struct attribute attribute_t;
-//typedef struct attribute_wrapped_for_llist attribute_list_t;
-//typedef union attribute_value attribute_value_t;
-//typedef struct attribute attribute_hash_t;
-//typedef struct item item_t;
-//typedef struct item item_hash_t;
-//typedef struct item_wrapped_for_llist item_list_t;
+/* Forward declaration. Full typedefs can be found in item.h */
 typedef struct game_action_effect action_effect_list_t;
 
 // ------------------------- ACTION FUNCTIONS -------------------------
@@ -33,7 +26,7 @@ typedef struct game_action_effect action_effect_list_t;
  * Returns:
  *  the action struct associated or NULL if not associated
  */
-game_action_t *get_action(agent_t *agent, char* action_name);
+game_action_t *get_action(agent_t *agent, char *action_name);
 
 /* add_action() adds a (presumed legal) action to an agent
  * Parameters:
@@ -46,7 +39,7 @@ game_action_t *get_action(agent_t *agent, char* action_name);
  * Returns:
  *  SUCCESS if added correctly, FAILURE if failed to add
  */
-int add_action(agent_t* agent, char *action_name, char* success_str, char* fail_str);
+int add_action(agent_t *agent, char *action_name, char *success_str, char *fail_str);
 
 
 /* possible_action() checks if an item permits a specific action
@@ -56,7 +49,7 @@ int add_action(agent_t* agent, char *action_name, char* success_str, char* fail_
  * Returns:
  *  SUCCESS if item contains action, FAILURE if it does not
  */
-int possible_action(agent_t* agent, char* action_name);
+int possible_action(agent_t *agent, char *action_name);
 
 /*
  * Function to get a linked list (utlist) of all the actions in the item
@@ -193,7 +186,7 @@ int do_effect(game_action_effect_t *effect);
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(agent_t* agent, char* action_name);
+int do_all_effects(agent_t *agent, char *action_name);
 
 /* action_init() initializes an action struct with given values
    arguments are taken from action management

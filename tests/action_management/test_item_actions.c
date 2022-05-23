@@ -150,7 +150,6 @@ int execute_do_item_action(char *act_name, enum action_kind kind, char *allowed_
     item_free(agent->item);
     free(agent);
     action_type_free(a);
-    //game_action_free(ga);
     free(value);
 
     return rc;

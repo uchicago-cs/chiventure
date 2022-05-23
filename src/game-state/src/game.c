@@ -112,7 +112,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
-quest_t *get_quest(game_t* game, char *quest_id)
+quest_t *get_quest(game_t *game, char *quest_id)
 {
     return get_quest_from_hash(quest_id, game->all_quests);
 }
@@ -219,7 +219,7 @@ bool is_game_over(game_t *game)
 }
 
 /* See game.h */
-int create_connection(game_t *game, char* src_room, char* to_room,
+int create_connection(game_t *game, char *src_room, char *to_room,
                       char* direction)
 {
     room_t *src = find_room_from_game(game, src_room);
@@ -257,7 +257,7 @@ player_t *get_player(game_t *game, char *player_id)
 }
 
 /* See game.h */
-room_t *find_room_from_game(game_t *game, char* room_id)
+room_t *find_room_from_game(game_t *game, char *room_id)
 {
     char *room_id_case = case_insensitized_string(room_id);
     room_t *r;
@@ -330,7 +330,7 @@ int move_room(game_t *game, room_t *new_room)
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int delete_all_items_from_game(item_hash_t* all_items)
+int delete_all_items_from_game(item_hash_t *all_items)
 {
     item_t *current_item, *tmp;
     HASH_ITER(hh_all_items, all_items, current_item, tmp)
@@ -430,8 +430,8 @@ item_list_t *get_all_items_in_game(game_t *game)
 }
 
 /* see game.h */
-int add_effect(game_t *game, char* action_name, char* item_src_name,
-               char* item_modify_name, char* attribute_name, attribute_value_t *new_value)
+int add_effect(game_t *game, char *action_name, char *item_src_name,
+               char *item_modify_name, char *attribute_name, attribute_value_t *new_value)
 {
     item_t *item_src = get_item_from_game(game, item_src_name);
     agent_t *agent = malloc(sizeof(agent_t));

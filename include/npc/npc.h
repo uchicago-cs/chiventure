@@ -64,16 +64,15 @@ enum agent_tag {ITEMS, NPCS};
 typedef struct game_action_effect{
     enum agent_tag agent_tag;
     agent_t *agent;
-    attribute_t* attribute_to_modify;
+    attribute_t *attribute_to_modify;
     attribute_value_t *new_value;
     struct game_action_effect *next; //mandatory for utlist macros
 } game_action_effect_t;
 
 /* This typedef is to distinguish between game_action_effect_t
-* pointers which are used to point to the game_action_effect_t structs
-* in the traditional sense, and those which are used to enable UTLIST functionality
-* on the game_action_effect_t structs as specified in src/common/include
-*/
+ * pointers which are used to point to the game_action_effect_t structs
+ * in the traditional sense, and those which are used to enable UTLIST functionality
+ * on the game_action_effect_t structs as specified in src/common/include */
 typedef struct game_action_effect action_effect_list_t;
 
 
