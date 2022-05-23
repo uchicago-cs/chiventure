@@ -68,10 +68,12 @@ int add_item_to_room(room_t *room, item_t *item)
     //int rc;
     assert(item != NULL);
     item_t *tmp;
-    HASH_FIND_STR(room->items, item->item_id, tmp);
+    char *id = item->item_id;
+    item_hash_t *head = room->items;
+    HASH_FIND(hh, head, id, strlen(id), tmp);
     if (tmp == NULL)
     {
-        HASH_ADD(hh, room->items, item_id, strlen(item->item_id), item);
+        HASH_ADD_KEYPTR(hh, head, id, strlen(id), item);
         return SUCCESS;
     }
     else
