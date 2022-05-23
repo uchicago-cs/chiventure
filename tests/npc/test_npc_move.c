@@ -183,15 +183,15 @@ Test(npc_mov, move_npc_mov_def)
 
     int check2 = move_npc_mov(npc_mov);
 
-    cr_assert_eq(check2, SUCCESS, "move_npc_def() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_mov() failed");
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
-                     "move_npc_def() failed to move once");
+                     "move_npc_mov() failed to move once");
 
     check2 = move_npc_mov(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"room_to_add2",
-                     "move_npc_def() failed to move twice");
+                     "move_npc_mov() failed to move twice");
 
     int check3 = move_npc_mov(npc_mov);
 
@@ -258,7 +258,7 @@ Test(npc_mov, flip_npc_path_direction)
     cr_assert_eq(check1, SUCCESS, "extend_path_def() failed");
 
     int check2 = move_npc_mov(npc_mov);
-    cr_assert_eq(check2, SUCCESS, "move_npc_def() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_mov() failed");
 
     int check3 = flip_npc_path_direction(npc_mov);
     cr_assert_eq(check3, SUCCESS, "flip_npc_path_direction() failed");
