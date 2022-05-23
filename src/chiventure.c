@@ -121,11 +121,6 @@ int main(int argc, char **argv)
             start_ui(ctx, banner_small);
         } 
     }
-
-    if (fork() == 0)
-    {
-        time_dependent_functions(game);
-    }
     
     game_free(ctx->game);
 
