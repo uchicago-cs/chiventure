@@ -243,7 +243,7 @@ cmd** cmd_from_string(char *s, chiventure_ctx_t *ctx)
     int count = 0;
     
     // Tokenizes input by "and" string
-    while ((currcmd = strtok_r(s, "and", &s)))
+    while ((currcmd = strtok_r(s, "AND", &s)))
     {
         //When string token is not null
         if (s != NULL) 

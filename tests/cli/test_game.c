@@ -81,10 +81,9 @@ Test(game, go)
     /* Check that the game is in the initial room */
     cr_assert_eq(ctx->game->curr_room, room1);
 
-    char *cmd_str = strdup("GO NORTH");
+    char *cmd_str = strdup("GO north");
     cmd **cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
-
     do_cmd(cmd[0], NULL, NULL, ctx);
 
     /* Check that current room has changed */
@@ -96,13 +95,12 @@ Test(game, go)
     chiventure_ctx_free(ctx);
 }
 
-/* Creates a sample game and runs the LOOK and go north commands toghether */
+/* Creates a sample game and runs the LOOK and GO north commands toghether */
 Test(game,mult_cmds)
 { 
-    int quit;
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-    char *cmd_str = strdup("LOOK and go NORTH");
+    char *cmd_str = strdup("LOOK AND GO north");
     cmd **cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
@@ -120,7 +118,7 @@ Test(game,cmd_with_end_and)
     int quit;
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-    char *cmd_str = strdup("LOOK and");
+    char *cmd_str = strdup("LOOK AND");
     cmd **cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
@@ -131,13 +129,13 @@ Test(game,cmd_with_end_and)
     chiventure_ctx_free(ctx);
 }
 
-/* Creates a sample game and runs the "LOOK" and go north commands toghether */
+/* Creates a sample game and runs the "LOOK" and GO north commands toghether */
 Test(game,mult_cmds_start_quotes)
 { 
     int quit;
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-    char *cmd_str = strdup("\"LOOK\" and go NORTH");
+    char *cmd_str = strdup("\"LOOK\" AND GO north");
     cmd **cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
@@ -149,13 +147,13 @@ Test(game,mult_cmds_start_quotes)
     chiventure_ctx_free(ctx);
 }
 
-/* Creates a sample game and runs the        LOOK    and    go     north commands toghether */
+/* Creates a sample game and runs the        LOOK    and    GO     north commands toghether */
 Test(game, extra_spaces)
 { 
     int quit;
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-    char *cmd_str = strdup("LOOK    and    go     NORTH");
+    char *cmd_str = strdup("LOOK    AND    GO          north");
     cmd **cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
@@ -174,7 +172,7 @@ Test(game, same_cmds)
     int quit;
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-    char *cmd_str = strdup("LOOK and LOOK");
+    char *cmd_str = strdup("LOOK AND LOOK");
     cmd **cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 

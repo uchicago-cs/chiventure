@@ -193,14 +193,15 @@ void cmd_show(cmd *c, chiventure_ctx_t *ctx);
 /* === command parsing === */
 
 /*
- * Builds a cmd (as defined above) from a string
- * Almost unneeded, but will stay so that AND is a working command.
+ * Builds a cmd (as defined above) from a string, separates inputs
+ * into tokens separated by "AND"
+ * Almost unneeded, but will stay so that AND, ';' are working commands.
  *
  * Parameters:
  * - array of characters, pointer to chiventure context struct
  *
  * Returns:
- * - pointer to command struct, NULL if parse fails
+ * - arrays of arrays of command structs, NULL if parse fails
  */
 cmd **cmd_from_string(char *s, chiventure_ctx_t *ctx);
 

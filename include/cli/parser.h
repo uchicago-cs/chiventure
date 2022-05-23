@@ -19,14 +19,14 @@ typedef struct tokenized_cmds {
 #define TOKEN_LIST_SIZE 4
 
 /*
- * Parses a string into a linked list, breaking on the string "AND"
+ * Parses a string into a linked list, breaking on the string ";"
  *
  * Parameters:
  * - input: string to be parsed
  *   e.g parse_r(ab cd and xy)
  *
  * Returns:
- * - A tokenized_cmds linked list containing strings that had "and" initially connecting them.
+ * - A tokenized_cmds linked list containing strings that had ";" initially connecting them.
  *   e.g ab cd -> xy
  *  
  *
