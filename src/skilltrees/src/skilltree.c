@@ -381,7 +381,7 @@ char *display_tree(skill_tree_t* tree){
     return display;
 }
 
-char *display_tree_description(skill_t* skill){
+char *display_skill_description(skill_t* skill){
     //Uses a static size, will crash for longer descriptions
     char buffer[150];
 

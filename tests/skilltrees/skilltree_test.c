@@ -643,7 +643,22 @@ Test(skilltree_test, display_tree_typical)
   skill_tree_node_add(skilltree, inner_node);
 
   char *display = display_tree(skilltree);
-  char check[1000] = "Skill Name: \"defuse bomb\", Prereq Level: 75, Current Level: 1\nSkill Name: \"chop tree\", Prereq Level: 76, Current Level: 1\nSkill Name: \"inner peace\", Prereq Level: 77, Current Level: 1\n";
-  cr_assert_eq(check, display,
-    "Error: display_tree failed\n");
+  char check[1000] = "Skill Name: defuse bomb, Prereq Level: 75, Current Level: 1\nSkill Name: chop tree, Prereq Level: 76, Current Level: 1\nSkill Name: inner peace, Prereq Level: 77, Current Level: 1\n";
+  cr_assert_eq(strcmp(check, display), 0, "Error: display_tree failed\n");
+}
+
+/* Tests display_skill_description given a typical skill */
+
+Test(skilltree_test, display_skill_description_typical)
+{ 
+  chiventure_ctx_t* ctx = create_player_and_stats();
+  item_t* bomb = add_bomb_item(ctx);
+  effect_t* defusebombeffect = make_bomb_effect(bomb);
+    
+  skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+      2, 5, defusebombeffect, NULL);
+
+  char *display = display_skill_description(skill1);
+  char check[1000] = "Skill Description: defuses a bomb\n";
+  cr_assert_eq(strcmp(check, display), 0, "Error: display_skill_description_typical failed\n");
 }

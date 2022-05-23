@@ -329,6 +329,6 @@ char *display_tree(skill_tree_t* tree);
  * Returns:
  *  - string to be printed
  */
-char *display_tree_description(skill_t* skill);
+char *display_skill_description(skill_t* skill);
 
 #endif /* INCLUDE_SKILLTREE_H_ */
