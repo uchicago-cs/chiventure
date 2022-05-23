@@ -161,7 +161,7 @@ int execute_random_chance_complex_skill(random_chance_type_t* chance_skill, chiv
 * 0 if success
 * 1 if failure
 */
-int execute_random_range_complex_skill(random_chance_type_t* range_skill, chiventure_ctx_t* ctx);
+int execute_random_range_complex_skill(random_range_type_t* range_skill, chiventure_ctx_t* ctx);
 
 /* 
 * Executes a random skill using a switch effect

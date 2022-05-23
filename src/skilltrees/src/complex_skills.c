@@ -160,8 +160,8 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
 *        must be an integer since it is used to execute skill a certain amount 
 *        of times.
 */
-int random_int_generator(float lower_bound, float upper_bound){
-    return (int)((rand() % (upper_bound - lower_bound + 1)) + lower_bound);
+int random_int_generator(int lower_bound, int upper_bound){
+    return ((rand() % (upper_bound - lower_bound + 1)) + lower_bound);
 }
 
 /* Takes in an upper value and generates random float within the range of 0 to 
@@ -178,7 +178,7 @@ int random_int_generator(float lower_bound, float upper_bound){
 * Returns;
 * - float: the float randomly generated between 0 and the given bound inclusive
 */
-int random_float_generator(float upper_bound){
+float random_float_generator(float upper_bound){
     return (float)rand()/(float)(RAND_MAX/upper_bound);
 }
 
@@ -198,12 +198,12 @@ int execute_random_chance_complex_skill(random_chance_type_t* chance_skill, chiv
 }
 
 /*See complex_skills.h */
-int execute_random_range_complex_skill(random_chance_type_t* range_skill, chiventure_ctx_t* ctx){
+int execute_random_range_complex_skill(random_range_type_t* range_skill, chiventure_ctx_t* ctx){
     if (range_skill->complex_skill->type != RANDOM_RANGE){
         return FAILURE;
     }
 
-    int value = random_int_generator(lower_bound, upper_bound);
+    int value = random_int_generator(range_skill->lower_bound, range_skill->upper_bound);
     for (int j = 0; j < value; j++){
         for (int i= 0; i < range_skill->complex_skill->num_skills; i++){
             skill_execute(range_skill->complex_skill->skills[i], ctx);

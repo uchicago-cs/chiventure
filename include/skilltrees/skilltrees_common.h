@@ -96,9 +96,9 @@ typedef struct complex_skill{
 } complex_skill_t;
 
 /* Random Chance complex type */
-typedef enum random_chance_type {
+typedef struct random_chance_type {
     //Complex skills struct, type must be RANDOM_SWITCH
-    complex_skill_t complex_skill;
+    complex_skill_t* complex_skill;
 
     // chance of failure of this skill
     float chance_failure;
@@ -106,22 +106,22 @@ typedef enum random_chance_type {
 } random_chance_type_t;
 
 /* Random Range complex type */
-typedef enum random_range_type {
+typedef struct random_range_type {
     //Complex skills struct, type must be RANDOM_SWITCH
-    complex_skill_t complex_skill;
+    complex_skill_t* complex_skill;
 
     // lower bound of values
-    float lower_bound;
+    int lower_bound;
 
     // upper bound of values
-    float upper_bound;
+    int upper_bound;
 
 } random_range_type_t;
 
 /* Random Switch complex type */
-typedef enum random_switch_type {
+typedef struct random_switch_type {
     //Complex skills struct, type must be RANDOM_SWITCH
-    complex_skill_t complex_skill;
+    complex_skill_t* complex_skill;
 
     //List of percentages for each subskill
     // e.g. if there were three subskills and each had an equal chance of being 
