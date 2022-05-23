@@ -4,23 +4,24 @@
 #include "npc/npc.h"
 #include "game-state/item.h"
 #include "playerclass/class.h"
+#include "battle/battle_state.h"
 
-battle_item_t *generate_test_battle_item(int id, int quantity, int durability,
-        char* description, bool battle, int attack, int defense, int hp)
-{
-    battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+ battle_item_t *npc_create_battle_item_new(int id, char *name, char* description, stat_changes_t *attributes, 
+                                         int quantity, bool attack)
+ {
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
-    item->id = id;
-    item->quantity = quantity;
-    item->durability = durability;
-    item->description = description;
-    item->battle = battle;
-    item->attack = attack;
-    item->hp = hp;
-    item->defense = defense;
+     item->id = id;
+     item->name = name;
+     item->description = description;
+     item->attributes = attributes;
+     item->quantity = quantity;
+     item->description = description;
+     item->attack = attack;
+     
 
-    return item;
-}
+     return item;
+ }
 
 /* Creates a sample class. Taken from test_class.c */
 class_t *generate_test_class()
@@ -323,12 +324,15 @@ Test(npc, add_battle_to_npc)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
-                            "A hearty dagger sure to take your breath away... for good",
-                            true, 20, 5, 0);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+                                20, true);
 
-    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger);
+    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, 
+		                HOSTILE, 25, generate_test_class(), dagger, NULL, NULL, NULL);
 
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     cr_assert_not_null(npc->npc_battle,
@@ -356,12 +360,16 @@ Test(npc, get_npc_battle)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
-                            "A hearty dagger sure to take your breath away... for good",
-                            true, 20, 5, 0);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+                                20, true);
 
     int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger);
+                                HOSTILE, 25, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     npc_battle_t *npc_battle = get_npc_battle(npc);
@@ -386,12 +394,16 @@ Test (npc, change_npc_health)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
-                            "A hearty dagger sure to take your breath away... for good",
-                            true, 20, 5, 0);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+                                20, true);
 
     int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger);
+                                HOSTILE, 25, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     int health1 = change_npc_health(npc, 30, 100);
@@ -437,12 +449,16 @@ Test(npc, get_npc_health)
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1, 20,
-                            "A hearty dagger sure to take your breath away... for good",
-                            true, 20, 5, 0);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+                                20, true);
 
     int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger);
+                                HOSTILE, 25, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     health = get_npc_health(npc);
@@ -473,19 +489,27 @@ Test(npc, check_npc_battle)
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
 
-    battle_item_t *dagger1 = generate_test_battle_item(1, 1, 20,
-                             "A hearty dagger sure to take your breath away... for good",
-                             true, 20, 5, 0);
+    stat_changes_t *dagger_changes1 = stat_changes_new();
+    dagger_changes1->phys_atk = 20;
+    dagger_changes1->phys_def = 5;
+    dagger_changes1->hp = 0;                        
+    battle_item_t *dagger1 = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes1,
+                                20, true);
 
-    battle_item_t *dagger2 = generate_test_battle_item(1, 1, 20,
-                             "A hearty dagger sure to take your breath away... for good",
-                             true, 20, 5, 0);
+    stat_changes_t *dagger_changes2 = stat_changes_new();
+    dagger_changes2->phys_atk = 20;
+    dagger_changes2->phys_def = 5;
+    dagger_changes2->hp = 0;                        
+    battle_item_t *dagger2 = npc_create_battle_item_new(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes2,
+                                20, true);
 
     int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger1);
+                                HOSTILE, 25, generate_test_class(), dagger1,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
-                            HOSTILE, 25, generate_test_class(), dagger2);
+                                HOSTILE, 25, generate_test_class(), dagger2,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true,

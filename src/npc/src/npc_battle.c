@@ -7,8 +7,9 @@
 /* See npc_battle.h */
 int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
                     move_t* moves, difficulty_t ai, hostility_t hostility_level,
-                    int surrender_level, class_t *class_type,
-                    battle_item_t *items)
+                    int surrender_level, class_t *class_type, 
+                    battle_item_t *items, battle_equipment_t *armor,
+                    battle_equipment_t *accessory, battle_equipment_t *weapon)
 {
     assert(npc_battle != NULL);
     npc_battle->health = health;
@@ -19,15 +20,21 @@ int npc_battle_init(npc_battle_t *npc_battle, int health, stat_t* stats,
     npc_battle->surrender_level = surrender_level;
     npc_battle->class_type = class_type;
     npc_battle->items = items;
+    npc_battle->armor = armor;
+    npc_battle->accessory = accessory;
+    npc_battle->weapon = weapon;
+
 
     return SUCCESS;
 }
 
 /* See npc_battle.h */
-npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
-                             difficulty_t ai, hostility_t hostility_level,
-                             int surrender_level, class_t *class_type,
-                             battle_item_t *items)
+npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves, 
+		                    difficulty_t ai, hostility_t hostility_level, 
+			                int surrender_level, class_t *class_type,
+                            battle_item_t *items, battle_equipment_t *armor,
+                            battle_equipment_t *accessory, 
+                            battle_equipment_t *weapon)
 {
     npc_battle_t *npc_battle;
     npc_battle = malloc(sizeof(npc_battle_t));
@@ -37,10 +44,13 @@ npc_battle_t *npc_battle_new(int health, stat_t* stats, move_t* moves,
     npc_battle->moves = malloc(sizeof(move_t));
     npc_battle->class_type = malloc(sizeof(class_t));
     npc_battle->items = malloc(sizeof(battle_item_t));
+    npc_battle->weapon = malloc(sizeof(battle_equipment_t));
+    npc_battle->accessory = malloc(sizeof(battle_equipment_t));
+    npc_battle->armor = malloc(sizeof(battle_equipment_t));
 
     int check = npc_battle_init(npc_battle, health, stats, moves, ai,
                                 hostility_level, surrender_level, class_type,
-                                items);
+                                items, armor, accessory, weapon);
 
     if (npc_battle == NULL || check != SUCCESS)
     {
