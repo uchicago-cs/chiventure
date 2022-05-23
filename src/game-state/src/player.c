@@ -211,6 +211,14 @@ int player_task_init(player_task_t *ptask, char *task_id, bool completed)
 }
 
 /* See player.h */
+int player_quest_free(player_quest_t *pquest) {
+    assert(pquest != NULL);
+    free(pquest->quest_id);
+    free(pquest);
+    return SUCCESS;
+}
+
+/* See player.h */
 int player_quest_hash_free(player_quest_hash_t *player_quests)
 {
     assert(player_quests != NULL);
@@ -218,8 +226,16 @@ int player_quest_hash_free(player_quest_hash_t *player_quests)
     HASH_ITER(hh, player_quests, current_player_quest, tmp)
     {
         HASH_DEL(player_quests, current_player_quest);
-        free(current_player_quest);
+        player_quest_free(current_player_quest);
     }
+    return SUCCESS;
+}
+
+/* See player.h */
+int player_task_free(player_task_t *ptask) {
+    assert(ptask != NULL);
+    free(ptask->task_id);
+    free(ptask);
     return SUCCESS;
 }
 

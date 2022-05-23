@@ -505,16 +505,27 @@ int prereq_add_task(prereq_t *prereq, char *task_id);
 reward_t *complete_task(char *task_id, quest_ctx_t *qctx);
 
 
-/* Returns the hash after deleting one or all quest.
+/* Removes a quest from a hash table
  *
  * Parameter:
- * - pointer to a hash table
+ * - pointer to a quest hash table
  * - quest ID, 
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
  */
 int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
+
+/* Removes a task from a player hash table
+ *
+ * Parameter:
+ * - pointer to a player task hash table
+ * - quest ID, 
+ * 
+ * Returns:
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
+ */
+int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
 
 
 /* Returns the hash after deleting one or all quest.
@@ -523,7 +534,7 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * - pointer to a hash table
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
  */
 int remove_quest_all(quest_hash_t **hash_table);
 
@@ -580,5 +591,13 @@ int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest
  * - SUCCESS if freed successfully, FAILURE if an error occured
 */
 int quest_ctx_free(quest_ctx_t *quest_ctx);
+
+/* Checks a task for completion and accepts the reward if it is complete
+* 
+* Parameters:
+* - task_id: The string id of the task getting checked
+* - qctx: A quest context containing the player and a list of all quests
+*/
+void update_task(char *task_id, quest_ctx_t *qctx);
 
 #endif /* QUESTS_STATE_H */
