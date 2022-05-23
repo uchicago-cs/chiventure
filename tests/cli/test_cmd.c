@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "cli/cmd.h"
-#include "cli/operations.h"
 
 /* Checks if the memory for a lookup table is successfully allocated */
 Test(lookup, new)

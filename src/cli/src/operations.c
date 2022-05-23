@@ -62,8 +62,13 @@ int mini (int a, int b, int c) {
     }
 }
 
-/*Calculates the Levenshtein Distance, given two strings,
-  Helper funtion to suggestions function*/
+/*Calculates the Levenshtein Distance, given two strings.
+  The Levenshtein distance measures the amount of changes needed
+  for the two words to be equal, so the lower the score,
+  the more similar the words are. My source for this formula, also
+  linked below is here:
+  https://en.wikipedia.org/wiki/Levenshtein_distance
+  Helper funtion to suggestions function.*/
 int levenshtein(char *action_input, char* action) 
 {
     int input_len = strlen(action_input);
@@ -74,6 +79,8 @@ int levenshtein(char *action_input, char* action)
         return input_len;
     }else if (input_len == 0) {
         return action_len;
+    // NOTE: tolower converts all uppercase letters to lowercase letters,
+    // and keeps lowercase letters the same.
     }else if (tolower(action_input[0]) == tolower(action[0])) {
         int both_tails = levenshtein(tail_inp, tail_act);
         return both_tails;
@@ -87,16 +94,28 @@ int levenshtein(char *action_input, char* action)
 }
 
 /* 
- * This function returns a string which is the suggestion
- * It finds the suggestion by using Levenshtein's
- * Distance formula linked here:
+ * This function returns a string which is a suggestion 
+ * obtained from comparing the input command with a list
+ * of actual commands. This is found by using the Levenshtein's Distance formula, 
+ * a fuzzy search mechanism to evaluate word similarity. More details linked here:
  * https://en.wikipedia.org/wiki/Levenshtein_distance
+ *
+ * Parameters:
+ *  - action_input: parsed input command (a string)
+ *  - actions: the actions_for_sug array that is globally defined 
+ *    here is what the suggestions function is called with currently
+ *    but any array of words to suggest would do.
+ *
+ * Returns:
+ *  - a string suggestion, which is a word from the actions array
  */
 char* suggestions(char *action_input, char** actions)
 {
 
     int min = levenshtein(action_input, actions[0]);
     int index = 0;
+    // Loops over all possible commands, and finds closest word
+    // to input, which it suggests
     for (int i = 1; i < NUM_ACTIONS; i++) 
     {
         int temp = levenshtein(action_input, actions[i]);
