@@ -262,7 +262,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
                 if(strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
-                    add_item_to_player(game->curr_player, curr_item);
+                    add_item_to_player(game->curr_player, curr_item, game);
                 }
             }
             curr_item = curr_item->next;

@@ -3,32 +3,13 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quests_state.h"
-
 /* Refer to quests_state.h */
-passive_mission_t *passive_mission_new(int xp, int levels, int health)
+mission_t *mission_new(char *target_name, mission_types_t type)
 {
-    passive_mission_t *mission = malloc(sizeof(passive_mission_t));
+    mission_t *mission = malloc(sizeof(mission_t));
     int rc;
 
-    rc = passive_mission_init(mission, xp, levels, health);
-
-    if (rc != SUCCESS)
-    {
-        fprintf(stderr, "\nCould not initialize  mission struct!\n");
-    }
-
-    return mission;
-}
-
-/* Refer to quests_state.h */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit)
-{
-    active_mission_t *mission = malloc(sizeof(active_mission_t));
-    int rc;
-
-    rc = active_mission_init(mission, item_to_collect, npc_to_meet, npc_to_kill,
-                      room_to_visit);
+    rc = mission_init(mission, target_name, type);
 
     if (rc != SUCCESS)
     {
@@ -55,40 +36,24 @@ reward_t *reward_new(int xp, item_t *item)
 }
 
 /* Refer to quests_state.h */
-stat_req_t *stat_req_new(int xp, int level)
+task_t *task_new(mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
 {
-    stat_req_t *stat_req = malloc(sizeof(stat_req_t));
+    task_t *task;
     int rc;
+    task = malloc(sizeof(task_t));
 
-    rc = stat_req_init(stat_req, xp, level);
-
+    rc = task_init(task, mission, id, reward, prereq);
     if (rc != SUCCESS)
     {
-        fprintf(stderr, "\nCould not initialize stats req struct!\n");
+        fprintf(stderr, "\nCould not initialize task struct!\n");
     }
 
-    return stat_req;
+    return task;
 }
 
 /* Refer to quests_state.h */
-achievement_t *achievement_new(mission_t *mission, char *id)
-{
-    achievement_t *achievement;
-    int rc;
-    achievement = malloc(sizeof(achievement_t));
-
-    rc = achievement_init(achievement,mission, id);
-    if (rc != SUCCESS)
-    {
-        fprintf(stderr, "\nCould not initialize achievement struct!\n");
-    }
-
-    return achievement;
-}
-
-/* Refer to quests_state.h */
-quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
-                   reward_t *reward, stat_req_t *stat_req) 
+quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
+                   reward_t *reward, prereq_t *prereq) 
 
 {
     quest_t *q;
@@ -101,7 +66,7 @@ quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
         return NULL;
     }
 
-    rc = quest_init(q, quest_id, achievement_tree, reward, stat_req, 0);
+    rc = quest_init(q, quest_id, task_tree, reward, prereq);
     if(rc != SUCCESS){
         fprintf(stderr, "\nCould not initialize quest struct!\n");
         return NULL;
@@ -111,27 +76,37 @@ quest_t *quest_new(long quest_id, achievement_tree_t *achievement_tree,
 }
 
 /* Refer to quests_state.h */
-int passive_mission_init(passive_mission_t *mission, int xp, int levels, int health)
-{
-    assert(mission != NULL);
+prereq_t *prereq_new(int hp, int level) {
+    prereq_t *prereq = malloc(sizeof(prereq_t));
 
-    mission->xp = xp;
-    mission->levels = levels;
-    mission->health = health;
+    int rc = prereq_init(prereq, hp, level);
+    if(rc != SUCCESS) {
+        fprintf(stderr, "\nCould not initialize prereq struct!\n");
+        return NULL;
+    }
+    return prereq;
+}
 
-    return SUCCESS;
+/* Refer to id_list.h */
+id_list_t *id_list_new() {
+    id_list_t *id_list = malloc(sizeof(id_list_t));
+
+    int rc = id_list_init(id_list);
+    if(rc != SUCCESS) {
+        fprintf(stderr, "\nCould not initialize id_list struct!\n");
+        return NULL;
+    }
+    return id_list;  
 }
 
 /* Refer to quests_state.h */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, 
-                        npc_t *npc_to_meet, npc_t *npc_to_kill, room_t *room_to_visit)
+int mission_init(mission_t *mission, char *target_name, mission_types_t type)
 {
     assert(mission != NULL);
+    assert(target_name != NULL);
 
-    mission->item_to_collect = item_to_collect;
-    mission->npc_to_meet = npc_to_meet;
-    mission->npc_to_kill = npc_to_kill;
-    mission->room_to_visit = room_to_visit;
+    mission->target_name = target_name;
+    mission->type = type;
 
     return SUCCESS;
 }
@@ -148,74 +123,70 @@ int reward_init(reward_t *rewards, int xp, item_t *item)
 }
 
 /* Refer to quests_state.h */
-int stat_req_init(stat_req_t *stat_req, int hp, int level)
+int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward, prereq_t *prereq)
 {
-    assert(stat_req != NULL);
-
-    stat_req->hp = hp;
-    stat_req->level = level;
+    assert(task != NULL);
+    assert(mission == NULL || prereq == NULL);
+    task->mission = mission;
+    task->reward = reward;
+    task->id = id;
+    task->prereq = prereq;
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int achievement_init(achievement_t *achievement, mission_t *mission, char *id)
-{
-    assert(achievement != NULL);
-
-    achievement->mission = mission;
-    achievement->completed = 0;
-    achievement->id = id;
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
-int quest_init(quest_t *q, long quest_id, achievement_tree_t *achievement_tree,
-                reward_t *reward, stat_req_t *stat_req, int status)
+int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree,
+                reward_t *reward, prereq_t *prereq)
 
 {
     assert(q != NULL);
 
-    q->quest_id = quest_id;
-    q->achievement_tree = achievement_tree;
+    q->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
+    q->task_tree = task_tree;
     q->reward = reward;
-    q->stat_req = stat_req;
-    q->status = status;
+    q->prereq = prereq;
+    
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int prereq_init(prereq_t * prereq, int hp, int level) {
+    assert(prereq != NULL);
+
+    prereq->hp = hp;
+    prereq->level = level;
+    prereq->quest_list = id_list_new();
+    prereq->task_list = id_list_new();
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int passive_mission_free(passive_mission_t *mission)
+int id_list_init(id_list_t *id_list) {
+    assert(id_list != NULL);
+
+    id_list->head = NULL;
+    id_list->length = 0;
+
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int mission_free(mission_t *mission)
 {
     assert(mission != NULL);
-
     free(mission);
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int active_mission_free(active_mission_t *mission)
+int task_free(task_t *task)
 {
-    assert(mission != NULL);
+    assert(task != NULL);
 
-    free(mission->item_to_collect);
-    free(mission->npc_to_meet);
-    free(mission->npc_to_kill);
-    free(mission->room_to_visit);
-    free(mission);
-
-    return SUCCESS;
-}
-
-/* Refer to quests_state.h */
-int achievement_free(achievement_t *achievement)
-{
-    assert(achievement != NULL);
-
-    free(achievement);
+    free(task);
 
     return SUCCESS;
 }
@@ -225,38 +196,105 @@ int quest_free(quest_t *q)
 {
     assert(q != NULL);
 
-    free(q->achievement_tree);
+    free(q->quest_id);
+    free(q->task_tree);
     free(q->reward);
-    free(q->stat_req);
+    free(q->prereq);
     free(q);
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int can_start_quest(quest_t *quest, player_t *player)
-{
+int prereq_free(prereq_t *prereq) {
+    assert(prereq != NULL);
+    if(prereq->quest_list) {
+        id_list_free(prereq->quest_list);
+    }
+    if(prereq->task_list) {
+        id_list_free(prereq->task_list);
+    }
+    free(prereq);
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int id_list_free(id_list_t *id_list) {
+    assert(id_list != NULL);
+    id_list_node_t *next = NULL;
+    for(id_list_node_t *cur = id_list->head; cur != NULL; cur = next) {
+        next = cur->next;
+        free(cur);
+    }
+    free(id_list);
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+bool completed_mission(mission_t *mission, player_t *player) {
+    assert(player != NULL);
+    if(mission == NULL) {
+        return true;
+    }
+    switch(mission->type) {
+        case VISIT_ROOM:
+            return !(strcmp(mission->target_name, player->crnt_room));
+            break;
+        case COLLECT_ITEM:
+            for(item_list_t *cur = get_all_items_in_inventory(player); cur != NULL; cur = cur->next) {
+                if(!strcmp(mission->target_name, cur->item->item_id)) {
+                    return true;
+                }
+            }
+            return false;
+            break;
+    }
+    return true;
+}
+
+/* Refer to quests_state.h */
+bool meets_prereqs(player_t *player, prereq_t *prereq) {
+    if(player == NULL) {
+        return false;
+    }
+    if(prereq == NULL) {
+        return true;
+    }
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
-
-    if (health >= quest->stat_req->hp && 
-        player->level >= quest->stat_req->level){
-            return 1;
+    
+    if (health < prereq->hp || player->level < prereq->level) {
+        return false;
+    }
+    id_list_t *quest_list = prereq->quest_list;
+    id_list_t *task_list = prereq->task_list;
+    for(id_list_node_t *cur = quest_list->head; cur != NULL; cur = cur->next) {
+        player_quest_t *pquest = get_player_quest_from_hash(cur->id, player->player_quests);
+        // 2 is the quest status, should be changed if status is switched to an enum
+        if(pquest->completion != 2) {
+            return false;
         }
-    return 0;
+    }
+    for(id_list_node_t *cur = task_list->head; cur != NULL; cur = cur->next) {
+        player_task_t *ptask = get_player_task_from_hash(cur->id, player->player_tasks);
+        if(!ptask->completed) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /*
- * Helper function to compare two achievements.
+ * Helper function to compare two tasks.
  *
  * Parameters:
- * - a1, a2: the two achievements to be compared
+ * - a1, a2: the two tasks to be compared
  *
  * Returns:
- * - 0 if the achievements are the same
+ * - 0 if the tasks are the same
  * - 1 otherwise
  */
-int compare_achievements(achievement_t *a1, achievement_t *a2)
+int compare_tasks(task_t *a1, task_t *a2)
 {
     if (strcmp(a1->id, a2->id) == 0)
     {
@@ -264,94 +302,61 @@ int compare_achievements(achievement_t *a1, achievement_t *a2)
     }
     return 1;
 }
-
-
 /*
- * Helper function used to find the bottom node on the left side of a tree
+ * Traverses the task tree to find the task with the
+ * given string identifier along a valid quest path.
  *
  * Parameters:
- * - t: a pointer to a tree
+ * - tree: pointer to the task tree to be traversed
+ * - id: pointer to a string identifier for the desired task
  *
  * Returns:
- * - a pointer to the tree with no children on the left side of the tree
+ * - pointer to the tree immediately containing the task, OR
+ * - NULL if task cannot be found along a valid path
+ *
+ * Note: Traversal no longer relies on task completion, so 
+ *       runtime is now O(T) where T is the number of tasks
+ *       in the game
  */
-achievement_tree_t *get_bottom_node(achievement_tree_t *t)
+task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
 {
-    assert(t != NULL);
-    achievement_tree_t *tmp = malloc(sizeof(achievement_tree_t));
-    tmp = t;
-    if(tmp->lmostchild != NULL)
-    {
-        get_bottom_node(tmp->lmostchild);
+    if(tree == NULL) {
+        return NULL;
     }
-    return tmp;
-}
+    assert(tree->task != NULL);
 
-/*
- * Helper function that finds an achievement tree given its string ID.
- * It's called find_parent() because of its use to find parent nodes
- * in add_achievement_to_quest().
- *
- * Parameters:
- * - tree: a pointer to an achievement tree
- * - id: the string identifier of the achievement being searched for
- *
- * Returns:
- * - NULL if achievement cannot be found
- * - The achievement tree being searched for
- */ 
-achievement_tree_t *find_parent(achievement_tree_t *tree, char *id)
-{
-
-    assert(tree != NULL);
-
-    achievement_tree_t *cur = tree;
-
-    while(cur != NULL)
+    if (strcmp(tree->task->id, id) == 0)
     {
-
-        if(strcmp(cur->achievement->id, id) == 0)
-        {
-            return cur;
-        }
-        else if(cur->rsibling != NULL)
-        {
-            cur = cur->rsibling;
-        }
-        else if(cur->parent->rsibling != NULL)
-        {
-            cur = cur->parent->rsibling;
-        }
-        else
-        {
-            return NULL;
-        }
+        return tree;
     }
+    task_tree_t * newTree;
+    newTree = find_task_tree_of_task_in_tree(tree->rsibling, id);
+    return (newTree != NULL) ? newTree : find_task_tree_of_task_in_tree(tree->lmostchild, id);
 }
 
 /* Refer to quests_state.h */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id)
+int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 {
     assert(quest != NULL);
 
-    achievement_tree_t *tree = malloc(sizeof(achievement_tree_t));
-    if (quest->achievement_tree == NULL)
+    task_tree_t *tree = malloc(sizeof(task_tree_t));
+    if (quest->task_tree == NULL)
     {
-        tree->achievement = achievement_to_add;
+        tree->task = task_to_add;
         tree->parent = NULL;
         tree->rsibling = NULL;
         tree->lmostchild = NULL;
-        quest->achievement_tree = tree;
+        quest->task_tree = tree;
         return SUCCESS;
     }
-    tree = find_parent(quest->achievement_tree, parent_id);
+    tree = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     assert(tree != NULL);
 
     if (tree->lmostchild == NULL)
     {
-        tree->lmostchild = malloc(sizeof(achievement_tree_t));
-        tree->lmostchild->achievement = achievement_to_add;
-        tree->lmostchild->parent = find_parent(quest->achievement_tree, parent_id);
+        tree->lmostchild = malloc(sizeof(task_tree_t));
+        tree->lmostchild->task = task_to_add;
+        tree->lmostchild->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     }
     else
     {
@@ -359,167 +364,375 @@ int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, 
         {
             tree = tree->rsibling;
         }
-        tree->rsibling = malloc(sizeof(achievement_tree_t));
-        tree->rsibling->achievement = achievement_to_add;
-        tree->rsibling->parent = find_parent(quest->achievement_tree, parent_id);
+        tree->rsibling = malloc(sizeof(task_tree_t));
+        tree->rsibling->task = task_to_add;
+        tree->rsibling->parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     }
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int start_quest(quest_t *quest)
+int start_quest(quest_t *quest, player_t *player, quest_hash_t *quest_hash)
 {
     assert(quest != NULL);
-
-    quest->status = 1;
+    assert(player != NULL);
+    int rc = add_quest_to_player(quest, player, 1, quest_hash); // 1 means the quest started, should be replaced when completion status is replaced with enums
+    assert(rc == SUCCESS);
+    player_quest_t *test = get_player_quest_from_hash(quest->quest_id, player->player_quests);
+    task_tree_t *cur = quest->task_tree;
+    while(cur) {
+        add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
+        if(is_task_completed(cur->task, player)) {
+            accept_reward(complete_task(cur->task->id, player, quest), player);
+            break;
+        }
+        cur = cur->rsibling;
+    }   
 
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int fail_quest(quest_t *quest)
+int fail_quest(quest_t *quest, player_t *player)
 {
     assert(quest != NULL);
-
-    quest->status = -1;
+    player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id,
+                             player->player_quests);
+    pquest->completion = -1;
 
     return SUCCESS;
 }
 
-/*
- * Traverses the achievement tree to find the achievement with the
- * given string identifier along a valid quest path.
- *
- * Parameters:
- * - tree: pointer to the achievement tree to be traversed
- * - id: pointer to a string identifier for the desired achievement
- *
- * Returns:
- * - pointer to the desired achievement, OR
- * - NULL if achievement cannot be found along a valid path
- *
- * Note: Achievements must be completed in order according to this
- *       traversal. Only one achievement on each level can be completed,
- *       so this "locks" a user into a path once they've begun
- *       completing achievements.
- */
-achievement_t *find_achievement(achievement_tree_t *tree, char *id)
+/* Refer to quests_state.h */
+bool is_quest_completed(quest_t *quest, player_t *player)
 {
-    achievement_t *achievement = tree->achievement;
+    assert(quest != NULL);
+    assert(player != NULL);
+    task_tree_t *cur = quest->task_tree;
 
-    assert(achievement != NULL);
-
-    if (strcmp(achievement->id, id) == 0)
-    {
-        if (achievement->completed == 1) return NULL;
-        return achievement;
+    player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
+    if(!pquest || pquest->completion == -1) {
+        return false;
     }
-    else if (achievement->completed == 1)
-    {
-        if (tree->lmostchild != NULL)
-        {
-            return find_achievement(tree->lmostchild, id);
+
+    bool crntStatus = true;
+    player_task_t *temp;
+    while(cur) {
+        temp = get_player_task_from_hash(cur->task->id, player->player_tasks);
+        if(temp && temp->completed) {
+            cur = cur->lmostchild;
+            crntStatus = true;
+            continue;
         }
-        return NULL;
+        cur = cur->rsibling;
+        crntStatus = false;
     }
-    else if (tree->rsibling != NULL)
-    {
-        return find_achievement(tree->rsibling, id);
-    }
-    return NULL;
+    pquest->completion = crntStatus ? 2 : 1;
+    return crntStatus;
 }
 
 /* Refer to quests_state.h */
-int complete_achievement(quest_t *quest, char *id)
+bool is_task_completed(task_t *task, player_t *player)
 {
-    achievement_tree_t *tree = quest->achievement_tree;
+    assert(task != NULL);
+    assert(player != NULL);
 
-    achievement_t *achievement = find_achievement(tree, id);
-
-    if (((strcmp(achievement->id,id)) == 0) &&
-            (achievement->completed == 0))
-    {
-        quest->achievement_tree->achievement->completed = 1;
-        return SUCCESS;
+    player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
+    if(!ptask) {
+        return false;
     }
-    else
-    {
-        return FAILURE;
+    if(ptask->completed) {
+        return true;
     }
-}
-
-/* Refer to quests_state.h */
-int is_quest_completed(quest_t *quest)
-{
-    assert (quest != NULL);
-    achievement_tree_t *tmp = malloc(sizeof(achievement_tree_t));
-    tmp = quest->achievement_tree;
-
-    while(tmp = get_bottom_node(tmp))
-    {
-        if(tmp->achievement->completed == 1)
-        {
-            quest->status = 2;
-            return 1;
-        }
-        else if(tmp->rsibling != NULL)
-        {
-            tmp = tmp->rsibling;
-        }
-        else if(tmp->parent->rsibling != NULL)
-        {
-            tmp = tmp->parent->rsibling;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+    return completed_mission(task->mission, player) && meets_prereqs(player, task->prereq);
 }
 
 /* Refer to quests_state.h */
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 {
     quest_t *q;
-    HASH_FIND(hh, hash_table, quest_id,  
-            strnlen(quest_id, MAX_ID_LEN), q);
-
+    HASH_FIND_STR(hash_table, quest_id, q);
     return q;
 }
 
 /* Refer to quests_state.h */
-int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table)
+int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
 {
     quest_t *check;
-
-    char buffer[MAX_ID_LEN];
-    sprintf(buffer, "%ld", quest->quest_id); //need to convert quest_ids to char *
-    
-    check = get_quest_from_hash(buffer, hash_table);
+  
+    check = get_quest_from_hash(quest->quest_id, *hash_table);
 
     if (check != NULL) 
     {
         return FAILURE; //quest id is already in the hash table
     }
 
-    HASH_ADD_KEYPTR(hh, hash_table, buffer,
-                    strnlen(buffer, MAX_ID_LEN), quest);
-
+    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
+                    strnlen(quest->quest_id, MAX_ID_LEN), quest);
     return SUCCESS;
 }
 
 /* Refer to quests_state.h */
-int get_quest_status(quest_t *quest)
+task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table) {
+    task_tree_t *tree = NULL;
+    for(quest_t *cur = hash_table; cur != NULL; cur = cur->hh.next) {
+        tree = find_task_tree_of_task_in_tree(cur->task_tree, id);
+        if(tree != NULL) {
+            break;
+        }
+    }
+    return tree;
+}
+
+/* Refer to quests_state.h */
+task_t *get_task_from_hash(char *id, quest_hash_t *hash_table) {
+    return get_task_tree_from_hash(id, hash_table)->task;
+}
+
+/* Refer to quests_state.h */
+quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table) {
+    task_tree_t *tree = NULL;
+    quest_t *cur;
+    for(cur = hash_table; cur != NULL; cur = cur->hh.next) {
+        tree = find_task_tree_of_task_in_tree(cur->task_tree, task_id);
+        if(tree != NULL) {
+            break;
+        }
+    }
+    return cur;
+}
+
+/* Refer to quests_state.h */
+player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table)
 {
-    return quest->status;
+    player_quest_t *q;
+    HASH_FIND_STR(hash_table, quest_id, q);
+    return q;
+}
+
+/* Refer to quests_state.h */
+player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table)
+{
+    player_task_t *t;
+    HASH_FIND(hh, hash_table, id,  
+            strnlen(id, MAX_ID_LEN), t);
+
+    return t;
+}
+
+/* Refer to quests_state.h */
+int add_quest_to_player(quest_t *quest, player_t *player, int completion, quest_hash_t *quest_hash)
+{
+    player_quest_t *check;
+    
+    player_quest_hash_t **hash_table = &player->player_quests;
+    check = get_player_quest_from_hash(quest->quest_id, *hash_table);
+
+    if (check != NULL) 
+    {
+        return FAILURE; //quest id is already in the hash table
+    }
+    player_quest_t *player_quest = player_quest_new(quest->quest_id, completion);
+
+    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
+                    strnlen(quest->quest_id, MAX_ID_LEN), player_quest);
+
+    player_task_hash_t **task_hash = &player->player_tasks;
+    if(quest->prereq) {
+        id_list_node_t *temp = quest->prereq->task_list->head;
+        while (temp != NULL) {
+            task_t *new_task = get_task_from_hash(temp->id, quest_hash);
+            add_task_to_player_hash(new_task, task_hash, quest_hash);
+            temp = temp->next;
+        }
+    }
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int add_task_to_player_hash(task_t *task, player_task_hash_t **hash_table, quest_hash_t *quest_hash)
+{
+    player_task_t *check;
+    
+    check = get_player_task_from_hash(task->id, *hash_table);
+
+    if (check != NULL) 
+    {
+        return FAILURE; //task id is already in the hash table
+    }
+    player_task_t *player_task = player_task_new(task->id, false);
+
+    HASH_ADD_KEYPTR(hh, *hash_table, task->id,
+                    strnlen(task->id, MAX_ID_LEN), player_task);
+
+    if(task->prereq) {
+        id_list_node_t *temp = task->prereq->task_list->head;
+        while (temp != NULL) {
+            task_t *new_task = get_task_from_hash(temp->id, quest_hash);
+            add_task_to_player_hash(new_task, hash_table, quest_hash);
+            temp = temp->next;
+        }
+    }
+  
+    return SUCCESS;
+}
+
+/* Refer to quests_state.h */
+int get_player_quest_status(quest_t *quest, player_t *player)
+{
+    player_quest_t *pquest = get_player_quest_from_hash(quest->quest_id, player->player_quests);
+    if(!pquest) {
+        return 0;
+    }
+    return pquest->completion;
+}
+
+/* Refer to quests_state.h */
+bool get_player_task_status(task_t *task, player_t *player)
+{
+    player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
+    return ptask->completed;
 }
 
 /* Refer quests_state.h */
-reward_t *complete_quest(quest_t *quest)
+reward_t *complete_quest(quest_t *quest, player_t *player)
 {
-    if (get_quest_status(quest) == 2)
+    if (get_player_quest_status(quest, player) == 2)
         return quest->reward;
     else
         return NULL;
+}
+
+
+/* Refer to quests_state.h */
+int id_list_add(id_list_t *id_list, char *id) {
+    assert(id_list != NULL);
+    assert(id != NULL);
+
+    id_list_node_t *node = malloc(sizeof(id_list_node_t));
+    assert(node != NULL);
+
+    node->id = id;
+    node->next = NULL;
+    
+    if(id_list->head == NULL) {
+        id_list->head = node;
+    }
+    else {
+        id_list_node_t *cur = id_list->head;
+        while(cur->next != NULL) {
+            cur = cur->next;
+        }
+        cur->next = node;
+    }
+    id_list->length++;
+    return SUCCESS;
+} 
+
+/*Refer to quests_state.h */
+int prereq_add_quest(prereq_t *prereq, char *quest_id) {
+    assert(prereq != NULL);
+    assert(quest_id != NULL);
+    return id_list_add(prereq->quest_list, quest_id);
+}
+
+/*Refer to quests_state.h */
+int prereq_add_task(prereq_t *prereq, char *task_id) {
+    assert(prereq != NULL);
+    assert(task_id != NULL);
+    return id_list_add(prereq->task_list, task_id);
+}
+
+
+
+/* refer to quests_state.h */
+int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id) 
+{
+    quest_t *check; 
+    check = get_quest_from_hash(quest_id, hash_table);
+
+    if (check == NULL){ 
+        return FAILURE; /* quest is not in hash_table) */
+    } 
+
+    HASH_DEL(hash_table,check); 
+    quest_free(check); 
+    if (get_quest_from_hash(quest_id, hash_table) != NULL){
+        return FAILURE;
+    }
+    return SUCCESS;
+
+}
+
+/* refer to quests_state.h */
+int remove_quest_all(quest_hash_t *hash_table)
+{ 
+    quest_t *current_quest, *temp; 
+    HASH_ITER(hh, hash_table, current_quest, temp) 
+    { 
+        HASH_DEL(hash_table, current_quest);
+        free(current_quest);
+    }
+    return SUCCESS; 
+}
+
+/* Refer quests_state.h */
+reward_t *complete_task(char *task_id, player_t *player, quest_hash_t *quest_hash)
+{
+    assert(player != NULL);
+
+    task_tree_t *tree = get_task_tree_from_hash(task_id, quest_hash);
+    assert(tree != NULL);
+    
+    quest_t *quest_of_task = get_quest_of_task(tree->task->id, quest_hash);
+    int pquest_exists = !!get_player_quest_from_hash(quest_of_task->quest_id, player->player_quests);
+
+    if (is_task_completed(tree->task, player)) 
+    {
+        player_task_t *ptask = get_player_task_from_hash(tree->task->id, player->player_tasks);
+        if(ptask->completed == true) {
+            return NULL;
+        }
+        ptask->completed = true;
+        if(pquest_exists) {
+            for(task_tree_t *cur = tree->lmostchild; cur != NULL; cur = cur->rsibling) {
+                add_task_to_player_hash(cur->task, &player->player_tasks, quest_hash);
+                if(is_task_completed(cur->task, player)) {
+                    accept_reward(complete_task(cur->task->id, player, quest_hash), player);
+                    break;
+                }
+            }
+        }
+        
+        if(is_quest_completed(quest_of_task, player)) {
+            accept_reward(complete_quest(quest_of_task, player), player);
+        }
+        return tree->task->reward;
+    } 
+    else
+    {
+        return NULL;
+    }
+}
+
+/* Refer to quest_state.h */
+int accept_reward(reward_t *reward, player_t *player) {
+    assert(player != NULL);
+    if(reward == NULL) {
+        return FAILURE;
+    }
+
+    player->xp += reward->xp;
+    add_item_to_hash(&player->inventory, reward->item);
+    return SUCCESS;
+}
+
+/* Refer to quest_state.h */
+int update_player_quests(player_t *player, quest_hash_t *quest_hash) {
+    assert(player != NULL);
+
+    for(player_task_hash_t *cur = player->player_tasks; cur!= NULL; cur = cur->hh.next) {
+        accept_reward(complete_task(cur->task_id, player, quest_hash), player);
+    }
 }

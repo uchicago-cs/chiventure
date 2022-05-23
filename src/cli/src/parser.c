@@ -96,7 +96,8 @@ tokenized_cmds *parse_r(char *input)
 /* See parser.h */
 char **parse(char *input)
 {
-    if(strcmp(input, "") == 0)
+
+    if (strcmp(input, "") == 0)
     {
         return NULL;
     }
@@ -105,27 +106,105 @@ char **parse(char *input)
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    char **by_quotes;
+    by_quotes = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+
 
     //Initializes all words to NULL
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         words[i] = NULL;
+        by_quotes[i] = NULL;
     }
 
-    char *token = strtok(input, " ");
+    char *token_quotes = strtok(input, "\"");
 
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    //Populates by_quotes array with tokens separated by " character
+    for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
-        words[i] = token;
-        token = strtok(NULL, " ");
+
+        by_quotes[i] = token_quotes;
+        token_quotes = strtok(NULL, "\"");
+
     }
 
-    //If there are more than 4 words, parser returns NULL and does not attempt
-    //to pass the first four words as tokens
-    if(token != NULL)
+    //If the first character of the input is not "
+    if (input[0] != '\"')
     {
-        return NULL;
+        char *token = strtok(input, " ");
+
+        //Populates words array with tokens separated by space (" ") character
+        for (int i = 0; i < 4; i++)
+        {
+
+            words[i] = token;
+            token = strtok(NULL, " ");
+ 
+        }
+
+        // iterates through words array until it finds a null, inserts the by_quotes value
+        // corresponding to words in between the two quotes ("example"). This assumes
+        // only one pair of double quotes is used
+        for (int j = 0; j < TOKEN_LIST_SIZE; j++) 
+        {
+            if (!(words[j])) 
+            {
+                words[j] = by_quotes[1];
+                break;
+            }
+        }
+
+        //If there are more than 4 words, parser returns NULL and does not attempt
+        //to pass the first four words as tokens
+
+        if (token != NULL)
+        {
+            return NULL;
+        }
+
+        return words;
+
+    //If the first character of the input is "
+    }
+    else
+    {
+        
+        char* token;
+        int len = strlen(input) - 1;
+        // tokenises using spaces the contents between the two airquotes
+        // which have already been tokenized into by_quotes array.
+        words[0] = by_quotes[0];
+
+
+        if (input[len] != '\"') 
+        {
+            
+            token = strtok(by_quotes[1], " ");
+
+            //Populates words array with tokens separated by space (" ") character
+            for (int i = 1; i < TOKEN_LIST_SIZE; i++)
+            {
+
+                words[i] = token;
+                token = strtok(NULL, " ");
+
+            }
+        
+        }
+        else
+        {
+            words[1] = NULL;
+        }
+
+        //If there are more than 4 words, parser returns NULL and does not attempt
+        //to pass the first four words as tokens
+
+        if (token != NULL)
+        {
+            return NULL;
+        }
+
+        return words;
     }
 
-    return words;
 }

@@ -91,7 +91,11 @@ player_t* player_new(char *player_id)
     player->player_skills = NULL;
     player->player_effects = NULL;
     player->player_race = NULL;
+    player->player_quests = NULL;
+    player->player_tasks = NULL;
     player->inventory = NULL;
+
+    player->crnt_room = "";
 
     return player;
 }
@@ -125,11 +129,113 @@ int player_free(player_t* player)
         delete_all_stat_effects(player->player_effects);
     }
 
+    if (player->player_quests != NULL)
+    {
+        player_quest_hash_free(player->player_quests);
+    }
+
+    if (player->player_tasks != NULL)
+    {
+        player_task_hash_free(player->player_tasks);
+    }
+
     free(player);
     
     return SUCCESS;
 }
 
+/* See player.h */
+player_quest_t *player_quest_new(char *quest_id, int completion)
+{
+    player_quest_t *pquest;
+    int rc;
+    pquest = malloc(sizeof(player_quest_t));
+
+    if(pquest == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player quest!\n");
+        return NULL;
+    }
+
+    rc = player_quest_init(pquest, quest_id, completion);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player quest struct!\n");
+        return NULL;
+    }
+
+    return pquest;
+}
+
+/* See player.h */
+player_task_t *player_task_new(char *task_id, bool completed)
+{
+    player_task_t *ptask;
+    int rc;
+    ptask = calloc(1, sizeof(player_task_t));
+
+    if(ptask == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for player task!\n");
+        return NULL;
+    }
+
+    rc = player_task_init(ptask, task_id, completed);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize player task struct!\n");
+        return NULL;
+    }
+
+    return ptask;
+}
+
+/* See player.h */
+int player_quest_init(player_quest_t *pquest, char *quest_id, int completion)
+{
+    assert(pquest != NULL);
+
+    pquest->quest_id = strndup(quest_id, QUEST_NAME_MAX_LEN);
+    pquest->completion = completion;
+    return SUCCESS;
+}
+
+/* See player.h */
+int player_task_init(player_task_t *ptask, char *task_id, bool completed)
+{
+    assert(ptask != NULL);
+
+    ptask->task_id = strndup(task_id, QUEST_NAME_MAX_LEN);
+    ptask->completed = completed;
+    return SUCCESS;
+}
+
+/* See player.h */
+int player_quest_hash_free(player_quest_hash_t *player_quests)
+{
+    assert(player_quests != NULL);
+    player_quest_hash_t *current_player_quest, *tmp;
+    HASH_ITER(hh, player_quests, current_player_quest, tmp)
+    {
+        HASH_DEL(player_quests, current_player_quest);
+        free(current_player_quest);
+    }
+    return SUCCESS;
+}
+
+int player_task_hash_free(player_task_hash_t *player_tasks)
+{
+    assert(player_tasks != NULL);
+    player_task_t *current_player_task, *tmp;
+    HASH_ITER(hh, player_tasks, current_player_task, tmp)
+    {
+        HASH_DEL(player_tasks, current_player_task);
+        free(current_player_task);
+    }
+    return SUCCESS;
+}
+
+/* See player.h */
 int delete_all_players(player_hash_t* players)
 {
     player_t *current_player, *tmp;
@@ -172,32 +278,6 @@ int change_xp(player_t* player, int points)
 item_hash_t* get_inventory(player_t* player)
 {
     return player->inventory;
-}
-
-/* See player.h */
-int add_item_to_player(player_t *player, item_t *item)
-{
-    int rc;
-
-    if (item->stat_effects != NULL) {
-        stat_effect_t *current, *tmp, *e;
-        stat_mod_t *elt, *search;
-        stats_t *s;
-        HASH_ITER(hh, item->stat_effects, current, tmp) {
-            LL_FOREACH(current->stat_list, elt) {
-                HASH_FIND(hh, player->player_class->base_stats, elt->stat->key, 
-                          strlen(elt->stat->key), s);
-                if (s != NULL) {
-                    apply_effect(&player->player_class->effects, current, &s,
-                                 &elt->modifier, &elt->duration, 1);
-                }
-            }
-        }
-    }
-
-    rc = add_item_to_hash(&(player->inventory), item);
-
-    return rc;
 }
 
 /* See player.h */
