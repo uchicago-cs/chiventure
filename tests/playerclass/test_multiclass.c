@@ -194,7 +194,7 @@ Test(multiclass, iterated_longdesc){
     check_field_presence(c2);
     check_field_presence(c3);
 
-    class_t* mul = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
+    class_t* mul = multiclass(c1, multiclass(c2, c3, "bard-rogue"), "strong");
 
     check_field_presence(mul);
 
