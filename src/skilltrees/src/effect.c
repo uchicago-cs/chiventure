@@ -111,11 +111,52 @@ item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum att
 }
 
 /* See effect.h */
-item_stat_effect_t* define_item_stat_effect()
+item_stat_effect_t* define_item_stat_effect(item_t* item, char** stat_names, double* modifications, int* durations, int num_stats)
 {
-    //TODO
-    return NULL;
+    
+if(item == NULL)
+    {
+        fprintf(stderr, "Item not found \n");
+        return NULL;
+    }
+
+    item_stat_effect_t* new_item_stat_effect = (item_stat_effect_t*)malloc(sizeof(item_stat_effect_t));
+    if (new_item_stat_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for new item stat effect \n");
+        return NULL;
+    }
+
+    new_item_stat_effect->item = item;
+    new_item_stat_effect->stats = (stats_t**)malloc(num_stats*sizeof(stats_t*));
+    if (new_item_stat_effect->stats == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for statistics in the effect \n");
+        return NULL;
+    }
+    stats_t *sh = item->stat_effects->stat_list->stat;
+    stats_t *curr;
+    for (int i = 0; i < num_stats; i++)
+    {
+        HASH_FIND_STR(sh, stat_names[i], curr);
+        
+        if (curr == NULL)
+        {
+            fprintf(stderr, "%s", stat_names[i]);
+            fprintf(stderr, "Error: Given player statistic does not exist. \n");
+            return NULL;
+        }
+        else
+        {
+            new_item_stat_effect->stats[i]=curr;
+        }
+    }
+    new_item_stat_effect->modifications = modifications;
+    new_item_stat_effect->durations = durations;
+    new_item_stat_effect->num_stats=num_stats;
+    return new_item_stat_effect;
 }
+
 
 /* See effect.h */
 effect_t* make_player_stat_effect(player_stat_effect_t* player_stat_effect)
@@ -175,10 +216,41 @@ effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
 }
 
 /* See effect.h */
+effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
+{
+    if (item_attr_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL item attribute effect");
+        return NULL;
+    }
+    effect_t* new_attr_effect = malloc(sizeof(effect_t));
+    if (new_attr_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
+    new_attr_effect->effect_type = ITEM_ATTRIBUTE_MOD;
+    new_attr_effect->data.i_a = item_attr_effect;
+    return new_attr_effect;
+}
+
+/* See effect.h */
 effect_t* make_item_stat_effect(item_stat_effect_t* item_stat_effect)
 {
-    //TODO 
-    return NULL;
+        if (item_stat_effect == NULL)
+    {
+        fprintf(stderr, "Error: Given NULL player stat effect");
+        return NULL;
+    }
+    effect_t* new_effect = (effect_t*)malloc(sizeof(effect_t));
+    if (new_effect == NULL)
+    {
+        fprintf(stderr, "Error: Could not allocate memory for effect");
+        return NULL;
+    }
+    new_effect->effect_type = ITEM_STATISTIC_MOD;
+    new_effect->data.i_s = item_stat_effect;
+    return new_effect;
 }
 
 /* See effect.h */
@@ -283,6 +355,29 @@ int execute_item_attr_effect(item_attr_effect_t* item_attr_effect)
 /* See effect.h */
 int execute_item_stat_effect(item_stat_effect_t* item_stat_effect)
 {
-    //TODO
-    return 0;
+    assert(item_stat_effect != NULL);
+    effects_global_t* global_effect = global_effect_new(item_stat_effect->item->item_id);
+    stat_effect_t* st_effect = stat_effect_new(global_effect);
+    effects_hash_t* et = item_stat_effect->item->stat_effects;
+    effects_hash_t** pointer_to_et = malloc(sizeof(effects_hash_t**));
+    if (et == NULL)
+    {
+        fprintf(stderr, "Error: Effect hash table does not exist \n");
+        return FAILURE;
+    }
+    if (pointer_to_et == NULL)
+    {
+        fprintf(stderr, "Error: Pointer to effect hash table does not exist \n");
+        return FAILURE;
+    }
+    int check = apply_effect(pointer_to_et, st_effect, item_stat_effect->stats, item_stat_effect->modifications, item_stat_effect->durations, item_stat_effect->num_stats);
+    if (check == SUCCESS)
+    {
+        return check;
+    }
+    else
+    {
+        fprintf(stderr, "An error occurred \n");
+        return check;
+    }
 }
