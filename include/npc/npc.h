@@ -60,7 +60,12 @@ typedef struct npc {
 
     //int health;
 
-    /* pointer to an existing convo struct */
+    /* pointer to existing convo struct; changed depending on whetehr
+    npc has activated quest or task convo */
+
+    convo_t *active_convo;
+
+    /* pointer to an existing convo struct; for normal dialogue */
     convo_t *dialogue;
 
     /* pointer to inventory hashtable */
@@ -299,6 +304,35 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
  *  SUCCESS if successful, FAILURE if an error occurs
  */
 int npc_free(npc_t *npc);
+
+/*
+ * Will update the active_convo struct in npc
+ * Will be set to normal "dialogue" by default
+ * If activated quest --> update to that quest's dialogue
+ * If activated task --> update to that tasks's dialogue
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - player: the player
+ */
+int set_convo(npc_t *player, prereq_t *prereq, npc_quest_t *quest,
+              npc_task_t *task)
+{
+   /* if (meets_prereqs(player, prereq))
+    {
+
+    }*/
+    // meets_prereqs call
+    // active dialogue updated
+
+
+
+    // if ... no matching active case
+
+    // if at least 1 matching active quest case
+
+    // if ^^ and 1 matching active task case --> no task dialogue yet
+}
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
