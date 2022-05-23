@@ -477,8 +477,8 @@ int class_prefab_add_skills(class_t* class) {
         /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
-                                     "You deal damage to your opponent with "
-                                     "just a word.", 1, 75, NULL, NULL);
+                                     "You deal damage to your opponent with 
+                                     just a word.", 1, 75, NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
                                      "A full line of poetry hits your " 
                                      "opponent!", 1, 200, NULL, NULL);
@@ -707,15 +707,15 @@ int class_prefab_add_skills(class_t* class) {
        /* Currently point to null effects */
        /* Skills */
        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "stone shards",
-                                    "A hail of stone shards!", 1, 100,
+                                    "A hail of stone shards!", 1, 120,
                                     NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "arc lightning",
                                     "A lightning arc is casted at your enemy!", 
-                                    1, 200,
+                                    1, 220,
                                     NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "dragon's tooth",
                                     "An explosive tooth of a Dragon is used on 
-                                    your enemy.", 1, 400,      
+                                    your enemy.", 1, 320,      
                                     NULL);
 
        /* Add skills to tree */
@@ -744,10 +744,10 @@ int class_prefab_add_skills(class_t* class) {
                                     "The knight delivers a holy strike!", 1, 100,
                                     NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "shield strike",
-                                    "Strikes enemy with shield!", 1, 200,
+                                    "Strikes enemy with shield!", 1, 250,
                                     NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "shackle strike",
-                                    "Strikes enemy with his shackle", 1, 400,      
+                                    "Strikes enemy with his shackle", 1, 350,      
                                     NULL);
 
        /* Add skills to tree */
