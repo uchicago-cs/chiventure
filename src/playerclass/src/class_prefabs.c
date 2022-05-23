@@ -676,14 +676,14 @@ int class_prefab_add_skills(class_t* class) {
        /* Skills */
        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "frostbite",
                                     "weak but cold frostbite", 1, 100,
-                                    NULL);                         
+                                    NULL, NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "control flames",
                                     "you burned your opponent, stronger effect",
                                      1, 200,
-                                    NULL);
+                                    NULL, NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "flame blade",
                                     "you sliced your opponent with fire!", 1, 400,      
-                                    NULL);
+                                    NULL, NULL);
 
        /* Add skills to tree */
        add_skill(class, skill_0, 0, 25, true);
@@ -709,15 +709,15 @@ int class_prefab_add_skills(class_t* class) {
        /* Skills */
        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "stone shards",
                                     "A hail of stone shards!", 1, 120,
-                                    NULL);                         
+                                    NULL, NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "arc lightning",
                                     "A lightning arc is casted at your enemy!", 
                                     1, 220,
-                                    NULL);
+                                    NULL, NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "dragon's tooth",
                                     "An explosive tooth of a Dragon is used on 
                                     your enemy.", 1, 320,      
-                                    NULL);
+                                    NULL, NULL);
 
        /* Add skills to tree */
        add_skill(class, skill_0, 0, 25, true);
@@ -743,13 +743,13 @@ int class_prefab_add_skills(class_t* class) {
        /* Skills */
        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "holy strike",
                                     "The knight delivers a holy strike!", 1, 100,
-                                    NULL);                         
+                                    NULL, NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "shield strike",
                                     "Strikes enemy with shield!", 1, 250,
-                                    NULL);
+                                    NULL, NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "shackle strike",
                                     "Strikes enemy with his shackle", 1, 350,      
-                                    NULL);
+                                    NULL, NULL);
 
        /* Add skills to tree */
        add_skill(class, skill_0, 0, 25, true);
@@ -775,14 +775,14 @@ int class_prefab_add_skills(class_t* class) {
        /* Skills */
        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "dark magic",
                                     "The sorceror activates dark magic!", 1, 100,
-                                    NULL);                         
+                                    NULL, NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "moon storm",
                                     "Strikes enemy with moon storm!", 1, 200,
-                                    NULL);
+                                    NULL, NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "gates of rashonmon",
                                     "Strikes enemy with the gates of rashonmon", 
                                     1, 300,      
-                                    NULL);
+                                    NULL, NULL);
 
        /* Add skills to tree */
        add_skill(class, skill_0, 0, 25, true);
