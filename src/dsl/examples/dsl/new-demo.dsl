@@ -13,8 +13,8 @@ PLAYER_CLASS STUDENT
             CURRENT 20
             MAX 100
         grade
-            CURRENT 80
-            MAX 100
+	        CURRENT 80
+	        MAX 100
 
 NPC TA-JACK IN classroom
     short desc: "This is TA Jack."
@@ -51,20 +51,20 @@ ROOM dorm room
     long desc: "This is your dorm room in Campus North Residential Commons. Room 996. From here you can head south to the computer lab.”
     connections: SOUTH TO computer lab
 
-    ITEM faucet in dorm room
-        short desc: "A faucet in the bathroom"
-        long desc: "Use the faucet to wash your hands"
+    ITEM desk in dorm room
+       short desc: "A desk in the dorm room"
+       long desc: "You can use the desk to take notes"
 
-    action: CONSUME
-        CONSUME success: "Your hands are clean."
-        CONSUME fail: "You broke the faucet. You cannot wash your hands"
+    action: STUDY
+        STUDY success: "You successfully taken notes for CS220 class."
+        STUDY fail: "You forgot your pencil. You cannot take notes."
 
 ROOM quad
     short desc: “University of Chicago Quad."
     long desc: "This is the main quad. This is where all the main classrooms and libraries are centered on. Head west to the storage room, north to the computer lab, and south to the classroom"
     connections: WEST TO storage room
-                 NORTH TO computer lab
-                 SOUTH TO classroom 
+		         NORTH TO computer lab
+		         SOUTH TO classroom 
 
     ITEM tree IN quad
         short desc: "This is Flora"
@@ -75,8 +75,8 @@ ROOM quad
         SIT fail: "You realize you haven’t taken Algorithms and can’t do leetcode yet."
 
 ROOM storage room
-    short desc: "A storage room."
-    long desc: "There are various items, including the DSL documentation, all caked with dust. The door on the east takes you back to the center of campus."
+    short desc: "This is a storage room."
+    long desc: "The storage room has many things in it but only one thing seems to be useful: the dsl documentation. From the storage room, head east to the quad."
     connections: EAST TO quad
                  
     ITEM dsl documentation IN storage room
@@ -92,9 +92,8 @@ ROOM classroom
     connections: NORTH TO quad
 
     ITEM computer IN computer lab
-        short desc: "A computer."
-        long desc: "Turn on to see the screen that shows an opened directory with multiple files opened."
+    short desc: "A computer."
+    long desc: "Turn on to see the screen that shows an opened directory with multiple files opened."
     action: SUBMIT
         SUBMIT success: "You submitted your code!"
         SUBMIT fail: "You failed to submit your code in time and failed the project."
-
