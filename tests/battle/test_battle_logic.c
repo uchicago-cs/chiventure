@@ -254,7 +254,7 @@ Test(battle_logic, battle_player_goes_first)
 
     combatant_t *phead = NULL;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL, 
-                        NULL, NULL, NULL, BATTLE_AI_NONE);
+                                   NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
     DL_APPEND(phead, p);
 
