@@ -12,4 +12,4 @@ void handle_go_cmd(word_ll *phrase);
 
 void handle_fight_cmd(word_ll *phrase);
 
-void handle_credits_cmd(word_ll *phrase);
+char** handle_credits_cmd(word_ll *phrase);

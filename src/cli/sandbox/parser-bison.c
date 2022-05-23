@@ -5,18 +5,19 @@
 #include "cli/cmd.h"
 #include "cli/parser.h"
 #include "common/utlist.h"
-#include <criterion/criterion.h>
+/*#include <criterion/criterion.h>
 #include <string.h>
 #include <ui/ui.h>
 #include "game-state/game.h"
 #include "common/ctx.h"
-
+*/
 /* Creates a chiventure context with a sample game
  *
  * Parameters: None
  *
  * Returns: a chiventure context
  */
+/*
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -26,13 +27,13 @@ chiventure_ctx_t *create_sample_ctx()
     add_room_to_game(game, room2);
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
-
+*/
     /* Create context */
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+/*    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
 }
-
+*/
 
 /* create an linked list item of a phrase */
 word_ll* start_phrase(char *word) {
@@ -76,8 +77,9 @@ void handle_fight_cmd(word_ll *phrase) {
     printf("\n");
 }
 
-void handle_credits_cmd(word_ll *phrase) {
-    char **tokens = parse(phrase->word);
-    chiventure_ctx_t *ctx = create_sample_ctx();
+char **handle_credits_cmd(word_ll *phrase) {
+    return parse(phrase->word);
+    /*chiventure_ctx_t *ctx = create_sample_ctx();
     credits_operation(tokens, ctx);
+    */
 }
