@@ -512,7 +512,7 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx);
  * - quest ID, 
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
  */
 int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
 
@@ -523,7 +523,7 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * - quest ID, 
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
  */
 int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
 
@@ -534,7 +534,7 @@ int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
  * - pointer to a hash table
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
  */
 int remove_quest_all(quest_hash_t **hash_table);
 
@@ -592,7 +592,7 @@ int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest
 */
 int quest_ctx_free(quest_ctx_t *quest_ctx);
 
-/* Checks a task for completion and accepts th reward if it is
+/* Checks a task for completion and accepts the reward if it is complete
 * 
 * Parameters:
 * - task_id: The string id of the task getting checked
