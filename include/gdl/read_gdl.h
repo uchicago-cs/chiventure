@@ -171,7 +171,7 @@ int free_display_dimensions(display_dimensions_t *display_dimensions);
  * Returns:
  * - a pointer to the camera structure on the heap
  */
-camera_t* make_camera(unsigned int width, unsigned int height;
+camera_t* make_camera(unsigned int width, unsigned int height);
 
 
 /*
