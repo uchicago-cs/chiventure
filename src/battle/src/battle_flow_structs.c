@@ -6,6 +6,60 @@
 
 /* Stub for the player_new function in player.h game-state module */
 
+battle_equipment_t *new_battle_equipment(int id, char *name, char *des, 
+                                          stat_changes_t *attr, equipment_type_t type){
+      battle_equipment_t *new_equip = (battle_equipment_t *) malloc (sizeof(battle_equipment_t));
+      assert(new_equip != NULL);
+      new_equip->id = id;
+      new_equip->name = name;
+      new_equip->description = des;
+      new_equip->attributes = attr;
+      new_equip->type = type;
+      return new_equip;
+}
+
+int init_battle_equipment(battle_equipment_t *equip, int id, char *name, char *des, 
+                                          stat_changes_t *attr, equipment_type_t type){
+      assert(equip != NULL);
+      equip->id = id;
+      equip->name = name;
+      equip->description = des;
+      equip->attributes = attr;
+      equip->type = type;
+      return SUCCESS;
+}
+
+battle_item_t *new_battle_item(int id, char *name, char *des, 
+                              stat_changes_t *attr, int quant, bool attack,
+                              battle_item_t *next, battle_item_t *prev){
+      battle_item_t *new_item = (battle_item_t *) malloc (sizeof(battle_item_t));
+      assert(new_item != NULL);
+      new_item->id = id;
+      new_item->name = name;
+      new_item->description = des;
+      new_item->attributes = attr;
+      new_item->quantity = quant;
+      new_item->attack = attack;
+      new_item->next = next;
+      new_item->prev = prev;
+      return new_item;
+}
+
+int init_battle_item(battle_item_t *item, int id, char *name, char *des, 
+                              stat_changes_t *attr, int quant, bool attack,
+                              battle_item_t *next, battle_item_t *prev){
+      assert(item != NULL);
+      item->id = id;
+      item->name = name;
+      item->description = des;
+      item->attributes = attr;
+      item->quantity = quant;
+      item->attack = attack;
+      item->next = next;
+      item->prev = prev;
+      return SUCCESS;
+}
+
 battle_player_t *new_ctx_player(char* p_id, class_t *c_type, stat_t *stats, move_t *moves, 
                               battle_item_t* items, battle_equipment_t *weapon, 
                               battle_equipment_t *accessory, battle_equipment_t *armor)
