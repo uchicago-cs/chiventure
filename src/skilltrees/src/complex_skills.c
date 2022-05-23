@@ -158,9 +158,8 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
 * Returns;
 * - int: the number randomly generated between the given bounds.
 */
-int random_generator(int lower_bound, int upper_bound){
-    int value = (rand() % (upper_bound - lower_bound + 1)) + lower_bound;
-    return value;
+int random_int_generator(int lower_bound, int upper_bound){
+    return (rand() % (upper_bound - lower_bound + 1)) + lower_bound;
 }
 
 /*See complex_skills.h */
@@ -169,8 +168,8 @@ int execute_random_chance_complex_skill(complex_skill_t* complex_skill, chiventu
         return FAILURE;
     }
 
-    int value = random_generator(0, 100);
-    if (value < chance_failure){
+    int value = random_int_generator(0, 100);
+    if (value < (chance_failure * 100)){
         for (int i= 0; i < complex_skill->num_skills; i++){
             skill_execute(complex_skill->skills[i], ctx);
         }
@@ -184,7 +183,7 @@ int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventur
         return FAILURE;
     }
 
-    int value = random_generator(lower_bound, upper_bound);
+    int value = random_int_generator(lower_bound, upper_bound);
     for (int j = 0; j < value; j++){
         for (int i= 0; i < complex_skill->num_skills; i++){
             skill_execute(complex_skill->skills[i], ctx);
@@ -194,19 +193,55 @@ int execute_random_range_complex_skill(complex_skill_t* complex_skill, chiventur
     return SUCCESS;
 }
 
+/* Takes in an upper value and generates random float within the range of 0 to 
+*  the upper value, helper function for the random switch function
+*  Written with help of https://stackoverflow.com/questions/13408990/how-to-generate-random-float-number-in-c
+*  
+*  Please note that while the rand() function will work for now, this function 
+*  could be improved in the future by using a third-party library for random 
+*  number generation
+*
+*  Parameters:
+* - upper_bound: the upper bound of the possible generated value
+*
+* Returns;
+* - float: the float randomly generated between 0 and the given bound inclusive
+*/
+int random_float_generator(float upper_bound){
+    return (float)rand()/(float)(RAND_MAX/upper_bound);
+}
+
 /*See complex_skills.h */
-int execute_random_range_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx){
+int execute_random_switch_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx){
     if (switch_skill->complex_skill->type != RANDOM_SWITCH){
         return FAILURE;
     }
 
-    int value = random_generator(0, 100)
-    // double check the math with this and whether i need to check different bounds
-    // this might execute several sub skills 
+    if (switch_skill->chances != NULL){
+        return FAILURE;
+    }
+
+    float total = 0;
     for (int i = 0; i < switch_skill->complex_skill->num_skills; i++){
-        if (value < switch_skill->complex_skill->skills[i]){
+        total += switch_skill->chances[i];
+    }
+
+    int value = random_float_generator(total);
+
+    // Check for first skill
+    if (value < switch_skill->chances[0]){
+        skill_execute(switch_skill->complex_skill->skills[0], ctx);
+        return SUCCESS;
+    }
+
+    // Check subsequent skills
+    float running_total = switch_skill->chances[0];
+    for (int i = 1; i < switch_skill->complex_skill->num_skills; i++){
+        if ((value >= running_total) && (value < (running_total + switch_skill->chances[i]))){
             skill_execute(switch_skill->complex_skill->skills[i], ctx);
+            return SUCCESS;
         }
+        running_total += switch_skill->chances[i];
     }
 
     return SUCCESS;
