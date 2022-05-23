@@ -12,6 +12,14 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 
+#include <wdl/load_game.h>
+#include "wdl/load_room.h"
+#include "wdl/load_item.h"
+#include "wdl/load_npc.h"
+#include "wdl/load_class.h"
+#include "wdl/validate.h"
+#include "game-state/mode.h"
+
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
 char *count_rocks(object_t *ot){
@@ -40,26 +48,11 @@ chiventure_ctx_t *create_sample_ctx()
 
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
-    luaL_dofile(L, "sample.lua");
+    luaL_dofile(L, "demo.lua");
 
-    game_t *game = game_new("Welcome to Chiventure!");
+    game_t *game = load_wdl("/home/ramarkob/cs220/chiventure/src/custom-scripts/examples/demo.wdl");
 
-    /* Create two rooms (room1 and room2). room1 is the initial room */
-    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
-    room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
-    add_room_to_game(game, room1);
-    add_room_to_game(game, room2);
-    game->curr_room = room1;
-    create_connection(game, "room1", "room2", "NORTH");
 
-    /* Create a rock in room1 */
-    object_t *rocks = obj_t_int(20, NULL);
-    item_t *rock = item_new("ROCK", "It is a rock", count_rocks(rocks));
-    add_item_to_room(room1, rock);
-    
-    /* Associate action "TASTE" with the rock.
-     * It has no conditions, so it should succeed unconditionally. */
-    add_action(rock, "TASTE", eat_rock(rocks), "It has a gravel-ey bouquet.");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
