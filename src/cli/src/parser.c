@@ -102,23 +102,37 @@ tokenized_cmds *parse_r(char *input)
     return head;
 }
 
-// removes filler words from input, right now "to", "the", and "into"
+/*
+ * Removes the filler words from the parsed command line input. 
+ * remove_fillers is a helper function for parse()
+ *
+ * Parameters:
+ * - parsed_input: the parsed command line input after being run through the 
+ *                  function parse()
+ *
+ * Returns:
+ * - A list of individual words from the parsed input. This list is a fixed
+ *   size, the words possible in a command. If the input string is has less
+ *   words than this fixed size, the rest of the list will be null.
+ *
+ */
+ 
 char **remove_fillers(char **parsed_input)
 {
     //first, count the NULL chars
     // this is important, as you want
     // to avoid using strcmp with NULL as an input
-    int null_count = 0;
-    for (size_t i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        if (parsed_input[i] == NULL)
-        {
-            null_count++;
-        }
-    }
+    // int null_count = 0;
+    // for (size_t i = 0; i < TOKEN_LIST_SIZE; i++)
+    // {
+    //     if (parsed_input[i] == NULL)
+    //     {
+    //         null_count++;
+    //     }
+    // }
     
     //loooping through the four words in the parsed input
-    for (int i = 0; i < TOKEN_LIST_SIZE - null_count; i++)
+    for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         if(parsed_input[i] == NULL){ break; }
         // determine if this word is a filler

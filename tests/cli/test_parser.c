@@ -236,3 +236,14 @@ Test(parse, rm_no_filler_word)
     cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
+
+Test(parse, two_function_calls)
+{
+    char str1[] = "go to South";
+    char str2[] = "go to South";
+    char **words1 = parse(str1);
+    char **words2 = parse(str2);
+
+    cr_assert_str_eq(words1[0], words2[0]);
+    cr_assert_str_eq(words1[1], words2[1]);
+}
