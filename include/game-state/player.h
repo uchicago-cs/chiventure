@@ -483,5 +483,15 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect);
  */
 int add_move(player_t *player, move_t *move);
 
-
+/* 
+ * Adds an item to the player's inventory without checking quests
+ * 
+ * Parameters:
+ * - player: A player. Must be allocated with player_new()
+ * - item: The item to add to the player's inventory
+ * 
+ * Returns:
+ * - SuCCESS on success, FAILURE if an error occurs
+*/
+int add_item_to_player_without_checks(player_t *player, item_t *item);
 #endif
