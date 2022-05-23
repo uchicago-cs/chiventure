@@ -69,4 +69,13 @@ typedef enum reader_stats{
     MAX_HP,
 } stats_type_t;
 
+/* Complex skill type */
+typedef enum complex_skill_type {
+    //Denotes combined complex skill
+    COMBINED,
+
+    //Denotes sequential complex skill
+    SEQUENTIAL
+
+} complex_skill_type_t;
 #endif /*SKILLTREES_ENUMS_H*/

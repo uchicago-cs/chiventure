@@ -19,7 +19,14 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
-/* A reference to a given quest from game_state that the player has unlocked */
+/* A reference to a given quest from game_state that the player has unlocked 
+ * 
+ * Completion functions as follows:
+ *   -1: failed quest
+ *    0: quest has not been started
+ *    1: quest has been started but not completed
+ *    2: quest has been completed
+*/
 typedef struct player_quest {
     char *quest_id;
     int completion;
@@ -51,6 +58,12 @@ typedef struct player {
 
     /* A string containing the player's race */
     char *player_race;
+    
+    /* A string containing the name of current room of the player. Right now, every player 
+       must be in the same room, which is stored in the game struct, but this may change at 
+       some point to allow players to explore at different paces. For now, this is necessary
+       to allow certain modules to access the current room without causing circular dependencies. */
+    char *crnt_room;
 
     /* The player's current class. class_t contains the base stats, and skills for that class at
     the beginning of a game. These may change throughout the game, so their current states are stored 
@@ -277,18 +290,6 @@ int change_xp(player_t *player, int points);
  */
 item_hash_t* get_inventory(player_t *player);
 
-
-/* Adds an item to the given player
- *
- * Parameters:
- *  player struct
- *  item struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_item_to_player(player_t *player, item_t *item);
-
 /* Removes an item from the given player
  * Note that the memory associated with this item is not freed
  * 
@@ -381,6 +382,19 @@ int player_remove_skill(player_t *player, skill_t *skill);
  *  Note: Same return value as inventory_has_skill()
  */
 int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
+
+/*
+ * Changes the base value of a given player's stat by the specified amount
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
+ *  quest_id: the id of the quest
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ */
+int player_add_quest(player_t *player, char *quest_id);
 
 /*
  * Changes the base value of a given player's stat by the specified amount
