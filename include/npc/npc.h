@@ -216,6 +216,29 @@ npc_task_list_t *npc_task_list_new();
 npc_task_list_t *npc_task_list_free(npc_task_list_t *task_list);
 
 /*
+ * Appends an npc_quest_t to an npc_quest_list_t
+ *
+ * Parameters:
+ * - head: the current head of the npc_quest_list
+ * - next: the quest_t struct to add to head
+ * 
+ * Returns:
+ * - SUCCESS following successful append, FAILURE upon failed append
+*/
+int npc_quest_list_append(npc_quest_t *head, npc_quest_t *next);
+
+/*
+ * Appends an npc_quest_t to an npc_quest_list_t
+ *
+ * Parameters:
+ * - head: the current head of the npc_quest_list
+ * - next: the quest_t struct to add to head
+ * 
+ * Returns:
+ * - SUCCESS following successful append, FAILURE upon failed append
+*/
+int npc_task_list_append(npc_task_t *head, npc_task_t *next);
+/*
  * Initializes an npc with the given parameters.
  *
  * Parameters:
