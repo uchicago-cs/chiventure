@@ -36,6 +36,7 @@ line
   | line go_cmd EOL { handle_go_cmd($2); }
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
+  | line phrase EOL { handle_cmd($2); }
   ;
 
 go_cmd

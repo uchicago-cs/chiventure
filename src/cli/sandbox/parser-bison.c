@@ -87,3 +87,20 @@ void handle_credits_cmd(word_ll *phrase) {
     credits_operation(tokens, ctx);
     */
 }
+
+char **handle_cmd(word_ll *phrase) {
+    word_ll *p = phrase;
+    if (p == NULL) {
+        return NULL;
+    }
+    char **words;
+    words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    int i = 0;
+    while(p != NULL)
+    {
+        words[i] = p->word;
+        p = p->next;
+        i++;
+    }
+    return words;
+}
