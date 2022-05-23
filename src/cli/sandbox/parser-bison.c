@@ -39,6 +39,7 @@ chiventure_ctx_t *create_sample_ctx()
 word_ll* start_phrase(char *word) {
     word_ll *head = malloc(sizeof(word_ll));
     head->word = word;
+    head->next = NULL;
     return head;
 }
 
