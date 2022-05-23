@@ -121,12 +121,12 @@ tokenized_cmds *parse_r(char *input)
  */
 char **remove_fillers(char **parsed_input)
 {
-    int is_filler = 0;
+    bool is_filler = false;
 
     //looping through the four words in the parsed input
     for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
-        if(parsed_input[i] == NULL){ break; }
+        if (parsed_input[i] == NULL){ break; }
         // determine if this word is a filler
 
         //loop through filler_words to see if the word at the index is a filler
@@ -135,12 +135,12 @@ char **remove_fillers(char **parsed_input)
         {
             if (strcmp(filler_words[x],parsed_input[i]) == 0)
             {
-                is_filler = 1;
+                is_filler = true;
             }
             
         }
     
-        if(is_filler == 1){
+        if(is_filler == true){
             //if so, remove it and push every word to the left in the 
             // array
             for (int j = i; j < TOKEN_LIST_SIZE - i; j++)
@@ -161,7 +161,7 @@ char **remove_fillers(char **parsed_input)
             i = i - 1;
             
             //reset is_filler for next loop
-            is_filler = 0;
+            is_filler = false;
         }
     }
     return parsed_input;
