@@ -421,7 +421,7 @@ bool is_task_completed(task_t *task, player_t *player)
 {
     assert(task != NULL);
     assert(player != NULL);
-
+    
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
     if(!ptask) {
         return false;
