@@ -51,9 +51,10 @@ def check_all_nodes(graph, start):
     
 
 
-# # # Checks if a node is a singleton
-# # # Count if nodes is 1
-# def singleton_node(graph, node):
+# # Checks if a node is a singleton
+# # Count if nodes is 1
+def singleton_node(graph, node):
+    return len(graph) == 1
 
 # Returns 1 if a node has a connection with itself
 def self_loop(graph, node):
