@@ -41,7 +41,6 @@ class_t *make_minion()
 }
 
 /* Defines an CLI operation for starting a fight */
-
 char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //int rc;
@@ -73,8 +72,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     p_move->next = p_move2;
     p_move2->prev = p_move;
-
-
+    
 
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = get_random_default_move();
@@ -123,7 +121,6 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
  *
  * Returns: a chiventure context with 
  */
- 
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
@@ -132,7 +129,6 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
 
     /* Create context */
-
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
@@ -140,17 +136,16 @@ chiventure_ctx_t *create_sample_ctx()
 
 int main(int argc, char **argv)
 {
-    /*
+    
     chiventure_ctx_t *ctx = create_sample_ctx();
-*/
-    /* Monkeypatching in a fight action to support dialogue */
 
-    //add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);
+    /* Monkeypatching in a fight action to support dialogue */
+    add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
-    //start_ui(ctx, banner);
+    start_ui(ctx, banner);
 
-    //game_free(ctx->game);
+    game_free(ctx->game);
 
     return 0;
 }
