@@ -392,13 +392,13 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
                                      "You deal damage to your opponent with "
-                                     "just a word.", 1, 75, NULL);
+                                     "just a word.", 1, 75, NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
                                      "A full line of poetry hits your " 
-                                     "opponent!", 1, 200, NULL);
+                                     "opponent!", 1, 200, NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Enchanted Stanza", 
                                      "The full weight of your stanza strikes "
-                                     "your opponent!", 1, 325, NULL);
+                                     "your opponent!", 1, 325, NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
@@ -424,15 +424,15 @@ int class_prefab_add_skills(class_t* class) {
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Acrobatic Powers", 
                                     "enhanced dexterity to surprise your opponent "
                                     "with unique kicks and movements.", 1, 120, 
-                                     NULL);                          
+                                     NULL, NULL);                          
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Spirit of Strength", 
                                     "Uses inner spirit and peace to unleash "
                                      "powerful hits and kicks!", 1, 220, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Supernova Circle", 
                                     "Powerful circular motions that allows for the "
                                     "most powerful jumps, kicks, and punchess!", 1, 420, 
-                                     NULL);
+                                     NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
@@ -458,15 +458,15 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Quick Hit", 
                                      "You hit your opponent with a quick jab.",
-                                      1, 125, NULL);
+                                      1, 125, NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Backstab", 
                                      "You attack your opponent from behind, "
                                      "catching them by surprise!", 1, 250, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Leg Swipe", 
                                      "You knock your opponent’s legs out from "
                                      "under them, bringing them to the"
-                                     "ground!", 1, 375, NULL);
+                                     "ground!", 1, 375, NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
@@ -493,13 +493,13 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
                                      "You slash your sword.", 1, 100, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Double Slash", 
                                      "You slash your sword, twice!", 1, 200, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
                                      "You slash your sword, thrice!", 1, 400, 
-                                     NULL);
+                                     NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
@@ -524,14 +524,14 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Blinding Charm", 
                                      "You blinded your opponent.", 1, 100, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Paralyze Spell", 
                                      "Your opponent is paralyzed!", 1, 150, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Arcane Explosion", 
                                      "A powerful spell that causes a massive" 
                                      "explosion with high area damage!", 1, 
-                                     200, NULL);
+                                     200, NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
@@ -555,13 +555,13 @@ int class_prefab_add_skills(class_t* class) {
        /* Skills */
        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Close Shot",
                                     "You hit a weak, but close shot.", 1, 100,
-                                    NULL);                         
+                                    NULL, NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Mid-range Shot",
                                     "You hit a further, and stronger, shot!", 1, 200,
-                                    NULL);
+                                    NULL, NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Long Shot",
                                     "You hit a long, damaging shot!", 1, 400,      
-                                    NULL);
+                                    NULL, NULL);
  
        /* Add skills to tree */
        add_skill(class, skill_0, 0, 25, true);
