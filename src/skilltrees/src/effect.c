@@ -215,24 +215,6 @@ effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
     return new_attr_effect;
 }
 
-/* See effect.h */
-effect_t* make_item_attr_effect(item_attr_effect_t* item_attr_effect)
-{
-    if (item_attr_effect == NULL)
-    {
-        fprintf(stderr, "Error: Given NULL item attribute effect");
-        return NULL;
-    }
-    effect_t* new_attr_effect = malloc(sizeof(effect_t));
-    if (new_attr_effect == NULL)
-    {
-        fprintf(stderr, "Error: Could not allocate memory for effect");
-        return NULL;
-    }
-    new_attr_effect->effect_type = ITEM_ATTRIBUTE_MOD;
-    new_attr_effect->data.i_a = item_attr_effect;
-    return new_attr_effect;
-}
 
 /* See effect.h */
 effect_t* make_item_stat_effect(item_stat_effect_t* item_stat_effect)
