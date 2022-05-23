@@ -12,11 +12,13 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
     npc->dialogue = NULL;
-    npc->inventory = NULL;
     npc->class = class;
     npc->will_fight = will_fight;
     npc->npc_battle = NULL;
     npc->movement = movement;
+    
+    item_hash_t *head = NULL;
+    npc->inventory = head;
 
     return SUCCESS;
 }
