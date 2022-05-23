@@ -425,7 +425,7 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     item_hash_t *head = npc->inventory;
     assert(delete_all_items_from_npc(npc) == SUCCESS);
 
-    HASH_ITER(hh_npc, head, current_item, tmp)
+    HASH_ITER(hh, head, current_item, tmp)
     {
         rc = add_item_to_room(room, current_item);
         if (rc == FAILURE)
