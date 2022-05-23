@@ -18,5 +18,5 @@ ACTION_ALIASES = {
 }
 
 def to_json(self) -> str: 
-        """ For internal testing only: converts an item to its JSON format """
-        return json.dumps(self.to_wdl_structure(),indent=2)
+    """ For internal testing only: converts an item to its JSON format """
+    return json.dumps(self.to_wdl_structure(),indent=2)
