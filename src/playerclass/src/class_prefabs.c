@@ -190,9 +190,9 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
         short_desc = "An elite martial artist.";
         long_desc = "The Monk is an expert of unarmed combat, and, through"
-                    "their training-- in accordance with their strict"
-                    "spirituality--have learned how to defend themselves from"
-                    "attackers.";
+                    " their training-- in accordance with their strict"
+                    " spirituality--have learned how to defend themselves from"
+                    " attackers.";
         set_stats_hashtable(game, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
     }
 
