@@ -35,7 +35,7 @@ class_t *make_sorcerer()
     return class_new("Sorcerer", "Wise", "Old and wise with crazy magecraft ability", NULL, NULL, NULL);
 }
 
-class_t *minion()
+class_t *make_minion()
 {
     return class_new("Minion", "Stupid", "Unintelligent, but very strong", NULL, NULL, NULL);
 }
@@ -78,7 +78,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = get_random_default_move();
-    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_knight(), NULL, true);
+    npc_t *e = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", make_minion(), NULL, true);
     npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, 
                                         BATTLE_AI_GREEDY, HOSTILE, 0, NULL, NULL,
                                         NULL, NULL, NULL);
