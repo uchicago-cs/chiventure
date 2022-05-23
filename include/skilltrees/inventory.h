@@ -100,7 +100,7 @@ skill_inventory_t* copy_inventory(skill_inventory_t* original);
  *    inventory
  */
 int inventory_has_skill(skill_inventory_t* inventory, sid_t sid,
-                        skill_type_t type);
+                         type);
 
 /*
  * Removes a skill from a player's skill inventory.

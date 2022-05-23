@@ -87,7 +87,22 @@ typedef struct item_attr_effect {
  * developers know that they have to do this.
  */
 typedef struct item_stat_effect {
-    //TODO (2022)
+
+    /* The ID of the parent object */
+    item_t* item; 
+
+    /* Takes the array of statistics that must be  */
+    stats_t** stats; 
+
+    /* Modifies the statistic by this number */
+    double* modifications;         
+
+    /* The array of durations for how long the effect should be applied */
+    int* durations;    
+
+    /* Number of statistic that will be modified */
+    int num_stats; 
+
 } item_stat_effect_t;
 
 /* Union of all the effect types given above.*/
@@ -133,7 +148,7 @@ item_attr_effect_t* define_item_attr_effect(item_t* item, char* att_id, enum att
  * Parameters: TO BE IMPLEMENTED
  * Returns: A pointer to the created item stat modifying effect
  */
-item_stat_effect_t* define_item_stat_effect();
+item_stat_effect_t* define_item_stat_effect(item_t* item, char** stat_names, double* modifications, int* durations, int num_stats, chiventure_ctx_t* ctx);
 
 /* Takes the given stats modifying effect and converts it to an effect
  * Parameters: stat_mod_effect_t* stat_effect- Pointer to the stats modifying effect
@@ -189,6 +204,6 @@ int execute_item_attr_effect(item_attr_effect_t* item_attr_effect);
  * Parameters: item_stat_effect_t* item_stat_effect - a pointer to the item stat modifying effect
  * Returns: 0 is the execution was successful, 1 otherwise
  */
-int execute_item_stat_effect(item_stat_effect_t* item_stat_effect);
+int execute_item_stat_effect(item_stat_effect_t* item_stat_effect, chiventure_ctx_t* ctx);
 
 #endif /*INCLUDE_EFFECT_H*/
