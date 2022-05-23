@@ -1,4 +1,4 @@
-#include "input_box.h"
+#include "input_box_graphics.h"
 #include "raylib.h"
 #include <string.h>
 #include <stdlib.h>
@@ -57,14 +57,4 @@ int freeInputboxGraphics(input_box_graphics_t* pointer)
     return 1;
 }
 
-// Check if any key is pressed
-// NOTE: We limit keys check to keys between 32 (KEY_SPACE) and 126
-bool IsAnyKeyPressed()
-{
 
-    bool keyPressed = false;
-    int key = GetKeyPressed();
-    if ((key >= 32) && (key <= 126)) keyPressed = true;
-
-    return keyPressed;
-}
