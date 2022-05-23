@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
+
 /* See quest_graphics.h */
 quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
     Vector2 SegmentDimension, Vector2 DrawStartPosition, 
@@ -25,7 +26,7 @@ quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
         SegmentDimension, DrawStartPosition, TaskTree, CurrentTaskName, 
         ShowRemainingHorizontal, SquareSide);
 
-    if(rc != 1)
+    if(rc == FAILURE)
     {
         fprintf(stderr,"Could not initialize quest_graphics");
         return NULL;
@@ -53,7 +54,7 @@ int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
     questGraphics->ShowRemainingHorizontal = ShowRemainingHorizontal;
     questGraphics->SquareSide = SquareSide;
 
-    return 1;
+    return SUCCESS;
 }
 
 /* See quest_graphics.c*/
@@ -63,7 +64,7 @@ int free_quest_graphics(quest_graphics_t *questGraphics)
 
     free(questGraphics);
 
-    return 1;
+    return SUCCESS;
 }
 
 

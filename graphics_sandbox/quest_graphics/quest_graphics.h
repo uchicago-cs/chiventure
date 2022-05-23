@@ -3,6 +3,7 @@
 
 #include "raylib.h"
 #include <stdbool.h>
+#include "common.h"
 
 typedef struct task_tree_mockup task_tree_mockup_t;
 
@@ -92,7 +93,7 @@ quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
  *      with information provided through the parameters
  * 
  * Returns:
- *      1 on success
+ *      SUCCESS on success
  */
 int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
     Vector2 WindowSize, Vector2 SegmentDimension, Vector2 DrawStartPosition, 
@@ -108,7 +109,7 @@ int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
  *      Frees the memory pointed to by the given pointer
  * 
  * Returns:
- *      1 on success
+ *     SUCCESS on success
  *
  */
 int free_quest_graphics(quest_graphics_t *questGraphics);

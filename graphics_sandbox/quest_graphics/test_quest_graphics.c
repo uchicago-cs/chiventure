@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <criterion/criterion.h>
 
-
+/* Testing new_quest_graphics*/
 Test(quest_graphics, new)
 {
 
@@ -28,14 +28,17 @@ Test(quest_graphics, new)
 
 }
 
+/* Testing init_quest_graphics*/
 Test(quest_graphics, init)
 {
     quest_graphics_t q;
 
-    init_quest_graphics(&q, (Vector2){200,210}, (Vector2){400,420},
+    int rc = init_quest_graphics(&q, (Vector2){200,210}, (Vector2){400,420},
     (Vector2){50,60}, (Vector2){70,80}, NULL, "test", false, 10.1);
 
-    cr_assert_str_eq(q.CurrentTaskName,"test","new_quest_graphis failed to set currentTaskName");
+    cr_assert_eq(rc,SUCCESS,"init_quest_graphics has failed");
+
+    cr_assert_str_eq(q.CurrentTaskName,"test","new_quest_graphics failed to set currentTaskName");
     cr_assert_eq(q.WindowPos.x,200,"new_quest_graphics failed to set WindowPos.x");
     cr_assert_eq(q.WindowPos.y,210,"new_quest_graphics failed to set WindowPos.y");
     cr_assert_eq(q.WindowSize.x,400,"new_quest_graphics failed to set WindowSize.x");
@@ -50,6 +53,8 @@ Test(quest_graphics, init)
 
 }
 
+
+/* Testing free_quest_graphics*/
 Test(quest_graphics, free)
 {
     quest_graphics_t* q;
@@ -62,6 +67,6 @@ Test(quest_graphics, free)
 
     rc = free_quest_graphics(q);
 
-    cr_assert_eq(rc,1,"free_quest_graphics failed");
+    cr_assert_eq(rc,SUCCESS,"free_quest_graphics failed");
 
 }
