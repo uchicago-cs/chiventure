@@ -1,5 +1,6 @@
 # Graph validator algorithm
 # example input: python src/graph_validator.py examples/wdl/npc_example.wdl
+from doctest import FAIL_FAST
 import sys
 import json
 from example_graphs import OAK
@@ -50,8 +51,10 @@ def check_cylicality(graph):
 
 # Returns 1 if a node has a connection with itself
 def self_loop(graph, node):
-    if node in graph[node]:
-        return True
+    for n in graph.keys():
+        edges = graph[n]
+        if n in edges:
+            return True 
     return False
 
 # Looks through graph to find number of connections
