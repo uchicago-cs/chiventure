@@ -2,6 +2,7 @@
 # example input: python src/graph_validator.py examples/wdl/npc_example.wdl
 import sys
 import json
+from example_graphs import OAK
 
 def validate(graph):
     cyclical = check_cylicality(graph)
@@ -38,18 +39,14 @@ def check_cylicality(graph):
     
 
 
-# This function checks that every node can be reached
-# in the graph
-def check_all_nodes(graph):
+# # This function checks that every node can be reached
+# # in the graph
+# def check_all_nodes(graph):
 
 
-# Given a start node, check if there is a closed loop
-# keep track of visited 
-def closed_loop(graph, start_node):
-
-# Checks if a node is a singleton
-# Count if nodes is 1
-def singleton_node(graph, node):
+# # # Checks if a node is a singleton
+# # # Count if nodes is 1
+# def singleton_node(graph, node):
 
 # Returns 1 if a node has a connection with itself
 def self_loop(graph, node):
@@ -60,7 +57,16 @@ def self_loop(graph, node):
 # Looks through graph to find number of connections
 # with a specific node 
 def num_times_visit_node(graph, node):
+    count = [0 for i in range(len(graph))]
+    visited = dict(zip(graph.keys(), count))
 
+    for node in graph.keys():
+        edges = graph[node]
+        for n in edges:
+            visited[n] += 1
+    return visited
+
+print(num_times_visit_node(OAK, 'A'))
 
 def main():
     return 0
