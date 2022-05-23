@@ -191,10 +191,9 @@ path_t *list_paths(room_t *room)
 /* see room.h */
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
-    //char *item_id_case = case_insensitized_string(item_id);
-
+    char *item_id_case = case_insensitized_string(item_id);
     item_t* return_value;
-    HASH_FIND_STR(room->items, item_id, return_value);
+    HASH_FIND_STR(room->items, item_id_case, return_value);
     return return_value;
     //if it is NULL, return_value will be equal to NULL by default
 }
