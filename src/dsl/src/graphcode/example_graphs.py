@@ -16,13 +16,6 @@ SINGLETON = {
     'A': []
 }
 
-INFINITELOOPLONG = {
-    'A': ['B', 'C'], 
-    'B': ['C'], 
-    'C': ['A', 'D'], 
-    'D': ['D']
-}
-
 # Node B can't be reached
 NODENOTREACHED = {
     'A': ['C', 'E'],
@@ -40,6 +33,20 @@ INFINITELOOP = {
     'B': ['A']
 }
 
+INFINITELOOPLONG = {
+    'A': ['B', 'C'], 
+    'B': ['C'], 
+    'C': ['A', 'D'], 
+    'D': ['D']
+}
+
+INFINITECIRCLE = {
+    'A': ['B'],
+    'B': ['C'],
+    'C': ['D'],
+    'D': ['A']
+}
+
 # G is self looping
 SELFLOOP = {
     'A': ['B', 'C', 'E'],
@@ -50,6 +57,3 @@ SELFLOOP = {
     'F': ['G'],
     'G': ['G'] 
 }
-
-
-
