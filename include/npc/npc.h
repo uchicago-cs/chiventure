@@ -39,7 +39,7 @@ typedef struct npc {
     /* pointer to an exisitng npc_move struct */
     npc_mov_t *movement;
 
-     /* boolean representing whether or not the NPC will engage in battles */
+    /* boolean representing whether or not the NPC will engage in battles */
     bool will_fight;
 
     /* either NULL or a pointer to an existing npc_battle struct */
@@ -268,13 +268,20 @@ int add_convo_to_npc(npc_t *npc, convo_t *c);
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level
  *  surrender_level: the level of health at which the npc surrenders the battle
- *
+ *  class_type: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  items: An inventory of items that can be used in battle
+ *  armor: a pointer to the armor an npc has
+ *  accessory: a pointer to the accessory an npc has
+ *  weapon: a pointer to the weapon an npc has
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,
-                      int surrender_level);
+                      int surrender_level, class_t *class_type,
+                      battle_item_t *items, battle_equipment_t *armor,
+                      battle_equipment_t *accessory, battle_equipment_t *weapon);
 
 /*
  * Changes the health of the npc.

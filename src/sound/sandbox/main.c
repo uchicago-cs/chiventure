@@ -1,4 +1,4 @@
-/* The following code was adapted from 
+/* The following code was adapted from
 https://gigi.nullneuron.net/gigilabs/playing-a-wav-file-using-sdl2/
 to gain an understanding of basic SDL Library functions */
 

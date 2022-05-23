@@ -13,6 +13,12 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
+#include "npc/npc_battle.h"
+#include "cli/cli_ctx.h"
+#include "common/ctx.h"
+#include "ui/print_functions.h"
+#include "cli/operations.h"
+#include "ui/ui.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
@@ -73,10 +79,11 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
 /*
 * Determines whether a move hits based on accuracy stat.
  * Parameters:
- * - accuracy : the accuracy of the user using the move
+ * - user_accuracy : the accuracy of the user using the move
+ * - move_accuracy : the accuracy of the move itself
  * returns: the 1 or 0 depending on if the move hits
  */
-int calculate_accuracy(int accuracy);
+int calculate_accuracy(int user_accuracy, int move_accuracy);
 
 /*
  * Carries out one iteration of the battle flow loop when a move is used
@@ -145,5 +152,34 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label);
  *  - A string consisting of the output from the turn
  */
 char *enemy_make_move(battle_ctx_t *ctx);
+
+/* Runs a turn component, which includes allowing user to choose their action,
+ * using the action, and reporting results
+ * 
+ * Parameters:
+ * - ctx: the current chiventure context
+ * - component: the turn component being run
+ * - callback_func: pointer to a callback function
+ * - callback_args: additional arguments to callback function
+ *
+ * Returns:
+ * - returns int 1 if everything runs smoothly,
+ *   or calls callback function if invalid input
+ */
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
+                        void *callback_args, cli_callback callback_func);
+/*
+ * Uses a stat changing move. Works for stat changes
+ * that affect the player, opponent, or both.
+ * 
+ * Parameters: 
+ *  - move: the move used
+ *  - target: the target the move is used on
+ *  - source: the user that is using the move
+ * Returns:
+ *  - A success if the move was done correctly
+ */
+int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
+
 
 #endif
