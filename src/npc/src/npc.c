@@ -16,7 +16,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->will_fight = will_fight;
     npc->npc_battle = NULL;
     npc->movement = movement;
-    
+
     item_hash_t *head = NULL;
     npc->inventory = head;
 
@@ -101,7 +101,7 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
 {
     item_t *check;
     char *insensitized_id = case_insensitized_string(item_id);
-    HASH_FIND(hh, npc->inventory, insensitized_id,
+    HASH_FIND(hh_npc, npc->inventory, insensitized_id,
               strnlen(item_id, MAX_ID_LEN), check);
     free(insensitized_id);
     if (check != NULL)
@@ -158,7 +158,7 @@ item_list_t *get_npc_inv_list(npc_t *npc)
     item_list_t *head = NULL;
     item_t *ITTMP_ITEMRM, *curr_item;
     item_list_t *tmp;
-    HASH_ITER(hh, npc->inventory, curr_item, ITTMP_ITEMRM)
+    HASH_ITER(hh_npc, npc->inventory, curr_item, ITTMP_ITEMRM)
     {
         tmp = malloc(sizeof(item_list_t));
         tmp->item = curr_item;
@@ -203,21 +203,26 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
 {
-    int rc;
-
-    rc = add_item_to_hash(&(npc->inventory), item);
-
-    return rc;
+    assert((item != NULL) && (npc != NULL));
+    item_t *tmp;
+    char *id = case_insensitized_string(item->item_id);
+    HASH_FIND(hh_npc, npc->inventory, id, strlen(id), tmp);
+    if (tmp == NULL)
+    {
+        HASH_ADD_KEYPTR(hh_npc, npc->inventory, id, strlen(id), item);
+        return SUCCESS;
+    }
+    else
+    {
+        return FAILURE; // Hash tables should not contain duplicate items
+    }
 }
 
 /* See npc.h */
 int remove_item_from_npc(npc_t *npc, item_t *item)
 {
-    int rc;
-
-    rc = remove_item_from_hash(&(npc->inventory), item);
-
-    return rc;
+    HASH_DELETE(hh_npc, npc->inventory, item);
+    return SUCCESS;
 }
 
 /* See npc.h */
