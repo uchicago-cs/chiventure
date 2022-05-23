@@ -221,6 +221,7 @@ int remove_item_from_npc(npc_t *npc, item_t *item)
 {
     assert((item != NULL) && (npc != NULL));
     HASH_DELETE(hh_npc, npc->inventory, item);
+    return SUCCESS;
 }
 
 /* See npc.h */
