@@ -1,4 +1,5 @@
 # Graph validator algorithm
+# example input: python src/graph_validator.py examples/wdl/npc_example.wdl
 import sys
 import json
 
@@ -10,7 +11,7 @@ def validate(graph):
         for npc, vals in npcs.items():
             edges = vals['dialogue']['edges']
             nodes = vals['dialogue']['nodes']
-            print(nodes)
+            print(edges)
 
 
 
