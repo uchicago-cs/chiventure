@@ -3,7 +3,7 @@
         {
             "Quest Name": "Find Steve",
             "Rewards": {
-                "XP": "500"
+                "XP": 500
             },
             "Task Tree": [
                 {
@@ -42,10 +42,10 @@
                         "Type": "Meet NPC"
                     },
                     "Prerequisites" {
-                        "Health": "10",
-                        "Level": "2"
+                        "Health": 10,
+                        "Level": 2
                     },
-                    "Reewards" {
+                    "Rewards" {
                         "XP": 100,
                         "Item": "Search Warrant"
                     }
@@ -57,8 +57,8 @@
                         "Type": "Visit Room"
                     },
                     "Prerequisites" {
-                        "Health": "12",
-                        "Level": "3",
+                        "Health": 12,
+                        "Level": 3,
                         "Tasks": ["Talk to Land Scout"]
                     },
                     "Rewards" {
@@ -72,8 +72,8 @@
                         "Type": "Meet NPC"
                     },
                     "Prerequisites" {
-                        "Health": "10",
-                        "Level": "2",
+                        "Health": 10,
+                        "Level": 2,
                         "Tasks": ["Talk to Land Scout"]
                     },
                     "Rewards" {
@@ -87,11 +87,11 @@
                         "Type": "Meet NPC"
                     },
                     "Prerequisites" {
-                        "Health": "15"
-                        "Level": "4",
+                        "Health": 15,
+                        "Level": 4
                     },
                     "Rewards" {
-                        "XP": "100",
+                        "XP": 100,
                         "Item": "Search Warrant"
                     }
                 },
@@ -102,12 +102,12 @@
                         "Type": "Visit Room"
                     },
                     "Prerequisites" {
-                        "Health": "15",
-                        "Level": "4",
+                        "Health": 15,
+                        "Level": 4,
                         "Tasks": ["Talk to Sea Scout"]
                     },
                     "Rewards" {
-                        "XP": "100"
+                        "XP": 100
                     }
                 },
                 {
@@ -117,12 +117,12 @@
                         "Type": "Collect Item"
                     },
                     "Prerequisites": {
-                        "Health": "15",
-                        "Level": "4",
+                        "Health": 15,
+                        "Level": 4,
                         "Tasks": ["Talk to Sea Scout", "Find the Pirate Cove"]
                     },
                     "Rewards" {
-                        "XP": "200"
+                        "XP": 200
                         "Item": "Sailing Handbook"
                     }
                 },
@@ -133,12 +133,12 @@
                         "Type": "Meet NPC"
                     },
                     "Prerequisites": {
-                        "Health": "20",
-                        "Level": "5",
+                        "Health": 20,
+                        "Level": 5,
                         "Tasks": ["Talk to Sea Scout", "Find the Pirate Cove"]
                     },
                     "Rewards" {
-                        "XP": "250"
+                        "XP": 250,
                         "Item": "Interrogation Handbook"
                     }
                 }
@@ -147,12 +147,12 @@
         {
             "Quest Name": "Vanquish Steve",
             "Rewards": {
-                "XP": "1000",
+                "XP": 1000,
                 "Item": "Legendary Sword of Steve"
             },
             "Prerequisites" {
-                "Health": "20",
-                "Level": "7",
+                "Health": 20,
+                "Level": 7,
                 "Quests": ["Find Steve"]
             },
             "Task Tree": [
@@ -171,12 +171,12 @@
                         "Type": "Kill NPC"
                     },
                     "Prerequisites": {
-                        "Health": "30",
-                        "Level": "12",
+                        "Health": 30,
+                        "Level": 12,
                         "Quests": "Find Steve"
                     },
                     "Reward": {
-                        "XP": "500"
+                        "XP": 500
                     }
                 },
                 {
@@ -190,7 +190,7 @@
                         "Tasks": "Interrogate the Pirate Captain"
                     },
                     "Reward" {
-                        "XP": "100"
+                        "XP": 100
                     }
                 }
             ]

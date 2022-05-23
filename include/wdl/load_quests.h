@@ -16,7 +16,7 @@
  * 
  * parameters:
  * - doc: the document object
- * - g: a game pointer as a return parameter
+ * - game: a game pointer as a return parameter
  *
  * side effects:
  * - adds quests from doc into the g->all_quests 
@@ -25,7 +25,7 @@
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
  */
-int load_quests(obj_t *doc, game_t *g);
+int load_quests(obj_t *doc, game_t *game);
 
 
 #endif /* INCLUDE_LOAD_QUESTS_H */

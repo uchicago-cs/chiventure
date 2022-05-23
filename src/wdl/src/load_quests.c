@@ -17,12 +17,12 @@ prereq_t *load_prereq(obj_t *prereq_obj) {
     if (prereq_obj == NULL)
     {
         fprintf(stderr, "prereqs list is null\n");
-        return FAILURE;
+        return NULL;
     }
 
     if(prereq_type_check(prereq_obj) == FAILURE) {
         fprintf(stderr, "prereq is not in the correct format");
-        return FAILURE;
+        return NULL;
     }
 
     int hp = obj_get_int(prereq_obj, "Health");
@@ -57,12 +57,12 @@ reward_t *load_reward(obj_t *reward_obj, game_t *game) {
     if (reward_obj == NULL)
     {
         fprintf(stderr, "reward is null\n");
-        return FAILURE;
+        return NULL;
     }
 
-    if(reward_type_check(reward_obj) == FAILURE) {
+    if(rewards_type_check(reward_obj) == FAILURE) {
         fprintf(stderr, "reward is not in the correct format");
-        return FAILURE;
+        return NULL;
     }
 
     int xp = obj_get_int(reward_obj, "XP");
@@ -84,12 +84,12 @@ mission_t *load_mission(obj_t *mission_obj) {
     if (mission_obj == NULL)
     {
         fprintf(stderr, "mission is null\n");
-        return FAILURE;
+        return NULL;
     }
 
     if(mission_type_check(mission_obj) == FAILURE) {
         fprintf(stderr, "mission is not in the correct format");
-        return FAILURE;
+        return NULL;
     }
 
     char *target = obj_get_str(mission_obj, "Target Name");
@@ -112,12 +112,12 @@ task_t *load_task(obj_t *task_obj, game_t *game) {
     if (task_obj == NULL)
     {
         fprintf(stderr, "task is null\n");
-        return FAILURE;
+        return NULL;
     }
 
     if(task_type_check(task_obj) == FAILURE) {
         fprintf(stderr, "task is not in the correct format");
-        return FAILURE;
+        return NULL;
     }
 
     char *name = obj_get_str(task_obj, "Task Name");
@@ -165,11 +165,11 @@ int load_task_hash(obj_t *task_list_obj, game_t *game, task_hash_t **hash) {
 */
 int load_task_tree(obj_t *task_tree_obj, quest_t *quest, task_hash_t *task_hash, char *parent_id) {
     assert(quest != NULL);
-    aseert(quest != NULL);
+    assert(quest != NULL);
 
     obj_t *cur, *tmp;
     HASH_ITER(hh, task_tree_obj->data.obj.attr, cur, tmp) {
-        char *task_name = obj_get(cur, "Task Name");
+        char *task_name = obj_get_str(cur, "Task Name");
         task_t *task = get_task_from_task_hash(task_name, task_hash);
         if(task == NULL) {
             fprintf(stderr, "Undefined task: %s!", task_name);
@@ -193,7 +193,7 @@ int load_task_tree(obj_t *task_tree_obj, quest_t *quest, task_hash_t *task_hash,
  * Returns:
  * - A pointer to a quest specified according to the WDL object
 */
-int *load_quest(obj_t *quest_obj, game_t *game) {
+int load_quest(obj_t *quest_obj, game_t *game) {
     assert(quest_obj != NULL);
 
     if(quest_type_check(quest_obj) == FAILURE) {
@@ -223,7 +223,7 @@ int *load_quest(obj_t *quest_obj, game_t *game) {
     obj_t *task_tree_obj = obj_get(quest_obj, "Task Tree");
     load_task_tree(task_tree_obj, q, task_hash, NULL);
 
-    add_quest_to_game(q, game);
+    add_quest_to_game(game, q);
 
     // Creates placeholder quests for prereq tasks that aren't a part of the task tree
     for(task_hash_t *cur_task = task_hash; cur_task != NULL; cur_task = cur_task->hh.next) {
@@ -257,7 +257,7 @@ int load_quests(obj_t *doc, game_t *game) {
     obj_t *cur, *tmp;
     HASH_ITER (hh, quests_obj->data.obj.attr, cur, tmp)
     {
-        add_quest_to_game(game, load_quest(cur, game));
+        load_quest(cur, game);
     }
     return SUCCESS;
 }
