@@ -60,6 +60,4 @@ void game_set_start(char *room_id, game_t *game);
 void debug_print(game_t *game);
 
 
-
-
 #endif /* INCLUDE_LOAD_GAME_H */
