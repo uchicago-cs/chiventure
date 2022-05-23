@@ -8,7 +8,7 @@ int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue)
 {
     assert(npc_quest != NULL);
 
-    npc_quest->id = id;
+    npc_quest->id = strdup(id, QUEST_NAME_MAX_LEN);
     npc_quest->quest_dialogue;
     npc_quest->next = NULL;
 
@@ -60,8 +60,6 @@ int *npc_quest_free(npc_quest_t *npc_quest)
     npc_quest = temp;
 
     return(npc_quest_free(npc_quest));
-    }
-    else return SUCCESS;
 }
 
 /* See npc.h */
@@ -69,7 +67,7 @@ int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue)
 {
     assert(npc_task != NULL);
     
-    npc_task->id = id;
+    npc_task->id = strdup(id, QUEST_NAME_MAX_LEN);
     npc_task->task_dialogue;
     npc_task->next = NULL;
 
@@ -128,9 +126,29 @@ int *npc_task_free(npc_task_t *npc_task)
 /* See npc.h */
 int npc_quest_list_init(npc_quest_list_t *quest_list)
 {
-
+    quest_list->head = NULL;
+    quest_list->length = 0;
 }
-npc_quest_list_t *npc_quest_list_new();
+
+/* See npc.h */
+npc_quest_list_t *npc_quest_list_new()
+{
+    npc_quest_list_t *npc_quest_list;
+    int rc;
+    npc_quest_list = malloc(sizeof(npc_quest_list_t));
+
+    if (npc_quest_list != NULL {
+        fprintf(stderr, "\nCould not allocate memory for NPC quest list!\n");
+        return NULL;
+    }
+
+    rc = npc_quest_list_init(npc_quest_list);
+    if (rc != SUCCESS)
+    {
+        return NULL;
+    }
+    
+}
 
 /* See npc.h */
 int npc_quest_list_free(npc_quest_list_t *quest_list)
@@ -147,8 +165,31 @@ int npc_quest_list_free(npc_quest_list_t *quest_list)
     return SUCCESS;
 }
 
-int npc_task_list_init(npc_task_list_t *task_list);
-npc_task_list_t *npc_task_list_new();
+/* See npc.h */
+int npc_task_list_init(npc_task_list_t *task_list)
+{
+    task_list->head = NULL;
+    task_list->length = 0;
+}
+
+/* See npc.h */
+npc_task_list_t *npc_task_list_new()
+{
+    npc_task_list_t *npc_task_list;
+    int rc;
+    npc_task_list = malloc(sizeof(npc_task_list_t));
+
+    if (npc_task_list != NULL {
+        fprintf(stderr, "\nCould not allocate memory for NPC task list!\n");
+        return NULL;
+    }
+
+    rc = npc_task_list_init(npc_task_list);
+    if (rc != SUCCESS)
+    {
+        return NULL;
+    }
+}
 
 /* See npc.h */
 npc_task_list_t *npc_task_list_free(npc_task_list_t *task_list)

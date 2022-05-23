@@ -20,7 +20,7 @@
 typedef struct npc_quest {
    char *id;
    convo_t *quest_dialogue;
-   npc_quest *next;
+   npc_quest_t *next;
 } npc_quest_t;
 
 /* 
