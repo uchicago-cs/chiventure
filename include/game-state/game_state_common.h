@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <time.h>
 #include <unistd.h>
+#include <pthread.h>
 
 #include "common/uthash.h"
 #include "common/utlist.h"

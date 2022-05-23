@@ -391,9 +391,13 @@ int main(int argc, char **argv)
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
 
+    pthread_t time_thread;
+    pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
+
     /* Start chiventure */
     start_ui(ctx, banner);
 
+    pthread_exit(NULL);
     game_free(ctx->game);
 
     return 0;

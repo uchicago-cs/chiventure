@@ -754,11 +754,13 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 }
 
 /* See game.h */
-void time_dependent_functions(game_t *game)
+void *time_dependent_functions(void *game)
 {
-    while (game != NULL)
+    game_t *g;
+    g = (game_t *) game;
+    while (g != NULL)
     {
-        move_indefinite_npcs_if_needed(game->all_npcs, game->all_rooms);
+        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
         sleep(1);
     }
 }
