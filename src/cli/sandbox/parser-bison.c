@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../../../include/cli/operations.h"
+#include "../../../include/cli/parser.h"
 #include "parser-bison.h"
 
 /* use utlist for linked list operations (see docs 
@@ -46,4 +48,10 @@ void handle_fight_cmd(word_ll *phrase) {
         printf(" %s", p->word);
     }
     printf("\n");
+}
+
+void handle_credits_cmd(word_ll *phrase) {
+    char **tokens = parse(phrase);
+    chiventure_ctx_t *ctx = create_sample_ctx();
+    credits_operation(tokens, ctx);
 }
