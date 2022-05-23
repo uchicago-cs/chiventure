@@ -717,7 +717,7 @@ int class_prefab_add_skills(class_t* class) {
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "dragon's tooth",
                                     "An explosive tooth of a Dragon is used on" 
                                     " your enemy.", 1, 320,      
-                                    NULL);
+                                    NULL, NULL);
 
        /* Add skills to tree */
        add_skill(class, skill_0, 0, 25, true);
