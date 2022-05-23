@@ -138,6 +138,19 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item);
 char *battle_flow_list(battle_ctx_t *ctx, char* label);
 
 /*
+ * runs the enemy's turn (each turn component)
+ * for now, the ai only knows how to make moves. if it can't
+ * make a move, it passes.
+ * 
+ * Parameters: 
+ *  - ctx: current chiventure battle context
+ * 
+ * Returns:
+ *  - A string consisting of the output from the enemy's turn
+ */
+char *enemy_run_turn(battle_ctx_t *ctx);
+
+/*
  * Helper function for battle_flow functions
  * Allows the enemy to make their move
  * This includes:
@@ -168,18 +181,6 @@ char *enemy_make_move(battle_ctx_t *ctx);
  */
 int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                         void *callback_args, cli_callback callback_func);
-
-/* Takes in the input that was gotten from CLI, outputs string
- * that was the result of the action
- * 
- * Parameters:
- * - input: the user's input from the CLI
- *
- * Returns:
- * - returns string to describe result of chosen action
- */
-char *action(char *input);
-
 /*
  * Uses a stat changing move. Works for stat changes
  * that affect the player, opponent, or both.
