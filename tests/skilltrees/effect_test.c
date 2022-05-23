@@ -82,7 +82,7 @@ Test(effect_tests, execute_move_effect_test_existing_list)
     cr_assert_eq(check3, SUCCESS, "Error: Failure of execute_move_effect");
 }
    
-//Tests for stat mod effects
+//Tests for player stat mod effects
 
 /* This test checks if the define function works correctly if all values provided are valid */
 Test(effect_tests, define_player_stat_effect_correct_vals) 
@@ -167,6 +167,33 @@ Test(effect_tests, execute_player_stat_effect_test)
     cr_assert_eq(150, max_health->modifier, "Max health not changed correctly");
     HASH_FIND_STR(player_stats, "current_health", current_health);
     cr_assert_eq(100, current_health->modifier, "Current health not changed correctly");
+}
+
+
+
+//Tests for Item stat effects
+
+
+/* This test checks if the define function works correctly if all values provided are valid */
+Test(item_effect_tests, define_item_stat_effect_correct_vals) 
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    char* stats_to_change[] = {"bomb_health", "bomb_range"};
+    double mods[] = {150, 100};
+    int durations[] = {5, 5};
+    
+    /* Checking if values are set correctly */
+    cr_assert_not_null(bomb, "Error: define_items_stat failed");
+    item_stat_effect_t* bomb_boost = define_item_stat_effect(bomb, stats_to_change, mods, durations, 2);
+    cr_assert_not_null(bomb_boost, "Error: Returned NULL effect");
+
+    cr_assert_eq(bomb_boost->item, bomb, "Error: Name not assigned correctly");
+    cr_assert_eq(bomb_boost->modifications[0], 150, "Error:  First modification is wrong");
+    cr_assert_eq(bomb_boost->modifications[1], 100, "Error:  Second modification is wrong");
+    cr_assert_eq(bomb_boost->durations[0], 5, "Error: First Duration is wrong");
+    cr_assert_eq(bomb_boost->durations[1], 5, "Error: Second Duration is wrong");
+    cr_assert_eq(bomb_boost->num_stats, 2, "Number of stats is wrong");
 }
 
 /*** TESTS FOR ITEM ATT EFFECT ***/
