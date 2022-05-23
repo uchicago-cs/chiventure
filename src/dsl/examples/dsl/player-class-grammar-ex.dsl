@@ -22,7 +22,7 @@ PLAYER_CLASS KNIGHT
     long desc: "he is out to save the world"
     attributes: 
         noble set TRUE
-    base_stats: 
+    base stats: 
         health 
             CURRENT 20 
             MAX 100
