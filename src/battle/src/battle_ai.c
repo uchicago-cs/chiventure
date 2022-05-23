@@ -72,24 +72,58 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
     }
     return strongest_move;
 }
+/*
+* Calculates Critical Damage
+ * Parameters:
+ * - crit_chance : the crit chance of the user using the move
+ * returns: the critical damage multiplier
+ */
+double calculate_crit(int crit_chance)
+{
+    int chance = randnum(1, 100);
+
+    if (chance <= crit_chance)
+    {
+        return 1.5;
+    }
+    else
+    {
+        return 1;
+    }
+}
 
 /* See battle_ai.h */
 double damage(combatant_t* target, move_t* move, combatant_t* source)
 {
-    double dmg, power, src_strength, tar_defense, src_level;
+    double dmg, power, src_strength, tar_defense, src_level, crit_boost;
     stat_t* src_stats = source->stats;
     stat_t* tar_stats = target->stats;
+    /* When moves support magical and physical attacks, this if statement
+    must be changed to accomodate for that. */
+    if (1)
+    {
+        tar_defense = (double) tar_stats->phys_def;
+        power = (double) move->damage;
+        src_strength = (double) src_stats->phys_atk;
+        src_level = (double) src_stats->level;
+    }
+    else
+    {
+        tar_defense = (double) tar_stats->mag_def;
+        power = (double) move->damage;
+        src_strength = (double) src_stats->mag_atk;
+        src_level = (double) src_stats->level;
+    }
+    
     
 
-    tar_defense = (double) tar_stats->defense;
-    power = (double) move->damage;
-    src_strength = (double) src_stats->strength;
-    src_level = (double) src_stats->level;
+    crit_boost = calculate_crit(src_stats->crit);
 
-    
     dmg = ((2.0 * src_level) / 5.0);
     dmg *= ((power * (src_strength / tar_defense)) / 50.0) + 2.0;
-
+    dmg *= crit_boost;
     dmg = floor(dmg);
+
     return dmg;
 }
+

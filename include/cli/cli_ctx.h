@@ -40,7 +40,7 @@ cli_ctx_t *cli_ctx_new();
  *
  * Always returns 0
  */
-int cli_ctx_free(cli_ctx_t *cli_ctx);
+int free_cli_ctx(cli_ctx_t *cli_ctx);
 
 
 
