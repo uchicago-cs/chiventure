@@ -344,9 +344,14 @@ chiventure_ctx_t *create_sample_ctx()
     item_t *potion = item_new("POTION","This is a health potion.",
                               "This potion will increase your health. Feel "
                               "free to take it.");
+    assert(add_action(potion, "take", "You now have a potion",
+                      "potion could not be taken") == SUCCESS);
     add_item_to_npc(hostile_harry, potion);
+
     item_t *elixir = item_new("ELIXIR","This is an elixir.",
                               "This is an elixir. Effects: energize and stun.");
+    assert(add_action(elixir, "take", "You now have an elixir",
+                      "elixir could not be taken") == SUCCESS);
     add_item_to_npc(hostile_harry, elixir);
 
     /* Add dialogue to hostile npc */
