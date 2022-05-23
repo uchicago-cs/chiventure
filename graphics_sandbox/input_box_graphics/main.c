@@ -3,6 +3,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// Check if any key is pressed
+// NOTE: We limit keys check to keys between 32 (KEY_SPACE) and 126
+bool IsAnyKeyPressed()
+{
+
+    bool keyPressed = false;
+    int key = GetKeyPressed();
+    if ((key >= 32) && (key <= 126)) keyPressed = true;
+
+    return keyPressed;
+}
+
 /* See input_box.h*/
 void run_input_box(input_box_graphics_t *input_box_graphics, char* input_buffer) {
     // Initialization
