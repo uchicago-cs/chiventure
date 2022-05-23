@@ -4,7 +4,6 @@ import json
 from to_wdl.util import PROPERTY_ALIASES, ACTION_ALIASES
 from warnings import warn
 from collections import ChainMap
-
 from to_wdl.wdl_item import Item
 
 class Room:

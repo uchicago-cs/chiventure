@@ -2,7 +2,6 @@
 # Defines a Item class and its methods for conversion to WDL.
 import json
 from to_wdl.util import PROPERTY_ALIASES, ACTION_ALIASES
-
 from warnings import warn
 from collections import ChainMap
 
