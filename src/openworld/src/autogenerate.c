@@ -125,7 +125,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
     int num_roomspecs=specgraph->num_roomspecs;
     roomspec_t **roomspecs=specgraph->roomspecs;
     int **edges=specgraph->edges;
-    int tag = roomspec.tag;
+    int tag = roomspec->tag;
 
     int rownumber=-1;
     int rowcount=0;
