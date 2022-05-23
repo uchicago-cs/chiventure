@@ -49,8 +49,8 @@ fight_cmd
   ;
 
 credits_cmd
-  : CREDITS { $$ = $1; }
-  | phrase CREDITS { $$ = $2; }
+  : CREDITS { $$ = start_phrase($1); }
+  | phrase CREDITS { $$ = start_phrase($2); }
   ;
   
 phrase
