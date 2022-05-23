@@ -28,9 +28,9 @@ int main() {
 
     printf("value of chest coins is initially is %d\n", t->coins);
       // Push the change function on the top of the lua stack
-    lua_getglobal(L, "change");
+    lua_getglobal(L, "add_ten");
 
-    // Push the argument (the number 13) on the stack 
+    // Push the argument (the number 0) on the stack 
     lua_pushnumber(L, t->coins);
 
     // call the function with 1 argument, returning a single result.  Note that the function actually

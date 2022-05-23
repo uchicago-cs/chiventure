@@ -1,5 +1,5 @@
-change = function(a)
-    a = 10;
+add_ten = function(a)
+    a += 10;
     return a
 end
 
