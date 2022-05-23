@@ -104,7 +104,7 @@ char **handle_cmd(word_ll *p) {
         return NULL;
     }
     char **words;
-    words = (char**)malloc(sizeof(char*)*LL_MAX_SIZE);
+    words = (char**)calloc(LL_MAX_SIZE,sizeof(char*));
     int i = 0;
     while(p != NULL && i < LL_MAX_SIZE) {
         words[i] = p->word;
