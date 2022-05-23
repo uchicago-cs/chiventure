@@ -397,7 +397,7 @@ int main(int argc, char **argv)
     /* Start chiventure */
     start_ui(ctx, banner);
 
-    pthread_exit(NULL);
+    pthread_cancel(time_thread);
     game_free(ctx->game);
 
     return 0;
