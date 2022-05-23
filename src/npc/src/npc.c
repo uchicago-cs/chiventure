@@ -240,6 +240,7 @@ int remove_item_from_npc(npc_t *npc, item_t *item)
 int delete_all_items_from_npc(npc_t *npc)
 {
     HASH_CLEAR(hh_npc, npc->inventory);
+    return SUCCESS;
 }
 
 /* See npc.h */
