@@ -1,7 +1,7 @@
 BIN = parser-bison
 CC = gcc
 BISON = bison
-CFLAGS = -Wall -I.
+CFLAGS = -Wall -I../../../include -I. -I../../../tests
 FLEX = flex
 RM = rm -f
 
