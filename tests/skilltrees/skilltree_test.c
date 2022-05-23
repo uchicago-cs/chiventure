@@ -612,3 +612,38 @@ Test(skilltree_test, inventory_skill_acquire_has)
       "Error: failed test inventory_skill_acquire_has on adding to inventory\n");
 }
 */
+
+/* Tests display_tree given a typical skilltree */
+
+Test(skilltree_test, display_tree_typical)
+{ 
+  chiventure_ctx_t* ctx = create_player_and_stats();
+  item_t* bomb = add_bomb_item(ctx);
+  effect_t* defusebombeffect = make_bomb_effect(bomb);
+  effect_t* innerpeace = make_innerpeace_effect(ctx);
+  item_t* tree = add_chop_item(ctx);
+  effect_t* choptreeeffect = make_choptree_effect(tree);
+    
+  skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+      2, 5, defusebombeffect, NULL);
+  skill_t* skill2 = skill_new(1001, ACTIVE, "chop tree", "chops a tree",
+      3, 6, choptreeeffect, NULL);
+  skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
+      4, 7, innerpeace, NULL);
+  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22);
+  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 19);
+  skill_node_t* inner_node = skill_node_new(skill3, 2, 77, 4);
+
+  node_prereq_add(inner_node, bomb_node, 19);
+  node_prereq_add(inner_node, chop_node, 14);
+
+  skill_tree_t* skilltree = skill_tree_new(1001, "this tree", 3);
+  skill_tree_node_add(skilltree, bomb_node);
+  skill_tree_node_add(skilltree, chop_node);
+  skill_tree_node_add(skilltree, inner_node);
+
+  char *display = display_tree(skilltree);
+  char check[1000] = "Skill Name: \"defuse bomb\", Prereq Level: 75, Current Level: 1\nSkill Name: \"chop tree\", Prereq Level: 76, Current Level: 1\nSkill Name: \"inner peace\", Prereq Level: 77, Current Level: 1\n";
+  cr_assert_eq(check, display,
+    "Error: display_tree failed\n");
+}

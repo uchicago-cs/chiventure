@@ -7,6 +7,7 @@
 #include <assert.h>
 #include <string.h>
 #include "skilltrees/skilltree.h"
+#include <limits.h>
 
 /* See skilltree.h */
 skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
@@ -366,16 +367,25 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
 }
 
 char *display_tree(skill_tree_t* tree){
+
     int size = INT_MAX; // There must be a better way to calculate the exact size you need and set the buffer size to that
     char buffer[size];
     char temp[size];
 
     for (int i = 0; i < tree->num_nodes; i++){
-        // iterate over nodes, store in temp then add to buffer
-        // more info here? also, fix spacing for 80 chars
-        sprintf(temp, "Skill name: %s, Skill Description: %s, Prereq Level: %d, Current Level: %d,  \n", tree->nodes[i]->skill->name, tree->nodes[i]->skill->desc, tree->nodes[i]->prereq_level, tree->nodes[i]->skill->level);
+        sprintf(temp, "Skill Name: %s, Prereq Level: %d, Current Level: %d\n", tree->nodes[i]->skill->name, tree->nodes[i]->prereq_level, tree->nodes[i]->skill->level);
         strcat(buffer, temp);
     }
+
+    char *display = strdup(buffer);
+    return display;
+}
+
+char *display_tree_description(skill_t* skill){
+    //Uses a static size, will crash for longer descriptions
+    char buffer[150];
+
+    sprintf(buffer, "Skill Description: %s\n", skill->desc);
 
     char *display = strdup(buffer);
     return display;

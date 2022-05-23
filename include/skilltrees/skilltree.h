@@ -319,4 +319,16 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
  */
 char *display_tree(skill_tree_t* tree);
 
+/*
+ * Given a skill, prints its description
+ * Support for integration with action management for view action
+ *
+ * Parameters: 
+ *  - skill: pointer to the skill whose description will be printed
+ * 
+ * Returns:
+ *  - string to be printed
+ */
+char *display_tree_description(skill_t* skill);
+
 #endif /* INCLUDE_SKILLTREE_H_ */
