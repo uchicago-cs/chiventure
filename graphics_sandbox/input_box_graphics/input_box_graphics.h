@@ -4,7 +4,7 @@
 #include "raylib.h"
 
 #define INPUT_BOX_CONTEXT_ID 6
-
+#define MAX_INPUT_CHAR 14
 
 typedef struct input_box_graphics{
     Vector2 WindowPos;

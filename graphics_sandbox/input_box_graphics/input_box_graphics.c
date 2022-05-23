@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#define MAX_INPUT_CHAR 14
+
 
 /* See input_box.h*/
 input_box_graphics_t* newInputboxGraphics(Vector2 WindowPos, Vector2 WindowSize, Color BoxColor,
