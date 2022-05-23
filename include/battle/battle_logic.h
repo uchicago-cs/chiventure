@@ -161,4 +161,3 @@ int num_moves(move_t *moves);
 int num_items(battle_item_t *items);
 
 #endif
-

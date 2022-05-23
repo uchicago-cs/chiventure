@@ -34,4 +34,5 @@ typedef enum complex_skill_type {
     SEQUENTIAL
 
 } complex_skill_type_t;
+
 #endif /*SKILLTREES_ENUMS_H*/
