@@ -260,6 +260,7 @@ int itemspec_free(itemspec_t *itemspec);
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Does not affect itemspec hash. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
 *
 * returns:
@@ -276,6 +277,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
 *
 * returns:
