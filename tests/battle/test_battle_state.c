@@ -16,7 +16,8 @@ Test(battle_state, combatant_new)
 
     combatant_t *c;
 
-    c = combatant_new("combatant_new_Name", true, test_class, NULL, NULL, NULL, BATTLE_AI_GREEDY);
+    c = combatant_new("combatant_new_Name", true, test_class, NULL, NULL, NULL, 
+                    NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
     cr_assert_not_null(c, "combatant_new() failed");
 
@@ -42,7 +43,8 @@ Test(battle_state, combatant_init)
     combatant_t c;
     int rc;
 
-    rc = combatant_init(&c, "combatant_init_Name",true, NULL, NULL, NULL, NULL, BATTLE_AI_RANDOM);
+    rc = combatant_init(&c, "combatant_init_Name",true, NULL, NULL, NULL, NULL, 
+                        NULL, NULL, NULL, BATTLE_AI_RANDOM);
 
     cr_assert_eq(rc, SUCCESS, "combatant_unit() failed");
 
@@ -57,7 +59,8 @@ Test(battle_state, combatant_free)
     combatant_t *c;
     int rc;
 
-    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                    NULL, NULL, NULL, BATTLE_AI_NONE);
 
     cr_assert_not_null(c, "combatant_new() failed");
 
@@ -74,8 +77,10 @@ Test(battle_state, combatant_free_all)
     combatant_t *c2;
     int rc;
 
-    c1 = combatant_new("combatant_free_Name2", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
-    c2 = combatant_new("combatant_free_Name1", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    c1 = combatant_new("combatant_free_Name2", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                        NULL, NULL, NULL, BATTLE_AI_NONE);
+    c2 = combatant_new("combatant_free_Name1", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                        NULL, NULL, NULL, BATTLE_AI_NONE);
     DL_APPEND(head, c1);
     DL_APPEND(head, c2);
 
@@ -90,8 +95,10 @@ Test(battle_state, combatant_free_all)
 Test(battle_state, battle_new)
 {
     battle_t *b;
-    combatant_t *p = combatant_new("battle_new_Player", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
-    combatant_t *e = combatant_new("battle_new_Enemy", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *p = combatant_new("battle_new_Player", true, NULL, NULL, NULL, NULL, 
+                                    NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e = combatant_new("battle_new_Enemy", true, NULL, NULL, NULL, NULL, 
+                                    NULL, NULL, NULL, BATTLE_AI_NONE);
 
     b = battle_new(p, e, ENV_SNOW, ENEMY);
 
@@ -107,8 +114,10 @@ Test(battle_state, battle_new)
 Test(battle_state, battle_init)
 {
     battle_t b;
-    combatant_t *p = combatant_new("battle_init_Player", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
-    combatant_t *e = combatant_new("battle_init_Enemy", true, NULL, NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *p = combatant_new("battle_init_Player", true, NULL, NULL, NULL, NULL, 
+                                    NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e = combatant_new("battle_init_Enemy", true, NULL, NULL, NULL, NULL, 
+                                    NULL, NULL, NULL, BATTLE_AI_NONE);
     int rc;
 
     rc = battle_init(&b, p, e, ENV_SNOW, ENEMY);
@@ -127,9 +136,12 @@ Test(battle_state, battle_free)
     battle_t *b;
     int rc;
     combatant_t *p = NULL;
-    combatant_t *p1 = combatant_new("battle_new_Player", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
-    combatant_t *e1 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
-    combatant_t *e2 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *p1 = combatant_new("battle_new_Player", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                                    NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e1 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                                    NULL, NULL, NULL, BATTLE_AI_NONE);
+    combatant_t *e2 = combatant_new("battle_new_Enemy", false, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                                    NULL, NULL, NULL, BATTLE_AI_NONE);
 
     DL_APPEND(p, p1);
     combatant_t *e = NULL;
@@ -307,7 +319,8 @@ Test(stat_changes, stat_changes_turn_increment_simple_decrement)
     combatant_t *c;
     int rc;
 
-    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                        NULL, NULL, NULL, BATTLE_AI_NONE);
     head = stat_changes_new();
     sc = stat_changes_new();
     sc->turns_left = 2;
@@ -329,7 +342,8 @@ Test(stat_changes, stat_changes_turn_increment_complex_decrement)
     combatant_t *c;
     int rc;
 
-    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                        NULL, NULL, NULL, BATTLE_AI_NONE);
     sc = stat_changes_new();
     head = stat_changes_new();
 
@@ -362,7 +376,8 @@ Test(stat_changes, stat_changes_undo)
     combatant_t *c;
     int rc;
 
-    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, BATTLE_AI_NONE);
+    c = combatant_new("combatant_free_Name", true, NULL, calloc(1, sizeof(stat_t)), NULL, NULL, 
+                        NULL, NULL, NULL, BATTLE_AI_NONE);
     sc = stat_changes_new();
 
     c->stats->speed = 1;
