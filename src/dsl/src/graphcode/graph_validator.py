@@ -3,11 +3,16 @@
 from doctest import FAIL_FAST
 import sys
 import json
-from example_graphs import OAK
+from example_graphs import OAK, SELFLOOP, SINGLETON, NODENOTREACHED, INFINITECIRCLE, INFINITELOOP, INFINITELOOPLONG
 
-def validate(graph):
+def validate(graph, start):
     cyclical = check_cylicality(graph)
+    valid_paths = check_all_nodes(graph, start)
+    single = singleton_node(graph)
+    loop = self_loop(graph)
 
+    if cyclical or valid_paths or single or loop:
+        return False
     return True
 
 
@@ -43,7 +48,7 @@ def check_cylicality(graph):
 # This function checks that every node can be reached
 # in the graph
 def check_all_nodes(graph, start):
-    visited = num_times_visit_node(graph)
+    visited = num_times_visit_node(graph, start)
     for i in graph.keys():
         if visited[i] == 0 and i != start:
             return True
@@ -53,11 +58,11 @@ def check_all_nodes(graph, start):
 
 # # Checks if a node is a singleton
 # # Count if nodes is 1
-def singleton_node(graph, node):
+def singleton_node(graph):
     return len(graph) == 1
 
 # Returns 1 if a node has a connection with itself
-def self_loop(graph, node):
+def self_loop(graph):
     for n in graph.keys():
         edges = graph[n]
         if n in edges:
@@ -76,10 +81,19 @@ def num_times_visit_node(graph, node):
             visited[n] += 1
     return visited
 
-print(num_times_visit_node(OAK, 'A'))
+
 
 def main():
-    return 0
+    
+    print(f"Testing Valid Graph - OAK. Expecting: True | Actual: {validate(OAK, 'A')}")
+    print(f"Testing Valid Graph - SELFLOOP. Expecting: False | Actual: {validate(SELFLOOP, 'A')}")
+    print(f"Testing Valid Graph - SINGLETON. Expecting: False | Actual: {validate(SINGLETON, 'A')}")
+    print(f"Testing Valid Graph - NODENOTREACHED. Expecting: False | Actual: {validate(NODENOTREACHED, 'A')}")
+    print(f"Testing Valid Graph - INFINITELOOP. Expecting: False | Actual: {validate(INFINITELOOP, 'A')}")
+    print(f"Testing Valid Graph - INFINITECIRCLE. Expecting: False | Actual: {validate(INFINITECIRCLE, 'A')}")
+    print(f"Testing Valid Graph - INFINITELOOPLONG. Expecting: False | Actual: {validate(INFINITELOOPLONG, 'A')}")
+
+
 
 
 if __name__ == "__main__":
