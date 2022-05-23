@@ -386,40 +386,18 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     /* uses the find_action command to go from string to action,
      * this table is made using the add_action_entry and lookup_t_init 
      * in cmd.c*/
-    //action_type_t *action = find_action(tokens[0], table);
+    action_type_t *action = find_action(tokens[0], table);
 
     /* placeholder for error string that do_self_action will modify */
-    //char *str;
+    char *str;
         
-    //TODO for CLI: add description here of what the return codes mean
+    /* do_self_action return codes are either:
+     *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
+     *  otherwise, returns SUCCESS */
 
-    /*
-     * THIS IS TO BE COMMENTED BACK IN BY ACTION MANAGEMENT 
-     * WHEN THEY HAVE FULLY IMPLEMENTED DO_SELF_ACTION
-    int rc = do_self_action(ctx, action, curr_item, arg2, &str);
+    int rc = do_self_action(ctx, action, arg2, &str);
+    //int do_self_action(chiventure_ctx_t *c, action_type_t *a, char* target, char **ret_string)
     return str;
-    */
-
-    return "do_self_action is not yet implemented\n";
-
-    /* ALL OF THE BELOW IS NOW HANDLED BY ACTION_MANAGEMENT 
-     * and is thus defunct
-     * This is to be removed once the kind4 actions work as expected on dev
-     * (5/16/2022) - faruk badur
-    pass into the do_self_action
-    if (strcmp(arg2,"stats") == 0)
-    {
-        return "Second argument was \"stats\"";
-    }
-    if (strcmp(arg2,"advanced") == 0)
-    {
-        //TODO: Ask action management what they want to happen, 
-        //as they likely want to call some other function.
-        return "Second argument was \"advanced\"";
-    }
-    //all possible options should have been matched before this
-    return "Invalid second argument\n";
-    */
 }
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
