@@ -170,7 +170,7 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc, in); */
 
         // load actions into item
-        if(load_actions(curr, item) == FAILURE)
+        if (load_actions(curr, item) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;
@@ -179,7 +179,7 @@ int load_items(obj_t *doc, game_t *g)
         add_item_to_game(g, item);
         
         // load conditions into item
-        if(load_conditions(curr, g, item) == FAILURE)
+        if (load_conditions(curr, g, item) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;

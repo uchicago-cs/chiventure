@@ -73,7 +73,7 @@
                 {
                     "action": "PUSH",
                     "text_success": "You push the table",
-                    "text_fail": "You cannot push this table",
+                    "text_fail": "You cannot push this table. Maybe if you had a chair...",
                     "conditions": [
                         {
                             "type": "INVENTORY",
@@ -89,7 +89,7 @@
                 {
                     "action": "TAKE",
                     "text_success": "You take the table",
-                    "text_fail": "You cannot take this table",
+                    "text_fail": "You cannot take this table. Maybe if you had a chair...",
                     "conditions": [
                         {
                             "type": "INVENTORY",
