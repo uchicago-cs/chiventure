@@ -191,6 +191,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
     return roomspecnew;
 }
 
+/* See gen_structs.h */
 int edges_init(int** edges, int* inp_array, int num_rows, int num_cols) 
 {
     if (edges == NULL)
@@ -207,6 +208,7 @@ int edges_init(int** edges, int* inp_array, int num_rows, int num_cols)
     return SUCCESS;
 }
 
+/* See gen_structs.h */
 int** edges_new(int* inp, int num_rows, int num_cols)
 {
     int** edges = (int**)malloc(sizeof(int*) * num_rows);
@@ -233,6 +235,7 @@ int** edges_new(int* inp, int num_rows, int num_cols)
     return edges;
 }
 
+/* See gen_structs.h */
 int edges_free(int** edges, int num_rows) {
      for(int i=0; i<num_rows; i++)
         free(edges[i]);   

@@ -130,6 +130,38 @@ Test(edges, init)
     cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
 }
 
+Test(edges, init2)
+{
+    int* array=(int*)malloc(9*sizeof(int));
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
+    //array={5,4,5,0,5,3,4,3,5};
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    int rc=edges_init(edges, array, 3, 3);
+
+    cr_assert_eq(rc, SUCCESS, "failed to initialize edges\n");
+    cr_assert_eq(edges[0][0], 5, "failed to set edges [0][0] correctly\n");
+    cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
+    cr_assert_eq(edges[0][2], 5, "failed to set edges [0][2] correctly\n");
+    cr_assert_eq(edges[1][0], 0, "failed to set edges [1][0] correctly\n");
+    cr_assert_eq(edges[1][1], 5, "failed to set edges [1][1] correctly\n");
+    cr_assert_eq(edges[1][2], 3, "failed to set edges [1][2] correctly\n");
+    cr_assert_eq(edges[2][0], 4, "failed to set edges [2][0] correctly\n");
+    cr_assert_eq(edges[2][1], 3, "failed to set edges [2][1] correctly\n");
+    cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
+}
+
 /* Tests the edges_new function to validate that an adjacency matrix (edges) can
  * be made successfully. */
 Test(edges, new)
