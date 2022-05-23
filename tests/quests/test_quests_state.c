@@ -264,12 +264,12 @@ Test(quest,complete_quest)
 }
 
 /* Tests the function for if an npc gives quest */
-Test(quest, npc_can_start_quest)
+Test(quest, npc_can_give_quest)
 {
     item_t *item = item_new("test_item", "item for testing", "test item");
 	quest_t *quest = create_sample_quest("test", true, 50, item, true, 50, 5);
     quest_ctx_t *qctx = create_sample_ctx();
     add_quest_to_hash(quest, &qctx->quest_hash);
 
-    
+
 }
