@@ -183,7 +183,7 @@ Test(npc_mov, move_npc_mov_def)
 
     int check2 = move_npc_mov(npc_mov);
 
-    cr_assert_eq(check2, 1, "move_npc_def() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_def() failed");
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
                      "move_npc_def() failed to move once");
@@ -197,7 +197,7 @@ Test(npc_mov, move_npc_mov_def)
 
     cr_assert_str_eq(npc_mov->track, "room_to_add2",
                      "move_npc_mov() failed to stay in place");
-    cr_assert_eq(check3, 2, "move_npc_mov failed to reverse path");
+    cr_assert_eq(check3, SUCCESS, "move_npc_mov failed to reverse path");
 }
 
 
@@ -219,7 +219,7 @@ Test(npc_mov, move_npc_mov_indef)
 
     int check2 = move_npc_mov(npc_mov);
 
-    cr_assert_eq(check2, 1, "move_npc_mov() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_mov() failed");
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
                      "move_npc_mov() failed to move once");
@@ -233,13 +233,13 @@ Test(npc_mov, move_npc_mov_indef)
 
     cr_assert_str_eq(npc_mov->track, "room_to_add2",
                      "move_npc_mov() failed to stay in place");
-    cr_assert_eq(check3, 2, "move_npc_mov failed to reverse path");
+    cr_assert_eq(check3, SUCCESS, "move_npc_mov failed to reverse path");
 
     int check4 = move_npc_mov(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
                      "move_npc_mov() failed to move after path reversal");
-    cr_assert_eq(check4, 1, "move_npc_mov() failed to move");
+    cr_assert_eq(check4, SUCCESS, "move_npc_mov() failed to move");
 }
 
 
@@ -258,7 +258,7 @@ Test(npc_mov, flip_npc_path_direction)
     cr_assert_eq(check1, SUCCESS, "extend_path_def() failed");
 
     int check2 = move_npc_mov(npc_mov);
-    cr_assert_eq(check2, 1, "move_npc_def() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_def() failed");
 
     int check3 = flip_npc_path_direction(npc_mov);
     cr_assert_eq(check3, SUCCESS, "flip_npc_path_direction() failed");

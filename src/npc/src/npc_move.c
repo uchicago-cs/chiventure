@@ -313,7 +313,8 @@ int move_npc_mov(npc_mov_t *npc_mov)
 
     if ((current_room->next == NULL) && (current_room->prev == NULL))
     {
-        return 3; // NPC has nowhere to move
+        path_pos += 1; // For debugging use
+        return FAILURE; // NPC has nowhere to move
     }
 
     if (path_pos != 0)
@@ -330,8 +331,14 @@ int move_npc_mov(npc_mov_t *npc_mov)
         if (npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
             assert(flip_npc_path_direction(npc_mov) == SUCCESS);
+            path_pos += 2; // For debugging use
+            return SUCCESS;
         }
-        return 2;
+        else
+        {
+            path_pos += 3; // For debugging use
+            return FAILURE;
+        }
     }
 
     if((strcmp(current_room->room_id, npc_mov->track)) == 0)
@@ -348,13 +355,15 @@ int move_npc_mov(npc_mov_t *npc_mov)
         }
         else
         {
-            return 0;
+            path_pos += 4; // For debugging use
+            return FAILURE;
         }
-
-        return 1;
+        path_pos += 5; // For debugging use
+        return SUCCESS;
     }
     else
     {
-        return 0;
+        path_pos += 6; // For debugging use
+        return FAILURE;
     }
 }

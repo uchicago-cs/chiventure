@@ -235,11 +235,16 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
  * npc_mov: The NPC movement struct
  *
  * Returns:
- * 0: if move is unsuccessful
- * 1: if successful move to the next room
- * 2: if npc has reached the end of the path, reverse_path is called
- *  (only for indefinite NPCs), but the move is not implemented
- * 3: if npc has nowhere to move (only one room in path)
+ * FAILURE: if a move does not occur, 
+ * SUCCESS: if successful move to the next room, with the only exception
+ * being if an indefinite NPC has more than one room in its path, and then
+ * reaches the end of its path, in which case its path direction is flipped,
+ * and its time_ray for the current step in its path is reset, but it does not
+ * technically change rooms.
+ *
+ * Other:
+ *  The path_pos local variable in the function is uniquely redefined before
+ *  each possible return statement, in order to aid with debugging
  */
 int move_npc_mov(npc_mov_t *npc_mov);
 

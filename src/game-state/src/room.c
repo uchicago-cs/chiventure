@@ -356,11 +356,18 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
     assert(npc->movement->mov_type == NPC_MOV_INDEFINITE ||
            npc->movement->mov_type == NPC_MOV_DEFINITE);
 
-    move_npc_mov(npc->movement);
-    add_npc_to_room(new_npc_room, npc);
-    delete_npc_from_room(old_npc_room, npc);
-  
-    return SUCCESS;
+    int r1, r2, r3;
+    r1 = move_npc_mov(npc->movement);
+    r2 = add_npc_to_room(new_npc_room, npc);
+    r3 = delete_npc_from_room(old_npc_room, npc);
+    if ((r1 == FAILURE) || (r2 == FAILURE) || (r3 == FAILURE))
+    {
+        return FAILURE;
+    }
+    else
+    {
+        return SUCCESS;
+    }
 }
 
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
