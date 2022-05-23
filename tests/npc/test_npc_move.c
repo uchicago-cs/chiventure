@@ -197,7 +197,7 @@ Test(npc_mov, move_npc_mov_def)
 
     cr_assert_str_eq(npc_mov->track, "room_to_add2",
                      "move_npc_mov() failed to stay in place");
-    cr_assert_eq(check3, SUCCESS, "move_npc_mov failed to reverse path");
+    cr_assert_eq(check3, FAILED, "move_npc_mov didn't keep NPC in place");
 }
 
 
@@ -322,8 +322,8 @@ Test(npc_mov, auto_gen_movement_definite)
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
-    cr_assert_eq(npc_path_dll_free(npc_mov->path),
-                 SUCCESS, "delete npc_path_dll failed");
+    cr_assert_eq(npc_mov_free(npc_mov),
+                 SUCCESS, "npc_mov_free() failed");
 
     game_free(game);
 }
@@ -378,9 +378,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
                  "room_count returns %d, but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
-    cr_assert_eq(npc_path_dll_free
-                 (npc_mov->path),
-                 SUCCESS, "delete npc_path_dll failed");
+    cr_assert_eq(npc_mov_free(npc_mov), SUCCESS, "npc_mov_free() failed");
 
     game_free(game);
 }
