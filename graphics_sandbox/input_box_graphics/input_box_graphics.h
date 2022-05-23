@@ -17,6 +17,26 @@ typedef struct input_box_graphics{
 } input_box_graphics_t;
 
 /*
+ * Parameters:
+ *      Information for every field in the input_box_graphics struct 
+ * 
+ * Return:
+ *      An allocated piece of memory for an input_box_graphics_t struct
+ *      that contains all information given in the parameters
+ */
+input_box_graphics_t* newInputboxGraphics(Vector2 WindowPos, Vector2 WindowSize, Color BoxColor,
+                                          Color TextColor, Color AnnotationColor, Color OutlineColor,
+                                          const char* Annotation);
+
+
+int initInputboxGraphics(input_box_graphics_t* pointer, Vector2 WindowPos, Vector2 WindowSize, 
+                         Color BoxColor, Color TextColor, Color AnnotationColor, Color OutlineColor,
+                         const char* Annotation);
+
+
+int freeInputboxGraphics(input_box_graphics_t* pointer);
+
+/*
  * Runs the input box window and really enables data input
  *
  * Parameters:
