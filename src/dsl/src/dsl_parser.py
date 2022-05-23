@@ -90,7 +90,7 @@ class TreeToDict(Transformer):
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
         # action and action attributes, etc.
-        d = dict((k, v) for k, v in s if k != "attributes" and k != "base_stats")
+        d = dict((k, v) for k, v in s if k != "attributes" and k != "base stats")
 
         # create a list of attributes and place it in its own entry of the dict
         # the values placed into this entry will correspond to item attributes
@@ -100,7 +100,7 @@ class TreeToDict(Transformer):
         # create a list of base_stats and place it in its own entry of the dict
         # the values placed into this entry will correspond to item attributes
         # since the key is guaranteed to be the string "base_stats"
-        d["base_stats"] = [v for k, v in s if k == "base_stats"]
+        d["base stats"] = [v for k, v in s if k == "base stats"]
         
         return ('PLAYER_CLASS', (class_id, d))
 
