@@ -312,7 +312,7 @@ int remove_task_all(task_hash_t **hash_table)
     HASH_ITER(hh, *hash_table, current_task, temp) 
     { 
         HASH_DEL(*hash_table, current_task);
-        //free(current_task);
+        free(current_task);
     }
     original = NULL;
     return SUCCESS; 

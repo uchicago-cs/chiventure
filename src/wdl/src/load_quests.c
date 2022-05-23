@@ -129,11 +129,7 @@ task_t *load_task(obj_t *task_obj, game_t *game) {
         return NULL;
     }
 
-    char *orig_name = obj_get_str(task_obj, "Task Name");
-    int len = strlen(orig_name);
-    char *name = malloc(len + 1);
-    strncpy(name, orig_name, len);
-    name[len] = '\0';
+    char *name = obj_get_str(task_obj, "Task Name");
 
     obj_t *mission_obj = obj_get(task_obj, "Mission");
     mission_t *mission = load_mission(mission_obj);
@@ -251,7 +247,7 @@ int load_quest(obj_t *quest_obj, game_t *game) {
             add_quest_to_game(game, prereq_quest);
         }
     }
-    //remove_task_all(&task_hash);
+    remove_task_all(&task_hash);
 
     return SUCCESS;
 }
