@@ -5,6 +5,22 @@
 #include "game-state/item.h"
 #include "playerclass/class.h"
 
+/* Creates a sample battle_item. Taken from test_battle_ai.c */
+battle_item_t *generate_test_battle_item(int id, int quantity, char* description, 
+                                         char *name, bool attack, stat_changes_t *changes)
+{
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+     item->id = id;
+     item->name = name;
+     item->description = description;
+     item->quantity = quantity;
+     item->description = description;
+     item->attack = attack;
+     item->attributes = changes;
+
+     return item;
+}
 
 /* Creates a sample class. Taken from test_class.c */
 class_t *generate_test_class()
@@ -17,10 +33,10 @@ class_t *generate_test_class()
                 "damage with weapons and survives enemy attacks "
                 "using heavy armor.\n";
     longdesc = "The warrior is the ultimate armor and weapons expert,"
-                " relying on physical strength and years of training to "
-                "deal with any obstacle. Mechanically, the warrior focuses "
-                "on up-close physical damage with weapons and survives enemy "
-                "attacks using heavy armor.\n";
+               " relying on physical strength and years of training to "
+               "deal with any obstacle. Mechanically, the warrior focuses "
+               "on up-close physical damage with weapons and survives enemy "
+               "attacks using heavy armor.\n";
 
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
 
@@ -30,9 +46,8 @@ class_t *generate_test_class()
 npc_mov_t *generate_test_npc_mov()
 {
     npc_mov_t *npc_mov;
-    room_t *test_room;
-    test_room = room_new("test_room", "test", "test test");
-    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+    char *test_room_id = "test";
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id);
 }
 
 /* Creates example stats. Taken from test_battle_ai.c */
@@ -51,35 +66,20 @@ stat_t *create_enemy_stats()
     return test_stats;
 }
 
-/* Creates + initializes a move. Taken from test_battle_ai.c */
-move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
-                    int defense)
-{
-     move_t *move = (move_t*) calloc(1, sizeof(move_t));
-
-     move->id = id;
-
-     move->item = item;
-
-     move->attack = attack;
-     move->damage = damage;
-     move->defense = defense;
-
-     return move;
-}
-
 /* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move_(1, NULL, true, 100, 0);
-    poke = create_move_(2, NULL, true, 40, 0);
-    rock_throw = create_move_(3, NULL, true, 90, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
-    return head;
 }
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
@@ -94,25 +94,25 @@ Test(npc, new)
     c = generate_test_class();
     movement = generate_test_npc_mov();
 
-    npc = npc_new(npc_id, "man", "tall man", c, movement, false);
+    npc = npc_new(npc_id, "man", "tall man", c, movement, FRIENDLY);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
-                 "npc_new didn't set npc_id"); 
-    cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
+                 "npc_new didn't set npc_id");
+    cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0,
                  "npc_new didn't set short_desc");
-    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
+    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0,
                  "npc_new didn't set long_desc");
     cr_assert_str_eq(npc->class->shortdesc,
                      c->shortdesc, "npc_new didn't set short description for class");
     cr_assert_str_eq(npc->movement->track, movement->track,
                      "npc_new didn't set current room id");
-    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id, 
-                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      "npc_new didn't set npc_path");
-    cr_assert_eq(npc->will_fight, false, 
-                      "npc_new didn't set will_fight");
+    cr_assert_eq(npc->hostility_level, FRIENDLY,
+                 "npc_new didn't set hostility_level");
 }
 
 
@@ -123,35 +123,35 @@ Test(npc, init)
     npc_t *npc;
     npc_mov_t *movement = generate_test_npc_mov();
     int res;
-  
+
     char *npc_id2 = "test";
 
-    npc = npc_new(npc_id2, "woman", "short woman", NULL, movement, false);
-  
+    npc = npc_new(npc_id2, "woman", "short woman", NULL, movement, FRIENDLY);
+
     c = generate_test_class();
     movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
-    res = npc_init(npc, npc_id, "man", "tall man", c, movement, false); 
+    res = npc_init(npc, npc_id, "man", "tall man", c, movement, FRIENDLY);
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
     cr_assert_eq(strncmp(npc->npc_id, "npc_22", MAX_ID_LEN), 0,
                  "npc_init didn't set npc_id");
-    cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0, 
+    cr_assert_eq(strncmp(npc->short_desc, "man", MAX_SDESC_LEN), 0,
                  "npc_init didn't set short_desc");
-    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
+    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0,
                  "npc_init didn't set long_desc");
     cr_assert_str_eq(npc->class->shortdesc,
                      c->shortdesc, "npc_init didn't set short description for class");
     cr_assert_str_eq(npc->movement->track, movement->track,
                      "npc_new didn't set current room id");
-    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id, 
-                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
                      "npc_new didn't set npc_path");
-    cr_assert_eq(npc->will_fight, false, 
-                      "npc_init didn't set will_fight");
+    cr_assert_eq(npc->hostility_level, FRIENDLY,
+                 "npc_init didn't set hostility_level");
 }
 
 
@@ -162,7 +162,7 @@ Test(npc, free)
     int res;
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "woman", "short woman", NULL, NULL, false);
+    npc = npc_new(npc_id, "woman", "short woman", NULL, NULL, FRIENDLY);
 
     cr_assert_not_null(npc, "npc_new() failed");
 
@@ -177,19 +177,19 @@ Test(npc, get_sdesc_npc)
 {
     npc_t *npc;
     char *get;
-    
+
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "woman", "short woman", NULL, NULL, false);
+    npc = npc_new(npc_id, "woman", "short woman", NULL, NULL, FRIENDLY);
 
     cr_assert_not_null(npc, "npc_new() failed");
-    cr_assert_eq(strncmp(npc->short_desc, "woman", MAX_SDESC_LEN), 0, 
+    cr_assert_eq(strncmp(npc->short_desc, "woman", MAX_SDESC_LEN), 0,
                  "npc_new didn't set short_desc");
 
     get = get_sdesc_npc(npc);
 
     cr_assert_not_null(get, "get_sdesc_npc() failed");
-    cr_assert_eq(strncmp(get, "woman", MAX_SDESC_LEN), 0, 
+    cr_assert_eq(strncmp(get, "woman", MAX_SDESC_LEN), 0,
                  "get_sdesc_npc() didn't get npc's short_desc");
 }
 
@@ -198,19 +198,19 @@ Test(npc, get_ldesc_npc)
 {
     npc_t *npc;
     char *get;
-    
+
     char *npc_id = "test";
 
-    npc = npc_new(npc_id, "man", "tall man", NULL, NULL, false);
+    npc = npc_new(npc_id, "man", "tall man", NULL, NULL, FRIENDLY);
 
     cr_assert_not_null(npc, "npc_new() failed");
-    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0, 
+    cr_assert_eq(strncmp(npc->long_desc, "tall man", MAX_LDESC_LEN), 0,
                  "npc_new didn't set long_desc");
 
     get = get_ldesc_npc(npc);
 
     cr_assert_not_null(get, "get_ldesc_npc() failed");
-    cr_assert_eq(strncmp(get, "tall man", MAX_LDESC_LEN), 0, 
+    cr_assert_eq(strncmp(get, "tall man", MAX_LDESC_LEN), 0,
                  "get_ldesc_npc() didn't get npc's long_desc");
 }
 
@@ -224,8 +224,8 @@ Test(npc, add_to_and_get_inventory)
     char *npc_id1 = "npc_1";
     char *npc_id2 = "npc_2";
 
-    npc1 = npc_new(npc_id1, "short", "long", NULL, NULL, false);
-    npc2 = npc_new(npc_id2, "short", "long", NULL, NULL, false);
+    npc1 = npc_new(npc_id1, "short", "long", NULL, NULL, FRIENDLY);
+    npc2 = npc_new(npc_id2, "short", "long", NULL, NULL, FRIENDLY);
     new_item = item_new("test_item", "item for npc testing",
                         "item for testing get_npc_inventory()");
     add_item_to_npc(npc2, new_item);
@@ -266,12 +266,12 @@ Test(npc, add_to_and_get_inventory)
                  "add_item_to_npc() failed to add item (long desc is wrong)");
 }
 
-/* Checks that add_item_to_npc adds item to the npc struct's inventory 
+/* Checks that add_item_to_npc adds item to the npc struct's inventory
    by not returning NULL */
 Test(npc, add_item_to_npc)
 {
     char *npc_id = "1";
-    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, false);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, FRIENDLY);
     item_t *new_item = item_new("test_item", "item for npc testing",
                                 "item for testing add_item_to_npc");
     item_t *dup_item = item_new("test_item", "item for npc testing",
@@ -282,7 +282,7 @@ Test(npc, add_item_to_npc)
     cr_assert_not_null(new_item, "item_new() failed");
     cr_assert_not_null(npc->inventory,
                        "add_item_to_npc() failed to add item");
-    
+
     int rc = add_item_to_npc(npc, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to add "
                  "item with identical id");
@@ -292,76 +292,83 @@ Test(npc, add_item_to_npc)
 Test(npc, remove_item_from_npc)
 {
     char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, false);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, FRIENDLY);
     item_t *test_item = item_new("item", "short", "long");
     item_t *dup_item = item_new("item", "short", "long");
     item_list_t *item_list;
     int rc;
-    
+
     rc = add_item_to_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
                  "add an item to npc");
     rc = add_item_to_npc(npc, dup_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
                  "add an item to npc");
-    
+
     rc = remove_item_from_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "
                  "remove an item from npc");
-    
+
     item_list = get_npc_inv_list(npc);
     cr_assert_not_null(item_list, "remove_item_from_npc removed "
                        "both identical items from npc");
 }
 
 /* Checks that add_battle_to_npc adds the correct npc_battle struct to an npc */
-Test(npc, add_battle_to_npc) 
+Test(npc, add_battle_to_npc)
 {
     char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc, "npc_new() failed");
 
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, 
-		                HOSTILE, 25);
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
+                            "A hearty dagger sure to take your breath away... for good",
+                            "dagger", true, NULL);
+
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
+
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
-    cr_assert_not_null(npc->npc_battle, 
-		       "add_battle_to_npc() didn't set npc_battle");
-    cr_assert_eq(npc->npc_battle->health, 100,
-		 "add_battle_to_npc() didn't set health in npc_battle");
+    cr_assert_not_null(npc->npc_battle,
+                       "add_battle_to_npc() didn't set npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
 }
 
-/* Checks that get_npc_battle returns a pointer to the npc_battle struct 
+/* Checks that get_npc_battle returns a pointer to the npc_battle struct
  * associated with the npc or NULL if there is no such struct */
 Test(npc, get_npc_battle)
 {
     char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc, "npc_new() failed");
 
     npc_battle_t *null_npc_battle = get_npc_battle(npc);
-    cr_assert_null(null_npc_battle, 
-		   "get_npc_battle() didn't return NULL given npc with NULL" 
-		   "npc_battle");
+    cr_assert_null(null_npc_battle,
+                   "get_npc_battle() didn't return NULL given npc with NULL"
+                   "npc_battle");
 
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
+                            "A hearty dagger sure to take your breath away... for good",
+                            "dagger", true, NULL);
+
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     npc_battle_t *npc_battle = get_npc_battle(npc);
-    cr_assert_not_null(npc_battle, 
-		       "get_npc_battle() returned NULL given NPC with non-NULL"
-		       "npc_battle");
-    cr_assert_eq(npc_battle->health, 100,
-		 "get_npc_battle() returned a struct with the wrong health");
+    cr_assert_not_null(npc_battle,
+                       "get_npc_battle() returned NULL given NPC with non-NULL"
+                       "npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -369,99 +376,159 @@ Test(npc, get_npc_battle)
 
 /* Checks that an npc's health is changed by change_npc_health()
    both positively and negatively with a set maximum */
-Test (npc, change_npc_health) 
+Test (npc, change_npc_hp)
 {
     char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc, "npc_new() failed");
 
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
+                            "A hearty dagger sure to take your breath away... for good",
+                            "dagger", true, NULL);
+
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
-    int health1 = change_npc_health(npc, 30, 100);
-    cr_assert_eq(health1, 100,
-                 "change_npc_health() increased health past max");
-    cr_assert_eq(npc->npc_battle->health, 100,
-		 "change_npc_health didn't change health in npc_battle struct");
+    /* current hp level set in create_enemy_stats() is 200 */
+    int hp1 = change_npc_hp(npc, -30);
+    cr_assert_eq(hp1, 170,
+                 "change_npc_hp() didn't decrease hp correctly");
+    cr_assert_eq(npc->npc_battle->stats->hp, 170,
+                 "change_npc_hp() didn't change hp in npc_battle struct");
 
-    int health2 = change_npc_health(npc, -20, 100);
-    cr_assert_eq(health2, 80,
-                 "change_npc_health() didn't decrease health correctly");
-    cr_assert_eq(npc->npc_battle->health, 80,
-                 "change_npc_health didn't change health in npc_battle struct");
+    /* current max_hp level set in create_enemy_stats() is 200 */
+    int hp2 = change_npc_hp(npc, 40);
+    cr_assert_eq(hp2, 200,
+                 "change_npc_hp() increased hp past max_hp");
+    cr_assert_eq(npc->npc_battle->stats->hp, 200,
+                 "change_npc_hp() didn't change hp in npc_battle struct");
 
-    int health3 = change_npc_health(npc, 3, 100);
-    cr_assert_eq(health3, 83,
-                 "change_npc_health() didn't increase health correctly");
-    cr_assert_eq(npc->npc_battle->health, 83,
-                 "change_npc_health didn't change health in npc_battle struct");
+    int hp3 = change_npc_hp(npc, -90);
+    cr_assert_eq(hp3, 110,
+                 "change_npc_hp() didn't decrease health correctly");
+    cr_assert_eq(npc->npc_battle->stats->hp, 110,
+                 "change_npc_hp() didn't change hp in npc_battle struct");
 
-    int health4 = change_npc_health(npc, -90, 100);
-    cr_assert_eq(health4, 0,
-                 "change_npc_health() set a negative health");
-    cr_assert_eq(npc->npc_battle->health, 0,
-                 "change_npc_health didn't change health in npc_battle struct");
+    int hp4 = change_npc_hp(npc, 5);
+    cr_assert_eq(hp4, 115,
+                 "change_npc_hp() didn't increase health correctly");
+    cr_assert_eq(npc->npc_battle->stats->hp, 115,
+                 "change_npc_hp() didn't change hp in npc_battle struct");
+
+    int hp5 = change_npc_hp(npc, -120);
+    cr_assert_eq(hp5, 0,
+                 "change_npc_hp() set a negative hp");
+    cr_assert_eq(npc->npc_battle->stats->hp, 0,
+                 "change_npc_hp() didn't change hp in npc_battle struct");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
 }
 
-/* Checks that get_npc_health returns an npc's health if its npc_battle struct
+/* Checks that get_npc_hp returns an npc's hp if its npc_battle struct
  * is initialized and otherwise returns -1 */
-Test(npc, get_npc_health)
+Test(npc, get_npc_hp)
 {
     char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc, "npc_new() failed");
 
-    int health = get_npc_health(npc);
-    cr_assert_eq(health, -1, 
-		 "get_npc_health() failed for npc with NULL npc_battle");
+    int hp = get_npc_hp(npc);
+    cr_assert_eq(hp, -1,
+                 "get_npc_hp() failed for npc with NULL npc_battle");
 
     stat_t *stats = create_enemy_stats();
     move_t *moves = create_enemy_moves();
 
-    int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
+                            "A hearty dagger sure to take your breath away... for good",
+                            "dagger", true, NULL);
+
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
-    health = get_npc_health(npc);
-    cr_assert_eq(health, 80,
-		 "get_npc_health() failed for npc with non-NULL npc_battle");
+    hp = get_npc_hp(npc);
+    cr_assert_eq(hp, 200,
+                 "get_npc_hp() failed for npc with non-NULL npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
 }
 
-/* Checks that check_npc_battle returns false iff an npc has will_fight = true
+/* Checks that get_npc_max_hp returns an npc's max_hp if its npc_battle struct
+ * is initialized and otherwise returns -1 */
+Test(npc, get_npc_max_hp)
+{
+    char *npc_id = "npc";
+    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
+    cr_assert_not_null(npc, "npc_new() failed");
+
+    int max_hp = get_npc_max_hp(npc);
+    cr_assert_eq(max_hp, -1,
+                 "get_npc_max_hp() failed for npc with NULL npc_battle");
+
+    stat_t *stats = create_enemy_stats();
+    move_t *moves = create_enemy_moves();
+
+    battle_item_t *dagger = generate_test_battle_item(1, 1,
+                            "A hearty dagger sure to take your breath away... for good",
+                            "dagger", true, NULL);
+
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_test_class(), dagger,
+                                NULL, NULL, NULL);
+    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
+
+    max_hp = get_npc_max_hp(npc);
+    cr_assert_eq(max_hp, 200,
+                 "get_npc_max_hp() failed for npc with non-NULL npc_battle");
+
+    res = npc_free(npc);
+    cr_assert_eq(res, SUCCESS, "npc_free() failed");
+}
+
+/* Checks that check_npc_battle returns false iff an npc is HOSTILE
  * but has npc_battle = NULL */
 Test(npc, check_npc_battle)
 {
     char *npc_id = "npc";
-    npc_t *npc1 = npc_new(npc_id, "short", "long", NULL, NULL, false);
+    npc_t *npc1 = npc_new(npc_id, "short", "long", NULL, NULL, CONDITIONAL_FRIENDLY);
     cr_assert_not_null(npc1, "npc_new() failed");
-    npc_t *npc2 = npc_new(npc_id, "short", "long", NULL, NULL, true);
+    npc_t *npc2 = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc2, "npc_new() failed");
 
-    cr_assert_eq(check_npc_battle(npc1), true, 
-                 "check_npc_battle failed; will_fight=false, npc_battle=NULL");
+    cr_assert_eq(check_npc_battle(npc1), true,
+                 "check_npc_battle failed; hostility_level=CONDITIONAL_FRIENDLY, npc_battle=NULL");
     cr_assert_eq(check_npc_battle(npc2), false,
-                 "check_npc_battle failed; will_fight=true, npc_battle=NULL");
+                 "check_npc_battle failed; hostility_level=HOSTILE, npc_battle=NULL");
 
     stat_t *stats1 = create_enemy_stats();
     move_t *moves1 = create_enemy_moves();
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
 
-    int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    battle_item_t *dagger1 = generate_test_battle_item(1, 1,
+                            "A hearty dagger sure to take your breath away... for good",
+                            "dagger", true, NULL);
+
+    battle_item_t *dagger2 = generate_test_battle_item(1, 1,
+                            "A hearty dagger sure to take your breath away... for good",
+                            "dagger", true, NULL);
+
+    int res = add_battle_to_npc(npc1, stats1, moves1, BATTLE_AI_GREEDY,
+                                HOSTILE, generate_test_class(), dagger1,
+                                NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
-    res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
-                                HOSTILE, 25);
+    res = add_battle_to_npc(npc2, stats2, moves2, BATTLE_AI_GREEDY,
+                            HOSTILE, generate_test_class(), dagger2,
+                            NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true,

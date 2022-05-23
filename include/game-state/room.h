@@ -4,7 +4,7 @@
 #include "game_state_common.h"
 #include "item.h"
 #include "npc/npc.h"
-#include "npc/rooms-npc.h"
+#include "npc/rooms_npc.h"
 
 #define ITER_ALL_PATHS(room, curr_path) path_t *ITTMP_PATH; \
 HASH_ITER(hh, (room)->paths, (curr_path), ITTMP_PATH)
@@ -35,27 +35,44 @@ typedef struct path {
 * UTHASH macros as specified in src/common/include */
 typedef struct path path_hash_t;
 
-// ROOM STRUCT DEFINITION -----------------------------------------------------
-/* Forward declarations */
-typedef struct npcs_in_room npcs_in_room_t;
-typedef struct npc npc_t;
+// ROOM STRUCT DEFINITION ----------------------------------------------------
+
+/* This struct represents coordinates for a room from a global perspective                    
+ * It contains:
+ *      the x coordinate
+ *      the y coordinate */
+typedef struct coords {
+    int x;
+    int y;
+} coords_t;
+
+/* This typedef is to distinguish between coords_t pointers which are
+* used to point to the coords_t structs in the traditional sense,
+* and those which are used to hash coords_t structs with the
+* UTHASH macros as specified in src/common/include */
+typedef struct coords coords_hash_t;
 
 /* This struct represents a single room.
  * It contains:
  *      the room_id
  *      short description
  *      long description
+ *      its coordinates
  *      a hashtable of items to be found there
- *      a hashtable of paths accessible from the room. */
+ *      a hashtable of paths accessible from the room 
+ *      npcs in the room
+ *      the room's corresponding room_spec tag in specgraph so we can find its relation to other rooms */
 typedef struct room {
     /* hh is used for hashtable, as provided in uthash.h */
     UT_hash_handle hh;
     char *room_id;
     char *short_desc;
     char *long_desc;
+    coords_t *coords;
     item_hash_t *items;
     path_hash_t *paths;
     npcs_in_room_t *npcs;
+    int tag;
 } room_t;
 
 /* This typedef is to distinguish between room_t pointers which are
@@ -277,5 +294,98 @@ int remove_condition(path_t *path, list_action_type_t *a);
  *  SUCCESS if successful, FAILURE if failed
  */
 int delete_all_rooms(room_hash_t **rooms);
+
+// COORDINATE DEFINITIONS AND HEADERS   
+
+/* Mallocs space for a new coordinate
+ *
+ * Parameters:
+ *  x coordinate
+ *  y coordinate
+ *
+ * Returns:
+ *  a pointer to new coordinate
+ */
+coords_t *coords_new(int x, int y);
+
+/* coord_init() initializes a coord struct with given values
+ * Parameters:
+ *  a malloced new coordinate pointer
+ *  x coordinate value
+ *  y coordinate value
+ *
+ * Returns:
+ *   FAILURE for failure, SUCCESS for success
+*/
+int coords_init(coords_t *new_coords, int x, int y);
+
+
+/* Frees the space in memory taken by given coordinate
+ *
+ * Parameters:
+ *  pointer to the coords struct to be freed
+ *
+ * Returns:
+ *  Always returns SUCCESS
+ */
+
+int coords_free(coords_t *coords);
+
+/* Adds a coordinate to a room
+ *
+ * Parameters:
+ *  pointer to coord struct
+ *  pointer to room struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_coords_to_room(coords_t *coords, room_t *room);
+
+/* Returns pointer to the coordinates of a given room
+* Parameters:
+* pointer to room
+*
+* Returns:
+* pointer to coordinates or NULL if not found
+*/
+coords_t *find_coords_of_room(room_t *room);
+
+/*
+ * Generates a random movement struct for an NPC based on the current rooms in
+ * the map and a given npc_mov_t struct.
+ *
+ * Parameters:
+ *  - npc_mov: npc_mov_t struct with a known npc_mov_type
+ *  - game: current game, this is necessary for determining the current rooms in the map
+ *
+ * Returns:
+ *  - returns SUCCESS on success, returns FAILURE on failure
+ *  - Updates npc_mov to have a new, randomly generated movement path.
+ *    Maintains the same type of movement (indefinite / definite)
+ */
+int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms);
+
+/* Moves an npc one step down its path
+ *
+ * Parameters:
+ *  - npc_t: Pointer to NPC
+ *
+ *  Returns:
+ *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
+ */
+int npc_one_move(npc_t *npc, room_hash_t *all_rooms);
+
+/*
+ * Deletes all items from npc inventory and adds them to the room struct.
+ *
+ * Parameters:
+ *  npc: the npc whose items are being transferred
+ *  room: the room that the items are being tranferred to
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurs
+ */
+int transfer_all_npc_items(npc_t *npc, room_t *room);
 
 #endif
