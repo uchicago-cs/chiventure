@@ -67,7 +67,6 @@ int room_free(room_t *room)
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item)
 {
-    //int rc;
     assert(item != NULL);
     item_t *tmp;
     char *id = case_insensitized_string(item->item_id);
