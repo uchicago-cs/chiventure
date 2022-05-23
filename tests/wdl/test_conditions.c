@@ -1,4 +1,5 @@
 #include "wdl/load_item.h"
+#include "wdl/load_game.h"
 #include "test_wdl.h"
 
 /* conditions_check() 
@@ -12,9 +13,11 @@
  */
 void conditions_check(char* item, char* action)
 {
-    obj_t *doc = __get_doc_obj("inventory-cond.wdl", FILE_PATH_2);
-    game_t *g = game_new("Welcome to UChicago");
-    load_items(doc, g);
+    obj_t *doc = load_obj_store(FILE_PATH_2);
+    cr_assert_not_null(doc, "Document obj failed to load correctly.");
+
+    game_t *g = load_game(doc);
+    cr_assert_not_null(g, "Game failed to load correctly.");
 
     /* get list of conditions from game action (1) */
     item_t *i = get_item_from_game(g, item);
