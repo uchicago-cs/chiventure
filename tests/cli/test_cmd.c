@@ -96,21 +96,5 @@ Test(cmd, free)
     cr_assert_eq(rc, SUCCESS, "cmd_free() failed");
 }
 
-//Tests suggestion for gu, expects go
-Test(suggestion, gu_suggest) 
-{
-    char *cmd_str = strdup("GU");
-    char *suggest = suggestion(cmd_str, actions_for_sug);
 
-    cr_assert_str_eq(cmd_str, "GO");
-}
-
-//Tests suggestion for lok, expects look
-Test(suggestion, gu_suggest) 
-{
-    char *cmd_str = strdup("LOK");
-    char *suggest = suggestion(cmd_str, actions_for_sug);
-
-    cr_assert_str_eq(cmd_str, "LOOK");
-}
 
