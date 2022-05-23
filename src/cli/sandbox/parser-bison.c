@@ -98,7 +98,6 @@ void print_ll(word_ll *phrase)
 }
 char **handle_cmd(word_ll *p) {
     int LL_MAX_SIZE = 100;
-    word_ll *og_ll_pointer;
     print_ll(p);
     if (p == NULL) {
         return NULL;
