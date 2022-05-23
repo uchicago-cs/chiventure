@@ -9,7 +9,7 @@ from pathlib import Path
 from warnings import warn
 import json
 
-import dsl_parser.dsl_transform as transform
+import dsl_transform as transform
 
 grammar_path = Path(__file__).parent.parent / "grammars"
 grammar_f = open(grammar_path / "dsl_grammar.lark")
