@@ -77,8 +77,12 @@ void handle_fight_cmd(word_ll *phrase) {
     printf("\n");
 }
 
-char **handle_credits_cmd(word_ll *phrase) {
-    return parse(phrase->word);
+void handle_credits_cmd(word_ll *phrase) {
+//    tokens = parse(phrase->word);
+    printf("Class of CMSC 22000 Spring 2019\n"
+           "Class of CMSC 22000 Spring 2020\n"
+           "Class of CMSC 22000 Spring 2021\n"
+           "Class of CMSC 22000 Spring 2022\n");
     /*chiventure_ctx_t *ctx = create_sample_ctx();
     credits_operation(tokens, ctx);
     */

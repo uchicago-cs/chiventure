@@ -5,7 +5,8 @@ add_library(cli
             src/cli_ctx.c
             src/operations.c
             src/parser.c
-            src/shell.c)
+            src/shell.c
+            sandbox/parser-bison.c)
 
 target_include_directories(cli PRIVATE src/)
 
