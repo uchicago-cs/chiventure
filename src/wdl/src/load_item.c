@@ -117,6 +117,7 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc, in); */
         agent_t *agent = malloc(sizeof(agent_t));
         agent->item = item;
+        agent->npc = NULL;
 
         // load actions into item
         if(load_actions(curr, agent) == FAILURE)
@@ -130,7 +131,7 @@ int load_items(obj_t *doc, game_t *g)
         // add item to its room, unless it is meant to be an NPC-held item
         if (strcmp(in, "npc") != 0) {
             room_t *item_room = find_room_from_game(g, in);
-            add_item_to_room(item_room, item);
+            add_item_to_room(item_room, agent->item);
         }
     }
     return SUCCESS;
