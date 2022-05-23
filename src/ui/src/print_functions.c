@@ -186,14 +186,20 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
          * it to be executed
          */
         tokenized_cmds* temp;
+        // Tokenized commands separated by ';'
         tokenized_cmds* parsed_cmds = parse_r(cmd_string);
+        // For each token
         LL_FOREACH(parsed_cmds,temp)
         {
+            // Get command and potentiallyy tokenize by 'and'
             cmd **c = cmd_from_string(temp->cmds, ctx);
             int i = 0;
             int rc = 1;
+            // while command in array of commands is not NULL
             while (c[i]) {   
+                // if command execution (do_cmd) does not return an error
                 if (rc != CLI_CMD_CALLBACK_ERROR) {    
+                    // if command is NULL
                     if (!c)
                     {
                         print_to_cli(ctx, "Error: Malformed input (4 words max)");
@@ -201,9 +207,12 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
                     }
                     else
                     {
+                        // do command, return CLI_CMD_CALLBACK_ERROR if
+                        // there is an error printing a message to the screen
                         rc = do_cmd(c[i], cli_ui_callback, NULL, ctx);
                         i++;
-                    }          
+                    }
+                // If there is an error in do_cmd          
                 }else{
                     print_to_cli(ctx, "A command failed, aborting 'and' operation");
                     break;

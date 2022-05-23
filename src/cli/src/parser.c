@@ -73,7 +73,7 @@ tokenized_cmds *parse_r(char *input)
     char **save_ptr = &input;
     
     //puts tokenized segments of the inputted string in 
-    //the command line with a delimiter "AND" into a 
+    //the command line with a delimiter ";" into a 
     //utlist until the end of the string
     char *token = strtokstr_r(input, ";", save_ptr);
     while (token != NULL)
@@ -119,7 +119,7 @@ char **parse(char *input)
 
     char *token_quotes = strtok(input, "\"");
 
-    //Populates by_quotes array with tokens separated by " character
+    //Populates by_quotes array with tokens separated by "\"" character
     for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
 

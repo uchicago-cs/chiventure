@@ -242,14 +242,17 @@ cmd** cmd_from_string(char *s, chiventure_ctx_t *ctx)
     actions = (cmd**)malloc(sizeof(cmd) * TOKEN_LIST_SIZE);
     int count = 0;
     
+    // Tokenizes input by "and" string
     while ((currcmd = strtok_r(s, "and", &s)))
     {
+        //When string token is not null
         if (s != NULL) 
         {
             command_list_t *new_command = new_command_list(currcmd);
             LL_APPEND(ctx->cli_ctx->command_history, new_command);
         }
 
+        // Parses indidual token, which is a single command
         char **parsed_input = parse(currcmd);
         if (parsed_input == NULL)
         {
@@ -261,6 +264,7 @@ cmd** cmd_from_string(char *s, chiventure_ctx_t *ctx)
         count++;
     }
 
+    //returns an array of strings, which is an array of commands to take
     return actions;
 
 }
