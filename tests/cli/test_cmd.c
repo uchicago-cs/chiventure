@@ -3,13 +3,6 @@
 #include <stdbool.h>
 #include "cli/cmd.h"
 #include "cli/operations.h"
-#define NUM_ACTIONS 29
-
-char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "ssCLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
-                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
-                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
-                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS"};
 
 /* Checks if the memory for a lookup table is successfully allocated */
 Test(lookup, new)
