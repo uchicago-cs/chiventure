@@ -72,10 +72,12 @@ int add_item_to_room(room_t *room, item_t *item)
     if (tmp == NULL)
     {
         HASH_ADD_STR(room->items, item_id, item);
+        return SUCCESS;
     }
-    //rc = add_item_to_hash(&(room->items), item);
-
-    return SUCCESS;
+    else
+    {
+        return FAILURE; // Hash tables should not contain duplicate items
+    }
 }
 
 /* See room.h */

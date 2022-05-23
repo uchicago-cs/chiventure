@@ -131,7 +131,7 @@ int room_free(room_t *room);
  *  item struct
  *
  * Returns:
- *  SUCCESS if successful, FAILURE if failed
+ *  SUCCESS if successful, FAILURE if failed or item is a duplicate
  */
 int add_item_to_room(room_t *room, item_t *item);
 
