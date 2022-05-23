@@ -410,6 +410,18 @@ int delete_room_llist(room_list_t *head);
  */
 item_list_t *get_all_items_in_game(game_t *game);
 
+/* Adds an item to the given player
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
+ *  game struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_item_to_player(player_t *player, item_t *item, game_t *game);
+
 /* add_effect creates a game_action_effect_t struct and adds it to the action pointed to
 * Parameters:
 * - game_t *game
