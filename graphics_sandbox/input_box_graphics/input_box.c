@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <assert.h>
 
 #define MAX_INPUT_CHAR 14
 
@@ -19,22 +20,42 @@ typedef struct input_box_graphics{
 
 /* See input_box.h*/
 input_box_graphics_t* newInputboxGraphics(Vector2 WindowPos, Vector2 WindowSize, Color BoxColor,
-                                          Color TextColor, Color AnnotationColor, Color OutlineColor
+                                          Color TextColor, Color AnnotationColor, Color OutlineColor,
                                           const char* Annotation)
 {
-
+    input_box_graphics_t* res;
+    res = malloc(sizeof(input_box_graphics_t));
+    assert(res != NULL);
+    initInputboxGraphics(res, WindowPos,WindowSize,BoxColor,TextColor,
+                         AnnotationColor,OutlineColor,Annotation);
+    return res;
 
 }
 
 
 /* See input_box.h*/
 int initInputboxGraphics(input_box_graphics_t* pointer, Vector2 WindowPos, Vector2 WindowSize, 
-                         Color BoxColor, Color TextColor, Color AnnotationColor, Color OutlineColor
+                         Color BoxColor, Color TextColor, Color AnnotationColor, Color OutlineColor,
                          const char* Annotation)
+{
+    assert(pointer != NULL);
+    pointer->WindowPos=WindowPos;
+    pointer->WindowSize=WindowSize;
+    pointer->BoxColor=BoxColor;
+    pointer->TextColor=TextColor;
+    pointer->AnnotationColor=AnnotationColor;
+    pointer->OutlineColor=OutlineColor;
+    pointer->Annotation=Annotation;
+    return 1;
+}
 
 /* See input_box.h*/
-
-
+int freeInputboxGraphics(input_box_graphics_t* pointer)
+{
+    assert(pointer != NULL);
+    free(pointer);
+    return 1;
+}
 
 /* See input_box.h*/
 void run_input_box(input_box_graphics_t *input_box_graphics, char* input_buffer) {
