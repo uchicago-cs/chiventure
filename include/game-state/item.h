@@ -53,8 +53,6 @@ typedef struct game_action game_action_hash_t;
 
 typedef struct item {
     UT_hash_handle hh; // makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
-    UT_hash_handle hh_room;
-    UT_hash_handle hh_npc;
     UT_hash_handle hh_all_items; // This second hash handle makes it possible
                                  // for an item to belong to two hash tables.
                                  // For example, game->all_items and player->
