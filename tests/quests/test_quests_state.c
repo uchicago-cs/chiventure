@@ -271,5 +271,28 @@ Test(quest, npc_can_give_quest)
     quest_ctx_t *qctx = create_sample_ctx();
     add_quest_to_hash(quest, &qctx->quest_hash);
 
+    player_t *player = create_sample_player("player", 60, 6);
+    qctx->player = player;
 
+    int check = npc_can_give_quest(qctx, "test");
+
+    cr_assert_eq(check, true, "npc_can_give_quest() failed");
+}
+
+/* Tests the function if an npc gives tasks */
+Test(quest, npc_can_give_task)
+{
+    item_t *item = item_new("test_item", "item for testing", "test item");
+	quest_t *quest = create_sample_quest("test", true, 50, item, true, 50, 5);
+    task_t *task = create_sample_task("test", false, NULL, KILL_NPC, false, 0, NULL, true, 50, 5);
+    add_task_to_quest(quest, task, NULL);
+    quest_ctx_t *qctx = create_sample_ctx();
+    add_quest_to_hash(quest, &qctx->quest_hash);
+
+    player_t *player = create_sample_player("player", 60, 6);
+    qctx->player = player;
+
+    int check = npc_can_give_task(qctx, "test");
+
+    cr_assert_eq(check, true, "npc_can_give_task() failed");
 }
