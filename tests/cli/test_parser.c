@@ -247,3 +247,47 @@ Test(parse, two_function_calls)
     cr_assert_str_eq(words1[0], words2[0]);
     cr_assert_str_eq(words1[1], words2[1]);
 }
+/*
+ * Tests the parsing of an input with two tokens, one being a single word surrounded by quotes
+ */
+Test(parse_r, two_words_quote)
+{
+    char str[] = "GO \"South\"";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"south", "parse() did not create second token");
+}
+
+/*
+ * Tests the parsing of an input with two tokens, one being multiple words surrounded by quotes
+ */
+Test(parse_r, double_word_in_quote)
+{
+    char str[] = "GO \"Dungeon of Death\"";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"dungeon of death", "parse() did not create second token");
+}
+
+/*
+ * Tests the parsing of an input with three tokens, one being a word surrounded by quotes
+ */
+Test(parse_r, three_words_quote)
+{
+    char str[] = "LOOK TO \"EAST\"";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create third token");
+}
+
+/*
+ * Tests the parsing of an input with two tokens, the first being surrounded by quotes
+ */
+Test(parse_r, first_quote)
+{
+    char str[] = "\"GO\" EAST";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+}
+

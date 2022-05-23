@@ -14,6 +14,9 @@
 #include "common/utlist.h"
 #include "cli/util.h"
 
+#define NUM_FILLERS 3
+char* filler_words[NUM_FILLERS] = {"to","the","into"};
+
 /*
  * - input: 
  *   s: a string from the command line, 
@@ -116,28 +119,28 @@ tokenized_cmds *parse_r(char *input)
  *   words than this fixed size, the rest of the list will be null.
  *
  */
- 
 char **remove_fillers(char **parsed_input)
 {
-    //first, count the NULL chars
-    // this is important, as you want
-    // to avoid using strcmp with NULL as an input
-    // int null_count = 0;
-    // for (size_t i = 0; i < TOKEN_LIST_SIZE; i++)
-    // {
-    //     if (parsed_input[i] == NULL)
-    //     {
-    //         null_count++;
-    //     }
-    // }
-    
-    //loooping through the four words in the parsed input
+    int is_filler = 0;
+
+    //looping through the four words in the parsed input
     for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         if(parsed_input[i] == NULL){ break; }
         // determine if this word is a filler
-        if(strcmp("to", parsed_input[i]) == 0 || strcmp("the", parsed_input[i]) == 0
-            || strcmp("into", parsed_input[i]) == 0){
+
+        //loop through filler_words to see if the word at the index is a filler
+        // if so, set is_filler to 1
+        for (size_t x = 0; x < NUM_FILLERS; x++)
+        {
+            if (strcmp(filler_words[x],parsed_input[i]) == 0)
+            {
+                is_filler = 1;
+            }
+            
+        }
+    
+        if(is_filler == 1){
             //if so, remove it and push every word to the left in the 
             // array
             for (int j = i; j < TOKEN_LIST_SIZE - i; j++)
@@ -156,6 +159,9 @@ char **remove_fillers(char **parsed_input)
             // filler word
             parsed_input[TOKEN_LIST_SIZE - 1] = NULL;
             i = i - 1;
+            
+            //reset is_filler for next loop
+            is_filler = 0;
         }
     }
     return parsed_input;
@@ -165,7 +171,8 @@ char **remove_fillers(char **parsed_input)
 /* See parser.h */
 char **parse(char *input)
 {
-    if(strcmp(input, "") == 0)
+
+    if (strcmp(input, "") == 0)
     {
         return NULL;
     }
@@ -174,32 +181,108 @@ char **parse(char *input)
 
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    char **by_quotes;
+    by_quotes = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+
 
     //Initializes all words to NULL
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
         words[i] = NULL;
+        by_quotes[i] = NULL;
     }
 
-    char *token = strtok(input, " ");
+    char *token_quotes = strtok(input, "\"");
 
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
+    //Populates by_quotes array with tokens separated by " character
+    for (int i = 0; i < TOKEN_LIST_SIZE; i++)
     {
-        words[i] = token;
-        token = strtok(NULL, " ");
+
+        by_quotes[i] = token_quotes;
+        token_quotes = strtok(NULL, "\"");
+
     }
 
-    //If there are more than 4 words, parser returns NULL and does not attempt
-    //to pass the first four words as tokens
-    if(token != NULL)
+    //If the first character of the input is not "
+    if (input[0] != '\"')
     {
-        return NULL;
+        char *token = strtok(input, " ");
+
+        //Populates words array with tokens separated by space (" ") character
+        for (int i = 0; i < 4; i++)
+        {
+
+            words[i] = token;
+            token = strtok(NULL, " ");
+ 
+        }
+
+        // iterates through words array until it finds a null, inserts the by_quotes value
+        // corresponding to words in between the two quotes ("example"). This assumes
+        // only one pair of double quotes is used
+        for (int j = 0; j < TOKEN_LIST_SIZE; j++) 
+        {
+            if (!(words[j])) 
+            {
+                words[j] = by_quotes[1];
+                break;
+            }
+        }
+
+        //If there are more than 4 words, parser returns NULL and does not attempt
+        //to pass the first four words as tokens
+
+        if (token != NULL)
+        {
+            return NULL;
+        }
+
+        remove_fillers(words);
+
+        return words;
+
+    //If the first character of the input is "
+    }
+    else
+    {
+        
+        char* token;
+        int len = strlen(input) - 1;
+        // tokenises using spaces the contents between the two airquotes
+        // which have already been tokenized into by_quotes array.
+        words[0] = by_quotes[0];
+
+
+        if (input[len] != '\"') 
+        {
+            
+            token = strtok(by_quotes[1], " ");
+
+            //Populates words array with tokens separated by space (" ") character
+            for (int i = 1; i < TOKEN_LIST_SIZE; i++)
+            {
+
+                words[i] = token;
+                token = strtok(NULL, " ");
+
+            }
+        
+        }
+        else
+        {
+            words[1] = NULL;
+        }
+
+        //If there are more than 4 words, parser returns NULL and does not attempt
+        //to pass the first four words as tokens
+
+        if (token != NULL)
+        {
+            return NULL;
+        }
+
+        remove_fillers(words);
+        return words;
     }
 
-    // before returning the tokens, we must run through them
-    // and remove all "fillers", such as prepositions
-    // like "the" and "to"
-    remove_fillers(words);
-
-    return words;
 }
