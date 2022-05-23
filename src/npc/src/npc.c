@@ -4,8 +4,171 @@
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
 /* See npc.h */
+int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue)
+{
+    assert(npc_quest != NULL);
+
+    npc_quest->id = id;
+    npc_quest->quest_dialogue;
+    npc_quest->next = NULL;
+
+    return SUCCESS;
+}
+
+/* See npc.h */
+npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue)
+{
+    npc_quest_t *npc_quest;
+    int rc;
+    npc_quest = malloc(sizeof(npc_quest_t));
+
+    if (npc_quest == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for NPC quest!\n");
+        return NULL;
+    }
+
+    rc = npc_quest_init(npc_quest, id, quest_dialogue);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize NPC quest struct!\n");
+        return NULL;
+    }
+
+    return npc_quest;
+}
+
+/* See npc.h */
+int *npc_quest_free(npc_quest_t *npc_quest)
+{
+    npc_quest_t *temp;
+
+    assert (npc_quest != NULL);
+    
+    free(npc_quest->id);
+    int rc = convo_free(npc_quest->quest_dialogue);
+
+    if(rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not free convo struct in quest!\n");
+        return NULL;
+    }
+
+    temp = npc_quest->next;
+    free(npc_quest);
+
+    npc_quest = temp;
+
+    return(npc_quest_free(npc_quest));
+    }
+    else return SUCCESS;
+}
+
+/* See npc.h */
+int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue)
+{
+    assert(npc_task != NULL);
+    
+    npc_task->id = id;
+    npc_task->task_dialogue;
+    npc_task->next = NULL;
+
+    return SUCCESS;
+}
+
+/* See npc.h */
+npc_task_t *npc_task_new(char *id, convo_t *task_dialogue)
+{
+    npc_task_t *npc_task;
+    int rc;
+    npc_task = malloc(sizeof(npc_task_t));
+
+    if (npc_task == NULL)
+    {
+        fprintf(stderr, "\nCould not allocate memory for NPC task!\n");
+        return NULL;
+    }
+
+    rc = npc_task_init(npc_task, id, task_dialogue);
+    if (rc != SUCCESS)
+    {
+        fprintf(stderr, "\nCould not initialize NPC task struct!\n");
+        return NULL;
+    }
+
+    return npc_task;
+}
+
+/* See npc.h */
+int *npc_task_free(npc_task_t *npc_task)
+{
+    npc_task_t *temp;
+
+    if (npc_task != NULL)
+    {
+        free(npc_task->id);
+        int rc = convo_free(npc_task->task_dialogue);
+
+        if(rc != SUCCESS)
+        {
+            fprintf(stderr, "\nCould not free convo struct in task!\n");
+            return NULL;
+        }
+
+        temp = npc_task->next;
+        free(npc_task);
+
+        npc_task = temp;
+
+        return(npc_task_free(npc_task));
+    }
+    else return SUCCESS;
+}
+
+/* See npc.h */
+int npc_quest_list_init(npc_quest_list_t *quest_list)
+{
+
+}
+npc_quest_list_t *npc_quest_list_new();
+
+/* See npc.h */
+int npc_quest_list_free(npc_quest_list_t *quest_list)
+{
+    npc_quest_t *temp;
+    npc_quest_t *head = quest_list;
+
+    while (head != NULL)
+    {
+        temp = head->next;
+        head = head->next;
+        npc_quest_free(temp);
+    }
+    return SUCCESS;
+}
+
+int npc_task_list_init(npc_task_list_t *task_list);
+npc_task_list_t *npc_task_list_new();
+
+/* See npc.h */
+npc_task_list_t *npc_task_list_free(npc_task_list_t *task_list)
+{
+    npc_task_t *temp;
+    npc_task_t *head = task_list;
+
+    while (head != NULL)
+    {
+        temp = head->next;
+        head = head->next;
+        npc_task_free(temp);
+    }
+    return SUCCESS;
+}
+
+/* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             class_t *class, npc_mov_t *movement, bool will_fight)
+             class_t *class, npc_mov_t *movement, bool will_fight,
+             npc_quest_list_t *quests, npc_task_list_t *tasks)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
@@ -17,13 +180,23 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->will_fight = will_fight;
     npc->npc_battle = NULL;
     npc->movement = movement;
+    // NEW //
+    int rc1 = npc_quest_list_init(quests);
+    int rc2 = npc_task_list_init(tasks);
+
+    if ((rc1 != SUCCESS) | (rc2 != SUCCESS))
+    {
+        return FAILURE;
+    }
+    // NEW //
 
     return SUCCESS;
 }
 
 /* See npc.h */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement, bool will_fight)
+               class_t *class, npc_mov_t *movement, bool will_fight,
+               npc_quest_list_t *quests, npc_task_list_t *tasks)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -33,11 +206,20 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
+    // NEW //
+    int rc1 = npc->quests = npc_quest_list_new();
+    int rc2 = npc->tasks = npc_task_list_new();
+
+    if ((rc1 != SUCCESS) | (rc2 != SUCCESS))
+    {
+        return FAILURE;
+    }
+    // NEW //
 
     char *insensitized_id = case_insensitized_string(npc_id);
 
     int check = npc_init(npc, insensitized_id, short_desc, long_desc,
-                         class, movement, will_fight);
+                         class, movement, will_fight, quests, tasks);
 
     free(insensitized_id);
 
@@ -66,6 +248,14 @@ int npc_free(npc_t *npc)
     if (npc->npc_battle != NULL)
     {
         npc_battle_free(npc->npc_battle);
+    }
+    if (npc->quests != NULL)
+    {
+        npc_quest_list_free(npc->quests);
+    }
+    if (npc->tasks != NULL)
+    {
+        npc_task_list_free(npc->tasks);
     }
     free(npc->npc_id);
     free(npc->short_desc);

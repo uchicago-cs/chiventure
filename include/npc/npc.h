@@ -17,18 +17,18 @@
  * A singular quest node for npc_quest_list_t 
  * (provided by the Quest team)
 */ 
-typedef struct npc_quest_node {
+typedef struct npc_quest {
    char *id;
    convo_t *quest_dialogue;
-   npc_quest_node *next;
-} npc_quest_node_t;
+   npc_quest *next;
+} npc_quest_t;
 
 /* 
- * A linked list of npc_quest nodes
+ * A linked list of npc_quest structs
  * (provided by the Quest team)
 */ 
 typedef struct npc_quest_list {
-   npc_quest_node_t *head;
+   npc_quest_t *head;
    int length;
 } npc_quest_list_t;
 
@@ -36,7 +36,7 @@ typedef struct npc_quest_list {
  * task lists have the same format as quest lists
  * (provided by the Quest team)
 */
-typedef npc_quest_node_t npc_task_node_t;
+typedef npc_quest_t npc_task_t;
 
 typedef npc_quest_list_t npc_task_list_t;
 
@@ -104,7 +104,7 @@ typedef struct npc npc_hash_t;
  * Returns:
  * - SUCCESS upon successful initialization, FAILURE upon failed initialization
 */
-int npc_quest_init(char *id, convo_t *quest_dialogue);
+int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue);
 
 /*
  * Creates a new npc_quest struct (allocated memory)
@@ -114,12 +114,12 @@ int npc_quest_init(char *id, convo_t *quest_dialogue);
  * - quest_dialogue: a conversation unique to this quest
  * 
  * Returns:
- * - a pointer to the npc_quest_node struct
+ * - a pointer to the npc_quest struct
 */
-npc_quest_node_t *npc_quest_new(char *id, convo_t *quest_dialogue);
+npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue);
 
 /*
- * Frees an npc_quest node
+ * Frees an npc_quest struct
  *
  * Parameters:
  * - npc_quest: the quest to be freed
@@ -127,7 +127,7 @@ npc_quest_node_t *npc_quest_new(char *id, convo_t *quest_dialogue);
  * Returns:
  * - SUCCESS upon successful free, FAILURE upon failed free
 */
-int *npc_quest_free(npc_quest_node_t *npc_quest);
+int *npc_quest_free(npc_quest_t *npc_quest);
 
 /*
  * Initializes a npc_task struct
@@ -139,7 +139,7 @@ int *npc_quest_free(npc_quest_node_t *npc_quest);
  * Returns:
  * - SUCCESS upon successful initialization, FAILURE upon failed initialization
 */
-int npc_task_init(char *id, convo_t *task_dialogue);
+int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue);
 
 /*
  * Creates a new npc_task struct (allocated memory)
@@ -149,12 +149,12 @@ int npc_task_init(char *id, convo_t *task_dialogue);
  * - task_dialogue: a conversation unique to this task
  * 
  * Returns:
- * - a pointer to the npc_quest_node struct
+ * - a pointer to the npc_quest struct
 */
-npc_task_node_t *npc_task_new(char *id, convo_t *task_dialogue);
+npc_task_t *npc_task_new(char *id, convo_t *task_dialogue);
 
 /*
- * Frees an npc_task node
+ * Frees an npc_task struct
  *
  * Parameters:
  * - npc_task: the task to be freed
@@ -162,7 +162,7 @@ npc_task_node_t *npc_task_new(char *id, convo_t *task_dialogue);
  * Returns:
  * - SUCCESS upon successful free, FAILURE upon failed free
 */
-int *npc_task_free(npc_task_node_t *npc_task);
+int *npc_task_free(npc_task_t *npc_task);
 
 /*
  * Initializes a npc_quest_list struct
@@ -176,7 +176,7 @@ int *npc_task_free(npc_task_node_t *npc_task);
 int npc_quest_list_init(npc_quest_list_t *quest_list);
 
 /*
- * Creates a new linked list of npc_quest nodes
+ * Creates a new linked list of npc_quest structs
 */
 npc_quest_list_t *npc_quest_list_new();
 
@@ -203,12 +203,12 @@ int npc_quest_list_free(npc_quest_list_t *quest_list);
 int npc_task_list_init(npc_task_list_t *task_list);
 
 /*
- * Creates a new linked list of npc_task nodes
+ * Creates a new linked list of npc_task structs
 */
 npc_task_list_t *npc_task_list_new();
 
 /*
- * Frees a new linked list of npc_task nodes
+ * Frees a new linked list of npc_task structs
  *
  * Parameters:
  * - task_list: an uninitialized list of tasks
