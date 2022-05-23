@@ -506,7 +506,7 @@ int do_node_actions(node_t *n, game_t *game)
 
         case GIVE_ITEM:
             npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
-            item = get_item_from_npc(npc->inventory, cur_action->action_id);
+            item = get_item_from_npc(npc, cur_action->action_id);
             if (item == NULL) return FAILURE;
             if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
             if (add_item_to_player(game->curr_player, item, game) != SUCCESS)
