@@ -6,7 +6,7 @@
 #include "wdl/load_quests.h"
 #include "quests/quests_state.h"
 
-#define QUESTS_PATH "../../../tests/wdl/examples/quests_sample.wdl"
+#define QUESTS_PATH "../../../tests/wdl/examples/wdl/quests_sample.wdl"
 /*
  * helper function for parsing a YAML file into an object
  * shamelessly stolen from test_game.c
