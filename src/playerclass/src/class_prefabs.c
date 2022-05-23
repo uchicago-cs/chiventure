@@ -477,8 +477,8 @@ int class_prefab_add_skills(class_t* class) {
         /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
-                                     "You deal damage to your opponent with 
-                                     just a word.", 1, 75, NULL, NULL);
+                                     "You deal damage to your opponent with " 
+                                     "just a word.", 1, 75, NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
                                      "A full line of poetry hits your " 
                                      "opponent!", 1, 200, NULL, NULL);
@@ -517,8 +517,9 @@ int class_prefab_add_skills(class_t* class) {
                                      "powerful hits and kicks!", 1, 220, 
                                      NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Supernova Circle", 
-                                    "Powerful circular motions that allows for the "
-                                    "most powerful jumps, kicks, and punchess!",
+                                    "Powerful circular motions that allows for " 
+                                    "the most powerful jumps, kicks, and "
+                                    "punchess!",
                                      1, 420, NULL, NULL);
 
         /* Add skills to tree */
