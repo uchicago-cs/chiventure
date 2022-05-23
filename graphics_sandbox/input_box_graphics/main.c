@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include "input_box_graphics.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 /* See input_box.h*/
 void run_input_box(input_box_graphics_t *input_box_graphics, char* input_buffer) {
