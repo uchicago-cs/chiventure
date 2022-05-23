@@ -1,5 +1,5 @@
 # Example dialogue graphs represented as adjacency list to check different test cases
-
+from collections import defaultdict
 # Valid Graph
 OAK = {
     'A': ['B', 'C', 'E'],
@@ -14,6 +14,13 @@ OAK = {
 # A is singleton
 SINGLETON = {
     'A': []
+}
+
+INFINITELOOPLONG = {
+    'A': ['B', 'C'], 
+    'B': ['C'], 
+    'C': ['A', 'D'], 
+    'D': ['D']
 }
 
 # Node B can't be reached
@@ -43,3 +50,6 @@ SELFLOOP = {
     'F': ['G'],
     'G': ['G'] 
 }
+
+
+
