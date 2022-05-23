@@ -197,7 +197,7 @@ Test(npc_mov, move_npc_mov_def)
 
     cr_assert_str_eq(npc_mov->track, "room_to_add2",
                      "move_npc_mov() failed to stay in place");
-    cr_assert_eq(check3, FAILED, "move_npc_mov didn't keep NPC in place");
+    cr_assert_eq(check3, FAILURE, "move_npc_mov didn't keep NPC in place");
 }
 
 
