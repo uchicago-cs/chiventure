@@ -2,6 +2,7 @@
 #include "input_box_graphics.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 // Check if any key is pressed
 // NOTE: We limit keys check to keys between 32 (KEY_SPACE) and 126
