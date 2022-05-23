@@ -7,17 +7,6 @@
 
 #define MAX_INPUT_CHAR 14
 
-
-typedef struct input_box_graphics{
-    Vector2 WindowPos;
-    Vector2 WindowSize;
-    Color BoxColor;
-    Color TextColor;
-    Color AnnotationColor;
-    Color OutlineColor;
-    const char* Annotation;
-} input_box_graphics_t;
-
 /* See input_box.h*/
 input_box_graphics_t* newInputboxGraphics(Vector2 WindowPos, Vector2 WindowSize, Color BoxColor,
                                           Color TextColor, Color AnnotationColor, Color OutlineColor,
