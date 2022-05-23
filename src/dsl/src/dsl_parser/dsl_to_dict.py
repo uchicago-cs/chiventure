@@ -52,12 +52,11 @@ class TreeToDict(Transformer):
     misplaced_property = trans.transform_misplaced
     
 
-
     #for documentation of the below transformations, see simple_modifiers.py
 
     ESCAPED_STRING = mod.mod_ESCAPED_STRING
     
-    starg_g = mod.mod_start_g
+    start_g = mod.mod_start_g
 
     end_g = mod.mod_end_g
 
