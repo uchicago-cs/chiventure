@@ -372,14 +372,6 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         //(potential) TODO: add list of possible parameters
         return "Second argument needed.\n";
     }
-    /* checking if there is more than one argument
-     * for now this returns null, but if actions wants any kind4 to have 
-     * more than 1 argument, this check can be removed and onus transfers
-     * to action management's `do_self_action()` command */
-    if (tokens[2] != NULL)
-    {
-        return "Sorry, only one page can be viewed at a time :(\n";
-    }
 
     lookup_t **table = ctx->cli_ctx->table;
 
