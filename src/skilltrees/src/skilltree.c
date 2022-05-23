@@ -7,7 +7,6 @@
 #include <assert.h>
 #include <string.h>
 #include "skilltrees/skilltree.h"
-#include <limits.h>
 
 /* See skilltree.h */
 skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
@@ -366,9 +365,42 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
     return FAILURE;
 }
 
-char *display_tree(skill_tree_t* tree){
+/*
+ * Given a number, counts its digits
+ * Helper function for display_tree
+ *
+ * Parameters: 
+ *  - num: the number whose number of digits is being calculated
+ * 
+ * Returns:
+ *  - number of digits of the given num
+ */
+int count_digits(int num){
+    if (num == 0)
+        return 1;
+    int count = 0;
+    while (num != 0){
+        num = (num/10);
+        count += 1;
+    }
+    return count;
+}
 
-    int size = INT_MAX; // There must be a better way to calculate the exact size you need and set the buffer size to that
+/* See skilltree.h */
+char *display_tree(skill_tree_t* tree){
+    int size = 0;
+
+    // Calculating size of string we need to store all necessary info
+    for (int j = 0; j < tree->num_nodes; j++){
+        // count size of skill name
+        size += strlen(tree->nodes[j]->skill->name);
+        // add size of prereq_level and current level
+        // uses helper function to calculate their lengths
+        size += count_digits(tree->nodes[j]->prereq_level);
+        size += count_digits(tree->nodes[j]->skill->level);
+        // add size of other text around each info piece below, ex "Skill Name"
+        size += 55;
+    }
     char buffer[size];
     char temp[size];
 
@@ -381,6 +413,7 @@ char *display_tree(skill_tree_t* tree){
     return display;
 }
 
+/* See skilltree.h */
 char *display_skill_description(skill_t* skill){
     //Uses a static size, will crash for longer descriptions
     char buffer[150];

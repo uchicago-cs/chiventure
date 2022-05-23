@@ -643,8 +643,9 @@ Test(skilltree_test, display_tree_typical)
   skill_tree_node_add(skilltree, inner_node);
 
   char *display = display_tree(skilltree);
-  char check[1000] = "Skill Name: defuse bomb, Prereq Level: 75, Current Level: 1\nSkill Name: chop tree, Prereq Level: 76, Current Level: 1\nSkill Name: inner peace, Prereq Level: 77, Current Level: 1\n";
+  char check[200] = "Skill Name: defuse bomb, Prereq Level: 75, Current Level: 1\nSkill Name: chop tree, Prereq Level: 76, Current Level: 1\nSkill Name: inner peace, Prereq Level: 77, Current Level: 1\n";
   cr_assert_eq(strcmp(check, display), 0, "Error: display_tree failed\n");
+  fprintf("%s", display);
 }
 
 /* Tests display_skill_description given a typical skill */
