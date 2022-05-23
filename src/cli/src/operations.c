@@ -387,7 +387,9 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
      *  otherwise, returns SUCCESS */
 
-    int rc = do_self_action(ctx, action, arg2, &str);
+    tokens = &tokens[1];
+
+    int rc = do_self_action(ctx, action, tokens, &str);
     //int do_self_action(chiventure_ctx_t *c, action_type_t *a, char* target, char **ret_string)
     return str;
 }
