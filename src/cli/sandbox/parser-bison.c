@@ -96,7 +96,7 @@ char **handle_cmd(word_ll *phrase) {
     char **words;
     words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
     int i = 0;
-    while(p != NULL || i == TOKEN_LIST_SIZE) {
+    while(p != NULL || i < TOKEN_LIST_SIZE) {
         words[i] = p->word;
         p = p->next;
         i++;

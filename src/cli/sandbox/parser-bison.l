@@ -9,7 +9,7 @@
 
 %%
 
-^GO|go|Go|gO  { return GO; }
+^GO|go|Go|gO|head|move|walk  { return GO; }
 
 TO|to|To|tO   { return TO; }
 
@@ -17,7 +17,7 @@ TO|to|To|tO   { return TO; }
 
 credits { return CREDITS; }
 
-[a-zA-Z]+  { 
+[a-zA-Z0-9]+  { 
     yylval.word = strdup(yytext);
     return WORD; }
 
@@ -25,5 +25,6 @@ credits { return CREDITS; }
 
 [ \t]      { /* ignore whitespace */ }
 
+. { /* unknown character */ }
 
 %%
