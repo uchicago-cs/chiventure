@@ -1,0 +1,12 @@
+# Hashes of file build rules.
+927f58b6f1fd38243d2b35ecf7bc851b src/action_management/examples/CMakeFiles/action_management-examples
+fedc27f7a0028a0ea09d142365a2ea4b src/battle/examples/CMakeFiles/battle-examples
+6c5ef2c9fc0f1dd35536af4a9875aab1 src/cli/examples/CMakeFiles/cli-examples
+bb2c3d128bed826a2db9852c09fbac8c src/custom-scripts/examples/CMakeFiles/cs_examples
+ad5ec5be41c602b2c6ed54afe99bf8b0 src/game-state/examples/CMakeFiles/game-state-examples
+af0b5f71cc535d6f8bf36a3128eac1ae src/libobj/examples/CMakeFiles/libobj-examples
+ac2eef47affa47e094dddb8fc4c96b3d src/npc/examples/CMakeFiles/npc-examples
+3a4ec4a3311010a10ce439815a7dc648 src/openworld/examples/CMakeFiles/openworld-examples
+942949aa6745fd7b15a2d6a10fedfc8c src/playerclass/examples/CMakeFiles/playerclass-examples
+cae54048d215f37540a08b95f7c4f178 src/quests/examples/CMakeFiles/quests-examples
+f72225902a1d6215bedb292578089b32 src/skilltrees/examples/CMakeFiles/skilltrees_examples

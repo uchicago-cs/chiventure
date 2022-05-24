@@ -1,0 +1,2 @@
+/usr/bin/ar qc libui.a  CMakeFiles/ui.dir/src/coordinate.c.o CMakeFiles/ui.dir/src/DFS.c.o CMakeFiles/ui.dir/src/map.c.o CMakeFiles/ui.dir/src/print_functions.c.o CMakeFiles/ui.dir/src/ui.c.o CMakeFiles/ui.dir/src/ui_ctx.c.o CMakeFiles/ui.dir/src/window.c.o
+/usr/bin/ranlib libui.a
