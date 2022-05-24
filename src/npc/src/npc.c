@@ -356,7 +356,7 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
         npc_quest_t *quest = get_npc_quest(npc, quest_id);
         if (quest != NULL)
         {
-            npc->active_convo = quest->dialogue;
+            npc->active_dialogue = quest->dialogue;
             return SUCCESS;
         }
         return FAILURE;
@@ -366,7 +366,7 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
         npc_task_t *task = get_npc_task(npc, task_id);
         if (task != NULL)
         {
-            npc->active_convo = task->dialogue;
+            npc->active_dialogue = task->dialogue;
             return SUCCESS;
         }
         return FAILURE;
@@ -396,7 +396,7 @@ int reset_active_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc,
         // don't think context would be saved so would return to step
         // 1 of normal convo; might not be issue though– most could be resolved
         // in wdl implementation
-        npc->active_convo = npc->dialogue;
+        npc->active_dialogue = npc->dialogue;
         return SUCCESS;
     }
 }
@@ -564,7 +564,7 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
 {
     assert(npc != NULL && c != NULL);
 
-    npc->dialogue = c;
+    npc->active_dialogue = c;
 
     return SUCCESS;
 }

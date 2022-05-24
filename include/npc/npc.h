@@ -66,7 +66,7 @@ typedef struct npc {
     /* pointer to existing convo struct; changed depending on whetehr
     npc has activated quest or task convo */
 
-    convo_t *active_convo;
+    convo_t *active_dialogue;
 
     /* pointer to an existing convo struct; for normal dialogue */
     convo_t *dialogue;
@@ -538,8 +538,8 @@ int delete_all_npcs(npc_hash_t *npcs);
 /*
  * Called when NPC is given option to receive quest or task
  * Checks to see if player can receive (based on stats)
- * If activated quest --> active_convo updated to that quest's dialogue
- * If activated task --> active_convo updated to that tasks's dialogue
+ * If activated quest --> active_dialogue updated to that quest's dialogue
+ * If activated task --> active_dialogue updated to that tasks's dialogue
  * If both --> ? for now, default to quest
  * If neither --> remain default dialogue
  * 
