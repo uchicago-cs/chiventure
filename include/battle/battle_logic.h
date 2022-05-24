@@ -99,6 +99,17 @@ int remove_battle_item(combatant_t *c, battle_item_t *item);
  */
 int award_xp(stat_t *stats, double xp);
 
+/*
+ * Applies stat changes to a target.
+ * 
+ * Parameters: 
+ *  - changes: the stat changes
+ *  - target_stats: the stats to be changes
+ * Returns:
+ *  - Always success
+ */
+int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
+
 /* Adds new temporary status changes from an item. Note: Does
  *     not yet change the number of turns left, because items
  *     do not have that supported yet.
@@ -111,4 +122,43 @@ int award_xp(stat_t *stats, double xp);
  */
 int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
 
+/* Finds the actions (items and moves) that are available to the player to use
+ * in a given turn component
+ *
+ * Parameters:
+ * - items: an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - moves: an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - comp: the current turn_component_t struct
+ * - battle: the current battle_t struct
+ * 
+ * Returns:
+ * - populates the linked lists of moves and items with the available moves and items
+ *   leaves the lists NULL if there are no available moves or items respectively
+ */
+void get_legal_actions(battle_item_t *items, 
+                       move_t *moves, 
+                       turn_component_t comp, 
+                       battle_t *battle);
+
+/* gives the number of moves in the given linked list of moves
+ *
+ * Parameters:
+ * - moves: the head of the linked list of moves
+ * 
+ * Returns:
+ * - the number of moves in the linked list 
+ */
+int num_moves(move_t *moves);
+
+/* gives the number of items in the given linked list of items
+ *
+ * Parameters:
+ * - items: the head of the linked list of items
+ * 
+ * Returns:
+ * - the number of items in the linked list 
+ */
+int num_items(battle_item_t *items);
+
 #endif
+

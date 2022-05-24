@@ -4,30 +4,19 @@
 #include <stdbool.h>
 #include <string.h>
 #include "quests_structs.h"
+#include "game-state/player.h"
 
-/* Creates a new passive mission struct (allocates memory)
+typedef struct item_wrapped_for_llist item_list_t; // Forward declaration
+
+/* Creates a new mission struct (allocates memory)
  * 
  * Parameters:
- * - xp: integer experience milestone to reach
- * - levels: integer level milestone to reach
- * - health: integer health milestone to reach
- *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
- */
-passive_mission_t *passive_mission_new(int xp, int levels, int health);
-
-/* Creates a new active mission struct (allocates memory)
+ * - target_name: The name of the mission's target (the NPC's name, the item's name, etc)
  * 
- * Parameters:
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
- * - npc_to_kill: the npc to kill for the mission
- * - room_to_visit: the room to visit for the mission 
  *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
+ * Returns: a pointer to the newly allocated mission, that is not completed
  */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit);
+mission_t *mission_new(char *target_name, mission_types_t type);
 
 /* Creates a new reward struct for completing a quest 
  * 
@@ -39,66 +28,66 @@ active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet
  */
 reward_t *reward_new(int xp, item_t *item);
 
-/* Creates a new stats requirement struct to start the quest
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
+/* 
+ * Creates a new prereq object on the heap
  *
- * Returns: a pointer to the newly allocated stats requirement struct
+ * Parameters:
+ * - hp: health points required to begin quest
+ * - level: level required to begin quest
+ *
+ * Returns: a pointer to the newly allocated prereq, or NULL if there was an error
  */
-stat_req_t *stat_req_new(int hp, int level);
+prereq_t *prereq_new(int hp, int level);
 
-/* Creates a new achievement struct (allocates memory)
+/* 
+ * Creates a new id_list object on the heap
+ *
+ * Returns: a pointer to the newly allocated id_list, or NULL if there was an error
+ * 
+*/
+id_list_t *id_list_new();
+
+
+/* Creates a new task struct (allocates memory)
  * 
  * Parameters:
+ * - id: the id of the task
  * - mission: the mission to be completed for the quest
- * - id: the id of the achievement
- * 
- * Returns: a pointer to the newly allocated achievement that is not completed
+ * - reward: the reward of the task
+ * - prereq: the prerequisite of the task
+ *
+ * Returns: a pointer to the newly allocated task that is not completed
  */
-achievement_t *achievement_new(mission_t *mission, char *id);
+task_t *task_new(char *id, mission_t *mission, reward_t *reward, prereq_t *prereq);
 
 /* Creates a new quest struct (allocates memory)
  * 
  * Parameters:
- * - quest_id: long integer for the specific quest_id 
- * - achievement_tree: non-binary tree  struct holding a tree of 
- *                     achievements that make up a quest
+ * - quest_id: string representing the specific quest_id 
  * - reward: reward of the quest is an item
+ * - prereq: prerequisites for the quest
  * 
  * Returns: a pointer to the newly allocated quest, with default status of 0
  *         (not started)
  */
-quest_t *quest_new(long int quest_id, achievement_tree_t *achievement_tree,
-                    reward_t *reward, stat_req_t *stat_req);
+quest_t *quest_new(char *quest_id, reward_t *reward, prereq_t *prereq);
 
-/* Initialize an already allocated passive mission struct 
+/* Initialize an already allocated mission struct
  *
  * Parameters:
- * - mission: an already allocated mission_t (of passive type)
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
+ * - mission: an already allocated mission_t 
+ * - target_name: the name of the mission's target (NPC, item, etc)
+ * - type: The type of mission
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
- */
-int passive_mission_init(passive_mission_t *mission, int xp, int level, int health);
-
-/* Initialize an already allocated active mission struct 
- *
- * Parameters:
- * - mission: an already allocated mission_t (of active type)
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
  * 
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
+ * Note: Also ensures that the mission only includes a single thing to do. If
+ *       there is more than one pointer that is not NULL (excluding mission),
+ *       this function will return FAILURE.
  */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
-                        npc_t *npc_to_kill, room_t *room_to_visit);
+int mission_init(mission_t *mission, char *target_name, mission_types_t type);
 
 /* Initializes an already allocated reward struct
  * 
@@ -112,53 +101,69 @@ int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_
  */
 int reward_init(reward_t *rewards, int xp, item_t *item);
 
-/* Initializes an already allocated stats requirement struct
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
- *
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int stat_req_init(stat_req_t *stat_req, int xp, int level);
-
-/* Initialize an already allocated achievement struct
+/* 
+ * Initialize an already allocated task struct
  *
  * Parameters:
- * - achievement: an already allocated achievement
- * - mission: the mission to be completed for the achievement
- * - id: the id of the achievement
+ * - task: an already allocated task
+ * - id: the id of the task
+ * - mission: the mission to be completed for the task
+ * - reward: the reward of the task
+ * - prereq: the prerequisite of the task
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
+ * 
+ * Note: Also returns FAILURE if there is both a mission and prereqs. Missions should all be in their own tasks.
+ *       If you want a task to have a mission and a prereq, make the mission's tasks a prereq for the actual task
+ *       that has the prereqs.
  */
-int achievement_init(achievement_t *achievement, mission_t *mission, char *id);
-
+int task_init(task_t *task, char *id, mission_t *mission, reward_t *reward, prereq_t *prereq);
 
 /* Initialize an already allocated quest struct
  *
  * Parameters:
  * - q: an already allocated quest
- * - quest_id: long int for the specific quest_id 
- * - achievement_tree: non-binary tree struct holding a tree of 
- *                     achievements that make up a quest
+ * - quest_id: string representing the specific quest_id 
  * - reward: reward of the quest is an item
- * - status: int indicating the status of the quest (refer to
- *           quests_structs.h for all possible statuses)
+ * - prereq: prerequisites for the quest
  * 
  * Returns:
  * - SUCCESS for successful init
  * - FAILURE for unsuccessful init
  * 
  */
-int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tree, 
-               reward_t *reward, stat_req_t *stat_req, int status);
+int quest_init(quest_t *q, char *quest_id, reward_t *reward, prereq_t *prereq);
 
 /* 
- * Frees a passive mission struct from memory
+ * Initializes a prereq object with the given parameters
+ *
+ * Parameters:
+ * - prereq: The prereq getting initialized
+ * - hp: health points required to begin quest
+ * - level: level required to begin quest
+ *
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+ */
+int prereq_init(prereq_t * prereq, int hp, int level);
+
+/* 
+ * Initializes an id_list as an empty list
+ *
+ * Parameters:
+ * - id_list: The id_list getting initialized
+ * 
+ * Returns:
+ * - SUCCESS for successful init
+ * - FAILURE for unsuccessful init
+*/
+int id_list_init(id_list_t *id_list);
+
+/* 
+ * Frees a mission struct from memory
  * 
  * Parameter:
  * - mission: the mission to be freed
@@ -167,35 +172,23 @@ int quest_init(quest_t *q, long int quest_id, achievement_tree_t *achievement_tr
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int passive_mission_free(passive_mission_t *mission);
+int mission_free(mission_t *mission);
 
 /* 
- * Frees an active mission struct from memory
- * 
- * Parameter:
- * - mission: the mission to be freed
- * 
- * Returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
- */
-int active_mission_free(active_mission_t *mission);
-
-/* 
- * Frees an achievement struct from memory but does not free 
+ * Frees a task struct from memory but does not free 
  * its associated pointers
  * 
  * Parameter:
- * - achievement: the achievement to be freed
+ * - task: the task to be freed
  * 
  * Returns:
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int achievement_free(achievement_t *achievement);
+int task_free(task_t *task);
 
 /* 
- * Frees a quest struct from memory including the achievement list
+ * Frees a quest struct from memory including the task list
  * and reward, but otherwise does not free associated pointers
  * 
  * Parameter:
@@ -205,118 +198,248 @@ int achievement_free(achievement_t *achievement);
  * - SUCCESS for successful free
  * - FAILURE for unsuccessful free
  */
-int quest_free(quest_t * quest);
+int quest_free(quest_t *quest);
 
+/*
+ * Frees a prereq struct from memory including the task list and quest list.
+ *
+ * Parameter:
+ * - prereq: the prereq to be freed
+ *
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+int prereq_free(prereq_t *prereq);
 
-/* 
- * Determines whether a player can start a quest with their base stats
+/*
+ * Frees an id_list from memory
  * 
  * Parameter:
- * - quest: a quest
+ * - id_list: the id_list to be freed
+ * 
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+*/
+int id_list_free(id_list_t *id_list);
+
+/* Determines whether a player completed a mission (if possible for that mission type)
+ *
+ * Parameters:
+ *  - mission: a mission object
+ *  - player: a player
+ * 
+ * Returns:
+ * - true if the player completed the mission, false if not
+*/
+bool completed_mission(mission_t *mission, player_t *player);
+
+/* 
+ * Determines whether a player meets a set of prerequisites
+ * 
+ * Parameters:
+ * - prereq: a prerequisite object
  * - player: a player
  * 
  * Returns:
- * - 1: a player can start the quest
- * - 0: a player cannot start the quest
+ * - true if the player meets the prerequisites, false if the player does not
  */
-int can_start_quest(quest_t *quest, player_t *player);
+bool meets_prereqs(player_t *player, prereq_t *prereq);
 
-/* Adds an achievement to the tree given an parent tree id
+/* Adds a task to the tree given an parent tree id
  *
  * Parameters:
  * - quest: pointer to a quest 
- * - achievement_to_add: pointer to an achievement to add to the list
- * - parent_id: string that is parent achievement's id
+ * - task_to_add: pointer to a task to add to the list
+ * - parent_id: string that is parent task's id
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE 
  */
-int add_achievement_to_quest(quest_t *quest, achievement_t *achievement_to_add, char *parent_id);
+int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id);
 
 /* Updates a quest's status to started
  *
  * Parameter:
- * - quest: pointer to quest to be marked started
- * 
+ * - quest: pointer to quest to be started
+ * - qctx: pointer to quest_ctx that indicates player starting the quest
+ *         and a hash table of all quests
+ *
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int start_quest(quest_t *quest);
+int start_quest(quest_t *quest, quest_ctx_t *qctx);
 
 /* Updates a quest's status to failed
  *
  * Parameter:
  * - quest: pointer to quest to be marked failed
+ * - player: pointer to player failing the quest
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int fail_quest(quest_t *quest);
+int fail_quest(quest_t *quest, player_t *player);
 
-/* Completes an achievement in a quest by checking if a given
- * achievement ID matches any incomplete achievements in the
- * appropriate level of the achievement tree.
- * 
- * Parameters:
- * - quest: pointer to the quest
- * - id: the string identifier of the completed achievement
- *
- * Returns:
- * - SUCCESS
- * - FAILURE
- */
-int complete_achievement(quest_t *quest, char *id);
-
-/* Checks if a quest is completed
+/* Checks if a player completed a given quest and updates the 
+ * reference to the quest in the player's quest table accordingly
  * 
  * Parameter:
  * - quest: pointer to the quest
+ * - player: pointer to player with the quest
  *
  * Returns:
- * - 0 if quest is incomplete
- * - 1 if quest is complete
+ * - false if quest is incomplete
+ * - true if quest is complete
  */
-int is_quest_completed(quest_t *quest);
+bool is_quest_completed(quest_t *quest, player_t *player);
+
+/* Checks if a player completed a given task
+ * - Always returns false if the task has a mission and checks the 
+ *  prerequisite if it does not
+ * 
+ * Parameter:
+ * - task: pointer to the task
+ * - player: pointer to player with the task
+ *
+ * Returns:
+ * - false if task is incomplete
+ * - true if task is complete
+ */
+bool is_task_completed(task_t *task, player_t *player);
 
 /* Gets a quest from the given hash table
  *
  * Parameters:
- *  quest id string
- *  pointer to quest hash table
+ *  quest_id: the quest's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
  *
  * Returns:
  *  quest struct if successful, NULL if quest is not found
  */
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
 
+/* Gets a task tree who's immediate task has a given id from the given hash table
+ *
+ * Parameters:
+ *  id: the task tree's immediate task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
+ *
+ * Returns:
+ *  task_tree struct if successful, NULL if task is not found
+ */
+task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table);
+
+/* Gets the quest that has the given task as one of its tasks
+ *
+ * Parameters:
+ *  task_id: the task tree's immediate task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
+ *
+ * Returns:
+ *  quest struct if successful, NULL if task is not found
+ */
+quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table);
+
+/* Gets a task from the given hash table
+ *
+ * Parameters:
+ *  id: the task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
+ *
+ * Returns:
+ *  task struct if successful, NULL if task is not found
+ */
+task_t *get_task_from_hash(char *id, quest_hash_t *hash_table);
+
 /* Adds a quest to the given hash table
  *
  * Parameters:
- *  pointer to quest struct
- *  pointer to quest hash table
+ *  quest: pointer to quest struct
+ *  hash_table: pointer to a hashtable of quests, ideally from game_state
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int add_quest_to_hash(quest_t *quest, quest_hash_t *hash_table);
+int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
+
+
+/* Gets a player quest from the given hash table
+ *
+ * Parameters:
+ *  quest_id: the quest's id string
+ *  hash_table: a hashtable of player_quests from the player
+ *
+ * Returns:
+ *  player_quest struct if successful, NULL if the quest is not found
+ */
+player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table);
+
+/* Gets a player task from the given hash table
+ *
+ * Parameters:
+ *  id: the task's id string
+ *  hash_table: a hashtable of player_tasks from the player
+ *
+ * Returns:
+ *  player_task struct if successful, NULL if the task is not found
+ */
+player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table);
+
+/* Adds a player quest to the given player's player quest table
+ *
+ * Parameters:
+ * - quest: pointer to quest struct
+ * - qctx: pointer to quest context struct with info on player and all quests
+ * - completion: the completion status of the quest
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_quest_to_player(quest_t *quest, quest_ctx_t *qctx, int completion);
+
+/* Adds a player task to the given hash table
+ *
+ * Parameters:
+ *  task: pointer to task struct
+ *  qctx: pointer to quest context struct with information about player and all quests
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx);
 
 /* Checks a quest's status.
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player with the quest
  * 
  * Returns: 
- * - the quest's status code, as described in quests_structs.h
+ * - the quest's completion for the given player
  */
-int get_quest_status(quest_t *quest);
+int get_player_quest_status(quest_t *quest, player_t *player);
+
+/* Checks a task's status.
+ *
+ * Parameter:
+ * - task: pointer to a task
+ * - player: pointer to player with the task
+ * 
+ * Returns: 
+ * - the task's completion for the given player (true = complete, false = incomplete)
+ */
+bool get_player_task_status(task_t *task, player_t *player);
 
 /* Returns the quest's reward item if the quest has been completed.
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player completing the quest
  * 
  * Returns:
  * - the quest's reward item
@@ -325,7 +448,156 @@ int get_quest_status(quest_t *quest);
  * Note:
  * The status of the quest should first be checked before this function is called
  */
-reward_t *complete_quest(quest_t *quest);
+reward_t *complete_quest(quest_t *quest, player_t *player);
 
+/*
+ * Adds an id to an id_list
+ *
+ * Parameters:
+ * - id_list: The id_list getting added to
+ * - id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int id_list_add(id_list_t *id_list, char *id);
+
+/*
+ * Adds a quest id to a prereq's quest id list
+ *
+ * Parameters:
+ * - prereq: The prereq getting added to
+ * - quest_id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int prereq_add_quest(prereq_t *prereq, char *quest_id);
+
+/*
+ * Adds a task id to a prereq's task id list
+ *
+ * Parameters:
+ * - prereq: The prereq getting added to
+ * - task_id: A pointer to a string id getting added
+ * 
+ * Returns:
+ * - SUCCESS if successfully added
+ * - FAILURE if something went wrong
+*/
+int prereq_add_task(prereq_t *prereq, char *task_id);
+
+/* Checks if a task's prereqs are met and if they are, completes the task, 
+ * returning the task's reward on success. After completing the task, checks 
+ * if the task completion also completed the task's quest, adds any new tasks
+ * from the tree if not and accepts the quest's rewards if so.
+ *
+ * Parameter:
+ * - tree: pointer to a task tree who's immediate task is getting completed
+ * - qctx: pointer to quest context struct with information on player and all quests
+ * 
+ * Returns:
+ * - the task's reward item
+ * - NULL if the task is incomplete
+ */
+reward_t *complete_task(char *task_id, quest_ctx_t *qctx);
+
+
+/* Removes a quest from a hash table
+ *
+ * Parameter:
+ * - pointer to a quest hash table
+ * - quest ID, 
+ * 
+ * Returns:
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
+ */
+int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
+
+/* Removes a task from a player hash table
+ *
+ * Parameter:
+ * - pointer to a player task hash table
+ * - quest ID, 
+ * 
+ * Returns:
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
+ */
+int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
+
+
+/* Returns the hash after deleting one or all quest.
+ *
+ * Parameter:
+ * - pointer to a hash table
+ * 
+ * Returns:
+ * - FAILURE if the removal was a failure, SUCCESS if successful 
+ */
+int remove_quest_all(quest_hash_t **hash_table);
+
+/* Adds the contents of a reward struct to the player struct
+ * 
+ * Parameters:
+ * - reward: the reward getting accepted
+ * - qctx: pointer to the quest context struct with information on player and all quests
+ * 
+ * Returns:
+ * - SUCCESS if added successfully, FAILURE if an error occured
+*/
+int accept_reward(reward_t *reward, quest_ctx_t *qctx);
+
+/* Checks if all of the player's tasks are complete and updates them accordingly
+ * 
+ * Parameter:
+ * - qctx: pointer to quest context struct with information on player and all quests
+ * 
+ * Returns:
+ * - SUCCESS if tasks are checked successfully, FAILURE if an error occured
+*/
+int update_player_quests(quest_ctx_t *qctx);
+
+/* Allocates memory for and initializes a new quest_ctx object
+ * 
+ * Parameters:
+ * - player: a player
+ * - quest_hash: A quest hash table, ideally game->all_quests
+ * 
+ * Returns:
+ * - A pointer to an initialized quest_ctx_t object
+*/
+quest_ctx_t *quest_ctx_new(player_t *player, quest_hash_t *quest_hash);
+
+/* Initializes a new quest_ctx object
+ * 
+ * Parameters:
+ * - quest_ctx: An already allocated quest_ctx object
+ * - player: a player
+ * - quest_hash: A quest hash table, ideally game->all_quests
+ * 
+ * Returns:
+ * - SUCCESS if initialized successfully, FAILURE if any problems occured
+*/
+int quest_ctx_init(quest_ctx_t *quest_ctx, player_t *player, quest_hash_t *quest_hash);
+
+/* Frees a quest_ctx object, but does not free the player or quest hash in the obejct
+ *
+ * Parameter:
+ * - quest_ctx: The quest_ctx to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int quest_ctx_free(quest_ctx_t *quest_ctx);
+
+/* Checks a task for completion and accepts the reward if it is complete
+* 
+* Parameters:
+* - task_id: The string id of the task getting checked
+* - qctx: A quest context containing the player and a list of all quests
+*/
+void update_task(char *task_id, quest_ctx_t *qctx);
 
 #endif /* QUESTS_STATE_H */
