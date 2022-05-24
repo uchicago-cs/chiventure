@@ -43,7 +43,7 @@ typedef struct turn_component {
 
 /* A linked list of turn_components. Is a full turn */
 typedef struct turn_component_list {
-    turn_component_t current;
+    turn_component_t *current;
     struct turn_component_list *next;
 } turn_component_list_t;
 
@@ -141,7 +141,7 @@ turn_component_t *init_turn_component(turn_component_t tc, int move, int item, i
  *  - A pointer to the turn, or NULL if a turn
  *    cannot be allocated
  */
-turn_component_list_t *new_turn_component_list(turn_component_t t, turn_component_list_t *r);
+turn_component_list_t *new_turn_component_list(turn_component_t *t, turn_component_list_t *r);
 
 /*
  * Initializes the current and next turn components of a turn of a list
