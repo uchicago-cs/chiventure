@@ -181,6 +181,9 @@ char *enemy_make_move(battle_ctx_t *ctx);
  */
 int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
                         void *callback_args, cli_callback callback_func);
+
+char *run_action(char *input, chiventure_ctx_t *ctx);
+
 /*
  * Uses a stat changing move. Works for stat changes
  * that affect the player, opponent, or both.

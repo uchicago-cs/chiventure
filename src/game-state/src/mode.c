@@ -163,29 +163,33 @@ int run_battle_mode (char *input, cli_callback callback_func,
     // commented out in case it is needed--if not, 
     // take out the length from the battle_ctx_t struct
 
-    turn_component_list_t *buffer = ctx->game->battle_ctx->game->battle->current_tcl;
-
-    if (buffer)
+    //turn_component_list_t *buffer = ctx->game->battle_ctx->game->battle->current_tc;
+    
+    //= (turn_component_t *) malloc (sizeof(turn_component_list_t));
+    //buffer = ctx->game->battle_ctx->game->battle->current_tc;
+    turn_component_list_t *buffer;
+    //if (buffer)
+    turn_component_list_t *tcl_buffer = ctx->game->battle_ctx->tcl;
+    DL_FOREACH(tcl_buffer, buffer)
     {
-        char *output = run_action(input);
-        buffer = buffer->rest;
-        if (buffer->current)
+        char *output = run_action(input, ctx);
+        buffer = tcl_buffer->next;//->current; // wait... will this be moved down???
+        if (buffer != NULL)
         {
-            if (battle_ctx->status == BATTLE_IN_PROGRESS)
+            if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)
             {
                 move_t *legal_moves = NULL;
                 battle_item_t *legal_items = NULL;
-                get_legal_actions(legal_items, legal_moves, component, 
+                get_legal_actions(legal_items, legal_moves, buffer->current, 
                             ctx->game->battle_ctx->game->battle);
                 char *menu = print_battle_action_menu(legal_items, legal_moves);
                 char *output_and_menu = strcat(output, menu);
-                ctx->game->battle_ctx->game->battle->current_tcl = 
-                ctx->game->battle_ctx->game->battle->current_tcl->rest;
+                ctx->game->battle_ctx->game->battle->current_tc = buffer->current; //check to make sure this is the correct tc now
                 return callback_func(ctx, output_and_menu, callback_args);
             }
             else
             {
-                char *battle_over = print_battle_winner (battle_ctx->status, 42);
+                char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
                 char *output_and_battle_over = strcat(output, battle_over);
                 callback_func(ctx, battle_over, callback_args);
                 free(battle_over);
@@ -195,15 +199,15 @@ int run_battle_mode (char *input, cli_callback callback_func,
         }
         else 
         {
-            if (battle_ctx->status == BATTLE_IN_PROGRESS)
+            if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)
             {
-                char *enemy_turn = enemy_run_turn(ctx); // get what this takes in
+                char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
                 char *output_and_enemy_turn = strcat(output, enemy_turn);
                 return callback_func(ctx, output_and_enemy_turn, callback_args);
             }
             else 
             {
-                char *battle_over = print_battle_winner (battle_ctx->status, 42);
+                char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
                 char *output_and_battle_over = strcat(output, battle_over);
                 callback_func(ctx, battle_over, callback_args);
                 free(battle_over);

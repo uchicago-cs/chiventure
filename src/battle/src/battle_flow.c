@@ -324,15 +324,18 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
 }
 
 /* see battle_flow.h*/
-char *enemy_run_turn(battle_ctx_t *ctx) {
-  while (ctx->current_tc)
-  {
-    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-    if(current_tc->turn->move) 
+char *enemy_run_turn(battle_ctx_t *ctx) 
+{
+    char *string;
+    while (ctx->game->battle->current_tc)
     {
-      char *enemy_move_report = enemy_make_move(ctx);
-      strncat(string, enemy_move_report);
-    }
+        string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        if(ctx->game->battle->current_tc->move) 
+        {
+            char *enemy_move_report = enemy_make_move(ctx);
+            //strncat(string, enemy_move_report);
+            strcat(string, enemy_move_report);
+        }
   }
   return string;
 }
@@ -482,7 +485,7 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
 }
 
 /* see battle_flow.h */
-char *run_action(char *input)
+char *run_action(char *input, chiventure_ctx_t *ctx)
 {
     if (input[0] == 'M' || input[0] == 'm')
     {

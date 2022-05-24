@@ -44,7 +44,7 @@ typedef struct turn_component {
 /* A linked list of turn_components. Is a full turn */
 typedef struct turn_component_list {
     turn_component_t current;
-    struct turn_component_list *rest;
+    struct turn_component_list *next;
 } turn_component_list_t;
 
 /* Stub, similar to chiventure_ctx_t except adding status, which

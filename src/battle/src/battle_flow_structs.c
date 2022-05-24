@@ -20,7 +20,7 @@ battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status,
 }
 
 /* see battle_flow_structs.h */
-battle_ctx_t *new_battle_ctx(battle_ctx_t *ctx, battle_game_t *game, 
+battle_ctx_t *init_battle_ctx(battle_ctx_t *ctx, battle_game_t *game, 
                              battle_status_t status, turn_component_list_t *tcl, 
                              int turn_len)
 {
@@ -86,7 +86,7 @@ turn_component_list_t *new_turn_component_list(turn_component_t t,
       }
       new_tcl->current = t;
       assert(r!=NULL);
-      new_tcl->rest = r;
+      new_tcl->next = r;
       return new_tcl;
 }
 
@@ -98,7 +98,7 @@ turn_component_list_t *init_turn(turn_component_list_t *tcl,
       assert(tcl != NULL);
       assert(r != NULL);
       tcl->current = c;
-      tcl->rest = r;
+      tcl->next = r;
       return SUCCESS;
 }
 
@@ -108,7 +108,7 @@ int turn_free(turn_component_list_t *tcl)
       while (tcl != NULL)
       {
             turn_component_list_t *buf = tcl;
-            tcl = tcl->rest;
+            tcl = tcl->next;
             free(buf);
       }
       return 0;
