@@ -168,6 +168,30 @@ int player_quest_hash_free(player_quest_hash_t *player_quests);
 int player_task_hash_free(player_task_hash_t *player_tasks);
 
 /*
+ * Gets a player_quest from a player_quest hash table
+ *
+ * Parameters:
+ * - player_quests: The player_task table
+ * - id: The quest's id
+ * 
+ * Returns:
+ *  - SUCCESS if obtained successfully, FAILURE if an error occured
+*/ 
+int get_player_quest(player_task_hash_t *player_quests, char* id);
+
+/*
+ * Gets a player_task from a player_task hash table
+ *
+ * Parameters:
+ * - player_tasks: The player_task table
+ * - id: The task's id
+ * 
+ * Returns:
+ *  - SUCCESS if obtained successfully, FAILURE if an error occured
+*/ 
+int get_player_task(player_task_hash_t *player_tasks, char *id);
+
+/*
  * Allocates and creates a new player with given ID, starting at level
  *  1 with 0 xp. 
  *

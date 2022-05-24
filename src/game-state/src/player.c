@@ -221,6 +221,7 @@ int player_quest_hash_free(player_quest_hash_t *player_quests)
     return SUCCESS;
 }
 
+/* See player.h */
 int player_task_hash_free(player_task_hash_t *player_tasks)
 {
     assert(player_tasks != NULL);
@@ -231,6 +232,22 @@ int player_task_hash_free(player_task_hash_t *player_tasks)
         free(current_player_task);
     }
     return SUCCESS;
+}
+
+/* See player.h */
+int get_player_quest(player_task_t *player_quests, char* id)
+{
+    player_quest_t *quest;
+    HASH_FIND_STR(player_quests, id, quest);
+    return quest;
+}
+
+/* See player.h */
+int get_player_task(player_task_hash_t *player_tasks, char *id)
+{
+    player_task_t *task;
+    HASH_FIND_STR(player_tasks, id, task);
+    return task;
 }
 
 /* See player.h */
