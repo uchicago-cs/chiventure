@@ -264,7 +264,7 @@ Test(custom_type, obj_t_get_bool_lua_args)
     bool rv = got.b;
     cr_assert_eq((rv ? 1 : 0), 1, "bool_t_get 1: failed bool Lua retrieval");
 
-    object_t *ot2 = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
+    object_t *ot2 = obj_t_init(data2, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
     ot2 = obj_add_arg(obj_add_arg(obj_add_arg(ot2, data, BOOL_TYPE), data2, BOOL_TYPE), data2, BOOL_TYPE);
     data_t got2 = arg_t_get(ot);
     bool rv2 = got2.b;
