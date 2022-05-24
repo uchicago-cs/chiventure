@@ -6,6 +6,7 @@ add_executable(${TEST_EXE}
         effect_test.c
         complex_skill_test.c
         inventory_test.c
+        reader_test.c
         skill_test.c
         skilltree_test.c
         skilltrees_common_test.c
