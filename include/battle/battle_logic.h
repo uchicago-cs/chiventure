@@ -120,7 +120,7 @@ int apply_movement_stat_changes(stat_t* target_stats, stat_changes_t* changes);
  * Returns:
  *  - Always success
  */
-int apply_item_stat_changes(class_t* class, tat_t* target_stats, battle_item_t* item);
+int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t* item);
 
 /* Adds new temporary status changes from an item. Note: Does
  *     not yet change the number of turns left, because items
