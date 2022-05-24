@@ -29,10 +29,54 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
     stat_t *stats = ctx_player->stats;
     move_t *moves = ctx_player->moves;
     battle_item_t *items = ctx_player->items;
-
+    battle_equipment_t *weapon = ctx_player->weapon; 
+    battle_equipment_t *accessory = ctx_player->accessory; 
+    battle_equipment_t *armor = ctx_player->armor;
+    stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
+    with_equipment = stats;
+    if (weapon != NULL)
+    {
+        with_equipment->max_sp+=weapon->attributes->max_sp;
+        with_equipment->sp+=weapon->attributes->sp;
+        with_equipment->phys_atk+=weapon->attributes->phys_atk;
+        with_equipment->mag_atk+=weapon->attributes->mag_atk;
+        with_equipment->phys_def+=weapon->attributes->phys_def;
+        with_equipment->mag_def+=weapon->attributes->mag_def;
+        with_equipment->crit+=weapon->attributes->crit;
+        with_equipment->accuracy+=weapon->attributes->accuracy;
+        with_equipment->hp+=weapon->attributes->hp;
+        with_equipment->max_hp+=weapon->attributes->max_hp;
+    }
+    if (accessory !=NULL)
+    {
+        with_equipment->max_sp+=accessory->attributes->max_sp;
+        with_equipment->sp+=accessory->attributes->sp;
+        with_equipment->phys_atk+=accessory->attributes->phys_atk;
+        with_equipment->mag_atk+=accessory->attributes->mag_atk;
+        with_equipment->phys_def+=accessory->attributes->phys_def;
+        with_equipment->mag_def+=accessory->attributes->mag_def;
+        with_equipment->crit+=accessory->attributes->crit;
+        with_equipment->accuracy+=accessory->attributes->accuracy;
+        with_equipment->hp+=accessory->attributes->hp;
+        with_equipment->max_hp+=accessory->attributes->max_hp;
+    }
+    if (armor != NULL)
+    {
+        with_equipment->max_sp+=armor->attributes->max_sp;
+        with_equipment->sp+=armor->attributes->sp;
+        with_equipment->phys_atk+=armor->attributes->phys_atk;
+        with_equipment->mag_atk+=armor->attributes->mag_atk;
+        with_equipment->phys_def+=armor->attributes->phys_def;
+        with_equipment->mag_def+=armor->attributes->mag_def;
+        with_equipment->crit+=armor->attributes->crit;
+        with_equipment->accuracy+=armor->attributes->accuracy;
+        with_equipment->hp+=armor->attributes->hp;
+        with_equipment->max_hp+=armor->attributes->max_hp;
+    }                                              
     // Allocating new combatant_t for the player in memory
-    combatant_t *comb_player = combatant_new(name, is_friendly, c_type, stats,
-                                             moves, items, BATTLE_AI_NONE);
+    combatant_t *comb_player = combatant_new(name, is_friendly, c_type, with_equipment,
+                                             moves, items, weapon, accessory,
+                                             armor, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
 
@@ -56,8 +100,53 @@ combatant_t *set_enemy(npc_t *npc_enemy)
     move_t *moves = npc_enemy->npc_battle->moves;
     battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
     difficulty_t ai = npc_enemy->npc_battle->ai;
-    
-    comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
+    battle_equipment_t *weapon = npc_enemy->npc_battle->weapon; 
+    battle_equipment_t *accessory = npc_enemy->npc_battle->accessory; 
+    battle_equipment_t *armor = npc_enemy->npc_battle->armor;
+    // we will need to update npc_battle_t after npc is done with their merge
+    stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
+    with_equipment = stats;
+    if (weapon != NULL)
+    {
+        with_equipment->max_sp+=weapon->attributes->max_sp;
+        with_equipment->sp+=weapon->attributes->sp;
+        with_equipment->phys_atk+=weapon->attributes->phys_atk;
+        with_equipment->mag_atk+=weapon->attributes->mag_atk;
+        with_equipment->phys_def+=weapon->attributes->phys_def;
+        with_equipment->mag_def+=weapon->attributes->mag_def;
+        with_equipment->crit+=weapon->attributes->crit;
+        with_equipment->accuracy+=weapon->attributes->accuracy;
+        with_equipment->hp+=weapon->attributes->hp;
+        with_equipment->max_hp+=weapon->attributes->max_hp;
+    }
+    if (accessory !=NULL)
+    {
+        with_equipment->max_sp+=accessory->attributes->max_sp;
+        with_equipment->sp+=accessory->attributes->sp;
+        with_equipment->phys_atk+=accessory->attributes->phys_atk;
+        with_equipment->mag_atk+=accessory->attributes->mag_atk;
+        with_equipment->phys_def+=accessory->attributes->phys_def;
+        with_equipment->mag_def+=accessory->attributes->mag_def;
+        with_equipment->crit+=accessory->attributes->crit;
+        with_equipment->accuracy+=accessory->attributes->accuracy;
+        with_equipment->hp+=accessory->attributes->hp;
+        with_equipment->max_hp+=accessory->attributes->max_hp;
+    }
+    if (armor != NULL)
+    {
+        with_equipment->max_sp+=armor->attributes->max_sp;
+        with_equipment->sp+=armor->attributes->sp;
+        with_equipment->phys_atk+=armor->attributes->phys_atk;
+        with_equipment->mag_atk+=armor->attributes->mag_atk;
+        with_equipment->phys_def+=armor->attributes->phys_def;
+        with_equipment->mag_def+=armor->attributes->mag_def;
+        with_equipment->crit+=armor->attributes->crit;
+        with_equipment->accuracy+=armor->attributes->accuracy;
+        with_equipment->hp+=armor->attributes->hp;
+        with_equipment->max_hp+=armor->attributes->max_hp;
+    }
+    comb_enemy = combatant_new(name, is_friendly, c_type, with_equipment,
+                            moves, items, weapon, accessory, armor, ai);
     assert(comb_enemy != NULL);
 
     return comb_enemy;
@@ -286,22 +375,6 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
     return string;
 }
-/* see battle_flow.h */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
-{
-    target_stats->speed += changes->speed;
-    target_stats->max_sp += changes->max_sp;
-    target_stats->sp += changes->sp;
-    target_stats->phys_atk += changes->phys_atk;
-    target_stats->mag_atk += changes->mag_atk;
-    target_stats->phys_def += changes->phys_def;
-    target_stats->mag_def += changes->mag_def;
-    target_stats->crit += changes->crit;
-    target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
-    target_stats->max_hp += changes->max_hp;
-    return SUCCESS;
-}
 
 
 /* see battle_flow.h */
@@ -429,9 +502,7 @@ int calculate_accuracy(int user_accuracy, int move_accuracy)
     int chance = randnum(0, 100);
     if(chance <= ((user_accuracy * move_accuracy) / 100)){
         return 1;
-    }
-    else
-    {
+    }else{
         return 0;
     }
 }
