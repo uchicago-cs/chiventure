@@ -17,7 +17,7 @@
 //testing here is modeled after test_class_prefabs.c
 
 /* Initializes a chicventure context */
-chiventure_ctx_t* init_incomplete_context() {
+chiventure_ctx_t* init_incomplete_context1() {
     game_t* game = game_new("Sample game, incomplete context");
     chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
@@ -40,15 +40,6 @@ chiventure_ctx_t* init_incomplete_context() {
     stats_global_t* test;
     HASH_FIND_STR(game->curr_stats, "moxie", test);
     cr_assert_eq(27, test->max);
-
-    return ctx;
-}
-
-/* In this case, the stat hashtable is NULL: all stats will have to be generated
-   when the class is. */
-chiventure_ctx_t* init_statless_context() {
-    game_t* game = game_new("Sample game, statless context");
-    chiventure_ctx_t* ctx = chiventure_ctx_new(game);
 
     return ctx;
 }
@@ -86,7 +77,7 @@ void check_skill_presence(class_t* c, int num_skills, char** names) {
 }
 
 Test(multiclass, multiclassing){
-    chiventure_ctx_t* ctx = init_incomplete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context1();
     int succ;
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
@@ -104,7 +95,7 @@ Test(multiclass, multiclassing){
 
 Test(multiclass, basic_shortdesc){
 
-    chiventure_ctx_t* ctx = init_incomplete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context1();
     int succ;
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
@@ -123,7 +114,7 @@ Test(multiclass, basic_shortdesc){
 
 Test(multiclass, iterated_shortdesc){
 
-    chiventure_ctx_t* ctx = init_incomplete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context1();
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
     class_t* c2 = class_prefab_new(ctx->game, "bard");
@@ -145,7 +136,7 @@ Test(multiclass, iterated_shortdesc){
 
 Test(multiclass, shortdesc_exceeds_max_length){
 
-    chiventure_ctx_t* ctx = init_incomplete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context1();
     int succ;
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
@@ -164,7 +155,7 @@ Test(multiclass, shortdesc_exceeds_max_length){
 
 Test(multiclass, basic_longdesc){
 
-    chiventure_ctx_t* ctx = init_incomplete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context1();
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
     class_t* c2 = class_prefab_new(ctx->game, "bard");
@@ -184,7 +175,7 @@ Test(multiclass, basic_longdesc){
 
 Test(multiclass, iterated_longdesc){
 
-    chiventure_ctx_t* ctx = init_incomplete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context1();
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
     class_t* c2 = class_prefab_new(ctx->game, "bard");
@@ -206,7 +197,7 @@ Test(multiclass, iterated_longdesc){
 
 Test(multiclass, longdesc_exceeds_max_length){
 
-    chiventure_ctx_t* ctx = init_incomplete_context();
+    chiventure_ctx_t* ctx = init_incomplete_context1();
     int succ;
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
