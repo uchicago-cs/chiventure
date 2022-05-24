@@ -313,12 +313,7 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  * Moves an npc to the next room
  *
  * Parameters:
-<<<<<<< HEAD
- *  - npc: npc_t struct with a known npc_mov_type
- *  - game: current game, this is necessary for determining the current rooms in the map
-=======
  * npc_mov: The NPC movement struct
->>>>>>> dev
  *
  * Returns:
  * 0 if move is unsuccessful
@@ -338,10 +333,7 @@ int move_npc_mov(npc_mov_t *npc_mov);
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-<<<<<<< HEAD
 int auto_gen_movement(npc_t *npc, game_t *game);
-=======
 int delete_room_id_dll(room_id_dll_t *head);
->>>>>>> dev
 
 #endif
