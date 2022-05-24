@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 
-graphics_t* make_graphics(display_dimensions_t *dimensions, camera_t *camera,
+graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics)
 {
     graphics_t *graphics;   
@@ -65,7 +65,7 @@ int free_graphics(graphics_t* graphics)
 }
 
 
-display_dimensions_t* make_display_dimensions(unsigned int width, unsigned int height)
+display_dimensions_t* new_display_dimensions(unsigned int width, unsigned int height)
 {
     display_dimensions_t *dimensions;   
     int rc;
@@ -112,7 +112,7 @@ int free_display_dimensions(display_dimensions_t *dimensions)
 }
 
 
-camera_t* make_camera(unsigned int width, unsigned int height)
+camera_t* new_camera(unsigned int width, unsigned int height)
 {
     camera_t *camera;   
     int rc;
@@ -159,7 +159,7 @@ int free_camera(camera_t *camera)
 }
 
 
-inventory_display_t* make_inventory_display(unsigned int rows, unsigned int columns, color color)
+inventory_display_t* new_inventory_display(unsigned int rows, unsigned int columns, color color)
 {
     inventory_display_t *inventory;   
     int rc;
@@ -207,7 +207,8 @@ int free_inventory_display(inventory_display_t *inventory)
 }
 
 
-statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode)
+statistics_display_t* new_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode)
+
 {
     statistics_display_t *statistics_display;   
     int rc;
@@ -308,7 +309,7 @@ int match_color(char *color)
  */
 int match_corner(char *corner)
 {
-    char *corners[] = {"Top Left", "Top Right", "Bottom Left", "Bottom Right"};
+    char* corners[] = {"Top Left", "Top Right", "Bottom Left", "Bottom Right"};
     for(int i = 0; i < 4; i ++) {
         if (strcmp(corners[i], corner) == 0) {
             return i;
@@ -318,7 +319,7 @@ int match_corner(char *corner)
     exit(1);
 } 
 
-
+/*
 graphics_t* read_gdl()
 {
     // Open the GDL
@@ -400,7 +401,7 @@ graphics_t* read_gdl()
                     inventory_display_t *inventory_display;
                     inventory = make_inventory_display(rows, cols, color);
                     break;
-/*
+
                 case map: is a wishlist item
                 case statistics:
                     getc(gdl);
@@ -415,7 +416,7 @@ graphics_t* read_gdl()
                         }
                     }
             }
-*/ 
+ 
             } 
             // to pass over the closing brace "}"
             getc(gdl);
@@ -430,7 +431,7 @@ graphics_t* read_gdl()
     graphics->inventory = inventory;
     return graphics;
 }
-
+*/
 
 int main()
 {
