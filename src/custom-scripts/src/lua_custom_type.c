@@ -1,12 +1,13 @@
 #include "custom-scripts/lua_custom_type.h"
 
 // see lua_custom_type.h
-void push_args(lua_State *L, object_t* ot) {
+int push_args(lua_State *L, object_t* ot) {
     int count = 0; // number of arguments in linked list
     arg_t *head = ot->args;
     arg_t *to_push;
     // push arguments one-by-one
     DL_FOREACH(head, to_push) {
+        count++;
         // identify type of argument
         data_type_t type = to_push->type;
         // push argument to virtual stack
