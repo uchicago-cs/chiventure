@@ -206,3 +206,39 @@ Test(parse, many_spaces)
     cr_assert_str_eq(words[2], "me", "parse() did not create third token");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
+
+//Tests the parsing of input with spaces at the start.
+Test(parse, start_spaces)
+{
+    char str[] = "   LOOK AT ME";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+//Tests the parsing of input which is fully lowercase.
+Test(parse, lower)
+{
+    char str[] = "look at me";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+//Tests the parsing of input which is just and.
+Test(parse, and)
+{
+    char str[] = "AND";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"and", "parse() did not create first token");
+}
+
+
+
+
+
+
