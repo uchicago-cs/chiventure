@@ -63,6 +63,12 @@ struct skill_node {
     // This is an ADDITIONAL pre_req to the lists of skill_nodes preceding the tree
     unsigned int prereq_level;
 
+    //List of playerclasses node belongs to.
+    char** playerclasses;
+
+    //Num of classes in playerclasses.
+    int num_classes;
+
     // The size of the skill node, for the graphics team
     unsigned int size;
 
@@ -92,13 +98,15 @@ typedef struct skill_tree {
  *  - nprepreqs: The number of prerequisite skills to acquire the skill
  *  - size: The size of the skill node, for the graphics team
  *  - prereq_level: The minimum level of the player required to acquire skill
+ *  - playerclasses: List of classes node belongs to
+ *  - num_classes: Number of classes node belongs to
  *
  * Returns:
  *  - A pointer to the skill node, or NULL if a skill node cannot be
  *    allocated
  */
  skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
-                            unsigned int prereq_level,
+                            unsigned int prereq_level, char** playerclasses, int num_classes,
                             unsigned int size);
 
 /*

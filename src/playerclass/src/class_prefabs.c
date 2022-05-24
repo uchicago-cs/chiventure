@@ -346,7 +346,9 @@ int add_skill(class_t* class, skill_t* skill, int prereq_count,
     if (class == NULL || skill == NULL)
         return FAILURE;
 
-    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, UI_NODE_SIZE);
+    //Temporary NULL Parameters due to change in skill_node_new. New parameters should be added to 
+    //add_skill
+    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, NULL, NULL, (int) UI_NODE_SIZE);
 
     /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
     va_list prereq_p;
