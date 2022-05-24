@@ -212,6 +212,7 @@ camera_t* make_camera(unsigned int width, unsigned int height);
  *
  * Parameters:
  * - an uninitialized
+ */
 int init_camera(camera_t *camera, unsigned int width, unsigned int height);
 
 
