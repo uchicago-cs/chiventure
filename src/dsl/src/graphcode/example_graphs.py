@@ -60,7 +60,7 @@ SELFLOOP = {
     'G': ['G'] 
 }
 
-# Valid Graph
+# Valid Graph Example 2
 VALIDGRAPH2 = {
     'A': ['B', 'C', 'D'],
     'B': ['E'],
@@ -69,7 +69,7 @@ VALIDGRAPH2 = {
     'E': [],
 }
 
-# Valid Graph
+# Valid Graph Example 3
 VALIDGRAPH3 = {
     'A': ['B', 'C', 'E'],
     'B': ['D'],

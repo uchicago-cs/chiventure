@@ -1,26 +1,26 @@
-# Graph validator algorithm
-# example input: python src/graph_validator.py examples/wdl/npc_example.wdl
-from doctest import FAIL_FAST
-import sys
-import json
-from example_graphs import OAK, SELFLOOP, SINGLETON, NODENOTREACHED, INFINITECIRCLE, INFINITELOOP, INFINITELOOPLONG, VALIDGRAPH2, VALIDGRAPH3
+"""
+Graph validator algorithm
+Example Input: python src/graph_validator.py
 
+"""
+from doctest import FAIL_FAST
+from example_graphs import *
+
+# Main Function to validate cyclicality, all valid paths, singleton, and self loops
 def validate(graph, start):
     cyclical = check_cylicality(graph)
     valid_paths = check_all_nodes(graph, start)
     single = singleton_node(graph)
     loop = self_loop(graph)
-
     if cyclical or valid_paths or single or loop:
         return False
     return True
 
 
-# Functions to check circularity of nodes
+# Helper function for cyclicality check
 def check_node(graph, v, visited, recStack):
         visited[v] = True
         recStack[v] = True
- 
         for neighbour in graph[v]:
             if visited[neighbour] == False:
                 if check_node(graph, neighbour, visited, recStack) == True:
@@ -30,7 +30,7 @@ def check_node(graph, v, visited, recStack):
         recStack[v] = False
         return False
  
-# Returns true if graph is cyclic else false
+# Checks if htere is any cyclicality in a graph
 def check_cylicality(graph):
     vertices = len(graph)
     visited = [False] * (vertices + 1)
@@ -45,8 +45,7 @@ def check_cylicality(graph):
     
 
 
-# This function checks that every node can be reached
-# in the graph
+# Validates whether every node can be visited using the total count of edges to each node
 def check_all_nodes(graph, start):
     visited = num_times_visit_node(graph, start)
     for i in graph.keys():
@@ -55,13 +54,11 @@ def check_all_nodes(graph, start):
     return False
     
 
-
-# # Checks if a node is a singleton
-# # Count if nodes is 1
+# Checks if graph is a singleton
 def singleton_node(graph):
     return len(graph) == 1
 
-# Returns 1 if a node has a connection with itself
+# Checks if graph has any nodes that refer to itself
 def self_loop(graph):
     for n in graph.keys():
         edges = graph[n]
@@ -69,8 +66,7 @@ def self_loop(graph):
             return True 
     return False
 
-# Looks through graph to find number of connections
-# with a specific node 
+# Count the total number of connections to each node
 def num_times_visit_node(graph, node):
     count = [0 for i in range(len(graph))]
     visited = dict(zip(graph.keys(), count))
@@ -84,19 +80,17 @@ def num_times_visit_node(graph, node):
 
 
 def main():
-    
-    print(f"Testing Valid Graph - OAK. Expecting: True | Actual: {validate(OAK, 'A')}")
-    print(f"Testing Valid Graph - SELFLOOP. Expecting: False | Actual: {validate(SELFLOOP, 'A')}")
-    print(f"Testing Valid Graph - SINGLETON. Expecting: False | Actual: {validate(SINGLETON, 'A')}")
-    print(f"Testing Valid Graph - NODENOTREACHED. Expecting: False | Actual: {validate(NODENOTREACHED, 'A')}")
-    print(f"Testing Valid Graph - INFINITELOOP. Expecting: False | Actual: {validate(INFINITELOOP, 'A')}")
-    print(f"Testing Valid Graph - INFINITECIRCLE. Expecting: False | Actual: {validate(INFINITECIRCLE, 'A')}")
-    print(f"Testing Valid Graph - INFINITELOOPLONG. Expecting: False | Actual: {validate(INFINITELOOPLONG, 'A')}")
-    print(f"Testing Valid Graph - VALIDGRAPH2. Expecting: True | Actual: {validate(VALIDGRAPH2, 'A')}")
-    print(f"Testing Valid Graph - VALIDGRAPH3. Expecting: True | Actual: {validate(VALIDGRAPH3, 'A')}")
-    print(f"Testing Valid Graph - OAK(from node C). Expecting: False | Actual: {validate(OAK, 'C')}")
-
-
+    # Tests
+    print(f"Testing Graph Validity - OAK. Expecting: True | Actual: {validate(OAK, 'A')}")
+    print(f"Testing Graph Validity - SELFLOOP. Expecting: False | Actual: {validate(SELFLOOP, 'A')}")
+    print(f"Testing Graph Validity - SINGLETON. Expecting: False | Actual: {validate(SINGLETON, 'A')}")
+    print(f"Testing Graph Validity - NODENOTREACHED. Expecting: False | Actual: {validate(NODENOTREACHED, 'A')}")
+    print(f"Testing Graph Validity - INFINITELOOP. Expecting: False | Actual: {validate(INFINITELOOP, 'A')}")
+    print(f"Testing Graph Validity - INFINITECIRCLE. Expecting: False | Actual: {validate(INFINITECIRCLE, 'A')}")
+    print(f"Testing Graph Validity - INFINITELOOPLONG. Expecting: False | Actual: {validate(INFINITELOOPLONG, 'A')}")
+    print(f"Testing Graph Validity - VALIDGRAPH2. Expecting: True | Actual: {validate(VALIDGRAPH2, 'A')}")
+    print(f"Testing Graph Validity - VALIDGRAPH3. Expecting: True | Actual: {validate(VALIDGRAPH3, 'A')}")
+    print(f"Testing Graph Validity - OAK(from node C). Expecting: False | Actual: {validate(OAK, 'C')}")
 
 
 if __name__ == "__main__":
