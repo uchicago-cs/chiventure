@@ -10,8 +10,8 @@
 #include "npc/npc_battle.h"
 #include "npc/npc_move.h"
 #include "cli/util.h"
+#include "quests/quests_hash.h"
 #include "quests/quests_state.h"
-//#include "quests/quests_hash.h"
 
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
