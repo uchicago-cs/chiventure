@@ -32,22 +32,6 @@ cli/util.h
 quests/quests_state.h
 /home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/quests/quests_state.h
 
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game_action.c
-game-state/game_action.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/game_action.h
-cli/util.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/cli/util.h
-
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/item.c
-string.h
--
-game-state/item.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/item.h
-game-state/game_action.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/game_action.h
-cli/util.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/cli/util.h
-
 /home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/mode.c
 string.h
 -
@@ -76,16 +60,6 @@ game-state/room.h
 cli/util.h
 /home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/cli/util.h
 
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/player.c
-game-state/player.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/player.h
-game-state/item.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/item.h
-battle/battle_structs.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/battle/battle_structs.h
-game-state/stats.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/stats.h
-
 /home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/room.c
 stdlib.h
 -
@@ -97,10 +71,6 @@ game-state/path.h
 /home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/path.h
 cli/util.h
 /home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/cli/util.h
-
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/stats.c
-game-state/stats.h
-/home/wellingtj/Desktop/cs220/chiventure/src/game-state/src/game-state/stats.h
 
 include/action_management/action_structs.h
 
@@ -459,6 +429,8 @@ game-state/game_state_common.h
 include/npc/game-state/game_state_common.h
 game-state/item.h
 include/npc/game-state/item.h
+game-state/game.h
+include/npc/game-state/game.h
 playerclass/class_structs.h
 include/npc/playerclass/class_structs.h
 playerclass/class.h

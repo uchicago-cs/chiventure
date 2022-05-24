@@ -40,14 +40,6 @@ action_management/actionmanagement.h
 cli/util.h
 /home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cli/util.h
 
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cmdlist.c
-stdlib.h
--
-string.h
--
-cli/cmdlist.h
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cli/cmdlist.h
-
 /home/wellingtj/Desktop/cs220/chiventure/src/cli/src/operations.c
 string.h
 -
@@ -76,20 +68,6 @@ cli/cmdlist.h
 cli/util.h
 /home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cli/util.h
 
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/parser.c
-stdlib.h
--
-string.h
--
-ctype.h
--
-cli/parser.h
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cli/parser.h
-common/utlist.h
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/common/utlist.h
-cli/util.h
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cli/util.h
-
 /home/wellingtj/Desktop/cs220/chiventure/src/cli/src/shell.c
 stdio.h
 -
@@ -97,10 +75,6 @@ cli/shell.h
 /home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cli/shell.h
 ui/print_functions.h
 /home/wellingtj/Desktop/cs220/chiventure/src/cli/src/ui/print_functions.h
-
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/util.c
-cli/util.h
-/home/wellingtj/Desktop/cs220/chiventure/src/cli/src/cli/util.h
 
 include/action_management/action_structs.h
 
@@ -425,6 +399,8 @@ game-state/game_state_common.h
 include/npc/game-state/game_state_common.h
 game-state/item.h
 include/npc/game-state/item.h
+game-state/game.h
+include/npc/game-state/game.h
 playerclass/class_structs.h
 include/npc/playerclass/class_structs.h
 playerclass/class.h

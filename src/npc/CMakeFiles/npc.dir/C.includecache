@@ -15,6 +15,8 @@ stdlib.h
 -
 npc/npc.h
 /home/wellingtj/Desktop/cs220/chiventure/src/npc/src/npc/npc.h
+playerclass/class_prefabs.h
+/home/wellingtj/Desktop/cs220/chiventure/src/npc/src/playerclass/class_prefabs.h
 
 /home/wellingtj/Desktop/cs220/chiventure/src/npc/src/npc_battle.c
 npc/npc_battle.h
@@ -301,6 +303,8 @@ game-state/game_state_common.h
 include/npc/game-state/game_state_common.h
 game-state/item.h
 include/npc/game-state/item.h
+game-state/game.h
+include/npc/game-state/game.h
 playerclass/class_structs.h
 include/npc/playerclass/class_structs.h
 playerclass/class.h
@@ -343,6 +347,12 @@ playerclass/class_structs.h
 include/playerclass/playerclass/class_structs.h
 game-state/stats.h
 include/playerclass/game-state/stats.h
+
+include/playerclass/class_prefabs.h
+playerclass/class_structs.h
+include/playerclass/playerclass/class_structs.h
+game-state/game.h
+include/playerclass/game-state/game.h
 
 include/playerclass/class_structs.h
 common/utlist.h

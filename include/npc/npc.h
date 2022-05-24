@@ -106,7 +106,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement);
+               class_t *class, npc_mov_t *movement, bool will_fight);
 
 /*
  * Frees resources associated with an npc.

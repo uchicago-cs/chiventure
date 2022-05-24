@@ -6,18 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/wellingtj/Desktop/cs220/chiventure/tests/action_management/main.c
-stdio.h
--
-stdbool.h
--
-criterion/criterion.h
--
-criterion/options.h
--
-criterion/output.h
--
-
 /home/wellingtj/Desktop/cs220/chiventure/tests/action_management/test_action_new_init_free.c
 criterion/criterion.h
 -
@@ -385,6 +373,8 @@ game-state/game_state_common.h
 include/npc/game-state/game_state_common.h
 game-state/item.h
 include/npc/game-state/item.h
+game-state/game.h
+include/npc/game-state/game.h
 playerclass/class_structs.h
 include/npc/playerclass/class_structs.h
 playerclass/class.h
