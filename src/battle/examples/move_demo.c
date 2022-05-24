@@ -29,12 +29,12 @@ move_t *generate_moves_user_two()
 {
     stat_changes_t *user_stat_changes1 = stat_changes_new();
     user_stat_changes1->phys_atk = 40;
-    move_t *move_one = move_new(1, "Swords Dance", "The user dances with swords, raising their attack", NO_DAMAGE,
+    move_t *move_one = move_new(1, "SwordsDance", "The user dances with swords, raising their attack", NO_DAMAGE,
                                 USER , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, NULL, 
                                 NULL, NULL); 
     stat_changes_t *opponent_stat_changes1 = stat_changes_new();
     opponent_stat_changes1->phys_def = -10;
-    move_t *move_two = move_new(2, "Piercing Jab", "The user lunges towards the enemy, piercing their flesh, decreasing their defense", 
+    move_t *move_two = move_new(2, "PiercingJab", "The user lunges towards the enemy, piercing their flesh, decreasing their defense", 
                                 PHYS, TARGET, NO_TARGET, SINGLE, 0, NULL, 60, 100, NULL, opponent_stat_changes1, 
                                 move_one, NULL); 
     move_one->next = move_two;
@@ -45,19 +45,19 @@ move_t *generate_moves_enemy_one()
 {
     stat_changes_t *user_stat_changes = stat_changes_new();
     user_stat_changes->phys_atk = 10;
-    move_t *move_one = move_new(3, "Power Up Punch", "The user powers up their fist and punches the opponent, raising their physical attack", PHYS,
+    move_t *move_one = move_new(3, "PowerUpPunch", "The user powers up their fist and punches the opponent, raising their physical attack", PHYS,
                                 USER , NO_TARGET, SINGLE, 0, NULL, 40, 100, user_stat_changes, NULL, NULL, NULL); 
     return move_one;
 }
 
 move_t *generate_moves_enemy_two()
 {
-    move_t *move_one = move_new(1, "Focus Blast", "The user powers up their fist and punches the opponent, raising their physical attack", MAG,
+    move_t *move_one = move_new(1, "FocusBlast", "The user powers up their fist and punches the opponent, raising their physical attack", MAG,
                                 NO_TARGET, NO_TARGET, SINGLE, 10, NULL, 120, 70, NULL, NULL, 
                                 NULL, NULL); 
     stat_changes_t *user_stat_changes = stat_changes_new();
     user_stat_changes->speed = 20;
-    move_t *move_two = move_new(2, "Flame Charge", "The user surrounds themselves in flames and tackles the opponent, raising their speed", 
+    move_t *move_two = move_new(2, "FlameCharge", "The user surrounds themselves in flames and tackles the opponent, raising their speed", 
                                 PHYS, TARGET, NO_TARGET, SINGLE, 0, NULL, 40, 100, user_stat_changes, NULL, 
                                 move_one, NULL); 
     move_one->next = move_two;

@@ -306,8 +306,8 @@ int main()
     p_stats->mag_def = 30;
     p_stats->phys_atk = 80;
     p_stats->mag_atk = 80;
-    p_stats->sp = 10;
-    p_stats->max_sp = 10;
+    p_stats->sp = 100;
+    p_stats->max_sp = 100;
     p_stats->crit = 25;
     p_stats->accuracy = 100;
     move_t *user_moves = generate_moves_user_one();
