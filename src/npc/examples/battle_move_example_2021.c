@@ -363,7 +363,7 @@ chiventure_ctx_t *create_sample_ctx()
     npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
     extend_path_indefinite(movement3, arena->room_id, 5);
     william = npc_new("william", "william is friendly",
-     "yes, william is friendly", class2, movement3, false);
+     "yes, william is friendly", class2, movement3, FRIENDLY);
 
     /* Add the npcs to the game */
     assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
