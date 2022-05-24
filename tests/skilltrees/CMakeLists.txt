@@ -4,6 +4,7 @@ add_executable(${TEST_EXE}
         test_init.c
         complex_skill_test.c
         effect_test.c
+        complex_skill_test.c
         inventory_test.c
         reader_test.c
         skill_test.c
