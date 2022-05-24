@@ -108,7 +108,7 @@ Test(multiclass, basic_shortdesc){
 
     cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
 
-    char* expected = "Multiclass of warrior and bard";
+    char* expected = "Multiclass of warrior and bard.";
     cr_assert_str_eq(shortdesc, expected, "expected: %s. got %s", expected, shortdesc);
 }
 
@@ -130,7 +130,7 @@ Test(multiclass, iterated_shortdesc){
 
     char* shortdesc = mul->shortdesc;
 
-    char* expected = "Multiclass of warrior, bard, and rogue";
+    char* expected = "Multiclass of warrior, bard, and rogue.";
     cr_assert_str_eq(shortdesc, expected, "expected: %s. Got %s", expected, shortdesc);
 }
 
