@@ -1,50 +1,43 @@
 #include "custom-scripts/lua_custom_type.h"
 
 // see lua_custom_type.h
-int push_args(lua_State *L, object_t* ot) {
+void push_args(lua_State *L, object_t* ot) {
     int count = 0; // number of arguments in linked list
     arg_t *head = ot->args;
-    if (head == NULL) {
-    }
     // push arguments one-by-one
-    while (head != NULL) {
-        // incrememnt argument count
-        count++;
+    DL_FOREACH(head, to_push) {
         // identify type of argument
-        data_type_t type = head->type;
+        data_type_t type = to_push->type;
         // push argument to virtual stack
         switch(type) {
             case BOOL_TYPE:
             {
-                int b = head->data.b; // pushboolean requires int
+                int b = to_push->data.b; // pushboolean requires int
                 lua_pushboolean(L, b);
                 break;
             }
             case CHAR_TYPE:
             {
-                char c = head->data.c;
+                char c = to_push->data.c;
                 lua_pushlstring(L, &c, 1);
                 break;
             }
             case INT_TYPE:
             {
-                int i = head->data.i;
+                int i = to_push->data.i;
                 lua_pushnumber(L, i);
                 break;
             }
             case STR_TYPE:
             {
-                char *s = head->data.s;
+                char *s = to_push->data.s;
                 lua_pushstring(L, s);
                 break;
             }
             default: // NONE_TYPE
                 break;
         }
-        // move to next argument
-        head = head->next;
     }
-    return count;
 }
 
 // see lua_custom_type.h
