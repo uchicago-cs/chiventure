@@ -4,7 +4,6 @@ add_executable(${TEST_EXE}
         test_cmd.c
         test_parser.c
         test_game.c
-        test_operation.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
