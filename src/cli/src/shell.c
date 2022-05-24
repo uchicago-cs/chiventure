@@ -58,6 +58,8 @@ void help_text(chiventure_ctx_t *ctx)
         "    are entirely lowercase\n"
         "SAVE [PATH] (NOT IMPLEMENTED)\n"
         "	-Saves a game to a specified location\n"
+        "VIEW STATS (NOT IMPlEMENTED)\n"
+        "   -Displays the players current stats\n"
         "NAME [VALID COMMAND] [NEW COMMAND]\n"
         " -Makes the second argument a command word with the definition of the first argument\n"
         "PALETTE [\"DEFAULT\"/\"NIGHT\"/\"BRIGHT\"/\"PAIN\"]\n"
