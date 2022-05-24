@@ -15,10 +15,10 @@ NPC OAK IN room B
 	gender: "Male"
 
     INVENTORY
-        item_id: "CHARMANDER"
-        item_id: "SQUIRTLE"
-        item_id: "BULBASAUR"
-        item_id: "POKEBALL"
+        item_id1: "CHARMANDER"
+        item_id2: "SQUIRTLE"
+        item_id3: "BULBASAUR"
+        item_id4: "POKEBALL"
             DIALOGUE: 
                 NODE 1
                     EDGE 1 TO 2 desc: “Good” 
