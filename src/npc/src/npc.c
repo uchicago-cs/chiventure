@@ -386,6 +386,8 @@ int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc
     assert (quest_id != NULL);
     assert(task_id != NULL);
 
+    qctx->
+
     player_quest_t *p_quest = get_player_quest_from_hash(quest_id, 
                                                          player->player_quests);
     player_task_t *p_task = get_player_task_from_hash(task_id, 
