@@ -4,6 +4,7 @@
 #include "raylib.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "common.h"
 
 
 typedef struct scene_graphics scene_graphics_t;
@@ -40,7 +41,7 @@ scene_graphics_t* new_scene_graphics(char* SceneName, char* ImagePath, Vector2 W
  *     SceneGraphics: a pointer to the scene_graphics_t struct to be freed
  * 
  * Returns:
- *      1 on success 
+ *      SUCCESS on success 
  */
 int free_scene_graphics(scene_graphics_t* SceneGraphics);
 

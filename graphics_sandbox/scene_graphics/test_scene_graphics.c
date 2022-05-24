@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <criterion/criterion.h>
 
-
+/* Testing new_scene_graphics*/
 Test(scene_graphics, new)
 {
 
@@ -35,6 +35,7 @@ Test(scene_graphics, new)
     cr_assert_eq(s->PlayerPosition.y,320,"new_scene_graphics() didn't set PlayerPosition.y");
 }
 
+/* Testing free_scene_graphics*/
 Test(scene_graphics, free)
 {
     scene_graphics_t *s;
@@ -47,6 +48,6 @@ Test(scene_graphics, free)
 
     rc = free_scene_graphics(s);
 
-    cr_assert_eq(rc,1,"free_scene_graphics() failed");
+    cr_assert_eq(rc,SUCCESS,"free_scene_graphics() failed");
 
 }
