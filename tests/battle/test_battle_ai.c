@@ -80,7 +80,7 @@ stat_t* create_enemy_stats_crit()
     test_stats->mag_def = 20;
     test_stats->max_sp = 20;
     test_stats->sp = 20;
-    test_stats->crit = 100;
+    test_stats->crit = 0;
     test_stats->accuracy = 100;
     test_stats->hp = 200;
     test_stats->max_hp = 200;
@@ -366,7 +366,7 @@ Test(battle_ai, damage_crit)
     enemy = new_enemy_crit();
     move = expected_move_greedy();
 
-    double expected = 1.5*24.0;
+    double expected = 1.0*24.0;
     double actual = damage(player, move, enemy);
 
     cr_assert_not_null(player, "combatant_new() failed");
