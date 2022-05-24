@@ -137,4 +137,4 @@ bool check_condition(condition_t *condition);
 bool all_conditions_met(condition_list_t *cond_list);
 
 
-#endif
+#endif /* _CONDITION_H */

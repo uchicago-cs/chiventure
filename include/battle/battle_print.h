@@ -203,5 +203,5 @@ int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char 
  */ 
 char *print_battle_action_menu(battle_item_t *items, move_t *moves);
 
- #endif
+ #endif /* BATTLE_PRINT_H */
  

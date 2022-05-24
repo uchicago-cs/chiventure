@@ -134,4 +134,4 @@ typedef struct quest_ctx {
     quest_hash_t *quest_hash;
 } quest_ctx_t;
 
-#endif 
+#endif /* QUESTS_STRUCTS_H */

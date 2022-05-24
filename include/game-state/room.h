@@ -388,4 +388,4 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms);
  */
 int transfer_all_npc_items(npc_t *npc, room_t *room);
 
-#endif
+#endif /* _ROOM_H */

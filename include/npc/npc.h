@@ -325,4 +325,4 @@ int change_npc_hp(npc_t *npc, int change);
  */
 int delete_all_npcs(npc_hash_t *npcs);
 
-#endif
+#endif /* _NPC_H */

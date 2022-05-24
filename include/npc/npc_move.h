@@ -337,4 +337,4 @@ int move_npc_mov(npc_mov_t *npc_mov);
  */
 int delete_room_id_dll(room_id_dll_t *head);
 
-#endif
+#endif /* _NPC_MOVE_H */

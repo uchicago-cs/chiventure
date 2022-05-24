@@ -185,4 +185,4 @@ int stat_changes_undo(stat_changes_t *sc, combatant_t *c);
  */
 int stat_changes_append_node(stat_changes_t *base, stat_changes_t *sc);
 
-#endif
+#endif /* BATTLE_STATE_H */

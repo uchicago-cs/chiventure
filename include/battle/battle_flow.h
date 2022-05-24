@@ -182,4 +182,4 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
 
 
-#endif
+#endif /* BATTLE_FLOW_H */

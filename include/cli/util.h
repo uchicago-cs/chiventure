@@ -36,4 +36,4 @@ void case_insensitize(char *input);
  */
 char* case_insensitized_string(char *input);
 
-#endif
+#endif /* UTIL_H */

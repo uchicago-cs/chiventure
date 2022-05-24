@@ -109,4 +109,4 @@ typedef struct stat {
 } stat_t;
 
 
-#endif
+#endif /* BATTLE_STRUCTS_H */

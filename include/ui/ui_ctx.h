@@ -106,5 +106,4 @@ void toggle_map(chiventure_ctx_t *ctx);
  */
 void layout_switch(chiventure_ctx_t *ctx);
 
-
-#endif
+#endif /* UI_CTX_H */

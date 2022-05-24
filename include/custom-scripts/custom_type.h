@@ -191,4 +191,4 @@ int int_t_get(object_t *ot);
  */
 char* str_t_get(object_t *ot);
 
-#endif
+#endif /* _CUSTOM_TYPE_H_ */

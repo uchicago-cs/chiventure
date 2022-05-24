@@ -18,4 +18,4 @@
  */
 void start_ui(chiventure_ctx_t *ctx, const char *banner);
 
-#endif
+#endif /* UI_H */

@@ -139,4 +139,4 @@ turn_component_list_t *init_turn_component_list(turn_component_list_t *turn,
  */
 int turn_component_list_free(turn_component_list_t *turn);
 
-#endif
+#endif /* BATTLE_FLOW_STRUCTS_H */

@@ -67,4 +67,4 @@ Logs *logs_add(Logs *logs, Log *log);
  */
 int checkpointing_log_int(Logs *logs, char *level, char *level_id, char *member, int old_value, int new_value);
 
-#endif
+#endif /* _LOG_SAVE_H */
