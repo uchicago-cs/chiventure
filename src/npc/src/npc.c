@@ -1,11 +1,13 @@
 #include <stdlib.h>
 #include "npc/npc.h"
+#include "playerclass/class_prefabs.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
 /* See npc.h */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             class_t *class, npc_mov_t *movement, bool will_fight)
+             class_t *class, npc_mov_t *movement, bool will_fight, 
+             chiventure_ctx_t* ctx)
 {
     assert(npc != NULL);
     strcpy(npc->npc_id, npc_id);
@@ -13,7 +15,14 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     strcpy(npc->long_desc, long_desc);
     npc->dialogue = NULL;
     npc->inventory = NULL;
-    npc->class = class;
+
+    if (class == NULL){
+        npc->class = class_prefab_new(ctx->game, "basic");
+    }
+    else{
+        npc->class = class;
+    }
+
     npc->will_fight = will_fight;
     npc->npc_battle = NULL;
     npc->movement = movement;
@@ -22,8 +31,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 }
 
 /* See npc.h */
-npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement, bool will_fight)
+npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, class_t *class,
+                npc_mov_t *movement, bool will_fight, chiventure_ctx_t* ctx)
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
@@ -37,7 +46,7 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     char *insensitized_id = case_insensitized_string(npc_id);
 
     int check = npc_init(npc, insensitized_id, short_desc, long_desc,
-                         class, movement, will_fight); 
+                         class, movement, will_fight, ctx); 
 
     free(insensitized_id);
 
