@@ -562,7 +562,7 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
  * 
  * Returns: SUCCESS upon success, FAILURE upon failure
  */
-int reset_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+int reset_active_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
                    char *quest_id, char *task_idk);
 
 /* forward declaration */

@@ -375,7 +375,7 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
 }
 
 /* See npc.h */
-int reset_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+int reset_active_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
                    char *quest_id, char *task_id)
 {
     assert (quest_id != NULL);
