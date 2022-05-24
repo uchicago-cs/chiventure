@@ -82,14 +82,5 @@ typedef enum complex_skill_type {
 
 } complex_skill_type_t;
 
-typedef enum reader_type{
-    SINGLE_TARGET,
 
-    WORLD,
-
-    TIME,
-
-    PLAYER_T
-
-} reader_type_t;
 #endif /*SKILLTREES_ENUMS_H*/

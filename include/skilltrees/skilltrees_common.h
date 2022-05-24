@@ -109,6 +109,7 @@ typedef struct reader_effect{
 
     stat_reader_effect_t* stat_reader;
 } reader_effect_t; 
+
 typedef struct complex_skill{
     //Type of complex skill
     complex_skill_type_t type;
@@ -123,20 +124,6 @@ typedef struct complex_skill{
     reader_effect_t* reader;
 
 } complex_skill_t;
-
-/* Currently only supports for 1 binary condition
-*  Later on this may be changed to support more complex contions
-*/
-typedef struct reader_effect{
-    //String of the condition being 
-    char* condition;
-
-    //Length of string
-    int str_len;
-
-    //Location of condition (player, enemy, world, etc.)
-    reader_type_t type;
-} reader_effect_t;
 
 /* ======================== */
 /* === COMMON FUNCTIONS === */

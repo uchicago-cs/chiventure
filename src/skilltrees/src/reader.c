@@ -227,7 +227,6 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
             //Check for presence of struct
             loc = READ_PLAYER;
             if (check_attribute_null(ctx, loc) == 1){
-                fprintf(stderr, "ATTR READER IN PLAYER RETURNED -1\n");
                 return -1;
             }
             if (NULL != reader->value){

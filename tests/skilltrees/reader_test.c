@@ -259,7 +259,7 @@ Test(reader_tests, execute_reader_effect_with_attr_test_true){
     attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 5, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_ATTRIBUTE, ar, NULL);
     int rc = execute_reader_effect(effect, ctx);
-    printf("HERE %d", rc);
+    
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
 
@@ -269,7 +269,7 @@ Test(reader_tests, execute_reader_effect_with_attr_test_false){
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     reader_effect_t *effect = reader_effect_new(READER_ATTRIBUTE, ar, NULL);
     int rc = execute_reader_effect(effect, ctx);
-    printf("HERE %d", rc);
+    
     cr_assert_eq(rc, 0, "Error: failed test execute_reader_effect_test_false for attr\n");
 }
 
@@ -278,7 +278,7 @@ Test(reader_tests, execute_attr_reader_effect_test_true){
     chiventure_ctx_t* ctx = ctx_example();
     attr_reader_effect_t *ar = attr_reader_effect_new("HUMAN", 5, READ_PLAYER);
     int rc = execute_attr_reader_effect(ar, ctx);
-    printf("HERE %d", rc);
+    
     cr_assert_eq(rc, 1, "Error: failed test execute_attr_reader_effect_test for true\n");
 }
 
@@ -287,7 +287,7 @@ Test(reader_tests, execute_attr_reader_effect_test_false){
     chiventure_ctx_t* ctx = ctx_example();
     attr_reader_effect_t *ar = attr_reader_effect_new("undead", 6, READ_PLAYER);
     int rc = execute_attr_reader_effect(ar, ctx);
-    printf("HERE %d", rc);
+    
     cr_assert_eq(rc, 0, "Error: failed test execute_attr_reader_effect_test for false\n");
 }
 
