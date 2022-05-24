@@ -289,7 +289,7 @@ Test(parse, and)
 }
 
 //Tests the parsing of input which is just and.
-Test(parse, and)
+Test(parse, to)
 {
     char str[] = "TO";
     char **words = parse(str);
