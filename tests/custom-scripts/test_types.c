@@ -202,29 +202,6 @@ Test(custom_type, arg_t_new_str)
 }
 
 /** 
-* Checks that the obj_add_arg_<type> correctly adds arg_t structs to the linked list
-*/
-Test(custom_type, obj_add_args)
-{
-    data_t d;
-    d.b = true;
-    object_t *ot = obj_t_init(d, BOOL_TYPE, NULL);
-    d.s = "I am head";
-    d.i = 2;
-    d.c = '3';
-    ot = obj_add_arg(ot, d, STR_TYPE);
-    ot = obj_add_arg(ot, d, INT_TYPE);
-    ot = obj_add_arg(ot, d, CHAR_TYPE);
-    ot = obj_add_arg(ot, d, BOOL_TYPE);
-    arg_t *head = ot->args;
-
-    cr_assert_str_eq(head->data.s, "I am head", "arg_t_add: failed head initialization");
-    cr_assert_eq(head->next->data.i, 2, "arg_t_add: failed arg_t addition");
-    cr_assert_eq(head->next->next->data.c, '3', "arg_t_add: failed arg_t addition");
-    cr_assert_eq(head->next->next->next->data.b, true, "arg_t_add: failed arg_t addition");
-}
-
-/** 
 * Checks that the obj_add_arg_<type> correctly assigns prev pointers in doubly linked list
 */
 Test(custom_type, obj_add_args_prev)
@@ -271,6 +248,27 @@ Test(custom_type, obj_t_get_bool_lua)
     data_t got = arg_t_get(ot);
     bool rv = got.b;
     cr_assert_eq((rv ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
+}
+
+/** 
+ * Checks that the object_t struct returns the correct bool value (lua)
+ * When arguments are passed into the script
+ */
+Test(custom_type, obj_t_get_bool_lua_args)
+{
+    data.b = true;
+    data2.b = false;
+    object_t *ot = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
+    ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data, BOOL_TYPE), data, BOOL_TYPE), data, BOOL_TYPE);
+    data_t got = arg_t_get(ot);
+    bool rv = got.b;
+    cr_assert_eq((rv ? 1 : 0), 1, "bool_t_get: failed bool Lua retrieval");
+
+    object_t *ot2 = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
+    ot2 = obj_add_arg(obj_add_arg(obj_add_arg(ot2, data, BOOL_TYPE), data2, BOOL_TYPE), data, BOOL_TYPE);
+    data_t got2 = arg_t_get(ot);
+    bool rv2 = got2.b;
+    cr_assert_eq((rv2 ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
 }
 
 /** 
