@@ -25,6 +25,50 @@ typedef enum skill_type {
 
 } skill_type_t;
 
+/*Types of readers*/
+typedef enum reader_type{
+    READER_ATTRIBUTE,
+
+    READER_STATISTIC
+} reader_type_t;
+
+/*Locations of readers*/
+typedef enum reader_location{
+    READ_PLAYER,
+
+    READ_SINGLE_TARGET,
+
+    READ_WORLD
+} reader_location_t;
+
+/*Enums for stat reader and comparisons*/
+typedef enum comparison {
+    EQUALS,
+
+    NOT,
+
+    GREATER,
+
+    LESSER,
+
+    GREATER_EQUAL,
+
+    LESSER_EQUAL
+} comparison_t;
+
+/*Different types of stats used in stats reader*/
+typedef enum reader_stats{
+    SPEED,
+
+    DEFENSE,
+
+    STRENGTH,
+
+    HP,
+
+    MAX_HP,
+} stats_type_t;
+
 /* Complex skill type */
 typedef enum complex_skill_type {
     //Denotes combined complex skill
@@ -38,15 +82,5 @@ typedef enum complex_skill_type {
 
 } complex_skill_type_t;
 
-typedef enum reader_type{
-    SINGLE_TARGET,
-
-    WORLD,
-
-    TIME,
-
-    PLAYER_T
-
-} reader_type_t;
 
 #endif /*SKILLTREES_ENUMS_H*/
