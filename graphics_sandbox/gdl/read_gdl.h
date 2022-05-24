@@ -112,8 +112,23 @@ typedef struct graphics {
 graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics);
 
+
+/*
+ * Initializes a graphics structure
+ *
+ * Parameters:
+ * - an initialized dimensions struct
+ * - an initialized camera struct
+ * - an initialized inventory struct
+ * - an initialized statistics struct
+ * - an uninitialized graphics strucuture
+ *     
+ * Returns:
+ * - an integer indicating success
+ */
 int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera_t *camera, 
                   inventory_display_t *inventory, statistics_display_t *statistics);
+
 
 /*
  * Reads through a gdl file to allocate and initialize a graphics structure
@@ -154,7 +169,7 @@ display_dimensions_t* new_display_dimensions(unsigned int width,
 
 
 /*
- * frees a display structure from the heap
+ * Frees a display structure from the heap
  *
  * Parameters:
  * - a pointer to a display structure on the heap
@@ -164,10 +179,23 @@ display_dimensions_t* new_display_dimensions(unsigned int width,
  */
 int free_display_dimensions(display_dimensions_t *display_dimensions);
 
-int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width, unsigned int height);
 
 /*
- * allocates and initializes a camera structure on the heap
+ * Initializes a display structure
+ *
+ * Parameters:
+ * - an uninitialized dimensions sturcture
+ * - an integer for the width
+ * - an integer for the height
+ *
+ * Returns:
+ * - an integer for success
+ */
+int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width, unsigned int height);
+
+
+/*
+ * Allocates and initializes a camera structure on the heap
  *
  * Parameters:
  * - window width
@@ -178,7 +206,14 @@ int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width
  */
 camera_t* make_camera(unsigned int width, unsigned int height);
 
+
+/*
+ * Initializes a camera structure
+ *
+ * Parameters:
+ * - an uninitialized
 int init_camera(camera_t *camera, unsigned int width, unsigned int height);
+
 
 /*
  * frees a camera structure from the heap
