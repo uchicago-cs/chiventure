@@ -317,7 +317,7 @@ Test(parse_r, filler_word_mid)
  */
 Test(parse_r, filler_word_first)
 {
-    char str[] = "I GO EAST";
+    char str[] = "TO GO EAST";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"go", "parse() did not create first token");
     cr_assert_str_eq(words[1],"east", "parse() did not create second token");
