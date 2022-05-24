@@ -133,15 +133,8 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id);
  * and NULL if an error occurs
  *
  * Parameters:
-<<<<<<< HEAD
  *  mov_type: The type of movement that the npc will have
  *  room: The room that the npc will begin in
-=======
- *  npc_id: The ID of the NPC that is being referred to; must point to
- *          allocated memory
- *  mov_type: The type of movement that the npc will have
- *  room_id: The room_id that the npc will begin in
->>>>>>> dev
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
