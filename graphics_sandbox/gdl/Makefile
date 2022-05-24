@@ -1,10 +1,13 @@
 CC = gcc
 CFLAGS = -I../../include/game-state -fPIC -g -O2 -Wall -Wextra
+LDFLAGS = -L../
+LDLIBS = -lcriterion
 
-SRCS = read_gdl.c
+
+SRCS = read_gdl.c test_dimension.c test_camera.c
 OBJS = $(SRCS:.c=.o)
 
-BINS = read_gdl
+BINS = read_gdl test
 
 all: $(BINS)
 
@@ -14,7 +17,7 @@ $(OBJS): %.o:%.c
 	$(CC) $(CFLAGS) $< -c -o $@
 
 $(BINS): $(OBJS)
-	$(CC) $(OBJS) -o $@
+	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(LDLIBS)
 
 clean:
 	rm -f $(OBJS) $(BINS)
