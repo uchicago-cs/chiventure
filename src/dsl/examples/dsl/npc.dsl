@@ -9,6 +9,18 @@ ROOM room B
         EAST TO room C
 
 
+NPC OAK IN room B
+  short desc: "Kanto's premier Pokemon expert"
+  long desc: "Enjoys exploring human-Pokemon relationships"
+  age: "25"
+  gender: "Male"
+  INVENTORY
+    item_id1: "CHARMANDER"
+    item_id2: "SQUIRTLE"
+    item_id3: "BULBASAUR"
+    item_id4: "POKEBALL"
+
+
 ITEM CHARMANDER IN OAK
   short desc: "A fire pokemon"
   long desc: "Prefers hot places. When it rains, steam is said to spout from the tip of its tail." 
@@ -29,15 +41,6 @@ ITEM POKEBALL IN OAK
     TAKE fail: "You cannot take the pokeball"
 
 
-NPC OAK IN room B
-  short desc: "Kanto's premier Pokemon expert"
-  long desc: "Enjoys exploring human-Pokemon relationships"
-  age: "25"
-  gender: "Male"
-  INVENTORY
-    item_id1: "CHARMANDER"
-    item_id2: "SQUIRTLE"
-    item_id3: "BULBASAUR"
-    item_id4: "POKEBALL"
+
 
 
