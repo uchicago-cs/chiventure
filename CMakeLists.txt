@@ -51,7 +51,7 @@ endforeach(module)
 add_executable(chiventure-bin src/chiventure.c)
 
 foreach(module ${CHIVENTURE_MODULES})
-    target_link_libraries(chiventure-bin ${module} ${CMAKE_THREAD_LIBS_INIT})
+    target_link_libraries(chiventure-bin ${module})
 endforeach(module)
 
 set_target_properties(chiventure-bin
