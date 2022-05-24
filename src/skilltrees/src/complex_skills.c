@@ -14,7 +14,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
     complex_skill_t* complex;
 
     if (num_skills <= 0) {
-        fprintf(stderr, "complex_skill_new: subskill length of < 0 given\n");
+        fprintf(stderr, "complex_skill_new: subskill length of <= 0 given\n");
         return NULL;
     }
 
