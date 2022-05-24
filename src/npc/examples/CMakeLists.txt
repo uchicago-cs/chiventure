@@ -1,6 +1,6 @@
 set(NPC_EXAMPLES dialogue_example npc_example conversation_mode_example battle_move_example_2021)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
 
 add_executable(dialogue_example
                dialogue_example.c)
