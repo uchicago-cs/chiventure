@@ -3,6 +3,7 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "common/ctx.h"
 #include "game-state/game.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
@@ -80,12 +81,14 @@ typedef struct npc npc_hash_t;
  *  class: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
  *  will_fight: a boolean describing whether the npc will engage in battle
+ *  ctx: the chiventure ctx for the given game
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             class_t *class, npc_mov_t *movement, bool will_fight);
+             class_t *class, npc_mov_t *movement, bool will_fight,
+             chiventure_ctx_t* ctx);
 
 /*
  * Allocates a new npc in the heap.
@@ -101,12 +104,14 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  class: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
  *  will_fight: a boolean describing whether the npc will engage in battle
+ *  ctx: the chiventure ctx for the given game
  *
  * Returns:
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement);
+               class_t *class, npc_mov_t *movement, bool will_fight,
+               chiventure_ctx_t* ctx);
 
 /*
  * Frees resources associated with an npc.
