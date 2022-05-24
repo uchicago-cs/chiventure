@@ -316,7 +316,7 @@ class Npcs:
     
     def to_wdl_structure(self) -> dict:
         """
-            Converts a Game to WDL structure using its properties. Generates 
+            Converts a NPC to WDL structure using its properties. Generates 
             default values where they are missing.
         """
 
@@ -330,7 +330,7 @@ class Npcs:
 
     def generate_defaults(self):
         """
-            Ensures that an Item can be converted to WDL by filling in 
+            Ensures that a NPC can be converted to WDL by filling in 
             neccesary information (like short and long description) that is not 
             included with its default values.
         """
