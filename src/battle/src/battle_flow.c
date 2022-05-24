@@ -337,7 +337,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
     int dmg, rc;
     char *string = calloc(100, sizeof(char));
-
+    double crit;
     if(enemy_move != NULL)
     {
         /* Calculates to see if the move will miss */
