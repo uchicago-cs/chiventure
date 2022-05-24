@@ -13,12 +13,12 @@ move_t *generate_moves_user_one()
     user_stat_changes1->hp = 35;
     stat_changes_t *opponent_stat_changes1 = stat_changes_new();
     opponent_stat_changes1->hp = -35;
-    move_t *move_one = move_new(1, "Life Drain", "Drains the enemy hp and adds it to the user", NO_DAMAGE,
+    move_t *move_one = move_new(1, "LifeDrain", "Drains the enemy hp and adds it to the user", NO_DAMAGE,
                                 BOTH , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, opponent_stat_changes1, 
                                 NULL, NULL); 
     stat_changes_t *opponent_stat_changes2 = stat_changes_new();
     opponent_stat_changes2->mag_def = -10;
-    move_t *move_two = move_new(2, "Shadow Ball", "The user gathers dark shadow energy into a ball and sends it to the opponent, decreasing their magical defense", 
+    move_t *move_two = move_new(2, "ShadowBall", "The user gathers dark shadow energy into a ball and sends it to the opponent, decreasing their magical defense", 
                                 MAG, TARGET, NO_TARGET, SINGLE, 10, NULL, 80, 100, NULL, opponent_stat_changes2, 
                                 move_one, NULL); 
     move_one->next = move_two;

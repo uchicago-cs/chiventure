@@ -26,8 +26,8 @@ int main()
     p_stats->xp = 10;
     p_stats->speed = 10;
     p_stats->level = 3;
-    p_stats->phys_def = 3;
-    p_stats->mag_def = 3;
+    p_stats->phys_def = 30;
+    p_stats->mag_def = 30;
     p_stats->phys_atk = 80;
     p_stats->mag_atk = 80;
     p_stats->sp = 100;
@@ -51,7 +51,7 @@ int main()
     e_stats->sp = 100;
     e_stats->max_sp = 100;
     e_stats->crit = 25;
-    p_stats->accuracy = 100;
+    e_stats->accuracy = 100;
     move_t *e_moves = generate_moves_enemy_one();
     if(e_moves != NULL){
         printf("Moves are working %s\n", e_moves->name);
