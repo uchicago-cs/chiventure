@@ -574,7 +574,7 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "No one by that name want to fight.";
     }
 
-    if (npc->will_fight == 0) {
+    if (npc->hostility_level != HOSTILE) {
         return "%s does not want to fight.", tokens[1];
     }
 
