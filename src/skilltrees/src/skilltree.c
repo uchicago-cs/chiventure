@@ -402,11 +402,11 @@ char *display_tree(skill_tree_t* tree){
         size += 55;
     }
     char buffer[size];
-    char temp[size];
+    char* temp = buffer;
 
     for (int i = 0; i < tree->num_nodes; i++){
         sprintf(temp, "Skill Name: %s, Prereq Level: %d, Current Level: %d\n", tree->nodes[i]->skill->name, tree->nodes[i]->prereq_level, tree->nodes[i]->skill->level);
-        strcat(buffer, temp);
+        temp += strlen(temp);
     }
 
     char *display = strdup(buffer);
@@ -415,8 +415,8 @@ char *display_tree(skill_tree_t* tree){
 
 /* See skilltree.h */
 char *display_skill_description(skill_t* skill){
-    //Uses a static size, will crash for longer descriptions
-    char buffer[150];
+    int size = strlen(skill->desc);
+    char buffer[size];
 
     sprintf(buffer, "Skill Description: %s\n", skill->desc);
 
