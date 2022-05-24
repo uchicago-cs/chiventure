@@ -189,7 +189,7 @@ int random_range_free(random_range_type_t* random_range_skill){
         fprintf(stderr, "random_range_free: Complex skill freeing failed\n");
         return FAILURE;
     }
-    
+
     free(random_range_skill);
 
     return SUCCESS;
@@ -197,17 +197,50 @@ int random_range_free(random_range_type_t* random_range_skill){
 
 /*See complex_skills.h */
 random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances){
-    return NULL;
+    random_switch_type_t* random;
+
+    random = (random_switch_type_t*)malloc(sizeof(random_switch_type_t));
+
+    if (random == NULL) {
+        fprintf(stderr, "random_switch_new: memory allocation failed\n");
+        return NULL;
+    }
+
+    int rc = random_switch_init(random, complex_skill, chances);
+
+    if (rc) {
+        fprintf(stderr, "random_switch_new: initialization failed\n");
+        return NULL;
+    }
+
+    return random;
 }
 
 /*See complex_skills.h */
-int random_switch_init(random_switch_type_t* random_range_skill, complex_skill_t* complex_skill, float* chances){
-    return 0;
+int random_switch_init(random_switch_type_t* random_switch_skill, complex_skill_t* complex_skill, float* chances){
+    assert(random_switch_skill != NULL);
+    assert(complex_skill != NULL);
+    assert(chances != NULL);
+
+    random_switch_skill->complex_skill = complex_skill;
+    random_switch_skill->chances = chances;   
+
+    return SUCCESS;
 }
 
 /*See complex_skills.h */
 int random_switch_free(random_switch_type_t* random_switch_skill){
-    return 0;
+    free(random_switch_skill->chances);
+
+    int x = complex_skill_free(random_switch_skill->complex_skill);
+    if (x != 0){
+        fprintf(stderr, "random_switch_free: Complex skill freeing failed\n");
+        return FAILURE;
+    }
+
+    free(random_switch_skill);
+
+    return SUCCESS;
 }
 
 /* Takes in a lower and upper value and generates random number within that 

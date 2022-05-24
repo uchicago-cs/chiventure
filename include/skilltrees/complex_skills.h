@@ -202,7 +202,7 @@ random_range_type_t* random_range_new(complex_skill_t* complex_skill, int lower_
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int random_range_init(random_chance_type_t* random_range_skill, complex_skill_t* complex_skill, int lower_bound, int upper_bound);
+int random_range_init(random_range_type_t* random_range_skill, complex_skill_t* complex_skill, int lower_bound, int upper_bound);
 
 /*
  * Frees the resources associated with a random range skill
@@ -241,7 +241,7 @@ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* c
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int random_switch_init(random_chance_type_t* random_range_skill, complex_skill_t* complex_skill, float* chances);
+int random_switch_init(random_switch_type_t* random_switch_skill, complex_skill_t* complex_skill, float* chances);
 
 /*
  * Frees the resources associated with a random switch skill
