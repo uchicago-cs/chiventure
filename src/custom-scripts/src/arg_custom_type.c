@@ -35,18 +35,5 @@ arg_t *arg_t_init(data_t d, data_type_t t) {
 
 // see arg_custom_type.h
 arg_t *arg_t_add(arg_t *head, arg_t *add) {
-    if (add == NULL) {
-        return head;
-    } else if (head == NULL) {
-        return add;
-    } else {
-        arg_t *temp = head;
-        // iterating over linked list to last node
-        while(temp->next) {
-            temp = temp->next;
-        }
-        temp->next = add;
-        temp->next->prev = temp;
-        return head;
-    }
+    return DL_APPEND(head, add);
 }
