@@ -13,15 +13,42 @@
 #include "cli/cmdlist.h"
 #include "cli/util.h"
 
-#define NUM_ACTIONS 30
+#define NUM_ACTIONS 31
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
-char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
-                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
-                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
-                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS", "VIEW"};
+char* actions_for_sug[NUM_ACTIONS] = {
+            "OPEN",
+            "CLOSE",
+            "PUSH",
+            "PULL",
+            "TURNON",
+            "TURNOFF",
+            "TAKE",
+            "PICKUP",
+            "DROP",
+            "CONSUME",
+            "USE",
+            "DRINK",
+            "EAT",
+            "GO",
+            "WALK",
+            "USE_ON",
+            "PUT",
+            "QUIT",
+            "HIST",
+            "HELP",
+            "CREDITS",
+            "LOOK",
+            "INV",
+            "MAP",
+            "SWITCH",
+            "LOAD_WDL",
+            "NAME",
+            "PALETTE",
+            "ITEMS",
+            "VIEW",
+            "FIGHT"};
 
 
 /* 
