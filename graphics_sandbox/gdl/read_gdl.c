@@ -30,6 +30,7 @@ graphics_t* make_graphics(display_dimensions_t *dimensions, camera_t *camera,
     return graphics;
 }
 
+
 int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics)
 {
@@ -42,6 +43,7 @@ int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera
 
     return SUCCESS;
 }
+
 
 int free_graphics(graphics_t* graphics)
 {
@@ -59,7 +61,9 @@ int free_graphics(graphics_t* graphics)
 
     free(graphics);
 
-    return SUCCESS;}
+    return SUCCESS;
+}
+
 
 display_dimensions_t* make_display_dimensions(unsigned int width, unsigned int height)
 {
@@ -96,6 +100,7 @@ int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width
     return SUCCESS;
 }
 
+
 int free_display_dimensions(display_dimensions_t *dimensions)
 {
 
@@ -105,6 +110,7 @@ int free_display_dimensions(display_dimensions_t *dimensions)
 
     return SUCCESS;
 }
+
 
 camera_t* make_camera(unsigned int width, unsigned int height)
 {
@@ -141,6 +147,7 @@ int init_camera(camera_t *camera, unsigned int width, unsigned int height)
     return SUCCESS;
 }
 
+
 int free_camera(camera_t *camera)
 {
 
@@ -150,6 +157,7 @@ int free_camera(camera_t *camera)
 
     return SUCCESS;
 }
+
 
 inventory_display_t* make_inventory_display(unsigned int rows, unsigned int columns, color color)
 {
@@ -175,6 +183,7 @@ inventory_display_t* make_inventory_display(unsigned int rows, unsigned int colu
     return inventory;
 }
 
+
 int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, color color)
 {
     assert(inventory != NULL);
@@ -186,6 +195,7 @@ int init_inventory_display(inventory_display_t* inventory, unsigned int rows, un
     return SUCCESS;
 }
 
+
 int free_inventory_display(inventory_display_t *inventory)
 {
 
@@ -195,6 +205,7 @@ int free_inventory_display(inventory_display_t *inventory)
 
     return SUCCESS;
 }
+
 
 statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode *mode)
 {
@@ -220,6 +231,7 @@ statistics_display_t* make_statistics_display(corner corner, stats_t *statistics
     return statistics_display;
 }
 
+
 int init_statistics_display(statistics_display_t* statistics_display, corner corner,
     stats_t *statistics,unsigned int num_statistics, mode mode)
 {
@@ -233,6 +245,7 @@ int init_statistics_display(statistics_display_t* statistics_display, corner cor
     return SUCCESS;
 }
 
+
 int free_statistics_display(statistics_display_t *statistics_display)
 {
 
@@ -244,6 +257,8 @@ int free_statistics_display(statistics_display_t *statistics_display)
 
     return SUCCESS;
 }
+
+
 /* 
  * Including here a has function: djb2, for an easy compairison of strings.
  * This implementation was pulled from http://www.cse.yorku.ca/~oz/hash.html.
@@ -315,7 +330,7 @@ graphics_t* read_gdl()
     unsigned long camera = hash("\"Camera\":");
     unsigned long inventory = hash("\"Inventory\":");
     // wishlist item    unsigned long map = hash("\"map\":");
-    unsigned long statistics = hash("\"Statistics\":");
+    // wishlist item unsigned long statistics = hash("\"Statistics\":");
 
     // Define useful variables for the reading function
     unsigned int width;
@@ -345,11 +360,13 @@ graphics_t* read_gdl()
                     getc(gdl);
                     fscanf(gdl, "%s", spec);
                     if (strcmp(spec, "\"width\"") == 0) {
-                        fscanf(gdl, "%u", width);
-                        fscanf(gdl, "%*s %d", height);
+                        fscanf(gdl, "%u", &width);
+                        getc(gdl);
+                        fscanf(gdl, "%*s %d", &height);
                     } else {
-                        fscanf(gdl, "%u", height);
-                        fscanf(gdl, "%*s %d", width); 
+                        fscanf(gdl, "%u", &height);
+                        getc(gdl);
+                        fscanf(gdl, "%*s %d", &width); 
                     }
                     if (h == display) {
                         display_dimensions_t *display_dimension;
@@ -358,6 +375,7 @@ graphics_t* read_gdl()
                         camera_t *camera;
                         camera = make_camera(width, height);
                     }
+                    getc(gdl);
                     break;
                 case inventory:
                     getc(gdl);
@@ -366,20 +384,24 @@ graphics_t* read_gdl()
                         switch (hash(spec)) {
                             case hash("rows"):
                                 fscanf(gdl, "%u", &rows);
+                                getc(gdl);
                                 break;
                             case hash("columns"):
                                 fscanf(gdl, "%u", &cols);
+                                getc(gdl);
                                 break;
                             case hash("color"):
                                 fscanf(gdl, "%s", spec);
                                 color = match_color(spec);
+                                getc(gdl);
                                 break;
                         }
                     }
                     inventory_display_t *inventory_display;
                     inventory = make_inventory_display(rows, cols, color);
                     break;
-                // case map: is a wishlist item
+/*
+                case map: is a wishlist item
                 case statistics:
                     getc(gdl);
                     for(int i = 0; i < 3; i++) {
@@ -393,12 +415,24 @@ graphics_t* read_gdl()
                         }
                     }
             }
+*/ 
+            } 
             // to pass over the closing brace "}"
             getc(gdl);
         } else {
             at_end = 1;
         }
     }
-    graphics_t *graphics = make_graphics(display_dimensions, camera, inventory, statistics);
+//  graphics_t *graphics = make_graphics(display_dimensions, camera, inventory, statistics);
+    graphics->statistics = NULL;
+    ggraphics->dimensions = dimensions;
+    graphics->camera = camera;
+    graphics->inventory = inventory;
     return graphics;
+}
+
+
+int main()
+{
+    return 0;
 }
