@@ -45,7 +45,7 @@ typedef union {
  * Return:
  *      0 on success 1 on failure
  */
-sount_type_t load_wav(sound_t *sound);
+sound_type_t load_wav(sound_t *sound);
 
 /* free sound structure from memory heap
  * after some playing around, this functions doesn't seem necessary as its implementation
@@ -56,7 +56,7 @@ sount_type_t load_wav(sound_t *sound);
  * Return:
  *      0 on success 1 on failure
  */
-int sound_free(sound_t* sound);
+int sound_free(sound_type_t *sound);
 
 /* Plays sound from SDL queue
  *
