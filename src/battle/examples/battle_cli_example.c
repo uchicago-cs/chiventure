@@ -41,64 +41,44 @@ class_t *make_minion()
 }
 
 /* Defines an CLI operation for starting a fight */
-char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+char *run_battle_one(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     //int rc;
 
     srand(time(0)); // sets seed
-    // creates the stats of the player to begin the battle
-    stat_t *p_stats = get_random_stat();
-    
-    // creates the stats of the enemy to begin the battle
-    stat_t *e_stats = get_random_stat();
-
-    // creates consumable for the player
-    battle_item_t *p_item = get_random_default_consumable();
-    battle_item_t *p_item2 = get_random_default_consumable();
-
-    while (p_item2->id == p_item->id) {
-        p_item2 = get_random_default_consumable();
-    }
-
-    p_item->next = p_item2;
-    p_item2->prev = p_item;
-
-    move_t *p_move = get_random_default_move();
-    move_t *p_move2 = get_random_default_move();
-
-    while (p_move2->id == p_move->id) {
-        p_move2 = get_random_default_move();
-    }
-
-    p_move->next = p_move2;
-    p_move2->prev = p_move;
-    
 
     // this creates the player and enemy so that they are inside of ctx
-    move_t *e_move = get_random_default_move();
-    npc_t *e = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", make_minion(), NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, 
+    
+    // create enemy one (minion)
+    stat_t *e1_stats = get_random_stat();
+    move_t *e1_move = generate_moves_enemy_one();
+    npc_t *e1 = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", make_minion(), NULL, true);
+    npc_battle_t *npc1_b = npc_battle_new(100, e1_stats, e1_move, 
                                         BATTLE_AI_GREEDY, HOSTILE, 0, NULL, NULL,
                                         NULL, NULL, NULL);
-    e->npc_battle = npc_b;
-    battle_player_t *p = new_ctx_player("John", make_sorcerer(), p_stats, p_move, p_item,
+    e1->npc_battle = npc1_b;
+    
+    // create player one (sorcerer)
+    stat_t *p1_stats = get_random_stat();
+    battle_item_t *p1_item = make_items()
+    move_t *p1_move = generate_moves_user_one();
+    battle_player_t *p1 = new_ctx_player("Nicholas", make_sorcerer(), p1_stats, p1_move, p1_item,
                                         NULL, NULL, NULL);
 
-    battle_ctx_t *battle_ctx =
-        (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
+    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
 
     // new_game creates a game that is then attached to ctx
     battle_game_t *g = new_battle_game();
     battle_ctx->game = g;
 
-    battle_ctx->game->player = p;
+    battle_ctx->game->player = p1;
 
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
 
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
 
-    int rc = start_battle(battle_ctx, e, ENV_GRASS);
+    int rc = start_battle(battle_ctx, e1, ENV_GRASS);
 
     // prints the beginning of the battle 
     char *start = print_start_battle(battle_ctx->game->battle);
@@ -124,7 +104,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
-    room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Goblin in The Room.");
+    room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Minion in The Room.");
     add_room_to_game(game, room1);
     game->curr_room = room1;
 
@@ -140,7 +120,7 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatching in a fight action to support dialogue */
-    add_entry("FIGHT", fight_operation, NULL, ctx->cli_ctx->table);
+    add_entry("FIGHT", run_battle_one, NULL, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
