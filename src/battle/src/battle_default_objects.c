@@ -390,6 +390,7 @@ stat_t* get_random_stat()
 
     rv_stat->max_hp = randnum(50, 150);
     rv_stat->hp = rv_stat->max_hp;
+    rv_stat->surrender_level = 0;
     rv_stat->max_sp = randnum(50, 80);
     rv_stat->sp = rv_stat->max_sp;
     rv_stat->phys_atk = randnum(20, 100);
