@@ -189,4 +189,5 @@ Test(class_prefabs, Alchemist) {
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t *c = class_prefab_new(ctx->game, "ALCHEMIST");
+    check_field_presence(c);
 }
