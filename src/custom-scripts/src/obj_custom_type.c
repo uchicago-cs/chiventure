@@ -14,6 +14,7 @@ object_t *obj_t_new()
 object_t *obj_t_init(data_t d, data_type_t t, char *lua)
 {
     object_t *ot = obj_t_new();
+    ot->args = NULL;
     ot->type = t;
     if (lua) {
         ot->is_lua = true;
