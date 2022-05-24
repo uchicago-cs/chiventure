@@ -59,7 +59,7 @@ move_t *find_player_move(battle_ctx_t *ctx, char *move_name)
 
     DL_FOREACH(ctx->game->battle->player->moves, temp)
     {
-        if (strncmp(temp->info, move_name, MAX_MOVE_INFO_LEN) == 0)
+        if (strncmp(temp->name, move_name, MAX_MOVE_INFO_LEN) == 0)
         {
             player_move = temp;
             return player_move;
