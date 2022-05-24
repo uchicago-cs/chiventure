@@ -253,7 +253,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     strcpy(npc->npc_id, npc_id);
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
-    npc->dialogue = NULL;
+    npc->standard_dialogue = NULL;
+    npc->active_dialogue = npc->standard_dialogue;
     npc->inventory = NULL;
     npc->class = class;
     npc->will_fight = will_fight;
@@ -317,9 +318,13 @@ int npc_free(npc_t *npc)
 {
     assert(npc != NULL);
 
-    if (npc->dialogue != NULL)
+    if (npc->active_dialogue != NULL)
     {
-        convo_free(npc->dialogue);
+        convo_free(npc->active_dialogue);
+    }
+    if (npc->standard_dialogue != NULL)
+    {
+        convo_free(npc->standard_dialogue);
     }
     if (npc->movement != NULL)
     {
@@ -396,7 +401,7 @@ int reset_active_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc,
         // don't think context would be saved so would return to step
         // 1 of normal convo; might not be issue though– most could be resolved
         // in wdl implementation
-        npc->active_dialogue = npc->dialogue;
+        npc->active_dialogue = npc->standard_dialogue;
         return SUCCESS;
     }
 }
@@ -564,7 +569,7 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
 {
     assert(npc != NULL && c != NULL);
 
-    npc->active_dialogue = c;
+    npc->standard_dialogue = c;
 
     return SUCCESS;
 }

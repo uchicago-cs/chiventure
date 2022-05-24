@@ -69,7 +69,7 @@ typedef struct npc {
     convo_t *active_dialogue;
 
     /* pointer to an existing convo struct; for normal dialogue */
-    convo_t *dialogue;
+    convo_t *standard_dialogue;
 
     /* pointer to inventory hashtable */
     item_hash_t *inventory;
@@ -254,8 +254,9 @@ int npc_task_list_append(npc_task_t *head, npc_task_t *next);
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  dialogue: a pointer to an existing convo_t struct defining the npc's
-              conversations (see /include/npc/dialogue.h)
+ *  standard_dialogue: a pointer to an existing convo_t struct defining the
+                       npc's conversations (non quest/task-related)
+                       (see /include/npc/dialogue.h)
  *  inventory: a pointer to an existing item_hash_t struct defining the npc's
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
@@ -279,8 +280,9 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  dialogue: a pointer to an existing convo_t struct defining the npc's 
-              conversations (see /include/npc/dialogue.h)
+ *  standard_dialogue: a pointer to an existing convo_t struct defining the
+ *                     npc's conversations (non-quest/task-related) 
+ *                     (see /include/npc/dialogue.h)
  *  inventory: a pointer to an existing item_hash_t struct defining the npc's
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
@@ -467,7 +469,7 @@ int add_item_to_npc(npc_t *npc, item_t *item);
 int remove_item_from_npc(npc_t *npc, item_t *item);
 
 /*
- * Adds the given convo to the given npc.
+ * Adds the given convo to the given npc's standard_dialogue
  * 
  * Parameters:
  *  npc: the npc to receive the convo
@@ -541,7 +543,7 @@ int delete_all_npcs(npc_hash_t *npcs);
  * If activated quest --> active_dialogue updated to that quest's dialogue
  * If activated task --> active_dialogue updated to that tasks's dialogue
  * If both --> ? for now, default to quest
- * If neither --> remain default dialogue
+ * If neither --> remain default standard_dialogue
  * 
  * Parameters:
  * - npc: the npc
