@@ -360,9 +360,9 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 /* See operation.h */
 char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //expecting token string list to be "view" "arg2"
     game_t *game = ctx->game;
     char *arg2 = tokens[1];
+    char *arg4 = tokens[3];
     if (game == NULL)
     {
         return "No game found!\n";
@@ -371,6 +371,10 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     {
         //(potential) TODO: add list of possible parameters
         return "Second argument needed.\n";
+    }
+    if (arg4 != NULL)
+    {
+        return "This action only supports two arguments\n";
     }
 
     lookup_t **table = ctx->cli_ctx->table;
@@ -383,14 +387,18 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     /* placeholder for error string that do_self_action will modify */
     char *str;
         
+
+    /* this sanitizes the input for do_self_action, because 
+     * action management is expecting all arguments to the self action
+     * but not the actual action in a string array
+     *
+     * Thus we clip off the first term to hand to do_self_action */
+    tokens = &tokens[1];
+
     /* do_self_action return codes are either:
      *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
      *  otherwise, returns SUCCESS */
-
-    tokens = &tokens[1];
-
     int rc = do_self_action(ctx, action, tokens, &str);
-    //int do_self_action(chiventure_ctx_t *c, action_type_t *a, char* target, char **ret_string)
     return str;
 }
 
