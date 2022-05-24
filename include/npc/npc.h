@@ -14,6 +14,7 @@
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
 typedef struct quest_ctx quest_ctx_t; // a forward declaration
+typedef struct npc_quest npc_quest_t; // forward declaration
 
 /* 
  * A singular quest node for npc_quest_list_t 
@@ -21,8 +22,8 @@ typedef struct quest_ctx quest_ctx_t; // a forward declaration
 */ 
 typedef struct npc_quest {
    char *id;
-   struct convo_t *dialogue;
-   struct npc_quest_t *next;
+   convo_t *dialogue;
+   npc_quest_t *next;
 } npc_quest_t;
 
 /* 
@@ -30,7 +31,7 @@ typedef struct npc_quest {
  * (provided by the Quest team)
 */ 
 typedef struct npc_quest_list {
-   struct npc_quest_t *head;
+   npc_quest_t *head;
    int length;
 } npc_quest_list_t;
 
@@ -307,36 +308,6 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
  */
 int npc_free(npc_t *npc);
 
-/*
- * Called when NPC is given option to receive quest or task
- * Checks to see if player can receive (based on stats)
- * If activated quest --> active_convo updated to that quest's dialogue
- * If activated task --> active_convo updated to that tasks's dialogue
- * If both --> ? for now, default to quest
- * If neither --> remain default dialogue
- * 
- * Parameters:
- * - npc: the npc
- * - player: the player
- * 
- * Returns: SUCCESS upon success, FAILURE upon failure
- */
-int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc, 
-                                 char *quest_id, char *task_id);
-
-/*
- * Called after active quest/task finished 
- * Resets NPC's dialogue to normal dialogue
- * 
- * Parameters:
- * - npc: the npc
- * - player: the player
- * 
- * Returns: SUCCESS upon success, FAILURE upon failure
- */
-int reset_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
-                   char *quest_id, char *task_idk);
-
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
 /*
@@ -561,5 +532,43 @@ int change_npc_health(npc_t *npc, int change, int max);
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int delete_all_npcs(npc_hash_t *npcs);
+
+// QUEST INTEGRATION FUNCTIONS --------------------------------------------
+
+/*
+ * Called when NPC is given option to receive quest or task
+ * Checks to see if player can receive (based on stats)
+ * If activated quest --> active_convo updated to that quest's dialogue
+ * If activated task --> active_convo updated to that tasks's dialogue
+ * If both --> ? for now, default to quest
+ * If neither --> remain default dialogue
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - player: the player
+ * 
+ * Returns: SUCCESS upon success, FAILURE upon failure
+ */
+int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc, 
+                                 char *quest_id, char *task_id);
+
+/*
+ * Called after active quest/task finished 
+ * Resets NPC's dialogue to normal dialogue
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - player: the player
+ * 
+ * Returns: SUCCESS upon success, FAILURE upon failure
+ */
+int reset_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+                   char *quest_id, char *task_idk);
+
+/* forward declaration */
+bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
+
+/* forward declaration */
+bool npc_can_give_task(quest_ctx_t *qctx, char *task_id);
 
 #endif

@@ -19,6 +19,8 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
+/* Forward declaration */
+
 /* A reference to a given quest from game_state that the player has unlocked 
  * 
  * Completion functions as follows:
