@@ -7,6 +7,7 @@
 
 #include "skilltrees/skilltrees_common.h"
 #include "skilltrees/effect.h"
+#include "skilltrees/reader.h"
 #include "skilltrees/skill.h"
 
 /*
@@ -65,57 +66,6 @@ int complex_skill_free(complex_skill_t* complex_skill);
  * 1 if failure
  */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
-
-/*
- * Allocates a new reader in the heap.
- *
- * Parameters:
- *  - condition: String of the condition being used. 
- *  - len: Length of the condition string
- *  - type: Location of condition (player, world, enemy, etc.)
- *
- * Returns:
- *  - A pointer to the reader, or NULL if a reader cannot be allocated
- */
-reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t type);
-
-/*
- * Initializes a reader
- *
- * Parameters:
- *  - reader: A pointer to the reader being initalized
- *  - condition: String of the condition being used. 
- *  - len: Length of the condition string
- *  - type: Location of condition (player, world, enemy, etc.)
- *
- * Returns:
- *  - 0 if successful, 1 if not
- */
-int reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type);
-
-/*
- * Frees the resources associated with a reader
- *
- * Parameters:
- *  - reader: A reader. Must point to skill allocated with reader_effect_new
- *
- * Returns:
- *  - Always returns 0
- */
-int reader_effect_free(reader_effect_t* reader);
-
-/*
- * Returns true or false based on a reader_effect_t. 
- *
- * Parameters:
- *  - reader: A reader_effect_t object
- *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
- *
- * Returns:
- * 0 if true
- * 1 if false
- */
-int reader_effect_read(reader_effect_t* reader, chiventure_ctx_t* ctx);
 
 /*
  * Executes 1 of 2 skills stored in a conditional skill depending on reader conditon. 
