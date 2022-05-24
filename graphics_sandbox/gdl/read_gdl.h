@@ -204,7 +204,7 @@ int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width
  * Returns:
  * - a pointer to the camera structure on the heap
  */
-camera_t* make_camera(unsigned int width, unsigned int height);
+camera_t* new_camera(unsigned int width, unsigned int height);
 
 
 /*
