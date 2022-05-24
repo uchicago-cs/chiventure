@@ -375,18 +375,24 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
 }
 
 /* See npc.h */
-int reset_dialogue(quest_ctx_t *qctx, npc_t *npc, char *quest_id,
-                   char *task_id)
+int reset_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+                   char *quest_id, char *task_id)
 {
-    // get quest
-   // if (is_quest_completed())
-   // check to see if npc has quest/task active
-   // --> if not, end
-   // --> if yes, check to see whether task is complete or quest tasks are complete
-   //    --> if yes, swtich active_dialogue to normal dialogue
+    quest_t *quest = get_npc_quest(npc, quest_id);
+    task_t *task = get_npc_task(npc, task_id);
 
-    // to do
-    return 1;
+    assert (quest != NULL);
+    assert(task != NULL);
+
+    if ((is_quest_completed(quest, player)) || 
+       (is_task_completed(task, player)))
+    {
+        // don't think context would be saved so would return to step
+        // 1 of normal convo; might not be issue though– most could be resolved
+        // in wdl implementation
+        npc->active_convo = npc->dialogue;
+        return SUCCESS;
+    }
 }
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------
