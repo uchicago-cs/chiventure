@@ -109,9 +109,11 @@ typedef struct graphics {
  * Returns:
  * - a pointer to the graphics struct on the heap
  */
-graphics_t* make_graphics(display_dimensions_t *dimensions, camera_t *camera,
+graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics);
 
+int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera_t *camera, 
+                  inventory_display_t *inventory, statistics_display_t *statistics);
 
 /*
  * Reads through a gdl file to allocate and initialize a graphics structure
@@ -147,7 +149,7 @@ int free_graphics(graphics_t* graphics);
  * Returns:
  * - a pointer to the display structure on the heap
  */
-display_dimensions_t* make_display_dimensions(unsigned int width,
+display_dimensions_t* new_display_dimensions(unsigned int width,
     unsigned int height);
 
 
@@ -162,6 +164,7 @@ display_dimensions_t* make_display_dimensions(unsigned int width,
  */
 int free_display_dimensions(display_dimensions_t *display_dimensions);
 
+int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width, unsigned int height);
 
 /*
  * allocates and initializes a camera structure on the heap
@@ -175,6 +178,7 @@ int free_display_dimensions(display_dimensions_t *display_dimensions);
  */
 camera_t* make_camera(unsigned int width, unsigned int height);
 
+int init_camera(camera_t *camera, unsigned int width, unsigned int height);
 
 /*
  * frees a camera structure from the heap
@@ -199,9 +203,10 @@ int free_camera(camera_t *camera);
  * Returns:
  * - a pointer to the inventory structure on the heap
  */
-inventory_display_t* make_inventory_display(unsigned int rows,
+inventory_display_t* new_inventory_display(unsigned int rows,
     unsigned int columns, color color);
 
+ int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, color color);
 
 /*
  * frees an inventory structure from the heap
@@ -227,10 +232,12 @@ int free_inventory_display(inventory_display_t *inventory_display);
  * Returns:
  * - a pointer to the inventory structure on the heap
  */
-statistics_display_t* make_statistics_display(corner corner, stats_t *statistics,
+statistics_display_t* new_statistics_display(corner corner, stats_t *statistics,
     unsigned int num_statistics, mode mode);
 
-
+int init_statistics_display(statistics_display_t* statistics_display, corner corner,
+    stats_t *statistics,unsigned int num_statistics, mode mode);
+                            
 /*
  * frees a statistics structure from the heap
  *
