@@ -344,7 +344,7 @@ Test(custom_type, obj_t_get_int_lua_args)
     ot = obj_add_arg(obj_add_arg(ot, data2, INT_TYPE), data3, INT_TYPE);
     data_t got = arg_t_get(ot);
     int rv = got.i;
-    cr_assert_eq(rv, 15, "obj_t_get_int: failed int direct retrieval");
+    cr_assert_eq(rv, 15, "obj_t_get_int 1: failed int direct retrieval with value %u", rv);
 
     // Arguments of an object don't have to be of the same type!
     object_t *ot2 = obj_t_init(data, INT_TYPE,
@@ -352,7 +352,7 @@ Test(custom_type, obj_t_get_int_lua_args)
     ot2 = obj_add_arg(obj_add_arg(ot2, data, CHAR_TYPE), data2, CHAR_TYPE);
     data_t got2 = arg_t_get(ot2);
     int rv2 = got2.c;
-    cr_assert_eq(rv2, 100, "obj_t_get_int: failed int direct retrieval");
+    cr_assert_eq(rv2, 100, "obj_t_get_int 2: failed int direct retrieval");
 }
 
 /** 
