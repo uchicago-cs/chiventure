@@ -346,7 +346,7 @@ Test(custom_type, obj_t_get_int_lua_args)
     ot = obj_add_arg(obj_add_arg(ot, data4, INT_TYPE), data3, INT_TYPE);
     data_t got = arg_t_get(ot);
     int rv = got.c;
-    cr_assert_eq(rv, 15, "obj_t_get_int 1: failed int direct retrieval with value %u. %u", data2.i, data3.i);
+    cr_assert_eq(rv, 15, "obj_t_get_int 1: failed int direct retrieval with value %u. %u", data4.i, data3.i);
 
     // Arguments of an object don't have to be of the same type!
     object_t *ot2 = obj_t_init(data, INT_TYPE,
