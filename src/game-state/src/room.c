@@ -346,32 +346,7 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
     return rc;
 }
 
-/* Moves an npc one step down its definite/indefinite path,
- * deletes it from it's old room, and adds it to its new one
- *
- * Parameters:
- *  npc_t: Pointer to an NPC
- *  npcs_in_room_t: Pointers to the old and new npcs_in_room structs
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs or if NPC is cannot be moved
- *
- *  NOTE:
- *   - This is a helper function for npc_one_move, it is only useful if
- *     the npcs_in_room structs for the current and next rooms are already known.
- *
-int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room)
-{
-    assert(move_npc(npc) != 0);
-
-    char *new_room_id = npc->movement->track;
-
-    delete_npc_from_room(old_npc_room, npc);
-    add_npc_to_room(new_npc_room, npc);
-    return SUCCESS;
-}
-*/
-
+/* See room.h */
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
     if(npc->movement == NULL)
@@ -414,11 +389,6 @@ void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms)
         }
     }
 }
-
-/* See room.h */
-//void update_npcs_in_rooms(npc_hash_t *npcs, room_hash_t *all_rooms)
-
-    
 
 /* See room.h  */
 int transfer_all_npc_items(npc_t *npc, room_t *room)
