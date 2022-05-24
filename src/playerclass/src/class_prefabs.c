@@ -334,6 +334,8 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - prereq_count: The number of prereqs the skill has.
  *  - prereq_level: The pre_req level required to level the skill.
  *  - is_starting: true if the skill is a starting skill for the class.
+ *  - playerclasses: a list of playerclasses that the skill node belongs to
+ *  - num_classes: number of classes in the playerclasses list
  *  - (...): Indices of the skills that are prereqs to this skill (note that 
  *           skills are added in order, starting at index 0).
  *         
