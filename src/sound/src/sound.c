@@ -73,18 +73,18 @@ int play_sound(sound_t *sound, int delay)
     }
     else if (sound->type == BACKGROUND)
     {
-        sound_type_t music = load_wav(sound);
+        sound_type_t *music = load_wav(sound);
         SDL_Delay(delay); // do a delay if there is one
         Mix_PlayMusic(music->backgroundSound, -1); // play the music
-        Mix_FreeMusic(music->backgroundSound, sound);
+        int x = sound_free(music->backgroundSound, sound);
         return 1;
     }
     else if (sound->type == SOUND_EFFECT)
     {
-        sound_type_t effect = load_wav(sound);
+        sound_type_t *effect = load_wav(sound);
         SDL_Delay(delay); // do a delay if there is one
         Mix_PlayChannel(-1, effect->soundEffect, 0); // play the sound effect
-        Mix_FreeChunk(effect->soundEffect, sound);
+        int y = sound_free(effect->soundEffect, sound);
         return 1;
     }
     return 0;
