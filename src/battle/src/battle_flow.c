@@ -353,7 +353,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
                 b->player->stats->hp -= dmg;
                 crit = crit_modifier(b->enemy->stats->crit);
                 dmg *= crit;
-                rc = print_battle_damage(b, b->turn, enemy_move, string);
+                rc = print_battle_damage(b, b->turn, enemy_move, crit, string);
                 assert(rc == SUCCESS);
             }
             if (enemy_move->stat_mods != NO_TARGET)
