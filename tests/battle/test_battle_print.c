@@ -414,3 +414,17 @@ Test(battle_print, print_enemy_winner)
 
     free(string);
 }
+
+/* Tests print_battle_winner() when enemy surrenders */
+Test(battle_print, print_enemy_surrender)
+{
+    battle_status_t status = BATTLE_ENEMY_SURRENDER;
+    int xp = 2;
+
+    char* string = print_battle_winner(status, xp);
+    cr_assert_not_null(string, "print_start_battle() failed");
+
+    char* expected_string = "Your opponent has surrendered!\n";
+    cr_expect_str_eq(string, expected_string, 
+		    "print_enemy_surrender() failed to set string");
+}
