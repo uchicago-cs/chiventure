@@ -3,13 +3,15 @@
 
 
 /* See sound.h for details */
-int load_wav(sound_t *sound)
+sound_type_t load_wav(sound_t *sound)
 {
     //This initializes the all SDL2 assets
     SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_VIDEO);
 
     //Basic Audio Format, future teams may want to experiment with this
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2, 2048);
+
+    sound_type_t *loaded = (sound_type_t*)malloc(sizeof(sound_type_t));
 
     if (sound == NULL)  // error check, nothing passed into function
     {
@@ -24,6 +26,7 @@ int load_wav(sound_t *sound)
             printf("Background music is not loaded\n");
             return 1;
         }
+        loaded->backgroundSound = mus;
     }
     else if (sound->type == SOUND_EFFECT)
     {
@@ -33,12 +36,13 @@ int load_wav(sound_t *sound)
             printf("Sound effect is not loaded\n");
             return 1;
         }
+        loaded->backgroundSound = wav;
     }
-    return 0;
+    return loaded;
 }
 
 /* See sound.h for details */
-int sound_free(sound_t *sound)
+int sound_free(sound_type_t *sound)
 {
     if (sound == NULL)  // error check, nothing passed into function
     {
@@ -47,12 +51,12 @@ int sound_free(sound_t *sound)
     }
     else if (sound->type == BACKGROUND)
     {
-        //Mix_FreeMusic(sound); // frees resources assocateed with the music
+        Mix_FreeMusic(sound->backgroundSound); // frees resources assocateed with the music
         return 1;
     }
     else if (sound->type == SOUND_EFFECT)
     {
-        //Mix_FreeChunk(sound); // frees resources assocateed with the sound effect
+        Mix_FreeChunk(sound->soundEffect); // frees resources assocateed with the sound effect
         return 1;
     }
     return 0;
@@ -69,18 +73,18 @@ int play_sound(sound_t *sound, int delay)
     }
     else if (sound->type == BACKGROUND)
     {
-        Mix_Music *backgroundSound = load_wav(sound);
+        sound_type_t music = load_wav(sound);
         SDL_Delay(delay); // do a delay if there is one
-        Mix_PlayMusic(backgroundSound), -1); // play the music
-        Mix_FreeMusic(backgroundSound);
+        Mix_PlayMusic(music->backgroundSound, -1); // play the music
+        Mix_FreeMusic(music->backgroundSound));
         return 1;
     }
     else if (sound->type == SOUND_EFFECT)
     {
-        Mix_Chunk *soundEffect = load_wav(sound);
+        sound_type_t effect = load_wav(sound);
         SDL_Delay(delay); // do a delay if there is one
-        Mix_PlayChannel(-1, soundEffect, 0); // play the sound effect
-        Mix_FreeChunk(soundEffect);
+        Mix_PlayChannel(-1, effect->soundEffect, 0); // play the sound effect
+        Mix_FreeChunk(effect->soundEffect);
         return 1;
     }
     return 0;
