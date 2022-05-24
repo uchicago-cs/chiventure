@@ -241,8 +241,9 @@ Test(custom_type, obj_add_args_prev)
     ot = obj_add_arg(ot, d, BOOL_TYPE);
     arg_t *end = ot->args->next->next->next;
 
+    cr_assert_eq(end->data.b, true, "arg_t add 0: failed arg_t addition (end)");
     cr_assert_eq(end->prev->data.c, '3', "arg_t_add 1: failed arg_t addition (prev)");
-    cr_assert_eq(end->prev->prev->data.i, 2, "arg_t_add 2: failed arg_t addition (prev) with %u", end->prev->prev->data.i);
+    cr_assert_eq(end->prev->prev->data.i, 2, "arg_t_add 2: failed arg_t addition (prev) with %c", end->prev->prev->data.i);
     cr_assert_str_eq(end->prev->prev->prev->data.s, "I am head", "arg_t_add: failed arg_t addition (prev)");
 }
 
