@@ -404,6 +404,5 @@ int main(int argc, char **argv)
 
     game_free(ctx->game);
 
-    pthread_exit(NULL);
     return 0;
 }

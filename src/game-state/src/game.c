@@ -786,6 +786,9 @@ int add_all_npcs_to_their_rooms(game_t *game)
 void *time_dependent_functions(void *game)
 {
     game_t *g;
+
+    pthread_detach(pthread_self());
+
     g = (game_t *) game;
     while (g != NULL)
     {
