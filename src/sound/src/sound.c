@@ -47,12 +47,12 @@ int sound_free(sound_t *sound)
     }
     else if (sound->type == BACKGROUND)
     {
-        Mix_FreeMusic(sound); // frees resources assocateed with the music
+        //Mix_FreeMusic(sound); // frees resources assocateed with the music
         return 1;
     }
     else if (sound->type == SOUND_EFFECT)
     {
-        Mix_FreeChunk(sound); // frees resources assocateed with the sound effect
+        //Mix_FreeChunk(sound); // frees resources assocateed with the sound effect
         return 1;
     }
     return 0;
@@ -72,7 +72,7 @@ int play_sound(sound_t *sound, int delay)
         Mix_Music *backgroundSound = load_wav(sound);
         SDL_Delay(delay); // do a delay if there is one
         Mix_PlayMusic(backgroundSound), -1); // play the music
-        sound_free(backgroundSound);
+        Mix_FreeMusic(backgroundSound);
         return 1;
     }
     else if (sound->type == SOUND_EFFECT)
@@ -80,7 +80,7 @@ int play_sound(sound_t *sound, int delay)
         Mix_Chunk *soundEffect = load_wav(sound);
         SDL_Delay(delay); // do a delay if there is one
         Mix_PlayChannel(-1, soundEffect, 0); // play the sound effect
-        sound_free(soundEffect);
+        Mix_FreeChunk(soundEffect);
         return 1;
     }
     return 0;

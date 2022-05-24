@@ -1,4 +1,5 @@
-#ifndef INCLUDE_SOUND_H_
+
+cd w#ifndef INCLUDE_SOUND_H_
 #define INCLUDE_SOUND_H_
 
 #include <stdio.h>
@@ -41,6 +42,8 @@ typedef struct {
 int load_wav(sound_t *sound);
 
 /* free sound structure from memory heap
+ * after some playing around, this functions doesn't seem necessary as its implementation
+ * can just be in sound_play, it could be worth it to delete this function
  *
  * Parameters:
  *      sound: sound struct
