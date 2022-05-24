@@ -155,7 +155,6 @@ int FreeNPCGraphics(npc_graphics_t* pointer)
     return 1;
 }
 
-
 /* See npc_graphics.h */
 npc_line_t* GetLine(char* line_name, npc_info_t* npc_graphics) {
     npc_line_t* current_line = npc_graphics->head_line;

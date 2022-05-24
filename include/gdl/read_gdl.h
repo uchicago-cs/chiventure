@@ -14,8 +14,8 @@
 
 
 #include "stats.h"
-#include "stdio.h"
-#include "stdlib.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 /* Contains the display_dimensions for all pop-up windows */

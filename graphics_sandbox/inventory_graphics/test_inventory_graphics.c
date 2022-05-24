@@ -1,5 +1,4 @@
 #include "inventory_graphics.h"  
-#include "inventory_graphics.c"
 
 int main()
 {

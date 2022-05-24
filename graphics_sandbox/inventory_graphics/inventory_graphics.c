@@ -2,21 +2,10 @@
 #include "inventory_graphics.h"
 
 
-/*
- * Populates the 2D array that will be used to hold items for inventory
- * graphics
- *
- * Parameters:
- * p : pointer to heap allocated player struct
- * graphics : pointer to heap allocated graphics struct
- *
- * Returns:
- * 2D array of items corresponding to items in player's inventory
- */
+/* See iventory_graphics.h */
 slot_t **populate_items(player_t *p, graphics_t *graphics)
 {
-    item_hash_t **hashinv = get_inventory(p);
-    item_list_t *itemlst = get_all_items_in_hash(hashinv);
+    item_list_t *itemlst = get_all_items_in_inventory(p);
     
     slot_t **inv = (slot_t**)malloc(sizeof(slot_t*)*graphics->inventory->rows);
     for (unsigned int i = 0; i < graphics->inventory->rows; i++){
@@ -90,7 +79,6 @@ void add_item_inventory(player_inventory_t *player_inventory, item_t *item)
         for(int j; j < player_inventory->display->columns; j++) {
             if (player_inventory->slots[i][j].status == EMPTY) {
                 player_inventory->slots[i][j].item = item;
-// should this line be player_inventory->slots[i][j]->item = item;
                 change = 1;
                 break;
             }
@@ -114,7 +102,8 @@ void draw_player_inventory(player_inventory_t *player_inventory);
 void remove_item_inventory(player_inventory_t *player_inventory, item_t *item)
 {
     if (player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].status != EMPTY) {
-        free(player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos]);
+        free(player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].item);
+        player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].status = EMPTY;
     } else {
         fprintf(stderr, "inventory empty at position (%p,%p)\n", item->inventory_x_pos, item->inventory_y_pos);
     }

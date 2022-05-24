@@ -24,6 +24,19 @@ typedef struct slot {
     item_t *item;
 } slot_t;
 
+/*
+ * Populates the 2D array that will be used to hold items for inventory 
+ * grpahics
+ *
+ * Parameters:
+ * p: pointer to heap allocated player struct
+ * graphics : pointer to heap allocated graphics struct
+ *
+ * Returns:
+ * 2D array of items corresponding to items in player's inventory
+ */
+slot_t **populate_items(player_t *p, graphics_t *graphics);
+
 
 /*
  * Defines the player inventory based on the display
