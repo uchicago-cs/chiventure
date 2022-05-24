@@ -40,7 +40,7 @@ npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue)
 }
 
 /* See npc.h */
-int *npc_quest_free(npc_quest_t *npc_quest)
+int npc_quest_free(npc_quest_t *npc_quest)
 {
    /* npc_quest_t *temp;
 
@@ -108,7 +108,7 @@ npc_task_t *npc_task_new(char *id, convo_t *task_dialogue)
 }
 
 /* See npc.h */
-int *npc_task_free(npc_task_t *npc_task)
+int npc_task_free(npc_task_t *npc_task)
 {
     /*npc_task_t *temp;
 
@@ -345,6 +345,25 @@ int npc_free(npc_t *npc)
     free(npc);
 
     return SUCCESS;
+}
+
+/* See npc.h */
+int set_active_convo(npc_t *player, npc_quest_t *quest, npc_task_t *task)
+{
+   /* if (meets_prereqs(player, prereq))
+    {
+
+    }*/
+    // meets_prereqs call
+    // active dialogue updated
+
+
+
+    // if ... no matching active case
+
+    // if at least 1 matching active quest case
+
+    // if ^^ and 1 matching active task case --> no task dialogue yet
 }
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------

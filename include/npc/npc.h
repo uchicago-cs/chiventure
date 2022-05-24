@@ -19,8 +19,8 @@
 */ 
 typedef struct npc_quest {
    char *id;
-   convo_t *quest_dialogue;
-   npc_quest_t *next;
+   struct convo_t *quest_dialogue;
+   struct npc_quest_t *next;
 } npc_quest_t;
 
 /* 
@@ -28,7 +28,7 @@ typedef struct npc_quest {
  * (provided by the Quest team)
 */ 
 typedef struct npc_quest_list {
-   npc_quest_t *head;
+   struct npc_quest_t *head;
    int length;
 } npc_quest_list_t;
 
@@ -132,7 +132,7 @@ npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue);
  * Returns:
  * - SUCCESS upon successful free, FAILURE upon failed free
 */
-int *npc_quest_free(npc_quest_t *npc_quest);
+int npc_quest_free(npc_quest_t *npc_quest);
 
 /*
  * Initializes a npc_task struct
@@ -167,7 +167,7 @@ npc_task_t *npc_task_new(char *id, convo_t *task_dialogue);
  * Returns:
  * - SUCCESS upon successful free, FAILURE upon failed free
 */
-int *npc_task_free(npc_task_t *npc_task);
+int npc_task_free(npc_task_t *npc_task);
 
 /*
  * Initializes a npc_quest_list struct
@@ -314,25 +314,10 @@ int npc_free(npc_t *npc);
  * Parameters:
  * - npc: the npc
  * - player: the player
+ * 
+ * Returns: SUCCESS upon success, FAILURE upon failure
  */
-int set_convo(npc_t *player, prereq_t *prereq, npc_quest_t *quest,
-              npc_task_t *task)
-{
-   /* if (meets_prereqs(player, prereq))
-    {
-
-    }*/
-    // meets_prereqs call
-    // active dialogue updated
-
-
-
-    // if ... no matching active case
-
-    // if at least 1 matching active quest case
-
-    // if ^^ and 1 matching active task case --> no task dialogue yet
-}
+int set_active_convo(npc_t *player, npc_quest_t *quest, npc_task_t *task);
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
