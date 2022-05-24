@@ -85,7 +85,7 @@ Test(battle_flow_move, set_one_enemy)
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
     npc_t *npc_enemy = npc_new("enemy_name", "Enemy!", "Enemy!", 
-                                test_class, NULL, true);
+                                test_class, NULL, true, NULL, NULL);
     npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY,
                             HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
@@ -133,7 +133,7 @@ Test(battle_flow_move, set_battle)
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
     npc_t *npc_enemy = npc_new("set_battle_name", "Enemy!", "Enemy!", 
-                                    NULL, NULL, true);
+                                    NULL, NULL, true, NULL, NULL);
     npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY,
             HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
@@ -186,7 +186,7 @@ Test(battle_flow_move, start_battle)
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     stat_t *stats = (stat_t*)malloc(sizeof(stat_t));
     npc_t *npc_enemy = npc_new("start_battle_Name", "Enemy!", "Enemy!", 
-                                NULL, NULL, true);
+                                NULL, NULL, true, NULL, NULL);
     npc_battle_t *npc_b = npc_battle_new(100, stats, move, BATTLE_AI_GREEDY,
             HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
@@ -225,7 +225,8 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     estats->crit = 0;
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
 
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
@@ -284,7 +285,8 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     estats->crit = 0;
     move_t *emove = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
@@ -372,7 +374,8 @@ Test(battle_flow_move, battle_over_by_player)
     battle_item_t *dagger = create_npc_battle_item(1, 1, 20, 
     "A hearty dagger sure to take your breath away... for good",
     true, 20, 5, 0);    
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY,
             HOSTILE, 0, test_class, dagger);
     npc_enemy->npc_battle = npc_b;
@@ -446,7 +449,8 @@ Test(battle_flow_move, battle_over_by_enemy)
     estats->crit = 0;
     move_t *emove = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);

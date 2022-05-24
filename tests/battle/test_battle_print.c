@@ -38,7 +38,8 @@ Test(battle_print, print_start_battle)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
@@ -73,7 +74,8 @@ Test(battle_print, print_hp_one_enemy)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
@@ -131,7 +133,8 @@ Test(battle_print, print_player_move)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
@@ -194,7 +197,8 @@ Test(battle_print, print_player_move_crit)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true, 
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                             "Charismatic, always has a joke or song ready",
                             NULL, NULL, NULL);
@@ -254,7 +258,8 @@ Test(battle_print, print_player_move_miss)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);
@@ -316,7 +321,8 @@ Test(battle_print, print_enemy_move)
     battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
-    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true,
+                               NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
                                 NULL, NULL, NULL);

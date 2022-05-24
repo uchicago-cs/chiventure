@@ -218,7 +218,7 @@ Test(npc_battle, free)
    transfers them to the room */
 Test(npc_battle, transfer_all_npc_items_dead)
 {
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true, NULL, NULL);
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
     item_t *test_item1 = item_new("item1", "short", "long");
@@ -266,7 +266,7 @@ Test(npc_battle, transfer_all_npc_items_dead)
    and transfer them to the room */
 Test(npc_battle, transfer_all_npc_items_alive)
 {
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true, NULL, NULL);
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
     item_t *test_item1 = item_new("item1", "short", "long");
@@ -314,7 +314,7 @@ Test(npc_battle, transfer_all_npc_items_alive)
    inventory */
 Test(npc_battle, transfer_all_npc_items_empty_inventory)
 {
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true, NULL, NULL);
     stat_t *stats = create_enemy_stats1();
     move_t *moves = create_enemy_moves1();
     room_t *room = room_new("test_room", "room for testing",

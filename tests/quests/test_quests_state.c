@@ -59,10 +59,11 @@ Test(active_mission, init)
    	item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
+                                class, NULL, false, NULL, NULL);
 
     npc_t *mission_meet_kill = npc_new(npc_kill_id , "npc to kill", 
-                                       "An npc to kill", class, NULL, false);
+                                       "An npc to kill", class, NULL, false,
+                                       NULL, NULL);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = malloc(sizeof(active_mission_t));
@@ -259,10 +260,10 @@ Test(active_mission, free)
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
+                                class, NULL, false, NULL, NULL);
 
     npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
+                                       class, NULL, false, NULL, NULL);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
@@ -512,10 +513,10 @@ Test(quest, complete_task)
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
+                                class, NULL, false, NULL, NULL);
 
     npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
+                                       class, NULL, false, NULL, NULL);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
@@ -569,10 +570,10 @@ Test(quest,is_quest_completed)
     item_t *item_to_get = item_new("test_item", "item for testing",
     "test item for item_new()");
     npc_t *mission_meet_npc = npc_new(npc_meet_id ,"npc1", "npc to meet",
-                                class, NULL, false);
+                                class, NULL, false, NULL, NULL);
 
     npc_t *mission_meet_kill = npc_new(npc_kill_id ,"npc2", "npc to kill", 
-                                       class, NULL, false);
+                                       class, NULL, false, NULL, NULL);
     room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
 
     active_mission_t *a_mission = active_mission_new(item_to_get, mission_meet_npc,
