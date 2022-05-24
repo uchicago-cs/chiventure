@@ -126,7 +126,7 @@ typedef struct random_switch_type {
     //List of percentages for each subskill
     // e.g. if there were three subskills and each had an equal chance of being 
     //      used, this should be an array with chances 0.33, 0.33, 0.33
-    float** chances;
+    float* chances;
 
 } random_switch_type_t;
 

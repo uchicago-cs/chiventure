@@ -56,6 +56,8 @@ int complex_skill_free(complex_skill_t* complex_skill);
  * Ex: Combined skills will run skill_execute on each subskill regardless of 
  *     success or failure
  *     Sequential skills will stop execution once a sub_skill fails
+ * 
+ * Note: Random complex skills are executed via a different function
  *
  *
  * Parameters:
