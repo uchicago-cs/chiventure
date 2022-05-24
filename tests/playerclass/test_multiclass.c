@@ -149,7 +149,7 @@ Test(multiclass, shortdesc_exceeds_max_length){
 
     char* shortdesc = multiclass_shortdesc(c1, c2, &succ);
 
-    cr_assert_eq(succ, FAILURE, "max length should have been exceeded but flag was not raised");
+    cr_assert_eq(succ, 20, "max length should have been exceeded but flag was not raised");
     cr_assert_str_eq(shortdesc, c1->shortdesc, "expected: %s. Got %s", c1->shortdesc, shortdesc);
 }
 
