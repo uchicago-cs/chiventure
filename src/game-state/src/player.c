@@ -235,7 +235,7 @@ int player_task_hash_free(player_task_hash_t *player_tasks)
 }
 
 /* See player.h */
-int get_player_quest(player_task_t *player_quests, char* id)
+player_quest_t *get_player_quest_from_hash(char *id, player_quest_t *player_quests)
 {
     player_quest_t *quest;
     HASH_FIND_STR(player_quests, id, quest);
@@ -243,7 +243,7 @@ int get_player_quest(player_task_t *player_quests, char* id)
 }
 
 /* See player.h */
-int get_player_task(player_task_hash_t *player_tasks, char *id)
+player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *player_tasks)
 {
     player_task_t *task;
     HASH_FIND_STR(player_tasks, id, task);

@@ -3,6 +3,8 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "game-state/player.h"
+//#include "game-state/game.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "npc/dialogue.h"
@@ -564,7 +566,7 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
  * 
  * Returns: SUCCESS upon success, FAILURE upon failure
  */
-int reset_active_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc_t *npc, 
                    char *quest_id, char *task_idk);
 
 /* forward declaration */

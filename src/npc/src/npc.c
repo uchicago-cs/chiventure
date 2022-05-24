@@ -380,21 +380,20 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
 }
 
 /* See npc.h */
-int reset_active_dialogue(quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc_t *npc, 
                    char *quest_id, char *task_id)
 {
     assert (quest_id != NULL);
     assert(task_id != NULL);
 
-    npc_quest_t *npc_quest = get_npc_quest(npc, quest_id);
-    npc_task_t *npc_task = get_npc_task(npc, task_id);
+    player_quest_t *p_quest = get_player_quest_from_hash(quest_id, 
+                                                         player->player_quests);
+    player_task_t *p_task = get_player_task_from_hash(task_id, 
+                                                      player->player_tasks);
 
-    assert (npc_quest != NULL);
-    assert(npc_task != NULL);
-
-    quest_t *quest = get_quest_from_hash(quest_id, player->player_quests);
-    task_t *task = get_task_from_hash(task_id, player->player_tasks);
-
+    quest_t *quest = get_quest_from_hash(p_quest->quest_id, game->all_quests);
+    task_t *task = get_task_from_hash(p_task->task_id, game->all_tasks);
+    
     if ((is_quest_completed(quest, player)) || 
        (is_task_completed(task, player)))
     {
