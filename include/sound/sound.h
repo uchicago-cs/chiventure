@@ -1,5 +1,4 @@
-
-cd w#ifndef INCLUDE_SOUND_H_
+#ifndef INCLUDE_SOUND_H_
 #define INCLUDE_SOUND_H_
 
 #include <stdio.h>
@@ -48,10 +47,9 @@ typedef union {
 sound_type_t *load_wav(sound_t *sound);
 
 /* free sound structure from memory heap
- * after some playing around, this functions doesn't seem necessary as its implementation
- * can just be in sound_play, it could be worth it to delete this function
  *
  * Parameters:
+ *      soundType: the type of sound it is (music or sound effect)
  *      sound: sound struct
  * Return:
  *      0 on success 1 on failure
