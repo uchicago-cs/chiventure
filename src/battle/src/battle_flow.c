@@ -472,7 +472,7 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 {
     stat_t* user_stats = source->stats;
     stat_t* target_stats = target->stats;
-    if ((move->user_mods == NULL) || (move->opponent_mods == NULL))
+    if ((move->user_mods == NULL) && (move->opponent_mods == NULL))
     {
         return FAILURE;
     }
