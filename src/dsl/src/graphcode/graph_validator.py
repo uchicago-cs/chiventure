@@ -7,6 +7,7 @@ from doctest import FAIL_FAST
 from example_graphs import *
 
 # Main Function to validate cyclicality, all valid paths, singleton, and self loops
+# Return True if graph is valid
 def validate(graph, start):
     cyclical = check_cylicality(graph)
     valid_paths = check_all_nodes(graph, start)
@@ -30,7 +31,7 @@ def check_node(graph, v, visited, recStack):
         recStack[v] = False
         return False
  
-# Checks if htere is any cyclicality in a graph
+# Checks if there is any cyclicality in a graph
 def check_cylicality(graph):
     vertices = len(graph)
     visited = [False] * (vertices + 1)
