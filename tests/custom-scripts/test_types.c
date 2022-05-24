@@ -206,22 +206,22 @@ Test(custom_type, arg_t_new_str)
 */
 Test(custom_type, obj_add_args)
 {
-    data.b = true;
-    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
-    data.s = "I am head";
-    data.i = 2;
-    data.c = '3';
-    ot = obj_add_arg(ot, data, STR_TYPE);
-    ot = obj_add_arg(ot, data, INT_TYPE);
-    ot = obj_add_arg(ot, data, CHAR_TYPE);
-    ot = obj_add_arg(ot, data, BOOL_TYPE);
+    data_t d;
+    d.b = true;
+    object_t *ot = obj_t_init(d, BOOL_TYPE, NULL);
+    d.s = "I am head";
+    d.i = 2;
+    d.c = '3';
+    ot = obj_add_arg(ot, d, STR_TYPE);
+    ot = obj_add_arg(ot, d, INT_TYPE);
+    ot = obj_add_arg(ot, d, CHAR_TYPE);
+    ot = obj_add_arg(ot, d, BOOL_TYPE);
     arg_t *head = ot->args;
 
     cr_assert_str_eq(head->data.s, "I am head", "arg_t_add: failed head initialization");
     cr_assert_eq(head->next->data.i, 2, "arg_t_add: failed arg_t addition");
     cr_assert_eq(head->next->next->data.c, '3', "arg_t_add: failed arg_t addition");
     cr_assert_eq(head->next->next->next->data.b, true, "arg_t_add: failed arg_t addition");
-    cr_assert_null(head->next->next->next->next, "arg_t_add: failed to terminate linked list");
 }
 
 /** 
@@ -229,15 +229,16 @@ Test(custom_type, obj_add_args)
 */
 Test(custom_type, obj_add_args_prev)
 {
-    data.b = true;
-    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
-    data.s = "I am head";
-    data.i = 2;
-    data.c = '3';
-    ot = obj_add_arg(ot, data, STR_TYPE);
-    ot = obj_add_arg(ot, data, INT_TYPE);
-    ot = obj_add_arg(ot, data, CHAR_TYPE);
-    ot = obj_add_arg(ot, data, BOOL_TYPE);
+    data_t d;
+    d.b = true;
+    object_t *ot = obj_t_init(d, BOOL_TYPE, NULL);
+    d.s = "I am head";
+    d.i = 2;
+    d.c = '3';
+    ot = obj_add_arg(ot, d, STR_TYPE);
+    ot = obj_add_arg(ot, d, INT_TYPE);
+    ot = obj_add_arg(ot, d, CHAR_TYPE);
+    ot = obj_add_arg(ot, d, BOOL_TYPE);
     arg_t *end = ot->args->next->next->next;
 
     cr_assert_eq(end->prev->data.c, '3', "arg_t_add 1: failed arg_t addition (prev)");

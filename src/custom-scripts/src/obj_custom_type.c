@@ -20,7 +20,22 @@ object_t *obj_t_init(data_t d, data_type_t t, char *lua)
         ot->is_lua = true;
         ot->data.lua = lua;
     } else {
-        ot->data = d;
+        switch (t) {
+            case BOOL_TYPE:
+                ot->data.b = d.b;
+                break;
+            case CHAR_TYPE:
+                ot->data.c = d.c;
+                break;
+            case INT_TYPE:
+                ot->data.i = d.i;
+                break;
+            case STR_TYPE:
+                ot->data.s = d.s;
+                break;
+            default:  
+                break;
+        }
     }
     return ot;
 }
