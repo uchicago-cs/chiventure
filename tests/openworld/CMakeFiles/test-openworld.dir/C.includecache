@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/home/wellingtj/Desktop/cs220/chiventure/tests/openworld/main.c
+stdio.h
+-
+stdbool.h
+-
+criterion/criterion.h
+-
+criterion/options.h
+-
+criterion/output.h
+-
+
 /home/wellingtj/Desktop/cs220/chiventure/tests/openworld/test_autogenerate.c
 criterion/criterion.h
 -
@@ -21,6 +33,18 @@ openworld/default_items.h
 /home/wellingtj/Desktop/cs220/chiventure/tests/openworld/openworld/default_items.h
 openworld/gen_structs.h
 /home/wellingtj/Desktop/cs220/chiventure/tests/openworld/openworld/gen_structs.h
+
+/home/wellingtj/Desktop/cs220/chiventure/tests/openworld/test_items.c
+criterion/criterion.h
+-
+stdio.h
+-
+stdlib.h
+-
+common/uthash.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/openworld/common/uthash.h
+openworld/default_items.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/openworld/openworld/default_items.h
 
 /home/wellingtj/Desktop/cs220/chiventure/tests/openworld/test_rooms.c
 criterion/criterion.h
@@ -319,8 +343,6 @@ game-state/game_state_common.h
 include/npc/game-state/game_state_common.h
 game-state/item.h
 include/npc/game-state/item.h
-game-state/game.h
-include/npc/game-state/game.h
 playerclass/class_structs.h
 include/npc/playerclass/class_structs.h
 playerclass/class.h

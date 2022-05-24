@@ -6,6 +6,42 @@
 
 #IncludeRegexTransform: 
 
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/main.c
+stdio.h
+-
+stdbool.h
+-
+criterion/criterion.h
+-
+criterion/options.h
+-
+criterion/output.h
+-
+
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_ai.c
+criterion/criterion.h
+-
+stdlib.h
+-
+stdbool.h
+-
+string.h
+-
+battle/battle_ai.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/battle/battle_ai.h
+
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_default_objects.c
+criterion/criterion.h
+-
+stdbool.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_default_objects.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/battle/battle_default_objects.h
+
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_flow.c
 stdlib.h
 -
@@ -29,6 +65,18 @@ npc/npc.h
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/npc/npc.h
 npc/npc_battle.h
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/npc/npc_battle.h
+
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_flow_structs.c
+criterion/criterion.h
+-
+stdbool.h
+-
+stdlib.h
+-
+string.h
+-
+battle/battle_flow_structs.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/battle/battle_flow_structs.h
 
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_logic.c
 criterion/criterion.h
@@ -74,6 +122,18 @@ playerclass/class.h
 battle/battle_default_objects.h
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/battle/battle_default_objects.h
 
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_moves.c
+criterion/criterion.h
+-
+stdlib.h
+-
+stdio.h
+-
+stdbool.h
+-
+battle/battle_moves.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/battle/battle_moves.h
+
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_print.c
 stdlib.h
 -
@@ -97,6 +157,20 @@ npc/npc.h
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/npc/npc.h
 npc/npc_battle.h
 /home/wellingtj/Desktop/cs220/chiventure/tests/battle/npc/npc_battle.h
+
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/test_battle_state.c
+criterion/criterion.h
+-
+stdlib.h
+-
+stdbool.h
+-
+string.h
+-
+battle/battle_state.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/battle/battle_state.h
+common/utlist.h
+/home/wellingtj/Desktop/cs220/chiventure/tests/battle/common/utlist.h
 
 include/action_management/action_structs.h
 
@@ -465,8 +539,6 @@ game-state/game_state_common.h
 include/npc/game-state/game_state_common.h
 game-state/item.h
 include/npc/game-state/item.h
-game-state/game.h
-include/npc/game-state/game.h
 playerclass/class_structs.h
 include/npc/playerclass/class_structs.h
 playerclass/class.h

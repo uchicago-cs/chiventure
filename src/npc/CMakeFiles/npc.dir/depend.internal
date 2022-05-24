@@ -75,7 +75,6 @@ src/npc/CMakeFiles/npc.dir/src/npc.c.o
  include/npc/npc_move.h
  include/npc/rooms-npc.h
  include/playerclass/class.h
- include/playerclass/class_prefabs.h
  include/playerclass/class_structs.h
  include/quests/quests_state.h
  include/quests/quests_structs.h

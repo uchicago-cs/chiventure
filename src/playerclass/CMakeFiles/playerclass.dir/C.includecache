@@ -28,6 +28,22 @@ skilltrees/inventory.h
 common/utlist.h
 /home/wellingtj/Desktop/cs220/chiventure/src/playerclass/src/common/utlist.h
 
+/home/wellingtj/Desktop/cs220/chiventure/src/playerclass/src/class_item.c
+assert.h
+-
+stdbool.h
+-
+stdlib.h
+-
+string.h
+-
+game-state/item.h
+/home/wellingtj/Desktop/cs220/chiventure/src/playerclass/src/game-state/item.h
+playerclass/class.h
+/home/wellingtj/Desktop/cs220/chiventure/src/playerclass/src/playerclass/class.h
+playerclass/class_structs.h
+/home/wellingtj/Desktop/cs220/chiventure/src/playerclass/src/playerclass/class_structs.h
+
 /home/wellingtj/Desktop/cs220/chiventure/src/playerclass/src/class_prefabs.c
 ctype.h
 -
@@ -329,8 +345,6 @@ game-state/game_state_common.h
 include/npc/game-state/game_state_common.h
 game-state/item.h
 include/npc/game-state/item.h
-game-state/game.h
-include/npc/game-state/game.h
 playerclass/class_structs.h
 include/npc/playerclass/class_structs.h
 playerclass/class.h
