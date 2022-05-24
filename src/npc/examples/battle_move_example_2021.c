@@ -239,7 +239,7 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
         HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
         {
-            if ((npc_elt->will_fight == false) || (npc_elt->npc_battle->health == 0))
+            if ((npc_elt->hostility_level != FRIENDLY) || (get_npc_hp(npc_elt) <= 0))
             {
 	            continue;
 	        } 

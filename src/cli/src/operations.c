@@ -528,10 +528,10 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
     {   
         i++;
-        if (npc_elt->will_fight)
+        if (npc_elt->hostility_level != FRIENDLY)
         {
             print_to_cli(ctx, npc_elt->npc_id);
-            if (npc_elt->npc_battle->health == 0) 
+            if (get_npc_hp(npc_elt) == 0) 
             {
                 print_to_cli(ctx, "The above NPC has been defeated");
             }
