@@ -147,7 +147,7 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
  *  - A pointer to the random chnace type, or NULL if one cannot be 
  *    allocated
  */
- random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure);
+random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure);
 
 /*
  * Initializes a random chance type.
@@ -175,7 +175,7 @@ int random_chance_init(random_chance_type_t* random_chance_skill, complex_skill_
  */
 int random_chance_free(random_chance_type_t* random_chance_skill);
 
- /*
+/*
  * Allocates a new random range type in the heap.
  *
  * Parameters:
@@ -187,7 +187,7 @@ int random_chance_free(random_chance_type_t* random_chance_skill);
  *  - A pointer to the random range type, or NULL if one cannot be 
  *    allocated
  */
- random_range_type_t* random_range_new(complex_skill_t* complex_skill, int lower_bound, int upper_bound);
+random_range_type_t* random_range_new(complex_skill_t* complex_skill, int lower_bound, int upper_bound);
 
  /*
  * Initializes a random range type.
@@ -227,7 +227,7 @@ int random_range_free(random_range_type_t* random_range_skill);
  *  - A pointer to the random switch type, or NULL if one cannot be 
  *    allocated
  */
- random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances);
+random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances);
 
  /*
  * Initializes a random switch type.
