@@ -137,41 +137,124 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
 
 /*
- * Allocates a new randon chance type in the heap.
+ * Allocates a random chance type in the heap.
  *
  * Parameters:
  *  - chance_failure: A float representing the chance of failure
+ *  - complex_skill: the associated complex skill
  *
  * Returns:
  *  - A pointer to the random chnace type, or NULL if one cannot be 
  *    allocated
  */
- random_chance_type_t* random_chance_type_new(float chance_failure);
+ random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure);
+
+/*
+ * Initializes a random chance type.
+ *
+ * Parameters:
+ *  - random_chance_type_t: must point struct already allocated with 
+ *    random_chance_new
+ *  - chance_failure: A float representing the chance of failure
+ *  - complex_skill: the associated complex skill
+ * 
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int random_chance_init(random_chance_type_t* random_chance_skill, complex_skill_t* complex_skill, float chance_failure);
+
+/*
+ * Frees the resources associated with a random chance skill
+ *
+ * Parameters:
+ *  - random_chance_skill: A random chance skill. Must point to skill allocated 
+ *    with random_chance_new
+ *
+ * Returns:
+ *  - Always returns 0
+ */
+int random_chance_free(random_chance_type_t* random_chance_skill);
 
  /*
- * Allocates a new randon range type in the heap.
+ * Allocates a new random range type in the heap.
  *
  * Parameters:
  *  - lower_bound: A lower bound of values
  *  - upper_bound: An upper bound of values
+ *  - complex_skill: the associated complex skill
  *
  * Returns:
  *  - A pointer to the random range type, or NULL if one cannot be 
  *    allocated
  */
- random_range_type_t* random_range_type_new(int lower_bound, int upper_bound);
+ random_range_type_t* random_range_new(complex_skill_t* complex_skill, int lower_bound, int upper_bound);
 
  /*
- * Allocates a new randon switch type in the heap.
+ * Initializes a random range type.
+ *
+ * Parameters:
+ *  - random_range_type_t: must point struct already allocated with 
+ *    random_range_new
+ *  - lower_bound: A lower bound of values
+ *  - upper_bound: An upper bound of values
+ *  - complex_skill: the associated complex skill
+ * 
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int random_range_init(random_chance_type_t* random_range_skill, complex_skill_t* complex_skill, int lower_bound, int upper_bound);
+
+/*
+ * Frees the resources associated with a random range skill
+ *
+ * Parameters:
+ *  - random_range_skill: A random range skill. Must point to skill allocated 
+ *    with random_range_new
+ *
+ * Returns:
+ *  - Always returns 0
+ */
+int random_range_free(random_range_type_t* random_range_skill);
+
+ /*
+ * Allocates a new random switch type in the heap.
  *
  * Parameters:
  *  - chances: List of percentages for each subskill
+ *  - complex_skill: the associated complex skill
  *
  * Returns:
  *  - A pointer to the random switch type, or NULL if one cannot be 
  *    allocated
  */
- random_switch_type_t* random_switch_type_new(float* chances);
+ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances);
+
+ /*
+ * Initializes a random switch type.
+ *
+ * Parameters:
+ *  - random_switch_type_t: must point struct already allocated with 
+ *    random_switch_new
+ *  - chances: List of percentages for each subskill
+ *  - complex_skill: the associated complex skill
+ * 
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int random_switch_init(random_chance_type_t* random_range_skill, complex_skill_t* complex_skill, float* chances);
+
+/*
+ * Frees the resources associated with a random switch skill
+ *
+ * Parameters:
+ *  - random_switch_skill: A random switch skill. Must point to skill allocated 
+ *    with random_switch_new
+ *
+ * Returns:
+ *  - Always returns 0
+ */
+int random_switch_free(random_switch_type_t* random_switch_skill);
+ 
 /* 
 * Executes a random skill using a chance effect
 *
