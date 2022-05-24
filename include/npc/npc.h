@@ -13,13 +13,15 @@
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
+typedef struct quest_ctx quest_ctx_t; // a forward declaration
+
 /* 
  * A singular quest node for npc_quest_list_t 
  * (provided by the Quest team)
 */ 
 typedef struct npc_quest {
    char *id;
-   struct convo_t *quest_dialogue;
+   struct convo_t *dialogue;
    struct npc_quest_t *next;
 } npc_quest_t;
 
@@ -306,10 +308,12 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
 int npc_free(npc_t *npc);
 
 /*
- * Will update the active_convo struct in npc
- * Will be set to normal "dialogue" by default
- * If activated quest --> update to that quest's dialogue
- * If activated task --> update to that tasks's dialogue
+ * Called when NPC is given option to receive quest or task
+ * Checks to see if player can receive (based on stats)
+ * If activated quest --> active_convo updated to that quest's dialogue
+ * If activated task --> active_convo updated to that tasks's dialogue
+ * If both --> ? for now, default to quest
+ * If neither --> remain default dialogue
  * 
  * Parameters:
  * - npc: the npc
@@ -317,7 +321,21 @@ int npc_free(npc_t *npc);
  * 
  * Returns: SUCCESS upon success, FAILURE upon failure
  */
-int set_active_convo(npc_t *player, npc_quest_t *quest, npc_task_t *task);
+int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc, 
+                                 char *quest_id, char *task_id);
+
+/*
+ * Called after active quest/task finished 
+ * Resets NPC's dialogue to normal dialogue
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - player: the player
+ * 
+ * Returns: SUCCESS upon success, FAILURE upon failure
+ */
+int reset_dialogue(quest_ctx_t *qctx, npc_t *npc, 
+                   char *quest_id, char *task_idk);
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
@@ -348,6 +366,30 @@ bool check_npc_battle(npc_t *npc);
 bool item_in_npc_inventory(npc_t *npc, char *item_id);
 
 // "GET" FUNCTIONS ------------------------------------------------------------
+
+/*
+ * Gets a quest with a specific id
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - id: the quest's id
+ * 
+ * Returns:
+ * - the quest if present, else NULL
+*/
+npc_quest_t *get_npc_quest(npc_t *npc, char *id);
+
+/*
+ * Gets a task with a specific id
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - id: the task's's id
+ * 
+ * Returns:
+ * - the task if present, else NULL
+*/
+npc_task_t *get_npc_task(npc_t *npc, char *id);
 
 /* 
  * Gets short description of npc.

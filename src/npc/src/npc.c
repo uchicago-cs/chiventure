@@ -348,22 +348,45 @@ int npc_free(npc_t *npc)
 }
 
 /* See npc.h */
-int set_active_convo(npc_t *player, npc_quest_t *quest, npc_task_t *task)
+int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc, 
+                                 char *quest_id, char *task_id)
 {
-   /* if (meets_prereqs(player, prereq))
+    if (npc_can_give_quest(qctx, quest_id))
     {
+        npc_quest_t *quest = get_npc_quest(npc, quest_id);
+        if (quest != NULL)
+        {
+            npc->active_convo = quest->dialogue;
+            return SUCCESS;
+        }
+        return FAILURE;
+    }
+    else if (npc_can_give_task(qctx, task_id))
+    {
+        npc_task_t *task = get_npc_task(npc, task_id);
+        if (task != NULL)
+        {
+            npc->active_convo = task->dialogue;
+            return SUCCESS;
+        }
+        return FAILURE;
+    }
+    return SUCCESS; // dialogue remains the same; no error
+}
 
-    }*/
-    // meets_prereqs call
-    // active dialogue updated
+/* See npc.h */
+int reset_dialogue(quest_ctx_t *qctx, npc_t *npc, char *quest_id,
+                   char *task_id)
+{
+    // get quest
+   // if (is_quest_completed())
+   // check to see if npc has quest/task active
+   // --> if not, end
+   // --> if yes, check to see whether task is complete or quest tasks are complete
+   //    --> if yes, swtich active_dialogue to normal dialogue
 
-
-
-    // if ... no matching active case
-
-    // if at least 1 matching active quest case
-
-    // if ^^ and 1 matching active task case --> no task dialogue yet
+    // to do
+    return 1;
 }
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------
@@ -399,6 +422,38 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
 }
 
 // "GET" FUNCTIONS ------------------------------------------------------------
+/* See npc.h */
+npc_quest_t *get_npc_quest(npc_t *npc, char *id)
+{
+    npc_quest_list_t *quests = npc->quests;
+    npc_quest_t *curr = quests->head;
+
+    while (curr != NULL)
+    {
+        if (curr->id == id) return curr;
+
+        curr = curr->next;
+    }
+
+    return NULL;
+}
+
+/* See npc.h */
+npc_task_t *get_npc_task(npc_t *npc, char *id)
+{
+    npc_task_list_t *tasks = npc->tasks;
+    npc_task_t *curr = tasks->head;
+
+    while (curr != NULL)
+    {
+        if (curr->id == id) return curr;
+
+        curr = curr->next;
+    }
+
+    return NULL;
+}
+
 /* See npc.h */
 char *get_sdesc_npc(npc_t *npc)
 {
