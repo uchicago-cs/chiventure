@@ -537,7 +537,7 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
@@ -565,8 +565,8 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
     battle_item_t *dagger = create_npc_battle_item(1, 20, 
                             "A hearty dagger sure to take your breath away... for good", "Dagger",
                             true, dagger_changes);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY,
-            HOSTILE, 0, test_class, dagger);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
+            HOSTILE, test_class, dagger, NULL, NULL, NULL);
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
