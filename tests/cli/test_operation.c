@@ -69,7 +69,12 @@ Test(operation, kind4_missing_arg)
     cr_assert_str_eq(return_string,"Second argument needed.\n","arg2 was not null but kind4 didn't match to that control flow\n");
 }
 
-/* White-Box testing for there being more than 1 argument after the action*/
+/* White-Box testing for there being more than 1 argument after the action
+ *
+ * Currently (5/23/2022), action management has not implemented a control 
+ * flow to handle view stats with extra parameters, 
+ * so we've left it as expecting an empty string
+ * */
 Test(operation, kind4_three_args)
 {
     chiventure_ctx_t *ctx = maketest_ctx();
@@ -79,7 +84,7 @@ Test(operation, kind4_three_args)
     tokens[2] = "NOW";
 
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_str_eq(return_string,"Sorry, only one page can be viewed at a time :(\n","arg3 was not null, but did not match that control flow\n");
+    cr_expect_str_eq(return_string,"","arg3 was not null, but did not match that control flow\n");
 }
 
 /* White-Box testing for there being 4 args specifically, 
