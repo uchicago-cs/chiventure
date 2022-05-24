@@ -93,7 +93,24 @@ typedef struct complex_skill{
     //Number of sub-skills in skills list
     int num_skills;
 
+    //If complex skill is a conditional, this stores its condition
+    reader_effect_t* reader;
+
 } complex_skill_t;
+
+/* Currently only supports for 1 binary condition
+*  Later on this may be changed to support more complex contions
+*/
+typedef struct reader_effect{
+    //String of the condition being 
+    char* condition;
+
+    //Length of string
+    int str_len;
+
+    //Location of condition (player, enemy, world, etc.)
+    reader_type_t type;
+} reader_effect_t;
 
 /* ======================== */
 /* === COMMON FUNCTIONS === */
