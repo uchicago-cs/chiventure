@@ -5,6 +5,7 @@
 #include "game-state/item.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "game-state/player.h"
 
 /* An enum representing the possible mission types currently supported */
 typedef enum mission_types {
@@ -127,5 +128,10 @@ typedef struct quest  {
  */
 typedef struct quest quest_hash_t;
 
+/* Stores important information necessary for the majority of quest functions */
+typedef struct quest_ctx {
+    player_t *player;
+    quest_hash_t *quest_hash;
+} quest_ctx_t;
 
 #endif 
