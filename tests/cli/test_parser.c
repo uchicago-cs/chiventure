@@ -270,31 +270,35 @@ Test(parse_r, two_words_quote)
 }
 
 /*
- * Tests the parsing of an input with four tokens, one being a single word surrounded by quotes
+ * Tests the parsing of an input with one token,  a single word surrounded by quotes
  */
-Test(parse_r, four_words_quote)
+Test(parse_r, one_word_quote)
 {
-    char str[] = "GO \"South\" AND WEST";
+    char str[] = "\"South\"";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"south", "parse() did not create second token");
-    cr_assert_str_eq(words[2],"and", "parse() did not create third token");
-    cr_assert_str_eq(words[3],"west", "parse() did not create fourth token");
+    cr_assert_str_eq(words[0],"south", "parse() did not create first token");
 }
 
 /*
- * Tests the parsing of an input with five tokens, one being a single word surrounded by quotes
+ * Tests the parsing of an input with one token, a single word in uppercase surrounded by quotes
  */
-Test(parse_r, five_words_quote)
+Test(parse_r, upper_quote)
 {
-    char str[] = "GO \"South\" AND GO  WEST";
+    char str[] = "\"SOUTH\"";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"south", "parse() did not create second token");
-    cr_assert_str_eq(words[2],"and", "parse() did not create third token");
-    cr_assert_str_eq(words[3],"go", "parse() did not create fourth token");
-    cr_assert_str_eq(words[3],"west", "parse() did not create fith token");
+    cr_assert_str_eq(words[0],"south", "parse() did not create first token");
 }
+
+/*
+ * Tests the parsing of an input with one token, a single word in lowercase surrounded by quotes
+ */
+Test(parse_r, lower_quote)
+{
+    char str[] = "\"south\"";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"south", "parse() did not create first token");
+}
+
 
 //Tests the parsing of input which is fully lowercase.
 Test(parse, lower)
