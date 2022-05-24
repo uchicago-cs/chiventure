@@ -537,7 +537,8 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL, NULL, NULL);
+    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL, 
+                                                NULL, NULL, NULL);
 
     g->player = ctx_player;
     ctx->game = g;
