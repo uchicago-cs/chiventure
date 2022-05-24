@@ -98,12 +98,12 @@ battle_item_t *make_items(){
     beserk_potion_stats->phys_def = -40;
     battle_item_t *beserk_potion = new_battle_item(2, "Beserk Potion", 
     "Makes the user go berserk, losing all sanity. Increases all attack stats but decreases all defense stats", 
-    beserk_potion_stats, 1, FALSE, smoke_bomb, NULL);
+    beserk_potion_stats, 1, FALSE, NULL, smoke_bomb);
     stat_changes_t *sp_restore_stats = stat_changes_new();
     sp_restore_stats->sp = 20;
     battle_item_t *sp_restore = new_battle_item(3, "SP Restore", 
     "Restores the user's SP.", sp_restore_stats, 3, 
-    FALSE, beserk_potion, NULL);
+    FALSE, NULL, beserk_potion);
     beserk_potion->next = sp_restore;
     smoke_bomb->next = beserk_potion;
     return smoke_bomb;

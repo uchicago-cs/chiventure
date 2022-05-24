@@ -336,7 +336,7 @@ char *print_moves(battle_t *b, char* moves)
     {
         
         int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name: %s\nDamage: %d\n",
-        temp->info, temp->damage);
+        temp->name, temp->damage);
         strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
