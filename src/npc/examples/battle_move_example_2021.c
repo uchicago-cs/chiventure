@@ -310,7 +310,7 @@ chiventure_ctx_t *create_sample_ctx()
                              "Friendly Fiona is a friendly woman named Fiona.",
                              "Friendly Fiona won't fight you unless you attack "
                              "her first, and she'll surrender quickly", class1,
-                             movement1, true);
+                             movement1, true, NULL, NULL);
 
     /* Add battle info to friendly npc */
     stat_t *stats1 = create_enemy_stats();
@@ -332,7 +332,8 @@ chiventure_ctx_t *create_sample_ctx()
                             "Hostile Harry is a hostile man named"
                             "Harry.", "Hostile Harry will attack you"
                             "first, and he won't surrender until he"
-                            "literally dies", class2, movement2, true);
+                            "literally dies", class2, movement2, true, NULL,
+                            NULL);
     /* Add battle info to hostile npc */
     stat_t *stats2 = create_enemy_stats();
     move_t *moves2 = create_enemy_moves();
