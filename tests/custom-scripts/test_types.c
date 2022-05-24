@@ -201,6 +201,50 @@ Test(custom_type, arg_t_new_str)
     cr_assert_eq(at->next, NULL, "arg_t_str next failed assignment");
 }
 
+/** 
+* Checks that the obj_add_arg_<type> correctly adds arg_t structs to the linked list
+*/
+Test(custom_type, obj_add_args)
+{
+    data.b = true;
+    data.s = "I am head";
+    data.i = 2;
+    data.c = '3';
+    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
+    ot = obj_add_arg(ot, data, STR_TYPE);
+    ot = obj_add_arg(ot, data, INT_TYPE);
+    ot = obj_add_arg(ot, data, CHAR_TYPE);
+    ot = obj_add_arg(ot, data, BOOL_TYPE);
+    arg_t *head = ot->args;
+
+    cr_assert_str_eq(head->data.s, "I am head", "arg_t_add: failed head initialization");
+    cr_assert_eq(head->next->data.i, 2, "arg_t_add: failed arg_t addition");
+    cr_assert_eq(head->next->next->data.c, '3', "arg_t_add: failed arg_t addition");
+    cr_assert_eq(head->next->next->next->data.b, true, "arg_t_add: failed arg_t addition");
+    cr_assert_null(head->next->next->next->next, "arg_t_add: failed to terminate linked list");
+}
+
+/** 
+* Checks that the obj_add_arg_<type> correctly assigns prev pointers in doubly linked list
+*/
+Test(custom_type, obj_add_args_prev)
+{
+    data.b = true;
+    data.s = "I am head";
+    data.i = 2;
+    data.c = '3';
+    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
+    ot = obj_add_arg(ot, data, STR_TYPE);
+    ot = obj_add_arg(ot, data, INT_TYPE);
+    ot = obj_add_arg(ot, data, CHAR_TYPE);
+    ot = obj_add_arg(ot, data, BOOL_TYPE);
+    arg_t *end = ot->args->next->next->next;
+
+    cr_assert_eq(end->prev->data.c, '3', "arg_t_add: failed arg_t addition (prev)");
+    cr_assert_eq(end->prev->prev->data.i, 2, "arg_t_add: failed arg_t addition (prev)");
+    cr_assert_str_eq(end->prev->prev->prev->data.s, "I am head", "arg_t_add: failed arg_t addition (prev)");
+}
+
 // ============================================================================
 
 /** 
