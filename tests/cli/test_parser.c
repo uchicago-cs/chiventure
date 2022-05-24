@@ -307,15 +307,6 @@ Test(parse_r, filler_word_double)
     cr_assert_str_eq(words[1],"east", "parse() did not create second token");
 }
 
-/*
- * Tests the parsing of an input with two tokens and 20 most common prepositions
- */
-Test(parse_r, filler_word_many)
-{
-    char str[] = "GO OF WITH AT FROM INTO DURING INCLUDING UNTIL AGAINST AMONG THROUGHOUT DESPITE TOWARDS UPON CONCERNING TO IN FOR ON BY EAST";
-    char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
-}
+
 
 
