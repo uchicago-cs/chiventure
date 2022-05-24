@@ -98,7 +98,10 @@ int load_actions(obj_t *item_obj, agent_t *agent)
  * - SUCCESS if conditions are loaded successfully, FAILURE otherwise
  */
 int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
-    
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = item;
+    agent->npc = NULL;
+
     /* Getting a list of actions from the item */ 
     obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
     if (action_ls == NULL)
@@ -121,7 +124,7 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
         /* Adds conditions to the current action, if conditions object exists */
         if (conditions_obj != NULL) 
         {
-           game_action_t* act = get_action(item, action);
+           game_action_t* act = get_action(agent, action);
            condition_t* conditions_ls = build_conditions(conditions_obj, g);
 
            while(conditions_ls != NULL)

@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "action_management/action_structs.h"
+#include "npc/npc.h"
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
 #include "game-state/room.h"
@@ -385,4 +387,283 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_acti
     return SUCCESS;
 }
 
+/*
+ * helper function that checks if the action is listed on the list_npc_action_t of an npc
+ *
+ * Parameters:
+ *    - npc: An npc_t. 
+ *    - action: An actions_t. 
+ *
+ * Returns:
+ *    - 0 if action is not contained, 1 if action is contained
+ */
+int contains_action(agent_t *agent, enum actions a) {
+    list_action_t *pos_actions = agent->npc->npc_actions;
+    enum actions *act = NULL;
+    while (pos_actions != NULL) {
+        act = pos_actions->npc_action;
+        if (*act == a) {
+            return 1;
+        }
+        pos_actions = pos_actions->next;
+    }
+    return 0;
+}
 
+/* KIND 5
+ * See action_management.h */
+int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string)
+{
+    assert(c);
+    assert(c->game);
+    assert(a);
+    assert(npc);
+
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->npc = npc;
+    agent->item = NULL;
+
+    // checks if the action type is the correct kind
+    if (a->kind != NPC)
+    {
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
+    }
+
+    // checks if the action is possible
+    if (possible_action(agent, a->c_name) == FAILURE)
+    {
+        sprintf(string, "Action %s can't be requested with npc %s",
+                a->c_name, agent->npc->npc_id);
+        *ret_string = string;
+        return NOT_ALLOWED_DIRECT;
+    }
+
+    // get the game action struct
+    game_action_t *game_act = get_action(agent, a->c_name);
+
+    // check if all conditions are met
+    if (!all_conditions_met(game_act->conditions))
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+    else
+    {
+       // check game over case just in case
+       // case for TALK_TO
+        if (strcmp(a->c_name, "talk_to") == 0) {
+            // check if NPC has TALK_TO in their list_npc_action_t
+            if (contains_action(agent, TALK_TO) == 0) {
+                sprintf(string, "Player cannot TALK_TO the NPC");
+                *ret_string = string;
+                return CONDITIONS_NOT_MET;
+            }
+            // initiates conversation (set_game_mode to CONVERSATION)
+            int switch_mode; // check in examples if this is how a convo is initiated
+            switch_mode = set_game_mode(c->game, CONVERSATION, "NORMAL");
+            if (switch_mode == FAILURE)
+            {
+                sprintf(string, "Failed to switch to normal mode");
+                return FAILURE;
+            }
+
+
+            // starts the conversation with the npc
+            convo_t *convo;
+            convo = agent->npc->dialogue;
+
+            int rc;
+
+            *ret_string = start_conversation(convo, &rc, NULL);
+
+            return SUCCESS;
+        }
+
+        // case for IGNORE
+        if (strcmp(a->c_name, "ignore") == 0) {
+            // check if NPC has IGNORE in their list_npc_action_t
+            if (contains_action(agent, IGNORE) == 0) {
+                sprintf(string, "Player cannot IGNORE the NPC");
+                *ret_string = string;
+                return CONDITIONS_NOT_MET;
+            }
+
+            // exits conversation (set_game_mode to NORMAL)
+            int switch_mode;
+
+            switch_mode = set_game_mode(c->game, NORMAL, "CONVERSATION");
+            if (switch_mode == FAILURE)
+            {
+                sprintf(string, "Failed to switch to CONVERSATION mode");
+                return FAILURE;
+            }
+            return SUCCESS;
+        }
+
+        // case for all other actions 
+        else {
+            sprintf(string, "cannot perform %s with do_npc_action", a->c_name);
+            *ret_string = string;
+            return CONDITIONS_NOT_MET;
+        }
+    }
+} 
+
+/* KIND 6
+ * See action_management.h */
+int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
+                       npc_t *npc, char **ret_string)
+{
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->npc = npc;
+    agent->item = NULL;
+
+    if(a->kind != NPC_ITEM) return WRONG_KIND;
+    
+    // get the game action struct
+    game_action_t *game_act = get_action(agent, a->c_name);
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    // check if all conditions are met
+    if (!all_conditions_met(game_act->conditions))
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    } 
+    if(item_in_npc_inventory(agent->npc, item->item_id) || item_in_inventory(c->game->curr_player, item))
+    {
+        *ret_string = "Items Allocated";
+        return SUCCESS;
+        
+    } else {
+        *ret_string = "Action cannot be completed since item is not in either inventory";
+        return CONDITIONS_NOT_MET;
+    }
+
+    agent->npc = get_npc_in_room(c->game->curr_room, c->game->mode->mode_ctx);
+
+    // case for GIVE
+    if (strcmp(a->c_name, "give") == 0)
+    {
+        if(remove_item_from_player(c->game->curr_player, item) != SUCCESS)
+        {   
+            return FAILURE;
+        }
+        if(add_item_to_npc(agent->npc, item) != SUCCESS)
+        {
+            return FAILURE;
+        }
+        return SUCCESS;
+    }
+
+    // case for STEAL
+    if (strcmp(a->c_name, "steal") == 0)
+    {
+        if(remove_item_from_npc(agent->npc, item) != SUCCESS)
+        {
+            return FAILURE;
+        }
+        if(add_item_to_player(c->game->curr_player, item, c->game) != SUCCESS)
+        {
+            return FAILURE;
+        }
+        return SUCCESS;
+    }
+
+    // case for all other actions 
+    else {
+        sprintf(string, "cannot perform %s with do_npc_item_action", a->c_name);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+}
+
+/* KIND 7
+ * See action_management.h */
+int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item)
+{
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->npc = npc;
+    agent->item = NULL;
+
+    if(a->kind != NPC_ITEM_ITEM)
+    {
+        return WRONG_KIND;
+    }
+    // get the game action struct
+    game_action_t *game_act = get_action(agent, a->c_name);
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    // check if all conditions are met
+    if (!all_conditions_met(game_act->conditions))
+    {
+        sprintf(string, "%s", game_act->fail_str);
+        *ret_string = string;
+        return CONDITIONS_NOT_MET;
+    }
+    if(!item_in_npc_inventory(agent->npc, item->item_id))
+    {
+        *ret_string = "NPC doesn't have desired item in inventory";
+        return CONDITIONS_NOT_MET;
+        
+    } else {
+
+        // case for TRADE
+        if (strcmp(a->c_name, "trade") == 0)
+        {
+            int cost = strlen(item->short_desc); // is short_desc a num? if so why char*? no indication that this is monetary cost
+            item_list_t *player_inventory;
+            player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
+            bool can_buy = false;
+            while(player_inventory != NULL){
+                if(strlen(player_inventory->item->short_desc) >= cost){
+                    can_buy = true;
+                    ret_item = player_inventory->item;
+                    if(remove_item_from_player(c->game->curr_player, ret_item) != SUCCESS)
+                    {   
+                        return FAILURE;
+                    }
+                    if(add_item_to_npc(agent->npc, ret_item) != SUCCESS)
+                    {
+                        return FAILURE;
+                    }
+                    if(remove_item_from_npc(agent->npc, item) != SUCCESS)
+                    {   
+                        return FAILURE;
+                    }
+                    if(add_item_to_player(c->game->curr_player, item, c->game) != SUCCESS)
+                    {
+                        return FAILURE;
+                    }
+                    return SUCCESS;
+                }
+                player_inventory = player_inventory->next;
+            }
+            *ret_string = "Action cannot be completed since you have no items of equal or greater value";
+            return CONDITIONS_NOT_MET;
+        }
+
+        // case for buy
+        if (strcmp(a->c_name, "buy") == 0)
+        {
+            // todo
+            return FAILURE;
+        }
+
+        // case for all other actions
+        else {
+            sprintf(string, "cannot perform %s with do_npc_exchange_action", a->c_name);
+            *ret_string = string;
+            return CONDITIONS_NOT_MET;
+        }
+    }
+}

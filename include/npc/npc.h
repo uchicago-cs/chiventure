@@ -1,6 +1,7 @@
 #ifndef _NPC_H
 #define _NPC_H
 
+#include "action_management/action_structs.h"
 #include "game-state/game_state_common.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
@@ -43,6 +44,9 @@ typedef struct npc {
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
+
+    /* linked list of all possible actions the player can initiate with the npc */
+    list_action_t *npc_actions;
 
     /* pointer to game_action hashtable */
     game_action_hash_t *actions;
