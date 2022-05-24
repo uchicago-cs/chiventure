@@ -35,5 +35,6 @@ arg_t *arg_t_init(data_t d, data_type_t t) {
 
 // see arg_custom_type.h
 arg_t *arg_t_add(arg_t *head, arg_t *add) {
-    return DL_APPEND(head, add);
+    DL_APPEND(head, add);
+    return head;
 }
