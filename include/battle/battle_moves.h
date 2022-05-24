@@ -13,33 +13,56 @@
 
 /* Creates a new move struct 
  * Parameters:
- * - info: a string with a short description of move 
  * - id: move id number 
- * - items: a pointer to the battle_item struct involved with the move 
- * - attack: true if move is attack-based (vs defense), else false 
+ * - name: the name of the move
+ * - info: a string with a short description of move 
+ * - dmg_type: the type of damage the move will do
+ * - stat_mods: the targets the stat modifications of the move will be used on
+ * - effects: the targets the effects of the move will be used on
+ * - count: whether the move is a single target or multi target move
+ * - sp_cost: the amount of sp required to use the move
+ * - req_items a pointer to the battle_item struct involved with the move 
  * - damage: amount of damage the move does 
- * - defense: amount of defense the move provides 
+ * - accuracy: the accuracy of the move
+ * - user_mods: how the user's stats get modified by the move
+ * - opponent_mods: how the opponent's stats get modified by the move
+ * - prev: a pointer to the preveious move
+ * - next: a pointer to the next move
  * returns: a pointer to the new move 
  */
-move_t *move_new(char* info, int id, battle_item_t *items, bool attack,
-                 int damage, int defense);
+move_t* move_new(int id, char* name, char* info, damage_type_t dmg_type,
+                 target_type_t stat_mods, target_type_t effects, target_count_t count, 
+                 int sp_cost, battle_item_t* req_item, int damage, int accuracy,
+                 stat_changes_t* user_mods, stat_changes_t* opponent_mods, move_t* prev,
+                 move_t* next);
 
 
  /* Initialize a move struct 
   * Parameters:
-  * - move: a pointer to a move struct in memory
-  * - info: a string with a short description of move 
   * - id: move id number 
-  * - items: a pointer to the battle_item struct involved with the move 
-  * - attack: true if move is attack-based (vs defense), else false 
+  * - name: the name of the move
+  * - info: a string with a short description of move 
+  * - dmg_type: the type of damage the move will do
+  * - stat_mods: the targets the stat modifications of the move will be used on
+  * - effects: the targets the effects of the move will be used on
+  * - count: whether the move is a single target or multi target move
+  * - sp_cost: the amount of sp required to use the move
+  * - req_items a pointer to the battle_item struct involved with the move 
   * - damage: amount of damage the move does 
-  * - defense: amount of defense the move provides 
+  * - accuracy: the accuracy of the move
+  * - user_mods: how the user's stats get modified by the move
+  * - opponent_mods: how the opponent's stats get modified by the move
+  * - prev: a pointer to the preveious move
+  * - next: a pointer to the next move 
   * returns:
   * - SUCCESS for successful init
   * - FAILURE for unsuccessful init
   */
-int move_init(move_t *move, char* info, int id, battle_item_t *items, bool attack,
-                 int damage, int defense);
+int move_init(move_t* move, int id, char* name, char* info, damage_type_t dmg_type,
+                 target_type_t stat_mods, target_type_t effects, target_count_t count, 
+                 int sp_cost, battle_item_t* req_item, int damage, int accuracy,
+                 stat_changes_t* user_mods, stat_changes_t* opponent_mods, move_t* prev,
+                 move_t* next);
 
 
 /* Frees a battle struct from memory 
