@@ -160,9 +160,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * Parameters:
  * - c: A context struct encapsulating the shared state in chiventure
  * - a: An action type struct
- * - p: A player struct
- * - obj: An enum describing what self-related object (STATS, etc)
- *        needs to be acted on
+ * - target: An enum describing what self-related object (STATS, etc)
+ *           needs to be acted on
  * - ret_string: A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
@@ -171,8 +170,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
  * - 6 if conditions for the action haven't been met, failure string as an out parameter
  */
-int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p,
-                  self_action_object obj, char **ret_string);
+int do_self_action(chiventure_ctx_t *c, action_type_t *a,
+                  char* target, char **ret_string);
 
 /* A function that executes KIND 5 actions (ACTION <npc>)
  * * Parameters:

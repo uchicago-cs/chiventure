@@ -88,7 +88,6 @@ typedef enum {
     STATS = 1
 } self_action_object;
 
-
 /* Forward room declaration */
 typedef struct room room_t;
 
