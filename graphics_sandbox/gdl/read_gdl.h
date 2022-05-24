@@ -13,7 +13,7 @@
  */
 
 
-#include "stats.h"
+#include "../include/game-state/stats.h"
 #include <stdio.h>
 #include <stdlib.h>
 

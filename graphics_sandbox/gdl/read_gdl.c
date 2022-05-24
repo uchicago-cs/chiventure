@@ -1,5 +1,5 @@
 #include "read_gdl.h"
-#include "raylib.h"
+#include "../raylib_itself/raylib-multiple-contexts-hack/src/raylib.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

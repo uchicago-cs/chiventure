@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I../../include/game-state -fPIC -g -O2 -Wall -Wextra
+CFLAGS = -I../../include/ -fPIC -g -O2 -Wall -Wextra
 LDFLAGS = -L../
 LDLIBS = -lcriterion
 
