@@ -1,6 +1,6 @@
-# Example dialogue graphs represented as adjacency list to check different test cases
-from collections import defaultdict
-# Valid Graph
+# Example dialogue graphs represented as adjacency list to use as different test cases
+
+# Valid Graph Example
 OAK = {
     'A': ['B', 'C', 'E'],
     'B': ['C'],
@@ -11,12 +11,12 @@ OAK = {
     'G': [] 
 }
 
-# A is singleton
+# Singleton Graph Example
 SINGLETON = {
     'A': []
 }
 
-# Node B can't be reached
+# Unreachable Node Example
 NODENOTREACHED = {
     'A': ['C', 'E'],
     'B': ['C'],
@@ -27,12 +27,13 @@ NODENOTREACHED = {
     'G': []  
 }
 
-# Two nodes refer to eachother infinitely 
+# Infinite Loop with Two Nodes
 INFINITELOOP = {
     'A': ['B'],
     'B': ['A']
 }
 
+# Infinite Loop in Larger Graph
 INFINITELOOPLONG = {
     'A': ['B', 'C'], 
     'B': ['C'], 
@@ -40,6 +41,7 @@ INFINITELOOPLONG = {
     'D': ['D']
 }
 
+# Multi-Node Circular Loop
 INFINITECIRCLE = {
     'A': ['B'],
     'B': ['C'],
@@ -47,7 +49,7 @@ INFINITECIRCLE = {
     'D': ['A']
 }
 
-# G is self looping
+# Self Loop in Graph
 SELFLOOP = {
     'A': ['B', 'C', 'E'],
     'B': ['C'],
