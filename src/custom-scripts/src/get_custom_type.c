@@ -6,10 +6,10 @@ data_t arg_t_get(object_t *ot) {
 
     switch (ot->type) {
         case BOOL_TYPE:
+            assert(ot->type == BOOL_TYPE);
             if (ot->is_lua) {
                 char *lua_path = ot->data.lua;
-                lua_State *L = callLua(ot, lua_path);
-                assert(ot->type == BOOL_TYPE); 
+                lua_State *L = callLua(ot, lua_path); 
                 int result = (int)lua_toboolean(L, -1);
                 lua_pop(L, 1);
                 d.b = (result ? true : false);
@@ -19,10 +19,10 @@ data_t arg_t_get(object_t *ot) {
             }
             break;
         case CHAR_TYPE:
+            assert(ot->type == CHAR_TYPE);
             if (ot->is_lua) {
                 char *lua_path = ot->data.lua;
                 lua_State *L = callLua(ot, lua_path);
-                assert(ot->type == CHAR_TYPE);
                 const char *result = lua_tostring(L, -1);
                 lua_pop(L, 1);
                 char *result1 = strdup(result);
@@ -33,23 +33,23 @@ data_t arg_t_get(object_t *ot) {
             }
             break;
         case INT_TYPE:
+            assert(ot->type == INT_TYPE);
             if (ot->is_lua) {
                 char *lua_path = ot->data.lua;
                 lua_State *L = callLua(ot, lua_path);
-                assert(ot->type == INT_TYPE);
                 int result = (int)lua_tointeger(L, -1);
                 lua_pop(L, 1);
                 d.i = result;
                 return d;
             } else {
                 return ot->data;
-            }            
+            }
             break;
         case STR_TYPE:
+            assert(ot->type == STR_TYPE);
             if (ot->is_lua) {
                 char *lua_path = ot->data.lua;
                 lua_State *L = callLua(ot, lua_path);
-                assert(ot->type == STR_TYPE);
                 const char *result = lua_tostring(L, -1);
                 lua_pop(L, 1);
                 char *result1 = strdup(result);
@@ -62,5 +62,5 @@ data_t arg_t_get(object_t *ot) {
         default:
             return ot->data;
             break;
-    }
-}
+        }
+    } 
