@@ -256,7 +256,7 @@ Test(parse_r, first_quote)
 /*
  * Tests the parsing of an input with two tokens, the whole input being surrounded by quotes
  */
-Test(parse_r, first_quote)
+Test(parse_r, entire_quote)
 {
     char str[] = "\"GO EAST\"";
     char **words = parse(str);
@@ -266,7 +266,7 @@ Test(parse_r, first_quote)
 /*
  * Tests the parsing of an input with two tokens, and a filler words in the middle
  */
-Test(parse_r, first_quote)
+Test(parse_r, filler_word_mid)
 {
     char str[] = "GO TO EAST";
     char **words = parse(str);
@@ -277,7 +277,7 @@ Test(parse_r, first_quote)
 /*
  * Tests the parsing of an input with two tokens, and a filler word at the start
  */
-Test(parse_r, first_quote)
+Test(parse_r, filler_word_first)
 {
     char str[] = "I GO EAST";
     char **words = parse(str);
@@ -288,7 +288,7 @@ Test(parse_r, first_quote)
 /*
  * Tests the parsing of an input with two tokens, and a filler word at the end
  */
-Test(parse_r, first_quote)
+Test(parse_r, filler_word_last)
 {
     char str[] = "GO EAST WARDS";
     char **words = parse(str);
@@ -299,7 +299,7 @@ Test(parse_r, first_quote)
 /*
  * Tests the parsing of an input with two consecutive filler words and two tokens
  */
-Test(parse_r, first_quote)
+Test(parse_r, filler_word_double)
 {
     char str[] = "GO TO THE EAST";
     char **words = parse(str);
@@ -310,7 +310,7 @@ Test(parse_r, first_quote)
 /*
  * Tests the parsing of an input with two tokens and 20 most common prepositions
  */
-Test(parse_r, first_quote)
+Test(parse_r, filler_word_many)
 {
     char str[] = "GO OF WITH AT FROM INTO DURING INCLUDING UNTIL AGAINST AMONG THROUGHOUT DESPITE TOWARDS UPON CONCERNING TO IN FOR ON BY EAST";
     char **words = parse(str);
