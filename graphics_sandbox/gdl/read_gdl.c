@@ -207,7 +207,7 @@ int free_inventory_display(inventory_display_t *inventory)
 }
 
 
-statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode *mode)
+statistics_display_t* make_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode)
 {
     statistics_display_t *statistics_display;   
     int rc;
@@ -425,7 +425,7 @@ graphics_t* read_gdl()
     }
 //  graphics_t *graphics = make_graphics(display_dimensions, camera, inventory, statistics);
     graphics->statistics = NULL;
-    ggraphics->dimensions = dimensions;
+    graphics->dimensions = dimensions;
     graphics->camera = camera;
     graphics->inventory = inventory;
     return graphics;
