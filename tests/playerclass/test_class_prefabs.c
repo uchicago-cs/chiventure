@@ -183,3 +183,10 @@ Test(class_prefabs, Wizard) {
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Blinding Charm", "failed to initialize skill inventory");
 }
+
+/* Tests the alchemist class */
+Test(class_prefabs, Alchemist) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "ALCHEMIST");
+}
