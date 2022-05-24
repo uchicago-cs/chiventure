@@ -9,7 +9,7 @@ Test(camera, new)
     unsigned int height = 300;
     
     camera_t *camera;
-    camera = make_camera(width,height);
+    camera = new_camera(width,height);
     
     cr_assert_not_null(camera, "make_camera() failed");
    
@@ -24,7 +24,7 @@ Test(camera, free)
     int rc;
 
     camera_t *camera;
-    camera = make_camera(width,height);
+    camera = new_camera(width,height);
    
     cr_assert_not_null(camera, "make_camera() failed");
 
