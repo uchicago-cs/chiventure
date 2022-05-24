@@ -355,24 +355,3 @@ Test(battle_ai, damage_norm)
 
     cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
 }
-
-/* Ensures critical damage is calculated correctly*/
-Test(battle_ai, damage_crit)
-{
-    combatant_t *player, *enemy;
-    move_t* move;
-
-    player = new_battle_player();
-    enemy = new_enemy_crit();
-    move = expected_move_greedy();
-
-    double expected = 1.0*24.0;
-    double actual = damage(player, move, enemy);
-
-    cr_assert_not_null(player, "combatant_new() failed");
-    cr_assert_not_null(enemy, "combatant_new() failed");
-
-    cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
-}
-
-
