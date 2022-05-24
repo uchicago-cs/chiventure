@@ -136,6 +136,42 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
  */
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
 
+/*
+ * Allocates a new randon chance type in the heap.
+ *
+ * Parameters:
+ *  - chance_failure: A float representing the chance of failure
+ *
+ * Returns:
+ *  - A pointer to the random chnace type, or NULL if one cannot be 
+ *    allocated
+ */
+ random_chance_type_t* random_chance_type_new(float chance_failure);
+
+ /*
+ * Allocates a new randon range type in the heap.
+ *
+ * Parameters:
+ *  - lower_bound: A lower bound of values
+ *  - upper_bound: An upper bound of values
+ *
+ * Returns:
+ *  - A pointer to the random range type, or NULL if one cannot be 
+ *    allocated
+ */
+ random_range_type_t* random_range_type_new(int lower_bound, int upper_bound);
+
+ /*
+ * Allocates a new randon switch type in the heap.
+ *
+ * Parameters:
+ *  - chances: List of percentages for each subskill
+ *
+ * Returns:
+ *  - A pointer to the random switch type, or NULL if one cannot be 
+ *    allocated
+ */
+ random_switch_type_t* random_switch_type_new(float* chances);
 /* 
 * Executes a random skill using a chance effect
 *

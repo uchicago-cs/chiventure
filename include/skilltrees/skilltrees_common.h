@@ -97,7 +97,7 @@ typedef struct complex_skill{
 
 /* Random Chance complex type */
 typedef struct random_chance_type {
-    //Complex skills struct, type must be RANDOM_SWITCH
+    //Complex skills struct, type must be RANDOM_CHANCE
     complex_skill_t* complex_skill;
 
     // chance of failure of this skill
@@ -107,7 +107,7 @@ typedef struct random_chance_type {
 
 /* Random Range complex type */
 typedef struct random_range_type {
-    //Complex skills struct, type must be RANDOM_SWITCH
+    //Complex skills struct, type must be RANDOM_RANGE
     complex_skill_t* complex_skill;
 
     // lower bound of values

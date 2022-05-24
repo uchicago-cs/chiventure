@@ -228,3 +228,9 @@ Test(skill_tests, complex_skill_level_up_failure)
     int x = complex_skill_level_up(complex);
     cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
 }
+
+/* Test(random_skills, execute_random_range_failure)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+
+}
