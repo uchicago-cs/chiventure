@@ -189,7 +189,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
         return callback_func(ctx, "Enter a valid battle command.", callback_args);
     }
 
-    callback_func(ctx, string, callback_args);
+    return callback_func(ctx, string, callback_args);
     free(string);
 
     if (battle_ctx->status != BATTLE_IN_PROGRESS) 
