@@ -40,6 +40,8 @@ int push_args(lua_State *L, object_t* ot) {
                 break;
         }
     }
+
+    return count;
 }
 
 // see lua_custom_type.h
