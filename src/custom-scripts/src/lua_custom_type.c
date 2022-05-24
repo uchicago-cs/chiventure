@@ -4,6 +4,7 @@
 void push_args(lua_State *L, object_t* ot) {
     int count = 0; // number of arguments in linked list
     arg_t *head = ot->args;
+    arg_t *to_push;
     // push arguments one-by-one
     DL_FOREACH(head, to_push) {
         // identify type of argument
