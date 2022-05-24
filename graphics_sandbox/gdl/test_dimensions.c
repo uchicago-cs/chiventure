@@ -9,7 +9,7 @@ Test(display_dimensions, new)
     unsigned int height = 400;
 
     display_dimensions_t *dimensions;
-    dimensions =  make_display_dimensions(width,height);
+    dimensions =  new_display_dimensions(width,height);
 
     cr_assert_not_null(dimensions, "make_display_dimensions() failed");
     
@@ -24,7 +24,7 @@ Test(display_dimensions, free)
     int rc;
 
     display_dimensions_t *dimensions;
-    dimensions = make_display_dimensions(width,height);
+    dimensions = new_display_dimensions(width,height);
     
     cr_assert_not_null(dimensions, "make_display_dimensions() failed");
     
