@@ -207,7 +207,46 @@ Test(parse, many_spaces)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
+Test(parse, rm_multiple_filler_words)
+{
+    char str[] = "go to the South";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "south", "parse() did not create second token");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
 
+Test(parse, rm_filler_word)
+{
+    char str[] = "go to South";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "south", "parse() did not create second token");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+Test(parse, rm_no_filler_word)
+{
+    char str[] = "go South";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "south", "parse() did not create second token");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+Test(parse, two_function_calls)
+{
+    char str1[] = "go to South";
+    char str2[] = "go to South";
+    char **words1 = parse(str1);
+    char **words2 = parse(str2);
+
+    cr_assert_str_eq(words1[0], words2[0]);
+    cr_assert_str_eq(words1[1], words2[1]);
+}
 /*
  * Tests the parsing of an input with two tokens, one being a single word surrounded by quotes
  */
@@ -238,8 +277,7 @@ Test(parse_r, three_words_quote)
     char str[] = "LOOK TO \"EAST\"";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"look", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"to", "parse() did not create second token");
-    cr_assert_str_eq(words[2],"east", "parse() did not create third token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create third token");
 }
 
 /*
