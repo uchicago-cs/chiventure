@@ -84,7 +84,8 @@ Test(operation, kind4_three_args)
     tokens[2] = "NOW";
 
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_expect_str_eq(return_string,"","arg3 was not null, but did not match that control flow\n");
+    printf("\n\nreturn_string = %s\n\n",return_string);
+    cr_expect_str_empty(return_string,"arg3 was not null, but did not match that control flow\n");
 }
 
 /* White-Box testing for there being 4 args specifically, 
