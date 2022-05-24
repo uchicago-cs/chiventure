@@ -502,9 +502,7 @@ int calculate_accuracy(int user_accuracy, int move_accuracy)
     int chance = randnum(0, 100);
     if(chance <= ((user_accuracy * move_accuracy) / 100)){
         return 1;
-    }
-    else
-    {
+    }else{
         return 0;
     }
 }
