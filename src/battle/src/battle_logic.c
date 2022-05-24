@@ -91,7 +91,7 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 /* see battle_logic.h */
 int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
-    apply_item_stat_changes(c->player_class, c->stats, item);
+    apply_item_stat_changes(c->class_type, c->stats, item);
     return 0;
 }
 
@@ -202,27 +202,27 @@ int apply_movement_stat_changes(stat_t* target_stats, stat_changes_t* changes)
 /* see battle_logic.h */
 int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t* item)  
 {
-    target_stats->speed += changes->speed;
-    target_stats->max_sp += changes->max_sp;
-    if ((target_stats->sp + changes->sp) <= target_stats->max_sp)
+    target_stats->speed += item->attributes->speed;
+    target_stats->max_sp += item->attributes->max_sp;
+    if ((target_stats->sp + item->attributes->sp) <= target_stats->max_sp)
     {
-        target_stats->sp += changes->sp;
+        target_stats->sp += item->attributes->sp;
     }
     else
     {
         target_stats->sp = target_stats->max_sp;
     }
-    target_stats->phys_atk += changes->phys_atk;
-    target_stats->mag_atk += changes->mag_atk;
-    target_stats->phys_def += changes->phys_def;
-    target_stats->mag_def += changes->mag_def;
-    target_stats->crit += changes->crit;
-    target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
-    target_stats->max_hp += changes->max_hp;
-    if ((target_stats->hp += changes->hp) <= target_stats->max_hp)
+    target_stats->phys_atk += item->attributes->phys_atk;
+    target_stats->mag_atk += item->attributes->mag_atk;
+    target_stats->phys_def += item->attributes->phys_def;
+    target_stats->mag_def += item->attributes->mag_def;
+    target_stats->crit += item->attributes->crit;
+    target_stats->accuracy += item->attributes->accuracy;
+    target_stats->hp += item->attributes->hp;
+    target_stats->max_hp += item->attributes->max_hp;
+    if ((target_stats->hp += item->attributes->hp) <= target_stats->max_hp)
     {
-        target_stats->hp += changes->hp;
+        target_stats->hp += item->attributes->hp;
     }else
     {
         target_stats->hp = target_stats->max_hp;
