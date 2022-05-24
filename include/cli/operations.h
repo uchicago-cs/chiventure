@@ -279,4 +279,19 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Changes the game state to BATTLE mode
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Note:
+ * Changing the game mode to battle mode should automatically call a function that 
+ * initiates and runs the battle.
+ *
+ * Returns:
+ * A string notifying the user that the battle has begun (or cannot begin).
+ */
+char *battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 #endif /* _CLI_INCLUDE_OPERATIONS_H */

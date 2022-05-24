@@ -13,7 +13,7 @@
 #include "cli/cmdlist.h"
 #include "cli/util.h"
 
-#define NUM_ACTIONS 29
+#define NUM_ACTIONS 30
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
@@ -21,7 +21,7 @@ char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON",
                         "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
                         "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
                         "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS"};
+                        "PALETTE", "ITEMS", "FIGHT"};
 
 
 /* 
@@ -557,4 +557,30 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     return str;
+}
+
+/* See operations.h */
+char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL) {
+        return "You must identify an NPC to fight. What are you going to do, fight yourself?";
+    }
+    
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
+    /* note: This assumes that the NPC name 
+     * is only one token long, and that the command is exactly "fight npc_name". */
+    
+    if (npc == NULL) {
+        return "No one by that name want to fight.";
+    }
+
+    if (npc->hostility_level != HOSTILE) {
+        return "%s does not want to fight.", tokens[1];
+    }
+
+    set_game_mode(ctx->game, BATTLE, npc->npc_id); 
+   
+    assert(npc->npc_battle != NULL);
+ 
+    return "Beginning battle.";
 }
