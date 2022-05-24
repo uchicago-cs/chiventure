@@ -134,7 +134,6 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
     return SUCCESS;
 }
 
-
 /*See complex_skills.h */
 random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure){
     return NULL;
@@ -152,17 +151,48 @@ int random_chance_free(random_chance_type_t* random_chance_skill){
 
 /*See complex_skills.h */
 random_range_type_t* random_range_new(complex_skill_t* complex_skill, int lower_bound, int upper_bound){
-    return NULL;
+    random_range_type_t* random;
+
+    random = (random_range_type_t*)malloc(sizeof(random_range_type_t));
+
+    if (random == NULL) {
+        fprintf(stderr, "random_range_new: memory allocation failed\n");
+        return NULL;
+    }
+
+    int rc = random_range_init(random, complex_skill, lower_bound, upper_bound);
+
+    if (rc) {
+        fprintf(stderr, "random_range_new: initialization failed\n");
+        return NULL;
+    }
+
+    return random;
 }
 
 /*See complex_skills.h */
-int random_range_init(random_chance_type_t* random_range_skill, complex_skill_t* complex_skill, int lower_bound, int upper_bound){
-    return 0;
+int random_range_init(random_range_type_t* random_range_skill, complex_skill_t* complex_skill, int lower_bound, int upper_bound){
+    assert(random_range_skill != NULL);
+    assert(complex_skill != NULL);
+
+    random_range_skill->complex_skill = complex_skill;
+    random_range_skill->lower_bound = lower_bound;   
+    random_range_skill->upper_bound = upper_bound;
+
+    return SUCCESS;
 }
 
 /*See complex_skills.h */
 int random_range_free(random_range_type_t* random_range_skill){
-    return 0;
+    int x = complex_skill_free(random_range_skill->complex_skill);
+    if (x != 0){
+        fprintf(stderr, "random_range_free: Complex skill freeing failed\n");
+        return FAILURE;
+    }
+    
+    free(random_range_skill);
+
+    return SUCCESS;
 }
 
 /*See complex_skills.h */
@@ -171,7 +201,7 @@ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* c
 }
 
 /*See complex_skills.h */
-int random_switch_init(random_chance_type_t* random_range_skill, complex_skill_t* complex_skill, float* chances){
+int random_switch_init(random_switch_type_t* random_range_skill, complex_skill_t* complex_skill, float* chances){
     return 0;
 }
 
