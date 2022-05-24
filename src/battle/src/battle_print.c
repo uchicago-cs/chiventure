@@ -105,13 +105,13 @@ int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
 /* see battle_print.h */
 int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes, char *string)
 {
-    char* combatant_name;
+    char combatant_name[50];
     if (turn == PLAYER)
     {
-        combatant_name = "Your";
+        snprintf(combatant_name, 50, "Your");
     } else
     {
-        combatant_name = strcat(b->enemy->name, "\'s");
+        snprintf(combatant_name, 50, "%s\'s", b->enemy->name);
     }
 
     int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);

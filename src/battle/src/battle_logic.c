@@ -54,11 +54,19 @@ turn_t goes_first(battle_t *b)
 /* see battle_logic.h */
 move_t *find_player_move(battle_ctx_t *ctx, char *move_name)
 {
-    move_t *temp;
+    //printf("place 1\n");
+    move_t *temp;// = (move_t *) malloc (sizeof(move_t));
     move_t *player_move = NULL;
 
     DL_FOREACH(ctx->game->battle->player->moves, temp)
     {
+        /*for(int i = 0; temp->name[i] != '\0'; i++)
+        {
+            printf("place 2\n");
+            printf("temp name %d", temp->name);
+            temp->name[i] = tolower(temp->name[i]);
+            printf("place 3\n");
+        }*/
         if (strncmp(temp->name, move_name, MAX_MOVE_INFO_LEN) == 0)
         {
             player_move = temp;
@@ -167,8 +175,17 @@ int award_xp(stat_t *stats, double xp)
 /* see battle_logic.h */
 int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
 {
-    target_stats->speed += changes->speed;
+    if (target_stats->speed + changes->speed < 0)
+    {
+        target_stats->speed = 0;
+    }
+    else
+    {
+        target_stats->speed += changes->speed;
+    }
+    
     target_stats->max_sp += changes->max_sp;
+
     if ((target_stats->sp + changes->sp) <= target_stats->max_sp)
     {
         target_stats->sp += changes->sp;
@@ -177,15 +194,64 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     {
         target_stats->sp = target_stats->max_sp;
     }
-    target_stats->phys_atk += changes->phys_atk;
-    target_stats->mag_atk += changes->mag_atk;
-    target_stats->phys_def += changes->phys_def;
-    target_stats->mag_def += changes->mag_def;
-    target_stats->crit += changes->crit;
-    target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
+
+    if (target_stats->phys_atk + changes->phys_atk < 0)
+    {
+        target_stats->phys_atk = 0;
+    }
+    else
+    {
+        target_stats->phys_atk += changes->phys_atk;
+    }
+
+    if (target_stats->mag_atk + changes->mag_atk < 0)
+    {
+        target_stats->mag_atk = 0;
+    }
+    else
+    {
+        target_stats->mag_atk += changes->mag_atk;
+    }
+
+    if (target_stats->phys_def + changes->phys_def < 0)
+    {
+        target_stats->phys_def = 0;
+    }
+    else
+    {
+        target_stats->phys_def += changes->phys_def;
+    }
+
+    if (target_stats->mag_def + changes->mag_def < 0)
+    {
+        target_stats->mag_def = 0;
+    }
+    else
+    {
+        target_stats->mag_def += changes->mag_def;
+    }
+
+    if (target_stats->crit + changes->crit < 0)
+    {
+        target_stats->crit = 0;
+    }
+    else
+    {
+        target_stats->crit += changes->crit;
+    }
+
+    if (target_stats->accuracy + changes->accuracy < 0)
+    {
+        target_stats->accuracy = 0;
+    }
+    else
+    {
+        target_stats->accuracy += changes->accuracy;
+    }
+
     target_stats->max_hp += changes->max_hp;
-    if ((target_stats->hp += changes->hp) <= target_stats->max_hp)
+    
+    if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
         target_stats->hp += changes->hp;
     }else
