@@ -20,7 +20,8 @@ int main()
     game_t *g = game_new("game");
     player_t *p = player_new("player");
     room_t *r = room_new("room", "short", "long");
-    npc_t *stranger = npc_new("stranger", "short", "long", NULL, NULL, 0);
+    npc_t *stranger = npc_new("stranger", "short", "long", NULL, NULL, 0, NULL,
+                              NULL);
     item_t *item1 = item_new("scimitar_handle", "a handle of a curved sword",
                              "looks intricate");
     item_t *item2 = item_new("scimitar_blade", "a blade of a curved sword",
