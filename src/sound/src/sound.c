@@ -36,7 +36,7 @@ sound_type_t *load_wav(sound_t *sound)
             printf("Sound effect is not loaded\n");
             return NULL;
         }
-        loaded->backgroundSound = wav;
+        loaded->soundEffect = wav;
     }
     return loaded;
 }
