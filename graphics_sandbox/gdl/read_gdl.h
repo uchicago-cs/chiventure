@@ -109,8 +109,25 @@ typedef struct graphics {
  * Returns:
  * - a pointer to the graphics struct on the heap
  */
-graphics_t* make_graphics(display_dimensions_t *dimensions, camera_t *camera,
+graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics);
+
+
+/*
+ * Initializes a graphics structure
+ *
+ * Parameters:
+ * - an initialized dimensions struct
+ * - an initialized camera struct
+ * - an initialized inventory struct
+ * - an initialized statistics struct
+ * - an uninitialized graphics strucuture
+ *     
+ * Returns:
+ * - an integer indicating success
+ */
+int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera_t *camera, 
+                  inventory_display_t *inventory, statistics_display_t *statistics);
 
 
 /*
@@ -147,12 +164,12 @@ int free_graphics(graphics_t* graphics);
  * Returns:
  * - a pointer to the display structure on the heap
  */
-display_dimensions_t* make_display_dimensions(unsigned int width,
+display_dimensions_t* new_display_dimensions(unsigned int width,
     unsigned int height);
 
 
 /*
- * frees a display structure from the heap
+ * Frees a display structure from the heap
  *
  * Parameters:
  * - a pointer to a display structure on the heap
@@ -164,7 +181,21 @@ int free_display_dimensions(display_dimensions_t *display_dimensions);
 
 
 /*
- * allocates and initializes a camera structure on the heap
+ * Initializes a display structure
+ *
+ * Parameters:
+ * - an uninitialized dimensions sturcture
+ * - an integer for the width
+ * - an integer for the height
+ *
+ * Returns:
+ * - an integer for success
+ */
+int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width, unsigned int height);
+
+
+/*
+ * Allocates and initializes a camera structure on the heap
  *
  * Parameters:
  * - window width
@@ -177,7 +208,25 @@ camera_t* make_camera(unsigned int width, unsigned int height);
 
 
 /*
- * frees a camera structure from the heap
+ * Initializes a camera structure
+ *
+ * Parameters:
+<<<<<<< HEAD
+ * - an uninitialized camera structure
+ * - an integer for camera width
+ * - an integer for camera height
+ *
+ * Returns:
+ * - an integer value for success
+=======
+ * - an uninitialized
+>>>>>>> d26175b898a004f623b54b54f8c67cdae0ce0265
+ */
+int init_camera(camera_t *camera, unsigned int width, unsigned int height);
+
+
+/*
+ * Frees a camera structure from the heap
  *
  * Parameters:
  * - a pointer to a cameray structure on the heap
@@ -189,7 +238,7 @@ int free_camera(camera_t *camera);
 
 
 /*
- * allocates and initializes an inventory structure on the heap
+ * Allocates and initializes an inventory structure on the heap
  *
  * Parameters:
  * - number of rows
@@ -199,8 +248,23 @@ int free_camera(camera_t *camera);
  * Returns:
  * - a pointer to the inventory structure on the heap
  */
-inventory_display_t* make_inventory_display(unsigned int rows,
+inventory_display_t* new_inventory_display(unsigned int rows,
     unsigned int columns, color color);
+
+
+/* 
+ * Initializes and uninitialized inventory display struct
+ *
+ * Parameters:
+ * - an uninitialized inventory display structure
+ * - the number of rows
+ * - the number of columns
+ * - the background color of the inventory display
+ *
+ * Returns:
+ * - an integer indicating success
+ */
+int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, color color);
 
 
 /*
@@ -227,10 +291,27 @@ int free_inventory_display(inventory_display_t *inventory_display);
  * Returns:
  * - a pointer to the inventory structure on the heap
  */
-statistics_display_t* make_statistics_display(corner corner, stats_t *statistics,
+statistics_display_t* new_statistics_display(corner corner, stats_t *statistics,
     unsigned int num_statistics, mode mode);
 
 
+/* 
+ * Initializes and uninitialized statustic display struct
+ *
+ * Parameters:
+ * - an uninitialized statistic display structure
+ * - the number of statistics
+ * - the array of statistic values
+ * - the corner in which to display the statistics
+ * - an array of modes corresponding to each statistic
+ *
+ * Returns:
+ * - an integer indicating success
+ */
+int init_statistics_display(statistics_display_t* statistics_display, corner corner,
+    stats_t *statistics,unsigned int num_statistics, mode mode);
+                           
+ 
 /*
  * frees a statistics structure from the heap
  *
