@@ -19,6 +19,8 @@
 #include "battle/battle_state.h"
 #include "battle/battle_logic.h"
 #include "battle/battle_default_objects.h"
+#include "move_demo.c"
+#include "demo_items_and_equipment.c"
 #include <time.h>
 
 const char *banner = "BATTLE MODE DEMO";
@@ -49,21 +51,22 @@ char *run_battle_one(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // this creates the player and enemy so that they are inside of ctx
     
+    // create player one (sorcerer)
+    stat_t *p1_stats = get_random_stat();
+    battle_item_t *p1_item = make_items();
+    move_t *p1_move = generate_moves_user_one();
+    class_t *p1_class = make_sorcerer();
+    battle_player_t *p1 = new_ctx_player("Nicholas the Wise", p1_class, p1_stats, p1_move, p1_item, 
+                                        NULL, NULL, NULL);
+
     // create enemy one (minion)
     stat_t *e1_stats = get_random_stat();
     move_t *e1_move = generate_moves_enemy_one();
-    npc_t *e1 = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", make_minion(), NULL, true);
-    npc_battle_t *npc1_b = npc_battle_new(100, e1_stats, e1_move, 
-                                        BATTLE_AI_GREEDY, HOSTILE, 0, NULL, NULL,
-                                        NULL, NULL, NULL);
+    class_t *e1_class = make_minion();
+    npc_t *e1 = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", e1_class, NULL, true);
+    npc_battle_t *npc1_b = npc_battle_new(e1_stats, e1_move, BATTLE_AI_GREEDY, 
+                                          HOSTILE, e1_class, p1_item, NULL, NULL, NULL);
     e1->npc_battle = npc1_b;
-    
-    // create player one (sorcerer)
-    stat_t *p1_stats = get_random_stat();
-    battle_item_t *p1_item = make_items()
-    move_t *p1_move = generate_moves_user_one();
-    battle_player_t *p1 = new_ctx_player("Nicholas", make_sorcerer(), p1_stats, p1_move, p1_item,
-                                        NULL, NULL, NULL);
 
     battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
 

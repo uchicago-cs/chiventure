@@ -74,37 +74,6 @@ int main()
 
     // while(ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     // {
-
-<<<<<<< HEAD
-        char* res = battle_flow_move(ctx, generate_moves_enemy_one(), "Minion");
-        if(strcmp(res, "FAILURE") == 0)
-        {
-            fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
-            ctx = NULL;
-        }
-        else
-        {
-            printf("Turn %d: \n",turn);
-            printf("    p | hp: %d\n", ctx->game->battle->player->stats->hp);
-            printf("    e | hp: %d\n\n", ctx->game->battle->enemy->stats->hp);
-            turn++;
-        }
-    }
-    battle_status_t winner = battle_over(ctx->game->battle);
-    switch (winner) {
-        case BATTLE_IN_PROGRESS:
-            fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
-            break;
-        case BATTLE_VICTOR_PLAYER:
-            fprintf(stderr, "SUCCESS: battle flow loop exited and player won\n");
-            break;
-        case BATTLE_VICTOR_ENEMY:
-            fprintf(stderr, "SUCCESS: battle flow loop exited and enemy won\n");
-            break;
-        case NO_BATTLE:
-            fprintf(stderr, "ERROR, battle should not return as no_battle");
-    }
-=======
     //     char* res = battle_flow_move(ctx, test_move_bard(), "Goblin");
     //     if(strcmp(res, "FAILURE") == 0)
     //     {
@@ -133,7 +102,6 @@ int main()
     //     case NO_BATTLE:
     //         fprintf(stderr, "ERROR, battle should not return as no_battle");
     // }
->>>>>>> 33c160c0c1328ed032048abcc786a2c45cf02e27
     return 0;
 }
 
