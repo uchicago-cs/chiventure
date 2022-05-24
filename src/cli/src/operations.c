@@ -13,7 +13,7 @@
 #include "cli/cmdlist.h"
 #include "cli/util.h"
 
-#define NUM_ACTIONS 29
+#define NUM_ACTIONS 30
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
@@ -21,7 +21,7 @@ char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON",
                         "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
                         "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
                         "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS"};
+                        "PALETTE", "ITEMS", "FIGHT"};
 
 
 /* 
@@ -262,7 +262,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
                 if(strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
-                    add_item_to_player(game->curr_player, curr_item);
+                    add_item_to_player(game->curr_player, curr_item, game);
                 }
             }
             curr_item = curr_item->next;
@@ -445,7 +445,7 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
     {   
         i++;
-        if (npc_elt->npc_battle->health > 0) 
+        if (npc_elt->npc_battle->stats->hp > 0) 
         {
             print_to_cli(ctx, npc_elt->npc_id);
         }
@@ -557,4 +557,30 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     return str;
+}
+
+/* See operations.h */
+char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL) {
+        return "You must identify an NPC to fight. What are you going to do, fight yourself?";
+    }
+    
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
+    /* note: This assumes that the NPC name 
+     * is only one token long, and that the command is exactly "fight npc_name". */
+    
+    if (npc == NULL) {
+        return "No one by that name want to fight.";
+    }
+
+    if (npc->hostility_level != HOSTILE) {
+        return "%s does not want to fight.", tokens[1];
+    }
+
+    set_game_mode(ctx->game, BATTLE, npc->npc_id); 
+   
+    assert(npc->npc_battle != NULL);
+ 
+    return "Beginning battle.";
 }
