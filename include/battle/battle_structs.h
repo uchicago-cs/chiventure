@@ -104,6 +104,7 @@ typedef struct stat {
     int accuracy; //The default odds of any move used by this unit hitting the target; the value is out of 100.
     int hp; //The current health of the unit; the battle ends when this hits 0.
     int max_hp; //The maximum amount of health this unit can currently have.
+    int surrender_level; //The hp value that will cause a NPC to surrender. Default value is 0.
     int xp; //The current amount of experience points gained by this unit.
     int level; //The current level of the unit.
 } stat_t;
