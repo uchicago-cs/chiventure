@@ -393,7 +393,7 @@ void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms)
 /* See room.h  */
 int transfer_all_npc_items(npc_t *npc, room_t *room)
 {
-    if (get_npc_health(npc) > 0)
+    if (get_npc_hp(npc) > 0)
     {
         return FAILURE;
     }
