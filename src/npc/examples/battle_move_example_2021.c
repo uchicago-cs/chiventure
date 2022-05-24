@@ -237,9 +237,9 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         npc_t *npc_tmp, *npc_elt;
 
-        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+        HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
         {
-            if ((npc_elt->hostility_level != FRIENDLY) || (get_npc_hp(npc_elt) <= 0))
+            if ((npc_elt->hostility_level == FRIENDLY) || (get_npc_hp(npc_elt) <= 0))
             {
 	            continue;
 	        } 
@@ -321,6 +321,7 @@ chiventure_ctx_t *create_sample_ctx()
     move_t *moves1 = create_enemy_moves();
     add_battle_to_npc(friendly_fiona, stats1, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
+    change_npc_hp(friendly_fiona, -100);
 
     /* Add dialogue to friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
@@ -341,6 +342,7 @@ chiventure_ctx_t *create_sample_ctx()
     move_t *moves2 = create_enemy_moves();
     add_battle_to_npc(hostile_harry, stats2, moves2, BATTLE_AI_GREEDY,
                       HOSTILE, NULL, NULL, NULL, NULL, NULL);
+    change_npc_hp(hostile_harry, -195);
 
     /* Add items to hostile npc */
     item_t *potion = item_new("POTION","This is a health potion.",

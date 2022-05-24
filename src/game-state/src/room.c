@@ -349,25 +349,28 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
 /* See room.h */
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
-    if(npc->movement == NULL)
+    if (npc->movement == NULL)
     {
         return FAILURE;
     }
+    char *old_room_id = npc->movement->track;
+    assert(move_npc(npc) != 0);
+    char *new_room_id = npc->movement->track;
+    if (strcmp(old_room_id, new_room_id) == 0)
+    {
+        return SUCCESS;
+    }
 
-    room_t *current_room;
-    room_t *next_room;
+    room_t *old_room;
+    room_t *new_room;
     npcs_in_room_t *old_room_npcs;
     npcs_in_room_t *new_room_npcs;
 
-    HASH_FIND(hh, all_rooms, npc->movement->track,
-              strnlen(npc->movement->track, MAX_ID_LEN), current_room);
-    old_room_npcs = current_room->npcs;
+    HASH_FIND(hh, all_rooms, old_room_id, strlen(old_room_id), old_room);
+    old_room_npcs = old_room->npcs;
     
-    assert(move_npc(npc) != 0);
-
-    char *new_room_id = npc->movement->track;
-    HASH_FIND(hh, all_rooms, new_room_id, strlen(new_room_id), next_room);
-    new_room_npcs = next_room->npcs;
+    HASH_FIND(hh, all_rooms, new_room_id, strlen(new_room_id), new_room);
+    new_room_npcs = new_room->npcs;
 
     if ((delete_npc_from_room(old_room_npcs, npc) == FAILURE) ||
         (add_npc_to_room(new_room_npcs, npc) == FAILURE))
