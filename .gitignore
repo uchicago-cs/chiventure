@@ -10,3 +10,4 @@
 ui_debug.txt
 build/
 *.dat
+*.orig

@@ -359,15 +359,18 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
  *  NOTE:
  *   - This is a helper function for npc_one_move, it is only useful if
  *     the npcs_in_room structs for the current and next rooms are already known.
- */
-int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
-                        npcs_in_room_t *new_npc_room)
+ *
+int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room)
 {
     assert(move_npc(npc) != 0);
-    add_npc_to_room(new_npc_room, npc);
+
+    char *new_room_id = npc->movement->track;
+
     delete_npc_from_room(old_npc_room, npc);
+    add_npc_to_room(new_npc_room, npc);
     return SUCCESS;
 }
+*/
 
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
@@ -378,20 +381,25 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 
     room_t *current_room;
     room_t *next_room;
-    npcs_in_room_t *current_npcs_in_room;
-    npcs_in_room_t *next_npcs_in_room;
+    npcs_in_room_t *old_room_npcs;
+    npcs_in_room_t *new_room_npcs;
 
     HASH_FIND(hh, all_rooms, npc->movement->track,
               strnlen(npc->movement->track, MAX_ID_LEN), current_room);
+    old_room_npcs = current_room->npcs;
+    
+    assert(move_npc(npc) != 0);
 
-    HASH_FIND(hh, all_rooms, get_next_npc_room_id(npc->movement),
-              strnlen(npc->movement->track, MAX_ID_LEN), next_room);
+    char *new_room_id = npc->movement->track;
+    HASH_FIND(hh, all_rooms, new_room_id, strlen(new_room_id), next_room);
+    new_room_npcs = next_room->npcs;
 
-    current_npcs_in_room = current_room->npcs;
-    next_npcs_in_room = next_room->npcs;
-
-    // this call does all of the moving
-    return npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
+    if ((delete_npc_from_room(old_room_npcs, npc) == FAILURE) ||
+        (add_npc_to_room(new_room_npcs, npc) == FAILURE))
+    {
+        return FAILURE;
+    }
+    return SUCCESS;
 }
 
 /* See room.h */
@@ -406,6 +414,11 @@ void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms)
         }
     }
 }
+
+/* See room.h */
+//void update_npcs_in_rooms(npc_hash_t *npcs, room_hash_t *all_rooms)
+
+    
 
 /* See room.h  */
 int transfer_all_npc_items(npc_t *npc, room_t *room)

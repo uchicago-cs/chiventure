@@ -496,6 +496,9 @@ char *start_conversation(convo_t *c, int *rc, game_t *game);
  */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 
+/* TODO */
+int add_all_npcs_to_their_rooms(game_t *game);
+
 /* Runs all time-dependent functions every second
 *
 * Parameters:
@@ -504,6 +507,6 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 * Returns
 *   - nothing
 */
-void time_dependent_functions(game_t *game);
+void *time_dependent_functions(void *game);
 
 #endif

@@ -46,6 +46,7 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "npc/npc.h"
+#include "game-state/game.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"
@@ -67,7 +68,7 @@ room_t *lobby;
 room_t *arena;
 npc_t *friendly_fiona;
 npc_t *hostile_harry;
-//npc_t *william;
+npc_t *william;
 
 
 /* Creates a sample class. Taken from test_class.c */
@@ -154,13 +155,15 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 
     move_room(game, arena);
 
-    if (lobby->npcs->num_of_npcs > 0)
+    assert(npc_one_move(friendly_fiona, game->all_rooms) == SUCCESS);
+    assert(npc_one_move(hostile_harry, game->all_rooms) == SUCCESS);
+    /* if (lobby->npcs->num_of_npcs > 0)
     {
         add_npc_to_room(arena->npcs, friendly_fiona);
         add_npc_to_room(arena->npcs, hostile_harry);
         delete_npc_from_room(lobby->npcs, friendly_fiona);
-        delete_npc_from_room(lobby->npcs, hostile_harry);
-    }
+        delete_npc_from_room(lobby->npcs, hostile_harry); 
+    } */
 
     return "You are in the arena now";
 }
@@ -235,7 +238,7 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         npc_t *npc_tmp, *npc_elt;
         HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp)
         {
-            if (npc_elt->npc_battle->health == 0)
+            if ((npc_elt->will_fight == false) || (npc_elt->npc_battle->health == 0))
             {
                 continue;
             }
@@ -358,20 +361,18 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *c_harry = create_sample_convo_harry();
     add_convo_to_npc(hostile_harry, c_harry);
 
-    //npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
-    //extend_path_indefinite(movement3, arena->room_id, 5);
-    //william = npc_new("william", "william is friendly",
-    // "yes, william is friendly", class2, movement3, false);
+    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
+    extend_path_indefinite(movement3, arena->room_id, 5);
+    william = npc_new("william", "william is friendly",
+     "yes, william is friendly", class2, movement3, false);
 
     /* Add the npcs to the game */
-    add_npc_to_game(game, friendly_fiona);
-    add_npc_to_game(game, hostile_harry);
-    //add_npc_to_game(game, william);
+    assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
+    assert(add_npc_to_game(game, hostile_harry) == SUCCESS);
+    assert(add_npc_to_game(game, william) == SUCCESS);
 
     /* Add the npcs to lobby */
-    add_npc_to_room(lobby->npcs, friendly_fiona);
-    add_npc_to_room(lobby->npcs, hostile_harry);
-    //add_npc_to_room(lobby->npcs, william);
+    assert(add_all_npcs_to_their_rooms(game) == SUCCESS);
 
     /* Free default game and replace it with ours */
     game_free(ctx->game);
@@ -392,13 +393,18 @@ int main(int argc, char **argv)
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
 
     pthread_t time_thread;
-    pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
+    int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
+    if (rc)
+    {
+		printf("\n ERROR: return code from pthread_create is %d \n", rc);
+        exit(1);
+    }
 
     /* Start chiventure */
     start_ui(ctx, banner);
 
-    pthread_cancel(time_thread);
     game_free(ctx->game);
 
+    pthread_exit(NULL);
     return 0;
 }

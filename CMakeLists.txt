@@ -15,6 +15,9 @@ find_package(Curses REQUIRED)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 # Optional dependencies
 
 set(OPTIONAL_MODULES "")
@@ -48,7 +51,7 @@ endforeach(module)
 add_executable(chiventure-bin src/chiventure.c)
 
 foreach(module ${CHIVENTURE_MODULES})
-    target_link_libraries(chiventure-bin ${module})
+    target_link_libraries(chiventure-bin ${module} ${CMAKE_THREAD_LIBS_INIT})
 endforeach(module)
 
 set_target_properties(chiventure-bin

@@ -21,6 +21,22 @@ game_t *game_new(char *desc)
 
     /* read from the file using interface from WDL team */
 
+    room_hash_t *rooms = NULL;
+    item_hash_t *items = NULL;
+    quest_hash_t *quests = NULL;
+    npc_hash_t *npcs = NULL;
+    stats_global_hash_t *stats = NULL;
+    effects_global_hash_t *effects = NULL;
+    class_hash_t *classes = NULL;
+
+    game->all_rooms = rooms;
+    game->all_items = items;
+    game->all_quests = quests;
+    game->all_npcs = npcs;
+    game->curr_stats = stats;
+    game->all_effects = effects;
+    game->all_classes = classes;
+
     return game;
 }
 
@@ -734,6 +750,36 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
     if (ret_str == NULL) *rc = -1;
 
     return ret_str;
+}
+
+/* See game.h */
+int add_all_npcs_to_their_rooms(game_t *game)
+{
+    npc_t *elt, *tmp;
+    room_t *room;
+    char *npc_room_id;
+    int rt = SUCCESS;
+    HASH_ITER(hh, game->all_npcs, elt, tmp)
+    {
+        if (elt->movement != NULL)
+        {
+            npc_room_id = elt->movement->track;
+            HASH_FIND(hh, game->all_rooms, npc_room_id, strlen(npc_room_id), room);
+            if (room != NULL)
+            {
+                assert(add_npc_to_room(room->npcs, elt) == SUCCESS);
+            }
+            else
+            {
+                rt++;
+            }
+        }
+        else
+        {
+            rt++;
+        }
+    }
+    return rt;
 }
 
 /* See game.h */
