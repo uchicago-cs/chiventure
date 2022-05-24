@@ -124,7 +124,7 @@ int attr_reader_effect_init(attr_reader_effect_t* reader,char *value,
 
     reader->value = malloc((str_len + 1)*sizeof(char));
     strcpy(reader->value, value);
-    // reader->value = value;
+
     reader->str_len = str_len;
     reader->location = location;
 

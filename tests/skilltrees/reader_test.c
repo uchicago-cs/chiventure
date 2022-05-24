@@ -177,8 +177,7 @@ chiventure_ctx_t *ctx_example(void)
         fprintf(stderr, "ctx_error: memory allocation failed for class\n");
         return NULL;
     }
-    char* name = "HUMAN";//(char*)malloc(sizeof(char)*6);
-    // strcpy(name, "HUMAN");
+    char* name = "HUMAN";
     class->name = name;
 
     player_t *curr_player = malloc(sizeof(player_t));
