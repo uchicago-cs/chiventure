@@ -478,11 +478,13 @@ Test(AST_block_t, run_block_action)
   attr2->attribute_value = val2;
 
   attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 2);
+  action_param_t *action_params = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params->args = args; 
   args[0] = attr1;
   args[1] = attr2;
 
   
-  AST_block_t* new_ast = AST_action_block_new(SET, 2, args);
+  AST_block_t* new_ast = AST_action_block_new(SET, 2, action_params);
 
   cr_assert_not_null(new_ast, "AST_block_new failed");
 
@@ -565,13 +567,15 @@ Test(AST_block_t, run_multiple_actions)
   attr3->attribute_value = val3;
   
   attribute_t **args = (attribute_t**) malloc(sizeof(attribute_t*) * 3);
+  action_param_t *action_params = (action_param_t*)malloc(sizeof(action_param_t)); 
+  action_params->args = args; 
   args[0] = attr1;
   args[1] = attr2;
   args[2] = attr3;
 
   
-  AST_block_t* new_ast = AST_action_block_new(ADDITION, 3, args);
-  AST_block_t* next = AST_action_block_new(MULTIPLY, 3, args);
+  AST_block_t* new_ast = AST_action_block_new(ADDITION, 3, action_params);
+  AST_block_t* next = AST_action_block_new(MULTIPLY, 3, action_params);
   
   cr_assert_not_null(new_ast, "AST_block_new failed for new_ast");
   cr_assert_not_null(next, "AST_block_new failed for next");
