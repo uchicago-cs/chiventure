@@ -15,8 +15,9 @@ input_box_graphics_t* newInputboxGraphics(Vector2 WindowPos, Vector2 WindowSize,
     input_box_graphics_t* res;
     res = malloc(sizeof(input_box_graphics_t));
     assert(res != NULL);
-    initInputboxGraphics(res, WindowPos,WindowSize,BoxColor,TextColor,
+    int rc = initInputboxGraphics(res, WindowPos,WindowSize,BoxColor,TextColor,
                          AnnotationColor,OutlineColor,Annotation);
+    assert(rc == SUCCESS);
     return res;
 
 }
