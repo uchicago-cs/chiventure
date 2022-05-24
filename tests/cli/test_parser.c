@@ -253,3 +253,69 @@ Test(parse_r, first_quote)
     cr_assert_str_eq(words[1],"east", "parse() did not create second token");
 }
 
+/*
+ * Tests the parsing of an input with two tokens, the whole input being surrounded by quotes
+ */
+Test(parse_r, first_quote)
+{
+    char str[] = "\"GO EAST\"";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go east", "parse() did not create first token");
+}
+
+/*
+ * Tests the parsing of an input with two tokens, and a filler words in the middle
+ */
+Test(parse_r, first_quote)
+{
+    char str[] = "GO TO EAST";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+}
+
+/*
+ * Tests the parsing of an input with two tokens, and a filler word at the start
+ */
+Test(parse_r, first_quote)
+{
+    char str[] = "I GO EAST";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+}
+
+/*
+ * Tests the parsing of an input with two tokens, and a filler word at the end
+ */
+Test(parse_r, first_quote)
+{
+    char str[] = "GO EAST WARDS";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+}
+
+/*
+ * Tests the parsing of an input with two consecutive filler words and two tokens
+ */
+Test(parse_r, first_quote)
+{
+    char str[] = "GO TO THE EAST";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+}
+
+/*
+ * Tests the parsing of an input with two tokens and 20 most common prepositions
+ */
+Test(parse_r, first_quote)
+{
+    char str[] = "GO OF WITH AT FROM INTO DURING INCLUDING UNTIL AGAINST AMONG THROUGHOUT DESPITE TOWARDS UPON CONCERNING TO IN FOR ON BY EAST";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+}
+
+
