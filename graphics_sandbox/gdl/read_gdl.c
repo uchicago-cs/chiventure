@@ -288,7 +288,7 @@ unsigned long hash(char *str)
 int match_color(char *color)
 {
     char* colors[] = {"White", "Gray", "Black", "Red", "Blue", "Green", "Yellow", "Orange", "Purple", "Pink"};
-    for(int i = 0 i < 10; i++) {
+    for(int i = 0; i < 10; i++) {
         if (strcmp(colors[i], color) == 0) {
             return i;
         }
