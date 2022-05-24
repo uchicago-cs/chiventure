@@ -94,7 +94,7 @@ Test(operation, kind4_four_args)
     tokens[3] = "PLEASE";
 
     char *return_string = kind4_action_operation(tokens,ctx);
-    cr_assert_str_eq(return_string,"This action only supports two arguments\n";,"arg3 was not null, but did not match that control flow (4 arg test)\n");
+    cr_assert_str_eq(return_string,"This action only supports two arguments\n","kind4 was given 4 arguments and did not match the correct control flow\n");
 }
 
 /* White-Box testing for the normal control flow
