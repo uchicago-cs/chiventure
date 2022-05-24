@@ -13,8 +13,8 @@
 complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills, reader_effect_t* reader){
     complex_skill_t* complex;
 
-    if (num_skills == 0) {
-        fprintf(stderr, "complex_skill_new: max_level is invalid\n");
+    if (num_skills <= 0) {
+        fprintf(stderr, "complex_skill_new: subskill length of < 0 given\n");
         return NULL;
     }
 
@@ -182,6 +182,8 @@ int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_
     }
     return SUCCESS;
 }
+
+//Crashes occuring with tests related to these two functions. To be fixed in later sprint.
 
 /*See complex_skills.h */
 int complex_skill_level_up(complex_skill_t* complex_skill){
