@@ -372,6 +372,10 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
         //(potential) TODO: add list of possible parameters
         return "Second argument needed.\n";
     }
+    /* as of now (5/23/2022) the only self action we have is view, 
+     * which supports a max of two arguments:
+     *  `view quest "quest_id"`
+     *  Thus it should fail if there is a third argument */
     if (arg4 != NULL)
     {
         return "This action only supports two arguments\n";
