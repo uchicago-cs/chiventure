@@ -4,7 +4,7 @@ LDFLAGS = -L../
 LDLIBS = -lcriterion
 
 
-SRCS = read_gdl.c test_dimension.c test_camera.c
+SRCS = read_gdl.c test_dimensions.c test_camera.c
 OBJS = $(SRCS:.c=.o)
 
 BINS = read_gdl test
