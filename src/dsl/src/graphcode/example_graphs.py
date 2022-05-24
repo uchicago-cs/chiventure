@@ -57,3 +57,23 @@ SELFLOOP = {
     'F': ['G'],
     'G': ['G'] 
 }
+
+# Valid Graph
+VALIDGRAPH2 = {
+    'A': ['B', 'C', 'D'],
+    'B': ['E'],
+    'C': ['E'],
+    'D': ['E'],
+    'E': [],
+}
+
+# Valid Graph
+VALIDGRAPH3 = {
+    'A': ['B', 'C', 'E'],
+    'B': ['D'],
+    'C': ['E'],
+    'D': [],
+    'E': ['F'],
+    'F': ['G'],
+    'G': [] 
+}

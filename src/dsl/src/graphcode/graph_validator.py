@@ -3,7 +3,7 @@
 from doctest import FAIL_FAST
 import sys
 import json
-from example_graphs import OAK, SELFLOOP, SINGLETON, NODENOTREACHED, INFINITECIRCLE, INFINITELOOP, INFINITELOOPLONG
+from example_graphs import OAK, SELFLOOP, SINGLETON, NODENOTREACHED, INFINITECIRCLE, INFINITELOOP, INFINITELOOPLONG, VALIDGRAPH2, VALIDGRAPH3
 
 def validate(graph, start):
     cyclical = check_cylicality(graph)
@@ -92,6 +92,9 @@ def main():
     print(f"Testing Valid Graph - INFINITELOOP. Expecting: False | Actual: {validate(INFINITELOOP, 'A')}")
     print(f"Testing Valid Graph - INFINITECIRCLE. Expecting: False | Actual: {validate(INFINITECIRCLE, 'A')}")
     print(f"Testing Valid Graph - INFINITELOOPLONG. Expecting: False | Actual: {validate(INFINITELOOPLONG, 'A')}")
+    print(f"Testing Valid Graph - VALIDGRAPH2. Expecting: True | Actual: {validate(VALIDGRAPH2, 'A')}")
+    print(f"Testing Valid Graph - VALIDGRAPH3. Expecting: True | Actual: {validate(VALIDGRAPH3, 'A')}")
+    print(f"Testing Valid Graph - OAK(from node C). Expecting: False | Actual: {validate(OAK, 'C')}")
 
 
 
