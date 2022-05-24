@@ -342,13 +342,14 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - FAILURE on failure.
  */
 int add_skill(class_t* class, skill_t* skill, int prereq_count, 
-                unsigned int prereq_level, bool is_starting, ...) {
+                unsigned int prereq_level, bool is_starting, 
+                char** playerclasses, int num_classes, ...) {
     if (class == NULL || skill == NULL)
         return FAILURE;
 
-    //Temporary NULL Parameters due to change in skill_node_new. New parameters should be added to 
-    //add_skill
-    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, NULL, NULL, (int) UI_NODE_SIZE);
+    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, 
+                                        playerclasses, num_classes, 
+                                        (int) UI_NODE_SIZE);
 
     /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
     va_list prereq_p;
@@ -403,9 +404,9 @@ int class_prefab_add_skills(class_t* class) {
                                      "your opponent!", 1, 325, NULL, NULL);
 
         /* Add skills to tree */
-        add_skill(class, skill_0, 0, 25, true);
-        add_skill(class, skill_1, 1, 50, false, 0);
-        add_skill(class, skill_2, 1, 34, false, 1);
+        add_skill(class, skill_0, 0, 25, true, NULL, 0);
+        add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+        add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
     }
     /* 
      * A simple linear tree for a monk class
@@ -437,9 +438,9 @@ int class_prefab_add_skills(class_t* class) {
                                      NULL, NULL);
 
         /* Add skills to tree */
-        add_skill(class, skill_0, 0, 25, true);
-        add_skill(class, skill_1, 1, 50, false, 0);
-        add_skill(class, skill_2, 1, 34, false, 1);
+        add_skill(class, skill_0, 0, 25, true, NULL, 0);
+        add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+        add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
     }
     
     /* 
@@ -471,9 +472,9 @@ int class_prefab_add_skills(class_t* class) {
                                      "ground!", 1, 375, NULL, NULL);
 
         /* Add skills to tree */
-        add_skill(class, skill_0, 0, 25, true);
-        add_skill(class, skill_1, 1, 50, false, 0);
-        add_skill(class, skill_2, 1, 34, false, 1);
+        add_skill(class, skill_0, 0, 25, true, NULL, 0);
+        add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+        add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
     }
 
 
@@ -504,9 +505,9 @@ int class_prefab_add_skills(class_t* class) {
                                      NULL, NULL);
 
         /* Add skills to tree */
-        add_skill(class, skill_0, 0, 25, true);
-        add_skill(class, skill_1, 1, 50, false, 0);
-        add_skill(class, skill_2, 1, 34, false, 1);
+        add_skill(class, skill_0, 0, 25, true, NULL, 0);
+        add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+        add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
     }
     /* 
      * A simple linear tree for the wizard class
@@ -536,9 +537,9 @@ int class_prefab_add_skills(class_t* class) {
                                      200, NULL, NULL);
 
         /* Add skills to tree */
-        add_skill(class, skill_0, 0, 25, true);
-        add_skill(class, skill_1, 1, 50, false, 0);
-        add_skill(class, skill_2, 1, 34, false, 1);
+        add_skill(class, skill_0, 0, 25, true, NULL, 0);
+        add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+        add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
     } /*
     * A simple linear tree for a ranger class
     *
@@ -566,9 +567,9 @@ int class_prefab_add_skills(class_t* class) {
                                     NULL, NULL);
  
        /* Add skills to tree */
-       add_skill(class, skill_0, 0, 25, true);
-       add_skill(class, skill_1, 1, 50, false, 0);
-       add_skill(class, skill_2, 1, 34, false, 1);
+       add_skill(class, skill_0, 0, 25, true, NULL, 0);
+       add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+       add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
    }
 
     
