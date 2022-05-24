@@ -390,7 +390,6 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
     /* placeholder for error string that do_self_action will modify */
     char *str;
-        
 
     /* this sanitizes the input for do_self_action, because 
      * action management is expecting all arguments to the self action
@@ -402,7 +401,16 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     /* do_self_action return codes are either:
      *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
      *  otherwise, returns SUCCESS */
-    int rc = do_self_action(ctx, action, tokens, &str);
+
+
+    /*================================================================ 
+     * AS OF 5/23/2022 at 10:35pm
+     * ONCE AM FINISHES THIS VERION OF DO_SELF_ACTION WE CAN UNCOMMENT
+     * THE ACTUAL FUNCTION CALL, 
+     * for now will leave the currently implemented call 
+     *================================================================ */
+    //int rc = do_self_action(ctx, action, tokens, &str);
+    int rc = do_self_action(ctx, action, tokens[1], &str);
     return str;
 }
 
