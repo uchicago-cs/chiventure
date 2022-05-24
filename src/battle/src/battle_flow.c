@@ -482,6 +482,60 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
 }
 
 /* see battle_flow.h */
+char *run_action(char *input)
+{
+    if (input[0] == 'M' || input[0] == 'm')
+    {
+        // take the index of the move, under the assumption that the list is less than 10 moves long
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->moves == NULL)
+            {
+                return "That move does not exist.";
+            }
+            if (k == index-1)
+            {
+                    return battle_flow_move(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->moves, 
+                                ctx->game->battle_ctx->game->battle->enemy->name);
+            }
+            else
+            {
+                ctx->game->battle_ctx->game->player->moves = 
+                ctx->game->battle_ctx->game->player->moves->next;
+            }
+        }
+    } 
+    else if (input[0] == 'I' || input[0] == 'i')
+    {
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->items == NULL)
+            {
+                return "That item does not exist.";
+            }
+            if (k == index-1)
+            {
+                return battle_flow_item(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->items);
+            }
+            else 
+            {
+                ctx->game->battle_ctx->game->player->items = 
+                ctx->game->battle_ctx->game->player->items->next;
+            }
+        }
+    } 
+    else if (input[0] == 'D' || input[0] == 'd') 
+    {
+        return "You did nothing.";
+    } 
+    return "That action does not exist.";
+}
+
+/* see battle_flow.h */
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 {
     stat_t* user_stats = source->stats;

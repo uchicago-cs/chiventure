@@ -197,7 +197,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
         {
             if (battle_ctx->status == BATTLE_IN_PROGRESS)
             {
-                char *enemy_turn = enemy_run_turn(); // get what this takes in
+                char *enemy_turn = enemy_run_turn(ctx); // get what this takes in
                 char *output_and_enemy_turn = strcat(output, enemy_turn);
                 return callback_func(ctx, output_and_enemy_turn, callback_args);
             }
