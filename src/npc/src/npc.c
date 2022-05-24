@@ -6,11 +6,11 @@
 /* See npc.h */
 int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue)
 {
-    assert(npc_quest != NULL);
+    /* assert(npc_quest != NULL);
 
     npc_quest->id = strdup(id, QUEST_NAME_MAX_LEN);
     npc_quest->quest_dialogue;
-    npc_quest->next = NULL;
+    npc_quest->next = NULL; */
 
     return SUCCESS;
 }
@@ -18,7 +18,7 @@ int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue)
 /* See npc.h */
 npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue)
 {
-    npc_quest_t *npc_quest;
+    /* npc_quest_t *npc_quest;
     int rc;
     npc_quest = malloc(sizeof(npc_quest_t));
 
@@ -35,13 +35,14 @@ npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue)
         return NULL;
     }
 
-    return npc_quest;
+    return npc_quest; */
+    return NULL;
 }
 
 /* See npc.h */
 int *npc_quest_free(npc_quest_t *npc_quest)
 {
-    npc_quest_t *temp;
+   /* npc_quest_t *temp;
 
     assert (npc_quest != NULL);
     
@@ -59,25 +60,31 @@ int *npc_quest_free(npc_quest_t *npc_quest)
 
     npc_quest = temp;
 
-    return(npc_quest_free(npc_quest));
+    return(npc_quest_free(npc_quest));*/
+
+    // to check
+    return 1;
 }
 
 /* See npc.h */
 int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue)
 {
-    assert(npc_task != NULL);
+   /* assert(npc_task != NULL);
     
     npc_task->id = strdup(id, QUEST_NAME_MAX_LEN);
     npc_task->task_dialogue;
     npc_task->next = NULL;
 
-    return SUCCESS;
+    return SUCCESS;*/
+
+    // to check
+    return 1;
 }
 
 /* See npc.h */
 npc_task_t *npc_task_new(char *id, convo_t *task_dialogue)
 {
-    npc_task_t *npc_task;
+    /*npc_task_t *npc_task;
     int rc;
     npc_task = malloc(sizeof(npc_task_t));
 
@@ -94,13 +101,16 @@ npc_task_t *npc_task_new(char *id, convo_t *task_dialogue)
         return NULL;
     }
 
-    return npc_task;
+    return npc_task;*/
+
+    // to check
+    return NULL;
 }
 
 /* See npc.h */
 int *npc_task_free(npc_task_t *npc_task)
 {
-    npc_task_t *temp;
+    /*npc_task_t *temp;
 
     if (npc_task != NULL)
     {
@@ -120,20 +130,27 @@ int *npc_task_free(npc_task_t *npc_task)
 
         return(npc_task_free(npc_task));
     }
-    else return SUCCESS;
+    else return SUCCESS;*/
+
+    // to check
+    return 1;
 }
 
 /* See npc.h */
 int npc_quest_list_init(npc_quest_list_t *quest_list)
 {
-    quest_list->head = NULL;
+    /* quest_list->head = NULL;
     quest_list->length = 0;
+    return SUCCESS; */
+
+    // to check
+    return 1;
 }
 
 /* See npc.h */
 npc_quest_list_t *npc_quest_list_new()
 {
-    npc_quest_list_t *npc_quest_list;
+    /* npc_quest_list_t *npc_quest_list;
     int rc;
     npc_quest_list = malloc(sizeof(npc_quest_list_t));
 
@@ -147,13 +164,18 @@ npc_quest_list_t *npc_quest_list_new()
     {
         return NULL;
     }
+
+    return npc_quest_list; */
+
+    // to check
+    return NULL;
     
 }
 
 /* See npc.h */
 int npc_quest_list_free(npc_quest_list_t *quest_list)
 {
-    npc_quest_t *temp;
+    /* npc_quest_t *temp;
     npc_quest_t *head = quest_list;
 
     while (head != NULL)
@@ -162,20 +184,28 @@ int npc_quest_list_free(npc_quest_list_t *quest_list)
         head = head->next;
         npc_quest_free(temp);
     }
-    return SUCCESS;
+    return SUCCESS; */
+
+    // to check
+    return 1;
 }
 
 /* See npc.h */
 int npc_task_list_init(npc_task_list_t *task_list)
 {
-    task_list->head = NULL;
+   /* task_list->head = NULL;
     task_list->length = 0;
+
+    return SUCCESS; */
+
+    // to check
+    return 1;
 }
 
 /* See npc.h */
 npc_task_list_t *npc_task_list_new()
 {
-    npc_task_list_t *npc_task_list;
+    /* npc_task_list_t *npc_task_list;
     int rc;
     npc_task_list = malloc(sizeof(npc_task_list_t));
 
@@ -188,13 +218,18 @@ npc_task_list_t *npc_task_list_new()
     if (rc != SUCCESS)
     {
         return NULL;
-    }
+    } 
+    
+    return npc_task_list; */
+
+    // to check
+    return NULL;
 }
 
 /* See npc.h */
 npc_task_list_t *npc_task_list_free(npc_task_list_t *task_list)
 {
-    npc_task_t *temp;
+    /* npc_task_t *temp;
     npc_task_t *head = task_list;
 
     while (head != NULL)
@@ -203,7 +238,10 @@ npc_task_list_t *npc_task_list_free(npc_task_list_t *task_list)
         head = head->next;
         npc_task_free(temp);
     }
-    return SUCCESS;
+    return SUCCESS; */
+
+    // to check
+    return NULL;
 }
 
 /* See npc.h */
@@ -221,15 +259,14 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->will_fight = will_fight;
     npc->npc_battle = NULL;
     npc->movement = movement;
-    // NEW //
-    int rc1 = npc_quest_list_init(quests);
+
+    /* int rc1 = npc_quest_list_init(quests);
     int rc2 = npc_task_list_init(tasks);
 
     if ((rc1 != SUCCESS) | (rc2 != SUCCESS))
     {
         return FAILURE;
-    }
-    // NEW //
+    }*/
 
     return SUCCESS;
 }
@@ -247,15 +284,17 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
-    // NEW //
-    int rc1 = npc->quests = npc_quest_list_new();
+
+    /* int rc1 = npc->quests = npc_quest_list_new();
     int rc2 = npc->tasks = npc_task_list_new();
 
     if ((rc1 != SUCCESS) | (rc2 != SUCCESS))
     {
         return FAILURE;
-    }
-    // NEW //
+    } */
+
+    npc->quests = NULL;
+    npc->tasks = NULL;
 
     char *insensitized_id = case_insensitized_string(npc_id);
 
@@ -290,14 +329,14 @@ int npc_free(npc_t *npc)
     {
         npc_battle_free(npc->npc_battle);
     }
-    if (npc->quests != NULL)
+    /* if (npc->quests != NULL)
     {
         npc_quest_list_free(npc->quests);
     }
     if (npc->tasks != NULL)
     {
         npc_task_list_free(npc->tasks);
-    }
+    } */
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
