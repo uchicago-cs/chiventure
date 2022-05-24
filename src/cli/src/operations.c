@@ -263,7 +263,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
                 if (strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
-                    add_item_to_player(game->curr_player, curr_item);
+                    add_item_to_player(game->curr_player, curr_item, game);
                 }
             }
             curr_item = curr_item->next;
@@ -481,7 +481,7 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
     {   
         i++;
-        if (npc_elt->npc_battle->health > 0) 
+        if (npc_elt->npc_battle->stats->hp > 0) 
         {
             print_to_cli(ctx, npc_elt->npc_id);
         }

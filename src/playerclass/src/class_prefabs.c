@@ -45,7 +45,7 @@ int get_class_name_index(char* name) {
         return -1;
 
     char temp_name[MAX_NAME_LEN + 1];
-    strncpy(temp_name, name, MAX_NAME_LEN);
+    strncpy(temp_name, name, MAX_NAME_LEN + 1);
     /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
@@ -373,40 +373,110 @@ int class_prefab_add_skills(class_t* class) {
         temp_name[i] = tolower(temp_name[i]);
 
     /* Note: All skills are combat skills for now */
-    if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "sorcerer", MAX_NAME_LEN)) {
-        /* TODO */
-    }
 
     /* 
-     * A simple linear tree for a simple class.
+     * A simple linear tree for the bard class.
+     *
+     * starting skill: bard_magic_word 
+     *  - active: deals 6 damage.
+     * bard_magic_word -> bard_poetic_line
+     *  - active: deals 12 damage.
+     * bard_poetic_line -> bard_enchanted_stanza
+     *  - active: deals 18 damage.
+     */
+    if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
+                                     "You deal damage to your opponent with "
+                                     "just a word.", 1, 75, NULL, NULL);
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
+                                     "A full line of poetry hits your " 
+                                     "opponent!", 1, 200, NULL, NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Enchanted Stanza", 
+                                     "The full weight of your stanza strikes "
+                                     "your opponent!", 1, 325, NULL, NULL);
+
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
+    }
+    /* 
+     * A simple linear tree for a monk class
+     *
+     * starting skill: acrobatic_powers
+     *  - active: deals 7 damage.
+     * acrobatic_powers -> spirit_of_strength
+     *  - active: deals 14 damage.
+     * spirit_of_strength-> supernova_circle
+     *  - active: deals 21 damage.
+     */
+    else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Acrobatic Powers", 
+                                    "enhanced dexterity to surprise your opponent "
+                                    "with unique kicks and movements.", 1, 120, 
+                                     NULL, NULL);                          
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Spirit of Strength", 
+                                    "Uses inner spirit and peace to unleash "
+                                     "powerful hits and kicks!", 1, 220, 
+                                     NULL, NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Supernova Circle", 
+                                    "Powerful circular motions that allows for the "
+                                    "most powerful jumps, kicks, and punchess!", 1, 420, 
+                                     NULL, NULL);
+
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
+    }
+    
+    /* 
+     * A simple linear tree for the rogue class.
+     *
+     * starting skill: rogue_quick_hit 
+     *  - active: deals 5 damage.
+     * rogue_quick_hit -> rogue_backstab
+     *  - active: deals 12 damage.
+     * rogue_backstab -> rogue_leg_swipe
+     *  - active: deals 21 damage.
+     */
+    else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Quick Hit", 
+                                     "You hit your opponent with a quick jab.",
+                                      1, 125, NULL, NULL);
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Backstab", 
+                                     "You attack your opponent from behind, "
+                                     "catching them by surprise!", 1, 250, 
+                                     NULL, NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Leg Swipe", 
+                                     "You knock your opponent’s legs out from "
+                                     "under them, bringing them to the"
+                                     "ground!", 1, 375, NULL, NULL);
+
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
+    }
+
+
+    /* 
+     * A simple linear tree for the warrior class.
      *
      * starting skill: warrior_sword_slash 
      *  - active: deals 8 damage.
@@ -423,23 +493,82 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
                                      "You slash your sword.", 1, 100, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Double Slash", 
                                      "You slash your sword, twice!", 1, 200, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
                                      "You slash your sword, thrice!", 1, 400, 
-                                     NULL);
+                                     NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
         add_skill(class, skill_1, 1, 50, false, 0);
         add_skill(class, skill_2, 1, 34, false, 1);
     }
-        
+    /* 
+     * A simple linear tree for the wizard class
+     *
+     * starting skill: blinding_charm
+     *  - active: deals 4 damage.
+     * blinding_charm -> paralyze_spell
+     *  - active: deals 9 damage.
+     * paralyze_spell -> arcane_explosion
+     *  - active: deals 24 damage.
+     */
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
-        /* TODO */
-    }
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Blinding Charm", 
+                                     "You blinded your opponent.", 1, 100, 
+                                     NULL, NULL);
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Paralyze Spell", 
+                                     "Your opponent is paralyzed!", 1, 150, 
+                                     NULL, NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Arcane Explosion", 
+                                     "A powerful spell that causes a massive" 
+                                     "explosion with high area damage!", 1, 
+                                     200, NULL, NULL);
+
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true);
+        add_skill(class, skill_1, 1, 50, false, 0);
+        add_skill(class, skill_2, 1, 34, false, 1);
+    } /*
+    * A simple linear tree for a ranger class
+    *
+    * starting skill: close_shot
+    *  - active: deals 3 damage.
+    * close_shot -> midrange_shot
+    *  - active: deals 12 damage.
+    * midrange_shot -> long_shot
+    *  - active: deals 25 damage.
+    */
+    else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+       sid_t skill_id = class->skilltree->tid * 100;
+      
+       /* Currently point to null effects */
+       /* Skills */
+       skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Close Shot",
+                                    "You hit a weak, but close shot.", 1, 100,
+                                    NULL, NULL);                         
+       skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Mid-range Shot",
+                                    "You hit a further, and stronger, shot!", 1, 200,
+                                    NULL, NULL);
+       skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Long Shot",
+                                    "You hit a long, damaging shot!", 1, 400,      
+                                    NULL, NULL);
+ 
+       /* Add skills to tree */
+       add_skill(class, skill_0, 0, 25, true);
+       add_skill(class, skill_1, 1, 50, false, 0);
+       add_skill(class, skill_2, 1, 34, false, 1);
+   }
+
     
     else {
         fprintf(stderr, "Could not find class for skill inventories "
