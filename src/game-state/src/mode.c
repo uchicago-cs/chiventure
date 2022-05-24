@@ -155,7 +155,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
     {
         input += 4;
         move_t *move = find_player_move(battle_ctx, input);
-
+        //return callback_func(ctx, input, callback_args);
         if (move == NULL) {
             return callback_func(ctx, "That Move does not exist.", callback_args);
         }
@@ -189,7 +189,8 @@ int run_battle_mode (char *input, cli_callback callback_func,
         return callback_func(ctx, "Enter a valid battle command.", callback_args);
     }
 
-    return callback_func(ctx, string, callback_args);
+    //return 
+    callback_func(ctx, string, callback_args);
     free(string);
 
     if (battle_ctx->status != BATTLE_IN_PROGRESS) 
