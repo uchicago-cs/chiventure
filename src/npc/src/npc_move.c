@@ -143,10 +143,17 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
     strcpy(npc_mov->track, room_id);
     npc_mov->npc_path_pos = 0;
     npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
-    npc_path_dll_t *head = NULL; // these next few lines are VERY important
+    
+    /* These next four (4) lines correctly initialize a utlish doubly-linked
+     * list. Initializing the head of the list to NULL is essential, and then
+     * the next step is appending the first real "element" of the list to the
+     * NULL-initialized head.
+     */
+    npc_path_dll_t *head = NULL;
     npc_path_dll_t *elt = npc_path_dll_new(mov_type, room_id, room_time);
     DL_APPEND(head, elt);
     npc_mov->path = head;
+    
     return SUCCESS;
 }
 
@@ -313,7 +320,6 @@ int move_npc_mov(npc_mov_t *npc_mov)
 
     if ((current_room->next == NULL) && (current_room->prev == NULL))
     {
-        path_pos += 1; // For debugging use
         return FAILURE; // NPC has nowhere to move
     }
 
@@ -331,12 +337,10 @@ int move_npc_mov(npc_mov_t *npc_mov)
         if (npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
             assert(flip_npc_path_direction(npc_mov) == SUCCESS);
-            path_pos += 2; // For debugging use
             return SUCCESS;
         }
         else
         {
-            path_pos += 3; // For debugging use
             return FAILURE;
         }
     }
@@ -355,15 +359,12 @@ int move_npc_mov(npc_mov_t *npc_mov)
         }
         else
         {
-            path_pos += 4; // For debugging use
             return FAILURE;
         }
-        path_pos += 5; // For debugging use
         return SUCCESS;
     }
     else
     {
-        path_pos += 6; // For debugging use
         return FAILURE;
     }
 }
