@@ -264,9 +264,9 @@ int free_statistics_display(statistics_display_t *statistics_display)
  * Including here a has function: djb2, for an easy compairison of strings.
  * This implementation was pulled from http://www.cse.yorku.ca/~oz/hash.html.
  */
-unsigned long hash(char *str)
+unsigned int hash(char *str)
 {
-    unsigned long hash = 5381;
+    unsigned int hash = 5381;
     int c;
 
     while (c = *str++)
