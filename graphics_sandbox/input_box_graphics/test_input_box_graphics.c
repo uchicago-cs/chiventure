@@ -38,7 +38,7 @@ Test(input_box_graphics, init)
     input_box_graphics_t i;
     int rc = initInputboxGraphics(&i,(Vector2){100,110},(Vector2){500,520},BLACK,
                                   WHITE,GREEN,DARKGREEN,"I am annotation");
-    cr_assert_eq(rc,1,"initInputboxGraphics has failed");
+    cr_assert_eq(rc,SUCCESS,"initInputboxGraphics has failed");
     cr_assert_eq(i.WindowPos.x, 100, "input_box_graphics failed to set WindowPos.x");
     cr_assert_eq(i.WindowPos.y, 110, "input_box_graphics failed to set WindowPos.y");
     cr_assert_eq(i.WindowSize.x, 500, "input_box_graphics failed to set WindowSize.x");
@@ -91,6 +91,6 @@ Test(input_box_graphics, free)
 
     int rc;
     rc = freeInputboxGraphics(i);
-    cr_assert_eq(rc,1,"freeInputboxGraphics failed");
+    cr_assert_eq(rc,SUCCESS,"freeInputboxGraphics failed");
 
 }

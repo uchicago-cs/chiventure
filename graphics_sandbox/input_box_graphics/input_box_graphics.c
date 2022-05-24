@@ -35,7 +35,7 @@ int initInputboxGraphics(input_box_graphics_t* pointer, Vector2 WindowPos, Vecto
     pointer->AnnotationColor=AnnotationColor;
     pointer->OutlineColor=OutlineColor;
     pointer->Annotation=Annotation;
-    return 1;
+    return SUCCESS;
 }
 
 /* See input_box.h*/
@@ -43,7 +43,7 @@ int freeInputboxGraphics(input_box_graphics_t* pointer)
 {
     assert(pointer != NULL);
     free(pointer);
-    return 1;
+    return SUCCESS;
 }
 
 

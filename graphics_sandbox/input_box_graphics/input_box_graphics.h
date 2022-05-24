@@ -2,17 +2,27 @@
 #define INPUT_BOX_H
 
 #include "raylib.h"
+#include "common.h"
 
 #define INPUT_BOX_CONTEXT_ID 6
 #define MAX_INPUT_CHAR 14
 
+/* Top-level struct that stores all information
+ * required for input_box display */
 typedef struct input_box_graphics{
+    /* Position of the upper-left corner of the Window*/
     Vector2 WindowPos;
+    /* The size of the window, field x and y refer to width and height*/
     Vector2 WindowSize;
+    /* The Color of the Input Box */
     Color BoxColor;
+    /* The Color of the Text */
     Color TextColor;
+    /* The Color of Annotation*/
     Color AnnotationColor;
+    /* The Color of Outline of the Input Line*/
     Color OutlineColor;
+    /* A string that contains the annotation to be displayed*/
     const char* Annotation;
 } input_box_graphics_t;
 
@@ -35,7 +45,7 @@ input_box_graphics_t* newInputboxGraphics(Vector2 WindowPos, Vector2 WindowSize,
  *      Information for every field in the input_box_graphics struct 
  * 
  * Return:
- *      1 on success
+ *      SUCCESS on success
  * 
  * Function:
  *      Fills in every piece of information given in the parameters
@@ -52,7 +62,7 @@ int initInputboxGraphics(input_box_graphics_t* pointer, Vector2 WindowPos, Vecto
  *      A pointer to a piece of memory allocated to a input_box_graphics_t struct
  * 
  * Return:
- *      1 on success
+ *      SUCCESS on success
  * 
  * Function:
  *      frees the piece of memory allocated to the input_box_graphics struct
