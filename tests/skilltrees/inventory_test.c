@@ -278,7 +278,6 @@ Test(inventory_tests, inventory_has_skill_has_active)
       2, 5, effect_defuse_bomb);
   inventory_skill_add(inventory, bomb);
   int ret = inventory_has_skill(inventory, 1000, ACTIVE);
-
   cr_assert_eq(ret, 0, "Error: failed test inventory_has_skill_has_active\n");
 }
 */
