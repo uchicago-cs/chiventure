@@ -201,50 +201,6 @@ Test(custom_type, arg_t_new_str)
     cr_assert_eq(at->next, NULL, "arg_t_str next failed assignment");
 }
 
-/** 
-* Checks that the obj_add_arg_<type> correctly adds arg_t structs to the linked list
-*/
-Test(custom_type, obj_add_args)
-{
-    data.b = true;
-    data.s = "I am head";
-    data.i = 2;
-    data.c = '3';
-    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
-    ot = obj_add_arg(ot, data, STR_TYPE);
-    ot = obj_add_arg(ot, data, INT_TYPE);
-    ot = obj_add_arg(ot, data, CHAR_TYPE);
-    ot = obj_add_arg(ot, data, BOOL_TYPE);
-    arg_t *head = ot->args;
-
-    cr_assert_str_eq(head->data.s, "I am head", "arg_t_add: failed head initialization");
-    cr_assert_eq(head->next->data.i, 2, "arg_t_add: failed arg_t addition");
-    cr_assert_eq(head->next->next->data.c, '3', "arg_t_add: failed arg_t addition");
-    cr_assert_eq(head->next->next->next->data.b, true, "arg_t_add: failed arg_t addition");
-    cr_assert_null(head->next->next->next->next, "arg_t_add: failed to terminate linked list");
-}
-
-/** 
-* Checks that the obj_add_arg_<type> correctly assigns prev pointers in doubly linked list
-*/
-Test(custom_type, obj_add_args_prev)
-{
-    data.b = true;
-    data.s = "I am head";
-    data.i = 2;
-    data.c = '3';
-    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
-    ot = obj_add_arg(ot, data, STR_TYPE);
-    ot = obj_add_arg(ot, data, INT_TYPE);
-    ot = obj_add_arg(ot, data, CHAR_TYPE);
-    ot = obj_add_arg(ot, data, BOOL_TYPE);
-    arg_t *end = ot->args->next->next->next;
-
-    cr_assert_eq(end->prev->data.c, '3', "arg_t_add: failed arg_t addition (prev)");
-    cr_assert_eq(end->prev->prev->data.i, 2, "arg_t_add: failed arg_t addition (prev)");
-    cr_assert_str_eq(end->prev->prev->prev->data.s, "I am head", "arg_t_add: failed arg_t addition (prev)");
-}
-
 // ============================================================================
 
 /** 
@@ -272,27 +228,6 @@ Test(custom_type, obj_t_get_bool_lua)
 }
 
 /** 
- * Checks that the object_t struct returns the correct bool value (lua)
- * When arguments are passed into the script
- */
-Test(custom_type, obj_t_get_bool_lua_args)
-{
-    data.b = true;
-    data2.b = false;
-    object_t *ot = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
-    ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data, BOOL_TYPE), data, BOOL_TYPE), data, BOOL_TYPE);
-    data_t got = arg_t_get(ot);
-    bool rv = got.b;
-    cr_assert_eq((rv ? 1 : 0), 1, "bool_t_get: failed bool Lua retrieval");
-
-    object_t *ot2 = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
-    ot2 = obj_add_arg(obj_add_arg(obj_add_arg(ot2, data, BOOL_TYPE), data2, BOOL_TYPE), data, BOOL_TYPE);
-    data_t got2 = arg_t_get(ot);
-    bool rv2 = got2.b;
-    cr_assert_eq((rv2 ? 1 : 0), 0, "bool_t_get: failed bool Lua retrieval");
-}
-
-/** 
  * Checks that the object_t struct returns the correct char value (direct)
  */
 Test(custom_type, obj_t_get_char)
@@ -314,38 +249,6 @@ Test(custom_type, obj_t_get_char_lua)
     data_t got = arg_t_get(ot);
     char rv = got.c;
     cr_assert_eq(rv, 'b', "obj_t_get_char: failed char direct retrieval");
-}
-
-/** 
- * Checks that the object_t struct returns the correct char value (lua)
- * When arguments are passed in Lua
- */
-Test(custom_type, obj_t_get_char_lua_args)
-{
-    data.c = 'q';
-    data2.c = 'a';
-    data3.c = 'Z';
-    data4.c = 'b';
-    object_t *ot = obj_t_init(data, CHAR_TYPE, 
-        "../../../tests/custom-scripts/Lua_file/char_test_args.lua");
-    ot = obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, CHAR_TYPE);
-    data_t got = arg_t_get(ot);
-    char rv = got.c;
-    cr_assert_eq(rv, 'c', "obj_t_get_char: failed char direct retrieval");
-
-    object_t *ot2 = obj_t_init(data, CHAR_TYPE, 
-        "../../../tests/custom-scripts/Lua_file/char_test_args.lua");
-    ot2 = obj_add_arg(obj_add_arg(ot2, data3, CHAR_TYPE), data4, CHAR_TYPE);
-    data_t got2 = arg_t_get(ot2);
-    char rv2 = got2.c;
-    cr_assert_eq(rv2, 'd', "obj_t_get_char: failed char direct retrieval");
-
-    object_t *ot3 = obj_t_init(data, CHAR_TYPE, 
-        "../../../tests/custom-scripts/Lua_file/char_test_args.lua");
-    ot3 = obj_add_arg(obj_add_arg(ot3, data2, CHAR_TYPE), data4, CHAR_TYPE);
-    data_t got3 = arg_t_get(ot3);
-    char rv3 = got3.c;
-    cr_assert_eq(rv3, 'e', "obj_t_get_char: failed char direct retrieval");
 }
 
 /** 
@@ -373,34 +276,6 @@ Test(custom_type, obj_t_get_int_lua)
 }
 
 /** 
- * Checks that the object_t struct returns the correct int value (lua)
- * When arguments are passed in Lua
- */
-Test(custom_type, obj_t_get_int_lua_args)
-{
-    data.i = 99;
-    data2.i = 5;
-    data3.i = 10;
-
-    data.c = 'X';
-    data2.c = 'Y';
-    object_t *ot = obj_t_init(data, INT_TYPE, 
-        "../../../tests/custom-scripts/Lua_file/int_test_args.lua");
-    ot = obj_add_arg(obj_add_arg(ot, data2, INT_TYPE), data3, INT_TYPE);
-    data_t got = arg_t_get(ot);
-    int rv = got.i;
-    cr_assert_eq(rv, 15, "obj_t_get_int: failed int direct retrieval");
-
-    // Arguments of an object don't have to be of the same type!
-    object_t *ot2 = obj_t_init(data, INT_TYPE,
-        "../../../tests/custom-scripts/Lua_file/int_test_args.lua");
-    ot2 = obj_add_arg(obj_add_arg(ot2, data, CHAR_TYPE), data2, CHAR_TYPE);
-    data_t got2 = arg_t_get(ot2);
-    int rv2 = got2.c;
-    cr_assert_eq(rv2, 100, "obj_t_get_int: failed int direct retrieval");
-}
-
-/** 
  * Checks that the object_t struct returns the correct str value (direct)
  */
 Test(custom_type, obj_t_get_str)
@@ -422,21 +297,4 @@ Test(custom_type, obj_t_get_str_lua)
     data_t got = arg_t_get(ot);
     char *rv = got.s;
     cr_assert_str_eq(rv, "testing_succeeded", "string_t_get: failed string Lua retrieval");
-}
-
-/** 
- * Checks that the object_t struct returns the correct string (lua)
- * When arguments are passed in Lua
- */
-Test(custom_type, obj_t_get_str_lua_args)
-{
-    data.s = " ";
-    data2.s = "Test ";
-    data3.s = "passes!";
-    object_t *ot = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args.lua");
-    ot = obj_add_arg(obj_add_arg(ot, data2, STR_TYPE), data3, STR_TYPE);
-    data_t got = arg_t_get(ot);
-    char *rv = got.s;
-    cr_assert_str_eq(rv, "Test passes!", "obj_t_get_int: failed string direct retrieval");
-
 }
