@@ -292,4 +292,3 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
         }
     }
 }
-
