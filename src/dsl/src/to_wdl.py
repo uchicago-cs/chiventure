@@ -302,12 +302,19 @@ class Game:
                 self.wdl_contents['intro'] = f"Welcome! You're in a {default}"
                 warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 
-class Npcs:
-    def __init__(self, name: str, contents: dict):
+class Npc:
+    def __init__(self, location, name: str, contents: dict):
+        """
+            Defines an NPC class for conversion to WDL, with a unique name
+            a location, and a list of contents and/or properties
+        """
+        self.location = location
         self.contents = contents
         self.age = age
         self.gender = gender
 
+        # self.wdl_contents stores what will be outputted so we don't lose the
+        # original input from the parser
         self.wdl_contents = {}
 
     def to_json(self) -> str: 
@@ -316,7 +323,7 @@ class Npcs:
     
     def to_wdl_structure(self) -> dict:
         """
-            Converts a Game to WDL structure using its properties. Generates 
+            Converts an NPC to WDL structure using its properties. Generates 
             default values where they are missing.
         """
 
@@ -325,6 +332,8 @@ class Npcs:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
             elif k == "inventory":
                 self.wdl_contents["inventory"] = self.contents["inventory"]
+
+        self.wdl_contents['in'] = self.location
         self.generate_defaults()
         return {f"{self.name}": self.wdl_contents}
 
