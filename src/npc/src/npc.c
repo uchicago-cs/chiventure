@@ -383,7 +383,7 @@ int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc,
 int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc_t *npc, 
                    char *quest_id, char *task_id)
 {
-    assert (quest_id != NULL);
+    /*assert (quest_id != NULL);
     assert(task_id != NULL);
 
     quest_t *quest = get_quest_from_hash(quest_id, qctx->quest_hash);
@@ -397,7 +397,9 @@ int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc
         // in wdl implementation
         npc->active_dialogue = npc->standard_dialogue;
         return SUCCESS;
-    }
+    }*/
+
+    return 1;
 }
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------

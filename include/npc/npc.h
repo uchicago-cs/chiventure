@@ -4,7 +4,6 @@
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "game-state/player.h"
-//#include "game-state/game.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "npc/dialogue.h"
@@ -12,6 +11,8 @@
 #include "npc/npc_move.h"
 #include "cli/util.h"
 #include "quests/quests_state.h"
+//#include "quests/quests_hash.h"
+
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
