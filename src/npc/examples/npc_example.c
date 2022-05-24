@@ -141,7 +141,8 @@ chiventure_ctx_t *create_sample_ctx()
                          "Jim is a shabby man who lives in a shabby house.",
                          "Jim looks just as suspicious as his house. His "
                          "beard appears to be half shaved, and his eyes "
-                         "constantly dart all around.", NULL, NULL, 0);
+                         "constantly dart all around.", NULL, NULL, 0,
+                          NULL, NULL);
     //add_npc_to_game(game, jim);
     convo_t *c = create_sample_convo();
     add_convo_to_npc(jim, c);
