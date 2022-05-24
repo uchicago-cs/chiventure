@@ -10,16 +10,7 @@
 #include "npc/npc_move.h"
 #include "cli/util.h"
 
-/* Forward declaration. Full typedef can be found in npc.h */
-typedef struct npc_battle npc_battle_t;
-typedef enum hostility hostility_t;
-
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
-
-/* Forward declaration */
-typedef struct npc_mov npc_mov_t;
-typedef struct convo convo_t;
-
 
 /* A non-playable character in game */
 typedef struct npc {
@@ -48,7 +39,7 @@ typedef struct npc {
     /* pointer to an exisitng npc_move struct */
     npc_mov_t *movement;
 
-     /* boolean representing whether or not the NPC will engage in battles */
+    /* boolean representing whether or not the NPC will engage in battles */
     bool will_fight;
 
     /* either NULL or a pointer to an existing npc_battle struct */
@@ -134,6 +125,18 @@ int npc_free(npc_t *npc);
  */
 bool check_npc_battle(npc_t *npc);
 
+/*
+ * Checks if an item is in the NPC's inventory.
+ *
+ * Parameters:
+ *  npc: the npc
+ *  item_id: the item's ID
+ *
+ * Returns:
+ *  true if the item is in the NPC's inventory, false otherwise
+ */
+bool item_in_npc_inventory(npc_t *npc, char *item_id);
+
 // "GET" FUNCTIONS ------------------------------------------------------------
 
 /* 
@@ -189,22 +192,6 @@ item_list_t *get_npc_inv_list(npc_t *npc);
  * Returns:
  *  a pointer to the npc's npc_battle struct or NULL
  */
-item_list_t *get_npc_inv_list(npc_t *npc);
-
-/*
- * Checks if an item is in the NPC's inventory.
- *
- * Parameters:
- *  npc: the npc
- *  item_id: the item's ID
- *
- * Returns:
- *  true if the item is in the NPC's inventory, false otherwise
- */
-bool item_in_npc_inventory(npc_t *npc, char *item_id);
-
-
-// "SET" FUNCTIONS ------------------------------------------------------------
 npc_battle_t *get_npc_battle(npc_t *npc);
 
 /*
@@ -217,6 +204,17 @@ npc_battle_t *get_npc_battle(npc_t *npc);
  *  the npc's health or -1 if its npc_battle field is NULL
  */
 int get_npc_health(npc_t *npc);
+
+/*
+* Function to get an npc's npc_mov struct or NULL
+*
+* Parameters:
+*  npc: the npc
+*
+* Returns:
+* a pointer to the npc's npc_mov struct or NULL
+*/
+npc_mov_t *get_npc_mov(npc_t *npc);
 
 // "SET" FUNCTIONS ------------------------------------------------------------
 
@@ -270,13 +268,17 @@ int add_convo_to_npc(npc_t *npc, convo_t *c);
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level
  *  surrender_level: the level of health at which the npc surrenders the battle
+ *  class_type: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  items: An inventory of items that can be used in battle
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,
-                      int surrender_level);
+                      int surrender_level, class_t *class_type,
+                      battle_item_t *items);
 
 /*
  * Changes the health of the npc.
