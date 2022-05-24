@@ -16,7 +16,7 @@ all: $(BINS)
 $(OBJS): %.o:%.c
 	$(CC) $(CFLAGS) $< -c -o $@
 
-$(BINS): $(OBJS)
+$(BINS): $(OBJS) 
 	$(CC) $(OBJS) -o $@ $(LDFLAGS) $(LDLIBS)
 
 clean:
