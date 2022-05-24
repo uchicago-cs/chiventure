@@ -1,5 +1,5 @@
-CC = clang
-CFLAGS = -I -fPIC -g -O2 -Wall -Wextra
+CC = gcc
+CFLAGS = -I../../include/game-state -fPIC -g -O2 -Wall -Wextra
 
 SRCS = read_gdl.c
 OBJS = $(SRCS:.c=.o)
@@ -14,7 +14,7 @@ $(OBJS): %.o:%.c
 	$(CC) $(CFLAGS) $< -c -o $@
 
 $(BINS): $(OBJS)
-	$(CC) -I $(OBJS) -o $(BINS)
+	$(CC) $(OBJS) -o $@
 
 clean:
 	rm -f $(OBJS) $(BINS)

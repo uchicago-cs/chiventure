@@ -96,6 +96,7 @@ typedef struct graphics {
     statistics_display_t *statistics;
 } graphics_t;
 
+
 /*
  * Allocates and initializes a graphics struct
  *
@@ -161,6 +162,7 @@ display_dimensions_t* make_display_dimensions(unsigned int width,
  */
 int free_display_dimensions(display_dimensions_t *display_dimensions);
 
+
 /*
  * allocates and initializes a camera structure on the heap
  *
@@ -184,6 +186,7 @@ camera_t* make_camera(unsigned int width, unsigned int height);
  * - int on success or failure 
  */
 int free_camera(camera_t *camera);
+
 
 /*
  * allocates and initializes an inventory structure on the heap
