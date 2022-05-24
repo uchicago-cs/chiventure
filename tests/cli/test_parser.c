@@ -263,10 +263,10 @@ Test(parse, two_function_calls)
  */
 Test(parse_r, two_words_quote)
 {
-    char str[] = "   LOOK AT ME";
+    char str[] = "GO \"South\"";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create third token");
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"south", "parse() did not create second token");
 }
 
 //Tests the parsing of input which is fully lowercase.
@@ -288,16 +288,8 @@ Test(parse, and)
     cr_assert_str_eq(words[0],"and", "parse() did not create first token");
 }
 
-//Tests the parsing of input which is just the.
-Test(parse, the)
-{
-    char str[] = "THE";
-    char **words = parse(str);
-    cr_assert_str_eq(words[0],"the", "parse() did not create first token");
-}
-
-//Tests the parsing of input which is just to.
-Test(parse, to)
+//Tests the parsing of input which is just and.
+Test(parse, and)
 {
     char str[] = "TO";
     char **words = parse(str);
