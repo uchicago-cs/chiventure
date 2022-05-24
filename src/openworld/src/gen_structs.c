@@ -191,6 +191,59 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
     return roomspecnew;
 }
 
+/* See gen_structs.h */
+int edges_init(int** edges, int* inp_array, int num_rows, int num_cols) 
+{
+    if (edges == NULL)
+        return FAILURE;
+    
+    for (unsigned int i = 0; i < num_rows; i++) 
+    {
+        for (unsigned int j = 0; j < num_cols; j++) 
+        {
+            edges[i][j] = inp_array[i * num_cols + j];
+        }
+    }
+
+    return SUCCESS;
+}
+
+/* See gen_structs.h */
+int** edges_new(int* inp, int num_rows, int num_cols)
+{
+    int** edges = (int**)malloc(sizeof(int*) * num_rows);
+
+    if (edges == NULL) {
+        fprintf(stderr, "malloc failed to allocate space for edges. \n");
+        return NULL;
+    }
+
+    for (unsigned int i = 0; i < num_rows; i++) 
+    {
+        edges[i] = (int*)malloc(sizeof(int) * num_cols);
+    }
+
+    for (unsigned int i = 0; i < num_rows; i++)
+    {
+        if (edges[i] == NULL)
+        {
+            fprintf(stderr, "malloc failed to allocate space for edges. \n");
+            return NULL;
+        }
+    }
+    edges_init(edges, inp, num_rows, num_cols);
+    return edges;
+}
+
+/* See gen_structs.h */
+int edges_free(int** edges, int num_rows) {
+     for(int i=0; i<num_rows; i++)
+        free(edges[i]);   
+    free(edges);
+}
+
+
+
 /* see gen_structs.h */
 int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges)
 {
@@ -228,7 +281,7 @@ int specgraph_free(specgraph_t *specgraph)
         free((specgraph->roomspecs)[i]);
     
     //Free the adjacency matrix
-     for(int i=0; i<num_roomspecs; i++)
+    for(int i=0; i<num_roomspecs; i++)
         free((specgraph->edges)[i]);   
     free(specgraph->edges);
     free(specgraph);
