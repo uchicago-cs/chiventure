@@ -207,10 +207,10 @@ Test(custom_type, arg_t_new_str)
 Test(custom_type, obj_add_args)
 {
     data.b = true;
+    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
     data.s = "I am head";
     data.i = 2;
     data.c = '3';
-    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
     ot = obj_add_arg(ot, data, STR_TYPE);
     ot = obj_add_arg(ot, data, INT_TYPE);
     ot = obj_add_arg(ot, data, CHAR_TYPE);
@@ -230,10 +230,10 @@ Test(custom_type, obj_add_args)
 Test(custom_type, obj_add_args_prev)
 {
     data.b = true;
+    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
     data.s = "I am head";
     data.i = 2;
     data.c = '3';
-    object_t *ot = obj_t_init(data, BOOL_TYPE, NULL);
     ot = obj_add_arg(ot, data, STR_TYPE);
     ot = obj_add_arg(ot, data, INT_TYPE);
     ot = obj_add_arg(ot, data, CHAR_TYPE);
