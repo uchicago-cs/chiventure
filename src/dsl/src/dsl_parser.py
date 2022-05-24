@@ -146,7 +146,7 @@ class TreeToDict(Transformer):
         return ('NPCS', (name, d))
     
 
-    def inventory(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    def inventory(self, s: list[tuple[str, str]]) -> tuple[str, str]:
         """Takes a list of key-values pairs which belong to inventory, places them
         into a dictionary which is labeled "INVENTORY" """
         return ('INVENTORY', dict(s))
