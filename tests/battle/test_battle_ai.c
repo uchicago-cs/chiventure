@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "battle/battle_ai.h"
-
+#include "battle/battle_moves.h"
 
 class_t *create_test_class()
 {
@@ -11,8 +11,8 @@ class_t *create_test_class()
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
 }
-
-/* Creates + initializes a move*/
+/*
+* Creates + initializes a move*
 move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
  {
      move_t* move = (move_t*) calloc(1, sizeof(move_t));
@@ -27,21 +27,21 @@ move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int de
 
      return move;
  }
+*/
 
-/* Creates + initializes a battle_item*/
- battle_item_t *create_battle_item(int id, int quantity, int durability, char* description,
-            bool battle, int attack, int defense, int hp)
+/* Creates + initializes a battle_item */
+ battle_item_t *create_battle_item(int id, int quantity, char* description, 
+                                        char *name, bool attack, stat_changes_t *changes)
  {
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
 
      item->id = id;
-     item->quantity = quantity;
-     item->durability = durability;
+     item->name = name;
      item->description = description;
-     item->battle = battle;
+     item->quantity = quantity;
+     item->description = description;
      item->attack = attack;
-     item->hp = hp;
-     item->defense = defense;
+     item->attributes = changes;
 
      return item;
  }
@@ -116,11 +116,26 @@ battle_item_t* create_player_battle_items()
 {
     battle_item_t *head, *dagger, *tea_leaves, *medicine;
     head = NULL;
-    dagger = create_battle_item(1, 1, 20, "A hearty dagger sure to take your breath away... for good",
-    true, 20, 5, 0);
-    tea_leaves = create_battle_item(2, 1, 1, "Make yourself a warm cup of tea to heal your wounds!", true,
-    0, 0, 10);
-    medicine = create_battle_item(3, 1, 1, "A first aid kit, straight from your doctor!", true, 0, 0, 30);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;
+    dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
+
+    stat_changes_t *tea_changes = stat_changes_new();
+    tea_changes->hp = 10;
+    tea_changes->phys_atk = 0;
+    tea_changes->phys_def = 0;
+    tea_leaves = create_battle_item(2, 1, "Make yourself a warm cup of tea to heal your wounds!", "Tea Leaves", 
+                                    true, tea_changes);
+    
+    stat_changes_t *medicine_changes = stat_changes_new();
+    medicine_changes->hp = 30;
+    medicine_changes->phys_atk = 0;
+    medicine_changes->phys_def = 0;
+    medicine = create_battle_item(3, 1, "A first aid kit, straight from your doctor!", "Medicine",
+                                true, medicine_changes);
     DL_APPEND(head, dagger);
     DL_APPEND(head, tea_leaves);
     DL_APPEND(head, medicine);
@@ -130,14 +145,29 @@ battle_item_t* create_player_battle_items()
 /* Creates example hardcoded items for the enemy*/
 battle_item_t* create_enemy_battle_items()
 {
+    /* I am adding these for a temporary fix, however, these will be changed
+       as battle items are no longer weapons */
     battle_item_t *head, *mace, *diamond_sword, *force_shield;
     head = NULL;
-    mace = create_battle_item(4, 1, 20, "Temporary blindness leaves you quite vulnerable...", true,
-        0, -30, 0);
-    diamond_sword = create_battle_item(5, 1, 50, "Brings quick death to those who dare battle you...",
-        true, 20, 0, 0);
-    force_shield = create_battle_item(6, 1, 30, "Rest comfortably as this shield protects you for 1 move",
-        true, 0, 30, 5);
+    stat_changes_t *mace_changes = stat_changes_new();
+    mace_changes->phys_atk = 0;
+    mace_changes->phys_def = -30;
+    mace_changes->hp = 0;
+    mace = create_battle_item(4, 20, "Temporary blindness leaves you quite vulnerable...", "Mace", true,
+                                mace_changes);
+    stat_changes_t *sword_changes = stat_changes_new();
+    sword_changes->phys_atk = 20;
+    sword_changes->phys_def = 0;
+    sword_changes->hp = 0;
+    diamond_sword = create_battle_item(5, 50, "Brings quick death to those who dare battle you...", "Diamond Sword",
+        true, sword_changes);
+
+    stat_changes_t *shield_changes = stat_changes_new();
+    shield_changes->phys_atk = 0;
+    shield_changes->phys_def = 30;
+    shield_changes->hp = 5;    
+    force_shield = create_battle_item(6, 30, "Rest comfortably as this shield protects you for 1 move", "Force Shield",
+                                        true, shield_changes);
     DL_APPEND(head, mace);
     DL_APPEND(head, diamond_sword);
     DL_APPEND(head, force_shield);
@@ -149,9 +179,12 @@ move_t* create_enemy_moves()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
-    earthquake = create_move(1, NULL, true, 100, 0);
-    poke = create_move(2, NULL, true, 40, 0);
-    rock_throw = create_move(3, NULL, true, 90, 0);
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, earthquake);
     DL_APPEND(head, poke);
     DL_APPEND(head, rock_throw);
@@ -163,9 +196,12 @@ move_t* create_battle_player_moves()
 {
     move_t *head, *fire_blast, *punch, *blaze_kick;
     head = NULL;
-    fire_blast = create_move(4, NULL, true, 100, 0);
-    punch = create_move(5, NULL, true, 20, 0);
-    blaze_kick = create_move(6, NULL, true, 60, 0);
+    fire_blast = move_new(4, "fire blast", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    punch = move_new(5, "punch", "", PHYS, NO_TARGET, NO_TARGET,
+                     SINGLE, 0, NULL, 20, 100, NULL, NULL, NULL, NULL);
+    blaze_kick = move_new(6, "blaze kick", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 60, 100, NULL, NULL, NULL, NULL);
     DL_APPEND(head, fire_blast);
     DL_APPEND(head, punch);
     DL_APPEND(head, blaze_kick);
@@ -175,7 +211,8 @@ move_t* create_battle_player_moves()
 /* Creates the expected return value for when the AI should return the greediest move*/
 move_t* expected_move_greedy()
 {
-    move_t* earthquake = create_move(1, NULL, true, 100, 0);
+    move_t* earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+                                  SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
     return earthquake;
 }
 
@@ -184,7 +221,9 @@ move_t* expected_move_random()
 {
     srand(1);
     int randomish = rand() % 3;
-    move_t* rock_throw = create_move(randomish, NULL, true, 90, 0);
+    move_t* rock_throw = move_new(randomish, "", "", PHYS, NO_TARGET, 
+                                  NO_TARGET, SINGLE, 0, NULL, 90, 100, 
+                                  NULL, NULL, NULL, NULL);
     return rock_throw;
 }
 
@@ -199,7 +238,7 @@ combatant_t* new_enemy()
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
 }
 
@@ -214,7 +253,7 @@ combatant_t* new_enemy_crit()
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_GREEDY);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items, NULL, NULL, NULL, BATTLE_AI_GREEDY);
 
 }
 
@@ -232,7 +271,7 @@ combatant_t* new_battle_player()
     battle_item_t *items = create_player_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
-    return combatant_new(name, is_friendly, c_type, stats, moves, items, BATTLE_AI_NONE);
+    return combatant_new(name, is_friendly, c_type, stats, moves, items,  NULL, NULL, NULL, BATTLE_AI_NONE);
 }
 
 /* Called by test functions to check give_move returns properly*/
