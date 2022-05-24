@@ -269,6 +269,33 @@ Test(parse_r, two_words_quote)
     cr_assert_str_eq(words[1],"south", "parse() did not create second token");
 }
 
+/*
+ * Tests the parsing of an input with four tokens, one being a single word surrounded by quotes
+ */
+Test(parse_r, four_words_quote)
+{
+    char str[] = "GO \"South\" AND WEST";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"south", "parse() did not create second token");
+    cr_assert_str_eq(words[2],"and", "parse() did not create third token");
+    cr_assert_str_eq(words[3],"west", "parse() did not create fourth token");
+}
+
+/*
+ * Tests the parsing of an input with five tokens, one being a single word surrounded by quotes
+ */
+Test(parse_r, five_words_quote)
+{
+    char str[] = "GO \"South\" AND GO  WEST";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
+    cr_assert_str_eq(words[1],"south", "parse() did not create second token");
+    cr_assert_str_eq(words[2],"and", "parse() did not create third token");
+    cr_assert_str_eq(words[3],"go", "parse() did not create fourth token");
+    cr_assert_str_eq(words[3],"west", "parse() did not create fith token");
+}
+
 //Tests the parsing of input which is fully lowercase.
 Test(parse, lower)
 {
@@ -286,14 +313,6 @@ Test(parse, and)
     char str[] = "AND";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"and", "parse() did not create first token");
-}
-
-//Tests the parsing of input which is just and.
-Test(parse, to)
-{
-    char str[] = "TO";
-    char **words = parse(str);
-    cr_assert_str_eq(words[0],"to", "parse() did not create first token");
 }
 
 //Tests the parsing of input with spaces at the end.
