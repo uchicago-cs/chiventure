@@ -1,0 +1,190 @@
+{
+    "NPCS": {
+        "Land Scout": {
+            "short_desc": "This is a Land Scout",
+            "long_desc": "She wants to talk to you.",
+            "in": "Starting City",
+            "inventory": [
+                {
+                    "item_id": "Search Warrant"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "I have an apple. Do you want it?"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Here you go."
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "That's too bad."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Yes",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "No",
+                        "from_id": "1",
+                        "to_id": "2b"
+                    }
+                ]
+            }
+        },
+        "Sea Scout": {
+            "short_desc": "This is a Sea Scout",
+            "long_desc": "He wants to talk to you.",
+            "in": "Starting City",
+            "inventory": [
+                {
+                    "item_id": "Search Warrant"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "I have an apple. Do you want it?"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Here you go."
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "That's too bad."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Yes",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "No",
+                        "from_id": "1",
+                        "to_id": "2b"
+                    }
+                ]
+            }
+        },
+        "Pirate Captain": {
+            "short_desc": "This is a Pirate Captain",
+            "long_desc": "He does not want to talk to you.",
+            "in": "Pirate Cove",
+            "inventory": [],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "I have an apple. Do you want it?"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Here you go."
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "That's too bad."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Yes",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "No",
+                        "from_id": "1",
+                        "to_id": "2b"
+                    }
+                ]
+            }
+        },
+        "Steve's Mom": {
+            "short_desc": "This is Steve's Mom",
+            "long_desc": "She is slightly reluctant to talk to you.",
+            "in": "Starting City",
+            "inventory": [
+                {
+                    "item_id": "Steve's Embarrasing Baby Photos"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "I have an apple. Do you want it?"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Here you go."
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "That's too bad."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Yes",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "No",
+                        "from_id": "1",
+                        "to_id": "2b"
+                    }
+                ]
+            }
+        },
+        "Steve": {
+            "short_desc": "This is Steve",
+            "long_desc": "The vanquisher of the heavens, Steve is a legendary warrior with an equally renowned blade.",
+            "in": "Steve's Lair",
+            "inventory": [
+                {
+                    "item_id": "Legendary Sword of Steve"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "I have an apple. Do you want it?"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Here you go."
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "That's too bad."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Yes",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "No",
+                        "from_id": "1",
+                        "to_id": "2b"
+                    }
+                ]
+            }
+        }
+    }
+}

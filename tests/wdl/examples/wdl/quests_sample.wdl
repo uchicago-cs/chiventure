@@ -188,7 +188,7 @@
                     },
                     "Prerequisites": {
                         "Quests": ["Find Steve"],
-                        "Tasks": ["Interrogate the Pirate Captain"]
+                        "Tasks": ["Talk to Steve's Mom"]
                     },
                     "Rewards": {
                         "XP": 100
