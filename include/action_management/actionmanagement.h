@@ -169,6 +169,6 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
  */
 int do_self_action(chiventure_ctx_t *c, action_type_t *a,
-                  char *target, char **ret_string);
+                  char **target, char **ret_string);
 
 #endif
