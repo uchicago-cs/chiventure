@@ -669,12 +669,16 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     // create a battle player version of the current player
     battle_player_t *b_player = new_ctx_player(player->player_id, 
                                                player->player_class, 
-                                               get_random_stat() /* fix: get stats
-                                                                    from player struct */, 
+                                               get_random_stat() 
+                                               /* fix: get stats from player 
+                                               struct (currently doesn't 
+                                               support all stats) */, 
                                                player->moves, 
-                                              NULL /* fix: get a list of battle 
-                                                      items from inventory */,
-                                              NULL, NULL, NULL); // these too
+                                               NULL 
+                                               /* fix: get a list of battle 
+                                                  items from inventory 
+                                                  (currently no way to do) */,
+                                               NULL, NULL, NULL); // these too
     // create a battle context
     battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
     // create a battle game and add it to the battle context
@@ -698,10 +702,11 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     get_legal_actions(legal_items, legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
     char *menu = print_battle_action_menu(legal_items, legal_moves);
-    // char *output_and_menu = strcat(output, menu); //seems like we dont need bc using print_to_cli
-    ctx->game->battle_ctx->game->battle->current_tc = current_tc; //check to make sure this is the correct tc now
+    // char *output_and_menu = strcat(output, menu); // replace calls to print_to_cli
+    ctx->game->battle_ctx->game->battle->current_tc = current_tc;
 
-    //set_game_mode(ctx->game, BATTLE, npc->npc_id); //i think game_mode_init does this??
+    // leaving in case we want to directly set game mode in the future
+    //set_game_mode(ctx->game, BATTLE, npc->npc_id);
    
     assert(npc->npc_battle != NULL);
 
