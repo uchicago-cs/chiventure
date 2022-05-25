@@ -16,7 +16,7 @@ Test(npc_battle, new)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+    battle_item_t *dagger = create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
                                 20, true);
 
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY, 
@@ -54,7 +54,7 @@ Test(npc_battle, init)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+    battle_item_t *dagger = create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
                                 20, true);
 
     npc_battle = npc_battle_new(100, stats1, moves1, BATTLE_AI_GREEDY,
@@ -95,7 +95,7 @@ Test(npc_battle, free)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+    battle_item_t *dagger = create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
                                 20, true);
 
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY,
@@ -185,7 +185,7 @@ Test(npc_battle, transfer_all_npc_items_alive)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+    battle_item_t *dagger = create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
                                 20, true);
 
     add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, HOSTILE,
@@ -230,7 +230,7 @@ Test(npc_battle, transfer_all_npc_items_empty_inventory)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
+    battle_item_t *dagger = create_battle_item(1, "Dagger", "A hearty dagger sure to take your breath away... for good", dagger_changes,
                                 20, true);
 
     add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE,

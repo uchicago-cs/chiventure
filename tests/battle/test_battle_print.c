@@ -23,7 +23,7 @@ Test(battle_print, print_start_battle)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
             BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
@@ -62,7 +62,7 @@ Test(battle_print, print_hp_one_enemy)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
             BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
@@ -193,7 +193,7 @@ Test(battle_print, print_player_move_crit)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
                      BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
@@ -258,7 +258,7 @@ Test(battle_print, print_player_move_miss)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = npc_create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
                      BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);

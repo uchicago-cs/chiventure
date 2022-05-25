@@ -32,47 +32,10 @@ class_t *make_wizard()
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
 
-/* Creates a sample class. Taken from test_class.c */
-class_t *generate_npcbattle_test_class()
-{
-    class_t *c;
-    char *name, *shortdesc, *longdesc;
-
-    name = "Warrior";
-    shortdesc = "Mechanically, the warrior focuses on up-close physical "
-                "damage with weapons and survives enemy attacks "
-                "using heavy armor.\n";
-    longdesc = "The warrior is the ultimate armor and weapons expert,"
-                " relying on physical strength and years of training to "
-                "deal with any obstacle. Mechanically, the warrior focuses "
-                "on up-close physical damage with weapons and survives enemy "
-                "attacks using heavy armor.\n";
-
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
-
-}
-
 /*-----------------------------------------------------------------------------------------------------------------*/
 
 /* Creates + initializes a battle_item */
  battle_item_t *create_battle_item(int id, int quantity, char* description, 
-                                        char *name, bool attack, stat_changes_t *changes)
- {
-     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
-
-     item->id = id;
-     item->name = name;
-     item->description = description;
-     item->quantity = quantity;
-     item->description = description;
-     item->attack = attack;
-     item->attributes = changes;
-
-     return item;
- }
-
-/* Creates + initializes a battle_item */
- battle_item_t *create_npc_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes)
  {
      battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
@@ -151,76 +114,7 @@ battle_item_t* create_enemy_battle_items()
     return head;
 }
 
- /* Creates + initializes a battle_item */
- battle_item_t *npc_create_battle_item(int id, int quantity, char* description,
-                                        char *name, bool attack, stat_changes_t *changes)
- {
-     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
-
-     item->id = id;
-     item->name = name;
-     item->description = description;
-     item->quantity = quantity;
-     item->description = description;
-     item->attack = attack;
-     item->attributes = changes;
-
-     return item;
- }
-
-/* Creates a sample battle item. Taken from test_battle_ai.c */
-battle_item_t *npc_create_battle_item(int id, char *name, char* description,
-                                      stat_changes_t *attributes,
-                                      int quantity, bool attack)
-{
-     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
-
-     item->id = id;
-     item->name = name;
-     item->description = description;
-     item->attributes = attributes;
-     item->quantity = quantity;
-     item->attack = attack;
-
-
-     return item;
- }
-
-/* Creates a sample battle_item. Taken from test_battle_ai.c */
-battle_item_t *generate_test_battle_item(int id, int quantity, char* description,
-                                         char *name, bool attack, stat_changes_t *changes)
-{
-     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
-
-     item->id = id;
-     item->name = name;
-     item->description = description;
-     item->quantity = quantity;
-     item->description = description;
-     item->attack = attack;
-     item->attributes = changes;
-
-     return item;
-}
-
 /*------------------------------------------------------------------------------------------------------------------*/
-
-
-/* Creates example stats. Taken from test_battle_ai.c */
-stat_t *create_enemy_stats()
-{
-    stat_t *test_stats = calloc(1, sizeof(stat_t));
-
-    test_stats->speed = 50;
-    test_stats->phys_def = 20;
-    test_stats->phys_atk = 150;
-    test_stats->hp = 200;
-    test_stats->max_hp = 200;
-    test_stats->xp = 0;
-    test_stats->level = 5;
-
-    return test_stats;
-}
 
 /* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats_norm()
@@ -333,23 +227,6 @@ stat_t *create_enemy_stats2()
 
 /*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**/
 
-/* Creates example hardcoded moves for the enemy*/
-move_t* create_enemy_moves()
-{
-    move_t *head, *earthquake, *poke, *rock_throw;
-    head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
-                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
-    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
-                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
-    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
-                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
-    DL_APPEND(head, earthquake);
-    DL_APPEND(head, poke);
-    DL_APPEND(head, rock_throw);
-    return head;
-}
-
 /* Creates example hardcoded stats for the battle_player*/
 move_t* create_battle_player_moves()
 {
@@ -401,22 +278,6 @@ npc_mov_t *generate_test_npc_mov()
     npc_mov_t *npc_mov;
     char *test_room_id = "test";
     npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id);
-}
-
-/* Creates example moves. Taken from test_battle_ai.c */
-move_t *create_enemy_moves()
-{
-    move_t *head, *earthquake, *poke, *rock_throw;
-    head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
-                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
-    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
-                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
-    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
-                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
-    DL_APPEND(head, earthquake);
-    DL_APPEND(head, poke);
-    DL_APPEND(head, rock_throw);
 }
 
 move_t *create_enemy_moves1()
