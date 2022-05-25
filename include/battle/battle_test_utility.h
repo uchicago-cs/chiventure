@@ -23,85 +23,89 @@
 
 /* Test class creation functions -----------------------------------------------------*/
 
-/* Creates a sample class. Taken from test_class.c  and same as generate NPCtest class*/
+/* This function creates a sample warrior class. It's taken from test_class.c */
 class_t *make_new_warrior_class();
 
+/* This function creates a sample bard class. */
 class_t *make_new_bard_class();
 
+/* This function creates a sample wizard class. */
 class_t *make_new_wizard_class();
 
 
 /* Battle item creation functions ----------------------------------------------------*/
 
-/* Creates + initializes a battle_item  SAME AS CREATE_NPC_BATTLE_ITEM and npc_create_battle_item and generate_test_battle_item*/
+/* This function creates and initializes a battle item. */
 battle_item_t *create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes);
 
-/* Creates example hardcoded battle_items for the player*/
+/* This function creates example hardcoded battle_items for the player. */
 battle_item_t* create_player_battle_items();
 
-/* Creates example hardcoded items for the enemy*/
+/* This function creates example hardcoded battle_items for the enemy. */
 battle_item_t* create_enemy_battle_items();
 
 
 /* Stats creation functions ---------------------------------------------------------*/
 
-/* Creates example hardcoded stats for the enemy*/
+/* This function creates example hardcoded normal stats for the enemy. */
 stat_t* create_enemy_stats_norm();
 
-/* Creates example hardcoded stats for the enemy*/
+/* This function creates example hardcoded stats for the enemy but with 100% critical. */
 stat_t* create_enemy_stats_crit();
 
-/* Creates example hardcoded stats for the battle_player*/
+/* This function creates example hardcoded stats for the battle_player. */
 stat_t* create_battle_player_stats();
 
-/* Creates example stats. Taken from test_battle_ai.c Same as create_enemy_stats()*/
+/* This function creates example hardcoded stats for the enemy (first version for battle between NPCs). */
 stat_t *create_enemy_stats_v1();
 
-/* Creates example stats. Taken from test_battle_ai.c */
+/* This function creates example hardcoded stats for the enemy (second version for battle between NPCs). */
 stat_t *create_enemy_stats_v2();
 
 
 /* Moves creation functions ---------------------------------------------------------*/
 
-/* Creates example hardcoded stats for the battle_player*/
+/* This function creates hardcoded moves for the battle_player. */
 move_t* create_battle_player_moves();
 
-/* Creates the expected return value for when the AI should return the greediest move*/
+/* This function creates the expected return value for when the AI should return the greediest move. */
 move_t* expected_move_greedy();
 
-/* Creates the expected return value for when the AI should return a random move*/
+/* This function creates the expected return value for when the AI should return a random move. */
 move_t* expected_move_random();
 
-/* Called by test functions to check give_move returns properly*/
+/* This function is called by test functions to check if give_move returns properly*/
 void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t difficulty, move_t* expected);
 
-/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
+/* This function creates a sample npc_mov struct. */
 npc_mov_t *generate_test_npc_mov();
 
-/*Same as create_enemy_moves()*/
+/* This function creates hardcoded moves for the battle_player (first version for battle between NPCs). */
 move_t *create_enemy_moves_v1();
 
-/* Creates example moves. Taken from test_battle_ai.c */
+/* This function creates hardcoded moves for the battle_player (second version for battle between NPCs). */
 move_t *create_enemy_moves_v2();
 
 
 /* Sandbox entity creation functions -------------------------------------------------*/
 
-/* Creates sandbox enemy*/
+/* This function creates a sandbox enemy. */
 combatant_t* new_enemy();
 
-/* Creates sandbox enemy with crit value 100% */
+/* This function creates a sandbox enemy with 100% critical. */
 combatant_t* new_enemy_crit();
 
-/* Creates sandbox battle_player*/
+/* This function creates a sandbox battle_player. */
 combatant_t* new_battle_player();
 
 
 /* Dialogue Building Functions ------------------------------------------------------*/
 
+/* This function is called by test functions to check if add_node works. */
 void check_add_node(int num_nodes);
 
+/* This function is called by test functions to check if add_edge works. */
 void check_add_edge(int num_edges);
 
 
