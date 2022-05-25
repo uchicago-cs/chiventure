@@ -241,7 +241,12 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_VICTOR_PLAYER;
     }
-    
+    if(battle_over(b) == BATTLE_ENEMY_SURRENDER)
+    {
+        /* print stub: should tel player they won */
+        award_xp(b->player->stats, 2.0);
+        ctx->status = BATTLE_ENEMY_SURRENDER;
+    }
     if(battle_over(b) == BATTLE_IN_PROGRESS)
     {
         char *res = enemy_make_move(ctx);
@@ -502,9 +507,7 @@ int calculate_accuracy(int user_accuracy, int move_accuracy)
     int chance = randnum(0, 100);
     if(chance <= ((user_accuracy * move_accuracy) / 100)){
         return 1;
-    }
-    else
-    {
+    }else{
         return 0;
     }
 }
