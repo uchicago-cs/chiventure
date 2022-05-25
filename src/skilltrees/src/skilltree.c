@@ -394,11 +394,16 @@ char *display_tree(skill_tree_t* tree){
     for (int j = 0; j < tree->num_nodes; j++){
         // count size of skill name
         size += strlen(tree->nodes[j]->skill->name);
+
         // add size of prereq_level and current level
         // uses helper function to calculate their lengths
         size += count_digits(tree->nodes[j]->prereq_level);
         size += count_digits(tree->nodes[j]->skill->level);
-        // add size of other text around each info piece below, ex "Skill Name"
+
+        // add size of formatting text used around each info piece
+        // meaning the size of the formatting string "Skill Name: %s, Prereq 
+        // Level: %d, Current Level: %d\n", which is used to make the given
+        // high-level information easier for the average user to understand 
         size += 55;
     }
     char buffer[size];
