@@ -1,3 +1,5 @@
+all: read_gdl test_camera 
+
 read_gdl: read_gdl.c
 	gcc -fPIC -g -O2 -Wall -Wextra -O2 -I../../include/ read_gdl.c ../../src/game-state/src/stats.c -o read_gdl -lcriterion
 
