@@ -101,7 +101,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
  *             Definite NPCs: doesn't matter, it won't be used, convention is 0
  *
  * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
+ *  Pointer to the new npc_mov_t struct
  */
 npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id, double room_time);
 
@@ -137,6 +137,7 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add);
  *  npc_mov: The NPC movement struct
  *  room_to_add: The room that has to be added to the path
  *  room_time: The time the NPC has to stay in that room in seconds
+
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -235,15 +236,17 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
  * npc_mov: The NPC movement struct
  *
  * Returns:
- * 0: if move is unsuccessful
- * 1: if npc has reached the end of the path, reverse_path is called
- *  (only for indefinite NPCs), but the move is not implemented
- * 2: if successful move to the next room
- * 3: if npc has nowhere to move (only one room in path)
+ * FAILURE: if a move does not occur, 
+ * SUCCESS: if successful move to the next room, with the only exception
+ * being if an indefinite NPC has more than one room in its path, and then
+ * reaches the end of its path, in which case its path direction is flipped,
+ * and its time_ray for the current step in its path is reset, but it does not
+ * technically change rooms.
+ *
  */
 int move_npc_mov(npc_mov_t *npc_mov);
-
 
 bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov);
 
 #endif
+

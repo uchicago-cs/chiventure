@@ -187,9 +187,8 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     target_stats->mag_def += changes->mag_def;
     target_stats->crit += changes->crit;
     target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
     target_stats->max_hp += changes->max_hp;
-    if ((target_stats->hp += changes->hp) <= target_stats->max_hp)
+    if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
         target_stats->hp += changes->hp;
     }else

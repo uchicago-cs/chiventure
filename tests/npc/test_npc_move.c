@@ -4,8 +4,41 @@
 #include <time.h>
 #include <unistd.h>
 #include "npc/npc_move.h"
+#include "npc/npc.h"
 #include "game-state/room.h"
 #include "game-state/game.h"
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_test_class2()
+{
+    class_t* c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+               " relying on physical strength and years of training to "
+               "deal with any obstacle. Mechanically, the warrior focuses "
+               "on up-close physical damage with weapons and survives enemy "
+               "attacks using heavy armor.\n";
+
+    stats_global_t *global_speed = stats_global_new("speed", 200);
+    stats_hash_t *stats = NULL;
+    stats_t *speed_stat = malloc(sizeof(stats_t));
+    char *the_key = malloc(sizeof(char) * 8);
+    strcpy(the_key, "speed");
+    speed_stat->key = the_key;
+    speed_stat->global = global_speed;
+    speed_stat->val = 150;
+    speed_stat->max = 200;
+    speed_stat->modifier = 1;
+    HASH_ADD(hh, stats, key, strlen(the_key), speed_stat);
+
+    c = class_new(name, shortdesc, longdesc, NULL, stats, NULL);
+    return c;
+}
 
 /* Tests new() of npc_mov struct */
 Test (npc_mov, new)
@@ -185,21 +218,21 @@ Test(npc_mov, move_npc_mov_def)
 
     int check2 = move_npc_mov(npc_mov);
 
-    cr_assert_eq(check2, 2, "move_npc_def() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_mov() failed");
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
-                     "move_npc_def() failed to move once");
+                     "move_npc_mov() failed to move once");
 
     check2 = move_npc_mov(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"room_to_add2",
-                     "move_npc_def() failed to move twice");
+                     "move_npc_mov() failed to move twice");
 
     int check3 = move_npc_mov(npc_mov);
 
     cr_assert_str_eq(npc_mov->track, "room_to_add2",
                      "move_npc_mov() failed to stay in place");
-    cr_assert_eq(check3, 1, "move_npc_mov failed to reverse path");
+    cr_assert_eq(check3, FAILURE, "move_npc_mov didn't keep NPC in place");
 }
 
 
@@ -221,7 +254,7 @@ Test(npc_mov, move_npc_mov_indef)
 
     int check2 = move_npc_mov(npc_mov);
 
-    cr_assert_eq(check2, 2, "move_npc_mov() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_mov() failed");
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
                      "move_npc_mov() failed to move once");
@@ -235,13 +268,13 @@ Test(npc_mov, move_npc_mov_indef)
 
     cr_assert_str_eq(npc_mov->track, "room_to_add2",
                      "move_npc_mov() failed to stay in place");
-    cr_assert_eq(check3, 1, "move_npc_mov failed to reverse path");
+    cr_assert_eq(check3, SUCCESS, "move_npc_mov failed to reverse path");
 
     int check4 = move_npc_mov(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"room_to_add1",
                      "move_npc_mov() failed to move after path reversal");
-    cr_assert_eq(check4, 2, "move_npc_mov() failed to move");
+    cr_assert_eq(check4, SUCCESS, "move_npc_mov() failed to move");
 }
 
 
@@ -260,7 +293,7 @@ Test(npc_mov, flip_npc_path_direction)
     cr_assert_eq(check1, SUCCESS, "extend_path_def() failed");
 
     int check2 = move_npc_mov(npc_mov);
-    cr_assert_eq(check2, 2, "move_npc_def() failed");
+    cr_assert_eq(check2, SUCCESS, "move_npc_mov() failed");
 
     int check3 = flip_npc_path_direction(npc_mov);
     cr_assert_eq(check3, SUCCESS, "flip_npc_path_direction() failed");
@@ -271,7 +304,6 @@ Test(npc_mov, flip_npc_path_direction)
     cr_assert_str_eq(npc_mov->track,"test_room",
                      "flip_npc_path_direction() failed to track room");
 }
-
 
 /* Tests auto_gen_movement for definite movement function */
 Test(npc_mov, auto_gen_movement_definite)
@@ -288,11 +320,15 @@ Test(npc_mov, auto_gen_movement_definite)
     room_t *curr_room;
     room_list_t *all_rooms = get_all_rooms(game);
     char *curr_room_id;
+    class_t *c = generate_test_class2();
 
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    add_room_to_game(game, test_room);
 
-    rc = auto_gen_movement(npc_mov, all_rooms);
+    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_t *npc = npc_new("test", "testnpc", "test npc", c, npc_mov, FRIENDLY);
+
+    rc = auto_gen_movement(npc, all_rooms);
     npc_path_dll_t *elt;
 
     DL_FOREACH(npc_mov->path, elt)
@@ -324,14 +360,11 @@ Test(npc_mov, auto_gen_movement_definite)
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
 
-    cr_assert_eq(npc_mov_free(npc_mov),
-                 SUCCESS, "npc_mov_free failed");
+    cr_assert_eq(npc_mov_free(npc_mov), SUCCESS, "npc_mov_free() failed");
 
     game_free(game);
 }
 
-
-/* Tests auto_gen_movement for indefinite movement function */
 Test(npc_mov, auto_gen_movement_indefinite)
 {
     game_t *game = game_new("Welcome to Chiventure!");
@@ -345,37 +378,40 @@ Test(npc_mov, auto_gen_movement_indefinite)
     int rc, num_rooms_in_npc;
     room_t *curr_room;
     char *curr_room_id;
+    class_t *c = generate_test_class2();
 
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 60);
+    add_room_to_game(game, test_room);
 
-    rc = auto_gen_movement(npc_mov, get_all_rooms(game));
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 60);
+    npc_t *npc = npc_new("test", "testnpc", "test npc", c, npc_mov, FRIENDLY);
+
+    rc = auto_gen_movement(npc, get_all_rooms(game));
     npc_path_dll_t *elt;
 
     DL_FOREACH(npc_mov->path, elt)
     {
         cnt++;
         curr_room_id = elt->room_id;
-        HASH_FIND(hh, game->all_rooms, curr_room_id,
-                  strnlen(curr_room_id, MAX_ID_LEN), curr_room);
-        if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
+        HASH_FIND(hh, game->all_rooms, curr_room_id, strlen(curr_room_id), curr_room);
+        if (strncmp(curr_room->room_id, "room1", MAX_ID_LEN) == 0)
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
                              "ldesc does not correspond");
         }
-        else if (!strncmp(curr_room_id, "room2", MAX_ID_LEN))
+        else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
                              "ldesc does not correspond");
         }
-        else if (!strncmp(curr_room_id, "room3", MAX_ID_LEN))
+        else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
         {
             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
                              "ldesc does not correspond");
         }
     }
 
-    num_rooms_in_npc = get_npc_num_rooms(npc_mov);
+    num_rooms_in_npc = get_npc_num_rooms(npc->movement);
     cr_assert_eq(cnt, num_rooms_in_npc,
                  "room_count returns %d, but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
@@ -404,7 +440,7 @@ Test(npc_mov, check_if_npc_mov_indefinite_needs_moved)
     cr_assert_eq(rb, true, "check_if_npc_mov_indefinite_needs_moved() failed");
 
     rc = move_npc_mov(npc_mov);
-    cr_assert_eq(rc, 2, "move_npc_mov () failed");
+    cr_assert_eq(rc, SUCCESS, "move_npc_mov () failed");
     rb = check_if_npc_mov_indefinite_needs_moved(npc_mov);
     cr_assert_eq(rb, false, "check_if_npc_mov_indefinite_needs_moved() failed");
 

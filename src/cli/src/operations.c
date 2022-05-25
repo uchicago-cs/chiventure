@@ -423,7 +423,7 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * but not the actual action in a string array
      *
      * Thus we clip off the first term to hand to do_self_action */
-    tokens = &tokens[1];
+    char **clipped_token_array = &tokens[1];
 
     /* do_self_action return codes are either:
      *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
@@ -436,7 +436,7 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * THE ACTUAL FUNCTION CALL, 
      * for now will leave the currently implemented call 
      *================================================================ */
-    //int rc = do_self_action(ctx, action, tokens, &str);
+    //int rc = do_self_action(ctx, action, clipped_token_array, &str);
     int rc = do_self_action(ctx, action, tokens[1], &str);
     return str;
 }

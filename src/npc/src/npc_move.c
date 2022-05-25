@@ -1,3 +1,6 @@
+#include <math.h>
+
+#include "common/uthash.h"
 #include "npc/npc_move.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
@@ -143,10 +146,17 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
     strcpy(npc_mov->track, room_id);
     npc_mov->npc_path_pos = 0;
     npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
-    npc_path_dll_t *head = NULL; // these next few lines are VERY important
+    
+    /* These next four (4) lines correctly initialize a utlish doubly-linked
+     * list. Initializing the head of the list to NULL is essential, and then
+     * the next step is appending the first real "element" of the list to the
+     * NULL-initialized head.
+     */
+    npc_path_dll_t *head = NULL;
     npc_path_dll_t *elt = npc_path_dll_new(mov_type, room_id, room_time);
     DL_APPEND(head, elt);
     npc_mov->path = head;
+    
     return SUCCESS;
 }
 
@@ -363,9 +373,8 @@ int move_npc_mov(npc_mov_t *npc_mov)
         {
             assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
         }
-        return 3; // NPC has nowhere to move
+        return FAILURE; // NPC has nowhere to move
     }
-
 
     if (((direction == NPC_MOV_REVERSED) && (pos == 0))
             || ((direction == NPC_MOV_ORIGINAL) && (pos == (num_steps - 1))))
@@ -374,8 +383,12 @@ int move_npc_mov(npc_mov_t *npc_mov)
         {
             assert(flip_npc_path_direction(npc_mov) == SUCCESS);
             assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
+            return SUCCESS;
         }
-        return 1;
+        else
+        {
+            return FAILURE;
+        }
     }
 
     if (direction == NPC_MOV_ORIGINAL)
@@ -390,7 +403,7 @@ int move_npc_mov(npc_mov_t *npc_mov)
     }
     else
     {
-        return 0;
+        return FAILURE;
     }
 
     if (mov_type == NPC_MOV_INDEFINITE)
@@ -398,5 +411,5 @@ int move_npc_mov(npc_mov_t *npc_mov)
         assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
     }
 
-    return 2;
+    return SUCCESS;
 }
