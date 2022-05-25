@@ -423,9 +423,9 @@ Test(parse, all_fillers_with_spaces)
 }
 
 //Tests input when there are fillers, but the input is too long
-Test(parse, fillers_too_long) 
+Test(parse, fillers_diff_size) 
 {
-    char str[] = "pickup to to into to chair";
+    char str[] = "pickup TO tHE chair";
     char **words = parse(str);
     cr_assert_eq("pickup",words[0],"parse() did not create first token");
     cr_assert_eq("chair",words[1],"parse() did not create second token");
