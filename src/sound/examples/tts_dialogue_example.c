@@ -27,9 +27,9 @@ chiventure_ctx_t *create_sample_game()
 
     game->curr_room = convo_room;
     game->curr_player = p;
-    g->mode = game_mode_new(NORMAL, NULL, "friend");
+    game->mode = game_mode_new(NORMAL, NULL, "friend");
 
-    add_npc_to_room(r->npcs, friend);
+    add_npc_to_room(convo_room->npcs, friend);
 
     // Creating a conversation between a player and npc, where the npc's responses will be played with tts
     convo_t *c1 = convo_new();
@@ -53,10 +53,18 @@ chiventure_ctx_t *create_sample_game()
     printf("Friend:\n");
     while (rc != 1)
     {
-        if (rc < 0) ret_str = start_conversation(c1, &rc, game);
-        else ret_str = run_conversation_step(c1, player_response, &rc, game);
+        if (rc < 0) {
+            ret_str = start_conversation(c1, &rc, game);
+        } else {
+            ret_str = run_conversation_step(c1, player_response, &rc, game);
+        }
+
         printf("%s", ret_str);
-        if (rc != 1) scanf("%d", &player_response);
+        
+        if (rc != 1) {
+            scanf("%d", &player_response);
+        }
+        
         printf("\n");
         free(ret_str);
     }
@@ -66,10 +74,18 @@ chiventure_ctx_t *create_sample_game()
     printf("Friend: (again)\n");
     while (rc != 1)
     {
-        if (rc < 0) ret_str = start_conversation(c1, &rc, game);
-        else ret_str = run_conversation_step(c1, player_response, &rc, game);
+        if (rc < 0) {
+            ret_str = start_conversation(c1, &rc, game);
+        } else {
+            ret_str = run_conversation_step(c1, player_response, &rc, game);
+        }
+
         printf("%s", ret_str);
-        if (rc != 1) scanf("%d", &player_response);
+
+        if (rc != 1){
+            scanf("%d", &player_response);
+        }
+
         printf("\n");
         free(ret_str);
     }
