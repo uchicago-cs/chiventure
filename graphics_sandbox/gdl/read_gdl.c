@@ -265,13 +265,13 @@ int free_statistics_display(statistics_display_t *statistics_display)
  */
 int hash(char *str)
 {
-    int hash = 17;
+    int hash = 24017;
     int i = 0;
 
     while (str[i] != '\0') {
-        hash += (str[i] + i) * 11;
+        hash += (str[i] + -9 * i);
     }
-
+    
     return hash;
 }
 
@@ -326,7 +326,6 @@ graphics_t* read_gdl()
     gdl = fopen("gdl.txt","r"); // could read from any specific location
 
     // Define information strings for comparisons
-    unsigned long inventory = hash("\"Inventory\":");
     // wishlist item    unsigned long map = hash("\"map\":");
     // wishlist item unsigned long statistics = hash("\"Statistics\":");
 
@@ -336,8 +335,11 @@ graphics_t* read_gdl()
     unsigned int rows;
     unsigned int cols;
     color color;
-    corner corner;
+    // wishlist item corner corner;
     char spec[20];
+    display_dimensions_t *display_dimensions;
+    camera_t *camera;
+    inventory_display_t *inventory_display;
 
     // Skip over top "{"
     getc(gdl);
@@ -351,54 +353,42 @@ graphics_t* read_gdl()
         if (fscanf(gdl, "%s", title) != EOF) {
 
             // map title to structure 
-            int h = hash(title);
-        
-            switch (h) {
-                case hash("\"Display_Dimensions\":"): case int(hash("\"Camera\":"));
+            if (strcmp(title, "\"Display_Dimensions\":") == 0 || strcmp(title,"\"Camera\":") == 0) {
+                getc(gdl);
+                fscanf(gdl, "%s", spec);
+                if (strcmp(spec, "\"width\"") == 0) {
+                    fscanf(gdl, "%u", &width);
                     getc(gdl);
+                    fscanf(gdl, "%*s %d", &height);
+                } else {
+                    fscanf(gdl, "%u", &height);
+                    getc(gdl);
+                    fscanf(gdl, "%*s %d", &width); 
+                }
+                if (strcmp(title, "\"Display_Dimensions\":") == 0) {
+                    display_dimensions = new_display_dimensions(width, height);
+                } else {
+                    camera = new_camera(width, height);
+                }
+                getc(gdl);
+            } else {
+                getc(gdl);
+                for(int i = 0; i < 3; i++) {
                     fscanf(gdl, "%s", spec);
-                    if (strcmp(spec, "\"width\"") == 0) {
-                        fscanf(gdl, "%u", &width);
+                    if (strcmp(spec, "rows") == 0) {
+                       fscanf(gdl, "%u", &rows);
+                       getc(gdl);
+                    } else if (strcmp(spec, "columns") == 0) {
+                        fscanf(gdl, "%u", &cols);
                         getc(gdl);
-                        fscanf(gdl, "%*s %d", &height);
                     } else {
-                        fscanf(gdl, "%u", &height);
-                        getc(gdl);
-                        fscanf(gdl, "%*s %d", &width); 
-                    }
-                    if (h == display) {
-                        display_dimensions_t *display_dimension;
-                        display_dimension = make_display_dimensions(width, height);
-                    } else {
-                        camera_t *camera;
-                        camera = make_camera(width, height);
-                    }
-                    getc(gdl);
-                    break;
-                case hash("\"Inventory\":"):
-                    getc(gdl);
-                    for(int i = 0; i < 3; i++) {
                         fscanf(gdl, "%s", spec);
-                        switch (hash(spec)) {
-                            case hash("rows"):
-                                fscanf(gdl, "%u", &rows);
-                                getc(gdl);
-                                break;
-                            case hash("columns"):
-                                fscanf(gdl, "%u", &cols);
-                                getc(gdl);
-                                break;
-                            case hash("color"):
-                                fscanf(gdl, "%s", spec);
-                                color = match_color(spec);
-                                getc(gdl);
-                                break;
-                        }
+                        color = match_color(spec);
+                        getc(gdl);
                     }
-                    inventory_display_t *inventory_display;
-                    inventory = make_inventory_display(rows, cols, color);
-                    break;
-
+                }
+                inventory_display = new_inventory_display(rows, cols, color);
+/*
                 case map: is a wishlist item
                 case statistics:
                     getc(gdl);
@@ -412,20 +402,21 @@ graphics_t* read_gdl()
                                 // where are starting stats specified?
                         }
                     }
+*/
             }
- 
-            } 
             // to pass over the closing brace "}"
             getc(gdl);
         } else {
             at_end = 1;
         }
     }
+    graphics_t *graphics;
+    graphics = (graphics_t*)malloc(sizeof(graphics_t));
 //  graphics_t *graphics = make_graphics(display_dimensions, camera, inventory, statistics);
     graphics->statistics = NULL;
-    graphics->dimensions = dimensions;
+    graphics->dimensions = display_dimensions;
     graphics->camera = camera;
-    graphics->inventory = inventory;
+    graphics->inventory = inventory_display;
     return graphics;
 }
 
