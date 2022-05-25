@@ -5,8 +5,8 @@ find_path(ESPEAK_INCLUDE_DIR speak_lib.h
 
 find_library(ESPEAK_LIBRARY NAMES espeak-ng libespeak-ng)
 
-set(ESPEAK_LIBRARIES ${JSONC_LIBRARY})
-set(ESPEAK_INCLUDE_DIRS ${JSONC_INCLUDE_DIR})
+set(ESPEAK_LIBRARIES ${ESPEAK_LIBRARY})
+set(ESPEAK_INCLUDE_DIRS ${ESPEAK_INCLUDE_DIR})
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(Espeak DEFAULT_MSG
