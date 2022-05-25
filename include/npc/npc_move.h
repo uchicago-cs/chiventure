@@ -137,6 +137,7 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add);
  *  npc_mov: The NPC movement struct
  *  room_to_add: The room that has to be added to the path
  *  room_time: The time the NPC has to stay in that room in seconds
+
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.

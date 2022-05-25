@@ -295,20 +295,19 @@ int get_num_rooms(room_list_t *all_rooms)
 }
 
 /* See room.h */
-int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
+int auto_gen_movement(npc_t *npc, room_list_t *all_rooms)
 {
     room_list_t *head = all_rooms;
     int rc = SUCCESS;
     int num_rooms, num_rooms_to_add;
+    npc_mov_t *npc_mov = npc->movement;
 
     if(npc_mov == NULL || head == NULL)
     {
         return FAILURE;
     }
-
     num_rooms = get_num_rooms(all_rooms);
     num_rooms_to_add = (rand() % num_rooms) + 1;
-
     for (int i = 0; i < num_rooms_to_add; i++)
     {
         if(npc_mov->mov_type == NPC_MOV_DEFINITE)
@@ -317,11 +316,20 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
-            int mintime_in_room = 30; // min time in room in seconds
-            int maxtime_in_room = 90; // max time in room in seconds
+            if (npc->class != NULL && npc->class->base_stats != NULL)
+            {
+                double speed = get_stat_current(npc->class->base_stats, "speed");
+                double multiplier = sqrt(100/speed);
+                int mintime_in_room = 30 * multiplier; // min time in room in seconds
+                int maxtime_in_room = 90 * multiplier; // max time in room in seconds
+            }
+            else
+            {
+                int mintime_in_room = 30; // min time in room in seconds
+                int maxtime_in_room = 90; // max time in room in seconds
+            }
             double time_in_room;
-            time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1))
-                + mintime_in_room);
+            time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room);
             rc = extend_path_indefinite(npc_mov, head->room->room_id, time_in_room);
         }
 
@@ -332,7 +340,6 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
             return rc;
         }
     }
-
     return rc;
 }
 
