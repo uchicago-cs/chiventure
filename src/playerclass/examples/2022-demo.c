@@ -7,6 +7,10 @@
 #include "playerclass/class_structs.h"
 #include "playerclass/class_prefabs.h"
 #include "playerclass/class_item.h"
+#include "playerclass/multiclass.h"
+//We are aiming to make multiclass skilltrees and multiclass prefabs that go here
+
+
 #include "skilltrees/skilltree.h"
 #include "zip.h"
 #include "libobj/load.h"
@@ -35,11 +39,11 @@ void print_class(class_t* class) {
     if (class->num_parent_class > 0) {
         printf("Multiclass with parents: \n");
         for (int i = 0; i < class->num_parent_class; i++) {
-            printf("    %s\n", class->parent_class_names[i]);
+            printf("Parent Class %d: %s\n", i+1, class->parent_class_names[i]);
         }
     }
     else {
-        printf("Basic Class\n");
+        printf("Single Class\n");
     }
 
     /* Short Description */
@@ -120,6 +124,7 @@ void print_class(class_t* class) {
 
     printf("------------------------------------------------------------\n");
 }
+
 
 #define BUFFER_SIZE 100
 
