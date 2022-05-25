@@ -70,16 +70,9 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = get_random_default_move();
-<<<<<<< HEAD
-    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true, NULL, NULL);
-    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, 
-                                        BATTLE_AI_GREEDY, HOSTILE, 0, NULL, NULL,
-                                        NULL, NULL, NULL);
-=======
     npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, HOSTILE);
     npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, NULL, NULL,
                                          NULL, NULL, NULL);
->>>>>>> c3793bb6f1414c3a493fed4959d89b1057d032a6
     e->npc_battle = npc_b;
     battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item,
                                         NULL, NULL, NULL);
