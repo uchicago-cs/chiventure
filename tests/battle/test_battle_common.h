@@ -20,6 +20,9 @@ stat_t* create_enemy_stats_avg();
 /* Creates example stat spread for a crit enemy */
 stat_t* create_enemy_stats_crit();
 
+/* Creates example stat spread for a player without crit or accuracy odds */
+stat_t* create_player_stats_avg();
+
 /* Creates example stat spread for a player with crit and accuracy odds */
 stat_t* create_player_stats_critacc();
 
