@@ -19,10 +19,11 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
     strcpy(new_item->long_desc, long_desc);
 
     effects_hash_t *stat_effects = NULL;
-    new_item->stat_effects = stat_effects;
     attribute_hash_t *attributes = NULL;
-    new_item->attributes = attributes;
     game_action_hash_t *actions = NULL;
+
+    new_item->attributes = attributes;
+    new_item->stat_effects = stat_effects;
     new_item->actions = actions;
 
     return SUCCESS;
