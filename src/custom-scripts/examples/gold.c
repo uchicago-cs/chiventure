@@ -43,7 +43,7 @@ chiventure_ctx_t *create_sample_ctx()
     data_t temp = arg_t_get(ot);
     custom_string = temp.s;
     
-    int rand_weight = rand() % string_num; // The more money you request, the less likely you are to obtain it
+    int rand_weight = (string_num ? rand() % string_num : 0); // The more money you request, the less likely you are to obtain it
     object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/weight.lua");
     di2.i = rand_weight;
     ot2 = obj_add_arg(ot2, di2, INT_TYPE);
