@@ -427,8 +427,8 @@ Test(parse, fillers_diff_size)
 {
     char str[] = "go TO tHE south";
     char **words = parse(str);
-    cr_assert_eq("go",words[0],"parse() did not create first token");
-    cr_assert_eq("south",words[1],"parse() did not create second token");
+    cr_assert_eq(words[0],"go","parse() did not create first token");
+    cr_assert_eq(words[1],"south","parse() did not create second token");
     cr_assert_null(words[2],"parse() should point to NULL for empty tokens");
 }
 
