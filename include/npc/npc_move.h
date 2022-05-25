@@ -134,7 +134,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id);
  *
  * Parameters:
  *  mov_type: The type of movement that the npc will have
- *  room: The room that the npc will begin in
+ *  room_id: The room id of the room that the npc will begin in
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -324,6 +324,15 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  */
 int move_npc_mov(npc_mov_t *npc_mov);
 
+/*
+ * Function to delete a doubly-linked list (utlist)
+ *
+ * Parameters:
+ *  doubly-linked list of pointers to room_ids
+ *
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ */
 int delete_room_id_dll(room_id_dll_t *head);
 
 #endif

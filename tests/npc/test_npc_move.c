@@ -349,7 +349,7 @@ Test(npc_mov, auto_gen_movement_definite)
 
     cr_assert_eq(delete_room_id_dll
                  (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
-                 SUCCESS, "delete room_id_dll failed");
+                 SUCCESS, "delete_room_id_dll() failed");
 
     game_free(game);
 }
@@ -359,57 +359,60 @@ Test(npc_mov, auto_gen_movement_definite)
    on an indefinite movement path, which has broken this test. We are commenting
    it out for now because this test is not written to acocunt for the new feature
    and creating another issue to adjust this test.
-/* Tests auto_gen_movement for indefinite movement function */
-// Test(npc_mov, auto_gen_movement_indefinite)
-// {
-//     game_t *game = game_new("Welcome to Chiventure!");
-//     room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
-//     room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
-//     room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
-//     add_room_to_game(game, room1);
-//     add_room_to_game(game, room2);
-//     add_room_to_game(game, room3);
-//     int cnt = 0;
-//     int rc, num_rooms_in_npc;
-//     room_t *curr_room;
+   Tests auto_gen_movement for indefinite movement function */
+   Test(npc_mov, auto_gen_movement_indefinite)
+   {
+       game_t *game = game_new("Welcome to Chiventure!");
+      room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
+      room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
+      room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
+      add_room_to_game(game, room1);
+      add_room_to_game(game, room2);
+      add_room_to_game(game, room3);
+      int cnt = 0;
+      int rc, num_rooms_in_npc;
+      room_t *curr_room;
+      room_list_t *all_rooms = get_all_rooms(game);
+      char *curr_room_id;
 
-//     room_t *test_room = room_new("test_room", "test", "test test");
-//     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room);
-//     class_t *c = generate_test_class();
-//     npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
+      room_t *test_room = room_new("test_room", "test", "test test");
+      npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id);
+      class_t *c = generate_test_class2();
+      npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
 
-//     rc = auto_gen_movement(npc, game);
-//     room_list_t *elt;
+     rc = auto_gen_movement(npc, all_rooms);
+      room_id_dll_t *elt;
 
-//     LL_FOREACH(npc->movement->npc_mov_type.npc_mov_indefinite->npc_path, elt)
-//     {
-//         cnt++;
-//         curr_room = elt->room;
-//         if (!strncmp(curr_room->room_id, "room1", MAX_ID_LEN))
-//         {
-//             cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
-//                              "ldesc does not correspond");
-//         }
-//         else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
-//         {
-//             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
-//                              "ldesc does not correspond");
-//         }
-//         else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
-//         {
-//             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
-//                              "ldesc does not correspond");
-//         }
-//     }
+      DL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
+      {
+          cnt++;
+          curr_room_id = elt->room_id;
+          HASH_FIND(hh, game->all_rooms, curr_room_id, strlen(curr_room_id), curr_room);
+          if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
+          {
+              cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
+                               "ldesc does not correspond");
+          }
+          else if (!strncmp(curr_room->room_id, "room2", MAX_ID_LEN))
+          {
+             cr_assert_str_eq(get_ldesc(curr_room), "room2 long long long",
+                              "ldesc does not correspond");
+         }
+         else if (!strncmp(curr_room->room_id, "room3", MAX_ID_LEN))
+         {
+             cr_assert_str_eq(get_ldesc(curr_room), "room3 long long long",
+                              "ldesc does not correspond");
+         }
+     }
 
-//     num_rooms_in_npc = get_npc_num_rooms(npc->movement);
-//     cr_assert_eq(cnt, num_rooms_in_npc, 
-//                  "room_count returns %d, but there should be %d rooms in npc_mov",
-//                  cnt, num_rooms_in_npc);
+     num_rooms_in_npc = get_npc_num_rooms(npc->movement);
+     cr_assert_eq(cnt, num_rooms_in_npc, 
+                  "room_count returns %d, but there should be %d rooms in npc_mov",
+                  cnt, num_rooms_in_npc);
 
-//     cr_assert_eq(delete_room_llist
-//                  (npc->movement->npc_mov_type.npc_mov_indefinite->npc_path),
-//                  SUCCESS, "delete llist failed");
+     cr_assert_eq(delete_room_id_dll
+                  (npc->movement->npc_mov_type.npc_mov_indefinite->npc_path),
+                  SUCCESS, "delete_room_id_dll() failed");
 
-//     game_free(game);
-// }
+     game_free(game);
+ }
