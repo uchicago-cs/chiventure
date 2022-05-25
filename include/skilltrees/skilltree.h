@@ -315,7 +315,13 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
  *  - tree: pointer to a skilltree whose info will be printed
  * 
  * Returns:
- *  - string to be printed
+ *  - string to be printed, a high-level overview of each skill, prereq level,
+ *    and current level
+ * 
+ *    For example, for a skilltree with one node containing the skill "Throw 
+ *    Fireball", a current level of 75, and a prereq level of 34, this would 
+ *    return the char *:
+ *      - "Skill Name: Throw Fireball, Prereq Level: 34, Current Level: 75\n"
  */
 char *display_tree(skill_tree_t* tree);
 
@@ -327,7 +333,12 @@ char *display_tree(skill_tree_t* tree);
  *  - skill: pointer to the skill whose description will be printed
  * 
  * Returns:
- *  - string to be printed
+  *  - string to be printed, the description of the given skill
+ * 
+ *    For example, for a skill "Throw Fireball" with the description 
+ *    "A Powerful Projectile to SCORCH your Enemies", this would return the 
+ *    char*:
+ *      - "Skill Description: A Powerful Projectile to SCORCH your Enemies\n"
  */
 char *display_skill_description(skill_t* skill);
 
