@@ -10,11 +10,12 @@ add_library(game-state
         src/condition.c)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
+
 target_include_directories(game-state PRIVATE src/) 
 target_link_libraries(game-state cli)
 target_link_libraries(game-state npc)
 target_link_libraries(game-state quests)
-
+target_link_options(game-state PRIVATE -lpthread)
 # EXAMPLES
 add_subdirectory(examples
                  EXCLUDE_FROM_ALL)
