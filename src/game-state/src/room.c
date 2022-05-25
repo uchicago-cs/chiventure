@@ -49,7 +49,6 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc)
 }
 
 
-
 /* See room.h */
 int room_free(room_t *room)
 {
