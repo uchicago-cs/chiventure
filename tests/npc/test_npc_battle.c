@@ -16,7 +16,7 @@ Test(npc_battle, new)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;                        
-    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger", true 
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger", true, 
 		    dagger_changes);
 
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY, 
