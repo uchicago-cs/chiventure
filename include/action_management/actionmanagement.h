@@ -159,7 +159,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * Parameters:
  * - c: A context struct encapsulating the shared state in chiventure
  * - a: An action type struct
- * - target: An enum describing what self-related object (STATS, etc)
+ * - target: A string describing what self-related object (STATS, etc)
  *           needs to be acted on
  * - ret_string: A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
@@ -170,6 +170,6 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * - 6 if conditions for the action haven't been met, failure string as an out parameter
  */
 int do_self_action(chiventure_ctx_t *c, action_type_t *a,
-                  char* target, char **ret_string);
+                  char *target, char **ret_string);
 
 #endif
