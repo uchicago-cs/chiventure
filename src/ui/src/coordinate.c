@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 
+#include "ui/ui_ctx.h"
 #include "ui/coordinate.h"
 
 
@@ -70,17 +71,24 @@ int try_add_coord(coord_record_t *coordmap, int x, int y, int z, room_t *r)
         cr->r = r;
 
         HASH_ADD(hh, coordmap, key, sizeof(coord_t), cr);
-        fclose(debug);
+        
+        /* This line caused tests in test_item_action.c and 
+         * test_item_item_actions.c to fail for unknown reasons; 
+         * see issue #621 */
+        //fclose(debug);
+        
         return SUCCESS;
     }
     else
     {
         assert(cr->r != NULL);
         // If assigned to itself, no conflicts
+        // But this function should still return FAILURE
+        // because no coordinates were added.
         if (strcmp(cr->r->room_id, r->room_id) == 0)
         {
             fclose(debug);
-            return SUCCESS;
+            return FAILURE;
         }
 
         fseek(debug, 0, SEEK_END);

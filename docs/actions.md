@@ -214,6 +214,9 @@ K2 - Go [direction]
 ### Default:
 "I can't find a way to go [direction]"
 
+### Synonyms:
+Walk
+
 K1 - Take `<ITEM>`
 --------------
 ### Conditions:
@@ -232,6 +235,28 @@ K1 - Take `<ITEM>`
 
 ### Default:
 "I can't take the `<ITEM>`"
+
+### Synonyms:
+Pickup
+
+K1 - Pick up `<ITEM>`
+--------------
+### Conditions:
+- Player must have inventory space for Item
+
+
+### Effects:
+- Take Item out of room (changes room description and state)
+- Put Item in player inventory
+- Decrease player inventory space
+
+### WDL:
+```
+        - pick_up:
+```
+
+### Default:
+"I can't pick up the `<ITEM>`"
 
 K1 - Drop `<ITEM>`
 ----------
@@ -268,22 +293,8 @@ K1 - Use `<ITEM>`
 ### Default:
 "I can't figure out how to use the `<ITEM>`"
 
-K5 - Use `<ITEM>` on `<ITEM>`
-------------
-### Conditions:
-- No additional Conditions
-
-
-### Effects:
-- No additional effects
-
-### WDL:
-```
-        - use_on:
-```
-
-### Default:
-"I can't figure out how to use the `<ITEM>` on the `<ITEM>`"
+### Synonyms:
+Consume, Eat, Drink
 
 K1 - Drink `<ITEM>`
 ---------
@@ -317,3 +328,37 @@ K1 - Eat `<ITEM>`
 
 ### Default:
 "I do not want to eat the `<ITEM>`"
+
+K1 - Consume `<ITEM>`
+---------
+### Conditions:
+- Item must be solid
+
+
+### Effects:
+- No additional effects
+
+### WDL:
+```
+        - consume:
+```
+
+### Default:
+"I do not want to consume the `<ITEM>`"
+
+K3 - Use `<ITEM>` on `<ITEM>`
+------------
+### Conditions:
+- No additional Conditions
+
+
+### Effects:
+- No additional effects
+
+### WDL:
+```
+        - use_on:
+```
+
+### Default:
+"I can't figure out how to use the `<ITEM>` on the `<ITEM>`"

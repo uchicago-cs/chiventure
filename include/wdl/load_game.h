@@ -8,17 +8,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "parse.h"
+#include "wdl_common.h"
 
- /*
- * load_wdl, loads a wdl specified internally into all game-state structs
+/*
+ * load_game, when passed libobj objects, will load into a game
  *
- * input: path to wdl file
- * 
- * output: a pointer to an game_t struct
- * that has been filled with the contents of the yaml file
+ * Parameters:
+ *   - obj_store: an obj_t of libobj objects
+ *
+ * Returns:
+ *   - a pointer to a game object on success
+ 8   - NULL if error
+ *
  */
-game_t *load_wdl(char *path_to_file);
+game_t *load_game(obj_t *obj_store);
 
 /*
  * Function to create a pointer to an empty game

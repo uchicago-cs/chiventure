@@ -5,8 +5,11 @@
 
 #include "action_management/actionmanagement.h"
 #include "game-state/game_action.h"
+#include "game-state/room.h"
+#include "game-state/player.h"
 
-#define BUFFER_SIZE (100)
+
+#define BUFFER_SIZE (300)
 #define WRONG_KIND (2)
 #define NOT_ALLOWED_DIRECT (3)
 #define NOT_ALLOWED_INDIRECT (4)
@@ -43,6 +46,8 @@ int action_type_init(action_type_t *a, char *c_name, enum action_kind kind)
     assert(a);
     a->c_name = c_name;
     a->kind = kind;
+    a->room = NULL;
+    a->direction = NULL;
 
     return SUCCESS;
 }
@@ -57,15 +62,59 @@ int action_type_free(action_type_t *a)
 }
 
 
+/* See actionmanagement.h */
+int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
+{
+    a->room = room;
+    a->direction = direction;
+    return SUCCESS;
+}
+
+
 /* ========================================================================== */
+
+
+/* 
+ * helper function that removes condition
+ *
+ * Parameter:
+ * action that's being done
+ *
+ * Returns:
+ * SUCCESS if action's removed
+ */
+int helper_remove(action_type_t *a)
+{
+            path_t *closed_path;
+            closed_path = path_search(a->room,a->direction);
+            /* only if action is a condition to something (action with
+               null room and direction produce null path) */
+            if (closed_path)
+            {
+                list_action_type_t *delete_node;
+                int condition;
+                closed_path = path_search(a->room,a->direction);
+                delete_node = find_act(closed_path->conditions,a);
+                condition = remove_condition(closed_path,delete_node);
+                if (condition != SUCCESS)
+                {
+                    return CONDITIONS_NOT_MET;
+                }
+            }
+    return SUCCESS;
+}
 
 
 /* KIND 1
  * See actionmanagement.h */
-int do_item_action(action_type_t *a, item_t *i, char **ret_string)
+int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_string)
 {
+    assert(c);
+    assert(c->game);
     assert(a);
     assert(i);
+    
+    game_t *game = c->game;
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -76,6 +125,16 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
         return WRONG_KIND;
+    }
+
+    /* use representative c_name for action synonyms */
+    if(strncmp(a->c_name, "pickup", BUFFER_SIZE) == 0) 
+    {
+        a->c_name = "take";
+    } 
+    else if(strncmp(a->c_name, "use", BUFFER_SIZE) == 0 || strncmp(a->c_name, "eat", BUFFER_SIZE) == 0 || strncmp(a->c_name, "drink", BUFFER_SIZE) == 0)
+    {
+        a->c_name = "consume";
     }
 
     // checks if the action is possible
@@ -91,7 +150,7 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
     game_action_t *game_act = get_action(i, a->c_name);
 
     // check if all conditions are met
-    if (all_conditions_met(i, a->c_name) == FAILURE)
+    if (!all_conditions_met(game_act->conditions))
     {
         sprintf(string, "%s", game_act->fail_str);
         *ret_string = string;
@@ -110,8 +169,17 @@ int do_item_action(action_type_t *a, item_t *i, char **ret_string)
         }
         else
         {
+	    //remove action from any conditions
+	    int rc;
+	    rc = helper_remove(a);
+
             // successfully carried out action
             sprintf(string, "%s", game_act->success_str);
+            if (is_game_over(game))
+            {
+                string = strcat(string, " Congratulations, you've won the game! "
+                        "Press ctrl+D to quit.");
+            }
             *ret_string = string;
             return SUCCESS;
         }
@@ -146,8 +214,9 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
         *ret_string = string;
         return WRONG_KIND;
     }
-    // validate existence of path and destination
-    if ((path_found == NULL) || (room_dest == NULL))
+    /* validate existence of path and destination
+       third condition checks if conditions have been met */
+    if ((path_found == NULL) || (room_dest == NULL) || (p->conditions != NULL))
     {
         sprintf(string, "The path or room provided was invalid.");
         *ret_string = string;
@@ -157,16 +226,21 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     /* PERFORM ACTION */
     int move = move_room(g, room_dest);
 
-    if (move == SUCCESS)
-    {
-        snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
-                 room_dest->room_id, room_dest->long_desc);
+    //remove action from any conditions
+    int rc;
+    rc = helper_remove(a);
+
+    // successfully carried out action
+    if (is_game_over(g)) {
+        sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
+                 room_dest->room_id);
         *ret_string = string;
         return SUCCESS;
     }
-    else if (move == FINAL_ROOM) {
-        sprintf(string, "Moved into %s. This is the final room, you've won the game! Press ctrl+D to quit.",
-                 room_dest->room_id);
+    else if (move == SUCCESS || move == FINAL_ROOM)
+    {
+        snprintf(string, BUFFER_SIZE, "Moved into %s. %s",
+                 room_dest->room_id, room_dest->long_desc);
         *ret_string = string;
         return SUCCESS;
     }
@@ -181,12 +255,16 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 
 /* KIND 3
  * See actionmanagement.h */
-int do_item_item_action(action_type_t *a, item_t *direct,
+int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string)
 {
+    assert(c);
+    assert(c->game);
     assert(a);
     assert(direct);
     assert(indirect);
+    
+    game_t *game = c->game;
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
 
@@ -212,7 +290,7 @@ int do_item_item_action(action_type_t *a, item_t *direct,
     game_action_t *dir_game_act = get_action(direct, a->c_name);
 
     // check if all conditions of the action are met
-    if (all_conditions_met(direct, a->c_name) == FAILURE)
+    if (!all_conditions_met(dir_game_act->conditions))
     {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
@@ -248,11 +326,61 @@ int do_item_item_action(action_type_t *a, item_t *direct,
         }
         else if (applied_effect == SUCCESS)
         {
+            //remove action from any conditions
+            int rc;
+            rc = helper_remove(a);
+
             // successfully carried out action
             sprintf(string, "%s", dir_game_act->success_str);
+            if (is_game_over(game))
+            {
+                string = strcat(string, " Congratulations, you've won the game! "
+                        "Press ctrl+D to quit.");
+            }
             *ret_string = string;
             return SUCCESS;
         }
     }
     return FAILURE;
+}
+
+/* KIND 4
+ * See actionmanagement.h */
+int do_self_action(chiventure_ctx_t *c, action_type_t *a,
+                   char* target, char **ret_string)
+{
+    assert(c);
+    assert(c->game);
+    assert(a);
+    assert(target);
+    
+    game_t *game = c->game;
+
+    char *string = malloc(BUFFER_SIZE);
+    memset(string, 0, BUFFER_SIZE);
+
+    // checks if the action type is the correct kind
+    if (a->kind != SELF)
+    {
+        sprintf(string, "The action type provided is not of the correct kind");
+        *ret_string = string;
+        return WRONG_KIND;
+    }
+
+    if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
+        if (strcmp(target, "stats") == 0) {
+            // retrieve stats from the player
+            string = display_stats(c->game->curr_player->player_stats);
+        } else if (strcmp(target, "inventory") == 0) {
+            // retrieve inventory from the player
+            // TO BE IMPLEMENTED
+        } else if (strcmp(target, "skills") == 0) {
+            // retrieve skill tree from the player
+            // TO BE IMPLEMENTED
+        } else {
+            // TO BE IMPLEMENTED     
+        }
+    }
+    *ret_string = string;
+    return SUCCESS;
 }

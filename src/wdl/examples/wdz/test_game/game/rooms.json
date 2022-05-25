@@ -1,0 +1,76 @@
+{
+"rooms": [
+    {
+        "id": "whiteroom",
+        "short_desc": "A white room.",
+        "long_desc": "A pristine and plain white room with a lever in its center. A locked trapdoor rests in the floor next to a sign.",
+        "items": ["sign", "lever", "trapdoor"],
+        "action_on_entry":"action_whiteroom_enter",
+        "actions":[],
+        "connections":[
+            {"direction": "north", "to": "greenroom"},
+            {"direction": "south", "to": "redroom"},
+            {"direction": "east", "to": "blueroom"},
+            {"direction": "west", "to": "purpleroom"},
+            {"direction": "down", "to": "secretroom"}
+        ]
+    },
+    {
+        "id": "greenroom",
+        "short_desc": "A green room.",
+        "long_desc": "A green room with a green lever in its center. A green sign sits on the wall.",
+        "items": ["greensign", "greenlever"],
+        "action_on_entry":"",
+        "actions":[],
+        "connections":[
+            {"direction": "south", "to": "greenroom"}
+        ]
+    },
+    {
+        "id": "redroom",
+        "short_desc": "A red room.",
+        "long_desc": "A red room with a red lever in its center. A red sign sits on the wall.",
+        "items": ["redsign", "redlever"],
+        "action_on_entry":"",
+        "actions":[],
+        "connections":[
+            {"direction": "north", "to": "whiteroom"}
+        ]
+    },
+    {
+        "id": "blueroom",
+        "short_desc": "A blue room.",
+        "long_desc": "A blue room with a blue lever in its center. A blue sign sits on the wall.",
+        "items": ["bluesign", "bluelever"],
+        "action_on_entry":"",
+        "actions":[],
+        "connections":[
+            {"direction": "west", "to": "whiteroom"}
+        ]
+    },
+    {
+        "id": "purpleroom",
+        "short_desc": "A purple room.",
+        "long_desc": "A purple room with a purple lever in its center. A purple sign sits on the wall.",
+        "items": ["purplesign", "purplelever"],
+        "action_on_entry":"",
+        "actions":[],
+        "connections":[
+            {"direction": "east", "to": "whiteroom"}
+        ]
+    },
+    {
+        "id": "secretroom",
+        "short_desc": "An endless dark chamber.",
+        "long_desc": "You can't see anything in the abyss.",
+        "items": [],
+        "action_on_entry": "action_win_game",
+        "actions":[],
+        "connections":[
+            {"direction": "up", "to": "whiteroom"}
+        ],
+        "can_enter": false,
+        "text_no_entry": "Couldn't go downwards. Did you try out those levers the sign was talking about?"
+    }
+]
+}

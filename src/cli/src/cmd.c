@@ -2,19 +2,22 @@
 #include <string.h>
 
 #include "cli/cmd.h"
+#include "cli/cmdlist.h"
 #include "cli/operations.h"
+#include "common/utlist.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
+#include "cli/util.h"
 
 /* === hashtable helper constructors === */
-
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
     lookup_t *t = malloc(sizeof(lookup_t));
     char *newname = malloc(sizeof(char) * (strlen(command_name) + 1));
     strcpy(newname, command_name);
     t->name = newname;
+    case_insensitize(t->name);
     t->operation_type = associated_operation;
     t->action = action;
     HASH_ADD_KEYPTR(hh, *table, t->name, strlen(t->name), t);
@@ -39,6 +42,10 @@ void add_action_entries(lookup_t **table)
         else if(curr_action->kind == 3)
         {
             add_entry(curr_action->c_name, kind3_action_operation, curr_action, table);
+        }
+        else if(curr_action->kind == 4)
+        {
+            add_entry(curr_action->c_name, kind4_action_operation, curr_action, table);
         }
 
         all_actions = all_actions->next;
@@ -69,6 +76,7 @@ action_type_t *find_action(char *command_name, lookup_t **table)
 
 void delete_entry(char *command_name, lookup_t **table)
 {
+    case_insensitize(command_name);
     lookup_t *t = find_entry(command_name, table);
     HASH_DEL(*table, t);
     free(t->name);
@@ -109,16 +117,18 @@ int lookup_t_init(lookup_t **t)
 
     add_entry("QUIT", quit_operation, NULL, t);
     add_entry("HELP", help_operation, NULL, t);
-    //add_entry("HIST", hist_operation, t);
+    add_entry("HIST", hist_operation, NULL, t);
+    add_entry("CREDITS", credits_operation, NULL, t);
     add_entry("LOOK",look_operation, NULL, t);
     add_entry("INV", inventory_operation, NULL, t);
-    add_entry("SAVE", save_operation, NULL, t);
-    add_entry("LOAD", load_operation, NULL, t);
     add_entry("MAP", map_operation, NULL, t);
     add_entry("SWITCH", switch_operation, NULL, t);
-    add_entry("LOAD_WDL", load_wdl_operation, NULL, t);
+    add_entry("LOAD", load_wdl_operation, NULL, t);
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
+    add_entry("ITEMS", items_in_room_operation, NULL, t);
+    add_entry("TALK", talk_operation, NULL, t);
+    add_entry("FIGHT", battle_operation, NULL, t);
 
     add_action_entries(t);
 
@@ -232,12 +242,20 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 /* See cmd.h */
 cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
+
+    if (s != NULL) 
+    {
+        command_list_t *new_command = new_command_list(s);
+        LL_APPEND(ctx->cli_ctx->command_history, new_command);
+    }
+    
     char **parsed_input = parse(s);
-    if(parsed_input == NULL)
+    if (parsed_input == NULL)
     {
         return NULL;
     }
-    lookup_t **table = ctx->table;
+    
+    lookup_t **table = ctx->cli_ctx->table;
     return cmd_from_tokens(parsed_input, table);
 }
 
@@ -246,7 +264,7 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
 /* =================================== */
 
 /* See cmd.h */
-void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx)
+int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_ctx_t *ctx)
 {
     char *outstring;
     /*
@@ -255,16 +273,26 @@ void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx)
      */
     if (strcmp(cmd_name_tos(c),"QUIT")==0)
     {
-        *quit=0;
         (*(c->func_of_cmd))(c->tokens, ctx);
+
+        return CLI_CMD_SUCCESS_QUIT;
     }
     else
     {
         outstring = (*(c->func_of_cmd))(c->tokens, ctx);
-        if(outstring!=NULL)
+        if(callback_func)
         {
-            print_to_cli(ctx, outstring);
+            if (outstring != NULL)
+            {
+                return callback_func(ctx, outstring, callback_args);
+            } else
+            {
+                return CLI_CMD_SUCCESS_NOOUTPUT;
+            }
+        }
+        else
+        {
+            return CLI_CMD_SUCCESS;
         }
     }
-    return;
 }

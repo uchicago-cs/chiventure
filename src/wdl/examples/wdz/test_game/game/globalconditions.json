@@ -1,0 +1,17 @@
+{
+"globalconditions": [
+    {
+        "id": "globcond_unlock",
+        "conditions":[
+            "eq purplelever.pulled true",
+            "eq redlever.pulled true",
+            "eq bluelever.pulled false",
+            "eq greenlever.pulled false"
+        ],
+        "actions":[
+            "action_unlock_secretroom"
+        ],
+        "trigger_once_only": true
+    }
+]
+}

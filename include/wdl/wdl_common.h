@@ -11,6 +11,7 @@
 #include "game-state/room.h"
 #include "libobj/obj.h"
 #include "game-state/game.h"
+#include "npc/npc.h"
 #include "common/common.h"
 
 #endif

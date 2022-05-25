@@ -1,0 +1,77 @@
+#!/bin/sh
+
+execname="wdz"
+gamename=$2
+option=$1
+zipbin="/usr/bin/zip"
+
+initoption="init"
+updateoption="update"
+
+assetdir="assets"
+graphicsdir="$assetdir/graphics"
+soundsdir="$assetdir/sounds"
+gamedir="game"
+
+jsons="player rooms items actions globalconditions"
+
+
+printHelp() {
+    echo "Usage: $execname [mode] [gamename]
+    modes:
+        $initoption: 
+            creates a blank wdz game with name \$gamename
+        $updateoption: 
+            updates an existing wdz archive with new \$gamename folder contents"
+    exit 1
+}
+
+
+makeJson() {
+    jsonName=$1
+    if [ "$jsonName" = "player" ]; then
+        printf "{\n\"%s\": {}\n}" "$jsonName" > "$jsonName.json"
+    else
+        printf "{\n\"%s\": []\n}" "$jsonName" > "$jsonName.json"
+    fi
+}
+
+
+zipUpGameDir() {
+    $zipbin -r "$gamename.wdz" "$gamename/"
+} 
+
+
+initializeGameDir() {
+    cd "$gamename" || return 1
+    mkdir "$assetdir"
+    mkdir "$graphicsdir"
+    mkdir "$soundsdir"
+    mkdir "$gamedir"
+    cd "$gamedir" || return 1
+    for json in $jsons
+    do
+       makeJson "$json"
+    done
+    cd .. # now in $gamename    
+    cd .. # now in top-level, parent of game folder
+    zipUpGameDir && 
+        echo "Created an empty wdz game and folder with name '$gamename'" ||
+        echo "Could not create zip archive. Is $zipbin installed?"
+}
+
+
+# Handle command line arguments
+
+[ "$#" -lt "2" ] && printHelp
+
+if [ "$option" = "$initoption" ]; then
+    mkdir "$gamename" && {
+        initializeGameDir || echo "Could not initialize game directory!" 
+    } ||
+    echo "Directory already exists! Try using a different name."
+elif [ "$option" = "$updateoption" ]; then
+    zipUpGameDir && echo "Updated $gamename.wdz." || echo "Could not update $gamename.wdz!"
+else
+    printHelp
+fi

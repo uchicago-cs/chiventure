@@ -1,0 +1,38 @@
+?start: _NL? game? _NL?
+
+game: "GAME" (start_g end_g | end_g start_g) property* room*
+
+start_g: "START" phrase
+end_g: "END" phrase
+
+room: _NL "ROOM" id (property | connections)* item*
+
+item: _NL "ITEM" id "IN" location property* action*
+    | _NL "ITEM" id property* action*
+
+action: _NL ("action:"|"actions:") action_ids property*
+action_ids: id ("," id)*
+
+property: _NL phrase "FOR" id ":" ESCAPED_STRING -> misplaced_property
+        | _NL phrase ":" ESCAPED_STRING
+
+connections.5: _NL "connections:" connection ((","|_NL) connection)*
+connection: phrase "TO" phrase
+
+id: phrase
+
+location: phrase
+
+phrase: STRING+
+
+// NEWLINE(s), whitespace, and comments
+_NL: ( /(\r?\n[\t ]*)/ | COMMENT) +
+
+%import .util.STRING
+%import .util.ESCAPED_STRING
+
+%import .util.COMMENT
+%ignore COMMENT
+
+%import common.WS_INLINE
+%ignore WS_INLINE

@@ -1,0 +1,92 @@
+{
+"items": [
+    {
+        "id": "lever",
+        "short_desc": "A lever.",
+        "long_desc": "A plain-looking lever.",
+        "actions": [
+            {"call": "pull", "action_id": "action_special_pull", "params": ""},
+            {"call": "push", "action_id": "action_push_fail", "params": ""}
+        ]
+    },
+    {
+        "id": "sign",
+        "short_desc": "A sign.",
+        "long_desc": "The sign reads: 'To leave this place, two levers must be pulled to open a secret room...'",
+        "actions": []
+    },
+    {
+        "id": "trapdoor",
+        "short_desc": "A trapdoor.",
+        "long_desc": "A strangely rustic and dusty trapdoor.",
+        "actions":[
+            {"call": "open", "action_id": "action_trapdoor_open"}
+        ],
+        "open": false
+    },
+    {
+        "id": "bluesign",
+        "short_desc": "A blue sign.",
+        "long_desc": "The sign reads: 'Don't pull this lever.'",
+        "actions": []
+    },
+    {
+        "id": "greensign",
+        "short_desc": "A green sign.",
+        "long_desc": "The sign reads: 'Don't pull this lever.'",
+        "actions": []
+    },
+    {
+        "id": "redsign",
+        "short_desc": "A red sign.",
+        "long_desc": "The sign reads: 'Pull this lever if you want to escape.'",
+        "actions": []
+    },
+    {
+        "id": "purplesign",
+        "short_desc": "A purple sign.",
+        "long_desc": "The sign reads: 'Pull this lever if you want to escape.'",
+        "actions": []
+    },
+    {
+        "id": "bluelever",
+        "short_desc": "A blue lever.",
+        "long_desc": "A plain-looking blue lever.",
+        "actions": [
+            {"call": "pull", "action_id": "action_normal_pull", "params": "1"},
+            {"call": "push", "action_id": "action_normal_push", "params": "1"}
+        ],
+        "pulled": false
+    },
+    {
+        "id": "greenlever",
+        "short_desc": "A green lever.",
+        "long_desc": "A plain-looking green lever.",
+        "actions": [
+            {"call": "pull", "action_id": "action_normal_pull", "params": "2"},
+            {"call": "push", "action_id": "action_normal_push", "params": "2"}
+        ],
+        "pulled": false
+    },
+    {
+        "id": "redlever",
+        "short_desc": "A red lever.",
+        "long_desc": "A plain-looking red lever.",
+        "actions": [
+            {"call": "pull", "action_id": "action_normal_pull", "params": "3"},
+            {"call": "push", "action_id": "action_normal_push", "params": "3"}
+        ],
+        "pulled": false
+    },
+    {
+        "id": "purplelever",
+        "short_desc": "A purple lever.",
+        "long_desc": "A plain-looking purple lever.",
+        "actions": [
+            {"call": "pull", "action_id": "action_normal_pull", "params": "4"},
+            {"call": "push", "action_id": "action_normal_push", "params": "4"}
+        ],
+        "pulled": false
+    }
+]
+}

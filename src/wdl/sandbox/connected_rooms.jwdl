@@ -1,0 +1,112 @@
+{
+  "ITEMS": [
+    {
+      "state": "still", 
+      "long_desc": "This is a chair long", 
+      "value": "no", 
+      "in": "room A", 
+      "short_desc": "This is a chair", 
+      "id": "CHAIR", 
+      "actions": [
+        {
+          "action": "PUSH", 
+          "text_success": "You push the chair", 
+          "text_fail": "You cannot push this chair"
+        }, 
+        {
+          "action": "PULL", 
+          "text_success": "You pull the chair", 
+          "text_fail": "You cannot pull this chair"
+        }, 
+        {
+          "action": "TAKE", 
+          "text_success": "You take the chair", 
+          "text_fail": "You cannot take this chair"
+        }
+      ]
+    }, 
+    {
+      "state": "solid", 
+      "long_desc": "This is a table long", 
+      "value": "no", 
+      "in": "room B", 
+      "short_desc": "This is a table", 
+      "id": "TABLE", 
+      "actions": [
+        {
+          "action": "PUSH", 
+          "text_success": "You push the table", 
+          "text_fail": "You cannot push this table"
+        }, 
+        {
+          "action": "PULL", 
+          "text_success": "You pull the table", 
+          "text_fail": "You cannot pull this table"
+        }, 
+        {
+          "action": "TAKE", 
+          "text_success": "You take the table", 
+          "text_fail": "You cannot take this table"
+        }
+      ]
+    }, 
+    {
+      "state": "hot", 
+      "long_desc": "This is a candle long", 
+      "in": "room C", 
+      "short_desc": "This is a candle", 
+      "id": "CANDLE", 
+      "actions": [
+        {
+          "action": "TAKE", 
+          "text_success": "You take the candle", 
+          "text_fail": "You cannot take this candle"
+        }
+      ]
+    }
+  ], 
+  "GAME": {
+      "start": "room A", 
+      "intro": "This is the intro", 
+      "end": [
+        {
+          "in_room": "room C"
+        }
+      ]
+  }, 
+  "ROOMS": [
+    {
+      "connections": [
+        {
+          "to": "room B", 
+          "direction": "NORTH"
+        }
+      ], 
+      "long_desc": "This is room A long", 
+      "short_desc": "This is room A", 
+      "id": "room A"
+    }, 
+    {
+      "connections": [
+        {
+          "to": "room C", 
+          "direction": "NORTH"
+        }
+      ], 
+      "long_desc": "This is room B long", 
+      "short_desc": "This is room B", 
+      "id": "room B"
+    }, 
+    {
+      "connections": [
+        {
+          "to": "room A", 
+          "direction": "NORTH"
+        }
+      ], 
+      "long_desc": "This is room C long", 
+      "short_desc": "This is room C", 
+      "id": "room C"
+    }
+  ]
+}

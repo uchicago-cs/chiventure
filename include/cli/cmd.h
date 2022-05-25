@@ -217,17 +217,45 @@ cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx);
 cmd *cmd_from_tokens(char **ts, lookup_t **table);
 
 
+#define CLI_CMD_SUCCESS (0)
+#define CLI_CMD_SUCCESS_NOOUTPUT (1)
+#define CLI_CMD_SUCCESS_QUIT (2)
+#define CLI_CMD_CALLBACK_ERROR (3)
+
+/*
+ * Callback function type for the CLI.
+ *
+ * Functions of this type can be passed to do_cmd,
+ * which will call the function if the command is run
+ * successfully.
+ *
+ * Parameters:
+ *  - ctx: pointer to chiventure context struct
+ *  - outstring: The string to be printed as a result of running this command
+ *  - args: Additional arguments
+ *
+ * Returns:
+ *  - CLI_CMD_SUCCESS: Success
+ *  - CLI_CMD_CALLBACK_ERROR: Callback function was unable to print the string
+ */
+typedef int cli_callback(chiventure_ctx_t *ctx, char *outstring, void *args);
+
 /*
  * Executes the given command
  *
  * Parameters:
  * - pointer to a cmd struct
+ * - callback_func: Pointer to a callback function
+ * - callback_args: Additional arguments to callback function
  * - ctx: pointer to chiventure context struct
  *
  * Returns:
- * - nothing -> output handled elsewhere
+ * - CLI_CMD_SUCCESS: Success, and the command produced some output
+ * - CLI_CMD_SUCCESS_NOOUTPUT: Success, but the command did not produce any output
+ * - CLI_CMD_SUCCESS_QUIT: Success, but the command requires that chiventure quit
+ * - CLI_CMD_CALLBACK_ERROR: Callback function reported an error
  */
-void do_cmd(cmd *c,int *quit, chiventure_ctx_t *ctx);
+int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_ctx_t *ctx);
 
 
 #endif /* _CLI_INCLUDE_CMD_H */

@@ -1,0 +1,24 @@
+{
+    "short_desc": "A trapdoor.",
+    "long_desc": "A strangely rustic and dusty trapdoor.",
+    "in": {
+        "__type":"reference",
+        "id":"ROOMS.white_room"
+    },
+    "locked": true,
+    "actions":[
+        {
+            "action": "GO",
+            "conditions":[
+                {
+                    "locked": {
+                        "__type": "condition",
+                        "id": "ITEMS.trapdoor.conditions.locked"
+                    }
+                }
+            ],
+            "text_success": "You descend down the trapdoor..",
+            "text_fail": "The trapdoor is locked."
+        }
+    ]
+}

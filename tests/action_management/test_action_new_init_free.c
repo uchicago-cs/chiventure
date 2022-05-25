@@ -124,7 +124,7 @@ Test(action_type, free_PATH)
     action_type_t* a;
     int rc;
 
-    a = action_type_new("GO", PATH);
+    a = action_type_new("go", PATH);
 
     cr_assert_not_null(a, "action_type_new() failed");
 
@@ -147,4 +147,27 @@ Test(action_type, free_ITEM_ITEM)
     rc = action_type_free(a);
 
     cr_assert_eq(rc, SUCCESS, "action_type_free() failed");
+}
+
+
+/* Checks that room and direction are initialized in ation_type_t struct */
+Test(action_type, init_room_dir)
+{
+    action_type_t *a;
+    int rc;
+    room_t *new_room = room_new("test_room", "room for testing",
+    "room to test path_new()");
+
+    a = action_type_new("USE_ON", ITEM_ITEM);
+
+    cr_assert_not_null(a, "action_type_new() failed");
+
+    rc = action_type_init_room_dir(a, new_room, "west");
+
+    cr_assert_eq(rc, SUCCESS, "action_type_init_room_dir() failed");
+    cr_assert_not_null(a->room, "room was not initialized");
+    cr_assert_not_null(a->direction, "direction was not initialized");
+
+    room_free(new_room);
+    action_type_free(a);
 }

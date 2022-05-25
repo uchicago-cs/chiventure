@@ -4,24 +4,30 @@
 #include "common/utlist.h"
 #include "action_management/actionmanagement.h"
 
-
 static action_type_t valid_actions[] =
 {
     // KIND 1
-    {"OPEN", ITEM},
-    {"CLOSE", ITEM},
-    {"PUSH", ITEM},
-    {"PULL", ITEM},
-    {"TURNON", ITEM},
-    {"TURNOFF", ITEM},
-    {"TAKE", ITEM},
-    {"DROP", ITEM},
-    {"CONSUME", ITEM},
+    {"open", ITEM},
+    {"close", ITEM},
+    {"push", ITEM},
+    {"pull", ITEM},
+    {"turnon", ITEM},
+    {"turnoff", ITEM},
+    {"take", ITEM},
+    {"pickup", ITEM},
+    {"drop", ITEM},
+    {"consume", ITEM},
+    {"use", ITEM},
+    {"drink", ITEM},
+    {"eat", ITEM},
     // KIND 2
-    {"GO", PATH},
+    {"go", PATH},
+    {"walk", PATH},
     // KIND 3
-    {"USE", ITEM_ITEM},
-    {"PUT", ITEM_ITEM}
+    {"use_on", ITEM_ITEM},
+    {"put", ITEM_ITEM},
+    // KIND 4
+    {"view", SELF}
 };
 
 
@@ -42,4 +48,20 @@ list_action_type_t *get_supported_actions()
         temp = add;
     }
     return temp;
+}
+
+void free_supported_actions(list_action_type_t* head)
+{
+    list_action_type_t *del, *temp;
+    del = head;
+    for(int i = 1; i <= NUM_ACTIONS; i++)
+    {
+        temp = del;
+                
+        if(i != NUM_ACTIONS)
+            del = del->next;
+
+        free(temp->act);
+        free(temp);
+    }
 }

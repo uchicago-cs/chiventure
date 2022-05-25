@@ -1,0 +1,6 @@
+{
+"player": {
+    "intro_text": "Welcome to the Test Dungeon -- WDL++ version!",
+    "start_room": "whiteroom"
+}
+}

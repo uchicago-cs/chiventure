@@ -1,11 +1,123 @@
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 #include "cli/operations.h"
+#include "npc/npc.h"
+#include "npc/dialogue.h"
 #include "ui/print_functions.h"
 #include "cli/shell.h"
 #include "wdl/load_game.h"
+#include "libobj/load.h"
+#include "cli/cmdlist.h"
+#include "cli/util.h"
 
+#define NUM_ACTIONS 31
+#define BUFFER_SIZE (100)
+#define min(x,y) (((x) <= (y)) ? (x) : (y))
+
+char* actions_for_sug[NUM_ACTIONS] = {
+            "OPEN",
+            "CLOSE",
+            "PUSH",
+            "PULL",
+            "TURNON",
+            "TURNOFF",
+            "TAKE",
+            "PICKUP",
+            "DROP",
+            "CONSUME",
+            "USE",
+            "DRINK",
+            "EAT",
+            "GO",
+            "WALK",
+            "USE_ON",
+            "PUT",
+            "QUIT",
+            "HIST",
+            "HELP",
+            "CREDITS",
+            "LOOK",
+            "INV",
+            "MAP",
+            "SWITCH",
+            "LOAD_WDL",
+            "NAME",
+            "PALETTE",
+            "ITEMS",
+            "VIEW",
+            "FIGHT"};
+
+
+/* 
+ * This function returns a integer 
+ * which is the number of matching letters 
+ * between the user input and action
+ * 
+ */
+int compare(char* word, char* action)
+{
+
+    int current = 0;
+    for (int i = 0; i < min(strlen(word), strlen(action)); i++)
+    {
+        if (&action[i] != NULL && &word[i] != NULL) 
+        {
+            if (tolower(word[i]) == tolower(action[i]))
+            {
+                current++;
+            }
+        }
+
+    }
+
+    return current;
+}
+
+/* 
+ * This function returns a string which is the suggestion
+ * It finds the suggestion by comparing 
+ * each possible action to the input
+ * using the compare helper function
+ * 
+ */
+char* suggestions(char *action_input, char** actions)
+{
+    int i = 0;
+    int initial = 0;
+    int temp = 0;
+    int index = -1;
+    
+    for (int i = 0; i < NUM_ACTIONS; i++)
+    {
+        if (action_input != NULL) 
+        {
+            temp = compare(strdup(action_input), strdup(actions[i]));
+            if (temp > initial) 
+            {
+                index = i;
+                initial = temp;
+            }
+        }
+    }
+    
+    if (index == -1) 
+    {
+        return NULL;
+    }
+
+    return actions[index];
+
+}
+
+
+
+char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021\n   Class of CMSC 22000 Spring 2022\n";
+}
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -18,58 +130,34 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return NULL;
 }
 
-/* backlog task */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    //print_history();
-    return "history operation not implemented yet\n";
+    command_list_t *temp = new_command_list(NULL);
+
+    print_to_cli(ctx, "Start of command history: \n");
+    LL_FOREACH(ctx->cli_ctx->command_history, temp)
+    {
+        if (temp->command != NULL) 
+        {
+            print_to_cli(ctx, temp->command);
+        }
+    } 
+    return "End of command history.\n";
 }
 
-/* See operations.h */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    if (tokens[1] == NULL)
-    {
-        return "Invalid Input, Save failed\n";
-    }
-    if (validate_filename(tokens[1]) == true)
-    {
-        int sv = save(ctx->game, tokens[1]);
-        return "Game Saved\n";
-    }
-    else
-    {
-        return "Improper filename, Save failed\n";
-    }
-}
 
-char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
-{
-    if(tokens[1] == NULL)
-    {
-        return "Invalid Input, Load failed\n";
-    }
-    if (validate_filename(tokens[1]) == true)
-    {
-        int ld = load(tokens[1], ctx->game);
-        return "Load Successful\n!";
-    }
-    else
-        return "Improper filename, Load failed\n";
-
-}
-
-bool validate_filename(char *filename)
+bool validate_wdl_filename(char *filename)
 {
     int len = strlen(filename);
     int min_filename_length = 4;
-    if(len < min_filename_length)
+    int file_extension_length = 4;
+    if (len < min_filename_length)
     {
         return false;
     }
-    const char *ending = &filename[len-4];
-    int cmp = strcmp(ending, ".dat");
-    if(cmp == 0)
+    const char *ending = &filename[len - file_extension_length];
+    int cmp = strcmp(ending, ".wdl");
+    if (cmp == 0)
     {
         return true;
     }
@@ -79,17 +167,29 @@ bool validate_filename(char *filename)
     }
 }
 
+
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if(tokens[1] == NULL)
+    int valid_path;
+
+    valid_path = access(tokens[1], F_OK);
+
+    if (valid_path == -1) //Triggers if file does not exist
     {
-        return "Invalid Input, Loading WDL file failed\n";
+        return "Loading WDL file failed: Invalid Input for file path\n";
+    }
+    if ((validate_wdl_filename(tokens[1])) == false) //Triggers if file is not wdl
+    {
+        return "Loading WDL file failed: Invalid Input, please only use wdl file types\n";
     }
 
-    game_t *game = load_wdl(tokens[1]);
-    if(game == NULL)
+    obj_t *obj_store = load_obj_store(tokens[1]);
+
+    game_t *game = load_game(obj_store);
+
+    if (game == NULL)
     {
-        return "Load WDL failed";
+        return "Load WDL failed!";
     }
     else
     {
@@ -103,23 +203,24 @@ cmd *assign_action(char **ts, lookup_t ** table)
 {
     cmd *output = cmd_new(ts);
     output->func_of_cmd = find_operation(ts[0], table);
-    if(output->func_of_cmd == NULL)
+    if (output->func_of_cmd == NULL)
     {
         output->func_of_cmd = action_error_operation;
     }
     return output;
 }
 
+/* See operation.h */
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         return "Room not found! Error! We need a room to be loaded to LOOK!\n";
     }
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
-        if(game != NULL)
+        if (game != NULL)
         {
             return game->curr_room->long_desc;
         }
@@ -130,9 +231,23 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     item_t *curr_item = NULL;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if(curr_item != NULL)
+    if (curr_item != NULL)
     {
-        return curr_item->long_desc;
+        char *string = malloc(BUFFER_SIZE);
+        sprintf(string, "%s", curr_item->long_desc);
+        if (curr_item->next != NULL)
+        {
+            int count = 0;
+            item_t *iter;
+            LL_FOREACH(curr_item, iter)
+            {
+                count++;
+            }
+            char *count_str = malloc(BUFFER_SIZE);
+            sprintf(count_str, " There are %d of these in this room.", count);
+            string = strcat(string, count_str);
+        }
+        return string;
     }
     return "specified item not found\n";
 }
@@ -141,29 +256,44 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return ( "Error! We need a loaded room to do the above action. \n");
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must identify an object to act on\n";
     }
+    if (tokens[2] != NULL)
+    {
+        return "Sorry, act upon one item \n";
+    }
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if(curr_item != NULL)
+    if (curr_item != NULL)
     {
         action_type_t *action = find_action(tokens[0], table);
         char *str;
-        do_item_action(action, curr_item, &str);
-        if(strcmp(tokens[0], "TAKE") == 0)
+        bool action_success = false;
+        
+        /* Loops through items with identical ids 
+         * until action success or all items fail */
+        while (!action_success && curr_item != NULL)
         {
-            HASH_DEL(game->curr_room->items, curr_item);
-            add_item_to_player(game->curr_player, curr_item);
-
+            int rc = do_item_action(ctx, action, curr_item, &str);
+            if (rc == SUCCESS)
+            {
+                action_success = true;
+                if (strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
+                {
+                    remove_item_from_room(game->curr_room, curr_item);
+                    add_item_to_player(game->curr_player, curr_item, game);
+                }
+            }
+            curr_item = curr_item->next;
         }
         return str;
     }
@@ -174,22 +304,26 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must specify a direction to go \n";
+    }
+    if (tokens[2] != NULL)
+    {
+        return "Sorry, you can only go one direction \n";
     }
 
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
-        if(strcmp(curr_path->direction,tokens[1]) == 0)
+        if (strcmp(curr_path->direction,tokens[1]) == 0)
         {
             action_type_t *action = find_action(tokens[0], table);
 
@@ -205,14 +339,14 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
-    lookup_t **table = ctx->table;
+    lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL || tokens[3] == NULL)
+    if (tokens[1] == NULL || tokens[3] == NULL)
     {
         return "You must identify two objects to act on";
     }
@@ -221,32 +355,124 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     item1 = get_item_in_room(game->curr_room, tokens[1]);
     item2 = get_item_in_room(game->curr_room, tokens[3]);
 
-    if(item1 == NULL || item2 == NULL)
+    if (item1 == NULL || item2 == NULL)
     {
         return "The object(s) could not be found";
     }
+    
     action_type_t *action = find_action(tokens[0], table);
-
     char *str;
-    do_item_item_action(action, item1, item2, &str);
+    bool action_success = false;
+    
+    /* Loops through items with identical ids 
+     * until action succeeds or all items fail */
+    while (!action_success && item1 != NULL)
+    {
+        item_t *item2_iter = item2;
+        while (!action_success && item2_iter != NULL)
+        {
+            int rc = do_item_item_action(ctx, action, item1, item2_iter, &str);
+            if (rc == SUCCESS)
+            {
+                action_success = true;
+            }
+            item2_iter = item2_iter->next;
+        }
+        item1 = item1->next;
+    }
+    
     return str;
 }
 
+/* See operation.h */
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    char *arg2 = tokens[1];
+    char *arg4 = tokens[3];
+    if (game == NULL)
+    {
+        return "No game found!\n";
+    }
+    if (arg2 == NULL)
+    {
+        //(potential) TODO: add list of possible parameters
+        return "Second argument needed.\n";
+    }
+    /* as of now (5/23/2022) the only self action we have is view, 
+     * which supports a max of two arguments:
+     *  `view quest "quest_id"`
+     *  Thus it should fail if there is a third argument */
+    if (arg4 != NULL)
+    {
+        return "This action only supports two arguments\n";
+    }
+
+    lookup_t **table = ctx->cli_ctx->table;
+
+    /* uses the find_action command to go from string to action,
+     * this table is made using the add_action_entry and lookup_t_init 
+     * in cmd.c*/
+    action_type_t *action = find_action(tokens[0], table);
+
+    /* placeholder for error string that do_self_action will modify */
+    char *str;
+
+    /* this sanitizes the input for do_self_action, because 
+     * action management is expecting all arguments to the self action
+     * but not the actual action in a string array
+     *
+     * Thus we clip off the first term to hand to do_self_action */
+    tokens = &tokens[1];
+
+    /* do_self_action return codes are either:
+     *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
+     *  otherwise, returns SUCCESS */
+
+
+    /*================================================================ 
+     * AS OF 5/23/2022 at 10:35pm
+     * ONCE AM FINISHES THIS VERION OF DO_SELF_ACTION WE CAN UNCOMMENT
+     * THE ACTUAL FUNCTION CALL, 
+     * for now will leave the currently implemented call 
+     *================================================================ */
+    //int rc = do_self_action(ctx, action, tokens, &str);
+    int rc = do_self_action(ctx, action, tokens[1], &str);
+    return str;
+}
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "This action is not supported.";
+
+    if (tokens[0] == NULL) 
+    {
+        return "This input returned as NULL";
+    }
+
+    char* suggestion = NULL;
+    suggestion = suggestions(strdup(tokens[0]), actions_for_sug);
+
+    if (suggestion != NULL) 
+    {
+        int str1 = strlen(suggestion);
+        int str2 = strlen("This action is not supported. Did you mean: ");
+        int len = str1 + str2;
+        char msg[] =  "This action is not supported. Did you mean: ";
+        print_to_cli(ctx, strncat(msg, suggestion, len));
+        return "";
+    }
+    return "This action is not supported. No suggestions could be found";
 }
 
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_player == NULL)
+    if (game == NULL || game->curr_player == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded player to check inventory.\n";
     }
-    item_t *t;
+    item_list_t *t;
     int i = 0;
     ITER_ALL_ITEMS_IN_INVENTORY(game->curr_player, t)
     {
@@ -263,10 +489,61 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         // sprintf(str, "%d", i);
         // print_to_cli(ctx, str);
 
-        print_to_cli(ctx, t->item_id);
+        print_to_cli(ctx, t->item->item_id);
     }
     return "This was your inventory";
 }
+
+
+char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if (game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to check items.\n";
+    }
+    item_list_t *t;
+    int i = 0;
+    ITER_ALL_ITEMS_IN_ROOM(game->curr_room, t)
+    {
+        i++;
+        print_to_cli(ctx, t->item->item_id);
+    }
+    return "These are the items in the room";
+}
+
+
+char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    if (game == NULL || game->curr_room == NULL)
+    {
+        print_to_cli(ctx, tokens[0]);
+        return "Error! We need a loaded room to check NPCs.\n";
+    }
+
+    npc_t *npc_tmp, *npc_elt;
+    int i = 0;
+    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+    {   
+        i++;
+        if (npc_elt->npc_battle->stats->hp > 0) 
+        {
+            print_to_cli(ctx, npc_elt->npc_id);
+        }
+    }
+
+    if (i >= 1) 
+    {
+        return "These are the NPCs in the room";
+    } 
+    else 
+    {
+        return "There is no NPC in the room";
+    }
+}
+
 
 char *map_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -280,40 +557,20 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return "Layout switched.";
 }
 
-/* A function that capitalizes a word to be used in name_operation
- * Parameters:
- * - word: A pointer to a string to be capitalized.
- * Output:
- * - The newly capitalized string.
-*/
-char *capitalize(char *word)
-{
-    char *command = word;
-    int i = 0;
-    char ch;
-
-    while(command[i])
-    {
-        ch = toupper(command[i]);
-        command[i] = ch;
-        i++;
-    }
-    return word;
-}
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    capitalize(tokens[1]);
-    capitalize(tokens[2]);
-    if(find_entry(tokens[1], (ctx->table)) == NULL)
+    case_insensitize(tokens[1]);
+    case_insensitize(tokens[2]);
+    if (find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
     }
-    if(find_entry(tokens[2],(ctx->table)) != NULL)
+    if (find_entry(tokens[2],(ctx->cli_ctx->table)) != NULL)
     {
         return "You can't change the meaning of a word that's already defined!";
     }
-    add_entry(tokens[2],(find_operation(tokens[1],(ctx->table))), (find_action(tokens[1],(ctx->table))), (ctx->table));
+    add_entry(tokens[2],(find_operation(tokens[1],(ctx->cli_ctx->table))), (find_action(tokens[1],(ctx->cli_ctx->table))), (ctx->cli_ctx->table));
     return "The two words are now synonyms!";
 }
 
@@ -324,24 +581,24 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "Please input a theme";
     }
-    capitalize(tokens[1]);
-    if(strcmp(tokens[1], "DEFAULT") == 0)
+    case_insensitize(tokens[1]);
+    if (strcmp(tokens[1], "default") == 0)
     {
         n = 1;
     }
-    if(strcmp(tokens[1], "NIGHT") == 0)
+    if (strcmp(tokens[1], "night") == 0)
     {
         n = 2;
     }
-    if(strcmp(tokens[1], "BRIGHT") == 0)
+    if (strcmp(tokens[1], "bright") == 0)
     {
         n = 3;
     }
-    if(strcmp(tokens[1], "PAIN") == 0)
+    if (strcmp(tokens[1], "pain") == 0)
     {
         n = 4;
     }
-    if(n != 0)
+    if (n != 0)
     {
         wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
         wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
@@ -349,4 +606,64 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "The color palette has been changed";
     }
     return "I don't have that palette yet. You must make do with the current style.";
+}
+
+/* See cmd.h */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL || tokens[2] == NULL)
+    {
+        return "You must identify an NPC to talk to.";
+    }
+
+    int rc;
+
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[2]);
+
+    if (npc == NULL)
+    {
+        return "No one by that name wants to talk.";
+    }
+
+    if (npc->dialogue == NULL)
+    {
+        return "This person has nothing to say.";
+    }
+
+    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
+
+    assert(rc != -1); //checking for conversation error
+
+    if (rc == 0)
+    {
+        set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+    }
+
+    return str;
+}
+
+/* See operations.h */
+char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL) {
+        return "You must identify an NPC to fight. What are you going to do, fight yourself?";
+    }
+    
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
+    /* note: This assumes that the NPC name 
+     * is only one token long, and that the command is exactly "fight npc_name". */
+    
+    if (npc == NULL) {
+        return "No one by that name want to fight.";
+    }
+
+    if (npc->hostility_level != HOSTILE) {
+        return "%s does not want to fight.", tokens[1];
+    }
+
+    set_game_mode(ctx->game, BATTLE, npc->npc_id); 
+   
+    assert(npc->npc_battle != NULL);
+ 
+    return "Beginning battle.";
 }

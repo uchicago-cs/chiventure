@@ -2,10 +2,12 @@
 #define _CLI_INCLUDE_OPERATIONS_H
 #include "cmd.h"
 #include "game-state/game.h"
+#include "game-state/mode.h"
 #include "action_management/actionmanagement.h"
 #include "ui/print_functions.h"
 #include "checkpointing/save.h"
 #include "checkpointing/load.h"
+
 /*
  * We list all demanded operations over here.
  * All meta operations must be defined here.
@@ -25,6 +27,22 @@
  * This is to keep the type of operation consistent, since it
  * is used in the lookup_t struct
  */
+
+
+
+/*
+ * Displays course authors of chiventure
+ *
+ * Input:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct, unused
+ *
+ * Returns:
+ *  - system message listing contributors
+ *
+ */
+char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
 
 /*
  * Quits the game
@@ -66,33 +84,6 @@ char *help_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *hist_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-
-/*
- * Saves the current state of a game to a .dat file
- * Prints an Error message if filename improperly specified
- *
- * Paramters:
- * - tokens: parsed input string
- * - ctx:pointer to a chiventure context struct
- *
- * Returns:
- * - A success or error message
- */
-char *save_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
-/*
- * Loads a game from a .dat file
- * Prints and Error message if filename improperly specified
- *
- * Parameters:
- * - tokens: parsed input string
- * - ctx: pointer to a chiventure context struct
- *
- * Returns: 
- * - A success or error message
- */
-char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
-
 /*
  * Loads a new game from a .wdl file
  * Prints and Error message if filename improperly specified
@@ -106,7 +97,7 @@ char *load_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  */
 char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-/* Checks that a specified filetype is a .dat file
+/* Checks that a specified filetype is a .wdl file
  *
  * Parameters:
  * - A string of the filename
@@ -115,7 +106,7 @@ char *load_wdl_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * Returns:
  * - true if proper filename, false if not
  */
-bool validate_filename(char *filename);
+bool validate_wdl_filename(char *filename);
 
 /*
  * If the input action is valid (checks by calling validate_action), go through
@@ -147,7 +138,6 @@ cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
  */
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-
 /*Returns a description of the player inventory contents
  *
  * Parameters:
@@ -160,14 +150,40 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 
-/* Error Operations that returns an error message as string
+/* 
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * - lists items that are in the room a player 
+ * is currently in as a list
+ */
+char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+
+/* 
+ *
+ * Parameters:
+ *  - tokens: parsed input string
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * - lists NPCs that are in the room a player 
+ * is currently in as a list
+ */
+char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+
+/* Error Operations that returns an error message with suggestion as string
  *
  * Parameters:
  *  - tokens: parsed input string
  *  - ctx: pointer to a chiventure context struct, unused
  *
  * Returns:
- * - Said error message as a string
+ * - Said error message with suggestion as a string
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
@@ -210,6 +226,19 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  */
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Validates game state and passes action struct to 
+ * action management's function that handles ACTION SELF_ATTRIBUTE
+ *
+ * eg: VIEW stats
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validated)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ *  - Status message based on control flow.
+ */
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /* Toggles the map by calling the toggle_map function in ui_ctx.c. Essentially a
  * wrapper, passing on the context struct only.
@@ -250,5 +279,31 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
  * A string notifying them if the color was changed or not.
  */
 char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Initiates Dialogue between NPC and Player
+ * 
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ * The NPC's response and player's dialogue options.
+ */
+char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
+
+/* Changes the game state to BATTLE mode
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validified)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Note:
+ * Changing the game mode to battle mode should automatically call a function that 
+ * initiates and runs the battle.
+ *
+ * Returns:
+ * A string notifying the user that the battle has begun (or cannot begin).
+ */
+char *battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 #endif /* _CLI_INCLUDE_OPERATIONS_H */
