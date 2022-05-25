@@ -31,11 +31,33 @@ typedef struct {
     UT_hash_handle hh;
 } sound_t;
 
-/* this stores output from loaded music depending on whether it's music or a sound effect */
+/* this stores output from loaded music,
+   depending on whether it's music or a sound effect */
 typedef union {
     Mix_Music *backgroundSound;
     Mix_Chunk *soundEffect;
 } sound_type_t;
+
+/* Allocates a sound_t struct in the heap
+ * 
+ * Parameters:
+ *      type: enum SoundType
+ *      name: name of the sound, 
+ *            or more specifically, the path to a sound file.
+ *            Must be already allocated in the heap
+ * Return:
+ *      An allocated sound structure, with name and type
+ */
+sound_t *sound_new(SoundType type, char *name);
+
+/* Initializes the 
+ * 
+ * Parameters:
+ *      None
+ * Return:
+ *      An allocated sound structure, with name and type
+ */
+int sound_init(sound_t *sound, SoundType type, char *name);
 
 /* Loads sound to SDL queue
  *
