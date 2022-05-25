@@ -7,6 +7,7 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 #include "game-state/player.h"
+#include "skilltrees/skilltree.h"
 
 
 #define BUFFER_SIZE (300)
@@ -347,7 +348,7 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
 /* KIND 4
  * See actionmanagement.h */
 int do_self_action(chiventure_ctx_t *c, action_type_t *a,
-                   char *target, char **ret_string)
+                   char **target, char **ret_string)
 {
     assert(c);
     assert(c->game);
@@ -368,20 +369,21 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     }
 
     if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
-        if (strcmp(target, "stats") == 0) {
+        if (strcmp(target[0], "stats") == 0) {
             // retrieve stats from the player
             string = display_stats(c->game->curr_player->player_stats);
-        } else if (strcmp(target, "inventory") == 0) {
+        } else if (strcmp(target[0], "inventory") == 0) {
             // retrieve inventory from the player
             // TO BE IMPLEMENTED
-        } else if (strcmp(target, "skills") == 0) {
-            string = display_tree(c->game->curr_player->player_class->skilltree, BUFFER_SIZE); 
-        } 
-        else if (strcmp(target, "skills") == 0) {
-            string = display_skill_description(c->game->curr_player->player_class->skilltree, target[1]); 
-        } 
-        else {
-            return; 
+        } else if (strcmp(target[0], "skills") == 0) {
+            if(target[1] == NULL) {
+                string = display_tree(c->game->curr_player->player_class->skilltree, BUFFER_SIZE); 
+            } 
+            else {
+                 string = display_skill_description(c->game->curr_player->player_class->skilltree, target[1]); 
+            }
+        } else {
+            // TO BE IMPLEMENTED     
         }
     }
     *ret_string = string;
