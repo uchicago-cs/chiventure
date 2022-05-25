@@ -192,18 +192,6 @@ battle_item_t* create_enemy_battle_items()
     return head;
 }
 
-/* Creates + initializes a move*/
-move_t *create_move(int id, battle_item_t* item, bool attack, int damage, int defense)
- {
-     move_t* move = (move_t*) calloc(1, sizeof(move_t));
-     move->id = id;
-     move->item = item;
-     move->attack = attack;
-     move->damage = damage;
-     move->defense = defense;
-     return move;
- }
-
 /* Creates example hardcoded moves for the enemy*/
 move_t* create_enemy_moves()
 {
