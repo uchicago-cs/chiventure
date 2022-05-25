@@ -208,7 +208,7 @@ Test(battle_ai, calculate_crit)
     int i, crits = 0;
     double mod;
     for (i = 0; i < 100; i++) {
-        mod = calculate_crit(10);
+        mod = crit_modifier(10);
         if (mod == 1.5) {
             crits++;
         }
