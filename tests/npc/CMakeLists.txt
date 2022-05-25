@@ -6,7 +6,6 @@ add_executable(${TEST_EXE}
         test_rooms_npc.c
 	test_npc_battle.c
         test_npc_move.c
-	src/battle_test_utility.c
         main.c)
 
 target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
