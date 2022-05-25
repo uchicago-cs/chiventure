@@ -243,9 +243,6 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
  * and its time_ray for the current step in its path is reset, but it does not
  * technically change rooms.
  *
- * Other:
- *  The path_pos local variable in the function is uniquely redefined before
- *  each possible return statement, in order to aid with debugging
  */
 int move_npc_mov(npc_mov_t *npc_mov);
 
