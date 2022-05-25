@@ -73,12 +73,8 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
     }
     return strongest_move;
 }
-/*
-* Calculates Critical Damage
- * Parameters:
- * - crit_chance : the crit chance of the user using the move
- * returns: the critical damage multiplier
- */
+
+/* See battle_ai.h */
 double crit_modifier(int crit_chance)
 {
     int chance = randnum(1, 100);
