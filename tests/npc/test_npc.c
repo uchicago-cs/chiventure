@@ -1,10 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "npc/npc.h"
-#include "game-state/item.h"
-#include "playerclass/class.h"
-#include "battle/battle_state.h"
+#include "../../include/battle/battle_test_utility.h"
 
  battle_item_t *npc_create_battle_item_new(int id, char *name, char* description, stat_changes_t *attributes, 
                                          int quantity, bool attack)

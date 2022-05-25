@@ -298,3 +298,273 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
 
      return item;
  }
+
+/*** Dialogue Building Functions ***/
+
+void check_add_node(int num_nodes)
+{
+    convo_t *c = convo_new();
+    char node_id[3];
+    char npc_dialogue[3];
+    node_list_t *cur;
+    int rc;
+
+    strcpy(node_id, "N_");
+    strcpy(npc_dialogue, "D_");
+
+    for (int i = 1; i <= num_nodes && i < 10; i++)
+    {
+        node_id[1] = '0' + i;
+        npc_dialogue[1] = '0' + i;
+
+        rc = add_node(c, node_id, npc_dialogue);
+
+        cr_assert_eq(rc, SUCCESS, "add_node() failed for Node %d", i);
+
+        if (i == 1) cur = c->all_nodes;
+        else cur = cur->next;
+
+        cr_assert_not_null(cur, "add_node() did not append Node %d to "
+                           "all_nodes in the convo", i);
+
+        cr_assert_eq(strcmp(cur->node->node_id, node_id), 0,
+                     "Expected %s for the node_id of Node %d but add_node set "
+                     "a different value", node_id, i);
+        cr_assert_eq(strcmp(cur->node->npc_dialogue, npc_dialogue), 0,
+                     "Expected %s for the npc_dialogue of Node %d but add_node "
+                     "set a different value", npc_dialogue, i);
+    }
+}
+
+void check_add_edge(int num_edges)
+{
+    convo_t *c = convo_new();
+    char quip[3];
+    edge_list_t *convo_lst_ptr, *node_lst_ptr;
+    int rc;
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+
+    strcpy(quip, "Q_");
+
+    for (int i = 1; i <= num_edges && i < 10; i++)
+    {
+        quip[1] = '0' + i;
+
+        rc = add_edge(c, quip, "N1", "N2", NULL);
+
+        cr_assert_eq(rc, SUCCESS, "add_edge() failed for Edge %d", i);
+
+        if (i == 1)
+        {
+            convo_lst_ptr = c->all_edges;
+            node_lst_ptr = c->all_nodes->node->edges;
+        }
+        else
+        {
+            convo_lst_ptr = convo_lst_ptr->next;
+            node_lst_ptr = node_lst_ptr->next;
+        }
+
+        cr_assert_not_null(convo_lst_ptr, "add_edge() did not append Edge %d "
+                           "to all_edges in the convo", i);
+        cr_assert_not_null(node_lst_ptr, "add_edge() did not append Edge %d "
+                           "to edges in Node 1", i);
+
+        cr_assert_eq(strcmp(convo_lst_ptr->edge->quip, quip), 0,
+                     "Expected %s for the quip of Edge %d but add_edge set "
+                     "a different value", quip, i);
+        cr_assert_eq(strcmp(convo_lst_ptr->edge->from->node_id, "N1"), 0,
+                     "add_edge set the wrong from node for Edge %d", i);
+        cr_assert_eq(strcmp(convo_lst_ptr->edge->to->node_id, "N2"), 0,
+                     "add_edge set the wrong to node for Edge %d", i);
+    }
+}
+
+/* Creates a sample battle_item. Taken from test_battle_ai.c */
+battle_item_t *generate_test_battle_item(int id, int quantity, char* description, 
+                                         char *name, bool attack, stat_changes_t *changes)
+{
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+     item->id = id;
+     item->name = name;
+     item->description = description;
+     item->quantity = quantity;
+     item->description = description;
+     item->attack = attack;
+     item->attributes = changes;
+
+     return item;
+}
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_test_class()
+{
+    class_t *c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+               " relying on physical strength and years of training to "
+               "deal with any obstacle. Mechanically, the warrior focuses "
+               "on up-close physical damage with weapons and survives enemy "
+               "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
+
+/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
+npc_mov_t *generate_test_npc_mov()
+{
+    npc_mov_t *npc_mov;
+    char *test_room_id = "test";
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id);
+}
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+
+    return test_stats;
+}
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+}
+
+/* Creates a sample battle item. Taken from test_battle_ai.c */
+battle_item_t *npc_create_battle_item(int id, char *name, char* description, 
+                                      stat_changes_t *attributes, 
+                                      int quantity, bool attack)
+{
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+     item->id = id;
+     item->name = name;
+     item->description = description;
+     item->attributes = attributes;
+     item->quantity = quantity;
+     item->attack = attack;
+     
+
+     return item;
+ }
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_npcbattle_test_class()
+{
+    class_t *c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats1()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->mag_def = 10;
+    test_stats->mag_atk = 10;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+    test_stats->crit = 0;
+    test_stats->accuracy = 100;
+    test_stats->sp = 50;
+    test_stats->max_sp = 50;
+
+    return test_stats;
+}
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats2()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->mag_def = 10;
+    test_stats->mag_atk = 10;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+    test_stats->crit = 0;
+    test_stats->accuracy = 100;
+    test_stats->sp = 50;
+    test_stats->max_sp = 50;
+
+    return test_stats;
+}
+
+move_t *create_enemy_moves1()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+    return head;
+}
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves2()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    DL_APPEND(head, earthquake);
+    return head;
+}
+

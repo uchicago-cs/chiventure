@@ -1,10 +1,6 @@
 #include <string.h>
 #include <criterion/criterion.h>
-#include "npc/dialogue.h"
-#include "game-state/item.h"
-#include "game-state/player.h"
-#include "game-state/mode.h"
-#include "game-state/game.h"
+#include "../../include/battle/battle_test_utility.h"
 
 
 /*** Node ***/

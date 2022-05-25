@@ -13,6 +13,13 @@
 #include "../include/playerclass/class.h"
 #include "battle_print.h"
 #include "../include/common/utlist.h"
+#include "game-state/item.h"
+#include "game-state/player.h"
+#include "game-state/mode.h"
+#include "game-state/game.h"
+#include "battle/battle_common.h"
+#include "game-state/room.h"
+#include "npc/rooms_npc.h"
 
 class_t *create_test_class();
 
@@ -68,3 +75,42 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
  /* Creates + initializes a battle_item */
 battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes);
+
+/*** Dialogue Building Functions ***/
+
+void check_add_node(int num_nodes);
+
+void check_add_edge(int num_edges);
+
+ battle_item_t *npc_create_battle_item_new(int id, char *name, char* description, stat_changes_t *attributes, 
+		                                          int quantity, bool attack);
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_test_class();
+
+/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
+npc_mov_t *generate_test_npc_mov();
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats();
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves();
+
+/* Creates a sample battle item. Taken from test_battle_ai.c */
+ battle_item_t *npc_create_battle_item(int id, char *name, char* description, 
+		                                          stat_changes_t *attributes, int quantity, bool attack);
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_npcbattle_test_class();
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats1();
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats2();
+
+move_t *create_enemy_moves1();
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves2();

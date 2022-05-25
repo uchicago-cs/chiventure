@@ -1,10 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "game-state/game.h"
-#include "npc/npc_battle.h"
-#include "battle/battle_common.h"
-#include "battle/battle_moves.h"
+#include "../../include/battle/battle_test_utility.h"
 
 /* Creates a sample battle item. Taken from test_battle_ai.c */
  battle_item_t *npc_create_battle_item(int id, char *name, char* description, 
