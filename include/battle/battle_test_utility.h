@@ -21,6 +21,8 @@
 #include "game-state/room.h"
 #include "npc/rooms_npc.h"
 
+/* Test class creation functions -----------------------------------------------------*/
+
 /* Creates a sample class. Taken from test_class.c  and same as generate NPCtest class*/
 class_t *generate_test_class();
 
@@ -28,7 +30,8 @@ class_t *create_test_class();
 
 class_t *make_wizard();
 
-/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Battle item creation functions ----------------------------------------------------*/
 
 /* Creates + initializes a battle_item  SAME AS CREATE_NPC_BATTLE_ITEM and npc_create_battle_item and generate_test_battle_item*/
  battle_item_t *create_battle_item(int id, int quantity, char* description, 
@@ -40,7 +43,8 @@ battle_item_t* create_player_battle_items();
 /* Creates example hardcoded items for the enemy*/
 battle_item_t* create_enemy_battle_items();
 
-/*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Stats creation functions ---------------------------------------------------------*/
 
 /* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats_norm();
@@ -57,7 +61,8 @@ stat_t *create_enemy_stats1();
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats2();
 
-/*----------------------------------------------------------------------------------------------------------------------------------*/
+
+/* Moves creation functions ---------------------------------------------------------*/
 
 /* Creates example hardcoded stats for the battle_player*/
 move_t* create_battle_player_moves();
@@ -79,7 +84,9 @@ move_t *create_enemy_moves1();
 
 /* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves2();
-/*-------------------------------------------------------------------------------------------------------------------------------------*/
+
+
+/* Sandbox entity creation functions -------------------------------------------------*/
 
 /* Creates sandbox enemy*/
 combatant_t* new_enemy();
@@ -90,8 +97,8 @@ combatant_t* new_enemy_crit();
 /* Creates sandbox battle_player*/
 combatant_t* new_battle_player();
 
-/*-----------------------------------------------------------------------------------------------------------------------------------*/
-/*** Dialogue Building Functions ***/
+
+/* Dialogue Building Functions ------------------------------------------------------*/
 
 void check_add_node(int num_nodes);
 
