@@ -37,7 +37,7 @@
         }
       ],
       "items": [
-        "computer",
+        "COMPUTER",
         "CHARMANDER",
         "SQUIRTLE",
         "BULBASAUR",

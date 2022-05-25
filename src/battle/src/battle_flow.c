@@ -5,6 +5,7 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_print.h"
 
+
 /* see battle_flow.h */
 int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)
 {
@@ -28,10 +29,54 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
     stat_t *stats = ctx_player->stats;
     move_t *moves = ctx_player->moves;
     battle_item_t *items = ctx_player->items;
-
+    battle_equipment_t *weapon = ctx_player->weapon; 
+    battle_equipment_t *accessory = ctx_player->accessory; 
+    battle_equipment_t *armor = ctx_player->armor;
+    stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
+    with_equipment = stats;
+    if (weapon != NULL)
+    {
+        with_equipment->max_sp+=weapon->attributes->max_sp;
+        with_equipment->sp+=weapon->attributes->sp;
+        with_equipment->phys_atk+=weapon->attributes->phys_atk;
+        with_equipment->mag_atk+=weapon->attributes->mag_atk;
+        with_equipment->phys_def+=weapon->attributes->phys_def;
+        with_equipment->mag_def+=weapon->attributes->mag_def;
+        with_equipment->crit+=weapon->attributes->crit;
+        with_equipment->accuracy+=weapon->attributes->accuracy;
+        with_equipment->hp+=weapon->attributes->hp;
+        with_equipment->max_hp+=weapon->attributes->max_hp;
+    }
+    if (accessory !=NULL)
+    {
+        with_equipment->max_sp+=accessory->attributes->max_sp;
+        with_equipment->sp+=accessory->attributes->sp;
+        with_equipment->phys_atk+=accessory->attributes->phys_atk;
+        with_equipment->mag_atk+=accessory->attributes->mag_atk;
+        with_equipment->phys_def+=accessory->attributes->phys_def;
+        with_equipment->mag_def+=accessory->attributes->mag_def;
+        with_equipment->crit+=accessory->attributes->crit;
+        with_equipment->accuracy+=accessory->attributes->accuracy;
+        with_equipment->hp+=accessory->attributes->hp;
+        with_equipment->max_hp+=accessory->attributes->max_hp;
+    }
+    if (armor != NULL)
+    {
+        with_equipment->max_sp+=armor->attributes->max_sp;
+        with_equipment->sp+=armor->attributes->sp;
+        with_equipment->phys_atk+=armor->attributes->phys_atk;
+        with_equipment->mag_atk+=armor->attributes->mag_atk;
+        with_equipment->phys_def+=armor->attributes->phys_def;
+        with_equipment->mag_def+=armor->attributes->mag_def;
+        with_equipment->crit+=armor->attributes->crit;
+        with_equipment->accuracy+=armor->attributes->accuracy;
+        with_equipment->hp+=armor->attributes->hp;
+        with_equipment->max_hp+=armor->attributes->max_hp;
+    }                                              
     // Allocating new combatant_t for the player in memory
-    combatant_t *comb_player = combatant_new(name, is_friendly, c_type, stats,
-                                             moves, items, BATTLE_AI_NONE);
+    combatant_t *comb_player = combatant_new(name, is_friendly, c_type, with_equipment,
+                                             moves, items, weapon, accessory,
+                                             armor, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
 
@@ -55,8 +100,53 @@ combatant_t *set_enemy(npc_t *npc_enemy)
     move_t *moves = npc_enemy->npc_battle->moves;
     battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
     difficulty_t ai = npc_enemy->npc_battle->ai;
-    
-    comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
+    battle_equipment_t *weapon = npc_enemy->npc_battle->weapon; 
+    battle_equipment_t *accessory = npc_enemy->npc_battle->accessory; 
+    battle_equipment_t *armor = npc_enemy->npc_battle->armor;
+    // we will need to update npc_battle_t after npc is done with their merge
+    stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
+    with_equipment = stats;
+    if (weapon != NULL)
+    {
+        with_equipment->max_sp+=weapon->attributes->max_sp;
+        with_equipment->sp+=weapon->attributes->sp;
+        with_equipment->phys_atk+=weapon->attributes->phys_atk;
+        with_equipment->mag_atk+=weapon->attributes->mag_atk;
+        with_equipment->phys_def+=weapon->attributes->phys_def;
+        with_equipment->mag_def+=weapon->attributes->mag_def;
+        with_equipment->crit+=weapon->attributes->crit;
+        with_equipment->accuracy+=weapon->attributes->accuracy;
+        with_equipment->hp+=weapon->attributes->hp;
+        with_equipment->max_hp+=weapon->attributes->max_hp;
+    }
+    if (accessory !=NULL)
+    {
+        with_equipment->max_sp+=accessory->attributes->max_sp;
+        with_equipment->sp+=accessory->attributes->sp;
+        with_equipment->phys_atk+=accessory->attributes->phys_atk;
+        with_equipment->mag_atk+=accessory->attributes->mag_atk;
+        with_equipment->phys_def+=accessory->attributes->phys_def;
+        with_equipment->mag_def+=accessory->attributes->mag_def;
+        with_equipment->crit+=accessory->attributes->crit;
+        with_equipment->accuracy+=accessory->attributes->accuracy;
+        with_equipment->hp+=accessory->attributes->hp;
+        with_equipment->max_hp+=accessory->attributes->max_hp;
+    }
+    if (armor != NULL)
+    {
+        with_equipment->max_sp+=armor->attributes->max_sp;
+        with_equipment->sp+=armor->attributes->sp;
+        with_equipment->phys_atk+=armor->attributes->phys_atk;
+        with_equipment->mag_atk+=armor->attributes->mag_atk;
+        with_equipment->phys_def+=armor->attributes->phys_def;
+        with_equipment->mag_def+=armor->attributes->mag_def;
+        with_equipment->crit+=armor->attributes->crit;
+        with_equipment->accuracy+=armor->attributes->accuracy;
+        with_equipment->hp+=armor->attributes->hp;
+        with_equipment->max_hp+=armor->attributes->max_hp;
+    }
+    comb_enemy = combatant_new(name, is_friendly, c_type, with_equipment,
+                            moves, items, weapon, accessory, armor, ai);
     assert(comb_enemy != NULL);
 
     return comb_enemy;
@@ -113,6 +203,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
        this move, currently not implemented, waiting for player class
        to resolve move_lists() */
     int dmg, rc;
+    double crit;
     char *string;
 
     /* Calculates to see if the move will miss */
@@ -127,8 +218,10 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         {
             dmg = damage(b->enemy, move, b->player);
             enemy->stats->hp -= dmg;
+            crit = crit_modifier(b->player->stats->crit);
+            dmg *= crit;
             //print_battle_move needs to be changed
-            rc = print_battle_damage(b, b->turn, move, string);
+            rc = print_battle_damage(b, b->turn, move, crit, string);
             assert(rc == SUCCESS);
         }
         if (move->stat_mods != NO_TARGET)
@@ -151,7 +244,12 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_VICTOR_PLAYER;
     }
-    
+    if(battle_over(b) == BATTLE_ENEMY_SURRENDER)
+    {
+        /* print stub: should tel player they won */
+        award_xp(b->player->stats, 2.0);
+        ctx->status = BATTLE_ENEMY_SURRENDER;
+    }
     if(battle_over(b) == BATTLE_IN_PROGRESS)
     {
         char *res = enemy_make_move(ctx);
@@ -244,7 +342,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
     int dmg, rc;
     char *string = calloc(100, sizeof(char));
-
+    double crit;
     if(enemy_move != NULL)
     {
         /* Calculates to see if the move will miss */
@@ -258,7 +356,9 @@ char *enemy_make_move(battle_ctx_t *ctx)
             {
                 dmg = damage(b->player, enemy_move, b->enemy);
                 b->player->stats->hp -= dmg;
-                rc = print_battle_damage(b, b->turn, enemy_move, string);
+                crit = crit_modifier(b->enemy->stats->crit);
+                dmg *= crit;
+                rc = print_battle_damage(b, b->turn, enemy_move, crit, string);
                 assert(rc == SUCCESS);
             }
             if (enemy_move->stat_mods != NO_TARGET)
@@ -285,21 +385,96 @@ char *enemy_make_move(battle_ctx_t *ctx)
 
     return string;
 }
+
+
 /* see battle_flow.h */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
+                        void *callback_args, cli_callback callback_func)
 {
-    target_stats->speed += changes->speed;
-    target_stats->max_sp += changes->max_sp;
-    target_stats->sp += changes->sp;
-    target_stats->phys_atk += changes->phys_atk;
-    target_stats->mag_atk += changes->mag_atk;
-    target_stats->phys_def += changes->phys_def;
-    target_stats->mag_def += changes->mag_def;
-    target_stats->crit += changes->crit;
-    target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
-    target_stats->max_hp += changes->max_hp;
-    return SUCCESS;
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(legal_items, legal_moves, component, 
+                        ctx->game->battle_ctx->game->battle);
+    if (ctx->game->battle_ctx->game->battle->turn == ENEMY)
+    {
+        battle_flow_move(ctx->game->battle_ctx, 
+                        ctx->game->battle_ctx->game->player->moves, 
+                        ctx->game->battle_ctx->game->battle->player->name);
+        char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->battle->enemy->moves);
+        callback_func(ctx, movestr, callback_args);
+    }
+    char *strg = print_battle_action_menu(legal_items, legal_moves);
+    // print to cli
+    callback_func(ctx, strg, callback_args);
+    // take in user input
+    char *input;
+    scanf("%s", input);
+    if (input[0] == 'M' || input[0] == 'm')
+    {
+        // take the index of the move, under the assumption that the list is less than 10 moves long
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->moves == NULL)
+            {
+                return callback_func(ctx, "That move does not exist.", callback_args);
+            }
+            if (k == index-1)
+            {
+                    battle_flow_move(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->moves, 
+                                ctx->game->battle_ctx->game->battle->enemy->name);
+                    char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->player->moves);
+                    callback_func(ctx, movestr, callback_args);
+            }
+            else
+            {
+                ctx->game->battle_ctx->game->player->moves = 
+                ctx->game->battle_ctx->game->player->moves->next;
+            }
+        }
+    } 
+    else if (input[0] == 'I' || input[0] == 'i')
+    {
+        int index = (int) (input[1] - 48);
+        for (int k = 0; k < index; k++)
+        {
+            if (ctx->game->battle_ctx->game->player->items == NULL)
+            {
+                return callback_func(ctx, "That item does not exist.", callback_args);
+            }
+            if (k == index-1)
+            {
+                battle_flow_item(ctx->game->battle_ctx, 
+                                ctx->game->battle_ctx->game->player->items);
+                char *itemstr = print_battle_move(ctx->game->battle_ctx->game->battle,
+                                ctx->game->battle_ctx->game->battle->turn,
+                                ctx->game->battle_ctx->game->player->moves);
+                callback_func(ctx, itemstr, callback_args);
+            }
+            else 
+            {
+                ctx->game->battle_ctx->game->player->items = 
+                ctx->game->battle_ctx->game->player->items->next;
+            }
+        }
+    } 
+    else if (input[0] == 'D' || input[0] == 'd') 
+    {
+        char *str = (char *) malloc (sizeof(char) * 17);
+        str = "You did nothing.";
+        callback_func(ctx, "You did nothing.", callback_args);
+        return 1;
+    } 
+    else 
+    {
+        return callback_func(ctx, "That action does not exist.", callback_args);
+    }
+    return 1;
 }
 
 /* see battle_flow.h */
@@ -307,7 +482,7 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 {
     stat_t* user_stats = source->stats;
     stat_t* target_stats = target->stats;
-    if ((move->user_mods == NULL) || (move->opponent_mods == NULL))
+    if ((move->user_mods == NULL) && (move->opponent_mods == NULL))
     {
         return FAILURE;
     }
@@ -339,5 +514,20 @@ int calculate_accuracy(int user_accuracy, int move_accuracy)
         return 1;
     }else{
         return 0;
+    }
+}
+
+/* see battle_flow.h */
+double crit_modifier(int crit_chance)
+{
+    int chance = randnum(1, 100);
+
+    if (chance <= crit_chance)
+    {
+        return 1.5;
+    }
+    else
+    {
+        return 1;
     }
 }
