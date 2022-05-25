@@ -9,7 +9,9 @@
 /* see battle_flow.h */
 int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)
 {
+    // battle game from the given battle context
     battle_game_t *g = ctx->game;
+    // battle player from the given battle game
     battle_player_t *player = g->player;
     // Set battle_player, enemies, and battle structs for a new battle
     battle_t *b = set_battle(player, npc_enemy, env);
