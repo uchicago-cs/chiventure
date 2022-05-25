@@ -254,8 +254,8 @@ Test(npc, add_battle_to_npc)
                             "A hearty dagger sure to take your breath away... for good",
                             "dagger", true, NULL);
 
-    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, 
-		                HOSTILE, 25, make_new_warrior_class(), dagger, NULL, NULL, NULL);
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY, 
+		                HOSTILE, make_new_warrior_class(), dagger, NULL, NULL, NULL);
 
 
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
@@ -290,8 +290,8 @@ Test(npc, get_npc_battle)
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger", true, 
 		    dagger_changes);
 
-    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, make_new_warrior_class(), dagger,
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, make_new_warrior_class(), dagger,
 
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
@@ -313,15 +313,15 @@ Test (npc, change_npc_hp)
     npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc, "npc_new() failed");
 
-    stat_t *stats = create_enemy_stats();
-    move_t *moves = create_enemy_moves();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
 
-    battle_item_t *dagger = generate_test_battle_item(1, 1,
+    battle_item_t *dagger = create_battle_item(1, 1,
                             "A hearty dagger sure to take your breath away... for good",
                             "dagger", true, NULL);
 
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, generate_test_class(), dagger,
+                                HOSTILE, make_new_warrior_class(), dagger,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
@@ -380,13 +380,13 @@ Test(npc, get_npc_hp)
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger", true,
                                 dagger_changes);
 
-    int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, make_new_warrior_class(), dagger,
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, make_new_warrior_class(), dagger,
 
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
-    hp = get_npc_hp(npc);
+    int hp = get_npc_hp(npc);
     cr_assert_eq(hp, 200,
                  "get_npc_hp() failed for npc with non-NULL npc_battle");
 
@@ -417,8 +417,8 @@ Test(npc, get_npc_max_hp)
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger", true,
                                 dagger_changes);
 
-    int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, make_new_warrior_class(), dagger,
+    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, make_new_warrior_class(), dagger,
 
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
@@ -466,12 +466,12 @@ Test(npc, check_npc_battle)
     battle_item_t *dagger2 = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger", true,
 		    dagger_changes2);
 
-    int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, make_new_warrior_class(), dagger1,
+    int res = add_battle_to_npc(npc1, stats1, moves1, BATTLE_AI_GREEDY,
+                                HOSTILE, make_new_warrior_class(), dagger1,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
-    res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, make_new_warrior_class(), dagger2,
+    res = add_battle_to_npc(npc2, stats2, moves2, BATTLE_AI_GREEDY,
+                                HOSTILE, make_new_warrior_class(), dagger2,
                                 NULL, NULL, NULL);
 
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
