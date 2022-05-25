@@ -387,7 +387,7 @@ int count_digits(int num){
 }
 
 /* See skilltree.h */
-char *display_tree(skill_tree_t* tree){
+char *display_tree(skill_tree_t* tree, int buf){
     int size = 0;
 
     // Calculating size of string we need to store all necessary info
@@ -401,30 +401,67 @@ char *display_tree(skill_tree_t* tree){
         size += count_digits(tree->nodes[j]->skill->level);
 
         // add size of formatting text used around each info piece
-        // meaning the size of the formatting string "Skill Name: %s, Prereq 
-        // Level: %d, Current Level: %d\n", which is used to make the given
+        // meaning the size of the formatting string "Skill Name: , Prereq 
+        // Level: , Current Level: \n\0", which is used to make the given
         // high-level information easier for the average user to understand 
-        size += 55;
-    }
-    char buffer[size];
-    char* temp = buffer;
-
-    for (int i = 0; i < tree->num_nodes; i++){
-        sprintf(temp, "Skill Name: %s, Prereq Level: %d, Current Level: %d\n", tree->nodes[i]->skill->name, tree->nodes[i]->prereq_level, tree->nodes[i]->skill->level);
-        temp += strlen(temp);
+        size += 49;
     }
 
-    char *display = strdup(buffer);
-    return display;
+    if (size <= buf){
+        char buffer[size];
+        char* temp = buffer;
+
+        for (int i = 0; i < tree->num_nodes; i++){
+            sprintf(temp, "Skill Name: %s, Prereq Level: %d, Current Level: %d\n", tree->nodes[i]->skill->name, tree->nodes[i]->prereq_level, tree->nodes[i]->skill->level);
+            temp += strlen(temp);
+        }
+
+        char *display = strdup(buffer);
+        return display;
+    } else {
+        char buffer[buf];
+        char* temp = buffer;
+
+        int count = 0;
+        int curr = 0;
+        
+        for (int i = 0; i < tree->num_nodes; i++){
+            // count of current node size
+            curr = 49 + strlen(tree->nodes[i]->skill->name) + 
+                   count_digits(tree->nodes[i]->prereq_level) +
+                   count_digits(tree->nodes[i]->skill->level);
+
+            if (curr + count <= buf){
+                sprintf(temp, "Skill Name: %s, Prereq Level: %d, Current Level: %d\n", tree->nodes[i]->skill->name, tree->nodes[i]->prereq_level, tree->nodes[i]->skill->level);
+                temp += strlen(temp);
+            }
+
+            if (curr + count > buf){
+                char *display = strdup(buffer);
+                return display;  
+            }
+
+            count += curr;
+        }
+
+        char *display = strdup(buffer);
+        return display;   
+    }
 }
 
 /* See skilltree.h */
-char *display_skill_description(skill_t* skill){
-    int size = strlen(skill->desc);
-    char buffer[size];
+char *display_skill_description(skill_tree_t* tree, char *name){
+    for (int i = 0; i < tree->num_nodes; i++){
+        if (tree->nodes[i]->skill->name == name){
+            // size of the buf is calculated, using the strlen of the 
+            // description plus the size of the surrounding "Skill Description:\n"
+            int size = strlen(tree->nodes[i]->skill->desc + 23);
+            char buffer[size];
 
-    sprintf(buffer, "Skill Description: %s\n", skill->desc);
+            sprintf(buffer, "Skill Description: %s\n", tree->nodes[i]->skill->desc);
 
-    char *display = strdup(buffer);
-    return display;
+            char *display = strdup(buffer);
+            return display;
+        }
+    }
 }

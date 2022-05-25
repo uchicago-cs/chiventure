@@ -313,6 +313,9 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
  *
  * Parameters: 
  *  - tree: pointer to a skilltree whose info will be printed
+ *  - buffer: an integer which is the maximum size of the resulting string. This 
+ *            ensures that we won't hit the case of an incredibly large tree and 
+ *            have a resultingly too large string.
  * 
  * Returns:
  *  - string to be printed, a high-level overview of each skill, prereq level,
@@ -323,23 +326,26 @@ int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
  *    return the char *:
  *      - "Skill Name: Throw Fireball, Prereq Level: 34, Current Level: 75\n"
  */
-char *display_tree(skill_tree_t* tree);
+char *display_tree(skill_tree_t* tree, int buffer);
 
 /*
- * Given a skill, prints its description
+ * Given a skilltree that the name of a skill in that tree, prints its 
+ * description
  * Support for integration with action management for view action
  *
  * Parameters: 
- *  - skill: pointer to the skill whose description will be printed
+ *  - tree: pointer to the tree which contains the skill with the given name
+ *  - name: the name of the skill whose description is desired
  * 
  * Returns:
-  *  - string to be printed, the description of the given skill
+  *  - string to be printed, the description of the skill with the given name
  * 
- *    For example, for a skill "Throw Fireball" with the description 
- *    "A Powerful Projectile to SCORCH your Enemies", this would return the 
- *    char*:
+ *    For example, given a skilltree with one node containing the skill "Throw 
+ *    Fireball" with the associated description "A Powerful Projectile to SCORCH 
+ *    your Enemies", and given the char *name "Throw Fireball", this would
+ *    return the char *:
  *      - "Skill Description: A Powerful Projectile to SCORCH your Enemies\n"
  */
-char *display_skill_description(skill_t* skill);
+char *display_skill_description(skill_tree_t* tree, char *name);
 
 #endif /* INCLUDE_SKILLTREE_H_ */
