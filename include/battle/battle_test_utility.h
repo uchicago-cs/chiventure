@@ -24,17 +24,17 @@
 /* Test class creation functions -----------------------------------------------------*/
 
 /* Creates a sample class. Taken from test_class.c  and same as generate NPCtest class*/
-class_t *generate_test_class();
+class_t *make_new_warrior_class();
 
-class_t *create_test_class();
+class_t *make_new_bard_class();
 
-class_t *make_wizard();
+class_t *make_new_wizard_class();
 
 
 /* Battle item creation functions ----------------------------------------------------*/
 
 /* Creates + initializes a battle_item  SAME AS CREATE_NPC_BATTLE_ITEM and npc_create_battle_item and generate_test_battle_item*/
- battle_item_t *create_battle_item(int id, int quantity, char* description, 
+battle_item_t *create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes);
 
 /* Creates example hardcoded battle_items for the player*/
@@ -56,10 +56,10 @@ stat_t* create_enemy_stats_crit();
 stat_t* create_battle_player_stats();
 
 /* Creates example stats. Taken from test_battle_ai.c Same as create_enemy_stats()*/
-stat_t *create_enemy_stats1();
+stat_t *create_enemy_stats_v1();
 
 /* Creates example stats. Taken from test_battle_ai.c */
-stat_t *create_enemy_stats2();
+stat_t *create_enemy_stats_v2();
 
 
 /* Moves creation functions ---------------------------------------------------------*/
@@ -80,10 +80,10 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
 npc_mov_t *generate_test_npc_mov();
 
 /*Same as create_enemy_moves()*/
-move_t *create_enemy_moves1();
+move_t *create_enemy_moves_v1();
 
 /* Creates example moves. Taken from test_battle_ai.c */
-move_t *create_enemy_moves2();
+move_t *create_enemy_moves_v2();
 
 
 /* Sandbox entity creation functions -------------------------------------------------*/

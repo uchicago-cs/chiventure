@@ -12,7 +12,7 @@ Test(npc, new)
 
     char *npc_id = "npc_22";
 
-    c = generate_test_class();
+    c = make_new_warrior_class();
     movement = generate_test_npc_mov();
 
     npc = npc_new(npc_id, "man", "tall man", c, movement, false);
@@ -49,7 +49,7 @@ Test(npc, init)
 
     npc = npc_new(npc_id2, "woman", "short woman", NULL, movement, false);
 
-    c = generate_test_class();
+    c = make_new_warrior_class();
     movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
@@ -242,8 +242,8 @@ Test(npc, add_battle_to_npc)
     npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
     cr_assert_not_null(npc, "npc_new() failed");
 
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -255,7 +255,7 @@ Test(npc, add_battle_to_npc)
                             "dagger", true, NULL);
 
     int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, 
-		                HOSTILE, 25, generate_test_class(), dagger, NULL, NULL, NULL);
+		                HOSTILE, 25, make_new_warrior_class(), dagger, NULL, NULL, NULL);
 
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     cr_assert_not_null(npc->npc_battle,
@@ -280,8 +280,8 @@ Test(npc, get_npc_battle)
                    "get_npc_battle() didn't return NULL given npc with NULL"
                    "npc_battle");
 
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -291,7 +291,7 @@ Test(npc, get_npc_battle)
 		    dagger_changes);
 
     int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger,
+                                HOSTILE, 25, make_new_warrior_class(), dagger,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
@@ -314,8 +314,8 @@ Test (npc, change_npc_health)
     npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, true);
     cr_assert_not_null(npc, "npc_new() failed");
 
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -325,7 +325,7 @@ Test (npc, change_npc_health)
                                 dagger_changes);
 
     int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger,
+                                HOSTILE, 25, make_new_warrior_class(), dagger,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
@@ -369,8 +369,8 @@ Test(npc, get_npc_health)
     cr_assert_eq(health, -1,
                  "get_npc_health() failed for npc with NULL npc_battle");
 
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -380,7 +380,7 @@ Test(npc, get_npc_health)
                                 dagger_changes);
 
     int res = add_battle_to_npc(npc, 80, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger,
+                                HOSTILE, 25, make_new_warrior_class(), dagger,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
@@ -407,10 +407,10 @@ Test(npc, check_npc_battle)
     cr_assert_eq(check_npc_battle(npc2), false,
                  "check_npc_battle failed; will_fight=true, npc_battle=NULL");
 
-    stat_t *stats1 = create_enemy_stats1();
-    move_t *moves1 = create_enemy_moves1();
-    stat_t *stats2 = create_enemy_stats2();
-    move_t *moves2 = create_enemy_moves2();
+    stat_t *stats1 = create_enemy_stats_v1();
+    move_t *moves1 = create_enemy_moves_v1();
+    stat_t *stats2 = create_enemy_stats_v2();
+    move_t *moves2 = create_enemy_moves_v2();
 
     stat_changes_t *dagger_changes1 = stat_changes_new();
     dagger_changes1->phys_atk = 20;
@@ -427,11 +427,11 @@ Test(npc, check_npc_battle)
 		    dagger_changes2);
 
     int res = add_battle_to_npc(npc1, 80, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger1,
+                                HOSTILE, 25, make_new_warrior_class(), dagger1,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(), dagger2,
+                                HOSTILE, 25, make_new_warrior_class(), dagger2,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 

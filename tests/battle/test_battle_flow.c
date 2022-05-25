@@ -188,7 +188,7 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL, 
+    battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
                                                 NULL, NULL, NULL);
 
     g->player = ctx_player;
@@ -250,7 +250,7 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL,
+    battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL,
                                                 NULL, NULL, NULL);
 
     g->player = ctx_player;
@@ -336,7 +336,7 @@ Test(battle_flow_move, battle_over_by_player)
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0; 
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL, 
+    battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
                                                 NULL, NULL, NULL);
 
     g->player = ctx_player;
@@ -423,7 +423,7 @@ Test(battle_flow_move, battle_over_by_enemy)
     pstats->phys_def = 20;
     pstats->accuracy = 100;
     pstats->crit = 0;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL, 
+    battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
                                                 NULL, NULL, NULL);
     g->player = ctx_player;
     ctx->game = g;

@@ -1,7 +1,7 @@
 #include "../include/battle/battle_test_utility.h"
 
 /* See battle_test_utility.h */ 
-class_t *generate_test_class()
+class_t *make_new_warrior_class()
 {
     class_t *c;
     char *name, *shortdesc, *longdesc;
@@ -21,7 +21,7 @@ class_t *generate_test_class()
 }
 
 /* See battle_test_utility.h */
-class_t *create_test_class()
+class_t *make_new_bard_class()
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
@@ -29,7 +29,7 @@ class_t *create_test_class()
 }
 
 /* See battle_test_utility.h */
-class_t *make_wizard()
+class_t *make_new_wizard_class()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
@@ -180,7 +180,7 @@ stat_t* create_battle_player_stats()
 }
 
 /* See battle_test_utility.h */
-stat_t *create_enemy_stats1()
+stat_t *create_enemy_stats_v1()
 {
     stat_t *test_stats = calloc(1, sizeof(stat_t));
 
@@ -202,7 +202,7 @@ stat_t *create_enemy_stats1()
 }
 
 /* See battle_test_utility.h */
-stat_t *create_enemy_stats2()
+stat_t *create_enemy_stats_v2()
 {
     stat_t *test_stats = calloc(1, sizeof(stat_t));
 
@@ -277,7 +277,7 @@ npc_mov_t *generate_test_npc_mov()
 }
 
 /* See battle_test_utility.h */
-move_t *create_enemy_moves1()
+move_t *create_enemy_moves_v1()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
@@ -294,7 +294,7 @@ move_t *create_enemy_moves1()
 }
 
 /* See battle_test_utility.h */
-move_t *create_enemy_moves2()
+move_t *create_enemy_moves_v2()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
     head = NULL;
@@ -309,7 +309,7 @@ combatant_t* new_enemy()
 {
     char* name = "Skeleton";
     bool is_friendly = false;
-    class_t *c_type = create_test_class();
+    class_t *c_type = make_new_bard_class();
     stat_t *stats = create_enemy_stats_norm();
     move_t *moves = create_enemy_moves1();
     battle_item_t *items = create_enemy_battle_items();
@@ -324,7 +324,7 @@ combatant_t* new_enemy_crit()
 {
     char* name = "Skeleton";
     bool is_friendly = false;
-    class_t *c_type = create_test_class();
+    class_t *c_type = make_new_bard_class();
     stat_t *stats = create_enemy_stats_crit();
     move_t *moves = create_enemy_moves1();
     battle_item_t *items = create_enemy_battle_items();
@@ -340,7 +340,7 @@ combatant_t* new_battle_player()
     char* name = "Steve";
     bool is_friendly = true;
 
-    class_t *c_type = create_test_class();
+    class_t *c_type = make_new_bard_class();
     stat_t *stats = create_battle_player_stats();
     move_t *moves = create_battle_player_moves();
     battle_item_t *items = create_player_battle_items();
