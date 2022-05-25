@@ -1,7 +1,7 @@
 {
     "GAME": {
         "start": "room_A",
-        "intro": "This is the intro",
+        "intro": "This is a test game to see what the inventory condition feature is currently like. It is based off connected-rooms.wdl",
         "end": {
             "in_room": "room_C"
         }
@@ -9,21 +9,25 @@
     "ROOMS": {
         "room_A": {
             "short_desc": "This is room A",
-            "long_desc": "This is room A. There's a chair and an exit to the south.",
+            "long_desc": "This is room A. There's a chair and an exit to the north.",
             "connections": [
                 {
                     "to": "room_B",
-                    "direction": "SOUTH"
+                    "direction": "NORTH"
                 }
             ]
         },
         "room_B": {
             "short_desc": "This is room B",
-            "long_desc": "This is room B. There's a table and an exit to the west.",
+            "long_desc": "This is room B. There's a table, an exit to the south, and an exit to the east.",
             "connections": [
                 {
+                    "to": "room_A",
+                    "direction": "SOUTH"
+                },
+                {
                     "to": "room_C",
-                    "direction": "WEST"
+                    "direction": "EAST"
                 }
             ]
         },
@@ -33,7 +37,7 @@
             "connections": [
                 {
                     "to": "room_A",
-                    "direction": "NORTH"
+                    "direction": "SOUTH"
                 }
             ]
         }
@@ -69,7 +73,13 @@
                 {
                     "action": "PUSH",
                     "text_success": "You push the table",
-                    "text_fail": "You cannot push this table"
+                    "text_fail": "You cannot push this table. Maybe if you had a chair...",
+                    "conditions": [
+                        {
+                            "type": "INVENTORY",
+                            "item_id": "CHAIR"
+                        }
+                    ]
                 },
                 {
                     "action": "PULL",
@@ -79,7 +89,13 @@
                 {
                     "action": "TAKE",
                     "text_success": "You take the table",
-                    "text_fail": "You cannot take this table"
+                    "text_fail": "You cannot take this table. Maybe if you had a chair...",
+                    "conditions": [
+                        {
+                            "type": "INVENTORY",
+                            "item_id": "CHAIR"
+                        }
+                    ]
                 }
             ]
         }
