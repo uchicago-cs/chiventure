@@ -17,6 +17,10 @@ add_executable(pc_demo
 add_executable(2021-demo
                2021-demo.c)
 
+# 2022 Demo
+add_executable(2022-demo
+               2022-demo.c)
+
 # Link with chiventure libraries
 foreach(example ${PLAYERCLASS_EXAMPLES})
   foreach(module ${CHIVENTURE_MODULES})
