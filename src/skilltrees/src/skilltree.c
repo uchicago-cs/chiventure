@@ -455,7 +455,7 @@ char *display_skill_description(skill_tree_t* tree, char *name){
         if (tree->nodes[i]->skill->name == name){
             // size of the buf is calculated, using the strlen of the 
             // description plus the size of the surrounding "Skill Description:\n"
-            int size = strlen(tree->nodes[i]->skill->desc + 23);
+            int size = strlen(tree->nodes[i]->skill->desc) + 23;
             char buffer[size];
 
             sprintf(buffer, "Skill Description: %s\n", tree->nodes[i]->skill->desc);
