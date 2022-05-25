@@ -10,6 +10,7 @@
 #include "game-state/room.h"
 #include "game-state/player.h"
 #include "game-state/game.h"
+#include "quests/quests_cli.h"
 
 /* Tests the function that adds the contents of a reward struct into a player struct */
 Test(quest, accept_reward) {
@@ -114,6 +115,15 @@ Test(quest, add_task_to_quest)
     cr_assert_eq(quest->task_tree->lmostchild->task, task_child, "add_task_to_quest() didn't set child");
     cr_assert_eq(quest->task_tree->rsibling->lmostchild->task, task_sibling_child, "add_task_to_quest() didn't set sibling's child");
     cr_assert_eq(quest->task_tree->lmostchild->rsibling->task, task_child_sibling, "add_task_to_quest() didn't set child's sibling");
+
+    quest_hash_t *hash = NULL;
+    add_quest_to_hash(quest, &hash);
+    player_t *player = create_sample_player("Steve", 70, 4);
+    quest_ctx_t *qctx = quest_ctx_new(player, hash);
+    start_quest(quest, qctx);
+
+    printf("%s", show_task_tree(quest->quest_id, player, hash));
+    printf("Idk\n");
 }
 
 /* Tests the function that starts a quest */
