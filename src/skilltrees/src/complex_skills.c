@@ -134,6 +134,38 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
     return SUCCESS;
 }
 
+/*See complex_skills.h */
+random_chance_type_t* random_chance_type_new(float chance_failure)
+{
+    random_chance_type_t* random_chance;
+
+    if (chance_failure < 0 || chance_failure > 1)
+    {
+        fprintf(stderr, "random_chance_type_new: chance_failure invalid, must be between 0 and 1, inclusive\0");
+        return NULL;
+    }
+
+    random_chance = (random_chance_type_t*)malloc(sizeof(random_chance_type_t));
+
+    if (random_chance == NULL) 
+    {
+        fprintf(stderr, "random_chance_type_new: memory allocation failed\0");
+        return NULL;
+    }
+
+    skill_t** skills = (skill_t**)malloc(sizeof(skill_t*));
+    if (skills == NULL)
+    {
+        fprintf(stderr, "random_chance_type_new: memory could not be allocated for skill\0");
+        return NULL;
+    }
+
+    random_chance->complex_skill = complex_skill_new(RANDOM_CHANCE, skills, 1);
+    random_chance->chance_failure = chance_failure;
+
+    return random_chance;
+}
+
 /* Takes in a lower and upper value and generates random number within that 
 *  range, helper function for the range execution function
 *  Written with help of https://www.geeksforgeeks.org/generating-random-number-range-c/
