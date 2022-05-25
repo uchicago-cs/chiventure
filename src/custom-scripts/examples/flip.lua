@@ -1,4 +1,4 @@
-flip = function(a)
-  a = !a;
-  return a
+function foo(st)
+  if st == true then return false
+  else return true end
 end
