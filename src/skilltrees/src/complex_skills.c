@@ -159,7 +159,7 @@ random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float ch
         return NULL;
     }
 
-    int rc = random_chance_init(complex_skill, chance_failure);
+    int rc = random_chance_init(random_chance, complex_skill, chance_failure);
 
     if (rc)
     {
@@ -175,15 +175,20 @@ int random_chance_init(random_chance_type_t* random_chance_skill, complex_skill_
 {
     assert (random_chance_skill != NULL);
 
-    random_chance->complex_skill = complex_skill;
-    random_chance->chance_failure = chance_failure;
+    random_chance_skill->complex_skill = complex_skill;
+    random_chance_skill->chance_failure = chance_failure;
 
     return SUCCESS;
 }
 
 /*See complex_skills.h */
 int random_chance_free(random_chance_type_t* random_chance_skill){
-    return 0;
+    
+    complex_skill_free(random_chance_skill->complex_skill);
+
+    free(random_chance_skill);
+
+    return SUCCESS;
 }
 
 /*See complex_skills.h */
