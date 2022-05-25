@@ -58,8 +58,26 @@ skill_inventory_t* wizard_inventory();
  *
  * Returns:
  *  - A skill inventory containing Sword Slash.
- */
+/*
 skill_inventory_t* knight_inventory();
+
+/*
+* adds a combined skill to the player
+* takes in :CTX
+* Puts out: VOID
+*/
+
+void combined_skill(chiventure_ctx_t* ctx);
+
+
+/*
+* adds a sequential skill to the player
+* takes in :CTX
+* Puts out: VOID
+*/
+void sequential_skill(chiventure_ctx_t* ctx);
+
+
 
 
 #endif /* INCLUDE_SKILL_EXAMPLE_H_ */
