@@ -319,7 +319,6 @@ int match_corner(char *corner)
     exit(1);
 } 
 
-/*
 graphics_t* read_gdl()
 {
     // Open the GDL
@@ -351,7 +350,7 @@ graphics_t* read_gdl()
 
         // pull title
         char title[100];
-        if (fscanf(gdl, "%s", &title) != EOF) {
+        if (fscanf(gdl, "%s", title) != EOF) {
 
             // map title to structure 
             unsigned long h = hash(title);
@@ -431,7 +430,6 @@ graphics_t* read_gdl()
     graphics->inventory = inventory;
     return graphics;
 }
-*/
 
 int main()
 {
