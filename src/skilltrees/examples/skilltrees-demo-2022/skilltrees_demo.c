@@ -10,6 +10,7 @@
 #include "skilltrees/effect.h"
 #include "game-state/stats.h"
 #include "game-state/item.h"
+#include "skilltrees/complex_skills.h"
 
 const char* banner =
     "    ________________________________________________________________________________________\n"
@@ -53,25 +54,18 @@ chiventure_ctx_t* create_example_ctx() {
     /* Create example rooms */
     room_t* start_room = room_new("Start Room", "", "A deadly dragon awaits! "
                                   "See how you can use the new effects system to create a skill"
-                                  "that lets you kill it!");
-    room_t* design_room = room_new("Skill Design Room", "", "Make an effect that can kill a dragon!  Good Luck!");
-    room_t* level_up_room = room_new("Level Up Room", "", "Level Up to Level 2 to unlock and add your created skills !");
-    room_t* kill_room = room_new("Dragon's Lair", "", "Kill the dragon!");
-    room_t* win_room = room_new("Win Room","", "You Win !");
+                                  "that lets you kill it!"); //TODO rename this 
+
+    room_t* complex_skills_room = room_new("Complex Room", "", "Previously your skills were pretty simple, "
+                                                        "but now we can give them a lot more of a kick!");
+
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
-    add_room_to_game(game, design_room);
-    add_room_to_game(game, level_up_room);
-    add_room_to_game(game, kill_room);
-    add_room_to_game(game, win_room);
+    add_room_to_game(game, complex_skills_room);
 
-    create_connection(game, "Start Room", "Skill Design Room", "NORTH");
-    create_connection(game, "Skill Design Room", "Start Room", "SOUTH");
-    create_connection(game, "Skill Design Room", "Level Up Room", "NORTH");
-    create_connection(game, "Level Up Room", "Skill Design Room", "SOUTH");
-    create_connection(game, "Level Up Room", "Dragon's Lair", "NORTH");
-    create_connection(game, "Dragon's Lair", "Level Up Room", "South");
+    create_connection(game, "Start Room", "Complex Room", "NORTH");
+    create_connection(game, "Complex Room", "Start Room", "SOUTH");
 
     /* Set initial room */
     game->curr_room = start_room;
@@ -82,12 +76,18 @@ chiventure_ctx_t* create_example_ctx() {
     stats_t* gs_health_stat = stats_new(gs_health, 100);
     stats_global_t *player_health = stats_global_new("current_health", 50);
     stats_t* player_health_stat = stats_new(player_health, 50);
+    stats_global_t *player_strength = stats_global_new("strength", 50);
+    stats_t* player_strength_stat = stats_new(player_strength, 50);
+    stats_global_t *player_defense = stats_global_new("defense", 50);
+    stats_t* player_defense_stat = stats_new(player_defense, 50);
    
     /* Adding to hash table */
     HASH_ADD_KEYPTR(hh, game->curr_stats, gs_health->name, strlen(gs_health->name), gs_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, gs_health_stat->key, strlen(gs_health_stat->key), gs_health_stat);
     HASH_ADD_KEYPTR(hh, game->curr_stats, player_health->name, strlen(player_health->name), player_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, player_health_stat->key, strlen(player_health_stat->key), player_health_stat);
+    HASH_ADD_KEYPTR(hh, player->player_stats, player_strength_stat->key, strlen(player_strength_stat->key), player_strength_stat);
+    HASH_ADD_KEYPTR(hh, player->player_stats, player_defense_stat->key, strlen(player_defense_stat->key), player_defense_stat);
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
 
     /*Initializing class */
@@ -135,6 +135,8 @@ void add_item(chiventure_ctx_t* ctx)
     add_item_to_room(room, dragon);
 }
 
+//Change this to utilize complex skills
+//Maybe one of these functions for each type
 void create_player_skill(chiventure_ctx_t* ctx)
 {
     /*Creating an effect with a hardcoded value of 100 */
@@ -160,7 +162,100 @@ char* create_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chivent
     return "Created a statistic modifying effect!";
 }
 
+void create_combined_skill(chiventure_ctx_t* ctx)
+{
+    /*Skill will buff multiple stats of the player*/
+
+    /*Health buff */
+    char* stats_to_change[] = {"max_health", "current_health"};
+    double mods[] = {100, 100};
+    int durations[] = {5, 5};
+    player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
+    if (health_boost == NULL) {
+        print_to_cli(ctx, "NULL EFFECT");
+    }
+    effect_t* stat_effect0 = make_player_stat_effect(health_boost);
+    /* Making a skill */
+    skill_t* stat_skill0 = skill_new(0, PASSIVE, "Stat Skill", "Modifies health", 10, 5, stat_effect0, NULL);
+
+    /*Strength buff*/
+    char* stats_to_change1[] = {"strength"};
+    double mods1[] = {100, 100};
+    int durations1[] = {5, 5};
+    player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 2, ctx);
+    if (defense_boost == NULL) {
+        print_to_cli(ctx, "NULL EFFECT");
+    }
+    effect_t* stat_effect1 = make_player_stat_effect(health_boost);
+    /* Making a skill */
+    skill_t* stat_skill1 = skill_new(0, PASSIVE, "Stat Skill", "Modifies strength", 10, 5, stat_effect1, NULL);
+
+    /*Defense buff*/
+    char* stats_to_change2[] = {"defense"};
+    double mods2[] = {100, 100};
+    int durations2[] = {5, 5};
+    player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 2, ctx);
+    if (defense_boost == NULL) {
+        print_to_cli(ctx, "NULL EFFECT");
+    }
+    effect_t* stat_effect2 = make_player_stat_effect(health_boost);
+    /* Making a skill */
+    skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies statistics", 10, 5, stat_effect2, NULL);
+
+    skill_t** skills;
+    skill[0] = stat_skill0;
+    skill[1] = stat_skill1;
+    skill[2] = stat_skill2;
+
+    complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
+    skill_t* stat_skill3 = skill_new(0, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
+    
+    /* Showcase leveling functionality */
+    skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
+    skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
+}
+
+char* create_complex_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    create_combined_skill(ctx);
+    return "Created a combined skill!";
+}
+
+
 int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
+{
+    player_t* player = ctx->game->curr_player;
+    skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
+    if (skill_node == NULL) 
+    {
+        print_to_cli(ctx, "Skills not made yet !");
+        return FAILURE;
+    }
+    skill_t* skill = skill_node->skill;
+    
+    /*Find the correct skill */
+    int i = 1;
+    while ((skill->sid != sid)&&(i<=1)) 
+    {
+        skill_node = player->player_class->skilltree->nodes[i];
+        i +=1;
+        skill = skill_node->skill;
+    }
+    
+    /* Check the level */
+    if (player->level<skill_node->prereq_level) 
+    {
+        print_to_cli(ctx, "Level too low!");
+        return FAILURE;
+    }
+
+    /* Add to inventory */
+    inventory_skill_add(ctx->game->curr_player->player_skills, skill_node -> skill);
+    
+     return SUCCESS;
+}
+
+int add_complex_skill_to_player(chiventure_ctx_t* ctx, int sid)
 {
     player_t* player = ctx->game->curr_player;
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
@@ -218,6 +313,20 @@ int execute_skill(chiventure_ctx_t* ctx, int sid)
 char* add_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     int check = add_skill_to_player(ctx, 0);
+    if (check == FAILURE) 
+    {
+        return "Could not add skill!";
+    }
+    else 
+    {
+        execute_skill(ctx, 0);
+        return "Added skill!";
+    }
+}
+
+char* add_complex_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    int check = add_complex_skill_to_player(ctx, 0);
     if (check == FAILURE) 
     {
         return "Could not add skill!";
