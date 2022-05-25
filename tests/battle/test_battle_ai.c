@@ -26,7 +26,7 @@ move_t* create_moveset1()
     earthquake = move_new(1, "Earthquake", 
     "Throws your enemy off balance, reducing their physical defense and accuracy.", 
                           MAG, TARGET, NO_TARGET, SINGLE, 25, NULL, 100, 
-                          100, NULL eq_stats, NULL, poke);
+                          100, NULL, eq_stats, NULL, poke);
     poke = move_new(2, "Branch Poke", 
     "You poke your foe with a branch off the ground.", 
                     PHYS, NO_TARGET, NO_TARGET, SINGLE, 0, NULL, 
@@ -91,7 +91,7 @@ stat_t* create_enemy_stats_avg()
 /* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats_crit()
 {
-    stat_t* test_stats = create_enemy_stats_norm();
+    stat_t* test_stats = create_enemy_stats_avg();
     test_stats->crit = 100;
 
     return test_stats;
@@ -125,7 +125,7 @@ stat_t* create_player_stats_critacc()
     test_stats->crit = 20;
     test_stats->accuracy = 90;
     
-    return tests_stats;
+    return test_stats;
 }
 
 combatant_t* create_combatant(char* name, bool friendly, stat_t* stats, 
@@ -157,7 +157,7 @@ Test(battle_ai, give_move_random)
     combatant_free(enemy);
 }
 
-/* Ensures give_move returns the hardest move when enum is BATTLE_AI_BEST*/
+/* Ensures give_move returns the highest damage move when enum is BATTLE_AI_GREEDY */
 Test(battle_ai, give_move_greedy)
 {
     combatant_t* player = create_combatant("Player", true,
