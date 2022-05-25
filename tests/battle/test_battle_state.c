@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle_test_utility.h"
-
+#include "../include/battle/battle_test_utility.h"
 
 /* Tests combatant_new() */
 Test(battle_state, combatant_new)

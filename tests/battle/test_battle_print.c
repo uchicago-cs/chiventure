@@ -3,7 +3,7 @@
 #include <criterion/criterion.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle_test_utility.h"
+#include "../include/battle/battle_test_utility.h"
 
 /* Tests print_start_battle() */
 Test(battle_print, print_start_battle)

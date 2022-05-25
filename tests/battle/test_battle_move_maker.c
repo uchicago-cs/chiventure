@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle_test_utility.h"
+#include "../include/battle/battle_test_utility.h"
 
 Test(class_moves, bard)
 {
