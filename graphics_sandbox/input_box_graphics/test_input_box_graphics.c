@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <criterion/criterion.h>
 
-
+/* Testing newInputboxGraphics*/
 Test(input_box_graphics, new)
 {
     input_box_graphics_t* i;
@@ -32,7 +32,7 @@ Test(input_box_graphics, new)
     cr_assert_eq(i->OutlineColor.a,255,"input_box_graphics failed to set OutlineColor"); 
 }
 
-
+/* Testing initInputboxGraphics*/
 Test(input_box_graphics, init)
 {
     input_box_graphics_t i;
@@ -62,6 +62,7 @@ Test(input_box_graphics, init)
 
 }
 
+/* Testing freeInputboxGraphics*/
 Test(input_box_graphics, free)
 {
     input_box_graphics_t* i;
