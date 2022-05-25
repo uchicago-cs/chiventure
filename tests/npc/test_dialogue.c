@@ -507,7 +507,7 @@ Test(dialogue, give_one_item)
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0, NULL, NULL);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0);
     item_t *i = item_new("item", "short_desc", "long_desc");
 
     g->curr_player = p;
@@ -540,7 +540,7 @@ Test(dialogue, give_two_items)
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0, NULL, NULL);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0);
     item_t *i1 = item_new("item1", "short_desc", "long_desc");
     item_t *i2 = item_new("item2", "short_desc", "long_desc");
 
@@ -578,7 +578,7 @@ Test(dialogue, give_one_then_one_item)
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0, NULL, NULL);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0);
     item_t *i1 = item_new("item1", "short_desc", "long_desc");
     item_t *i2 = item_new("item2", "short_desc", "long_desc");
 
@@ -622,7 +622,7 @@ Test(dialogue, take_one_item)
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
-    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0, NULL, NULL);
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, 0);
     item_t *i = item_new("item", "short_desc", "long_desc");
 
     g->curr_player = p;

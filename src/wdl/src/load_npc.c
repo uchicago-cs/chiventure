@@ -219,8 +219,7 @@ int load_npcs(obj_t *doc, game_t *g)
         char *long_desc = obj_get_str(curr, "long_desc");
 
         // create the NPC
-        npc_t *npc = npc_new(id, short_desc, long_desc, NULL, NULL, 0, NULL,
-                             NULL);
+        npc_t *npc = npc_new(id, short_desc, long_desc, NULL, NULL, 0);
         if (npc == NULL) {
             fprintf(stderr, "Could not create NPC. NPC: %s\n", id);
             return FAILURE;
