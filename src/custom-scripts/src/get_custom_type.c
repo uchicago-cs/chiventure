@@ -23,25 +23,25 @@ data_t arg_t_get(object_t *ot) {
             break;
         case CHAR_TYPE:
             assert(ot->type == CHAR_TYPE);
-            const char *result = lua_tostring(L, -1);
+            const char *result2 = lua_tostring(L, -1);
             lua_pop(L, 1);
-            char *result1 = strdup(result);
-            d.c = *result1;
+            char *result3 = strdup(result2);
+            d.c = *result3;
             return d;
             break;
         case INT_TYPE:
             assert(ot->type == INT_TYPE);
-            int result = (int)lua_tointeger(L, -1);
+            int result4 = (int)lua_tointeger(L, -1);
             lua_pop(L, 1);
-            d.i = result;
+            d.i = result4;
             return d;
             break;
         case STR_TYPE:
             assert(ot->type == STR_TYPE);
-        const char *result = lua_tostring(L, -1);
+            const char *result5 = lua_tostring(L, -1);
             lua_pop(L, 1);
-            char *result1 = strdup(result);
-            d.s = result1;
+            char *result6 = strdup(result5);
+            d.s = result6;
             return d;
             break;
         default:
