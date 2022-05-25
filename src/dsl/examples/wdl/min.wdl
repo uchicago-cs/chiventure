@@ -15,8 +15,8 @@
         }
       ],
       "items": [],
-      "long_desc": "This is a room C. ",
-      "short_desc": "room C"
+      "short_desc": "room C",
+      "long_desc": "This is a room C. "
     },
     "room B": {
       "connections": [
@@ -32,8 +32,8 @@
       "items": [
         "item_B"
       ],
-      "long_desc": "This is a room B. ",
-      "short_desc": "room B"
+      "short_desc": "room B",
+      "long_desc": "This is a room B. "
     },
     "room A": {
       "connections": [
@@ -50,8 +50,8 @@
         "item_A",
         "item_B"
       ],
-      "long_desc": "This is a room A. ",
-      "short_desc": "room A"
+      "short_desc": "room A",
+      "long_desc": "This is a room A. "
     }
   },
   "ITEMS": {
