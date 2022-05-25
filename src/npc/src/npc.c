@@ -17,6 +17,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->hostility_level = hostility_level;
     npc->npc_battle = NULL;
     npc->movement = movement;
+    item_hash_t *items = NULL;
+    npc->inventory = items;
 
     return SUCCESS;
 }
