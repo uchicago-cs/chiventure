@@ -312,17 +312,19 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
 int change_npc_hp(npc_t *npc, int change);
 
 /*
- * Moves an npc to the next room
+ * Moves an npc to the next room in their movement path
  *
  * Parameters:
  * npc: The NPC struct
  *
  * Returns:
- * 0 if move is unsuccessful
- * 1 npc has reached the end of the path, reverse_path is called, but
- *   the move is not implemented
- * 2 successful move to the next room
- * 3 npc has nowhere to move
+ * FAILURE: if a move does not occur, 
+ * SUCCESS: if successful move to the next room, with the only exception
+ * being if an indefinite NPC has more than one room in its path, and then
+ * reaches the end of its path, in which case its path direction is flipped,
+ * and its time_ray for the current step in its path is reset, but it does not
+ * technically change rooms.
+ *
  */
 int move_npc(npc_t *npc);
 
