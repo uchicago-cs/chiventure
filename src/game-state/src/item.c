@@ -18,13 +18,13 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
 
-    effects_hash_t *stat_effects = NULL;
-    attribute_hash_t *attributes = NULL;
     game_action_hash_t *actions = NULL;
+    attribute_hash_t *attributes = NULL;
+    effects_hash_t *stat_effects = NULL;
 
+    new_item->actions = actions;
     new_item->attributes = attributes;
     new_item->stat_effects = stat_effects;
-    new_item->actions = actions;
 
     return SUCCESS;
 }
