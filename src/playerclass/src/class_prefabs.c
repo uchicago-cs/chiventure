@@ -338,6 +338,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     else {
         fprintf(stderr, "Could not find class name: \"%s\" "
                         "in class_prefab_new\n", class_name);
+        return NULL;
     }
 
     return class_new(class_name, short_desc, long_desc, attributes, stats, 
