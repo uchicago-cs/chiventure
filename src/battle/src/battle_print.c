@@ -76,7 +76,7 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
 }
 
 /* see battle_print.h */
-int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
+int print_battle_damage(battle_t *b, turn_t turn, move_t *move, double crit, char *string)
 {
     char *move_name = move->name;
     int player_hp = b->player->stats->hp;
@@ -92,11 +92,20 @@ int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string)
     }
     int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
     int n;
-
+    dmg *= crit;
     char temp[BATTLE_BUFFER_SIZE + 1];
-    n = snprintf(temp, BATTLE_BUFFER_SIZE, "It did %d damage.\n", dmg);
-    strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
-    slen += n;
+    if (crit == 1.5)
+    {
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "It was a critical hit! It did %d damage.\n", dmg);
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
+    }
+    else
+    {
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "It did %d damage.\n", dmg);
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
+    }
     int rc = print_hp(b, string);
     assert(rc == SUCCESS);
     return SUCCESS;
@@ -295,6 +304,9 @@ char *print_battle_winner(battle_status_t status, int xp)
     } else if (status == BATTLE_VICTOR_ENEMY)
     {
         snprintf(string, BATTLE_BUFFER_SIZE, "You have been defeated!\n");
+    } else if (status == BATTLE_ENEMY_SURRENDER)
+    {
+	snprintf(string, BATTLE_BUFFER_SIZE, "Your opponent has surrendered!\n");
     }
 
     return string;
