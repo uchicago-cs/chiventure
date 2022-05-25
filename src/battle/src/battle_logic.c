@@ -1,7 +1,25 @@
 #include "battle/battle_logic.h"
 #include "common/utlist.h"
+#include "game-state/player.h"
 #include <ctype.h>
 
+battle_player_t *player_to_battle_player(player_t *player, stat_t *b_stats, 
+                                        move_t *b_moves, battle_item_t *items,
+                                        battle_equipment_t *weapon, 
+                                        battle_equipment_t *accessory,
+                                        battle_equipment_t *armor)
+{
+    battle_player_t *bp = (battle_player_t *) malloc (sizeof(battle_player_t));
+    bp->player_id = player->player_id;
+    bp->class_type = player->player_class;
+    bp->stats = b_stats; // battle stats
+    bp->moves = b_moves; // battle moves
+    bp->items = items;
+    bp->weapon = weapon;
+    bp->accessory = accessory;
+    bp->armor = armor;
+    return bp;
+}
 
 /* check battle_logic.h */
 combatant_t* check_target(battle_t *b, char *target)
