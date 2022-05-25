@@ -3,7 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quest.h"
-#define QUEST_NAME_MAX_LEN 100
+#define QUEST_NAME_MAX_LEN 50
 
 /* Refer to quest.h */
 quest_t *quest_new(char *quest_id, reward_t *reward, prereq_t *prereq) 
