@@ -48,12 +48,6 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "ITEM"
     d["items"] = [v for k, v in s if k == "ITEM"]
-
-    # create a list of npcs and place it in its own entry of the dict
-    # the values placed into this entry will correspond to npcs attributes
-    # since the key is guaranteed to be the string "ITEM"
-
-    d["npcs"] = [v for k, v in s if k == "NPC"]
     
     return ('ROOM', (room_id, d))
 
