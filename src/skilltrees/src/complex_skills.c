@@ -58,12 +58,17 @@ int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type
 
 /*See complex_skills.h */
 int complex_skill_free(complex_skill_t* complex_skill){
-
     for(int i = 0; i < complex_skill->num_skills; i++){
         free(complex_skill->skills[i]);
     }
     free(complex_skill->skills);
-    reader_effect_free(complex_skill->reader);
+
+    //If statement is present to prevent crash from reading NULL reader, which is often
+    //used for non-conditional skills
+    if(complex_skill->reader != NULL){
+        reader_effect_free(complex_skill->reader);
+    }
+    
     free(complex_skill);
 
     return SUCCESS;
@@ -83,56 +88,6 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
     return FAILURE;
 }
 
-/*See complex_skills.h */
-reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t type)
-{
-
-    reader_effect_t* reader;
-    int rc;
-
-    if (condition == NULL)
-    {
-        fprintf(stderr, "reader_effect_new: condition invalid");
-        return NULL;
-    }
-
-    if (str_len == 0)
-    {
-        fprintf(stderr, "reader_effect_new: condition invalid");
-        return NULL;
-    }
-
-    reader = (reader_effect_t*)malloc(sizeof(reader_effect_t));
-    rc = reader_effect_init(reader, condition, str_len, type);
-
-    if (rc)
-    {
-        fprintf(stderr, "reader_effect_new: initialization failed");
-        return NULL;
-    }
-
-    return reader;
-}
-
-/* See complex_hills.h */
-int reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type)
-{
-
-    assert (reader != NULL);
-
-    reader->condition = condition;
-    reader->str_len = str_len;
-    reader->type = type;
-
-    return SUCCESS;
-}
-
-/* See complex_skills.h */
-int reader_effect_free(reader_effect_t* reader)
-{
-    free(reader);
-    return 0;
-}
 
 /* See complex_skills.h */
 int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx){
