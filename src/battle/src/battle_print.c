@@ -304,6 +304,9 @@ char *print_battle_winner(battle_status_t status, int xp)
     } else if (status == BATTLE_VICTOR_ENEMY)
     {
         snprintf(string, BATTLE_BUFFER_SIZE, "You have been defeated!\n");
+    } else if (status == BATTLE_ENEMY_SURRENDER)
+    {
+	snprintf(string, BATTLE_BUFFER_SIZE, "Your opponent has surrendered!\n");
     }
 
     return string;
