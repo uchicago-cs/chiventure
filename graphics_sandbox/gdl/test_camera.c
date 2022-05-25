@@ -27,7 +27,7 @@ Test(camera, init)
     camera_t *camera;
     int rc;
     
-    rc = init_camera(c,width,height);
+    rc = init_camera(camera,width,height);
 
     cr_assert_eq(rc, SUCCESS, "init_camera() failed");
 
