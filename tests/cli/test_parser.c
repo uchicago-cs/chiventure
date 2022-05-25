@@ -427,9 +427,9 @@ Test(parse, fillers_with_quotes)
 {
     char str[] = "pickup \"the\" chair";
     char **words = parse(str);
-    cr_assert_eq("pickup",words[0],"parse() should point to NULL for empty tokens");
-    cr_assert_eq("the",words[1],"parse() should point to NULL for empty tokens");
-    cr_assert_eq("chair",words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_eq("pickup",words[0],"parse() did not create first token");
+    cr_assert_eq("the",words[1],"parse() did not create second token");
+    cr_assert_eq("chair",words[2],"parse() did not create third token");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
@@ -438,9 +438,9 @@ Test(parse, fillers_with_quotes_end)
 {
     char str[] = "pickup chair \"the\"";
     char **words = parse(str);
-    cr_assert_eq("pickup",words[0],"parse() should point to NULL for empty tokens");
-    cr_assert_eq("chair",words[1],"parse() should point to NULL for empty tokens");
-    cr_assert_eq("the",words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_eq("pickup",words[0],"parse() did not create first token");
+    cr_assert_eq("chair",words[1],"parse() did not create second token");
+    cr_assert_eq("the",words[2],"parse() did not create third token");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
