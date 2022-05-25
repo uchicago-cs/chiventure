@@ -321,8 +321,9 @@ Test(npc_mov, auto_gen_movement_definite)
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_t *npc = npc_new("test", "testnpc", "test npc", NULL, npc_mov, FRIENDLY);
 
-    rc = auto_gen_movement(npc_mov, all_rooms);
+    rc = auto_gen_movement(npc, all_rooms);
     npc_path_dll_t *elt;
 
     DL_FOREACH(npc_mov->path, elt)
@@ -376,8 +377,9 @@ Test(npc_mov, auto_gen_movement_indefinite)
 
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 60);
+    npc_t *npc = npc_new("test", "testnpc", "test npc", NULL, npc_mov, FRIENDLY);
 
-    rc = auto_gen_movement(npc_mov, get_all_rooms(game));
+    rc = auto_gen_movement(npc, get_all_rooms(game));
     npc_path_dll_t *elt;
 
     DL_FOREACH(npc_mov->path, elt)

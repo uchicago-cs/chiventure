@@ -316,17 +316,19 @@ int auto_gen_movement(npc_t *npc, room_list_t *all_rooms)
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
+            int mintime_in_room;
+            int maxtime_in_room;
             if (npc->class != NULL && npc->class->base_stats != NULL)
             {
                 double speed = get_stat_current(npc->class->base_stats, "speed");
                 double multiplier = sqrt(100/speed);
-                int mintime_in_room = 30 * multiplier; // min time in room in seconds
-                int maxtime_in_room = 90 * multiplier; // max time in room in seconds
+                mintime_in_room = 30 * multiplier; // min time in room in seconds
+                maxtime_in_room = 90 * multiplier; // max time in room in seconds
             }
             else
             {
-                int mintime_in_room = 30; // min time in room in seconds
-                int maxtime_in_room = 90; // max time in room in seconds
+                mintime_in_room = 30; // min time in room in seconds
+                maxtime_in_room = 90; // max time in room in seconds
             }
             double time_in_room;
             time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room);
