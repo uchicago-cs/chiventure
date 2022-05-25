@@ -203,6 +203,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
        this move, currently not implemented, waiting for player class
        to resolve move_lists() */
     int dmg, rc;
+    double crit;
     char *string;
 
     /* Calculates to see if the move will miss */
@@ -217,8 +218,10 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         {
             dmg = damage(b->enemy, move, b->player);
             enemy->stats->hp -= dmg;
+            crit = crit_modifier(b->player->stats->crit);
+            dmg *= crit;
             //print_battle_move needs to be changed
-            rc = print_battle_damage(b, b->turn, move, string);
+            rc = print_battle_damage(b, b->turn, move, crit, string);
             assert(rc == SUCCESS);
         }
         if (move->stat_mods != NO_TARGET)
@@ -339,7 +342,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
     int dmg, rc;
     char *string = calloc(100, sizeof(char));
-
+    double crit;
     if(enemy_move != NULL)
     {
         /* Calculates to see if the move will miss */
@@ -353,7 +356,9 @@ char *enemy_make_move(battle_ctx_t *ctx)
             {
                 dmg = damage(b->player, enemy_move, b->enemy);
                 b->player->stats->hp -= dmg;
-                rc = print_battle_damage(b, b->turn, enemy_move, string);
+                crit = crit_modifier(b->enemy->stats->crit);
+                dmg *= crit;
+                rc = print_battle_damage(b, b->turn, enemy_move, crit, string);
                 assert(rc == SUCCESS);
             }
             if (enemy_move->stat_mods != NO_TARGET)
@@ -477,7 +482,7 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 {
     stat_t* user_stats = source->stats;
     stat_t* target_stats = target->stats;
-    if ((move->user_mods == NULL) || (move->opponent_mods == NULL))
+    if ((move->user_mods == NULL) && (move->opponent_mods == NULL))
     {
         return FAILURE;
     }
@@ -509,5 +514,20 @@ int calculate_accuracy(int user_accuracy, int move_accuracy)
         return 1;
     }else{
         return 0;
+    }
+}
+
+/* see battle_flow.h */
+double crit_modifier(int crit_chance)
+{
+    int chance = randnum(1, 100);
+
+    if (chance <= crit_chance)
+    {
+        return 1.5;
+    }
+    else
+    {
+        return 1;
     }
 }

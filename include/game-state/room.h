@@ -356,15 +356,16 @@ coords_t *find_coords_of_room(room_t *room);
  * the map and a given npc_mov_t struct.
  *
  * Parameters:
- *  - npc_mov: npc_mov_t struct with a known npc_mov_type
- *  - game: current game, this is necessary for determining the current rooms in the map
+ *  - npc: Pointer to the npc_t struct
+ *  - all_rooms: all rooms in the current game,
+ *  -   this is necessary for determining the current rooms in the map
  *
  * Returns:
  *  - returns SUCCESS on success, returns FAILURE on failure
  *  - Updates npc_mov to have a new, randomly generated movement path.
  *    Maintains the same type of movement (indefinite / definite)
  */
-int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms);
+int auto_gen_movement(npc_t *npc, room_list_t *all_rooms);
 
 /* Moves an npc one step down its path
  *

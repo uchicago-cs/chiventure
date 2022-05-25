@@ -86,6 +86,16 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
 int calculate_accuracy(int user_accuracy, int move_accuracy);
 
 /*
+ * Calculates Critical Damage
+ *
+ * Parameters:
+ * - crit_chance : the crit chance of the user using the move
+ *
+ * returns: the critical damage multiplier
+ */
+ double crit_modifier(int crit_chance);
+ 
+/*
  * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
