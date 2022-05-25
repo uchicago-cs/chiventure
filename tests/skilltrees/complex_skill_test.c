@@ -376,7 +376,7 @@ Test(skill_test, random_switch_init_test)
     skills[1] = skill2;
 
     complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
-    random_switch_type_t* rand_switch = malloc(sizeof(random_switch_type_t));
+    random_switch_type_t* rand_switch = malloc(sizeof(float) * 2 + sizeof(random_switch_skill) * 4);
 
     float *chances = (float *)malloc(2*sizeof(float));  
     chances[0] = 0.4;
@@ -386,7 +386,7 @@ Test(skill_test, random_switch_init_test)
 
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
-        "Error: failed test random_range_new_test on range->random_range->typ\n");
+        "Error: failed test random_range_new_test on range->random_range->type\n");
     cr_assert_eq(rand_switch->complex_skill->num_skills, 2,
         "Error: failed test random_range_new_test on range->random_range->num_skills\n");
     cr_assert_eq(rand_switch->chances[0], 0.4, 
