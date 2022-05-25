@@ -422,26 +422,14 @@ Test(parse, all_fillers_with_spaces)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-//Tests input when one is a filler word with quotes surrounding it
-Test(parse, fillers_with_quotes) 
+//Tests input when there are fillers, but the input is too long
+Test(parse, fillers_too_long) 
 {
-    char str[] = "pickup \"the\" chair";
-    char **words = parse(str);
-    cr_assert_eq("pickup",words[0],"parse() did not create first token");
-    cr_assert_eq("the",words[1],"parse() did not create second token");
-    cr_assert_eq("chair",words[2],"parse() did not create third token");
-    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
-}
-
-//Tests input when one is a filler word with quotes surrounding it, last word
-Test(parse, fillers_with_quotes_end) 
-{
-    char str[] = "pickup chair \"the\"";
+    char str[] = "pickup   to the to to into chair";
     char **words = parse(str);
     cr_assert_eq("pickup",words[0],"parse() did not create first token");
     cr_assert_eq("chair",words[1],"parse() did not create second token");
-    cr_assert_eq("the",words[2],"parse() did not create third token");
-    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2],"parse() should point to NULL for empty tokens");
 }
 
 
