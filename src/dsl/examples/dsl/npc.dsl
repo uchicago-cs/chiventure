@@ -1,9 +1,8 @@
 
-"""
-Support for this file has not been implemented yet.
-The following is provided merely as an example of what a 
-finished DSL specification of an NPC would look like
-"""
+# Support for this file has not been implemented yet.
+# The following is provided merely as an example of what a 
+# finished DSL specification of an NPC would look like
+
 GAME START room B END room C
     intro: "Welcome!"
 
