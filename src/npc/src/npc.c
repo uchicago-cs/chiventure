@@ -17,6 +17,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->hostility_level = hostility_level;
     npc->npc_battle = NULL;
     npc->movement = movement;
+    item_hash_t *items = NULL;
+    npc->inventory = items;
 
     return SUCCESS;
 }
@@ -70,7 +72,7 @@ int npc_free(npc_t *npc)
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    delete_all_items(&npc->inventory);
+    free_all_items_from_npc(npc);
     class_free(npc->class);
     free(npc);
 
@@ -132,6 +134,17 @@ char *get_ldesc_npc(npc_t *npc)
         return NULL;
     }
     return npc->long_desc;
+}
+
+/* See npc.h */
+item_t *get_item_from_npc(npc_t *npc, char *item_id)
+{
+    item_t *check;
+    char *insensitized_id = case_insensitized_string(item_id);
+    HASH_FIND(hh, npc->inventory, insensitized_id,
+              strlen(insensitized_id), check);
+    free(insensitized_id);
+    return check;
 }
 
 /* See npc.h */
@@ -205,21 +218,45 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
 {
-    int rc;
-
-    rc = add_item_to_hash(&(npc->inventory), item);
-
-    return rc;
+    assert((item != NULL) && (npc != NULL));
+    item_t *tmp;
+    char *id = case_insensitized_string(item->item_id);
+    HASH_FIND(hh, npc->inventory, id, strlen(id), tmp);
+    if (tmp == NULL)
+    {
+        HASH_ADD_KEYPTR(hh, npc->inventory, id, strlen(id), item);
+        return SUCCESS;
+    }
+    else
+    {
+        return FAILURE; // Hash tables should not contain duplicate items
+    }
 }
 
 /* See npc.h */
 int remove_item_from_npc(npc_t *npc, item_t *item)
 {
-    int rc;
+    HASH_DELETE(hh, npc->inventory, item);
+    return SUCCESS;
+}
 
-    rc = remove_item_from_hash(&(npc->inventory), item);
+/* See npc.h */
+int delete_all_items_from_npc(npc_t *npc)
+{
+    HASH_CLEAR(hh, npc->inventory);
+    return SUCCESS;
+}
 
-    return rc;
+/* See npc.h */
+int free_all_items_from_npc(npc_t *npc)
+{
+    item_hash_t *elt, *tmp;
+    HASH_ITER(hh, npc->inventory, elt, tmp)
+    {
+        HASH_DEL(npc->inventory, elt);
+        free(elt);
+    }
+    return SUCCESS;
 }
 
 /* See npc.h */
@@ -273,6 +310,12 @@ int change_npc_hp(npc_t *npc, int change)
         npc->npc_battle->stats->max_hp;
     }
     return npc->npc_battle->stats->hp;
+}
+
+/* See npc.h */
+int move_npc(npc_t *npc)
+{
+    return move_npc_mov(npc->movement);
 }
 
 int delete_all_npcs(npc_hash_t *npcs)

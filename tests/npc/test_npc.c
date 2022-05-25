@@ -284,8 +284,7 @@ Test(npc, add_item_to_npc)
                        "add_item_to_npc() failed to add item");
 
     int rc = add_item_to_npc(npc, dup_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to add "
-                 "item with identical id");
+    cr_assert_eq(rc, FAILURE, "add_item_to_npc added duplicate item");
 }
 
 /* Checks that remove_item_from_npc properly removes items */
@@ -302,16 +301,14 @@ Test(npc, remove_item_from_npc)
     cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
                  "add an item to npc");
     rc = add_item_to_npc(npc, dup_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
-                 "add an item to npc");
+    cr_assert_eq(rc, FAILURE, "add_item_to_npc added duplicate item to npc");
 
     rc = remove_item_from_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "
                  "remove an item from npc");
 
     item_list = get_npc_inv_list(npc);
-    cr_assert_not_null(item_list, "remove_item_from_npc removed "
-                       "both identical items from npc");
+    cr_assert_null(item_list, "npc's inventory isn't empty");
 }
 
 /* Checks that add_battle_to_npc adds the correct npc_battle struct to an npc */

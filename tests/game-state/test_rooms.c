@@ -120,7 +120,7 @@ Test(room_item, add_duplicate_item_to_room)
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
 
     int check = add_item_to_room(new_room, test_item2);
-    cr_assert_eq(check, SUCCESS, "duplicate item not added to room correctly");
+    cr_assert_eq(check, FAILURE, "duplicate item added to room incorrectly");
 
     check = add_item_to_room(new_room, test_item2);
     cr_assert_eq(check, FAILURE, "item at same memory address as item "
@@ -168,16 +168,15 @@ Test(room_item, remove_item_from_room)
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
     rc = add_item_to_room(room, dup_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
-                 "add an item to room");
+    cr_assert_eq(rc, FAILURE, "add_item_to_room added duplicate item");
 
     rc = remove_item_from_room(room, test_item);
-    cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to "
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to " 
                  "remove an item from room");
 
     item_list = get_all_items_in_room(room);
-    cr_assert_not_null(item_list, "remove_item_from_room removed "
-                       "both identical items from room");
+    cr_assert_null(item_list, "there are still items left in room");
+
     room_free(room);
     item_free(test_item);
     delete_item_llist(item_list);

@@ -56,33 +56,6 @@ Test (npc_mov, free)
 }
 
 
-/* Tests register_npc_room_time function */
-Test(npc_mov, register_npc_room_time)
-{
-    room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id);
-    int time = 60;
-
-    int check1 = register_npc_room_time(npc_mov, test_room->room_id, time);
-
-    cr_assert_eq(check1, SUCCESS, "register_npc_room_time() failed");
-
-    npc_room_time_t *check2;
-
-
-    HASH_FIND(hh, npc_mov->npc_mov_type.npc_mov_indefinite->room_time,
-              test_room->room_id, strlen(test_room->room_id),
-              check2);
-
-    cr_assert_not_null(check2, "register_npc_room_time() failed");
-
-    cr_assert_str_eq(check2->room_id, "test_room",
-                     "register_npc_room_time() did not set room_id");
-    cr_assert_eq(check2->time, time,
-                 "register_npc_room_time() did not set time");
-}
-
-
 /* Tests extend_path_def fucntion */
 Test(npc_mov, extend_path_definite)
 {
