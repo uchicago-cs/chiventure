@@ -58,8 +58,8 @@ void sequential_skill(chiventure_ctx_t* ctx)
                                      150, NULL, NULL);
     
     skill_t** skills;
-    skill[0] = skill_0;
-    skill[1] = skill_1;
+    skills[0] = skill_0;
+    skills[1] = skill_1;
 
     complex_skill_t* complex_seq_skill = complex_skill_new(SEQUENTIAL, skills, 
                                                             2, NULL);
