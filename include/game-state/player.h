@@ -542,7 +542,7 @@ char *display_inventory(player_t *player);
  *
  * Parameters:
  * - player: A player. Must be allocated with player_new()
- * - key: the item's name which acts as a key for the inventory hash table
+ * - key: A string. The item's id, acting as a key for the inventory hash table
  *
  * Returns:
  * - A string - the long description of an item
