@@ -7,8 +7,6 @@ data_t arg_t_get(object_t *ot) {
     char *lua_path;
 
     if (ot->is_lua) {
-        char *lua_path = ot->data.lua;
-        lua_State *L = callLua(ot, lua_path);
     } else {
         return ot->data;
     }
@@ -16,6 +14,8 @@ data_t arg_t_get(object_t *ot) {
     switch (ot->type) {
         case BOOL_TYPE:
             assert(ot->type == BOOL_TYPE);
+            char *lua_path = ot->data.lua;
+            lua_State *L = callLua(ot, lua_path);
             int result = (int)lua_toboolean(L, -1);
             lua_pop(L, 1);
             d.b = (result ? true : false);
@@ -23,6 +23,8 @@ data_t arg_t_get(object_t *ot) {
             break;
         case CHAR_TYPE:
             assert(ot->type == CHAR_TYPE);
+            char *lua_path = ot->data.lua;
+            lua_State *L = callLua(ot, lua_path);            
             const char *result2 = lua_tostring(L, -1);
             lua_pop(L, 1);
             char *result3 = strdup(result2);
@@ -31,6 +33,8 @@ data_t arg_t_get(object_t *ot) {
             break;
         case INT_TYPE:
             assert(ot->type == INT_TYPE);
+            char *lua_path = ot->data.lua;
+            lua_State *L = callLua(ot, lua_path);            
             int result4 = (int)lua_tointeger(L, -1);
             lua_pop(L, 1);
             d.i = result4;
@@ -38,6 +42,8 @@ data_t arg_t_get(object_t *ot) {
             break;
         case STR_TYPE:
             assert(ot->type == STR_TYPE);
+            char *lua_path = ot->data.lua;
+            lua_State *L = callLua(ot, lua_path);            
             const char *result5 = lua_tostring(L, -1);
             lua_pop(L, 1);
             char *result6 = strdup(result5);
