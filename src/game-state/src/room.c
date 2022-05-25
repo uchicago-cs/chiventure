@@ -307,10 +307,8 @@ int auto_gen_movement(npc_t *npc, room_list_t *all_rooms)
     {
         return FAILURE;
     }
-
     num_rooms = get_num_rooms(all_rooms);
     num_rooms_to_add = (rand() % num_rooms) + 1;
-
     for (int i = 0; i < num_rooms_to_add; i++)
     {
         if(npc_mov->mov_type == NPC_MOV_DEFINITE)
@@ -323,7 +321,7 @@ int auto_gen_movement(npc_t *npc, room_list_t *all_rooms)
             double multiplier = sqrt(100/speed);
             int mintime_in_room = 30 * multiplier; // min time in room in seconds
             int maxtime_in_room = 90 * multiplier; // max time in room in seconds
-            double time_in_room = (double) (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
+            double time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room);
             rc = extend_path_indefinite(npc_mov, head->room->room_id, time_in_room);
         }
 
@@ -334,7 +332,6 @@ int auto_gen_movement(npc_t *npc, room_list_t *all_rooms)
             return rc;
         }
     }
-
     return rc;
 }
 

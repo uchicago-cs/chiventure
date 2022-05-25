@@ -22,8 +22,20 @@ class_t *generate_test_class2()
                 "on up-close physical damage with weapons and survives enemy "
                 "attacks using heavy armor.\n";
 
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+    stats_global_t *global_speed = stats_global_new("speed", 200);
+    stats_hash_t *stats = NULL;
+    stats_t *speed_stat = malloc(sizeof(stats_t));
+    char *the_key = malloc(sizeof(char) * 8);
+    strcpy(the_key, "speed");
+    speed_stat->key = the_key;
+    speed_stat->global = global_speed;
+    speed_stat->val = 150;
+    speed_stat->max = 200;
+    speed_stat->modifier = 1;
+    HASH_ADD(hh, stats, key, strlen(the_key), speed_stat);
 
+    c = class_new(name, shortdesc, longdesc, NULL, stats, NULL);
+    return c;
 }
 
 /* Tests new() of npc_mov struct */
@@ -311,6 +323,7 @@ Test(npc_mov, auto_gen_movement_definite)
     char *curr_room_id;
 
     room_t *test_room = room_new("test_room", "test", "test test");
+    add_room_to_game(game, test_room);
     npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id);
     class_t *c = generate_test_class2();
     npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
@@ -362,7 +375,7 @@ Test(npc_mov, auto_gen_movement_definite)
    Tests auto_gen_movement for indefinite movement function */
    Test(npc_mov, auto_gen_movement_indefinite)
    {
-       game_t *game = game_new("Welcome to Chiventure!");
+      game_t *game = game_new("Welcome to Chiventure!");
       room_t *room1 = room_new("room1", "room1 short", "room1 long long long");
       room_t *room2 = room_new("room2", "room2 short", "room2 long long long");
       room_t *room3 = room_new("room3", "room3 short", "room3 long long long");
@@ -372,23 +385,23 @@ Test(npc_mov, auto_gen_movement_definite)
       int cnt = 0;
       int rc, num_rooms_in_npc;
       room_t *curr_room;
-      room_list_t *all_rooms = get_all_rooms(game);
       char *curr_room_id;
 
       room_t *test_room = room_new("test_room", "test", "test test");
+      add_room_to_game(game, test_room);
       npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id);
+
       class_t *c = generate_test_class2();
       npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
 
-     rc = auto_gen_movement(npc, all_rooms);
+      rc = auto_gen_movement(npc, get_all_rooms(game));
       room_id_dll_t *elt;
-
       DL_FOREACH(npc_mov->npc_mov_type.npc_mov_indefinite->npc_path, elt)
       {
           cnt++;
           curr_room_id = elt->room_id;
           HASH_FIND(hh, game->all_rooms, curr_room_id, strlen(curr_room_id), curr_room);
-          if (!strncmp(curr_room_id, "room1", MAX_ID_LEN))
+          if (strncmp(curr_room->room_id, "room1", MAX_ID_LEN) == 0)
           {
               cr_assert_str_eq(get_ldesc(curr_room), "room1 long long long",
                                "ldesc does not correspond");

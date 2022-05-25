@@ -89,7 +89,7 @@ int npc_mov_free(npc_mov_t *npc_mov)
 
 
 /* See npc_move.h */
-int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int time)
+int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, double time)
 {
     assert(room_id != NULL);
 
@@ -131,7 +131,7 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add)
 
 
 /* See npc_move.h */
-int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time)
+int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, double time)
 {
     assert(room_id_to_add != NULL);
 
