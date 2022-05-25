@@ -367,12 +367,6 @@ Test(npc_mov, auto_gen_movement_definite)
     game_free(game);
 }
 
-/* Issue #1306: Jonathan and Vincent from the player class team changed the
-   auto_gen_movement function to include a multiplier for time spent in each room
-   on an indefinite movement path, which has broken this test. We are commenting
-   it out for now because this test is not written to acocunt for the new feature
-   and creating another issue to adjust this test.
-   Tests auto_gen_movement for indefinite movement function */
    Test(npc_mov, auto_gen_movement_indefinite)
    {
       game_t *game = game_new("Welcome to Chiventure!");
