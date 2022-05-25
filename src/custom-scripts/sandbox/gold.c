@@ -1,6 +1,3 @@
-#include <stdlib.h> 
-#include "lua.h"
-#include "lualib.h"
 #include "gold.h"
 
 /*int luaCoinValue(lua_State* L, int b)

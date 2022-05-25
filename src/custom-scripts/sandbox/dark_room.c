@@ -1,7 +1,4 @@
 #include <stdlib.h> 
-#include "lua.h"
-#include "lualib.h"
-#include "dark_room.h"
 
 int main() {
 
