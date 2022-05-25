@@ -126,6 +126,7 @@ char* multiclass_longdesc(class_t* base_class, class_t* second_class, int *succ)
         *succ = FAILURE;
         return base_class->longdesc;
     }
+    
     return new_longdesc;
 }
 
