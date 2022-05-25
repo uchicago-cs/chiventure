@@ -47,7 +47,7 @@ npc_mov_t *generate_test_npc_mov()
 {
     npc_mov_t *npc_mov;
     char *test_room_id = "test";
-    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id);
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id, 0);
 }
 
 /* Creates example stats. Taken from test_battle_ai.c */
@@ -108,8 +108,7 @@ Test(npc, new)
                      c->shortdesc, "npc_new didn't set short description for class");
     cr_assert_str_eq(npc->movement->track, movement->track,
                      "npc_new didn't set current room id");
-    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
-                     movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
+    cr_assert_str_eq(npc->movement->path->room_id, movement->path->room_id,
                      "npc_new didn't set npc_path");
     cr_assert_eq(npc->hostility_level, FRIENDLY,
                  "npc_new didn't set hostility_level");
@@ -147,8 +146,8 @@ Test(npc, init)
                      c->shortdesc, "npc_init didn't set short description for class");
     cr_assert_str_eq(npc->movement->track, movement->track,
                      "npc_new didn't set current room id");
-    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
-                     movement->npc_mov_type.npc_mov_definite->npc_path->room_id,
+    cr_assert_str_eq(npc->movement->path->room_id,
+                     movement->path->room_id,
                      "npc_new didn't set npc_path");
     cr_assert_eq(npc->hostility_level, FRIENDLY,
                  "npc_init didn't set hostility_level");
