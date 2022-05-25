@@ -42,6 +42,9 @@ typedef struct npc {
     /* boolean representing whether or not the NPC will engage in battles */
     bool will_fight;
 
+    /* enum indicating hostility level of the npc */
+    hostility_t hostility_level;
+
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
 } npc_t;

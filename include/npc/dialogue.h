@@ -13,6 +13,13 @@
  *       DIALOGUE STRUCTURE DEFINITIONS       *
  **********************************************/
 
+/* Defines an enum for NPC and player tone in conversation options */
+typedef enum {
+    POSITIVE,
+    NEGATIVE,
+    NEUTRAL
+} tone_t;
+
 /* Actions */
 typedef enum {
     GIVE_ITEM,
@@ -54,11 +61,13 @@ typedef struct node node_t;
  *  - to: destination node
  *  - conditions: conditions determining an edge's availability, NULL if none
  *    Note: conditions come from game-state/condition.h
+ *  - tone: the tone of the dialogue at the current edge
  */
 typedef struct edge {
     char *quip;
     node_t *from, *to;
     condition_t *conditions;
+    tone_t tone;
 } edge_t;
 
 /* A doubly-linked list containing edges and their "availabilities."
@@ -83,6 +92,7 @@ typedef struct edge_list {
  *  - num_available_edges: number of accessible edges
  *  - edges: possible responses
  *  - actions: actions associated with the node (item, quest, battle, etc.)
+ *  - tone: the tone of the dialogue at the current node
  */
 typedef struct node {
     char *node_id;
@@ -91,6 +101,7 @@ typedef struct node {
     int num_available_edges;
     edge_list_t *edges;
     node_action_t *actions;
+    tone_t tone;
 } node_t;
 
 /* A doubly-linked list containing nodes.
