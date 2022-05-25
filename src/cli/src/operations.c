@@ -12,6 +12,9 @@
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
 #include "cli/util.h"
+#include "battle/battle_logic.h"
+#include "battle/battle_flow.h"
+#include "battle/battle_print.h"
 
 #define NUM_ACTIONS 31
 #define BUFFER_SIZE (100)
@@ -661,39 +664,44 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "%s does not want to fight.", tokens[1];
     }
 
-    // could be redone to take stats from player_t struct in ctx->game->curr_player
-    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item,
-                                        NULL, NULL, NULL);
-
-    battle_ctx_t *battle_ctx =
-        (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
-
-    // new_game creates a game that is then attached to ctx
-    battle_game_t *g = new_battle_game();
-    battle_ctx->game = g;
-
-    battle_ctx->game->player = p // could use ctx->game->curr_player in future;
-
+    // this is the current player from the chiventure context
+    player_t *player = ctx->game->curr_player;
+    // create a battle player version of the current player
+    battle_player_t *b_player = new_ctx_player(player->player_id, 
+                                               player->player_class, 
+                                               get_random_stat() /* fix: get stats
+                                                                    from player struct */, 
+                                               player->moves, 
+                                              NULL /* fix: get a list of battle 
+                                                      items from inventory */,
+                                              NULL, NULL, NULL); // these too
+    // create a battle context
+    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
+    // create a battle game and add it to the battle context
+    battle_game_t *b_game = new_battle_game();
+    battle_ctx->game = b_game;
+    // add the current player from the chiventure context to the game
+    battle_ctx->game->player = b_player;
+    // add the battle context to the chiventure context
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
-
-    /* start_battle begins the battle by finalizing 
-       all finishing touches for a battle to begin */
-
-    int rc = start_battle(battle_ctx, e, ENV_GRASS);
+    // create a battle struct and initialize its parts (sets up combatants)
+    int rc = start_battle(battle_ctx, npc, 
+                          ENV_GRASS /* eventually this should be stored in 
+                                       the room struct */);
 
     // prints the beginning of the battle 
     char *start = print_start_battle(battle_ctx->game->battle);
     int start_rc = print_to_cli(ctx, start);
-    
+    turn_component_t *current_tc = battle_ctx->tcl->current;
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
-    get_legal_actions(legal_items, legal_moves, buffer->current, 
+    get_legal_actions(legal_items, legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
     char *menu = print_battle_action_menu(legal_items, legal_moves);
-    char *output_and_menu = strcat(output, menu);
-    ctx->game->battle_ctx->game->battle->current_tc = buffer->current; //check to make sure this is the correct tc now
+    // char *output_and_menu = strcat(output, menu); //seems like we dont need bc using print_to_cli
+    ctx->game->battle_ctx->game->battle->current_tc = current_tc; //check to make sure this is the correct tc now
 
-    set_game_mode(ctx->game, BATTLE, npc->npc_id); 
+    //set_game_mode(ctx->game, BATTLE, npc->npc_id); //i think game_mode_init does this??
    
     assert(npc->npc_battle != NULL);
 
