@@ -29,7 +29,7 @@ typedef struct room_id_dll {
 typedef struct npc_room_time {
     UT_hash_handle hh;
     char *room_id;
-    int time;
+    double time;
 } npc_room_time_t;
 
 /* To make the struct hashable */
@@ -133,10 +133,8 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id);
  * and NULL if an error occurs
  *
  * Parameters:
- *  npc_id: The ID of the NPC that is being referred to; must point to
- *          allocated memory
  *  mov_type: The type of movement that the npc will have
- *  room_id: The room_id that the npc will begin in
+ *  room_id: The room id of the room that the npc will begin in
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
@@ -163,12 +161,12 @@ int npc_mov_free(npc_mov_t *npc_mov);
  * Parameters:
  *  npc_mov: The npc_mov struct
  *  room: The room to be registered
- *  time: The time to be spent in the room by that NPC in miliseconds
+ *  time: The time to be spent in the room by that NPC in seconds
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, int time);
+int register_npc_room_time(npc_mov_t *npc_mov, char *room_id, double time);
 
 
 /*
@@ -191,12 +189,12 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add);
  * Parameters:
  *  npc_mov: The NPC movement struct
  *  room_to_add: The room that has to be added to the path
- *  time: The time the NPC has to stay in that room in miliseconds
+ *  time: The time the NPC has to stay in that room in seconds
  *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, int time);
+int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, double time);
 
 
 /*
