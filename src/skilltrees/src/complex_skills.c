@@ -199,7 +199,7 @@ int random_range_free(random_range_type_t* random_range_skill){
 random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances){
     random_switch_type_t* random;
 
-    random = (random_switch_type_t*)malloc(sizeof(random_switch_type_t));
+   random = (random_switch_type_t*)malloc(sizeof(random_switch_type_t));
 
     if (random == NULL) {
         fprintf(stderr, "random_switch_new: memory allocation failed for random\n");
@@ -211,6 +211,7 @@ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* c
         fprintf(stderr, "random_switch_new: memory allocation for chances failed\n");
         return NULL;
     }
+    list = chances;
     random->chances = list; 
 
     printf("chances: %f, %f\n", chances[0], chances[1]);

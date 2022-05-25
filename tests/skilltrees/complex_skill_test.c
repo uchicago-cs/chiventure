@@ -326,8 +326,8 @@ Test(skill_test, random_range_free_test)
 
 //  RANDOM SWITCH TESTS 
 
-//test for random_switch_new
-Test(random_switch, random_switch_new_test)
+//test for random_switch_new with 0.6/0.4
+Test(random_switch, random_switch_new_test_uneq)
 {
 
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -360,8 +360,8 @@ Test(random_switch, random_switch_new_test)
 }
 
 
-//test for random_range_init
-Test(skill_test, random_switch_init_test)
+//test for random_range_init with 0.6/0.4
+Test(skill_test, random_switch_init_test_uneq)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
@@ -389,11 +389,81 @@ Test(skill_test, random_switch_init_test)
         "Error: failed test random_range_new_test on range->random_range->type\n");
     cr_assert_eq(rand_switch->complex_skill->num_skills, 2,
         "Error: failed test random_range_new_test on range->random_range->num_skills\n");
-    cr_assert_eq(rand_switch->chances[0], 0.4, 
+    cr_assert_eq(rand_switch->chances[0], 0.400000, 
         "Error: failed test random_switch_new_test on first chance\n");
-    cr_assert_eq(rand_switch->chances[1], 0.6,
+    cr_assert_eq(rand_switch->chances[1], 0.600000,
         "Error: failed test random_switch_new_test on second chance\n");    
 }
+
+//test for random_switch_new with 0.5/0.5
+Test(random_switch, random_switch_new_test_half)
+{
+
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+    
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+
+    float *chances = (float *)malloc(2*sizeof(float)); 
+    chances[0] = 0.5;
+    chances[1] = 0.5;
+
+
+    random_switch_type_t *rand_switch = random_switch_new(random_switch_skill, chances);
+
+    cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
+        "Error: failed test random_switch_new_test on range->random_range->typ\n");
+    cr_assert_eq(rand_switch->chances[0], 0.5,
+        "Error: failed test random_switch_new_test on first chance\n");
+    cr_assert_eq(rand_switch->chances[1], 0.5,
+        "Error: failed test random_switch_new_test on second chance\n");
+}
+
+
+//test for random_range_init with 0.5/0.5
+Test(skill_test, random_switch_init_test_half)
+{
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    random_switch_type_t* rand_switch = malloc(sizeof(float) * 2 + sizeof(random_switch_skill) * 4);
+
+    float *chances = (float *)malloc(2*sizeof(float));  
+    chances[0] = 0.5;
+    chances[1] = 0.5;
+    
+    random_switch_init(rand_switch, random_switch_skill, chances);
+
+
+    cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
+        "Error: failed test random_range_new_test on range->random_range->type\n");
+    cr_assert_eq(rand_switch->complex_skill->num_skills, 2,
+        "Error: failed test random_range_new_test on range->random_range->num_skills\n");
+    cr_assert_eq(rand_switch->chances[0], 0.500000, 
+        "Error: failed test random_switch_new_test on first chance\n");
+    cr_assert_eq(rand_switch->chances[1], 0.500000,
+        "Error: failed test random_switch_new_test on second chance\n");    
+}
+
 
  /** Test complex_skill_free */
 Test(skill_test, random_switch_free_test)
