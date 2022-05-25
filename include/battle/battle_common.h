@@ -91,7 +91,11 @@ typedef struct battle
     combatant_t *enemy;
     environment_t environment;
     turn_t turn;
+<<<<<<< HEAD
     struct turn_component current_tc;
+=======
+    turn_component_t *current_tc;
+>>>>>>> e2c9db5bf0cbdd3c30940c4ef69c6bd8f9b6fe75
 } battle_t;
 
 #endif

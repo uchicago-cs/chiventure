@@ -75,7 +75,7 @@ turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p)
 }
 
 /* see battle_flow_structs.h */
-turn_component_list_t *new_turn_component_list(turn_component_t t, 
+turn_component_list_t *new_turn_component_list(turn_component_t *t, 
                                                 turn_component_list_t *r)
 {
       turn_component_list_t *new_tcl = (turn_component_list_t *) 
@@ -93,7 +93,7 @@ turn_component_list_t *new_turn_component_list(turn_component_t t,
 /* see battle_flow_structs.h */
 turn_component_list_t *init_turn(turn_component_list_t *tcl, 
                                     turn_component_list_t *r, 
-                                    turn_component_t c)
+                                    turn_component_t *c)
 {
       assert(tcl != NULL);
       assert(r != NULL);
