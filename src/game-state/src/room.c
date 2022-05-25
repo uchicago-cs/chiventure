@@ -321,8 +321,8 @@ int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
-            double mintime_in_room = 30; // min time in room in seconds
-            double maxtime_in_room = 90; // max time in room in seconds
+            int mintime_in_room = 30; // min time in room in seconds
+            int maxtime_in_room = 90; // max time in room in seconds
             double time_in_room = (double) (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
             rc = extend_path_indefinite(npc_mov, head->room->room_id, time_in_room);
         }

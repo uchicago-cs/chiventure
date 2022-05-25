@@ -311,6 +311,21 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
  */
 int change_npc_hp(npc_t *npc, int change);
 
+/*
+ * Moves an npc to the next room
+ *
+ * Parameters:
+ * npc: The NPC struct
+ *
+ * Returns:
+ * 0 if move is unsuccessful
+ * 1 npc has reached the end of the path, reverse_path is called, but
+ *   the move is not implemented
+ * 2 successful move to the next room
+ * 3 npc has nowhere to move
+ */
+int move_npc(npc_t *npc);
+
 // HASH TABLE FUNCTIONS ---------------------------------------------------
 
 /*
