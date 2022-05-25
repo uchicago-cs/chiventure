@@ -168,7 +168,7 @@
                     "Task Name": "Kill Steve",
                     "Mission": {
                         "Target Name": "Steve",
-                        "Type": "Kill NPC"
+                        "Type": "Meet NPC"
                     },
                     "Prerequisites": {
                         "Health": 30,
