@@ -31,6 +31,12 @@ typedef struct {
     UT_hash_handle hh;
 } sound_t;
 
+/* this stores output from loaded music depending on whether it's music or a sound effect */
+typedef union {
+    Mix_Music *backgroundSound;
+    Mix_Chunk *soundEffect;
+} sound_type_t;
+
 /* Loads sound to SDL queue
  *
  * Parameters:
@@ -38,16 +44,17 @@ typedef struct {
  * Return:
  *      0 on success 1 on failure
  */
-int load_wav(sound_t *sound);
+sound_type_t *load_wav(sound_t *sound);
 
 /* free sound structure from memory heap
  *
  * Parameters:
+ *      soundType: the type of sound it is (music or sound effect)
  *      sound: sound struct
  * Return:
  *      0 on success 1 on failure
  */
-int sound_free(sound_t* sound);
+int sound_free(sound_type_t *soundType, sound_t *sound);
 
 /* Plays sound from SDL queue
  *
