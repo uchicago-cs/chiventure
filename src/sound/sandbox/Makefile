@@ -17,5 +17,5 @@ main:
 	gcc -o main $(CFLAGS) -L/usr/lib/ main.c -Wl,--allow-shlib-undefined -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lrt
 
 tts:
-	gcc -o test-tts -g -O2 -Wall -L../../../include/sound/espeak-ng -I ../../../include test-tts.c ../src/tts.c
+	gcc test-tts.c ../src/tts.c -lespeak-ng -o test-tts -I ../../../include/
 
