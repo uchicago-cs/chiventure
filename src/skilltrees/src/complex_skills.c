@@ -141,7 +141,7 @@ random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float ch
 
     if (chance_failure < 0 || chance_failure > 1)
     {
-        fprintf(stderr, "random_chance_new: chance_failure invalid, must be between 0 and 1, inclusive\0");
+        fprintf(stderr, "random_chance_new: chance_failure invalid, must be between 0 and 1, inclusive\n");
         return NULL;
     }
 
@@ -155,7 +155,7 @@ random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float ch
 
     if (random_chance == NULL) 
     {
-        fprintf(stderr, "random_chance_new: memory allocation failed\0");
+        fprintf(stderr, "random_chance_new: memory allocation failed\n");
         return NULL;
     }
 
@@ -163,7 +163,7 @@ random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float ch
 
     if (rc)
     {
-        fprintf(stderr, "random_chance_new: initialization failed\0");
+        fprintf(stderr, "random_chance_new: initialization failed\n");
         return NULL;
     }
 
@@ -365,26 +365,31 @@ int execute_random_range_complex_skill(random_range_type_t* range_skill, chivent
 
 /*See complex_skills.h */
 int execute_random_switch_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx){
+    printf("Got to line 368");
     if (switch_skill->complex_skill->type != RANDOM_SWITCH){
         return FAILURE;
     }
+    printf("Got to line 372");
 
-    if (switch_skill->chances != NULL){
+    if (switch_skill->chances == NULL){
         return FAILURE;
     }
-
+    printf("GOT TO LINE 375");
     float total = 0;
     for (int i = 0; i < switch_skill->complex_skill->num_skills; i++){
         total += switch_skill->chances[i];
     }
+    printf("GOT TO LINE 380");
 
     int value = random_float_generator(total);
+    printf("GOT TO LINE 383 WITH VALUE = %d", value);
 
     // Check for first skill
     if (value < switch_skill->chances[0]){
         skill_execute(switch_skill->complex_skill->skills[0], ctx);
         return SUCCESS;
     }
+    printf("GOT TO LINE 390");
 
     // Check subsequent skills
     float running_total = switch_skill->chances[0];
@@ -395,6 +400,6 @@ int execute_random_switch_complex_skill(random_switch_type_t* switch_skill, chiv
         }
         running_total += switch_skill->chances[i];
     }
-
+    printf("GOT TO LINE 401");
     return SUCCESS;
 }
