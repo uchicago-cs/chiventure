@@ -155,6 +155,17 @@ Test(parse, insensitivity2)
     cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
 }
 
+//Tests that case-insensitive parsing works on a mixed case word.
+Test(parse, insensitivity3)
+{
+    char str[] = "LoOK";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_null(words[1], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2], "parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3], "parse() should point to NULL for empty tokens");
+}
+
 //Tests the parsing of two words.
 Test(parse, two_words)
 {
@@ -259,90 +270,75 @@ Test(parse_r, two_words_quote)
 }
 
 /*
- * Tests the parsing of an input with two tokens, one being multiple words surrounded by quotes
+ * Tests the parsing of an input with one token,  a single word surrounded by quotes
  */
-Test(parse_r, double_word_in_quote)
+Test(parse_r, one_word_quote)
 {
-    char str[] = "GO \"Dungeon of Death\"";
+    char str[] = "\"South\"";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"dungeon of death", "parse() did not create second token");
+    cr_assert_str_eq(words[0],"south", "parse() did not create first token");
 }
 
 /*
- * Tests the parsing of an input with three tokens, one being a word surrounded by quotes
+ * Tests the parsing of an input with one token, a single word in uppercase surrounded by quotes
  */
-Test(parse_r, three_words_quote)
+Test(parse_r, upper_quote)
 {
-    char str[] = "LOOK TO \"EAST\"";
+    char str[] = "\"SOUTH\"";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"south", "parse() did not create first token");
+}
+
+/*
+ * Tests the parsing of an input with one token, a single word in lowercase surrounded by quotes
+ */
+Test(parse_r, lower_quote)
+{
+    char str[] = "\"south\"";
+    char **words = parse(str);
+    cr_assert_str_eq(words[0],"south", "parse() did not create first token");
+}
+
+
+//Tests the parsing of input which is fully lowercase.
+Test(parse, lower)
+{
+    char str[] = "look at me";
     char **words = parse(str);
     cr_assert_str_eq(words[0],"look", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create third token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-/*
- * Tests the parsing of an input with two tokens, the first being surrounded by quotes
- */
-Test(parse_r, first_quote)
+//Tests the parsing of input which is just and.
+Test(parse, and)
 {
-    char str[] = "\"GO\" EAST";
+    char str[] = "AND";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+    cr_assert_str_eq(words[0],"and", "parse() did not create first token");
 }
 
-/*
- * Tests the parsing of an input with two tokens, the whole input being surrounded by quotes
- */
-Test(parse_r, entire_quote)
+//Tests the parsing of input with spaces at the end.
+Test(parse, end_spaces)
 {
-    char str[] = "\"GO EAST\"";
+    char str[] ="LOOK AT ME  ";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"go east", "parse() did not create first token");
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-/*
- * Tests the parsing of an input with two tokens, and a filler words in the middle
- */
-Test(parse_r, filler_word_mid)
+//Tests the parsing of input with spaces at the start.
+Test(parse, start_spaces)
 {
-    char str[] = "GO TO EAST";
+    char str[] = "   LOOK AT ME";
     char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
-}
-
-/*
- * Tests the parsing of an input with two tokens, and a filler word at the start
- */
-Test(parse_r, filler_word_first)
-{
-    char str[] = "TO GO EAST";
-    char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
-}
-
-/*
- * Tests the parsing of an input with two tokens, and a filler word at the end
- */
-Test(parse_r, filler_word_last)
-{
-    char str[] = "GO EAST WARDS";
-    char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
-}
-
-/*
- * Tests the parsing of an input with two consecutive filler words and two tokens
- */
-Test(parse_r, filler_word_double)
-{
-    char str[] = "GO TO THE EAST";
-    char **words = parse(str);
-    cr_assert_str_eq(words[0],"go", "parse() did not create first token");
-    cr_assert_str_eq(words[1],"east", "parse() did not create second token");
+    cr_assert_str_eq(words[0],"look", "parse() did not create first token");
+    cr_assert_str_eq(words[1], "at", "parse() did not create second token");
+    cr_assert_str_eq(words[2], "me", "parse() did not create third token");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
 // Tests whether more than 4 words returns NULL as expected
@@ -378,4 +374,5 @@ Test(parse_r, start_and)
     char str[] = "AND PUSH";
     check_comparison(str, 1, expecting_words);
 }
+
 
