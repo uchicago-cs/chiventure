@@ -4,6 +4,8 @@
 #include <stdbool.h>
 #include <assert.h>
 
+
+/* See quest_graphics.h for documentation */
 quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
     Vector2 SegmentDimension, Vector2 DrawStartPosition, 
     task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
@@ -33,6 +35,8 @@ quest_graphics_t* new_quest_graphics(Vector2 WindowPos, Vector2 WindowSize,
     return questGraphics;
 }
 
+
+/* See quest_graphics.h for documentation */
 int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
     Vector2 WindowSize, Vector2 SegmentDimension, Vector2 DrawStartPosition, 
     task_tree_mockup_t *TaskTree, char* CurrentTaskName, 
@@ -54,6 +58,8 @@ int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
     return 1;
 }
 
+
+/* See quest_graphics.h for documentation */
 int free_quest_graphics(quest_graphics_t *questGraphics)
 {
     assert(questGraphics != NULL);
@@ -64,7 +70,7 @@ int free_quest_graphics(quest_graphics_t *questGraphics)
 }
 
 
-
+/* See quest_graphics.h for documentation */
 pos_in_tree_t* getTaskPos(task_tree_mockup_t* taskTree, char* wanted_task_name) {
 
     pos_in_tree_t *res = (pos_in_tree_t *)malloc(sizeof(pos_in_tree_t));
@@ -75,7 +81,7 @@ pos_in_tree_t* getTaskPos(task_tree_mockup_t* taskTree, char* wanted_task_name) 
 }
 
 
-
+/* See quest_graphics.h for documentation */
 void runTaskTreeGraphics(quest_graphics_t* quest_graphics)
 {
     //--------------------------------------------------------------------------------------
@@ -193,6 +199,3 @@ void runTaskTreeGraphics(quest_graphics_t* quest_graphics)
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 }
-
-
-

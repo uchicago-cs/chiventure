@@ -113,6 +113,7 @@ int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
  */
 int free_quest_graphics(quest_graphics_t *questGraphics);
 
+
 /*
  * Parameters:
  *      quest_graphics: a pointer to a piece of memory allocated for a quest_graphics struct
@@ -125,5 +126,6 @@ int free_quest_graphics(quest_graphics_t *questGraphics);
  *      nothing, it just runs.
  */
 void runTaskTreeGraphics(quest_graphics_t* quest_graphics);
+
 
 #endif

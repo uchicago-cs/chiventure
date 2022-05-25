@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "stdio.h"
 
+
 task_tree_mockup_t* synthesizeTest1() {
     task_tree_mockup_t *TreeA = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
     task_tree_mockup_t *TreeB = (task_tree_mockup_t*)malloc(sizeof(task_tree_mockup_t));
@@ -61,6 +62,7 @@ task_tree_mockup_t* synthesizeTest1() {
     return TreeA;
 
 }
+
 
 int main() {
     task_tree_mockup_t *TreeA = synthesizeTest1();

@@ -422,5 +422,6 @@ graphics_t* read_gdl()
 
 int main()
 {
+    printf("having issues");
     return 0;
 }
