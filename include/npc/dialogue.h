@@ -150,8 +150,9 @@ typedef struct convo {
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) input strings are too long (assertion error);
  *    (2) a node with the same ID already exists; (3) memory allocation errors;
+ *  - tone: the tone of the dialogue; influences player hostility_level
  */
-int add_node(convo_t *c, char *node_id, char *npc_dialogue);
+int add_node(convo_t *c, char *node_id, char *npc_dialogue, tone_t tone);
 
 /* Adds a new edge to a conversation.
  *
@@ -161,6 +162,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  *  - from_id: source node's ID
  *  - to_id: destination node's ID
  *  - conditions: conditions determining the edge's availability, NULL if none
+ *  - tone: the tone of the dialogue; influences NPC hostility_level
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -168,7 +170,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  *    to_id could not be found; (3) memory allocation errors;
  */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
-             condition_t *conditions);
+             condition_t *conditions, tone_t tone);
 
 
 /**********************************************
@@ -241,12 +243,13 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id);
  *  - to: destination node
  *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
+ *  - tone: the tone of the dialogue; influences NPC hostility_level
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
-              condition_t *conditions);
+              condition_t *conditions, tone_t tone);
 
 /* Allocates a new edge on the heap.
  * 
@@ -256,11 +259,13 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
  *  - to: destination node
  *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
+ *  - tone: the tone of the dialogue; influences NPC hostility_level
  *
  * Returns:
  *  - pointer to the new edge
  */
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions);
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions,
+                 tone_t tone);
 
 /* Frees resources associated with an edge.
  *
@@ -278,22 +283,24 @@ int edge_free(edge_t *e);
  *  - n: a node; must point to already allocated memory
  *  - node_id: the node's "name"
  *  - npc_dialogue: a string representing the NPC's speech at the node
+ *  - tone: the tone of the dialogue; influences player hostility_level
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int node_init(node_t *n, char *node_id, char *npc_dialogue);
+int node_init(node_t *n, char *node_id, char *npc_dialogue, tone_t tone);
 
 /* Allocates a new node on the heap.
  * 
  * Parameters:
  *  - node_id: the node's "name"
  *  - npc_dialogue: a string representing the NPC's speech at the node
+ *  - tone: the tone of the dialogue; influences player hostility_level
  * 
  * Returns:
  *  - pointer to the new node
  */
-node_t *node_new(char *node_id, char *npc_dialogue);
+node_t *node_new(char *node_id, char *npc_dialogue, tone_t tone);
 
 /* Frees resources associated with a node.
  *
