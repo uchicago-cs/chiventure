@@ -86,9 +86,29 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 /* see battle_logic.h */
 int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
-    c->stats->hp += item->hp;
-    c->stats->strength += item->attack;
-    c->stats->defense += item->defense;
+    if ((c->stats->hp + item->hp) > c->stats->max_hp)
+    {
+        c->stats->hp = c->stats->max_hp;
+    }
+    else
+    {
+        c->stats->hp += item->hp;
+    }
+    c->stats->phys_atk += item->attack;
+    c->stats->phys_def += item->defense;
+    /* Will be implemented once battle_item_t is updated
+    c->stats->phys_atk += item->phys_atk;
+    c->stats->phys_def += item->phys_def;
+    c->stats->mag_atk += item->mag_atk;
+    c->stats->mag_def += item->mag_def;
+    if((c->stats->sp + item->sp) > c->stats->max_sp){
+        c->stats->sp = c->stats->max_sp;
+    }else{
+        c->stats->sp += item->sp;
+    }
+    c->stats->accuracy += item->accuracy;
+    c->stats->crit += item->crit;
+    */
     return 0;
 }
 
@@ -178,8 +198,64 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     }
 
     sc->hp += item->hp;
-    sc->strength += item->attack;
-    sc->defense += item->defense;
+    sc->phys_atk += item->attack;
+    sc->phys_def += item->defense;
+    /* Will be implemented once battle_item_t is updated
+    sc->phys_atk += item->phys_atk;
+    sc->phys_def += item->phys_def; 
+    sc->mag_atk += item->mag_atk;
+    sc->mag_def += item->mag_def;
+    sc->speed += item->speed;
+    if((sc->sp + item->sp) > sc->max_sp){
+        sc->sp = sc->max_sp;
+    }else{
+        sc->sp += item->sp;
+    }
+    sc->crit += item->crit;
+    sc->accuracy += item->accuracy;
+    */
 
     return SUCCESS;
+}
+
+/* see battle_logic.h */
+void get_legal_actions(battle_item_t *items, 
+                       move_t *moves, 
+                       turn_component_t comp, 
+                       battle_t *battle) {
+  // this is the combatant who's turn it is (player or enemy)
+  combatant_t *current_actor = (battle->turn == PLAYER) ? battle->player : battle->enemy;
+
+  // if the current turn component allows the combatant to use an item,
+  // add the combatant's items to the return value for possible items
+  if(comp.item) {
+    items = current_actor->items;
+  }
+  // if the current turn component allows the combatant to make a move,
+  // add the combatant's moves to the return value for possible moves
+  if(comp.move) {
+    moves = current_actor->moves;
+  }
+  
+  return;
+}
+
+/* see battle_logic.h */
+int num_moves(move_t *moves) {
+  int count = 0;
+  while(moves) {
+    moves = moves->next;
+    count++;
+  }
+  return count;
+}
+
+/* see battle_logic.h */
+int num_items(battle_item_t *items) {
+  int count = 0;
+  while(items) {
+    items = items->next;
+    count++;
+  }
+  return count;
 }
