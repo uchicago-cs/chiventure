@@ -76,12 +76,20 @@ chiventure_ctx_t* create_example_ctx() {
     stats_t* gs_health_stat = stats_new(gs_health, 100);
     stats_global_t *player_health = stats_global_new("current_health", 50);
     stats_t* player_health_stat = stats_new(player_health, 50);
+    stats_global_t *player_strength = stats_global_new("strength", 50);
+    stats_t* player_strength_stat = stats_new(player_strength, 50);
+    stats_global_t *player_defense= stats_global_new("defense", 50);
+    stats_t* player_defense_stat = stats_new(player_defense, 50);
    
     /* Adding to hash table */
     HASH_ADD_KEYPTR(hh, game->curr_stats, gs_health->name, strlen(gs_health->name), gs_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, gs_health_stat->key, strlen(gs_health_stat->key), gs_health_stat);
     HASH_ADD_KEYPTR(hh, game->curr_stats, player_health->name, strlen(player_health->name), player_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, player_health_stat->key, strlen(player_health_stat->key), player_health_stat);
+    HASH_ADD_KEYPTR(hh, game->curr_stats, player_strength->name, strlen(player_strength->name), player_strength);
+    HASH_ADD_KEYPTR(hh, player->player_stats, player_strength_stat->key, strlen(player_strength_stat->key), player_strength_stat);
+    HASH_ADD_KEYPTR(hh, game->curr_stats, player_defense->name, strlen(player_defense->name), player_defense);
+    HASH_ADD_KEYPTR(hh, player->player_stats, player_defense_stat->key, strlen(player_defense_stat->key), player_defense_stat);
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
 
     /*Initializing class */
@@ -96,13 +104,13 @@ chiventure_ctx_t* create_example_ctx() {
 
     /* Checking if everything works */
     stats_global_t* stat_test;
-    HASH_FIND_STR(game->curr_stats, "max_health", stat_test);
+    HASH_FIND_STR(game->curr_stats, "defense", stat_test);
     if (stat_test->max != 100) 
     {
         printf("ERROR");
     }
     stats_t*  player_test;
-    HASH_FIND_STR(game->curr_player->player_stats, "current_health", player_test);
+    HASH_FIND_STR(game->curr_player->player_stats, "defense", player_test);
     if (player_test->val != 50) 
     {
         printf("ERROR 2");
@@ -148,7 +156,7 @@ void create_combined_skill(chiventure_ctx_t* ctx)
     int durations[] = {5, 5};
     player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
     if (health_boost == NULL) {
-        print_to_cli(ctx, "NULL EFFECT");
+        print_to_cli(ctx, "HEALTH NULL EFFECT");
     }
     effect_t* stat_effect0 = make_player_stat_effect(health_boost);
     /* Making a skill */
@@ -158,11 +166,11 @@ void create_combined_skill(chiventure_ctx_t* ctx)
     char* stats_to_change1[] = {"strength"};
     double mods1[] = {100, 100};
     int durations1[] = {5, 5};
-    player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 2, ctx);
+    player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 1, ctx);
     if (strength_boost == NULL) {
-        print_to_cli(ctx, "NULL EFFECT");
+        print_to_cli(ctx, "STRENGTH NULL EFFECT");
     }
-    effect_t* stat_effect1 = make_player_stat_effect(health_boost);
+    effect_t* stat_effect1 = make_player_stat_effect(strength_boost);
     /* Making a skill */
     skill_t* stat_skill1 = skill_new(0, PASSIVE, "Stat Skill", "Modifies strength", 10, 5, stat_effect1, NULL);
 
@@ -170,13 +178,13 @@ void create_combined_skill(chiventure_ctx_t* ctx)
     char* stats_to_change2[] = {"defense"};
     double mods2[] = {100, 100};
     int durations2[] = {5, 5};
-    player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 2, ctx);
+    player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 1, ctx);
     if (defense_boost == NULL) {
-        print_to_cli(ctx, "NULL EFFECT");
+        print_to_cli(ctx, "DEFENSE NULL EFFECT");
     }
-    effect_t* stat_effect2 = make_player_stat_effect(health_boost);
+    effect_t* stat_effect2 = make_player_stat_effect(defense_boost);
     /* Making a skill */
-    skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies statistics", 10, 5, stat_effect2, NULL);
+    skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies defense", 10, 5, stat_effect2, NULL);
 
     skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
     skills[0] = stat_skill0;
@@ -191,7 +199,7 @@ void create_combined_skill(chiventure_ctx_t* ctx)
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
 }
 
-char* create_complex_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+char* create_combined_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     create_combined_skill(ctx);
     return "Created a combined skill!";
@@ -231,7 +239,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
      return SUCCESS;
 }
 
-int add_complex_skill_to_player(chiventure_ctx_t* ctx, int sid)
+int add_combined_skill_to_player(chiventure_ctx_t* ctx, int sid)
 {
     player_t* player = ctx->game->curr_player;
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
@@ -252,11 +260,11 @@ int add_complex_skill_to_player(chiventure_ctx_t* ctx, int sid)
     }
     
     /* Check the level */
-    if (player->level<skill_node->prereq_level) 
-    {
-        print_to_cli(ctx, "Level too low!");
-        return FAILURE;
-    }
+    // if (player->level<skill_node->prereq_level) 
+    // {
+    //     print_to_cli(ctx, "Level too low!");
+    //     return FAILURE;
+    // }
 
     /* Add to inventory */
     inventory_skill_add(ctx->game->curr_player->player_skills, skill_node -> skill);
@@ -300,9 +308,9 @@ char* add_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t*
     }
 }
 
-char* add_complex_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+char* add_combined_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-    int check = add_complex_skill_to_player(ctx, 0);
+    int check = add_combined_skill_to_player(ctx, 0);
     if (check == FAILURE) 
     {
         return "Could not add skill!";
@@ -407,10 +415,8 @@ void main()
 
     add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
     add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
-    add_entry("STATISTIC", create_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
-    add_entry("ADD", add_operation, NULL, ctx->cli_ctx->table);
-    add_entry("ADD_HEALTH_BOOST", add_player_stat_operation, NULL, ctx->cli_ctx->table);
-    add_entry("LEVEL_UP", level_up_operation, NULL, ctx->cli_ctx->table);
+    add_entry("CREATE_COMPLEX", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD_COMPLEX_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
     //Start UI for example chiventure context
     start_ui(ctx, banner);
 }
