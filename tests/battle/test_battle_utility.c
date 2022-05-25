@@ -295,3 +295,19 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
     cr_assert_eq(actual_move->id, expected->id, "give_move did not return expected move!");
 }
 
+ /* Creates + initializes a battle_item */
+ battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
+                                        char *name, bool attack, stat_changes_t *changes)
+ {
+     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
+
+     item->id = id;
+     item->name = name;
+     item->description = description;
+     item->quantity = quantity;
+     item->description = description;
+     item->attack = attack;
+     item->attributes = changes;
+
+     return item;
+ }
