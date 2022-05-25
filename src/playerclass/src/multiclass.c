@@ -34,45 +34,33 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
     *succ = SUCCESS;
     int len = 0;
+
     if ((strstr(base_class->name, "Multiclass of ") == NULL)){
-      strncat(new_shortdesc, "Multiclass of ", 15);
       len += 14;
     }
-    strncat(new_shortdesc, base_class->name, strlen(base_class->name));
     len += strlen(base_class->name);
     if (num_multiclass == 2){
-        strncat(new_shortdesc, ", ", 3);
         len += 2;
     } else{
-        strncat(new_shortdesc, " and ", 6);
         len += 5;
     }
-    strncat(new_shortdesc, second_class->name, strlen(second_class->name));
     len += strlen(second_class->name);
     for (int i = 0; i < base_class->num_parent_class; i++) {
         if(i == base_class->num_parent_class - 1 && second_class->num_parent_class == 0){
-            strncat(new_shortdesc, " and ", 6);
             len += 5;
         } else{
-            strncat(new_shortdesc, ", ", 3);
             len += 2;
         }
-        strncat(new_shortdesc, base_class->parent_class_names[i], strlen(base_class->parent_class_names[i]));
         len += strlen(base_class->parent_class_names[i]);
     }
     for (int i = 0; i < second_class->num_parent_class - 1; i++) {
         if(i == second_class->num_parent_class - 1){
-            strncat(new_shortdesc, " and ", 6);
             len += 5;
         } else{
-            strncat(new_shortdesc, ", ", 3);
             len += 2;
         }
-        strncat(new_shortdesc, second_class->parent_class_names[i], strlen(second_class->parent_class_names[i]));
         len += strlen(second_class->parent_class_names[i]);
     }
-
-    strncat(new_shortdesc, ".", 2);
     len += 1;
 
     if (len > MAX_SHORT_DESC_LEN + 1) {
@@ -80,6 +68,35 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
         *succ = FAILURE;
         return base_class->shortdesc;
     }
+
+    if ((strstr(base_class->name, "Multiclass of ") == NULL)){
+      strncat(new_shortdesc, "Multiclass of ", 15);
+    }
+    strncat(new_shortdesc, base_class->name, strlen(base_class->name));
+    if (num_multiclass == 2){
+        strncat(new_shortdesc, ", ", 3);
+    } else{
+        strncat(new_shortdesc, " and ", 6);
+    }
+    strncat(new_shortdesc, second_class->name, strlen(second_class->name));
+    for (int i = 0; i < base_class->num_parent_class; i++) {
+        if(i == base_class->num_parent_class - 1 && second_class->num_parent_class == 0){
+            strncat(new_shortdesc, " and ", 6);
+        } else{
+            strncat(new_shortdesc, ", ", 3);
+        }
+        strncat(new_shortdesc, base_class->parent_class_names[i], strlen(base_class->parent_class_names[i]));
+    }
+    for (int i = 0; i < second_class->num_parent_class - 1; i++) {
+        if(i == second_class->num_parent_class - 1){
+            strncat(new_shortdesc, " and ", 6);
+        } else{
+            strncat(new_shortdesc, ", ", 3);
+        }
+        strncat(new_shortdesc, second_class->parent_class_names[i], strlen(second_class->parent_class_names[i]));
+    }
+
+    strncat(new_shortdesc, ".", 2);
 
     return new_shortdesc;
 }
