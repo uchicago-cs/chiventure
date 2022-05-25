@@ -691,7 +691,6 @@ Test(skilltree_test, display_skill_description_typical)
   char *name = "defuse bomb";
 
   char *display = display_skill_description(skilltree, name);
-  printf("%s", display);
   char *check = "Skill Description: defuses a bomb\n";
   cr_assert_eq(strcmp(check, display), 0, "Error: display_skill_description_typical failed\n");
 }
