@@ -411,4 +411,37 @@ Test(parse, all_fillers)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
+//Tests input of all filler words with random spacing and tabs
+Test(parse, all_fillers_with_spaces) 
+{
+    char str[] = "to     the    to into  ";
+    char **words = parse(str);
+    cr_assert_null(words[0],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+//Tests input when one is a filler word with quotes surrounding it
+Test(parse, fillers_with_quotes) 
+{
+    char str[] = "pickup \"the\" chair";
+    char **words = parse(str);
+    cr_assert_eq("pickup",words[0],"parse() should point to NULL for empty tokens");
+    cr_assert_eq("the",words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_eq("chair",words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
+//Tests input when one is a filler word with quotes surrounding it, last word
+Test(parse, fillers_with_quotes_end) 
+{
+    char str[] = "pickup chair \"the\"";
+    char **words = parse(str);
+    cr_assert_eq("pickup",words[0],"parse() should point to NULL for empty tokens");
+    cr_assert_eq("chair",words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_eq("the",words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
 
