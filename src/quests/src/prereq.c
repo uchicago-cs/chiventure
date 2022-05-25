@@ -30,7 +30,9 @@ int prereq_init(prereq_t * prereq, int hp, int level) {
 
 /* Refer to prereq.h */
 int prereq_free(prereq_t *prereq) {
-    assert(prereq != NULL);
+    if(prereq == NULL) {
+        return SUCCESS;
+    }
     if(prereq->quest_list) {
         id_list_free(prereq->quest_list);
     }
