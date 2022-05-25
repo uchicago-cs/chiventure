@@ -31,6 +31,10 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     "rogue",
     "warrior",
     "wizard",
+    "druid",
+    "elementalist",
+    "knight",
+    "sorceror"
     
     // Here are NPC-specifc playerclasses
     "alchemist",
@@ -42,7 +46,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 12;
+const int DEFAULT_CLASS_COUNT = 16;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
@@ -60,7 +64,7 @@ int get_class_name_index(char* name) {
         return -1;
 
     char temp_name[MAX_NAME_LEN + 1];
-    strncpy(temp_name, name, MAX_NAME_LEN);
+    strncpy(temp_name, name, MAX_NAME_LEN + 1);
     /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
@@ -180,7 +184,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      */
 
     /* Bard stats:
-     * 15 Max Health
+     * 15 Health
      * 15 Speed
      * 5 Physical Defense
      * 5 Physical Attack
@@ -190,7 +194,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 20 Max Mana */ 
     if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
         short_desc = "A skilled musician and magician.";
-        long_desc = "The Bard combines their skill as a magician and musician "
+        long_desc = "The Bard combines their skill as a magician and musician"
                     "to support their allies or vanquish their foes.";
         set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
     }
@@ -206,9 +210,10 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 5 Max Mana */ 
     else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
         short_desc = "An elite martial artist.";
-        long_desc = "The Monk is an expert of unarmed combat, and, through their "
-                    "training--in accordance with their strict spirituality--have "
-                    "learned how to defend themselves from attackers.";
+        long_desc = "The Monk is an expert of unarmed combat, and, through"
+                    " their training-- in accordance with their strict"
+                    " spirituality--have learned how to defend themselves from"
+                    " attackers.";
         set_stats_hashtable(game, &stats, 25, 20, 15, 15, 5, 20, 5, 5);
     }
 
@@ -223,9 +228,10 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 10 Max Mana */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
         short_desc = "A master hunter.";
-        long_desc = "The ranger is the embodiment of an apex predator: while they may "
-                    " tend to lurk away from civilisation in the wild, they are a "
-                    "skilled killer and have no qualms about doing so.";
+        long_desc = "The ranger is the embodiment of an apex predator: while" 
+                    "they may tend to lurk away from civilisation in the wild," 
+                    "they are a skilled killer and have no qualms about doing "
+                    "so.";
         set_stats_hashtable(game, &stats, 10, 20, 10, 15, 25, 10, 10, 10);
     }
 
@@ -240,9 +246,10 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 15 Max Mana */
     else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
         short_desc = "A sibling of the shadows.";
-        long_desc = "The Rogue embodies stealth. They are feared by many, and "
+        long_desc = "The Rogue embodies stealth. They are feared by many, and" 
                     "for good reason. They use their exceptional speed and "
-                    "agility to surprise their enemies and attack when least expected.";
+                    "agility to surprise their enemies and attack when least"
+                    "expected.";
         set_stats_hashtable(game, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
@@ -257,7 +264,8 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 5 Max Mana */
     else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
         short_desc = "A mighty warrior.";
-        long_desc = "The Warrior is an elite, battle-hardened fighter who excels in physical combat.";
+        long_desc = "An elite, battle-hardened fighter who excels in physical " 
+                    "combat.";
         set_stats_hashtable(game, &stats, 20, 15, 20, 25, 10, 10, 5, 5);
     }
 
@@ -272,9 +280,80 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 25 Max Mana */ 
     else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
         short_desc = "A learned wizard.";
-        long_desc = "The Wizard is a master of the arcane; a formidable wielder of magic, "
-                    "and an academic whose studies delve into its secrets.";
+        long_desc = "The Wizard is a master of the arcane; a formidable wielder" 
+                    "of magic, and an academic whose studies delve into its "
+                    "secrets.";
         set_stats_hashtable(game, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
+    }
+    
+    /* Druid stats:
+     * 15 Max Health
+     * 5 Speed
+     * 10 Physical Defense
+     * 10 Physical Attack
+     * 10 Ranged Attack
+     * 30 Magic Defense
+     * 30 Magic Attack
+     * 25 Max Mana */
+
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
+        short_desc = "A Druid.";
+        long_desc = "Members of the high-ranking class in ancient Celtic "
+                    "cultures, Druids were religious leaders as well as "
+                    "adjudicators, and medical professionals.";
+        set_stats_hashtable(game, &stats, 15, 5, 10, 10, 10, 30, 30, 25);
+    }
+
+    /* Elementalist stats:
+     * 20 Max Health
+     * 5 Speed
+     * 10 Physical Defense
+     * 10 Physical Attack
+     * 10 Ranged Attack
+     * 20 Magic Defense
+     * 20 Magic Attack
+     * 20 Max Mana */
+
+    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
+        short_desc = "An Elementalist.";
+        long_desc = "Multi faceted spellcasters who channel elemental forces, "
+                    "making fire, air, earth, and water do their bidding.";
+        set_stats_hashtable(game, &stats, 20, 5, 10, 10, 10, 20, 20, 20);
+    }
+
+    /* Knight stats:
+     * 40 Max Health
+     * 20 Speed
+     * 30 Physical Defense
+     * 30 Physical Attack
+     * 10 Ranged Attack
+     * 0 Magic Defense
+     * 0 Magic Attack
+     * 20 Max Mana */
+
+    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
+        short_desc = "A brave Knight.";
+        long_desc = "Professional cavalry warriors, some of whom were vassals " 
+                    "holding lands as fiefs from the lords in whose armies they" 
+                    " served";
+        set_stats_hashtable(game, &stats, 40, 20, 30, 30, 10, 0, 0, 20);
+    }
+
+    /* Sorceror stats:
+     * 15 Max Health
+     * 10 Speed
+     * 5 Physical Defense
+     * 10 Physical Attack
+     * 5 Ranged Attack
+     * 25 Magic Defense
+     * 20 Magic Attack
+     * 25 Max Mana */
+
+    else if (!strncmp(temp_name, "sorceror", MAX_NAME_LEN)) {
+        short_desc = "A slick Sorceror.";
+        long_desc = "Young master of the mystic arts; inherits talent and"
+                    " battle prowess from their family";
+        set_stats_hashtable(game, &stats, 15, 10, 5, 10, 5, 25, 20, 25);
     }
 
     /*-----------------------------------------------------------------
@@ -380,14 +459,16 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
                     "save anyone in the village that has been injured.";
         set_stats_hashtable(game, &stats, 10, 5, 10, 5, 5, 10, 5, 10);
     }
+
     else {
         fprintf(stderr, "Could not find class name: \"%s\" "
                         "in class_prefab_new\n", class_name);
-        return NULL;
     }
 
-    return class_new(class_name, short_desc, long_desc, attributes, stats, effects);
+    return class_new(class_name, short_desc, long_desc, attributes, stats, 
+                    effects);
 }
+
 
 /* Skill related functions */
 
@@ -425,7 +506,8 @@ const unsigned int UI_NODE_SIZE = 75;
  */
 int class_allocate_skills(class_t* class, int max_skills_in_tree, 
                           int max_active_skills, int max_passive_skills) {
-    class->starting_skills = inventory_new(max_active_skills, max_passive_skills);
+    class->starting_skills = inventory_new(max_active_skills, 
+                                           max_passive_skills);
     
     /* tree ID needs to be unique across all chiventure code.  Our team has been
      * assigned the range 3000-3999.  Default classes start at 3000. There is
@@ -474,7 +556,8 @@ int add_skill(class_t* class, skill_t* skill, int prereq_count,
     if (class == NULL || skill == NULL)
         return FAILURE;
 
-    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, UI_NODE_SIZE);
+    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, 
+                                        UI_NODE_SIZE);
 
     /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
     va_list prereq_p;
@@ -519,20 +602,21 @@ int class_prefab_add_skills(class_t* class) {
         /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
-                                     "You deal damage to your opponent with "
-                                     "just a word.", 1, 75, NULL);
+                                     "You deal damage to your opponent with " 
+                                     "just a word.", 1, 75, NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
                                      "A full line of poetry hits your " 
-                                     "opponent!", 1, 200, NULL);
+                                     "opponent!", 1, 200, NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Enchanted Stanza", 
                                      "The full weight of your stanza strikes "
-                                     "your opponent!", 1, 325, NULL);
+                                     "your opponent!", 1, 325, NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
         add_skill(class, skill_1, 1, 50, false, 0);
         add_skill(class, skill_2, 1, 34, false, 1);
     }
+
     /* 
      * A simple linear tree for a monk class
      *
@@ -550,17 +634,18 @@ int class_prefab_add_skills(class_t* class) {
         /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Acrobatic Powers", 
-                                    "enhanced dexterity to surprise your opponent "
-                                    "with unique kicks and movements.", 1, 120, 
-                                     NULL);                          
+                                    "enhanced dexterity to surprise your opponent"
+                                    " with unique kicks and movements.", 1, 120, 
+                                     NULL, NULL);                          
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Spirit of Strength", 
                                     "Uses inner spirit and peace to unleash "
                                      "powerful hits and kicks!", 1, 220, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Supernova Circle", 
-                                    "Powerful circular motions that allows for the "
-                                    "most powerful jumps, kicks, and punchess!", 1, 420, 
-                                     NULL);
+                                    "Powerful circular motions that allows for " 
+                                    "the most powerful jumps, kicks, and "
+                                    "punchess!",
+                                     1, 420, NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
@@ -586,22 +671,21 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Quick Hit", 
                                      "You hit your opponent with a quick jab.",
-                                      1, 125, NULL);
+                                      1, 125, NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Backstab", 
                                      "You attack your opponent from behind, "
                                      "catching them by surprise!", 1, 250, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Leg Swipe", 
                                      "You knock your opponent’s legs out from "
                                      "under them, bringing them to the"
-                                     "ground!", 1, 375, NULL);
+                                     "ground!", 1, 375, NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
         add_skill(class, skill_1, 1, 50, false, 0);
         add_skill(class, skill_2, 1, 34, false, 1);
     }
-
 
     /* 
      * A simple linear tree for the warrior class.
@@ -620,14 +704,14 @@ int class_prefab_add_skills(class_t* class) {
         /* Currently point to null effects */
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Sword Slash", 
-                                     "You slash your sword.", 1, 100, 
-                                     NULL);
+                                     "You slash your sword.", 1, 69, 
+                                     NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Double Slash", 
-                                     "You slash your sword, twice!", 1, 200, 
-                                     NULL);
+                                     "You slash your sword, twice!", 1, 269, 
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Triple Slash", 
-                                     "You slash your sword, thrice!", 1, 400, 
-                                     NULL);
+                                     "You slash your sword, thrice!", 1, 369, 
+                                     NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
@@ -652,20 +736,22 @@ int class_prefab_add_skills(class_t* class) {
         /* Skills */
         skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Blinding Charm", 
                                      "You blinded your opponent.", 1, 100, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Paralyze Spell", 
                                      "Your opponent is paralyzed!", 1, 150, 
-                                     NULL);
+                                     NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Arcane Explosion", 
                                      "A powerful spell that causes a massive" 
                                      "explosion with high area damage!", 1, 
-                                     200, NULL);
+                                     200, NULL, NULL);
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
         add_skill(class, skill_1, 1, 50, false, 0);
         add_skill(class, skill_2, 1, 34, false, 1);
-    } /*
+    } 
+    
+    /*
     * A simple linear tree for a ranger class
     *
     * starting skill: close_shot
@@ -677,19 +763,19 @@ int class_prefab_add_skills(class_t* class) {
     */
     else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
         class_allocate_skills(class, 3, 3, 0);
-       sid_t skill_id = class->skilltree->tid * 100;
+        sid_t skill_id = class->skilltree->tid * 100;
       
        /* Currently point to null effects */
        /* Skills */
        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Close Shot",
-                                    "You hit a weak, but close shot.", 1, 100,
-                                    NULL);                         
+                                    "You hit a weak, but close shot.", 1, 130,
+                                    NULL, NULL);                         
        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Mid-range Shot",
-                                    "You hit a further, and stronger, shot!", 1, 200,
-                                    NULL);
+                                    "You hit a further, and stronger, shot!", 
+                                    1, 220, NULL, NULL);
        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Long Shot",
                                     "You hit a long, damaging shot!", 1, 400,      
-                                    NULL);
+                                    NULL, NULL);
  
        /* Add skills to tree */
        add_skill(class, skill_0, 0, 25, true);
@@ -697,7 +783,138 @@ int class_prefab_add_skills(class_t* class) {
        add_skill(class, skill_2, 1, 34, false, 1);
    }
 
-    
+    /*
+    * A simple linear tree for a druid class
+    *
+    * starting skill: frostbite
+    *  - active: deals 3 damage.
+    * frostbite -> control_flames
+    *  - active: deals 12 damage.
+    * control_flames -> flame_blade
+    *  - active: deals 25 damage.
+    */
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+
+       /* Currently point to null effects */
+       /* Skills */
+       skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "frostbite",
+                                    "weak but cold frostbite", 1, 100,
+                                    NULL, NULL);                         
+       skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "control flames",
+                                    "you burned your opponent, stronger effect",
+                                     1, 200,
+                                    NULL, NULL);
+       skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "flame blade",
+                                    "you sliced your opponent with fire!", 1, 400,      
+                                    NULL, NULL);
+
+       /* Add skills to tree */
+       add_skill(class, skill_0, 0, 25, true);
+       add_skill(class, skill_1, 1, 50, false, 0);
+       add_skill(class, skill_2, 1, 34, false, 1);
+    }
+
+    /*
+    * A simple linear tree for a elementalist class
+    *
+    * starting skill: stone shards
+    *  - active: deals 5 damage.
+    * stone shards -> Lightning arc
+    *  - active: deals 17 damage.
+    * lightning arc -> dragon's tooth
+    *  - active: deals 20 damage.
+    */
+    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
+       class_allocate_skills(class, 3, 3, 0);
+       sid_t skill_id = class->skilltree->tid * 100;
+
+       /* Currently point to null effects */
+       /* Skills */
+       skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "stone shards",
+                                    "A hail of stone shards!", 1, 120,
+                                    NULL, NULL);                         
+       skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "arc lightning",
+                                    "A lightning arc is casted at your enemy!", 
+                                    1, 220,
+                                    NULL, NULL);
+       skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "dragon's tooth",
+                                    "An explosive tooth of a Dragon is used on" 
+                                    " your enemy.", 1, 320,      
+                                    NULL, NULL);
+
+       /* Add skills to tree */
+       add_skill(class, skill_0, 0, 25, true);
+       add_skill(class, skill_1, 1, 50, false, 0);
+       add_skill(class, skill_2, 1, 34, false, 1);
+    }
+
+   /*
+    * A simple linear tree for a Knight class
+    *
+    * starting skill: holy strike
+    *  - active: deals 5 damage.
+    * holy strike -> shield strike
+    *  - active: deals 10 damage.
+    * shield strike -> shackle strike
+    *  - active: deals 25 damage.
+    */
+    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+       sid_t skill_id = class->skilltree->tid * 100;
+
+       /* Currently point to null effects */
+       /* Skills */
+       skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "holy strike",
+                                    "The knight delivers a holy strike!", 1, 100,
+                                    NULL, NULL);                         
+       skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "shield strike",
+                                    "Strikes enemy with shield!", 1, 250,
+                                    NULL, NULL);
+       skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "shackle strike",
+                                    "Strikes enemy with his shackle", 1, 350,      
+                                    NULL, NULL);
+
+       /* Add skills to tree */
+       add_skill(class, skill_0, 0, 25, true);
+       add_skill(class, skill_1, 1, 50, false, 0);
+       add_skill(class, skill_2, 1, 34, false, 1);
+    }
+
+    /*
+    * A simple linear tree for a Sorceror class
+    *
+    * starting skill: dark magic
+    *  - active: deals 5 damage.
+    * dark magic -> moon storm
+    *  - active: deals 12 damage.
+    * moon storm -> gates of rashonmon
+    *  - active: deals 23 damage.
+    */
+    else if (!strncmp(temp_name, "sorceror", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+       sid_t skill_id = class->skilltree->tid * 100;
+
+       /* Currently point to null effects */
+       /* Skills */
+       skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "dark magic",
+                                    "The sorceror activates dark magic!", 1, 100,
+                                    NULL, NULL);                         
+       skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "moon storm",
+                                    "Strikes enemy with moon storm!", 1, 200,
+                                    NULL, NULL);
+       skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "gates of rashonmon",
+                                    "Strikes enemy with the gates of rashonmon", 
+                                    1, 300,      
+                                    NULL, NULL);
+
+       /* Add skills to tree */
+       add_skill(class, skill_0, 0, 25, true);
+       add_skill(class, skill_1, 1, 50, false, 0);
+       add_skill(class, skill_2, 1, 34, false, 1);
+    }
+
     else {
         fprintf(stderr, "Could not find class for skill inventories "
                         "in class_prefab_add_skills\n");
