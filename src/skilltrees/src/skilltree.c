@@ -460,6 +460,7 @@ char *display_skill_description(skill_tree_t* tree, char *skill_name){
         if (!strcmp(tree->nodes[i]->skill->name,skill_name)){
             // size of the buf is calculated, using the strlen of the 
             // description plus the size of the surrounding "Skill Description:\n"
+            // and null terminator
             int size = strlen(tree->nodes[i]->skill->desc) + 22;
             char buffer[size];
 
