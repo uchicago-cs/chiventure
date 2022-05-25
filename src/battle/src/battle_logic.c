@@ -230,7 +230,49 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
     return SUCCESS;
 }
 
-/* See Battle_logic.h */
+/*
+ * Initializes a new class_item_stat_multipliers_t struct with all
+ * parameters as 1
+ * Parameters: None
+ * Returns:
+ *  A new class_item_stat_multipliers_t
+ */
+class_item_stat_multipliers_t* class_item_stat_multipliers_new()
+{
+    class_item_stat_multipliers_t* mults = (class_item_stat_multipliers_t*)calloc(1, sizeof(class_item_stat_multipliers_t));
+    mults->speed = 1;
+    mults->max_sp = 1;
+    mults->sp = 1;
+    mults->phys_atk = 1;
+    mults->mag_atk = 1;
+    mults->phys_def = 1;
+    mults->mag_def = 1;
+    mults->speed = 1;
+    mults->crit = 1;
+    mults->accuracy = 1;
+    mults->hp = 1;
+    mults->max_hp = 1;
+
+    return mults;
+}
+
+/* see battle_logic.h */
+class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* item)
+{
+    class_item_stat_multipliers_t* mults = class_item_stat_multipliers_new();
+
+    switch(class->name) {
+        case "warrior":
+            switch(item->name) {
+                case "Strength Up":
+                    mults->phys_atk = 2;
+            }
+    }
+
+    return mults;
+}
+
+/* see battle_logic.h */
 int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 {
     stat_changes_add_node(sc);

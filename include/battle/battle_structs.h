@@ -24,6 +24,21 @@ typedef struct stat_changes {
     struct stat_changes* prev; //the previous stat_changes in the list, or NULL for no stat_change
 } stat_changes_t;
 
+/* A data structure representing the class-dependent multipliers on stat changes from battle items */
+typedef struct class_item_stat_multipliers {
+    double speed; //the amount speed changes from a stat change
+    double max_sp; //the amount max_sp changes from a stat change
+    double sp; //the amount sp changes from a stat change
+    double phys_atk; //the amount phys_atk changes from a stat change
+    double mag_atk; //the amount mag_atk changes from a stat change
+    double phys_def; //the amount phys_def changes from a stat change
+    double mag_def; //the amount mag_def changes from a stat change
+    double crit; //the amount crit changes from a stat change
+    double accuracy; //the amount accuracy changes from a stat change
+    double hp; //the amount hp changes from a stat change
+    double max_hp; //the amount max_hp changes from a stat change
+} class_item_stat_multipliers_t;
+
 /* Defines the type of equipment a piece of equipment is */
 typedef enum equipment_type{
     ACCESSORY,
