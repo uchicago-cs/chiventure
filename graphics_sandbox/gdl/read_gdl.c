@@ -261,16 +261,16 @@ int free_statistics_display(statistics_display_t *statistics_display)
 
 
 /* 
- * Including here a has function: djb2, for an easy compairison of strings.
- * This implementation was pulled from http://www.cse.yorku.ca/~oz/hash.html.
+ * A hash function for strings 
  */
-unsigned int hash(char *str)
+int hash(char *str)
 {
-    unsigned int hash = 5381;
-    int c;
+    int hash = 17;
+    int i = 0;
 
-    while ((c = *str++))
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+    while (str[i] != '\0') {
+        hash += (str[i] + i) * 11;
+    }
 
     return hash;
 }
@@ -326,8 +326,6 @@ graphics_t* read_gdl()
     gdl = fopen("gdl.txt","r"); // could read from any specific location
 
     // Define information strings for comparisons
-    unsigned long display = hash("\"Display_Dimensions\":");
-    unsigned long camera = hash("\"Camera\":");
     unsigned long inventory = hash("\"Inventory\":");
     // wishlist item    unsigned long map = hash("\"map\":");
     // wishlist item unsigned long statistics = hash("\"Statistics\":");
@@ -353,10 +351,10 @@ graphics_t* read_gdl()
         if (fscanf(gdl, "%s", title) != EOF) {
 
             // map title to structure 
-            unsigned long h = hash(title);
+            int h = hash(title);
         
             switch (h) {
-                case display: case camera:
+                case hash("\"Display_Dimensions\":"): case int(hash("\"Camera\":"));
                     getc(gdl);
                     fscanf(gdl, "%s", spec);
                     if (strcmp(spec, "\"width\"") == 0) {
@@ -377,7 +375,7 @@ graphics_t* read_gdl()
                     }
                     getc(gdl);
                     break;
-                case inventory:
+                case hash("\"Inventory\":"):
                     getc(gdl);
                     for(int i = 0; i < 3; i++) {
                         fscanf(gdl, "%s", spec);
