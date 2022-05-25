@@ -364,6 +364,8 @@ char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
 {
     char *buf = malloc(1000);
     
+    player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
+
     task_t *task = get_task_from_quest_hash(task_id, all_quests);
     char *mission_name = task->mission->target_name;
     int reward_xp = task->reward->xp;
@@ -373,9 +375,10 @@ char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
     char *prereq_tasks = store_list(task->prereq->task_list->head);
     char *prereq_quests = store_list(task->prereq->quest_list->head);
 
-    sprintf(buf, "TASK: %s\nMission: %s\nRewards: %d xp and %s\nPrerequisites: "
+    sprintf(buf, "TASK: %s\nStatus: %s\nMission: %s\nRewards: %d xp and %s\nPrerequisites: "
             "%d hp and %d level\nPrerequisite Tasks: %sPrerequisite Quests: %s",
-            task_id, mission_name, reward_xp, reward_item, prereq_hp, prereq_level,
+            task_id, ptask != NULL ? (ptask->completed ? "Status: Completed!" : "Status: Incomplete") : "Status: Inactive  ",
+            mission_name, reward_xp, reward_item, prereq_hp, prereq_level,
             prereq_tasks, prereq_quests);
     return buf;
 }
