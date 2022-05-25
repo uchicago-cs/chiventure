@@ -95,7 +95,6 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
         }
         strncat(new_shortdesc, second_class->parent_class_names[i], strlen(second_class->parent_class_names[i]));
     }
-
     strncat(new_shortdesc, ".", 2);
 
     return new_shortdesc;
