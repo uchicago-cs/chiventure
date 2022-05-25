@@ -3,7 +3,7 @@
 #include <criterion/criterion.h>
 #include <stdbool.h>
 #include <string.h>
-#include "test_battle_utility.c"
+#include "battle_test_utility.h"
 
 /* Tests set_battle_player() */
 Test(battle_flow_move, set_battle_player)

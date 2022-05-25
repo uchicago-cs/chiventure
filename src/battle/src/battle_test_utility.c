@@ -1,17 +1,4 @@
-#include "battle/battle_ai.h"
-#include "battle/battle_flow.h"
-#include "battle/battle_flow_structs.h"
-#include "battle/battle_structs.h"
-#include "npc/npc.h"
-#include "npc/npc_battle.h"
-#include "battle/battle_moves.h"
-#include "battle/battle_default_objects.h"
-#include "battle/battle_logic.h"
-#include "battle/battle_state.h"
-#include "../include/battle/battle_move_maker.h"
-#include "playerclass/class.h"
-#include "battle/battle_print.h"
-#include "common/utlist.h"
+#include "battle_test_utility.h"
 
 class_t *create_test_class()
 {
@@ -160,7 +147,7 @@ battle_item_t* create_player_battle_items()
 battle_item_t* create_enemy_battle_items()
 {
     /* I am adding these for a temporary fix, however, these will be changed
- *        as battle items are no longer weapons */
+ *  *        as battle items are no longer weapons */
     battle_item_t *head, *mace, *diamond_sword, *force_shield;
     head = NULL;
     stat_changes_t *mace_changes = stat_changes_new();

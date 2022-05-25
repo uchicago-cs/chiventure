@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "test_battle_utility.c"
+#include "battle_test_utility.h"
 
 
 /* Ensures give_move returns a random move when enum is BATTLE_AI_RANDOM*/
