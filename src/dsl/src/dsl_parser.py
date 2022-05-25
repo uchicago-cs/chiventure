@@ -59,8 +59,7 @@ class TreeToDict(Transformer):
         based on the key or type, and also places all items into their own list
         for convenience.
         """
-        print("Room")
-        print(s)
+        
         room_id = s.pop(0)[1]
 
 
@@ -131,19 +130,16 @@ class TreeToDict(Transformer):
         based on the key or type, and also places all items into their own list
         for convenience.
         """
-        print("npc")
-        print(s)
-        
-        # return ('npc', [])
+
         # gets the player class id.
-        name = s.pop(0)[1]
+        id = s.pop(0)[1]
 
         # first place all non-item objects into a dict
         # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
         # action and action attributes, etc.
         d = dict((k, v) for k, v in s)
 
-        return ('NPCS', (name, d))
+        return ('NPCS', (id, d))
     
 
     def inventory(self, s: list[tuple[str, str]]) -> tuple[str, str]:

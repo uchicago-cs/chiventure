@@ -7,9 +7,9 @@
     "intro": "Welcome!"
   },
   "ROOMS": {
-    "room B": {
-      "short_desc": "A dungeon room.",
-      "long_desc": "The walls are damp and moldy and, yet, the scent of freshly\n    cut lavender flowers pervades the air.",
+    "lab": {
+      "short_desc": "Oak's lab.",
+      "long_desc": "Professor Oak's lab in Pallet Town",
       "connections": [
         {
           "direction": "NORTH",
@@ -23,7 +23,7 @@
       "NPCS": [
         "OAK",
         {
-          "location": "room B",
+          "location": "lab",
           "short desc": "Kanto's premier Pokemon expert",
           "long desc": "Enjoys exploring human-Pokemon relationships",
           "age": "25",
@@ -37,6 +37,7 @@
         }
       ],
       "items": [
+        "computer",
         "CHARMANDER",
         "SQUIRTLE",
         "BULBASAUR",
@@ -74,6 +75,12 @@
       "short_desc": "A fire pokemon",
       "long_desc": "Prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
       "in": "OAK",
+      "actions": []
+    },
+    "COMPUTER": {
+      "short_desc": "A computer.",
+      "long_desc": "A computer in Oak's lab",
+      "in": "lab",
       "actions": []
     }
   },

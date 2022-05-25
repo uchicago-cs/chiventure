@@ -44,6 +44,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
 
     if "npcs" in intermediate:
         npcs_dict = intermediate.pop("npcs")
+        print(npcs_dict)
         for curr in npcs_dict:
             for npcs, val in curr.items():
                 npcs.append(Npcs(npcs, val))
@@ -303,22 +304,24 @@ class Game:
                 warn(f'''missing: introduction for game, generated default: {self.wdl_contents['intro']}''')
 
 class Npc:
-    def __init__(self, location, name: str, contents: dict):
+    def __init__(self, location: str, contents: dict, default: str):
         """
             Defines an NPC class for conversion to WDL, with a unique name
             a location, and a list of contents and/or properties
         """
         self.location = location
         self.contents = contents
-        self.age = age
-        self.gender = gender
+        self.default = default
+        assert 'id' in self.contents, "Item is missing an id"
+        self.id = self.contents['id']
 
         # self.wdl_contents stores what will be outputted so we don't lose the
         # original input from the parser
         self.wdl_contents = {}
 
+
     def to_json(self) -> str: 
-        """ For internal testing only: converts a game to its JSON format """
+        """ For internal testing only: converts an npc to its JSON format """
         return json.dumps(self.to_wdl_structure(),indent=2)
     
     def to_wdl_structure(self) -> dict:
@@ -331,26 +334,55 @@ class Npc:
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
             elif k == "inventory":
-                self.wdl_contents["inventory"] = self.contents["inventory"]
+                self.wdl_contents["inventory"] = self.inventory_list()
+            else:
+                self.wdl_contents[k] = v
 
         self.wdl_contents['in'] = self.location
+
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for {self.id}, wdl file may not run''')
         self.generate_defaults()
-        return {f"{self.name}": self.wdl_contents}
+        return {f"{self.id}": self.wdl_contents}
+    
+    def inventory_list(self) -> list:
+        """
+        Assembles a list of an inventory's items
+        """
+        if 'inventory' not in self.contents:
+            return []
+        else:
+            print("making inventory list")
+            out = []
+            for name, action_dict in self.contents.get('inventory', {}).items():
+                inventory_wdl_dict = {"inventory": name}
+                for k,v in inventory_dict.items():
+                    inventory_wdl_dict[k] = v
+                out.append(inventory_wdl_dict)
+
+        print(out)
+        return out
+
 
     def generate_defaults(self):
         """
-            Ensures that an Item can be converted to WDL by filling in 
+            Ensures that an NPC can be converted to WDL by filling in 
             neccesary information (like short and long description) that is not 
             included with its default values.
         """
-        # generate default for long description
-        if 'long_desc' not in self.wdl_contents:
-            short_desc = self.wdl_contents.get('short_desc', '')
-            default = f"This is a {self.name}. {short_desc}"
-            self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {self.name}, generated default: {self.wdl_contents['long_desc']}''')
-                
-        # generate default for short description
-        if 'short_desc' not in self.wdl_contents:
-            self.wdl_contents['short_desc'] = f"{self.name}"
-            warn(f'''missing: short description for {self.name}, generated default: {self.wdl_contents['short_desc']}''')
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for room, wdl file may not run''')
+            return
+        
+        else:
+            # generate default for long description
+            if 'long_desc' not in self.wdl_contents:
+                short_desc = self.wdl_contents.get('short_desc', '')
+                default = f"This is a {self.id}. {short_desc}"
+                self.wdl_contents['long_desc'] = f"{default}"
+                warn(f'''missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
+                    
+            # generate default for short description
+            if 'short_desc' not in self.wdl_contents:
+                self.wdl_contents['short_desc'] = f"{self.id}"
+                warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
