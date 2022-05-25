@@ -28,7 +28,11 @@ battle_status_t battle_over(battle_t *b)
     combatant_t *temp;
     DL_FOREACH(b->enemy, temp)
     {
-        if(temp->stats->hp > 0)
+        if (temp->stats->surrender_level >= temp->stats->hp && (temp->stats->surrender_level > 0))
+        {
+            return BATTLE_ENEMY_SURRENDER;
+        }
+        else if (temp->stats->hp > 0)
         {
             return BATTLE_IN_PROGRESS;
         }
@@ -183,9 +187,8 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     target_stats->mag_def += changes->mag_def;
     target_stats->crit += changes->crit;
     target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
     target_stats->max_hp += changes->max_hp;
-    if ((target_stats->hp += changes->hp) <= target_stats->max_hp)
+    if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
         target_stats->hp += changes->hp;
     }else
