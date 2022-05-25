@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "../include/battle/battle_test_utility.h"
+#include "../../include/battle/battle_test_utility.h"
 
 /* Tests move_init */
 Test(move, init)

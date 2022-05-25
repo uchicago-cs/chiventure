@@ -1,3 +1,4 @@
+#include <criterion/criterion.h>
 #include "battle_ai.h"
 #include "battle_flow.h"
 #include "battle_flow_structs.h"
@@ -65,5 +66,5 @@ combatant_t* new_battle_player();
 void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t difficulty, move_t* expected);
 
  /* Creates + initializes a battle_item */
- battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
+battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes);

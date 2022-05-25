@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/battle/battle_test_utility.h"
+#include "../../include/battle/battle_test_utility.h"
 
 /* Tests new_ctx_player() */
 Test(battle_flow_structs, new_ctx_player)

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/battle/battle_test_utility.h"
+#include "../../include/battle/battle_test_utility.h"
 
 /*
  * This tests to ensure that a target exists within a list of targets
