@@ -99,13 +99,3 @@ combatant_t* new_enemy_crit();
 /* This function creates a sandbox battle_player. */
 combatant_t* new_battle_player();
 
-
-/* Dialogue Building Functions ------------------------------------------------------*/
-
-/* This function is called by test functions to check if add_node works. */
-void check_add_node(int num_nodes);
-
-/* This function is called by test functions to check if add_edge works. */
-void check_add_edge(int num_edges);
-
-
