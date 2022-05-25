@@ -26,8 +26,8 @@ Test(battle_print, print_start_battle)
     dagger_changes->hp = 0;                        
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
-            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, move,
+            BATTLE_AI_GREEDY, HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
@@ -67,8 +67,8 @@ Test(battle_print, print_hp_one_enemy)
     dagger_changes->hp = 0;                        
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, move,
-            BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, move,
+            BATTLE_AI_GREEDY, HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
@@ -197,8 +197,8 @@ Test(battle_print, print_player_move_crit)
     dagger_changes->hp = 0;                        
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
-                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move,
+                     BATTLE_AI_GREEDY, HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
@@ -266,8 +266,8 @@ Test(battle_print, print_player_move_miss)
     dagger_changes->hp = 0;                        
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
-    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move,
-                     BATTLE_AI_GREEDY, HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move,
+                     BATTLE_AI_GREEDY, HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_DESERT;
