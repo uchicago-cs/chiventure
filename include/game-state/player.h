@@ -525,7 +525,27 @@ int add_move(player_t *player, move_t *move);
  */
 int add_item_to_player_without_checks(player_t *player, item_t *item);
 
-char *display_inventory(item_hash_t *inventory);
+/*
+ * Returns a string that represents the player's entire inventory
+ *
+ * Parameters:
+ * - player: A player. Must be allocated with player_new()
+ *
+ * Returns:
+ * - A string that represents the player's entire inventory with new lines
+ *   every 8 items
+ */
+char *display_inventory(player_t *player);
 
-char *display_inventory_item(item_hash_t *inventory, char *key);
+/*
+ * Returns a particular item's description from the player's inventory
+ *
+ * Parameters:
+ * - player: A player. Must be allocated with player_new()
+ * - key: the item's name which acts as a key for the inventory hash table
+ *
+ * Returns:
+ * - A string - the long description of an item
+ */
+char *display_inventory_item(player_t *player, char *key);
 #endif
