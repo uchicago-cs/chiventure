@@ -297,11 +297,7 @@ bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
     prereq_t *prereq = quest->prereq;
     player_t *player = qctx->player;
 
-    if (meets_prereqs(player, prereq)) {
-        return true;
-    } else {
-        return false;
-    }
+    return (meets_prereqs(player, prereq));
 }
 
 /* Refer to quests_state.h */
@@ -315,9 +311,5 @@ bool npc_can_give_task(quest_ctx_t *qctx, char *task_id)
     prereq_t *prereq = task->prereq;
     player_t *player = qctx->player;
 
-    if (meets_prereqs(player, prereq)) {
-        return true;
-    } else {
-        return false;
-    }
+    return (meets_prereqs(player, prereq));
 }
