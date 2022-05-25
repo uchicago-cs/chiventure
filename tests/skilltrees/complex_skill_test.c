@@ -353,9 +353,9 @@ Test(random_switch, random_switch_new_test_uneq)
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
         "Error: failed test random_switch_new_test on range->random_range->typ\n");
-    cr_assert_eq(rand_switch->chances[0], 0.4,
+    cr_assert_float_eq(rand_switch->chances[0], 0.4, 10E-4,
         "Error: failed test random_switch_new_test on first chance\n");
-    cr_assert_eq(rand_switch->chances[1], 0.6,
+    cr_assert_float_eq(rand_switch->chances[1], 0.6, 10E-4,
         "Error: failed test random_switch_new_test on second chance\n");
 }
 
@@ -389,9 +389,9 @@ Test(skill_test, random_switch_init_test_uneq)
         "Error: failed test random_range_new_test on range->random_range->type\n");
     cr_assert_eq(rand_switch->complex_skill->num_skills, 2,
         "Error: failed test random_range_new_test on range->random_range->num_skills\n");
-    cr_assert_eq(rand_switch->chances[0], 0.400000, 
+    cr_assert_float_eq(rand_switch->chances[0], 0.4, 10E-4,
         "Error: failed test random_switch_new_test on first chance\n");
-    cr_assert_eq(rand_switch->chances[1], 0.600000,
+    cr_assert_float_eq(rand_switch->chances[1], 0.6, 10E-4,
         "Error: failed test random_switch_new_test on second chance\n");    
 }
 

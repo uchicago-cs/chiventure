@@ -214,9 +214,6 @@ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* c
     list = chances;
     random->chances = list; 
 
-    printf("chances: %f, %f\n", chances[0], chances[1]);
-    printf("list: %f, %f\n", list[0], list[1]);
-
     int rc = random_switch_init(random, complex_skill, list);
 
     if (rc != 0) {
