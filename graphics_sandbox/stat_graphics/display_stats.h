@@ -116,9 +116,36 @@ screen_stats_t* update_screen_stats(player_t *player, screen_stats_t *screen_sta
  * - The player the pop-up will refer to
  *
  * Returns:
- * - The intialized struct
+ * - A heap allocated pop_up_t struct
  */
-pop_up_t* set_pop_up(int ulx, int uly, int lrx, int lry, pop_up_type type, player_t player);
+pop_up_t* new_pop_up(int ulx, int uly, int lrx, int lry, pop_up_type type, player_t *player);
+
+/*
+ * Initializes a pop_up_t struct with given values
+ *
+ * Parameters:
+ * - pointer to an already heap allocated pop_up_t struct
+ * - Sceen coordinates of the display (upper left x and y, lower right x and y)
+ *   ulx, uly, lrx, lry
+ * - The type of pop-up (specifies what information the pop-up will present)
+ * - The player the pop-up will refer to
+ *
+ * Returns:
+ * - Returns SUCCESS upon success
+ */
+int init_pop_up(pop_up_t *pop_up, int ulx, int uly, int lrx, int lry,
+                pop_up_type type, player_t *player);
+
+/*
+ * Frees the memory used for a pop_up_t struct
+ *
+ * Parameters:
+ * - pop_up : pointer to an already heap allocated pop_up_t struct
+ *
+ * Returns:
+ * - Returns SUCCESS upon success
+ */     
+int free_pop_up(pop_up_t *pop_up);   
 
 /*
  * Draws the specified pop up window to screen
