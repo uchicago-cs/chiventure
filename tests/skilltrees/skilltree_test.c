@@ -685,7 +685,7 @@ Test(skilltree_test, display_skill_description_typical)
       2, 5, defusebombeffect, NULL);
   skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22);
 
-  skill_tree_t* skilltree = skill_tree_new(1001, "this tree", 3);
+  skill_tree_t* skilltree = skill_tree_new(1001, "this tree", 1);
   skill_tree_node_add(skilltree, bomb_node);
 
   char *name = "defuse bomb";

@@ -335,7 +335,7 @@ char *display_tree(skill_tree_t* tree, int buffer);
  *
  * Parameters: 
  *  - tree: pointer to the tree which contains the skill with the given name
- *  - name: the name of the skill whose description is desired
+ *  - skill_name: the name of the skill whose description is desired
  * 
  * Returns:
   *  - string to be printed, the description of the skill with the given name
@@ -346,6 +346,6 @@ char *display_tree(skill_tree_t* tree, int buffer);
  *    return the char *:
  *      - "Skill Description: A Powerful Projectile to SCORCH your Enemies\n"
  */
-char *display_skill_description(skill_tree_t* tree, char *name);
+char *display_skill_description(skill_tree_t* tree, char *skill_name);
 
 #endif /* INCLUDE_SKILLTREE_H_ */
