@@ -4,11 +4,48 @@
 #include <assert.h>
 #include "quests/quests_cli.h"
 
+// Helper function to get the necessary buffer length for get_show_quests 
+int get_show_quests_buffer(player_t *player) {
+    int buff_count = 0;
+    for (player_quest_hash_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
+        buffer += 100;
+    }
+    return buff_count;
+}
+
+// Helper function to convert completion enums to strs
+char *completion_to_str(completion_status_t completion) {
+    char *str = (char*)malloc(sizeof(char) * 20);
+    switch (completion) {
+        case Q_FAILED: 
+            str = "Q_FAILED";
+            break;
+        case Q_UNAQUIRED:
+            str = "Q_UNACQUIRED";
+            break;
+        case Q_STARTED:
+            str = "Q_STARTED";
+            break;
+        case Q_COMPLETED:
+            str = "Q_COMPLETED";
+            break;
+    }
+    return str;
+
+}
+
 /* See quests_cli.h */
 char* show_quests(player_t *player)
 {
-    return NULL;
-}
+    int buff_count = get_show_quests_buffer(player);
+    char buffer[buff_count];
+    for (player_quest_hash_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
+        char *quest_id = cur->quest_id;
+        char *completion = completion_to_str(cur->completion);
+        sprintf(buffer, "Quest %s: Status: %s\n", quest_id, completion);
+    }
+
+    return buffer;
 
 /* See quests_cli.h */
 char* show_task_tree(char* quest_id, player_t *player, quest_hash_t *all_quests)
