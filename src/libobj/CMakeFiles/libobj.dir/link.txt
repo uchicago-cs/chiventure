@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblibobj.a  CMakeFiles/libobj.dir/src/load.c.o CMakeFiles/libobj.dir/src/load_json.c.o CMakeFiles/libobj.dir/src/load_wdz.c.o CMakeFiles/libobj.dir/src/obj.c.o
+/usr/bin/ranlib liblibobj.a

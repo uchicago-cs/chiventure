@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcli.a  CMakeFiles/cli.dir/src/util.c.o CMakeFiles/cli.dir/src/cmd.c.o CMakeFiles/cli.dir/src/cmdlist.c.o CMakeFiles/cli.dir/src/cli_ctx.c.o CMakeFiles/cli.dir/src/operations.c.o CMakeFiles/cli.dir/src/parser.c.o CMakeFiles/cli.dir/src/shell.c.o
+/usr/bin/ranlib libcli.a

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libquests.a  CMakeFiles/quests.dir/src/quests_state.c.o
+/usr/bin/ranlib libquests.a

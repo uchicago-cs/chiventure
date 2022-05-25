@@ -1,0 +1,2 @@
+/usr/bin/ar qc libgame-state.a  CMakeFiles/game-state.dir/src/game.c.o CMakeFiles/game-state.dir/src/game_action.c.o CMakeFiles/game-state.dir/src/item.c.o CMakeFiles/game-state.dir/src/mode.c.o CMakeFiles/game-state.dir/src/path.c.o CMakeFiles/game-state.dir/src/player.c.o CMakeFiles/game-state.dir/src/room.c.o CMakeFiles/game-state.dir/src/stats.c.o CMakeFiles/game-state.dir/src/condition.c.o
+/usr/bin/ranlib libgame-state.a

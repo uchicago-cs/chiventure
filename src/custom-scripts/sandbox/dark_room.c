@@ -1,6 +1,6 @@
 #include <stdlib.h> 
-#include "lua.h"
-#include "lualib.h"
+#include <stdio.h>
+#include <stdbool.h>
 #include "dark_room.h"
 
 int main() {
@@ -14,7 +14,7 @@ int main() {
 
   t->state = false;
 
-    printf("the torch is currently %s\n", t->state ? "lit" : "unlit")
+    printf("the torch is currently %s\n", t->state ? "lit" : "unlit");
       // Push the "flip" function on the top of the lua stack
     lua_getglobal(L, "flip");
 
@@ -26,7 +26,7 @@ int main() {
     lua_call(L, 1, 1);
 
     // Get the result from the lua stack
-    bool result = (bool)lua_tobool(L, -1);
+    bool result = (bool)lua_toboolean(L, -1);
     t->state = result;
     printf ("Observe that after the call to Lua the torch is now %s!\n", t->state ? "lit" : "unlit");
 
