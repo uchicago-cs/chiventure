@@ -24,8 +24,8 @@ slot_t **populate_items(player_t *p, graphics_t *graphics)
                 if (inv[i][j].status == EMPTY){
                     inv[i][j].status = FULL;
                     inv[i][j].item = itemlst->item;
-                    itemlst->item->inventory_x_pos = &i;
-                    itemlst->item->inventory_y_pos = &j;
+                    itemlst->item->inventory_x_pos = i;
+                    itemlst->item->inventory_y_pos = j;
                 }
             }
         }
@@ -43,6 +43,8 @@ slot_t **populate_items(player_t *p, graphics_t *graphics)
 */
     return inv;
 }
+
+/* See inventory_graphics.h */
 
 
 /* See inventory_graphics.h */
@@ -67,12 +69,12 @@ int free_player_inventory(player_inventory_t *player_inventory)
     free(player_inventory->slots);
     free(player_inventory->display);
     free(player_inventory);
-    return 0;
+    return SUCCESS;
 }
 
 
 /* See inventory_graphics.h */
-void add_item_inventory(player_inventory_t *player_inventory, item_t *item)
+int add_item_inventory(player_inventory_t *player_inventory, item_t *item)
 {
     int change = 0;
     for(int i; i < player_inventory->display->rows; i++) {
@@ -90,7 +92,7 @@ void add_item_inventory(player_inventory_t *player_inventory, item_t *item)
     if (change == 0) {
         fprintf(stderr, "inventory full");
     }
-    return;
+    return SUCCESS;
 }
 
 
@@ -99,7 +101,7 @@ void draw_player_inventory(player_inventory_t *player_inventory);
 
 
 /* See inventory_graphics.h */
-void remove_item_inventory(player_inventory_t *player_inventory, item_t *item)
+int remove_item_inventory(player_inventory_t *player_inventory, item_t *item)
 {
     if (player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].status != EMPTY) {
         free(player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].item);
@@ -107,5 +109,5 @@ void remove_item_inventory(player_inventory_t *player_inventory, item_t *item)
     } else {
         fprintf(stderr, "inventory empty at position (%p,%p)\n", item->inventory_x_pos, item->inventory_y_pos);
     }
-    return;
+    return SUCCESS;
 }
