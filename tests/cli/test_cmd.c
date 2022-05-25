@@ -4,11 +4,39 @@
 #include "cli/cmd.h"
 #include "cli/operations.h"
 
-char* actions1[29] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
-                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
-                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
-                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS"};
+char* actions1[31] = {
+            "OPEN",
+            "CLOSE",
+            "PUSH",
+            "PULL",
+            "TURNON",
+            "TURNOFF",
+            "TAKE",
+            "PICKUP",
+            "DROP",
+            "CONSUME",
+            "USE",
+            "DRINK",
+            "EAT",
+            "GO",
+            "WALK",
+            "USE_ON",
+            "PUT",
+            "QUIT",
+            "HIST",
+            "HELP",
+            "CREDITS",
+            "LOOK",
+            "INV",
+            "MAP",
+            "SWITCH",
+            "LOAD_WDL",
+            "NAME",
+            "PALETTE",
+            "ITEMS",
+            "VIEW",
+            "FIGHT"};
+
 
 /* Checks if the memory for a lookup table is successfully allocated */
 Test(lookup, new)
