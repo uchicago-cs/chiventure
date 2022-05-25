@@ -9,6 +9,7 @@ add_library(game-state
         src/stats.c
         src/condition.c)
 
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
 target_include_directories(game-state PRIVATE src/) 
 target_link_libraries(game-state cli)
 target_link_libraries(game-state npc)
