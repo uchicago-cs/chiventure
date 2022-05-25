@@ -24,7 +24,7 @@ Test(camera, init)
     unsigned int width = 300;
     unsigned int height = 300;
 
-    camera_t *c;
+    camera_t *camera;
     int rc;
     
     rc = init_camera(c,width,height);
