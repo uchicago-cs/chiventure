@@ -375,4 +375,29 @@ Test(parse_r, start_and)
     check_comparison(str, 1, expecting_words);
 }
 
+//Tests input in which the and is before any command
+Test(parse_r, and_sandwhich)
+{
+    char* expecting_words[1];
+    expecting_words[0] = " PUSH ";
+    char str[] = "AND PUSH AND";
+    check_comparison(str, 1, expecting_words);
+}
+
+//Tests input filler words at start
+Test(parse, fillers_start) 
+{
+    char str[] = "to to the look";
+    char **words = parse(str);
+    cr_assert_str_eq("look", words[0], "parse() did not create first token");
+}
+
+//Tests input of filler words at end
+Test(parse, fillers_end) 
+{
+    char str[] = "look to to the";
+    char **words = parse(str);
+    cr_assert_str_eq("look", words[0], "parse() did not create first token");
+}
+
 
