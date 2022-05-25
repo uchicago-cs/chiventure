@@ -318,10 +318,13 @@ Test(npc_mov, auto_gen_movement_definite)
     room_t *curr_room;
     room_list_t *all_rooms = get_all_rooms(game);
     char *curr_room_id;
+    class_t *c = generate_test_class2();
 
     room_t *test_room = room_new("test_room", "test", "test test");
+    add_room_to_game(game, test_room);
+
     npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
-    npc_t *npc = npc_new("test", "testnpc", "test npc", NULL, npc_mov, FRIENDLY);
+    npc_t *npc = npc_new("test", "testnpc", "test npc", c, npc_mov, FRIENDLY);
 
     rc = auto_gen_movement(npc, all_rooms);
     npc_path_dll_t *elt;
@@ -374,10 +377,13 @@ Test(npc_mov, auto_gen_movement_indefinite)
     int rc, num_rooms_in_npc;
     room_t *curr_room;
     char *curr_room_id;
+    class_t *c = generate_test_class2();
 
     room_t *test_room = room_new("test_room", "test", "test test");
+    add_room_to_game(game, test_room);
+
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 60);
-    npc_t *npc = npc_new("test", "testnpc", "test npc", NULL, npc_mov, FRIENDLY);
+    npc_t *npc = npc_new("test", "testnpc", "test npc", c, npc_mov, FRIENDLY);
 
     rc = auto_gen_movement(npc, get_all_rooms(game));
     npc_path_dll_t *elt;
