@@ -1,26 +1,24 @@
 ?start: _NL? game? _NL?
 
-game: "GAME" (start_g end_g | end_g start_g) property* room*
+game: "GAME" (start_g end_g | end_g start_g) property* (room | class)*
 
 
 start_g: "START" phrase
 end_g: "END" phrase
 
-room: _NL "ROOM" id (property | connections)* item*
+room: _NL "ROOM" id (property | connections)* (item | npc)*
 
 item: _NL "ITEM" id "IN" location property* action*
     | _NL "ITEM" id property* action*
 
 
-player_class: _NL "PLAYER_CLASS" id (property | attribute | base_stats)*
+class: _NL "PLAYER_CLASS" id property* attribute* base_stats*
 
-attribute: _NL "attributes:" attribute_ids
-attribute_ids: id ("," id)*
+attribute: _NL "attributes:" attribute_ids*
+attribute_ids: _NL id "set" bool
 
-base_stats: _NL "base-stats:" stat_class*
-stat_class: _NL phrase ":" stat_setting*
-stat_setting: _NL "current:" NUMBER _NL "max:" NUMBER 
-
+base_stats: _NL "base stats:" stat_setting*
+stat_setting: _NL id _NL "CURRENT" NUMBER _NL "MAX" NUMBER
 
 action: _NL ("action:"|"actions:") action_ids property*
 action_ids: id ("," id)*
@@ -31,11 +29,28 @@ property: _NL phrase "FOR" id ":" ESCAPED_STRING -> misplaced_property
 connections.5: _NL "connections:" connection ((","|_NL) connection)*
 connection: phrase "TO" phrase
 
+npc: _NL "NPC" id "IN" location property* inventory dialogue
+    | _NL "NPC" id property* inventory dialogue
+    | _NL "NPC" id "IN" location property* inventory
+    | _NL "NPC" id "IN" location property*
+    | _NL "NPC" id property* inventory
+    | _NL "NPC" id location property*
+    | _NL "NPC" id
+
+inventory: _NL "INVENTORY" property*
+
+
+dialogue: _NL "DIALOGUE" node*
+node: "NODE" id edge* property
+edge: "EDGE" id "TO" id property
+
 id: phrase
 
 location: phrase
 
 phrase: STRING+
+
+bool: ("TRUE"|"FALSE")
 
 
 // NEWLINE(s), whitespace, and comments
