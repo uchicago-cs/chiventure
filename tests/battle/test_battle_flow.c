@@ -222,8 +222,8 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
 
-    npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY,
-            HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(estats, e_move, BATTLE_AI_GREEDY,
+            HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
@@ -284,8 +284,8 @@ Test(battle_flow_move, do_damage_battle_flow_move)
 
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY,
-            HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
+            HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
 
@@ -372,8 +372,8 @@ Test(battle_flow_move, battle_over_by_player)
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY,
-            HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
+            HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
 
@@ -458,8 +458,8 @@ Test(battle_flow_move, battle_over_by_enemy)
 
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY,
-            HOSTILE, 0, test_class, dagger, NULL, NULL, NULL);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
+            HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
@@ -511,7 +511,7 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL, 
+    battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
                                                 NULL, NULL, NULL);
 
     g->player = ctx_player;
@@ -537,7 +537,7 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;
-    battle_item_t *dagger = create_npc_battle_item(1, 20, 
+    battle_item_t *dagger = create_battle_item(1, 20, 
                             "A hearty dagger sure to take your breath away... for good", "Dagger",
                             true, dagger_changes);
     npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
