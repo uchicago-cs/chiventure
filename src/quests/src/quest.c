@@ -46,9 +46,9 @@ int quest_free(quest_t *q)
     assert(q != NULL);
 
     free(q->quest_id);
-    free(q->task_tree);
+    task_tree_free(q->task_tree);
     free(q->reward);
-    free(q->prereq);
+    prereq_free(q->prereq);
     free(q);
 
     return SUCCESS;
