@@ -390,46 +390,6 @@ int move_npc_mov(npc_mov_t *npc_mov)
     }
 }
 
-/* See npc_move.h */
-int auto_gen_movement(npc_t *npc, game_t *game)
-{
-    room_list_t *head = get_all_rooms(game); // from include/game-state/game.h
-    int rc = 0;
-    int num_rooms, num_rooms_to_add;
-
-	if (npc->movement == NULL || head == NULL) {
-		return FAILURE;
-	}
-
-    num_rooms = get_num_rooms(game);
-    num_rooms_to_add = (rand() % num_rooms) + 1;
-
-    for (int i = 0; i < num_rooms_to_add; i++) {
-        room_t *room_to_add = malloc(sizeof(room_t));
-
-        room_to_add = head->room;
-        head->room = head->next->room;
-        if(npc->movement->mov_type == NPC_MOV_DEFINITE) {
-        	rc = extend_path_definite(npc->movement, room_to_add);
-        }
-        else if(npc->movement->mov_type == NPC_MOV_INDEFINITE) {
-            double speed = get_stat_current(npc->class->base_stats, "speed");
-            double multiplier = sqrt(100/speed);
-            int mintime_in_room = 30000 * multiplier; // min time in ms (30s)
-            int maxtime_in_room = 90000 * multiplier; // max time in ms (90s)
-            int time_in_room = (rand() % 
-                (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
-            rc = extend_path_indefinite(npc->movement, 
-                                        room_to_add, time_in_room);
-	    }
-
-        if(rc == FAILURE) {
-          return rc;
-        }
-    }
-
-    return rc;
-}
 
 /* see npc_move.h */
 int delete_room_id_dll(room_id_dll_t *head)

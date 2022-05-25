@@ -324,16 +324,6 @@ int move_npc_indefinite(npc_mov_t *npc_mov);
  */
 int move_npc_mov(npc_mov_t *npc_mov);
 
-/*
- * Function to delete a doubly-linked list (utlist)
- *
- * Parameters:
- *  doubly-linked list of pointers to room_ids
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs.
- */
-int auto_gen_movement(npc_t *npc, game_t *game);
 int delete_room_id_dll(room_id_dll_t *head);
 
 #endif

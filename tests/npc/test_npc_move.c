@@ -6,6 +6,26 @@
 #include "game-state/room.h"
 #include "game-state/game.h"
 
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_test_class2()
+{
+    class_t* c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+                " relying on physical strength and years of training to "
+                "deal with any obstacle. Mechanically, the warrior focuses "
+                "on up-close physical damage with weapons and survives enemy "
+                "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
+
 /* Tests new() of npc_mov struct */
 Test (npc_mov, new)
 {
@@ -291,22 +311,14 @@ Test(npc_mov, auto_gen_movement_definite)
     char *curr_room_id;
 
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
-    class_t *c = generate_test_class();
+    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id);
+    class_t *c = generate_test_class2();
     npc_t *npc = npc_new("npc_22", "man", "tall man", c, npc_mov, false);
 
-    rc = auto_gen_movement(npc, game);
-    room_list_t *elt;
+    rc = auto_gen_movement(npc, all_rooms);
+    room_id_dll_t *elt;
 
-    LL_FOREACH(npc->movement->npc_mov_type.npc_mov_definite->npc_path, elt)
-
-    // npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id);
-
-    // rc = auto_gen_movement(npc_mov, all_rooms);
-    // room_id_dll_t *elt;
-
-    // DL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
-    
+    DL_FOREACH(npc_mov->npc_mov_type.npc_mov_definite->npc_path, elt)
     {
         cnt++;
         curr_room_id = elt->room_id;
@@ -329,24 +341,15 @@ Test(npc_mov, auto_gen_movement_definite)
         }
     }
 
-    num_rooms_in_npc = get_npc_num_rooms(npc->movement);
-  
+    num_rooms_in_npc = get_npc_num_rooms(npc_mov);
+
     cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, "
                  "but there should be %d rooms in npc_mov",
                  cnt, num_rooms_in_npc);
-  
-    cr_assert_eq(delete_room_llist
-                 (npc->movement->npc_mov_type.npc_mov_definite->npc_path),
-                 SUCCESS, "delete llist failed");
-    // num_rooms_in_npc = get_npc_num_rooms(npc_mov);
 
-    // cr_assert_eq(cnt, num_rooms_in_npc, "room_count returns %d, "
-    //              "but there should be %d rooms in npc_mov",
-    //              cnt, num_rooms_in_npc);
-
-    // cr_assert_eq(delete_room_id_dll
-    //              (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
-    //              SUCCESS, "delete room_id_dll failed");
+    cr_assert_eq(delete_room_id_dll
+                 (npc_mov->npc_mov_type.npc_mov_definite->npc_path),
+                 SUCCESS, "delete room_id_dll failed");
 
     game_free(game);
 }
