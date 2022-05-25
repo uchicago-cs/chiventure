@@ -1,6 +1,6 @@
 #include "../include/battle/battle_test_utility.h"
 
-/* Creates a sample class. Taken from test_class.c */
+/* See battle_test_utility.h */ 
 class_t *generate_test_class()
 {
     class_t *c;
@@ -20,6 +20,7 @@ class_t *generate_test_class()
 
 }
 
+/* See battle_test_utility.h */
 class_t *create_test_class()
 {
     class_t* test_class = class_new("Bard", "Music boi",
@@ -27,14 +28,13 @@ class_t *create_test_class()
                                     NULL, NULL, NULL);
 }
 
+/* See battle_test_utility.h */
 class_t *make_wizard()
 {
     return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
 }
 
-/*-----------------------------------------------------------------------------------------------------------------*/
-
-/* Creates + initializes a battle_item */
+/* See battle_test_utility.h */
  battle_item_t *create_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes)
  {
@@ -51,7 +51,7 @@ class_t *make_wizard()
      return item;
  }
 
-/* Creates example hardcoded battle_items for the player*/
+/* See battle_test_utility.h */
 battle_item_t* create_player_battle_items()
 {
     battle_item_t *head, *dagger, *tea_leaves, *medicine;
@@ -82,7 +82,7 @@ battle_item_t* create_player_battle_items()
     return head;
 }
 
-/* Creates example hardcoded items for the enemy*/
+/* See battle_test_utility.h */
 battle_item_t* create_enemy_battle_items()
 {
     /* I am adding these for a temporary fix, however, these will be changed
@@ -114,9 +114,7 @@ battle_item_t* create_enemy_battle_items()
     return head;
 }
 
-/*------------------------------------------------------------------------------------------------------------------*/
-
-/* Creates example hardcoded stats for the enemy*/
+/* See battle_test_utility.h */
 stat_t* create_enemy_stats_norm()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
@@ -138,7 +136,7 @@ stat_t* create_enemy_stats_norm()
     return test_stats;
 }
 
-/* Creates example hardcoded stats for the enemy*/
+/* See battle_test_utility.h */
 stat_t* create_enemy_stats_crit()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
@@ -160,7 +158,7 @@ stat_t* create_enemy_stats_crit()
     return test_stats;
 }
 
-/* Creates example hardcoded stats for the battle_player*/
+/* See battle_test_utility.h */
 stat_t* create_battle_player_stats()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
@@ -181,7 +179,7 @@ stat_t* create_battle_player_stats()
     return test_stats;
 }
 
-/* Creates example stats. Taken from test_battle_ai.c */
+/* See battle_test_utility.h */
 stat_t *create_enemy_stats1()
 {
     stat_t *test_stats = calloc(1, sizeof(stat_t));
@@ -203,7 +201,7 @@ stat_t *create_enemy_stats1()
     return test_stats;
 }
 
-/* Creates example stats. Taken from test_battle_ai.c */
+/* See battle_test_utility.h */
 stat_t *create_enemy_stats2()
 {
     stat_t *test_stats = calloc(1, sizeof(stat_t));
@@ -225,9 +223,7 @@ stat_t *create_enemy_stats2()
     return test_stats;
 }
 
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------**/
-
-/* Creates example hardcoded stats for the battle_player*/
+/* See battle_test_utility.h */
 move_t* create_battle_player_moves()
 {
     move_t *head, *fire_blast, *punch, *blaze_kick;
@@ -244,7 +240,7 @@ move_t* create_battle_player_moves()
     return head;
 }
 
-/* Creates the expected return value for when the AI should return the greediest move*/
+/* See battle_test_utility.h */
 move_t* expected_move_greedy()
 {
     move_t* earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET,
@@ -252,7 +248,7 @@ move_t* expected_move_greedy()
     return earthquake;
 }
 
-/* Creates the expected return value for when the AI should return a random move*/
+/* See battle_test_utility.h */
 move_t* expected_move_random()
 {
     srand(1);
@@ -263,7 +259,7 @@ move_t* expected_move_random()
     return rock_throw;
 }
 
-/* Called by test functions to check give_move returns properly*/
+/* See battle_test_utility.h */
 void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t difficulty, move_t* expected)
 {
     move_t *actual_move, *expected_move;
@@ -272,7 +268,7 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
     cr_assert_eq(actual_move->id, expected->id, "give_move did not return expected move!");
 }
 
-/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
+/* See battle_test_utility.h */
 npc_mov_t *generate_test_npc_mov()
 {
     npc_mov_t *npc_mov;
@@ -280,6 +276,7 @@ npc_mov_t *generate_test_npc_mov()
     npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room_id);
 }
 
+/* See battle_test_utility.h */
 move_t *create_enemy_moves1()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
@@ -296,7 +293,7 @@ move_t *create_enemy_moves1()
     return head;
 }
 
-/* Creates example moves. Taken from test_battle_ai.c */
+/* See battle_test_utility.h */
 move_t *create_enemy_moves2()
 {
     move_t *head, *earthquake, *poke, *rock_throw;
@@ -307,9 +304,7 @@ move_t *create_enemy_moves2()
     return head;
 }
 
-/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-/* Creates sandbox enemy*/
+/* See battle_test_utility.h */
 combatant_t* new_enemy()
 {
     char* name = "Skeleton";
@@ -324,7 +319,7 @@ combatant_t* new_enemy()
 
 }
 
-/* Creates sandbox enemy with crit value 100% */
+/* See battle_test_utility.h */
 combatant_t* new_enemy_crit()
 {
     char* name = "Skeleton";
@@ -339,7 +334,7 @@ combatant_t* new_enemy_crit()
 
 }
 
-/* Creates sandbox battle_player*/
+/* See battle_test_utility.h */
 combatant_t* new_battle_player()
 {
     char* name = "Steve";
@@ -354,10 +349,7 @@ combatant_t* new_battle_player()
     return combatant_new(name, is_friendly, c_type, stats, moves, items,  NULL, NULL, NULL, BATTLE_AI_NONE);
 }
 
-/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-
-/*** Dialogue Building Functions ***/
-
+/* See battle_test_utility.h */
 void check_add_node(int num_nodes)
 {
     convo_t *c = convo_new();
@@ -393,6 +385,7 @@ void check_add_node(int num_nodes)
     }
 }
 
+/* See battle_test_utility.h */
 void check_add_edge(int num_edges)
 {
     convo_t *c = convo_new();
