@@ -1,6 +1,3 @@
-#include <stdlib.h> 
-#include <stdio.h>
-#include <stdbool.h>
 #include "dark_room.h"
 
 int main() {
