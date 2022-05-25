@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "read_gdl.h"
 
+/* Checks that new_camera() properly mallocs and inits a new camera struct*/
 Test(camera, new)
 {
     unsigned int width = 300;
@@ -17,6 +18,11 @@ Test(camera, new)
     cr_assert_eq(camera->height, 300, "make_camera() didn't set height");
 }
 
+Test(camera, init)
+{
+    unsigned int width = 
+
+/* Tests taht free_camera properly frees a heap allocated camera struct */
 Test(camera, free)
 {
     unsigned int width = 300;
