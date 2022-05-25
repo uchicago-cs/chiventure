@@ -5,6 +5,7 @@
 #include "skilltrees/skilltree.h"
 #include "skilltrees/complex-skills_examples.h"
 #include "skilltrees/complex_skills.h"
+#include "skilltrees/reader.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class_prefabs.h"
 
@@ -39,7 +40,6 @@ void combined_skill(chiventure_ctx_t* ctx)
                                         "Several skills are performed",
                                         10, 5, NULL, complex_comb_skill);
 
-    /* Showcase leveling functionality */
     skill_node_t* stat_node = skill_node_new(combined_skill, 0, 2, 0); 
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, 
                         stat_node);
@@ -67,34 +67,34 @@ void sequential_skill(chiventure_ctx_t* ctx)
                                 "Performs one skill after the other", 10, 5, 
                                 NULL, complex_seq_skill);
 
-    /* Showcase leveling functionality */
+
     skill_node_t* stat_node = skill_node_new(sequential_skill, 0, 2, 0); 
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, 
                         stat_node);
 }
 
-
 void conditional_skill(chiventure_ctx_t* ctx)
 {
     sid_t skill_id = 5000;
 
-    int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx) 
-
+    attr_reader_effect_t* attr_reader = attr_reader_effect_new("orc", 3, 
+                                                                READ_PLAYER);
+    
     skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "club smash", 
                                      "You smack your opp with a club", 
                                      1, 100, NULL, NULL);
     skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "mid move", 
-                                     "You do a mid attack cuz your not an orc", 
-                                     1, 150, NULL, NULL);
+                                    "You do a mid attack cuz you're not an orc", 
+                                    1, 100, NULL, NULL);
     
     skill_t** skills;
-    skill[0] = skill_0;
-    skill[1] = skill_1;
+    skills[0] = skill_0;
+    skills[1] = skill_1;
 
-    complex_skill_t* complex_seq_skill = complex_skill_new(SEQUENTIAL, skills, 
-                                                           2, NULL);
-    skill_t* sequential_skill = skill_new(0, PASSIVE, "Complex Stat Skill",
-                                "Performs one skill after the other", 10, 5, 
-                                NULL, complex_seq_skill);
+    complex_skill_t* cond_skill = complex_skill_new(COMPLEX_CONDITIONAL, skills,
+                                                    2, attr_reader);
 
+    skill_node_t* cond_node = skill_node_new(cond_skill, 0, 2, 0); 
+    skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, 
+                        cond_node);
 }
