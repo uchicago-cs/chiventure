@@ -95,6 +95,8 @@ player_t* player_new(char *player_id)
     player->player_tasks = NULL;
     player->inventory = NULL;
 
+    player->crnt_room = "";
+
     return player;
 }
 
@@ -209,23 +211,37 @@ int player_task_init(player_task_t *ptask, char *task_id, bool completed)
 }
 
 /* See player.h */
+int player_quest_free(player_quest_t *pquest) {
+    assert(pquest != NULL);
+    free(pquest->quest_id);
+    free(pquest);
+    return SUCCESS;
+}
+
+/* See player.h */
 int player_quest_hash_free(player_quest_hash_t *player_quests)
 {
     assert(player_quests != NULL);
-
     player_quest_hash_t *current_player_quest, *tmp;
     HASH_ITER(hh, player_quests, current_player_quest, tmp)
     {
         HASH_DEL(player_quests, current_player_quest);
-        free(current_player_quest);
+        player_quest_free(current_player_quest);
     }
+    return SUCCESS;
+}
+
+/* See player.h */
+int player_task_free(player_task_t *ptask) {
+    assert(ptask != NULL);
+    free(ptask->task_id);
+    free(ptask);
     return SUCCESS;
 }
 
 int player_task_hash_free(player_task_hash_t *player_tasks)
 {
     assert(player_tasks != NULL);
-
     player_task_t *current_player_task, *tmp;
     HASH_ITER(hh, player_tasks, current_player_task, tmp)
     {
@@ -278,32 +294,6 @@ int change_xp(player_t* player, int points)
 item_hash_t* get_inventory(player_t* player)
 {
     return player->inventory;
-}
-
-/* See player.h */
-int add_item_to_player(player_t *player, item_t *item)
-{
-    int rc;
-
-    if (item->stat_effects != NULL) {
-        stat_effect_t *current, *tmp, *e;
-        stat_mod_t *elt, *search;
-        stats_t *s;
-        HASH_ITER(hh, item->stat_effects, current, tmp) {
-            LL_FOREACH(current->stat_list, elt) {
-                HASH_FIND(hh, player->player_class->base_stats, elt->stat->key, 
-                          strlen(elt->stat->key), s);
-                if (s != NULL) {
-                    apply_effect(&player->player_class->effects, current, &s,
-                                 &elt->modifier, &elt->duration, 1);
-                }
-            }
-        }
-    }
-
-    rc = add_item_to_hash(&(player->inventory), item);
-
-    return rc;
 }
 
 /* See player.h */
@@ -435,4 +425,31 @@ int add_move(player_t *player, move_t *move) {
     }
     last_move->next = move;
     return SUCCESS;
+}
+
+/* see player.h */
+int add_item_to_player_without_checks(player_t *player, item_t *item) {
+    int rc;
+    assert(player != NULL);
+    if(item == NULL) {
+        return FAILURE;
+    }
+    if (item->stat_effects != NULL) {
+        stat_effect_t *current, *tmp, *e;
+        stat_mod_t *elt, *search;
+        stats_t *s;
+        HASH_ITER(hh, item->stat_effects, current, tmp) {
+            LL_FOREACH(current->stat_list, elt) {
+                HASH_FIND(hh, player->player_class->base_stats, elt->stat->key, 
+                          strlen(elt->stat->key), s);
+                if (s != NULL) {
+                    apply_effect(&player->player_class->effects, current, &s,
+                                 &elt->modifier, &elt->duration, 1);
+                }
+            }
+        }
+    }
+
+    rc = add_item_to_hash(&(player->inventory), item);
+    return rc;
 }

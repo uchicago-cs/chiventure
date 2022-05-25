@@ -19,7 +19,22 @@
 /* Forward declaration for skilltrees */
 typedef struct skill skill_t;
 
-/* A reference to a given quest from game_state that the player has unlocked */
+/* An enum representing the possible quest completion statuses currently supportd */
+typedef enum completion_status {
+    Q_FAILED = -1,
+    Q_UNACQUIRED,
+    Q_STARTED,
+    Q_COMPLETED,
+} completion_status_t;
+
+/* A reference to a given quest from game_state that the player has unlocked 
+ * 
+ * Completion functions as follows:
+ *   -1: failed quest
+ *    0: quest has not been started
+ *    1: quest has been started but not completed
+ *    2: quest has been completed
+*/
 typedef struct player_quest {
     char *quest_id;
     int completion;
@@ -51,6 +66,12 @@ typedef struct player {
 
     /* A string containing the player's race */
     char *player_race;
+    
+    /* A string containing the name of current room of the player. Right now, every player 
+       must be in the same room, which is stored in the game struct, but this may change at 
+       some point to allow players to explore at different paces. For now, this is necessary
+       to allow certain modules to access the current room without causing circular dependencies. */
+    char *crnt_room;
 
     /* The player's current class. class_t contains the base stats, and skills for that class at
     the beginning of a game. These may change throughout the game, so their current states are stored 
@@ -137,6 +158,17 @@ int player_quest_init(player_quest_t *pquest, char *quest_id, int completion);
 int player_task_init(player_task_t *ptask, char *task_id, bool completed);
 
 /*
+ * Frees a player_quest
+ * 
+ * Parameters:
+ * - pquest: The player_quest to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_quest_free(player_quest_t *pquest);
+
+/*
  * Frees a player_quest hash table
  * 
  * Parameters:
@@ -146,6 +178,17 @@ int player_task_init(player_task_t *ptask, char *task_id, bool completed);
  * - SUCCESS if freed successfully, FAILURE if an error occured
 */
 int player_quest_hash_free(player_quest_hash_t *player_quests);
+
+/*
+ * Frees a player_task
+ * 
+ * Parameters:
+ * - ptask: The player_task to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_task_free(player_task_t *ptask);
 
 /*
  * Frees a player_task hash table
@@ -277,18 +320,6 @@ int change_xp(player_t *player, int points);
  */
 item_hash_t* get_inventory(player_t *player);
 
-
-/* Adds an item to the given player
- *
- * Parameters:
- *  player struct
- *  item struct
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_item_to_player(player_t *player, item_t *item);
-
 /* Removes an item from the given player
  * Note that the memory associated with this item is not freed
  * 
@@ -387,6 +418,19 @@ int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
  * 
  * Parameters:
  *  player: A player. Must be allocated with player_new()
+ *  quest_id: the id of the quest
+ * 
+ * Returns:
+ *  SUCCESS on success, FAILURE if an error occurs.
+ * 
+ */
+int player_add_quest(player_t *player, char *quest_id);
+
+/*
+ * Changes the base value of a given player's stat by the specified amount
+ * 
+ * Parameters:
+ *  player: A player. Must be allocated with player_new()
  *  stat: the name/key of the stat
  *  change: the value to add to the stat. 
  *  If the value is greater than the local max, the value is set to the local max
@@ -469,5 +513,15 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect);
  */
 int add_move(player_t *player, move_t *move);
 
-
+/* 
+ * Adds an item to the player's inventory without checking quests
+ * 
+ * Parameters:
+ * - player: A player. Must be allocated with player_new()
+ * - item: The item to add to the player's inventory
+ * 
+ * Returns:
+ * - SuCCESS on success, FAILURE if an error occurs
+*/
+int add_item_to_player_without_checks(player_t *player, item_t *item);
 #endif

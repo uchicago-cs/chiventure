@@ -3,224 +3,78 @@
 
 #include <stdbool.h>
 #include <string.h>
-#include "quests_structs.h"
+#include "quests_hash.h"
 
-/* Creates a new passive mission struct (allocates memory)
- * 
- * Parameters:
- * - xp: integer experience milestone to reach
- * - levels: integer level milestone to reach
- * - health: integer health milestone to reach
- *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
- */
-passive_mission_t *passive_mission_new(int xp, int levels, int health);
+typedef struct item_wrapped_for_llist item_list_t; // Forward declaration
 
-/* Creates a new active mission struct (allocates memory)
- * 
- * Parameters:
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
- * - npc_to_kill: the npc to kill for the mission
- * - room_to_visit: the room to visit for the mission 
- *
- * Returns: a pointer to the newly allocated passive mission, that is not completed
- */
-active_mission_t *active_mission_new(item_t *item_to_collect, npc_t *npc_to_meet, 
-                              npc_t *npc_to_kill, room_t *room_to_visit);
-
-/* Creates a new reward struct for completing a quest 
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
- *
- * Returns: a pointer to the newly allocated reward struct
- */
-reward_t *reward_new(int xp, item_t *item);
-
-/* Creates a new stats requirement struct to start the quest
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
- *
- * Returns: a pointer to the newly allocated stats requirement struct
- */
-stat_req_t *stat_req_new(int hp, int level);
-
-/* Creates a new task struct (allocates memory)
- * 
- * Parameters:
- * - mission: the mission to be completed for the quest
- * - id: the id of the task
- * - reward: the reward of the task
- *
- * Returns: a pointer to the newly allocated task that is not completed
- */
-task_t *task_new(mission_t *mission, char *id, reward_t *reward);
-
-/* Creates a new quest struct (allocates memory)
- * 
- * Parameters:
- * - quest_id: string representing the specific quest_id 
- * - task_tree: non-binary tree  struct holding a tree of 
- *                     tasks that make up a quest
- * - reward: reward of the quest is an item
- * 
- * Returns: a pointer to the newly allocated quest, with default status of 0
- *         (not started)
- */
-quest_t *quest_new(char *quest_id, task_tree_t *task_tree,
-                    reward_t *reward, stat_req_t *stat_req);
-
-/* Initialize an already allocated passive mission struct 
+/* Determines whether a player completed a mission (if possible for that mission type)
  *
  * Parameters:
- * - mission: an already allocated mission_t (of passive type)
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
+ *  - mission: a mission object
+ *  - player: a player
  * 
  * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int passive_mission_init(passive_mission_t *mission, int xp, int level, int health);
+ * - true if the player completed the mission, false if not
+*/
+bool completed_mission(mission_t *mission, player_t *player);
 
-/* Initialize an already allocated active mission struct 
- *
- * Parameters:
- * - mission: an already allocated mission_t (of active type)
- * - item_to_collect: the item to be collected for the mission
- * - npc_to_meet: the npc to be met for the mission
- * 
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int active_mission_init(active_mission_t *mission, item_t *item_to_collect, npc_t *npc_to_meet,
-                        npc_t *npc_to_kill, room_t *room_to_visit);
-
-/* Initializes an already allocated reward struct
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
- *
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int reward_init(reward_t *rewards, int xp, item_t *item);
-
-/* Initializes an already allocated stats requirement struct
- * 
- * Parameters:
- * - xp: xp reward
- * - item: item reward
- *
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int stat_req_init(stat_req_t *stat_req, int xp, int level);
-
-/* Initialize an already allocated task struct
- *
- * Parameters:
- * - task: an already allocated task
- * - mission: the mission to be completed for the task
- * - id: the id of the task
- * - reward: the reward of the task
- * 
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- */
-int task_init(task_t *task, mission_t *mission, char *id, reward_t *reward);
-
-/* Initialize an already allocated quest struct
- *
- * Parameters:
- * - q: an already allocated quest
- * - quest_id: string representing the specific quest_id 
- * - task_tree: non-binary tree struct holding a tree of 
- *                     tasks that make up a quest
- * - reward: reward of the quest is an item
- * - status: int indicating the status of the quest (refer to
- *           quests_structs.h for all possible statuses)
- * 
- * Returns:
- * - SUCCESS for successful init
- * - FAILURE for unsuccessful init
- * 
- */
-int quest_init(quest_t *q, char *quest_id, task_tree_t *task_tree, 
-               reward_t *reward, stat_req_t *stat_req, int status);
-
-/* 
- * Frees a passive mission struct from memory
+/* Checks if a player completed a given task
+ * - Always returns false if the task has a mission and checks the 
+ *  prerequisite if it does not
  * 
  * Parameter:
- * - mission: the mission to be freed
+ * - task: pointer to the task
+ * - player: pointer to player with the task
+ *
+ * Returns:
+ * - false if task is incomplete
+ * - true if task is complete
+ */
+bool is_task_completed(task_t *task, player_t *player);
+
+/* Checks a task's status.
+ *
+ * Parameter:
+ * - task: pointer to a task
+ * - player: pointer to player with the task
+ * 
+ * Returns: 
+ * - the task's completion for the given player (true = complete, false = incomplete)
+ */
+bool get_player_task_status(task_t *task, player_t *player);
+
+/* Adds the contents of a reward struct to the player struct
+ * 
+ * Parameters:
+ * - reward: the reward getting accepted
+ * - qctx: pointer to the quest context struct with information on player and all quests
  * 
  * Returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
- */
-int passive_mission_free(passive_mission_t *mission);
+ * - SUCCESS if added successfully, FAILURE if an error occured
+*/
+int accept_reward(reward_t *reward, quest_ctx_t *qctx);
+
+/* Checks a task for completion and accepts th reward if it is
+* 
+* Parameters:
+* - task_id: The string id of the task getting checked
+* - qctx: A quest context containing the player and a list of all quests
+*/
+void update_task(char *task_id, quest_ctx_t *qctx);
 
 /* 
- * Frees an active mission struct from memory
+ * Determines whether a player meets a set of prerequisites
  * 
- * Parameter:
- * - mission: the mission to be freed
- * 
- * Returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
- */
-int active_mission_free(active_mission_t *mission);
-
-/* 
- * Frees a task struct from memory but does not free 
- * its associated pointers
- * 
- * Parameter:
- * - task: the task to be freed
- * 
- * Returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
- */
-int task_free(task_t *task);
-
-/* 
- * Frees a quest struct from memory including the task list
- * and reward, but otherwise does not free associated pointers
- * 
- * Parameter:
- * - quest: the quest to be freed
- * 
- * Returns:
- * - SUCCESS for successful free
- * - FAILURE for unsuccessful free
- */
-int quest_free(quest_t *quest);
-
-
-/* 
- * Determines whether a player can start a quest with their base stats
- * 
- * Parameter:
- * - quest: a quest
+ * Parameters:
+ * - prereq: a prerequisite object
  * - player: a player
  * 
  * Returns:
- * - 1: a player can start the quest
- * - 0: a player cannot start the quest
+ * - true if the player meets the prerequisites, false if the player does not
  */
-int can_start_quest(quest_t *quest, player_t *player);
+bool meets_prereqs(player_t *player, prereq_t *prereq);
+
+/* quest functionality */
 
 /* Adds a task to the tree given an parent tree id
  *
@@ -238,88 +92,83 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id);
 /* Updates a quest's status to started
  *
  * Parameter:
- * - quest: pointer to quest to be marked started
- * 
+ * - quest: pointer to quest to be started
+ * - qctx: pointer to quest_ctx that indicates player starting the quest
+ *         and a hash table of all quests
+ *
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int start_quest(quest_t *quest);
+int start_quest(quest_t *quest, quest_ctx_t *qctx);
 
 /* Updates a quest's status to failed
  *
  * Parameter:
  * - quest: pointer to quest to be marked failed
+ * - player: pointer to player failing the quest
  * 
  * Returns:
  * - SUCCESS 
  * - FAILURE
  */
-int fail_quest(quest_t *quest);
+int fail_quest(quest_t *quest, player_t *player);
 
-/* Completes a task in a quest by checking if a given
- * task ID matches any incomplete tasks in the
- * appropriate level of the task tree. Returns the reward
- * of the completed task.
- * 
- * Parameters:
- * - quest: pointer to the quest
- * - id: the string identifier of the completed task
- *  
- * Returns:
- * - the task's reward item
- * - NULL if the task is incomplete
- * 
- */
-reward_t *complete_task(quest_t *quest, char *id);
-
-/* Checks if a quest is completed
+/* Checks if a player completed a given quest and updates the 
+ * reference to the quest in the player's quest table accordingly
  * 
  * Parameter:
  * - quest: pointer to the quest
+ * - player: pointer to player with the quest
  *
  * Returns:
- * - 0 if quest is incomplete
- * - 1 if quest is complete
+ * - false if quest is incomplete
+ * - true if quest is complete
  */
-int is_quest_completed(quest_t *quest);
+bool is_quest_completed(quest_t *quest, player_t *player);
 
-/* Gets a quest from the given hash table
+/* Gets the quest that has the given task as one of its tasks
  *
  * Parameters:
- *  quest id string
- *  pointer to quest hash table
+ *  task_id: the task tree's immediate task's id string
+ *  hash_table: a hashtable of quests, ideally from game_state
  *
  * Returns:
- *  quest struct if successful, NULL if quest is not found
+ *  quest struct if successful, NULL if task is not found
  */
-quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
-
-/* Adds a quest to the given hash table
- *
- * Parameters:
- *  pointer to quest struct
- *  pointer to a pointer quest hash table
- *
- * Returns:
- *  SUCCESS if successful, FAILURE if failed
- */
-int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
+quest_t *get_quest_of_task(char *task_id, quest_hash_t *hash_table);
 
 /* Checks a quest's status.
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player with the quest
  * 
  * Returns: 
- * - the quest's status code, as described in quests_structs.h
+ * - the quest's completion for the given player
  */
-int get_quest_status(quest_t *quest);
+int get_player_quest_status(quest_t *quest, player_t *player);
+
+/* Checks if a task's prereqs are met and if they are, completes the task, 
+ * returning the task's reward on success. After completing the task, checks 
+ * if the task completion also completed the task's quest, adds any new tasks
+ * from the tree if not and accepts the quest's rewards if so.
+ *
+ * Parameter:
+ * - tree: pointer to a task tree who's immediate task is getting completed
+ * - qctx: pointer to quest context struct with information on player and all quests
+ * 
+ * Returns:
+ * - the task's reward item
+ * - NULL if the task is incomplete
+ */
+reward_t *complete_task(char *task_id, quest_ctx_t *qctx);
 
 /* Returns the quest's reward item if the quest has been completed.
  *
  * Parameter:
  * - quest: pointer to a quest
+ * - player: pointer to player completing the quest
  * 
  * Returns:
  * - the quest's reward item
@@ -328,7 +177,16 @@ int get_quest_status(quest_t *quest);
  * Note:
  * The status of the quest should first be checked before this function is called
  */
-reward_t *complete_quest(quest_t *quest);
+reward_t *complete_quest(quest_t *quest, player_t *player);
 
+/* Checks if all of the player's tasks are complete and updates them accordingly
+ * 
+ * Parameter:
+ * - qctx: a quest context struct which includes the player and a list of all quests
+ * 
+ * Returns:
+ * - SUCCESS if tasks are checked successfully, FAILURE if an error occured
+*/
+int update_player_quests(quest_ctx_t *qctx);
 
 #endif /* QUESTS_STATE_H */
