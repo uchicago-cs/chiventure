@@ -21,24 +21,17 @@
 #include "game-state/room.h"
 #include "npc/rooms_npc.h"
 
-/* Creates a sample class. Taken from test_class.c */
+/* Creates a sample class. Taken from test_class.c  and same as generate NPCtest class*/
 class_t *generate_test_class();
 
 class_t *create_test_class();
 
 class_t *make_wizard();
 
-/* Creates a sample class. Taken from test_class.c */
-class_t *generate_npcbattle_test_class();
-
 /*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/* Creates + initializes a battle_item */
+/* Creates + initializes a battle_item  SAME AS CREATE_NPC_BATTLE_ITEM and npc_create_battle_item and generate_test_battle_item*/
  battle_item_t *create_battle_item(int id, int quantity, char* description, 
-                                        char *name, bool attack, stat_changes_t *changes);
-
-/* Creates + initializes a battle_item */
- battle_item_t *create_npc_battle_item(int id, int quantity, char* description, 
                                         char *name, bool attack, stat_changes_t *changes);
 
 /* Creates example hardcoded battle_items for the player*/
@@ -47,19 +40,7 @@ battle_item_t* create_player_battle_items();
 /* Creates example hardcoded items for the enemy*/
 battle_item_t* create_enemy_battle_items();
 
- /* Creates + initializes a battle_item */
-battle_item_t *npc_create_battle_item(int id, int quantity, char* description,
-		                                        char *name, bool attack, stat_changes_t *changes);
-
-/* Creates a sample battle item. Taken from test_battle_ai.c */
- battle_item_t *npc_create_battle_item(int id, char *name, char* description,
-		                                                           stat_changes_t *attributes, int quantity, bool attack);
-
-battle_item_t *generate_test_battle_item(int id, int quantity, char* description,
-		                                                         char *name, bool attack, stat_changes_t *changes);
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-/* Creates example stats. Taken from test_battle_ai.c */
-stat_t *create_enemy_stats();
 
 /* Creates example hardcoded stats for the enemy*/
 stat_t* create_enemy_stats_norm();
@@ -70,15 +51,13 @@ stat_t* create_enemy_stats_crit();
 /* Creates example hardcoded stats for the battle_player*/
 stat_t* create_battle_player_stats();
 
-/* Creates example stats. Taken from test_battle_ai.c */
+/* Creates example stats. Taken from test_battle_ai.c Same as create_enemy_stats()*/
 stat_t *create_enemy_stats1();
 
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats2();
-/*----------------------------------------------------------------------------------------------------------------------------------*/
 
-/* Creates example hardcoded moves for the enemy*/
-move_t* create_enemy_moves();
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 
 /* Creates example hardcoded stats for the battle_player*/
 move_t* create_battle_player_moves();
@@ -95,9 +74,7 @@ void check_give_move(combatant_t* player, combatant_t* enemy, difficulty_t diffi
 /* Creates a sample npc_mov struct. Taken from test_npc_move.c */
 npc_mov_t *generate_test_npc_mov();
 
-/* Creates example moves. Taken from test_battle_ai.c */
-move_t *create_enemy_moves();
-
+/*Same as create_enemy_moves()*/
 move_t *create_enemy_moves1();
 
 /* Creates example moves. Taken from test_battle_ai.c */
