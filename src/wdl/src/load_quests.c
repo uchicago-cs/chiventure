@@ -117,6 +117,15 @@ mission_t *load_mission(obj_t *mission_obj) {
     return mission;
 }
 
+/* Creates a task from a WDL task object
+ * 
+ * Parameters:
+ * - task_obj: A WDL task object
+ * - game: A chiventure game
+ * 
+ * Returns:
+ * - A task struct defined by the WDL object
+*/
 task_t *load_task(obj_t *task_obj, game_t *game) {
     if (task_obj == NULL)
     {
