@@ -9,8 +9,8 @@ Test(npc_battle, new)
 {
     npc_battle_t *npc_battle;
 
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -20,7 +20,7 @@ Test(npc_battle, new)
 		    dagger_changes);
 
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY, 
-		                HOSTILE, 25, generate_test_class(), dagger,
+		                HOSTILE, 25, make_new_warrior_class(), dagger,
                         NULL, NULL, NULL);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
@@ -45,10 +45,10 @@ Test(npc_battle, init)
 {
     npc_battle_t *npc_battle;
 
-    stat_t *stats1 = create_enemy_stats1();
-    move_t *moves1 = create_enemy_moves1();
-    stat_t *stats2 = create_enemy_stats2();
-    move_t *moves2 = create_enemy_moves2();
+    stat_t *stats1 = create_enemy_stats_v1();
+    move_t *moves1 = create_enemy_moves_v1();
+    stat_t *stats2 = create_enemy_stats_v2();
+    move_t *moves2 = create_enemy_moves_v2();
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -58,12 +58,12 @@ Test(npc_battle, init)
 		    dagger_changes);
 
     npc_battle = npc_battle_new(100, stats1, moves1, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(),
+                                HOSTILE, 25, make_new_warrior_class(),
                                 dagger, NULL, NULL, NULL);
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
 
     int res = npc_battle_init(npc_battle, 5, stats2, moves2, BATTLE_AI_NONE,
-		                FRIENDLY, 0, generate_test_class(), dagger,
+		                FRIENDLY, 0, make_new_warrior_class(), dagger,
                         NULL, NULL, NULL);
 
     cr_assert_eq(res, SUCCESS, "npc_battle_init() failed");
@@ -88,8 +88,8 @@ Test(npc_battle, free)
 {
     npc_battle_t *npc_battle;
 
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -99,7 +99,7 @@ Test(npc_battle, free)
 		    dagger_changes);
 
     npc_battle = npc_battle_new(100, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, 25, generate_test_class(),
+                                HOSTILE, 25, make_new_warrior_class(),
                                 dagger, NULL, NULL, NULL);
 
     cr_assert_not_null(npc_battle, "npc_battle_new() failed");
@@ -116,8 +116,8 @@ Test(npc_battle, free)
 Test(npc_battle, transfer_all_npc_items_dead)
 {
     npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
     item_t *test_item3 = item_new("item3", "short", "long");
@@ -138,7 +138,7 @@ Test(npc_battle, transfer_all_npc_items_dead)
 		    dagger_changes);
 
     add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE,
-            25, generate_test_class(), dagger, NULL, NULL, NULL);
+            25, make_new_warrior_class(), dagger, NULL, NULL, NULL);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -167,8 +167,8 @@ Test(npc_battle, transfer_all_npc_items_dead)
 Test(npc_battle, transfer_all_npc_items_alive)
 {
     npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
     item_t *test_item1 = item_new("item1", "short", "long");
     item_t *test_item2 = item_new("item2", "short", "long");
     item_t *test_item3 = item_new("item3", "short", "long");
@@ -189,7 +189,7 @@ Test(npc_battle, transfer_all_npc_items_alive)
 		    dagger_changes);
 
     add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY, HOSTILE,
-            25, generate_test_class(), dagger, NULL, NULL, NULL);
+            25, make_new_warrior_class(), dagger, NULL, NULL, NULL);
     add_item_to_npc(npc, test_item1);
     add_item_to_npc(npc, test_item2);
     add_item_to_npc(npc, test_item3);
@@ -218,8 +218,8 @@ Test(npc_battle, transfer_all_npc_items_alive)
 Test(npc_battle, transfer_all_npc_items_empty_inventory)
 {
     npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, true);
-    stat_t *stats = create_enemy_stats1();
-    move_t *moves = create_enemy_moves1();
+    stat_t *stats = create_enemy_stats_v1();
+    move_t *moves = create_enemy_moves_v1();
     room_t *room = room_new("test_room", "room for testing",
                             "testing if memory is correctly allocated for new rooms");
 
@@ -234,7 +234,7 @@ Test(npc_battle, transfer_all_npc_items_empty_inventory)
 		    dagger_changes);
 
     add_battle_to_npc(npc, 0, stats, moves, BATTLE_AI_GREEDY, HOSTILE,
-            25, generate_test_class(), dagger, NULL, NULL, NULL);
+            25, make_new_warrior_class(), dagger, NULL, NULL, NULL);
 
     cr_assert_not_null(npc->npc_battle, "add_battle_to_npc() failed");
     cr_assert_null(npc->inventory, "npc->inventory not NULL");
