@@ -261,12 +261,10 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
 {
     class_item_stat_multipliers_t* mults = class_item_stat_multipliers_new();
 
-    switch(class->name) {
-        case "warrior":
-            switch(item->name) {
-                case "Strength Up":
-                    mults->phys_atk = 2;
-            }
+    if (strcmp(class->name, "warrior") == 0) {
+        if (strcmp(item->name, "Strength Up") == 0) {
+            mults->phys_atk = 2;
+        }
     }
 
     return mults;
