@@ -173,7 +173,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
     DL_FOREACH(tcl_buffer, buffer)
     {
         char *output = run_action(input, ctx);
-        buffer = tcl_buffer->next;//->current; // wait... will this be moved down???
+        buffer = tcl_buffer->next;//->current; // wait... will this be moved down??? Emilio: No???
         if (buffer != NULL)
         {
             if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)

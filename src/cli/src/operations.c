@@ -661,9 +661,47 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "%s does not want to fight.", tokens[1];
     }
 
+    // could be redone to take stats from player_t struct in ctx->game->curr_player
+    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item,
+                                        NULL, NULL, NULL);
+
+    battle_ctx_t *battle_ctx =
+        (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
+
+    // new_game creates a game that is then attached to ctx
+    battle_game_t *g = new_battle_game();
+    battle_ctx->game = g;
+
+    battle_ctx->game->player = p // could use ctx->game->curr_player in future;
+
+    int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
+
+    /* start_battle begins the battle by finalizing 
+       all finishing touches for a battle to begin */
+
+    int rc = start_battle(battle_ctx, e, ENV_GRASS);
+
+    // prints the beginning of the battle 
+    char *start = print_start_battle(battle_ctx->game->battle);
+    int start_rc = print_to_cli(ctx, start);
+    
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(legal_items, legal_moves, buffer->current, 
+                      ctx->game->battle_ctx->game->battle);
+    char *menu = print_battle_action_menu(legal_items, legal_moves);
+    char *output_and_menu = strcat(output, menu);
+    ctx->game->battle_ctx->game->battle->current_tc = buffer->current; //check to make sure this is the correct tc now
+
     set_game_mode(ctx->game, BATTLE, npc->npc_id); 
    
     assert(npc->npc_battle != NULL);
- 
-    return "Beginning battle.";
+
+    if (!rc && !start_rc)
+    {    
+        game_mode_init(ctx->game->mode, BATTLE, 
+                       run_battle_mode, "Goblin");
+    }
+
+    return menu;
 }
