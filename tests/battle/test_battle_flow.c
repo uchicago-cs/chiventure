@@ -99,7 +99,7 @@ Test(battle_flow_move, set_battle)
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
     dagger_changes->hp = 0;
-    battle_item_t *dagger = create_npc_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
 
     battle_player_t *ctx_player = new_ctx_player("set_battle_name", 

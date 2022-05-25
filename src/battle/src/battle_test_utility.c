@@ -316,7 +316,7 @@ combatant_t* new_enemy()
     bool is_friendly = false;
     class_t *c_type = create_test_class();
     stat_t *stats = create_enemy_stats_norm();
-    move_t *moves = create_enemy_moves();
+    move_t *moves = create_enemy_moves1();
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
@@ -331,7 +331,7 @@ combatant_t* new_enemy_crit()
     bool is_friendly = false;
     class_t *c_type = create_test_class();
     stat_t *stats = create_enemy_stats_crit();
-    move_t *moves = create_enemy_moves();
+    move_t *moves = create_enemy_moves1();
     battle_item_t *items = create_enemy_battle_items();
     struct combatant *next = NULL;
     struct combatant *prev = NULL;
