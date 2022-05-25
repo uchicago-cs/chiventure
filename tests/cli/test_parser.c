@@ -400,4 +400,15 @@ Test(parse, fillers_end)
     cr_assert_str_eq("look", words[0], "parse() did not create first token");
 }
 
+//Tests input of all filler words
+Test(parse, all_fillers) 
+{
+    char str[] = "to the to into";
+    char **words = parse(str);
+    cr_assert_null(words[0],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[1],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[2],"parse() should point to NULL for empty tokens");
+    cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
+}
+
 
