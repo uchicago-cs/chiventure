@@ -375,10 +375,13 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             // retrieve inventory from the player
             // TO BE IMPLEMENTED
         } else if (strcmp(target, "skills") == 0) {
-            // retrieve skill tree from the player
-            // TO BE IMPLEMENTED
-        } else {
-            // TO BE IMPLEMENTED     
+            string = display_tree(c->game->curr_player->player_class->skilltree, BUFFER_SIZE); 
+        } 
+        else if (strcmp(target, "skills") == 0) {
+            string = display_skill_description(c->game->curr_player->player_class->skilltree, target[1]); 
+        } 
+        else {
+            return; 
         }
     }
     *ret_string = string;
