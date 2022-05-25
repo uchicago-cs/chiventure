@@ -7,7 +7,7 @@ function foo(name, order)
 
   if order == "Wingstop" then
     if name2 > "hhhhhhhh" and name2 < "pppppppp" then 
-      return string_success end
+      return string_success
     else return string_failure end
   else return string_confused end
 end

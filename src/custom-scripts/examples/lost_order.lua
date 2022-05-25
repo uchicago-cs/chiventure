@@ -3,14 +3,13 @@ function foo(name, order)
     string_failure = "You check the name on the recipt and... it says Borja? This order isn't yours!"
     string_confused = "It has the wrong receipt..."
 
-    if (name == nil or order == nil) then
-        return "I do not exist!"
+    name2 = string.lower(name)
 
-    local name2 = string.lower(name)
-
-    if order == "McDonalds" then
-        if name2 >= "aaaaaaaa" and name <= "hhhhhhhh" then
-            return string_success
-        else return string_failure end
-    else return string_confused end
+    if (order and name and name2) then
+        if (order == "McDonalds") then
+            if (name2 >= "aaaaaaaa" and name2 <= "hhhhhhhh") then 
+                return string_success
+            else return string_failure end
+        else return string_confused end
+    else return string_confused end 
 end
