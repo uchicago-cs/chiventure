@@ -12,6 +12,5 @@ add_library(skilltrees STATIC
             src/complex_skills.c
             src/skilltree.c)
 
-add_subdirectory(examples/skilltrees-demo-2021
-                 examples/skilltrees-demo-2022
+add_subdirectory(examples
                  EXCLUDE_FROM_ALL)

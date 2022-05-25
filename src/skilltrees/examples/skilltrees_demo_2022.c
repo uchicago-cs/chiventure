@@ -47,25 +47,25 @@ skill_tree_t* skill_treedemo;
  */
 chiventure_ctx_t* create_example_ctx() {
     /* Create example game */
-    game_t* game = game_new("Welcome to the skilltrees team's presentation! "
+    game_t* game = game_new("This is the 2022 demo "
                             "Room progression is always (GO) NORTHward.");
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     /* Create example rooms */
     room_t* start_room = room_new("Start Room", "", "A deadly dragon awaits! "
                                   "See how you can use the new effects system to create a skill"
-                                  "that lets you kill it!"); //TODO rename this 
-
-    room_t* complex_skills_room = room_new("Complex Room", "", "Previously your skills were pretty simple, "
-                                                        "but now we can give them a lot more of a kick!");
-
+                                  "that lets you kill it!");
+    room_t* design_room = room_new("Complex Skill Room", "", "Now your skills should have more of a kick!");
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
-    add_room_to_game(game, complex_skills_room);
+    add_room_to_game(game, design_room);
 
-    create_connection(game, "Start Room", "Complex Room", "NORTH");
-    create_connection(game, "Complex Room", "Start Room", "SOUTH");
+    create_connection(game, "Start Room", "Skill Design Room", "NORTH");
+    create_connection(game, "Skill Design Room", "Start Room", "SOUTH");
+
+
+
 
     /* Set initial room */
     game->curr_room = start_room;
@@ -76,18 +76,12 @@ chiventure_ctx_t* create_example_ctx() {
     stats_t* gs_health_stat = stats_new(gs_health, 100);
     stats_global_t *player_health = stats_global_new("current_health", 50);
     stats_t* player_health_stat = stats_new(player_health, 50);
-    stats_global_t *player_strength = stats_global_new("strength", 50);
-    stats_t* player_strength_stat = stats_new(player_strength, 50);
-    stats_global_t *player_defense = stats_global_new("defense", 50);
-    stats_t* player_defense_stat = stats_new(player_defense, 50);
    
     /* Adding to hash table */
     HASH_ADD_KEYPTR(hh, game->curr_stats, gs_health->name, strlen(gs_health->name), gs_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, gs_health_stat->key, strlen(gs_health_stat->key), gs_health_stat);
     HASH_ADD_KEYPTR(hh, game->curr_stats, player_health->name, strlen(player_health->name), player_health);
     HASH_ADD_KEYPTR(hh, player->player_stats, player_health_stat->key, strlen(player_health_stat->key), player_health_stat);
-    HASH_ADD_KEYPTR(hh, player->player_stats, player_strength_stat->key, strlen(player_strength_stat->key), player_strength_stat);
-    HASH_ADD_KEYPTR(hh, player->player_stats, player_defense_stat->key, strlen(player_defense_stat->key), player_defense_stat);
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
 
     /*Initializing class */
@@ -115,24 +109,6 @@ chiventure_ctx_t* create_example_ctx() {
     }
     /* Create example chiventure context */
     return ctx;
-}
-
-void add_item(chiventure_ctx_t* ctx)
-{
-    /* Creating item and attribute */
-    game_t* game = ctx -> game;
-    game->all_items = NULL;
-    item_t* dragon = item_new("DRAGON", "A scary dragon", "Is very hungry");
-    attribute_t* is_alive = bool_attr_new("ALIVE", true);
-    
-    /* Adding things to hash tables */
-    add_attribute_to_hash(dragon, is_alive);
-    add_item_to_hash(&(game->all_items), dragon);
-
-    /* Add dragon to room */
-    room_t* room;
-    HASH_FIND_STR(ctx->game->all_rooms, "dragon's lair", room);
-    add_item_to_room(room, dragon);
 }
 
 //Change this to utilize complex skills
@@ -183,7 +159,7 @@ void create_combined_skill(chiventure_ctx_t* ctx)
     double mods1[] = {100, 100};
     int durations1[] = {5, 5};
     player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 2, ctx);
-    if (defense_boost == NULL) {
+    if (strength_boost == NULL) {
         print_to_cli(ctx, "NULL EFFECT");
     }
     effect_t* stat_effect1 = make_player_stat_effect(health_boost);
@@ -202,10 +178,10 @@ void create_combined_skill(chiventure_ctx_t* ctx)
     /* Making a skill */
     skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies statistics", 10, 5, stat_effect2, NULL);
 
-    skill_t** skills;
-    skill[0] = stat_skill0;
-    skill[1] = stat_skill1;
-    skill[2] = stat_skill2;
+    skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
+    skills[0] = stat_skill0;
+    skills[1] = stat_skill1;
+    skills[2] = stat_skill2;
 
     complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
     skill_t* stat_skill3 = skill_new(0, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
@@ -338,69 +314,6 @@ char* add_complex_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventur
     }
 }
 
-void create_attr_skill(chiventure_ctx_t* ctx)
-{
-    attribute_value_t mod;
-    mod.bool_val = false;
-    enum attribute_tag att_tag = BOOLE;
-    item_t* dragon = get_item_in_hash(ctx->game->all_items, "dragon");
-    if (dragon == NULL)
-    {
-        print_to_cli(ctx, "NO DRAGON");
-    }
-    item_attr_effect_t* slay_dragon = define_item_attr_effect(dragon, "ALIVE", att_tag, mod);
-    effect_t* attribute_effect = make_item_attr_effect(slay_dragon);
-    skill_t*  attribute_skill = skill_new(1, ACTIVE, "Attribute Skill", "Slays Dragon", 10, 10, attribute_effect, NULL);
-    
-    /* Showcase leveling functionality */
-    skill_node_t* attr_node = skill_node_new(attribute_skill, 0, 3, 0); 
-    skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, attr_node);
-}
-
-char* create_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
-{
-    create_attr_skill(ctx);
-    return "Created Attribute modifying skill!";
-}
-
-char* add_attr_skill_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
-{
-    int check = add_skill_to_player(ctx, 1);
-    if (check == FAILURE)
-    {
-        return "Could not add skill!";
-    }
-    else
-    {
-        return "Added skill!";
-    }
-}
-
-char* execute_attr_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
-{
-    int check = execute_skill(ctx, 1);
-    item_t* dragon = get_item_in_hash(ctx->game->all_items, "dragon");
-    if(dragon == NULL)
-    {
-        fprintf(stderr, "NO DRAGON");
-    }
-    bool is_alive = dragon->attributes->attribute_value.bool_val;
-    if (is_alive == true)
-    {
-        check = FAILURE;
-    }
-    
-    if (check == SUCCESS)
-    {
-        create_connection(ctx->game, "Dragon's Lair", "Win Room", "NORTH");
-        return "Killed Dragon!  Go to next room to celebrate";
-    }
-    else
-    {
-        return "Oh no....";
-    }
-}
-
 char* level_up_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     ctx->game->curr_player->level+=1;
@@ -491,17 +404,13 @@ void main()
 {
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
-    add_item(ctx);
 
     add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
     add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
     add_entry("STATISTIC", create_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
-    add_entry("ATTRIBUTE", create_attr_skill_operation, NULL, ctx->cli_ctx->table);
     add_entry("ADD", add_operation, NULL, ctx->cli_ctx->table);
     add_entry("ADD_HEALTH_BOOST", add_player_stat_operation, NULL, ctx->cli_ctx->table);
-    add_entry("ADD_SLAY_DRAGON", add_attr_skill_operation, NULL, ctx->cli_ctx->table);
     add_entry("LEVEL_UP", level_up_operation, NULL, ctx->cli_ctx->table);
-    add_entry("KILL_DRAGON", execute_attr_operation, NULL, ctx->cli_ctx->table);
     //Start UI for example chiventure context
     start_ui(ctx, banner);
 }
