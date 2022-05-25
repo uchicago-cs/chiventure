@@ -1,4 +1,4 @@
-#include "battle_test_utility.h"
+#include "../include/battle/battle_test_utility.h"
 
 class_t *create_test_class()
 {
