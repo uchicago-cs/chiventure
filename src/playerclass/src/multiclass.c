@@ -75,6 +75,8 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
     strncat(new_shortdesc, ".", 2);
     len += 1;
 
+    len = 160;
+
     if (len > MAX_SHORT_DESC_LEN + 1) {
         fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length, second shortdesc not appended");
         *succ = FAILURE;
