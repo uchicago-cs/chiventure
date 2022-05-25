@@ -345,6 +345,37 @@ Test(parse_r, filler_word_double)
     cr_assert_str_eq(words[1],"east", "parse() did not create second token");
 }
 
+// Tests whether more than 4 words returns NULL as expected
+Test(parse, too_many_words)
+{
+    char str[] = "LOOK LOOK LOOK LOOK LOOK";
+    cr_assert_null(parse(str), "parse() did not create first token");
+}
 
+// Tests whether more than 4 words in quotes are treated as one token
+Test(parse, too_many_words_in_quotes)
+{
+    char str[] = "\"LOOK LOOK LOOK LOOK LOOK\"";
+    char** words = parse(str);
+    cr_assert_str_eq("look look look look look", words[0], "parse() did not create first token");
+}
 
+//Tests the parsing of an input of 2 words connected by AND which should return the 2 words.
+// The ending word is quotes
+Test(parse_r, two_words_end)
+{
+    char* expecting_words[1];
+    expecting_words[0] = "LOOK ";
+    char str[] = "LOOK AND";
+    check_comparison(str, 1, expecting_words);
+}
+
+//Tests input in which the and is before any command
+Test(parse_r, start_and)
+{
+    char* expecting_words[1];
+    expecting_words[0] = " PUSH";
+    char str[] = "AND PUSH";
+    check_comparison(str, 1, expecting_words);
+}
 
