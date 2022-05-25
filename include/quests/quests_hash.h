@@ -125,6 +125,8 @@ task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table);
  * Returns:
  *  task struct if successful, NULL if task is not found
  */
+
+
 task_t *get_task_from_quest_hash(char *id, quest_hash_t *hash_table);
 
 /* Finds the element with the given id in the task hash
