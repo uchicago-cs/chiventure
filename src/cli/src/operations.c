@@ -672,7 +672,7 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     battle_game_t *g = new_battle_game();
     battle_ctx->game = g;
 
-    battle_ctx->game->player = p // could use ctx->game->curr_player in future;
+    battle_ctx->game->player = p; // could use ctx->game->curr_player in future;
 
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
 

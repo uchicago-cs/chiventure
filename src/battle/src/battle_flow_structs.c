@@ -85,7 +85,6 @@ turn_component_list_t *new_turn_component_list(turn_component_t *t,
             return NULL;
       }
       new_tcl->current = t;
-      assert(r!=NULL);
       new_tcl->next = r;
       return new_tcl;
 }
@@ -96,7 +95,6 @@ turn_component_list_t *init_turn(turn_component_list_t *tcl,
                                     turn_component_t *c)
 {
       assert(tcl != NULL);
-      assert(r != NULL);
       tcl->current = c;
       tcl->next = r;
       return SUCCESS;

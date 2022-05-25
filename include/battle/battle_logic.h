@@ -160,5 +160,24 @@ int num_moves(move_t *moves);
  */
 int num_items(battle_item_t *items);
 
+/* Converts a player into a battle player
+ *
+ * Parameters:
+ * - player: the player
+ * - b_stats: the battle stats
+ * - b_moves: the battle moves
+ * - weapon: the weapon equiped
+ * - accessory: the accessory equiped
+ * - armor: the armor equiped
+ * 
+ * Returns:
+ * - the number of items in the linked list 
+ */
+battle_player_t *player_to_battle_player(player_t *player, stat_t *b_stats, 
+                                        move_t *b_moves, battle_item_t *items,
+                                        battle_equipment_t *weapon, 
+                                        battle_equipment_t *accessory,
+                                        battle_equipment_t *armor);
+
 #endif
 

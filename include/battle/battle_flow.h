@@ -77,15 +77,6 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
                       environment_t env);
 
 /*
-* Determines whether a move hits based on accuracy stat.
- * Parameters:
- * - user_accuracy : the accuracy of the user using the move
- * - move_accuracy : the accuracy of the move itself
- * returns: the 1 or 0 depending on if the move hits
- */
-int calculate_accuracy(int user_accuracy, int move_accuracy);
-
-/*
  * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
@@ -182,6 +173,16 @@ char *enemy_make_move(battle_ctx_t *ctx);
 int run_turn_component(chiventure_ctx_t *ctx, turn_component_t *component,
                         void *callback_args, cli_callback callback_func);
 
+
+/* Runs the action chosen
+ *
+ * Parameters:
+ * - ctx: the current chiventure context
+ * - input: the player's input
+ *
+ * Returns:
+ * - returns the string that is the result of the action
+ */
 char *run_action(char *input, chiventure_ctx_t *ctx);
 
 /*
@@ -197,5 +198,14 @@ char *run_action(char *input, chiventure_ctx_t *ctx);
  */
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
 
-
+/*
+ * Determines whether a move hits based on accuracy stat.
+ *
+ * Parameters:
+ * - user_accuracy : the accuracy of the user using the move
+ * - move_accuracy : the accuracy of the move itself
+ *
+ * returns: the 1 or 0 depending on if the move hits
+ */
+int calculate_accuracy(int user_accuracy, int move_accuracy);
 #endif
