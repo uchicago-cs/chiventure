@@ -61,7 +61,7 @@ chiventure_ctx_t *create_sample_game()
 
         printf("%s", ret_str);
         
-        if (rc != 1) {
+        if (rc != 1){
             scanf("%d", &player_response);
         }
         
