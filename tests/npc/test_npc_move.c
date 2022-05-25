@@ -1,7 +1,9 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../include/battle/battle_test_utility.h"
+#include "npc/npc_move.h"
+#include "game-state/room.h"
+#include "game-state/game.h"
 
 /* Tests new() of npc_mov struct */
 Test (npc_mov, new)
