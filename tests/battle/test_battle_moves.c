@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "battle/battle_moves.h"
+#include "test_battle_utility.c"
 
 
 

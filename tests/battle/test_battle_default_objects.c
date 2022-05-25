@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "battle/battle_default_objects.h"
+#include "test_battle_utility.c"
 
 //Battle Item Tests will be updated after the Battle Item Implementation Update.
 Test(battle_default_objects, default_consumables)

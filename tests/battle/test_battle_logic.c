@@ -3,12 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "battle/battle_logic.h"
-#include "battle/battle_state.h"
-#include "battle/battle_structs.h"
-#include "battle/battle_flow.h"
-#include "battle/battle_flow_structs.h"
-#include "battle/battle_default_objects.h"
+#include "test_battle_utility.c"
 
 
 

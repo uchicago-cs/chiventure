@@ -3,14 +3,7 @@
 #include <criterion/criterion.h>
 #include <stdbool.h>
 #include <string.h>
-#include "test_battle_flow.c"
-#include "battle/battle_ai.h"
-#include "battle/battle_flow.h"
-#include "battle/battle_flow_structs.h"
-#include "battle/battle_structs.h"
-#include "npc/npc.h"
-#include "npc/npc_battle.h"
-
+#include "test_battle_utility.c"
 
 /* Tests set_battle_player() */
 Test(battle_flow_move, set_battle_player)

@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle/battle_state.h"
-#include "common/utlist.h"
+#include "test_battle_utility.c"
 
 
 

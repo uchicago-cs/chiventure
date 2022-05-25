@@ -1,20 +1,16 @@
-#include <criterion/criterion.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
 #include "battle/battle_ai.h"
-#include "battle/battle_moves.h"
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_structs.h"
-#include "battle/battle_logic.h"
-#include "battle/battle_state.h"
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
+#include "battle/battle_moves.h"
+#include "battle/battle_default_objects.h"
+#include "battle/battle_logic.h"
+#include "battle/battle_state.h"
+#include "../include/battle/battle_move_maker.h"
 #include "playerclass/class.h"
 #include "battle/battle_print.h"
-#include "../include/battle/battle_move_maker.h"
-#include "battle/battle_default_objects.h"
 #include "common/utlist.h"
 
 class_t *create_test_class()
