@@ -1,46 +1,46 @@
-
-# Support for this file has not been implemented yet.
-# The following is provided merely as an example of what a 
-# finished DSL specification of an NPC would look like
-
 GAME START room B END room C
     intro: "Welcome!"
 
-ROOM room B
-    short desc: "A dungeon room."
-    long desc: "The walls are damp and moldy and, yet, the scent of freshly
-    cut lavender flowers pervades the air."
+ROOM lab
+    short desc: "Oak's lab."
+    long desc: "Professor Oak's lab in Pallet Town"
     connections: NORTH TO room A
         EAST TO room C
+    
+    ITEM COMPUTER IN lab
+    short desc: "A computer."
+    long desc: "A computer in Oak's lab"
 
-NPC OAK IN room B
-    short desc: "Kanto’s premier Pokemon expert"
-    long desc: "Enjoys exploring human-Pokemon relationships"
-	age: "25"
-	gender: "Male"
+ITEM CHARMANDER IN OAK
+  short desc: "A fire pokemon"
+  long desc: "Prefers hot places. When it rains, steam is said to spout from the tip of its tail." 
 
-    INVENTORY
-        item_id1: "CHARMANDER"
-        item_id2: "SQUIRTLE"
-        item_id3: "BULBASAUR"
-        item_id4: "POKEBALL"
-            DIALOGUE: 
-                NODE 1
-                    EDGE 1 TO 2 desc: “Good” 
-                    EDGE 1 TO 3 desc: “I have an ENCYCLOPEDIA that belongs to you.” 	
-                    EDGE 1 TO 4 desc: “I’ve caught the PIDGEY you asked for!” 
-                    desc: “Hello ASH. How are you?”
+ITEM SQUIRTLE IN OAK
+  short desc: "A water pokemon"
+  long desc: "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth." 
 
-                NODE 2 “Have a nice day!”
-                NODE 3
-                    EDGE 3 TO 6a desc: “I’ll take Bulbasaur.”
-                    EDGE 3 TO 6b desc: “I’ll take Squirtle”
-                    EDGE 3 TO 6c desc: “I’ll take Charmander”
-                    desc: ”. . . Would you like a Bulbasaur, Squirtle, or Charmander?”
+ITEM BULBASAUR IN OAK
+  short desc: "A grass Pokemon"
+  long desc: "It can go for days without eating a single morsel. In the bulb on its back, it stores energy."
 
-                NODE 4 desc: “ Wonderful, you’re on your way . . . to complete your journey.”
-                NODE 6a desc: “Here is your Bulbasaur. . .”
-                NODE 6b desc: “Here is your Squirtle. . .”
-                NODE 6c desc: “Here is your Charmander. . .”
+ITEM POKEBALL IN OAK
+  short desc: "A pokeball"
+  long desc: "A pokeball used to capture pokemon"
+  actions: TAKE
+    TAKE success: "You take the pokeball"
+    TAKE fail: "You cannot take the pokeball"
+
+NPC OAK IN lab
+  short desc: "Kanto's premier Pokemon expert"
+  long desc: "Enjoys exploring human-Pokemon relationships"
+  age: "25"
+  gender: "Male"
+  INVENTORY
+    item_id1: "CHARMANDER"
+    item_id2: "SQUIRTLE"
+    item_id3: "BULBASAUR"
+    item_id4: "POKEBALL"
+
+
 
 
