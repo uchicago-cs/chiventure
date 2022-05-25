@@ -3,6 +3,7 @@
 #include <criterion/criterion.h>
 #include <stdbool.h>
 #include <string.h>
+#include "test_battle_utility.c"
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_print.h"
@@ -10,22 +11,6 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 
- /* Creates + initializes a battle_item */
- battle_item_t *npc_create_battle_item(int id, int quantity, char* description, 
-                                        char *name, bool attack, stat_changes_t *changes)
- {
-     battle_item_t* item = (battle_item_t*) calloc(1, sizeof(battle_item_t));
-
-     item->id = id;
-     item->name = name;
-     item->description = description;
-     item->quantity = quantity;
-     item->description = description;
-     item->attack = attack;
-     item->attributes = changes;
-
-     return item;
- }
 
 /* Tests print_start_battle() */
 Test(battle_print, print_start_battle)
