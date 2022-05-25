@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/skilltrees_demo.c
+stdio.h
+-
+string.h
+-
+common/ctx.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/common/ctx.h
+common/uthash.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/common/uthash.h
+ui/ui.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/ui/ui.h
+cli/operations.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/cli/operations.h
+skilltrees/skill.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/skilltrees/skill.h
+skilltrees/inventory.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/skilltrees/inventory.h
+skilltrees/skilltree.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/skilltrees/skilltree.h
+skilltrees/effect.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/skilltrees/effect.h
+game-state/stats.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/game-state/stats.h
+game-state/item.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/game-state/item.h
+skilltrees/complex_skills.h
+/home/kabirdubey/cs220/chiventure/src/skilltrees/examples/skilltrees-demo-2022/skilltrees/complex_skills.h
+

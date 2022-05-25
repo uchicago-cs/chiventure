@@ -67,13 +67,7 @@ int complex_skill_free(complex_skill_t* complex_skill);
  */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
 
-/*
- * Executes 1 of 2 skills stored in a conditional skill depending on reader conditon. 
- *
- * Parameters:
- *  - skill: A conditional skill
- *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
- *
+
 /*
  * Executes a combined skill, executing each subskill regardless of success or 
  * failure
@@ -90,7 +84,8 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
 int combined_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx);
 
 /*
- * Executes a sequential skill, stopping execution once a sub_skill fails
+ * Executes a conditional skill, if execute reader = true, executes skill[0]
+ *                               else, executes skill[1]
  *
  * Parameters:
  *  - complex_skill: A complex skill
@@ -101,7 +96,8 @@ int combined_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ct
  * 0 if success
  * 1 if failure
  */
-int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx);
+int conditonal_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx);
+
 
 /*********************************************************************************************/
 /* NOTICE

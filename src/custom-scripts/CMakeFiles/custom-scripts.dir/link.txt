@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcustom-scripts.a  CMakeFiles/custom-scripts.dir/src/custom_type.c.o
+/usr/bin/ranlib libcustom-scripts.a
