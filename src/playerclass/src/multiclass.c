@@ -221,6 +221,9 @@ skill_inventory_t* multiclass_inventory(skill_inventory_t* base_inventory, skill
     /* Calculate new inventory sizes */
     unsigned int max_active;
     unsigned int max_passive;
+    if (base_max_active == 0 && base_max_passive == 0) {
+        return base_inventory;
+    }
     if (base_max_active >= second_max_active) {
         max_active = base_max_active;
     }
