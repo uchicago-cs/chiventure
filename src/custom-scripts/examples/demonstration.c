@@ -7,40 +7,22 @@
  */
 
 #include <stdio.h>
-#include <custom-scripts/custom_type.h>
+#include "custom-scripts/custom_type.h"
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
 
+
+#include <sys/ioctl.h>
+#include <unistd.h>
 #include <wdl/load_game.h>
-#include "wdl/load_room.h"
-#include "wdl/load_item.h"
-#include "wdl/load_npc.h"
-#include "wdl/load_class.h"
-#include "wdl/validate.h"
+#include <ui/ui_ctx.h>
+#include "libobj/load.h"
+
+
 #include "game-state/mode.h"
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
-
-char *count_rocks(object_t *ot){
-    char *str = malloc(80 * sizeof(char));
-    int rocks = int_t_get(ot);
-    sprintf(str, "There is a stack of %i rocks", rocks);
-    return str;
-}
-
-char *eat_rock(object_t *ot){
-    static int ct = 0;
-    char *str = malloc(80 * sizeof(char));
-    int rocks = int_t_get(ot);
-
-    ot->data.i = rocks;
-
-    fprintf(stderr, "rock count is %d", ct);
-    ct++;
-    sprintf(str, "You ate one rock. There are %i rocks remaining in the stack", rocks - 1);
-    return str;
-}
 
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
@@ -50,9 +32,8 @@ chiventure_ctx_t *create_sample_ctx()
     luaL_openlibs(L);
     luaL_dofile(L, "demo.lua");
 
-    game_t *game = load_wdl("/home/ramarkob/cs220/chiventure/src/custom-scripts/examples/demo.wdl");
-
-
+    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
+    game_t *game = load_game(obj_store);
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
