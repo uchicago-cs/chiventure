@@ -135,18 +135,60 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
 }
 
 /*See complex_skills.h */
-random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure){
-    return NULL;
+random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure)
+{
+    random_chance_type_t* random_chance;
+
+    if (chance_failure < 0 || chance_failure > 1)
+    {
+        fprintf(stderr, "random_chance_new: chance_failure invalid, must be between 0 and 1, inclusive\0");
+        return NULL;
+    }
+
+    if (complex_skill == NULL)
+    {
+        fprintf(stderr, "random_chance_new: complex_skill invalid");
+        return NULL;
+    }
+
+    random_chance = (random_chance_type_t*)malloc(sizeof(random_chance_type_t));
+
+    if (random_chance == NULL) 
+    {
+        fprintf(stderr, "random_chance_new: memory allocation failed\0");
+        return NULL;
+    }
+
+    int rc = random_chance_init(random_chance, complex_skill, chance_failure);
+
+    if (rc)
+    {
+        fprintf(stderr, "random_chance_new: initialization failed\0");
+        return NULL;
+    }
+
+    return random_chance;
 }
 
 /*See complex_skills.h */
-int random_chance_init(random_chance_type_t* random_chance_skill, complex_skill_t* complex_skill, float chance_failure){
-    return 0;
+int random_chance_init(random_chance_type_t* random_chance_skill, complex_skill_t* complex_skill, float chance_failure)
+{
+    assert (random_chance_skill != NULL);
+
+    random_chance_skill->complex_skill = complex_skill;
+    random_chance_skill->chance_failure = chance_failure;
+
+    return SUCCESS;
 }
 
 /*See complex_skills.h */
 int random_chance_free(random_chance_type_t* random_chance_skill){
-    return 0;
+    
+    complex_skill_free(random_chance_skill->complex_skill);
+
+    free(random_chance_skill);
+
+    return SUCCESS;
 }
 
 /*See complex_skills.h */
