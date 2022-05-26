@@ -375,6 +375,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     assert(target);
     
     game_t *game = c->game;
+    target = case_insensitized_string(target);
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -391,6 +392,9 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         if (strcmp(target, "stats") == 0) {
             // retrieve stats from the player
             string = display_stats(c->game->curr_player->player_stats);
+        } else if (strcmp(target, "effects") == 0) {
+            // retrieve stat effects from the player
+            string = display_stat_effects(c->game->curr_player->player_effects);
         } else if (strcmp(target, "inventory") == 0) {
             // retrieve inventory from the player
             // TO BE IMPLEMENTED
@@ -398,8 +402,11 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             // retrieve skill tree from the player
             // TO BE IMPLEMENTED
         } else {
-            // TO BE IMPLEMENTED     
+            sprintf(string, "%s cannot be viewed", target);
         }
+    }
+    else {
+        sprintf(string, "No such %s action available", a->c_name);
     }
     *ret_string = string;
     return SUCCESS;
