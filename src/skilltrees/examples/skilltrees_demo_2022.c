@@ -67,8 +67,8 @@ chiventure_ctx_t* create_example_ctx() {
                                                                     "you a powerful combo move, one that stuns your opponent, then summons "
                                                                     "a mighty tornado");
 
-    room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room. He begins rambling 
-                                                                        something about how orcs are good at smashing things. ");
+    room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room. He begins rambling " 
+                                                                        " something about how orcs are good at smashing things. ");
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
@@ -418,6 +418,57 @@ char* use_conditional_skill(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx
     return "";
 }
 
+// fix to smash window
+int execute_conditional_window_skill(chiventure_ctx_t* ctx, int sid)
+{
+    player_t* player = ctx->game->curr_player;
+    skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
+    skill_t* skill = skill_node->skill;
+    
+    /*Find the correct skill */
+    int i = 2;
+    while ((skill->sid != sid)&&(i<=1)) 
+    {
+        skill_node = player->player_class->skilltree->nodes[i];
+        skill = skill_node->skill;
+    }
+    if(skill->sid != sid) 
+    {
+        return FAILURE;
+    }
+    /* Execute the effect */
+    int check = execute_reader_effect(skill->complex->reader, ctx);
+
+    if(check == 1){
+        //Text when user smashes window
+        print_to_cli(ctx, "You move the drapes aside and smash the windows, allowing sunlight to permeate the room");
+        print_to_cli(ctx, "Your mentor screams in agony, disintegrating into fine particles of dust");
+        print_to_cli(ctx, "Mentor: Oh no! I forgot you can do that! AAAAAAAAAAAAAA");
+        print_to_cli(ctx, "Victory! You won! And you don't even have to pay tuition anymore!");
+        print_to_cli(ctx, "Mentor: Go forth and conquer with your new skills");
+
+    } else if (check == 0){
+        //Text when user fails to smash window
+        print_to_cli(ctx, "You attempt to smash the windows, but you're not an orc. Even with your current skills, "
+                            "they remain whole.");
+        print_to_cli(ctx, "Mentor: You could never beat me, when you're not an "
+                          "orc you're not even strong enough to break a window. ");
+
+    } else if (check == -1){
+        print_to_cli(ctx, "READER ERROR: ORC NOT FOUND");
+    }
+
+
+    skill_execute(skill_node->skill, ctx);
+    return SUCCESS;
+}
+
+char* use_conditional_window_skill(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    int check = execute_conditional_window_skill(ctx, 2);
+    return "";
+}
+
 /****************************************************************************************************************/
 /*READER CODE*/
 /****************************************************************************************************************/
@@ -545,7 +596,7 @@ void main()
     add_entry("USE_SEQUENTIAL_MOVE", add_sequential_player_stat_operation, NULL, ctx->cli_ctx->table);
     add_entry("LEARN_CONDITIONAL", create_conditional_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("SMASH_DUMMY!", use_conditional_skill, NULL, ctx->cli_ctx->table);
-
+    add_entry("SMASH_WINDOW", use_conditional_window_skill, NULL, ctx->cli_ctx->table);
 
     //Class changing commands
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
