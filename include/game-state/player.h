@@ -16,9 +16,6 @@
 
 #define QUEST_NAME_MAX_LEN 100
 
-/* Forward declaration for skilltrees */
-typedef struct skill skill_t;
-
 /* An enum representing the possible quest completion statuses currently supportd */
 typedef enum completion_status {
     Q_FAILED = -1,

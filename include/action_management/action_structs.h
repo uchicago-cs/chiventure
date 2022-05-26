@@ -1,7 +1,6 @@
 #ifndef _ACTION_STRUCTS_H_
 #define _ACTION_STRUCTS_H_
 
-
 /* File consisting of all action structs created by action management
    =========================================================================== */
 
