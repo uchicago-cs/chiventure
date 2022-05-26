@@ -102,7 +102,7 @@ Test(class_prefabs, Basic) {
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t* c = class_prefab_new(ctx->game, "basic");
-    check_field_pressence(c);
+    check_field_presence(c);
 
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
     cr_assert_eq(get_stat_current(c->base_stats, "speed"), 5, "failed to initalize stat");
