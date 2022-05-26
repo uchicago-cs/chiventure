@@ -338,7 +338,7 @@ Test(battle_print, print_stat_changes_move_both)
                                 NULL, NULL); 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes_move(b, PLAYER, move_one, string);
-    char *expected_string = "Your hp changed by 10\nBob's hp changed by -10\n";
+    char *expected_string = "bob's hp changed by -10\n";
     cr_expect_str_eq(string, expected_string, "print_stat_changes_move() failed to set string %s", string);
     free(string);
 }
