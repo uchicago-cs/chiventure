@@ -761,7 +761,7 @@ Test(battle_logic, use_battle_item)
     offensive_item->attributes->phys_atk = 40;
     offensive_item->attributes->phys_def = 30;
 
-    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, item,
+    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, offensive_item,
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
 
     combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL,
@@ -797,7 +797,7 @@ Test(battle_logic, apply_stat_changes)
     offensive_item->attributes->phys_atk = 40;
     offensive_item->attributes->phys_def = 30;
 
-    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, item,
+    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, offensive_item,
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
 
     combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL,
