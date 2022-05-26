@@ -223,7 +223,7 @@ int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest,
 
     obj_t *nodes_obj = obj_get_attr(quest_convo_obj, "nodes", false);
     obj_t *edges_obj = obj_get_attr(quest_convo_obj, "edges", false);
-    char *id, *npc_quest_dialogue;
+    char *id, *quest_dialogue;
     char *quip, *from_id, *to_id;
     obj_t *curr;
     obj_t *actions_obj;
@@ -234,10 +234,10 @@ int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest,
     DL_FOREACH(nodes_obj->data.lst, curr)
     {
         id = obj_get_str(curr, "id");
-        npc_quest_dialogue = obj_get_str(curr, "dialogue");
+        quest_dialogue = obj_get_str(curr, "dialogue");
 
         // create node
-        if (add_node(convo, id, npc_quest_dialogue) != SUCCESS) {
+        if (add_node(convo, id, quest_dialogue) != SUCCESS) {
             fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
                     npc->npc_id);
             return FAILURE;
@@ -485,8 +485,7 @@ int load_tasks(obj_t *tasks_obj, npc_t *npc, game_t *g)
 
     obj_list_t *task_list_obj = obj_get_list(tasks_obj, "Tasks");
 
-    char *id;
-    convo_t *task_dialogue;
+    char *id, *task_dialogue;
     npc_task_t *curr_task, *next_task;
     obj_t *curr;
     int len;
