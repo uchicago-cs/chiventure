@@ -91,6 +91,10 @@ def main():
     print(f"Testing Graph Validity - VALIDGRAPH2. Expecting: True | Actual: {validate(VALIDGRAPH2, 'A')}")
     print(f"Testing Graph Validity - VALIDGRAPH3. Expecting: True | Actual: {validate(VALIDGRAPH3, 'A')}")
     print(f"Testing Graph Validity - OAK(from node C). Expecting: False | Actual: {validate(OAK, 'C')}")
+    print(f"Testing Graph Validity - NODENOTREACHED2. Expecting: False | Actual: {validate(NODENOTREACHED2, 'A')}")
+    print(f"Testing Graph Validity - SELFLOOP2. Expecting: False | Actual: {validate(SELFLOOP2, 'A')}")
+    print(f"Testing Graph Validity - INFINITECIRCLE2. Expecting: False | Actual: {validate(INFINITECIRCLE2, 'B')}")
+    
 
 
 if __name__ == "__main__":

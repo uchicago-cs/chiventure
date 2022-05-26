@@ -11,6 +11,26 @@ OAK = {
     'G': [] 
 }
 
+# Valid Graph Example 2
+VALIDGRAPH2 = {
+    'A': ['B', 'C', 'D'],
+    'B': ['E'],
+    'C': ['E'],
+    'D': ['E'],
+    'E': [],
+}
+
+# Valid Graph Example 3
+VALIDGRAPH3 = {
+    'A': ['B', 'C', 'E'],
+    'B': ['D'],
+    'C': ['E'],
+    'D': [],
+    'E': ['F'],
+    'F': ['G'],
+    'G': [] 
+}
+
 # Singleton Graph Example
 SINGLETON = {
     'A': []
@@ -25,6 +45,14 @@ NODENOTREACHED = {
     'E': ['C'],
     'F': ['G'],
     'G': []  
+}
+
+# Unreachable Node Example 2
+NODENOTREACHED2 = {
+    'A': ['B', 'C'],
+    'B': ['C'],
+    'C': [],
+    'D': ['C'],
 }
 
 # Infinite Loop with Two Nodes
@@ -49,6 +77,15 @@ INFINITECIRCLE = {
     'D': ['A']
 }
 
+# Multi-Node Circular Loop Example 2
+INFINITECIRCLE2 = {
+    'A': ['B'],
+    'B': ['C'],
+    'C': ['D'],
+    'D': ['E'],
+    'E': ['A']
+}
+
 # Self Loop in Graph
 SELFLOOP = {
     'A': ['B', 'C', 'E'],
@@ -60,22 +97,8 @@ SELFLOOP = {
     'G': ['G'] 
 }
 
-# Valid Graph Example 2
-VALIDGRAPH2 = {
-    'A': ['B', 'C', 'D'],
-    'B': ['E'],
-    'C': ['E'],
-    'D': ['E'],
-    'E': [],
-}
-
-# Valid Graph Example 3
-VALIDGRAPH3 = {
-    'A': ['B', 'C', 'E'],
-    'B': ['D'],
-    'C': ['E'],
-    'D': [],
-    'E': ['F'],
-    'F': ['G'],
-    'G': [] 
+# Self Loop in Graph Example 2
+SELFLOOP2 = {
+    'A': ['B'],
+    'B': ['B']
 }
