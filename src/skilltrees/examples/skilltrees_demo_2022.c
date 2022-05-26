@@ -70,6 +70,12 @@ chiventure_ctx_t* create_example_ctx() {
     room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room. He begins rambling " 
                                                                         " something about how orcs are good at smashing things. ");
 
+    room_t* classes_room = room_new("Classes Room", "", "You enter a large library, filled wall to wall with books.");
+
+    room_t* final_room = room_new("Reader Room", "", "You and your mentor go into the next room, and you sense an anger from him. He's enraged you destroyed his dummy! "
+                                                      " How were you supposed to know it was a family heirloom?! He attacks!"
+                                                      "You remember how you had to check if you were an orc to smash things... can you read his weakness?");
+
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
     add_room_to_game(game, combined_room);
