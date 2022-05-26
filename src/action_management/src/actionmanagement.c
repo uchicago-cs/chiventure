@@ -580,7 +580,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
     if (strcmp(a->c_name, "give") == 0)
     {
         // check if NPC has GIVE in their list_npc_action_t
-        if (contains_action(agent, give) == 1) {
+        if (contains_action(agent, GIVE) == 1) {
             sprintf(string, "Player cannot GIVE to the NPC");
             *ret_string = string;
             return CONDITIONS_NOT_MET;
