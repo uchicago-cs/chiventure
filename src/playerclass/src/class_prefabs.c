@@ -477,21 +477,12 @@ int class_prefab_add_skills(class_t* class) {
 
     /* Note: All skills are combat skills for now */
 
-<<<<<<< HEAD
     else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
         /* these guys potentially could have a prefabricated, basic skill to match the class
          * for now we will just have no skills */
         return SUCCESS;
     }
 
-    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-
-    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
-        /* TODO */
-    }
-=======
     /* 
      * A simple linear tree for the bard class.
      *
@@ -517,7 +508,6 @@ int class_prefab_add_skills(class_t* class) {
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Enchanted Stanza", 
                                      "The full weight of your stanza strikes "
                                      "your opponent!", 1, 325, NULL, NULL);
->>>>>>> dev
 
         /* Add skills to tree */
         add_skill(class, skill_0, 0, 25, true);
