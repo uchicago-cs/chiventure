@@ -767,18 +767,48 @@ Test(battle_logic, use_battle_item)
     battle->player = player;
     battle->enemy = enemy;
 
-    int expected_hp = battle->enemy->stats->hp + item->attributes->hp;
-    int expected_strength = battle->enemy->stats->phys_atk + item->attributes->phys_atk;
-    int expected_defense = battle->enemy->stats->phys_def + item->attributes->phys_def;
+    int expected_hp = battle->enemy->stats->hp - item->attributes->hp;
+    int expected_strength = battle->enemy->stats->phys_atk - item->attributes->phys_atk;
+    int expected_defense = battle->enemy->stats->phys_def - item->attributes->phys_def;
     use_battle_item(player, battle, item->name);
-    cr_assert_eq(battle->enemy->stats->hp, expected_hp, "consume_battle_weapon() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
-    cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "consume_battle_weapon() does correctly set enemy physical attack after use");
-    cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "consume_battle_weapon() does correctly set enemy physical defense after use");
+    cr_assert_eq(battle->enemy->stats->hp, expected_hp, "use_battle_item() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
+    cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "use_battle_item() does correctly set enemy physical attack after use");
+    cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "use_battle_item() does correctly set enemy physical defense after use");
 }
  
 
 Test(battle_logic, apply_stat_changes)
 {
+    stat_t *player_stats = calloc(1, sizeof(stat_t));
+    player_stats->max_hp= 1000;
+
+    stat_t *enemy_stats = calloc(1, sizeof(stat_t));
+    enemy_stats->max_hp= 1000;
+    enemy_stats->hp = 100;
+    enemy_stats->phys_atk = 90;
+    enemy_stats->phys_def = 80;
+    battle_item_t *item = get_random_offensive_item();
+
+    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, item,
+                                        NULL, NULL, NULL, BATTLE_AI_NONE);
+
+    combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL,
+                                        NULL, NULL, NULL, BATTLE_AI_NONE);
+
+    battle_t *battle = calloc(1, sizeof(battle_t));
+    battle->player = player;
+    battle->enemy = enemy;
+
+    int expected_hp = battle->enemy->stats->hp - item->attributes->hp;
+    int expected_strength = battle->enemy->stats->phys_atk - item->attributes->phys_atk;
+    int expected_defense = battle->enemy->stats->phys_def - item->attributes->phys_def;
+
+    apply_stat_changes(battle->enemy, find_battle_item(player->items, item->name));
+
+    cr_assert_eq(battle->enemy->stats->hp, expected_hp, "apply_stat_changes() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
+    cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "apply_stat_changes() does correctly set enemy physical attack after use");
+    cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "apply_stat_changes() does correctly set enemy physical defense after use");
+
 }
 
 Test(battle_logic, stat_changes_add_item_node)
