@@ -10,8 +10,7 @@
 #include "skilltrees/complex_skills.h"
 
 /*See complex_skills.h */
-complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
-                                   int num_skills, reader_effect_t* reader){
+complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills, reader_effect_t* reader){
     complex_skill_t* complex;
 
     if (num_skills <= 0) {
@@ -91,20 +90,21 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
 
 
 /* See complex_skills.h */
-int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx) {
-
+int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx){
     if(skill->type != COMPLEX_CONDITIONAL) {
         return FAILURE; 
     }
 
     int rc = 1;
 
-    if(execute_reader_effect(skill->reader, ctx)) {
-         rc = skill_execute(skill->skills[0], ctx);
-    }
-    else {
-         rc = skill_execute(skill->skills[1], ctx);
-    }
+    //Following will be implemented when reader_effect_execute is written in sperate issue
+
+    // if(reader_effect_execute(skill->reader, ctx)) {
+    //     rc = skill_execute(skill->skills[0], ctx);
+    // }
+    // else {
+    //     rc = skill_execute(skill->skills[1], ctx);
+    // }
 
     return rc;
 }

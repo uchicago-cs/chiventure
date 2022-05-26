@@ -1,1 +1,0 @@
-/usr/bin/cc   -rdynamic CMakeFiles/skilltrees_demo.dir/skilltrees_demo.o  -o skilltrees_demo 
