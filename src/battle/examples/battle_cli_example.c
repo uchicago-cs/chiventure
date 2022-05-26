@@ -25,13 +25,13 @@ const char *banner = "BATTLE MODE DEMO";
 
 class_t *make_bard2()
 {
-    return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
+    return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL, false);
 }
 
 /* initializes a dummy wizard class */
 class_t *make_wizard2()
 {
-    return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
+    return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, false);
 }
 
 /* Defines an CLI operation for starting a fight */

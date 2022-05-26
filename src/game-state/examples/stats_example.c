@@ -150,7 +150,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_stat(&sh, s3);
 
     class_t *class = class_new("class", "short", "long",
-                   NULL, sh, eh);
+                   NULL, sh, eh, false);
     game->curr_player->player_class = class;
 
     return ctx;
