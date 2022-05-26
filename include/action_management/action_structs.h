@@ -55,13 +55,6 @@ enum action_kind {
     SELF = 4 //// ACTION <self> i.e. Action Type 4
 };
 
-/* Each enum corresponds to a different object of the self action type.
-   e.g. The STATS in VIEW STATS*/
-typedef enum {
-    STATS = 1
-} self_action_object;
-
-
 /* Forward room declaration */
 typedef struct room room_t;
 
