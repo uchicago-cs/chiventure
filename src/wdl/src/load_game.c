@@ -79,6 +79,12 @@ game_t *load_game(obj_t *obj_store)
         return NULL;
     }
 
+    rc = load_quests(obj_store, game);
+    if(rc != SUCCESS) {
+        fprintf(stderr, "Quests not loaded properly!\n");
+        return NULL;
+    }
+
     return game;
 }
 

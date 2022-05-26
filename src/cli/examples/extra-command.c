@@ -41,7 +41,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
-    
+    free(agent_rock);
     return ctx;
 }
 
@@ -50,15 +50,11 @@ char *glitter_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
     if(game == NULL || game->curr_room == NULL)
-    {
         return "Room not found! Error! You can't throw glitter if you're not in a room!\n";
-    }
 
     /* This operation has to be called without parameters */
     if(tokens[1] != NULL)
-    {
         return "I do not know what you mean.";
-    }
 
     return "You throw some glitter. For a fleeting moment, the room "
            "feels a bit more fabulous. The glitter seems to have no "

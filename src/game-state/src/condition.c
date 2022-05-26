@@ -25,11 +25,13 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
     attribute_t *check_attribute;
     if(condition->attribute_to_check == NULL)
         return ATTRIBUTE_NULL;
+
     check_attribute = get_attribute(condition->item,
                                     condition->attribute_to_check->attribute_key);
     if (check_attribute == NULL ||
         check_attribute != condition->attribute_to_check)
         return ATTRIBUTE_NULL; // item does not possess attribute
+
     return SUCCESS;
 }
 
@@ -299,9 +301,7 @@ bool check_condition(condition_t *condition)
 bool all_conditions_met(condition_list_t *cond_list)
 {
     if (cond_list == NULL)
-    {
         return true; // no conditions to check
-    }
     condition_t *tmp = cond_list;
     while (tmp != NULL) // iterate through all conditions
     {

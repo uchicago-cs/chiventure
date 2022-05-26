@@ -283,6 +283,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
+        free(agentdir);
+        free(agentindir);
         return WRONG_KIND;
     }
 
@@ -293,6 +295,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         sprintf(string, "Action %s can't be requested with item %s",
                 a->c_name, agentdir->item->item_id);
         *ret_string = string;
+        free(agentdir);
+        free(agentindir);
         return NOT_ALLOWED_DIRECT;
     }
 
@@ -304,6 +308,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
+        free(agentdir);
+        free(agentindir);
         return CONDITIONS_NOT_MET;
     }
     else
@@ -322,6 +328,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                     sprintf(string, "Effect of Action %s could not be applied to Item %s",
                             a->c_name, agentindir->item->item_id);
                     *ret_string = string;
+                    free(agentdir);
+                    free(agentindir);
                     return EFFECT_NOT_APPLIED;
                 }
             }
@@ -332,6 +340,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
             sprintf(string, "Action %s can't be requested on item %s",
                     a->c_name, agentindir->item->item_id);
             *ret_string = string;
+            free(agentdir);
+            free(agentindir);
             return NOT_ALLOWED_INDIRECT;
         }
         else if (applied_effect == SUCCESS)
@@ -348,6 +358,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         "Press ctrl+D to quit.");
             }
             *ret_string = string;
+            free(agentdir);
+            free(agentindir);
             return SUCCESS;
         }
     }
@@ -365,6 +377,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     assert(target);
     
     game_t *game = c->game;
+    target = case_insensitized_string(target);
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -381,6 +394,9 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         if (strcmp(target, "stats") == 0) {
             // retrieve stats from the player
             string = display_stats(c->game->curr_player->player_stats);
+        } else if (strcmp(target, "effects") == 0) {
+            // retrieve stat effects from the player
+            string = display_stat_effects(c->game->curr_player->player_effects);
         } else if (strcmp(target, "inventory") == 0) {
             // retrieve inventory from the player
             // TO BE IMPLEMENTED
@@ -388,8 +404,11 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             // retrieve skill tree from the player
             // TO BE IMPLEMENTED
         } else {
-            // TO BE IMPLEMENTED     
+            sprintf(string, "%s cannot be viewed", target);
         }
+    }
+    else {
+        sprintf(string, "No such %s action available", a->c_name);
     }
     *ret_string = string;
     return SUCCESS;

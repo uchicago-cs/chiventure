@@ -129,7 +129,7 @@ item_t *get_item_in_hash(item_hash_t *ht, char *id)
 {
     item_t *item;
 
-    HASH_FIND(hh, ht, id, strnlen(id, MAX_ID_LEN), item);
+    HASH_FIND_STR(ht, id, item);
 
     return item;
 }

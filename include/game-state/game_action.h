@@ -7,13 +7,6 @@
 #include "condition.h"
 #include "npc/npc.h"
 
-/* Forward declartions. Full typedefs can be found in action_structs.h */
-typedef struct game_action game_action_t;
-typedef struct game_action game_action_hash_t;
-typedef struct game_action_effect game_action_effect_t;
-
-/* Forward declaration. Full typedefs can be found in item.h */
-typedef struct game_action_effect action_effect_list_t;
 
 // ------------------------- ACTION FUNCTIONS -------------------------
 // the following functions are to do with searching for allowed actions

@@ -16,9 +16,7 @@ action_type_t *search_supported_actions(list_action_type_t *head, char *query)
     for (temp = head; temp != NULL; temp = temp->next)
     {
         if (strcmp(temp->act->c_name, query) == 0)
-        {
             return temp->act;
-        }
     }
     return NULL;
 }
@@ -74,7 +72,8 @@ game_t* create_sample_game()
     /* add items to room */
     add_item_to_room(room1, agent_orb->item);
     add_item_to_room(room2, agent_table->item);
-
+    free(agent_orb);
+    free(agent_table);
     return game;
 
 }
@@ -217,6 +216,9 @@ game_t *create_sample_game_gs()
     add_item_to_room(room3, agent_macintosh->item);
     add_item_to_room(room5, agent_table->item);
 
+    free(agent_apple);
+    free(agent_macintosh);
+    free(agent_table);
 
     return game;
 }

@@ -54,7 +54,7 @@ game_action_t *game_action_new(char *action_name, char *success_str, char *fail_
 game_action_t *get_action(agent_t *agent, char *action_name)
 {
     char *action_name_case = case_insensitized_string(action_name);
-    game_action_t *action = malloc(sizeof(game_action_t));
+    game_action_t *action;
     if (agent->item != NULL) {
         HASH_FIND(hh, agent->item->actions, action_name_case, strlen(action_name_case), action);
         if (action == NULL)
