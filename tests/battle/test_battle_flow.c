@@ -452,9 +452,13 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
     combatant_t *enemy = ctx->game->battle->enemy;
 
     stat_changes_t *user_stat_changes1 = stat_changes_new();
+    stat_changes_init(user_stat_changes1);
     user_stat_changes1->hp = 35;
+
     stat_changes_t *opponent_stat_changes1 = stat_changes_new();
+    stat_changes_init(opponent_stat_changes1);
     opponent_stat_changes1->hp = -35;
+
     move_t *move_one = move_new(1, "LifeDrain", "Drains the enemy hp and adds it to the user", NO_DAMAGE,
                                 BOTH , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, opponent_stat_changes1, 
                                 NULL, NULL); 
