@@ -38,7 +38,6 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     """
     room_id = s.pop(0)[1]
     
-
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
     # action and action attributes, etc.
@@ -111,7 +110,9 @@ def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
 
     # gets the player class id.
     npc_id = s.pop(0)[1]
-    print(npc_id)
+    # print(npc_id)
+    # print(s)
+    # print('kasf')
 
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or

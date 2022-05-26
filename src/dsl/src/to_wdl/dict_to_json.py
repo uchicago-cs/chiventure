@@ -20,6 +20,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     items = []
     npcs = []
     npc_dict = {}
+    # print(intermediate)
     # print()
     # print(intermediate)
     if "rooms" not in intermediate:
@@ -27,19 +28,32 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     else:
         rooms_dict = intermediate.pop("rooms")
         # print(rooms_dict)
-        print(rooms_dict['lab'])
+        # print(rooms_dict['lab'])
         # print(rooms_dict)
         for rm in rooms_dict:
+            npc_data = rooms_dict[rm].pop("npcs")
+            full_npc = {}
+            if len(npc_data) > 0:
+                full_npc = npc_data
+
+            # print(npc_data)
+
+            # print("dafasdf")
+            # print()
+            # print(rooms_dict)
+        
             # print(rm)
+            print()
             # print(rooms_dict[rm])
             print()
+        print("end-----")
             # curr_npc = rooms_dict[rm]['NPCS']
             # info = curr_npc[1]
             # name = curr_npc[0]
             
             # npc_dict[name] = info
             # print(npc_dict)
-        
+        print(rooms_dict)
         for room_name, contents in rooms_dict.items():
             room_items = contents["items"]
             room_items_objs = []
@@ -54,24 +68,24 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
             rooms.append(Room(room_name, contents, default))
 
 
-            room_npcs = contents["npcs"]
-            room_npcs_objs = []
-            for npc in room_npcs:
-                print("printing npc")
-                print(npc)
-                npc_id = npc[0]
-                npc_contents = npc[1]
-                location = room_name
-                if "location" in npc_contents:
-                    location = npc_contents.pop("location")
-                npc_obj = Npc(npc_id, location, npc_contents, default)
-                npcs.append(npc_obj)
-                room_npcs_objs.append(npc_obj)
-            contents["npcs"] = room_npcs_objs
+            # room_npcs = contents["npcs"]
+            # room_npcs_objs = []
+            # for npc in room_npcs:
+            #     print("printing npc")
+            #     print(npc)
+            #     npc_id = npc[0]
+            #     npc_contents = npc[1]
+            #     location = room_name
+            #     if "location" in npc_contents:
+            #         location = npc_contents.pop("location")
+                # npc_obj = Npc(npc_id, location, npc_contents, default)
+                # npcs.append(npc_obj)
+                # room_npcs_objs.append(npc_obj)
+            # contents["npcs"] = room_npcs_objs
 
-            rooms.append(Room(room_name, contents, default))
-            print("room npcs")
-            print(room_npcs)
+            # rooms.append(Room(room_name, contents, default))
+            # print("room npcs")
+            # print(room_npcs)
 
 
     

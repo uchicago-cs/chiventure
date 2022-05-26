@@ -16,6 +16,12 @@ ROOM other
     long desc: "Professor Oak's lab in Pallet Town"
     connections: NORTH TO room A
         EAST TO room C
+
+ROOM house
+    short desc: "Oak's house."
+    long desc: "Professor Oak's lab in Pallet Town"
+    connections: NORTH TO room A
+        EAST TO room C
     
 
 ITEM CHARMANDER IN OAK
@@ -59,6 +65,18 @@ NPC BOT IN other
     item_id2: "SQUIRTLE"
     item_id3: "BULBASAUR"
     item_id4: "POKEBALL"
+
+NPC ASH IN other
+  short desc: "Kanto's premier Pokemon expert"
+  long desc: "Enjoys exploring human-Pokemon relationships"
+  age: "25"
+  gender: "Male"
+  INVENTORY
+    item_id1: "CHARMANDER"
+    item_id2: "SQUIRTLE"
+    item_id3: "BULBASAUR"
+    item_id4: "POKEBALL"
+
 
 
 
