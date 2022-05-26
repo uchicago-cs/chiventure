@@ -78,7 +78,6 @@ chiventure_ctx_t *create_sample_ctx()
     game_t *game = load_game(obj_store);
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
-
     /* Create one rooms (room1). room1 is the initial room */
     room_t *room1 = room_new("room_torch", "This is the torch room", "This is a room with a torch in the corner");
     add_room_to_game(game, room1);
@@ -98,21 +97,22 @@ chiventure_ctx_t *create_sample_ctx()
     return ctx;
 }
 
+//add new "Kind 1" actions
+void make_action(char *action_str, chiventure_ctx_t *ctx){
+    action_type_t action = {action_str, ITEM};
+    add_entry(action.c_name, kind1_action_operation, &action, ctx->cli_ctx->table);
+}
+
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatch the CLI to add a new "kind 1" actions
      * (i.e., actions that operate on an item) */
-    action_type_t light_action = {"LIGHT", ITEM};
-    add_entry(light_action.c_name, kind1_action_operation, &light_action, ctx->cli_ctx->table);
-    action_type_t unlight_action = {"UNLIGHT", ITEM};
-    add_entry(unlight_action.c_name, kind1_action_operation, &unlight_action, ctx->cli_ctx->table);
-    
-    action_type_t fireball_action = {"FIREBALL", ITEM};
-    add_entry(fireball_action.c_name, kind1_action_operation, &fireball_action, ctx->cli_ctx->table);
-    action_type_t slash_action = {"SLASH", ITEM};
-    add_entry(slash_action.c_name, kind1_action_operation, &slash_action, ctx->cli_ctx->table);
+    make_action("LIGHT", ctx);
+    make_action("UNLIGHT", ctx);
+    make_action("FIREBALL", ctx);
+    make_action("SLASH", ctx);
 
     /* Start chiventure */
     start_ui(ctx, banner);
