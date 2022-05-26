@@ -12,7 +12,7 @@
 #include "player.h"
 #include "read_gdl.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 
 /* Defines the status for a slot */
 typedef enum status {EMPTY, FULL} status;
