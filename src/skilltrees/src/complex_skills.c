@@ -134,6 +134,8 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
     return SUCCESS;
 }
 
+// RANDOM SKILL CODE
+
 /*See complex_skills.h */
 random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure)
 {
