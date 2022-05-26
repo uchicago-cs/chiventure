@@ -62,6 +62,8 @@ def test(f_dsl, f_wdl: str, show: bool) -> bool:
 
     out = gen_out(dsl_path)
     expected = open(wdl_path).read()
+
+
     len_expected = len(expected)
     len_out = len(out)
 
@@ -117,7 +119,7 @@ def main():
     passed = 0
     failed = 0
     list_failed = []
-    default_files = []
+    default_files = ['room_test.dsl', 'min_test.dsl']
 
     flags_list = [arg.strip("-") for arg in sys.argv[1:] if arg.startswith("-")]
     args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
@@ -130,7 +132,7 @@ def main():
     if manual:
         files_to_test = flags.get("file", [])
     else:
-        file_to_test = default_files
+        files_to_test = default_files
 
     for file in files_to_test:
         rv = test(f_dsl = file, f_wdl = file.strip(".dsl") + "_expected.wdl", show = show)
