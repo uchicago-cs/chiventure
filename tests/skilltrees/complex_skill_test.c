@@ -634,7 +634,7 @@ Test(skill_test, execute_random_switch_complex_skill_test){
     float x[2] = {1.0, 0.0};
 
     complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2);
-    random_switch_type_t *random = random_range_new(random_switch, x);
+    random_switch_type_t *random = random_switch_new(random_switch, x);
 
     int rc = execute_random_switch_complex_skill(random, ctx);
     cr_assert_eq(rc, 0, "Error: failed test execute_random_switch_complex_skill_test\n");
