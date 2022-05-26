@@ -777,7 +777,6 @@ Test(battle_logic, use_battle_item)
     int expected_strength = battle->enemy->stats->phys_atk - offensive_item->attributes->phys_atk;
     int expected_defense = battle->enemy->stats->phys_def - offensive_item->attributes->phys_def;
     
-    use_battle_item(player, battle, offensive_item->name);
 
     cr_assert_eq(battle->enemy->stats->hp, expected_hp, "use_battle_item() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
     cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "use_battle_item() does correctly set enemy physical attack after use");
