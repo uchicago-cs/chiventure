@@ -5,7 +5,7 @@
 
 /**
  * Helper function used to push the arguments in the linked list
- * to the Lua vritual stack
+ * to the Lua virtual stack
  * Parameters:
  * - the Lua state created
  * - the object containing the argument linked list
