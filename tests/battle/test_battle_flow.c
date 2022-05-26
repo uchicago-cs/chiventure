@@ -453,7 +453,7 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
 
     stat_changes_t *user_stat_changes1 = stat_changes_new();
     stat_changes_init(user_stat_changes1);
-    user_stat_changes1->hp = 35;
+    user_stat_changes1->hp = 50;
 
     stat_changes_t *opponent_stat_changes1 = stat_changes_new();
     stat_changes_init(opponent_stat_changes1);
