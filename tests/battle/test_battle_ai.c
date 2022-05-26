@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "../../include/battle/battle_test_utility.h"
+#include "test_battle_common.h"
 
 /* Ensures give_move returns a random move when enum is BATTLE_AI_RANDOM*/
 Test(battle_ai, give_move_random)
