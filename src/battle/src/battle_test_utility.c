@@ -16,7 +16,7 @@ class_t *make_new_warrior_class()
                "on up-close physical damage with weapons and survives enemy "
                "attacks using heavy armor.\n";
 
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, false);
 
 }
 
@@ -25,13 +25,13 @@ class_t *make_new_bard_class()
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
 }
 
 /* See battle_test_utility.h */
 class_t *make_new_wizard_class()
 {
-    return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
+    return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL, false);
 }
 
 /* See battle_test_utility.h */
