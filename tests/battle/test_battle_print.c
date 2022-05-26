@@ -252,7 +252,7 @@ Test(battle_print, print_battle_damage)
     char *expected_string = "It did 9 damage.\n-- Your HP: 50\n-- bob's HP: 30\n";
 
     
-    cr_expect_str_eq(string, expected_string, "print_battle_damage() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_battle_damage() failed to set string \n%s vs. %s", string, expected_string);
 
     char *string_crit = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_battle_damage(b, PLAYER, move, 1.5, string_crit);
@@ -284,8 +284,8 @@ Test(battle_print, print_stat_changes_enemy)
     stat_changes_t *enemy_stat_changes = stat_changes_new();
     enemy_stat_changes->phys_atk = 10;
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-    print_stat_changes(b, PLAYER, enemy_stat_changes, string);
-    char *expected_string = "Bob's physical attack changed by 10\n";
+    print_stat_changes(b, ENEMY, enemy_stat_changes, string);
+    char *expected_string = "bob's physical attack changed by 10\n";
 
     cr_expect_str_eq(string, expected_string, "print_stat_changes() failed to set string %s", string);
     free(string);
@@ -339,7 +339,7 @@ Test(battle_print, print_stat_changes_move_both)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes_move(b, PLAYER, move_one, string);
     char *expected_string = "bob's hp changed by -10\n";
-    cr_expect_str_eq(string, expected_string, "print_stat_changes_move() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_stat_changes_move() failed to set string \n%s vs. \n%s", string, expected_string);
     free(string);
 }
 
