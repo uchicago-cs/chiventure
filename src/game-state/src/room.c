@@ -46,7 +46,6 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc)
 }
 
 
-
 /* See room.h */
 int room_free(room_t *room)
 {
@@ -317,11 +316,22 @@ int auto_gen_movement(npc_t *npc, room_list_t *all_rooms)
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
-            double speed = get_stat_current(npc->class->base_stats, "speed");
-            double multiplier = sqrt(100/speed);
-            int mintime_in_room = 30 * multiplier; // min time in room in seconds
-            int maxtime_in_room = 90 * multiplier; // max time in room in seconds
-            double time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room);
+            int mintime_in_room;
+            int maxtime_in_room;
+            if (npc->class != NULL && npc->class->base_stats != NULL)
+            {
+                double speed = get_stat_current(npc->class->base_stats, "speed");
+                double multiplier = sqrt(100/speed);
+                mintime_in_room = 30 * multiplier; // min time in room in seconds
+                maxtime_in_room = 90 * multiplier; // max time in room in seconds
+            }
+            else
+            {
+                mintime_in_room = 30; // min time in room in seconds
+                maxtime_in_room = 90; // max time in room in seconds
+            }
+            double time_in_room;
+            time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room);
             rc = extend_path_indefinite(npc_mov, head->room->room_id, time_in_room);
         }
 
@@ -353,20 +363,24 @@ int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
                         npcs_in_room_t *new_npc_room)
 {
     assert(npc->movement->mov_type == NPC_MOV_INDEFINITE ||
-           npc->movement->mov_type == NPC_MOV_DEFINITE );
+           npc->movement->mov_type == NPC_MOV_DEFINITE);
 
-    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
-        move_npc_indefinite(npc->movement);
+    int r1, r2, r3;
+    r1 = move_npc_mov(npc->movement);
+    r2 = add_npc_to_room(new_npc_room, npc);
+    r3 = delete_npc_from_room(old_npc_room, npc);
+    if ((r1 == FAILURE) || (r2 == FAILURE) || (r3 == FAILURE))
+    {
+        return FAILURE;
+    }
     else
-        move_npc_definite(npc->movement);
-
-    add_npc_to_room(new_npc_room,npc);
-    delete_npc_from_room(old_npc_room,npc);
-} 
+    {
+        return SUCCESS;
+    }
+}
 
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
-
     if(npc->movement == NULL)
     {
         return FAILURE;
@@ -376,12 +390,6 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
     room_t *next_room;
     npcs_in_room_t *current_npcs_in_room;
     npcs_in_room_t *next_npcs_in_room;
-
-    /*
-     * This adaptation will obtain the list of rooms in an npc's path
-     * which will be stored in *current_room_list
-     * Thus, we will be able to obtain the current and next room structs
-     */
 
     HASH_FIND(hh, all_rooms, npc->movement->track,
               strnlen(npc->movement->track, MAX_ID_LEN), current_room);
