@@ -1,7 +1,7 @@
 {
     "GAME": {
         "start": "The Reg",
-        "intro": "Welcome to the Reg! Your name is SAM. Your journey is just beginning. !\n \n(HINT: type 'look' to start, and 'talk to <NPC>' to interact with NPCs, use 'HELP' for more information)",
+        "intro": "Welcome to the Reg! Your name is JASON. Your journey is just beginning. !\n \n(HINT: type 'look' to start, and 'talk to <NPC>' to interact with NPCs, use 'HELP' for more information)",
         "end": {
             "in_room": "Mansuetto"
         }
