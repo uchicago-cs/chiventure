@@ -444,6 +444,38 @@ Test(battle_flow_move, do_stat_change_single_battle_flow_move)
                  "battle_flow_move() failed: battle is not in progress");
 }
 
+/* Tests a single stat change enemy_make_move */
+Test(battle_flow_move, do_stat_change_single_enemy_make_move)
+{
+    battle_ctx_t *ctx = create_battle_ctx();
+    combatant_t *player = ctx->game->battle->player;
+    combatant_t *enemy = ctx->game->battle->enemy;
+    stat_changes_t *user_stat_changes1 = stat_changes_new();
+    user_stat_changes1->phys_atk = 40;
+    move_t *move_one = move_new(1, "SwordsDance", "The user dances with swords, raising their attack", NO_DAMAGE,
+                                USER , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, NULL, 
+                                NULL, NULL);
+    enemy->moves = move_one;
+    enemy->ai = BATTLE_AI_GREEDY;
+
+    char *res = enemy_make_move(ctx);
+
+    cr_assert_not_null(res, "enemy_make_move() returned %s",res);
+
+    cr_assert_eq(player->stats->hp,
+                 150, 
+            "battle_flow_move() did compute damage on enemy despite not supposed to, %d",
+            player->stats->hp);
+
+    // note: this hp value relies on player class implementation of move_list()
+    cr_assert_eq(enemy->stats->phys_atk,
+                 240,
+                 "enemy_make_move() did not compute stat change of enemy correctly,"
+                 "Actual: %d, Expected: %d", enemy->stats->phys_atk, 240);
+    cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
+                 "enemy_make_move() failed: battle is not in progress");
+}
+
 /* Tests a single stat change battle_flow_move */
 Test(battle_flow_move, do_stat_change_both_battle_flow_move)
 {
@@ -481,6 +513,44 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
                  "battle_flow_move() failed: battle is not in progress");
 }
 
+/* Tests a both stat change enemy_make_move */
+Test(battle_flow_move, do_stat_change_both_enemy_make_move)
+{
+    battle_ctx_t *ctx = create_battle_ctx();
+    combatant_t *player = ctx->game->battle->player;
+    combatant_t *enemy = ctx->game->battle->enemy;
+
+    stat_changes_t *user_stat_changes1 = stat_changes_new();
+    stat_changes_init(user_stat_changes1);
+    user_stat_changes1->hp = 35;
+
+    stat_changes_t *opponent_stat_changes1 = stat_changes_new();
+    stat_changes_init(opponent_stat_changes1);
+    opponent_stat_changes1->hp = -35;
+
+    move_t *move_one = move_new(1, "LifeDrain", "Drains the enemy hp and adds it to the user", NO_DAMAGE,
+                                BOTH , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, opponent_stat_changes1, 
+                                NULL, NULL); 
+    
+    enemy->stats->hp = 150;
+    enemy->moves = move_one;
+    enemy->ai = BATTLE_AI_GREEDY;
+
+    char *res = enemy_make_move(ctx);
+
+    cr_assert_not_null(res, "enemy_make_move() returned %s",res);
+    cr_assert_eq(enemy->stats->hp,
+                 185, 
+            "enemy_make_move() did not compute stat change on enemy correctly; Actual %d, Expected %d",
+            enemy->stats->hp, 185);
+    cr_assert_eq(player->stats->phys_atk,
+                 115,
+                 "enemy_make_move() did not compute stat change on player correctly,"
+                 "Actual: %d, Expected: %d", player->stats->phys_atk, 115);
+    cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
+                 "battle_flow_move() failed: battle is not in progress");
+}
+
 Test(battle_flow_move, do_damage_stat_change_battle_flow_move)
 {
     battle_ctx_t *ctx = create_battle_ctx();
@@ -504,9 +574,42 @@ Test(battle_flow_move, do_damage_stat_change_battle_flow_move)
     cr_assert_eq(player->stats->phys_atk,
                  160,
                  "battle_flow_move() did not compute stat change on player correctly,"
-                 "Actual: %d, Expected: %d",player->stats->hp, 160);
+                 "Actual: %d, Expected: %d",player->stats->phys_atk, 160);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
+}
+
+Test(battle_flow_move, do_damage_stat_change_enemy_make_move)
+{
+    battle_ctx_t *ctx = create_battle_ctx();
+    combatant_t *player = ctx->game->battle->player;
+    combatant_t *enemy = ctx->game->battle->enemy;
+
+    stat_changes_t *user_stat_changes = stat_changes_new();
+    user_stat_changes->phys_atk = 10;
+
+    move_t *move_one = move_new(3, "PowerUpPunch", "The user powers up their fist and punches the opponent, raising their physical attack", PHYS,
+                                USER , NO_TARGET, SINGLE, 0, NULL, 40, 100, user_stat_changes, NULL, NULL, NULL); 
+
+    enemy->moves = move_one;
+    enemy->ai = BATTLE_AI_GREEDY;
+
+    char *res = enemy_make_move(ctx);
+
+    cr_assert_not_null(res, "enemy_make_move() returned %s",res);
+
+    cr_assert_eq(player->stats->hp,
+                 146, 
+            "enemy_make_move() did not compute damage on player correctly: Actual: %d, Expected: %d",
+            enemy->stats->hp, 146);
+
+    // note: this hp value relies on player class implementation of move_list()
+    cr_assert_eq(enemy->stats->phys_atk,
+                 210,
+                 "enemy_make_move() did not compute stat change on enemy correctly,"
+                 "Actual: %d, Expected: %d", enemy->stats->phys_atk, 210);
+    cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
+                 "enemy_make_move() failed: battle is not in progress");
 }
 
 
