@@ -9,7 +9,7 @@
     "ROOMS": {
         "The Reg": {
             "short_desc": "The library",
-            "long_desc": "A place to get work done",
+            "long_desc": "This is the library. The Quad is to the South and Mansuetto is upstairs.",
             "connections": [
                 {
                     "to": "Mansuetto",
@@ -23,7 +23,7 @@
         },
         "Mansuetto": {
             "short_desc": "The bubble library",
-            "long_desc": "That place from divergent",
+            "long_desc": "This is Mansuetto. Downstairs is the way back to The Reg.",
             "connections": [
                 {
                     "to": "The Reg",
@@ -33,7 +33,7 @@
         }
         "The Quad": {
             "short_desc": "The center of campus",
-            "long_desc": "A big grassy area with old buildings",
+            "long_desc": "This is the quad. The Reg is to the North and Crear is to the West.",
             "connections": [
                 {
                     "to": "The Reg",
@@ -47,7 +47,7 @@
         }
         "Crear": {
             "short_desc": "CS Library",
-            "long_desc": "Looks old on the outside, looks new on the inside",
+            "long_desc": "This is Crear. The Quad is to the East.",
             "connections": [
                 {
                     "to": "The Quad",
