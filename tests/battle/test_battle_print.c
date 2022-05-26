@@ -314,7 +314,7 @@ Test(battle_print, print_stat_changes_move_target)
     opponent_stat_changes2->mag_def = -10;
     move_t *move_two = move_new(2, "ShadowBall", "The user gathers dark shadow energy into a ball and sends it to the opponent, decreasing their magical defense", 
                                 MAG, TARGET, NO_TARGET, SINGLE, 10, NULL, 80, 100, NULL, opponent_stat_changes2, 
-                                move_one, NULL); 
+                                NULL, NULL); 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes_move(b, PLAYER, move_two, string);
     char *expected_string = "Bob's magical defense changed by -10\n";
@@ -322,7 +322,7 @@ Test(battle_print, print_stat_changes_move_target)
     free(string);
 }
 
-Test(battle_print, print_stat_changes_move_target)
+Test(battle_print, print_stat_changes_move_both)
 {
     battle_t *b = create_battle();
     stat_changes_t *user_stat_changes1 = stat_changes_new();
