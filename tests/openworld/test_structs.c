@@ -130,6 +130,8 @@ Test(edges, init)
     cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
 }
 
+/* Tests the edges_init function to validate that an adjacency matrix (edges) can
+ * be initialized successfully. (2 by 2 matrix)*/
 Test(edges, init2)
 {
     int* array=(int*)malloc(4*sizeof(int));
@@ -149,10 +151,10 @@ Test(edges, init2)
     cr_assert_eq(edges[0][1], 0, "failed to set edges [0][1] correctly\n");
     cr_assert_eq(edges[1][0], 1, "failed to set edges [1][0] correctly\n");
     cr_assert_eq(edges[1][1], 5, "failed to set edges [1][1] correctly\n");
-
-
 }
 
+/* Tests the edges_init function to validate that an adjacency matrix (edges) can
+ * be initialized successfully. (1 by 1 matrix)*/
 Test(edges, init3) 
 {
     int* array=(int*)malloc(1*sizeof(int));
@@ -168,6 +170,8 @@ Test(edges, init3)
     cr_assert_eq(edges[0][0], 5, "failed to set edges [0][0] correctly\n");
 }
 
+/* Tests the edges_init function to validate that an adjacency matrix (edges) can
+ * be initialized successfully. (4 by 4 matrix)*/
 Test(edges, init4)
 {
     int* array=(int*)malloc(16*sizeof(int));
@@ -242,6 +246,8 @@ Test(edges, new)
     cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
 }
 
+/* Tests the edges_new function to validate that an adjacency matrix (edges) can
+ * be made successfully. (2 by 2 matrix)*/
 Test(edges, new2)
 {
     int* array=(int*)malloc(4*sizeof(int));
@@ -260,6 +266,8 @@ Test(edges, new2)
 
 }
 
+/* Tests the edges_new function to validate that an adjacency matrix (edges) can
+ * be made successfully. (1 by 1 matrix)*/
 Test(edges, new3)
 {
     int* array=(int*)malloc(1*sizeof(int));
@@ -271,6 +279,8 @@ Test(edges, new3)
 
 }
 
+/* Tests the edges_new function to validate that an adjacency matrix (edges) can
+ * be made successfully. (4 by 4 matrix)*/
 Test(edges, new4)
 {
     int* array=(int*)malloc(16*sizeof(int));
@@ -334,6 +344,8 @@ Test(edges, free)
     cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
 }
 
+/* Tests the edges_free function to validate that an adjacency matrix (edges) can
+ * be freed successfully. (2 by 2 matrix)*/
 Test(edges, free2)
 {
     int* array=(int*)malloc(4*sizeof(int));
@@ -350,6 +362,8 @@ Test(edges, free2)
     cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
 }
 
+/* Tests the edges_free function to validate that an adjacency matrix (edges) can
+ * be freed successfully. (1 by 1 matrix)*/
 Test(edges, free3)
 {
     int* array=(int*)malloc(1*sizeof(int));
@@ -362,6 +376,8 @@ Test(edges, free3)
     cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
 }
 
+/* Tests the edges_free function to validate that an adjacency matrix (edges) can
+ * be freed successfully. (4 by 4 matrix)*/
 Test(edges, free4)
 {
     int* array=(int*)malloc(16*sizeof(int));
