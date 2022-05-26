@@ -262,6 +262,7 @@ Test(battle_print, print_battle_damage)
     free(string);
 }
 
+/* Tests print_stat_changes on a move that changes user combatants stats */
 Test(battle_print, print_stat_changes)
 {
     battle_t *b = create_battle();
@@ -276,6 +277,7 @@ Test(battle_print, print_stat_changes)
 
 }
 
+/* Tests print_stat_changes on a move that changes enemy combatants stats */
 Test(battle_print, print_stat_changes_enemy)
 {
     battle_t *b = create_battle();
@@ -291,7 +293,7 @@ Test(battle_print, print_stat_changes_enemy)
 }
 
 
-
+/* Tests print_stat_changes_move on a move that changes user combatants stats */
 Test(battle_print, print_stat_changes_move_user)
 {
     battle_t *b = create_battle();
@@ -303,10 +305,11 @@ Test(battle_print, print_stat_changes_move_user)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes_move(b, PLAYER, move_one, string);
     char *expected_string = "Your physical attack changed by 10\n";
-    cr_expect_str_eq(string, expected_string, "print_stat_changes() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_stat_changes_move() failed to set string %s", string);
     free(string);
 }
 
+/* Tests print_stat_changes_move on a move that changes target combatants stats */
 Test(battle_print, print_stat_changes_move_target)
 {
     battle_t *b = create_battle();
@@ -318,10 +321,11 @@ Test(battle_print, print_stat_changes_move_target)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes_move(b, PLAYER, move_two, string);
     char *expected_string = "Bob's magical defense changed by -10\n";
-    cr_expect_str_eq(string, expected_string, "print_stat_changes() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_stat_changes_move() failed to set string %s", string);
     free(string);
 }
 
+/* Tests print_stat_changes_move on a move that changes both combatants stats */
 Test(battle_print, print_stat_changes_move_both)
 {
     battle_t *b = create_battle();
@@ -335,7 +339,44 @@ Test(battle_print, print_stat_changes_move_both)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes_move(b, PLAYER, move_one, string);
     char *expected_string = "Your hp changed by 10\nBob's hp changed by -10\n";
-    cr_expect_str_eq(string, expected_string, "print_stat_changes() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_stat_changes_move() failed to set string %s", string);
+    free(string);
+}
+
+/* Tests print_battle_items() to see if it prints all items correctly */
+Test(battle_print, print_battle_items)
+{
+    battle_t *b = create_battle();
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    print_battle_items(b, string);
+    char *expected_string = "\nAVAILABLE ITEMS:\nName: Dagger\nQuantity: 20\nName:"
+                            " Tea Leaves\nQuantity: 1\nName: Medicine\nQuantity: 1\n";
+    cr_expect_str_eq(string, expected_string, "print_battle_items() failed to set string %s", string);
+    free(string);
+}
+
+
+/* Tests print_battle_item_details() to see if it prints the item details corrects */
+Test(battle_print, print_battle_item_details)
+{
+    battle_t *b = create_battle();
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    stat_changes_t *tea_changes = stat_changes_new();
+    tea_changes->hp = 10;
+    tea_changes->phys_atk = 0;
+    tea_changes->phys_def = 0;
+    tea_leaves = create_battle_item(2, 1, "Make yourself a warm cup of tea to heal your wounds!", "Tea Leaves",
+                                    true, tea_changes);
+    print_battle_item_details(tea_leaves, string);
+    char *expected_string = "Name: Tea Leaves\nDescription: Make yourself a warm cup of tea to heal your wounds!\n"
+                            "Stat Changes:\n"
+                            "\tPhysical Attack: 0\n\tMagical Attack: 0\n"
+                            "\tPhysical Defense: 0\n\tMagical Defense: 0\n"
+                            "\tMax_SP: 0\n\tSP: 0\n"
+                            "\tMax_HP: 0\n\tHP: 10\n"
+                            "\tCritical Rate: 0\n\tAccuracy: 0\n"
+                            "\nQuantity: 1\n";
+    cr_expect_str_eq(string, expected_string, "print_battle_item_details() failed to set string %s", string);
     free(string);
 }
 
