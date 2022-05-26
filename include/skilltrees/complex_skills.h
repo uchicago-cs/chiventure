@@ -4,7 +4,8 @@
  * Types of complex skills:
  * - Combined: Executes multiple subskills in order
  * - Conditional: Executes a subskill if a given condition is met
- * - Random: Executes subskills either based on chance (random chance),
+ * - Random: Executes subskills either based on chance (random chance)
+ *           on an all or nothing basis,
  *          to a variable extent (random range), or as one of several
  *          potential outcomes (random switch).
  */
@@ -22,7 +23,7 @@
  *
  * Parameters:
  *  - type: The complex skill type
- *  - skills: A list of the sub-skills to be stored within complex_skill
+ *  - skills: An array of the sub-skills to be stored within complex_skill
  *  - num_skills: The number of sub-skills the complex skill will use
  *  - reader: Optional reader if skill is conditional
  *
@@ -38,8 +39,8 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
  * Parameters:
  *  - complex_skill: A complex skill. Must pointer to skill allocated with complex_skill_new
  *  - type: Type of complex skill 
- *  - skills: A list of the sub-skills to be stored within complex_skill
- *  - num_skills: number of sub-skills in skills list
+ *  - skills: An array of the sub-skills to be stored within complex_skill
+ *  - num_skills: number of sub-skills in skills array
  *  - reader: Optional reader if skill is conditional
  *
  * Returns:
@@ -236,14 +237,15 @@ int random_range_free(random_range_type_t* random_range_skill);
  * Allocates a new random switch type in the heap.
  *
  * Parameters:
- *  - chances: List of percentages for each subskill
+ *  - chances: array of percentages for each subskill
+ *  - chances_len: Length of chances array
  *  - complex_skill: the associated complex skill
  *
  * Returns:
  *  - A pointer to the random switch type, or NULL if one cannot be 
  *    allocated
  */
-random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances);
+random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances, int chances_len);
 
  /*
  * Initializes a random switch type.
@@ -251,13 +253,14 @@ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* c
  * Parameters:
  *  - random_switch_type_t: must point struct already allocated with 
  *    random_switch_new
- *  - chances: List of percentages for each subskill
+ *  - chances: array of percentages for each subskill
+ *  - chances_len: Length of chances array
  *  - complex_skill: the associated complex skill
  * 
  * Returns:
  *  - 0 on success, 1 if an error occurs
  */
-int random_switch_init(random_switch_type_t* random_switch_skill, complex_skill_t* complex_skill, float* chances);
+int random_switch_init(random_switch_type_t* random_switch_skill, complex_skill_t* complex_skill, float* chances, int chances_len);
 
 /*
  * Frees the resources associated with a random switch skill

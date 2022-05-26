@@ -428,8 +428,9 @@ Test(skill_test, random_switch_new_test_uneq)
     chances[0] = 0.4;
     chances[1] = 0.6;
 
+    int chances_len = random_switch_skill->num_skills;
 
-    random_switch_type_t *rand_switch = random_switch_new(random_switch_skill, chances);
+    random_switch_type_t *rand_switch = random_switch_new(random_switch_skill, chances, chances_len);
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
         "Error: failed test random_switch_new_test on range->random_range->typ\n");
@@ -462,7 +463,9 @@ Test(random_switch, random_switch_init_test_uneq)
     chances[0] = 0.4;
     chances[1] = 0.6;
     
-    random_switch_init(rand_switch, random_switch_skill, chances);
+    int chances_len = random_switch_skill->num_skills;
+
+    random_switch_init(rand_switch, random_switch_skill, chances, chances_len);
 
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
@@ -497,8 +500,9 @@ Test(skill_test, random_switch_new_test_half)
     chances[0] = 0.5;
     chances[1] = 0.5;
 
+    int chances_len = random_switch_skill->num_skills;
 
-    random_switch_type_t *rand_switch = random_switch_new(random_switch_skill, chances);
+    random_switch_type_t *rand_switch = random_switch_new(random_switch_skill, chances, chances_len);
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
         "Error: failed test random_switch_new_test on range->random_range->typ\n");
@@ -529,8 +533,10 @@ Test(skill_test, random_switch_init_test_half)
     float *chances = (float *)malloc(2*sizeof(float));  
     chances[0] = 0.5;
     chances[1] = 0.5;
+
+    int chances_len = random_switch_skill->num_skills;
     
-    random_switch_init(rand_switch, random_switch_skill, chances);
+    random_switch_init(rand_switch, random_switch_skill, chances, chances_len);
 
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
@@ -564,7 +570,8 @@ Test(skill_test, random_switch_free_test)
     chances[1] = 0.6;
 
     complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
-    random_switch_type_t *rand_switch = random_switch_new(random_switch, chances);
+    int chances_len = random_switch->num_skills;
+    random_switch_type_t *rand_switch = random_switch_new(random_switch, chances, chances_len);
 
     int ret = random_switch_free(rand_switch);
 
@@ -588,7 +595,8 @@ Test(skill_test, execute_random_switch_complex_skill_test){
     float x[2] = {1.0, 0.0};
 
     complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
-    random_switch_type_t *random = random_switch_new(random_switch, x);
+    int chances_len = random_switch->num_skills;
+    random_switch_type_t *random = random_switch_new(random_switch, x, chances_len);
 
     int rc = execute_random_switch_complex_skill(random, ctx);
     cr_assert_eq(rc, 0, "Error: failed test execute_random_switch_complex_skill_test\n");

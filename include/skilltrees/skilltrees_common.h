@@ -153,10 +153,13 @@ typedef struct random_switch_type {
     //Complex skills struct, type must be RANDOM_SWITCH
     complex_skill_t* complex_skill;
 
-    //List of percentages for each subskill
+    //Array of percentages for each subskill
     // e.g. if there were three subskills and each had an equal chance of being 
     //      used, this should be an array with chances 0.33, 0.33, 0.33
     float* chances;
+
+    // Length of chances array
+    int chances_len;
 
 } random_switch_type_t;
 
@@ -177,7 +180,7 @@ typedef struct random_switch_type {
 void** array_element_add(void** array, unsigned int array_len, void* element);
 
 /*
- * A helper function. Searches a list of skills for a given skill, by sid_t.
+ * A helper function. Searches an array of skills for a given skill, by sid_t.
  *
  * Parameters:
  *  - list: The skill array

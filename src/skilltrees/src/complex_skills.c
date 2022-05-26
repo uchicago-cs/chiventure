@@ -25,11 +25,11 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
         return NULL;
     }
 
-    skill_t** list = (skill_t**)malloc(sizeof(skill_t*)*num_skills);
-    complex->skills = list; 
+    skill_t** skills_array = (skill_t**)malloc(sizeof(skill_t*)*num_skills);
+    complex->skills = skills_array; 
 
-    if (list == NULL) {
-        fprintf(stderr, "complex_skill_new: memory allocation for skills failed\n");
+    if (skills_array == NULL) {
+        fprintf(stderr, "complex_skill_new: memory allocation for skills array failed\n");
         return NULL;
     }
 
@@ -274,7 +274,7 @@ int random_range_free(random_range_type_t* random_range_skill){
 }
 
 /*See complex_skills.h */
-random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances){
+random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances, int chances_len){
     random_switch_type_t* random;
 
    random = (random_switch_type_t*)malloc(sizeof(random_switch_type_t));
@@ -284,15 +284,15 @@ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* c
         return NULL;
     }
 
-    float* list = (float*)malloc(sizeof(float)*complex_skill->num_skills);
-    if (list == NULL) {
+    float* chances_array = (float*)malloc(sizeof(float)*complex_skill->num_skills);
+    if (chances_array == NULL) {
         fprintf(stderr, "random_switch_new: memory allocation for chances failed\n");
         return NULL;
     }
-    list = chances;
-    random->chances = list; 
+    chances_array = chances;
+    random->chances = chances_array; 
 
-    int rc = random_switch_init(random, complex_skill, list);
+    int rc = random_switch_init(random, complex_skill, chances_array, chances_len);
 
     if (rc != 0) {
         fprintf(stderr, "random_switch_new: initialization failed\n");
@@ -303,13 +303,15 @@ random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* c
 }
 
 /*See complex_skills.h */
-int random_switch_init(random_switch_type_t* random_switch_skill, complex_skill_t* complex_skill, float* chances){
+int random_switch_init(random_switch_type_t* random_switch_skill, complex_skill_t* complex_skill, float* chances, int chances_len){
     assert(random_switch_skill != NULL);
     assert(complex_skill != NULL);
     assert(chances != NULL);
+    assert(chances_len == complex_skill->num_skills);
 
     random_switch_skill->complex_skill = complex_skill;
     random_switch_skill->chances = chances;   
+    random_switch_skill->chances_len = chances_len;
 
     return SUCCESS;
 }
@@ -376,7 +378,7 @@ int execute_random_chance_complex_skill(random_chance_type_t* chance_skill, chiv
 
     int value = random_float_generator(100.0);
     if (value < (chance_skill->chance_failure * 100)){
-        for (int i= 0; i < chance_skill->complex_skill->num_skills; i++){
+        for (int i = 0; i < chance_skill->complex_skill->num_skills; i++){
             skill_execute(chance_skill->complex_skill->skills[i], ctx);
         }
     }
@@ -391,7 +393,7 @@ int execute_random_range_complex_skill(random_range_type_t* range_skill, chivent
 
     int value = random_int_generator(range_skill->lower_bound, range_skill->upper_bound);
     for (int j = 0; j < value; j++){
-        for (int i= 0; i < range_skill->complex_skill->num_skills; i++){
+        for (int i = 0; i < range_skill->complex_skill->num_skills; i++){
             skill_execute(range_skill->complex_skill->skills[i], ctx);
         }
     }
