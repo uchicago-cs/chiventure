@@ -27,29 +27,40 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
+    data_t jack;
+    data_t dc;
 
-    lua_State *L = luaL_newstate();
-    luaL_openlibs(L);
-    luaL_dofile(L, "demo.lua");
-
-    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
-    game_t *game = load_game(obj_store);
+    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/dynamic_string.lua");
+   
 
     /* Create context */
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
-
-    return ctx;
+    char string_num;
+    printf("Enter either 1 or 2 (1 for wizard class, 2 for warrior class): ");
+    scanf("%c", &string_num); 
+    dc.c = string_num;
+    togay = obj_add_arg(togay,dc,CHAR_TYPE);
+    char* custom_string = (char*)malloc(100);
+    data_t temp = arg_t_get(togay);
+    custom_string = temp.s;
+    char wizard[] = "Wizard Class", warrior[] = "Warrior Class";
+    if(strcmp(wizard,custom_string)== 0){
+        obj_t *obj_store1 = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
+        game_t *game1 = load_game(obj_store1);
+        chiventure_ctx_t *ctx1 = chiventure_ctx_new(game1);
+        return ctx1;
+    }
+    else{
+        obj_t *obj_store2 = load_obj_store("../../../../src/custom-scripts/examples/demo-warrior.wdl");
+        game_t *game2 = load_game(obj_store2);
+        chiventure_ctx_t *ctx2 = chiventure_ctx_new(game2);
+        return ctx2;
+    }
 }
-
-
 
 
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
-
-    /* Monkeypatch the CLI to add a new "kind 1" action
-     * (i.e., an action that operates on an item) */
 
     /* Start chiventure */
     start_ui(ctx, banner);
