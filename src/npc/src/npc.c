@@ -1,6 +1,5 @@
 #include <stdlib.h>
 #include "npc/npc.h"
-#include "playerclass/class_prefabs.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 

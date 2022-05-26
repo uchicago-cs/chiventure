@@ -3,8 +3,6 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
-#include "common/ctx.h"
-#include "game-state/game.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "npc/dialogue.h"

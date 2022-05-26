@@ -179,7 +179,6 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
     }
 
-<<<<<<< HEAD
     /* Basic class stats:
      * 25 Max Health
      * 5 Speed
@@ -196,8 +195,6 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         set_stats_hashtable(game, &stats, 25, 5, 5, 5, 5, 5, 5, 5);
     }
 
-=======
->>>>>>> dev
     /* Monk stats:
      * 25 Max Health
      * 20 Speed

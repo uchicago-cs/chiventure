@@ -1,7 +1,7 @@
 #ifndef _ROOMS_NPC_H
 #define _ROOMS_NPC_H
 
-#include "npc.h"
+#include "npc/npc.h"
 
 /* 
  * Struct for adding and handling npcs in rooms 
