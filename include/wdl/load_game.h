@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "wdl_common.h"
+#include "wdl/load_quests.h"
 
 /*
  * load_game, when passed libobj objects, will load into a game
