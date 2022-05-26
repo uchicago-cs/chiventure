@@ -32,13 +32,16 @@ item_t *create_poison(effects_global_t *p, stats_t *stat)
 {
     item_t *poison = item_new("POISON","This is poison.",
                    "This is poison and will harm your health. DO NOT TAKE OR PICKUP.");
+    agent_t *agent_poison = malloc(sizeof(agent_t));
+    agent_poison->item = poison;
+    agent_poison->npc = NULL;
     stat_effect_t *poisoned = stat_effect_new(p);
     stat_mod_t *mod1 = stat_mod_new(stat, 0.5, 50);
     LL_APPEND(poisoned->stat_list, mod1);
-    add_effect_to_item(poison, poisoned);
-    add_action(poison, "TAKE", "The item has been taken.", 
+    add_effect_to_item(agent_poison->item, poisoned);
+    add_action(agent_poison, "TAKE", "The item has been taken.", 
                "The item does not exist in the game.");
-    return poison;
+    return agent_poison->item;
 }
 
 /* Creates a potion item with effect */
@@ -46,13 +49,16 @@ item_t *create_potion(effects_global_t *p, stats_t *stat)
 {
     item_t *potion = item_new("POTION","This is a health potion.",
                    "This potion will increase your health. Feel free to take it.");
+    agent_t *agent_potion = malloc(sizeof(agent_t));
+    agent_potion->item = potion;
+    agent_potion->npc = NULL;
     stat_effect_t *healed = stat_effect_new(p);
     stat_mod_t *mod = stat_mod_new(stat, 1.25, 25);
     LL_APPEND(healed->stat_list, mod);
-    add_effect_to_item(potion, healed);
-    add_action(potion, "TAKE", "The item has been taken.", 
+    add_effect_to_item(agent_potion->item, healed);
+    add_action(agent_potion, "TAKE", "The item has been taken.", 
                "The item does not exist in the game.");
-    return potion;
+    return agent_potion->item;
 }
 
 /* Creates an elixir item with effects */
@@ -61,23 +67,25 @@ item_t *create_elixir(effects_global_t *p1, effects_global_t *p2,
 {
     item_t *elixir = item_new("ELIXIR","This is an elixir.",
                    "This is an elixir. Effects: energize and stun.");
-    
+    agent_t *agent_elixir = malloc(sizeof(agent_t));
+    agent_elixir->item = elixir;
+    agent_elixir->npc = NULL;
     stat_effect_t *stunned = stat_effect_new(p1);
     stat_mod_t *mod1 = stat_mod_new(s1, 0.75, 200);
     stat_mod_t *mod2 = stat_mod_new(s2, 0.9, 200);
     LL_APPEND(stunned->stat_list, mod1);
     LL_APPEND(stunned->stat_list, mod2);
-    add_effect_to_item(elixir, stunned);
+    add_effect_to_item(agent_elixir->item, stunned);
 
     stat_effect_t *boost = stat_effect_new(p2);
     stat_mod_t *mod3 = stat_mod_new(s3, 1.5, 10);
     stat_mod_t *mod4 = stat_mod_new(s4, 1.25, 10);
     LL_APPEND(boost->stat_list, mod3);
     LL_APPEND(boost->stat_list, mod4);
-    add_effect_to_item(elixir, boost);
-    add_action(elixir, "TAKE", "The item has been taken.", 
+    add_effect_to_item(agent_elixir->item, boost);
+    add_action(agent_elixir, "TAKE", "The item has been taken.", 
                "The item does not exist in the game.");
-    return elixir;
+    return agent_elixir->item;
 }
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
