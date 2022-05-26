@@ -15,7 +15,8 @@ def transform_game(self, s: list) -> dict:
     based on the type, and also places all rooms into their own 
     dictionary for convenience.
     """
-
+    print()
+    print(s)
     # first place all non-room objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value or
     # item and item attributes, etc.
@@ -39,23 +40,24 @@ def transform_player(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     
     # gets the player class id.
     class_id = s.pop(0)[1]
+    print(s)
 
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
     # action and action attributes, etc.
-    d = dict((k, v) for k, v in s if k != "attributes" and k != "base stats")
+    # d = dict((k, v) for k, v in s if k != "attributes" and k != "base_stats")
 
     # create a list of attributes and place it in its own entry of the dict
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "attributes"
-    d["attributes"] = [v for k, v in s if k == "attributes"]
+    # d["attributes"] = [v for k, v in s if k == "attributes"]
 
     # create a list of base_stats and place it in its own entry of the dict
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "base_stats"
-    d["base stats"] = [v for k, v in s if k == "base stats"]
+    # d["base stats"] = [v for k, v in s if k == "base_stats"]
     
-    return ('PLAYER_CLASS', (class_id, d))
+    return ('PLAYER_CLASS', (class_id, {}))
 
 # s contains several objects of the form ('type', <value>) and
 # we want to group all objects with type "ITEM" into their own list
@@ -137,7 +139,7 @@ def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an base_stats and places them
     into a dictionary which is labeled "base_stats" """
     print(s)
-    return ('base_stats', dict(s))
+    return ('base_stats', {})
 
 
 def transform_misplaced(self, s: list[Token]) -> str:
