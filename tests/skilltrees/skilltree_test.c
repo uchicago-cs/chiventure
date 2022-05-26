@@ -610,7 +610,7 @@ Test(skilltree_test, display_tree_one_skill)
     
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect, NULL);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22);
+  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, NULL, 0, 22);
 
   skill_tree_t* skilltree = skill_tree_new(1001, "this tree", 1);
   skill_tree_node_add(skilltree, bomb_node);
@@ -637,9 +637,9 @@ Test(skilltree_test, display_tree_three_skills)
       3, 6, choptreeeffect, NULL);
   skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
       4, 7, innerpeace, NULL);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22);
-  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 19);
-  skill_node_t* inner_node = skill_node_new(skill3, 2, 77, 4);
+  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, NULL, 0, 22);
+  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, NULL, 0, 19);
+  skill_node_t* inner_node = skill_node_new(skill3, 2, 77, NULL, 0, 4);
 
   skill_tree_t* skilltree = skill_tree_new(1001, "this tree", 3);
   skill_tree_node_add(skilltree, bomb_node);
@@ -668,9 +668,9 @@ Test(skilltree_test, display_tree_three_skills_limited)
       3, 6, choptreeeffect, NULL);
   skill_t* skill3 = skill_new(1002, PASSIVE, "inner peace", "maintains inner peace",
       4, 7, innerpeace, NULL);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22);
-  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, 19);
-  skill_node_t* inner_node = skill_node_new(skill3, 2, 77, 4);
+  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, NULL, 0, 22);
+  skill_node_t* chop_node = skill_node_new(skill2, 0, 76, NULL, 0, 19);
+  skill_node_t* inner_node = skill_node_new(skill3, 2, 77, NULL, 0, 4);
 
   skill_tree_t* skilltree = skill_tree_new(1001, "this tree", 3);
   skill_tree_node_add(skilltree, bomb_node);
@@ -692,7 +692,7 @@ Test(skilltree_test, display_skill_description_typical)
     
   skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
       2, 5, defusebombeffect, NULL);
-  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, 22);
+  skill_node_t* bomb_node = skill_node_new(skill1, 0, 75, NULL, 0, 22);
 
   skill_tree_t* skilltree = skill_tree_new(1001, "this tree", 1);
   skill_tree_node_add(skilltree, bomb_node);
