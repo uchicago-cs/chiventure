@@ -8,9 +8,11 @@
 #include "skilltrees/inventory.h"
 #include "skilltrees/skilltree.h"
 #include "skilltrees/effect.h"
+#include "skilltrees/reader.h"
+#include "skilltrees/complex_skills.h"
 #include "game-state/stats.h"
 #include "game-state/item.h"
-#include "skilltrees/complex_skills.h"
+
 
 const char* banner =
     "    ________________________________________________________________________________________\n"
@@ -61,6 +63,9 @@ chiventure_ctx_t* create_example_ctx() {
                                                                 "complicated skills! In this room, you can learn Combined "
                                                                 "Skills! Many smaller skills wrapped into one. "
                                                                 "Lets teach you a big stat boost!");
+    room_t* sequential_room = room_new("Sequential Skill Room", "", "You enter a room with a training dummy. Your mentor begins to train "
+                                                                    "you a powerful combo move, one that stuns your opponent, then summons "
+                                                                    "a mighty tornado");
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
@@ -68,6 +73,8 @@ chiventure_ctx_t* create_example_ctx() {
 
     create_connection(game, "Start Room", "Combined Skill Room", "NORTH");
     create_connection(game, "Combined Skill Room", "Start Room", "SOUTH");
+    create_connection(game, "Combined Skill Room", "Sequential Skill Room", "NORTH");
+    create_connection(game, "Sequential Skill Room", "Combined Skill Room", "SOUTH");
 
 
     /* Set initial room */
@@ -96,7 +103,7 @@ chiventure_ctx_t* create_example_ctx() {
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
 
     /*Initializing class */
-    class_t* test_class = class_new("TEST", "", "", NULL, NULL, NULL);
+    class_t* test_class = class_new("NOTHING YET", "", "", NULL, NULL, NULL);
     test_class->skilltree = skill_tree_new(1001, "TEST Tree", 2);
     player->level = 1;
     player->player_class = test_class;
@@ -106,8 +113,6 @@ chiventure_ctx_t* create_example_ctx() {
     set_curr_player(game, player);
 
     //Dummy Battle code for reading classes
-    // ctx->game->battle_ctx->game->battle->player->class_type->name
-
     class_t* class = class_new("NOTHING YET", "", "", NULL, NULL, NULL);
 
     combatant_t* p = combatant_new("TEST", true, class,
@@ -139,6 +144,10 @@ chiventure_ctx_t* create_example_ctx() {
     /* Create example chiventure context */
     return ctx;
 }
+
+/****************************************************************************************************************/
+/*SKILL CODE*/
+/****************************************************************************************************************/
 
 int execute_skill(chiventure_ctx_t* ctx, int sid)
 {
@@ -209,9 +218,8 @@ void create_combined_skill(chiventure_ctx_t* ctx)
     skills[2] = stat_skill2;
 
     complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
-    skill_t* stat_skill3 = skill_new(0, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
+    skill_t* stat_skill3 = skill_new(0, PASSIVE, "Combined Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
     
-    /* Showcase leveling functionality */
     skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
 }
@@ -258,11 +266,12 @@ char* add_combined_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventu
     else 
     {
         execute_skill(ctx, 0);
-        print_to_cli(ctx, "Added skill!");
+        print_to_cli(ctx, "Learned the combined boost skill!");
         print_to_cli(ctx, "You feel your health is boosted!");
         print_to_cli(ctx, "You feel your strength is boosted!");
         print_to_cli(ctx, "You feel your defense is boosted!");
-        print_to_cli(ctx, "Wow! You look jacked now. But there is still much for you to learn!");
+        print_to_cli(ctx, "Mentor: Wow! You look jacked now. Before, you would have to boost each of your stats individually. "
+        "But there is still much for you to learn!");
         return "";
     }
 }
@@ -270,61 +279,31 @@ char* add_combined_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventu
 //Sequential skill functions
 void create_sequential_skill(chiventure_ctx_t* ctx)
 {
-    // /*Skill will buff multiple stats of the player*/
+    /*Skill will consist of 2 moves*/
 
-    // /*Health buff */
-    // char* stats_to_change[] = {"max_health", "current_health"};
-    // double mods[] = {100, 100};
-    // int durations[] = {5, 5};
-    // player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
-    // if (health_boost == NULL) {
-    //     print_to_cli(ctx, "HEALTH NULL EFFECT");
-    // }
-    // effect_t* stat_effect0 = make_player_stat_effect(health_boost);
-    // /* Making a skill */
-    // skill_t* stat_skill0 = skill_new(0, PASSIVE, "Stat Skill", "Modifies health", 10, 5, stat_effect0, NULL);
+    skill_t* skill_0 = skill_new(1, ACTIVE, "stun", 
+                                     "You stun your opponent.", 1, 100, 
+                                     NULL, NULL);
+    skill_t* skill_1 = skill_new(1, ACTIVE, "tornado", 
+                                     "You set a tornado to your opponent", 1, 
+                                     150, NULL, NULL);
 
-    // /*Strength buff*/
-    // char* stats_to_change1[] = {"strength"};
-    // double mods1[] = {100, 100};
-    // int durations1[] = {5, 5};
-    // player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 1, ctx);
-    // if (strength_boost == NULL) {
-    //     print_to_cli(ctx, "STRENGTH NULL EFFECT");
-    // }
-    // effect_t* stat_effect1 = make_player_stat_effect(strength_boost);
-    // /* Making a skill */
-    // skill_t* stat_skill1 = skill_new(0, PASSIVE, "Stat Skill", "Modifies strength", 10, 5, stat_effect1, NULL);
 
-    // /*Defense buff*/
-    // char* stats_to_change2[] = {"defense"};
-    // double mods2[] = {100, 100};
-    // int durations2[] = {5, 5};
-    // player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 1, ctx);
-    // if (defense_boost == NULL) {
-    //     print_to_cli(ctx, "DEFENSE NULL EFFECT");
-    // }
-    // effect_t* stat_effect2 = make_player_stat_effect(defense_boost);
-    // /* Making a skill */
-    // skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies defense", 10, 5, stat_effect2, NULL);
+    skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*2);
+    skills[0] = skill_0;
+    skills[1] = skill_1;
 
-    // skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
-    // skills[0] = stat_skill0;
-    // skills[1] = stat_skill1;
-    // skills[2] = stat_skill2;
-
-    // complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
-    // skill_t* stat_skill3 = skill_new(1, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
+    complex_skill_t* complex_stat_skill = complex_skill_new(SEQUENTIAL, skills, 3, NULL);
+    skill_t* sequential_skill = skill_new(1, PASSIVE, "Sequential Moves Skill", "Tries to stun and use tornado on opponent", 10, 5, NULL, complex_stat_skill);
     
-    // /* Showcase leveling functionality */
-    // skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
-    // skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
+    skill_node_t* node = skill_node_new(sequential_skill, 0, 2, 0); 
+    skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, node);
 }
 
 char* create_sequential_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     create_sequential_skill(ctx);
-    return "Learn a squential skill!";
+    return "Learn a sequential skill!";
 }
 
 char* add_sequential_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
@@ -337,6 +316,11 @@ char* add_sequential_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiven
     else 
     {
         execute_skill(ctx, 1);
+        print_to_cli(ctx, "Learned the sequential combo skill!");
+        print_to_cli(ctx, "You attempt to stun the training dummy...");
+        print_to_cli(ctx, "And you completely fail.");
+        print_to_cli(ctx, "Mentor: What did you expect! You can't stun a dummy.");
+        print_to_cli(ctx, "Mentor: And I wasn't going to let you summon a tornado indoors!.");
         return "";
     }
 }
@@ -344,108 +328,106 @@ char* add_sequential_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiven
 //Conditonal Skill code
 void create_conditional_skill(chiventure_ctx_t* ctx)
 {
-    // /*Skill will buff multiple stats of the player*/
+    /*Skill will check if player is an orc*/
 
-    // /*Health buff */
-    // char* stats_to_change[] = {"max_health", "current_health"};
-    // double mods[] = {100, 100};
-    // int durations[] = {5, 5};
-    // player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
-    // if (health_boost == NULL) {
-    //     print_to_cli(ctx, "HEALTH NULL EFFECT");
-    // }
-    // effect_t* stat_effect0 = make_player_stat_effect(health_boost);
-    // /* Making a skill */
-    // skill_t* stat_skill0 = skill_new(0, PASSIVE, "Stat Skill", "Modifies health", 10, 5, stat_effect0, NULL);
+    skill_t* skill_0 = skill_new(1, ACTIVE, "Orc Smash", 
+                                     "You smash your opponent with all your might!", 1, 100, 
+                                     NULL, NULL);
+    skill_t* skill_1 = skill_new(1, ACTIVE, "Pathetic Slap", 
+                                     "Even with your strength boost, the dummy remains.", 1, 
+                                     150, NULL, NULL);
 
-    // /*Strength buff*/
-    // char* stats_to_change1[] = {"strength"};
-    // double mods1[] = {100, 100};
-    // int durations1[] = {5, 5};
-    // player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 1, ctx);
-    // if (strength_boost == NULL) {
-    //     print_to_cli(ctx, "STRENGTH NULL EFFECT");
-    // }
-    // effect_t* stat_effect1 = make_player_stat_effect(strength_boost);
-    // /* Making a skill */
-    // skill_t* stat_skill1 = skill_new(0, PASSIVE, "Stat Skill", "Modifies strength", 10, 5, stat_effect1, NULL);
+    skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
+    skills[0] = skill_0;
+    skills[1] = skill_1;
 
-    // /*Defense buff*/
-    // char* stats_to_change2[] = {"defense"};
-    // double mods2[] = {100, 100};
-    // int durations2[] = {5, 5};
-    // player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 1, ctx);
-    // if (defense_boost == NULL) {
-    //     print_to_cli(ctx, "DEFENSE NULL EFFECT");
-    // }
-    // effect_t* stat_effect2 = make_player_stat_effect(defense_boost);
-    // /* Making a skill */
-    // skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies defense", 10, 5, stat_effect2, NULL);
+    //Creation of Reader that checks if player is an orc.
+    attr_reader_effect_t* attr_reader = attr_reader_effect_new("Orc", 3, READ_PLAYER);
 
-    // skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
-    // skills[0] = stat_skill0;
-    // skills[1] = stat_skill1;
-    // skills[2] = stat_skill2;
+    reader_effect_t* orc_reader = reader_effect_new(READER_ATTRIBUTE, attr_reader, NULL);
 
-    // complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
-    // skill_t* stat_skill3 = skill_new(2, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
+    complex_skill_t* complex_stat_skill = complex_skill_new(COMPLEX_CONDITIONAL, skills, 3, orc_reader);
+    skill_t* stat_skill3 = skill_new(2, PASSIVE, "Conditional Skill", "Different smashes depending if you're an orc or not", 10, 5, NULL, complex_stat_skill);
     
-    // /* Showcase leveling functionality */
-    // skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
-    // skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
+    /* Showcase leveling functionality */
+    skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
+    skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
+
+    add_skill_to_player(ctx, 2);
 }
 
 char* create_conditional_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     create_conditional_skill(ctx);
-    return "Learned a squential skill!";
+    return "Learned a conditional skill!";
 }
 
-char* add_conditional_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+int execute_conditional_skill(chiventure_ctx_t* ctx, int sid)
 {
-    int check = add_skill_to_player(ctx, 2);
-    if (check == FAILURE) 
+    player_t* player = ctx->game->curr_player;
+    skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
+    skill_t* skill = skill_node->skill;
+    
+    /*Find the correct skill */
+    int i = 2;
+    while ((skill->sid != sid)&&(i<=1)) 
     {
-        return "Could not add skill!";
+        skill_node = player->player_class->skilltree->nodes[i];
+        skill = skill_node->skill;
     }
-    else 
+    if(skill->sid != sid) 
     {
-        execute_skill(ctx, 1);
-        return "";
+        return FAILURE;
     }
+    /* Execute the effect */
+    int check = execute_reader_effect(skill->complex->reader, ctx);
+
+    if(check == 1){
+        //Text when user smashes dummy
+        print_to_cli(ctx, "You smash the dummy to pieces. Your honor is restored. ");
+        print_to_cli(ctx, "Mentor: ... Your tuition has just doubled. ");
+
+    } else if (check == 0){
+        //Text when user fails to smash dummy
+        print_to_cli(ctx, "You smash the dummy, but you're not an orc. Even with your strength boost, "
+                            "it remains, taunting you.");
+        print_to_cli(ctx, "Mentor: I'm not sure why you wanted to learn that, only orcs are powerful enough "
+                            "to learn this legendary technique. ");
+
+    } else if (check == -1){
+        print_to_cli(ctx, "READER ERROR: ORC NOT FOUND");
+    }
+
+
+    skill_execute(skill_node->skill, ctx);
+    return SUCCESS;
 }
+
+char* use_conditional_skill(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    int check = execute_conditional_skill(ctx, 2);
+    return "";
+}
+
+/****************************************************************************************************************/
+/*CLASS CODE*/
+/****************************************************************************************************************/
 
 //Functions to change classes for conditional example and class demo
 char* change_class_to_orc(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {   
-    ctx->game->battle_ctx->game->battle->player->class_type->name = 
-        realloc(ctx->game->battle_ctx->game->battle->player->class_type->name, 
+    ctx->game->curr_player->player_class->name = 
+        realloc(ctx->game->curr_player->player_class->name, 
         sizeof(char)*(strlen("Orc")+1));
-    ctx->game->battle_ctx->game->battle->player->class_type->name = "Orc";
-    return "Not sure how you managed to do that, but alright, you're an Orc now";
+    ctx->game->curr_player->player_class->name = "Orc";
+    return "Mentor: Not sure how you managed to do that, but alright, you're an Orc now.";
 }
 
 
+/****************************************************************************************************************/
+/*MISC CODE*/
+/****************************************************************************************************************/
 
-char* level_up_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
-{
-    ctx->game->curr_player->level+=1;
-    return "Leveled Up!";
-}
-
-char* design_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
-{
-    print_to_cli(ctx, "Enter the type of effect you want to design!");
-    print_to_cli(ctx, "Options are:  Statistic Modify and Attribute Modify");
-    return "";
-}
-
-char* add_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
-{
-    print_to_cli(ctx, "Enter the type of skill you want to add to your inventory!");
-    print_to_cli(ctx, "Options are: Add Health Boost and Add Slay Dragon");
-    return "";
-}
 /*
  * Prints all skills contained in a skill inventory to the CLI
  *
@@ -513,15 +495,21 @@ char* skills_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
     return "";
 }
 
+/****************************************************************************************************************/
+/*MAIN CODE*/
+/****************************************************************************************************************/
+
 void main()
 {
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
 
-    add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
-    add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
     add_entry("LEARN_COMBINED", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("USE_COMBINED_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
+    add_entry("LEARN_SEQUENTIAL", create_sequential_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
+    add_entry("USE_SEQUENTIAL_MOVE", add_sequential_player_stat_operation, NULL, ctx->cli_ctx->table);
+    add_entry("LEARN_CONDITIONAL", create_conditional_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
+    add_entry("SMASH_DUMMY!", use_conditional_skill, NULL, ctx->cli_ctx->table);
 
     //Class changing commands
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
