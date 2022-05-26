@@ -363,7 +363,7 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
         return FAILURE;
     }
     char *old_room_id = npc->movement->track;
-    assert(move_npc(npc) != 0);
+    assert(move_npc(npc) != FAILURE);
     char *new_room_id = npc->movement->track;
     if (strcmp(old_room_id, new_room_id) == 0)
     {

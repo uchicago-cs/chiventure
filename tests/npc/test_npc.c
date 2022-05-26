@@ -220,8 +220,6 @@ Test(npc, remove_item_from_npc)
     rc = add_item_to_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
                  "add an item to npc");
-    rc = add_item_to_npc(npc, dup_item);
-    cr_assert_eq(rc, FAILURE, "add_item_to_npc added duplicate item to npc");
 
     rc = remove_item_from_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "

@@ -282,7 +282,7 @@ int delete_all_items_from_npc(npc_t *npc);
 /* Deletes and frees all items in an NPC's inventory
  * 
  * Parameters:
- *  npc: the npc whose inventory we're freeing
+ *  npc: the npc whose inventory we're deleting and freeing
  *
  * Returns:
  *  SUCCESS upon completion

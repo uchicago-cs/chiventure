@@ -122,9 +122,6 @@ Test(room_item, add_duplicate_item_to_room)
     int check = add_item_to_room(new_room, test_item2);
     cr_assert_eq(check, FAILURE, "duplicate item added to room incorrectly");
 
-    check = add_item_to_room(new_room, test_item2);
-    cr_assert_eq(check, FAILURE, "item at same memory address as item "
-                 "already in room added again to room");
     room_free(new_room);
 }
 
@@ -167,8 +164,6 @@ Test(room_item, remove_item_from_room)
     rc = add_item_to_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
-    rc = add_item_to_room(room, dup_item);
-    cr_assert_eq(rc, FAILURE, "add_item_to_room added duplicate item");
 
     rc = remove_item_from_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to " 
