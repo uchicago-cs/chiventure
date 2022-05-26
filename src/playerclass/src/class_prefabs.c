@@ -334,8 +334,8 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  *  - prereq_count: The number of prereqs the skill has.
  *  - prereq_level: The pre_req level required to level the skill.
  *  - is_starting: true if the skill is a starting skill for the class.
- *  - playerclasses: a list of playerclasses that the skill node belongs to
- *  - num_classes: number of classes in the playerclasses list
+ *  - player_classes: a list of player classes that the skill node belongs to
+ *  - num_classes: number of classes in the player_classes list
  *  - (...): Indices of the skills that are prereqs to this skill (note that 
  *           skills are added in order, starting at index 0).
  *         
@@ -345,12 +345,12 @@ int class_allocate_skills(class_t* class, int max_skills_in_tree,
  */
 int add_skill(class_t* class, skill_t* skill, int prereq_count, 
                 unsigned int prereq_level, bool is_starting, 
-                char** playerclasses, int num_classes, ...) {
+                char** player_classes, int num_classes, ...) {
     if (class == NULL || skill == NULL)
         return FAILURE;
 
     skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, 
-                                        playerclasses, num_classes, 
+                                        player_classes, num_classes, 
                                         (int) UI_NODE_SIZE);
 
     /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
