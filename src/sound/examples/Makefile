@@ -14,5 +14,5 @@ clean:
 new: clean all
 
 tts:
-	$(CC) $(CPPFLAGS) $(CFLAGS) ../src/tts.c test-tts.c -o tts-test $(LDFLAGS) 
+	$(CC) $(CPPFLAGS) $(CFLAGS) ../src/tts.c test-tts.c -o test-tts $(LDFLAGS) 
 
