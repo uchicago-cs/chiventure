@@ -414,6 +414,7 @@ battle_ctx_t *create_battle_ctx()
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
+    estats->max_hp = 200;
     estats->level = 1;
     estats->phys_atk = 200;
     estats->phys_def = 30;
