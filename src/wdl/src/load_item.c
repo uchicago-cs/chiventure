@@ -116,9 +116,6 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
     }
 
     obj_t *curr;
-    agent_t *agent = malloc(sizeof(agent_t));
-    agent->item = item;
-    agent->npc = NULL;
     DL_FOREACH(action_ls->data.lst, curr)
     {
         char *action = case_insensitized_string(obj_get_str(curr, "action"));
