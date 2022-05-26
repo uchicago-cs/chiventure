@@ -103,6 +103,8 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 
     task_tree_t *tree = malloc(sizeof(task_tree_t));
     tree->task = task_to_add;
+    tree->rsibling = NULL;
+    tree->lmostchild = NULL;
 
     task_tree_t *parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     tree->parent = parent;
@@ -278,7 +280,7 @@ int update_player_quests(quest_ctx_t *qctx) {
         update_task(cur->task_id, qctx);
     }
 }
-    
+
 /* Refer to quests_state.h */
 void update_task(char *task_id, quest_ctx_t *qctx) {
     accept_reward(complete_task(task_id, qctx), qctx);
