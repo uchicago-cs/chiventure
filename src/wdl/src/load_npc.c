@@ -385,28 +385,28 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task,
  * based heavily on load_dialogue implementation
  *
  * parameters:
- * - quest_obj: the quest object
+ * - quest_list_obj: the quest list object
  * - npc: an NPC
- * - g: game (for load_task_dialogue to build conditions)
+ * - g: game (for load_quest_dialogue to build conditions)
  *
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
 */
-int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
+int load_quests(obj_t *quests_obj, npc_t *npc, game_t *g)
 {
     npc_quest_list_t *quests = npc_quest_list_new();
 
     // verify the quest_list object's attributes
-    if (quest_list_type_check(quest_list_obj) == FAILURE) {
+    if (quest_list_type_check(quests_obj) == FAILURE) {
         fprintf(stderr, "Quest list object failed typechecking, or the "
                 "required attributes are missing. NPC: %s\n",
                 npc->npc_id);
         return FAILURE;
     }
 
-    // get the list of quests from the npc_quest_list_t object representation
-    obj_list_t *quests_obj_list = obj_get_attr(quest_list_obj, "Quests", false);
+    obj_list_t *quest_list_obj = obj_get_list(quests_obj, "Quests");
+
     char *quest_name;
     convo_t *quest_dialogue;
     npc_quest_t *curr_quest, *next_quest;
@@ -414,7 +414,7 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
     int len;
     len = 0;
     
-    DL_FOREACH(quests_obj_list->data.lst, curr)
+    DL_FOREACH(quest_list_obj->data.lst, curr)
     {
         // think this is called twice
         if(npc_task_type_check(curr) == FAILURE) {
@@ -463,7 +463,7 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
  * based heavily on load_dialogue implementation
  *
  * parameters:
- * - task_obj: the quest object
+ * - task_list_obj: the task list object
  * - npc: an NPC
  * - g: game (for load_task_dialogue to have access to all_items)
  *
@@ -471,19 +471,20 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
 */
-int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
+int load_tasks(obj_t *tasks_obj, npc_t *npc, game_t *g)
 {
     npc_task_list_t *tasks = npc_task_list_new();
 
     // verify the task_list object's attributes
-    if (quest_type_check(task_list_obj) == FAILURE) {
+    if (quest_type_check(tasks_obj) == FAILURE) {
         fprintf(stderr, "Task list object failed typechecking, or the "
                 "required attributes are missing. NPC: %s\n",
                 npc->npc_id);
         return FAILURE;
     }
 
-    obj_t *tasks_obj = obj_get_attr(task_list_obj, "tasks", false);
+    obj_list_t *task_list_obj = obj_get_list(tasks_obj, "Tasks");
+
     char *id;
     convo_t *task_dialogue;
     npc_task_t *curr_task, *next_task;
@@ -491,7 +492,7 @@ int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
     int len;
     len = 0;
     
-    DL_FOREACH(tasks_obj->data.lst, curr)
+    DL_FOREACH(task_list_obj->data.lst, curr)
     {
         // think this is called twice
         if(npc_quest_type_check(curr) == FAILURE) {
@@ -595,7 +596,7 @@ int load_npcs(obj_t *doc, game_t *g)
         // to do
 
         // load quests
-        obj_list_t *quests_obj;
+        obj_t *quests_obj;
         if ((quests_obj = obj_get(curr, "Quests")) != NULL) {
             if (load_quests(quests_obj, npc, g) != SUCCESS) {
                 fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",

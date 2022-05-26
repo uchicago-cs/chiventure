@@ -446,7 +446,7 @@ int npc_task_type_check(obj_t *obj)
     return SUCCESS;
 }
 
-int quest_list_type_check(obj_t *obj)
+int quest_list_type_check(obj_list_t *obj)
 {
     // taken from dialogue_type_check
 
@@ -461,7 +461,7 @@ int quest_list_type_check(obj_t *obj)
     return check;
 }
 
-int task_list_type_check(obj_t *obj)
+int task_list_type_check(obj_list_t *obj)
 {
     // taken from dialogue_type_check
 
