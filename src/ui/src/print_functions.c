@@ -312,4 +312,3 @@ int print_to_cli(chiventure_ctx_t *ctx, char *str)
 
     return EXIT_SUCCESS;
 }
-

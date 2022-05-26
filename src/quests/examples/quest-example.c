@@ -116,7 +116,7 @@
 //     }
 
 //     if (((strcmp(ctx->game->curr_room->room_id,"room1")) == 0) && ((quest->status == 1))) {
-//         move_npc_definite(npc1_movement);
+//         move_npc_mov(npc1_movement);
 
 //         char *output1 = strcat("Villager-Jim",
 //         ": I see you have started the quest, go to room2 to find the secret item, then "
@@ -126,7 +126,7 @@
 //         char *output2 = "Please find the secret item here.";
 //         return output2;
 //     } else if ((strcmp(ctx->game->curr_room->room_id,"room3") == 0) && (quest->status == 1)) {
-//         //move_npc_definite(npc1_movement);
+//         //move_npc_mov(npc1_movement);
 //         item_t *item = malloc(sizeof(item_t));
 //         HASH_FIND(hh, ctx->game->all_items, "EMERALD", strlen("EMERALD"), item);
 
@@ -289,7 +289,7 @@
 //     npcs_in_room_4 = npcs_in_room_new("room4");
 //     add_npc_to_room(npcs_in_room_4, npc2); //Need to fight the wolf to get potion
 
-//     npc1_movement = npc_mov_new(NPC_MOV_DEFINITE,initial_room);
+//     npc1_movement = npc_mov_new(NPC_MOV_DEFINITE,initial_room, 0);
 //     extend_path_definite(npc1_movement,third_room);
 //     extend_path_definite(npc1_movement,last_room);
 

@@ -10,11 +10,11 @@
 #include "skilltrees/complex_skills.h"
 
 /*See complex_skills.h */
-complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills){
+complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, int num_skills, reader_effect_t* reader){
     complex_skill_t* complex;
 
-    if (num_skills == 0) {
-        fprintf(stderr, "skill_new: num_skills is invalid (given 0)\n");
+    if (num_skills <= 0) {
+        fprintf(stderr, "complex_skill_new: subskill length of <= 0 given\n");
         return NULL;
     }
 
@@ -33,7 +33,7 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
         return NULL;
     }
 
-    int rc = complex_skill_init(complex, type, list, num_skills);
+    int rc = complex_skill_init(complex, type, skills, num_skills, reader);
 
     if (rc) {
         fprintf(stderr, "complex_skill_new: initialization failed\n");
@@ -44,23 +44,31 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
 }
 
 /*See complex_skills.h */
-int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type, skill_t** skills, int num_skills){
+int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type, 
+                       skill_t** skills, int num_skills, reader_effect_t* reader){
     assert(complex_skill != NULL);
 
     complex_skill->type = type;
     complex_skill->num_skills = num_skills;
     complex_skill->skills = skills;
+    complex_skill->reader = reader;
 
     return SUCCESS;
 }
 
 /*See complex_skills.h */
 int complex_skill_free(complex_skill_t* complex_skill){
-
     for(int i = 0; i < complex_skill->num_skills; i++){
         free(complex_skill->skills[i]);
     }
     free(complex_skill->skills);
+
+    //If statement is present to prevent crash from reading NULL reader, which is often
+    //used for non-conditional skills
+    if(complex_skill->reader != NULL){
+        reader_effect_free(complex_skill->reader);
+    }
+    
     free(complex_skill);
 
     return SUCCESS;
@@ -74,10 +82,34 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
     if (complex_skill->type == SEQUENTIAL){
         return sequential_complex_skill_execute(complex_skill, ctx);
     }
+    if(complex_skill->type == COMPLEX_CONDITIONAL){
+        return conditional_skill_execute(complex_skill,ctx);
+    }
     return FAILURE;
 }
 
-/*See complex_skills.h */
+
+/* See complex_skills.h */
+int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx){
+    if(skill->type != COMPLEX_CONDITIONAL) {
+        return FAILURE; 
+    }
+
+    int rc = 1;
+
+    //Following will be implemented when reader_effect_execute is written in sperate issue
+
+    // if(reader_effect_execute(skill->reader, ctx)) {
+    //     rc = skill_execute(skill->skills[0], ctx);
+    // }
+    // else {
+    //     rc = skill_execute(skill->skills[1], ctx);
+    // }
+
+    return rc;
+}
+
+/* See complex_skills.h */
 int combined_complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
     if(complex_skill->type != COMBINED){
         return FAILURE;
@@ -105,6 +137,8 @@ int sequential_complex_skill_execute(complex_skill_t* complex_skill, chiventure_
     }
     return SUCCESS;
 }
+
+//Crashes occuring with tests related to these two functions. To be fixed in later sprint.
 
 /*See complex_skills.h */
 int complex_skill_level_up(complex_skill_t* complex_skill){
