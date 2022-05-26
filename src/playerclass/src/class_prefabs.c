@@ -341,7 +341,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     }
 
     return class_new(class_name, short_desc, long_desc, attributes, stats, 
-                    effects);
+                    effects, false);
 }
 
 

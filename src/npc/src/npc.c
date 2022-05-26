@@ -14,6 +14,7 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->dialogue = NULL;
     npc->inventory = NULL;
     npc->class = class;
+    npc->class->is_npc = true;
     npc->hostility_level = hostility_level;
     npc->npc_battle = NULL;
     npc->movement = movement;
