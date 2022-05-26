@@ -49,7 +49,7 @@ chiventure_ctx_t *create_sample_ctx()
     scanf("%c", &string_num);  
     object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
     ot = obj_add_arg_char(ot, string_num);
-    char* custom_string = (char*)malloc(100);
+    char* custom_string = (char*)malloc(500);
     custom_string = str_t_get(ot);
 
     /* Associate action "TASTE" with the rock.

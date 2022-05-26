@@ -1,10 +1,10 @@
-set(CS_EXAMPLES demonstration)
+set(CS_EXAMPLES dark_room)
 
-add_executable(demonstration
-               demonstration.c)
+add_executable(dark_room
+               dark_room.c)
 
-target_link_libraries(demonstration ${LUA_LIBRARIES})
-target_include_directories(demonstration PRIVATE ${LUA_INCLUDE_DIR})
+target_link_libraries(dark_room ${LUA_LIBRARIES})
+target_include_directories(dark_room PRIVATE ${LUA_INCLUDE_DIR})
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
