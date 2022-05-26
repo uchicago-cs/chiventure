@@ -28,10 +28,10 @@ Test(sound, new_sound_effect)
 Test(sound, init_background)
 {
     int rc;
-    sount_t sound;
+    sound_t *sound;
     char song_name[] = "glamorous_fergie.mp3";
     
-    rc = sound_init(&sound, BACKGROUND, song_name);
+    rc = sound_init(sound, BACKGROUND, song_name);
 
     cr_assert_eq(rc, 1, "sound_init failed");
 }
@@ -40,10 +40,10 @@ Test(sound, init_background)
 Test(sound, init_sound_effect)
 {
     int rc;
-    sount_t sound;
+    sound_t *sound;
     char song_name[] = "wav_example.wav";
     
-    rc = sound_init(&sound, SOUND_EFFECT, song_name);
+    rc = sound_init(sound, SOUND_EFFECT, song_name);
 
     cr_assert_eq(rc, 1, "sound_init failed");
 }
@@ -52,7 +52,7 @@ Test(sound, init_sound_effect)
 Test(sound, load_music)
 {
     char song_name[] = "glamorous_fergie.mp3";
-    sound_t *sound = sound_new(BACKGROUND, song_name)
+    sound_t *sound = sound_new(BACKGROUND, song_name);
     sound_type_t *loaded = load_wav(sound);
     cr_assert_not_null(loaded, "load_wav fails; music did not load");
     cr_assert_not_null(loaded->backgroundSound, "load_wav fails; wrong sound type");
@@ -62,7 +62,7 @@ Test(sound, load_music)
 Test(sound, load_sound_effect)
 {
     char song_name[] = "wav_example.wav";
-    sound_t *sound = sound_new(SOUND_EFFECT, song_name)
+    sound_t *sound = sound_new(SOUND_EFFECT, song_name);
     sound_type_t *loaded = load_wav(sound);
     cr_assert_not_null(loaded, "load_wav fails; music did not load");
     cr_assert_not_null(loaded->soundEffect, "load_wav fails; wrong sound type");
@@ -73,12 +73,13 @@ Test(sound, free_background)
 {
     char song_name[] = "c'est_la_vie_khaled.mp3";
     int rc;
-
+    
     sound_t *sound = sound_new(BACKGROUND, song_name);
 
     cr_assert_not_null(sound, "sound_new failed");
 
-    rc = sound_free(BACKGROUND, sound);
+    sound_type_t *s = load_wav(sound);
+    rc = sound_free(s, sound);
 
     cr_assert_eq(rc, 1, "sound_free failed");
 
@@ -94,7 +95,8 @@ Test(sound, free_sound_effect)
 
     cr_assert_not_null(sound, "sound_new failed");
 
-    rc = sound_free(SOUND_EFFECT, sound);
+    sound_type_t *s = load_wav(sound);
+    rc = sound_free(s, sound);
 
     cr_assert_eq(rc, 1, "sound_free failed");
 
