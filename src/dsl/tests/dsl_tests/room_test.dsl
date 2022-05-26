@@ -8,4 +8,4 @@ ROOM room B
 
 
 ROOM room C
-  connections: NORTH TO room A
+  connections: NORTH TO room B

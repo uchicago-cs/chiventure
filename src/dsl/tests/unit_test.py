@@ -55,7 +55,8 @@ def gen_out(dsl_path: str) -> str:
 
         return out_str
 
-def test(f_dsl, f_wdl: str) -> Bool:
+def test(f_dsl, f_wdl: str, show: bool) -> bool:
+    rv = True
     dsl_path = "tests/dsl_tests/" + f_dsl
     wdl_path = "tests/wdl_expected/" +f_wdl
 
@@ -63,73 +64,97 @@ def test(f_dsl, f_wdl: str) -> Bool:
     expected = open(wdl_path).read()
     len_expected = len(expected)
     len_out = len(out)
+
+
+    
     for i in range(len_expected):
         if out[i] != expected[i]:
-            """ compute beginning and end indexes to slice our substring
-            """
-            beginning = max(0, i - 50)
-            end = min(len_expected, len_out, i + 50)
+            rv = False
+            if show:
+                """ compute beginning and end indexes to slice our substring
+                """
+                beginning = max(0, i - 50)
+                end = min(len_expected, len_out, i + 50)
 
-            broken = out[beginning : end]
-            expected_substr = expected[beginning : end]
+                broken = out[beginning : end]
+                expected_substr = expected[beginning : end]
+                
+                print(f"{f_dsl}: output does not match expected.")
+                print(f"Returned:\n.....\n{broken}\n.....")
+                print(f"Expected:\n.....\n{expected_substr}\n.....")
+    return rv
+    
 
-            print(f"room_test: output does not match expected.")
-            print(f"Returned:\n.....\n{broken}\n.....")
-            print(f"Expected:\n.....\n{expected_substr}\n.....")
-            return False
-    return True
+
+def collect_flags(flags: list) -> dict:
+    """Transforms a list of flags into a dictionary mapping flags to options"""
+
+    flags_dict = {}
+    for f in flags:
+        name = f
+        option = None
+        if "=" in f:
+            name, option = f.split("=")
+
+        if name in flags_dict:
+            flags_dict[name].append(option)
+        else:
+            flags_dict[name] = [option]
+    return flags_dict
+
+def main():
+    """
+    The main testing function. By default, this function will run all tests. 
+    Flags can also be provided as cli arguments to change the behavior of testing.
+    Flags:
+        --file=<test_file>      run one <test_file> in dsl_tests/
+        --show                  print differences between the expected and actual outputs
+        
+    """
+    warnings.filterwarnings('ignore')
+
+    tests_run = 0
+    passed = 0
+    failed = 0
+    list_failed = []
+    default_files = []
+
+    flags_list = [arg.strip("-") for arg in sys.argv[1:] if arg.startswith("-")]
+    args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
+    
+    flags = collect_flags(flags_list)
+
+    show = "show" in flags
+    
+    manual = "file" in flags
+    if manual:
+        files_to_test = flags.get("file", [])
+    else:
+        file_to_test = default_files
+
+    for file in files_to_test:
+        rv = test(f_dsl = file, f_wdl = file.strip(".dsl") + "_expected.wdl", show = show)
+        tests_run += 1
+        if rv:
+            passed += 1
+        else:
+            failed += 1
+            list_failed.append(file)
+    
+
+        
+
+    
+    print(f"| Tests run: {tests_run} | Tests passed: {passed} | Tests failed: {failed} |")
+    
+    if list_failed:
+        print(f"List of failed tests:")
+        for i in list_failed:
+            print(f"\t{i}")
     
 
 
 
-def main():
-    warnings.filterwarnings('ignore')
-    print("in main")
-    test("room_test.dsl", "room_test_expected.wdl")
-"""
-def room_test(room -> dict, json -> json) -> bool:
-    #TODO: unit testing for components in room
-    for key, value in room.items()
-        if key == "short desc":
-            short_desc = value
-        elif key == "long desc":
-            long_desc = value
-        elif key == "action":
-            action_result = action_test(value, json)
-        elif key == "item":
-            item_result = item_test(value, json)
-    file = json.loads(json)
-    if (json["short desc"] == short_desc) and (json["long desc"] == long_desc) 
-        and action_result and item_result:
-        return True
-    return False
-
-def action_test(action -> dict, wdl -> json) -> bool:
-    #TODO: unit testing for components in action
-    for key, value in action.items()
-        if key == "action":
-            action = value
-        elif key == "condition":
-            condition = value
-        elif key == "text_success":
-            text_success = value
-        elif key == "text_fail":
-            text_fail = value
-    file = json.loads(json)
-    if (json["action"] == action) and (json["condition"] == condition) 
-        and (json["text_success"] == text_success) and (json["text_fail"] == text_fail):
-        return True
-    return False
-
-def item_test(item -> dict, wdl -> json) -> bool:
-    for key, value in item.items()
-        if key == "ITEM":
-            item_name = value
-    file = json.loads(json)
-    if (json["ITEM"] == item_name):
-        return True
-    return False    
-"""
-
 if __name__ == "__main__":
     main()
+
