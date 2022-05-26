@@ -193,12 +193,10 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
         {
             // Get command and potentially tokenize by 'and'
             cmd **c = cmd_from_string(temp->cmds, ctx);
-            bool is_malformed = false;
             // Checks if cmd is too long
             if (!c) 
             {
                 print_to_cli(ctx, "Error: Malformed input (4 words max)");
-                is_malformed = true;
             }
             else
             {
@@ -210,7 +208,7 @@ void print_cli(chiventure_ctx_t *ctx, window_t *win, int *retval)
                 {   
                     // if command execution (do_cmd) does not return an error
                     // and the input is not too long
-                    if (rc != CLI_CMD_CALLBACK_ERROR || !is_malformed) 
+                    if (rc != CLI_CMD_CALLBACK_ERROR) 
                     {    
                         // do command, return CLI_CMD_CALLBACK_ERROR if
                         // there is an error printing a message to the screen

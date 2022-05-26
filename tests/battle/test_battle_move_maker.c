@@ -3,11 +3,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle/battle_flow.h"
-#include "../include/battle/battle_move_maker.h"
-#include "playerclass/class.h"
-#include "battle/battle_default_objects.h"
-
+#include "../../include/battle/battle_test_utility.h"
 
 Test(class_moves, bard)
 {

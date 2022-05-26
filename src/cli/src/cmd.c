@@ -11,7 +11,7 @@
 #include "action_management/actionmanagement.h"
 #include "cli/util.h"
 
-#define MAX_MULTIPLE_CMDS (5)
+#define MAX_MULTIPLE_CMDS (6)
 
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
@@ -45,6 +45,10 @@ void add_action_entries(lookup_t **table)
         else if(curr_action->kind == 3)
         {
             add_entry(curr_action->c_name, kind3_action_operation, curr_action, table);
+        }
+        else if(curr_action->kind == 4)
+        {
+            add_entry(curr_action->c_name, kind4_action_operation, curr_action, table);
         }
 
         all_actions = all_actions->next;
@@ -245,7 +249,7 @@ cmd **cmd_from_string(char *s, chiventure_ctx_t *ctx)
     cmd** actions;
     int count = 0;
     // arbitrary big number of commands allowed at once
-    actions = (cmd**)malloc(sizeof(cmd*) * 5);
+    actions = (cmd**)malloc(sizeof(cmd*) * MAX_MULTIPLE_CMDS);
     
     // Tokenizes input by "and" string
     for (char *result = strtokstr_r(s, "AND", &s); result != NULL; result = strtokstr_r(s, "AND", &s)) {  

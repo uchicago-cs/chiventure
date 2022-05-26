@@ -78,7 +78,7 @@ int action_type_init_room_dir(action_type_t *a, room_t *room, char *direction)
  * helper function that removes condition
  *
  * Parameter:
- * action that's being one
+ * action that's being done
  *
  * Returns:
  * SUCCESS if action's removed
@@ -346,14 +346,16 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
 
 /* KIND 4
  * See actionmanagement.h */
-int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_action_object obj, char **ret_string)
+int do_self_action(chiventure_ctx_t *c, action_type_t *a,
+                   char *target, char **ret_string)
 {
     assert(c);
     assert(c->game);
     assert(a);
-    assert(p);
+    assert(target);
     
     game_t *game = c->game;
+    target = case_insensitized_string(target);
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -367,14 +369,25 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a, player_t *p, self_acti
     }
 
     if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
-        if (obj == STATS) {
+        if (strcmp(target, "stats") == 0) {
             // retrieve stats from the player
-            string = display_stats(p->player_stats);
+            string = display_stats(c->game->curr_player->player_stats);
+        } else if (strcmp(target, "effects") == 0) {
+            // retrieve stat effects from the player
+            string = display_stat_effects(c->game->curr_player->player_effects);
+        } else if (strcmp(target, "inventory") == 0) {
+            // retrieve inventory from the player
+            // TO BE IMPLEMENTED
+        } else if (strcmp(target, "skills") == 0) {
+            // retrieve skill tree from the player
+            // TO BE IMPLEMENTED
+        } else {
+            sprintf(string, "%s cannot be viewed", target);
         }
     }
-
+    else {
+        sprintf(string, "No such %s action available", a->c_name);
+    }
     *ret_string = string;
     return SUCCESS;
 }
-
-
