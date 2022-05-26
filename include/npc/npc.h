@@ -12,16 +12,7 @@
 #include "npc/npc_move.h"
 #include "cli/util.h"
 
-/* Forward declaration. Full typedef can be found in npc.h */
-typedef struct npc_battle npc_battle_t;
-typedef enum hostility hostility_t;
-
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
-
-/* Forward declaration */
-typedef struct npc_mov npc_mov_t;
-typedef struct convo convo_t;
-
 
 /* A non-playable character in game */
 typedef struct npc {
@@ -47,11 +38,11 @@ typedef struct npc {
     /* pointer to an existing class struct */
     class_t *class;
 
-    /* pointer to an exisitng npc_move struct */
+    /* pointer to an existing npc_move struct */
     npc_mov_t *movement;
 
-     /* boolean representing whether or not the NPC will engage in battles */
-    bool will_fight;
+    /* enum indicating hostility level of the npc */
+    hostility_t hostility_level;
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
@@ -79,14 +70,20 @@ typedef struct npc npc_hash_t;
  *  inventory: a pointer to an existing item_hash_t struct defining the npc's
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
+<<<<<<< HEAD
  *          (see /include/playerclass/class_structs.h)
  *  will_fight: a boolean describing whether the npc will engage in battle
+=======
+           (see /include/playerclass/class_structs.h)
+ *  hostility_level: an enum indicating the npc's hostility level
+                    (see /include/npc/npc_battle.h)
+>>>>>>> dev
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
  */
 int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
-             class_t *class, npc_mov_t *movement, bool will_fight);
+             class_t *class, npc_mov_t *movement, hostility_t hostility_level);
 
 /*
  * Allocates a new npc in the heap.
@@ -101,13 +98,14 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
            (see /include/playerclass/class_structs.h)
- *  will_fight: a boolean describing whether the npc will engage in battle
+ *  hostility_level: an enum indicating the npc's hostility level
+                    (see /include/npc/npc_battle.h)
  *
  * Returns:
  *  pointer to allocated npc
  */
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
-               class_t *class, npc_mov_t *movement, bool will_fight);
+               class_t *class, npc_mov_t *movement, hostility_t hostility_level);
 
 /*
  * Frees resources associated with an npc.
@@ -130,8 +128,10 @@ int npc_free(npc_t *npc);
  *
  * Returns:
  *  true if:
- *   - the npc's will_fight is true and it's npc_battle isn't NULL
- *   - the npc's will_fight is false
+ *   - the npc's hostility_level is HOSTILE and its npc_battle is not NULL
+ *   - the npc's hostility_level is FRIENDLY and its npc_battle is NULL
+ *   - note: since CONDITIONAL FRIENDLY npcs can fight under certain
+ *           circumstances, its npc_batle could be not NULL
  *  and false otherwise
  */
 bool check_npc_battle(npc_t *npc);
@@ -206,15 +206,26 @@ item_list_t *get_npc_inv_list(npc_t *npc);
 npc_battle_t *get_npc_battle(npc_t *npc);
 
 /*
- * Returns the health of an npc.
+ * Returns the max_hp level of an npc.
  *
  * Parameters:
  *  npc: the npc
  *
  * Returns:
- *  the npc's health or -1 if its npc_battle field is NULL
+ *  the npc's max_hp or -1 if its npc_battle field is NULL
  */
-int get_npc_health(npc_t *npc);
+int get_npc_max_hp(npc_t *npc);
+
+/*
+ * Returns the hp level of an npc.
+ *
+ * Parameters:
+ *  npc: the npc
+ *
+ * Returns:
+ *  the npc's hp or -1 if its npc_battle field is NULL
+ */
+int get_npc_hp(npc_t *npc);
 
 /*
 * Function to get an npc's npc_mov struct or NULL
@@ -271,37 +282,41 @@ int add_convo_to_npc(npc_t *npc, convo_t *c);
  *
  * Parameters:
  *  npc: the npc to receive the npc_battle struct
- *  health: an int with the npc's starting health level
  *  stats: a pointer to an existing stat_t struct defining the npc's battle
            stats (see /include/battle/battle_structs.h)
  *  moves: a pointer to an existing move_t struct defining the npc's battle
            moves (see /include/battle/battle_structs.h)
  *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
  *  hostility_level: the npc's hostility level
- *  surrender_level: the level of health at which the npc surrenders the battle
- *
+ *  class_type: a pointer to an existing class_t struct defining the npc's class
+           (see /include/playerclass/class_structs.h)
+ *  items: An inventory of items that can be used in battle
+ *  armor: a pointer to the armor an npc has
+ *  accessory: a pointer to the accessory an npc has
+ *  weapon: a pointer to the weapon an npc has
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
-int add_battle_to_npc(npc_t *npc, int health, stat_t *stats, move_t *moves,
+int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,
-                      int surrender_level);
+                      class_t *class_type, battle_item_t *items,
+                      battle_equipment_t *armor,
+                      battle_equipment_t *accessory, battle_equipment_t *weapon);
 
 /*
- * Changes the health of the npc.
+ * Changes the hp level of the npc.
  *
  * Parameters:
  *  npc: the npc
- *  change: the positive or negative change to be made to the health points
- *  max: the maximum health the npc can achieve
+ *  change: the positive or negative change to be made to the hp level
  *
  *  The change has a minimum value of 0
- *  The change has a maximum value of max
+ *  The change has a maximum value of the npc's max_hp level
  *
  * Returns:
- *  the npc's new health
+ *  the npc's new hp level
  */
-int change_npc_health(npc_t *npc, int change, int max);
+int change_npc_hp(npc_t *npc, int change);
 
 // HASH TABLE FUNCTIONS ---------------------------------------------------
 

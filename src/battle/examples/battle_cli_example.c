@@ -66,15 +66,16 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     p_move->next = p_move2;
     p_move2->prev = p_move;
-
-
+    
 
     // this creates the player and enemy so that they are inside of ctx
     move_t *e_move = get_random_default_move();
-    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_t *e = npc_new("Goblin", "Enemy goblin!", "Enemy goblin!", make_bard2(), NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, NULL, NULL,
+                                         NULL, NULL, NULL);
     e->npc_battle = npc_b;
-    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item);
+    battle_player_t *p = new_ctx_player("John", make_wizard2(), p_stats, p_move, p_item,
+                                        NULL, NULL, NULL);
 
     battle_ctx_t *battle_ctx =
         (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
@@ -89,6 +90,7 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
+
     int rc = start_battle(battle_ctx, e, ENV_GRASS);
 
     // prints the beginning of the battle 
@@ -127,6 +129,7 @@ chiventure_ctx_t *create_sample_ctx()
 
 int main(int argc, char **argv)
 {
+    
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatching in a fight action to support dialogue */

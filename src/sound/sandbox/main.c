@@ -1,21 +1,22 @@
-/* The following code was adapted from 
+/* The following code was adapted from
 https://gigi.nullneuron.net/gigilabs/playing-a-wav-file-using-sdl2/
 to gain an understanding of basic SDL Library functions */
 
 #include "sound/sound.h"
 
-#define NUM_WAVEFORMS 2
+#define NUM_WAVEFORMS sizeof(_waveFileNames) / sizeof(_waveFileNames[0])
 
 const char* _waveFileNames[] =
 {
-    "../../../../sound_library/Kick-Drum-1.wav",
-    "../../../../sound_library/Snare-Drum-1.wav",
+    "wav_example.wav",
+    "four_seasons_l'invierno.wav",
 };
 
-#define NUM_MUSIC 1
+#define NUM_MUSIC sizeof(_mp3FileNames) / sizeof(_mp3FileNames[0])
 const char* _mp3FileNames[] =
 {
-    "../../../../sound_library/Cardi-B-ft.-Megan-Thee-Stallion-–-Wap.mp3"
+    "c'est_la_vie_khaled.mp3",
+    "glamorous_fergie.mp3",
 };
 
 Mix_Chunk* _chunks[NUM_WAVEFORMS];
@@ -74,7 +75,7 @@ int main(int argc, char** argv)
 
     SDL_CreateWindow("Sounds", SDL_WINDOWPOS_UNDEFINED,
                      SDL_WINDOWPOS_UNDEFINED,
-                     256,
+                     512,
                      256,
                      SDL_WINDOW_RESIZABLE);
 
@@ -89,7 +90,6 @@ int main(int argc, char** argv)
     while (!done)
     {
         bool gotEvent = SDL_PollEvent(&Event);
-
         while (!done && gotEvent)
         {
             switch (Event.type)
@@ -105,6 +105,12 @@ int main(int argc, char** argv)
                     break;
                 case 'e':
                     Mix_PlayMusic(_music[0], 1);
+                    break;
+                case ' ':
+                    Mix_PauseMusic();
+                    break;
+                case 'r':
+                    Mix_ResumeMusic();
                     break;
                 default:
                     break;
