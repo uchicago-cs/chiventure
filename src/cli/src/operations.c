@@ -12,6 +12,9 @@
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
 #include "cli/util.h"
+#include "battle/battle_logic.h"
+#include "battle/battle_flow.h"
+#include "battle/battle_print.h"
 #include <ctype.h>
 
 #define NUM_ACTIONS 31
@@ -704,9 +707,56 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "%s does not want to fight.", tokens[1];
     }
 
-    set_game_mode(ctx->game, BATTLE, npc->npc_id); 
+    // this is the current player from the chiventure context
+    player_t *player = ctx->game->curr_player;
+    // create a battle player version of the current player
+    battle_player_t *b_player = new_ctx_player(player->player_id, 
+                                               player->player_class, 
+                                               get_random_stat() 
+                                               /* fix: get stats from player 
+                                               struct (currently doesn't 
+                                               support all stats) */, 
+                                               player->moves, 
+                                               NULL 
+                                               /* fix: get a list of battle 
+                                                  items from inventory 
+                                                  (currently no way to do) */,
+                                               NULL, NULL, NULL); // these too
+    // create a battle context
+    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
+    // create a battle game and add it to the battle context
+    battle_game_t *b_game = new_battle_game();
+    battle_ctx->game = b_game;
+    // add the current player from the chiventure context to the game
+    battle_ctx->game->player = b_player;
+    // add the battle context to the chiventure context
+    int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
+    // create a battle struct and initialize its parts (sets up combatants)
+    int rc = start_battle(battle_ctx, npc, 
+                          ENV_GRASS /* eventually this should be stored in 
+                                       the room struct */);
+
+    // prints the beginning of the battle 
+    char *start = print_start_battle(battle_ctx->game->battle);
+    int start_rc = print_to_cli(ctx, start);
+    turn_component_t *current_tc = battle_ctx->tcl->current;
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(legal_items, legal_moves, current_tc, 
+                      ctx->game->battle_ctx->game->battle);
+    char *menu = print_battle_action_menu(legal_items, legal_moves);
+    ctx->game->battle_ctx->game->battle->current_tc = current_tc;
+
+    // leaving in case we want to directly set game mode in the future
+    //set_game_mode(ctx->game, BATTLE, npc->npc_id);
    
     assert(npc->npc_battle != NULL);
- 
-    return "Beginning battle.";
+
+    if (!rc && !start_rc)
+    {    
+        game_mode_init(ctx->game->mode, BATTLE, 
+                       run_battle_mode, "Goblin");
+    }
+
+    return menu;
 }
