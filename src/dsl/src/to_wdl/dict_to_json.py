@@ -7,6 +7,7 @@ from collections import ChainMap
 from to_wdl.wdl_room import Room
 from to_wdl.wdl_item import Item
 from to_wdl.wdl_game import Game
+from to_wdl.wdl_player import Player
 
 
 def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default="") -> str:
@@ -17,6 +18,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
 
     rooms = []
     items = []
+    players = []
 
     if "rooms" not in intermediate:
         warn("This game has no rooms.")
@@ -35,16 +37,24 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents, default))
     
+    if "players" in intermediate:
+        players_dict = intermediate.pop("player_classes")
+        for curr in players_dict:
+            for player, val in curr.items():
+                players.append(Player(player, val))
+    
     game = Game(intermediate, default)
     
     # acts as a "union" operation on multiple dictionaries
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
     items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
+    players_wdl = dict(ChainMap(*[p.to_wdl_structure() for p in players]))
 
     out = json.dumps({
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
-        "ITEMS": items_wdl
+        "ITEMS": items_wdl,
+        "PLAYERS": players_wdl
         }, indent=2)
 
     if debug and "end" in debug_modes:
