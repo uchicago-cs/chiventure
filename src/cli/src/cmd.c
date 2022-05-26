@@ -10,6 +10,8 @@
 #include "action_management/actionmanagement.h"
 #include "cli/util.h"
 
+#define MAX_MULTIPLE_CMDS (5)
+
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
 {
@@ -239,7 +241,8 @@ cmd** cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
     char* currcmd;
     cmd** actions;
-    actions = (cmd**)malloc(sizeof(cmd) * TOKEN_LIST_SIZE);
+    // arbitrary big number of commands allowed at once
+    actions = (cmd**)malloc(sizeof(cmd*) * MAX_MULTIPLE_CMDS);
     int count = 0;
     
     // Tokenizes input by "and" string
