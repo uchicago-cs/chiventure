@@ -54,7 +54,7 @@ NPC OAK IN lab
     item_id3: "BULBASAUR"
     item_id4: "POKEBALL"
 
-NPC ASH IN other
+NPC ASH IN gym
   short desc: "Pokemon Master"
   long desc: "ASH Ketchum is THE Pokemon Master"
   age: "10"
