@@ -743,3 +743,21 @@ Test(battle_logic, remove_last_item_of_multiple)
 
     combatant_free(p);
 }
+
+Test(battle_logic, consume_battle_item) 
+{
+
+}
+
+Test(battle_logic, use_battle_item)
+{
+}
+
+Test(battle_logic, apply_stat_changes)
+{
+}
+
+Test(battle_logic, stat_changes_add_item_node)
+{
+}
+
