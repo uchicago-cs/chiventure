@@ -17,6 +17,7 @@ class: _NL "PLAYER_CLASS" id property* attribute* base_stats*
 attribute: _NL "attributes:" attribute_ids*
 attribute_ids: _NL id "set" bool
 
+
 base_stats: _NL "base stats:" stat_setting*
 stat_setting: _NL id _NL "CURRENT" NUMBER _NL "MAX" NUMBER
 
@@ -36,15 +37,18 @@ npc: _NL "NPC" id "IN" location property* inventory dialogue
 
 inventory: _NL "INVENTORY" property*
 
+
 dialogue: _NL "DIALOGUE" node*
-node: "NODE" id edge* property
-edge: "EDGE" id "TO" id property
+
+node: _NL "NODE" id edge* property
+
+edge: _NL "EDGE" id "TO" id property
 
 id: phrase
 
 location: phrase
 
-phrase: STRING+
+phrase: (STRING+ | NUMBER)
 
 bool: ("TRUE"|"FALSE")
 

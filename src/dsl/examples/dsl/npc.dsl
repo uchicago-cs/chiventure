@@ -30,16 +30,47 @@ ITEM POKEBALL IN OAK
     TAKE success: "You take the pokeball"
     TAKE fail: "You cannot take the pokeball"
 
-NPC OAK IN lab
-  short desc: "Kanto's premier Pokemon expert"
+NPC OAK IN room B
+  short desc: "Kanto’s premier Pokemon expert"
   long desc: "Enjoys exploring human-Pokemon relationships"
-  age: "25"
-  gender: "Male"
+	age: "25"
+	gender: "Male"
+
   INVENTORY
     item_id1: "CHARMANDER"
     item_id2: "SQUIRTLE"
     item_id3: "BULBASAUR"
     item_id4: "POKEBALL"
+      
+  DIALOGUE
+    NODE A
+        EDGE 1 TO 2 
+          desc: "Good" 
+        EDGE 1 TO 3 
+          desc: "I have an ENCYCLOPEDIA that belongs to you."
+        EDGE 1 TO 4 
+          desc: "I’ve caught the PIDGEY you asked for!"
+        desc: "Hello ASH. How are you?"
+
+    NODE 2 
+      desc: "Have a nice day!"
+    NODE 3
+        EDGE 3 TO 6.1
+          desc: "I’ll take Bulbasaur."
+        EDGE 3 TO 6.2
+          desc: "I’ll take Squirtle"
+        EDGE 3 TO 6.3
+          desc: "I’ll take Charmander"
+        desc: ". . . Would you like a Bulbasaur, Squirtle, or Charmander?"
+
+    NODE 4
+      desc: "Wonderful, you’re on your way . . . to complete your journey."
+    NODE 6.1
+      desc: "Here is your Bulbasaur. . ."
+    NODE 6.2
+      desc: "Here is your Squirtle. . ."
+    NODE 6.3
+      desc: "Here is your Charmander. . ."
 
 
 
