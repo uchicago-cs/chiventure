@@ -7,6 +7,7 @@ from collections import ChainMap
 from to_wdl.wdl_room import Room
 from to_wdl.wdl_item import Item
 from to_wdl.wdl_game import Game
+from to_wdl.wdl_npc import Npc
 
 
 def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default="") -> str:
@@ -24,6 +25,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     else:
         rooms_dict = intermediate.pop("rooms")
         for room_name, contents in rooms_dict.items():
+
             room_items = contents["items"]
             room_items_objs = []
             for item in room_items:
@@ -33,15 +35,41 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
                 item_obj = Item(location, item, default)
                 items.append(item_obj)
                 room_items_objs.append(item_obj)
-            contents["items"] = room_items_objs
-            rooms.append(Room(room_name, contents, default))
 
+            room_npcs = contents["npcs"]
+            print(room_npcs)
+            """  
+            
+            
+            room_npcs_objs = []
+            for npc, npc_contents in room_npcs:
+                print(npc)
+                print("npc_contents")
+                print(npc_contents)
+                location = room_name
+                if "location" in npc_contents:
+                    location = npc_contents.pop("location")
+                print("location")
+                print(location)
+
+                npc_obj = Npc(npc, location, contents, default)
+                npcs.append(npc_obj)
+                room_npcs_objs.append(npc_obj)
+            
+            contents["items"] = room_items_objs
+            contents["npcs"] = room_npcs_objs
+            rooms.append(Room(room_name, contents, default))
+            """
+    
     if "npcs" in intermediate:
         npcs_dict = intermediate.pop("npcs")
+        print("npc dict")
+        print(npcs_dict)
         for curr in npcs_dict:
-            for npcs, val in curr.items():
-                npcs.append(Npcs(npcs, val, default))
+            for npcs, contents in curr.items():
+                npcs.append(Npcs(npcs, contents, default))
     
+
     game = Game(intermediate, default)
     
     # acts as a "union" operation on multiple dictionaries

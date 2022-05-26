@@ -7,16 +7,15 @@ from collections import ChainMap
 
 
 class Npc:
-    def __init__(self, location: str, contents: dict, default: str):
+    def __init__(self, id, location: str, contents: dict, default: str):
         """
             Defines an NPC class for conversion to WDL, with a unique name
             a location, and a list of contents and/or properties
         """
         self.location = location
+        self.id = id
         self.contents = contents
         self.default = default
-        assert 'id' in self.contents, "Item is missing an id"
-        self.id = self.contents['id']
 
         # self.wdl_contents stores what will be outputted so we don't lose the
         # original input from the parser
@@ -32,7 +31,7 @@ class Npc:
             Converts an NPC to WDL structure using its properties. Generates 
             default values where they are missing.
         """
-
+        print("in to_wdl_structure for npc")
         for k, v in self.contents.items():
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v

@@ -42,12 +42,14 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
     # action and action attributes, etc.
-    d = dict((k, v) for k, v in s if k != "ITEM")
+    d = dict((k, v) for k, v in s if (k != "ITEM" and k != "NPC"))
 
     # create a list of items and place it in its own entry of the dict
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "ITEM"
     d["items"] = [v for k, v in s if k == "ITEM"]
+
+    d["npcs"] = [v for k, v in s if k == "NPC"]
     
     return ('ROOM', (room_id, d))
 
@@ -98,7 +100,7 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
     return ("actions", actions_dictionary)
 
 
-def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, tuple[str, dict]]:
     """
     S contains several objects of the form ('type', <value>), where
     value is dependent upon the type. This function creates a dictionary
@@ -107,19 +109,20 @@ def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """
 
     # gets the player class id.
-    id = s.pop(0)[1]
+    npc_id = s.pop(0)[1]
 
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
     # action and action attributes, etc.
     d = dict((k, v) for k, v in s)
 
-    return ('NPCS', (id, d))
+    return ('NPC', (npc_id, d))
 
 def transform_inventory(self, s: list[tuple[str, str]]) -> tuple[str, str]:
         """Takes a list of key-values pairs which belong to inventory, places them
         into a dictionary which is labeled "INVENTORY" """
         return ('INVENTORY', dict(s))
+
 
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')

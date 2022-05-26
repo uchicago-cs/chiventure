@@ -15,6 +15,8 @@ class Room:
         self.id = id
         self.contents = contents
         self.default = default
+
+        print(self.contents)
         
         # self.wdl_contents stores what will be outputted so we don't lose the
         # original input from the parser
@@ -38,6 +40,9 @@ class Room:
                 self.wdl_contents["connections"] = self.connections_list()
             elif k == "items":
                 self.wdl_contents["items"] = self.items_list()
+            elif k == "npcs":
+                self.wdl_contents["npcs"] = self.npcs_list()
+                
             else:
                 self.wdl_contents[k] = v
 
@@ -92,3 +97,30 @@ class Room:
             Assembles a list of a room's items.
         """
         return list(map(lambda i: i.id, self.contents.get('items',[])))
+    
+    def npcs_list(self) -> list:
+        """
+            Assembles a list of a room's npcs
+        """
+
+        return list(map(lambda i: i.id, self.contents.get('npcs',[])))
+        """
+        
+        print("test contents")
+        print(self.contents)
+        out = []
+        for name, npc_dict in self.contents.get('npcs', {}):
+            npc_wdl_dict = {"npc": name}
+            print("npc_wdl_dict\n")
+            print(npc_wdl_dict)
+            for k,v in npc_dict.items():
+                
+                    npc_wdl_dict[k] = v
+            out.append(npc_wdl_dict)
+        
+        print("out")
+        print(out)
+        return out
+        """
+    
+     

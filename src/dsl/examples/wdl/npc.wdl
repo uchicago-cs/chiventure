@@ -6,46 +6,7 @@
     },
     "intro": "Welcome!"
   },
-  "ROOMS": {
-    "lab": {
-      "short_desc": "Oak's lab.",
-      "long_desc": "Professor Oak's lab in Pallet Town",
-      "connections": [
-        {
-          "direction": "NORTH",
-          "to": "room A"
-        },
-        {
-          "direction": "EAST",
-          "to": "room C"
-        }
-      ],
-      "NPCS": [
-        "OAK",
-        {
-          "location": "lab",
-          "short desc": "Kanto's premier Pokemon expert",
-          "long desc": "Enjoys exploring human-Pokemon relationships",
-          "age": "25",
-          "gender": "Male",
-          "INVENTORY": {
-            "item_id1": "CHARMANDER",
-            "item_id2": "SQUIRTLE",
-            "item_id3": "BULBASAUR",
-            "item_id4": "POKEBALL"
-          }
-        }
-      ],
-      "items": [
-        "COMPUTER",
-        "CHARMANDER",
-        "SQUIRTLE",
-        "BULBASAUR",
-        "POKEBALL"
-      ],
-      "npcs": []
-    }
-  },
+  "ROOMS": {},
   "ITEMS": {
     "POKEBALL": {
       "short_desc": "A pokeball",
