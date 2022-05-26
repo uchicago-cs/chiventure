@@ -292,7 +292,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
      * 25 Magic Attack
      * 35 Max Mana */ 
     else if (!strncmp(temp_name, "alchemist", MAX_NAME_LEN)) {
-        short_desc = "a skillfull alchemist.";
+        short_desc = "A skillfull alchemist.";
         long_desc = "The Alchemist is a connoisseur of all things potions, a wise "
                     "and academic who devotes his life to the craft of alchemy. Creator "
                     "of arcanic liquids, usable for devious and healing aspects alike, the "
