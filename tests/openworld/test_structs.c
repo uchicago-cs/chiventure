@@ -96,82 +96,255 @@ Test(roomspec, free1)
     cr_assert_eq(check, SUCCESS, "failed to free a roomspec_t\n");
 }
 
-
-/* Tests the speclist_new function to validate that a speclist can
- * be made successfully. */
-Test(speclist, new2)
-{
-
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
-
-    cr_assert_not_null(spec, "failed to create new roomspec_t\n");
-
-    speclist_t *list = speclist_new(spec);
-
-    cr_assert_not_null(list, "failed to create new speclist_t\n");
-}
-
-/* Tests the init_speclist function to validate that a speclist can
+/* Tests the edges_init function to validate that an adjacency matrix (edges) can
  * be initialized successfully. */
-Test(speclist, init2)
+Test(edges, init)
 {
+    int* array=(int*)malloc(9*sizeof(int));
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
+    //array={5,4,5,0,5,3,4,3,5};
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    int rc=edges_init(edges, array, 3, 3);
 
-    cr_assert_not_null(spec, "failed to create new roomspec_t\n");
-
-    speclist_t *list = calloc(1, sizeof(speclist_t));
-
-    if (list == NULL) {
-        fprintf(stderr, "failed to calloc for list. \n");
-    }
-
-    int check = init_speclist(list, spec);
-
-    cr_assert_eq(check, SUCCESS, "failed to initialize a speclist_t\n");
+    cr_assert_eq(rc, SUCCESS, "failed to initialize edges\n");
+    cr_assert_eq(edges[0][0], 5, "failed to set edges [0][0] correctly\n");
+    cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
+    cr_assert_eq(edges[0][2], 5, "failed to set edges [0][2] correctly\n");
+    cr_assert_eq(edges[1][0], 0, "failed to set edges [1][0] correctly\n");
+    cr_assert_eq(edges[1][1], 5, "failed to set edges [1][1] correctly\n");
+    cr_assert_eq(edges[1][2], 3, "failed to set edges [1][2] correctly\n");
+    cr_assert_eq(edges[2][0], 4, "failed to set edges [2][0] correctly\n");
+    cr_assert_eq(edges[2][1], 3, "failed to set edges [2][1] correctly\n");
+    cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
 }
 
-/* Tests the speclist_free function to validate that a speclist can
+Test(edges, init2)
+{
+    int* array=(int*)malloc(9*sizeof(int));
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
+    //array={5,4,5,0,5,3,4,3,5};
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    int rc=edges_init(edges, array, 3, 3);
+
+    cr_assert_eq(rc, SUCCESS, "failed to initialize edges\n");
+    cr_assert_eq(edges[0][0], 5, "failed to set edges [0][0] correctly\n");
+    cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
+    cr_assert_eq(edges[0][2], 5, "failed to set edges [0][2] correctly\n");
+    cr_assert_eq(edges[1][0], 0, "failed to set edges [1][0] correctly\n");
+    cr_assert_eq(edges[1][1], 5, "failed to set edges [1][1] correctly\n");
+    cr_assert_eq(edges[1][2], 3, "failed to set edges [1][2] correctly\n");
+    cr_assert_eq(edges[2][0], 4, "failed to set edges [2][0] correctly\n");
+    cr_assert_eq(edges[2][1], 3, "failed to set edges [2][1] correctly\n");
+    cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
+}
+
+/* Tests the edges_new function to validate that an adjacency matrix (edges) can
+ * be made successfully. */
+Test(edges, new)
+{
+    int* array=(int*)malloc(9*sizeof(int));
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
+
+    int **edges=edges_new(array, 3, 3);
+
+    cr_assert_not_null(edges, "failed to create new edges\n");    
+    cr_assert_eq(edges[0][1], 4, "failed to set edges [0][1] correctly\n");
+    cr_assert_eq(edges[0][2], 5, "failed to set edges [0][2] correctly\n");
+    cr_assert_eq(edges[1][0], 0, "failed to set edges [1][0] correctly\n");
+    cr_assert_eq(edges[1][1], 5, "failed to set edges [1][1] correctly\n");
+    cr_assert_eq(edges[1][2], 3, "failed to set edges [1][2] correctly\n");
+    cr_assert_eq(edges[2][0], 4, "failed to set edges [2][0] correctly\n");
+    cr_assert_eq(edges[2][1], 3, "failed to set edges [2][1] correctly\n");
+    cr_assert_eq(edges[2][2], 5, "failed to set edges [2][2] correctly\n");
+}
+
+/* Tests the edges_free function to validate that an adjacency matrix (edges) can
  * be freed successfully. */
-Test(speclist, free2)
+Test(edges, free)
 {
+    int* array=(int*)malloc(9*sizeof(int));
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
+    int **edges=edges_new(array, 3, 3);
 
-    cr_assert_not_null(spec, "failed to create new roomspec_t\n");
+    cr_assert_not_null(edges, "failed to create new edges\n");
 
-    speclist_t *list = speclist_new(spec);
-
-    cr_assert_not_null(list, "failed to create new speclist_t\n");
-
-    int check = speclist_free(list);
-
-    cr_assert_eq(check, SUCCESS, "failed to free a speclist_t\n");
+    int rc=edges_free(edges, 3);
+    cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
 }
 
-/* Tests the free_all_speclists function to validate that it can
- * free all of the elements in the doubly linked list. */
-Test(speclist, free_all)
+/* Tests the specgraph_init function to validate that a specgraph can
+ * be initialized successfully. */
+Test(specgraph, init)
+{
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    edges[0][0]=5;
+    edges[0][1]=4;
+    edges[0][2]=5; 
+    edges[1][0]=0; 
+    edges[1][1]=5;  
+    edges[1][2]=3;
+    edges[2][0]=4; 
+    edges[2][1]=3;  
+    edges[2][2]=5;
+
+    specgraph_t specgraph;
+
+    int rc = specgraph_init(&specgraph, 3, roomspecs, edges);
+
+    cr_assert_eq(rc, SUCCESS, "failed to initialize a specgraph_t\n");
+}
+
+/* Tests the specgraph_new function to validate that a specgraph can
+ * be made successfully. */
+Test(specgraph, new)
 {
 
-    speclist_t *list = speclist_new(NULL);
-    speclist_t *list1 = speclist_new(NULL);
-    speclist_t *list2 = speclist_new(NULL);
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
 
-    cr_assert_not_null(list, "failed to create new speclist_t\n");
-    cr_assert_not_null(list1, "failed to create new speclist_t\n");
-    cr_assert_not_null(list2, "failed to create new speclist_t\n");
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
 
-    speclist_t *head = NULL;
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    edges[0][0]=5;
+    edges[0][1]=4;
+    edges[0][2]=5; 
+    edges[1][0]=0; 
+    edges[1][1]=5;  
+    edges[1][2]=3;
+    edges[2][0]=4; 
+    edges[2][1]=3;  
+    edges[2][2]=5;
+
+    specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+
+    cr_assert_not_null(specgraph, "failed to create new specgraph_t\n");
+    cr_assert_eq(specgraph->num_roomspecs, 3, "specgraph_new() failed gathering num_roomspecs");
+    cr_assert_eq(specgraph->roomspecs, roomspecs, "specgraph_new() failed gathering roomspecs");
+    cr_assert_eq(specgraph->edges, edges, "specgraph_new() failed gathering edges");
+}
+
+/* Tests the specgraph_free function to validate that a specgraph can
+ * be freed successfully. */
+Test(specgraph, free)
+{
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    edges[0][0]=5;
+    edges[0][1]=4;
+    edges[0][2]=5; 
+    edges[1][0]=0; 
+    edges[1][1]=5;  
+    edges[1][2]=3;
+    edges[2][0]=4; 
+    edges[2][1]=3;  
+    edges[2][2]=5;
+
+    specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+
+    cr_assert_not_null(specgraph, "failed to create new specgraph_t\n");
+
+    int check = specgraph_free(specgraph);
+
+    cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
+}
+
+/* Tests the free_all_specgraphs function to validate that it can
+ * free all of the elements in the doubly linked list. */
+/*Test(specgraph, free_all)
+{
+
+    specgraph_t *list = specgraph_new(NULL);
+    specgraph_t *list1 = specgraph_new(NULL);
+    specgraph_t *list2 = specgraph_new(NULL);
+
+    cr_assert_not_null(list, "failed to create new specgraph_t\n");
+    cr_assert_not_null(list1, "failed to create new specgraph_t\n");
+    cr_assert_not_null(list2, "failed to create new specgraph_t\n");
+
+    specgraph_t *head = NULL;
 
     DL_APPEND(head, list);
     DL_APPEND(head, list1);
     DL_APPEND(head, list2);
 
-    int check = speclist_free_all(list);
+    int check = specgraph_free_all(list);
 
-    cr_assert_eq(check, SUCCESS, "failed to free the entire speclist. \n");
-}
+    cr_assert_eq(check, SUCCESS, "failed to free the entire specgraph. \n");
+}*/
 
 
 

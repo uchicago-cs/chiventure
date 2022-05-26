@@ -9,8 +9,8 @@
   "ROOMS": {
     "room C": {
       "items": [],
-      "long_desc": "This is a room C. ",
-      "short_desc": "room C"
+      "short_desc": "room C",
+      "long_desc": "This is a room C. "
     },
     "room B": {
       "short_desc": "A dungeon room.",

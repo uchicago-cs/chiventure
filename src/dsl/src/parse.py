@@ -4,10 +4,11 @@
 from __future__ import annotations
 
 # export_dict parses the dsl file and transforms it to an intermediate stage
-from dsl_parser import export_dict
+from dsl_parser.dsl_to_dict import export_dict
 
-# parsed_dict_to_json transforms the inttermediate stage to the wdl json output
-from to_wdl import parsed_dict_to_json
+# parsed_dict_to_json transforms the intermediate stage to the wdl json output
+from to_wdl.dict_to_json import parsed_dict_to_json
+
 
 import sys
 from pathlib import Path
@@ -55,6 +56,9 @@ def main():
         --debug=intermediate  prints the intermediate stage
         --debug=end           prints the final json file
         --debug=all           does all of the above
+    There is also the defaults flags:
+        --no-defaults         will not generate any default values
+        --some-defaults       only generates the required default values
     Note that multiple debug flags can be specified and the --debug flag 
     defaults to --debug=intermediate"""
 
@@ -96,11 +100,21 @@ def main():
                 debug_modes += ["vars-tree", "vars", "dsl-tree", "intermediate", "end"]
             else:
                 debug_modes.append(mode)
+        
+        # Check Defaults code
+        default = ""
+        if "no-defaults" in flags and "some-defaults" in flags:
+            default= ""
+        elif "no-defaults" in flags:
+            default = "no-defaults"
+        elif "some-defaults" in flags:
+            default = "some-defaults"
 
+        
 
         vars_evaluated = evalVars(file_str, debug=debug, debug_modes=debug_modes)
         intermediate = export_dict(vars_evaluated, debug=debug, debug_modes=debug_modes)
-        out_str = parsed_dict_to_json(intermediate, debug=debug, debug_modes=debug_modes)
+        out_str = parsed_dict_to_json(intermediate, debug=debug, debug_modes=debug_modes, default=default)
         
         if not no_write:
             file_out.write(out_str)

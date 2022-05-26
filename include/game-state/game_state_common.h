@@ -7,6 +7,8 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
+#include <time.h>
+#include <unistd.h>
 
 #include "common/uthash.h"
 #include "common/utlist.h"
@@ -35,5 +37,8 @@
 //Macros for create_connection()
 #define ROOM_SRC_NULL 2
 #define ROOM_DEST_NULL 3
+
+//Macros for quests
+#define QUEST_NAME_MAX_LEN 100
 
 #endif
