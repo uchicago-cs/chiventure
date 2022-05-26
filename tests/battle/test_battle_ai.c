@@ -2,13 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../../include/battle/battle_ai.h"
-//#include "../../include/battle/battle_test_utility.h"
+#include "../../include/battle/battle_test_utility.h"
 //#include "test_battle_common.h"
 
 /* Common Functions */
 /* Creates example moveset designed for the enemy*/
-move_t* create_moveset1()
+move_t* create_moveset1_123()
 {
     stat_changes_t* eq_stats = stat_changes_new();
     stat_changes_init(eq_stats);
@@ -41,7 +40,7 @@ move_t* create_moveset1()
 }
 
 /* Creates example moveset designed for the player*/
-move_t* create_moveset2()
+move_t* create_moveset2_123()
 {
     stat_changes_t* lt_stats = stat_changes_new();
     stat_changes_init(lt_stats);
@@ -63,7 +62,7 @@ move_t* create_moveset2()
 }
 
 /* Creates example stat spread for an average non-crit enemy */
-stat_t* create_enemy_stats_avg()
+stat_t* create_enemy_stats_avg_123()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
 
@@ -85,7 +84,7 @@ stat_t* create_enemy_stats_avg()
 }
 
 /* Creates example stat spread for a crit enemy */
-stat_t* create_enemy_stats_crit()
+stat_t* create_enemy_stats_crit_123()
 {
     stat_t* test_stats = create_enemy_stats_avg();
     test_stats->crit = 100;
@@ -94,7 +93,7 @@ stat_t* create_enemy_stats_crit()
 }
 
 /* Creates example stat spread for a player without crit or accuracy odds */
-stat_t* create_player_stats_avg()
+stat_t* create_player_stats_avg_123()
 {
     stat_t* test_stats = calloc(1, sizeof(stat_t));
 
@@ -116,7 +115,7 @@ stat_t* create_player_stats_avg()
 }
 
 /* Creates example stat spread for a player with crit and accuracy odds */
-stat_t* create_player_stats_critacc()
+stat_t* create_player_stats_critacc_123()
 {
     stat_t* test_stats = create_player_stats_avg();
     test_stats->crit = 20;
@@ -126,7 +125,7 @@ stat_t* create_player_stats_critacc()
 }
 
 /* Creates basic combatant for testing purposes */
-combatant_t* create_combatant(char* name, bool friendly, stat_t* stats,
+combatant_t* create_combatant_123(char* name, bool friendly, stat_t* stats,
                               move_t* moves, difficulty_t ai)
 {
     combatant_t* comb = combatant_new(name, friendly, NULL, stats, moves, NULL,
@@ -138,11 +137,11 @@ combatant_t* create_combatant(char* name, bool friendly, stat_t* stats,
 /* Ensures give_move returns a random move when enum is BATTLE_AI_RANDOM*/
 Test(battle_ai, give_move_random)
 {
-    combatant_t* player = create_combatant("Player", true, 
-                          create_player_stats_avg(), create_moveset2(), 
+    combatant_t* player = create_combatant_123("Player", true, 
+                          create_player_stats_avg_123(), create_moveset2_123(), 
                           BATTLE_AI_NONE);
-    combatant_t* enemy = create_combatant("Enemy", false, 
-                          create_enemy_stats_avg(), create_moveset1(), 
+    combatant_t* enemy = create_combatant_123("Enemy", false, 
+                          create_enemy_stats_avg_123(), create_moveset1_123(), 
                           BATTLE_AI_RANDOM); 
     move_t* rand_mv = give_move(player, enemy, BATTLE_AI_RANDOM);
     
@@ -158,11 +157,11 @@ Test(battle_ai, give_move_random)
 /* Ensures give_move returns the highest damage move when enum is BATTLE_AI_GREEDY */
 Test(battle_ai, give_move_greedy)
 {
-    combatant_t* player = create_combatant("Player", true,
-                          create_player_stats_avg(), create_moveset2(),
+    combatant_t* player = create_combatant_123("Player", true,
+                          create_player_stats_avg_123(), create_moveset2_123(),
                           BATTLE_AI_NONE);
     combatant_t* enemy = create_combatant("Enemy", false,
-                          create_enemy_stats_avg(), create_moveset1(),
+                          create_enemy_stats_avg_123(), create_moveset1()_123,
                           BATTLE_AI_GREEDY);
     move_t* greed_mv = give_move(player, enemy, BATTLE_AI_GREEDY);
 
