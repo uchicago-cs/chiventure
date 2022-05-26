@@ -528,6 +528,20 @@ char* mentor_monolouge(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
     print_to_cli(ctx, "Mentor: We've even made tools here that detail their skilltrees down to a high level, all for the sake of knowledge!");
 }
 
+//Change class to something else
+char* read_book(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{   
+    print_to_cli(ctx, "You pick up a book about a legendary mage, and think it's pretty neat!");
+    print_to_cli(ctx, "You feel your orcishness disappearing as you become a mage.");
+    print_to_cli(ctx, "Mentor: Seriously, how do you do that?");
+    ctx->game->curr_player->player_class->name = 
+        realloc(ctx->game->curr_player->player_class->name, 
+        sizeof(char)*(strlen("Mage")+1));
+    ctx->game->curr_player->player_class->name = "Mage";
+    return "";
+
+}
+
 
 
 /*
