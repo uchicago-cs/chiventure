@@ -1,4 +1,5 @@
-set(NPC_EXAMPLES dialogue_example npc_example conversation_mode_example battle_move_example_2021)
+set(NPC_EXAMPLES dialogue_example npc_example conversation_mode_example battle_move_example_2021
+    battle_npc_with_time_example_2022)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pthread")
 
@@ -13,7 +14,11 @@ add_executable(conversation_mode_example
 
 add_executable(battle_move_example_2021
                battle_move_example_2021.c)
-target_link_options(battle_move_example_2021 PRIVATE -lpthread)
+
+add_executable(battle_npc_with_time_example_2022
+               battle_npc_with_time_example_2022.c)
+
+target_link_options(battle_npc_with_time_example_2022 PRIVATE -lpthread)
 
 # Link with chiventure libraries
 foreach(example ${NPC_EXAMPLES})
