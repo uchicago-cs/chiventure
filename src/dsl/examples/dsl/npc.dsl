@@ -1,4 +1,4 @@
-GAME START room B END room C
+GAME START lab END room other
     intro: "Welcome!"
 
 ROOM lab
@@ -47,6 +47,7 @@ NPC OAK IN lab
     item_id2: "SQUIRTLE"
     item_id3: "BULBASAUR"
     item_id4: "POKEBALL"
+
 
 NPC BOT IN other
   short desc: "Kanto's premier Pokemon expert"
