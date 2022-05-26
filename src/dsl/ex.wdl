@@ -4,7 +4,64 @@
     "end": {
       "in_room": "room other"
     },
-    "intro": "Welcome!"
+    "intro": "Welcome!",
+    "NPC": [
+      "BOT",
+      {
+        "location": "other",
+        "short desc": "Kanto's premier Pokemon expert",
+        "long desc": "Enjoys exploring human-Pokemon relationships",
+        "age": "25",
+        "gender": "Male",
+        "INVENTORY": {
+          "item_id1": "CHARMANDER",
+          "item_id2": "SQUIRTLE",
+          "item_id3": "BULBASAUR",
+          "item_id4": "POKEBALL"
+        }
+      }
+    ],
+    "npc": {
+      "OAK": {
+        "location": "lab",
+        "short desc": "Kanto's premier Pokemon expert",
+        "long desc": "Enjoys exploring human-Pokemon relationships",
+        "age": "25",
+        "gender": "Male",
+        "INVENTORY": {
+          "item_id1": "CHARMANDER",
+          "item_id2": "SQUIRTLE",
+          "item_id3": "BULBASAUR",
+          "item_id4": "POKEBALL"
+        }
+      },
+      "ASH": {
+        "location": "other",
+        "short desc": "Kanto's premier Pokemon expert",
+        "long desc": "Enjoys exploring human-Pokemon relationships",
+        "age": "25",
+        "gender": "Male",
+        "INVENTORY": {
+          "item_id1": "CHARMANDER",
+          "item_id2": "SQUIRTLE",
+          "item_id3": "BULBASAUR",
+          "item_id4": "POKEBALL"
+        }
+      },
+      "BOT": {
+        "location": "other",
+        "short desc": "Kanto's premier Pokemon expert",
+        "long desc": "Enjoys exploring human-Pokemon relationships",
+        "age": "25",
+        "gender": "Male",
+        "INVENTORY": {
+          "item_id1": "CHARMANDER",
+          "item_id2": "SQUIRTLE",
+          "item_id3": "BULBASAUR",
+          "item_id4": "POKEBALL"
+        }
+      }
+    }
   },
   "ROOMS": {
     "house": {
@@ -18,22 +75,6 @@
         {
           "direction": "EAST",
           "to": "room C"
-        }
-      ],
-      "NPC": [
-        "ASH",
-        {
-          "location": "other",
-          "short desc": "Kanto's premier Pokemon expert",
-          "long desc": "Enjoys exploring human-Pokemon relationships",
-          "age": "25",
-          "gender": "Male",
-          "INVENTORY": {
-            "item_id1": "CHARMANDER",
-            "item_id2": "SQUIRTLE",
-            "item_id3": "BULBASAUR",
-            "item_id4": "POKEBALL"
-          }
         }
       ],
       "items": [

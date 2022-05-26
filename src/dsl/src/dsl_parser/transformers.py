@@ -15,7 +15,9 @@ def transform_game(self, s: list) -> dict:
     based on the type, and also places all rooms into their own 
     dictionary for convenience.
     """
-
+    # print("la;ksdjfa")
+    # print(s)
+    # print("la;ksdjfa")
     # first place all non-room objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value or
     # item and item attributes, etc.
@@ -24,6 +26,12 @@ def transform_game(self, s: list) -> dict:
     # now place all rooms into their own dictionary
     # the values placed into this entry will correspond to room attributes
     game_dictionary["rooms"] = dict([value for key_type, value in s if key_type == "ROOM"])
+    game_dictionary["npc"] = dict([value for key_type, value in s if key_type == "NPC"])
+    print('asdflkjasfd')
+    print(game_dictionary['npc'])
+    print('asdl;fka')
+    print()
+
     return game_dictionary
 
 
