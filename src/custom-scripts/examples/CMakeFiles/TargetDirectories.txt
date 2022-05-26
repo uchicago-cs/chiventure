@@ -1,0 +1,7 @@
+/home/maggiex/cs220/chiventure/src/custom-scripts/examples/CMakeFiles/rebuild_cache.dir
+/home/maggiex/cs220/chiventure/src/custom-scripts/examples/CMakeFiles/edit_cache.dir
+/home/maggiex/cs220/chiventure/src/custom-scripts/examples/CMakeFiles/custom-scripts.dir
+/home/maggiex/cs220/chiventure/src/custom-scripts/examples/examples/CMakeFiles/rebuild_cache.dir
+/home/maggiex/cs220/chiventure/src/custom-scripts/examples/examples/CMakeFiles/edit_cache.dir
+/home/maggiex/cs220/chiventure/src/custom-scripts/examples/examples/CMakeFiles/cs_examples.dir
+/home/maggiex/cs220/chiventure/src/custom-scripts/examples/examples/CMakeFiles/demonstration.dir

@@ -11,6 +11,8 @@
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
+#include <action_management/action_structs.h>
+#include <action_management/actionmanagement.h>
 
 
 #include <sys/ioctl.h>
@@ -76,6 +78,20 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
 
+<<<<<<< HEAD
+=======
+    /* Monkeypatch the CLI to add a new "kind 1" action
+     * (i.e., an action that operates on an item) */
+    action_type_t taste_action = {"TASTE", ITEM};
+    add_entry(taste_action.c_name, kind1_action_operation, &taste_action, ctx->cli_ctx->table);
+
+    // make key something that can be taken
+    // test if player picked up the key
+    // if yes, then create connections between rooms
+    // how to do that without restarting the whole game
+    // how to check if something has been taken into the itenerary
+
+>>>>>>> origin/custom-scripts/update-sandbox
     /* Start chiventure */
     start_ui(ctx, banner);
 
