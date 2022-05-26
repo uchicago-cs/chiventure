@@ -8,8 +8,6 @@ static action_type_t valid_actions[] =
 {
     // KIND 1
     {"open", ITEM},
-    {"fireball", ITEM},
-    {"slash", ITEM},
     {"close", ITEM},
     {"push", ITEM},
     {"pull", ITEM},
