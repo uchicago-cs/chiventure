@@ -42,6 +42,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
+#include <pthread.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
@@ -109,6 +112,22 @@ stat_t *create_enemy_stats()
     return test_stats;
 }
 
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
+                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
+    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
+                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
+    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
+                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+    return head;
+}
 
 /* Makes sure the game is loaded */
 char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
