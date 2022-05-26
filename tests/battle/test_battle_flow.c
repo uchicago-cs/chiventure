@@ -414,6 +414,7 @@ Test(battle_flow_move, do_magdamage_battle_flow_move)
                  "battle_flow_move() failed: battle is not in progress");
 }
 
+/* Tests a single stat change battle_flow_move */
 Test(battle_flow_move, do_stat_change_single_battle_flow_move)
 {
     battle_ctx_t *ctx = create_battle_ctx();
@@ -441,8 +442,41 @@ Test(battle_flow_move, do_stat_change_single_battle_flow_move)
                  "Actual: %d, Expected: %d",player->stats->hp, expected_player_hp);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
-
 }
+
+/* Tests a single stat change battle_flow_move */
+Test(battle_flow_move, do_stat_change_both_battle_flow_move)
+{
+    battle_ctx_t *ctx = create_battle_ctx();
+        combatant_t *player = ctx->game->battle->player;
+    combatant_t *enemy = ctx->game->battle->enemy;
+
+    stat_changes_t *user_stat_changes1 = stat_changes_new();
+    user_stat_changes1->hp = 35;
+    stat_changes_t *opponent_stat_changes1 = stat_changes_new();
+    opponent_stat_changes1->hp = -35;
+    move_t *move_one = move_new(1, "LifeDrain", "Drains the enemy hp and adds it to the user", NO_DAMAGE,
+                                BOTH , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, opponent_stat_changes1, 
+                                NULL, NULL); 
+
+    char *res = battle_flow_move(ctx, move_one, "enemy");
+
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
+
+    cr_assert_eq(enemy->stats->hp,
+                 165, 
+            "battle_flow_move() did compute stat change on enemy correctly: %d",
+            enemy->stats->hp);
+
+    // note: this hp value relies on player class implementation of move_list()
+    cr_assert_eq(player->stats->phys_atk,
+                 200,
+                 "battle_flow_move() did not compute stat change on player correctly,"
+                 "Actual: %d, Expected: %d",player->stats->hp, 200);
+    cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
+                 "battle_flow_move() failed: battle is not in progress");
+}
+
 /*
  * Testing if the enemy is determiend as the winner if the player is defeated
  */
