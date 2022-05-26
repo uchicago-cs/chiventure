@@ -26,9 +26,9 @@
     },
     {
         "id": "Pirate Cove",
-        "short_desc": "A red room.",
-        "long_desc": "A red room with a red lever in its center. A red sign sits on the wall.",
-        "items": ["redsign", "redlever"],
+        "short_desc": "A cove of pirates",
+        "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be their captain.",
+        "items": [],
         "action_on_entry":"",
         "actions":[],
         "connections":[
