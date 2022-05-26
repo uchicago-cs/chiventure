@@ -45,6 +45,7 @@ typedef enum battle_status
     BATTLE_IN_PROGRESS,
     BATTLE_VICTOR_PLAYER,
     BATTLE_VICTOR_ENEMY,
+    BATTLE_ENEMY_SURRENDER,
     NO_BATTLE
 } battle_status_t;
 

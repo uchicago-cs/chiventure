@@ -15,6 +15,7 @@
 #include "battle/battle_logic.h"
 #include "battle/battle_flow.h"
 #include "battle/battle_print.h"
+#include <ctype.h>
 
 #define NUM_ACTIONS 31
 #define BUFFER_SIZE (100)
@@ -79,38 +80,80 @@ int compare(char* word, char* action)
     return current;
 }
 
-/* 
- * This function returns a string which is the suggestion
- * It finds the suggestion by comparing 
- * each possible action to the input
- * using the compare helper function
- * 
- */
-char* suggestions(char *action_input, char** actions)
-{
-    int i = 0;
-    int initial = 0;
-    int temp = 0;
-    int index = -1;
-    
-    for (int i = 0; i < NUM_ACTIONS; i++)
+/* Calculates the minimum between three values, 
+   helper to levenshtein function*/
+int mini (int a, int b, int c) {
+    if (a < b && a < c) 
     {
-        if (action_input != NULL) 
-        {
-            temp = compare(strdup(action_input), strdup(actions[i]));
-            if (temp > initial) 
-            {
-                index = i;
-                initial = temp;
-            }
-        }
+        return a;
     }
-    
-    if (index == -1) 
+    else if (b < a && b < c) 
     {
-        return NULL;
+        return b;
+    } 
+    else
+    {
+        return c;
+    }
+}
+
+/*Calculates the Levenshtein Distance, given two strings.
+  The Levenshtein distance measures the amount of changes needed
+  for the two words to be equal, so the lower the score,
+  the more similar the words are. My source for this formula, also
+  linked below is here:
+  https://en.wikipedia.org/wiki/Levenshtein_distance
+  Helper funtion to suggestions function.*/
+int levenshtein(char *action_input, char* action) 
+{
+    int input_len = strlen(action_input);
+    int action_len = strlen(action);
+    if (action_len == 0) 
+    {
+        return input_len;
+    } 
+    else if (input_len == 0) 
+    {
+        return action_len;
+    // NOTE: tolower converts all uppercase letters to lowercase letters,
+    // and keeps lowercase letters the same.
+    } 
+    else if (tolower(action_input[0]) == tolower(action[0])) 
+    {
+        char* tail_inp = action_input+1;
+        char* tail_act = action+1;
+        int both_tails = levenshtein(tail_inp, tail_act);
+        return both_tails;
+    }
+    else
+    {
+        char* tail_inp = action_input+1;
+        char* tail_act = action+1;
+        int tail_one = levenshtein(tail_inp, action);
+        int tail_two = levenshtein(action_input, tail_act);
+        int tail_both = levenshtein(tail_inp, tail_act);
+        return 1 + mini(tail_one,tail_two,tail_both);
     }
 
+}
+
+// See operations.h
+char* suggestions(char *action_input, char** actions)
+{
+
+    int min = levenshtein(action_input, actions[0]);
+    int index = 0;
+    // Loops over all possible commands, and finds closest word
+    // to input, which it suggests
+    for (int i = 1; i < NUM_ACTIONS; i++) 
+    {
+        int temp = levenshtein(action_input, actions[i]);
+        if (temp < min) 
+        {
+            min = temp;
+            index = i;
+        }
+    }
     return actions[index];
 
 }
@@ -426,7 +469,7 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * but not the actual action in a string array
      *
      * Thus we clip off the first term to hand to do_self_action */
-    tokens = &tokens[1];
+    char **clipped_token_array = &tokens[1];
 
     /* do_self_action return codes are either:
      *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
@@ -439,7 +482,7 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * THE ACTUAL FUNCTION CALL, 
      * for now will leave the currently implemented call 
      *================================================================ */
-    //int rc = do_self_action(ctx, action, tokens, &str);
+    //int rc = do_self_action(ctx, action, clipped_token_array, &str);
     int rc = do_self_action(ctx, action, tokens[1], &str);
     return str;
 }
@@ -528,10 +571,10 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
     npc_t *npc_tmp, *npc_elt;
     int i = 0;
-    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+    HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
     {   
         i++;
-        if (npc_elt->npc_battle->stats->hp > 0) 
+        if ((npc_elt->npc_battle == NULL) || (npc_elt->npc_battle->stats->hp > 0))
         {
             print_to_cli(ctx, npc_elt->npc_id);
         }

@@ -77,6 +77,25 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
                       environment_t env);
 
 /*
+* Determines whether a move hits based on accuracy stat.
+ * Parameters:
+ * - user_accuracy : the accuracy of the user using the move
+ * - move_accuracy : the accuracy of the move itself
+ * returns: the 1 or 0 depending on if the move hits
+ */
+int calculate_accuracy(int user_accuracy, int move_accuracy);
+
+/*
+ * Calculates Critical Damage
+ *
+ * Parameters:
+ * - crit_chance : the crit chance of the user using the move
+ *
+ * returns: the critical damage multiplier
+ */
+ double crit_modifier(int crit_chance);
+ 
+/*
  * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
@@ -198,14 +217,6 @@ char *run_action(char *input, chiventure_ctx_t *ctx);
  */
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
 
-/*
- * Determines whether a move hits based on accuracy stat.
- *
- * Parameters:
- * - user_accuracy : the accuracy of the user using the move
- * - move_accuracy : the accuracy of the move itself
- *
- * returns: the 1 or 0 depending on if the move hits
- */
-int calculate_accuracy(int user_accuracy, int move_accuracy);
+
+
 #endif
