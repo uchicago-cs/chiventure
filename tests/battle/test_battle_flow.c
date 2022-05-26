@@ -462,11 +462,12 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
     move_t *move_one = move_new(1, "LifeDrain", "Drains the enemy hp and adds it to the user", NO_DAMAGE,
                                 BOTH , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, opponent_stat_changes1, 
                                 NULL, NULL); 
-
+    enemy->stats->hp = 200;
+    player->stats->hp = 165;
     char *res = battle_flow_move(ctx, move_one, "enemy");
 
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
-    player->stats->hp = 165;
+    
     cr_assert_eq(enemy->stats->hp,
                  165, 
             "battle_flow_move() did not compute stat change on enemy correctly: %d",
