@@ -543,6 +543,26 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
 }
 
 /* See npc.h */
+int add_quests_to_npc(npc_t *npc, npc_quest_list_t *q)
+{
+    assert(npc != NULL && q != NULL);
+
+    npc->quests = q;
+
+    return SUCCESS;
+}
+
+/* See npc.h */
+int add_tasks_to_npc(npc_t *npc, npc_task_list_t *t)
+{
+    assert(npc != NULL && t != NULL);
+
+    npc->tasks = t;
+
+    return SUCCESS;
+}
+
+/* See npc.h */
 int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,
                       class_t *class_type, battle_item_t *items,

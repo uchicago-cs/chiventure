@@ -500,12 +500,36 @@ int remove_item_from_npc(npc_t *npc, item_t *item);
  * 
  * Parameters:
  *  npc: the npc to receive the convo
- *  convo: the convo
+ *  c: the convo
  * 
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int add_convo_to_npc(npc_t *npc, convo_t *c); 
+
+/*
+ * Adds the given quest_list to the given npc
+ * 
+ * Parameters:
+ *  npc: the npc to receive the convo
+ *  q: the quest list
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int add_quests_to_npc(npc_t *npc, npc_quest_list_t *q);
+
+/*
+ * Adds the given task_list to the given npc
+ * 
+ * Parameters:
+ *  npc: the npc to receive the convo
+ *  t: the task list
+ * 
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int add_tasks_to_npc(npc_t *npc, npc_task_list_t *t);
 
 /*
  * Adds an npc_battle struct to a given npc.

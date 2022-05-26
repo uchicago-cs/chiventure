@@ -213,6 +213,7 @@ int load_quest_dialogue(npc_quest_t *quest, convo_t *quest_convo, char* id, npc_
 
 /* load_quests
  * loads quest_lists into the given NPC
+ * based heavily on load_dialogue implementation
  *
  * parameters:
  * - quest_obj: the quest object
@@ -257,7 +258,7 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
 
         // load quest_dialogue, if any
         if ((quest_dialogue = obj_get(curr, "quests")) != NULL) {
-            if (load_quest_dialogue(curr_quest, conquest_dialogue, id, npc) != SUCCESS) {
+            if (load_quest_dialogue(curr_quest, quest_dialogue, id, npc) != SUCCESS) {
                 fprintf(stderr, "Could not add dialogue to quest with ID: %s. "
                         "NPC: %s\n", id, npc->npc_id);
                 return FAILURE;
