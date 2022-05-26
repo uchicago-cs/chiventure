@@ -108,6 +108,11 @@ int main(int argc, char **argv)
     add_entry(light_action.c_name, kind1_action_operation, &light_action, ctx->cli_ctx->table);
     action_type_t unlight_action = {"UNLIGHT", ITEM};
     add_entry(unlight_action.c_name, kind1_action_operation, &unlight_action, ctx->cli_ctx->table);
+    
+    action_type_t fireball_action = {"FIREBALL", ITEM};
+    add_entry(fireball_action.c_name, kind1_action_operation, &fireball_action, ctx->cli_ctx->table);
+    action_type_t slash_action = {"SLASH", ITEM};
+    add_entry(slash_action.c_name, kind1_action_operation, &slash_action, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
