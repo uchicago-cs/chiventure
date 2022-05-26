@@ -98,6 +98,24 @@ chiventure_ctx_t* create_example_ctx() {
     add_player_to_game(game, player);
     set_curr_player(game, player);
 
+    //Dummy Battle code for reading classes
+    // ctx->game->battle_ctx->game->battle->player->class_type->name
+
+    class_t* class = class_new("NOTHING YET", "", "", NULL, NULL, NULL);
+
+    combatant_t* p = combatant_new("TEST", true, class,
+            NULL, NULL, NULL, NULL, NULL, NULL, 0);
+
+    battle_t* battle = battle_new(p, NULL, 0, 0);
+
+    battle_game_t* battle_game = new_battle_game();
+    battle_game->battle = battle;
+
+    battle_ctx_t* battle_ctx = (battle_ctx_t*)malloc(sizeof(battle_ctx_t));
+    battle_ctx->game = battle_game;
+
+    game->battle_ctx = battle_ctx;
+
     /* Checking if everything works */
     stats_global_t* stat_test;
     HASH_FIND_STR(game->curr_stats, "defense", stat_test);
@@ -389,6 +407,18 @@ char* add_conditional_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chive
     }
 }
 
+//Functions to change classes for conditional example and class demo
+char* change_class_to_orc(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{   
+    ctx->game->battle_ctx->game->battle->player->class_type->name = 
+        realloc(ctx->game->battle_ctx->game->battle->player->class_type->name, 
+        sizeof(char)*(strlen("Orc")+1));
+    ctx->game->battle_ctx->game->battle->player->class_type->name = "Orc";
+    return "Not sure how you managed to do that, but alright, you're an Orc now";
+}
+
+
+
 char* level_up_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     ctx->game->curr_player->level+=1;
@@ -484,6 +514,11 @@ void main()
     add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
     add_entry("CREATE_COMBINED", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("ADD_COMBINED_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
+
+    //Class changing commands
+    add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
+
+
     //Start UI for example chiventure context
     start_ui(ctx, banner);
 }
