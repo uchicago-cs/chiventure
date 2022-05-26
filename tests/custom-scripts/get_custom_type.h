@@ -1,7 +1,7 @@
 #ifndef _GET_CUSTOM_TYPE_H_
 #define _GET_CUSTOM_TYPE_H_
 
-#include "lua_custom_typ.h"
+#include "lua_custom_type.h"
 
 /**
  * bool_t_get() returns a bool from an object_t struct
