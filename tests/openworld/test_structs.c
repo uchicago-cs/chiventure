@@ -334,6 +334,62 @@ Test(edges, free)
     cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
 }
 
+Test(edges, free2)
+{
+    int* array=(int*)malloc(4*sizeof(int));
+    array[0]=2;
+    array[1]=0;
+    array[2]=1;
+    array[3]=5;
+
+    int** edges = edges_new(array, 2, 2);
+
+    cr_assert_not_null(edges, "failed to create new edges\n");
+
+    int rc=edges_free(edges, 2);
+    cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
+}
+
+Test(edges, free3)
+{
+    int* array=(int*)malloc(1*sizeof(int));
+    array[0]=5;
+
+    int** edges = edges_new(array, 2, 2);
+    cr_assert_not_null(edges, "failed to create new edges\n");
+
+    int rc=edges_free(edges, 2);
+    cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
+}
+
+Test(edges, free4)
+{
+    int* array=(int*)malloc(16*sizeof(int));
+    array[0]=5;
+    array[1]=4;
+    array[2]=5;
+    array[3]=0;
+    array[4]=5;
+    array[5]=3;
+    array[6]=4;
+    array[7]=3;
+    array[8]=5;
+    array[9]=4;
+    array[10]=0;
+    array[11]=3;
+    array[12]=4;
+    array[13]=2;
+    array[14]=2;
+    array[15]=1;
+
+    int** edges = edges_new(array, 4, 4);
+    cr_assert_not_null(edges, "failed to create new edges\n");
+
+    int rc=edges_free(edges, 4);
+    cr_assert_eq(rc, SUCCESS, "failed to free edges\n");
+
+}
+
 /* Tests the specgraph_init function to validate that a specgraph can
  * be initialized successfully. */
 Test(specgraph, init)
