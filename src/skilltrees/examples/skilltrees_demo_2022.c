@@ -520,6 +520,16 @@ char* change_class_to_orc(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 /*MISC CODE*/
 /****************************************************************************************************************/
 
+//Lecture by Mentor about documentation
+char* mentor_monolouge(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{   
+    print_to_cli(ctx, "Mentor: This is the library! In the past year we've gained a lot of books detailing the skills of legendary warriors.");
+    print_to_cli(ctx, "Mentor: Druids, elementalists, knights, sorcerors, so much is documented about their legendary skills!");
+    print_to_cli(ctx, "Mentor: We've even made tools here that detail their skilltrees down to a high level, all for the sake of knowledge!");
+}
+
+
+
 /*
  * Prints all skills contained in a skill inventory to the CLI
  *
@@ -606,6 +616,7 @@ void main()
 
     //Class changing commands
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
+    add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
 
 
     //Start UI for example chiventure context
