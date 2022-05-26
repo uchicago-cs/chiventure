@@ -389,6 +389,8 @@ int count_digits(int num){
 /* See skilltree.h */
 char *display_tree(skill_tree_t* tree, int max_buf_len){
     int size = 0;
+    char *skill_desc_template = "Skill Name: , Prereq Level: , Current Level: \n";
+    int template_len = strlen(skill_desc_template);
 
     // Calculating size of string we need to store all necessary info
     for (int j = 0; j < tree->num_nodes; j++){
@@ -404,7 +406,7 @@ char *display_tree(skill_tree_t* tree, int max_buf_len){
         // meaning the size of the formatting string "Skill Name: , Prereq 
         // Level: , Current Level: \n", which is used to make the given
         // high-level information easier for the average user to understand 
-        size += 47;
+        size += template_len;
     }
 
     // Finally, add the size of the null terminator of the string
@@ -430,7 +432,7 @@ char *display_tree(skill_tree_t* tree, int max_buf_len){
         
         for (int i = 0; i < tree->num_nodes; i++){
             // count of current node size
-            curr = 49 + strlen(tree->nodes[i]->skill->name) + 
+            curr = template_len + strlen(tree->nodes[i]->skill->name) + 
                    count_digits(tree->nodes[i]->prereq_level) +
                    count_digits(tree->nodes[i]->skill->level);
 
@@ -471,8 +473,7 @@ char *display_skill_description(skill_tree_t* tree, char *skill_name){
         }
     }
     
-    char buffer[33];
-    sprintf(buffer, "No skill matches the given name");
+    char buffer[] = "No skill matches the given name";
 
     char *display = strdup(buffer);
     return display;
