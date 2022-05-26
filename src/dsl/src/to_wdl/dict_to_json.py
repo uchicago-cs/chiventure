@@ -34,6 +34,9 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
                 room_items_objs.append(item_obj)
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents, default))
+
+    if "npcs" in intermediate:
+        warn("NPCS are not supported yet.")
     
     game = Game(intermediate, default)
     
@@ -44,7 +47,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     out = json.dumps({
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
-        "ITEMS": items_wdl
+        "ITEMS": items_wdl,
         }, indent=2)
 
     if debug and "end" in debug_modes:
