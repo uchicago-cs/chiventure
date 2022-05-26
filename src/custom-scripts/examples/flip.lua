@@ -1,4 +1,4 @@
 function foo(st)
-  if st == true then return false
-  else return true end
+  if st == false then return true
+  else return false end
 end
