@@ -174,7 +174,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
                             ctx->game->battle_ctx->game->battle);
                 char *menu = print_battle_action_menu(legal_items, legal_moves);
                 char *output_and_menu = strcat(output, menu);
-                ctx->game->battle_ctx->game->battle->current_tc = buffer->current; //check to make sure this is the correct tc now
+                ctx->game->battle_ctx->game->battle->current_tc = buffer->current;
                 return callback_func(ctx, output_and_menu, callback_args);
             }
             else
