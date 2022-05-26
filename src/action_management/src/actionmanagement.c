@@ -422,7 +422,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
  *    - action: An actions_t. 
  *
  * Returns:
- *    - 0 if action is not contained, 1 if action is contained
+ *    - 0 if action is contained, 1 if action is not contained
  */
 int contains_action(agent_t *agent, enum actions a) {
     list_action_t *pos_actions = agent->npc->npc_actions;
@@ -430,11 +430,11 @@ int contains_action(agent_t *agent, enum actions a) {
     while (pos_actions != NULL) {
         act = pos_actions->npc_action;
         if (*act == a) {
-            return 1;
+            return 0;
         }
         pos_actions = pos_actions->next;
     }
-    return 0;
+    return 1;
 }
 
 /* KIND 5
@@ -482,11 +482,10 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     }
     else
     {
-       // check game over case just in case
        // case for TALK_TO
         if (strcmp(a->c_name, "talk_to") == 0) {
             // check if NPC has TALK_TO in their list_npc_action_t
-            if (contains_action(agent, TALK_TO) == 0) {
+            if (contains_action(agent, TALK_TO) == 1) {
                 sprintf(string, "Player cannot TALK_TO the NPC");
                 *ret_string = string;
                 return CONDITIONS_NOT_MET;
@@ -515,7 +514,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
         // case for IGNORE
         if (strcmp(a->c_name, "ignore") == 0) {
             // check if NPC has IGNORE in their list_npc_action_t
-            if (contains_action(agent, IGNORE) == 0) {
+            if (contains_action(agent, IGNORE) == 1) {
                 sprintf(string, "Player cannot IGNORE the NPC");
                 *ret_string = string;
                 return CONDITIONS_NOT_MET;
@@ -580,6 +579,12 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
     // case for GIVE
     if (strcmp(a->c_name, "give") == 0)
     {
+        // check if NPC has GIVE in their list_npc_action_t
+        if (contains_action(agent, give) == 1) {
+            sprintf(string, "Player cannot GIVE to the NPC");
+            *ret_string = string;
+            return CONDITIONS_NOT_MET;
+        }
         if(remove_item_from_player(c->game->curr_player, item) != SUCCESS)
         {   
             return FAILURE;
@@ -594,6 +599,12 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
     // case for STEAL
     if (strcmp(a->c_name, "steal") == 0)
     {
+        // check if NPC has STEAL in their list_npc_action_t
+        if (contains_action(agent, STEAL) == 1) {
+            sprintf(string, "Player cannot STEAL from the NPC");
+            *ret_string = string;
+            return CONDITIONS_NOT_MET;
+        }
         if(remove_item_from_npc(agent->npc, item) != SUCCESS)
         {
             return FAILURE;
@@ -647,6 +658,12 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
         // case for TRADE
         if (strcmp(a->c_name, "trade") == 0)
         {
+            // check if NPC has TRADE in their list_npc_action_t
+            if (contains_action(agent, TRADE) == 1) {
+                sprintf(string, "Player cannot TRADE with the NPC");
+                *ret_string = string;
+                return CONDITIONS_NOT_MET;
+            }
             int cost = strlen(item->short_desc); // is short_desc a num? if so why char*? no indication that this is monetary cost
             item_list_t *player_inventory;
             player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
@@ -679,10 +696,16 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
             return CONDITIONS_NOT_MET;
         }
 
-        // case for buy
+        // case for BUY
         if (strcmp(a->c_name, "buy") == 0)
         {
-            // todo
+            // check if NPC has BUY in their list_npc_action_t
+            if (contains_action(agent, BUY) == 1) {
+                sprintf(string, "Player cannot BUY from the NPC");
+                *ret_string = string;
+                return CONDITIONS_NOT_MET;
+            }
+            // todo: a currency like feature must be implmented first to complete this part
             return FAILURE;
         }
 
