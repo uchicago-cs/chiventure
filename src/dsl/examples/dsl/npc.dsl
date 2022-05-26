@@ -4,24 +4,24 @@ GAME START lab END room other
 ROOM lab
     short desc: "Oak's lab."
     long desc: "Professor Oak's lab in Pallet Town"
-    connections: NORTH TO room A
-        EAST TO room C
+    connections: NORTH TO room other
+        EAST TO room house
     
     ITEM COMPUTER IN lab
     short desc: "A computer."
     long desc: "A computer in Oak's lab"
 
-ROOM other
-    short desc: "Oak's other."
-    long desc: "Professor Oak's lab in Pallet Town"
-    connections: NORTH TO room A
-        EAST TO room C
+ROOM gym
+    short desc: "Brock's Gym"
+    long desc: "Gym Leader Brock's gym in Pewter City"
+    connections: NORTH TO room house
+        EAST TO room lab
 
 ROOM house
     short desc: "Oak's house."
-    long desc: "Professor Oak's lab in Pallet Town"
-    connections: NORTH TO room A
-        EAST TO room C
+    long desc: "Professor Oak's house in Pallet Town"
+    connections: NORTH TO room lab
+        EAST TO room other
     
 
 ITEM CHARMANDER IN OAK
@@ -46,7 +46,7 @@ ITEM POKEBALL IN OAK
 NPC OAK IN lab
   short desc: "Kanto's premier Pokemon expert"
   long desc: "Enjoys exploring human-Pokemon relationships"
-  age: "25"
+  age: "80"
   gender: "Male"
   INVENTORY
     item_id1: "CHARMANDER"
@@ -55,26 +55,16 @@ NPC OAK IN lab
     item_id4: "POKEBALL"
 
 NPC ASH IN other
-  short desc: "Kanto's premier Pokemon expert"
-  long desc: "Enjoys exploring human-Pokemon relationships"
-  age: "25"
+  short desc: "Pokemon Master"
+  long desc: "ASH Ketchum is THE Pokemon Master"
+  age: "10"
   gender: "Male"
-  INVENTORY
-    item_id1: "CHARMANDER"
-    item_id2: "SQUIRTLE"
-    item_id3: "BULBASAUR"
-    item_id4: "POKEBALL"
 
-NPC BOT IN other
-  short desc: "Kanto's premier Pokemon expert"
-  long desc: "Enjoys exploring human-Pokemon relationships"
+NPC RED IN house
+  short desc: "Original player"
+  long desc: "Strongest pokemon player of all time"
   age: "25"
   gender: "Male"
-  INVENTORY
-    item_id1: "CHARMANDER"
-    item_id2: "SQUIRTLE"
-    item_id3: "BULBASAUR"
-    item_id4: "POKEBALL"
 
 
 

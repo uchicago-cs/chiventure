@@ -27,10 +27,6 @@ def transform_game(self, s: list) -> dict:
     # the values placed into this entry will correspond to room attributes
     game_dictionary["rooms"] = dict([value for key_type, value in s if key_type == "ROOM"])
     game_dictionary["npc"] = dict([value for key_type, value in s if key_type == "NPC"])
-    print('asdflkjasfd')
-    print(game_dictionary['npc'])
-    print('asdl;fka')
-    print()
 
     return game_dictionary
 
@@ -56,7 +52,6 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     # since the key is guaranteed to be the string "ITEM"
     d["items"] = [v for k, v in s if k == "ITEM"]
 
-    d["npcs"] = [v for k, v in s if k == "NPC"]
 
     
     return ('ROOM', (room_id, d))

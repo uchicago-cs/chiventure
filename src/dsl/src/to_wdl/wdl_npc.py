@@ -7,13 +7,12 @@ from collections import ChainMap
 
 
 class Npc:
-    def __init__(self, id, location: str, contents: dict, default: str):
+    def __init__(self, name, contents: dict, default: str):
         """
             Defines an NPC class for conversion to WDL, with a unique name
             a location, and a list of contents and/or properties
         """
-        self.location = location
-        self.id = id
+        self.name = name
         self.contents = contents
         self.default = default
 
@@ -31,7 +30,6 @@ class Npc:
             Converts an NPC to WDL structure using its properties. Generates 
             default values where they are missing.
         """
-        print("in to_wdl_structure for npc")
         for k, v in self.contents.items():
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
@@ -40,23 +38,22 @@ class Npc:
             else:
                 self.wdl_contents[k] = v
 
-        self.wdl_contents['in'] = self.location
 
         if self.default == "no-defaults":
-            warn(f'''warning: no default values generated for {self.id}, wdl file may not run''')
+            warn(f'''warning: no default values generated for {self.name}, wdl file may not run''')
         self.generate_defaults()
-        return {f"{self.id}": self.wdl_contents}
+        return {f"{self.name}": self.wdl_contents}
     
     def inventory_list(self) -> list:
         """
         Assembles a list of an inventory's items
         """
-        if 'inventory' not in self.contents:
+        if 'INVENTORY' not in self.contents:
             return []
         else:
             print("making inventory list")
             out = []
-            for name, action_dict in self.contents.get('inventory', {}).items():
+            for name, action_dict in self.contents.get('INVENTORY', {}).items():
                 inventory_wdl_dict = {"inventory": name}
                 for k,v in inventory_dict.items():
                     inventory_wdl_dict[k] = v
@@ -80,11 +77,11 @@ class Npc:
             # generate default for long description
             if 'long_desc' not in self.wdl_contents:
                 short_desc = self.wdl_contents.get('short_desc', '')
-                default = f"This is a {self.id}. {short_desc}"
+                default = f"This is a {self.name}. {short_desc}"
                 self.wdl_contents['long_desc'] = f"{default}"
-                warn(f'''missing: long description for {self.id}, generated default: {self.wdl_contents['long_desc']}''')
+                warn(f'''missing: long description for {self.name}, generated default: {self.wdl_contents['long_desc']}''')
                     
             # generate default for short description
             if 'short_desc' not in self.wdl_contents:
-                self.wdl_contents['short_desc'] = f"{self.id}"
-                warn(f'''missing: short description for {self.id}, generated default: {self.wdl_contents['short_desc']}''')
+                self.wdl_contents['short_desc'] = f"{self.name}"
+                warn(f'''missing: short description for {self.name}, generated default: {self.wdl_contents['short_desc']}''')
