@@ -75,21 +75,6 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
 }
 
 /* See battle_ai.h */
-double crit_modifier(int crit_chance)
-{
-    int chance = randnum(1, 100);
-
-    if (chance <= crit_chance)
-    {
-        return 1.5;
-    }
-    else
-    {
-        return 1;
-    }
-}
-
-/* See battle_ai.h */
 int damage(combatant_t* target, move_t* move, combatant_t* source)
 {
     /* If the user does not have enough sp or the item a move requires,
@@ -107,9 +92,8 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
 
     /* Damage calculation values are set with the stats relevant to
      * to the move type and calculated with doubles.  */
-    double dmg, base_dmg, crit_mod, src_lvl, src_atk, tgt_def;
+    double dmg, base_dmg, src_lvl, src_atk, tgt_def;
     base_dmg = (double) move->damage;
-    crit_mod = crit_modifier(source->stats->crit);
     src_lvl = (double) source->stats->level;
     
     if (move->dmg_type == PHYS)
@@ -125,7 +109,6 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
 
     dmg = ((2.0 * src_lvl) / 5.0);
     dmg *= (((base_dmg * (src_atk / tgt_def)) / 50.0) + 2.0);
-    dmg *= crit_mod;
     dmg = round(dmg);
 
     return (int) dmg;

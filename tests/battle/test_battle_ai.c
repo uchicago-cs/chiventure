@@ -2,9 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle/battle_ai.h"
-#include "battle/battle_moves.h"
-#include "test_battle_common.h"
+#include "../../include/battle/battle_test_utility.h"
 
 /* Ensures give_move returns a random move when enum is BATTLE_AI_RANDOM*/
 Test(battle_ai, give_move_random)
@@ -47,64 +45,18 @@ Test(battle_ai, give_move_greedy)
 /* Ensures normal damage is calculated correctly*/
 Test(battle_ai, damage_norm)
 {
-    combatant_t* player = create_combatant("Player", true,
-                          create_player_stats_avg(), create_moveset2(),
-                          BATTLE_AI_NONE);
-    combatant_t* enemy = create_combatant("Enemy", false,
-                          create_enemy_stats_avg(), create_moveset1(),
-                          BATTLE_AI_GREEDY);
+    combatant_t *player, *enemy;
+    move_t* move;
 
-    int act_phys_dmg = damage(player, enemy->moves->next->next, enemy);
-    int act_mag_dmg = damage(enemy, player->moves->next->next, player);
-    int expected_dmg = round(((2.0 * 1.0) / 5.0) * (((75.0 * (100.0 / 60.0)) / 50.0) + 2.0));
+    player = new_battle_player();
+    enemy = new_enemy();
+    move = expected_move_greedy();
 
-    cr_assert_eq(expected_dmg, act_phys_dmg, 
-                 "Physical Damage Calculated Incorrectly: Got %d instead of %d",
-                  act_phys_dmg, expected_dmg);
-    cr_assert_eq(expected_dmg, act_mag_dmg,
-                 "Magical Damage Calculated Incorrectly: Got %d instead of %d",
-                  act_mag_dmg, expected_dmg);
-    cr_assert_eq(act_phys_dmg, act_mag_dmg,
-                 "Physical and Magical Damage With Same Stats Not Equal; Got %d Phys and %d Mag", 
-                  act_phys_dmg, act_mag_dmg);
+    double expected = 1.0*24.0;
+    double actual = damage(player, move, enemy);
 
-    combatant_free(player);
-    combatant_free(enemy);
-}
+    cr_assert_not_null(player, "combatant_new() failed");
+    cr_assert_not_null(enemy, "combatant_new() failed");
 
-/* Ensures that critical hits happen a reasonable amount for the odds */
-Test(battle_ai, calculate_crit)
-{
-    int i, crits = 0;
-    double mod;
-    for (i = 0; i < 100; i++) {
-        mod = crit_modifier(10);
-        if (mod == 1.5) {
-            crits++;
-        }
-    }
-    cr_assert_gt(20, crits, "Too Many Crits for ten percent odds; Got %d crits",
-                 crits);
-} 
-
-/* Ensures critical damage is calculated correctly*/
-//Need to change to account for new crit changes in another PR
-Test(battle_ai, damage_crit)
-{
-    combatant_t* player = create_combatant("Player", true,
-                          create_player_stats_avg(), create_moveset2(),
-                          BATTLE_AI_NONE);
-    combatant_t* enemy = create_combatant("Enemy", false,
-                          create_enemy_stats_crit(), create_moveset1(),
-                          BATTLE_AI_GREEDY);
-
-    int act_phys_dmg = damage(player, enemy->moves->next, enemy);
-    int expected_dmg = round(((2.0 * 1.0) / 5.0) * (((20.0 * (100.0 / 60.0)) / 50.0) + 2.0) * 1.5);
-
-    cr_assert_eq(expected_dmg, act_phys_dmg, 
-                 "Crit Damage Calculated Incorrectly: Got %d instead of %d",
-                  act_phys_dmg, expected_dmg);
-
-    combatant_free(player);
-    combatant_free(enemy);
+    cr_assert_float_eq(actual, expected, 1E-6, "Expected %.2f damage but calculated %.2f damage", expected, actual);
 }
