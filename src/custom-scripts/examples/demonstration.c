@@ -44,33 +44,19 @@ chiventure_ctx_t *create_sample_ctx()
     char* custom_string = (char*)malloc(100);
     data_t temp = arg_t_get(togay);
     custom_string = temp.s;
-
-    obj_t *obj_store;
-
     char wizard[] = "Wizard Class", warrior[] = "Warrior Class";
     if(strcmp(wizard,custom_string)== 0){
-        obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
+        obj_t *obj_store1 = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
+        game_t *game1 = load_game(obj_store1);
+        chiventure_ctx_t *ctx1 = chiventure_ctx_new(game1);
+        return ctx1;
     }
     else{
-        obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo-warrior.wdl");
+        obj_t *obj_store2 = load_obj_store("../../../../src/custom-scripts/examples/demo-warrior.wdl");
+        game_t *game2 = load_game(obj_store2);
+        chiventure_ctx_t *ctx2 = chiventure_ctx_new(game2);
+        return ctx2;
     }
-
-    game_t *game = load_game(obj_store);
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
-
-
-    // /* Create one rooms (room1). room1 is the initial room */
-    // room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
-    // add_room_to_game(game, room1);
-    // create_connection(game, "room1", "room_A", "right");
-
-    // /* Create a torch in room1 */
-    // item_t *torch = item_new("TORCH","It is a torch.",
-    //                "The torch is nice, and can provide light!");
-    // add_item_to_room(room1, torch);
-
-
-    return ctx;
 }
 
 
