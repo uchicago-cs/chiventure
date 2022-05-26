@@ -10,10 +10,8 @@ unsigned int *identifier;
 // malloc and fill a tts_t struct with the necessary data
 tts_t* init_tts(char* voicename, char* text, int buflength){
     tts_t* ret=(tts_t*)malloc(sizeof(tts_t));
-    ret->voicename=(char*)malloc(strlen(voicename)+1);
-    ret->voicename=voicename;
-    ret->text=(char*)malloc(strlen(text)+1);
-    ret->text=text;
+    ret->voicename=strdup(voicename);
+    ret->text=strdup(text);
     ret->buflength=buflength;
     return ret;
 }
