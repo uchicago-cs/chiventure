@@ -518,27 +518,28 @@ int mission_type_check(obj_t *obj)
 
 
 // The following functions regard quest_list type checking
-
+/*
 const int QUEST_LIST_ATTRIBUTES_N = 2;
 const char* const QUEST_ATTRIBUTES[2] = {
     "Quest Name",
     "Dialogue"
 };
+*/
 
 /* quest_list_type_check()
  * a helper function for c==
 */
-int quest_list_type_check(obj_t *obj)
+/* int quest_list_type_check(obj_t *obj)
 {
    // to do
    return SUCCESS;
-}
+}*/
 
 
 // The following functions regard task_list type checking
-
+/*
 int task_list_type_check(obj_t *obj);
-
+*/
 
 
 // The following are print functions to print out specific fields within a

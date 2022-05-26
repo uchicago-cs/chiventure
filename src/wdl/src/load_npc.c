@@ -206,7 +206,7 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
  * - quest_convo: the dialogue specific to that quest
  * - id: the quest id
  * - npc: the npc
-*/
+
 int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest, char* id, 
                         npc_t *npc, game_t *g)
 {
@@ -287,6 +287,8 @@ int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest, char* id,
     return SUCCESS;
 }
 
+*/
+
 /* load_quest_dialogue
  * loads dialogue into quests
  * a lot of this is verbatim taken from load_dialogue
@@ -297,7 +299,7 @@ int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest, char* id,
  * - quest_convo: the dialogue specific to that quest
  * - id: the quest id
  * - npc: the npc
-*/
+
 int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id, 
                         npc_t *npc, game_t *g)
 {
@@ -377,6 +379,7 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id,
 
     return SUCCESS;
 }
+*/
 
 /* load_quests
  * loads quest_lists into the given NPC
@@ -390,7 +393,6 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id,
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
- */
 int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
 {
     npc_quest_list_t *quests = npc_quest_list_new();
@@ -448,6 +450,7 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
     return SUCCESS;
 
 }
+*/
 
 /* load_tasks
  * loads task_lists into the given NPC
@@ -461,7 +464,6 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
- */
 int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
 {
     npc_task_list_t *tasks = npc_task_list_new();
@@ -518,6 +520,7 @@ int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
 
     return SUCCESS;
 }
+*/
 
 /* See load_npc.h */
 int load_npcs(obj_t *doc, game_t *g)
@@ -579,24 +582,24 @@ int load_npcs(obj_t *doc, game_t *g)
         // to do
 
         // load quest
-        obj_t *quests_obj;
+        /* obj_t *quests_obj;
         if ((quests_obj = obj_get(curr, "quests")) != NULL) {
             if (load_quests(quests_obj, npc, g) != SUCCESS) {
                 fprintf(stderr, "Quest List was not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
             }
-        }
+        } */
 
         // load task
-        obj_t *tasks_obj;
+        /* obj_t *tasks_obj;
         if ((tasks_obj = obj_get(curr, "tasks")) != NULL) {
             if (load_tasks(tasks_obj, npc, g) != SUCCESS) {
                 fprintf(stderr, "Quest List was not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
             }
-        }
+        } */
 
         // add NPC to the game
         add_npc_to_game(g, npc);
