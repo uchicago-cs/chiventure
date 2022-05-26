@@ -179,7 +179,7 @@ int delete_action_effect_llist(action_effect_list_t *effects);
  */
 int do_effect(game_action_effect_t *effect);
 
-/* do_all_effects() sets all effects of an agent
+/* do_all_effects() sets all effects of an action
  * Parameters:
  *  pointer to the agent to check
  *  the action_name

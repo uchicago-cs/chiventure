@@ -20,21 +20,16 @@ int valid_attr_condition(game_t *game, attribute_condition_t *condition)
 
     item_t *check_item = get_item_from_game(game, condition->item->item_id);
     if (check_item == NULL)
-    {
         return ITEM_MODIFY_NULL; // item not in game
-    }
 
     attribute_t *check_attribute;
-    if(condition->attribute_to_check == NULL){
+    if(condition->attribute_to_check == NULL)
         return ATTRIBUTE_NULL;
-    }
     check_attribute = get_attribute(condition->item,
                                     condition->attribute_to_check->attribute_key);
     if (check_attribute == NULL ||
         check_attribute != condition->attribute_to_check)
-    {
         return ATTRIBUTE_NULL; // item does not possess attribute
-    }
     return SUCCESS;
 }
 
@@ -55,15 +50,11 @@ int valid_inven_condition(game_t *game, inventory_condition_t *condition)
 
     item_t *check_item = get_item_from_game(game, condition->expected_item->item_id);
     if (check_item == NULL)
-    {
         return ITEM_MODIFY_NULL; // item not in game
-    }
 
     player_t *check_player = get_player(game, condition->player_to_check->player_id);
     if(check_player == NULL)
-    {
         return PLAYER_NULL; // player not in game
-    }
 
     return SUCCESS;
 }
@@ -83,9 +74,7 @@ int valid_level_condition(game_t *game, level_condition_t *condition)
 {
     player_t *check_player = get_player(game, condition->player_to_check->player_id);
     if(check_player == NULL)
-    {
         return PLAYER_NULL; // player not in game
-    }
 
     return SUCCESS;
 }
@@ -93,9 +82,9 @@ int valid_level_condition(game_t *game, level_condition_t *condition)
 /* see condition.h */
 int valid_condition(game_t *game, condition_t *condition)
 {
-    if(condition == NULL){
+    if(condition == NULL)
         return CONDITION_NULL;
-    }
+
     switch (condition->condition_tag)
     {
     case (ATTRIBUTE):
@@ -165,9 +154,7 @@ condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_nam
 {
     attribute_t *attribute = get_attribute(item_to_modify, attribute_name);
     if (item_to_modify == NULL || attribute == NULL)
-    {
         return NULL;
-    }
 
     attribute_condition_t *new_condition = malloc(sizeof(attribute_condition_t));
     
@@ -198,46 +185,34 @@ bool check_attribute_condition(attribute_condition_t *condition)
     //check if NULL attribute, return true if true
     attribute_t *actual_attribute = condition->attribute_to_check;
     if (actual_attribute == NULL)
-    {
         return true;
-    }
 
     switch (actual_attribute->attribute_tag)
     {
     case (DOUBLE):
         if (actual_attribute->attribute_value.double_val ==
             condition->expected_value->double_val)
-        {
             return true;
-        }
         break;
     case (BOOLE):
         if (actual_attribute->attribute_value.bool_val ==
             condition->expected_value->bool_val)
-        {
             return true;
-        }
         break;
     case (CHARACTER):
         if (actual_attribute->attribute_value.char_val ==
             condition->expected_value->char_val)
-        {
             return true;
-        }
         break;
     case (STRING):
         if (!strcmp(actual_attribute->attribute_value.str_val,
                     condition->expected_value->str_val))
-        {
             return true;
-        }
         break;
     case (INTEGER):
         if (actual_attribute->attribute_value.int_val ==
             condition->expected_value->int_val)
-        {
             return true;
-        }
         break;
     }
     return false;
@@ -247,9 +222,7 @@ bool check_attribute_condition(attribute_condition_t *condition)
 condition_t *inventory_condition_new(player_t *player, item_t *expected_item)
 {
     if (player == NULL || expected_item == NULL)
-    {
         return NULL;
-    }
 
     inventory_condition_t *new_condition = malloc(sizeof(inventory_condition_t));
     new_condition->player_to_check = player;
@@ -280,9 +253,7 @@ bool check_inventory_condition(inventory_condition_t *condition)
 condition_t *level_condition_new(player_t *player, int level_required)
 {
     if (player == NULL)
-    {
         return NULL;
-    }
 
     level_condition_t *new_condition = malloc(sizeof(level_condition_t));
     new_condition->player_to_check = player;
@@ -335,9 +306,7 @@ bool all_conditions_met(condition_list_t *cond_list)
     while (tmp != NULL) // iterate through all conditions
     {
         if (!(check_condition(tmp)))
-        {
             return false;
-        }
         tmp = tmp->next;
     }
     // all conditions met
