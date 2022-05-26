@@ -477,7 +477,7 @@ int class_prefab_add_skills(class_t* class) {
 
     /* Note: All skills are combat skills for now */
 
-    else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
+    if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
         /* these guys potentially could have a prefabricated, basic skill to match the class
          * for now we will just have no skills */
         return SUCCESS;
