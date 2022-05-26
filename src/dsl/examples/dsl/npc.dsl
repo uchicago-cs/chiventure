@@ -1,25 +1,15 @@
 GAME START room B END room C
     intro: "Welcome!"
 
-ROOM room B
-    short desc: "A dungeon room."
-    long desc: "The walls are damp and moldy and, yet, the scent of freshly
-    cut lavender flowers pervades the air."
+ROOM lab
+    short desc: "Oak's lab."
+    long desc: "Professor Oak's lab in Pallet Town"
     connections: NORTH TO room A
         EAST TO room C
-
-
-NPC OAK IN room B
-  short desc: "Kanto's premier Pokemon expert"
-  long desc: "Enjoys exploring human-Pokemon relationships"
-  age: "25"
-  gender: "Male"
-  INVENTORY
-    item_id1: "CHARMANDER"
-    item_id2: "SQUIRTLE"
-    item_id3: "BULBASAUR"
-    item_id4: "POKEBALL"
-
+    
+    ITEM COMPUTER IN lab
+    short desc: "A computer."
+    long desc: "A computer in Oak's lab"
 
 ITEM CHARMANDER IN OAK
   short desc: "A fire pokemon"
@@ -40,6 +30,16 @@ ITEM POKEBALL IN OAK
     TAKE success: "You take the pokeball"
     TAKE fail: "You cannot take the pokeball"
 
+NPC OAK IN lab
+  short desc: "Kanto's premier Pokemon expert"
+  long desc: "Enjoys exploring human-Pokemon relationships"
+  age: "25"
+  gender: "Male"
+  INVENTORY
+    item_id1: "CHARMANDER"
+    item_id2: "SQUIRTLE"
+    item_id3: "BULBASAUR"
+    item_id4: "POKEBALL"
 
 
 

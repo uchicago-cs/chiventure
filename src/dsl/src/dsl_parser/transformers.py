@@ -98,6 +98,29 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
     return ("actions", actions_dictionary)
 
 
+def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """
+    S contains several objects of the form ('type', <value>), where
+    value is dependent upon the type. This function creates a dictionary
+    based on the key or type, and also places all items into their own list
+    for convenience.
+    """
+
+    # gets the player class id.
+    id = s.pop(0)[1]
+
+    # first place all non-item objects into a dict
+    # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+    # action and action attributes, etc.
+    d = dict((k, v) for k, v in s)
+
+    return ('NPCS', (id, d))
+
+def transform_inventory(self, s: list[tuple[str, str]]) -> tuple[str, str]:
+        """Takes a list of key-values pairs which belong to inventory, places them
+        into a dictionary which is labeled "INVENTORY" """
+        return ('INVENTORY', dict(s))
+
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
 

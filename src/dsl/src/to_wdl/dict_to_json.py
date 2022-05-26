@@ -17,6 +17,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
 
     rooms = []
     items = []
+    npcs = []
 
     if "rooms" not in intermediate:
         warn("This game has no rooms.")
@@ -34,17 +35,25 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
                 room_items_objs.append(item_obj)
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents, default))
+
+    if "npcs" in intermediate:
+        npcs_dict = intermediate.pop("npcs")
+        for curr in npcs_dict:
+            for npcs, val in curr.items():
+                npcs.append(Npcs(npcs, val, default))
     
     game = Game(intermediate, default)
     
     # acts as a "union" operation on multiple dictionaries
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
     items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
+    npcs_wdl = dict(ChainMap(*[n.to_wdl_structure() for n in npcs]))
 
     out = json.dumps({
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
-        "ITEMS": items_wdl
+        "ITEMS": items_wdl,
+        "NPCS": npcs_wdl
         }, indent=2)
 
     if debug and "end" in debug_modes:
