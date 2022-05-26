@@ -256,7 +256,7 @@ int remove_task_in_hash(task_hash_t *hash_table, char *id);
  * - pointer to a task hash table
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was failure, SUCCESS if successful 
  */
 int remove_task_all(task_hash_t **hash_table);
 
