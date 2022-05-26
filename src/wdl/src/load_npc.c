@@ -304,7 +304,7 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id,
     convo_t *convo = convo_new();
 
     // verify the dialogue object's attributes
-    if (dialogue_type_check(task_convo_obj) == FAILURE) {
+    if (task_list_type_check(task_convo_obj) == FAILURE) {
         fprintf(stderr, "Task dialogue object failed typechecking, or the two "
                 "required attributes (nodes, edges) are missing. NPC: %s\n",
                 npc->npc_id);
@@ -370,7 +370,7 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id,
     }
 
      // assign the conversation to the NPC
-    if ((add_convo_to_task(task, convo) != SUCCESS) {
+    if (add_convo_to_task(task, convo) != SUCCESS) {
         fprintf(stderr, "Could not add convo to task: %s\n", task->id);
         return FAILURE;
     }
@@ -396,7 +396,7 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
     npc_quest_list_t *quests = npc_quest_list_new();
 
     // verify the quest_list object's attributes
-    if (quest_type_check(quest_list_obj) == FAILURE) {
+    if (quest_list_type_check(quest_list_obj) == FAILURE) {
         fprintf(stderr, "Quest list object failed typechecking, or the "
                 "required attributes are missing. NPC: %s\n",
                 npc->npc_id);
@@ -511,7 +511,7 @@ int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
     tasks->length = len;
 
     // assign the task_list to the NPC
-    if (add_quests_to_npc(npc, tasks) != SUCCESS) {
+    if (add_tasks_to_npc(npc, tasks) != SUCCESS) {
         fprintf(stderr, "Could not add task list to NPC: %s\n", npc->npc_id);
         return FAILURE;
     }
