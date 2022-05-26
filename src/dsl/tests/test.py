@@ -66,7 +66,7 @@ def test(f_dsl, f_wdl: str, show: bool) -> bool:
 
     for i in range(len_expected):
         if out[i] != expected[i]:
-            rv = False
+            
             if show:
                 """ compute beginning and end indexes to slice our substring
                 """
@@ -79,7 +79,8 @@ def test(f_dsl, f_wdl: str, show: bool) -> bool:
                 print(f"{f_dsl}: output does not match expected.")
                 print(f"Returned:\n.....\n{broken}\n.....")
                 print(f"Expected:\n.....\n{expected_substr}\n.....")
-    return rv
+            return False
+    return True
     
 
 
