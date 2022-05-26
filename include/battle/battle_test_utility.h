@@ -99,3 +99,6 @@ combatant_t* new_enemy_crit();
 /* This function creates a sandbox battle_player. */
 combatant_t* new_battle_player();
 
+/* Creates a battle with npc and player made with env */
+battle_t *create_battle();
+
