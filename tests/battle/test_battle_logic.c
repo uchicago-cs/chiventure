@@ -803,15 +803,10 @@ Test(battle_logic, apply_stat_changes)
     int expected_strength = battle->enemy->stats->phys_atk - item->attributes->phys_atk;
     int expected_defense = battle->enemy->stats->phys_def - item->attributes->phys_def;
 
-    apply_stat_changes(battle->enemy, find_battle_item(player->items, item->name));
+    apply_stat_changes(battle->enemy->stats, item->attributes);
 
     cr_assert_eq(battle->enemy->stats->hp, expected_hp, "apply_stat_changes() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
     cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "apply_stat_changes() does correctly set enemy physical attack after use");
     cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "apply_stat_changes() does correctly set enemy physical defense after use");
-
-}
-
-Test(battle_logic, stat_changes_add_item_node)
-{
 }
 
