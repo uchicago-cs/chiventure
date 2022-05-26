@@ -4,7 +4,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include "../../include/battle/battle_test_utility.h"
-#include "test_battle_common.h"
 
 /* Tests set_battle_player() */
 Test(battle_flow_move, set_battle_player)

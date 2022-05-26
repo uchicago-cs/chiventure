@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../../include/battle/battle_test_utility.h"
-#include "test_battle_common.h"
+#include "../../include/battle/battle_ai.h"
+//#include "../../include/battle/battle_test_utility.h"
+//#include "test_battle_common.h"
 
 /* Common Functions */
 /* Creates example moveset designed for the enemy*/
