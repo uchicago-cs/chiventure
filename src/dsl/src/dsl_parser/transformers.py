@@ -15,9 +15,6 @@ def transform_game(self, s: list) -> dict:
     based on the type, and also places all rooms into their own 
     dictionary for convenience.
     """
-    # print()
-    # print(s)
-    print("This is s in game: ", s)
 
     # first place all non-room objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value or
@@ -48,7 +45,6 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     
     # gets the player class id.
     class_id = s.pop(0)[1]
-    print("This is s in player: ", s)
 
     # d = dict((k, v) for k, v in s)
 
@@ -65,9 +61,6 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     for convenience.
     """
     room_id = s.pop(0)[1]
-
-    print("This is s in room: ", s)
-    
 
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
@@ -90,6 +83,7 @@ def transform_connections(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
 def transform_item(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an item and places them
     into a dictionary which is labeled "ITEM" """
+    print("item s: ", s)
     return ('ITEM', dict(s))
 
 
@@ -131,19 +125,20 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
 def transform_attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
-    return ('attributes', {})
+    print("attribnutes s: ", s)
+    return ('attributes', s)
 
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an base_stats and places them
     into a dictionary which is labeled "base_stats" """
-    print(s)
-    return ('base_stats', {})
+    print("base_stats s: ", s)
+    return ('base_stats', s)
 
 def transform_stat_setting(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
-    return('stat_setting', {})
+    return('stat_setting', s)
 
 def transform_boolean(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
-    return('boolean', {})
+    return('boolean', s)
 
 
 def transform_misplaced(self, s: list[Token]) -> str:

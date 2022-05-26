@@ -49,6 +49,8 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
     items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
     players_wdl = dict(ChainMap(*[p.to_wdl_structure() for p in players]))
+    print("rooms_wdl", rooms_wdl)
+    print("players_wdl", players_wdl)
 
     out = json.dumps({
         **game.to_wdl_structure(), 
