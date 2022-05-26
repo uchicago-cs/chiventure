@@ -113,6 +113,9 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
     }
 
     obj_t *curr;
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = item;
+    agent->npc = NULL;
     DL_FOREACH(action_ls->data.lst, curr)
     {
         char *action = case_insensitized_string(obj_get_str(curr, "action"));
@@ -121,7 +124,7 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
         /* Adds conditions to the current action, if conditions object exists */
         if (conditions_obj != NULL) 
         {
-           game_action_t* act = get_action(item, action);
+           game_action_t* act = get_action(agent, action);
            condition_t* conditions_ls = build_conditions(conditions_obj, g);
 
            while(conditions_ls != NULL)
@@ -132,7 +135,7 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
            
         }
     }
-
+    free(agent);
     return SUCCESS;
 }
 

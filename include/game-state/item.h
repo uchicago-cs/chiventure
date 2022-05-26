@@ -49,7 +49,7 @@ typedef struct attribute_wrapped_for_llist {
 * UTHASH macros as specified in src/common/include */
 typedef struct attribute attribute_hash_t;
 
-// Forward declarations. Full typedef can be found in actionmanagement.h
+/* Forward declarations. Full typedef can be found in actionmanagement.h */
 typedef struct game_action game_action_hash_t;
 typedef struct game_action game_action_t;
 
