@@ -10,5 +10,4 @@
 ui_debug.txt
 build/
 *.dat
-*.orig
 *.DS_Store

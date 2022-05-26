@@ -1,6 +1,3 @@
-#ifndef UTIL_H
-#define UTIL_H
-
 #include <stdbool.h>
 #include <string.h>
 #include <assert.h>
@@ -35,5 +32,3 @@ void case_insensitize(char *input);
  *   - A lowercased version of the string
  */
 char* case_insensitized_string(char *input);
-
-#endif

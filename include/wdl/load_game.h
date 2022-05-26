@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "wdl_common.h"
+#include "wdl/load_quests.h"
 
 /*
  * load_game, when passed libobj objects, will load into a game
@@ -18,7 +19,7 @@
  *
  * Returns:
  *   - a pointer to a game object on success
- *   - NULL if error
+ 8   - NULL if error
  *
  */
 game_t *load_game(obj_t *obj_store);

@@ -82,5 +82,5 @@ typedef enum complex_skill_type {
 
 } complex_skill_type_t;
 
-#endif /*SKILLTREES_ENUMS_H*/
 
+#endif /*SKILLTREES_ENUMS_H*/

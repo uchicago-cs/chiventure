@@ -74,7 +74,7 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
  *  - skill: A conditional skill
  *  - chiventure_ctx_t* ctx - A context object to pull data from to execute the skill
  *
- *
+/*
  * Executes a combined skill, executing each subskill regardless of success or 
  * failure
  *
@@ -143,4 +143,3 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
 
 #endif /*INCLUDE_COMPLEX_SKILL_H*/
-

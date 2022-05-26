@@ -121,7 +121,7 @@ int main(int argc, char **argv)
             start_ui(ctx, banner_small);
         } 
     }
-    
+
     game_free(ctx->game);
 
     return 0;
