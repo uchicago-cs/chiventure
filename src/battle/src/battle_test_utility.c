@@ -402,7 +402,7 @@ battle_ctx_t *create_battle_ctx()
     battle_game_t *g = new_battle_game();
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
-    pstats->hp = 200;
+    pstats->max_hp = 200;
     pstats->level = 5;
     pstats->phys_atk = 150;
     pstats->phys_def = 20;

@@ -482,6 +482,7 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
                  "battle_flow_move() failed: battle is not in progress");
 }
 
+/* Tests a move that does damage and stat changes in battle_flow_move */
 Test(battle_flow_move, do_damage_stat_change_battle_flow_move)
 {
     battle_ctx_t *ctx = create_battle_ctx();
