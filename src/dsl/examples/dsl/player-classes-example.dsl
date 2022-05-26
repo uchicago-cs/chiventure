@@ -9,8 +9,8 @@ ROOM room B
         EAST TO room C
 
 CLASS KNIGHT
-    short desc:
-    long desc:
+    short desc: "knight"
+    long desc: "this is a knight"
     attributes: “noble” set TRUE
                 “hot-headed” set TRUE
     base_stats: “health” CURRENT 20 MAX 100
