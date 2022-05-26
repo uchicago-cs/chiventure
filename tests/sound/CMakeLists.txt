@@ -9,5 +9,8 @@ foreach(module ${CHIVENTURE_MODULES})
     target_link_libraries(${TEST_EXE} ${module})
 endforeach(module)
 
+target_link_libraries(${TEST_EXE} SDL2)
+target_link_libraries(${TEST_EXE} SDL2_mixer)
+
 add_test(NAME ${TEST_EXE}
          COMMAND ${TEST_EXE})
