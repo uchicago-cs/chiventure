@@ -395,3 +395,49 @@ battle_t *create_battle()
     battle_t *b = set_battle(ctx_player, npc_enemy, env);
     return b;
 }
+
+battle_ctx_t *create_battle_ctx()
+{
+    battle_ctx_t *ctx = calloc(1, sizeof(battle_ctx_t));
+    battle_game_t *g = new_battle_game();
+    stat_t *pstats = calloc(1, sizeof(stat_t));
+    pstats->hp = 150;
+    pstats->level = 5;
+    pstats->phys_atk = 150;
+    pstats->phys_def = 20;
+    pstats->accuracy = 100;
+    pstats->crit = 0;
+    battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
+                                                NULL, NULL, NULL);
+    g->player = ctx_player;
+    ctx->game = g;
+    ctx->status = BATTLE_IN_PROGRESS;
+    stat_t *estats = calloc(1, sizeof(stat_t));
+    estats->hp = 200;
+    estats->level = 1;
+    estats->phys_atk = 200;
+    estats->phys_def = 30;
+    estats->accuracy = 100;
+    estats->crit = 0;
+    move_t *emove = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                             SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
+    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                    "Charismatic, always has a joke or song ready",
+                                    NULL, NULL, NULL);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+    dagger_changes->hp = 0;
+
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
+    npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
+            HOSTILE, test_class, dagger, NULL, NULL, NULL);
+
+    npc_enemy->npc_battle = npc_b;
+    environment_t env = ENV_WATER;
+
+    start_battle(ctx, npc_enemy, env);
+    return ctx;
+}

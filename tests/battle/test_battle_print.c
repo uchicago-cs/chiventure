@@ -365,7 +365,7 @@ Test(battle_print, print_battle_item_details)
     tea_changes->hp = 10;
     tea_changes->phys_atk = 0;
     tea_changes->phys_def = 0;
-    tea_leaves = create_battle_item(2, 1, "Make yourself a warm cup of tea to heal your wounds!", "Tea Leaves",
+    battle_item_t *tea_leaves = create_battle_item(2, 1, "Make yourself a warm cup of tea to heal your wounds!", "Tea Leaves",
                                     true, tea_changes);
     print_battle_item_details(tea_leaves, string);
     char *expected_string = "Name: Tea Leaves\nDescription: Make yourself a warm cup of tea to heal your wounds!\n"
