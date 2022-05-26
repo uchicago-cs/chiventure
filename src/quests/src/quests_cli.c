@@ -9,7 +9,7 @@
 int get_show_quests_buffer(player_t *player) {
     int buff_count = 0;
     for (player_quest_hash_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
-        buffer += 100;
+        buff_count += 100;
     }
     return buff_count;
 }
@@ -21,7 +21,7 @@ char *completion_to_str(completion_status_t completion) {
         case Q_FAILED: 
             str = "Q_FAILED";
             break;
-        case Q_UNAQUIRED:
+        case Q_UNACQUIRED:
             str = "Q_UNACQUIRED";
             break;
         case Q_STARTED:
@@ -39,7 +39,7 @@ char *completion_to_str(completion_status_t completion) {
 char* show_quests(player_t *player)
 {
     int buff_count = get_show_quests_buffer(player);
-    char buffer[buff_count];
+    char *buffer = (char*)malloc(sizeof(char) * buff_count);
     for (player_quest_hash_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
         char *quest_id = cur->quest_id;
         char *completion = completion_to_str(cur->completion);
@@ -48,6 +48,7 @@ char* show_quests(player_t *player)
 
     return buffer;
 
+}
 /* Creates an empty task printing block
  * - A task printing block is an array of 3 25 length strings
  *   where the first and second strings are the task's id
