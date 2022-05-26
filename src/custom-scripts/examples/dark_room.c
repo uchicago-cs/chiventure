@@ -16,14 +16,15 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
    Variable st is state of torch before fliping */
 char* flip_state(bool st)
 {
-    /* Use of dynamic boolean, switching item torch from 
-    unlit to lit, and conversely with Lua */
+    /* Use of boolean, switching item torch from 
+    true (lit) to false (unlit), and conversely with Lua */
     object_t *ot = obj_t_bool("", "../../../../src/custom-scripts/examples/flip.lua");
     ot = obj_add_arg_bool(ot, st);
     st = bool_t_get(ot);
     
     char* str_state = (char*)malloc(20);
     
+    /* output string depending on flip */
     if (st == false) {
       str_state = "The torch is unlit.";
     } else {
@@ -31,8 +32,6 @@ char* flip_state(bool st)
     }
     
     return str_state;
-
-    //how to update st->state when flip is called
 }
 
 /* Creates a sample in-memory game */
@@ -50,8 +49,8 @@ chiventure_ctx_t *create_sample_ctx()
                    "The torch is nice, and can provide light!");
     add_item_to_room(room1, torch);
   
-    /* Associate action "FLIP" with the torch.
-     * It has no conditions, so it should succeed unconditionally. */
+    /* Associate action "LIGHT" and "UNLIGHT" with the torch.
+     * They have no conditions, so they should succeed unconditionally. */
     add_action(torch, "LIGHT", flip_state(false), "The torch is broken!");
     add_action(torch, "UNLIGHT", flip_state(true), "The torch is broken!");
 
