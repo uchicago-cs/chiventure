@@ -374,10 +374,11 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         } else if (strcmp(target[0], "inventory") == 0) {
             // retrieve inventory from the player
             if (target[1] == NULL) {
-                //string = display_inventory(c->game->curr_player->inventory);
+                string = display_inventory(c->game->curr_player->inventory);
             }
             else {
-                //display_inventory_item(c->game->curr_player->inventory, target[1]);
+                string = display_inventory_item(
+                    c->game->curr_player->inventory, target[1]);
             }
         } else if (strcmp(target[0], "skills") == 0) {
             // retrieve skill tree from the player
