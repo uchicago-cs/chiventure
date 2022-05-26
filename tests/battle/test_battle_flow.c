@@ -485,7 +485,7 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
 
     stat_changes_t *user_stat_changes1 = stat_changes_new();
     stat_changes_init(user_stat_changes1);
-    user_stat_changes1->hp = 35;
+    user_stat_changes1->hp = 50;
 
     stat_changes_t *opponent_stat_changes1 = stat_changes_new();
     stat_changes_init(opponent_stat_changes1);
@@ -494,21 +494,21 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
     move_t *move_one = move_new(1, "LifeDrain", "Drains the enemy hp and adds it to the user", NO_DAMAGE,
                                 BOTH , NO_TARGET, SINGLE, 0, NULL, 0, 100, user_stat_changes1, opponent_stat_changes1, 
                                 NULL, NULL); 
-
+    enemy->stats->hp = 200;
     char *res = battle_flow_move(ctx, move_one, "enemy");
 
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
-    player->stats->hp = 165;
+    
     cr_assert_eq(enemy->stats->hp,
                  165, 
             "battle_flow_move() did not compute stat change on enemy correctly: %d",
             enemy->stats->hp);
 
     // note: this hp value relies on player class implementation of move_list()
-    cr_assert_eq(player->stats->phys_atk,
-                 200,
+    cr_assert_eq(player->stats->hp,
+                 185,
                  "battle_flow_move() did not compute stat change on player correctly,"
-                 "Actual: %d, Expected: %d",player->stats->hp, 200);
+                 "Actual: %d, Expected: %d",player->stats->hp, 185);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
 }
@@ -551,6 +551,7 @@ Test(battle_flow_move, do_stat_change_both_enemy_make_move)
                  "battle_flow_move() failed: battle is not in progress");
 }
 
+/* Tests a move that does damage and stat changes in battle_flow_move */
 Test(battle_flow_move, do_damage_stat_change_battle_flow_move)
 {
     battle_ctx_t *ctx = create_battle_ctx();
