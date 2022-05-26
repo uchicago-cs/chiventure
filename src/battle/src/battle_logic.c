@@ -179,7 +179,7 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     }
     else
     {
-        target_stats->sp = target_stats->max_sp;
+        target_stats->sp += target_stats->max_sp;
     }
     target_stats->phys_atk += changes->phys_atk;
     target_stats->mag_atk += changes->mag_atk;
@@ -193,7 +193,7 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
         target_stats->hp += changes->hp;
     }else
     {
-        target_stats->hp = target_stats->max_hp;
+        target_stats->hp += target_stats->max_hp;
     }
     return SUCCESS;
 }
