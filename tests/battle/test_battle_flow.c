@@ -485,7 +485,7 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
 
     stat_changes_t *user_stat_changes1 = stat_changes_new();
     stat_changes_init(user_stat_changes1);
-    user_stat_changes1->hp = 50;
+    user_stat_changes1->hp = 35;
 
     stat_changes_t *opponent_stat_changes1 = stat_changes_new();
     stat_changes_init(opponent_stat_changes1);
@@ -506,9 +506,9 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
 
     // note: this hp value relies on player class implementation of move_list()
     cr_assert_eq(player->stats->hp,
-                 185,
+                 178,
                  "battle_flow_move() did not compute stat change on player correctly,"
-                 "Actual: %d, Expected: %d",player->stats->hp, 185);
+                 "Actual: %d, Expected: %d",player->stats->hp, 178);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
 }
