@@ -18,16 +18,16 @@ def validate(graph, start):
 
 
 # Helper function for cyclicality check
-def check_node(graph, v, visited, recStack):
-        visited[v] = True
-        recStack[v] = True
-        for neighbour in graph[v]:
+def check_node(graph, vertex, visited, recStack):
+        visited[vertex] = True
+        recStack[vertex] = True
+        for neighbour in graph[vertex]:
             if visited[neighbour] == False:
                 if check_node(graph, neighbour, visited, recStack) == True:
                     return True
             elif recStack[neighbour] == True:
                 return True
-        recStack[v] = False
+        recStack[vertex] = False
         return False
  
 # Checks if there is any cyclicality in a graph
