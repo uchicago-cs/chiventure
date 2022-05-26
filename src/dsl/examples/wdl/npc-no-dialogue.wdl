@@ -107,7 +107,7 @@
       "gender": "Male"
     },
     "ASH": {
-      "location": "other",
+      "location": "gym",
       "short_desc": "Pokemon Master",
       "long_desc": "ASH Ketchum is THE Pokemon Master",
       "age": "10",
