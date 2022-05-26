@@ -304,7 +304,28 @@ Test(battle_print, print_battle_damage)
 
 Test(battle_print, print_stat_changes)
 {
-    combatant_t *ctx_player = new_battle_player();
+    stat_t *player_stats = calloc(1,sizeof(stat_t));
+    player_stats->hp = 50;
+    player_stats->phys_atk = 20;
+    player_stats->phys_def = 12;
+    player_stats->crit = 0;
+    player_stats->accuracy = 100;
+    player_stats->xp = 100;
+    player_stats->level = 5;
+    player_stats->speed = 10;
+
+    stat_t *enemy_stats = calloc(1,sizeof(stat_t));
+    enemy_stats->hp = 30;
+    enemy_stats->phys_atk = 14;
+    enemy_stats->phys_def = 9;
+    enemy_stats->crit = 0;
+    enemy_stats->accuracy = 0;
+    enemy_stats->xp = 100;
+    enemy_stats->level = 5;
+    enemy_stats->speed = 9;
+
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+                                                NULL, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
@@ -330,6 +351,61 @@ Test(battle_print, print_stat_changes)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes(b, PLAYER, user_stat_changes, string);
     char *expected_string = "Your physical attack changed by 10\n";
+
+    cr_expect_str_eq(string, expected_string, "print_stat_changes() failed to set string %s", string);
+    free(string);
+
+}
+
+Test(battle_print, print_stat_changes_enemy)
+{
+    stat_t *player_stats = calloc(1,sizeof(stat_t));
+    player_stats->hp = 50;
+    player_stats->phys_atk = 20;
+    player_stats->phys_def = 12;
+    player_stats->crit = 0;
+    player_stats->accuracy = 100;
+    player_stats->xp = 100;
+    player_stats->level = 5;
+    player_stats->speed = 10;
+
+    stat_t *enemy_stats = calloc(1,sizeof(stat_t));
+    enemy_stats->hp = 30;
+    enemy_stats->phys_atk = 14;
+    enemy_stats->phys_def = 9;
+    enemy_stats->crit = 0;
+    enemy_stats->accuracy = 0;
+    enemy_stats->xp = 100;
+    enemy_stats->level = 5;
+    enemy_stats->speed = 9;
+
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+                                                NULL, NULL, NULL);
+    move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
+                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
+    class_t* test_class = class_new("Bard", "Music boi",
+                                    "Charismatic, always has a joke or song ready",
+                                    NULL, NULL, NULL);
+    stat_changes_t *dagger_changes = stat_changes_new();
+    dagger_changes->phys_atk = 20;
+    dagger_changes->phys_def = 5;
+
+    dagger_changes->hp = 0;                        
+    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
+                                true, dagger_changes);
+    npc_battle_t *npc_b = npc_battle_new(enemy_stats, e_move,
+                     BATTLE_AI_GREEDY, HOSTILE, test_class, dagger, NULL, NULL, NULL);
+
+    npc_enemy->npc_battle = npc_b;
+
+    environment_t env = ENV_DESERT;
+    battle_t *b = set_battle(ctx_player, npc_enemy, env);
+    stat_changes_t *enemy_stat_changes = stat_changes_new();
+    enemy_stat_changes->phys_atk = 10;
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    print_stat_changes(b, PLAYER, enemy_stat_changes, string);
+    char *expected_string = "Bob's physical attack changed by 10\n";
 
     cr_expect_str_eq(string, expected_string, "print_stat_changes() failed to set string %s", string);
     free(string);
