@@ -26,11 +26,11 @@ void print_skilltree(skill_tree_t* skilltree) {
         for (int i = 0; i < skilltree->num_nodes; i++) {
             printf("    %s\n", skilltree->nodes[i]->skill->name);
 
-            printf("    Skill description: %s\n", 
+            printf("        Skill description: %s\n", 
                     skilltree->nodes[i]->skill->desc);
-            printf("    Minimum XP: %s\n", skilltree->nodes[i]->skill->min_xp);
-            printf("    Maximum level: %s\n", 
-                    skilltree->nodes[i]->skill->min_xp);
+            printf("        Minimum XP: %u\n", skilltree->nodes[i]->skill->min_xp);
+            printf("        Maximum level: %u\n", 
+                    skilltree->nodes[i]->skill->max_level);
             
         }
     }
