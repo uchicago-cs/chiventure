@@ -76,6 +76,7 @@ slot_t *new_slot(status s, item_t *item);
  *
  * Parameters:
  * - slot : Heap allocated slot_t struct
+ *
  * - s : A status ENUM  
  * - item : A heap allocated item_t struct
  *
@@ -100,11 +101,11 @@ int free_slot(slot_t *slot);
  *
  * Parameters:
  * - The graphics information as specified by the author in the GDL
- * - A pointer to a heap allocated player struct
+ * - A pointer to a 2D array of slot_t structs
  * Returns:
  * - A player inventory struct
  */
-player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p);
+player_inventory_t *new_player_inventory(graphics_t *graphics, slot_t **items);
 
 /* Initializes values for a player_inventory_struct
  *
@@ -117,7 +118,7 @@ player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p);
  * - SUCCESS upon success
  */
 int init_player_inventory(player_inventory_t *player_inventory, 
-                          graphics_t *graphics, player_t *p);  
+                          graphics_t *graphics, slot_t **items);  
    
 
 /* Frees an inventory struct
