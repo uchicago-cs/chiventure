@@ -471,7 +471,12 @@ char *display_inventory(player_t *player) {
         
         if (column_number < 8) {
             // if there are less than 8 items in a row, add a spacer
-            strncat(return_string, spacer, strlen(spacer));
+            if(curr_item->next == NULL) {
+                strncat(return_string, newline, strlen(newline));
+            }
+            else {
+                strncat(return_string, spacer, strlen(spacer));
+            }
             column_number++;
         } else {
             // else add a newline
