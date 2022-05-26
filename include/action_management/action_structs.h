@@ -13,6 +13,8 @@
 enum actions {
     // KIND 1 ACTIONS - ACTION <item>
     OPEN,
+    FIREBALL,
+    SLASH,
     CLOSE,
     PUSH,
     PULL,
