@@ -9,7 +9,7 @@ Test(class_moves, bard)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     
     battle_player_t *player = new_ctx_player("name", test_class,
                                           NULL, NULL, NULL, NULL, NULL, NULL);
@@ -53,7 +53,7 @@ Test(class_moves, wizard)
 {
     class_t* test_class = class_new("Wizard", "Wise",
                                     "Old and wise",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
 
     battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL, NULL, NULL, NULL);
@@ -98,7 +98,7 @@ Test(class_moves, knight)
 {
     class_t* test_class = class_new("Knight", "Brave",
                                     "Brave and shiny",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
 
     battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL, NULL, NULL, NULL);

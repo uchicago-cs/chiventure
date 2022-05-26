@@ -24,12 +24,12 @@ void check_add_multiplier(item_t* item, class_t* class, double expected) {
 Test(class_item, add_wand_multiplier) {
     item_t* wand = item_new("wand", " ", " ");
     item_init(wand, "wand", " ", " ");
-    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
-    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL);
-    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL);
-    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL);
-    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL);
-    class_init(monk, "monk", " ", " ", NULL, NULL, NULL);
+    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL,false);
+    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL,false);
+    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL,false);
+    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL,false);
+    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL,false);
+    class_init(monk, "monk", " ", " ", NULL, NULL, NULL,false);
 
     double multiplier = 2.0;
 
@@ -44,12 +44,12 @@ Test(class_item, add_wand_multiplier) {
 Test(class_item, add_sword_multiplier) {
     item_t* sword = item_new("sword", " ", " ");
     item_init(sword, "sword", " ", " ");
-    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
-    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL);
-    class_t* druid = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
-    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL);
-    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL);
+    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
+    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL,false);
+    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL,false);
 
     double multiplier = 1.0;
 
@@ -64,12 +64,12 @@ Test(class_item, add_sword_multiplier) {
 Test(class_item, add_bow_multiplier) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
-    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
-    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL);
-    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
-    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL);
-    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL);
+    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
+    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL,false);
+    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL,false);
 
     double multiplier = 3.0;
 
@@ -93,10 +93,10 @@ Test(class_item, get_class_item_multiplier) {
     item_init(wand, "wand", " ", " ");
     item_t* sword = item_new("sword", " ", " ");
     item_init(sword, "sword", " ", " ");
-    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
-    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL);
-    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
+    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL,false);
+    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
 
     double multiplier = 0.5;
 
@@ -125,12 +125,12 @@ void check_remove_multiplier(item_t* item, class_t* class) {
 Test(class_item, remove_wand_multiplier) {
     item_t* wand = item_new("wand", " ", " ");
     item_init(wand, "wand", " ", " ");
-    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
-    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL);
-    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL);
-    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL);
-    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL);
-    class_init(monk, "monk", " ", " ", NULL, NULL, NULL);
+    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL,false);
+    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL,false);
+    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL,false);
+    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL,false);
+    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL,false);
+    class_init(monk, "monk", " ", " ", NULL, NULL, NULL,false);
 
     double multiplier = 0.75;
 
@@ -149,12 +149,12 @@ Test(class_item, remove_wand_multiplier) {
 Test(class_item, remove_bow_multiplier) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
-    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
-    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL);
-    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
-    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL);
-    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL);
+    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
+    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL,false);
+    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL,false);
 
     double multiplier = 0.25;
 
@@ -187,12 +187,12 @@ void check_add_restriction(item_t* item, class_t* class) {
 Test(class_item, add_wand_restriction) {
     item_t* wand = item_new("wand", " ", " ");
     item_init(wand, "wand", " ", " ");
-    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
-    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL);
-    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL);
-    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL);
-    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL);
-    class_init(monk, "monk", " ", " ", NULL, NULL, NULL);
+    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL,false);
+    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL,false);
+    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL,false);
+    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL,false);
+    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL,false);
+    class_init(monk, "monk", " ", " ", NULL, NULL, NULL,false);
     check_add_restriction(wand, ranger);
     check_add_restriction(wand, rogue);
     check_add_restriction(wand, monk);
@@ -203,12 +203,12 @@ Test(class_item, add_wand_restriction) {
 Test(class_item, add_sword_restriction) {
     item_t* sword = item_new("sword", " ", " ");
     item_init(sword, "sword", " ", " ");
-    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
-    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL);
-    class_t* druid = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
-    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL);
-    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL);
+    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
+    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL,false);
+    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL,false);
     check_add_restriction(sword, sorcerer);
     check_add_restriction(sword, druid);
     check_add_restriction(sword, elementalist);
@@ -220,12 +220,12 @@ Test(class_item, add_sword_restriction) {
 Test(class_item, add_bow_restriction) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
-    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
-    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL);
-    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
-    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL);
-    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL);
+    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
+    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL,false);
+    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL,false);
     check_add_restriction(bow, sorcerer);
     check_add_restriction(bow, druid);
     check_add_restriction(bow, elementalist);
@@ -246,10 +246,10 @@ Test(class_item, is_restricted) {
     item_init(wand, "wand", " ", " ");
     item_t* sword = item_new("sword", " ", " ");
     item_init(sword, "sword", " ", " ");
-    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
-    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL);
-    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
+    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL,false);
+    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
 
     add_item_restriction(wand, ranger);
     add_item_restriction(sword, druid);
@@ -277,12 +277,12 @@ void check_remove_restriction(item_t* item, class_t* class) {
 Test(class_item, remove_wand_restriction) {
     item_t* wand = item_new("wand", " ", " ");
     item_init(wand, "wand", " ", " ");
-    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL);
-    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL);
-    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL);
-    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL);
-    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL);
-    class_init(monk, "monk", " ", " ", NULL, NULL, NULL);
+    class_t* ranger = class_new("ranger", " ", " ", NULL, NULL, NULL,false);
+    class_init(ranger, "ranger", " ", " ", NULL, NULL, NULL,false);
+    class_t* rogue = class_new("rogue", " ", " ", NULL, NULL, NULL,false);
+    class_init(rogue, "rogue", " ", " ", NULL, NULL, NULL,false);
+    class_t* monk = class_new("monk", " ", " ", NULL, NULL, NULL,false);
+    class_init(monk, "monk", " ", " ", NULL, NULL, NULL,false);
 
     add_item_restriction(wand, ranger);
     add_item_restriction(wand, rogue);
@@ -299,12 +299,12 @@ Test(class_item, remove_wand_restriction) {
 Test(class_item, remove_bow_restriction) {
     item_t* bow = item_new("bow", " ", " ");
     item_init(bow, "bow", " ", " ");
-    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL);
-    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL);
-    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL);
-    class_init(druid, "druid", " ", " ", NULL, NULL, NULL);
-    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL);
-    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL);
+    class_t* sorcerer = class_new("sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_init(sorcerer, "sorcerer", " ", " ", NULL, NULL, NULL,false);
+    class_t* druid  = class_new("druid", " ", " ", NULL, NULL, NULL,false);
+    class_init(druid, "druid", " ", " ", NULL, NULL, NULL,false);
+    class_t* elementalist = class_new("elementalist", " ", " ", NULL, NULL, NULL,false);
+    class_init(elementalist, "elementalist", " ", " ", NULL, NULL, NULL,false);
 
     add_item_restriction(bow, sorcerer);
     add_item_restriction(bow, druid);

@@ -128,7 +128,7 @@ Test(player, player_set_class)
 {
   player_t *player = player_new("1");
 
-  class_t *test_class = class_new("Testclass", "shortdesc", "longdesc", NULL, NULL, NULL);
+  class_t *test_class = class_new("Testclass", "shortdesc", "longdesc", NULL, NULL, NULL, false);
 
   /* Prepare the stats and effects hashes for copying */
   stats_hash_t *stats_hash = NULL;
@@ -142,7 +142,7 @@ Test(player, player_set_class)
   add_stat_effect(&effects_hash, effect);
 
   class_init(test_class, "Testclass", "shortdesc", "longdesc",
-               NULL, stats_hash, effects_hash);
+               NULL, stats_hash, effects_hash, false);
 
 
   /* Prepare the skill inventory for copying */
@@ -363,7 +363,7 @@ Test(player, add_item_effect_to_player)
   stat_effect_t *e1 = stat_effect_new(g1);
   stat_effect_t *e2 = stat_effect_new(g1);
   class_t *class = class_new("class", "short", "long",
-                   NULL, NULL, NULL);
+                   NULL, NULL, NULL, false);
   player->player_class = class;
   add_stat_effect(&player->player_class->effects, e1);
 

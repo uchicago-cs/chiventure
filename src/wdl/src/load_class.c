@@ -68,7 +68,7 @@ class_t* load_class(obj_t* class_obj, game_t* game) {
         class_prefab_add_skills(class);
     }
     else {
-        class = class_new(class_obj->id, "", "", NULL, NULL, NULL);
+        class = class_new(class_obj->id, "", "", NULL, NULL, NULL, false);
     }
 
     /* Overwrite short description */

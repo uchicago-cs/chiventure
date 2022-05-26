@@ -34,7 +34,7 @@ class_t *generate_test_class2()
     speed_stat->modifier = 1;
     HASH_ADD(hh, stats, key, strlen(the_key), speed_stat);
 
-    c = class_new(name, shortdesc, longdesc, NULL, stats, NULL);
+    c = class_new(name, shortdesc, longdesc, NULL, stats, NULL, false);
     return c;
 }
 

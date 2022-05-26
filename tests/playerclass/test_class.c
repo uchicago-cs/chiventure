@@ -28,7 +28,7 @@ class_t* generate_test_class() {
                 "on up-close physical damage with weapons and survives enemy "
                 "attacks using heavy armor.\n";
 
-    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL, false);
     class_add_skills(c, inventory_new(5, 5), skill_tree_new(3000, c->name, 15));
     return c;
 }
@@ -74,7 +74,7 @@ Test(test_class, init) {
                 "on up-close physical damage with weapons and survives enemy "
                 "attacks using heavy armor.\n";
 
-    rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL, NULL);
+    rc = class_init(&c, name, shortdesc, longdesc, NULL, NULL, NULL, false);
 
     cr_assert_eq(rc, EXIT_SUCCESS, "class_init failed");
     cr_assert_str_eq(c.name, name, "class_init didn't set name");
@@ -121,23 +121,23 @@ class_hash_t* generate_class_hash() {
     class_t* class_1 = class_new("Warrior", 
                                  "Warrior's short description.\n", 
                                  "Warrior's long description.\n", 
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, false);
     class_t* class_2 = class_new("Rogue", 
                                  "Rogue's short description.\n", 
                                  "Rogue's long description.\n", 
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, false);
     class_t* class_3 = class_new("Bard", 
                                  "Bard's short description.\n", 
                                  "Bard's long description.\n", 
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, false);
     class_t* class_4 = class_new("Monk", 
                                  "Monk's short description.\n", 
                                  "Monk's long description.\n", 
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, false);
     class_t* class_5 = class_new("Lich", 
                                  "Lich's short description.\n", 
                                  "Lich's long description.\n", 
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, false);
     
     /* Adding classes to the hashtable */
     class_hash_t* hashtable = NULL; // Hashtables always start out NULL
@@ -173,7 +173,7 @@ Test(test_class, add) {
     class_t* rogue_2 = class_new("Rogue", 
                                  "The short description can be different.\n", 
                                  "Only the name is checked.\n", 
-                                 NULL, NULL, NULL);
+                                 NULL, NULL, NULL, false);
 
     cr_assert_eq(add_class(&hashtable, rogue_2), FAILURE, 
                  "Adding duplicate class was expected to fail, but it did not.\n");
@@ -218,7 +218,7 @@ Test(test_class, set) {
     set_class(&hashtable, class_new("Alchemist", 
                                     "Alchemist's short description.\n",
                                     "Alchemist's long description.\n",
-                                    NULL, NULL, NULL));
+                                    NULL, NULL, NULL, false));
     
     check_description(&hashtable, "Alchemist", "Alchemist's short description.\n");
 
@@ -226,7 +226,7 @@ Test(test_class, set) {
     set_class(&hashtable, class_new("Alchemist", 
                                     "Alchemist's NEW AND IMPROVED description.\n",
                                     "Alchemist's long description.\n",
-                                    NULL, NULL, NULL));
+                                    NULL, NULL, NULL, false));
 
     check_description(&hashtable, "Alchemist", "Alchemist's NEW AND IMPROVED description.\n");                                           
 }

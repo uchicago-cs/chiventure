@@ -9,7 +9,7 @@ Test(battle_flow_structs, new_ctx_player)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
 
     battle_player_t *ctx_player = new_ctx_player("new_ctx_player_Name", test_class,
                                           NULL, NULL, NULL, NULL, NULL, NULL);

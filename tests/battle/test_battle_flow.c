@@ -12,7 +12,7 @@ Test(battle_flow_move, set_battle_player)
 
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
-                                NULL, NULL, NULL);
+                                NULL, NULL, NULL, false);
 
     battle_player_t *ctx_player = new_ctx_player("set_player_Name", test_class,
                                                  NULL, NULL, NULL, NULL, NULL, NULL);
@@ -46,7 +46,7 @@ Test(battle_flow_move, set_one_enemy)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
-                                NULL, NULL, NULL);
+                                NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -96,7 +96,7 @@ Test(battle_flow_move, set_battle)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -148,7 +148,7 @@ Test(battle_flow_move, start_battle)
 {
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                     NULL, NULL, NULL);
+                                     NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -213,7 +213,7 @@ Test(battle_flow_move_, return_success_battle_flow_move)
 
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                     NULL, NULL, NULL);
+                                     NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -276,7 +276,7 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -363,7 +363,7 @@ Test(battle_flow_move, battle_over_by_player)
                              SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -450,7 +450,7 @@ Test(battle_flow_move, battle_over_by_enemy)
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -532,7 +532,7 @@ Test(battle_flow_move, enemy_surrender_move_battle_flow_move)
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     class_t* test_class = class_new("Bard", "Music boi",
                                 "Charismatic, always has a joke or song ready",
-                                NULL, NULL, NULL);
+                                NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;

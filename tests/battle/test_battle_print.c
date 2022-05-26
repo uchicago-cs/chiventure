@@ -18,7 +18,7 @@ Test(battle_print, print_start_battle)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -59,7 +59,7 @@ Test(battle_print, print_hp_one_enemy)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -189,7 +189,7 @@ Test(battle_print, print_player_move_crit)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;
@@ -258,7 +258,7 @@ Test(battle_print, print_player_move_miss)
     npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, HOSTILE);
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
-                                    NULL, NULL, NULL);
+                                    NULL, NULL, NULL, false);
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
     dagger_changes->phys_def = 5;

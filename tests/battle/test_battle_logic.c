@@ -539,7 +539,7 @@ Test(battle_logic, award_xp)
 {
     class_t* test_class = class_new("Bard", "Music boi",
 				    "Charismatic, always has a joke or song ready",
-				    NULL, NULL, NULL);
+				    NULL, NULL, NULL, false);
 
     double xp_gain = 15;
     stat_t *pstats = calloc(1, sizeof(stat_t));
