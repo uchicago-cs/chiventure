@@ -122,28 +122,6 @@ int battle_game_free(battle_game_t *game);
 int battle_player_free(battle_player_t *player);
 
 /*
- * Frees the resources associated with a battle
- *
- * Parameters:
- *  - battle: A battle. Must point to already allocated memory.
- *
- * Returns:
- *  - Always returns 0.
- */
-int battle_free(battle_t *battle);
-
-/*
- * Frees the resources associated with a combatant
- *
- * Parameters:
- *  - c: A combatant. Must point to already allocated memory.
- *
- * Returns:
- *  - Always returns 0.
- */
-int combatant_free(combatant_t *c);
-
-/*
  * Frees the resources associated with a battle equipment
  *
  * Parameters:
@@ -153,17 +131,6 @@ int combatant_free(combatant_t *c);
  *  - Always returns 0.
  */
 int battle_equipment_free(battle_equipment_t *equip);
-
-/*
- * Frees the resources associated with a battle move
- *
- * Parameters:
- *  - move: A battle move. Must point to already allocated memory.
- *
- * Returns:
- *  - Always returns 0.
- */
-int move_free(move_t *move);
 
 /*
  * Frees the resources associated with a battle item

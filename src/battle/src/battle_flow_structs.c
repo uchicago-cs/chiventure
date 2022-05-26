@@ -32,6 +32,18 @@ battle_ctx_t *init_battle_ctx(battle_ctx_t *ctx, battle_game_t *game,
 }
 
 /* see battle_flow_structs.h */
+int turn_free(turn_component_list_t *tcl)
+{
+      while (tcl != NULL)
+      {
+            turn_component_list_t *buf = tcl;
+            tcl = tcl->next;
+            free(buf);
+      }
+      return 0;
+}
+
+/* see battle_flow_structs.h */
 int battle_ctx_free(battle_ctx_t *ctx)
 {
       turn_free(ctx->tcl);
@@ -46,32 +58,6 @@ int battle_game_free(battle_game_t *game)
       battle_free(game->battle);
       battle_player_free(game->player);
       free(game);
-      return 0;
-}
-
-int battle_free(battle_t *battle)
-{
-      free(battle->current_tc);
-      combatant_free(battle->player);
-      combatant_free(battle->enemy);
-      return 0;
-}
-
-int combatant_free(combatant_t *c)
-{
-      while (c !=NULL){
-            combatant_t *buf = c;
-            c = c->next;
-            free(buf->name);
-            class_free(buf->class_type);
-            stat_free(buf->stats);
-            move_free(buf->moves);
-            battle_item_free(buf->items);
-            battle_equipment_free(buf->weapon);
-            battle_equipment_free(buf->armor);
-            battle_equipment_free(buf->accessory);
-            free(buf);
-      }
       return 0;
 }
 
@@ -99,19 +85,6 @@ int battle_equipment_free(battle_equipment_t *equip)
       return 0;
 }
 
-int move_free(move_t *move)
-{
-      while (move!= NULL){
-            move_t *buf = move;
-            move = move->next;
-            free(buf->name);
-            free(buf->info);
-            battle_item_free(buf->req_item);
-            stat_changes_free(buf->user_mods);
-            stat_changes_free(buf->opponent_mods);
-      }
-      return 0;
-}
 
 int battle_item_free(battle_item_t *item)
 {
@@ -131,7 +104,7 @@ int stat_changes_free(stat_changes_t *changes)
 {
       while (changes != NULL)
       {
-            turn_component_list_t *buf = changes;
+            stat_changes_t *buf = changes;
             changes = changes->next;
             free(buf);
       }
@@ -204,17 +177,7 @@ turn_component_list_t *init_turn(turn_component_list_t *tcl,
       return SUCCESS;
 }
 
-/* see battle_flow_structs.h */
-int turn_free(turn_component_list_t *tcl)
-{
-      while (tcl != NULL)
-      {
-            turn_component_list_t *buf = tcl;
-            tcl = tcl->next;
-            free(buf);
-      }
-      return 0;
-}
+
 
 
 
