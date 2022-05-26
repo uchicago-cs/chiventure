@@ -84,7 +84,7 @@ typedef enum complex_skill_type {
     RANDOM_CHANCE,
 
     //Denotes a random switch effect
-    RANDOM_SWITCH
+    RANDOM_SWITCH,
     
     //Denotes conditional complex skill
     COMPLEX_CONDITIONAL

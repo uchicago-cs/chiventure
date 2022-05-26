@@ -192,9 +192,6 @@ Test(skill_test, sequential_complex_skill_execute){
 //     int x = complex_skill_level_up(complex);
 //     cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
 // }
-<<<<<<< HEAD
-
-
 
 /* Tests complex_skill_level_up when the return value is success */
 Test(skill_test, complex_skill_level_up_success){
@@ -210,30 +207,30 @@ Test(skill_test, complex_skill_level_up_success){
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
+    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2, NULL);
     int x = complex_skill_level_up(complex);
     cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
 }
 
-/* Tests skill_level_up when return value is failure */
-Test(skill_tests, complex_skill_level_up_failure)
-{
-    chiventure_ctx_t* ctx = create_player_and_stats();
-    item_t* bomb = add_bomb_item(ctx);
-    effect_t* defusebombeffect = make_bomb_effect(bomb);
+// /* Tests skill_level_up when return value is failure */
+// Test(skill_tests, complex_skill_level_up_failure)
+// {
+//     chiventure_ctx_t* ctx = create_player_and_stats();
+//     item_t* bomb = add_bomb_item(ctx);
+//     effect_t* defusebombeffect = make_bomb_effect(bomb);
 
-    skill_t** skills = malloc(sizeof(skill_t*)*2);
-    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        1, 5, defusebombeffect, NULL);
-    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
-        1, 5, defusebombeffect, NULL);
-    skills[0] = skill1;
-    skills[1] = skill2;
+//     skill_t** skills = malloc(sizeof(skill_t*)*2);
+//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//         1, 5, defusebombeffect, NULL);
+//     skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+//         1, 5, defusebombeffect, NULL);
+//     skills[0] = skill1;
+//     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
-    int x = complex_skill_level_up(complex);
-    cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
-}
+//     complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2, NULL);
+//     int x = complex_skill_level_up(complex);
+//     cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
+// }
 
 //  RANDOM CHANCE TESTS 
 
@@ -249,18 +246,8 @@ Test(skill_tests, random_chance_new_test){
         2, 5, defusebombeffect, NULL);
     skills[0] = skill1;
     skills[1] = skill2;
-    
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
 
-    float x[2] = {1.0, 0.0};
-
-    random_switch_type_t *switch_skill = random_switch_new(random_switch_skill, x);
-
-    int rc = execute_random_switch_complex_skill(switch_skill, ctx);
-
-    cr_assert_eq(rc, 0, 
-        "Error: failed test execute_random_switch_complex_skill_test\n");    
-    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2);
+    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
     random_chance_type_t *chance = random_chance_new(random_chance_skill, 0.6);
 
     cr_assert_eq(chance->complex_skill->type, RANDOM_CHANCE,
@@ -287,7 +274,7 @@ Test(skill_tests, random_switch_init_test_half)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2);
+    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
     random_chance_type_t* rand_chance= (random_chance_type_t *)malloc(sizeof(random_chance_type_t));
 
     
@@ -317,7 +304,7 @@ Test(skill_tests, random_chance_free_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_chance = complex_skill_new(RANDOM_CHANCE, skills, 2);
+    complex_skill_t* random_chance = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
     random_chance_type_t *chance = random_chance_new(random_chance, 0.7);
 
     int ret = random_chance_free(chance);
@@ -339,7 +326,7 @@ Test(skill_test, execute_random_chance_complex_skill_test){
     skills[0] = skill1;
     skills[1] = skill2;
     
-    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2);
+    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
     random_chance_type_t *chance = random_chance_new(random_chance_skill, 1.0);
 
     int rc = execute_random_chance_complex_skill(chance, ctx);
@@ -366,7 +353,7 @@ Test(skill_test, random_range_new_test){
     skills[0] = skill1;
     skills[1] = skill2;
     
-    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2);
+    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
     random_range_type_t *range = random_range_new(random_range_skill, 1, 10);
 
     cr_assert_eq(range->complex_skill->type, RANDOM_RANGE,
@@ -394,7 +381,7 @@ Test(random_range, random_range_init_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2);
+    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
     random_range_type_t* range = malloc(sizeof(random_range_type_t));
     int lower_b = 1;
     int upper_b = 10;
@@ -426,7 +413,7 @@ Test(random_range, random_range_free_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_range = complex_skill_new(RANDOM_RANGE, skills, 2);
+    complex_skill_t* random_range = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
     random_range_type_t *range = random_range_new(random_range, 1, 10);
 
     int ret = random_range_free(range);
@@ -448,7 +435,7 @@ Test(skill_test, execute_random_range_complex_skill_test){
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_range = complex_skill_new(RANDOM_RANGE, skills, 2);
+    complex_skill_t* random_range = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
     random_range_type_t *range = random_range_new(random_range, 1, 10);
 
     int rc = execute_random_range_complex_skill(range, ctx);
@@ -474,7 +461,7 @@ Test(skill_test, random_switch_new_test_uneq)
     skills[0] = skill1;
     skills[1] = skill2;
     
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
 
     float *chances = (float *)malloc(2*sizeof(float)); 
     chances[0] = 0.4;
@@ -507,7 +494,7 @@ Test(random_switch, random_switch_init_test_uneq)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
     random_switch_type_t* rand_switch = malloc(sizeof(float) * 2 + sizeof(random_switch_skill) * 4);
 
     float *chances = (float *)malloc(2*sizeof(float));  
@@ -543,7 +530,7 @@ Test(skill_test, random_switch_new_test_half)
     skills[0] = skill1;
     skills[1] = skill2;
     
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
 
     float *chances = (float *)malloc(2*sizeof(float)); 
     chances[0] = 0.5;
@@ -575,7 +562,7 @@ Test(skill_test, random_switch_init_test_half)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
     random_switch_type_t* rand_switch = malloc(sizeof(float) * 2 + sizeof(random_switch_skill) * 4);
 
     float *chances = (float *)malloc(2*sizeof(float));  
@@ -615,7 +602,7 @@ Test(skill_test, random_switch_free_test)
     chances[0] = 0.4;
     chances[1] = 0.6;
 
-    complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
     random_switch_type_t *rand_switch = random_switch_new(random_switch, chances);
 
     int ret = random_switch_free(rand_switch);
@@ -639,12 +626,10 @@ Test(skill_test, execute_random_switch_complex_skill_test){
 
     float x[2] = {1.0, 0.0};
 
-    complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
     random_switch_type_t *random = random_switch_new(random_switch, x);
 
     int rc = execute_random_switch_complex_skill(random, ctx);
     cr_assert_eq(rc, 0, "Error: failed test execute_random_switch_complex_skill_test\n");
 
 }
-=======
->>>>>>> dev
