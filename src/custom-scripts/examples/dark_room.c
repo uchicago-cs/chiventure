@@ -42,6 +42,7 @@ char* flip_state(bool st)
     // }
     
     // return str_state;
+
     return "The torch is lit.";
 }
 
@@ -79,9 +80,9 @@ chiventure_ctx_t *create_sample_ctx()
 
 
     /* Create one rooms (room1). room1 is the initial room */
-    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
+    room_t *room1 = room_new("room_torch", "This is the torch room", "This is a room with a torch in the corner");
     add_room_to_game(game, room1);
-    create_connection(game, "room_A", "room1", "SOUTH");
+    create_connection(game, "room_A", "room_torch", "SOUTH");
 
     /* Create a torch in room1 */
     item_t *torch = item_new("TORCH","It is a torch.",
