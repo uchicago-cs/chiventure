@@ -83,7 +83,6 @@ chiventure_ctx_t *create_sample_ctx()
     room_t *room1 = room_new("room_torch", "This is the torch room", "This is a room with a torch in the corner");
     add_room_to_game(game, room1);
     create_connection(game, "room_A", "room_torch", "SOUTH");
-    create_connection(game, "room_torch", "room_A", "NORTH");
 
     /* Create a torch in room1 */
     item_t *torch = item_new("TORCH","It is a torch.",
