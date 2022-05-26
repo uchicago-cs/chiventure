@@ -26,23 +26,24 @@ typedef struct obj_t
 object_t *obj_t_new();
 
 /**
- * obj_t_bool() creates an object_t struct containing a boolean
+ * obj_t_init() initializes an object_t struct
  * Parameters:
- * - bool value to be stored
+ * - data struct to be stored
+ * - singular data_type_t enum held by data struct
  * - Lua script (NULL if no script to be specified)
- * - argument linked list to be passed to Lua if applicable
  * Returns:
- * - pointer to an object struct containing the bool
+ * - pointer to an object struct containing the data struct
  */
 object_t *obj_t_init(data_t d, data_type_t t, char *lua);
 
 // ============================================================================
 
 /**
- * obj_add_arg_bool adds a bool to the argument linked list of the object_t
+ * obj_add_arg adds a data_t struct to the argument linked list of the object_t
  * Parameters:
  * - the object whose argument list is to be added to
- * - the boolean to be added
+ * - the data_t struct which will be added
+ * - the data_type_t enum held by the data struct
  * Returns:
  * - the updated object
  */

@@ -4,12 +4,11 @@
 #include "lua_custom_typ.h"
 
 /**
- * bool_t_get() returns a bool from an object_t struct
+ * arg_t_get() returns an data_t struct from an object_t struct
  * Parameters:
  * - ot: an obj_t
- * - d: operating data type
  * Returns:
- * - bool from ot
+ * - data from ot
  */
 data_t arg_t_get(object_t *ot);
 
