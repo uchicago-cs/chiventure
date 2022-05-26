@@ -237,6 +237,6 @@ bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
  * - true: if the player can start the quest
  * - false: if the player cannot start the quest
  */
-bool npc_can_give_task(quest_ctx_t *qctx, char *task_id);
+bool npc_can_complete_task(quest_ctx_t *qctx, char *task_id);
 
 #endif /* QUESTS_STATE_H */

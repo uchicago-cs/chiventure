@@ -223,32 +223,36 @@ npc_task_list_t *npc_task_list_new();
  *
  * Parameters:
  * - task_list: an uninitialized list of tasks
+ * 
+ * Returns:
+ * - SUCCESS on successful free, FAILIURE on failure
 */
-npc_task_list_t *npc_task_list_free(npc_task_list_t *task_list);
+int npc_task_list_free(npc_task_list_t *npc_task_list);
 
 /*
  * Appends an npc_quest_t to an npc_quest_list_t
  *
  * Parameters:
- * - head: the current head of the npc_quest_list
- * - next: the quest_t struct to add to head
+ * - list: the npc_quest_list
+ * - next: the quest_t struct to add
  * 
  * Returns:
  * - SUCCESS following successful append, FAILURE upon failed append
 */
-int npc_quest_list_append(npc_quest_t *head, npc_quest_t *next);
+int npc_quest_list_add(npc_quest_list_t *list, npc_quest_t *quest);
 
 /*
- * Appends an npc_quest_t to an npc_quest_list_t
+ * Appends an npc_task_t to an npc_task_list_t
  *
  * Parameters:
- * - head: the current head of the npc_quest_list
- * - next: the quest_t struct to add to head
+ * - list: the npc_task_list
+ * - task: the task_t struct to add
  * 
  * Returns:
  * - SUCCESS following successful append, FAILURE upon failed append
 */
-int npc_task_list_append(npc_task_t *head, npc_task_t *next);
+int npc_task_list_add(npc_task_list_t *list, npc_task_t *task);
+
 /*
  * Initializes an npc with the given parameters.
  *
@@ -306,6 +310,19 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
  *  SUCCESS if successful, FAILURE if an error occurs
  */
 int npc_free(npc_t *npc);
+
+/* Sets the npc's active dialogue to the proper dialogue
+ * - This handles quest interaction, since NPCs can have different
+ *   dialogue when giving quests or completing tasks
+ * 
+ * Parameters:
+ * - qctx: A quest comtext containing a player and a hash of all quests in the game
+ * - npc: An npc
+ * 
+ * Returns:
+ * - SUCCESS on success, FAILURE if an error occurs
+*/
+int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
 
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
@@ -552,7 +569,7 @@ int delete_all_npcs(npc_hash_t *npcs);
  * Checks to see if player can receive (based on stats)
  * If activated quest --> active_dialogue updated to that quest's dialogue
  * If activated task --> active_dialogue updated to that tasks's dialogue
- * If both --> ? for now, default to quest
+ * If both --> default to quest
  * If neither --> remain default standard_dialogue
  * 
  * Parameters:
