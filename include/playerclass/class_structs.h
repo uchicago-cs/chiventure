@@ -55,6 +55,9 @@ typedef struct class {
     // Class skills
     skill_inventory_t* starting_skills;
 
+    //is this an NPC using this class
+    bool is_npc;
+
     // Memory used internally by the UTHASH macros
     UT_hash_handle hh;
 } class_t;

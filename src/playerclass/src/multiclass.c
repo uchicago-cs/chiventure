@@ -272,6 +272,7 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
 
     new_class->skilltree = multiclass_tree(name, base_class->skilltree, second_class->skilltree);
     new_class->starting_skills = multiclass_inventory(base_class->starting_skills, second_class->starting_skills);
+    new_class->is_npc = base_class->is_npc || second_class->is_npc;
 
     return new_class;
 }

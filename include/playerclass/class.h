@@ -19,13 +19,15 @@
  *  - attr: the attributes of the class
  *  - stat: the stats of the class
  *  - effect: temporary stats of the class
+ *  - is_npc: checks if the class belongs to an NPC
  * 
  * Returns:
  *  - a pointer to the allocated class memory
  *  - NULL on error
  */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
+                   obj_t* attr, stats_hash_t* stat, 
+                   effects_hash_t* effect, bool is_npc);
 
 /* 
  * Initializes values for a player class. Only creates a deep copies of the 
@@ -40,13 +42,15 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
  *  - attr: the attributes of the class
  *  - stat: the stats of the class
  *  - effect: temporary stats of the class
+ *  - is_npc: checks if the class belongs to an NPC
  * 
  * Returns:
  *  - EXIT_SUCCESS on successful initialization
  *  - EXIT_FAILURE otherwise
  */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-               obj_t* attr, stats_hash_t* stat, effects_hash_t* effect);
+               obj_t* attr, stats_hash_t* stat, 
+               effects_hash_t* effect, bool is_npc);
 
 /*
  * Adds skill inventories and a skill tree to a pre existing player class. If a

@@ -21,7 +21,7 @@
 
 /* See class.h */
 class_t* class_new(char* name, char* shortdesc, char* longdesc,
-                   obj_t* attr, stats_hash_t* stat, effects_hash_t* effect) {
+                   obj_t* attr, stats_hash_t* stat, effects_hash_t* effect, bool is_npc) {
     int rc;
     class_t* c;
 
@@ -32,7 +32,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
         return NULL;
     }
 
-    rc = class_init(c, name, shortdesc, longdesc, attr, stat, effect);
+    rc = class_init(c, name, shortdesc, longdesc, attr, stat, effect, is_npc);
 
     if (rc == EXIT_FAILURE) {
         fprintf(stderr, "Could not initalize values for class_new.\n");
@@ -43,7 +43,7 @@ class_t* class_new(char* name, char* shortdesc, char* longdesc,
 
 /* See class.h */
 int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
-               obj_t* attr, stats_hash_t* stat, effects_hash_t* effect) {
+               obj_t* attr, stats_hash_t* stat, effects_hash_t* effect, bool is_npc) {
     if (class == NULL) {
         fprintf(stderr, "Class to initialize in class_init is NULL.\n");
         return EXIT_FAILURE;
@@ -82,6 +82,7 @@ int class_init(class_t* class, char* name, char* shortdesc, char* longdesc,
     /* These are initialized by class_init_skills() */
     class->skilltree = NULL;
     class->starting_skills = NULL;
+    class->is_npc = is_npc;
 
     return EXIT_SUCCESS;
 }

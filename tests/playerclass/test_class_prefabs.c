@@ -96,6 +96,19 @@ Test(class_prefabs, Bard) {
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Magic Word", "failed to initialize skill inventory");
 }
 
+/* Tests the basic class and the added NPC flag*/
+Test(class_prefabs, Basic) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    /* Tests if we can find the name even if its case is wrong */
+    class_t *c = class_prefab_new(ctx->game, "BAsic");
+    c->is_npc = true;
+    check_field_presence(c);
+    
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
+    cr_assert_eq(c->is_npc, true, "failed to initialize the npc flag to true");
+}
+
 /* Tests the monk class */
 Test(class_prefabs, Monk) {
     chiventure_ctx_t* ctx = init_statless_context();
