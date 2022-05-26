@@ -371,7 +371,7 @@ battle_t *create_battle()
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
 
-    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL,
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, create_player_battle_items(),
                                                 NULL, NULL, NULL);
     move_t *e_move = move_new(0, "TEST", "TEST INFO", PHYS, NO_TARGET, NO_TARGET, 
                               SINGLE, 0, NULL, 80, 100, NULL, NULL, NULL, NULL);
