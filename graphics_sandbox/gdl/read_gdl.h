@@ -14,6 +14,8 @@
 
 
 #include "../include/game-state/stats.h"
+#include "raylib.h"
+#include "common.h"
 #include <stdio.h>
 #include <stdlib.h>
 
