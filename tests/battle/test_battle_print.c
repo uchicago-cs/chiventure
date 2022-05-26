@@ -256,7 +256,7 @@ Test(battle_print, print_battle_damage)
 
     char *string_crit = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_battle_damage(b, PLAYER, move, 1.5, string_crit);
-    char *expected_string_crit = "It did 14 damage.\n-- Your HP: 50\n-- bob's HP: 30\n";
+    char *expected_string_crit = "It was a critical hit! It did 13 damage.\n-- Your HP: 50\n-- bob's HP: 30\n";
     cr_expect_str_eq(string_crit, expected_string_crit, "print_battle_damage() failed to set string %s", string_crit);
 
     free(string);
@@ -338,7 +338,7 @@ Test(battle_print, print_stat_changes_move_both)
                                 NULL, NULL); 
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_stat_changes_move(b, PLAYER, move_one, string);
-    char *expected_string = "Your HP changed by 10\nbob's hp changed by -10\n";
+    char *expected_string = "Your HP changed by 10\nbob's HP changed by -10\n";
     cr_expect_str_eq(string, expected_string, "print_stat_changes_move() failed to set string \n%s vs. \n%s", string, expected_string);
     free(string);
 }
