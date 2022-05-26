@@ -102,7 +102,7 @@ def collect_flags(flags: list) -> dict:
 def main():
     """
     The main testing function. By default, this function will run all tests. 
-    Flags can also be provided as cli arguments to change the behavior of testing.
+    Flags can also be provided to change the behavior of testing.
     Flags:
         --file=<test_file>      run one <test_file> in dsl_tests/
                                 this flag can be repeated
@@ -114,7 +114,6 @@ def main():
     the function will print out a summary of tests, 
     and also a list of failed tests (if any)
     """
-    base_path = Path(__file__).parent
     warnings.filterwarnings('ignore')
 
     # summary statistics
@@ -147,8 +146,10 @@ def main():
             failed += 1
             list_failed.append(file)
     
+    """print summary statistics of running tests"""
     print(f"| Tests run: {tests_run} | Tests passed: {passed} | Tests failed: {failed} |")
     
+    """print a list of failed tests, if any"""
     if list_failed:
         print(f"List of failed tests:")
         for i in list_failed:
