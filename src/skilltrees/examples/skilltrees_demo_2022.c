@@ -57,28 +57,31 @@ chiventure_ctx_t* create_example_ctx() {
     /* Create example rooms */
     room_t* start_room = room_new("Start Room", "", "Once you get past this door, you will meet "
                                                     "your new mentor! ");
-    room_t* combined_room = room_new("Combined Skill Room", "", "You see your new mentor. "
-                                                                "Hello my young pupil! We shall begin immediately. "
-                                                                "Over the last year, we have made even more powerful, "
-                                                                "complicated skills! In this room, you can learn Combined "
-                                                                "Skills! Many smaller skills wrapped into one. "
-                                                                "Lets teach you a big stat boost!");
+
+    room_t* combined_room = room_new("Combined Skill Room", "", "You see your new mentor, in the middle of a large hallway.");
+
     room_t* sequential_room = room_new("Sequential Skill Room", "", "You enter a room with a training dummy. Your mentor begins to train "
                                                                     "you a powerful combo move, one that stuns your opponent, then summons "
-                                                                    "a mighty tornado");
+                                                                    "a mighty tornado!");
 
-    room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room. He begins rambling " 
+    room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room for some reason. He begins rambling " 
                                                                         " something about how orcs are good at smashing things. ");
 
     room_t* classes_room = room_new("Classes Room", "", "You enter a large library, filled wall to wall with books.");
 
-    room_t* final_room = room_new("Reader Room", "", "You and your mentor go into the next room, and you sense an anger from him. He's enraged you destroyed his dummy! "
-                                                      " How were you supposed to know it was a family heirloom?! He attacks!"
+    room_t* final_room = room_new("Reader Room", "", "You and your mentor go into the next room, and you sense his anger. He's enraged you destroyed his dummy! "
+                                                      "How were you supposed to know it was a family heirloom?! He attacks!"
                                                       "You remember how you had to check if you were an orc to smash things... can you read his weakness?");
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
     add_room_to_game(game, combined_room);
+    add_room_to_game(game, sequential_room);
+    add_room_to_game(game, conditional_room);
+    add_room_to_game(game, classes_room);
+    add_room_to_game(game, final_room);
+
+
 
     create_connection(game, "Start Room", "Combined Skill Room", "NORTH");
     create_connection(game, "Combined Skill Room", "Start Room", "SOUTH");
@@ -86,6 +89,10 @@ chiventure_ctx_t* create_example_ctx() {
     create_connection(game, "Sequential Skill Room", "Combined Skill Room", "SOUTH");
     create_connection(game, "Sequential Skill Room", "Conditional Skill Room", "NORTH");
     create_connection(game, "Conditional Skill Room", "Sequential Skill Room", "SOUTH");
+    create_connection(game, "Conditional Skill Room", "Classes Room", "NORTH");
+    create_connection(game, "Classes Room", "Conditional Skill Room", "SOUTH");
+    create_connection(game, "Classes Room", "Reader Room", "NORTH");
+    create_connection(game, "Reader Room", "Classes Room", "SOUTH");
 
 
     /* Set initial room */
@@ -335,7 +342,7 @@ char* add_sequential_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiven
         print_to_cli(ctx, "You attempt to stun the training dummy...");
         print_to_cli(ctx, "And you completely fail.");
         print_to_cli(ctx, "Mentor: What did you expect! You can't stun a dummy.");
-        print_to_cli(ctx, "Mentor: And I wasn't going to let you summon a tornado indoors!.");
+        print_to_cli(ctx, "Mentor: And I wasn't going to let you summon a tornado indoors!");
         return "";
     }
 }
@@ -508,17 +515,39 @@ char* read_weakness(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 //Functions to change classes for conditional example and class demo
 char* change_class_to_orc(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {   
-    ctx->game->curr_player->player_class->name = 
-        realloc(ctx->game->curr_player->player_class->name, 
-        sizeof(char)*(strlen("Orc")+1));
+    // ctx->game->curr_player->player_class->name = 
+    //     realloc(ctx->game->curr_player->player_class->name, 
+    //     sizeof(char)*(strlen("Orc")+1));
     ctx->game->curr_player->player_class->name = "Orc";
     return "Mentor: Not sure how you managed to do that, but alright, you're an Orc now.";
 }
 
+//Change class to something else
+char* read_book(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{   
+    print_to_cli(ctx, "You pick up a book about a legendary mage, and think it's pretty neat!");
+    print_to_cli(ctx, "You feel your orcishness disappearing as you become a mage.");
+    print_to_cli(ctx, "Mentor: Seriously, how do you do that?");
+    // ctx->game->curr_player->player_class->name = 
+    //     realloc(ctx->game->curr_player->player_class->name, 
+    //     sizeof(char)*(strlen("Mage")+1));
+    ctx->game->curr_player->player_class->name = "Mage";
+    return "";
+
+}
 
 /****************************************************************************************************************/
 /*MISC CODE*/
 /****************************************************************************************************************/
+
+char* combined_monologue(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{   
+    print_to_cli(ctx, "Mentor:Hello my young pupil! We shall begin immediately. "
+                        "Over the last year, we have made even more powerful, "
+                        "complicated skills! In this room, you can learn Combined "
+                        "Skills! Many smaller skills wrapped into one. "
+                        "Lets teach you a large stat boost!");
+}
 
 //Lecture by Mentor about documentation
 char* mentor_monolouge(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
@@ -528,19 +557,7 @@ char* mentor_monolouge(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
     print_to_cli(ctx, "Mentor: We've even made tools here that detail their skilltrees down to a high level, all for the sake of knowledge!");
 }
 
-//Change class to something else
-char* read_book(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
-{   
-    print_to_cli(ctx, "You pick up a book about a legendary mage, and think it's pretty neat!");
-    print_to_cli(ctx, "You feel your orcishness disappearing as you become a mage.");
-    print_to_cli(ctx, "Mentor: Seriously, how do you do that?");
-    ctx->game->curr_player->player_class->name = 
-        realloc(ctx->game->curr_player->player_class->name, 
-        sizeof(char)*(strlen("Mage")+1));
-    ctx->game->curr_player->player_class->name = "Mage";
-    return "";
 
-}
 
 
 
@@ -620,6 +637,7 @@ void main()
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
 
+    //Skill commands
     add_entry("LEARN_COMBINED", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("USE_COMBINED_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
     add_entry("LEARN_SEQUENTIAL", create_sequential_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
@@ -628,9 +646,10 @@ void main()
     add_entry("SMASH_DUMMY!", use_conditional_skill, NULL, ctx->cli_ctx->table);
     add_entry("SMASH_WINDOW", use_conditional_window_skill, NULL, ctx->cli_ctx->table);
 
-    //Class changing commands
+    add_entry("TALK_TO_MENTOR", combined_monologue, NULL, ctx->cli_ctx->table);
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
     add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
+    add_entry("READ_TOME", read_book, NULL, ctx->cli_ctx->table);
 
 
     //Start UI for example chiventure context
