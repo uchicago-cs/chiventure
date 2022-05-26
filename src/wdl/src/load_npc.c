@@ -110,7 +110,7 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
  * parameters:
  * - dialogue_obj: the dialogue object
  * - npc: an NPC
- * - g: game (for load_conditions to have access to all_items)
+ * - g: game (for load_quest_dialogue to build conditions)
  *
  * returns;
  * - SUCCESS for successful parse
@@ -202,13 +202,14 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
  * some future restructuring could minimize the duplicate code
  *
  * parameters:
+ * - quest_convo_obj:  the dialogue specific to the quest
  * - quest: the quest
- * - quest_convo: the dialogue specific to that quest
- * - id: the quest id
- * - npc: the npc
-
-int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest, char* id, 
-                        npc_t *npc, game_t *g)
+ * - quest_name: the quest's name
+ * - npc: the npc with given quest
+ * - g: the game struct
+*/
+int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest,
+                        char* quest_name, npc_t *npc, game_t *g)
 {
     convo_t *convo = convo_new();
 
@@ -278,8 +279,8 @@ int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest, char* id,
         }
     }
 
-     // assign the conversation to the NPC
-    if ((add_convo_to_quest(quest, convo) != SUCCESS) {
+     // assign the conversation to the quest
+    if (add_convo_to_quest(quest, convo) != SUCCESS) {
         fprintf(stderr, "Could not add convo to quest: %s\n", quest->id);
         return FAILURE;
     }
@@ -287,26 +288,25 @@ int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest, char* id,
     return SUCCESS;
 }
 
-*/
-
-/* load_quest_dialogue
- * loads dialogue into quests
+/* load_task_dialogue
+ * loads dialogue into tasks
  * a lot of this is verbatim taken from load_dialogue
  * some future restructuring could minimize the duplicate code
  *
  * parameters:
- * - quest: the quest
- * - quest_convo: the dialogue specific to that quest
- * - id: the quest id
+ * - task_convo_obj: the dialogue specific to the task
+ * - task: the task
+ * - task_name: the task name
  * - npc: the npc
-
-int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id, 
-                        npc_t *npc, game_t *g)
+ * - g: the game struct
+*/
+int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, 
+                       char* task_name, npc_t *npc, game_t *g)
 {
     convo_t *convo = convo_new();
 
     // verify the dialogue object's attributes
-    if (task_list_type_check(task_convo_obj) == FAILURE) {
+    if (dialogue_type_check(task_convo_obj) == FAILURE) {
         fprintf(stderr, "Task dialogue object failed typechecking, or the two "
                 "required attributes (nodes, edges) are missing. NPC: %s\n",
                 npc->npc_id);
@@ -379,7 +379,6 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id,
 
     return SUCCESS;
 }
-*/
 
 /* load_quests
  * loads quest_lists into the given NPC
@@ -388,11 +387,12 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task, char* id,
  * parameters:
  * - quest_obj: the quest object
  * - npc: an NPC
- * - g: game (for load_conditions to have access to all_items)
+ * - g: game (for load_task_dialogue to build conditions)
  *
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
+*/
 int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
 {
     npc_quest_list_t *quests = npc_quest_list_new();
@@ -405,33 +405,40 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
         return FAILURE;
     }
 
-    obj_t *quests_obj = obj_get_attr(quest_list_obj, "quests", false);
-    char *id;
+    // get the list of quests from the npc_quest_list_t object representation
+    obj_list_t *quests_obj_list = obj_get_attr(quest_list_obj, "Quests", false);
+    char *task_name;
     convo_t *quest_dialogue;
     npc_quest_t *curr_quest, *next_quest;
     obj_t *curr;
     int len;
     len = 0;
     
-    DL_FOREACH(quests_obj->data.lst, curr)
+    DL_FOREACH(quests_obj_list->data.lst, curr)
     {
-        id = obj_get_str(curr, "id");
-        quest_dialogue = obj_get_str(curr, "dialogue");
+        // think this is called twice
+        if(npc_task_type_check(curr) == FAILURE) {
+            fprintf(stderr, "npc_task is not in the correct format");
+            return FAILURE;
+        }
+
+        task_name = obj_get_str(curr, "Quest Name");
 
         // create npc_quest
         if ((npc_quest_list_add(quests, curr_quest)) != SUCCESS)
         {
-            fprintf(stderr, "Could not add quest with ID: %s. NPC: %s\n", id,
-                    npc->npc_id);
+            fprintf(stderr, "Could not add quest with task name: %s. NPC: %s\n",
+                    task_name, npc->npc_id);
             return FAILURE;
         }
 
         // load quest_dialogue, if any
-        if ((quest_dialogue = obj_get(curr, "quests")) != NULL) {
-            if (load_quest_dialogue(curr_quest, quest_dialogue, id, npc, g) 
+        if ((quest_dialogue = obj_get(curr, "Dialogue")) != NULL) {
+            if (load_quest_dialogue(curr_quest, quest_dialogue, task_name, npc,
+                                    g) 
                 != SUCCESS) {
                 fprintf(stderr, "Could not add dialogue to quest with ID: %s. "
-                        "NPC: %s\n", id, npc->npc_id);
+                        "NPC: %s\n", task_name, npc->npc_id);
                 return FAILURE;
             }
         }
@@ -448,9 +455,7 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
     }
 
     return SUCCESS;
-
 }
-*/
 
 /* load_tasks
  * loads task_lists into the given NPC
@@ -459,11 +464,12 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
  * parameters:
  * - task_obj: the quest object
  * - npc: an NPC
- * - g: game (for load_conditions to have access to all_items)
+ * - g: game (for load_task_dialogue to have access to all_items)
  *
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
+*/
 int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
 {
     npc_task_list_t *tasks = npc_task_list_new();
@@ -486,6 +492,12 @@ int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
     
     DL_FOREACH(tasks_obj->data.lst, curr)
     {
+        // think this is called twice
+        if(npc_quest_type_check(curr) == FAILURE) {
+            fprintf(stderr, "npc_quest is not in the correct format");
+            return FAILURE;
+        }
+
         id = obj_get_str(curr, "id");
         task_dialogue = obj_get_str(curr, "dialogue");
 
@@ -520,7 +532,6 @@ int load_tasks(obj_t *task_list_obj, npc_t *npc, game_t *g)
 
     return SUCCESS;
 }
-*/
 
 /* See load_npc.h */
 int load_npcs(obj_t *doc, game_t *g)
@@ -581,25 +592,25 @@ int load_npcs(obj_t *doc, game_t *g)
         // load battle
         // to do
 
-        // load quest
-        /* obj_t *quests_obj;
-        if ((quests_obj = obj_get(curr, "quests")) != NULL) {
+        // load quests
+        obj_list_t *quests_obj;
+        if ((quests_obj = obj_get(curr, "Quests")) != NULL) {
             if (load_quests(quests_obj, npc, g) != SUCCESS) {
-                fprintf(stderr, "Quest List was not loaded properly. NPC: %s\n",
+                fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
             }
-        } */
+        }
 
-        // load task
-        /* obj_t *tasks_obj;
-        if ((tasks_obj = obj_get(curr, "tasks")) != NULL) {
+        // load tasks
+        obj_t *tasks_obj;
+        if ((tasks_obj = obj_get(curr, "Tasks")) != NULL) {
             if (load_tasks(tasks_obj, npc, g) != SUCCESS) {
-                fprintf(stderr, "Quest List was not loaded properly. NPC: %s\n",
+                fprintf(stderr, "Tasks was not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
             }
-        } */
+        }
 
         // add NPC to the game
         add_npc_to_game(g, npc);
