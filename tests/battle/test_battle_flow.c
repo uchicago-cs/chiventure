@@ -439,7 +439,7 @@ Test(battle_flow_move, do_stat_change_single_battle_flow_move)
     cr_assert_eq(player->stats->phys_atk,
                  190,
                  "battle_flow_move() did not compute stat change on player correctly,"
-                 "Actual: %d, Expected: %d",player->stats->hp, expected_player_hp);
+                 "Actual: %d, Expected: %d",player->stats->hp, 190);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
 }
@@ -476,6 +476,35 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
 }
+
+Test(battle_flow_move, do_damage_stat_change_battle_flow_move)
+{
+    battle_ctx_t *ctx = create_battle_ctx();
+        combatant_t *player = ctx->game->battle->player;
+    combatant_t *enemy = ctx->game->battle->enemy;
+    stat_changes_t *user_stat_changes = stat_changes_new();
+    user_stat_changes->phys_atk = 10;
+    move_t *move_one = move_new(3, "PowerUpPunch", "The user powers up their fist and punches the opponent, raising their physical attack", PHYS,
+                                USER , NO_TARGET, SINGLE, 0, NULL, 40, 100, user_stat_changes, NULL, NULL, NULL); 
+
+    char *res = battle_flow_move(ctx, move_one, "enemy");
+
+    cr_assert_not_null(res, "battle_flow_move() returned %s",res);
+
+    cr_assert_eq(enemy->stats->hp,
+                 129, 
+            "battle_flow_move() did compute damage on enemy correctly: %d",
+            enemy->stats->hp);
+
+    // note: this hp value relies on player class implementation of move_list()
+    cr_assert_eq(player->stats->phys_atk,
+                 160,
+                 "battle_flow_move() did not compute stat change on player correctly,"
+                 "Actual: %d, Expected: %d",player->stats->hp, 160);
+    cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
+                 "battle_flow_move() failed: battle is not in progress");
+}
+
 
 /*
  * Testing if the enemy is determiend as the winner if the player is defeated
