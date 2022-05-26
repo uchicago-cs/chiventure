@@ -165,7 +165,11 @@ int conditions_type_check(obj_t *obj);
 
 int quest_type_check(obj_t *obj);
 
+int quest_list_type_check(obj_t *obj);
+
 int task_type_check(obj_t *obj);
+
+int task_list_type_check(obj_t *obj);
 
 int prereq_type_check(obj_t *obj);
 

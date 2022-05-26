@@ -195,6 +195,80 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
     return SUCCESS;
 }
 
+
+/*
+ * loads dialogue into quests
+ *
+ * parameters:
+ * - quest: the quest
+ * - quest_convo: the dialogue specific to that quest
+ * - id: the quest id
+ * - npc: the npc
+*/
+int load_quest_dialogue(npc_quest_t *quest, convo_t *quest_convo, char* id, npc_t *npc)
+{
+    // to do
+    return SUCCESS;
+}
+
+/* load_quests
+ * loads quest_lists into the given NPC
+ *
+ * parameters:
+ * - quest_obj: the quest object
+ * - npc: an NPC
+ * - g: game (for load_conditions to have access to all_items)
+ *
+ * returns;
+ * - SUCCESS for successful parse
+ * - FAILURE for unsuccessful parse
+ */
+int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
+{
+    npc_quest_list_t *quest_list = npc_quest_list_new();
+    npc_task_list_t *task_list = npc_task_list_new();
+
+    // verify the dialogue object's attributes
+    if (quest_type_check(quest_list_obj) == FAILURE) {
+        fprintf(stderr, "Quest list object failed typechecking, or the "
+                "required attributes are missing. NPC: %s\n",
+                npc->npc_id);
+        return FAILURE;
+    }
+
+    obj_t *quests_obj = obj_get_attr(quest_list_obj, "quests", false);
+    char *id;
+    convo_t *quest_dialogue;
+    npc_quest_t *curr_quest, *next_quest;
+    obj_t *curr;
+    
+    DL_FOREACH(quests_obj->data.lst, curr) //og??
+    {
+        id = obj_get_str(curr, "id");
+        quest_dialogue = obj_get_str(curr, "npc_dialogue");
+
+        // create npc_quest
+        if ((npc_quest_list_add(quests_obj, curr_quest)) != SUCCESS)
+        {
+            fprintf(stderr, "Could not add quest with ID: %s. NPC: %s\n", id,
+                    npc->npc_id);
+            return FAILURE;
+        }
+
+        // load quest_dialogue, if any
+        if ((quest_dialogue = obj_get(curr, "quests")) != NULL) {
+            if (load_quest_dialogue(curr_quest, conquest_dialogue, id, npc) != SUCCESS) {
+                fprintf(stderr, "Could not add dialogue to quest with ID: %s. "
+                        "NPC: %s\n", id, npc->npc_id);
+                return FAILURE;
+            }
+        }
+
+    }
+
+
+}
+
 /* See load_npc.h */
 int load_npcs(obj_t *doc, game_t *g)
 {
@@ -255,7 +329,16 @@ int load_npcs(obj_t *doc, game_t *g)
         // to do
 
         // load quest
-        // to do
+        obj_t *quests_obj;
+        if ((quests_obj = obj_get(curr, "quests")) != NULL) {
+            if (load_quests(quests_obj, npc, g) != SUCCESS) {
+                fprintf(stderr, "Quest List was not loaded properly. NPC: %s\n",
+                        id);
+                return FAILURE;
+            }
+        }
+
+        // load task
 
         // add NPC to the game
         add_npc_to_game(g, npc);

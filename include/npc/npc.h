@@ -316,7 +316,7 @@ int npc_free(npc_t *npc);
  *   dialogue when giving quests or completing tasks
  * 
  * Parameters:
- * - qctx: A quest comtext containing a player and a hash of all quests in the game
+ * - qctx: A quest context containing a player and a hash of all quests in the game
  * - npc: An npc
  * 
  * Returns:
