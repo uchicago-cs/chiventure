@@ -6,7 +6,7 @@ from warnings import warn
 from collections import ChainMap
 from to_wdl.wdl_item import Item
 
-class Player:
+class PLAYER_CLASS:
     def __init__(self, name: str, contents: dict):
         self.contents = contents
         self.name = name

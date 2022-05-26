@@ -15,22 +15,30 @@ def transform_game(self, s: list) -> dict:
     based on the type, and also places all rooms into their own 
     dictionary for convenience.
     """
-    print()
-    print(s)
+    # print()
+    # print(s)
+    # print("This is s in game: ", s)
+
     # first place all non-room objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value or
     # item and item attributes, etc.
-    game_dictionary = dict((k, v) for k, v in s if k != "ROOM")
+    # game_dictionary = dict((k, v) for k, v in s if k != "ROOM")
+    game_dictionary = dict((k, v) for k, v in s if k != "ROOM" and k != "PLAYER_CLASS")
 
     # now place all rooms into their own dictionary
     # the values placed into this entry will correspond to room attributes
     game_dictionary["rooms"] = dict([value for key_type, value in s if key_type == "ROOM"])
+    # return game_dictionary
+
+    # now place all player_class into their own dictionary
+    # the values placed into this entry will correspond to player_class attributes
+    game_dictionary["player_class"] = dict([value for key_type, value in s if key_type == "PLAYER_CLASS"])
     return game_dictionary
 
 
 # s contains several objects of the form ('type', <value>) and
 # we want to group all objects with type "attributes" and "base_stats" into their own list
-def transform_player(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """
     S contains several objects of the form ('type', <value>), where
     value is dependent upon the type. This function creates a dictionary
@@ -40,24 +48,12 @@ def transform_player(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     
     # gets the player class id.
     class_id = s.pop(0)[1]
-    print(s)
+    print("This is s in player: ", s)
 
-    # first place all non-item objects into a dict
-    # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
-    # action and action attributes, etc.
-    # d = dict((k, v) for k, v in s if k != "attributes" and k != "base_stats")
+    # d = dict((k, v) for k, v in s)
 
-    # create a list of attributes and place it in its own entry of the dict
-    # the values placed into this entry will correspond to item attributes
-    # since the key is guaranteed to be the string "attributes"
-    # d["attributes"] = [v for k, v in s if k == "attributes"]
-
-    # create a list of base_stats and place it in its own entry of the dict
-    # the values placed into this entry will correspond to item attributes
-    # since the key is guaranteed to be the string "base_stats"
-    # d["base stats"] = [v for k, v in s if k == "base_stats"]
-    
     return ('PLAYER_CLASS', (class_id, {}))
+    # return ('PLAYER_CLASS', (class_id, d))
 
 # s contains several objects of the form ('type', <value>) and
 # we want to group all objects with type "ITEM" into their own list
@@ -69,6 +65,8 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     for convenience.
     """
     room_id = s.pop(0)[1]
+
+    print("This is s in room: ", s)
     
 
     # first place all non-item objects into a dict

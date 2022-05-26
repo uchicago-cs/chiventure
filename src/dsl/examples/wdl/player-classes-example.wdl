@@ -5,10 +5,9 @@
       "in_room": "room C"
     },
     "intro": "Welcome!",
-    "PLAYER_CLASS": [
-      "KNIGHT",
-      {}
-    ]
+    "player_class": {
+      "KNIGHT": {}
+    }
   },
   "ROOMS": {
     "room C": {
@@ -45,5 +44,5 @@
       "long_desc": "This is a DOOR. A large wooden door"
     }
   },
-  "PLAYERS": {}
+  "PLAYER_CLASS": {}
 }

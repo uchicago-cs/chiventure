@@ -7,7 +7,7 @@ from collections import ChainMap
 from to_wdl.wdl_room import Room
 from to_wdl.wdl_item import Item
 from to_wdl.wdl_game import Game
-from to_wdl.wdl_player import Player
+from to_wdl.wdl_player import PLAYER_CLASS
 
 
 def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default="") -> str:
@@ -41,7 +41,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
         players_dict = intermediate.pop("player_classes")
         for curr in players_dict:
             for player, val in curr.items():
-                players.append(Player(player, val))
+                players.append(PLAYER_CLASS(player, val))
     
     game = Game(intermediate, default)
     
@@ -54,7 +54,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
         "ITEMS": items_wdl,
-        "PLAYERS": players_wdl
+        "PLAYER_CLASS": players_wdl
         }, indent=2)
 
     if debug and "end" in debug_modes:

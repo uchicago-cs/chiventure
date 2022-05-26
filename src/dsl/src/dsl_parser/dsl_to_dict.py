@@ -51,7 +51,7 @@ class TreeToDict(Transformer):
 
     misplaced_property = trans.transform_misplaced
     
-    player_class = trans.transform_player
+    player_class = trans.transform_player_class
 
     attributes = trans.transform_attributes
 
