@@ -17,6 +17,30 @@
 #include "wdl/load_game.h"
 
 
+/* A helper function for printing a skilltree. */
+void print_skilltree(skill_tree_t* skilltree) {
+
+    /* Skill Tree */
+    if (skilltree != NULL) {
+        printf("Skill Tree: \n");
+        for (int i = 0; i < skilltree->num_nodes; i++) {
+            printf("    %s\n", skilltree->nodes[i]->skill->name);
+
+            printf("    Skill description: %s\n", 
+                    skilltree->nodes[i]->skill->desc);
+            printf("    Minimum XP: %s\n", skilltree->nodes[i]->skill->min_xp);
+            printf("    Maximum level: %s\n", 
+                    skilltree->nodes[i]->skill->min_xp);
+            
+        }
+    }
+    else {
+        printf("Skill Tree: NULL\n");
+    }
+
+}
+
+
 /* A helper function for printing a class. */
 void print_class(class_t* class) {
     printf("------------------------------------------------------------\n");
@@ -97,16 +121,7 @@ void print_class(class_t* class) {
     }
 
     /* Skill Tree */
-    if (class->skilltree != NULL) {
-        printf("Skill Tree: \n");
-        for (int i = 0; i < class->skilltree->num_nodes; i++) {
-            /* This could also be improved */
-            printf("    %s\n", class->skilltree->nodes[i]->skill->name);
-        }
-    }
-    else {
-        printf("Skill Tree: NULL\n");
-    }
+    print_skilltree(class->skilltree);
     
     /* Starting Skills */
     if (class->starting_skills != NULL) {
