@@ -59,15 +59,15 @@ chiventure_ctx_t *create_sample_ctx()
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
 
-    /* Create one rooms (room1). room1 is the initial room */
-    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
-    add_room_to_game(game, room1);
-    create_connection(game, "room_A", "room1", "SOUTH");
+    // /* Create one rooms (room1). room1 is the initial room */
+    // room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
+    // add_room_to_game(game, room1);
+    // create_connection(game, "room1", "room_A", "right");
 
-    /* Create a torch in room1 */
-    item_t *torch = item_new("TORCH","It is a torch.",
-                   "The torch is nice, and can provide light!");
-    add_item_to_room(room1, torch);
+    // /* Create a torch in room1 */
+    // item_t *torch = item_new("TORCH","It is a torch.",
+    //                "The torch is nice, and can provide light!");
+    // add_item_to_room(room1, torch);
 
 
     return ctx;
