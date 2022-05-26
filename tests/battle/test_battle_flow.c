@@ -448,7 +448,7 @@ Test(battle_flow_move, do_stat_change_single_battle_flow_move)
 Test(battle_flow_move, do_stat_change_both_battle_flow_move)
 {
     battle_ctx_t *ctx = create_battle_ctx();
-        combatant_t *player = ctx->game->battle->player;
+    combatant_t *player = ctx->game->battle->player;
     combatant_t *enemy = ctx->game->battle->enemy;
 
     stat_changes_t *user_stat_changes1 = stat_changes_new();
@@ -462,10 +462,10 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
     char *res = battle_flow_move(ctx, move_one, "enemy");
 
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
-
+    player->stats->hp = 165;
     cr_assert_eq(enemy->stats->hp,
                  165, 
-            "battle_flow_move() did compute stat change on enemy correctly: %d",
+            "battle_flow_move() did not compute stat change on enemy correctly: %d",
             enemy->stats->hp);
 
     // note: this hp value relies on player class implementation of move_list()
@@ -492,8 +492,8 @@ Test(battle_flow_move, do_damage_stat_change_battle_flow_move)
     cr_assert_not_null(res, "battle_flow_move() returned %s",res);
 
     cr_assert_eq(enemy->stats->hp,
-                 129, 
-            "battle_flow_move() did compute damage on enemy correctly: %d",
+                 188, 
+            "battle_flow_move() did not compute damage on enemy correctly: %d",
             enemy->stats->hp);
 
     // note: this hp value relies on player class implementation of move_list()
