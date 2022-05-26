@@ -5,6 +5,7 @@ add_executable(${TEST_EXE}
         test_item.c
         test_room.c
         test_class.c
+        test_quests.c
         test_validation.c
         main.c)
 
