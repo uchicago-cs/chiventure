@@ -429,7 +429,7 @@ int node_action_type_check(obj_t *obj)
 int npc_quest_type_check(obj_t *obj)
 {
     int id = (obj_get_type(obj, "Quest Name") == TYPE_STR);
-    if (dialogue_type_check(obj_get_type(obj, "Dialogue")) != SUCCESS)
+    if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
     {
         return FAILURE;
     }
@@ -439,7 +439,7 @@ int npc_quest_type_check(obj_t *obj)
 int npc_task_type_check(obj_t *obj)
 {
     int id = (obj_get_type(obj, "Task Name") == TYPE_STR);
-    if (dialogue_type_check(obj_get_type(obj, "Dialogue")) != SUCCESS)
+    if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
     {
         return FAILURE;
     }
