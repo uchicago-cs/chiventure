@@ -745,7 +745,6 @@ Test(battle_logic, remove_last_item_of_multiple)
     combatant_free(p);
 }
 
-/*
 Test(battle_logic, use_battle_item)
 {
     stat_t *player_stats = calloc(1, sizeof(stat_t));
@@ -774,18 +773,21 @@ Test(battle_logic, use_battle_item)
     battle->player = player;
     battle->enemy = enemy;
 
-    int expected_hp = battle->enemy->stats->hp - offensive_item->attributes->hp;
-    int expected_strength = battle->enemy->stats->phys_atk - offensive_item->attributes->phys_atk;
-    int expected_defense = battle->enemy->stats->phys_def - offensive_item->attributes->phys_def;
+    int expected_hp = (battle->enemy->stats->hp) - (offensive_item->attributes->hp);
+    int expected_strength = (battle->enemy->stats->phys_atk) - (offensive_item->attributes->phys_atk);
+    int expected_defense = (battle->enemy->stats->phys_def) - (offensive_item->attributes->phys_def);
 
-    use_battle_item(player, battle, offensive_item->name);  
+    use_battle_item(enemy, battle, "Spikes");  
  
     cr_assert_eq(battle->enemy->stats->hp, expected_hp, "use_battle_item() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
     cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "use_battle_item() does correctly set enemy physical attack after use");
     cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "use_battle_item() does correctly set enemy physical defense after use");
+
+    combatant_free(player);
+    combatant_free(enemy);
 }
  
-
+/*
 Test(battle_logic, apply_stat_changes)
 {
     stat_t *player_stats = calloc(1, sizeof(stat_t));
