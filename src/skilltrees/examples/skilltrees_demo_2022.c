@@ -47,13 +47,20 @@ skill_tree_t* skill_treedemo;
  */
 chiventure_ctx_t* create_example_ctx() {
     /* Create example game */
-    game_t* game = game_new("This is the 2022 demo "
+    game_t* game = game_new("You sit at the entrance to Skills Academy. You have arrived in order to "
+                            "improve your skills, as you are pretty lacking. "
                             "Room progression is always (GO) NORTHward.");
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     /* Create example rooms */
-    room_t* start_room = room_new("Start Room", "", "Your skills have gotten stronger and more complex thanks to my training");
-    room_t* combined_room = room_new("Combined Skill Room", "", "Now your skills should have more of a kick!");
+    room_t* start_room = room_new("Start Room", "", "Once you get past this door, you will meet "
+                                                    "your new mentor! ");
+    room_t* combined_room = room_new("Combined Skill Room", "", "You see your new mentor. "
+                                                                "Hello my young pupil! We shall begin immediately. "
+                                                                "Over the last year, we have made even more powerful, "
+                                                                "complicated skills! In this room, you can learn Combined "
+                                                                "Skills! Many smaller skills wrapped into one. "
+                                                                "Lets teach you a big stat boost!");
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
@@ -212,7 +219,7 @@ void create_combined_skill(chiventure_ctx_t* ctx)
 char* create_combined_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     create_combined_skill(ctx);
-    return "Created a combined skill!";
+    return "Learned a combined skill!";
 }
 
 int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
@@ -252,9 +259,10 @@ char* add_combined_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventu
     {
         execute_skill(ctx, 0);
         print_to_cli(ctx, "Added skill!");
-        print_to_cli(ctx, "Health is boosted!");
-        print_to_cli(ctx, "Strength is boosted!");
-        print_to_cli(ctx, "Defense is boosted!");
+        print_to_cli(ctx, "You feel your health is boosted!");
+        print_to_cli(ctx, "You feel your strength is boosted!");
+        print_to_cli(ctx, "You feel your defense is boosted!");
+        print_to_cli(ctx, "Wow! You look jacked now. But there is still much for you to learn!");
         return "";
     }
 }
@@ -316,7 +324,7 @@ void create_sequential_skill(chiventure_ctx_t* ctx)
 char* create_sequential_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     create_sequential_skill(ctx);
-    return "Created a squential skill!";
+    return "Learn a squential skill!";
 }
 
 char* add_sequential_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
@@ -390,7 +398,7 @@ void create_conditional_skill(chiventure_ctx_t* ctx)
 char* create_conditional_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
     create_conditional_skill(ctx);
-    return "Created a squential skill!";
+    return "Learned a squential skill!";
 }
 
 char* add_conditional_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
@@ -512,8 +520,8 @@ void main()
 
     add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
     add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
-    add_entry("CREATE_COMBINED", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
-    add_entry("ADD_COMBINED_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
+    add_entry("LEARN_COMBINED", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
+    add_entry("USE_COMBINED_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
 
     //Class changing commands
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
