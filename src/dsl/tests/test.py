@@ -114,7 +114,7 @@ def main():
     the function will print out a summary of tests, 
     and also a list of failed tests (if any)
     """
-    
+
     warnings.filterwarnings('ignore')
 
     # summary statistics
@@ -122,22 +122,24 @@ def main():
     passed = 0
     failed = 0
     list_failed = []
-    print(sys.path)
+
+    #get a list of all files in the tests/dsl_test subdir
     default_files = os.listdir("tests/dsl_tests")
 
+    # get flags, if any
     flags_list = [arg.strip("-") for arg in sys.argv[1:] if arg.startswith("-")]
     args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
     
     flags = collect_flags(flags_list)
-
     show = "show" in flags
-    
     manual = "file" in flags
+
     if manual:
         files_to_test = flags.get("file", [])
     else:
         files_to_test = default_files
 
+    # test all files that we want to test
     for file in files_to_test:
         rv = test(f_dsl = file, f_wdl = os.path.splitext(file)[0] + "_expected.wdl", show = show)
         tests_run += 1
