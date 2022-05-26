@@ -158,22 +158,12 @@ int run_battle_mode (char *input, cli_callback callback_func,
         return FAILURE;
     }
     int rc;
-    //int len = ctx->game->battle_ctx->turn_length;
-    // will implement without turn component list length right now, 
-    // commented out in case it is needed--if not, 
-    // take out the length from the battle_ctx_t struct
-
-    //turn_component_list_t *buffer = ctx->game->battle_ctx->game->battle->current_tc;
-    
-    //= (turn_component_t *) malloc (sizeof(turn_component_list_t));
-    //buffer = ctx->game->battle_ctx->game->battle->current_tc;
     turn_component_list_t *buffer;
-    //if (buffer)
     turn_component_list_t *tcl_buffer = ctx->game->battle_ctx->tcl;
     DL_FOREACH(tcl_buffer, buffer)
     {
         char *output = run_action(input, ctx);
-        buffer = tcl_buffer->next;//->current; // wait... will this be moved down??? Emilio: No???
+        buffer = buffer->next;
         if (buffer != NULL)
         {
             if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)

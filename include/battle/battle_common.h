@@ -83,6 +83,7 @@ typedef struct combatant
  * - enemy: a combatant pointer, storing the enemy/enemies
  * - environment: stores battle environment
  * - turn: a turn_t enum storing the current turn
+ * - current_tc: the turn component that the battle is currently running
  */
 
 typedef struct battle

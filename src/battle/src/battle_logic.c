@@ -1,6 +1,5 @@
 #include "battle/battle_logic.h"
 #include "common/utlist.h"
-#include "game-state/player.h"
 #include <ctype.h>
 
 /* check battle_logic.h */

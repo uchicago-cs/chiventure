@@ -6,7 +6,7 @@
 
 /* see battle_flow_structs.h */
 battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status, 
-                            turn_component_list_t *tcl, int turn_len)
+                            turn_component_list_t *tcl)
 {
       battle_ctx_t *new_ctx = (battle_ctx_t *) malloc (sizeof(battle_ctx_t));
       assert(new_ctx != NULL);
@@ -15,14 +15,12 @@ battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status,
       new_ctx->game = game;
       new_ctx->status = status;
       new_ctx->tcl = tcl;
-      new_ctx->turn_length = turn_len;
       return new_ctx;
 }
 
 /* see battle_flow_structs.h */
 battle_ctx_t *init_battle_ctx(battle_ctx_t *ctx, battle_game_t *game, 
-                             battle_status_t status, turn_component_list_t *tcl, 
-                             int turn_len)
+                             battle_status_t status, turn_component_list_t *tcl)
 {
       assert(ctx != NULL);
       assert(game != NULL);
@@ -30,8 +28,114 @@ battle_ctx_t *init_battle_ctx(battle_ctx_t *ctx, battle_game_t *game,
       ctx->game = game;
       ctx->status = status;
       ctx->tcl = tcl;
-      ctx->turn_length = turn_len;
       return SUCCESS;
+}
+
+/* see battle_flow_structs.h */
+int battle_ctx_free(battle_ctx_t *ctx)
+{
+      turn_free(ctx->tcl);
+      battle_game_free(ctx->game);
+      free(ctx);
+      return 0;
+}
+
+/* see battle_flow_structs.h */
+int battle_game_free(battle_game_t *game)
+{
+      battle_free(game->battle);
+      battle_player_free(game->player);
+      free(game);
+      return 0;
+}
+
+int battle_free(battle_t *battle)
+{
+      free(battle->current_tc);
+      combatant_free(battle->player);
+      combatant_free(battle->enemy);
+      return 0;
+}
+
+int combatant_free(combatant_t *c)
+{
+      while (c !=NULL){
+            combatant_t *buf = c;
+            c = c->next;
+            free(buf->name);
+            class_free(buf->class_type);
+            stat_free(buf->stats);
+            move_free(buf->moves);
+            battle_item_free(buf->items);
+            battle_equipment_free(buf->weapon);
+            battle_equipment_free(buf->armor);
+            battle_equipment_free(buf->accessory);
+            free(buf);
+      }
+      return 0;
+}
+
+/* see battle_flow_structs.h */
+int battle_player_free(battle_player_t *player)
+{
+      free(player->player_id);
+      free(player->stats);
+      class_free(player->class_type);
+      move_free(player->moves);
+      battle_item_free(player->items);
+      battle_equipment_free(player->armor);
+      battle_equipment_free(player->accessory);
+      battle_equipment_free(player->weapon);
+      free(player);
+      return 0;
+}
+
+int battle_equipment_free(battle_equipment_t *equip)
+{
+      free(equip->name);
+      free(equip->description);
+      stat_changes_free(equip->attributes);
+      free(equip);
+      return 0;
+}
+
+int move_free(move_t *move)
+{
+      while (move!= NULL){
+            move_t *buf = move;
+            move = move->next;
+            free(buf->name);
+            free(buf->info);
+            battle_item_free(buf->req_item);
+            stat_changes_free(buf->user_mods);
+            stat_changes_free(buf->opponent_mods);
+      }
+      return 0;
+}
+
+int battle_item_free(battle_item_t *item)
+{
+      while (item!=NULL){
+            battle_item_t *buf = item;
+            item = item->next;
+            free(buf->name);
+            free(buf->description);
+            stat_changes_free(item->attributes);
+            free(buf);
+      }
+      return 0;
+}
+
+/* see battle_flow_structs.h */
+int stat_changes_free(stat_changes_t *changes)
+{
+      while (changes != NULL)
+      {
+            turn_component_list_t *buf = changes;
+            changes = changes->next;
+            free(buf);
+      }
+      return 0;
 }
 
 /* Stub for the player_new function in player.h game-state module */

@@ -328,18 +328,17 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
 /* see battle_flow.h*/
 char *enemy_run_turn(battle_ctx_t *ctx) 
 {
-    char *string;
+    char *res_string;
     while (ctx->game->battle->current_tc)
     {
-        string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        res_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
         if(ctx->game->battle->current_tc->move) 
         {
             char *enemy_move_report = enemy_make_move(ctx);
-            //strncat(string, enemy_move_report);
-            strcat(string, enemy_move_report);
+            strcat(res_string, enemy_move_report);
         }
   }
-  return string;
+  return res_string;
 }
 
 /* see battle_flow.h */

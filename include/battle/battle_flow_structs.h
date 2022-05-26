@@ -8,6 +8,8 @@
 #include "battle/battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "common/utlist.h"
+#include "playerclass/class.h"
 
 /* Stub for the player struct in game-state */
 typedef struct battle_player {
@@ -58,8 +60,6 @@ typedef struct battle_ctx {
     battle_status_t status;
     // turn component list that the game designer creates
     turn_component_list_t *tcl;
-    // length of the turn component
-    int turn_length;
 } battle_ctx_t;
 
 /* Allocates a new battle ctx in the heap
@@ -73,7 +73,7 @@ typedef struct battle_ctx {
  * or NULL if it cannot be allocated
  */
 battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status, 
-                            turn_component_list_t *tcl, int tcl_len);
+                            turn_component_list_t *tcl);
 
 /* Initializes a battle ctx struct
  *
@@ -86,7 +86,106 @@ battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status,
  * Returns: 0 on success, 1 if an error occurs
  */
 int battle_ctx_init(battle_ctx_t *ctx, battle_game_t *game, battle_status_t status,
-                    turn_component_list_t *tcl, int tcl_len);
+                    turn_component_list_t *tcl);
+
+/*
+ * Frees the resources associated with a battle ctx
+ *
+ * Parameters:
+ *  - ctx: A battle ctx. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_ctx_free(battle_ctx_t *ctx);
+
+/*
+ * Frees the resources associated with a battle game
+ *
+ * Parameters:
+ *  - game: A battle game. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_game_free(battle_game_t *game);
+
+/*
+ * Frees the resources associated with a battle player
+ *
+ * Parameters:
+ *  - player: A battle player. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_player_free(battle_player_t *player);
+
+/*
+ * Frees the resources associated with a battle
+ *
+ * Parameters:
+ *  - battle: A battle. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_free(battle_t *battle);
+
+/*
+ * Frees the resources associated with a combatant
+ *
+ * Parameters:
+ *  - c: A combatant. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int combatant_free(combatant_t *c);
+
+/*
+ * Frees the resources associated with a battle equipment
+ *
+ * Parameters:
+ *  - equip: A battle equipment. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_equipment_free(battle_equipment_t *equip);
+
+/*
+ * Frees the resources associated with a battle move
+ *
+ * Parameters:
+ *  - move: A battle move. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int move_free(move_t *move);
+
+/*
+ * Frees the resources associated with a battle item
+ *
+ * Parameters:
+ *  - item: A battle item. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_item_free(battle_item_t *item);
+
+/*
+ * Frees the resources associated with a struct change
+ *
+ * Parameters:
+ *  - changes: A stat change struct. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int stat_changes_free(stat_changes_t *changes);
 
 /* Stub for the player_new function in player.h game-state module
  *
