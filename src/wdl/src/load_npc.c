@@ -226,8 +226,8 @@ int load_quest_dialogue(npc_quest_t *quest, convo_t *quest_convo, char* id, npc_
  */
 int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
 {
-    npc_quest_list_t *quest_list = npc_quest_list_new();
-    npc_task_list_t *task_list = npc_task_list_new();
+    npc_quest_list_t *quests = npc_quest_list_new();
+    npc_task_list_t *tasks = npc_task_list_new();
 
     // verify the dialogue object's attributes
     if (quest_type_check(quest_list_obj) == FAILURE) {
@@ -242,14 +242,16 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
     convo_t *quest_dialogue;
     npc_quest_t *curr_quest, *next_quest;
     obj_t *curr;
+    int len;
+    len = 0;
     
-    DL_FOREACH(quests_obj->data.lst, curr) //og??
+    DL_FOREACH(quests_obj->data.lst, curr)
     {
         id = obj_get_str(curr, "id");
         quest_dialogue = obj_get_str(curr, "npc_dialogue");
 
         // create npc_quest
-        if ((npc_quest_list_add(quests_obj, curr_quest)) != SUCCESS)
+        if ((npc_quest_list_add(quests, curr_quest)) != SUCCESS)
         {
             fprintf(stderr, "Could not add quest with ID: %s. NPC: %s\n", id,
                     npc->npc_id);
@@ -265,8 +267,18 @@ int load_quests(obj_t *quest_list_obj, npc_t *npc, game_t *g)
             }
         }
 
+        len++;
     }
 
+    quests->length = len;
+
+    // assign the quest_list to the NPC
+    if (add_quests_to_npc(npc, quests) != SUCCESS) {
+        fprintf(stderr, "Could not add convo to NPC: %s\n", npc->npc_id);
+        return FAILURE;
+    }
+
+    return SUCCESS;
 
 }
 
