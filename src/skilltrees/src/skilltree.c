@@ -10,8 +10,8 @@
 
 /* See skilltree.h */
 skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
-                            unsigned int prereq_level, char** playerclasses, int num_classes,
-                            unsigned int size) {
+                            unsigned int prereq_level, char** playerclasses, 
+                            int num_classes, unsigned int size) {
     skill_node_t* node;
     node = (skill_node_t*)malloc(sizeof(skill_node_t));
     if (node == NULL) {
