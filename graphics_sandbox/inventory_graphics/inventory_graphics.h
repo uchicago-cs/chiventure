@@ -59,17 +59,67 @@ typedef struct player_inventory {
     slot_t **slots;
 } player_inventory_t;
 
+/*
+ * Allocates and initializes a slot_t struct
+ *
+ * Parameters:
+ * - s : A status ENUM
+ * - item : A heap allocated item_t struct
+ *
+ * Returns:
+ * - slot_t struct
+ */
+slot_t *new_slot(status s, item_t *item);
+
+/*
+ * Initializes a slot_t struct
+ *
+ * Parameters:
+ * - slot : Heap allocated slot_t struct
+ *
+ * - s : A status ENUM  
+ * - item : A heap allocated item_t struct
+ *
+ * Returns:
+ * - SUCCESS upon success
+ */
+int init_slot(slot_t *slot, status s, item_t *item);
+
+/*
+ * Frees a slot_t struct
+ *
+ * Parameters:
+ * - slot : Heap allcoated slot_t struct
+ *
+ * Returns:
+ * - SUCCESS upon success
+ */
+int free_slot(slot_t *slot);          
+
 
 /* Allocates and initializes a player's inventory
  *
  * Parameters:
  * - The graphics information as specified by the author in the GDL
- * - A pointer to a heap allocated player struct
+ * - A pointer to a 2D array of slot_t structs
  * Returns:
  * - A player inventory struct
  */
-player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p);
+player_inventory_t *new_player_inventory(graphics_t *graphics, slot_t **items);
 
+/* Initializes values for a player_inventory_struct
+ *
+ * Parameters:
+ * - player_inventory : Pointer to heap allocated player_inventory_struct
+ * - graphics : pointer to heap allocated graphics_t struct
+ * - p : pointer to heap allocated player_t struct
+ *
+ * Returns :
+ * - SUCCESS upon success
+ */
+int init_player_inventory(player_inventory_t *player_inventory, 
+                          graphics_t *graphics, slot_t **items);  
+   
 
 /* Frees an inventory struct
  *
@@ -77,7 +127,7 @@ player_inventory_t *new_player_inventory(graphics_t *graphics, player_t *p);
  * - The player's inventory struct
  *
  * Returns:
- * - Always returns 0
+ * - SUCCESS upon success
  */
 int free_player_inventory(player_inventory_t *player_inventory);
 
@@ -89,9 +139,9 @@ int free_player_inventory(player_inventory_t *player_inventory);
  * - the item to be added
  *
  * Returns:
- * - void (the changes occur as a side-effect)
+ * - SUCCESS upon success
  */
-void add_item_inventory(player_inventory_t *player_inventory, item_t *item);
+int add_item_inventory(player_inventory_t *player_inventory, item_t *item);
 
 
 /*
@@ -102,9 +152,9 @@ void add_item_inventory(player_inventory_t *player_inventory, item_t *item);
  * - the item to be removed
  *
  * Returns:
- * - void (this all occurs as a side effect)
+ * - SUCCESS upon success
  */
-void remove_item_inventory(player_inventory_t *player_inventory, item_t *item);
+int remove_item_inventory(player_inventory_t *player_inventory, item_t *item);
  
 
 /* Draws the inventory window on screen
