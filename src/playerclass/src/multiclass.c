@@ -249,7 +249,7 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name) {
     obj_t* combined_attr = multiclass_attributes(base_class->attributes, second_class->attributes, name);
     effects_hash_t* combined_effects = multiclass_effects(base_class->effects, second_class->effects);
     
-    class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->base_stats, combined_effects);
+    class_t* new_class = class_new(name, new_shortdesc, new_longdesc, combined_attr, base_class->base_stats, combined_effects, false);
     if (new_class == NULL) {
         return NULL;
     }
