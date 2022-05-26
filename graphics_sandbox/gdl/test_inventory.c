@@ -36,11 +36,11 @@ Test(inventory, init)
 
     cr_assert_eq(rc, SUCCESS,"init_inventory_display() failed");
 
-    cr_assert_eq(inventory->rows, 3,
+    cr_assert_eq(inventory.rows, 3,
                 "init_inventory_display() didn't set rows");
-    cr_assert_eq(inventory->columns, 10,
+    cr_assert_eq(inventory.columns, 10,
                 "init_inventory_display() didn't set columns");
-    cr_assert_eq(invetntory->color, YELLOW,
+    cr_assert_eq(invetntory.color, YELLOW,
                 "init_inventory_display() didn't set color");
 }
 

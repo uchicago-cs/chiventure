@@ -419,9 +419,10 @@ graphics_t* read_gdl()
     graphics->inventory = inventory_display;
     return graphics;
 }
-
+/*
 int main()
 {
     printf("having issues");
     return 0;
 }
+*/
