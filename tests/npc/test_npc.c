@@ -3,6 +3,80 @@
 #include <stdbool.h>
 #include "../../include/battle/battle_test_utility.h"
 
+/* Checks that npc_quest_init() properly inits a new npc_quest struct */
+Test(npc_quest, init)
+{
+    convo_t *c = convo_new();
+    npc_quest_t quest;
+
+    int check = npc_quest_init(&quest, "test", c);
+
+    cr_assert_eq(check, SUCCESS, "npc_quest_init() failed to initialize");
+    cr_assert_eq(quest.dialogue, c, "npc_quest_init() failed to set dialogue");
+    cr_assert_eq(strcmp(quest.id, "test"), 0, "npc_quest_init() failed to set id");
+    cr_assert_null(quest.next, "npc_quest_init() failed to make next NULL");
+}
+
+/* Checks that npc_quest_new() properly mallocs and inits a new npc_quest struct */
+Test(npc_quest, new)
+{
+    convo_t *c = convo_new();
+    npc_quest_t *quest = npc_quest_new("test", c);
+
+    cr_assert_not_null(quest, "npc_quest_new() failed");
+    cr_assert_eq(quest->dialogue, c, "npc_quest_new() failed to set dialogue");
+    cr_assert_eq(strcmp(quest->id, "test"), 0, "npc_quest_new() failed to set id");
+}
+
+/* Checks that npc_quest_free() properly frees a npc_quest struct */
+Test(npc_quest, free)
+{
+    convo_t *c = convo_new();
+    npc_quest_t *quest_to_free = npc_quest_new("test", c);
+    cr_assert_not_null(quest_to_free, "npc_quest_free() did not properly allocate quest");
+
+    int freed = npc_quest_free(quest_to_free);
+
+    cr_assert_eq(freed, SUCCESS, "npc_quest_free() failed to free");
+}
+
+/* Checks that npc_task_init() properly inits a new npc_task struct */
+Test(npc_task, init)
+{
+    convo_t *c = convo_new();
+    npc_task_t task;
+
+    int check = npc_task_init(&task, "test", c);
+
+    cr_assert_eq(check, SUCCESS, "npc_task_init() failed to initialize");
+    cr_assert_eq(task.dialogue, c, "npc_task_init() failed to set dialogue");
+    cr_assert_eq(strcmp(task.id, "test"), 0, "npc_task_init() failed to set id");
+    cr_assert_null(task.next, "npc_task_init() failed to make next NULL");
+}
+
+/* Checks that npc_task_new() properly mallocs and inits a new npc_task struct */
+Test(npc_task, new)
+{
+    convo_t *c = convo_new();
+    npc_task_t *task = npc_task_new("test", c);
+
+    cr_assert_not_null(task, "npc_task_new() failed");
+    cr_assert_eq(task->dialogue, c, "npc_task_init() failed to set dialogue");
+    cr_assert_eq(strcmp(task->id, "test"), 0, "npc_task_init() failed to set id");
+}
+
+/* Checks that npc_task_free() properly frees a npc_task struct */
+Test(npc_task, free)
+{
+    convo_t *c = convo_new();
+    npc_task_t *task_to_free = npc_task_new("test", c);
+    cr_assert_not_null(task_to_free, "npc_task_free() did not properly allocate quest");
+
+    int freed = npc_task_free(task_to_free);
+
+    cr_assert_eq(freed, SUCCESS, "npc_task_free() failed to free");
+}
+
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)
 {
