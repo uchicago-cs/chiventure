@@ -1,7 +1,7 @@
 #include "scene_graphics.h"
 
 /* See scene_graphics.h */
-void draw_scene_graphics(scene_graphics_t* scene_graphics)
+int draw_scene_graphics(scene_graphics_t* scene_graphics)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -50,6 +50,7 @@ void draw_scene_graphics(scene_graphics_t* scene_graphics)
 
     CloseWindow();              // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
+    return SUCCESS;
 }
 
 

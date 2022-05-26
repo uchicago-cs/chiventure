@@ -52,7 +52,7 @@ int free_scene_graphics(scene_graphics_t* SceneGraphics);
  * - scene graphics struct
  *
  * Returns:
- * - 1 on success
+ * - SUCCESS upon success
  */
 int draw_scene_graphics(scene_graphics_t* scene_graphics);
 
