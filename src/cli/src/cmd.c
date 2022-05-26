@@ -4,6 +4,7 @@
 #include "cli/cmd.h"
 #include "cli/cmdlist.h"
 #include "cli/operations.h"
+#include "cli/parser.h"
 #include "common/utlist.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
@@ -237,39 +238,33 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 }
 
 /* See cmd.h */
-cmd** cmd_from_string(char *s, chiventure_ctx_t *ctx)
+cmd **cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
+
     char* currcmd;
     cmd** actions;
-    // arbitrary big number of commands allowed at once
-    actions = (cmd**)malloc(sizeof(cmd*) * MAX_MULTIPLE_CMDS);
     int count = 0;
+    // arbitrary big number of commands allowed at once
+    actions = (cmd**)malloc(sizeof(cmd*) * 5);
     
     // Tokenizes input by "and" string
-    while ((currcmd = strtok_r(s, "AND", &s)))
-    {
-        //When string token is not null
+    for (char *result = strtokstr_r(s, "AND", &s); result != NULL; result = strtokstr_r(s, "AND", &s)) {  
         if (s != NULL) 
         {
-            command_list_t *new_command = new_command_list(currcmd);
+            command_list_t *new_command = new_command_list(result);
             LL_APPEND(ctx->cli_ctx->command_history, new_command);
         }
-
-        // Parses indidual token, which is a single command
-        char **parsed_input = parse(currcmd);
+        
+        char **parsed_input = parse(result);
         if (parsed_input == NULL)
         {
             return NULL;
         }
-
         lookup_t **table = ctx->cli_ctx->table;
         actions[count] = cmd_from_tokens(parsed_input, table);
         count++;
     }
-
-    //returns an array of strings, which is an array of commands to take
     return actions;
-
 }
 
 /* =================================== */

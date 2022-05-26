@@ -19,6 +19,18 @@ typedef struct tokenized_cmds {
 #define TOKEN_LIST_SIZE 4
 
 /*
+ * - input: 
+ *   s: a string from the command line, 
+ *   delim: the delimiter string used to tokenize, 
+ *   save_ptr: pointer to s
+ * 
+ * - returns: 
+ *   the first tokenized string
+ * 
+ */
+char *strtokstr_r(char *s, char *delim, char **save_ptr);
+
+/*
  * Parses a string into a linked list, breaking on the string ";"
  *
  * Parameters:

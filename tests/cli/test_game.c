@@ -2,6 +2,7 @@
 #include <string.h>
 #include <ui/ui.h>
 #include "game-state/game.h"
+#include "ui/print_functions.h"
 #include "common/ctx.h"
 
 /* Creates a chiventure context with a sample game
@@ -100,7 +101,7 @@ Test(game,mult_cmds)
 { 
     chiventure_ctx_t *ctx = create_sample_ctx();
 
-    char *cmd_str = strdup("LOOK AND GO north");
+    char *cmd_str = strdup("LOOK AND GO NORTH");
     cmd **cmd = cmd_from_string(cmd_str, ctx);
     cr_assert_not_null(cmd, "cmd_from_string failed");
 
