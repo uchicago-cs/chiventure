@@ -52,19 +52,15 @@ chiventure_ctx_t* create_example_ctx() {
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     /* Create example rooms */
-    room_t* start_room = room_new("Start Room", "", "A deadly dragon awaits! "
-                                  "See how you can use the new effects system to create a skill"
-                                  "that lets you kill it!");
-    room_t* design_room = room_new("Complex Skill Room", "", "Now your skills should have more of a kick!");
+    room_t* start_room = room_new("Start Room", "", "Your skills have gotten stronger and more complex thanks to my training");
+    room_t* combined_room = room_new("Combined Skill Room", "", "Now your skills should have more of a kick!");
 
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
-    add_room_to_game(game, design_room);
+    add_room_to_game(game, combined_room);
 
-    create_connection(game, "Start Room", "Skill Design Room", "NORTH");
-    create_connection(game, "Skill Design Room", "Start Room", "SOUTH");
-
-
+    create_connection(game, "Start Room", "Combined Skill Room", "NORTH");
+    create_connection(game, "Combined Skill Room", "Start Room", "SOUTH");
 
 
     /* Set initial room */
@@ -318,7 +314,11 @@ char* add_combined_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventu
     else 
     {
         execute_skill(ctx, 0);
-        return "Added skill!";
+        print_to_cli(ctx, "Added skill!");
+        print_to_cli(ctx, "Health is boosted!");
+        print_to_cli(ctx, "Strength is boosted!");
+        print_to_cli(ctx, "Defense is boosted!");
+        return "";
     }
 }
 
@@ -415,8 +415,8 @@ void main()
 
     add_entry("DESIGN", design_operation, NULL, ctx->cli_ctx->table);
     add_entry("SKILLS", skills_operation, NULL, ctx->cli_ctx->table);
-    add_entry("CREATE_COMPLEX", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
-    add_entry("ADD_COMPLEX_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
+    add_entry("CREATE_COMBINED", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
+    add_entry("ADD_COMBINED_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
     //Start UI for example chiventure context
     start_ui(ctx, banner);
 }
