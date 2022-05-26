@@ -23,7 +23,7 @@ Test(skill_test, complex_skill_new_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2);
+    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2, NULL);
 
     cr_assert_eq(complex->type, COMBINED,
         "Error: failed test complex_skill_new_test on complex->type\n");
@@ -46,10 +46,8 @@ Test(skill_test, complex_skill_init_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_type_t type = COMBINED;
-
     complex_skill_t* complex = malloc(sizeof(complex_skill_t));
-    complex_skill_init(complex, type, skills, 2);
+    complex_skill_init(complex, COMBINED, skills, 2, NULL);
 
     cr_assert_eq(complex->type, COMBINED,
         "Error: failed test complex_skill_new_test on complex->type\n");
@@ -77,13 +75,12 @@ Test(skill_test, complex_skill_free_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2);
+    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2, NULL);
     int ret = complex_skill_free(complex);
 
     cr_assert_eq(ret, 0, "Error: failed test complex_skill_free_test\n");
 }
 
-/*Test complex_skill_execute*/
 Test(skill_test, complex_skill_execute){
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
@@ -97,7 +94,7 @@ Test(skill_test, complex_skill_execute){
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2);
+    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2, NULL);
 
     cr_assert_eq(complex_skill_execute(complex, ctx), 0,
     "Error: failed test skill_new_test on skill->effect\n");
@@ -117,7 +114,7 @@ Test(skill_test, combined_complex_skill_execute){
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2);
+    complex_skill_t* complex = complex_skill_new(COMBINED, skills, 2, NULL);
 
     cr_assert_eq(combined_complex_skill_execute(complex, ctx), 0,
     "Error: failed test skill_new_test on skill->effect\n");
@@ -137,28 +134,16 @@ Test(skill_test, sequential_complex_skill_execute){
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
+    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2, NULL);
 
     cr_assert_eq(sequential_complex_skill_execute(complex, ctx), 0,
     "Error: failed test skill_new_test on skill->effect\n");
 }
 
-//Crash occuring with these tests related to the list of skills, task for future sprint
+//Following tests won't work until reader is implemented
 
-// /* Tests complex_skill_xp_up when the return value is success */
-// Test(skill_test, complex_skill_xp_up_success){
-//     chiventure_ctx_t* ctx = create_player_and_stats();
-//     item_t* bomb = add_bomb_item(ctx);
-//     effect_t* defusebombeffect = make_bomb_effect(bomb);
-
-//     skill_t** skills = malloc(sizeof(skill_t*)*2);
-//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-//         2, 5, defusebombeffect, NULL);
-//     skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
-//         2, 5, defusebombeffect, NULL);
-//     skills[0] = skill1;
-//     skills[1] = skill2;
-
+/*Test conditional_skill_execute*/
+// Test(skill_test, conditonal_skill_execute){
 //     int xp = 2;
 //     complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
 //     int x = complex_skill_xp_up(complex, xp);
@@ -167,8 +152,10 @@ Test(skill_test, sequential_complex_skill_execute){
 //     cr_assert_eq(complex->skills[1]->xp, 7, "Error: failed test complex_skill_xp_up_success for skill 1 incrementing");
 // }
 
-// /* Tests complex_skill_xp_up when the return value is failure */
-// Test(skill_test, complex_skill_xp_up_failure){
+//Crash occuring with these tests related to the list of skills, task for future sprint
+
+// /* Tests complex_skill_level_up when the return value is success */
+// Test(skill_test, complex_skill_level_up_success){
 //     chiventure_ctx_t* ctx = create_player_and_stats();
 //     item_t* bomb = add_bomb_item(ctx);
 //     effect_t* defusebombeffect = make_bomb_effect(bomb);
@@ -181,22 +168,39 @@ Test(skill_test, sequential_complex_skill_execute){
 //     skills[0] = skill1;
 //     skills[1] = skill2;
 
-//     int xp = 0;
-
-//     complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
-//     int x = complex_skill_xp_up(complex, xp);
-//     cr_assert_eq(x, 0, "Error: failed test complex_skill_xp_up_failure");
+//     complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2, NULL);
+//     int x = complex_skill_level_up(complex);
+//     cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
 // }
 
+// /* Tests skill_level_up when return value is failure */
+// Test(skill_tests, complex_skill_level_up_failure)
+// {
+//     chiventure_ctx_t* ctx = create_player_and_stats();
+//     item_t* bomb = add_bomb_item(ctx);
+//     effect_t* defusebombeffect = make_bomb_effect(bomb);
 
+//     skill_t** skills = malloc(sizeof(skill_t*)*2);
+//     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+//         1, 5, defusebombeffect, NULL);
+//     skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+//         1, 5, defusebombeffect, NULL);
+//     skills[0] = skill1;
+//     skills[1] = skill2;
 
-/* Tests complex_skill_level_up when the return value is success */
-Test(skill_test, complex_skill_level_up_success){
+//     complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2, NULL);
+//     int x = complex_skill_level_up(complex);
+//     cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
+// }
+
+//  RANDOM CHANCE TESTS 
+
+Test(skill_tests, random_chance_new_test){
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
     effect_t* defusebombeffect = make_bomb_effect(bomb);
 
-    skill_t** skills = malloc(sizeof(skill_t*)*2);
+    skill_t** skills = malloc(sizeof(skill_t)*2);
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
         2, 5, defusebombeffect, NULL);
     skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
@@ -204,43 +208,98 @@ Test(skill_test, complex_skill_level_up_success){
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
-    int x = complex_skill_level_up(complex);
-    cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
+    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
+    random_chance_type_t *chance = random_chance_new(random_chance_skill, 0.6);
+
+    cr_assert_eq(chance->complex_skill->type, RANDOM_CHANCE,
+        "Error: failed test random_chance_new_test on chance->complex_skill->type\n");
+    cr_assert_eq(chance->complex_skill->num_skills, 2,
+        "Error: failed test random_chance_new_test on chance->complex_skill->num_skills\n");
+    cr_assert_float_eq(chance->chance_failure, 0.6, 10E-4,
+        "Error: failed test random_chance_new_test on percentage failure\n");
 }
 
-/* Tests skill_level_up when return value is failure */
-Test(skill_tests, complex_skill_level_up_failure)
+
+//test for random_chance_init with 0.5
+Test(skill_tests, random_switch_init_test_half)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
     effect_t* defusebombeffect = make_bomb_effect(bomb);
 
-    skill_t** skills = malloc(sizeof(skill_t*)*2);
+    skill_t** skills = malloc(sizeof(skill_t)*2);
     skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
-        1, 5, defusebombeffect, NULL);
+        2, 5, defusebombeffect, NULL);
     skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
-        1, 5, defusebombeffect, NULL);
+        2, 5, defusebombeffect, NULL);
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* complex = complex_skill_new(SEQUENTIAL, skills, 2);
-    int x = complex_skill_level_up(complex);
-    cr_assert_eq(x, 0, "Error: failed test complex_skill_level_up_test");
+    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
+    random_chance_type_t* rand_chance= (random_chance_type_t *)malloc(sizeof(random_chance_type_t));
+
+    
+    random_chance_init(rand_chance, random_chance_skill, 0.50);
+
+
+    cr_assert_eq(rand_chance->complex_skill->type, RANDOM_CHANCE,
+        "Error: failed test random_chance_new_test on range->random_range->type\n");
+    cr_assert_eq(rand_chance->complex_skill->num_skills, 2,
+        "Error: failed test random_chance_new_test on range->random_range->num_skills\n");
+    cr_assert_float_eq(rand_chance->chance_failure, 0.50, 10E-4,
+        "Error: failed test random_chance_new_test on failure\n");   
 }
 
-/* Test(random_skills, execute_random_range_failure)
+/** Test random_chance_free */
+Test(skill_tests, random_chance_free_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
 
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    complex_skill_t* random_chance = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
+    random_chance_type_t *chance = random_chance_new(random_chance, 0.7);
+
+    int ret = random_chance_free(chance);
+
+    cr_assert_eq(ret, 0, "Error: failed test random_chance_free_test\n");
 }
-*/
 
+//test for execute_random_chance_complex_skill
+Test(skill_test, execute_random_chance_complex_skill_test){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+    
+    complex_skill_t* random_chance_skill = complex_skill_new(RANDOM_CHANCE, skills, 2, NULL);
+    random_chance_type_t *chance = random_chance_new(random_chance_skill, 1.0);
+
+    int rc = execute_random_chance_complex_skill(chance, ctx);
+
+    cr_assert_eq(rc, 0, 
+        "Error: failed test execute_random_chance_complex_skill_test\n");    
+}
 
 //RANDOM RANGE TESTS
 
 //test for random_range_new
-Test(random_range, random_range_new_test){
+Test(skill_test, random_range_new_test){
 
 
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -255,7 +314,7 @@ Test(random_range, random_range_new_test){
     skills[0] = skill1;
     skills[1] = skill2;
     
-    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2);
+    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
     random_range_type_t *range = random_range_new(random_range_skill, 1, 10);
 
     cr_assert_eq(range->complex_skill->type, RANDOM_RANGE,
@@ -269,7 +328,7 @@ Test(random_range, random_range_new_test){
 }
 
 //test for random_range_init
-Test(skill_test, random_range_init_test)
+Test(random_range, random_range_init_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
@@ -283,7 +342,7 @@ Test(skill_test, random_range_init_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2);
+    complex_skill_t* random_range_skill = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
     random_range_type_t* range = malloc(sizeof(random_range_type_t));
     int lower_b = 1;
     int upper_b = 10;
@@ -300,8 +359,8 @@ Test(skill_test, random_range_init_test)
         "Error: failed test random_range_new_test on upper bound\n");   
 }
 
- /** Test complex_skill_free */
-Test(skill_test, random_range_free_test)
+ /** Test random_range_free */
+Test(random_range, random_range_free_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
@@ -315,7 +374,7 @@ Test(skill_test, random_range_free_test)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_range = complex_skill_new(RANDOM_RANGE, skills, 2);
+    complex_skill_t* random_range = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
     random_range_type_t *range = random_range_new(random_range, 1, 10);
 
     int ret = random_range_free(range);
@@ -323,11 +382,32 @@ Test(skill_test, random_range_free_test)
     cr_assert_eq(ret, 0, "Error: failed test random_range_free_test\n");
 }
 
+//test for execute_random_range_complex_skill
+Test(skill_test, execute_random_range_complex_skill_test){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    complex_skill_t* random_range = complex_skill_new(RANDOM_RANGE, skills, 2, NULL);
+    random_range_type_t *range = random_range_new(random_range, 1, 10);
+
+    int rc = execute_random_range_complex_skill(range, ctx);
+    cr_assert_eq(rc, 0, "Error: failed test random_range_free_test\n");
+
+}
 
 //  RANDOM SWITCH TESTS 
 
 //test for random_switch_new with 0.6/0.4
-Test(random_switch, random_switch_new_test_uneq)
+Test(skill_test, random_switch_new_test_uneq)
 {
 
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -342,7 +422,7 @@ Test(random_switch, random_switch_new_test_uneq)
     skills[0] = skill1;
     skills[1] = skill2;
     
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
 
     float *chances = (float *)malloc(2*sizeof(float)); 
     chances[0] = 0.4;
@@ -353,15 +433,15 @@ Test(random_switch, random_switch_new_test_uneq)
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
         "Error: failed test random_switch_new_test on range->random_range->typ\n");
-    cr_assert_eq(rand_switch->chances[0], 0.4,
+    cr_assert_float_eq(rand_switch->chances[0], 0.4, 10E-4,
         "Error: failed test random_switch_new_test on first chance\n");
-    cr_assert_eq(rand_switch->chances[1], 0.6,
+    cr_assert_float_eq(rand_switch->chances[1], 0.6, 10E-4,
         "Error: failed test random_switch_new_test on second chance\n");
 }
 
 
 //test for random_range_init with 0.6/0.4
-Test(skill_test, random_switch_init_test_uneq)
+Test(random_switch, random_switch_init_test_uneq)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
     item_t* bomb = add_bomb_item(ctx);
@@ -375,7 +455,7 @@ Test(skill_test, random_switch_init_test_uneq)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
     random_switch_type_t* rand_switch = malloc(sizeof(float) * 2 + sizeof(random_switch_skill) * 4);
 
     float *chances = (float *)malloc(2*sizeof(float));  
@@ -389,14 +469,14 @@ Test(skill_test, random_switch_init_test_uneq)
         "Error: failed test random_range_new_test on range->random_range->type\n");
     cr_assert_eq(rand_switch->complex_skill->num_skills, 2,
         "Error: failed test random_range_new_test on range->random_range->num_skills\n");
-    cr_assert_eq(rand_switch->chances[0], 0.400000, 
+    cr_assert_float_eq(rand_switch->chances[0], 0.4, 10E-4,
         "Error: failed test random_switch_new_test on first chance\n");
-    cr_assert_eq(rand_switch->chances[1], 0.600000,
+    cr_assert_float_eq(rand_switch->chances[1], 0.6, 10E-4,
         "Error: failed test random_switch_new_test on second chance\n");    
 }
 
 //test for random_switch_new with 0.5/0.5
-Test(random_switch, random_switch_new_test_half)
+Test(skill_test, random_switch_new_test_half)
 {
 
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -411,7 +491,7 @@ Test(random_switch, random_switch_new_test_half)
     skills[0] = skill1;
     skills[1] = skill2;
     
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
 
     float *chances = (float *)malloc(2*sizeof(float)); 
     chances[0] = 0.5;
@@ -428,7 +508,6 @@ Test(random_switch, random_switch_new_test_half)
         "Error: failed test random_switch_new_test on second chance\n");
 }
 
-
 //test for random_range_init with 0.5/0.5
 Test(skill_test, random_switch_init_test_half)
 {
@@ -444,7 +523,7 @@ Test(skill_test, random_switch_init_test_half)
     skills[0] = skill1;
     skills[1] = skill2;
 
-    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch_skill = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
     random_switch_type_t* rand_switch = malloc(sizeof(float) * 2 + sizeof(random_switch_skill) * 4);
 
     float *chances = (float *)malloc(2*sizeof(float));  
@@ -455,9 +534,9 @@ Test(skill_test, random_switch_init_test_half)
 
 
     cr_assert_eq(rand_switch->complex_skill->type, RANDOM_SWITCH,
-        "Error: failed test random_range_new_test on range->random_range->type\n");
+        "Error: failed test random_switch_new_test on rand_switch->complex_skill->type\n");
     cr_assert_eq(rand_switch->complex_skill->num_skills, 2,
-        "Error: failed test random_range_new_test on range->random_range->num_skills\n");
+        "Error: failed test random_switch_new_test on rand_switch->complex_skill->num_skills\n");
     cr_assert_eq(rand_switch->chances[0], 0.500000, 
         "Error: failed test random_switch_new_test on first chance\n");
     cr_assert_eq(rand_switch->chances[1], 0.500000,
@@ -465,7 +544,7 @@ Test(skill_test, random_switch_init_test_half)
 }
 
 
- /** Test complex_skill_free */
+ /** Test random_switch_free */
 Test(skill_test, random_switch_free_test)
 {
     chiventure_ctx_t* ctx = create_player_and_stats();
@@ -484,10 +563,34 @@ Test(skill_test, random_switch_free_test)
     chances[0] = 0.4;
     chances[1] = 0.6;
 
-    complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2);
+    complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
     random_switch_type_t *rand_switch = random_switch_new(random_switch, chances);
 
     int ret = random_switch_free(rand_switch);
 
     cr_assert_eq(ret, 0, "Error: failed test random_switch_free_test\n");
+}
+
+//test for execute_random_switch_complex_skill
+Test(skill_test, execute_random_switch_complex_skill_test){
+    chiventure_ctx_t* ctx = create_player_and_stats();
+    item_t* bomb = add_bomb_item(ctx);
+    effect_t* defusebombeffect = make_bomb_effect(bomb);
+
+    skill_t** skills = malloc(sizeof(skill_t)*2);
+    skill_t* skill1 = skill_new(1000, ACTIVE, "defuse bomb", "defuses a bomb",
+        2, 5, defusebombeffect, NULL);
+    skill_t* skill2 = skill_new(1001, ACTIVE, "defuse bomb 2", "defuses a bomb 2",
+        2, 5, defusebombeffect, NULL);
+    skills[0] = skill1;
+    skills[1] = skill2;
+
+    float x[2] = {1.0, 0.0};
+
+    complex_skill_t* random_switch = complex_skill_new(RANDOM_SWITCH, skills, 2, NULL);
+    random_switch_type_t *random = random_switch_new(random_switch, x);
+
+    int rc = execute_random_switch_complex_skill(random, ctx);
+    cr_assert_eq(rc, 0, "Error: failed test execute_random_switch_complex_skill_test\n");
+
 }

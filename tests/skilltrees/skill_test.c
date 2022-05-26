@@ -151,4 +151,3 @@ Test(skill_tests, skill_level_up_minus_1)
     0, 5, effect_defuse_bomb, NULL);
     check_level_up(skill, -1);
 }
-
