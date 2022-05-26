@@ -349,7 +349,7 @@ combatant_t* new_battle_player()
     return combatant_new(name, is_friendly, c_type, stats, moves, items,  NULL, NULL, NULL, BATTLE_AI_NONE);
 }
 
-battle *create_battle()
+battle_t *create_battle()
 {
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     player_stats->hp = 50;
