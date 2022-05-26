@@ -102,66 +102,6 @@ roomspec_t* random_room_from_game(game_t* game){
     }
 } 
 
-
-
-/* autogenerate_room_in_game
-* given a game struct, chooses a random room from the game
-*
-* parameters:
-* - game_t* game: a pointer to the game struct. Must contain at least one room.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
-* returns:
-* 1 - if a random room was successfully generated
-* 0 - if a random room could not be generated due to having no empty directions
-* -1 - if a random room could not be generate due to invalid inputs 
-* (e.g. if game is null, if game contains no rooms, etc.)
-*/
-
-int autogenerate_room_in_game(game_t* game, gencontext_t* context){
-
-    specgraph=context->specgraph;
-    roomspec_t **roomspecs=specgraph->roomspecs;
-    roomspec_t *currroomspec=roomspecs[curr->tag];
-
-    if(game==NULL){
-        return -1;
-    }
-
-    if(context==NULL){
-        return -1;
-    }
-
-    room_t* curr=random_room_from_game(game);
-    char* direction_to_new;
-    char* direction_to_curr;
-    int rc=pick_random_direction(game, curr, direction_to_curr, direction_to_new);
-    
-    if(rc==FAILURE){
-        return 0;
-    }
-
-    if((strcmp(direction_to_new), "north")==0){
-        direction_to_curr="south";
-    }
-
-    else if((strcmp(direction_to_new), "south")==0){
-        direction_to_curr="north";
-    }
-
-    else if((strcmp(direction_to_new), "east")==0){
-        direction_to_curr="west";
-    }
-
-    else if((strcmp(direction_to_new), "west")==0){
-        direction_to_curr="east";
-    }
-
-    room_autogenerate(game, context, curr, currroomspec, 
-                      direction_to_curr, direction_to_new);
-    
-    return 1;
-}
-
 /*
 * path_generate
 * Automatically determines whether to generate a path between a given room and an adjacent room
@@ -280,4 +220,113 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
             add_path_to_room(curr, pathtocurr);            
         }
     }
+}
+
+/* autogenerate_room_in_game
+* given a game struct and gencontext struct, generates a random room in the game by 
+* choosing a random room with random_room_in_game and generating a room from that room
+* using the adjacency matrix. ALso generates any new associated paths using 
+* path_autogenerate
+*
+* parameters:
+* - game_t* game: a pointer to the game struct. Must contain at least one room.
+* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* returns:
+* 1 - if a random room was successfully generated
+* 0 - if a random room could not be generated due to having no empty directions
+* -1 - if a random room could not be generate due to invalid inputs 
+* (e.g. if game is null, if game contains no rooms, etc.)
+*/
+
+int autogenerate_room_in_game(game_t* game, gencontext_t* context){
+
+    specgraph=context->specgraph;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    roomspec_t *currroomspec=roomspecs[curr->tag];
+
+    if(game==NULL){
+        return -1;
+    }
+
+    if(context==NULL){
+        return -1;
+    }
+
+    room_t* curr=random_room_from_game(game);
+    char* direction_to_new;
+    char* direction_to_curr;
+    int rc=pick_random_direction(game, curr, direction_to_curr, direction_to_new);
+    
+    if(rc==FAILURE){
+        return 0;
+    }
+
+    if((strcmp(direction_to_new), "north")==0){
+        direction_to_curr="south";
+    }
+
+    else if((strcmp(direction_to_new), "south")==0){
+        direction_to_curr="north";
+    }
+
+    else if((strcmp(direction_to_new), "east")==0){
+        direction_to_curr="west";
+    }
+
+    else if((strcmp(direction_to_new), "west")==0){
+        direction_to_curr="east";
+    }
+
+    room_autogenerate(game, context, curr, currroomspec, 
+                      direction_to_curr, direction_to_new);
+    
+    path_autogenerate(game, context, curr);
+
+    return 1;
+}
+
+/*See autogenerate.h*/
+
+int game_autogenerate_static(game_t* g, gencontext_t context, int num_rooms, char* first_room){
+    
+    specgraph_t *specgraph=context->specgraph;
+    int num_roomspecs=specgraph->num_roomspecs;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    int **edges=specgraph->edges;
+
+    roomspec_t *currspec;
+    char* specname;
+
+    //Generate first room
+    if(strcmp(first_room, "pickrandomly")==0){
+        random_first_room(g, context);
+    }
+
+    else{
+        for(int i=0; i<num_roomspecs; i++){
+
+            currspec=roomspecs[i];
+            specname=currspec->room_name;
+            if(strcmp(first_room, currspec)==0){
+                room_t* firstroom=roomspec_to_room(currspec);
+                add_room_to_game(g, firstroom);
+            }
+        }
+    }
+
+    int count=0;
+    int rc;
+
+    while(count<num_rooms){
+        rc=0;
+        while(rc==0){
+            rc=autogenerate_room_in_game(g, context)
+            if(rc==-1){
+                fprintf(stderr, "Invalid input parameters");
+            }
+        }
+        count++;
+    }
+
+    return SUCCESS;
 }

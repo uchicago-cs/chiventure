@@ -30,6 +30,12 @@
 * Given a game_t and gencontext_t pointer and number of rooms, statically autogenerates 
 * a new game
 *
+* Parameters:
+* - game_t* game: a pointer to the game struct. Must contain at least one room.
+* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - num_rooms: The number of rooms in the newly generate game
+* - first_room: The name of the roomspec of the first room. Enter "pickrandomly" if you would like 
+*               the roomspec to be chosen randomly.
 * returns:
 * Integer to indicate if the generation was successful.
 */
