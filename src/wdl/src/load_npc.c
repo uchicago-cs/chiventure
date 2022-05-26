@@ -198,6 +198,8 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
 
 /*
  * loads dialogue into quests
+ * a lot of this is verbatim taken from load_dialogue
+ * some future restructuring could minimize the duplicate code
  *
  * parameters:
  * - quest: the quest
@@ -205,9 +207,83 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
  * - id: the quest id
  * - npc: the npc
 */
-int load_quest_dialogue(npc_quest_t *quest, convo_t *quest_convo, char* id, npc_t *npc)
+int load_quest_dialogue(obj_t *quest_convo_obj, npc_quest_t *quest, char* id, 
+                        npc_t *npc, game_t *g)
 {
-    // to do
+    convo_t *convo = convo_new();
+
+    // verify the dialogue object's attributes
+    if (dialogue_type_check(quest_convo_obj) == FAILURE) {
+        fprintf(stderr, "Quest dialogue object failed typechecking, or the two "
+                "required attributes (nodes, edges) are missing. NPC: %s\n",
+                npc->npc_id);
+        return FAILURE;
+    }
+
+    obj_t *nodes_obj = obj_get_attr(quest_convo_obj, "nodes", false);
+    obj_t *edges_obj = obj_get_attr(quest_convo_obj, "edges", false);
+    char *id, *npc_quest_dialogue;
+    char *quip, *from_id, *to_id;
+    obj_t *curr;
+    obj_t *actions_obj;
+    obj_t *conditions_obj;
+    condition_t *conditions;
+
+    // build nodes
+    DL_FOREACH(nodes_obj->data.lst, curr)
+    {
+        id = obj_get_str(curr, "id");
+        npc_quest_dialogue = obj_get_str(curr, "quest_dialogue");
+
+        // create node
+        if (add_node(convo, id, npc_quest_dialogue) != SUCCESS) {
+            fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
+                    npc->npc_id);
+            return FAILURE;
+        }
+
+        // load node actions, if any
+        if ((actions_obj = obj_get(curr, "actions")) != NULL) {
+            if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS) {
+                fprintf(stderr, "Could not add actions to node with ID: %s. "
+                        "NPC: %s\n", id, npc->npc_id);
+                return FAILURE;
+            }
+        }
+    }
+
+    // build edges
+    DL_FOREACH(edges_obj->data.lst, curr)
+    {
+        quip = obj_get_str(curr, "quip");
+        from_id = obj_get_str(curr, "from_id");
+        to_id = obj_get_str(curr, "to_id");
+
+        conditions = NULL;
+
+        // build conditions, if any
+        if ((conditions_obj = obj_get(curr, "conditions")) != NULL) {
+            if ((conditions = build_conditions(conditions_obj, g)) == NULL) {
+                fprintf(stderr, "Could not build conditions on edge with "
+                        "quip: %s. NPC: %s\n", quip, npc->npc_id);
+                return FAILURE;
+            }
+        }
+
+        // create edge
+        if (add_edge(convo, quip, from_id, to_id, conditions) != SUCCESS) {
+            fprintf(stderr, "Could not add edge with quip: %s. NPC: %s\n",
+                    quip, npc->npc_id);
+            return FAILURE;
+        }
+    }
+
+    // assign the conversation to the quest
+    if (add_convo_to_quest(convo, quest) != SUCCESS) {
+        fprintf(stderr, "Could not add convo to quest: %s\n", npc->npc_id);
+        return FAILURE;
+    }
+
     return SUCCESS;
 }
 

@@ -562,6 +562,43 @@ int add_tasks_to_npc(npc_t *npc, npc_task_list_t *t)
     return SUCCESS;
 }
 
+
+/* Adds a conversation to a quest.
+ * 
+ * Parameters:
+ * - quest: the npc's quest
+ * - c: the quest-specific dialogue
+ * 
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int add_convo_to_quest(npc_quest_t *quest, convo_t *c)
+{
+    assert(quest != NULL && c != NULL);
+
+    quest->dialogue = c;
+
+    return SUCCESS;
+}
+
+/* Adds a conversation to a task.
+ * 
+ * Parameters:
+ * - task: the npc's task
+ * - c: the task-specific dialogue
+ * 
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int add_convo_to_task(npc_task_t *task, convo_t *c)
+{
+    assert(task != NULL && c != NULL);
+
+    task->dialogue = c;
+
+    return SUCCESS;
+}
+
 /* See npc.h */
 int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
                       difficulty_t ai, hostility_t hostility_level,

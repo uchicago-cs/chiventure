@@ -531,6 +531,28 @@ int add_quests_to_npc(npc_t *npc, npc_quest_list_t *q);
  */
 int add_tasks_to_npc(npc_t *npc, npc_task_list_t *t);
 
+/* Adds a conversation to a quest.
+ * 
+ * Parameters:
+ * - quest: the npc's quest
+ * - c: the quest-specific dialogue
+ * 
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int add_convo_to_quest(npc_quest_t *quest, convo_t *c);
+
+/* Adds a conversation to a task.
+ * 
+ * Parameters:
+ * - task: the npc's task
+ * - c: the task-specific dialogue
+ * 
+ * Returns:
+ *  - SUCCESS on success, FAILURE if an error occurs
+ */
+int add_convo_to_task(npc_task_t *task, convo_t *c);
+
 /*
  * Adds an npc_battle struct to a given npc.
  *
