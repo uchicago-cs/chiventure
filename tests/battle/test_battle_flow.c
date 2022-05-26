@@ -543,10 +543,10 @@ Test(battle_flow_move, do_stat_change_both_enemy_make_move)
                  185, 
             "enemy_make_move() did not compute stat change on enemy correctly; Actual %d, Expected %d",
             enemy->stats->hp, 185);
-    cr_assert_eq(player->stats->phys_atk,
+    cr_assert_eq(player->stats->hp,
                  115,
                  "enemy_make_move() did not compute stat change on player correctly,"
-                 "Actual: %d, Expected: %d", player->stats->phys_atk, 115);
+                 "Actual: %d, Expected: %d", player->stats->hp, 115);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
 }
