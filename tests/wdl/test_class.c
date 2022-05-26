@@ -138,23 +138,25 @@ Test(class, load_partially_defined_class) {
                    "Rogue's base_stats field should have been empty, but was not.\n");
 }
 
-/* Checks to see if npc-specific prefab class is loaded */
-Test(class, load_npc_specific_prefab_class) {
+/* Checks to see if a prefab class is loaded */
+Test(class, load_prefab_class) {
     game_t *game = load_game(__get_doc_obj());
 
-    /* Healer is new npc specific prefab class */
-    class_t* healer = find_class(&game->all_classes, "Healer"); 
-    cr_assert_not_null(healer, "load_game() did not load Healer class correctly.\n");
+    /* The monk is a prefab class, it is initialized by us. */
+    class_t* monk = find_class(&game->all_classes, "Monk"); 
+    cr_assert_not_null(monk, "load_game() did not load Monk class correctly.\n");
 
-    cr_assert_str_eq(healer->shortdesc, "A patient healer.", 
-                     "Healer's short description did not load correctly.\n");
+    cr_assert_str_eq(monk->shortdesc, "An elite martial artist.", 
+                     "Monk's short description did not load correctly.\n");
 
-    cr_assert_str_eq(healer->longdesc, "The healer is a powerful and magical witch that has magical abilities to "
-                    "save anyone in the village that has been injured. \n");
+    cr_assert_str_eq(monk->longdesc, "The Monk is an expert of unarmed combat, and, through their training--"
+                     "in accordance with their strict spirituality--have learned how to defend themselves from attackers.", 
+                     "Monk's long description did not load correctly.\n");
 
-    cr_assert_eq(get_stat_current(healer->base_stats, "max_health"), 10, 
+    cr_assert_eq(get_stat_current(monk->base_stats, "max_health"), 25, 
                  "Monk's max_health stat was loaded incorrectly.\n");
 }
+
 
 /* Checks to see if a partially overwritten prefab class is loaded */
 Test(class, load_overwritten_prefab_class) {
