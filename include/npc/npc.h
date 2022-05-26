@@ -70,14 +70,9 @@ typedef struct npc npc_hash_t;
  *  inventory: a pointer to an existing item_hash_t struct defining the npc's
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
-<<<<<<< HEAD
- *          (see /include/playerclass/class_structs.h)
- *  will_fight: a boolean describing whether the npc will engage in battle
-=======
            (see /include/playerclass/class_structs.h)
  *  hostility_level: an enum indicating the npc's hostility level
                     (see /include/npc/npc_battle.h)
->>>>>>> dev
  * 
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs

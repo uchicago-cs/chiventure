@@ -19,10 +19,7 @@
 /* Default Classes in alphabetical order. */
 const char* const DEFAULT_CLASS_NAMES[] = {
     "bard",
-<<<<<<< HEAD
     "basic",
-=======
->>>>>>> dev
     "monk",
     "ranger",
     "rogue",
@@ -35,7 +32,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 10;
+const int DEFAULT_CLASS_COUNT = 11;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an

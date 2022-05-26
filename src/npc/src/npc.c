@@ -23,13 +23,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
 }
 
 /* See npc.h */
-<<<<<<< HEAD
-npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc, class_t *class,
-                npc_mov_t *movement, bool will_fight)
-=======
 npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
                class_t *class, npc_mov_t *movement, hostility_t hostility_level)
->>>>>>> dev
 {
     npc_t *npc;
     npc = malloc(sizeof(npc_t));
