@@ -197,7 +197,7 @@ char* create_combined_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE]
     return "Created a combined skill!";
 }
 
-int add_combined_skill_to_player(chiventure_ctx_t* ctx, int sid)
+int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
 {
     player_t* player = ctx->game->curr_player;
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
@@ -225,7 +225,7 @@ int add_combined_skill_to_player(chiventure_ctx_t* ctx, int sid)
 
 char* add_combined_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-    int check = add_combined_skill_to_player(ctx, 0);
+    int check = add_skill_to_player(ctx, 0);
     if (check == FAILURE) 
     {
         return "Could not add skill!";
@@ -241,58 +241,58 @@ char* add_combined_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventu
     }
 }
 
-//Combined skill functions
-void create_combined_skill(chiventure_ctx_t* ctx)
+//Sequential skill functions
+void create_sequential_skill(chiventure_ctx_t* ctx)
 {
-    /*Skill will buff multiple stats of the player*/
+    // /*Skill will buff multiple stats of the player*/
 
-    /*Health buff */
-    char* stats_to_change[] = {"max_health", "current_health"};
-    double mods[] = {100, 100};
-    int durations[] = {5, 5};
-    player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
-    if (health_boost == NULL) {
-        print_to_cli(ctx, "HEALTH NULL EFFECT");
-    }
-    effect_t* stat_effect0 = make_player_stat_effect(health_boost);
-    /* Making a skill */
-    skill_t* stat_skill0 = skill_new(0, PASSIVE, "Stat Skill", "Modifies health", 10, 5, stat_effect0, NULL);
+    // /*Health buff */
+    // char* stats_to_change[] = {"max_health", "current_health"};
+    // double mods[] = {100, 100};
+    // int durations[] = {5, 5};
+    // player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
+    // if (health_boost == NULL) {
+    //     print_to_cli(ctx, "HEALTH NULL EFFECT");
+    // }
+    // effect_t* stat_effect0 = make_player_stat_effect(health_boost);
+    // /* Making a skill */
+    // skill_t* stat_skill0 = skill_new(0, PASSIVE, "Stat Skill", "Modifies health", 10, 5, stat_effect0, NULL);
 
-    /*Strength buff*/
-    char* stats_to_change1[] = {"strength"};
-    double mods1[] = {100, 100};
-    int durations1[] = {5, 5};
-    player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 1, ctx);
-    if (strength_boost == NULL) {
-        print_to_cli(ctx, "STRENGTH NULL EFFECT");
-    }
-    effect_t* stat_effect1 = make_player_stat_effect(strength_boost);
-    /* Making a skill */
-    skill_t* stat_skill1 = skill_new(0, PASSIVE, "Stat Skill", "Modifies strength", 10, 5, stat_effect1, NULL);
+    // /*Strength buff*/
+    // char* stats_to_change1[] = {"strength"};
+    // double mods1[] = {100, 100};
+    // int durations1[] = {5, 5};
+    // player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 1, ctx);
+    // if (strength_boost == NULL) {
+    //     print_to_cli(ctx, "STRENGTH NULL EFFECT");
+    // }
+    // effect_t* stat_effect1 = make_player_stat_effect(strength_boost);
+    // /* Making a skill */
+    // skill_t* stat_skill1 = skill_new(0, PASSIVE, "Stat Skill", "Modifies strength", 10, 5, stat_effect1, NULL);
 
-    /*Defense buff*/
-    char* stats_to_change2[] = {"defense"};
-    double mods2[] = {100, 100};
-    int durations2[] = {5, 5};
-    player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 1, ctx);
-    if (defense_boost == NULL) {
-        print_to_cli(ctx, "DEFENSE NULL EFFECT");
-    }
-    effect_t* stat_effect2 = make_player_stat_effect(defense_boost);
-    /* Making a skill */
-    skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies defense", 10, 5, stat_effect2, NULL);
+    // /*Defense buff*/
+    // char* stats_to_change2[] = {"defense"};
+    // double mods2[] = {100, 100};
+    // int durations2[] = {5, 5};
+    // player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 1, ctx);
+    // if (defense_boost == NULL) {
+    //     print_to_cli(ctx, "DEFENSE NULL EFFECT");
+    // }
+    // effect_t* stat_effect2 = make_player_stat_effect(defense_boost);
+    // /* Making a skill */
+    // skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies defense", 10, 5, stat_effect2, NULL);
 
-    skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
-    skills[0] = stat_skill0;
-    skills[1] = stat_skill1;
-    skills[2] = stat_skill2;
+    // skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
+    // skills[0] = stat_skill0;
+    // skills[1] = stat_skill1;
+    // skills[2] = stat_skill2;
 
-    complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
-    skill_t* stat_skill3 = skill_new(0, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
+    // complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
+    // skill_t* stat_skill3 = skill_new(1, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
     
-    /* Showcase leveling functionality */
-    skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
-    skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
+    // /* Showcase leveling functionality */
+    // skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
+    // skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
 }
 
 char* create_sequential_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
@@ -301,42 +301,90 @@ char* create_sequential_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZ
     return "Created a squential skill!";
 }
 
-int add_sequential_skill_to_player(chiventure_ctx_t* ctx, int sid)
-{
-    player_t* player = ctx->game->curr_player;
-    skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
-    if (skill_node == NULL) 
-    {
-        print_to_cli(ctx, "Skills not made yet !");
-        return FAILURE;
-    }
-    skill_t* skill = skill_node->skill;
-    
-    /*Find the correct skill */
-    int i = 1;
-    while ((skill->sid != sid)&&(i<=1)) 
-    {
-        skill_node = player->player_class->skilltree->nodes[i];
-        i +=1;
-        skill = skill_node->skill;
-    }
-
-    /* Add to inventory */
-    inventory_skill_add(ctx->game->curr_player->player_skills, skill_node -> skill);
-    
-     return SUCCESS;
-}
-
 char* add_sequential_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {
-    int check = add_sequential_skill_to_player(ctx, 0);
+    int check = add_skill_to_player(ctx, 1);
     if (check == FAILURE) 
     {
         return "Could not add skill!";
     }
     else 
     {
-        execute_skill(ctx, 0);
+        execute_skill(ctx, 1);
+        return "";
+    }
+}
+
+//Conditonal Skill code
+void create_conditional_skill(chiventure_ctx_t* ctx)
+{
+    // /*Skill will buff multiple stats of the player*/
+
+    // /*Health buff */
+    // char* stats_to_change[] = {"max_health", "current_health"};
+    // double mods[] = {100, 100};
+    // int durations[] = {5, 5};
+    // player_stat_effect_t* health_boost = define_player_stat_effect("health boost", stats_to_change, mods, durations, 2, ctx);
+    // if (health_boost == NULL) {
+    //     print_to_cli(ctx, "HEALTH NULL EFFECT");
+    // }
+    // effect_t* stat_effect0 = make_player_stat_effect(health_boost);
+    // /* Making a skill */
+    // skill_t* stat_skill0 = skill_new(0, PASSIVE, "Stat Skill", "Modifies health", 10, 5, stat_effect0, NULL);
+
+    // /*Strength buff*/
+    // char* stats_to_change1[] = {"strength"};
+    // double mods1[] = {100, 100};
+    // int durations1[] = {5, 5};
+    // player_stat_effect_t* strength_boost = define_player_stat_effect("strength boost", stats_to_change1, mods1, durations1, 1, ctx);
+    // if (strength_boost == NULL) {
+    //     print_to_cli(ctx, "STRENGTH NULL EFFECT");
+    // }
+    // effect_t* stat_effect1 = make_player_stat_effect(strength_boost);
+    // /* Making a skill */
+    // skill_t* stat_skill1 = skill_new(0, PASSIVE, "Stat Skill", "Modifies strength", 10, 5, stat_effect1, NULL);
+
+    // /*Defense buff*/
+    // char* stats_to_change2[] = {"defense"};
+    // double mods2[] = {100, 100};
+    // int durations2[] = {5, 5};
+    // player_stat_effect_t* defense_boost = define_player_stat_effect("defense boost", stats_to_change2, mods2, durations2, 1, ctx);
+    // if (defense_boost == NULL) {
+    //     print_to_cli(ctx, "DEFENSE NULL EFFECT");
+    // }
+    // effect_t* stat_effect2 = make_player_stat_effect(defense_boost);
+    // /* Making a skill */
+    // skill_t* stat_skill2 = skill_new(0, PASSIVE, "Stat Skill", "Modifies defense", 10, 5, stat_effect2, NULL);
+
+    // skill_t** skills = (skill_t**) malloc(sizeof(skill_t*)*3);
+    // skills[0] = stat_skill0;
+    // skills[1] = stat_skill1;
+    // skills[2] = stat_skill2;
+
+    // complex_skill_t* complex_stat_skill = complex_skill_new(COMBINED, skills, 3, NULL);
+    // skill_t* stat_skill3 = skill_new(2, PASSIVE, "Complex Stat Skill", "Modifies several statistics", 10, 5, NULL, complex_stat_skill);
+    
+    // /* Showcase leveling functionality */
+    // skill_node_t* stat_node = skill_node_new(stat_skill3, 0, 2, 0); 
+    // skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
+}
+
+char* create_conditional_player_stat_effect_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    create_conditional_skill(ctx);
+    return "Created a squential skill!";
+}
+
+char* add_conditional_player_stat_operation(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    int check = add_skill_to_player(ctx, 2);
+    if (check == FAILURE) 
+    {
+        return "Could not add skill!";
+    }
+    else 
+    {
+        execute_skill(ctx, 1);
         return "";
     }
 }
