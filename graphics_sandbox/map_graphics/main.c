@@ -5,7 +5,7 @@
 
 
 /* See map_graphics.h for documentation */
-void draw_map_graphics(map_graphics_t* info)
+int draw_map_graphics(map_graphics_t* info)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -69,6 +69,7 @@ void draw_map_graphics(map_graphics_t* info)
     //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
+    return SUCCESS;
 }
 
 int main(void) {
