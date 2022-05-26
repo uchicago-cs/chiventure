@@ -474,7 +474,7 @@ Test(battle_flow_move, do_stat_change_both_battle_flow_move)
             enemy->stats->hp);
 
     // note: this hp value relies on player class implementation of move_list()
-    cr_assert_eq(player->stats->phys_atk,
+    cr_assert_eq(player->stats->hp,
                  200,
                  "battle_flow_move() did not compute stat change on player correctly,"
                  "Actual: %d, Expected: %d",player->stats->hp, 200);
