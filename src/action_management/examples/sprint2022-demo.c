@@ -1,0 +1,138 @@
+#include <stdio.h>
+#include "action_management/action_structs.h"
+#include "action_management/actionmanagement.h"
+#include <cli/operations.h>
+#include "common/ctx.h"
+#include "ui/ui.h"
+#include "game-state/game.h"
+#include "../src/custom-actions/include/interface.h"
+#include "skilltress/skilltree.h"
+#include "game-state/room.h"
+
+/* Creates a sample in-memory game */
+chiventure_ctx_t *create_sample_ctx()
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+
+    /* Create two rooms (room1 and room2). room1 is the initial room */
+    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
+    room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
+    game->curr_room = room1;
+    create_connection(game, "room1", "room2", "NORTH");
+
+
+    player_t *player = player_new("Borja");
+    player->class = new_class("Vampire", "Vampire", "Feeds on Students",
+                              NULL, NULL, NULL); //Add Stats Htbl to 2nd NULL?
+    skill_t *skill1 = skill_new(1002, ACTIVE, "Teach", "Educate the blossoming new generation", 10, 100, "");
+    skill_t *skill2 = skill_new(1002, ACTIVE, "Suck Blood", "No one knows how or when this happens", 10, 100, "");
+    skill_t *skill3 = skill_new(1002, ACTIVE, "Code", "Develop a new Heroku App", 10, 100, "");
+    skill_t *skill4 = skill_new(1002, ACTIVE, "Hire TA", "Spawn new senior software developers", 10, 100, "");
+    skill_t *skill5 = skill_new(1002, ACTIVE, "Tweet", "Call on alums to complain about software developemnt", 10, 100, "");
+    skill_node_t *skill_node1 = skill_node_new(skill1, 0, 0);
+    skill_node_t *skill_node2 = skill_node_new(skill2, 0, 0);
+    skill_node_t *skill_node3 = skill_node_new(skill3, 0, 0);
+    skill_node_t *skill_node4 = skill_node_new(skill4, 0, 0);
+    skill_node_t *skill_node5 = skill_node_new(skill5, 0, 0);
+    skill_tree_t *skill_tree = skill_tree_new(1001, "", 5);
+    skill_tree_node_add(skill_tree, skill_node1);
+    skill_tree_node_add(skill_tree, skill_node2);
+    skill_tree_node_add(skill_tree, skill_node3);
+    skill_tree_node_add(skill_tree, skill_node4);
+    skill_tree_node_add(skill_tree, skill_node5);
+    add_player_to_game(game, player);
+    game->curr_player = player;
+
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+    game = ctx->game;
+    
+    // add items to inventory
+    item_t *sword = item_new("A sword", "A sword", "A sword");
+    add_item_to_player(ctx->game->curr_player, sword, ctx->game);
+
+    item_t *laptop = item_new("Laptop ", "Laptop ", "Laptop ");
+    add_item_to_player(ctx->game->curr_player, laptop, ctx->game);
+
+    item_t *glasses = item_new("Glasses", "Glasses",
+                      "Jinkies Borja can't see without these");
+    add_item_to_player(ctx->game->curr_player, glasses, ctx->game);
+
+    item_t *ring = item_new("Ring   ", "Ring   ", "Ring   ");
+    add_item_to_player(ctx->game->curr_player, ring, ctx->game);
+
+    item_t *tape = item_new("Tape   ", "Tape   ", "Tape   ");
+    add_item_to_player(ctx->game->curr_player, tape, ctx->game);
+
+    item_t *clock = item_new("Clock  ", "Clock  ", "Clock  ");
+    add_item_to_player(ctx->game->curr_player, clock, ctx->game);
+
+    item_t *compass = item_new("Compass", "Compass", "Compass");
+    add_item_to_player(ctx->game->curr_player, compass, ctx->game);
+
+    item_t *compass = item_new("Compass", "Compass", "Compass");
+    add_item_to_player(ctx->game->curr_player, compass, ctx->game);
+    
+    item_t *gas = item_new("Gas    ", "Gas    ", "Gas    ");
+    add_item_to_player(ctx->game->curr_player, gas, ctx->game);
+
+    item_t *milk = item_new("Milk   ", "Milk   ", "Milk   ");
+    add_item_to_player(ctx->game->curr_player, milk, ctx->game);
+
+    item_t *banana = item_new("Banana ", "Banana ", "Banana ");
+    add_item_to_player(ctx->game->curr_player, banana, ctx->game);
+
+    item_t *pp_up = item_new("PP Up  ", "PP Up  ",
+                    "It raises the PP of a selected move by 1/5 "
+                    "of the move's base PP");
+    add_item_to_player(ctx->game->curr_player, pp_up, ctx->game);
+
+    item_t *pp_max = item_new("PP Max ", "PP Max ", "PP Max ");
+    add_item_to_player(ctx->game->curr_player, pp_max, ctx->game);
+
+    item_t *bands = item_new("Bands  ", "Bands  ", "Bands  ");
+    add_item_to_player(ctx->game->curr_player, bands, ctx->game);
+
+    item_t *candy = item_new("Candy  ", "Candy  ", "Candy  ");
+    add_item_to_player(ctx->game->curr_player, candy, ctx->game);
+    
+    item_t *iron = item_new("Iron   ", "Iron   ", "Iron   ");
+    add_item_to_player(ctx->game->curr_player, iron, ctx->game);
+
+    // add items to room
+    item_t *soap = item_new("Soap   ", "Soap   ", "Soap   ");
+    add_item_to_room(room1, soap); // TODO: change room to whatever new rooms we make
+
+    item_t *rolex = item_new("Rolex  ", "Rolex  ", "Rolex  ");
+    add_item_to_room(room1, rolex); // TODO: change room to whatever new rooms we make
+    
+    return ctx;
+}
+
+int main(int argc, char **argv)
+{
+    chiventure_ctx_t *ctx = create_sample_ctx();
+
+    attribute_t *wepDmg = int_attr_new("Dmg", 7);
+
+    item_t *sword = item_new("A sword", "A sword", "A sword");
+    add_attribute_to_hash(sword, wepDmg);
+
+    add_item_to_player(ctx->game->curr_player, sword, ctx->game);
+ 
+    add_entry("SEEDMG", seeDmg, NULL, ctx->cli_ctx->table);
+    add_entry("RAISEDMG", raiseDmg, NULL, ctx->cli_ctx->table);
+
+    add_entry("MYSTRENGTH", print_player_strength, NULL, ctx->cli_ctx->table);
+    add_entry("LEARNSTRENGTH", learn_strength, NULL, ctx->cli_ctx->table);
+    add_entry("CHANGESTRENGTH", change_strength, NULL, ctx->cli_ctx->table);
+
+    /* Start chiventure */
+    start_ui(ctx, banner);
+
+    game_free(ctx->game);
+
+    return 0;
+}
