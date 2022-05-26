@@ -67,6 +67,9 @@ chiventure_ctx_t* create_example_ctx() {
                                                                     "you a powerful combo move, one that stuns your opponent, then summons "
                                                                     "a mighty tornado");
 
+    room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room. He begins rambling 
+                                                                        something about how orcs are good at smashing things. ");
+
     /* Add example rooms to example game */
     add_room_to_game(game, start_room);
     add_room_to_game(game, combined_room);
@@ -75,6 +78,8 @@ chiventure_ctx_t* create_example_ctx() {
     create_connection(game, "Combined Skill Room", "Start Room", "SOUTH");
     create_connection(game, "Combined Skill Room", "Sequential Skill Room", "NORTH");
     create_connection(game, "Sequential Skill Room", "Combined Skill Room", "SOUTH");
+    create_connection(game, "Sequential Skill Room", "Conditional Skill Room", "NORTH");
+    create_connection(game, "Conditional Skill Room", "Sequential Skill Room", "SOUTH");
 
 
     /* Set initial room */
@@ -118,7 +123,11 @@ chiventure_ctx_t* create_example_ctx() {
     combatant_t* p = combatant_new("TEST", true, class,
             NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
-    battle_t* battle = battle_new(p, NULL, 0, 0);
+    //Combatant is the mentor, spoiler alert.
+    combatant_t* m = combatant_new("Vampire", true, class,
+            NULL, NULL, NULL, NULL, NULL, NULL, 0);
+
+    battle_t* battle = battle_new(p, m, 0, 0);
 
     battle_game_t* battle_game = new_battle_game();
     battle_game->battle = battle;
@@ -410,6 +419,32 @@ char* use_conditional_skill(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx
 }
 
 /****************************************************************************************************************/
+/*READER CODE*/
+/****************************************************************************************************************/
+
+int use_reader(chiventure_ctx_t* ctx){
+    attr_reader_effect_t* attr_reader = attr_reader_effect_new("Vampire", 7, READ_SINGLE_TARGET);
+
+    reader_effect_t* vamp_reader = reader_effect_new(READER_ATTRIBUTE, attr_reader, NULL);
+
+    int rt = execute_reader_effect(vamp_reader, ctx);
+    if(rt == 1){
+        print_to_cli(ctx, "You use the power of eyesight to see your mentor's weakness.");
+        print_to_cli(ctx, "You notice he has fangs... He's a vampire!");
+        return SUCCESS;
+    } else {
+        print_to_cli(ctx, "READER ERROR: MENTOR IS NOT VAMPIRE");
+    }
+    return FAILURE;
+}
+
+char* read_weakness(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{
+    int check = use_reader(ctx);
+    return "";
+}
+
+/****************************************************************************************************************/
 /*CLASS CODE*/
 /****************************************************************************************************************/
 
@@ -510,6 +545,7 @@ void main()
     add_entry("USE_SEQUENTIAL_MOVE", add_sequential_player_stat_operation, NULL, ctx->cli_ctx->table);
     add_entry("LEARN_CONDITIONAL", create_conditional_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("SMASH_DUMMY!", use_conditional_skill, NULL, ctx->cli_ctx->table);
+
 
     //Class changing commands
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
