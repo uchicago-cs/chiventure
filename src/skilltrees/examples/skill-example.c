@@ -1,17 +1,17 @@
-/*
- * Skill examples for battle demo
- */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <string.h>
+#include "skilltrees/skilltree.h"
 #include "skilltrees/skill-example.h"
 #include "skilltrees/complex_skills.h"
 #include "skilltrees/reader.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class_prefabs.h"
 
+/*
+ * SKILL EXAMPLES FOR BATTLES DEMO
+ */
 
 /* See skill-example.h */
 char* effect_diss_track(char* args){
@@ -71,6 +71,7 @@ skill_inventory_t* knight_inventory() {
 EXAMPLES MAKING THE USE OF COMPLEX SKILLS
 */
 
+/* see skill-example.h */
 void combined_skill(chiventure_ctx_t* ctx)
 {
 
@@ -100,7 +101,7 @@ void combined_skill(chiventure_ctx_t* ctx)
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
 }
 
-
+/* see skill-example.h */
 void sequential_skill(chiventure_ctx_t* ctx)
 {
     sid_t skill_id = 4500;
@@ -125,6 +126,7 @@ void sequential_skill(chiventure_ctx_t* ctx)
     skill_tree_node_add(ctx->game->curr_player->player_class->skilltree, stat_node);
 }
 
+/* see skill-example.h */
 void conditional_skill(chiventure_ctx_t* ctx)
 {
     sid_t skill_id = 5000;
