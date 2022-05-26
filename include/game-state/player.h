@@ -16,14 +16,6 @@
 
 #define QUEST_NAME_MAX_LEN 100
 
-/* Forward declaration for skilltrees */
-typedef struct skill skill_t;
-
-/* Forward declarations. Full typedefs can be found in item.h */
-typedef struct item item_t;
-typedef struct item item_hash_t;
-typedef struct item_wrapped_for_llist item_list_t;
-
 /* An enum representing the possible quest completion statuses currently supportd */
 typedef enum completion_status {
     Q_FAILED = -1,
