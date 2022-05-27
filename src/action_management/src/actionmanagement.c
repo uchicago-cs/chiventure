@@ -664,13 +664,11 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
                 *ret_string = string;
                 return CONDITIONS_NOT_MET;
             }
-            int cost = strlen(item->short_desc); // is short_desc a num? if so why char*? no indication that this is monetary cost
+            unsigned int cost = item->price;
             item_list_t *player_inventory;
             player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
-            bool can_buy = false;
             while(player_inventory != NULL){
-                if(strlen(player_inventory->item->short_desc) >= cost){
-                    can_buy = true;
+                if(player_inventory->item->price >= cost){
                     ret_item = player_inventory->item;
                     if(remove_item_from_player(c->game->curr_player, ret_item) != SUCCESS)
                     {   

@@ -71,6 +71,7 @@ typedef struct item {
     char *item_image; // a file path to an image of an item
     unsigned int inventory_x_pos; // a x-coordinate for an item's position in an inventory
     unsigned int inventory_y_pos; // a y-coordinate for an item's position in an inventory
+    unsigned int price; // the price of an item 
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are
