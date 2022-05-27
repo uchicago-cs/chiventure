@@ -99,15 +99,6 @@ kind1_cmd
   | EAT phrase { $$ = $2; }
   ;
 
-<<<<<<< HEAD
-kind1_action_keyword
-  : OPEN  { $$ = start_phrase($1); }
-  | CLOSE  { $$ = start_phrase($1); }
-/*  | line fight_cmd EOL { handle_fight_cmd($2); }
-*/
-  ;
-=======
->>>>>>> bd594654127571589b74545440fba03161c88f9c
 
 kind2_action
   : kind2_action_keyword { $$ = $1; }
