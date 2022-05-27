@@ -300,6 +300,7 @@ int game_autogenerate_static(game_t* g, gencontext_t *context, int num_rooms, ch
 
     roomspec_t *currspec;
     char* specname;
+    coords_t *coords=coords_new(0,0);
 
     //Generate first room
     if(strcmp(first_room, "pickrandomly")==0){
@@ -312,7 +313,7 @@ int game_autogenerate_static(game_t* g, gencontext_t *context, int num_rooms, ch
             currspec=roomspecs[i];
             specname=currspec->room_name;
             if(strcmp(first_room, currspec)==0){
-                room_t* firstroom=roomspec_to_room(currspec);
+                room_t* firstroom=roomspec_to_room(currspec, coords);
                 add_room_to_game(g, firstroom);
             }
         }
