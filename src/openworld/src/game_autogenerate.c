@@ -27,7 +27,7 @@
 * game struct to include a random first room based on the specgraph
 *
 * parameters:
-* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - specgraph: A pointer to a specgraph_t. Should not be NULL.
 * - game_t* game: a pointer to the game struct that needs to be updated. Should not contain any rooms.
 *
 * returns:
@@ -99,7 +99,7 @@ room_t* random_room_from_game(game_t* game){
 *
 * parameters:
 * - game_t* game: a pointer to the game struct. Must contain at least one room.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - specgraph: A pointer to a specgraph_t. Should not be NULL.
 * - curr: A pointer to the room_t from which the algorithm will determine whether to generate paths to adjacent rooms
 * - adjacentroom: A pointer to the adjacent room we are considering making paths to
 *
@@ -134,12 +134,12 @@ bool path_generate(game_t* game, specgraph_t *specgraph, room_t* curr, room_t* a
 *
 * parameters:
 * - game_t* game: a pointer to the game struct. Must contain at least one room.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - specgraph: A pointer to a specgraph_t. Should not be NULL.
 * - curr: A pointer to the room_t from which the algorithm will determine whether to generate paths to adjacent rooms
 *
 * returns:
 * SUCCESS - if the algorithm ran successfully
-* FAILURE - if the algorithm did not run successfully (e.g. if the game, context, or room are invalid)
+* FAILURE - if the algorithm did not run successfully (e.g. if the game, specgraph, or room are invalid)
 */
 
 int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
@@ -211,14 +211,14 @@ int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
 }
 
 /* autogenerate_room_in_game
-* given a game struct and gencontext struct, generates a random room in the game by 
+* given a game struct and specgraph struct, generates a random room in the game by 
 * choosing a random room with random_room_in_game and generating a room from that room
 * using the adjacency matrix. ALso generates any new associated paths using 
 * path_autogenerate
 *
 * parameters:
 * - game_t* game: a pointer to the game struct. Must contain at least one room.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - specgraph: A pointer to a specgraph_t. Should not be NULL.
 * returns:
 * 1 - if a random room was successfully generated
 * 0 - if a random room could not be generated due to having no empty directions

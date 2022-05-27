@@ -454,8 +454,8 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec)
 {
-    // If there are no roomspec_t elements in context->specgraph, then do not autogenerate 
-    if (context->specgraph == NULL) {
+    // If there are no roomspec_t elements in specgraph, then do not autogenerate 
+    if (specgraph == NULL) {
         return FAILURE;
     }
 
