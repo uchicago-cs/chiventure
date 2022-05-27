@@ -85,6 +85,7 @@ void check_skill_presence(class_t* c, int num_skills, char** names) {
         cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
 }
 
+<<<<<<< HEAD
 Test(multiclass, multiclassing){
     chiventure_ctx_t* ctx = init_incomplete_context();
     int succ;
@@ -102,6 +103,8 @@ Test(multiclass, multiclassing){
     check_field_presence(multiclass);
 }
 
+=======
+>>>>>>> c04914eed301b2ff1a59957d09cb3397826776e8
 Test(multiclass, basic_shortdesc){
 
     chiventure_ctx_t* ctx = init_incomplete_context();
@@ -117,10 +120,11 @@ Test(multiclass, basic_shortdesc){
 
     cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
 
-    char* expected = "Multiclass of warrior and bard";
+    char* expected = "Multiclass of warrior and bard.";
     cr_assert_str_eq(shortdesc, expected, "expected: %s. got %s", expected, shortdesc);
 }
 
+<<<<<<< HEAD
 Test(multiclass, iterated_shortdesc){
 
     chiventure_ctx_t* ctx = init_incomplete_context();
@@ -143,6 +147,8 @@ Test(multiclass, iterated_shortdesc){
     cr_assert_str_eq(shortdesc, expected, "expected: %s. Got %s", expected, shortdesc);
 }
 
+=======
+>>>>>>> c04914eed301b2ff1a59957d09cb3397826776e8
 Test(multiclass, shortdesc_exceeds_max_length){
 
     chiventure_ctx_t* ctx = init_incomplete_context();
@@ -182,6 +188,7 @@ Test(multiclass, basic_longdesc){
 
 }
 
+<<<<<<< HEAD
 Test(multiclass, iterated_longdesc){
 
     chiventure_ctx_t* ctx = init_incomplete_context();
@@ -204,6 +211,8 @@ Test(multiclass, iterated_longdesc){
     cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expected, longdesc);
 }
 
+=======
+>>>>>>> c04914eed301b2ff1a59957d09cb3397826776e8
 Test(multiclass, longdesc_exceeds_max_length){
 
     chiventure_ctx_t* ctx = init_incomplete_context();

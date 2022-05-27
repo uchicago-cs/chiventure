@@ -33,8 +33,49 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
 
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
     *succ = SUCCESS;
+<<<<<<< HEAD
     if (strstr(base_class->name, "Multiclass of " == NULL)){
       strncat(new_shortdesc, "Multiclass of ", 15);  
+=======
+    int len = 0;
+
+    if ((strstr(base_class->name, "Multiclass of ") == NULL)){
+      len += 14;
+    }
+    len += strlen(base_class->name);
+    if (num_multiclass == 2){
+        len += 2;
+    } else{
+        len += 5;
+    }
+    len += strlen(second_class->name);
+    for (int i = 0; i < base_class->num_parent_class; i++) {
+        if(i == base_class->num_parent_class - 1 && second_class->num_parent_class == 0){
+            len += 5;
+        } else{
+            len += 2;
+        }
+        len += strlen(base_class->parent_class_names[i]);
+    }
+    for (int i = 0; i < second_class->num_parent_class - 1; i++) {
+        if(i == second_class->num_parent_class - 1){
+            len += 5;
+        } else{
+            len += 2;
+        }
+        len += strlen(second_class->parent_class_names[i]);
+    }
+    len += 1;
+
+    if (len > MAX_SHORT_DESC_LEN + 1) {
+        fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length, second shortdesc not appended");
+        *succ = FAILURE;
+        return base_class->shortdesc;
+    }
+
+    if ((strstr(base_class->name, "Multiclass of ") == NULL)){
+      strncat(new_shortdesc, "Multiclass of ", 15);
+>>>>>>> c04914eed301b2ff1a59957d09cb3397826776e8
     }
     strncat(new_shortdesc, base_class->name, strlen(base_class->name));
     if (num_multiclass == 2){
@@ -47,7 +88,7 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
         if(i == base_class->num_parent_class - 1 && second_class->num_parent_class == 0){
             strncat(new_shortdesc, " and ", 6);
         } else{
-            strncat(new_shortdesc, ", ", 3);  
+            strncat(new_shortdesc, ", ", 3);
         }
         strncat(new_shortdesc, base_class->parent_class_names[i], strlen(base_class->parent_class_names[i]));
     }
@@ -55,18 +96,12 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
         if(i == second_class->num_parent_class - 1){
             strncat(new_shortdesc, " and ", 6);
         } else{
-            strncat(new_shortdesc, ", ", 3);    
+            strncat(new_shortdesc, ", ", 3);
         }
         strncat(new_shortdesc, second_class->parent_class_names[i], strlen(second_class->parent_class_names[i]));
     }
 
     strncat(new_shortdesc, ".", 2);
-
-    if (strlen(new_shortdesc) > MAX_SHORT_DESC_LEN + 1) {
-        fprintf(stderr, "multiclass_shortdesc: Shortdesc longer than max length, second shortdesc not appended");
-        *succ = FAILURE;
-        return base_class->shortdesc;
-    }
 
     return new_shortdesc;
 }
@@ -85,16 +120,18 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
 char* multiclass_longdesc(class_t* base_class, class_t* second_class, int *succ) {
     char* new_longdesc = (char*) calloc(MAX_LONG_DESC_LEN + 1, sizeof(char));
     *succ = SUCCESS;
+    int len = 0;
     strncat(new_longdesc, base_class->shortdesc, strlen(base_class->shortdesc));
     strncat(new_longdesc, "\n\n", 3);
     strncat(new_longdesc, second_class->shortdesc, strlen(second_class->shortdesc));
+    len += strlen(base_class->shortdesc) + 2 + strlen(second_class->shortdesc);
 
-    if (strlen(new_longdesc) > MAX_LONG_DESC_LEN + 1) {
+    if (len > MAX_LONG_DESC_LEN + 1) {
         fprintf(stderr, "multiclass_longdesc: Longdesc longer than max length, second longdesc not appended");
         *succ = FAILURE;
         return base_class->longdesc;
     }
-
+    
     return new_longdesc;
 }
 
@@ -221,6 +258,9 @@ skill_inventory_t* multiclass_inventory(skill_inventory_t* base_inventory, skill
     /* Calculate new inventory sizes */
     unsigned int max_active;
     unsigned int max_passive;
+    if (base_max_active == 0 && base_max_passive == 0) {
+        return base_inventory;
+    }
     if (base_max_active >= second_max_active) {
         max_active = base_max_active;
     }
