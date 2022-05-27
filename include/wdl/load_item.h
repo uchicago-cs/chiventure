@@ -35,12 +35,12 @@ int load_items(obj_t *doc, game_t *g );
  *
  * parameters:
  * - item_obj: the item object
- * - i: an item pointer
+ * - agent: an agent pointer
  *
  * returns;
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
  */
-int load_actions(obj_t *item_obj, item_t *i);
+int load_actions(obj_t *item_obj, agent_t *agent);
 
 #endif /* INCLUDE_LOAD_ITEM_H */

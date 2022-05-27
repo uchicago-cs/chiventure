@@ -179,6 +179,7 @@ Test(test_class, add) {
                  "Adding duplicate class was expected to fail, but it did not.\n");
 }
 
+
 /*
  * Helper function for tests.
  *
