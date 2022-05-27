@@ -41,6 +41,8 @@ void print_info(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
 /* print_cli
  * Prints the CLI- adds and deletes character based on user input
+ * Only calls to execute multiple commands separated by 'AND' when
+ * both succeed, but calls to execute commands separated by ';' unconditionally
  *
  * Parameters:
  *   - ctx : chiventure context struct
