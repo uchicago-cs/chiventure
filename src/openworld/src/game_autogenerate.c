@@ -262,22 +262,22 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
     int x=coords->x;
     int y=coords->y;
 
-    if((strcmp(direction_to_new), "north")==0){
+    if(strcmp(direction_to_new, "north")==0){
         direction_to_curr="south";
         y+=1;
     }
 
-    else if((strcmp(direction_to_new), "south")==0){
+    else if(strcmp(direction_to_new, "south")==0){
         direction_to_curr="north";
         y-=1;
     }
 
-    else if((strcmp(direction_to_new), "east")==0){
+    else if(strcmp(direction_to_new, "east")==0){
         direction_to_curr="west";
         x+=1;
     }
 
-    else if((strcmp(direction_to_new), "west")==0){
+    else if(strcmp(direction_to_new, "west")==0){
         direction_to_curr="east";
         x-=1;
     }
