@@ -284,7 +284,7 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
     coords_t *newcoords=coords_new(x, y);
 
     room_autogenerate(game, context, curr, currroomspec, 
-                      direction_to_curr, direction_to_new, newcoords);
+                      direction_to_curr, direction_to_new);
     
     path_autogenerate(game, context, curr);
 
