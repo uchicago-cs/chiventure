@@ -231,7 +231,7 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
 
     int num_roomspecs=specgraph->num_roomspecs;
 
-    roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t))
+    roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t));
     roomspecs=specgraph->roomspecs;
 
     if(game==NULL){
