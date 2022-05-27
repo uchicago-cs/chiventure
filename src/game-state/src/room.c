@@ -402,26 +402,6 @@ void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms)
             assert(npc_one_move(current_npc, all_rooms) != FAILURE);
         }
     }
-=======
-
-    room_t *old_room;
-    room_t *new_room;
-    npcs_in_room_t *npcs_in_old_room;
-    npcs_in_room_t *npcs_in_new_room;
-
-    HASH_FIND(hh, all_rooms, old_room_id, strlen(old_room_id), old_room);
-    npcs_in_old_room = old_room->npcs;
-
-    HASH_FIND(hh, all_rooms, new_room_id, strlen(new_room_id), new_room);
-    npcs_in_new_room = new_room->npcs;
-
-    if ((delete_npc_from_room(npcs_in_old_room, npc) == FAILURE) ||
-        (add_npc_to_room(npcs_in_new_room, npc) == FAILURE))
-    {
-        return FAILURE;
-    }
-    return SUCCESS;
->>>>>>> dev
 }
 
 /* See room.h  */
