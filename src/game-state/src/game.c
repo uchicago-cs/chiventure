@@ -528,6 +528,10 @@ int do_node_actions(node_t *n, game_t *game)
             break;
 
         case START_BATTLE:
+            // to do
+            break;
+
+        case MAKE_HOSTILE:
             npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
             npc->hostility_level = HOSTILE;
             break;
@@ -538,6 +542,10 @@ int do_node_actions(node_t *n, game_t *game)
             {
                 return FAILURE;
             }
+            break;
+
+        case PAUSE_MOVEMENT:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
             break;
 
         default:

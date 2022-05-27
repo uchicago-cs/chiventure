@@ -721,8 +721,11 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (tokens[1] == NULL) {
         return "You must identify an NPC to fight. What are you going to do, fight yourself?";
     }
+
+    char *npc_id = tokens[1];
+    case_insensitize(npc_id);
     
-    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, npc_id);
     /* note: This assumes that the NPC name 
      * is only one token long, and that the command is exactly "fight npc_name". */
     

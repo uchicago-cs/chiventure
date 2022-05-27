@@ -46,6 +46,12 @@ typedef enum npc_path_direction {
     NPC_MOV_ORIGINAL, NPC_MOV_REVERSED
 } npc_path_direction_t;
 
+/* Enum to define whether or not an NPC is allowed to move along its path
+ */
+typedef enum npc_movement_permission {
+    NPC_MOV_ALLOWED, NPC_MOV_RESTRICTED
+} npc_movement_permission_t;
+
 /*
  * Struct that deals with NPC movement for both types of npc movements
  *
@@ -58,6 +64,7 @@ typedef enum npc_path_direction {
  *      0 or NPC_MOV_ORIGINAL indicates original direction, 
  *      1 or NPC_MOV_REVERSED indicates the path is in
  *      the opposite direction
+ *  permission: whether or not an NPC can be moved
  *  track: tracker variable that returns current room id
  *  path: DLL of room_ids and (for indefinite moving NPCs) room_times
  */
@@ -65,6 +72,7 @@ typedef struct npc_mov {
     npc_path_dll_t *path;
     npc_mov_enum_t mov_type;
     npc_path_direction_t npc_path_direction;
+    npc_movement_permission_t permission;
     unsigned int npc_path_pos;
     char *track;
 } npc_mov_t;

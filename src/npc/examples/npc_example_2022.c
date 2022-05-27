@@ -45,7 +45,7 @@
 #include <time.h>
 #include <unistd.h>
 #include <pthread.h>
-#include <cli/operations.h>
+#include "cli/operations.h"
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "npc/npc.h"
@@ -191,15 +191,6 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 
     move_room(game, arena);
 
-    if (strcmp(get_npc_curr_room_id(friendly_fiona->movement), "lobby") == 0)
-    {
-        assert(npc_one_move(friendly_fiona, game->all_rooms) == SUCCESS);
-    }
-    if (strcmp(get_npc_curr_room_id(hostile_harry->movement), "lobby") == 0)
-    {
-        assert(npc_one_move(hostile_harry, game->all_rooms) == SUCCESS);
-    }
-
     return "You are in the arena now";
 }
 
@@ -265,7 +256,7 @@ convo_t *create_sample_convo_fiona()
     add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
              "some battle skills with you in the arena.");
     node_t *hostile_node = get_node(c->all_nodes, "2a");
-    add_action_to_node(hostile_node, START_BATTLE, "fiona battle");
+    add_action_to_node(hostile_node, MAKE_HOSTILE, "fiona battle");
     add_action_to_node(hostile_node, MOVE_ROOM, "fiona move to arena");
 
     add_node(c, "2b", "Fiona: I hope you have a good day too!");
@@ -492,6 +483,7 @@ int main(int argc, char **argv)
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
     add_entry("FIND", find_npc_operation, NULL, ctx->cli_ctx->table);
+    add_entry("FIGHT", battle_operation, NULL, ctx->cli_ctx->table);
 
     pthread_t time_thread;
     int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
