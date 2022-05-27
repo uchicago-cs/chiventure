@@ -264,25 +264,33 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
     if(rc==FAILURE){
         return 0;
     }
+    coords_t *coords=curr->coords;
+    int x=coords->x;
+    int y=coords->y;
 
     if((strcmp(direction_to_new), "north")==0){
         direction_to_curr="south";
+        y+=1;
     }
 
     else if((strcmp(direction_to_new), "south")==0){
         direction_to_curr="north";
+        y-=1;
     }
 
     else if((strcmp(direction_to_new), "east")==0){
         direction_to_curr="west";
+        x+=1;
     }
 
     else if((strcmp(direction_to_new), "west")==0){
         direction_to_curr="east";
+        x-=1;
     }
+    coords_t *newcoords=coords_new(x, y);
 
     room_autogenerate(game, context, curr, currroomspec, 
-                      direction_to_curr, direction_to_new);
+                      direction_to_curr, direction_to_new, newcoords);
     
     path_autogenerate(game, context, curr);
 
