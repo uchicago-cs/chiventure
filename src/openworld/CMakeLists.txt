@@ -1,4 +1,5 @@
 add_library(openworld
+            src/game_autogenerate.c
             src/autogenerate.c
             src/default_rooms.c
             src/default_items.c
