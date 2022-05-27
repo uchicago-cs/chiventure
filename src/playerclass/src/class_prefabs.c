@@ -47,7 +47,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 16;
+const int DEFAULT_CLASS_COUNT = 17;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
@@ -300,7 +300,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     }
 
     /*-----------------------------------------------------------------
-     *-------------------Player-specific prefabs-----------------------
+     *----------------------NPC-specific prefabs-----------------------
      *-----------------------------------------------------------------
      */
 
