@@ -131,13 +131,15 @@ chiventure_ctx_t* create_example_ctx() {
     set_curr_player(game, player);
 
     //Dummy Battle code for reading classes
-    class_t* class = class_new("NOTHING YET", "", "", NULL, NULL, NULL);
+    class_t* class_p = class_new("NOTHING YET", "", "", NULL, NULL, NULL);
+    
+    class_t* class_v = class_new("Vampire", "", "", NULL, NULL, NULL);
 
-    combatant_t* p = combatant_new("TEST", true, class,
+    combatant_t* p = combatant_new("TEST", true, class_p,
             NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
-    //Combatant is the mentor, spoiler alert.
-    combatant_t* m = combatant_new("Vampire", true, class,
+    //Mentor is a vampire, spoiler alert.
+    combatant_t* m = combatant_new("Mentor", true, class_v,
             NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
     battle_t* battle = battle_new(p, m, 0, 0);
@@ -404,6 +406,7 @@ int execute_conditional_skill(chiventure_ctx_t* ctx, int sid)
     /* Execute the effect */
     int check = execute_reader_effect(skill->complex->reader, ctx);
 
+    // print_to_cli(ctx, "GOT HERE ");
     if(check == 1){
         //Text when user smashes dummy
         print_to_cli(ctx, "You smash the dummy to pieces. Your honor is restored. ");
@@ -490,14 +493,15 @@ int use_reader(chiventure_ctx_t* ctx){
     attr_reader_effect_t* attr_reader = attr_reader_effect_new("Vampire", 7, READ_SINGLE_TARGET);
 
     reader_effect_t* vamp_reader = reader_effect_new(READER_ATTRIBUTE, attr_reader, NULL);
-
     int rt = execute_reader_effect(vamp_reader, ctx);
     if(rt == 1){
         print_to_cli(ctx, "You use the power of eyesight to see your mentor's weakness.");
         print_to_cli(ctx, "You notice he has fangs... He's a vampire!");
         return SUCCESS;
-    } else {
+    } else if (rt == 0){
         print_to_cli(ctx, "READER ERROR: MENTOR IS NOT VAMPIRE");
+    } else {
+        print_to_cli(ctx, "READER ERROR: MENTOR HAS NO CLASS. VAMPIRIZE HIM");
     }
     return FAILURE;
 }
@@ -515,9 +519,6 @@ char* read_weakness(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 //Functions to change classes for conditional example and class demo
 char* change_class_to_orc(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {   
-    // ctx->game->curr_player->player_class->name = 
-    //     realloc(ctx->game->curr_player->player_class->name, 
-    //     sizeof(char)*(strlen("Orc")+1));
     ctx->game->curr_player->player_class->name = "Orc";
     return "Mentor: Not sure how you managed to do that, but alright, you're an Orc now.";
 }
@@ -528,9 +529,7 @@ char* read_book(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
     print_to_cli(ctx, "You pick up a book about a legendary mage, and think it's pretty neat!");
     print_to_cli(ctx, "You feel your orcishness disappearing as you become a mage.");
     print_to_cli(ctx, "Mentor: Seriously, how do you do that?");
-    // ctx->game->curr_player->player_class->name = 
-    //     realloc(ctx->game->curr_player->player_class->name, 
-    //     sizeof(char)*(strlen("Mage")+1));
+
     ctx->game->curr_player->player_class->name = "Mage";
     return "";
 
@@ -645,12 +644,11 @@ void main()
     add_entry("LEARN_CONDITIONAL", create_conditional_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("SMASH_DUMMY!", use_conditional_skill, NULL, ctx->cli_ctx->table);
     add_entry("SMASH_WINDOW", use_conditional_window_skill, NULL, ctx->cli_ctx->table);
-
     add_entry("TALK_TO_MENTOR", combined_monologue, NULL, ctx->cli_ctx->table);
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
     add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
     add_entry("READ_TOME", read_book, NULL, ctx->cli_ctx->table);
-
+    add_entry("READ_WEAKNESS", read_weakness , NULL, ctx->cli_ctx->table);
 
     //Start UI for example chiventure context
     start_ui(ctx, banner);
