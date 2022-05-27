@@ -81,14 +81,14 @@ Test(npc_task, free)
 Test(npc_quest_list, new)
 {
     npc_quest_list_t *quest_list = npc_quest_list_new();
-    cr_assert_null(quest_list, "npc_quest_list_new() failed");
+    cr_assert_not_null(quest_list, "npc_quest_list_new() failed");
 }
 
 /* Checks that npc_task_list_new() properly creates a npc_task_list struct */
 Test(npc_task_list, new)
 {
     npc_task_list_t *task_list = npc_task_list_new();
-    cr_assert_null(task_list, "npc_task_list_new() failed");
+    cr_assert_not_null(task_list, "npc_task_list_new() failed");
 }
 
 /* Checks that npc_quest_list_init() properly initializes a npc_quest_list struct */
@@ -96,7 +96,7 @@ Test(npc_quest_list, init)
 {
     npc_quest_list_t *quest_list = npc_quest_list_new();
 
-    cr_assert_null(quest_list, "npc_task_list_new() failed");
+    cr_assert_not_null(quest_list, "npc_task_list_new() failed");
 
     int rc = npc_quest_list_init(quest_list);
 
@@ -108,7 +108,7 @@ Test(npc_task_list, init)
 {
     npc_task_list_t *task_list = npc_task_list_new();
 
-    cr_assert_null(task_list, "npc_task_list_new() failed");
+    cr_assert_not_null(task_list, "npc_task_list_new() failed");
 
     int rc = npc_task_list_init(task_list);
 
@@ -126,7 +126,7 @@ Test(npc_quest_list, add)
     cr_assert_not_null(quest2, "npc_quest_new() failed");
 
     npc_quest_list_t *quest_list = npc_quest_list_new();
-    cr_assert_null(quest_list, "npc_quest_list_new() failed");
+    cr_assert_not_null(quest_list, "npc_quest_list_new() failed");
 
     int rc = npc_quest_list_init(quest_list);
     cr_assert_eq(rc, SUCCESS, "npc_quest_list_init() failed to initialize");
@@ -149,7 +149,7 @@ Test(npc_task_list, add)
     cr_assert_not_null(task2, "npc_task_new() failed");
 
     npc_task_list_t *task_list = npc_task_list_new();
-    cr_assert_null(task_list, "npc_task_list_new() failed");
+    cr_assert_not_null(task_list, "npc_task_list_new() failed");
 
     int rc = npc_task_list_init(task_list);
     cr_assert_eq(rc, SUCCESS, "npc_task_list_init() failed to initialize");
@@ -172,7 +172,7 @@ Test(npc_quest_list, free)
     cr_assert_not_null(quest2, "npc_quest_new() failed");
 
     npc_quest_list_t *quest_list = npc_quest_list_new();
-    cr_assert_null(quest_list, "npc_quest_list_new() failed");
+    cr_assert_not_null(quest_list, "npc_quest_list_new() failed");
 
     int rc = npc_quest_list_init(quest_list);
     cr_assert_eq(rc, SUCCESS, "npc_quest_list_init() failed to initialize");
@@ -198,7 +198,7 @@ Test(npc_task_list, free)
     cr_assert_not_null(task2, "npc_task_new() failed");
 
     npc_task_list_t *task_list = npc_task_list_new();
-    cr_assert_null(task_list, "npc_task_list_new() failed");
+    cr_assert_not_null(task_list, "npc_task_list_new() failed");
 
     int rc = npc_task_list_init(task_list);
     cr_assert_eq(rc, SUCCESS, "npc_task_list_init() failed to initialize");
