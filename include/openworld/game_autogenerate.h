@@ -39,7 +39,7 @@
 * returns:
 * Integer to indicate if the generation was successful.
 */
-int game_autogenerate_static(game_t* g, gencontext_t *context, int num_rooms, char* first_room);
+int game_autogenerate_static(game_t* g, specgraph_t *specgraph, int num_rooms, char* first_room);
 
 /*
 * game_autogenerate_dynamic
@@ -49,6 +49,6 @@ int game_autogenerate_static(game_t* g, gencontext_t *context, int num_rooms, ch
 * returns:
 * Integer to indicate if the generation was successful.
 */
-int game_autogenerate_dynamic(game_t* g, gencontext_t context, char* first_room);
+int game_autogenerate_dynamic(game_t* g, specgraph_t *specgraph, char* first_room);
 
 #endif /* INCLUDE_GAME_AUTOGENERATE_H */

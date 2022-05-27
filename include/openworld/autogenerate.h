@@ -149,7 +149,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
  * - Returns a pointer to the newly generated roomspec
  */
 
-roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
+roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec);
 
 /* room_autogenerate
  * Creates a room directly north, south, east, or west of a given room. 
@@ -173,7 +173,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  *   Any internal failure results in crash (by triggering an assert).
  */
 
-int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
+int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr, roomspec_t *roomspec, 
                       char *direction_to_curr, char *direction_to_new);
 
 /*
@@ -315,7 +315,7 @@ specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph,
  * - SUCCESS if the new rooms were generated and added (SUCCESS)
  * - FAILURE if the new rooms were not generated/added (FAILURE)
  */
-int multi_room_level_generate(game_t *game, gencontext_t *context, 
+int multi_room_level_generate(game_t *game, specgraph_t *specgraph, 
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec);
                       
