@@ -5,8 +5,8 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
-#include "npc/npc.h"
-#include "quests/quests_structs.h"
+#include "quests/quests_state.h"
+#include "npc/dialogue.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -410,6 +410,18 @@ int delete_room_llist(room_list_t *head);
  */
 item_list_t *get_all_items_in_game(game_t *game);
 
+/* Adds an item to the given player
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
+ *  game struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_item_to_player(player_t *player, item_t *item, game_t *game);
+
 /* add_effect creates a game_action_effect_t struct and adds it to the action pointed to
 * Parameters:
 * - game_t *game
@@ -447,5 +459,41 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  */
 int add_condition(game_t *game, game_action_t *action, condition_t *condition);
 
-#endif
+/**********************************************
+ *       DIALOGUE EXECUTION FUNCTIONS         *
+ **********************************************/
 
+/* Starts a conversation.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - rc: return code
+ *  - game: the Chiventure game being run
+ *
+ * Returns:
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
+ */
+char *start_conversation(convo_t *c, int *rc, game_t *game);
+
+/* Runs a step of the conversation.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - input: integer (1, 2, ..., c->cur_node->num_available_edges)
+ *  - rc: return code
+ *  - game: the Chiventure game being run
+ *
+ * Returns:
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
+ */
+char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
+
+#endif
