@@ -2,6 +2,41 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "cli/cmd.h"
+#include "cli/operations.h"
+
+char* actions1[31] = {
+            "OPEN",
+            "CLOSE",
+            "PUSH",
+            "PULL",
+            "TURNON",
+            "TURNOFF",
+            "TAKE",
+            "PICKUP",
+            "DROP",
+            "CONSUME",
+            "USE",
+            "DRINK",
+            "EAT",
+            "GO",
+            "WALK",
+            "USE_ON",
+            "PUT",
+            "QUIT",
+            "HIST",
+            "HELP",
+            "CREDITS",
+            "LOOK",
+            "INV",
+            "MAP",
+            "SWITCH",
+            "LOAD_WDL",
+            "NAME",
+            "PALETTE",
+            "ITEMS",
+            "VIEW",
+            "FIGHT"};
+
 
 /* Checks if the memory for a lookup table is successfully allocated */
 Test(lookup, new)
@@ -87,4 +122,38 @@ Test(cmd, free)
 
     cr_assert_eq(rc, SUCCESS, "cmd_free() failed");
 }
-       
+
+Test(suggestion, go_suggest) 
+{
+    char* input = "gu";
+    char* sugg = suggestions(input, actions1);
+    cr_assert_eq(sugg, "GO", "Suggestions did not return excpected output");
+}
+
+Test(suggestion, take_suggest) 
+{
+    char* input = "take";
+    char* sugg = suggestions(input, actions1);
+    cr_assert_eq(sugg, "TAKE", "Suggestions did not return excpected output");
+}
+
+Test(suggestion, look_suggest) 
+{
+    char* input = "lok";
+    char* sugg = suggestions(input, actions1);
+    cr_assert_eq(sugg, "LOOK", "Suggestions did not return excpected output");
+}
+
+Test(suggestion, consume_suggest) 
+{
+    char* input = "consu";
+    char* sugg = suggestions(input, actions1);
+    cr_assert_eq(sugg, "CONSUME", "Suggestions did not return excpected output");
+}
+
+Test(suggestion, close_suggest) 
+{
+    char* input = "cons";
+    char* sugg = suggestions(input, actions1);
+    cr_assert_eq(sugg, "CLOSE", "Suggestions did not return excpected output");
+}
