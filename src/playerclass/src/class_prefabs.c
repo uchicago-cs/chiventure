@@ -26,7 +26,6 @@
 const char* const DEFAULT_CLASS_NAMES[] = {
     // Here are Player-specific playerclasses
     "bard",
-    "basic",
     "monk",
     "ranger",
     "rogue",
@@ -39,6 +38,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     
     // Here are NPC-specifc playerclasses
     "alchemist",
+    "basic",
     "chef",
     "fisherman",
     "healer",
