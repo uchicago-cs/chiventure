@@ -86,6 +86,7 @@ Test(class_prefabs, Bard) {
     class_t *c = class_prefab_new(ctx->game, "BARD");
     check_field_presence(c);
     
+    
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
 
     class_prefab_add_skills(c);
@@ -94,6 +95,19 @@ Test(class_prefabs, Bard) {
     check_skill_presence(c, 3, skill_list);
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Magic Word", "failed to initialize skill inventory");
+}
+
+/* Tests the basic class */
+Test(class_prefabs, Basic) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t* c = class_prefab_new(ctx->game, "basic");
+    check_field_presence(c);
+
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
+    cr_assert_eq(get_stat_current(c->base_stats, "speed"), 5, "failed to initalize stat");
+
+    /* Skills not needed yet for this class */
 }
 
 /* Tests the monk class */
