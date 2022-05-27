@@ -26,7 +26,6 @@
 const char* const DEFAULT_CLASS_NAMES[] = {
     // Here are Player-specific playerclasses
     "bard",
-    "basic",
     "monk",
     "ranger",
     "rogue",
@@ -39,6 +38,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     
     // Here are NPC-specifc playerclasses
     "alchemist",
+    "basic",
     "chef",
     "fisherman",
     "healer",
@@ -47,7 +47,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 16;
+const int DEFAULT_CLASS_COUNT = 17;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
