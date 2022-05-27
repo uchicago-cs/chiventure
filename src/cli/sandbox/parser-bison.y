@@ -44,6 +44,15 @@ void yyerror(char* s);
 %type<word_list> kind1_action
 %type<word_list> kind1_action_keyword
 
+%type<word_list> kind2_action
+%type<word_list> kind2_action_keyword
+
+%type<word_list> kind3_action
+%type<word_list> kind3_action_keyword
+
+%type<word_list> kind4_action
+%type<word_list> kind4_action_keyword
+
 %type<word_list> phrase 
 %type<word_list> go_cmd
 %type<word_list> fight_cmd
@@ -70,6 +79,38 @@ kind1_action
 kind1_action_keyword
   : OPEN  { $$ = start_phrase($1); }
   | CLOSE  { $$ = start_phrase($1); }
+  ;
+
+kind2_action
+  : kind2_action_keyword { $$ = $1; }
+  | kind2_action_keyword THE { $$ = $1; }
+  ;
+
+kind2_action_keyword
+  : OPEN  { $$ = start_phrase($2); }
+  | CLOSE  { $$ = start_phrase($2); }
+  ;
+
+kind3_action
+  : kind3_action_keyword { $$ = $1; }
+  | kind3_action_keyword THE { $$ = $1; }
+  ;
+
+kind3_action_keyword
+  : OPEN  { $$ = start_phrase($3); }
+  | CLOSE  { $$ = start_phrase($3); }
+  ;
+
+kind4_action
+  : kind4_action_keyword { $$ = $1; }
+  | kind4_action_keyword THE { $$ = $1; }
+  ;
+
+kind4_action_keyword
+  : OPEN  { $$ = start_phrase($4); }
+  | CLOSE  { $$ = start_phrase($4); }
+  ;
+/*
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
   | line phrase EOL { handle_cmd($2); }
@@ -77,6 +118,7 @@ kind1_action_keyword
   | line use_cmd EOL { handle_use_cmd($2); }
   | line view_cmd EOL { handle_view_cmd($2); }
   ;
+*/
 
 
 go_cmd
