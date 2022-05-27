@@ -1,0 +1,18 @@
+{
+    "Display_Dimensions":
+        {
+            "width": 800,
+            "height": 500
+        }
+    "Camera":
+        {
+            "width": 400,
+            "height": 250
+        }
+    "Inventory":
+        {
+            "rows": 3,
+            "columns": 4,
+            "color": Red
+        }
+} 
