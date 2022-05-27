@@ -20,6 +20,10 @@ TO|to|To|tO   { return TO; }
 
 ^fight|battle { return FIGHT; }
 
+^put|PUT { return PUT; }
+
+^use|USE { return USE; }
+
 credits { return CREDITS; }
 
 [a-zA-Z0-9]+  { 

@@ -122,3 +122,45 @@ char **handle_cmd(word_ll *p) {
     
     return words;
 }
+
+void handle_put_cmd(word_ll *phrase) {
+    printf("putting:");
+
+    if (phrase == NULL) {
+        printf(" nothing there");
+    } 
+    for (word_ll *p = phrase; p != NULL; p = p->next) {
+        printf("%s ", p->word);
+        p = p->next;
+        if (phrase == NULL) {
+            printf("where are you putting this?");
+        } 
+        for (word_ll *p = phrase; p != NULL; p = p->next) {
+            p = p->next;
+            printf("%s", p->word);
+        }
+    }
+    printf("\n");
+}
+
+void handle_use_cmd(word_ll *phrase) {
+    printf("using:");
+
+    if (phrase == NULL) {
+        printf(" nothing there");
+    } 
+    for (word_ll *p = phrase; p != NULL; p = p->next) {
+        printf("%s ", p->word);
+        p = p->next;
+        if (phrase == NULL) {
+            printf("where are you putting this?");
+        } 
+        for (word_ll *p = phrase; p != NULL; p = p->next) {
+            p = p->next;
+            printf("on %s", p->word);
+        }
+    }
+    printf("\n");
+}
+
+
