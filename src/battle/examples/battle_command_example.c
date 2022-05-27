@@ -204,14 +204,16 @@ int read_move(char **args, battle_ctx_t *ctx)
             return FAILURE;
         }
 
-        res = use_battle_item(ctx->game->battle->player, ctx->game->battle, args[1]);
-        if (res == FAILURE) 
+        char *res_str = battle_flow_item(ctx, item);
+        if (!strcmp(res_str, "FAILURE\n"))
         {
+            printf("Failure\n");
             return FAILURE;
         } 
         else 
         {
             stat_t *player_stats = ctx->game->battle->player->stats;
+            printf("%s\n", res_str);
             printf("New HP is %d\n", player_stats->hp);
             printf("New Defense is %d\n\n", player_stats->phys_def);
         }
