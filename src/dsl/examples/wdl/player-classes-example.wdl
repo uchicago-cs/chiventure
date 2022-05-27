@@ -42,9 +42,11 @@
     }
   },
   "PLAYER_CLASS": {
-    "[<to_wdl.wdl_player.Player_Class object at 0x7f8cb5c0e6e0>]": {
-      "long_desc": "This is a [<to_wdl.wdl_player.Player_Class object at 0x7f8cb5c0e6e0>]. ",
-      "short_desc": "[<to_wdl.wdl_player.Player_Class object at 0x7f8cb5c0e6e0>]"
+    "KNIGHT": {
+      "attributes": [],
+      "base_stats": null,
+      "short desc": "KNIGHT",
+      "long desc": "This is a KNIGHT."
     }
   }
 }

@@ -9,7 +9,7 @@ from to_wdl.wdl_item import Item
 class Player_Class:
     def __init__(self, name: str, contents: dict, default: str):
         self.contents = contents
-        self.name = name
+        self.name = name or "a class"
         self.default = default
 
         self.wdl_contents = {}
@@ -33,8 +33,10 @@ class Player_Class:
                 self.wdl_contents["base_stats"] = self.base_stats()
             else:
                 self.wdl_contents[k] = v
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for {self.name}, wdl file may not run''')
         self.generate_defaults()
-        return {f"{self.name}": self.wdl_contents}
+        return {self.name: self.wdl_contents}
 
     def generate_defaults(self):
         """
@@ -42,37 +44,33 @@ class Player_Class:
             neccesary information (like short and long description) that is not 
             included with its default values.
         """
+        
+        # generate default for short description
+        if 'short desc' not in self.wdl_contents:
+            default_name = self.name
+            self.wdl_contents['short desc'] = f"{default_name}"
+            warn(f'''missing: short description for {default_name}, generated default: {self.wdl_contents['short desc']}''')
+
         # generate default for long description
-        if 'long_desc' not in self.wdl_contents:
+        if 'long desc' not in self.wdl_contents:
             name = self.name
             short_desc = self.wdl_contents.get('short desc', '')
-            default = f"This is a {name}. {short_desc}"
-            self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {name}, generated default: {self.wdl_contents['long_desc']}''')
-                
-        # generate default for short description
-        if 'short_desc' not in self.wdl_contents:
-            default_name = self.name
-            self.wdl_contents['short_desc'] = f"{default_name}"
-            warn(f'''missing: short description for {default_name}, generated default: {self.wdl_contents['short_desc']}''')
+            default = f"This is a {name}."
+            self.wdl_contents['long desc'] = f"{default}"
+            warn(f'''missing: long description for {name}, generated default: {self.wdl_contents['long desc']}''')
     
     def attributes(self):
         """
         Assembles a list of an attributes items
         """
-        if 'ATTRIBUTES' not in self.contents:
+        if 'attributes' not in self.contents:
+            print("not in contents")
             return []
         else:
-            print("making attributes list")
-            out = []
-            for attribute, action_dict in self.contents.get('ATTRIBUTES', {}).items():
-                inventory_wdl_dict = {"inventory": name}
-                for k,v in inventory_dict.items():
-                    inventory_wdl_dict[k] = v
-                out.append(inventory_wdl_dict)
-
-        print(out)
-        return out
+            return list(map(lambda i: {
+                'direction': i.upper(),
+                'to': self.contents['attributes'][i]
+            }, self.contents['attributes']))
 
     def base_stats(self):
         return
