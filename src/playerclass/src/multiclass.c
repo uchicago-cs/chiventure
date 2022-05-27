@@ -29,7 +29,7 @@
  */
 char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ) {
  
-    int num_multiclass = 2 + base_class->num_parent_class + second_class->num_parent_class;
+    int num_multiclass = base_class->num_parent_class + second_class->num_parent_class;
 
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
     *succ = SUCCESS;
@@ -134,7 +134,7 @@ char* multiclass_longdesc(class_t* base_class, class_t* second_class, int *succ)
  * Creates an effects hash for a multiclass
  * by adding together the effects of both classes.
  *
- * Parameters:
+ * Paramaters:
  *  - base_effects: the character's base class's effect hash.
  *  - second_effects: the effect hash of the class being added to the base.
  *

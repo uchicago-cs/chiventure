@@ -44,9 +44,8 @@ chiventure_ctx_t* init_incomplete_context1() {
     return ctx;
 }
 
-
 /* Checks whether the class and its basic fields are not null */
-void check_field_presence1(class_t* c) {
+void check_field_presence(class_t* c) {
     cr_assert_not_null(c, "failed to be initialized (NULL)");
     cr_assert_not_null(c->name, "failed to initialize name");
     cr_assert_not_null(c->shortdesc, "failed to initialize short description");
@@ -67,21 +66,14 @@ void check_field_presence1(class_t* c) {
     cr_assert_neq(get_stat_current(c->base_stats, "max_mana"), -1, "failed to add stat");
 }
 
-Test(multiclass, multiclassing){
-    chiventure_ctx_t* ctx = init_incomplete_context1();
-    int succ;
+/* Checks whether skill fields are present, and whether the initialized skills 
+ * match the expected list */
+void check_skill_presence(class_t* c, int num_skills, char** names) {
+    cr_assert_not_null(c->skilltree, "failed to initialize skilltree");
+    cr_assert_not_null(c->starting_skills, "failed to initialize skill inventory");
 
-    class_t* c1 = class_prefab_new(ctx->game, "warrior");
-    class_t* c2 = class_prefab_new(ctx->game, "bard");
-    class_t* c3 = class_prefab_new(ctx->game, "rogue");
-
-    check_field_presence1(c1);
-    check_field_presence1(c2);
-    check_field_presence1(c3);
-
-    class_t* mul = multiclass(c1, multiclass(c2, c3, "brogue"), "strong");
-
-    check_field_presence1(mul);
+    for(int i = 0; i < num_skills; i++)
+        cr_assert_str_eq(c->skilltree->nodes[i]->skill->name, names[i], "failed to add skill");
 }
 
 Test(multiclass, basic_shortdesc){
@@ -92,14 +84,14 @@ Test(multiclass, basic_shortdesc){
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
     class_t* c2 = class_prefab_new(ctx->game, "bard");
 
-    check_field_presence1(c1);
-    check_field_presence1(c2);
+    check_field_presence(c1);
+    check_field_presence(c2);
 
     char* shortdesc = multiclass_shortdesc(c1, c2, &succ);
 
     cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
 
-    char* expected = "Multiclass of warrior and bard";
+    char* expected = "Multiclass of warrior and bard.";
     cr_assert_str_eq(shortdesc, expected, "expected: %s. got %s", expected, shortdesc);
 }
 
@@ -113,8 +105,8 @@ Test(multiclass, shortdesc_exceeds_max_length){
     class_t* c2 = class_prefab_new(ctx->game, "bard");
     strcpy(c2->name, "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA");
 
-    check_field_presence1(c1);
-    check_field_presence1(c2);
+    check_field_presence(c1);
+    check_field_presence(c2);
 
     char* shortdesc = multiclass_shortdesc(c1, c2, &succ);
 
@@ -125,21 +117,21 @@ Test(multiclass, shortdesc_exceeds_max_length){
 Test(multiclass, basic_longdesc){
 
     chiventure_ctx_t* ctx = init_incomplete_context1();
-    int succ;
 
     class_t* c1 = class_prefab_new(ctx->game, "warrior");
     class_t* c2 = class_prefab_new(ctx->game, "bard");
 
-    check_field_presence1(c1);
-    check_field_presence1(c2);
+    check_field_presence(c1);
+    check_field_presence(c2);
 
-    char* longdesc = multiclass_longdesc(c1, c2, &succ);
+    class_t* mul = multiclass(c1, c2, "basic multiclass");
 
-    cr_assert_eq(succ, SUCCESS, "exceeded maximum length flag was raised");
+    check_field_presence(mul);
+
+    char* longdesc = mul->longdesc;
 
     char* expected = "A mighty warrior.\n\nA skilled musician and magician.";
     cr_assert_str_eq(longdesc, expected, "expected: %s. Got %s", expected, longdesc);
-
 }
 
 Test(multiclass, longdesc_exceeds_max_length){
@@ -154,8 +146,8 @@ Test(multiclass, longdesc_exceeds_max_length){
     strcpy(c2->shortdesc, "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA"
                           "ZYXWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcbaZYXWVUTSRQPONMLKJIHGFEDCBA");
 
-    check_field_presence1(c1);
-    check_field_presence1(c2);
+    check_field_presence(c1);
+    check_field_presence(c2);
 
     char* longdesc = multiclass_longdesc(c1, c2, &succ);
 
