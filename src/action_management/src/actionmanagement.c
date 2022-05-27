@@ -139,17 +139,20 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
         a->c_name = "consume";
     }
 
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = i;
+
     // checks if the action is possible
-    if (possible_action(i, a->c_name) == FAILURE)
+    if (possible_action(agent, a->c_name) == FAILURE)
     {
         sprintf(string, "Action %s can't be requested with item %s",
-                a->c_name, i->item_id);
+                a->c_name, agent->item->item_id);
         *ret_string = string;
         return NOT_ALLOWED_DIRECT;
     }
 
     // get the game action struct
-    game_action_t *game_act = get_action(i, a->c_name);
+    game_action_t *game_act = get_action(agent, a->c_name);
 
     // check if all conditions are met
     if (!all_conditions_met(game_act->conditions))
@@ -162,7 +165,7 @@ int do_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *i, char **ret_
     {
         // implement the action (i.e. dole out the effects)
         int applied_effects;
-        applied_effects = do_all_effects(i, a->c_name);
+        applied_effects = do_all_effects(agent, a->c_name);
         if (applied_effects == FAILURE)
         {
             sprintf(string, "Effect(s) of Action %s were not applied", a->c_name);
@@ -265,6 +268,11 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     assert(a);
     assert(direct);
     assert(indirect);
+
+    agent_t *agentdir = malloc(sizeof(agent_t));
+    agentdir->item = direct;
+    agent_t *agentindir = malloc(sizeof(agent_t));
+    agentindir->item = indirect;
     
     game_t *game = c->game;
     char *string = malloc(BUFFER_SIZE);
@@ -275,27 +283,33 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
     {
         sprintf(string, "The action type provided is not of the correct kind");
         *ret_string = string;
+        free(agentdir);
+        free(agentindir);
         return WRONG_KIND;
     }
 
 
     // checks if the action is possible with the direct item
-    if (possible_action(direct, a->c_name) == FAILURE)
+    if (possible_action(agentdir, a->c_name) == FAILURE)
     {
         sprintf(string, "Action %s can't be requested with item %s",
-                a->c_name, direct->item_id);
+                a->c_name, agentdir->item->item_id);
         *ret_string = string;
+        free(agentdir);
+        free(agentindir);
         return NOT_ALLOWED_DIRECT;
     }
 
     // get the game action struct
-    game_action_t *dir_game_act = get_action(direct, a->c_name);
+    game_action_t *dir_game_act = get_action(agentdir, a->c_name);
 
     // check if all conditions of the action are met
     if (!all_conditions_met(dir_game_act->conditions))
     {
         sprintf(string, "%s", dir_game_act->fail_str);
         *ret_string = string;
+        free(agentdir);
+        free(agentindir);
         return CONDITIONS_NOT_MET;
     }
     else
@@ -306,14 +320,16 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         while (act_effects)
         {
             // apply the effects of the direct item action (use, put) on the indirect item
-            if (strcmp(act_effects->item->item_id, indirect->item_id) == 0)
+            if (strcmp(act_effects->agent->item->item_id, agentindir->item->item_id) == 0)
             {
                 applied_effect = do_effect(act_effects);
                 if (applied_effect == FAILURE)
                 {
                     sprintf(string, "Effect of Action %s could not be applied to Item %s",
-                            a->c_name, indirect->item_id);
+                            a->c_name, agentindir->item->item_id);
                     *ret_string = string;
+                    free(agentdir);
+                    free(agentindir);
                     return EFFECT_NOT_APPLIED;
                 }
             }
@@ -322,8 +338,10 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
         if (applied_effect == FAILURE)
         {
             sprintf(string, "Action %s can't be requested on item %s",
-                    a->c_name, indirect->item_id);
+                    a->c_name, agentindir->item->item_id);
             *ret_string = string;
+            free(agentdir);
+            free(agentindir);
             return NOT_ALLOWED_INDIRECT;
         }
         else if (applied_effect == SUCCESS)
@@ -340,6 +358,8 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         "Press ctrl+D to quit.");
             }
             *ret_string = string;
+            free(agentdir);
+            free(agentindir);
             return SUCCESS;
         }
     }
@@ -357,6 +377,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     assert(target);
     
     game_t *game = c->game;
+    target = case_insensitized_string(target);
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -373,6 +394,9 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         if (strcmp(target[0], "stats") == 0) {
             // retrieve stats from the player
             string = display_stats(c->game->curr_player->player_stats);
+        } else if (strcmp(target[0], "effects") == 0) {
+            // retrieve stat effects from the player
+            string = display_stat_effects(c->game->curr_player->player_effects);
         } else if (strcmp(target[0], "inventory") == 0) {
             // retrieve inventory from the player
             // TO BE IMPLEMENTED
@@ -398,10 +422,12 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
                 string = show_task(target[1], c->game->curr_player,
                                c->game->all_quests);
             }
+        } else {
+            sprintf(string, "%s cannot be viewed", target);
         }
-        else {
-            // TO BE IMPLEMENTED     
-        }
+    }
+    else {
+        sprintf(string, "No such %s action available", a->c_name);
     }
     *ret_string = string;
     return SUCCESS;
