@@ -310,6 +310,7 @@ int game_autogenerate_static(game_t* g, specgraph_t *specgraph, int num_rooms, c
         }
     }
 
+    //Keep generating until we have enough rooms
     int count=0;
     int rc;
 
