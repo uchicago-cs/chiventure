@@ -102,7 +102,9 @@ Test(class_prefabs, Basic) {
 
     /* Tests if we can find the name even if its case is wrong */
     class_t *c = class_prefab_new(ctx->game, "BAsic");
-    c->is_npc = true;
+    if (c != NULL){
+        c->is_npc = true; 
+    }
     check_field_presence(c);
     
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
