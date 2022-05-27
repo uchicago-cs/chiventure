@@ -291,8 +291,8 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 }
 
 /* see battle_logic.h */
-void get_legal_actions(battle_item_t *items, 
-                       move_t *moves, 
+void get_legal_actions(battle_item_t **items, 
+                       move_t **moves, 
                        turn_component_t *comp, 
                        battle_t *battle) {
   // this is the combatant who's turn it is (player or enemy)
@@ -301,14 +301,13 @@ void get_legal_actions(battle_item_t *items,
   // if the current turn component allows the combatant to use an item,
   // add the combatant's items to the return value for possible items
   if(comp->item) {
-    items = current_actor->items;
+    *items = current_actor->items;
   }
   // if the current turn component allows the combatant to make a move,
   // add the combatant's moves to the return value for possible moves
   if(comp->move) {
-    moves = current_actor->moves;
+    *moves = current_actor->moves;
   }
-  //printf("  move: %c, item: %c\n",*moves->name,*items->name);
   return;
 }
 

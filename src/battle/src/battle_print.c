@@ -468,7 +468,7 @@ int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
 }
 
 /* see battle_print.h */
-char *print_battle_action_menu(battle_item_t *items, move_t *moves)
+/*char *print_battle_action_menu(battle_item_t *items, move_t *moves)
 {
   
   // get the number of moves and number of items
@@ -541,4 +541,35 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves)
   memcpy(menu+index, do_nothing_option, 15);
 
   return menu;
+}*/
+
+char *print_battle_action_menu(battle_item_t *items, move_t *moves)
+{
+    char *string = (char*)malloc(sizeof(char)*BATTLE_BUFFER_SIZE);
+    int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
+    int n;
+    char temp[BATTLE_BUFFER_SIZE + 1];
+    int menu_num = 1;
+    move_t *m_buffer;
+    move_t *moves_buf = moves;
+    DL_FOREACH(moves_buf, m_buffer){
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "M%d - %s\n",menu_num,m_buffer->name);
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
+        menu_num++;
+    }
+
+    battle_item_t *i_buffer;
+    battle_item_t *items_buf = items;
+    menu_num = 1;
+
+    DL_FOREACH(items_buf, i_buffer){
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "I%d - %s\n",menu_num,i_buffer->name);
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
+        menu_num++;
+    }
+    return string;
 }
+    
+

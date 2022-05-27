@@ -756,7 +756,7 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     turn_component_t *current_tc = ctx->game->battle_ctx->tcl->current;
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
-    get_legal_actions(legal_items, legal_moves, current_tc, 
+    get_legal_actions(&legal_items, &legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
     //printf("\n items: %0x, moves: %0x\n",legal_items, legal_moves);
     char *menu = print_battle_action_menu(legal_items, legal_moves);

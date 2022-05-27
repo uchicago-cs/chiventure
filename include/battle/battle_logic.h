@@ -136,8 +136,8 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
  * - populates the linked lists of moves and items with the available moves and items
  *   leaves the lists NULL if there are no available moves or items respectively
  */
-void get_legal_actions(battle_item_t *items, 
-                       move_t *moves, 
+void get_legal_actions(battle_item_t **items, 
+                       move_t **moves, 
                        turn_component_t *comp, 
                        battle_t *battle);
 
