@@ -202,27 +202,29 @@ int apply_movement_stat_changes(stat_t* target_stats, stat_changes_t* changes)
 /* see battle_logic.h */
 int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t* item)  
 {
-    target_stats->speed += item->attributes->speed;
-    target_stats->max_sp += item->attributes->max_sp;
-    if ((target_stats->sp + item->attributes->sp) <= target_stats->max_sp)
+    class_item_stat_multipliers_t* mults = class_multipliers(class, item);
+    
+    target_stats->speed += item->attributes->speed * mults->speed;
+    target_stats->max_sp += item->attributes->max_sp * mults->max_sp;
+    if ((target_stats->sp + (item->attributes->sp * mults->sp)) <= target_stats->max_sp)
     {
-        target_stats->sp += item->attributes->sp;
+        target_stats->sp += item->attributes->sp * mults->sp;
     }
     else
     {
         target_stats->sp = target_stats->max_sp;
     }
-    target_stats->phys_atk += item->attributes->phys_atk;
-    target_stats->mag_atk += item->attributes->mag_atk;
-    target_stats->phys_def += item->attributes->phys_def;
-    target_stats->mag_def += item->attributes->mag_def;
-    target_stats->crit += item->attributes->crit;
-    target_stats->accuracy += item->attributes->accuracy;
-    target_stats->hp += item->attributes->hp;
-    target_stats->max_hp += item->attributes->max_hp;
-    if ((target_stats->hp += item->attributes->hp) <= target_stats->max_hp)
+    target_stats->phys_atk += item->attributes->phys_atk * mults->phys_atk;
+    target_stats->mag_atk += item->attributes->mag_atk * mults->mag_atk;
+    target_stats->phys_def += item->attributes->phys_def * mults->phys_def;
+    target_stats->mag_def += item->attributes->mag_def * mults->mag_def;
+    target_stats->crit += item->attributes->crit * mults->crit;
+    target_stats->accuracy += item->attributes->accuracy * mults->accuracy;
+    target_stats->hp += item->attributes->hp * mults->hp;
+    target_stats->max_hp += item->attributes->max_hp * mults->max_hp;
+    if ((target_stats->hp += (item->attributes->hp * mults->hp)) <= target_stats->max_hp)
     {
-        target_stats->hp += item->attributes->hp;
+        target_stats->hp += item->attributes->hp * mults->hp;
     }else
     {
         target_stats->hp = target_stats->max_hp;
