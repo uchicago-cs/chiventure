@@ -14,7 +14,7 @@
  * Initializes values for a player class,
  * created by combining two existing classes to form a multiclass.
  * 
- * Requires btoh classes to be already implemented.
+ * Requires both classes to be already implemented.
  * Can be used multiple times to create more complicated multiclasses.
  *
  * Paramaters:
