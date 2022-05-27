@@ -161,9 +161,7 @@ Test(class_prefabs, Rogue) {
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Quick Hit", "failed to initialize skill inventory");
 }
 
-/* Tests whether the warrior class is initialized as expected.
- * This test is a little more in depth than the rest, since the warrior has 
- * stats currently, unlike most of the other classes.  */
+/* Tests whether the warrior class is initialized as expected. */
 Test(class_prefabs, Warrior) {
     /* Tests a context were SOME stats were not declared */
     chiventure_ctx_t* ctx = init_incomplete_context();
@@ -270,5 +268,28 @@ Test(class_prefabs, Sorceror) {
     cr_assert_str_eq(c->starting_skills->active[0]->name, "dark magic", "failed to initialize skill inventory");
 }  
 
+/* A helper function to test the initialization of item strings */
+void check_item_presence(item_t *item, char *id, char *short_desc, char *long_desc)
+{
+    cr_assert_str_eq(item->item_id, id, "failed to assign item ID");
+    cr_assert_str_eq(item->short_desc, short_desc, 
+                     "failed to assign short description");
+    cr_assert_str_eq(item->long_desc, long_desc, 
+                     "failed to assign long description");
+}
 
+/* Tests the bard class */
+Test(item_prefabs, Bard) {
+    chiventure_ctx_t* ctx = init_statless_context();
 
+    /* Tests if we can find the name even if its case is wrong */
+    class_t *c = class_prefab_new(ctx->game, "BARD");
+    check_field_presence(c);
+    
+    item_t *item = class_prefab_add_items(c);
+
+    // Maybe check item not null here too
+
+    check_item_presence(item, "songbook", "A magic songbook", 
+                        "An enchanted book full of the bard's magic verses.");
+}
