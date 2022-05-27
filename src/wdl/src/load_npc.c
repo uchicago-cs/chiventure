@@ -124,7 +124,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
         fprintf(stderr, "Dialogue object failed typechecking, or the two "
                 "required attributes (nodes, edges) are missing. NPC: %s\n",
                 npc->npc_id);
-        return FAILURE;
+        return NULL;
     }
 
     obj_t *nodes_obj = obj_get_attr(dialogue_obj, "nodes", false);
@@ -146,7 +146,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
         if (add_node(convo, id, npc_dialogue) != SUCCESS) {
             fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
                     npc->npc_id);
-            return FAILURE;
+            return NULL;
         }
 
         // load node actions, if any
@@ -154,7 +154,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
             if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS) {
                 fprintf(stderr, "Could not add actions to node with ID: %s. "
                         "NPC: %s\n", id, npc->npc_id);
-                return FAILURE;
+                return NULL;
             }
         }
     }
@@ -173,14 +173,14 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
             if ((conditions = build_conditions(conditions_obj, g)) == NULL) {
                 fprintf(stderr, "Could not build conditions on edge with "
                         "quip: %s. NPC: %s\n", quip, npc->npc_id);
-                return FAILURE;
+                return NULL;
             }
         }
         // create edge
         if (add_edge(convo, quip, from_id, to_id, conditions) != SUCCESS) {
             fprintf(stderr, "Could not add edge with quip: %s. NPC: %s\n",
                     quip, npc->npc_id);
-            return FAILURE;
+            return NULL;
         }
     }
     return convo;
@@ -310,7 +310,7 @@ int load_npcs(obj_t *doc, game_t *g)
                     id);
             return FAILURE;
         }
-        
+
         // load tasks
         if (load_npc_tasks(curr, npc, g) != SUCCESS) {
             fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
