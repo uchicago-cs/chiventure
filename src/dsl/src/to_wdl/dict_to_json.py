@@ -19,7 +19,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     rooms = []
     items = []
     player_class = []
-
+    print(intermediate)
     if "rooms" not in intermediate:
         warn("This game has no rooms.")
     else:

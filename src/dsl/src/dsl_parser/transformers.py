@@ -29,7 +29,7 @@ def transform_game(self, s: list) -> dict:
 
     # now place all player_class into their own dictionary
     # the values placed into this entry will correspond to player_class attributes
-    game_dictionary["player_class"] = dict([value for key_type, value in s if key_type == "PLAYER_CLASS"])
+    game_dictionary["players"] = dict([value for key_type, value in s if key_type == "PLAYER_CLASS"])
     return game_dictionary
 
 
@@ -42,12 +42,29 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     based on the key or type, and also places all items into their own list
     for convenience.
     """
-    print(s)
-    # gets the player class id.
-    class_id = s.pop(0)[1]
+    # print("Player class :", s)
+    # print()
+    # gets the player class name.
+    class_name = s.pop(0)[1]
 
-    return ('PLAYER_CLASS', (class_id, {}))
-    # return ('PLAYER_CLASS', (class_id, d))
+    # first place all non-item objects into a dict
+    # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+    # action and action attributes, etc.
+    d = dict((k, v) for k, v in s if k != "attributes" and k != 'base_stats')
+
+    # create a list of items and place it in its own entry of the dict
+    # the values placed into this entry will correspond to item attributes
+    # since the key is guaranteed to be the string "attributes"
+    d["attributes"] = [v for k, v in s if k == "attributes"]
+
+    # create a list of items and place it in its own entry of the dict
+    # the values placed into this entry will correspond to item attributes
+    # since the key is guaranteed to be the string "attributes"
+    d["base_stats"] = [v for k, v in s if k == "base_stats"]
+
+    print(d)
+
+    return ('PLAYER_CLASS', (class_name, d))
 
 # s contains several objects of the form ('type', <value>) and
 # we want to group all objects with type "ITEM" into their own list
@@ -122,12 +139,21 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
 def transform_attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
-    return ('attributes', s)
+    # print("attributes")
+    # print(s)
+    new_dict = {}
+    for val in s:
+        dic = val[1]
+        name = list(dic.keys())[0]
+        new_dict[name] = dic[name]
+    return ('attributes', new_dict)
 
 def transform_attribute_state(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
-    return ('attributes', s)
+    new_dict = {}
+    new_dict[s[0]] = s[1]
+    return ('attributes', new_dict)
 
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an base_stats and places them

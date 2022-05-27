@@ -23,6 +23,7 @@ PLAYER_CLASS KNIGHT
     long desc: "This a Knight"
     ATTRIBUTES 
         noble TRUE
+        strong TRUE
     BASESTATS
         health 
             CURRENT 20

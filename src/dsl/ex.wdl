@@ -5,8 +5,28 @@
       "in_room": "room C"
     },
     "intro": "Welcome!",
-    "player_class": {
-      "KNIGHT": {}
+    "players": {
+      "KNIGHT": {
+        "short desc": "Knight",
+        "long desc": "This a Knight",
+        "attributes": [
+          {
+            "noble": "TRUE",
+            "strong": "TRUE"
+          }
+        ],
+        "base_stats": [
+          {
+            "stat_setting": {
+              "id": "health",
+              "state": {
+                "CURRENT": "20",
+                "MAX": "10"
+              }
+            }
+          }
+        ]
+      }
     }
   },
   "ROOMS": {
