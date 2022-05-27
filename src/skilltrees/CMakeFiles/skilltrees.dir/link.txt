@@ -1,2 +1,0 @@
-/usr/bin/ar qc libskilltrees.a  CMakeFiles/skilltrees.dir/src/effect.c.o CMakeFiles/skilltrees.dir/src/skill.c.o CMakeFiles/skilltrees.dir/src/inventory.c.o CMakeFiles/skilltrees.dir/src/skilltrees_common.c.o CMakeFiles/skilltrees.dir/src/skilltree.c.o
-/usr/bin/ranlib libskilltrees.a
