@@ -34,7 +34,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
     "druid",
     "elementalist",
     "knight",
-    "sorceror"
+    "sorceror,"
     
     // Here are NPC-specifc playerclasses
     "alchemist",
