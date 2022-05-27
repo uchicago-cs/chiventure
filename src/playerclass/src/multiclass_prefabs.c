@@ -17,3 +17,17 @@
 #include "skilltrees/inventory.h"
 #include "common/utlist.h"
 #include "playerclass/multiclass.h"
+
+/* See multiclass_prefabs.h */
+class_t* multiclass_prefab_new(game_t* game, char* class_name)
+{
+    /* TODO */
+    return NULL;
+}
+
+/* See multiclass_prefabs.h */
+int multiclass_prefab_add_skills(class_t* multiclass)
+{
+    /* TODO */
+    return 0;
+}
