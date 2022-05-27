@@ -290,8 +290,9 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
 int game_autogenerate_static(game_t* g, specgraph_t *specgraph, int num_rooms, char* first_room){
     
     int num_roomspecs=specgraph->num_roomspecs;
-    roomspec_t **roomspecs=specgraph->roomspecs;
-    int **edges=specgraph->edges;
+
+    roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t));
+    roomspecs=specgraph->roomspecs;
 
     roomspec_t *currspec;
     char* specname;
