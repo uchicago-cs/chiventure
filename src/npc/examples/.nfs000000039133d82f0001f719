@@ -6,29 +6,7 @@
             "in_room": "End Room"
         }
     },
-    "QUESTS": [
-        {
-            "Quest Name": "Talk to Oak",
-            "Rewards": {
-                "XP": 100
-            },
-            "Task Tree": [
-                {
-                    "Task Name":"Talk to Oak"
-                }
-            ],
-            "Task List": [
-                {
-                    "Task Name": "Talk to Oak",
-                    "Mission": {
-                        "Target Name": "OAK",
-                        "Type": "Meet NPC"
-                    }
-                }
-            ]
-        }
-        
-    ],
+    "QUESTS": "NULL",
     "ROOMS": {
         "Bedroom": {
             "short_desc": "ASH's bedroom",
@@ -228,11 +206,17 @@
                     },
                     {
                         "id": "2a",
-                        "npc_dialogue": "Sounds fun! Make sure to be safe on your trip over."
+                        "npc_dialogue": "Oh, since you're heading there, can you help me return this book to Prof. OAK? I borrowed it some time ago. Thanks sweetie.",
+                        "actions": [
+                            {
+                                "action": "GIVE_ITEM",
+                                "action_id": "ENCYCLOPEDIA"
+                            }
+                        ]
                     },
                     {
                         "id": "2b",
-                        "npc_dialogue": "Be safe!"
+                        "npc_dialogue": "Be safe!",
                     }
                 ],
                 "edges": [
@@ -247,40 +231,7 @@
                         "to_id": "2b"
                     }
                 ]
-            },
-            "Quests": [
-                {
-                    "Quest Name": "Talk to Oak",
-                    "Dialogue": {
-                        "nodes": [
-                            {
-                                "id": "1",
-                                "npc_dialogue": "Oh, since you're heading there, could you do me a favor? I need you to ask the pofessor to stop by and pick up his book now that I'm done borrowing it"
-                            },
-                            {
-                                "id": "2a",
-                                "npc_dialogue": "Great! Thanks sweetie."
-                            },
-                            {
-                                "id": "2b",
-                                "npc_dialogue": "Don't be lazy; it won't take long. Now hurry along."
-                            }
-                        ],
-                        "edges": [
-                            {
-                                "quip": "Sure!",
-                                "from_id": "1",
-                                "to_id": "2a"
-                            },
-                            {
-                                "quip": "Ughh, do I have to?",
-                                "from_id": "1",
-                                "to_id": "2b"
-                            }
-                        ]
-                    }
-                }
-            ]
+            }
         },
         "OAK": {
             "short_desc": "Kanto's premier Pokemon expert",
@@ -416,41 +367,10 @@
                         "from_id": "3",
                         "to_id": "6c"
                     }
-                ],
-                "Tasks": [
-                    {
-                        "Task Name": "Talk to Oak",
-                        "Dialogue": {
-                            "nodes": [
-                                {
-                                    "id": "1",
-                                    "npc_dialogue": "Hello, lad, what seems to be the problem?"
-                                },
-                                {
-                                    "id": "2a",
-                                    "npc_dialogue": "Alright, I'll pick it up tomorrow!"
-                                },
-                                {
-                                    "id": "2b",
-                                    "npc_dialogue": "Oh?! I'll head over right away!"
-                                }
-                            ],
-                            "edges": [
-                                {
-                                    "quip": "My mom finished with your book",
-                                    "from_id": "1",
-                                    "to_id": "2a"
-                                },
-                                {
-                                    "quip": "My mom wants to see you ;)",
-                                    "from_id": "1",
-                                    "to_id": "2b"
-                                }
-                            ]
-                        }
-                    }
                 ]
-            }
+            },
+            "Quests": NULL,
+            "Tasks": NULL
         },
         "PIDGEY": {
             "short_desc": "The tiny bird pokemon",
@@ -616,7 +536,7 @@
                         "conditions": [
                             {
                                 "type": "INVENTORY",
-                                "item_id": "POKEBALL"
+                                "item_id": "POKEBALL",
                             }
                         ]
                     },

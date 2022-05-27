@@ -216,7 +216,7 @@
                     },
                     {
                         "id": "2b",
-                        "npc_dialogue": "Be safe!",
+                        "npc_dialogue": "Be safe!"
                     }
                 ],
                 "edges": [
@@ -368,9 +368,7 @@
                         "to_id": "6c"
                     }
                 ]
-            },
-            "Quests": NULL,
-            "Tasks": NULL
+            }
         },
         "PIDGEY": {
             "short_desc": "The tiny bird pokemon",
@@ -536,7 +534,7 @@
                         "conditions": [
                             {
                                 "type": "INVENTORY",
-                                "item_id": "POKEBALL",
+                                "item_id": "POKEBALL"
                             }
                         ]
                     },

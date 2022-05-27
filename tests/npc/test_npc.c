@@ -105,6 +105,7 @@ Test(npc_quest_list, init)
         fprintf(stderr, "\nCould not allocate memory for NPC quest list!\n");
         return NULL;
     }
+    cr_assert_not_null(quest_list, "npc_task_list_new() failed");
 
     int rc = npc_quest_list_init(quest_list);
 
@@ -124,6 +125,7 @@ Test(npc_task_list, init)
         fprintf(stderr, "\nCould not allocate memory for NPC task list!\n");
         return NULL;
     }
+    cr_assert_not_null(task_list, "npc_task_list_new() failed");
 
     int rc = npc_task_list_init(task_list);
 
@@ -146,6 +148,9 @@ Test(npc_quest_list, add)
 
     npc_quest_list_t *quest_list = npc_quest_list_new();
     cr_assert_not_null(quest_list, "npc_quest_list_new() failed");
+
+    int rc = npc_quest_list_init(quest_list);
+    cr_assert_eq(rc, SUCCESS, "npc_quest_list_init() failed to initialize");
 
     int add1 = npc_quest_list_add(quest_list, quest1);
     cr_assert_eq(add1, SUCCESS, "npc_quest_list_add() failed to add a quest");
@@ -170,6 +175,9 @@ Test(npc_task_list, add)
     npc_task_list_t *task_list = npc_task_list_new();
     cr_assert_not_null(task_list, "npc_task_list_new() failed");
 
+    int rc = npc_task_list_init(task_list);
+    cr_assert_eq(rc, SUCCESS, "npc_task_list_init() failed to initialize");
+
     int add1 = npc_task_list_add(task_list, task1);
     cr_assert_eq(add1, SUCCESS, "npc_task_list_add() failed to add a task");
     cr_assert_cq(task_list->head->next, task1, "npc_task_list_add() failed to set head->next to task1");
@@ -192,6 +200,9 @@ Test(npc_quest_list, free)
 
     npc_quest_list_t *quest_list = npc_quest_list_new();
     cr_assert_not_null(quest_list, "npc_quest_list_new() failed");
+
+    int rc = npc_quest_list_init(quest_list);
+    cr_assert_eq(rc, SUCCESS, "npc_quest_list_init() failed to initialize");
 
     int add1 = npc_quest_list_add(quest_list, quest1);
     cr_assert_eq(add1, SUCCESS, "npc_quest_list_add() failed to add a quest");
