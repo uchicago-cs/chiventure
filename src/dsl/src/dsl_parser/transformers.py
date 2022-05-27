@@ -42,7 +42,7 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     based on the key or type, and also places all items into their own list
     for convenience.
     """
-    
+    print(s)
     # gets the player class id.
     class_id = s.pop(0)[1]
 

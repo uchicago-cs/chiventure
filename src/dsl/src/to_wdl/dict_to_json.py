@@ -42,8 +42,6 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     else:
         player_class_dict = intermediate.pop("player_class")
         for p_class, contents in player_class_dict.items():
-            # player_class_ATTRIBUTES = content["attributes"]
-            # player_class_BASESTATS = content["base_stats"]
             contents["attributes"] = []
             contents["base_stats"] = []
         

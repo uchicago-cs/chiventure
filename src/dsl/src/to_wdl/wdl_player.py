@@ -23,6 +23,9 @@ class Player_Class:
             Converts a Game to WDL structure using its properties. Generates 
             default values where they are missing.
         """
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for {self.name}, wdl file may not run''')
+        self.generate_defaults()
 
         for k, v in self.contents.items():
             if k in PROPERTY_ALIASES:
@@ -33,9 +36,6 @@ class Player_Class:
                 self.wdl_contents["base_stats"] = self.base_stats()
             else:
                 self.wdl_contents[k] = v
-        if self.default == "no-defaults":
-            warn(f'''warning: no default values generated for {self.name}, wdl file may not run''')
-        self.generate_defaults()
         return {self.name: self.wdl_contents}
 
     def generate_defaults(self):
@@ -67,10 +67,14 @@ class Player_Class:
             print("not in contents")
             return []
         else:
-            return list(map(lambda i: {
-                'direction': i.upper(),
-                'to': self.contents['attributes'][i]
-            }, self.contents['attributes']))
+            return list(map(lambda i: i.name, self.contents.get('attributes',[])))
 
     def base_stats(self):
-        return
+        """
+        Assembles a list of an attributes items
+        """
+        if 'base_stats' not in self.contents:
+            print("not in contents")
+            return []
+        else:
+            return list(map(lambda i: i.name, self.contents.get('base_stats',[])))

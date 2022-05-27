@@ -43,10 +43,10 @@
   },
   "PLAYER_CLASS": {
     "KNIGHT": {
-      "attributes": [],
-      "base_stats": null,
       "short desc": "KNIGHT",
-      "long desc": "This is a KNIGHT."
+      "long desc": "This is a KNIGHT.",
+      "attributes": [],
+      "base_stats": []
     }
   }
 }
