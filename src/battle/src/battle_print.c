@@ -288,9 +288,20 @@ char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
 /* see battle_print.h */
 char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item)
 {
-  char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-  snprintf(string, BATTLE_BUFFER_SIZE, "you used %s", item->name);
-  return string;
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    snprintf(string, BATTLE_BUFFER_SIZE, "You used %s\n", item->name);
+    int rc;
+    char *stat_changes = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    if (item->attack)
+    {
+        rc = print_stat_changes(b, ENEMY, item->attributes, stat_changes);
+    }
+    else
+    {
+        rc = print_stat_changes(b, PLAYER, item->attributes, stat_changes);
+    }
+    assert(rc == SUCCESS);
+    return strncat(string,stat_changes, BATTLE_BUFFER_SIZE);;
 }
 
 /* see battle_print.h */
