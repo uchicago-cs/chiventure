@@ -133,7 +133,6 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
             warn(f"Unexpected object under actions will be ignored: {action_property}")
     return ("actions", actions_dictionary)
 
-
 def transform_attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
@@ -173,7 +172,6 @@ def transform_state(self, s: list[tuple[Token]]) -> tuple[str, dict]:
             d["MAX"] = t[0]+t[1]
         count += 1
     return('state', d)
-
 
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')

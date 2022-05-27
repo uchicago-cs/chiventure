@@ -17,6 +17,7 @@ player_class: _NL "PLAYER_CLASS" id (property | attributes | base_stats)*
 attributes: _NL "ATTRIBUTES" attribute_state*
 attribute_state: _NL phrase phrase
 
+
 base_stats: _NL "BASESTATS" stat_setting*
 stat_setting: _NL id state*
 state: _NL "CURRENT" NUMBER _NL "MAX" NUMBER
@@ -31,19 +32,17 @@ connections.5: _NL "connections:" connection ((","|_NL) connection)*
 connection: phrase "TO" phrase
 
 npc: _NL "NPC" id "IN" location property* inventory dialogue
-    | _NL "NPC" id property* inventory dialogue
+    | _NL "NPC" id  property* inventory dialogue
     | _NL "NPC" id "IN" location property* inventory
     | _NL "NPC" id "IN" location property*
-    | _NL "NPC" id property* inventory
-    | _NL "NPC" id location property*
-    | _NL "NPC" id
 
 inventory: _NL "INVENTORY" property*
 
 
 dialogue: _NL "DIALOGUE" node*
-node: "NODE" id edge* property
-edge: "EDGE" id "TO" id property
+node: _NL "NODE" id edge* property
+
+edge: _NL "EDGE" id "TO" id property
 
 id: phrase
 
@@ -51,7 +50,7 @@ location: phrase
 
 num: phrase
 
-phrase: STRING+
+phrase: (STRING+ | NUMBER)
 
 
 // NEWLINE(s), whitespace, and comments
