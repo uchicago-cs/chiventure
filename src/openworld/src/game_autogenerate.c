@@ -36,7 +36,7 @@
 * SUCCESS - if the game was successfully updated
 * FAILURE - if the function failed to update the game struct
 */
-roomspec_t* random_first_room(game_t* game, gencontext_t* context){
+int random_first_room(game_t* game, gencontext_t* context){
 
     if(context==NULL){
         return FAILURE;
