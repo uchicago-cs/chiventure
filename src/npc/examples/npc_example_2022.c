@@ -293,46 +293,58 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to attack.\n";
     }
-    if (game->curr_room == arena)
+    if (game->curr_room != arena)
     {
-        npc_t *npc_tmp, *npc_elt;
-
-        HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+        return "You can't attack unless you're in the arena.\n";
+    }
+    if (tokens[1] == NULL)
+    {
+        return "You must identify someone to attack\n";
+    }
+    else
+    {
+        char *str = malloc(MAX_MSG_LEN);
+        char *npc_id = tokens[1];
+        case_insensitize(npc_id);
+        npc_t *npc = get_npc_in_room(ctx->game->curr_room, npc_id);
+        if (npc == NULL) 
         {
-            if ((npc_elt->hostility_level != HOSTILE) || (get_npc_hp(npc_elt) <= 0))
+            return "No one by that name wants to fight here.\n";
+        }
+        if (npc->hostility_level != HOSTILE || npc->npc_battle == NULL) 
+        {
+            sprintf(str, "%s does not want to fight", npc_id);
+            return str;
+        }
+        else if (get_npc_hp(npc) <= 0)
+        {
+            return "There's no point in beating a dead horse.\n";
+        }
+        else
+        {
+            if (npc->npc_battle->stats->hp == 1)
             {
-	            continue;
-	        } 
-            else if (npc_elt->npc_battle->stats->hp == 1) 
-            {
-                change_npc_hp(npc_elt, -1);
-                assert(transfer_all_npc_items(npc_elt, game->curr_room) == SUCCESS);
-                char message1[1000];
-                sprintf(message1, "You killed %s. They've dropped their items, "
-                        "which you can now take.", npc_elt->npc_id);
-                print_to_cli(ctx, message1);
-            } else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) { 
-                char message2[1000];
-                sprintf(message2, "%s has surrendered. You can no longer attack "
-                          "them.", npc_elt->npc_id);
-                print_to_cli(ctx, message2);
-             }
+                change_npc_hp(npc, -1);
+                assert(transfer_all_npc_items(npc, game->curr_room) == SUCCESS);
+                sprintf(str, "You killed %s. They've dropped their items, "
+                        "which you can now take.", npc->npc_id);
+                return str;
+            }
+            else if (npc->npc_battle->stats->hp <= npc->npc_battle->stats->surrender_level) 
+            { 
+                sprintf(str, "%s has surrendered. You can no longer attack "
+                          "them.", npc->npc_id);
+                return str;
+            }
             else
             {
-                change_npc_hp(npc_elt, -1);
-                char message3[1000];
-                sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
-                        npc_elt->npc_id, npc_elt->npc_battle->stats->hp);
-                print_to_cli(ctx, message3);
+                change_npc_hp(npc, -1);
+                sprintf(str, "%s has lost 1 HP. They now have %d HP left", 
+                        npc->npc_id, npc->npc_battle->stats->hp);
+                return str;
             }
         }
-    } 
-    else 
-    {
-        print_to_cli(ctx, "You can't attack unless you're in the arena.");
     }
-
-    return "\n";
 }
 
 /* Creates a sample in-memory game */
@@ -483,7 +495,6 @@ int main(int argc, char **argv)
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
     add_entry("FIND", find_npc_operation, NULL, ctx->cli_ctx->table);
-    add_entry("FIGHT", battle_operation, NULL, ctx->cli_ctx->table);
 
     pthread_t time_thread;
     int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
