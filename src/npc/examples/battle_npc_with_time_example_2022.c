@@ -63,7 +63,7 @@ const char *banner =
     "     |     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  |\n"
     "     |     _________________________________________________________________________________|_____\n"
     "     |    /                                                                                      /\n"
-    "     |   /                          EXAMPLE PROGRAM - NPC TEAM 2022                             /\n"
+    "     |   /      EXAMPLE PROGRAM - NPC_1 TEAM 2021 - Time Implementation by NPC TEAM 2022        /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
 /* Global variables needed for the implementation of this example game */
@@ -191,14 +191,15 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 
     move_room(game, arena);
 
-    if (strcmp(get_npc_curr_room_id(friendly_fiona->movement), "lobby") == 0)
+    assert(npc_one_move(friendly_fiona, game->all_rooms) == SUCCESS);
+    assert(npc_one_move(hostile_harry, game->all_rooms) == SUCCESS);
+    /* if (lobby->npcs->num_of_npcs > 0)
     {
-        assert(npc_one_move(friendly_fiona, game->all_rooms) == SUCCESS);
-    }
-    if (strcmp(get_npc_curr_room_id(hostile_harry->movement), "lobby") == 0)
-    {
-        assert(npc_one_move(hostile_harry, game->all_rooms) == SUCCESS);
-    }
+        add_npc_to_room(arena->npcs, friendly_fiona);
+        add_npc_to_room(arena->npcs, hostile_harry);
+        delete_npc_from_room(lobby->npcs, friendly_fiona);
+        delete_npc_from_room(lobby->npcs, hostile_harry); 
+    } */
 
     return "You are in the arena now";
 }
@@ -382,17 +383,13 @@ chiventure_ctx_t *create_sample_ctx()
     item_t *potion = item_new("POTION","This is a health potion.",
                               "This potion will increase your health. Feel "
                               "free to take it.");
-    agent_t *potion_ag = malloc(sizeof(agent_t));
-    potion_ag->item = potion;
-    assert(add_action(potion_ag, "take", "You now have a potion",
+    assert(add_action(potion, "take", "You now have a potion",
                       "potion could not be taken") == SUCCESS);
     add_item_to_npc(hostile_harry, potion);
 
     item_t *elixir = item_new("ELIXIR","This is an elixir.",
                               "This is an elixir. Effects: energize and stun.");
-    agent_t *elixir_ag = malloc(sizeof(agent_t));
-    elixir_ag->item = elixir;
-    assert(add_action(elixir_ag, "take", "You now have an elixir",
+    assert(add_action(elixir, "take", "You now have an elixir",
                       "elixir could not be taken") == SUCCESS);
     add_item_to_npc(hostile_harry, elixir);
 
@@ -436,7 +433,7 @@ void *time_dependent_functions(void *game)
     game_t *g;
     g = (game_t *) game;
 
-    while (g != NULL && g->mode == NORMAL)
+    while (g != NULL)
     {
         /* This is where you add functions that should be run every second */
         move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
@@ -458,7 +455,7 @@ int main(int argc, char **argv)
     int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
     if (rc)
     {
-		printf("\nERROR: return code from pthread_create is %d\n", rc);
+		printf("\n ERROR: return code from pthread_create is %d \n", rc);
         exit(1);
     }
 
@@ -469,4 +466,3 @@ int main(int argc, char **argv)
 
     return 0;
 }
-

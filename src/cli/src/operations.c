@@ -17,7 +17,7 @@
 #include "battle/battle_print.h"
 #include <ctype.h>
 
-#define NUM_ACTIONS 31
+#define NUM_ACTIONS 32
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
@@ -52,7 +52,8 @@ char* actions_for_sug[NUM_ACTIONS] = {
             "PALETTE",
             "ITEMS",
             "VIEW",
-            "FIGHT"};
+            "FIGHT",
+            "NPC"};
 
 
 /* 
@@ -556,6 +557,12 @@ char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
         i++;
         print_to_cli(ctx, t->item->item_id);
     }
+
+    if (i == 0)
+    {
+        return "There are no items in the room";
+    }
+
     return "These are the items in the room";
 }
 
@@ -574,7 +581,20 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
     {   
         i++;
-        if ((npc_elt->npc_battle == NULL) || (npc_elt->npc_battle->stats->hp > 0))
+        if (npc_elt->hostility_level != FRIENDLY)
+        {
+            if (get_npc_hp(npc_elt) == 0) 
+            {
+                char *npc_death;
+                sprintf(npc_death, "†%s†", npc_elt->npc_id); 
+                print_to_cli(ctx, npc_death);
+            }
+            else
+            {
+                print_to_cli(ctx, npc_elt->npc_id);
+            }
+        }
+        else
         {
             print_to_cli(ctx, npc_elt->npc_id);
         }
@@ -657,14 +677,14 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See cmd.h */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if (tokens[1] == NULL || tokens[2] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must identify an NPC to talk to.";
     }
 
     int rc;
 
-    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[2]);
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
 
     if (npc == NULL)
     {
@@ -674,6 +694,13 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (npc->dialogue == NULL)
     {
         return "This person has nothing to say.";
+    }
+
+    if (npc->hostility_level != FRIENDLY && get_npc_hp(npc) == 0)
+    {
+        char *rt;
+        sprintf(rt, "You've defeated %s, they aren't really able to talk right now.", npc->npc_id);
+        return rt;
     }
 
     char *str = start_conversation(npc->dialogue, &rc, ctx->game);

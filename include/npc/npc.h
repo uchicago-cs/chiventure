@@ -180,6 +180,19 @@ bool check_npc_battle(npc_t *npc);
  */
 bool item_in_npc_inventory(npc_t *npc, char *item_id);
 
+/* Checks if an indefinite npc needs moved based on how long it's been in its
+ * current room
+ *
+ * Parameters:
+ *  - npc: The NPC struct
+ * 
+ * Returns:
+ *  - true if the npc does need moved
+ *  - false if the npc does not need moved,
+ *      or the npc has a definite movement path
+ */
+bool check_if_npc_indefinite_needs_moved(npc_t *npc);
+
 // "GET" FUNCTIONS ------------------------------------------------------------
 
 /* 
@@ -203,6 +216,17 @@ char *get_sdesc_npc(npc_t *npc);
  *  long description string, NULL if npc is NULL
  */
 char *get_ldesc_npc(npc_t *npc);
+
+/* Function to return an item in an NPC's inventory given the item_id
+ *
+ * Parameters:
+ *  npc: the npc
+ *  item_id: the item_id of the item that you want to be returned
+ *
+ * Returns:
+ *  a pointer to the item that matches the input item_id, or NULL if nonexistent
+ */
+ item_t *get_item_from_npc(npc_t *npc, char *item_id);
 
 /*
  * Function to get a hashtable (uthash) of all items in the npc's inventory.
@@ -297,6 +321,16 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  */
 int remove_item_from_npc(npc_t *npc, item_t *item);
 
+/* Removes/Deletes all items in an NPCs inventory
+ * 
+ * Parameters:
+ *  npc: the npc whose inventory we're deleting
+ *
+ * Returns:
+ * SUCCESS upon completion
+ */
+ int delete_all_items_from_npc(npc_t *npc);
+ 
 /*
  * Adds the given convo to the given npc.
  * 
@@ -350,15 +384,14 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
  */
 int change_npc_hp(npc_t *npc, int change);
 
-/*
- * Moves an npc to the next room in their movement path
+/* Moves an npc to the next room in their movement path
  *
  * Parameters:
  * npc: The NPC struct
  *
  * Returns:
- * FAILURE: if a move does not occur, 
- * SUCCESS: if successful move to the next room, with the only exception
+ *  FAILURE: if a move does not occur, 
+ *  SUCCESS: if successful move to the next room, with the only exception
  * being if an indefinite NPC has more than one room in its path, and then
  * reaches the end of its path, in which case its path direction is flipped,
  * and its time_ray for the current step in its path is reset, but it does not

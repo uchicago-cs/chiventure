@@ -21,6 +21,22 @@ game_t *game_new(char *desc)
 
     /* read from the file using interface from WDL team */
 
+    room_hash_t *rooms = NULL;
+    item_hash_t *items = NULL;
+    quest_hash_t *quests = NULL;
+    npc_hash_t *npcs = NULL;
+    stats_global_hash_t *stats = NULL;
+    effects_global_hash_t *effects = NULL;
+    class_hash_t *classes = NULL;
+
+    game->all_rooms = rooms;
+    game->all_items = items;
+    game->all_quests = quests;
+    game->all_npcs = npcs;
+    game->curr_stats = stats;
+    game->all_effects = effects;
+    game->all_classes = classes;
+
     return game;
 }
 
@@ -480,7 +496,8 @@ int add_condition(game_t *game, game_action_t *action, condition_t *condition)
 int do_node_actions(node_t *n, game_t *game)
 {
     node_action_t *cur_action = n->actions;
-
+    npc_t *npc;
+    item_t *item;
     while (cur_action != NULL)
     {
 
@@ -488,11 +505,8 @@ int do_node_actions(node_t *n, game_t *game)
         {
 
         case GIVE_ITEM:
-            ;
-            npc_t *npc = get_npc_in_room(game->curr_room,
-                                         game->mode->mode_ctx);
-            item_t *item = get_item_in_hash(npc->inventory,
-                                            cur_action->action_id);
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            item = get_item_from_npc(npc, cur_action->action_id);
             if (item == NULL) return FAILURE;
             if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
             if (add_item_to_player(game->curr_player, item, game) != SUCCESS)
@@ -738,4 +752,3 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     return ret_str;
 }
-

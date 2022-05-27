@@ -12,13 +12,15 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     strcpy(npc->short_desc, short_desc);
     strcpy(npc->long_desc, long_desc);
     npc->dialogue = NULL;
-    npc->inventory = NULL;
     npc->class = class;
     npc->hostility_level = hostility_level;
     npc->npc_battle = NULL;
     npc->movement = movement;
     item_hash_t *items = NULL;
     npc->inventory = items;
+
+    item_hash_t *head = NULL;
+    npc->inventory = head;
 
     return SUCCESS;
 }
@@ -72,7 +74,7 @@ int npc_free(npc_t *npc)
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    delete_all_items(&npc->inventory);
+    delete_all_items_from_npc(npc);
     class_free(npc->class);
     free(npc);
 
@@ -115,7 +117,21 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
     return false;
 }
 
+/* See npc.h */
+bool check_if_npc_indefinite_needs_moved(npc_t *npc)
+{
+    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
+    {
+        return check_if_npc_mov_indefinite_needs_moved(npc->movement);
+    }
+    else
+    {
+        return false;
+    }
+}
+
 // "GET" FUNCTIONS ------------------------------------------------------------
+
 /* See npc.h */
 char *get_sdesc_npc(npc_t *npc)
 {
@@ -134,6 +150,17 @@ char *get_ldesc_npc(npc_t *npc)
         return NULL;
     }
     return npc->long_desc;
+}
+
+/* See npc.h */
+item_t *get_item_from_npc(npc_t *npc, char *item_id)
+{
+    item_t *check;
+    char *insensitized_id = case_insensitized_string(item_id);
+    HASH_FIND(hh, npc->inventory, insensitized_id,
+              strlen(insensitized_id), check);
+    free(insensitized_id);
+    return check;
 }
 
 /* See npc.h */
@@ -202,26 +229,39 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 
     return npc->movement;
 }
+
 // "SET" FUNCTIONS ------------------------------------------------------------
 
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
 {
-    int rc;
-
-    rc = add_item_to_hash(&(npc->inventory), item);
-
-    return rc;
+    assert((item != NULL) && (npc != NULL));
+    item_t *tmp;
+    char *id = case_insensitized_string(item->item_id);
+    HASH_FIND(hh, npc->inventory, id, strlen(id), tmp);
+    if (tmp == NULL)
+    {
+        HASH_ADD_KEYPTR(hh, npc->inventory, id, strlen(id), item);
+        return SUCCESS;
+    }
+    else
+    {
+        return FAILURE; // Hash tables should not contain duplicate items
+    }
 }
 
 /* See npc.h */
 int remove_item_from_npc(npc_t *npc, item_t *item)
 {
-    int rc;
+    HASH_DELETE(hh, npc->inventory, item);
+    return SUCCESS;
+}
 
-    rc = remove_item_from_hash(&(npc->inventory), item);
-
-    return rc;
+/* See npc.h */
+int delete_all_items_from_npc(npc_t *npc)
+{
+    HASH_CLEAR(hh, npc->inventory);
+    return SUCCESS;
 }
 
 /* See npc.h */
@@ -283,6 +323,8 @@ int move_npc(npc_t *npc)
     return move_npc_mov(npc->movement);
 }
 
+// HASH TABLE FUNCTIONS ---------------------------------------------------
+
 /* See npc.h */
 int delete_all_npcs(npc_hash_t *npcs)
 {
@@ -294,4 +336,3 @@ int delete_all_npcs(npc_hash_t *npcs)
     }
     return SUCCESS;
 }
-

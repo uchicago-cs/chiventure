@@ -18,6 +18,9 @@ find_package(Threads REQUIRED)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
+
 # Optional dependencies
 
 set(OPTIONAL_MODULES "")

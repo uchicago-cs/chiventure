@@ -217,6 +217,21 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id, double room_time)
 
 // "GET" FUNCTIONS ------------------------------------------------------------
 /* See npc_move.h */
+npc_path_dll_t *get_npc_curr_path_step(npc_mov_t *npc_mov)
+{
+    npc_path_dll_t *curr = npc_mov->path;
+    unsigned int pos = npc_mov->npc_path_pos;
+    if (pos != 0)
+    {
+        for (int i = 0; i < pos; i++)
+        {
+            curr = curr->next;
+        }
+    }
+    return curr;
+}
+
+/* See npc_move.h */
 char* get_npc_curr_room_id(npc_mov_t *npc_mov)
 {
     return npc_mov->track;
@@ -225,44 +240,31 @@ char* get_npc_curr_room_id(npc_mov_t *npc_mov)
 /* See npc_move.h */
 char *get_next_npc_room_id(npc_mov_t *npc_mov)
 {
-    npc_path_dll_t *current_room = npc_mov->path;
-
+    npc_path_dll_t *current_room = get_npc_curr_path_step(npc_mov);
     npc_path_direction_t direction = npc_mov->npc_path_direction;
     unsigned int path_pos = npc_mov->npc_path_pos;
 
-    if (path_pos != 0)
-    {
-        for (int i = 0; i < path_pos; i++)
-        {
-            current_room = current_room->next;
-        }
-    }
-    else
-    {
-        if ((direction == NPC_MOV_ORIGINAL) && (current_room->next != NULL))
-        {
-            return current_room->next->room_id;
-        }
-        else
-        {
-            return NULL;
-        }
-    }
-
     if (direction == NPC_MOV_ORIGINAL)
     {
-        if (current_room->next == NULL)
+        if (current_room->next != NULL)
         {
-            return NULL;
+            return current_room->next->room_id;
         }
         else
         {
-            return current_room->next->room_id;
+            return current_room->room_id;
         }
     }
     else
     {
-        return current_room->prev->room_id;
+        if (current_room->prev != NULL)
+        {
+            return current_room->prev->room_id;
+        }
+        else
+        {
+            return current_room->room_id;
+        }
     }
 }
 
@@ -287,11 +289,51 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
     return count;
 }
 
+// "SET" FUNCTIONS ------------------------------------------------------------
+/* See npc_move.h */
+int reset_indefinite_npc_room_start_time(npc_mov_t *npc_mov)
+{
+    if (npc_mov->mov_type == NPC_MOV_DEFINITE)
+    {
+        return FAILURE;
+    }
+    npc_path_dll_t *curr = npc_mov->path;
+    curr = get_npc_curr_path_step(npc_mov);
+    assert(time_ray_init(curr->room_time, curr->room_time->assigned_time) == SUCCESS);
+    return SUCCESS;
+}
+
 // COMPARISON FUNCTIONS -------------------------------------------------------
 /* See npc_move.h */
 int room_id_cmp(npc_path_dll_t *room1, npc_path_dll_t *room2)
 {
     return strcmp(room1->room_id, room2->room_id);
+}
+
+// CHECKING FUNCTIONS ---------------------------------------------------------
+/* Helper Function for check_if_npc_mov_indefinite_needs_moved()
+ * Just returns the number of seconds an NPC has overstayed their current
+ * location, with negative values indicating they still have time left
+ */
+double seconds_past_room_time(time_ray_t *time_ray)
+{
+    time_t curr;
+    return (difftime(time(&curr), time_ray->start) - time_ray->assigned_time);
+}
+
+/* See npc_move.h */
+bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov)
+{
+    assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
+    npc_path_dll_t *curr_room = get_npc_curr_path_step(npc_mov);
+    if (seconds_past_room_time(curr_room->room_time) >= 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 // DO SOMETHING FUNCTIONS -----------------------------------------------------
@@ -318,28 +360,29 @@ int flip_npc_path_direction(npc_mov_t *npc_mov)
 int move_npc_mov(npc_mov_t *npc_mov)
 {
     npc_path_dll_t *current_room = npc_mov->path;
+    current_room = get_npc_curr_path_step(npc_mov);
     npc_path_direction_t direction = npc_mov->npc_path_direction;
-    unsigned int path_pos = npc_mov->npc_path_pos;
+    npc_mov_enum_t mov_type = npc_mov->mov_type;
+    unsigned int pos = npc_mov->npc_path_pos;
+    int num_steps = get_npc_num_rooms(npc_mov);
+    assert(strcmp(current_room->room_id, npc_mov->track) == 0);
 
-    if ((current_room->next == NULL) && (current_room->prev == NULL))
+    if (num_steps == 1)
     {
+        if (mov_type == NPC_MOV_INDEFINITE)
+        {
+            assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
+        }
         return FAILURE; // NPC has nowhere to move
     }
 
-    if (path_pos != 0)
+    if (((direction == NPC_MOV_REVERSED) && (pos == 0))
+            || ((direction == NPC_MOV_ORIGINAL) && (pos == (num_steps - 1))))
     {
-        for (int i = 0; i < path_pos; i++)
-        {
-            current_room = current_room->next;
-        }
-    }
-
-    if(((direction == NPC_MOV_ORIGINAL) && (current_room->next == NULL))
-            || ((direction == NPC_MOV_REVERSED) && (current_room->prev == NULL)))
-    {
-        if (npc_mov->mov_type == NPC_MOV_INDEFINITE)
+        if (mov_type == NPC_MOV_INDEFINITE)
         {
             assert(flip_npc_path_direction(npc_mov) == SUCCESS);
+            assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
             return SUCCESS;
         }
         else
@@ -348,26 +391,25 @@ int move_npc_mov(npc_mov_t *npc_mov)
         }
     }
 
-    if((strcmp(current_room->room_id, npc_mov->track)) == 0)
+    if (direction == NPC_MOV_ORIGINAL)
     {
-        if (direction == NPC_MOV_ORIGINAL)
-        {
-            npc_mov->track = current_room->next->room_id;
-            npc_mov->npc_path_pos++;
-        }
-        else if (direction == NPC_MOV_REVERSED)
-        {
-            npc_mov->track = current_room->prev->room_id;
-            npc_mov->npc_path_pos--;
-        }
-        else
-        {
-            return FAILURE;
-        }
-        return SUCCESS;
+        npc_mov->track = current_room->next->room_id;
+        npc_mov->npc_path_pos += 1;
+    }
+    else if (direction == NPC_MOV_REVERSED)
+    {
+        npc_mov->track = current_room->prev->room_id;
+        npc_mov->npc_path_pos -= 1;
     }
     else
     {
         return FAILURE;
     }
+
+    if (mov_type == NPC_MOV_INDEFINITE)
+    {
+        assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
+    }
+
+    return SUCCESS;
 }
