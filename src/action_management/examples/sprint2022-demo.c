@@ -80,16 +80,16 @@ chiventure_ctx_t *create_sample_ctx()
     //Adding skills to skilltree and adding skilltree to class
     player->player_class = new_class("Vampire", "Vampire", "Feeds on Students",
                               NULL, NULL, NULL); //Add Stats Htbl to 2nd NULL?
-    skill_t *skill1 = skill_new(1002, ACTIVE, "Teach", "Educate the blossoming new generation", 10, 100, "");
-    skill_t *skill2 = skill_new(1002, ACTIVE, "Suck Blood", "No one knows how or when this happens", 10, 100, "");
-    skill_t *skill3 = skill_new(1002, ACTIVE, "Code", "Develop a new Heroku App", 10, 100, "");
-    skill_t *skill4 = skill_new(1002, ACTIVE, "Hire TA", "Spawn new senior software developers", 10, 100, "");
-    skill_t *skill5 = skill_new(1002, ACTIVE, "Tweet", "Call on alums to complain about software developemnt", 10, 100, "");
-    skill_node_t *skill_node1 = skill_node_new(skill1, 0, 0);
-    skill_node_t *skill_node2 = skill_node_new(skill2, 0, 0);
-    skill_node_t *skill_node3 = skill_node_new(skill3, 0, 0);
-    skill_node_t *skill_node4 = skill_node_new(skill4, 0, 0);
-    skill_node_t *skill_node5 = skill_node_new(skill5, 0, 0);
+    skill_t *skill1 = skill_new(1002, ACTIVE, "Teach", "Educate the blossoming new generation", 10, 100, NULL, NULL);
+    skill_t *skill2 = skill_new(1002, ACTIVE, "Suck Blood", "No one knows how or when this happens", 10, 100, NULL, NULL);
+    skill_t *skill3 = skill_new(1002, ACTIVE, "Code", "Develop a new Heroku App", 10, 100, NULL, NULL);
+    skill_t *skill4 = skill_new(1002, ACTIVE, "Hire TA", "Spawn new senior software developers", 10, 100, NULL, NULL);
+    skill_t *skill5 = skill_new(1002, ACTIVE, "Tweet", "Call on alums to complain about software developemnt", 10, 100, NULL, NULL);
+    skill_node_t *skill_node1 = skill_node_new(skill1, 0, 0, 0);
+    skill_node_t *skill_node2 = skill_node_new(skill2, 0, 0, 0);
+    skill_node_t *skill_node3 = skill_node_new(skill3, 0, 0, 0);
+    skill_node_t *skill_node4 = skill_node_new(skill4, 0, 0, 0);
+    skill_node_t *skill_node5 = skill_node_new(skill5, 0, 0, 0);
     skill_tree_t *skill_tree = skill_tree_new(1001, "", 5);
     skill_tree_node_add(skill_tree, skill_node1);
     skill_tree_node_add(skill_tree, skill_node2);
