@@ -91,8 +91,6 @@ void runInventoryGrahpics(Vector2 screeDimension, Vector2 windowPosition, unsign
 
 }
 
-
-int main(void)
+int main()
 {
-    return 0;
 }
