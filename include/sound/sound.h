@@ -44,11 +44,10 @@ typedef union {
  *      type: enum SoundType
  *      name: name of the sound, 
  *            or more specifically, the path to a sound file.
- *            Must be already allocated in the heap
  * Return:
  *      An allocated sound structure, with name and type
  */
-sound_t *sound_new(SoundType type, char *name);
+sound_t *sound_new(SoundType type, char name[]);
 
 /* Initializes the 
  * 
@@ -57,7 +56,7 @@ sound_t *sound_new(SoundType type, char *name);
  * Return:
  *      An allocated sound structure, with name and type
  */
-int sound_init(sound_t *sound, SoundType type, char *name);
+int sound_init(sound_t *sound, SoundType type, char name[]);
 
 /* Loads sound to SDL queue
  *

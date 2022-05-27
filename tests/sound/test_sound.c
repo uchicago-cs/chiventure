@@ -10,7 +10,7 @@
 Test(sound, new_background)
 {
     char song_name[] = "c'est_la_vie_khaled.mp3";
-    sound_t *sound = sound_new(BACKGROUND, &song_name);
+    sound_t *sound = sound_new(BACKGROUND, song_name);
 
      cr_assert_not_null(sound, "sound_new failed");
 }
@@ -19,33 +19,9 @@ Test(sound, new_background)
 Test(sound, new_sound_effect)
 {
     char song_name[] = "wav_example.wav";
-    sound_t *sound = sound_new(SOUND_EFFECT, &song_name);
+    sound_t *sound = sound_new(SOUND_EFFECT, song_name);
 
      cr_assert_not_null(sound, "sound_new failed");
-}
-
-/* Checks that sound_init works for background music */
-Test(sound, init_background)
-{
-    int rc;
-    sound_t *sound;
-    char song_name[] = "glamorous_fergie.mp3";
-    
-    rc = sound_init(sound, BACKGROUND, &song_name);
-
-    cr_assert_eq(rc, 1, "sound_init failed");
-}
-
-/* Checks that sound_init works for sound effects */
-Test(sound, init_sound_effect)
-{
-    int rc;
-    sound_t *sound;
-    char song_name[] = "wav_example.wav";
-    
-    rc = sound_init(sound, SOUND_EFFECT, song_name);
-
-    cr_assert_eq(rc, 1, "sound_init failed");
 }
 
 /* Testing if load_wav can load background music successfully */

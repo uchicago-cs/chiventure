@@ -2,7 +2,7 @@
 #include "sound/sound.h"
 
 /* See sound.h for details */
-sound_t *sound_new(SoundType type, char *name)
+sound_t *sound_new(SoundType type, char name[])
 {
     sound_t *sound = (sound_t*)malloc(sizeof(sound_t));
     sound->wavBuffer = (uint8_t*)malloc(sizeof(uint8_t));
@@ -11,7 +11,7 @@ sound_t *sound_new(SoundType type, char *name)
 }
 
 /* See sound.h for details */
-int sound_init(sound_t *sound, SoundType type, char *name)
+int sound_init(sound_t *sound, SoundType type, char name[])
 {
     sound->type = type;
     sound->name = name;
