@@ -416,41 +416,41 @@
                         "from_id": "3",
                         "to_id": "6c"
                     }
-                ],
-                "Tasks": [
-                    {
-                        "Task Name": "Talk to Oak",
-                        "Dialogue": {
-                            "nodes": [
-                                {
-                                    "id": "1",
-                                    "npc_dialogue": "Hello, lad, what seems to be the problem?"
-                                },
-                                {
-                                    "id": "2a",
-                                    "npc_dialogue": "Alright, I'll pick it up tomorrow!"
-                                },
-                                {
-                                    "id": "2b",
-                                    "npc_dialogue": "Oh?! I'll head over right away!"
-                                }
-                            ],
-                            "edges": [
-                                {
-                                    "quip": "My mom finished with your book",
-                                    "from_id": "1",
-                                    "to_id": "2a"
-                                },
-                                {
-                                    "quip": "My mom wants to see you ;)",
-                                    "from_id": "1",
-                                    "to_id": "2b"
-                                }
-                            ]
-                        }
-                    }
                 ]
-            }
+            },
+            "Tasks": [
+                {
+                    "Task Name": "Talk to Oak",
+                    "Dialogue": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "npc_dialogue": "Hello, lad, what seems to be the problem?"
+                            },
+                            {
+                                "id": "2a",
+                                "npc_dialogue": "Alright, I'll pick it up tomorrow!"
+                            },
+                            {
+                                "id": "2b",
+                                "npc_dialogue": "Oh?! I'll head over right away!"
+                            }
+                        ],
+                        "edges": [
+                            {
+                                "quip": "My mom finished with your book",
+                                "from_id": "1",
+                                "to_id": "2a"
+                            },
+                            {
+                                "quip": "My mom wants to see you ;)",
+                                "from_id": "1",
+                                "to_id": "2b"
+                            }
+                        ]
+                    }
+                }
+            ]
         },
         "PIDGEY": {
             "short_desc": "The tiny bird pokemon",
