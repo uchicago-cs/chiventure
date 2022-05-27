@@ -464,8 +464,8 @@ int execute_conditional_window_skill(chiventure_ctx_t* ctx, int sid)
         print_to_cli(ctx, "You move the drapes aside and smash the windows, allowing sunlight to permeate the room");
         print_to_cli(ctx, "Your mentor screams in agony, disintegrating into fine particles of dust");
         print_to_cli(ctx, "Mentor: Oh no! I forgot you can do that! AAAAAAAAAAAAAA");
+        print_to_cli(ctx, "Mentor: Go forth and conquer with your new skills.");
         print_to_cli(ctx, "Victory! You won! And you don't even have to pay tuition anymore!");
-        print_to_cli(ctx, "Mentor: Go forth and conquer with your new skills");
 
     } else if (check == 0){
         //Text when user fails to smash window
@@ -644,7 +644,7 @@ void main()
     add_entry("USE_SEQUENTIAL_MOVE", add_sequential_player_stat_operation, NULL, ctx->cli_ctx->table);
     add_entry("LEARN_CONDITIONAL", create_conditional_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("SMASH_DUMMY!", use_conditional_skill, NULL, ctx->cli_ctx->table);
-    add_entry("SMASH_WINDOW", use_conditional_window_skill, NULL, ctx->cli_ctx->table);
+    add_entry("SMASH_WINDOW!", use_conditional_window_skill, NULL, ctx->cli_ctx->table);
     add_entry("TALK_TO_MENTOR", combined_monologue, NULL, ctx->cli_ctx->table);
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
     add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
