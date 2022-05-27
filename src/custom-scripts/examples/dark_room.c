@@ -6,12 +6,17 @@
  *           output string upon running the action.
  */
 
+#include <stdlib.h> 
+#include <stdbool.h>
+#include "lua.h"
+#include "lualib.h"
+#include "dark_room.h"
+
 #include <stdio.h>
 #include <custom-scripts/get_custom_type.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
-
 
 #include <sys/ioctl.h>
 #include <unistd.h>
@@ -26,24 +31,22 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
 char* flip_state(bool st)
 {
-    // /* Use of boolean, switching item torch from 
-    // true (lit) to false (unlit), and conversely with Lua */
-    // object_t *ot = obj_t_bool("", "../../../../src/custom-scripts/examples/flip.lua");
-    // ot = obj_add_arg_bool(ot, st);
-    // st = bool_t_get(ot);
+    /* Use of boolean, switching item torch from 
+    true (lit) to false (unlit), and conversely with Lua */
+    //object_t *ot = obj_t_int("", "../../../../src/custom-scripts/examples/flip.lua");
+    //ot = obj_add_arg_int(ot, st);
+    //st = int_t_get(ot);
     
-    // char* str_state = (char*)malloc(20);
+    char* str_state = (char*)malloc(20);
     
-    // /* output string depending on flip */
-    // if (st == false) {
-    //   str_state = "The torch is unlit.";
-    // } else {
-    //   str_state = "The torch is lit.";
-    // }
+    /* output string depending on flip */
+    if (st == false) {
+      str_state = "The torch is unlit.";
+    } else {
+      str_state = "The torch is lit.";
+    }
     
-    // return str_state;
-
-    return "The torch is lit.";
+    return str_state;
 }
 
 /* Creates a sample in-memory game */
@@ -91,16 +94,10 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "LIGHT" and "UNLIGHT" with the torch.
     * They have no conditions, so they should succeed unconditionally. */
-    add_action(torch, "LIGHT", flip_state(false), "The torch is broken!");
-    add_action(torch, "UNLIGHT", flip_state(true), "The torch is broken!");
+    add_action(torch, "LIGHT", flip_state(true), "The torch is broken!");
+    add_action(torch, "UNLIGHT", flip_state(false), "The torch is broken!");
 
     return ctx;
-}
-
-//add new "Kind 1" actions
-void make_action(char *action_str, chiventure_ctx_t *ctx){
-    action_type_t action = {action_str, ITEM};
-    add_entry(action.c_name, kind1_action_operation, &action, ctx->cli_ctx->table);
 }
 
 int main(int argc, char **argv)
@@ -109,10 +106,14 @@ int main(int argc, char **argv)
 
     /* Monkeypatch the CLI to add a new "kind 1" actions
      * (i.e., actions that operate on an item) */
-    make_action("LIGHT", ctx);
-    make_action("UNLIGHT", ctx);
-    make_action("FIREBALL", ctx);
-    make_action("SLASH", ctx);
+    action_type_t fireball_action = {"FIREBALL", ITEM};
+    add_entry(fireball_action.c_name, kind1_action_operation, &fireball_action, ctx->cli_ctx->table);
+    action_type_t slash_action = {"SLASH", ITEM};
+    add_entry(slash_action.c_name, kind1_action_operation, &slash_action, ctx->cli_ctx->table);
+    action_type_t light_action = {"LIGHT", ITEM};
+    add_entry(light_action.c_name, kind1_action_operation, &light_action, ctx->cli_ctx->table);
+    action_type_t unlight_action = {"UNLIGHT", ITEM};
+    add_entry(unlight_action.c_name, kind1_action_operation, &unlight_action, ctx->cli_ctx->table);
 
     /* Start chiventure */
     start_ui(ctx, banner);
