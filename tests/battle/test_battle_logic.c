@@ -403,6 +403,7 @@ Test(battle_logic, do_not_find_item)
  * between warrior and strength up, but we might want to expand on these tests
  */
  
+/*
 Test(battle_logic, consume_a_battle_item)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -432,6 +433,7 @@ Test(battle_logic, consume_a_battle_item)
 
     combatant_free(p);
 }
+*/
 
 /*
  * This is simialr to the test above except there are now two battle_items in
