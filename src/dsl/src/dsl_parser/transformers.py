@@ -126,12 +126,14 @@ def transform_attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
     print("attribnutes s: ", s)
+    print()
     return ('attributes', s)
 
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an base_stats and places them
     into a dictionary which is labeled "base_stats" """
     print("base_stats s: ", s)
+    print()
     return ('base_stats', s)
 
 def transform_stat_setting(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
