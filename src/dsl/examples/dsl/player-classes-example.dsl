@@ -22,7 +22,7 @@ PLAYER_CLASS KNIGHT
     short desc: "this a knight"
     long desc: "he is out to save the world"
     ATTRIBUTES 
-        noble SET TRUE
+        noble TRUE
     BASESTATS
         health 
             CURRENT 20

@@ -6,10 +6,11 @@ from warnings import warn
 from collections import ChainMap
 from to_wdl.wdl_item import Item
 
-class PLAYER_CLASS:
-    def __init__(self, name: str, contents: dict):
+class Player_Class:
+    def __init__(self, name: str, contents: dict, default: str):
         self.contents = contents
         self.name = name
+        self.default = default
 
         self.wdl_contents = {}
 
@@ -27,9 +28,11 @@ class PLAYER_CLASS:
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
             elif k == "attributes":
-                self.wdl_contents["attributes"] = self.contents["attributes"]
-            elif k == "stats":
-                self.wdl_contents["stats"] = self.contents["stats"]
+                self.wdl_contents["attributes"] = self.attributes()
+            elif k == "base_stats":
+                self.wdl_contents["base_stats"] = self.base_stats()
+            else:
+                self.wdl_contents[k] = v
         self.generate_defaults()
         return {f"{self.name}": self.wdl_contents}
 
@@ -41,12 +44,35 @@ class PLAYER_CLASS:
         """
         # generate default for long description
         if 'long_desc' not in self.wdl_contents:
-            short_desc = self.wdl_contents.get('short_desc', '')
-            default = f"This is a {self.name}. {short_desc}"
+            name = self.name
+            short_desc = self.wdl_contents.get('short desc', '')
+            default = f"This is a {name}. {short_desc}"
             self.wdl_contents['long_desc'] = f"{default}"
-            warn(f'''missing: long description for {self.name}, generated default: {self.wdl_contents['long_desc']}''')
+            warn(f'''missing: long description for {name}, generated default: {self.wdl_contents['long_desc']}''')
                 
         # generate default for short description
         if 'short_desc' not in self.wdl_contents:
-            self.wdl_contents['short_desc'] = f"{self.name}"
-            warn(f'''missing: short description for {self.name}, generated default: {self.wdl_contents['short_desc']}''')
+            default_name = self.name
+            self.wdl_contents['short_desc'] = f"{default_name}"
+            warn(f'''missing: short description for {default_name}, generated default: {self.wdl_contents['short_desc']}''')
+    
+    def attributes(self):
+        """
+        Assembles a list of an attributes items
+        """
+        if 'ATTRIBUTES' not in self.contents:
+            return []
+        else:
+            print("making attributes list")
+            out = []
+            for attribute, action_dict in self.contents.get('ATTRIBUTES', {}).items():
+                inventory_wdl_dict = {"inventory": name}
+                for k,v in inventory_dict.items():
+                    inventory_wdl_dict[k] = v
+                out.append(inventory_wdl_dict)
+
+        print(out)
+        return out
+
+    def base_stats(self):
+        return

@@ -55,6 +55,8 @@ class TreeToDict(Transformer):
 
     attributes = trans.transform_attributes
 
+    attribute_state = trans.transform_attribute_state
+
     base_stats = trans.transform_base_stats
 
     stat_setting = trans.transform_stat_setting

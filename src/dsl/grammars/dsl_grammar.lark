@@ -14,7 +14,8 @@ item: _NL "ITEM" id "IN" location property* action*
 
 player_class: _NL "PLAYER_CLASS" id (property | attributes | base_stats)*
 
-attributes: _NL "ATTRIBUTES" _NL id "SET" ("TRUE"|"FALSE")
+attributes: _NL "ATTRIBUTES" attribute_state*
+attribute_state: _NL phrase phrase
 
 base_stats: _NL "BASESTATS" stat_setting*
 stat_setting: _NL id state*

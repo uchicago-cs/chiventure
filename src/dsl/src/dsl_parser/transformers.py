@@ -42,6 +42,7 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     based on the key or type, and also places all items into their own list
     for convenience.
     """
+    print("player_class: ", s)
     
     # gets the player class id.
     class_id = s.pop(0)[1]
@@ -122,6 +123,12 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
 def transform_attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
+    return ('attributes', s)
+
+def transform_attribute_state(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """Takes a list of key-value pairs which belong to an attributes and places them
+    into a dictionary which is labeled "attributes" """
+    print("attribute state: ", s)
     return ('attributes', s)
 
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:

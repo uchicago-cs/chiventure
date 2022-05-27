@@ -7,7 +7,7 @@ from collections import ChainMap
 from to_wdl.wdl_room import Room
 from to_wdl.wdl_item import Item
 from to_wdl.wdl_game import Game
-from to_wdl.wdl_player import PLAYER_CLASS
+from to_wdl.wdl_player import Player_Class
 
 
 def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default="") -> str:
@@ -18,7 +18,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
 
     rooms = []
     items = []
-    players = []
+    player_class = []
 
     if "rooms" not in intermediate:
         warn("This game has no rooms.")
@@ -37,20 +37,22 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents, default))
     
-    if "players" in intermediate:
-        players_dict = intermediate.pop("player_classes")
-        for curr in players_dict:
-            for player, val in curr.items():
-                players.append(PLAYER_CLASS(player, val))
+    if "player_class" not in intermediate:
+        warn("This game has no players.")
+    else:
+        player_class_dict = intermediate.pop("player_class")
+        for p_class, content in player_class_dict.items():
+            print(content)
+            # player_class_ATTRIBUTES = content["attributes"]
+            # player_class_BASESTATS = content["base_stats"]
+            player_class.append(Player_Class(player_class, content, default))
     
     game = Game(intermediate, default)
     
     # acts as a "union" operation on multiple dictionaries
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
     items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
-    players_wdl = dict(ChainMap(*[p.to_wdl_structure() for p in players]))
-    print("rooms_wdl", rooms_wdl)
-    print("players_wdl", players_wdl)
+    players_wdl = dict(ChainMap(*[p.to_wdl_structure() for p in player_class]))
 
     out = json.dumps({
         **game.to_wdl_structure(), 
