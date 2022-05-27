@@ -6,26 +6,29 @@
             "in_room": "End Room"
         }
     },
-    "Quests": {
-        "Quest Name": "Talk to Oak",
-        "Rewards": {
-            "XP": 100
-        },
-        "Task Tree": [
-            {
-                "Task Name":"Talk to Oak"
-            }
-        ],
-        "Task List": [
-            {
-                "Task Name": "Talk to Oak",
-                "Mission": {
-                    "Target Name": "OAK",
-                    "Type": "Meet NPC"
+    "QUESTS": [
+        {
+            "Quest Name": "Talk to Oak",
+            "Rewards": {
+                "XP": 100
+            },
+            "Task Tree": [
+                {
+                    "Task Name":"Talk to Oak"
                 }
-            }
-        ]
-    },
+            ],
+            "Task List": [
+                {
+                    "Task Name": "Talk to Oak",
+                    "Mission": {
+                        "Target Name": "OAK",
+                        "Type": "Meet NPC"
+                    }
+                }
+            ]
+        }
+        
+    ],
     "ROOMS": {
         "Bedroom": {
             "short_desc": "ASH's bedroom",

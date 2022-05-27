@@ -292,7 +292,6 @@ int load_npcs(obj_t *doc, game_t *g)
                 fprintf(stderr, "Could not add convo to NPC: %s\n", npc->npc_id);
                 return FAILURE;
             }
-            return SUCCESS;
         }
 
         // load class
@@ -331,6 +330,7 @@ int load_npcs(obj_t *doc, game_t *g)
         }
         add_npc_to_room(room->npcs, npc);
     }
+
 
     return SUCCESS;
 }
