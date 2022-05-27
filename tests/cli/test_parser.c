@@ -37,7 +37,7 @@ void check_comparison(char* str, int size, char** expected_words)
     }          
 }
 
-//Tests the parsing of an empty input, which should return NULL.
+/*Tests the parsing of an empty input, which should return NULL.*/
 Test(parse_r, no_input_r)
 {
     char* expecting_words[0];
@@ -300,7 +300,7 @@ Test(parse_r, lower_quote)
 }
 
 
-//Tests the parsing of input which is fully lowercase.
+/*Tests the parsing of input which is fully lowercase.*/
 Test(parse, lower)
 {
     char str[] = "look at me";
@@ -311,7 +311,7 @@ Test(parse, lower)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-//Tests the parsing of input which is just and.
+/*Tests the parsing of input which is just and.*/
 Test(parse, and)
 {
     char str[] = "AND";
@@ -319,7 +319,7 @@ Test(parse, and)
     cr_assert_str_eq(words[0],"and", "parse() did not create first token");
 }
 
-//Tests the parsing of input with spaces at the end.
+/*Tests the parsing of input with spaces at the end.*/
 Test(parse, end_spaces)
 {
     char str[] ="LOOK AT ME  ";
@@ -330,7 +330,7 @@ Test(parse, end_spaces)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-//Tests the parsing of input with spaces at the start.
+/*Tests the parsing of input with spaces at the start.*/
 Test(parse, start_spaces)
 {
     char str[] = "   LOOK AT ME";
@@ -341,23 +341,22 @@ Test(parse, start_spaces)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-// Tests whether more than 4 words returns NULL as expected
+/* Tests whether more than 4 words returns NULL as expected */
 Test(parse, too_many_words)
 {
     char str[] = "LOOK LOOK LOOK LOOK LOOK";
     cr_assert_null(parse(str), "parse() did not create first token");
 }
 
-// Tests whether more than 4 words in quotes are treated as one token
+/* Tests whether more than 4 words in quotes are treated as one token */
 Test(parse, too_many_words_in_quotes)
 {
     char str[] = "\"LOOK LOOK LOOK LOOK LOOK\"";
     char** words = parse(str);
-    cr_assert_str_eq("look look look look look", words[0], "parse() did not create first token");
+    cr_assert_str_eq("look look look look look", words[0], "parse() did not initialize the token to NULL correctly");
 }
 
-//Tests the parsing of an input of 2 words connected by AND which should return the 2 words.
-// The ending word is quotes
+/*Tests the parsing of an input of 1 word followed by AND which should return only the command*/
 Test(parse_r, two_words_end)
 {
     char* expecting_words[1];
@@ -366,7 +365,7 @@ Test(parse_r, two_words_end)
     check_comparison(str, 1, expecting_words);
 }
 
-//Tests input in which the and is before any command
+/*Tests input in which the and is before any command*/
 Test(parse_r, start_and)
 {
     char* expecting_words[1];
@@ -375,8 +374,8 @@ Test(parse_r, start_and)
     check_comparison(str, 1, expecting_words);
 }
 
-//Tests input in which the and is before any command
-Test(parse_r, and_sandwhich)
+/*Tests input in which the and is before any command*/
+Test(parse_r, and_sandwich)
 {
     char* expecting_words[1];
     expecting_words[0] = " PUSH ";
@@ -384,7 +383,7 @@ Test(parse_r, and_sandwhich)
     check_comparison(str, 1, expecting_words);
 }
 
-//Tests input filler words at start
+/*Tests input filler words at start*/
 Test(parse, fillers_start) 
 {
     char str[] = "to to the look";
@@ -392,7 +391,7 @@ Test(parse, fillers_start)
     cr_assert_str_eq("look", words[0], "parse() did not create first token");
 }
 
-//Tests input of filler words at end
+/*Tests input of filler words at end*/
 Test(parse, fillers_end) 
 {
     char str[] = "look to to the";
@@ -400,7 +399,7 @@ Test(parse, fillers_end)
     cr_assert_str_eq("look", words[0], "parse() did not create first token");
 }
 
-//Tests input of all filler words
+/*Tests input of all filler words*/
 Test(parse, all_fillers) 
 {
     char str[] = "to the to into";
@@ -411,7 +410,7 @@ Test(parse, all_fillers)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-//Tests input of all filler words with random spacing and tabs
+/*Tests input of all filler words with random spacing and tabs*/
 Test(parse, all_fillers_with_spaces) 
 {
     char str[] = "to     the    to into  ";
@@ -422,7 +421,7 @@ Test(parse, all_fillers_with_spaces)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
-//Tests input of all filler words with random spacing and tabs
+/*Tests input of all filler words with random spacing and tabs*/
 Test(parse, all_fillers_with_spaces_diff_sizing) 
 {
     char str[] = "to     THE    to InTo   ";

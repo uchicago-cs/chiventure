@@ -170,7 +170,7 @@ Test(game, go_word_in_quotes)
     chiventure_ctx_free(ctx);
 }
 
-/* Creates a sample game, runs the GO "North to south" command and verifies that
+/* Creates a sample game, runs the GO "North to the south" command and verifies that
  * the player moved to a different room, meaning that the filler words inside
  * quotes was not removed */
 Test(game, go_filler_words_quotes)
