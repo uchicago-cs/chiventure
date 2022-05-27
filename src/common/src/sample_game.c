@@ -16,9 +16,7 @@ action_type_t *search_supported_actions(list_action_type_t *head, char *query)
     for (temp = head; temp != NULL; temp = temp->next)
     {
         if (strcmp(temp->act->c_name, query) == 0)
-        {
             return temp->act;
-        }
     }
     return NULL;
 }
@@ -44,7 +42,14 @@ game_t* create_sample_game()
 
     /* initialize items */
     item_t *item_orb = item_new("orb", "magical orb", "an orb that can be held, placed, or tossed");
+    agent_t *agent_orb = malloc(sizeof(agent_t));
+    agent_orb->item = item_orb;
+    agent_orb->npc = NULL;
+
     item_t *item_table = item_new("table", "a regular table", "this table can have things placed on it");
+    agent_t *agent_table = malloc(sizeof(agent_t));
+    agent_table->item = item_table;
+    agent_table->npc = NULL;
 
     /* introduce actions */
     list_action_type_t *head = get_supported_actions();
@@ -55,19 +60,20 @@ game_t* create_sample_game()
     /* add valid actions to each item */
     // NOTE: I based this off *NEW* code from game-state/develop-actions
     // it will not work in this branch because develop-actions is not merged
-    add_action(item_orb, "TAKE",
+    add_action(agent_orb, "TAKE",
                "You have placed the orb in your pocket.", "Can't perform that action!");
-    add_action(item_orb, "DROP",
+    add_action(agent_orb, "DROP",
                "You have dropped the orb.", "Can't perform that action!");
-    add_action(item_orb, "PUT",
+    add_action(agent_orb, "PUT",
                "You have placed the orb on the table", "Can't perform that action!");
-    add_action(item_table, "PUT",
+    add_action(agent_table, "PUT",
                "You have placed the orb on the table", "Can't perform that action!");
 
     /* add items to room */
-    add_item_to_room(room1, item_orb);
-    add_item_to_room(room2, item_table);
-
+    add_item_to_room(room1, agent_orb->item);
+    add_item_to_room(room2, agent_table->item);
+    free(agent_orb);
+    free(agent_table);
     return game;
 
 }
@@ -161,8 +167,19 @@ game_t *create_sample_game_gs()
 
     /* initialize items */
     item_t *apple = item_new("apple", "a regular apple", "an apple that can only be eaten or thrown");
+    agent_t *agent_apple = malloc(sizeof(agent_t));
+    agent_apple->item = apple;
+    agent_apple->npc = NULL;
+
     item_t *macintosh = item_new("macintosh", "a magical apple", "this apple has computing power");
+    agent_t *agent_macintosh = malloc(sizeof(agent_t));
+    agent_macintosh->item = macintosh;
+    agent_macintosh->npc = NULL;
+
     item_t *table = item_new("table", "a magical table", "wow! there's a table");
+    agent_t *agent_table = malloc(sizeof(agent_t));
+    agent_table->item = table;
+    agent_table->npc = NULL;
 
     /* introduce actions */
     list_action_type_t *head = get_supported_actions();
@@ -174,32 +191,34 @@ game_t *create_sample_game_gs()
     /* add valid actions to each item */
     // NOTE: I based this off *NEW* code from game-state/develop-actions
     // it will not work in this branch because develop-actions is not merged
-    add_action(apple, "CONSUME",
+    add_action(agent_apple, "CONSUME",
                "*Crunch Crunch*", "It looks... off.");
-    add_action(apple, "TAKE",
+    add_action(agent_apple, "TAKE",
                "You have taken the apple.", "Can't perform that action!");
-    add_action(apple, "DROP",
+    add_action(agent_apple, "DROP",
                "Explain yourself.", "Can't perform that action!");
-    add_action(macintosh, "TAKE",
+    add_action(agent_macintosh, "TAKE",
                "You have taken the macintosh", "Can't perform that action!");
-    add_action(macintosh, "PUT",
+    add_action(agent_macintosh, "PUT",
                "You have put the macintosh on the table", "Can't perform that action!");
-    add_action(table, "PUT",
+    add_action(agent_table, "PUT",
                "You have put the macintosh on the table", "Can't perform that action!");
-    set_str_attr(apple, "ripeness", "very_sour");
-    attribute_value_t ripe;
-    ripe.str_val = "ripe";
+    set_str_attr(agent_apple->item, "ripeness", "very_sour");
+    attribute_value_t *ripe;
+    ripe->str_val = "ripe";
 
     /* conditions */
-    condition_t *cond = attribute_condition_new(apple, "ripeness", ripe);
-    add_condition(game, get_action(apple, "CONSUME"), cond);
+    condition_t *cond = attribute_condition_new(agent_apple->item, "ripeness", ripe);
+    add_condition(game, get_action(agent_apple, "CONSUME"), cond);
 
     /* add items to room */
-    add_item_to_room(room2, apple);
-    add_item_to_room(room3, macintosh);
-    add_item_to_room(room5, table);
+    add_item_to_room(room2, agent_apple->item);
+    add_item_to_room(room3, agent_macintosh->item);
+    add_item_to_room(room5, agent_table->item);
 
-
+    free(agent_apple);
+    free(agent_macintosh);
+    free(agent_table);
 
     return game;
 }

@@ -98,6 +98,7 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
     return ("actions", actions_dictionary)
 
 
+
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
 

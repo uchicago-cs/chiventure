@@ -115,3 +115,21 @@ int play_sound(sound_t *sound, int delay)
     }
     return 0;
 }
+
+/* See sound.h for details */
+void stop_sound()
+{
+    Mix_HaltMusic();
+}
+
+/* See sound.h for details */
+void pause_sound()
+{
+    Mix_PauseMusic();
+}
+
+/* See sound.h for details */
+void resume_sound()
+{
+    Mix_ResumeMusic();
+}
