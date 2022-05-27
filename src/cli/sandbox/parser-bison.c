@@ -171,7 +171,7 @@ void handle_kind1_cmd(word_ll *phrase){
 
     word_ll *p = phrase;
     
-    if (phrase == NULL) {
+    if (p->word == NULL) {
             printf("Theres nothing there!");
         } 
     else{
