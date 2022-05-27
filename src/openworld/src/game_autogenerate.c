@@ -229,7 +229,10 @@ int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
 
 int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
 
-    roomspec_t **roomspecs=specgraph->roomspecs;
+    int num_roomspecs=specgraph->num_roomspecs;
+
+    roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t))
+    roomspecs=specgraph->roomspecs;
 
     if(game==NULL){
         return -1;
