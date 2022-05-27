@@ -71,9 +71,9 @@ PLAYER_CLASS STUDENT
 	        CURRENT 80
 	        MAX 100
 
-NPC TAJACK IN classroom
+NPC JACK IN classroom
     short desc: "This is TA Jack."
-    long desc: "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success. It is crazy that he is the same age as us, which really helps with his empathy for us. Specifically, his empathy in how he grades us. He knows and wants to give us all A’s in this class. His NPC age is reflective of his wisdom."
+    long desc: "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success. His NPC age is reflective of his wisdom."
     age: "125"
     gender: "Male"
     INVENTORY
@@ -82,9 +82,9 @@ NPC TAJACK IN classroom
         item_id: "DSL DOCUMENTATION"
         item_id: "Omniscience"
 
-NPC PROFESSORBORJA IN computer lab
+NPC BORJA IN computer lab
     short desc: "This is Professor Borja Sotomayor."
-    long desc: "This is the amazing professor who teaches CMSC 22000. His NPC age reflects how youthful he looks."
+    long desc: "This is the amazing professor who teaches CMSC 22000."
     age: "23"
     gender: "Male"
     INVENTORY
