@@ -738,7 +738,7 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
                                                player->moves, 
                                                p1_items,
                                                NULL, NULL, NULL); // these too*///I dont think this is necessary
-    
+    // since everyting 
     // create a battle context
     battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
     // create a battle game and add it to the battle context
