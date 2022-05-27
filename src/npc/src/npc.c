@@ -112,11 +112,11 @@ int npc_task_free(npc_task_t *npc_task)
 }
 
 /* See npc.h */
-int npc_quest_list_init(npc_quest_list_t *quest_list)
+int npc_quest_list_init(npc_quest_list_t *quest_list, npc_quest_t *quest)
 {
     assert(quest_list != NULL);
-    quest_list->head = NULL;
-    quest_list->length = 0;
+    quest_list->head = quest;
+    quest_list->length = 1;
     return SUCCESS;
 }
 
@@ -132,7 +132,15 @@ npc_quest_list_t *npc_quest_list_new()
         return NULL;
     }
 
-    rc = npc_quest_list_init(npc_quest_list);
+    npc_quest_t *npc_quest;
+    npc_quest = malloc(sizeof(npc_quest_t));
+
+    if (!npc_quest) {
+        fprintf(stderr, "\nCould not allocate memory for NPC quest!\n");
+        return NULL;
+    }
+
+    rc = npc_quest_list_init(npc_quest_list, npc_quest);
     if (rc != SUCCESS)
     {
         return NULL;
@@ -155,11 +163,11 @@ int npc_quest_list_free(npc_quest_list_t *npc_quest_list) {
 }
 
 /* See npc.h */
-int npc_task_list_init(npc_task_list_t *task_list)
+int npc_task_list_init(npc_task_list_t *task_list, npc_task_t *task)
 {
     assert(task_list != NULL);
-    task_list->head = NULL;
-    task_list->length = 0;
+    task_list->head = task;
+    task_list->length = 1;
 
     return SUCCESS;
 }
@@ -176,7 +184,10 @@ npc_task_list_t *npc_task_list_new()
         return NULL;
     }
 
-    rc = npc_task_list_init(npc_task_list);
+    npc_task_t *npc_task;
+    npc_task = malloc(sizeof(npc_task_t));
+
+    rc = npc_task_list_init(npc_task_list, npc_task);
     if (rc != SUCCESS)
     {
         return NULL;

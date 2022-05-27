@@ -184,7 +184,7 @@ int npc_task_free(npc_task_t *npc_task);
  * Returns:
  * - SUCCESS upon successful initialization, FAILURE upon failed initialization
 */
-int npc_quest_list_init(npc_quest_list_t *quest_list);
+int npc_quest_list_init(npc_quest_list_t *quest_list, npc_quest_t *quest);
 
 /*
  * Creates a new linked list of npc_quest structs
@@ -211,7 +211,7 @@ int npc_quest_list_free(npc_quest_list_t *quest_list);
  * Returns:
  * - SUCCESS upon successful initialization, FAILURE upon failed initialization
 */
-int npc_task_list_init(npc_task_list_t *task_list);
+int npc_task_list_init(npc_task_list_t *task_list, npc_task_t *task);
 
 /*
  * Creates a new linked list of npc_task structs
