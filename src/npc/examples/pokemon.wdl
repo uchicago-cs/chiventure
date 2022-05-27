@@ -6,6 +6,7 @@
             "in_room": "End Room"
         }
     },
+    "QUESTS": "NULL",
     "ROOMS": {
         "Bedroom": {
             "short_desc": "ASH's bedroom",
@@ -367,7 +368,9 @@
                         "to_id": "6c"
                     }
                 ]
-            }
+            },
+            "Quests": NULL,
+            "Tasks": NULL
         },
         "PIDGEY": {
             "short_desc": "The tiny bird pokemon",
