@@ -24,14 +24,44 @@ void print_skilltree(skill_tree_t* skilltree) {
     if (skilltree != NULL) {
         printf("Skill Tree: \n");
         for (int i = 0; i < skilltree->num_nodes; i++) {
-            printf("    %s\n", skilltree->nodes[i]->skill->name);
+            
+            /* Name */
+            if (skilltree->nodes[i]->skill->name != NULL) {
+                printf("    %s\n", skilltree->nodes[i]->skill->name);
+            }
+            else {
+                printf("    Skill Name: NULL.\n");
+            }
 
-            printf("        Skill description: %s\n", 
-                    skilltree->nodes[i]->skill->desc);
-            printf("        Minimum XP: %u\n", skilltree->nodes[i]->skill->min_xp);
+            if (skilltree->nodes[i]->skill->name != NULL) {
+                printf("        Description: %s\n", 
+                        skilltree->nodes[i]->skill->desc);
+            }
+            else {
+                printf("        Description: NULL.\n");
+            }
+
+            printf("        Type: ");
+            switch (skilltree->nodes[i]->skill->type) {
+                case PLAYER_STATISTIC_MOD:
+                    printf("Player Statistic Mod\n");
+                    break;
+                case MOVE_UNLOCK:
+                    printf("Move Unlock\n");
+                    break;
+                case ITEM_ATTRIBUTE_MOD:
+                    printf("Item Attribute Mod\n");
+                    break;
+                case ITEM_STATISTIC_MOD:
+                    printf("Item Statistic Mod\n");
+                    break;
+            }
+
+            printf("        Minimum XP: %u\n", 
+                    skilltree->nodes[i]->skill->min_xp);
+
             printf("        Maximum level: %u\n", 
                     skilltree->nodes[i]->skill->max_level);
-            
         }
     }
     else {
