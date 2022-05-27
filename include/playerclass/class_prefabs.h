@@ -47,4 +47,19 @@ class_t* class_prefab_new(game_t* game, char* class_name);
  */
 int class_prefab_add_skills(class_t* class);
 
+/*
+ * Initializes default items for prefab classes.
+ *
+ * Parameters:
+ *  - class: the class that the item is associated with.
+ *
+ * Returns:
+ *  - an item struct
+ * 
+ * Notes:
+ *  - Since items aren't an intrinsic part of classes, this function would
+ *    likely be used in conjunction with creation of a player in game state.
+ */
+item_t* class_prefab_add_items(class_t* class);
+
 #endif /* CLASS_PREFABS_H */

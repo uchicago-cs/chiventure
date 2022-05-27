@@ -799,4 +799,10 @@ int class_prefab_add_skills(class_t* class) {
     }
 
     return SUCCESS;
+
+    /* See class_prefabs.h */
+    item_t* class_prefab_add_items(class_t* class) {
+        /* TODO */
+        return NULL;
+    }
 }
