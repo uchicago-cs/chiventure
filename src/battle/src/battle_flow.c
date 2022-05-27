@@ -237,6 +237,8 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         {
             //to be implemented in the future
         }
+        assert(rc == SUCCESS);
+        rc = print_hp(b, string);
     }
     
 
@@ -252,12 +254,12 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_ENEMY_SURRENDER;
     }
-    if(battle_over(b) == BATTLE_IN_PROGRESS)
+    /*if(battle_over(b) == BATTLE_IN_PROGRESS)
     {
         char *res = enemy_make_move(ctx);
         strncat(string, res, 150);
         free(res);
-    }
+    }*/
 
     return string;
 }
@@ -294,13 +296,13 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         snprintf(string, 150, "That item is Unavailable.\n");
         return string;
     } 
-
+    /*
     if(battle_over(b) == BATTLE_IN_PROGRESS)
     {
         char *res = enemy_make_move(ctx);
         strncat(string, res, 150);
         free(res);
-    }
+    }*/
     return string;
 }
 
@@ -389,6 +391,8 @@ char *enemy_make_move(battle_ctx_t *ctx)
             {
                 //to be implemented in the future
             }
+            assert(rc == SUCCESS);
+            rc = print_hp(b, string);
         }
         
     }

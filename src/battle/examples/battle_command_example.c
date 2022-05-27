@@ -276,6 +276,8 @@ int continue_battle(battle_ctx_t *ctx)
         }
         // otherwise, handle input
         res = read_move(args, ctx);
+        char *enemy_rs = enemy_make_move(ctx);
+        printf("%s",enemy_rs);
     }
     // free statement for string array
     /*
