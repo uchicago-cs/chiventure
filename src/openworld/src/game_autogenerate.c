@@ -327,7 +327,7 @@ int game_autogenerate_static(game_t* g, gencontext_t *context, int num_rooms, ch
     while(count<num_rooms){
         rc=0;
         while(rc==0){
-            rc=autogenerate_room_in_game(g, context)
+            rc=autogenerate_room_in_game(g, context);
             if(rc==-1){
                 fprintf(stderr, "Invalid input parameters");
             }
