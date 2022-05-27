@@ -249,13 +249,12 @@ Test(class_prefabs, Sorceror) {
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 15, "failed to initialize stat");
 
     class_prefab_add_skills(c);
-
+    
     char* skill_list[] = {"dark magic", "moon storm", "gates of rashonmon"};
     check_skill_presence(c, 3, skill_list);
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "dark magic", "failed to initialize skill inventory");
 }  
-
 
 
 
