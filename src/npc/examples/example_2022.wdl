@@ -14,10 +14,10 @@
                 {
                     "to": "Mansuetto",
                     "direction": "UP"
-                }
+                },
                 {
                     "to": "The Quad",
-                    "direction": "South"
+                    "direction": "SOUTH"
                 }
             ]
         },
@@ -30,28 +30,28 @@
                     "direction": "DOWN"
                 }
             ]
-        }
+        },
         "The Quad": {
             "short_desc": "The center of campus",
             "long_desc": "This is the quad. The Reg is to the North and Crear is to the West.",
             "connections": [
                 {
                     "to": "The Reg",
-                    "direction": "North"
-                }
+                    "direction": "NORTH"
+                },
                 {
-                    "to": "Crear"
-                    "direction": "West"
+                    "to": "Crerar",
+                    "direction": "WEST"
                 }
             ]
-        }
-        "Crear": {
+        },
+        "Crerar": {
             "short_desc": "CS Library",
-            "long_desc": "This is Crear. The Quad is to the East.",
+            "long_desc": "This is Crerar. The Quad is to the East.",
             "connections": [
                 {
                     "to": "The Quad",
-                    "direction": "East"
+                    "direction": "EAST"
                 }
             ]
         }
@@ -60,37 +60,37 @@
         "RARE BOW": {
             "short_desc": "A rare bow", 
             "long_desc": "A rare bow you found while exploring",
-            "in": "Merchant's Shop",
+            "in": "The Quad",
             "actions": []
         },
         "HEALTH POTION": {
             "short_desc": "A simple potion", 
             "long_desc": "A simple potion that restores 10 HP",
-            "in": "npc",
+            "in": "Crerar",
             "actions": []
         },
         "GOLDEN SWORD": {
             "short_desc": "A golden sword", 
             "long_desc": "Unused and shining. Looks very sharp",
-            "in": "npc",
+            "in": "Crerar",
             "actions": []
         },
         "IRON PICKAXE": {
             "short_desc": "An iron pickaxe", 
             "long_desc": "A little worn. Might not last long",
-            "in": "npc",
+            "in": "Crerar",
             "actions": []
         },
         "IRON HELMET": {
             "short_desc": "An iron helmet", 
             "long_desc": "Seems durable. Would protect you in a fight",
-            "in": "npc",
+            "in": "Crerar",
             "actions": []
         },
         "MERCHANT'S NECKLACE": {
             "short_desc": "The merchant's necklace", 
             "long_desc": "Kept within a box on his desk. He would get very angry if you took it",
-            "in": "npc",
+            "in": "Crerar",
             "actions": []
         }
     },
@@ -98,7 +98,7 @@
         "MERCHANT": {
             "short_desc": "A merchant",
             "long_desc": "Can trade items with him",
-            "in": "Merchant's Shop",
+            "in": "Crerar",
             "inventory": [
                 {
                     "item_id": "HEALTH POTION"
@@ -128,13 +128,13 @@
                         "actions": [
                             {
                                 "action": "GIVE_ITEM",
-                                "action_id": "ENCYCLOPEDIA"
+                                "action_id": "GOLDEN SWORD"
                             }
                         ]
-                        ,
+                    },
                     {
                         "id": "2b",
-                        "npc_dialogue": "Be safe!",
+                        "npc_dialogue": "Be safe!"
                     }
                 ],
                 "edges": [
@@ -149,7 +149,8 @@
                         "to_id": "2b"
                     }
                 ]
-            }
+           }
         }
     }
 }
+
