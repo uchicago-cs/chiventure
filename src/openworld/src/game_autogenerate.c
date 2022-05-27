@@ -74,7 +74,7 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
 
 room_t* random_room_from_game(game_t* game){
 
-    room_hash_t *rooms=game->all_rooms;
+    room_hash_t rooms=game->all_rooms;
     int num_rooms=HASH_COUNT(rooms);
 
     int randomint=rand() % num_rooms; 
