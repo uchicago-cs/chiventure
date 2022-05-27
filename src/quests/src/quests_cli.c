@@ -5,6 +5,8 @@
 #include <math.h>
 #include "quests/quests_cli.h"
 
+// Functions for displaying quests
+
 /* Converts a completion enum into a string
  *
  * Parameter:
@@ -54,6 +56,78 @@ char* show_quests(player_t *player)
 
     return prev;
 }
+
+// Functions for displaying all info about a specific task
+
+/* helper function to print all the elements of a list
+ *
+ * Parameters
+ * - id_list_start: the first node of an id list
+ *
+ * Returns:
+ * - a string holding the list of ids
+ *
+ */
+char *store_list(id_list_node_t *id_list_start)
+{
+    if(id_list_start == NULL) {
+        return strdup("\n");
+    }
+    char buf[50];
+    snprintf(buf, 50, "%s ", id_list_start->id);
+    char *rest = store_list(id_list_start->next);
+    char *result = strcat(buf, rest);
+    return result;
+}
+
+/* See quests_cli.h */
+char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
+{
+    char buf[1000];
+    
+    player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
+
+    task_t *task = get_task_from_quest_hash(task_id, all_quests);
+    char *mission_name;
+    if (task->mission != NULL) {
+        mission_name = task->mission->target_name;
+    } else {
+        mission_name = "None";
+    }
+
+    char rewards[200];
+    if (task->reward != NULL) {
+        int reward_xp = task->reward->xp;
+        char *reward_item;
+        if (task->reward->item != NULL) {
+            reward_item = task->reward->item->item_id;
+        } else {
+            reward_item = "no items";
+        }
+        sprintf(rewards, "%d xp and %s", reward_xp, reward_item);
+    } else {
+        sprintf(rewards, "None");
+    }
+    
+    char prereqs[200];
+    if (task->prereq != NULL) {
+        int prereq_hp = task->prereq->hp;
+        int prereq_level = task->prereq->level;
+        char *prereq_tasks = store_list(task->prereq->task_list->head);
+        char *prereq_quests = store_list(task->prereq->quest_list->head);
+        sprintf(prereqs, "%d hp and %d level\nPrerequisite Tasks: %sPrerequisite Quests: %s",
+                prereq_hp, prereq_level, prereq_tasks, prereq_quests);
+    } else {
+        sprintf(prereqs, "None\n");
+    }
+
+    sprintf(buf, "TASK: %s\nStatus: %s\nMission: %s\nRewards: %s\nPrerequisites: %s",
+            task_id, ptask != NULL ? (ptask->completed ? "Completed!" : "Incomplete") : "Inactive  ",
+            mission_name, rewards, prereqs);
+    return strdup(buf);
+}
+
+// Functions for displaying a task tree
 
 /* Creates an empty task printing block
  * - A task printing block is an array of 3 25 length strings
@@ -380,72 +454,4 @@ char *show_task_tree(char* quest_id, player_t *player, quest_hash_t *all_quests)
     free(task_matrix);
     free(tree_line_matrix);
     return string;
-}
-
-/* helper function to print all the elements of a list
- *
- * Parameters
- * - id_list_start: the first node of an id list
- *
- * Returns:
- * - a string holding the list of ids
- *
- */
-char *store_list(id_list_node_t *id_list_start)
-{
-    if(id_list_start == NULL) {
-        return strdup("\n");
-    }
-    char buf[50];
-    snprintf(buf, 50, "%s ", id_list_start->id);
-    char *rest = store_list(id_list_start->next);
-    char *result = strcat(buf, rest);
-    return result;
-}
-
-/* See quests_cli.h */
-char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
-{
-    char buf[1000];
-    
-    player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
-
-    task_t *task = get_task_from_quest_hash(task_id, all_quests);
-    char *mission_name;
-    if (task->mission != NULL) {
-        mission_name = task->mission->target_name;
-    } else {
-        mission_name = "None";
-    }
-
-    char rewards[200];
-    if (task->reward != NULL) {
-        int reward_xp = task->reward->xp;
-        char *reward_item;
-        if (task->reward->item != NULL) {
-            reward_item = task->reward->item->item_id;
-        } else {
-            reward_item = "no items";
-        }
-        sprintf(rewards, "%d xp and %s", reward_xp, reward_item);
-    } else {
-        sprintf(rewards, "None");
-    }
-    
-    char prereqs[200];
-    if (task->prereq != NULL) {
-        int prereq_hp = task->prereq->hp;
-        int prereq_level = task->prereq->level;
-        char *prereq_tasks = store_list(task->prereq->task_list->head);
-        char *prereq_quests = store_list(task->prereq->quest_list->head);
-        sprintf(prereqs, "%d hp and %d level\nPrerequisite Tasks: %sPrerequisite Quests: %s",
-                prereq_hp, prereq_level, prereq_tasks, prereq_quests);
-    } else {
-        sprintf(prereqs, "None\n");
-    }
-
-    sprintf(buf, "TASK: %s\nStatus: %s\nMission: %s\nRewards: %s\nPrerequisites: %s",
-            task_id, ptask != NULL ? (ptask->completed ? "Completed!" : "Incomplete") : "Inactive  ",
-            mission_name, rewards, prereqs);
-    return strdup(buf);
 }
