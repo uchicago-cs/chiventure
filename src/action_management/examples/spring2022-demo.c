@@ -120,8 +120,8 @@ chiventure_ctx_t *create_sample_ctx()
     item_t *compass = item_new("Compass", "Compass", "Compass");
     add_item_to_player(player, compass, game);
 
-    item_t *compass = item_new("Compass", "Compass", "Compass");
-    add_item_to_player(player, compass, game);
+    item_t *gum = item_new("Gum    ", "Gum    ", "Gum    ");
+    add_item_to_player(player, gum, game);
     
     item_t *gas = item_new("Gas    ", "Gas    ", "Gas    ");
     add_item_to_player(player, gas, game);
@@ -151,12 +151,16 @@ chiventure_ctx_t *create_sample_ctx()
 
     // add items to room
     item_t *soap = item_new("Soap   ", "Soap   ", "Soap   ");
-    add_item_to_room(room4, soap); 
-    add_action(soap, "take", "You take the soap. It has cleansed you.", "You do not take the soap.");
+    add_item_to_room(room4, soap);
+    agent_t *s;
+    s->item = soap; 
+    add_action(s, "take", "You take the soap. It has cleansed you.", "You do not take the soap.");
 
     item_t *rolex = item_new("Rolex  ", "Rolex  ", "Rolex  ");
     add_item_to_room(room2, rolex); 
-    add_action(rolex, "take", "You take Borja's watch. It looks better on you.", 
+    agent_t *r;
+    r->item = rolex; 
+    add_action(r, "take", "You take Borja's watch. It looks better on you.", 
                               "You're not clean enough to touch Borja's watch. Is there soap around here?");
     
     player->player_class->skilltree = skill_tree;
@@ -165,7 +169,7 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_player = player;
 
     // Add inventory condition to game (need soap to grab rolex)
-    game_action_t *take_rolex = get_action(rolex, "take");
+    game_action_t *take_rolex = get_action(r, "take");
     add_action_inventory_condition(take_rolex, player, soap);
 
     // Add room condition to game (need rolex and soap to enter void)
