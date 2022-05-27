@@ -7,9 +7,6 @@
 *
 */
 
-#ifndef INCLUDE_GAME_AUTOGENERATE_H
-#define INCLUDE_GAME_AUTOGENERATE_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
