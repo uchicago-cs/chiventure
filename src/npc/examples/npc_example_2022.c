@@ -238,17 +238,20 @@ convo_t *create_sample_convo_harry()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
+    add_node(c, "1", "Harry: What do you think you're doing here, kid?");
     add_node(c, "2a", "Harry: You will regret this. Let's meet in the arena and "
              "I will show you no mercy.");
-    node_t *battle_node = get_node(c->all_nodes, "2a");
-    add_action_to_node(battle_node, MOVE_ROOM, "harry move to arena");
+    node_t *battle_node1 = get_node(c->all_nodes, "2a");
+    add_action_to_node(battle_node1, MOVE_ROOM, "harry move to arena");
 
-    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!");
+    add_node(c, "2b", "Well, you are not welcome here. Let's meet in the arena and "
+             "I will show you no mercy.");
+    node_t *battle_node2 = get_node(c->all_nodes, "2b");
+    add_action_to_node(battle_node2, MOVE_ROOM, "harry move to arena");
 
     // Edges
-    add_edge(c, "Yeah what are you gonna do about it, huh?", "1", "2a", NULL);
-    add_edge(c, "No, I am sorry sir.", "1", "2b", NULL);
+    add_edge(c, "What does it matter to you, old man?", "1", "2a", NULL);
+    add_edge(c, "I am just passing through, I don't want any trouble.", "1", "2b", NULL);
 
     return c;
 }
