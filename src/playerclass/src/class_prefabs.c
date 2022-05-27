@@ -950,8 +950,6 @@ int class_prefab_add_skills(class_t* class) {
         * starting item: songbook
         */
         if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
-            /* TODO, item IDs */
-
             /* Create item */
             item_t* item_0 = item_new("songbook", "A magic songbook", 
                                       "An enchanted book full of the bard's"
@@ -959,5 +957,12 @@ int class_prefab_add_skills(class_t* class) {
 
             return item_0;
         }
+
+        else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
+            /* These potentially could have a prefab item but will not currently */
+            return SUCCESS;
+        }   
+
+        
     }
 }
