@@ -44,13 +44,26 @@ class_t *make_minion()
 
 battle_player_t * create_player_one() 
 {
-  // create player one (sorcerer)
-    stat_t *p1_stats = get_random_stat();
+    // create player one (sorcerer)
+    stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
+    p_stats->hp = 100;
+    p_stats->max_hp = 100;
+    p_stats->xp = 10;
+    p_stats->speed = 10;
+    p_stats->level = 3;
+    p_stats->phys_def = 30;
+    p_stats->mag_def = 30;
+    p_stats->phys_atk = 80;
+    p_stats->mag_atk = 80;
+    p_stats->sp = 100;
+    p_stats->max_sp = 100;
+    p_stats->crit = 25;
+    p_stats->accuracy = 100;
     battle_item_t *p1_item = make_items();
     move_t *p1_move = generate_moves_user_one();
     class_t *p1_class = make_sorcerer();
     battle_player_t *p1 = new_ctx_player("Nicholas the Wise", p1_class, 
-                                         p1_stats, p1_move, p1_item, 
+                                         p_stats, p1_move, p1_item, 
                                          NULL, NULL, NULL);
 }
 
