@@ -234,6 +234,9 @@ convo_t *create_sample_convo_fiona()
     add_node(c, "1", "Fiona: Hey how are you doing?");
     add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
              "some battle skills with you in the arena.");
+    node_t *hostile_node = get_node(c->all_nodes, "2a");
+    add_action_to_node(hostile_node, START_BATTLE, "fiona battle");
+
     add_node(c, "2b", "Fiona: I hope you have a good day too!");
 
     // Edges
@@ -274,7 +277,7 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
         HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
         {
-            if ((npc_elt->hostility_level == FRIENDLY) || (get_npc_hp(npc_elt) <= 0))
+            if ((npc_elt->hostility_level != HOSTILE) || (get_npc_hp(npc_elt) <= 0))
             {
 	            continue;
 	        } 
@@ -351,9 +354,13 @@ chiventure_ctx_t *create_sample_ctx()
                              movement1, CONDITIONAL_FRIENDLY);
 
     /* Add battle info to friendly npc */
-    stat_t *stats1 = create_enemy_stats();
+    stat_t *fiona_stats = create_enemy_stats();
+    fiona_stats->hp = 100;
+    fiona_stats->max_hp = 100;
+    fiona_stats->surrender_level = 95;
+
     move_t *moves1 = create_enemy_moves();
-    add_battle_to_npc(friendly_fiona, stats1, moves1, BATTLE_AI_GREEDY,
+    add_battle_to_npc(friendly_fiona, fiona_stats, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
     change_npc_hp(friendly_fiona, -100);
 

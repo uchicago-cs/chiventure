@@ -124,6 +124,17 @@ typedef struct convo {
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
+/* Returns the node corresponding to a given ID.
+ *
+ * Parameters:
+ *  - n_lst: node list
+ *  - node_id: node ID
+ *
+ * Returns:
+ *  - a pointer to the corresponding node, or NULL if it does not exist
+ */
+node_t *get_node(node_list_t *n_lst, char *node_id);
+
 /* To create a new convo, use: convo_new()
  */
 
@@ -163,6 +174,18 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
 /**********************************************
  *             ACTION FUNCTIONS               *
  **********************************************/
+
+/* Create a new action, and append it to the node's action list.
+ *
+ * Parameters:
+ *  - n: node
+ *  - action: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - SUCCESS if the operation suceeded, FAILURE otherwise
+ */
+int add_action_to_node(node_t *n, node_action_type action, char *action_id);
 
 /* Adds a give item flag to a node.
  *

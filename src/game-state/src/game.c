@@ -528,7 +528,8 @@ int do_node_actions(node_t *n, game_t *game)
             break;
 
         case START_BATTLE:
-            // to do
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->hostility_level = HOSTILE;
             break;
 
         default:
