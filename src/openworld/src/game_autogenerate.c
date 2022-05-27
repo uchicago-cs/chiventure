@@ -89,7 +89,7 @@ room_t* random_room_from_game(game_t* game){
             random_room=current;
             return random_room;
         }
-        count ++;;
+        count ++;
     }
 } 
 
