@@ -469,8 +469,11 @@ int load_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
     npc_task_list_t *tasks = npc_task_list_new();
 
     char *task_name, *task_dialogue;
-    npc_task_t *curr_task, *next_task;
     obj_t *curr;
+
+    npc_task_t *task_head = NULL;
+    npc_task_t *task_tmp = task_head;
+    obj_list_t *obj_head = tasks_obj_list;
     
     DL_FOREACH(tasks_obj_list->data.lst, curr)
     {
@@ -479,9 +482,10 @@ int load_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
             return FAILURE;
         }
 
-        // load task's name into task
         task_name = obj_get_str(curr, "id");
-        curr_task->id = task_name;
+
+        // make the task
+        npc_task_t *curr_task = npc_task_new(task_name, NULL);
 
         // load task's dialogue, if any, into task
         obj_t *dialogue_obj;
@@ -494,16 +498,21 @@ int load_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
             }
         }
 
-        // loads next text, if any, into current task
-        obj_t *next_task_obj;
-
-
         // adds task to list
         if ((npc_task_list_add(tasks, curr_task)) != SUCCESS)
         {
             fprintf(stderr, "Could not add task with ID: %s. NPC: %s\n", task_name,
                     npc->npc_id);
             return FAILURE;
+        }
+
+        if (!task_tmp)
+        {
+            task_tmp = curr_task;
+        } else
+        {
+            task_tmp->next = curr_task;
+            task_tmp = task_tmp->next;
         }
     }
 
