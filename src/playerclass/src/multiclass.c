@@ -33,10 +33,6 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
 
     char* new_shortdesc = (char*) malloc(MAX_SHORT_DESC_LEN + 1);
     *succ = SUCCESS;
-<<<<<<< HEAD
-    if (strstr(base_class->name, "Multiclass of " == NULL)){
-      strncat(new_shortdesc, "Multiclass of ", 15);  
-=======
     int len = 0;
 
     if ((strstr(base_class->name, "Multiclass of ") == NULL)){
@@ -75,7 +71,6 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
 
     if ((strstr(base_class->name, "Multiclass of ") == NULL)){
       strncat(new_shortdesc, "Multiclass of ", 15);
->>>>>>> c04914eed301b2ff1a59957d09cb3397826776e8
     }
     strncat(new_shortdesc, base_class->name, strlen(base_class->name));
     if (num_multiclass == 2){

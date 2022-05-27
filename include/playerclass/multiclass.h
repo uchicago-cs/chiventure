@@ -47,4 +47,8 @@ class_t* multiclass(class_t* base_class, class_t* second_class, char* name);
  */
 int has_component_class(class_t* class, char* name);
 
+// These two are only here for tests. Ignore them
+char* multiclass_longdesc(class_t* base_class, class_t* second_class, int *succ);
+char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ);
+
 #endif /* MULTICLASS_H */
