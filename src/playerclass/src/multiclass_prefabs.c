@@ -58,15 +58,73 @@ int get_multiclass_name_index(char* name) {
 }
 
 /* See multiclass_prefabs.h */
-class_t* multiclass_prefab_new(game_t* game, char* class_name)
+class_t* multiclass_prefab_new(game_t* game, class_t* base_class, 
+                            class_t* second_class, char* multiclass_name)
 {
-    /* TODO */
-    return NULL;
+    char temp_name[MAX_NAME_LEN + 1]; 
+    strncpy(temp_name, multiclass_name, MAX_NAME_LEN);
+    /* make temp_name lowercase */
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
+    
+    char* short_desc;
+    char* long_desc;
+    /* attributes are not yet customized by each class */
+    obj_t* attributes = obj_new("attributes");
+    stats_hash_t* stats = NULL;
+    /* effects for each class not yet provided, so this will remain NULL */
+    effects_hash_t* effects = NULL;
+
+    /* Hexblade stats:
+     * TODO
+     */ 
+    if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
+        short_desc = multiclass_shortdesc(base_class, second_class);
+        long_desc = multiclass_longdesc(base_class, second_class);
+        //smt w setting hash stats here? 
+    } else {
+        fprintf(stderr, "Could not find class name: \"%s\" "
+                        "in multiclass_prefab_new\n", multiclass_name);
+        return NULL;
+    }
+    return multiclass(base_class, second_class, multiclass_name);
 }
+
+/* some function about adding skills to multiclass trees? */
 
 /* See multiclass_prefabs.h */
 int multiclass_prefab_add_skills(class_t* multiclass)
 {
-    /* TODO */
-    return 0;
+    char temp_name[MAX_NAME_LEN + 1];
+    strncpy(temp_name, multiclass->name, MAX_NAME_LEN);
+    /* make temp_name lowercase */
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
+    if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
+        class_allocate_skills(class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
+        
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
+                                     "You deal damage to your opponent with " 
+                                     "just a word.", 1, 75, NULL, NULL);
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
+                                     "A full line of poetry hits your " 
+                                     "opponent!", 1, 200, NULL, NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Enchanted Stanza", 
+                                     "The full weight of your stanza strikes "
+                                     "your opponent!", 1, 325, NULL, NULL);
+
+        /* Add skills to tree */
+       // add_skill(class, skill_0, 0, 25, true, NULL, 0);
+     //   add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+     //   add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
+    } else {
+        fprintf(stderr, "Could not find class for skill inventories "
+                        "in multiclass_prefab_add_skills\n");
+        return EXIT_FAILURE;
+    }
+
+    return SUCCESS;
 }
