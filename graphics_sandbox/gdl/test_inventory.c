@@ -11,7 +11,7 @@ Test(inventory, new)
     unsigned int columns = 10;
     color c = YELLOW;
 
-    inventory_display_t inventory;
+    inventory_display_t *inventory;
     inventory = new_inventory_display(rows,columns,c);
 
     cr_assert_not_null(inventory,"make_inventory_display() failed");
@@ -32,15 +32,15 @@ Test(inventory, init)
     inventory_display_t inventory;
     int rc;
 
-    rc = init_inventory_display(inventory,rows,columns,c);
+    rc = init_inventory_display(&inventory,rows,columns,c);
 
-    cr_assert_eq(rc, SUCCESS,"init_inventory_display() failed");
+    cr_assert_eq(rc, SUCCESS, "init_inventory_display() failed");
 
     cr_assert_eq(inventory.rows, 3,
                 "init_inventory_display() didn't set rows");
     cr_assert_eq(inventory.columns, 10,
                 "init_inventory_display() didn't set columns");
-    cr_assert_eq(invetntory.color, YELLOW,
+    cr_assert_eq(inventory.color, YELLOW,
                 "init_inventory_display() didn't set color");
 }
 
@@ -53,7 +53,7 @@ Test(inventory, free)
     color c = YELLOW;
     int rc;
 
-    inventory_display_t inventory;
+    inventory_display_t *inventory;
     inventory = new_inventory_display(rows,columns,c);
 
     cr_assert_not_null(inventory,"make_inventory_display()");

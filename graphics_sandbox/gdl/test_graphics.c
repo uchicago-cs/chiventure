@@ -12,7 +12,7 @@ Test(graphics, new)
 
     
     statistics_display_t *stats = new_statistics_display(TOP_LEFT,stat,1,NUMERICAL);
-    display_dimensions_t *dimensions = new_dimensions_display(500,400);
+    display_dimensions_t *dimensions = new_display_dimensions(500,400);
     inventory_display_t *inventory = new_inventory_display(3,10,RED);
     camera_t *camera = new_camera(300,300);
     
@@ -56,14 +56,14 @@ Test(graphics, init)
                                                                                   
                                                                                   
     statistics_display_t *stats = new_statistics_display(TOP_LEFT,stat,1,NUMERICAL);
-    display_dimensions_t *dimensions = new_dimensions_display(500,400);         
+    display_dimensions_t *dimensions = new_display_dimensions(500,400);         
     inventory_display_t *inventory = new_inventory_display(3,10,RED);           
     camera_t *camera = new_camera(300,300);                                     
                                                                                  
-    graphics_t *graphics;
+    graphics_t *graphics = NULL;
     int rc;
 
-    rc = init_graphics(graphics,dimensions,camera,inventory,statistics);
+    rc = init_graphics(graphics,dimensions,camera,inventory,stats);
 
     cr_assert_eq(rc,SUCCESS,"init_graphics() failed");
 
@@ -101,7 +101,7 @@ Test(graphics, free)
     stats_t *stat = stats_new(global_stat,10.0);                                
     
     statistics_display_t *stats = new_statistics_display(TOP_LEFT,stat,1,NUMERICAL);
-    display_dimensions_t *dimensions = new_dimensions_display(500,400);         
+    display_dimensions_t *dimensions = new_display_dimensions(500,400);         
     inventory_display_t *inventory = new_inventory_display(3,10,RED);           
     camera_t *camera = new_camera(300,300);                                     
                                                                                   

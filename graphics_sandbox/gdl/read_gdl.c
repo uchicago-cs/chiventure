@@ -260,22 +260,6 @@ int free_statistics_display(statistics_display_t *statistics_display)
 }
 
 
-/* 
- * A hash function for strings 
- */
-int hash(char *str)
-{
-    int hash = 24017;
-    int i = 0;
-
-    while (str[i] != '\0') {
-        hash += (str[i] + -9 * i);
-    }
-    
-    return hash;
-}
-
-
 /*
  * Matches a string of a color to a background color implementable in Raylib
  *
@@ -319,15 +303,12 @@ int match_corner(char *corner)
     exit(1);
 } 
 
+
 graphics_t* read_gdl()
 {
     // Open the GDL
     FILE *gdl;
     gdl = fopen("gdl.txt","r"); // could read from any specific location
-
-    // Define information strings for comparisons
-    // wishlist item    unsigned long map = hash("\"map\":");
-    // wishlist item unsigned long statistics = hash("\"Statistics\":");
 
     // Define useful variables for the reading function
     unsigned int width;
@@ -335,7 +316,6 @@ graphics_t* read_gdl()
     unsigned int rows;
     unsigned int cols;
     color color;
-    // wishlist item corner corner;
     char spec[20];
     display_dimensions_t *display_dimensions;
     camera_t *camera;
@@ -388,41 +368,21 @@ graphics_t* read_gdl()
                     }
                 }
                 inventory_display = new_inventory_display(rows, cols, color);
-/*
-                case map: is a wishlist item
-                case statistics:
-                    getc(gdl);
-                    for(int i = 0; i < 3; i++) {
-                        fscanf(gdl, "%s", spec);
-                        switch (hash(spec)) {
-                            case hash("corner"):
-                                corner = match_corner(spec);
-                                break;
-                            case hash(names):
-                                // where are starting stats specified?
-                        }
-                    }
-*/
             }
+    
             // to pass over the closing brace "}"
             getc(gdl);
         } else {
             at_end = 1;
         }
     }
+    
     graphics_t *graphics;
     graphics = (graphics_t*)malloc(sizeof(graphics_t));
-//  graphics_t *graphics = make_graphics(display_dimensions, camera, inventory, statistics);
+    
     graphics->statistics = NULL;
     graphics->dimensions = display_dimensions;
     graphics->camera = camera;
     graphics->inventory = inventory_display;
     return graphics;
 }
-/*
-int main()
-{
-    printf("having issues");
-    return 0;
-}
-*/
