@@ -134,8 +134,12 @@ Test(autogenerate, game_autogenerate_static_one_roomspec_game){
 
     room_hash_t *current, *tmp;
     int currtag;
+    int num_rooms=0;
 
     HASH_ITER(hh, game->all_rooms, current, tmp){
         cr_assert_eq(current->currtag, 0, "failed to autogenerate game with correct roomspecs\n");
+        num_rooms++;
     }
+    
+    cr_assert_eq(num_rooms, 3, "failed to autogenerate game with correct number of rooms\n");
 }
