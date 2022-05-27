@@ -38,17 +38,25 @@ char *completion_to_str(completion_status_t completion) {
 /* See quests_cli.h */
 char* show_quests(player_t *player)
 {
-    int buff_count = get_show_quests_buffer(player);
-    char *buffer = (char*)malloc(sizeof(char) * buff_count);
+    //int buff_count = get_show_quests_buffer(player);
+    //char *buffer = (char*)malloc(sizeof(char) * buff_count);
+    //char *first = player->player_quests->quest_id;
+    int cur_len = 1;
+    char *prev = malloc(cur_len);
+    prev = "";
     for (player_quest_hash_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
         char *quest_id = cur->quest_id;
+        char *buf = malloc(30+strlen(quest_id));
         char *completion = completion_to_str(cur->completion);
-        sprintf(buffer, "Quest %s: Status: %s\n", quest_id, completion);
+        sprintf(buf, "Quest %s: Status: %s\n", quest_id, completion);
+        cur_len += strlen(buf);
+        prev = realloc(prev, cur_len);
+        strcat(prev, buf);
+        free(buf);
     }
-
-    return buffer;
-
+    return prev;
 }
+
 /* Creates an empty task printing block
  * - A task printing block is an array of 3 25 length strings
  *   where the first and second strings are the task's id
