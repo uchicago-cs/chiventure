@@ -16,10 +16,9 @@ def transform_game(self, s: list) -> dict:
     dictionary for convenience.
     """
 
-    # first place all non-room objects into a dict
+    # first place all non-room objects (excluding playerclasses) into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value or
     # item and item attributes, etc.
-    # game_dictionary = dict((k, v) for k, v in s if k != "ROOM")
     game_dictionary = dict((k, v) for k, v in s if k != "ROOM" and k != "PLAYER_CLASS")
 
     # now place all rooms into their own dictionary
