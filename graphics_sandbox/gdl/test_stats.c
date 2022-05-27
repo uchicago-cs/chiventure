@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "read_gdl.h"
 
+
 /* Checks that new_statistics_display_t properly mallocs and inits values
  * for a statistics_display_t struct */
 Test(statistics, new)
@@ -29,6 +30,7 @@ Test(statistics, new)
                 "new_statistics_display() didn't set stats_t field");
 }
 
+
 /* Checks that init_statistics_display properly inits values for a 
  * statistics_display_t struct */
 Test(statistics, init)
@@ -54,6 +56,7 @@ Test(statistics, init)
     cr_assert_eq(stats->num_statistics, 1,
                 "init_statistics_display() didn't set num_statistics");
 }
+
 
 /* Checks that free_statistics_display() properly frees memory used for
  * statistics_display_t struct */
