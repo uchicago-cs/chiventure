@@ -241,6 +241,9 @@ convo_t *create_sample_convo_harry()
     add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
     add_node(c, "2a", "Harry: You will regret this. Let's meet in the arena and "
              "I will show you no mercy.");
+    node_t *battle_node = get_node(c->all_nodes, "2a");
+    add_action_to_node(battle_node, MOVE_ROOM, "harry move to arena");
+
     add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!");
 
     // Edges
@@ -263,6 +266,7 @@ convo_t *create_sample_convo_fiona()
              "some battle skills with you in the arena.");
     node_t *hostile_node = get_node(c->all_nodes, "2a");
     add_action_to_node(hostile_node, START_BATTLE, "fiona battle");
+    add_action_to_node(hostile_node, MOVE_ROOM, "fiona move to arena");
 
     add_node(c, "2b", "Fiona: I hope you have a good day too!");
 
