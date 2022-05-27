@@ -66,31 +66,31 @@
         "HEALTH POTION": {
             "short_desc": "A simple potion", 
             "long_desc": "A simple potion that restores 10 HP",
-            "in": "Crerar",
+            "in": "npc",
             "actions": []
         },
         "GOLDEN SWORD": {
             "short_desc": "A golden sword", 
             "long_desc": "Unused and shining. Looks very sharp",
-            "in": "Crerar",
+            "in": "npc",
             "actions": []
         },
         "IRON PICKAXE": {
             "short_desc": "An iron pickaxe", 
             "long_desc": "A little worn. Might not last long",
-            "in": "Crerar",
+            "in": "npc",
             "actions": []
         },
         "IRON HELMET": {
             "short_desc": "An iron helmet", 
             "long_desc": "Seems durable. Would protect you in a fight",
-            "in": "Crerar",
+            "in": "npc",
             "actions": []
         },
         "MERCHANT'S NECKLACE": {
             "short_desc": "The merchant's necklace", 
             "long_desc": "Kept within a box on his desk. He would get very angry if you took it",
-            "in": "Crerar",
+            "in": "npc",
             "actions": []
         }
     },
