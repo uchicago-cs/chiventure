@@ -67,8 +67,8 @@ typedef struct item {
     effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
     struct item *next; // points to item w/ identical id, if it exists
     char *item_image;
-    unsigned int *inventory_x_pos;
-    unsigned int *inventory_y_pos;
+    unsigned int inventory_x_pos;
+    unsigned int inventory_y_pos;
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are

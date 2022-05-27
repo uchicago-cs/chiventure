@@ -15,18 +15,18 @@ Test(statistics, new)
     unsigned int num_stat = 1;
     
     statistics_display_t *stats;
-    stats = make_statistics_display(c,stat,num_stat,m);
+    stats = new_statistics_display(c,stat,num_stat,m);
 
-    cr_assert_not_null(stats,"make_statistics_display() failed");
+    cr_assert_not_null(stats,"new__statistics_display() failed");
     
     cr_assert_eq(stats->corner,TOP_LEFT,
-                "make_statistics_display() didn't set corner");
+                "new_statistics_display() didn't set corner");
     cr_assert_eq(stats->mode,NUMERICAL,
-                "make_statistics_display() didn't set mode");
+                "new_statistics_display() didn't set mode");
     cr_assert_eq(stats->num_statistics,1,
-                "make_statistics_display() didn't set num_statistics");
+                "new_statistics_display() didn't set num_statistics");
     cr_assert_eq(stats->statistics->max,10,
-                "make_statistics_display() didn't set stats_t field");
+                "new_statistics_display() didn't set stats_t field");
 }
 
 /* Checks that init_statistics_display properly inits values for a 
@@ -68,9 +68,9 @@ Test(statistics, free)
     unsigned int num_stat = 1;                                                  
                                                                                
     statistics_display_t *stats;                                                
-    stats = make_statistics_display(c,stat,num_stat,m);                         
+    stats = new_statistics_display(c,stat,num_stat,m);                         
                                                                                  
-    cr_assert_not_null(stats,"make_statistics_display() failed"); 
+    cr_assert_not_null(stats,"new_statistics_display() failed"); 
 
     rc = free_statistics_display(stats);
 

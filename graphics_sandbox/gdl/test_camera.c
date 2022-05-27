@@ -27,12 +27,12 @@ Test(camera, init)
     camera_t camera;
     int rc;
     
-    rc = init_camera(&camera,width,height);
+    rc = init_camera(&camera, width, height);
 
     cr_assert_eq(rc, SUCCESS, "init_camera() failed");
 
-    cr_assert_eq(camera->width,300,"init_camera() didn't set width");
-    cr_assert_eq(camera->height,300,"init_camera() didn't set height");
+    cr_assert_eq(camera.width,300,"init_camera() didn't set width");
+    cr_assert_eq(camera.height,300,"init_camera() didn't set height");
 }
 
 /* Tests taht free_camera properly frees a heap allocated camera struct */

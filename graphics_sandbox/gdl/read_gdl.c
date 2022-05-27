@@ -1,5 +1,5 @@
 #include "read_gdl.h"
-#include "../raylib_itself/raylib-multiple-contexts-hack/src/raylib.h"
+#include "raylib.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -419,8 +419,10 @@ graphics_t* read_gdl()
     graphics->inventory = inventory_display;
     return graphics;
 }
-
+/*
 int main()
 {
+    printf("having issues");
     return 0;
 }
+*/
