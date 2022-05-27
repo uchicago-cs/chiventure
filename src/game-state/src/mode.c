@@ -167,31 +167,26 @@ int run_battle_mode (char *input, cli_callback callback_func,
     }
 
     // iterate to the next turn component
-    turn_component_list_t *curr_tcl = ctx->game->battle_ctx->current_turn_tcl;
-        curr_tcl = curr_tcl->next;
-
-    // if the turn is still going, print action summary and next menu to cli
-    if (curr_tcl != NULL)
-    {
-        move_t *legal_moves = NULL;
-        battle_item_t *legal_items = NULL;
-        get_legal_actions(&legal_items, &legal_moves, curr_tcl->current, 
-                          ctx->game->battle_ctx->game->battle);
-        char *menu = print_battle_action_menu(legal_items, legal_moves);
-        char *output_and_menu = strcat(output, menu);
-        return callback_func(ctx, output_and_menu, callback_args);
-    }
+    battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
+    battle_ctx->current_turn_tcl = battle_ctx->current_turn_tcl->next;
     
     // if the turn is over, run enemy turn then print turn summary and next menu to cli
-    else 
+    if (battle_ctx->current_turn_tcl == NULL)
     {
-        ctx->game->battle_ctx->game->battle->turn = ENEMY;
-        ctx->game->battle_ctx->current_turn_tcl = ctx->game->battle_ctx->tcl;
+        battle_ctx->game->battle->turn = ENEMY;
+        battle_ctx->current_turn_tcl = battle_ctx->tcl;
         char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
-        char *output_and_enemy_turn = strcat(output, enemy_turn);
+        output = strcat(output, enemy_turn);
         ctx->game->battle_ctx->game->battle->turn = PLAYER;
-        ctx->game->battle_ctx->current_turn_tcl = ctx->game->battle_ctx->tcl;
-        return callback_func(ctx, output_and_enemy_turn, callback_args);
+        battle_ctx->current_turn_tcl = battle_ctx->tcl;
     }
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(&legal_items, &legal_moves, 
+                      battle_ctx->current_turn_tcl->current, 
+                      ctx->game->battle_ctx->game->battle);
+    char *menu = print_battle_action_menu(legal_items, legal_moves);
+    char *output_and_menu = strcat(output, menu);
+    return callback_func(ctx, output_and_menu, callback_args);
 }
 
