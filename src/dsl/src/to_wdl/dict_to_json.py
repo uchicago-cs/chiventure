@@ -25,6 +25,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
     else:
         rooms_dict = intermediate.pop("rooms")
         for room_name, contents in rooms_dict.items():
+            print("room contents: ", contents)
             room_items = contents["items"]
             room_items_objs = []
             for item in room_items:
@@ -35,16 +36,23 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
                 items.append(item_obj)
                 room_items_objs.append(item_obj)
             contents["items"] = room_items_objs
+            print("contents item:", contents["items"])
             rooms.append(Room(room_name, contents, default))
     
     if "player_class" not in intermediate:
         warn("This game has no players.")
     else:
         player_class_dict = intermediate.pop("player_class")
-        for p_class, content in player_class_dict.items():
+        for p_class, contents in player_class_dict.items():
             # player_class_ATTRIBUTES = content["attributes"]
             # player_class_BASESTATS = content["base_stats"]
-            player_class.append(Player_Class(player_class, content, default))
+            contents["attributes"] = []
+            contents["base_stats"] = []
+            print("contents attributes:", contents["attributes"])
+            print("contents bs:", contents["base_stats"])
+        
+            # print("content: ", contents)
+            player_class.append(Player_Class(p_class, contents, default))
     
     game = Game(intermediate, default)
     
