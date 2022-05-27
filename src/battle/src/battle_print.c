@@ -106,8 +106,6 @@ int print_battle_damage(battle_t *b, turn_t turn, move_t *move, double crit, cha
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
-    int rc = print_hp(b, string);
-    assert(rc == SUCCESS);
     return SUCCESS;
 }
 

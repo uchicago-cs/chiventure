@@ -60,6 +60,7 @@ int main()
     npc_battle_t *npc_b = npc_battle_new(e_stats, e_moves, BATTLE_AI_GREEDY, HOSTILE, make_minion(), 
                                         make_items(), NULL, NULL, NULL);
     e->npc_battle = npc_b;
+    npc_b->moves = generate_moves_enemy_one();
     
     battle_ctx_t *ctx = (battle_ctx_t*) calloc(1, sizeof(battle_ctx_t));
 
@@ -108,6 +109,22 @@ int main()
         {
             printf("Turn %d: \n",turn);
             printf("%s", res2);
+            printf("    p | hp: %d\n", ctx->game->battle->player->stats->hp);
+            printf("    e | hp: %d\n\n", ctx->game->battle->enemy->stats->hp);
+            printf("User's attack %d\n",ctx->game->battle->player->stats->phys_atk);
+            printf("Enemies's attack %d\n",ctx->game->battle->enemy->stats->phys_atk);
+            turn++;
+        }
+        char *res3 = enemy_make_move(ctx);
+        if(strcmp(res3, "FAILURE") == 0)
+        {
+            fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
+            ctx = NULL;
+        }
+        else
+        {
+            printf("Turn %d: \n",turn);
+            printf("%s", res3);
             printf("    p | hp: %d\n", ctx->game->battle->player->stats->hp);
             printf("    e | hp: %d\n\n", ctx->game->battle->enemy->stats->hp);
             printf("User's attack %d\n",ctx->game->battle->player->stats->phys_atk);
