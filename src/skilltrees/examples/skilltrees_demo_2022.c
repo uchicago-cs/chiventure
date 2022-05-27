@@ -559,6 +559,17 @@ char* combined_monologue(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
     return "";
 }
 
+//Random Skills lecture -- random code wasn't merged soon enough to use in the 
+//demo, however we put a brief acknowledgement of it here
+char* random_monologue(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{   
+    print_to_cli(ctx, "Mentor: Random skills are a recent addition to our "
+                        "curriculum. However, only distinguished pupils may " 
+                        "learn these powerful skills, and you are a novice. "
+                        "Perhaps in 20 years you'll be ready.");
+    return "";
+}
+
 //Lecture by Mentor about documentation
 char* mentor_monolouge(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {   
@@ -656,6 +667,7 @@ void main()
     add_entry("TURN_INTO_ORC_AGAIN", change_class_to_orc_again , NULL, ctx->cli_ctx->table);
     add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
     add_entry("READ_TOME", read_book, NULL, ctx->cli_ctx->table);
+    add_entry("ASK_ABOUT_RANDOM_SKILLS", random_monologue, NULL, ctx->cli_ctx->table);
     add_entry("READ_WEAKNESS", read_weakness , NULL, ctx->cli_ctx->table);
 
     //Start UI for example chiventure context
