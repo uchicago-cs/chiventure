@@ -17,13 +17,19 @@ void yyerror(char* s);
   word_ll *word_list;
 }
 
-/* tokens */
+/* tokens defined in the .l file! */
 %token EOL /* end of line, newline char */
 %token GO
 %token TO
 %token FIGHT
+%token OPEN
+%token CLOSE
+%token THE
 %token<word> CREDITS
 %token<word> WORD
+
+%type<word> kind1_action
+%type<word> kind1_action_keyword
 
 %type<word_list> phrase 
 %type<word_list> go_cmd
@@ -34,10 +40,22 @@ void yyerror(char* s);
 line
   : 
   | line go_cmd EOL { handle_go_cmd($2); }
+  | line kind1_action phrase EOL { printf("handling : [%s]\n",$2); }
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
   | line phrase EOL { handle_cmd($2); }
   ;
+
+kind1_action
+  : kind1_action_keyword { $$ = $1; }
+  | kind1_action_keyword THE { $$ = $1; }
+  ;
+
+kind1_action_keyword
+  : OPEN  { $$ = $1; }
+  | CLOSE  { $$ = $1; }
+  ;
+
 
 go_cmd
   : GO TO phrase { $$ = $3; }

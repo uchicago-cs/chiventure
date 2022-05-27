@@ -9,6 +9,11 @@
 
 %%
 
+    /* this takes in start of line and "open" and returns the token OPEN */
+^open { return OPEN; }
+
+the { return THE; }
+
 ^GO|go|Go|gO|head|move|walk  { return GO; }
 
 TO|to|To|tO   { return TO; }
