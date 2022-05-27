@@ -383,7 +383,7 @@ Test(battle_logic, use_battle_weapon)
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = player;
     battle->enemy = enemy;
-    
+    // 
     int expected_hp = battle->enemy->stats->hp + weapon->hp;
     int expected_strength = battle->enemy->stats->phys_atk + weapon->attack;
     int expected_defense = battle->enemy->stats->phys_def + weapon->defense; 
