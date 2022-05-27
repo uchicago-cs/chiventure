@@ -85,5 +85,19 @@ python src/parse.py <dsl file> <optional destination> --debug
 If it only contains supported features, you can then run your newly created game in Chiventure. From the `src/dsl` directory, assuming you've built Chiventure: 
 
 ```
-../../build/chiventure examples/wdl/<filename>.wdl
+../../build/chiventure examples/wdl/<filename>.wdl 
 ```
+
+### Running tests
+The dsl module has built in tests to ensure than any new changes and features implemented do not affect the output of previously implemented features. These tests can be found in the `tests` subdirectory.
+
+From the `src/dsl` directory, you can run all of the tests in the `tests/dsl_tests` subdirectoy using:
+```
+python src/test.py
+```
+The testing module also supports flags `--show` and `--file=filename`: 
+
+```
+python src/test.py --show --file=room_test.dsl --file=min_test.dsl
+```
+The `--show` flag will print out the first discrepancy between expected and actual output for each test that fails. The `--file=filename.dsl` flag will test just one file located in the `tests/dsl_tests` subdirectory. This flag can be used multiple times in order to run multiple files at once. 
