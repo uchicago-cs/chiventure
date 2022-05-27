@@ -275,14 +275,13 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
-* - tag: corresponds to the tag in the room struct of all rooms of this roomspec
 * NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
 *
 * returns:
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
 */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
 
 /* roomspec_free
 * Frees a roomspec_t* and returns whether or not it was succesful.
