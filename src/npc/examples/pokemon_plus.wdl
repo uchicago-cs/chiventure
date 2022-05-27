@@ -6,7 +6,26 @@
             "in_room": "End Room"
         }
     },
-    "QUESTS": NULL,
+    "Quests": {
+        "Quest Name": "Talk to Oak",
+        "Rewards": {
+            "XP": 100
+        },
+        "Task Tree": [
+            {
+                "Task Name":"Talk to Oak"
+            }
+        ],
+        "Task List": [
+            {
+                "Task Name": "Talk to Oak",
+                "Mission": {
+                    "Target Name": "OAK",
+                    "Type": "Meet NPC"
+                }
+            }
+        ]
+    },
     "ROOMS": {
         "Bedroom": {
             "short_desc": "ASH's bedroom",
@@ -225,16 +244,15 @@
                         "to_id": "2b"
                     }
                 ]
-            }
-            "Quest,
+            },
             "Quests": [
                 {
-                    "Mom Says Hi": "Q1",
+                    "Quest Name": "Talk to Oak",
                     "Dialogue": {
                         "nodes": [
                             {
                                 "id": "1",
-                                "npc_dialogue": "Oh, since you're heading there, could you do me a favor?"
+                                "npc_dialogue": "Oh, since you're heading there, could you do me a favor? I need you to ask the pofessor to stop by and pick up his book now that I'm done borrowing it"
                             },
                             {
                                 "id": "2a",
@@ -253,39 +271,6 @@
                             },
                             {
                                 "quip": "Ughh, do I have to?",
-                                "from_id": "1",
-                                "to_id": "2b"
-                            }
-                        ]
-                    }
-                }
-            ],
-            "Tasks": [
-                {
-                    "Mom Says Hi": "Q1",
-                    "Dialogue": {
-                        "nodes": [
-                            {
-                                "id": "1",
-                                "npc_dialogue": "So for my favor, could you tell the Professor to stop by to pick up his book now that I'm done borrowing it?"
-                            },
-                            {
-                                "id": "2a",
-                                "npc_dialogue": "Great! Thanks sweetie."
-                            },
-                            {
-                                "id": "2b",
-                                "npc_dialogue": "*Tsks* Go now, and it won't take long."
-                            }
-                        ],
-                        "edges": [
-                            {
-                                "quip": "I can do that.",
-                                "from_id": "1",
-                                "to_id": "2a"
-                            },
-                            {
-                                "quip": "But whyyyyy...",
                                 "from_id": "1",
                                 "to_id": "2b"
                             }
@@ -427,6 +412,39 @@
                         "quip": "I'll take Charmander.",
                         "from_id": "3",
                         "to_id": "6c"
+                    }
+                ],
+                "Tasks": [
+                    {
+                        "Task Name": "Talk to Oak",
+                        "Dialogue": {
+                            "nodes": [
+                                {
+                                    "id": "1",
+                                    "npc_dialogue": "Hello, lad, what seems to be the problem?"
+                                },
+                                {
+                                    "id": "2a",
+                                    "npc_dialogue": "Alright, I'll pick it up tomorrow!"
+                                },
+                                {
+                                    "id": "2b",
+                                    "npc_dialogue": "Oh?! I'll head over right away!"
+                                }
+                            ],
+                            "edges": [
+                                {
+                                    "quip": "My mom finished with your book",
+                                    "from_id": "1",
+                                    "to_id": "2a"
+                                },
+                                {
+                                    "quip": "My mom wants to see you ;)",
+                                    "from_id": "1",
+                                    "to_id": "2b"
+                                }
+                            ]
+                        }
                     }
                 ]
             }
