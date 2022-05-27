@@ -170,9 +170,8 @@ void handle_view_cmd(word_ll *phrase){
 void handle_kind1_cmd(word_ll *phrase){
 
     word_ll *p = phrase;
-    
     if (p->word == NULL) {
-            printf("Theres nothing there!");
+            printf("Theres nothing there! \n");
         } 
     else{
         printf("%s ", p->word);
