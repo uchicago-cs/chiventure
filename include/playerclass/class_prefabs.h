@@ -54,13 +54,17 @@ int class_prefab_add_skills(class_t* class);
  *  - class: the class that the item is associated with.
  *
  * Returns:
- *  - an item struct
+ *  - an item struct, with an ID, short description, and long description,
+ *    or NULL if the input class is not found
  * 
  * Notes:
  *  - Since items aren't an intrinsic part of classes, this function would
  *    likely be used in conjunction with creation of a player in game state.
  *  - The current version of the function doesn't have item effects. This could
- *    be added later
+ *    be added later.
+ *  - The function currently only returns one item; this could be expanded later
+ *    to return multiple. It's structured in a way that would likely accomodate
+ *    such a change.
  */
 item_t* class_prefab_add_items(class_t* class);
 
