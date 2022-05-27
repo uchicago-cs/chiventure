@@ -5,30 +5,21 @@
 #include <math.h>
 #include "quests/quests_cli.h"
 
-// Helper function to get the necessary buffer length for get_show_quests 
-int get_show_quests_buffer(player_t *player) {
-    int buff_count = 0;
-    for (player_quest_hash_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
-        buff_count += 100;
-    }
-    return buff_count;
-}
-
 // Helper function to convert completion enums to strs
 char *completion_to_str(completion_status_t completion) {
-    char *str = (char*)malloc(sizeof(char) * 20);
+    char *str = calloc(1, 11);
     switch (completion) {
         case Q_FAILED: 
-            str = "Q_FAILED";
+            strncpy(str, "Failed", 6);
             break;
         case Q_UNACQUIRED:
-            str = "Q_UNACQUIRED";
+            strncpy(str, "Unacquired", 10);
             break;
         case Q_STARTED:
-            str = "Q_STARTED";
+            strncpy(str, "Started", 7);
             break;
         case Q_COMPLETED:
-            str = "Q_COMPLETED";
+            strncpy(str, "Completed", 9);
             break;
     }
     return str;
@@ -38,13 +29,11 @@ char *completion_to_str(completion_status_t completion) {
 /* See quests_cli.h */
 char* show_quests(player_t *player)
 {
-    //int buff_count = get_show_quests_buffer(player);
-    //char *buffer = (char*)malloc(sizeof(char) * buff_count);
-    //char *first = player->player_quests->quest_id;
-    int cur_len = 2;
+    assert(player != NULL);
+    int cur_len = 1;
     char *prev = malloc(cur_len);
-    prev = " \0";
-    for (player_quest_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
+    prev = '\0';
+    for (player_quest_t *cur = player->player_quests; cur != NULL; cur = cur->hh.next) {
         char *quest_id = cur->quest_id;
         char *completion = completion_to_str(cur->completion);
         char *buf = malloc(18+strlen(quest_id)+strlen(completion));
@@ -98,10 +87,10 @@ char **get_task_block(task_t *task, player_t *player) {
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
     char **block = get_empty_block();
     int len = strlen(task->id);
-    strncpy(block[0], task->id, MIN(len, 25));
+    strncpy(block[0], task->id, MIN(len, 22));
     int i = 1;
     if(strlen(task->id) > 25) {
-        strncpy(block[1], task->id + 25, len - 25);
+        strncpy(block[1], task->id + 22, len - 22);
         i = 2;
     }
     strncpy(block[i], ptask != NULL ? (ptask->completed ? "Status: Completed!" : "Status: Incomplete") : "Status: Inactive  ", 18);
