@@ -5,7 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
-#include "quests/quests_structs.h"
+#include "quests/quests_state.h"
 #include "npc/dialogue.h"
 #include "condition.h"
 #include "game_action.h"
@@ -316,8 +316,8 @@ bool is_game_over(game_t *game);
 * WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
-int create_connection(game_t *game, char* src_room, char* dest_room,
-    			char* direction);
+int create_connection(game_t *game, char *src_room, char *dest_room,
+    			char *direction);
 
 /*
 *
@@ -439,8 +439,8 @@ int add_item_to_player(player_t *player, item_t *item, game_t *game);
 * - ACTION_NULL if action is null
 * - ATTRIBUTE_NULL if attribute is null
 */
-int add_effect(game_t *game, char* action_name, char* item_src_name,
-           char* item_modify_name, char* attribute_name, attribute_value_t new_value);
+int add_effect(game_t *game, char *action_name, char *item_src_name,
+           char *item_modify_name, char *attribute_name, attribute_value_t *new_value);
 
 /* add_condition adds the given condition struct to the action pointed to
  * Parameters:
