@@ -122,7 +122,7 @@ chiventure_ctx_t* create_example_ctx() {
 
     /*Initializing class */
     class_t* test_class = class_new("NOTHING YET", "", "", NULL, NULL, NULL);
-    test_class->skilltree = skill_tree_new(1001, "TEST Tree", 2);
+    test_class->skilltree = skill_tree_new(1001, "TEST Tree", 3);
     player->level = 1;
     player->player_class = test_class;
     player->player_skills = inventory_new(5,5);
@@ -181,9 +181,10 @@ int execute_skill(chiventure_ctx_t* ctx, int sid)
     
     /*Find the correct skill */
     int i = 1;
-    while ((skill->sid != sid)&&(i<=1)) 
+    while ((skill->sid != sid)&&(i<=2)) 
     {
         skill_node = player->player_class->skilltree->nodes[i];
+        i += 1;
         skill = skill_node->skill;
     }
     if(skill->sid != sid) 
@@ -267,7 +268,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
     
     /*Find the correct skill */
     int i = 1;
-    while ((skill->sid != sid)&&(i<=1)) 
+    while ((skill->sid != sid)&&(i<=2)) 
     {
         skill_node = player->player_class->skilltree->nodes[i];
         i +=1;
@@ -276,6 +277,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
 
     /* Add to inventory */
     inventory_skill_add(ctx->game->curr_player->player_skills, skill_node -> skill);
+        
     
      return SUCCESS;
 }
@@ -393,20 +395,22 @@ int execute_conditional_skill(chiventure_ctx_t* ctx, int sid)
     skill_t* skill = skill_node->skill;
     
     /*Find the correct skill */
-    int i = 2;
-    while ((skill->sid != sid)&&(i<=1)) 
+    int i = 1;
+    while ((skill->sid != sid)&&(i<=2)) 
     {
         skill_node = player->player_class->skilltree->nodes[i];
+        i += 1;
         skill = skill_node->skill;
     }
     if(skill->sid != sid) 
     {
+        print_to_cli(ctx, "GOT HERE, FAILURE ");
         return FAILURE;
     }
     /* Execute the effect */
     int check = execute_reader_effect(skill->complex->reader, ctx);
 
-    // print_to_cli(ctx, "GOT HERE ");
+
     if(check == 1){
         //Text when user smashes dummy
         print_to_cli(ctx, "You smash the dummy to pieces. Your honor is restored. ");
@@ -442,14 +446,15 @@ int execute_conditional_window_skill(chiventure_ctx_t* ctx, int sid)
     skill_t* skill = skill_node->skill;
     
     /*Find the correct skill */
-    int i = 2;
-    while ((skill->sid != sid)&&(i<=1)) 
+    int i = 1;
+    while ((skill->sid != sid)&&(i<=2)) 
     {
         skill_node = player->player_class->skilltree->nodes[i];
+        i += 1;
         skill = skill_node->skill;
     }
     if(skill->sid != sid) 
-    {
+    {   
         return FAILURE;
     }
     /* Execute the effect */
