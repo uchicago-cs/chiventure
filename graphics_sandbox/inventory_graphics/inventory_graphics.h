@@ -8,11 +8,12 @@
  */
 
 
-#include "../include/game-state/item.h"
-#include "../include/game-state/player.h"
-#include "read_gdl.h"
+#include "../../include/game-state/item.h"
+#include "../../include/game-state/player.h"
+#include "../gdl/read_gdl.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 
 /* Defines the status for a slot */
 typedef enum status {EMPTY, FULL} status;
@@ -23,6 +24,7 @@ typedef struct slot {
     status status;
     item_t *item;
 } slot_t;
+
 
 /*
  * Populates the 2D array that will be used to hold items for inventory 

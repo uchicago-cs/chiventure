@@ -1,6 +1,5 @@
-test: test_inventory_graphics.c inventory_graphics.c inventorytest.c
-	cc inventorytest.c test_inventory_graphics.c inventory_graphics.c -framework IOKit -framework Cocoa -framework OpenGL `pkg-config --libs --cflags raylib` -I../../include/game-state -I../../include -I../../include/gdl -o test
-
+test_inventory_graphics: test_inventory_graphics.c inventory_graphics.c
+	cc test_inventory_graphics.c inventory_graphics.c -framework IOKit -framework Cocoa -framework OpenGL `pkg-config --libs --cflags raylib` -I../../include/ -I../gdl/read_gdl.h -o test_inventory_graphics
 
 clean:
-	rm test inventory_graphics test_inventory_graphics
+	rm inventory_graphics test_inventory_graphics
