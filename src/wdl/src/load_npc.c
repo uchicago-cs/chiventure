@@ -382,7 +382,7 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task,
 
 
 
-/* load_quests
+/* load_npc_quests
  * loads quests into the given NPC
  * based heavily on load_dialogue implementation
  *
@@ -395,7 +395,7 @@ int load_task_dialogue(obj_t *task_convo_obj, npc_task_t *task,
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
 */
-int load_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
+int load_npc_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
 {
     npc_quest_list_t *quests = npc_quest_list_new();
 
@@ -408,7 +408,7 @@ int load_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
     DL_FOREACH(quests_obj_list->data.lst, curr)
     {
         if (npc_quest_type_check(curr) == FAILURE) {
-            fprintf(stderr, "npc quest is not in the correct format");
+            fprintf(stderr, "npc quest is not in the correct format"); // FIRST //
             return FAILURE;
         }
 
@@ -455,7 +455,7 @@ int load_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
 }
 
 
-/* load_tasks
+/* load_npc_tasks
  * loads tasks into the given NPC
  * based heavily on load_dialogue implementation
  *
@@ -468,7 +468,7 @@ int load_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
  * - SUCCESS for successful parse
  * - FAILURE for unsuccessful parse
 */
-int load_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
+int load_npc_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
 {
     npc_task_list_t *tasks = npc_task_list_new();
 
@@ -592,7 +592,7 @@ int load_npcs(obj_t *doc, game_t *g)
         // load quests
         obj_list_t *quests_obj_list;
         if ((quests_obj_list = obj_get_list(curr, "Quests")) != NULL) {
-            if (load_quests(quests_obj_list, npc, g) != SUCCESS) {
+            if (load_npc_quests(quests_obj_list, npc, g) != SUCCESS) {
                 fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
@@ -602,7 +602,7 @@ int load_npcs(obj_t *doc, game_t *g)
         // load tasks
         obj_t *tasks_obj_list;
         if ((tasks_obj_list = obj_get_list(curr, "Tasks")) != NULL) {
-            if (load_tasks(tasks_obj_list, npc, g) != SUCCESS) {
+            if (load_npc_tasks(tasks_obj_list, npc, g) != SUCCESS) {
                 fprintf(stderr, "Tasks was not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
