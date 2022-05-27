@@ -1,8 +1,47 @@
 =======
-# Sound Library for Chiventure
+# Sound Libraries for Chiventure
 
+# TTS
 ## About
+* A simple struct which interfaces with the espeak-ng text-to-speech library
+* Find the espeak github here: https://github.com/espeak-ng/espeak-ng
 
+## Basic Structure
+```c
+    typedef struct{
+        char* voicename; // The name of the speaker
+        /* voicename cannot be anything - you can find a list of all
+        possible voices by running espeak --voices. */
+        char* text; // The text which will be spoken
+        int buflength; // The buffer length in ms of sound buffers
+    } tts_t;
+```
+## Key Functions
+```c
+// malloc and fill a tts_t struct with the necessary data
+tts_t* init_tts(char* voicename, char* text, int buflength);
+
+// free the malloc'd components of a tts_t struct and the struct itself
+void free_tts(tts_t* t);
+
+// use the espeak library to speak the text content of a tts_t struct
+void speak(tts_t* t);
+```
+## Example Demo
+There is a working demo of the tts struct in /src/sound/examples called test-tts.c The demo itself is fairly simple, which is a testament to the hassle of using espeak that the struct saves. You can try the demo out for yourself by running the following in /src/sound/examples:
+```
+make tts
+./test-tts
+```
+Note: for the demo to compile and run properly you will need to have the espeak libraries installed. This can be done with:
+```
+sudo apt install espeak-ng libespeak-ng1 libespeak-ng-dev
+```
+## Current Status and Future Changes
+The struct and library function, but only at a basic level. The espeak library offers a wide range of options and parameters to alter, which could be fairly easily accounted for by modifying the contents of the struct and altering the calls to speak(). Of course, some additional lines will need to be added to init_tts() and free_tts(), but this is also not a challenge. I leave these tasks for a future group who wants to get their feet wet and understand espeak and the tts struct. It should be a fairly easy 30 points :)
+
+# SDL
+## About
 * A simple SDL Audio library that will be used to load/play sound file
 * The code was inspired from https://gigi.nullneuron.net/gigilabs/playing-a-wav-file-using-sdl2/
 * The code referenced for the demo is from https://youtu.be/YB2MbgDsLaA)
