@@ -284,8 +284,8 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         return string;
     }
 
-    char *item_name = calloc(150, sizeof(char));
-    strcpy(item_name, item->name);
+    /*char *item_name = calloc(150, sizeof(char));
+    strcpy(item_name, item->name);*/
 
     int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item->name);
     string = print_battle_item(ctx->game->battle, PLAYER, item);
@@ -412,47 +412,50 @@ char *enemy_make_move(battle_ctx_t *ctx)
 /* see battle_flow.h */
 char *run_action(char *input, chiventure_ctx_t *ctx)
 {
+    move_t *temp_move;
+    battle_item_t *temp_item;
     if (input[0] == 'M' || input[0] == 'm')
     {
         // take the index of the move, under the assumption that the list is less than 10 moves long
         int index = (int) (input[1] - 48);
+        temp_move = ctx->game->battle_ctx->game->player->moves;
         for (int k = 0; k < index; k++)
         {
-            if (ctx->game->battle_ctx->game->player->moves == NULL)
+            //if (ctx->game->battle_ctx->game->player->moves == NULL)
+            if (temp_move == NULL)
             {
                 return "That move does not exist.";
             }
             if (k == index-1)
             {
                     return battle_flow_move(ctx->game->battle_ctx, 
-                                ctx->game->battle_ctx->game->player->moves, 
+                                temp_move, 
                                 ctx->game->battle_ctx->game->battle->enemy->name);
             }
             else
             {
-                ctx->game->battle_ctx->game->player->moves = 
-                ctx->game->battle_ctx->game->player->moves->next;
+                temp_move = temp_move->next;
             }
         }
     } 
     else if (input[0] == 'I' || input[0] == 'i')
     {
         int index = (int) (input[1] - 48);
+        temp_item = ctx->game->battle_ctx->game->player->items;
         for (int k = 0; k < index; k++)
         {
-            if (ctx->game->battle_ctx->game->player->items == NULL)
+            if (temp_item == NULL)
             {
                 return "That item does not exist.";
             }
             if (k == index-1)
             {
                 return battle_flow_item(ctx->game->battle_ctx, 
-                                ctx->game->battle_ctx->game->player->items);
+                                temp_item);
             }
             else 
             {
-                ctx->game->battle_ctx->game->player->items = 
-                ctx->game->battle_ctx->game->player->items->next;
+                temp_item = temp_item->next;
             }
         }
     } 

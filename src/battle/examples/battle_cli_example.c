@@ -61,6 +61,9 @@ battle_player_t * create_player_one()
     p_stats->accuracy = 100;
     battle_item_t *p1_item = make_items();
     move_t *p1_move = generate_moves_user_one();
+    move_t *second_batch = generate_moves_user_two();
+    p1_move->next->next = second_batch;
+    second_batch->prev = p1_move->next->next;
     class_t *p1_class = make_sorcerer();
     battle_player_t *p1 = new_ctx_player("Nicholas the Wise", p1_class, 
                                          p_stats, p1_move, p1_item, 
@@ -70,13 +73,52 @@ battle_player_t * create_player_one()
 npc_t *create_minion_one() 
 {
   // create enemy one (minion)
-    stat_t *e_stats = get_random_stat();
+    stat_t *e_stats = (stat_t*) calloc(1, sizeof(stat_t));
+    e_stats->hp = 80;
+    e_stats->max_hp = 80;
+    e_stats->xp = 10;
+    e_stats->speed = 8;
+    e_stats->level = 3;
+    e_stats->phys_def = 20;
+    e_stats->mag_def = 20;
+    e_stats->phys_atk = 80;
+    e_stats->mag_atk = 80;
+    e_stats->sp = 100;
+    e_stats->max_sp = 100;
+    e_stats->crit = 25;
+    e_stats->accuracy = 100;
     move_t *e_move = generate_moves_enemy_one();
     class_t *e_class = make_minion();
     battle_item_t *p_item = make_items();
     npc_t *e = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", e_class, NULL, HOSTILE);
     npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, 
                                           HOSTILE, e_class, p_item, NULL, NULL, NULL);
+    e->npc_battle = npc_b;
+    return e;
+}
+npc_t *create_ninja()
+{
+  // create enemy one (minion)
+    stat_t *e_stats = (stat_t*) calloc(1, sizeof(stat_t));
+    e_stats->hp = 80;
+    e_stats->max_hp = 80;
+    e_stats->xp = 10;
+    e_stats->speed = 8;
+    e_stats->level = 3;
+    e_stats->phys_def = 20;
+    e_stats->mag_def = 20;
+    e_stats->phys_atk = 80;
+    e_stats->mag_atk = 80;
+    e_stats->sp = 100;
+    e_stats->max_sp = 100;
+    e_stats->crit = 25;
+    e_stats->accuracy = 100;
+    move_t *e_move = generate_moves_enemy_one();
+    class_t *e_class = make_minion();
+    battle_item_t *p_item = make_items();
+    npc_t *e = npc_new("ninja", "Enemy Minion!", "Enemy Minion!", e_class, NULL, HOSTILE);
+    npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, 
+                                          HOSTILE, e_class, p_item, make_zenith(), make_razor_claw(), make_ninja_armor());
     e->npc_battle = npc_b;
     return e;
 }
@@ -105,12 +147,14 @@ room_t *setup_battle_one(chiventure_ctx_t *ctx)
     // creates player 1 (sorcerer), and minion 1 (no armor)
     battle_player_t *p1 = create_player_one();
     npc_t *e1 = create_minion_one();
+    npc_t *e2 = create_ninja();
     
     // create a room and add the npc to it
     room_t *room = room_new("room1", 
                             "This is The Room", 
                             "You are in a torchlit hallway. a minion blocks your path.");
     add_npc_to_room(room->npcs, e1);
+    add_npc_to_room(room->npcs, e2);
 
     //adds battle_player to battle_ctx
     battle_ctx->game->player = p1;
