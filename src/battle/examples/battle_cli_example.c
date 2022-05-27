@@ -60,6 +60,7 @@ npc_t *create_minion_one()
     stat_t *e_stats = get_random_stat();
     move_t *e_move = generate_moves_enemy_one();
     class_t *e_class = make_minion();
+    battle_item_t *p_item = make_items();
     npc_t *e = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", e_class, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, 
                                           HOSTILE, e_class, p_item, NULL, NULL, NULL);
@@ -80,14 +81,15 @@ void setup_battle_one(chiventure_ctx_t *ctx)
     battle_ctx->game = g;
 
     // creates player 1 (sorcerer), and minion 1 (no armor)
-    battle_player_t *p1 = create_player_one() 
+    battle_player_t *p1 = create_player_one();
     npc_t *e1 = create_minion_one();
 
     //adds battle_player to battle_ctx
     battle_ctx->game->player = p1;
 
     /* TODO: ADD NPC TO ROOM!!! */
-
+    add_npc_to_room(ctx->game->curr_room->npcs, e1);
+    
     // add battle context to the game
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
 }
