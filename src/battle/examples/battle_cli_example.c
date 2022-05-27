@@ -86,6 +86,9 @@ room_t *setup_battle_one(chiventure_ctx_t *ctx)
 {
     srand(time(0)); // sets seed
 
+    // creates a battle_ctx for the battle
+    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
+
     // sets up the turn component list
     turn_component_t *tc1 = new_turn_component(1, 1, 0);
 
@@ -93,12 +96,8 @@ room_t *setup_battle_one(chiventure_ctx_t *ctx)
 
     turn_component_list_t *turn_cl_rest = new_turn_component_list(tc2, NULL);
     turn_component_list_t *turn_cl = new_turn_component_list(tc1, turn_cl_rest);
+    battle_ctx->tcl = turn_cl;
 
-    ctx->game->battle_ctx->tcl = turn_cl;
-    
-    // creates a battle_ctx for the battle
-    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
-    
     // creates a game and attaches it to the battle_ctx
     battle_game_t *g = new_battle_game();
     battle_ctx->game = g;
@@ -132,7 +131,7 @@ int main(int argc, char **argv)
     
     // set up the battle_ctx and the room
     room_t *room = setup_battle_one(ctx);
-    
+
     // add the room to the game in the chiventure_ctx
     add_room_to_game(game, room);
     game->curr_room = room;

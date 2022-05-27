@@ -697,8 +697,6 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     
     npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
 
-    printf("Got the npc in the room, it is called %s\n", npc->npc_id);
-
     /* note: This assumes that the NPC name 
      * is only one token long, and that the command is exactly "fight npc_name". */
     
@@ -709,8 +707,6 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (npc->hostility_level != HOSTILE) {
         return "%s does not want to fight.", tokens[1];
     }
-
-    printf("here is after all of the if statements\n");
 
     // this is the current player from the chiventure context
     player_t *player = ctx->game->curr_player;
@@ -752,22 +748,20 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     int rc = start_battle(ctx->game->battle_ctx, npc, 
                           ENV_GRASS /* eventually this should be stored in 
                                        the room struct */);
-    printf("Done initializing everything\n");
     // prints the beginning of the battle 
     char *start = print_start_battle(ctx->game->battle_ctx->game->battle);
     int start_rc = print_to_cli(ctx, start);
-    printf("here is print_start_battle \n");
 
 
     turn_component_t *current_tc = ctx->game->battle_ctx->tcl->current;
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
-    printf("Done creating all the things for get_legal_actions\n");
     get_legal_actions(legal_items, legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
+    //printf("\n items: %0x, moves: %0x\n",legal_items, legal_moves);
     char *menu = print_battle_action_menu(legal_items, legal_moves);
 
-    printf("here is print_battle_action_menu, which is %s", menu);
+    //printf("here is print_battle_action_menu, which is %s\n", menu);
 
     ctx->game->battle_ctx->game->battle->current_tc = ctx->game->battle_ctx->tcl->next->current;//current_tc; // don't we want to move this down?
 

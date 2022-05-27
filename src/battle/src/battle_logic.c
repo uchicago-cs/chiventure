@@ -308,7 +308,7 @@ void get_legal_actions(battle_item_t *items,
   if(comp->move) {
     moves = current_actor->moves;
   }
-  
+  //printf("  move: %c, item: %c\n",*moves->name,*items->name);
   return;
 }
 
