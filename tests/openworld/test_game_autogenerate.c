@@ -25,7 +25,7 @@ Test(autogenerate, game_autogenerate_static_random_first_room){
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     spec3->tag=2;
     roomspec_t *roomspecs[3]={spec1, spec2, spec3};
-
+    cr_assert_eq(0, 1, "failed to autogenerate game with only one roomspec\n");  
     int *matrix=(int*)malloc(9*sizeof(int));
 
     matrix[0]=5;
@@ -43,8 +43,7 @@ Test(autogenerate, game_autogenerate_static_random_first_room){
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
     gencontext_t *context;
-    context->specgraph=specgraph;
-    cr_assert_eq(0, 1, "failed to autogenerate game with only one roomspec\n");    
+    context->specgraph=specgraph;  
     int rc=game_autogenerate_static(game, context, 5, "pickrandomly");
 
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a randomly chosen first room\n");
