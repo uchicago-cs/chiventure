@@ -418,20 +418,14 @@ int execute_random_switch_complex_skill(random_switch_type_t* switch_skill, chiv
 
     int value = random_float_generator(total);
 
-    // Check for first skill
-    if (value < switch_skill->chances[0]){
-        skill_execute(switch_skill->complex_skill->skills[0], ctx);
-        return SUCCESS;
-    }
-
-    // Check subsequent skills
-    float running_total = switch_skill->chances[0];
-    for (int i = 1; i < switch_skill->complex_skill->num_skills; i++){
+    float running_total = 0;
+    for (int i = 0; i < switch_skill->complex_skill->num_skills; i++){
         if ((value >= running_total) && (value < (running_total + switch_skill->chances[i]))){
             skill_execute(switch_skill->complex_skill->skills[i], ctx);
             return SUCCESS;
         }
         running_total += switch_skill->chances[i];
     }
+
     return SUCCESS;
 }
