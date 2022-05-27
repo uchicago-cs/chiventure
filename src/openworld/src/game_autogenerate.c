@@ -17,8 +17,10 @@
 #include "common/uthash.h"
 #include "game-state/room.h"
 #include "game-state/game.h"
-#include "default_rooms.h"
-#include "autogenerate.h"
+#include "openworld/game_autogenerate.h"
+#include "openworld/autogenerate.h"
+#include "openworld/gen_structs.h"
+#include "openworld/default_rooms.h"
 
 #define MAX_RAND_ITEMS (100)
 
