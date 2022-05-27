@@ -22,12 +22,14 @@
 /* Default Multiclasses in alphabetical order. */
 const char* const DEFAULT_MULTICLASS_NAMES[] = {
     "hexblade",
-    "name1",
-    "name2"
+    "infernal",
+    "trueshot",
+    "enchanter",
+    "assassin"
 };
 
 /* Number of predefined default multiclasses (see above). */
-const int DEFAULT_MULTICLASS_COUNT = 3;
+const int DEFAULT_MULTICLASS_COUNT = 5;
 
 /*
  * Determines the index of name in the DEFAULT_MULTICLASS_NAMES array, 
@@ -58,15 +60,10 @@ int get_multiclass_name_index(char* name) {
 }
 
 /* See multiclass_prefabs.h */
-class_t* multiclass_prefab_new(game_t* game, class_t* base_class, 
-                            class_t* second_class, char* multiclass_name)
+class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
 {
     char temp_name[MAX_NAME_LEN + 1]; 
-<<<<<<< HEAD
-    strncpy(temp_name, class_name, MAX_NAME_LEN);
-=======
     strncpy(temp_name, multiclass_name, MAX_NAME_LEN);
->>>>>>> 39df9cf0fd5df463695c52691cebd05afda49bd9
     /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
@@ -78,9 +75,12 @@ class_t* multiclass_prefab_new(game_t* game, class_t* base_class,
     stats_hash_t* stats = NULL;
     /* effects for each class not yet provided, so this will remain NULL */
     effects_hash_t* effects = NULL;
+    /* names of the two classes being combined */
+    class_t* base_class;
+    class_t* second_class;
 
     /* Hexblade stats:
-<<<<<<< HEAD
+     * Wizard + Warrior
      * 10 Max Health
      * 10 Speed
      * 5 Physical Defense
@@ -91,27 +91,103 @@ class_t* multiclass_prefab_new(game_t* game, class_t* base_class,
      * 25 Max Mana */ 
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
         int succ;
-        short_desc = multiclass_shortdesc(class_prefab_new(game, wizard), 
-                                        class_prefab_new(game, warrior));
-        long_desc = multiclass_longdesc(class_prefab_new(game, wizard), 
-                                        class_prefab_new(game, warrior));
+        base_class = class_prefab_new(game, wizard);
+        second_class = class_prefab_new(game, warrior);
+        short_desc = multiclass_shortdesc(base_class, second_class);
+        long_desc = multiclass_longdesc(base_class, second_class);
         set_stats_hashtable(game, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
     }
 
-=======
-     * TODO
-     */ 
-    if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
+    /* Infernal stats:
+     * Elementalist + Sorceror
+     * 20 Max Health
+     * 5 Speed
+     * 10 Physical Defense
+     * 10 Physical Attack
+     * 10 Ranged Attack
+     * 20 Magic Defense
+     * 20 Magic Attack
+     * 20 Max Mana */
+    else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)) {
+        int succ;
+        base_class = class_prefab_new(game, elementalist);
+        second_class = class_prefab_new(game, sorceror);
         short_desc = multiclass_shortdesc(base_class, second_class);
         long_desc = multiclass_longdesc(base_class, second_class);
-        //smt w setting hash stats here? 
-    } else {
+        set_stats_hashtable(game, &stats, 20, 5, 10, 10, 10, 20, 20, 20);
+    }
+
+    /* Paladin stats:
+     * Knight + Monk
+     * 40 Max Health
+     * 30 Physical Defense
+     * 30 Physical Attack
+     * 10 Ranged Attack
+     * 0 Magic Defense
+     * 0 Magic Attack
+     * 20 Max Mana */
+
+    else if (!strncmp(temp_name, "paladin", MAX_NAME_LEN)) {
+        int succ;
+        base_class = class_prefab_new(game, knight);
+        second_class = class_prefab_new(game, monk);
+        short_desc = multiclass_shortdesc(base_class, second_class);
+        long_desc = multiclass_longdesc(base_class, second_class);
+        set_stats_hashtable(game, &stats, 40, 20, 30, 30, 10, 0, 0, 20);
+    }
+
+    /* Enchanter stats:
+     * Bard + Healer
+     * 15 Health
+     * 15 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 20 Magic Defense
+     * 20 Magic Attack
+     * 20 Max Mana */ 
+    if (!strncmp(temp_name, "enchanter", MAX_NAME_LEN)) {
+        int succ;
+        base_class = class_prefab_new(game, bard);
+        second_class = class_prefab_new(game, healer);
+        short_desc = multiclass_shortdesc(base_class, second_class);
+        long_desc = multiclass_longdesc(base_class, second_class);
+        set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
+    }
+
+    /* Assassin stats:
+     * Rogue + Ranger
+     * 10 Max Health
+     * 25 Speed
+     * 15 Physical Defense
+     * 15 Physical Attack
+     * 15 Ranged Attack
+     * 10 Magic Defense
+     * 5 Magic Attack
+     * 15 Max Mana */
+    else if (!strncmp(temp_name, "assassin", MAX_NAME_LEN)) {
+        int succ;
+        base_class = class_prefab_new(game, rogue);
+        second_class = class_prefab_new(game, ranger);
+        short_desc = multiclass_shortdesc(base_class, second_class);
+        long_desc = multiclass_longdesc(base_class, second_class);
+        set_stats_hashtable(game, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
+    }
+
+
+
+
+    else {
         fprintf(stderr, "Could not find class name: \"%s\" "
-                        "in multiclass_prefab_new\n", multiclass_name);
+                        "in multiclass_prefab_new\n", temp_name);
         return NULL;
     }
-    return multiclass(base_class, second_class, multiclass_name);
->>>>>>> 39df9cf0fd5df463695c52691cebd05afda49bd9
+
+
+
+
+
+    return multiclass(base_class, second_class, temp_name);
 }
 
 /* some function about adding skills to multiclass trees? */
