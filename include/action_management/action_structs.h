@@ -1,7 +1,6 @@
 #ifndef _ACTION_STRUCTS_H_
 #define _ACTION_STRUCTS_H_
 
-
 /* File consisting of all action structs created by action management
    =========================================================================== */
 
@@ -45,13 +44,6 @@ enum action_kind {
     ITEM_ITEM = 3, // ACTION <item> <item> i.e. Action Type 3
     SELF = 4 //// ACTION <self> i.e. Action Type 4
 };
-
-/* Each enum corresponds to a different object of the self action type.
-   e.g. The STATS in VIEW STATS*/
-typedef enum {
-    STATS = 1
-} self_action_object;
-
 
 /* Forward room declaration */
 typedef struct room room_t;
