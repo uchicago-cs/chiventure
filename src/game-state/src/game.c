@@ -534,7 +534,7 @@ int do_node_actions(node_t *n, game_t *game)
 
         case MOVE_ROOM:
             npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
-            if (move_npc(npc) == FAILURE)
+            if (npc_one_move(npc, game->all_rooms) == FAILURE)
             {
                 return FAILURE;
             }
