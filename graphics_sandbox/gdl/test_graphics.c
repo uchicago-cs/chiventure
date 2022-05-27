@@ -60,37 +60,37 @@ Test(graphics, init)
     inventory_display_t *inventory = new_inventory_display(3,10,RED);           
     camera_t *camera = new_camera(300,300);                                     
                                                                                  
-    graphics_t *graphics = NULL;
+    graphics_t graphics;
     int rc;
 
-    rc = init_graphics(graphics,dimensions,camera,inventory,stats);
+    rc = init_graphics(&graphics,dimensions,camera,inventory,stats);
 
     cr_assert_eq(rc,SUCCESS,"init_graphics() failed");
 
-    cr_assert_eq(graphics->statistics->corner,TOP_LEFT,                         
+    cr_assert_eq(graphics.statistics->corner,TOP_LEFT,                         
                 "init_graphics() didn't set statistics corner");                 
-    cr_assert_eq(graphics->statistics->mode, NUMERICAL,                         
+    cr_assert_eq(graphics.statistics->mode, NUMERICAL,                         
                 "init__graphics() didn't set statistics mode");                   
-    cr_assert_eq(graphics->statistics->num_statistics,1,                        
+    cr_assert_eq(graphics.statistics->num_statistics,1,                        
                 "init_graphics() didn't set statistics num_statistics");         
-    cr_assert_eq(graphics->statistics->statistics->max,10,                      
+    cr_assert_eq(graphics.statistics->statistics->max,10,                      
                 "init_graphics() didn't set statistics stat_t field");           
                                                                                  
-    cr_assert_eq(graphics->camera->width,300,                                   
+    cr_assert_eq(graphics.camera->width,300,                                   
                 "init_graphics() didn't set camera width");                      
-    cr_assert_eq(graphics->camera->height,300,                                  
+    cr_assert_eq(graphics.camera->height,300,                                  
                 "init_graphics() didn't set camera height");                     
                                                                                 
-    cr_assert_eq(graphics->dimensions->width,500,                               
+    cr_assert_eq(graphics.dimensions->width,500,                               
                 "init_graphics() didn't set dimensions width");                  
-    cr_assert_eq(graphics->dimensions->height,400,                              
+    cr_assert_eq(graphics.dimensions->height,400,                              
                 "init_graphics() didn't set dimensions height");                 
                                                                                  
-    cr_assert_eq(graphics->inventory->rows,3,                                   
+    cr_assert_eq(graphics.inventory->rows,3,                                   
                 "init_graphics() didn't set inventory rows");                    
-    cr_assert_eq(graphics->inventory->columns,10,                               
+    cr_assert_eq(graphics.inventory->columns,10,                               
                 "init_graphics() didn't set inventory columns");                 
-    cr_assert_eq(graphics->inventory->color, RED,                               
+    cr_assert_eq(graphics.inventory->color, RED,                               
                 "init_graphics() didn't set inventory color");                   
 }
 

@@ -42,18 +42,18 @@ Test(statistics, init)
     mode m = NUMERICAL;
     unsigned int num_stat = 1;
 
-    statistics_display_t *stats = NULL;
+    statistics_display_t stats;
     int rc;
 
-    rc = init_statistics_display(stats,c,stat,num_stat,m);
+    rc = init_statistics_display(&stats,c,stat,num_stat,m);
 
     cr_assert_eq(rc, SUCCESS,"init_statistics_display() failed");
 
-    cr_assert_eq(stats->corner,TOP_LEFT,
+    cr_assert_eq(stats.corner,TOP_LEFT,
                 "init_statistics_display() didn't set corner");
-    cr_assert_eq(stats->mode,NUMERICAL,
+    cr_assert_eq(stats.mode,NUMERICAL,
                 "init_statistics_display() didn't set mode");
-    cr_assert_eq(stats->num_statistics, 1,
+    cr_assert_eq(stats.num_statistics, 1,
                 "init_statistics_display() didn't set num_statistics");
 }
 
