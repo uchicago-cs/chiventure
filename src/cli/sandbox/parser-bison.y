@@ -38,10 +38,10 @@ void yyerror(char* s);
 %type<word_list> go_cmd
 %type<word_list> fight_cmd
 %type<word_list> credits_cmd
-%type<word_list> put_cmd
+/*%type<word_list> put_cmd
 %type<word_list> use_cmd
 %type<word_list> view_cmd
-
+*/
 %%
 line
   : 
@@ -60,12 +60,13 @@ kind1_action
 kind1_action_keyword
   : OPEN  { $$ = start_phrase($1); }
   | CLOSE  { $$ = start_phrase($1); }
-  | line fight_cmd EOL { handle_fight_cmd($2); }
+/*  | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
   | line phrase EOL { handle_cmd($2); }
   | line put_cmd EOL { handle_put_cmd($2); }
   | line use_cmd EOL { handle_use_cmd($2); }
   | line view_cmd EOL { handle_view_cmd($2); }
+*/  
   ;
 
 
@@ -84,6 +85,7 @@ credits_cmd
   | phrase CREDITS { $$ = start_phrase($2); }
   ;
 
+/*
 put_cmd
   : PUT { $$ = NULL; }
   | PUT phrase { $$ = $2; }
@@ -98,6 +100,7 @@ view_cmd
   : VIEW { $$ = NULL; }
   | VIEW phrase { $$ = $2; }
   ;
+*/
 
 phrase
   : WORD  { $$ = start_phrase($1); }
