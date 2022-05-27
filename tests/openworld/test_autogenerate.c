@@ -351,9 +351,6 @@ Test(autogenerate, room_generate_success_two)
     // Path to room1
     path_t* path_to_room1 = path_new(room1,"north");
 
-    gencontext_t *sample_gencontext = gencontext_new(path_to_room1, 5, 1, specgraph);
-    cr_assert_not_null(sample_gencontext, "sample_gencontext should not be NULL");
-
     // having 2 roomspec case
     roomspec_t *graph_roomspec1 = make_default_room("school", NULL, NULL);
     roomspecs[1] = graph_roomspec1;

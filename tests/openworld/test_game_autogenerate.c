@@ -81,10 +81,7 @@ Test(autogenerate, game_autogenerate_static_specific_first_room){
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
-    gencontext_t *context;
-    context->specgraph=specgraph;
-    
-    int rc=game_autogenerate_static(game, context, 5, "room_name1");
+    int rc=game_autogenerate_static(game, specgraph, 5, "room_name1");
 
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a specific first room\n");
 }
@@ -121,11 +118,8 @@ Test(autogenerate, game_autogenerate_static_one_roomspec_game){
     int **edges=edges_new(matrix, 3, 3);
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
-
-    gencontext_t *context;
-    context->specgraph=specgraph;
     
-    int rc=game_autogenerate_static(game, context, 5, "room_name1");
+    int rc=game_autogenerate_static(game, specgraph, 5, "room_name1");
 
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with only one roomspec\n");
 
