@@ -191,15 +191,6 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 
     move_room(game, arena);
 
-    if (strcmp(get_npc_curr_room_id(friendly_fiona->movement), "lobby") == 0)
-    {
-        assert(npc_one_move(friendly_fiona, game->all_rooms) == SUCCESS);
-    }
-    if (strcmp(get_npc_curr_room_id(hostile_harry->movement), "lobby") == 0)
-    {
-        assert(npc_one_move(hostile_harry, game->all_rooms) == SUCCESS);
-    }
-
     return "You are in the arena now";
 }
 

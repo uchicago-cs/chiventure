@@ -19,7 +19,10 @@ typedef enum {
     TAKE_ITEM,
     START_QUEST,
     START_BATTLE,
-    MOVE_ROOM
+    MAKE_HOSTILE,
+    MOVE_ROOM,
+    PAUSE_MOVEMENT,
+    RESUME_MOVEMENT
 } node_action_type;
 
 /* An action flag. This allows designers to integrate actions into their
