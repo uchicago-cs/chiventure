@@ -36,12 +36,13 @@ void yyerror(char* s);
 %token<word> EAT
 %token THE
 %token PUT
-%token USE
+%token<word> USE
 %token VIEW
 %token<word> CREDITS
 %token<word> WORD
 
 %type<word_list> kind1_cmd
+%type<word_list> kind1_cmd_keyword
 
 %type<word_list> kind2_action
 %type<word_list> kind2_action_keyword
@@ -71,32 +72,37 @@ line
   ;
 
 kind1_cmd
+  : kind1_cmd_keyword { $$ = $1; }
+  | kind1_cmd_keyword THE { $$ = $1; }
+  ;
+
+kind1_cmd_keyword
   : OPEN { $$ = NULL; }
-  | OPEN phrase { $$ = $2; }
+  | OPEN phrase { $$ = start_phrase($1); }
   | CLOSE { $$ = NULL; }
-  | CLOSE phrase { $$ = $2; }
+  | CLOSE phrase { $$ = start_phrase($1); }
   | PUSH { $$ = NULL; }
-  | PUSH phrase { $$ = $2; }
+  | PUSH phrase { $$ = start_phrase($1); }
   | PULL { $$ = NULL; }
-  | PULL phrase { $$ = $2; }
+  | PULL phrase { $$ = start_phrase($1); }
   | TURN_ON { $$ = NULL; }
-  | TURN_ON phrase { $$ = $2; }
+  | TURN_ON phrase { $$ = start_phrase($1); }
   | TURN_OFF { $$ = NULL; }
-  | TURN_OFF phrase { $$ = $2; }
+  | TURN_OFF phrase { $$ = start_phrase($1); }
   | TAKE { $$ = NULL; }
-  | TAKE phrase { $$ = $2; }
+  | TAKE phrase { $$ = start_phrase($1); }
   | PICKUP { $$ = NULL; }
-  | PICKUP phrase { $$ = $2; }
+  | PICKUP phrase { $$ = start_phrase($1); }
   | DROP { $$ = NULL; }
-  | DROP phrase { $$ = $2; }
+  | DROP phrase { $$ = start_phrase($1); }
   | CONSUME { $$ = NULL; }
-  | CONSUME phrase { $$ = $2; }
+  | CONSUME phrase { $$ = start_phrase($1); }
   | USE { $$ = NULL; }
-  | USE phrase { $$ = $2; }
+  | USE phrase { $$ = start_phrase($1); }
   | DRINK { $$ = NULL; }
-  | DRINK phrase { $$ = $2; }
+  | DRINK phrase { $$ = start_phrase($1); }
   | EAT { $$ = NULL; }
-  | EAT phrase { $$ = $2; }
+  | EAT phrase { $$ = start_phrase($1); }
   ;
 
 
