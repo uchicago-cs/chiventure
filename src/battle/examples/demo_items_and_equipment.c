@@ -106,5 +106,6 @@ battle_item_t *make_items(){
     FALSE, NULL, beserk_potion);
     beserk_potion->next = sp_restore;
     smoke_bomb->next = beserk_potion;
+    sp_restore->next = NULL;
     return smoke_bomb;
 }
