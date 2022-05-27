@@ -56,21 +56,21 @@ chiventure_ctx_t* create_example_ctx() {
 
     /* Create example rooms */
     room_t* start_room = room_new("Start Room", "", "Once you get past this door, you will meet "
-                                                    "your new mentor! ");
+                                                    "your new mentor!");
 
     room_t* combined_room = room_new("Combined Skill Room", "", "You see your new mentor, in the middle of a large hallway.");
 
-    room_t* sequential_room = room_new("Sequential Skill Room", "", "You enter a room with a training dummy. Your mentor begins to train "
-                                                                    "you a powerful combo move, one that stuns your opponent, then summons "
+    room_t* sequential_room = room_new("Sequential Skill Room", "", "You enter a room with a training dummy.\nYour mentor begins to train "
+                                                                    "you a powerful combo move, one that stuns your opponent,\n then summons "
                                                                     "a mighty tornado!");
 
-    room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room for some reason. He begins rambling " 
-                                                                        " something about how orcs are good at smashing things. ");
+    room_t* conditional_room = room_new("Conditional Skill Room", "", "Your mentor brings the dummy into the next room for some reason.\nHe begins rambling " 
+                                                                        "something about how orcs are good at smashing things. ");
 
     room_t* classes_room = room_new("Classes Room", "", "You enter a large library, filled wall to wall with books.");
 
     room_t* final_room = room_new("Reader Room", "", "You and your mentor go into the next room, and you sense his anger. He's enraged you destroyed his dummy! "
-                                                      "How were you supposed to know it was a family heirloom?! He attacks!"
+                                                      "How were you supposed to know it was a family heirloom?! He attacks!\n"
                                                       "You remember how you had to check if you were an orc to smash things... can you read his weakness?");
 
     /* Add example rooms to example game */
@@ -404,7 +404,6 @@ int execute_conditional_skill(chiventure_ctx_t* ctx, int sid)
     }
     if(skill->sid != sid) 
     {
-        print_to_cli(ctx, "GOT HERE, FAILURE ");
         return FAILURE;
     }
     /* Execute the effect */
@@ -551,6 +550,7 @@ char* combined_monologue(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
                         "complicated skills! In this room, you can learn Combined "
                         "Skills! Many smaller skills wrapped into one. "
                         "Lets teach you a large stat boost!");
+    return "";
 }
 
 //Lecture by Mentor about documentation
@@ -559,11 +559,8 @@ char* mentor_monolouge(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
     print_to_cli(ctx, "Mentor: This is the library! In the past year we've gained a lot of books detailing the skills of legendary warriors.");
     print_to_cli(ctx, "Mentor: Druids, elementalists, knights, sorcerors, so much is documented about their legendary skills!");
     print_to_cli(ctx, "Mentor: We've even made tools here that detail their skilltrees down to a high level, all for the sake of knowledge!");
+    return "";
 }
-
-
-
-
 
 /*
  * Prints all skills contained in a skill inventory to the CLI
@@ -641,7 +638,6 @@ void main()
     // Create example chiventure context
     chiventure_ctx_t* ctx = create_example_ctx();
 
-    //Skill commands
     add_entry("LEARN_COMBINED", create_combined_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
     add_entry("USE_COMBINED_BOOST", add_combined_player_stat_operation, NULL, ctx->cli_ctx->table);
     add_entry("LEARN_SEQUENTIAL", create_sequential_player_stat_effect_operation, NULL, ctx->cli_ctx->table);
