@@ -59,8 +59,10 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context){
     roomspec_t *newroomspec;
 
     newroomspec=roomspecs[randomint];
+    int tag=newroomspec->tag;
 
     room_t *new_room = roomspec_to_room(newroomspec);
+    new_room->tag=tag;
 
     assert(add_room_to_game(game, new_room) == SUCCESS);
         
