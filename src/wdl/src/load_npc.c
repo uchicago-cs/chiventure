@@ -399,9 +399,11 @@ int load_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
 {
     npc_quest_list_t *quests = npc_quest_list_new();
 
-    char *quest_name, *quest_dialogue;
-    npc_quest_t *curr_quest, *next_quest;
     obj_t *curr;
+
+    npc_quest_t *quest_head = NULL;
+    npc_quest_t *quest_tmp = quest_head;
+    obj_list_t *obj_head = quests_obj_list;
 
     DL_FOREACH(quests_obj_list->data.lst, curr)
     {
@@ -410,9 +412,11 @@ int load_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
             return FAILURE;
         }
 
-        // load quest id into quest
+        char *quest_name, *quest_dialogue;
         quest_name = obj_get_str(curr, "Quest");
-        curr_quest->id = quest_name;
+
+        // make the quest
+        npc_quest_t *curr_quest = npc_quest_new(quest_name, NULL);
 
         // load quest's dialogue, if any, into quest
         obj_t *dialogue_obj;
@@ -468,7 +472,6 @@ int load_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
 {
     npc_task_list_t *tasks = npc_task_list_new();
 
-    char *task_name, *task_dialogue;
     obj_t *curr;
 
     npc_task_t *task_head = NULL;
@@ -481,6 +484,8 @@ int load_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
             fprintf(stderr, "npc_task is not in the correct format");
             return FAILURE;
         }
+
+        char *task_name, *task_dialogue;
 
         task_name = obj_get_str(curr, "id");
 
