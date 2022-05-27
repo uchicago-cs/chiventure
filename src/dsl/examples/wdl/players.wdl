@@ -8,12 +8,24 @@
   },
   "ROOMS": {
     "room C": {
+      "short_desc": "library room.",
+      "connections": [
+        {
+          "direction": "EAST",
+          "to": "room B"
+        }
+      ],
       "items": [],
-      "short_desc": "room C",
       "long_desc": "This is a room C. "
     },
     "room B": {
       "short_desc": "A dungeon room.",
+      "connections": [
+        {
+          "direction": "WEST",
+          "to": "room C"
+        }
+      ],
       "items": [
         "DOOR"
       ],
@@ -45,6 +57,8 @@
     "KNIGHT": {
       "short desc": "KNIGHT",
       "long desc": "This is a KNIGHT.",
+      "short_desc": "Knight",
+      "long_desc": "This a Knight",
       "attributes": {
         "noble": "TRUE",
         "strong": "TRUE"
