@@ -79,7 +79,7 @@ int random_first_room(game_t* game, gencontext_t* context){
 * random_room: A pointer to the randomly chosen room
 */
 
-roomspec_t* random_room_from_game(game_t* game){
+room_t* random_room_from_game(game_t* game){
 
     room_hash_t *rooms=game->all_rooms;
     int num_rooms=HASH_COUNT(rooms);
@@ -121,7 +121,7 @@ bool path_generate(game_t* game, gencontext_t* context, room_t* curr, room_t* ad
     roomspec_t **roomspecs=specgraph->roomspecs;
 
     roomspec_t *currspec=roomspecs[curr->tag];
-    roomspec_t *adjacentspec=roomspecs[adjacent->tag];
+    roomspec_t *adjacentspec=roomspecs[adjacentroom->tag];
 
     int correlation=roomspec_correlation(specgraph, currspec, adjacentspec);
 
