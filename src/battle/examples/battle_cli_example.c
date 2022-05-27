@@ -74,7 +74,7 @@ npc_t *create_minion_one()
     move_t *e_move = generate_moves_enemy_one();
     class_t *e_class = make_minion();
     battle_item_t *p_item = make_items();
-    npc_t *e = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", e_class, NULL, true);
+    npc_t *e = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", e_class, NULL, HOSTILE);
     npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, 
                                           HOSTILE, e_class, p_item, NULL, NULL, NULL);
     e->npc_battle = npc_b;
@@ -85,6 +85,18 @@ npc_t *create_minion_one()
 room_t *room = setup_battle_one(chiventure_ctx_t *ctx)
 {
     srand(time(0)); // sets seed
+
+    // sets up the turn component list
+    turn_component_t tc1;
+    init_turn_component(tc1, 1, 1, 0);
+
+    turn_component_t tc2;
+    init_turn_component(tc2, 0, 1, 1);
+
+    turn_component_list_t *turn_cl_rest = new_turn_component_list(&tc2, NULL);
+    turn_component_list_t *turn_cl = new_turn_component_list(&tc1, turn_cl_rest);
+
+    ctx->game->battle_ctx->tcl = turn_cl;
     
     // creates a battle_ctx for the battle
     battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));

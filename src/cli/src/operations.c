@@ -710,7 +710,7 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "%s does not want to fight.", tokens[1];
     }
 
-    printf("here is after all of the if statements");
+    printf("here is after all of the if statements\n");
 
     // this is the current player from the chiventure context
     player_t *player = ctx->game->curr_player;
@@ -740,35 +740,36 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
                                                NULL, NULL, NULL); // these too*///I dont think this is necessary
     
     // create a battle context
-    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
+    //battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
     // create a battle game and add it to the battle context
-    battle_game_t *b_game = new_battle_game();
-    battle_ctx->game = b_game;
+    //battle_game_t *b_game = new_battle_game();
+    //battle_ctx->game = b_game;
     // add the current player from the chiventure context to the game (already added to the thing from setup_battle_one?)
     // battle_ctx->game->player = b_player;
     // add the battle context to the chiventure context
-    int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
+    //int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
     // create a battle struct and initialize its parts (sets up combatants)
-    int rc = start_battle(battle_ctx, npc, 
+    int rc = start_battle(ctx->game->battle_ctx, npc, 
                           ENV_GRASS /* eventually this should be stored in 
                                        the room struct */);
     printf("Done initializing everything\n");
     // prints the beginning of the battle 
-    char *start = print_start_battle(battle_ctx->game->battle);
+    char *start = print_start_battle(ctx->game->battle_ctx->game->battle);
     int start_rc = print_to_cli(ctx, start);
     printf("here is print_start_battle \n");
 
 
-    turn_component_t *current_tc = battle_ctx->tcl->current;
+    turn_component_t *current_tc = ctx->game->battle_ctx->tcl->current;
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
+    printf("Done creating all the things for get_legal_actions\n");
     get_legal_actions(legal_items, legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
     char *menu = print_battle_action_menu(legal_items, legal_moves);
 
     printf("here is print_battle_action_menu, which is %s", menu);
 
-    ctx->game->battle_ctx->game->battle->current_tc = battle_ctx->tcl->next->current;//current_tc; // don't we want to move this down?
+    ctx->game->battle_ctx->game->battle->current_tc = ctx->game->battle_ctx->tcl->next->current;//current_tc; // don't we want to move this down?
 
     // leaving in case we want to directly set game mode in the future
     //set_game_mode(ctx->game, BATTLE, npc->npc_id);
