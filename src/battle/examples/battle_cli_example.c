@@ -91,12 +91,12 @@ room_t *setup_battle_one(chiventure_ctx_t *ctx)
 
     // sets up the turn component list
     turn_component_t *tc1 = new_turn_component(1, 1, 0);
-
     turn_component_t *tc2 = new_turn_component(0, 1, 1);
 
     turn_component_list_t *turn_cl_rest = new_turn_component_list(tc2, NULL);
     turn_component_list_t *turn_cl = new_turn_component_list(tc1, turn_cl_rest);
     battle_ctx->tcl = turn_cl;
+    battle_ctx->current_turn_tcl = battle_ctx->tcl;
 
     // creates a game and attaches it to the battle_ctx
     battle_game_t *g = new_battle_game();

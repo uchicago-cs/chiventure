@@ -758,14 +758,9 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     battle_item_t *legal_items = NULL;
     get_legal_actions(&legal_items, &legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
-    //printf("\n items: %0x, moves: %0x\n",legal_items, legal_moves);
     char *menu = print_battle_action_menu(legal_items, legal_moves);
 
-    //printf("here is print_battle_action_menu, which is %s\n", menu);
-
-    ctx->game->battle_ctx->game->battle->current_tc = ctx->game->battle_ctx->tcl->next->current;//current_tc; // don't we want to move this down?
-
-    // leaving in case we want to directly set game mode in the future
+    // leaving in case we want to directly set game mode in the future:
     //set_game_mode(ctx->game, BATTLE, npc->npc_id);
    
     assert(npc->npc_battle != NULL);

@@ -60,6 +60,8 @@ typedef struct battle_ctx {
     battle_status_t status;
     // turn component list that the game designer creates
     turn_component_list_t *tcl;
+    // tcl marking the point in the current turn
+    turn_component_list_t *current_turn_tcl;
 } battle_ctx_t;
 
 /* Allocates a new battle ctx in the heap

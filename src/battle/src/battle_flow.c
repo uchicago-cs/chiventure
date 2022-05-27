@@ -337,10 +337,10 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
 char *enemy_run_turn(battle_ctx_t *ctx) 
 {
     char *res_string;
-    while (ctx->game->battle->current_tc)
+    while (ctx->current_turn_tcl->current)
     {
         res_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-        if(ctx->game->battle->current_tc->move) 
+        if(ctx->current_turn_tcl->current->move) 
         {
             char *enemy_move_report = enemy_make_move(ctx);
             strcat(res_string, enemy_move_report);
