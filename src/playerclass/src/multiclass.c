@@ -102,7 +102,7 @@ char* multiclass_longdesc(class_t* base_class, class_t* second_class, int *succ)
  * Creates an effects hash for a multiclass
  * by adding together the effects of both classes.
  *
- * Paramaters:
+ * Parameters:
  *  - base_effects: the character's base class's effect hash.
  *  - second_effects: the effect hash of the class being added to the base.
  *
