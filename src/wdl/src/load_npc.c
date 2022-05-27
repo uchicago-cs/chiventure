@@ -408,7 +408,7 @@ int load_npc_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
     DL_FOREACH(quests_obj_list->data.lst, curr)
     {
         if (npc_quest_type_check(curr) == FAILURE) {
-            fprintf(stderr, "npc quest is not in the correct format"); // FIRST //
+            fprintf(stderr, "npc quest is not in the correct format");
             return FAILURE;
         }
 
