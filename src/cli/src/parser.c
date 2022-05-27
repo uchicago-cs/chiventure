@@ -105,17 +105,10 @@ char **parse(char *input)
     case_insensitize(input);
 
     char **words;
-    words = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    words = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
     char **by_quotes;
-    by_quotes = (char**)malloc(sizeof(char*)*TOKEN_LIST_SIZE);
+    words = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
 
-
-    //Initializes all words to NULL
-    for(int i = 0; i < TOKEN_LIST_SIZE; i++)
-    {
-        words[i] = NULL;
-        by_quotes[i] = NULL;
-    }
 
     char *token2 = strtok(input, "\"");
 
