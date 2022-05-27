@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "common/utlist.h"
 #include "common/uthash.h"
 #include "game-state/room.h"
 #include "game-state/game.h"
