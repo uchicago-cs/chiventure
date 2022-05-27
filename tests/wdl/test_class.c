@@ -103,7 +103,7 @@ Test(class, load_prefab_class) {
     cr_assert_str_eq(monk->shortdesc, "An elite martial artist.", 
                      "Monk's short description did not load correctly.\n");
 
-    cr_assert_str_eq(monk->longdesc, "The Monk is an expert of unarmed combat, and, through their training-- "
+    cr_assert_str_eq(monk->longdesc, "The Monk is an expert of unarmed combat, and, through their training--"
                      "in accordance with their strict spirituality--have learned how to defend themselves from attackers.", 
                      "Monk's long description did not load correctly.\n");
 
