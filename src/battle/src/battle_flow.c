@@ -219,9 +219,9 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         if (move->dmg_type != NO_DAMAGE)
         {
             dmg = damage(b->enemy, move, b->player);
-            enemy->stats->hp -= dmg;
             crit = crit_modifier(b->player->stats->crit);
             dmg *= crit;
+            enemy->stats->hp -= dmg;
             //print_battle_move needs to be changed
             rc = print_battle_damage(b, b->turn, move, crit, string);
             assert(rc == SUCCESS);
@@ -265,7 +265,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
 char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 {
     battle_t *b = ctx->game->battle;
-    char *string = calloc(150, sizeof(char));
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     if (ctx == NULL)
     {
@@ -286,8 +286,9 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
     strcpy(item_name, item->name);
 
     int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item->name);
-    snprintf(string, 150, "You used the %s\n", item_name);
-
+    string = print_battle_item(ctx->game->battle, PLAYER, item);
+    
+    
     if (usage == FAILURE) 
     {
         snprintf(string, 150, "That item is Unavailable.\n");
@@ -372,9 +373,9 @@ char *enemy_make_move(battle_ctx_t *ctx)
             if (enemy_move->dmg_type != NO_DAMAGE)
             {
                 dmg = damage(b->player, enemy_move, b->enemy);
-                b->player->stats->hp -= dmg;
                 crit = crit_modifier(b->enemy->stats->crit);
                 dmg *= crit;
+                b->player->stats->hp -= dmg;
                 rc = print_battle_damage(b, b->turn, enemy_move, crit, string);
                 assert(rc == SUCCESS);
             }
