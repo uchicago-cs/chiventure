@@ -144,6 +144,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
 
     res->paths = NULL;
     res->coords=coords;
+    res->tag=roomspec->tag;
     return res;
 }
 
@@ -238,9 +239,14 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
     }
 
     int *row=edges[rownumber];
+    int count=0;
+
+    for(int count=0; count<num_roomspecs; count++){
+        sum+=row[count];
+    }
  
     int randomint=rand() % num_roomspecs;  
-    int count=0;
+    count=0;
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
     while(randomint>=0){
