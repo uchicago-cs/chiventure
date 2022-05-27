@@ -19,8 +19,8 @@ ROOM room C
 
 # testing: player class with id of knight. Testing if attributes and base_stats are generated correctly
 PLAYER_CLASS KNIGHT
-    short desc: "this a knight"
-    long desc: "he is out to save the world"
+    short desc: "Knight"
+    long desc: "This a Knight"
     ATTRIBUTES 
         noble TRUE
     BASESTATS
