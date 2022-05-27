@@ -289,7 +289,7 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
 
 /*See autogenerate.h*/
 
-int game_autogenerate_static(game_t* g, gencontext_t context, int num_rooms, char* first_room){
+int game_autogenerate_static(game_t* g, gencontext_t *context, int num_rooms, char* first_room){
     
     specgraph_t *specgraph=context->specgraph;
     int num_roomspecs=specgraph->num_roomspecs;
