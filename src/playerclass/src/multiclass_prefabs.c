@@ -23,7 +23,7 @@
 const char* const DEFAULT_MULTICLASS_NAMES[] = {
     "hexblade",
     "infernal",
-    "trueshot",
+    "paladin",
     "enchanter",
     "assassin"
 };
@@ -90,11 +90,12 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
      * 25 Magic Attack
      * 25 Max Mana */ 
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
-        int succ;
-        base_class = class_prefab_new(game, wizard);
-        second_class = class_prefab_new(game, warrior);
-        short_desc = multiclass_shortdesc(base_class, second_class);
-        long_desc = multiclass_longdesc(base_class, second_class);
+        int succ1;
+        int succ2;
+        base_class = class_prefab_new(game, "wizard");
+        second_class = class_prefab_new(game, "warrior");
+        short_desc = multiclass_shortdesc(base_class, second_class, &succ1);
+        long_desc = multiclass_longdesc(base_class, second_class, &succ2);
         set_stats_hashtable(game, &stats, 10, 10, 5, 5, 10, 20, 25, 25);
     }
 
@@ -109,11 +110,12 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
      * 20 Magic Attack
      * 20 Max Mana */
     else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)) {
-        int succ;
-        base_class = class_prefab_new(game, elementalist);
-        second_class = class_prefab_new(game, sorceror);
-        short_desc = multiclass_shortdesc(base_class, second_class);
-        long_desc = multiclass_longdesc(base_class, second_class);
+        int succ1;
+        int succ2;
+        base_class = class_prefab_new(game, "elementalist");
+        second_class = class_prefab_new(game, "sorceror");
+        short_desc = multiclass_shortdesc(base_class, second_class, &succ1);
+        long_desc = multiclass_longdesc(base_class, second_class, &succ2);
         set_stats_hashtable(game, &stats, 20, 5, 10, 10, 10, 20, 20, 20);
     }
 
@@ -128,11 +130,12 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
      * 20 Max Mana */
 
     else if (!strncmp(temp_name, "paladin", MAX_NAME_LEN)) {
-        int succ;
-        base_class = class_prefab_new(game, knight);
-        second_class = class_prefab_new(game, monk);
-        short_desc = multiclass_shortdesc(base_class, second_class);
-        long_desc = multiclass_longdesc(base_class, second_class);
+        int succ1;
+        int succ2;
+        base_class = class_prefab_new(game, "knight");
+        second_class = class_prefab_new(game, "monk");
+        short_desc = multiclass_shortdesc(base_class, second_class, &succ1);
+        long_desc = multiclass_longdesc(base_class, second_class, &succ2);
         set_stats_hashtable(game, &stats, 40, 20, 30, 30, 10, 0, 0, 20);
     }
 
@@ -147,11 +150,12 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
      * 20 Magic Attack
      * 20 Max Mana */ 
     if (!strncmp(temp_name, "enchanter", MAX_NAME_LEN)) {
-        int succ;
-        base_class = class_prefab_new(game, bard);
-        second_class = class_prefab_new(game, healer);
-        short_desc = multiclass_shortdesc(base_class, second_class);
-        long_desc = multiclass_longdesc(base_class, second_class);
+        int succ1;
+        int succ2;
+        base_class = class_prefab_new(game, "bard");
+        second_class = class_prefab_new(game, "healer");
+        short_desc = multiclass_shortdesc(base_class, second_class, &succ1);
+        long_desc = multiclass_longdesc(base_class, second_class, &succ2);
         set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
     }
 
@@ -166,11 +170,12 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
      * 5 Magic Attack
      * 15 Max Mana */
     else if (!strncmp(temp_name, "assassin", MAX_NAME_LEN)) {
-        int succ;
-        base_class = class_prefab_new(game, rogue);
-        second_class = class_prefab_new(game, ranger);
-        short_desc = multiclass_shortdesc(base_class, second_class);
-        long_desc = multiclass_longdesc(base_class, second_class);
+        int succ1;
+        int succ2;
+        base_class = class_prefab_new(game, "rogue");
+        second_class = class_prefab_new(game, "ranger");
+        short_desc = multiclass_shortdesc(base_class, second_class, &succ1);
+        long_desc = multiclass_longdesc(base_class, second_class, &succ2);
         set_stats_hashtable(game, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
@@ -201,26 +206,22 @@ int multiclass_prefab_add_skills(class_t* multiclass)
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
-        class_allocate_skills(class, 3, 3, 0);
-        sid_t skill_id = class->skilltree->tid * 100;
-        
-        /* Currently point to null effects */
-        /* Skills */
-        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
-                                     "You deal damage to your opponent with " 
-                                     "just a word.", 1, 75, NULL, NULL);
-        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
-                                     "A full line of poetry hits your " 
-                                     "opponent!", 1, 200, NULL, NULL);
-        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Enchanted Stanza", 
-                                     "The full weight of your stanza strikes "
-                                     "your opponent!", 1, 325, NULL, NULL);
 
-        /* Add skills to tree */
-       // add_skill(class, skill_0, 0, 25, true, NULL, 0);
-     //   add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
-     //   add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
-    } else {
+    }  
+
+    else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)){
+
+    }
+
+    else if (!strncmp(temp_name, "paladin", MAX_NAME_LEN)){
+
+    }
+
+    else if (!strncmp(temp_name, "enchanter", MAX_NAME_LEN)){
+
+    }
+    
+    else {
         fprintf(stderr, "Could not find class for skill inventories "
                         "in multiclass_prefab_add_skills\n");
         return EXIT_FAILURE;
