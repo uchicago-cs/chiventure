@@ -8,11 +8,10 @@
 /* Forward declaration. Full typedef can be found in game.h */
  typedef struct game game_t;
 
-
 typedef struct attribute_condition{
     item_t *item;
     attribute_t *attribute_to_check;
-    attribute_value_t expected_value;
+    attribute_value_t *expected_value;
 } attribute_condition_t;
 
 typedef struct inventory_condition{
@@ -95,7 +94,7 @@ int delete_condition_llist(condition_list_t *conditions);
  *  NULL if item or attribute are NULL, the new condition if succcessful
  */
 condition_t *attribute_condition_new(item_t *item_to_modify, char *attribute_name,
-				       attribute_value_t new_value);
+				       attribute_value_t *new_value);
 
 
 /* inventory_condition_new() creates a new inventory condition in an item with given inputs
