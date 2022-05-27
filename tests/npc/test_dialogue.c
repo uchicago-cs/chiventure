@@ -4,7 +4,90 @@
 #include "game-state/item.h"
 #include "game-state/player.h"
 #include "game-state/mode.h"
+#include "game-state/game.h"
 
+/* This function is called by test functions to check if add_node works. */
+void check_add_node(int num_nodes)
+{
+    convo_t *c = convo_new();
+    char node_id[3];
+    char npc_dialogue[3];
+    node_list_t *cur;
+    int rc;
+
+    strcpy(node_id, "N_");
+    strcpy(npc_dialogue, "D_");
+
+    for (int i = 1; i <= num_nodes && i < 10; i++)
+    {
+        node_id[1] = '0' + i;
+        npc_dialogue[1] = '0' + i;
+
+        rc = add_node(c, node_id, npc_dialogue);
+
+        cr_assert_eq(rc, SUCCESS, "add_node() failed for Node %d", i);
+
+        if (i == 1) cur = c->all_nodes;
+        else cur = cur->next;
+
+        cr_assert_not_null(cur, "add_node() did not append Node %d to "
+                           "all_nodes in the convo", i);
+
+        cr_assert_eq(strcmp(cur->node->node_id, node_id), 0,
+                     "Expected %s for the node_id of Node %d but add_node set "
+                     "a different value", node_id, i);
+        cr_assert_eq(strcmp(cur->node->npc_dialogue, npc_dialogue), 0,
+                     "Expected %s for the npc_dialogue of Node %d but add_node "
+                     "set a different value", npc_dialogue, i);
+    }
+}
+
+/* This function is called by test functions to check if add_edge works. */
+void check_add_edge(int num_edges)
+{
+    convo_t *c = convo_new();
+    char quip[3];
+    edge_list_t *convo_lst_ptr, *node_lst_ptr;
+    int rc;
+
+    add_node(c, "N1", "D1");
+    add_node(c, "N2", "D2");
+
+    strcpy(quip, "Q_");
+
+    for (int i = 1; i <= num_edges && i < 10; i++)
+    {
+        quip[1] = '0' + i;
+
+        rc = add_edge(c, quip, "N1", "N2", NULL);
+
+        cr_assert_eq(rc, SUCCESS, "add_edge() failed for Edge %d", i);
+
+        if (i == 1)
+        {
+            convo_lst_ptr = c->all_edges;
+            node_lst_ptr = c->all_nodes->node->edges;
+        }
+        else
+        {
+            convo_lst_ptr = convo_lst_ptr->next;
+            node_lst_ptr = node_lst_ptr->next;
+        }
+
+        cr_assert_not_null(convo_lst_ptr, "add_edge() did not append Edge %d "
+                           "to all_edges in the convo", i);
+        cr_assert_not_null(node_lst_ptr, "add_edge() did not append Edge %d "
+                           "to edges in Node 1", i);
+
+        cr_assert_eq(strcmp(convo_lst_ptr->edge->quip, quip), 0,
+                     "Expected %s for the quip of Edge %d but add_edge set "
+                     "a different value", quip, i);
+        cr_assert_eq(strcmp(convo_lst_ptr->edge->from->node_id, "N1"), 0,
+                     "add_edge set the wrong from node for Edge %d", i);
+        cr_assert_eq(strcmp(convo_lst_ptr->edge->to->node_id, "N2"), 0,
+                     "add_edge set the wrong to node for Edge %d", i);
+    }
+}
 
 /*** Node ***/
 
@@ -163,49 +246,12 @@ Test(dialogue, convo_free)
     int rc;
 
     c = convo_new();
-    
+
     cr_assert_not_null(c, "convo_new() failed");
 
     rc = convo_free(c);
 
     cr_assert_eq(rc, SUCCESS, "convo_free() failed");
-}
-
-
-/*** Dialogue Building Functions ***/
-
-void check_add_node(int num_nodes)
-{
-    convo_t *c = convo_new();
-    char node_id[3];
-    char npc_dialogue[3];
-    node_list_t *cur;
-    int rc;
-
-    strcpy(node_id, "N_");
-    strcpy(npc_dialogue, "D_");
-
-    for (int i = 1; i <= num_nodes && i < 10; i++) {
-        node_id[1] = '0' + i;
-        npc_dialogue[1] = '0' + i;
-
-        rc = add_node(c, node_id, npc_dialogue);
-
-        cr_assert_eq(rc, SUCCESS, "add_node() failed for Node %d", i);
-
-        if (i == 1) cur = c->all_nodes;
-        else cur = cur->next;
-
-        cr_assert_not_null(cur, "add_node() did not append Node %d to "
-                           "all_nodes in the convo", i);
-
-        cr_assert_eq(strcmp(cur->node->node_id, node_id), 0,
-                     "Expected %s for the node_id of Node %d but add_node set "
-                     "a different value", node_id, i);
-        cr_assert_eq(strcmp(cur->node->npc_dialogue, npc_dialogue), 0,
-                     "Expected %s for the npc_dialogue of Node %d but add_node "
-                     "set a different value", npc_dialogue, i);
-    }
 }
 
 /* Checks that add_node works for 1 node */
@@ -218,49 +264,6 @@ Test(dialogue, add_one_node)
 Test(dialogue, add_five_nodes)
 {
     check_add_node(5);
-}
-
-
-void check_add_edge(int num_edges)
-{
-    convo_t *c = convo_new();
-    char quip[3];
-    edge_list_t *convo_lst_ptr, *node_lst_ptr;
-    int rc;
-
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-
-    strcpy(quip, "Q_");
-
-    for (int i = 1; i <= num_edges && i < 10; i++) {
-        quip[1] = '0' + i;
-
-        rc = add_edge(c, quip, "N1", "N2", NULL);
-
-        cr_assert_eq(rc, SUCCESS, "add_edge() failed for Edge %d", i);
-
-        if (i == 1) {
-            convo_lst_ptr = c->all_edges;
-            node_lst_ptr = c->all_nodes->node->edges;
-        } else {
-            convo_lst_ptr = convo_lst_ptr->next;
-            node_lst_ptr = node_lst_ptr->next;
-        }
-        
-        cr_assert_not_null(convo_lst_ptr, "add_edge() did not append Edge %d "
-                           "to all_edges in the convo", i);
-        cr_assert_not_null(node_lst_ptr, "add_edge() did not append Edge %d "
-                           "to edges in Node 1", i);
-
-        cr_assert_eq(strcmp(convo_lst_ptr->edge->quip, quip), 0,
-                     "Expected %s for the quip of Edge %d but add_edge set "
-                     "a different value", quip, i);
-        cr_assert_eq(strcmp(convo_lst_ptr->edge->from->node_id, "N1"), 0,
-                     "add_edge set the wrong from node for Edge %d", i);
-        cr_assert_eq(strcmp(convo_lst_ptr->edge->to->node_id, "N2"), 0,
-                     "add_edge set the wrong to node for Edge %d", i);
-    }
 }
 
 /* Checks that add_edge works for 1 edge */
@@ -459,6 +462,7 @@ Test(dialogue, one_failing_conditional)
    unsatisfied, results in 3 available edges */
 Test(dialogue, two_conditionals)
 {
+    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
     convo_t *c = convo_new();
     int rc;
     char *ret_str;
@@ -467,7 +471,7 @@ Test(dialogue, two_conditionals)
     player_t *p = player_new("player");
     item_t *i1 = item_new("item1", "short_desc", "long_desc");
     item_t *i2 = item_new("item2", "short_desc", "long_desc");
-    add_item_to_player(p, i1);
+    add_item_to_player(p, i1, ctx->game);
     condition_t *cond1 = inventory_condition_new(p, i1);
     condition_t *cond2 = inventory_condition_new(p, i2);
 
@@ -620,7 +624,7 @@ Test(dialogue, take_one_item)
 
     g->curr_player = p;
     g->mode = game_mode_new(NORMAL, NULL, "npc");
-    add_item_to_player(p, i);
+    add_item_to_player(p, i, g);
 
     room_t *r = room_new("room", "short", "long");
     g->curr_room = r;
