@@ -164,7 +164,7 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
     room_t *adjacentroom;
 
     path_t *pathtocurr;
-    path_t *pathtoadjacent
+    path_t *pathtoadjacent;
 
     if(room_exists_in_direction(curr, "north")){
         adjacentroom=find_room_in_direction(game, curr, "north");
