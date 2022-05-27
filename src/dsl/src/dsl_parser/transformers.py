@@ -46,8 +46,6 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     # gets the player class id.
     class_id = s.pop(0)[1]
 
-    # d = dict((k, v) for k, v in s)
-
     return ('PLAYER_CLASS', (class_id, {}))
     # return ('PLAYER_CLASS', (class_id, d))
 
@@ -83,7 +81,6 @@ def transform_connections(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
 def transform_item(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an item and places them
     into a dictionary which is labeled "ITEM" """
-    print("item s: ", s)
     return ('ITEM', dict(s))
 
 
@@ -125,22 +122,26 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
 def transform_attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
-    print("attribnutes s: ", s)
-    print()
     return ('attributes', s)
 
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an base_stats and places them
     into a dictionary which is labeled "base_stats" """
-    print("base_stats s: ", s)
-    print()
-    return ('base_stats', s)
+    return ('base_stats', dict(s))
 
-def transform_stat_setting(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
-    return('stat_setting', s)
+def transform_stat_setting(self, s: list[tuple[str, Token]]) -> tuple[str, dict]:
+    return('stat_setting', dict(s))
 
-def transform_boolean(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
-    return('boolean', s)
+def transform_state(self, s: list[tuple[Token]]) -> tuple[str, dict]:
+    count = 1
+    d = {}
+    for t in s:
+        if count == 1:
+            d["CURRENT"] = t[0]+t[1]
+        elif count == 2:
+            d["MAX"] = t[0]+t[1]
+        count += 1
+    return('state', d)
 
 
 def transform_misplaced(self, s: list[Token]) -> str:

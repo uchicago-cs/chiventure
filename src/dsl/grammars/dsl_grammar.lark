@@ -14,10 +14,11 @@ item: _NL "ITEM" id "IN" location property* action*
 
 player_class: _NL "PLAYER_CLASS" id (property | attributes | base_stats)*
 
-attributes: _NL "ATTRIBUTES" _NL id "SET" boolean
+attributes: _NL "ATTRIBUTES" _NL id "SET" ("TRUE"|"FALSE")
 
 base_stats: _NL "BASESTATS" stat_setting*
-stat_setting: _NL id _NL "CURRENT" NUMBER _NL "MAX" NUMBER
+stat_setting: _NL id state*
+state: _NL "CURRENT" NUMBER _NL "MAX" NUMBER
 
 action: _NL ("action:"|"actions:") action_ids property*
 action_ids: id ("," id)*
@@ -47,9 +48,9 @@ id: phrase
 
 location: phrase
 
-phrase: STRING+
+num: phrase
 
-boolean: ("TRUE"|"FALSE")
+phrase: STRING+
 
 
 // NEWLINE(s), whitespace, and comments

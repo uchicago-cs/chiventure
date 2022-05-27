@@ -25,5 +25,5 @@ PLAYER_CLASS KNIGHT
         noble SET TRUE
     BASESTATS
         health 
-            CURRENT 20 
+            CURRENT 20
             MAX 100
