@@ -8,6 +8,7 @@
 #include "../src/custom-actions/include/interface.h"
 #include "skilltrees/skilltree.h"
 #include "game-state/room.h"
+#include "playerclass/class.h"
 
 const char* banner =
 " ▄▄▄       ▄████▄  ▄▄▄█████▓ ██▓ ▒█████   ███▄    █     ███▄ ▄███▓ ▄▄▄       ███▄    █  ▄▄▄        ▄████ ▓█████  ███▄ ▄███▓▓█████  ███▄    █ ▄▄▄█████▓\n"
@@ -78,7 +79,7 @@ chiventure_ctx_t *create_sample_ctx()
     HASH_ADD_KEYPTR(hh, game->all_players, player->player_id, strlen(player->player_id), player);
 
     //Adding skills to skilltree and adding skilltree to class
-    player->player_class = new_class("Vampire", "Vampire", "Feeds on Students",
+    player->player_class = class_new("Vampire", "Vampire", "Feeds on Students",
                               NULL, NULL, NULL); //Add Stats Htbl to 2nd NULL?
     skill_t *skill1 = skill_new(1002, ACTIVE, "Teach", "Educate the blossoming new generation", 10, 100, NULL, NULL);
     skill_t *skill2 = skill_new(1002, ACTIVE, "Suck Blood", "No one knows how or when this happens", 10, 100, NULL, NULL);
