@@ -52,42 +52,42 @@ Test(parse_r, single_input_r)
     check_comparison(str, 1, expecting_words);
 }
 
-//Tests the parsing of an input of 2 words connected by AND which should return the 2 words.
+//Tests the parsing of an input of 2 words connected by ; which should return the 2 words.
 Test(parse_r, two_words_r)
 {
     char* expecting_words[2];
     expecting_words[0] = "LOOK ";
     expecting_words[1] = " PUSH";
-    char str[] = "LOOK AND PUSH";
+    char str[] = "LOOK ; PUSH";
     check_comparison(str, 2, expecting_words);
 }
 
-//Tests the parsing of an input of 3 words connected by AND which should return 3 words.
+//Tests the parsing of an input of 3 words connected by ; which should return 3 words.
 Test(parse_r, three_words_r)
 {
     char* expecting_words[3];
     expecting_words[0] = "LOOK ";
     expecting_words[1] = " PUSH ";
     expecting_words[2] = " DESTROY";
-    char str[] = "LOOK AND PUSH AND DESTROY";
+    char str[] = "LOOK ; PUSH ; DESTROY";
     check_comparison(str, 3, expecting_words);
 }
 
 /*
  * Tests the parsing of an input of 3 words where the first 2 words 
- * are connected by AND to the last word which should return an array of 2 elemets 
- * where the first element has 2 words and the second just has 1 word.
+ * are connected by ; to the last word which should return an array of 2 elemets 
+ * where the first element has 2 words ; the second just has 1 word.
  */
 Test(parse_r, two_three_words)
 {
     char* expecting_words[2];
     expecting_words[0] = "LOOK PUSH ";
     expecting_words[1] = " DESTROY";
-    char str[] = "LOOK PUSH AND DESTROY";
+    char str[] = "LOOK PUSH ; DESTROY";
     check_comparison(str, 2, expecting_words);
 }
 
-//Tests the parsing of an input of words more than the TOKEN_LIST_SIZE connected by AND.
+//Tests the parsing of an input of words more than the TOKEN_LIST_SIZE connected by ;.
 Test(parse_r, more_than_four_words)
 {
     char* expecting_words[5];
@@ -96,12 +96,12 @@ Test(parse_r, more_than_four_words)
     expecting_words[2] = " EAT ";
     expecting_words[3] = " DRINK ";
     expecting_words[4] = " SLEEP";
-    char str[] = "LOOK PUSH AND DESTROY AND EAT AND DRINK AND SLEEP";
+    char str[] = "LOOK PUSH ; DESTROY ; EAT ; DRINK ; SLEEP";
     check_comparison(str, 5, expecting_words);
 }
 
-//Tests the parsing of input with many "AND" between each word.
-Test(parse_r, multiple_ands)
+//Tests the parsing of input with many ";" between each word.
+Test(parse_r, multiple_semicolons)
 {
     char* expecting_words[5];
     expecting_words[0] = "LOOK PUSH ";
@@ -109,7 +109,7 @@ Test(parse_r, multiple_ands)
     expecting_words[2] = " EAT ";
     expecting_words[3] = " DRINK ";
     expecting_words[4] = " SLEEP";
-    char str[] = "LOOK PUSH ANDAND DESTROY AND EAT AND DRINK ANDANDAND SLEEP";
+    char str[] = "LOOK PUSH ;; DESTROY ; EAT ; DRINK ;;; SLEEP";
     check_comparison(str, 5, expecting_words);
 }
 
@@ -356,30 +356,30 @@ Test(parse, too_many_words_in_quotes)
     cr_assert_str_eq("look look look look look", words[0], "parse() did not initialize the token to NULL correctly");
 }
 
-/*Tests the parsing of an input of 1 word followed by AND which should return only the command*/
-Test(parse_r, two_words_end)
+/*Tests the parsing of an input of 1 word followed by ';'' which should return only the command*/
+Test(parse_r, semi_colon_end)
 {
     char* expecting_words[1];
-    expecting_words[0] = "LOOK ";
-    char str[] = "LOOK AND";
+    expecting_words[0] = "LOOK";
+    char str[] = "LOOK;";
     check_comparison(str, 1, expecting_words);
 }
 
-/*Tests input in which the and is before any command*/
-Test(parse_r, start_and)
+/*Tests input in which the ';'' is before any command*/
+Test(parse_r, start_semi_colon)
 {
     char* expecting_words[1];
     expecting_words[0] = " PUSH";
-    char str[] = "AND PUSH";
+    char str[] = "; PUSH";
     check_comparison(str, 1, expecting_words);
 }
 
-/*Tests input in which the and is before any command*/
-Test(parse_r, and_sandwich)
+/*Tests input in which the ';'' is before any command*/
+Test(parse_r, semi_colon_sandwich)
 {
     char* expecting_words[1];
-    expecting_words[0] = " PUSH ";
-    char str[] = "AND PUSH AND";
+    expecting_words[0] = "PUSH";
+    char str[] = ";PUSH;";
     check_comparison(str, 1, expecting_words);
 }
 
