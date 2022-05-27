@@ -23,6 +23,7 @@
  * Paramaters:
  *  - base_class: the character's base class (their current class).
  *  - second_class: the class being added to the original class.
+ *  - succ: out parameter that checks if the concatentaion was successful
  *
  * Returns:
  *  - a pointer to a string with the new shortdesc.
@@ -36,12 +37,15 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
     int len = 0;
 
     if ((strstr(base_class->name, "Multiclass of ") == NULL)){
-      len += 14;
+        //length of string being appended
+        len += 14;
     }
     len += strlen(base_class->name);
     if (num_multiclass == 2){
+        //length of ', ', same for future 2's
         len += 2;
     } else{
+        //length of ' and ', same for future 5's
         len += 5;
     }
     len += strlen(second_class->name);
@@ -61,6 +65,7 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
         }
         len += strlen(second_class->parent_class_names[i]);
     }
+    // length of '.'
     len += 1;
 
     if (len > MAX_SHORT_DESC_LEN + 1) {
@@ -108,6 +113,7 @@ char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ
  * Paramaters:
  *  - base_class: the character's base class (their current class).
  *  - second_class: the class being added to the original class.
+ *  - succ: out parameter that checks if the concatentaion was successful
  *
  * Returns:
  *  - a pointer to a string with the new longdesc.
