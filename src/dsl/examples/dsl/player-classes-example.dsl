@@ -21,9 +21,9 @@ ROOM room C
 PLAYER_CLASS KNIGHT
     short desc: "this a knight"
     long desc: "he is out to save the world"
-    attributes: 
-        noble set TRUE
-    base stats: 
+    ATTRIBUTES 
+        noble SET TRUE
+    BASESTATS
         health 
             CURRENT 20 
             MAX 100
