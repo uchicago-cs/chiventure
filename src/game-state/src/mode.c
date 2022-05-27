@@ -151,7 +151,6 @@ int run_battle_mode (char *input, cli_callback callback_func,
     
     // for returning errors
     int rc;
-
     // run the corrisponding action and get the result string
     char *output = run_action(input, ctx);
 
@@ -165,7 +164,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
         rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
         return SUCCESS;
     }
-    
+
     // iterate to the next turn component
     battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
     battle_ctx->current_turn_tcl = battle_ctx->current_turn_tcl->next;
