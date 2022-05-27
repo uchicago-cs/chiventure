@@ -51,12 +51,12 @@ int free_map_graphics(map_graphics_t *map_graphics);
  * draw the map to the screen
  *
  * Parameters:
- * - none
+ * - a map_graphics struct
  *
  * Returns:
- * - none
+ * - SUCCESS upon success
  */
-void draw_map_graphics(map_graphics_t *map_graphics);
+int draw_map_graphics(map_graphics_t *info);
 
 
 #endif

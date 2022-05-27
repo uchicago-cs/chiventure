@@ -46,7 +46,10 @@ bool is_task_completed(task_t *task, player_t *player)
 bool get_player_task_status(task_t *task, player_t *player)
 {
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
-    return ptask->completed;
+    if(ptask != NULL) {
+        return ptask->completed;
+    }
+    return false;
 }
 
 /* Refer to quest_state.h */
@@ -284,4 +287,32 @@ int update_player_quests(quest_ctx_t *qctx) {
 /* Refer to quests_state.h */
 void update_task(char *task_id, quest_ctx_t *qctx) {
     accept_reward(complete_task(task_id, qctx), qctx);
+}
+
+/* Refer to quests_state.h */
+bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
+{
+    assert(qctx != NULL);
+    quest_t *quest = get_quest_from_hash(quest_id, qctx->quest_hash);
+
+    assert(quest != NULL);
+    
+    prereq_t *prereq = quest->prereq;
+    player_t *player = qctx->player;
+
+    return (meets_prereqs(player, prereq));
+}
+
+/* Refer to quests_state.h */
+bool npc_can_give_task(quest_ctx_t *qctx, char *task_id)
+{
+    assert(qctx != NULL);
+    task_t *task = get_task_from_quest_hash(task_id, qctx->quest_hash);
+
+    assert(task != NULL);
+    
+    prereq_t *prereq = task->prereq;
+    player_t *player = qctx->player;
+
+    return (meets_prereqs(player, prereq));
 }

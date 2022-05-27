@@ -2,7 +2,6 @@
 #define _NPC_H
 
 #include "game-state/game_state_common.h"
-#include "game-state/item.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "npc/dialogue.h"
@@ -44,7 +43,47 @@ typedef struct npc {
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
+
+    /* pointer to game_action hashtable */
+    game_action_hash_t *actions;
 } npc_t;
+
+/* Agent: a struct of things that you can perform actions upon
+ * - item: an item
+ * - npc: an NPC
+ */
+typedef struct agent
+{
+   item_t *item;
+   npc_t *npc;
+} agent_t;
+
+enum agent_tag {ITEMS, NPCS};
+
+// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
+typedef struct game_action_effect{
+    enum agent_tag agent_tag;
+    agent_t *agent;
+    attribute_t *attribute_to_modify;
+    attribute_value_t *new_value;
+    struct game_action_effect *next; //mandatory for utlist macros
+} game_action_effect_t;
+
+/* This typedef is to distinguish between game_action_effect_t
+ * pointers which are used to point to the game_action_effect_t structs
+ * in the traditional sense, and those which are used to enable UTLIST functionality
+ * on the game_action_effect_t structs as specified in src/common/include */
+typedef struct game_action_effect action_effect_list_t;
+
+
+typedef struct game_action {
+    UT_hash_handle hh;
+    char* action_name;
+    condition_list_t *conditions; //must be initialized to NULL
+    action_effect_list_t *effects; //must be initialized to NULL
+    char* success_str;
+    char* fail_str;
+} game_action_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
  * used to point to the npc_t structs in the traditional sense,
@@ -310,6 +349,23 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
  *  the npc's new hp level
  */
 int change_npc_hp(npc_t *npc, int change);
+
+/*
+ * Moves an npc to the next room in their movement path
+ *
+ * Parameters:
+ * npc: The NPC struct
+ *
+ * Returns:
+ * FAILURE: if a move does not occur, 
+ * SUCCESS: if successful move to the next room, with the only exception
+ * being if an indefinite NPC has more than one room in its path, and then
+ * reaches the end of its path, in which case its path direction is flipped,
+ * and its time_ray for the current step in its path is reset, but it does not
+ * technically change rooms.
+ *
+ */
+int move_npc(npc_t *npc);
 
 // HASH TABLE FUNCTIONS ---------------------------------------------------
 
