@@ -196,12 +196,13 @@ battle_game_t *new_battle_game()
 }
 
 /* see battle_flow_structs.h */
-turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p)
+turn_component_t *new_turn_component(int m, int i, int p)
 {
-      tc.move = m;
-      tc.item = i;
-      tc.pass = p;
-      return SUCCESS;
+    turn_component_t *tc = (turn_component_t*)malloc(sizeof(turn_component_t));
+    tc->move = m;
+    tc->item = i;
+    tc->pass = p;
+    return tc;
 }
 
 /* see battle_flow_structs.h */

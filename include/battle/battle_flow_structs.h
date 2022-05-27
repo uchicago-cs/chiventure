@@ -183,18 +183,17 @@ battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats,
 battle_game_t *new_battle_game();
 
 /*
- * Initializes a turn_component
+ * Creates a turn_component
  *
  * Parameters:
- *  - tc: A turn component.
  *  - move: determines whether a move can be used or not. Will be 1 or 0.
  *  - item: determines whether an item can be used or not. Will be 1 or 0.
  *  - pass: determines whether a pass can be used or not. Will be 1 or 0.
  *
  * Returns:
- *  - 0 on success, 1 if an error occurs
+ *  - pointer to the new turn component
  */
-turn_component_t *init_turn_component(turn_component_t tc, int move, int item, int pass);
+turn_component_t *new_turn_component(int move, int item, int pass);
 
 /*
  * Allocates a new turn component list in the heap.

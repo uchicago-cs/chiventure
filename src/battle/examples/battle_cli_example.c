@@ -82,19 +82,17 @@ npc_t *create_minion_one()
 }
 
 /* sets up the context for the first demo battle */
-room_t *room = setup_battle_one(chiventure_ctx_t *ctx)
+room_t *setup_battle_one(chiventure_ctx_t *ctx)
 {
     srand(time(0)); // sets seed
 
     // sets up the turn component list
-    turn_component_t tc1;
-    init_turn_component(tc1, 1, 1, 0);
+    turn_component_t *tc1 = new_turn_component(1, 1, 0);
 
-    turn_component_t tc2;
-    init_turn_component(tc2, 0, 1, 1);
+    turn_component_t *tc2 = new_turn_component(0, 1, 1);
 
-    turn_component_list_t *turn_cl_rest = new_turn_component_list(&tc2, NULL);
-    turn_component_list_t *turn_cl = new_turn_component_list(&tc1, turn_cl_rest);
+    turn_component_list_t *turn_cl_rest = new_turn_component_list(tc2, NULL);
+    turn_component_list_t *turn_cl = new_turn_component_list(tc1, turn_cl_rest);
 
     ctx->game->battle_ctx->tcl = turn_cl;
     
