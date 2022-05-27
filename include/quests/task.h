@@ -177,5 +177,18 @@ int task_init(task_t *task, char *id, mission_t *mission, reward_t *reward, prer
  */
 int task_free(task_t *task);
 
+/* 
+ * Frees a task tree struct from memory b
+ * 
+ * Parameter:
+ * - task_tree: the task to be freed
+ * 
+ * Returns:
+ * - SUCCESS for successful free
+ * - FAILURE for unsuccessful free
+ */
+
+ int task_tree_free(task_tree_t *task_tree); 
+
 
 #endif /* TASK_H */

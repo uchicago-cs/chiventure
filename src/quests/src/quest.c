@@ -3,7 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quest.h"
-#define QUEST_NAME_MAX_LEN 100
+#define QUEST_NAME_MAX_LEN 44
 
 /* Refer to quest.h */
 quest_t *quest_new(char *quest_id, reward_t *reward, prereq_t *prereq) 
@@ -46,9 +46,9 @@ int quest_free(quest_t *q)
     assert(q != NULL);
 
     free(q->quest_id);
-    free(q->task_tree);
+    task_tree_free(q->task_tree);
     free(q->reward);
-    free(q->prereq);
+    prereq_free(q->prereq);
     free(q);
 
     return SUCCESS;

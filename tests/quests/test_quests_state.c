@@ -10,6 +10,7 @@
 #include "game-state/room.h"
 #include "game-state/player.h"
 #include "game-state/game.h"
+#include "quests/quests_cli.h"
 
 /* Tests the function that adds the contents of a reward struct into a player struct */
 Test(quest, accept_reward) {
@@ -263,4 +264,80 @@ Test(quest,complete_quest)
     cr_assert_str_eq(res->item->item_id, "test_item", "complete_quest failed to reward the item");
 }
 
+/* Tests the function for if an npc gives quest */
+Test(quest, npc_can_give_quest)
+{
+    item_t *item = item_new("test_item", "item for testing", "test item");
+	quest_t *quest = create_sample_quest("test", true, 50, item, true, 50, 5);
+    quest_ctx_t *qctx = create_sample_ctx();
+    add_quest_to_hash(quest, &qctx->quest_hash);
 
+    player_t *player = create_sample_player("player", 60, 6);
+    qctx->player = player;
+
+    int check = npc_can_give_quest(qctx, "test");
+
+    cr_assert_eq(check, true, "npc_can_give_quest() failed");
+}
+
+/* Tests the function if an npc gives tasks */
+Test(quest, npc_can_give_task)
+{
+    item_t *item = item_new("test_item", "item for testing", "test item");
+	quest_t *quest = create_sample_quest("test", true, 50, item, true, 50, 5);
+    task_t *task = create_sample_task("test", false, NULL, KILL_NPC, false, 0, NULL, true, 50, 5);
+    add_task_to_quest(quest, task, NULL);
+    quest_ctx_t *qctx = create_sample_ctx();
+    add_quest_to_hash(quest, &qctx->quest_hash);
+
+    player_t *player = create_sample_player("player", 60, 6);
+    qctx->player = player;
+
+    int check = npc_can_give_task(qctx, "test");
+
+    cr_assert_eq(check, true, "npc_can_give_task() failed");
+}
+
+Test(task_tree, free)
+{
+    char *id1 = "test mission";
+
+    mission_t *mission1 = mission_new("Steve", MEET_NPC);
+
+    item_t *item1 = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    int xp1 = 40;
+    reward_t *rewards1 = reward_new(xp1, item1);
+
+    prereq_t *prereq1 = prereq_new(3, 2);
+
+	task_t* task1 = task_new(id1, mission1, rewards1, prereq1);
+
+    char *id2 = "test mission22";
+
+    mission_t *mission2 = mission_new("JOe", MEET_NPC);
+
+    item_t *item2 = item_new("reward_item", "item for rewarding",
+    "test item for item_new()");
+    int xp2 = 40;
+    reward_t *rewards2 = reward_new(xp2, item2);
+
+    prereq_t *prereq2 = prereq_new(3, 2);
+
+	task_t* task2 = task_new(id2, mission2, rewards2, prereq2);
+
+    item_t *item = item_new("test item", "item for testing", "item");
+    reward_t *rewards = reward_new(20, item);
+    prereq_t *prereq = prereq_new(50, 50);
+    task_tree_t *task_tree = NULL;
+
+    quest_t* q = quest_new("test", rewards, prereq);
+    q->task_tree = task_tree;
+
+    int add_parent = add_task_to_quest(q, task2, "test mission22");
+    int add_child = add_task_to_quest(q, task1, "test mission");
+
+    int freed = task_tree_free(q->task_tree);
+
+    cr_assert_eq(freed, SUCCESS, "task_tree_free() failed");
+}
