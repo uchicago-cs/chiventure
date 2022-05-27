@@ -50,5 +50,5 @@ Your mentor teaches you about complex skills, classes, and how to read, when he 
 `GO NORTH`
 `READ_WEAKNESS`
 `SMASH_WINDOW!`
-`TURN_INTO_ORC`
+`TURN_INTO_ORC_AGAIN`
 `SMASH_WINDOW!`
