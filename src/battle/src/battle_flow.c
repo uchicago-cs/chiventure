@@ -9,7 +9,9 @@
 /* see battle_flow.h */
 int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)
 {
+    // battle game from the given battle context
     battle_game_t *g = ctx->game;
+    // battle player from the given battle game
     battle_player_t *player = g->player;
     // Set battle_player, enemies, and battle structs for a new battle
     battle_t *b = set_battle(player, npc_enemy, env);
@@ -331,6 +333,22 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
     }
 }
 
+/* see battle_flow.h*/
+char *enemy_run_turn(battle_ctx_t *ctx) 
+{
+    char *res_string;
+    while (ctx->game->battle->current_tc)
+    {
+        res_string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        if(ctx->game->battle->current_tc->move) 
+        {
+            char *enemy_move_report = enemy_make_move(ctx);
+            strcat(res_string, enemy_move_report);
+        }
+  }
+  return res_string;
+}
+
 /* see battle_flow.h */
 char *enemy_make_move(battle_ctx_t *ctx) 
 {
@@ -386,31 +404,9 @@ char *enemy_make_move(battle_ctx_t *ctx)
     return string;
 }
 
-
 /* see battle_flow.h */
-int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
-                        void *callback_args, cli_callback callback_func)
+char *run_action(char *input, chiventure_ctx_t *ctx)
 {
-    move_t *legal_moves = NULL;
-    battle_item_t *legal_items = NULL;
-    get_legal_actions(legal_items, legal_moves, component, 
-                        ctx->game->battle_ctx->game->battle);
-    if (ctx->game->battle_ctx->game->battle->turn == ENEMY)
-    {
-        battle_flow_move(ctx->game->battle_ctx, 
-                        ctx->game->battle_ctx->game->player->moves, 
-                        ctx->game->battle_ctx->game->battle->player->name);
-        char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
-                                ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->battle->enemy->moves);
-        callback_func(ctx, movestr, callback_args);
-    }
-    char *strg = print_battle_action_menu(legal_items, legal_moves);
-    // print to cli
-    callback_func(ctx, strg, callback_args);
-    // take in user input
-    char *input;
-    scanf("%s", input);
     if (input[0] == 'M' || input[0] == 'm')
     {
         // take the index of the move, under the assumption that the list is less than 10 moves long
@@ -419,17 +415,13 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
         {
             if (ctx->game->battle_ctx->game->player->moves == NULL)
             {
-                return callback_func(ctx, "That move does not exist.", callback_args);
+                return "That move does not exist.";
             }
             if (k == index-1)
             {
-                    battle_flow_move(ctx->game->battle_ctx, 
+                    return battle_flow_move(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->moves, 
                                 ctx->game->battle_ctx->game->battle->enemy->name);
-                    char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
-                                ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->player->moves);
-                    callback_func(ctx, movestr, callback_args);
             }
             else
             {
@@ -445,16 +437,12 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
         {
             if (ctx->game->battle_ctx->game->player->items == NULL)
             {
-                return callback_func(ctx, "That item does not exist.", callback_args);
+                return "That item does not exist.";
             }
             if (k == index-1)
             {
-                battle_flow_item(ctx->game->battle_ctx, 
+                return battle_flow_item(ctx->game->battle_ctx, 
                                 ctx->game->battle_ctx->game->player->items);
-                char *itemstr = print_battle_move(ctx->game->battle_ctx->game->battle,
-                                ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->player->moves);
-                callback_func(ctx, itemstr, callback_args);
             }
             else 
             {
@@ -465,16 +453,9 @@ int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
     } 
     else if (input[0] == 'D' || input[0] == 'd') 
     {
-        char *str = (char *) malloc (sizeof(char) * 17);
-        str = "You did nothing.";
-        callback_func(ctx, "You did nothing.", callback_args);
-        return 1;
+        return "You did nothing.";
     } 
-    else 
-    {
-        return callback_func(ctx, "That action does not exist.", callback_args);
-    }
-    return 1;
+    return "That action does not exist.";
 }
 
 /* see battle_flow.h */
