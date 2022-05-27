@@ -403,7 +403,7 @@ Test(battle_logic, do_not_find_item)
  * between warrior and strength up, but we might want to expand on these tests
  */
  
-/*
+
 Test(battle_logic, consume_a_battle_item)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -411,13 +411,13 @@ Test(battle_logic, consume_a_battle_item)
     pstats->max_hp = 20;
     pstats->phys_def = 15;
     pstats->phys_atk = 15;
-    combatant_t *p = combatant_new("Warrior", true, NULL, pstats, NULL, NULL, 
+    combatant_t *p = combatant_new("warrior", true, NULL, pstats, NULL, NULL, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
     stat_changes_t *changes = stat_changes_new();
-    changes->phys_atk = 0;
+    changes->phys_atk = 10;
     changes->phys_def = 0;
     changes->hp = 0;
     i1->attributes = changes;
@@ -428,12 +428,12 @@ Test(battle_logic, consume_a_battle_item)
     cr_assert_eq(p->stats->hp, 10, "consume_battle_item() failed for hp!");
     cr_assert_eq(p->stats->phys_def, 15, "consume_battle_item() failed for physical defense!");
     // note, since the consumable will multiplier the stats by 1.5 for the phys atk (since it is 
-    // Strength Up), we will add 20 * 1.5 to 15, which will be 45
-    cr_assert_eq(p->stats->phys_atk, 45, "consume_battle_item() failed for physical attack!");
+    // Strength Up), we will add 10 * 1.5 to 15, which will be 30
+    cr_assert_eq(p->stats->phys_atk, 30, "consume_battle_item() failed for physical attack!");
 
     combatant_free(p);
 }
-*/
+
 
 /*
  * This is simialr to the test above except there are now two battle_items in
