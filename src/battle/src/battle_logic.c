@@ -209,9 +209,7 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
     if ((target_stats->sp + (item->attributes->sp * mults->sp)) <= target_stats->max_sp)
     {
         target_stats->sp += item->attributes->sp * mults->sp;
-    }
-    else
-    {
+    } else {
         target_stats->sp = target_stats->max_sp;
     }
     target_stats->phys_atk += item->attributes->phys_atk * mults->phys_atk;
@@ -225,8 +223,7 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
     if ((target_stats->hp += (item->attributes->hp * mults->hp)) <= target_stats->max_hp)
     {
         target_stats->hp += item->attributes->hp * mults->hp;
-    }else
-    {
+    } else {
         target_stats->hp = target_stats->max_hp;
     }
     return SUCCESS;
