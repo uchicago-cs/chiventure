@@ -12,6 +12,8 @@
     /* this takes in start of line and "open" and returns the token OPEN */
 open { return OPEN; }
 
+close { return CLOSE; }
+
 push { return PUSH; }
 
 pull { return PULL; }
@@ -26,7 +28,7 @@ pickup { return PICKUP; }
 
 drop { return DROP; }
 
-cosume { return CONSUME; }
+consume { return CONSUME; }
 
 the { return THE; }
 
