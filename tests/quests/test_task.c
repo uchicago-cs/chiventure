@@ -110,3 +110,4 @@ Test(task, free)
 
 	cr_assert_eq(freed, SUCCESS, "task_free() test has failed!");
 }
+

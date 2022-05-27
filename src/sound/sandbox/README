@@ -100,3 +100,9 @@ The basic design is provided. However, the current version of sound module conta
 ## Residual Backlog Issues from Sound Team Spring 2021:
 Implement play/load sound function:
 Play sound within src/sound/sound.c appears to be working, but the sound_init() function does not incorporate the given variables correctly. This doesn’t seem to be an issue when playing a sound, so perhaps sound_init() is unnecessary. Additionally, to play the sound we are able to use SDL_OpenAudioDevice(), SDL_QueueAudio(), SDL_delay() functionally while also ending and closing the sound file with SDL_CloseAudioDevice(), SDL_FreeWAV(), and SDL_Quit().
+
+## Text to Speech Feature
+We have used to the sandbox to explore how to add the text to speech feature to the sound module. We believe that this feature could significantly improve the chiventure game experience, through bringing dialogues and NPC interactions to life. For the implementation of text to speech, we mainly referenced https://github.com/espeak-ng/espeak-ng/blob/master/docs/integration.md. Our text to speech demo is available in test-espeak.c, where you can input a string and have the text to speech audio play for that string. In order to compile and run the test-espeak.c example, you can run the following in the src/sound/sandbox directory to compile:
+    gcc test-espeak.c -lespeak-ng -o test-espeak
+and you can run the following in the src/sound/sandbox directory to hear the sound:
+    ./test-espeak
