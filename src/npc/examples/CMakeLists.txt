@@ -17,9 +17,12 @@ add_executable(battle_move_example_2021
 
 add_executable(npc_example_2022 npc_example_2022.c)
 
+target_link_options(npc_example_2022 PRIVATE -lpthread)
+
 add_executable(battle_npc_with_time_example_2022
                battle_npc_with_time_example_2022.c)
 
+target_link_options(battle_npc_with_time_example_2022 PRIVATE -lpthread)
 # Link with chiventure libraries
 foreach(example ${NPC_EXAMPLES})
     foreach(module ${CHIVENTURE_MODULES})
