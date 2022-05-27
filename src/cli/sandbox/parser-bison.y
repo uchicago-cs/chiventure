@@ -41,17 +41,9 @@ void yyerror(char* s);
 %token<word> CREDITS
 %token<word> WORD
 
+
 %type<word_list> kind1_cmd
 %type<word_list> kind1_cmd_keyword
-
-%type<word_list> kind2_action
-%type<word_list> kind2_action_keyword
-
-%type<word_list> kind3_action
-%type<word_list> kind3_action_keyword
-
-%type<word_list> kind4_action
-%type<word_list> kind4_action_keyword
 
 %type<word_list> phrase 
 %type<word_list> go_cmd
@@ -132,7 +124,6 @@ kind4_action_keyword
   | line view_cmd EOL { handle_view_cmd($2); }
 */  
   ;
-
 
 
 go_cmd
