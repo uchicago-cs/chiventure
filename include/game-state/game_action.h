@@ -1,10 +1,11 @@
 #ifndef _GAME_ACTION_H
 #define _GAME_ACTION_H
 
+#include "item.h"
 #include "game_state_common.h"
 #include "action_management/action_structs.h"
 #include "condition.h"
-#include "item.h"
+#include "npc/npc.h"
 
 
 // ------------------------- ACTION FUNCTIONS -------------------------
@@ -13,16 +14,16 @@
 
 /* get_action() returns the game_action_t associated with an action
  * Parameters:
- *  a pointer to the item
+ *  a pointer to the agent
  *  the action name
  * Returns:
  *  the action struct associated or NULL if not associated
  */
-game_action_t *get_action(item_t *item, char* action_name);
+game_action_t *get_action(agent_t *agent, char *action_name);
 
-/* add_action() adds a (presumed legal) action to an item
+/* add_action() adds a (presumed legal) action to an agent
  * Parameters:
- *  a pointer to the item
+ *  a pointer to the agent
  *  the action name
  *  the action struct
  *  the action type (as specified by action management)
@@ -31,17 +32,17 @@ game_action_t *get_action(item_t *item, char* action_name);
  * Returns:
  *  SUCCESS if added correctly, FAILURE if failed to add
  */
-int add_action(item_t* item, char *action_name, char* success_str, char* fail_str);
+int add_action(agent_t *agent, char *action_name, char *success_str, char *fail_str);
 
 
 /* possible_action() checks if an item permits a specific action
  * Parameters:
- *  a pointer to the item
+ *  a pointer to the agent
  *  the action name
  * Returns:
  *  SUCCESS if item contains action, FAILURE if it does not
  */
-int possible_action(item_t* item, char* action_name);
+int possible_action(agent_t *agent, char *action_name);
 
 /*
  * Function to get a linked list (utlist) of all the actions in the item
@@ -80,7 +81,7 @@ int game_action_free(game_action_t *action_tofree);
  *  ITEM_MODIFY_NULL if the item ID does not exist
  */
 int add_action_attribute_condition(game_action_t *action, item_t *cond_item, 
-			 attribute_t *cond_attribute, attribute_value_t cond_value);
+			 attribute_t *cond_attribute, attribute_value_t *cond_value);
 
 /* add_action_inventory_condition() creates a new inventory condition for an item's action and
  * adds to the action's condition list
@@ -150,7 +151,7 @@ int delete_action(list_action_type_t **head, list_action_type_t *act);
  * ITEM_MODIFY_NULL if item to modify is null
  */
 int add_action_effect(game_action_t *action, item_t *item_to_add, 
-		      attribute_t *attribute, attribute_value_t new_value);
+		      attribute_t *attribute, attribute_value_t *new_value);
 
 /* delete_action_effect_llist frees a linked list of action effects
  * Parameters:
@@ -173,12 +174,12 @@ int do_effect(game_action_effect_t *effect);
 
 /* do_all_effects() sets all effects of an action
  * Parameters:
- *  pointer to the item to check
+ *  pointer to the agent to check
  *  the action_name
  * Returns:
  *  SUCCESS if all effects are set, FAILURE if not
  */
-int do_all_effects(item_t* item, char* action_name);
+int do_all_effects(agent_t *agent, char *action_name);
 
 /* action_init() initializes an action struct with given values
    arguments are taken from action management
@@ -221,6 +222,6 @@ int do_effect(game_action_effect_t *effect);
  * NULL or game_action_effect_t
  */
 game_action_effect_t *effect_new(item_t *item_to_modify, 
-				 attribute_t *attribute, attribute_value_t new_value);
+				 attribute_t *attribute, attribute_value_t *new_value);
 
 #endif
