@@ -314,7 +314,7 @@ int game_autogenerate_static(game_t* g, gencontext_t *context, int num_rooms, ch
 
             currspec=roomspecs[i];
             specname=currspec->room_name;
-            if(strcmp(first_room, currspec)==0){
+            if(strcmp(first_room, specname)==0){
                 room_t* firstroom=roomspec_to_room(currspec, coords);
                 add_room_to_game(g, firstroom);
             }
