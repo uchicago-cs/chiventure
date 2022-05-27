@@ -591,7 +591,7 @@ int load_npcs(obj_t *doc, game_t *g)
 
         // load quests
         obj_list_t *quests_obj_list;
-        if ((quests_obj_list = obj_list_get(curr, "Quests")) != NULL) {
+        if ((quests_obj_list = obj_get_list(curr, "Quests")) != NULL) {
             if (load_quests(quests_obj_list, npc, g) != SUCCESS) {
                 fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
                         id);
@@ -601,7 +601,7 @@ int load_npcs(obj_t *doc, game_t *g)
 
         // load tasks
         obj_t *tasks_obj_list;
-        if ((tasks_obj_list = obj_list_get(curr, "Tasks")) != NULL) {
+        if ((tasks_obj_list = obj_get_list(curr, "Tasks")) != NULL) {
             if (load_tasks(tasks_obj_list, npc, g) != SUCCESS) {
                 fprintf(stderr, "Tasks was not loaded properly. NPC: %s\n",
                         id);
