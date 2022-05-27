@@ -278,7 +278,7 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
         if (strcmp(item->name, "Healing Potion") == 0) {
             mults->hp = 1; // 1.5
         }
-    }
+    } 
     if (strcmp(class->name, "bard") == 0) {
         if (strcmp(item->name, "Elixir of Life") == 0) {
             mults->hp = 1; //1.2
