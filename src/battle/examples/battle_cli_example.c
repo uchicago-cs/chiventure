@@ -68,7 +68,7 @@ npc_t *create_minion_one()
 }
 
 /* sets up the context for the first demo battle */
-void setup_battle_one(chiventure_ctx_t *ctx)
+room_t *room = setup_battle_one(chiventure_ctx_t *ctx)
 {
     srand(time(0)); // sets seed
     
@@ -82,38 +82,36 @@ void setup_battle_one(chiventure_ctx_t *ctx)
     // creates player 1 (sorcerer), and minion 1 (no armor)
     battle_player_t *p1 = create_player_one() 
     npc_t *e1 = create_minion_one();
+    
+    // create a room and add the npc to it
+    room_t *room = room_new("room1", 
+                            "This is The Room", 
+                            "You are in a torchlit hallway. a minion blocks your path.");
+    add_npc_to_room(room->npcs, e1);
 
     //adds battle_player to battle_ctx
     battle_ctx->game->player = p1;
 
-    /* TODO: ADD NPC TO ROOM!!! */
-
     // add battle context to the game
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
-}
 
-/*
- * Creates a chiventure context with a sample game.
- *
- * Returns: a chiventure context with 
- */
-chiventure_ctx_t *create_sample_ctx()
-{
-    game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
-    room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Minion in The Room.");
-    add_room_to_game(game, room1);
-    game->curr_room = room1;
-
-    /* Create context */
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
-
-    return ctx;
+    return room;
 }
 
 int main(int argc, char **argv)
 { 
-    chiventure_ctx_t *ctx = create_sample_ctx();
-    setup_battle_one(ctx);
+
+    // create an empty game
+    game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
+    // create a chiventure_ctx and add the game to it
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+    
+    // set up the battle_ctx and the room
+    room_t *room = setup_battle_one(ctx);
+    
+    // add the room to the game in the chiventure_ctx
+    add_room_to_game(game, room);
+    game->curr_room = room;
 
     /* Start chiventure */
     start_ui(ctx, banner);
