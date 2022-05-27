@@ -15,8 +15,10 @@ chiventure_ctx_t *create_sample_ctx()
     game_t *game = game_new("Welcome to Chiventure!");
 
     /* Create two rooms (room1 and room2). room1 is the initial room */
-    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
-    room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
+    room_t *room1 = room_new("Ryerson 251", "This is Ryerson 251", 
+                             "Ah, Ryerson. There's a CS class here.");
+    room_t *room2 = room_new("Borja's Office", "This is Borja's Office", 
+                             "A neat(?) office for Borja.");
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
     game->curr_room = room1;
