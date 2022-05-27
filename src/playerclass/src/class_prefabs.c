@@ -935,34 +935,33 @@ int class_prefab_add_skills(class_t* class) {
     }
 
     return SUCCESS;
+}
 
-    /* See class_prefabs.h */
-    item_t* class_prefab_add_items(class_t* class) {
-        char temp_name[MAX_NAME_LEN + 1];
-        strncpy(temp_name, class->name, MAX_NAME_LEN);
-        /* make temp_name lowercase */
-        for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
-            temp_name[i] = tolower(temp_name[i]);
+/* See class_prefabs.h */
+item_t* class_prefab_add_items(class_t* class) {
+    char temp_name[MAX_NAME_LEN + 1];
+    strncpy(temp_name, class->name, MAX_NAME_LEN);
+    /* make temp_name lowercase */
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
 
-        /* 
-        * A starting item for the bard class.
-        *
-        * starting item: songbook
-        */
-        if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
-            /* Create item */
-            item_t* item_0 = item_new("songbook", "A magic songbook", 
-                                      "An enchanted book full of the bard's"
-                                      "magic verses.");
+    /* 
+    * A starting item for the bard class.
+    *
+    * starting item: songbook
+    */
+    if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("songbook", "A magic songbook", 
+                                    "An enchanted book full of the bard's"
+                                    "magic verses.");
 
-            return item_0;
-        }
-
-        else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
-            /* These potentially could have a prefab item but will not currently */
-            return SUCCESS;
-        }   
-
-        
+        return item_0;
     }
+
+    else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
+        /* These potentially could have a prefab item but will not currently */
+        return SUCCESS;
+    }   
+ 
 }
