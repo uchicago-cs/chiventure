@@ -404,7 +404,7 @@ Test(battle_flow_move, battle_over_by_player)
     cr_assert_eq(player->stats->hp,
                  40,
                  "battle_flow_move() did not compute damage correctly");
-    cr_assert_eq(ctx->status, BATTLE_VICTOR_ENEMY,
+    cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                 "battle_flow_move() failed: battle is not over due to player");
 }
 
