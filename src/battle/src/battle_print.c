@@ -545,7 +545,8 @@ int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
 
 char *print_battle_action_menu(battle_item_t *items, move_t *moves)
 {
-    char *string = (char*)malloc(sizeof(char)*BATTLE_BUFFER_SIZE);
+    
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
     int n;
     char temp[BATTLE_BUFFER_SIZE + 1];
