@@ -8,8 +8,8 @@
  */
 
 
-#include "item.h"
-#include "player.h"
+#include "../include/game-state/item.h"
+#include "../include/game-state/player.h"
 #include "read_gdl.h"
 #include <stdlib.h>
 #include <stdio.h>

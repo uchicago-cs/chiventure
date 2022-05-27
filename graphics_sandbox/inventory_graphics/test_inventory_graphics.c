@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include "item.h"
+#include "../include/game-state/item.h"
+#include "../include/game-state/player.h"
 #include "inventory_graphics.h"  
 
 /*
