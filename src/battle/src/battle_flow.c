@@ -495,6 +495,7 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 /* see battle_flow.h */
 int calculate_accuracy(int user_accuracy, int move_accuracy)
 {
+    /* Picks a random number from 0 to 100 */
     int chance = randnum(0, 100);
     if(chance <= ((user_accuracy * move_accuracy) / 100)){
         return 1;
