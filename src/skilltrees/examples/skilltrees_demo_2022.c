@@ -551,11 +551,12 @@ char* read_book(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 
 char* combined_monologue(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {   
-    print_to_cli(ctx, "Mentor:Hello my young pupil! We shall begin immediately. "
-                        "Over the last year, we have made even more powerful, "
-                        "complicated skills! In this room, you can learn Combined "
-                        "Skills! Many smaller skills wrapped into one. "
-                        "Lets teach you a large stat boost!");
+    print_to_cli(ctx, "Mentor: Hello my young pupil! We shall begin immediately. ");
+    print_to_cli(ctx, "Mentor: Over the last year, we have made even more powerful, "
+                        "complicated skills!");
+    print_to_cli(ctx, "Mentor: In this room, you can learn Combined "
+                        "Skills! Many smaller skills wrapped into one.");
+    print_to_cli(ctx, "Mentor: Lets teach you a large stat boost!");
     return "";
 }
 
@@ -564,9 +565,10 @@ char* combined_monologue(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 char* random_monologue(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {   
     print_to_cli(ctx, "Mentor: Random skills are a recent addition to our "
-                        "curriculum. However, only distinguished pupils may " 
-                        "learn these powerful skills, and you are a novice. "
-                        "Perhaps in 20 years you'll be ready.");
+                        "curriculum.");
+    print_to_cli(ctx, "Mentor: However, only distinguished pupils may " 
+                        "learn these powerful skills, and you are a novice.");
+    print_to_cli(ctx, "Mentor: Perhaps in 20 years you'll be ready.");
     return "";
 }
 
@@ -667,7 +669,7 @@ void main()
     add_entry("TURN_INTO_ORC_AGAIN", change_class_to_orc_again , NULL, ctx->cli_ctx->table);
     add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
     add_entry("READ_TOME", read_book, NULL, ctx->cli_ctx->table);
-    add_entry("RANDOM_SKILLS", random_monologue, NULL, ctx->cli_ctx->table);
+    add_entry("ASK_FOR_MORE", random_monologue, NULL, ctx->cli_ctx->table);
     add_entry("READ_WEAKNESS", read_weakness , NULL, ctx->cli_ctx->table);
 
     //Start UI for example chiventure context
