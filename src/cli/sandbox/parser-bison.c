@@ -169,14 +169,16 @@ void handle_view_cmd(word_ll *phrase){
 
 void handle_kind1_cmd(word_ll *phrase){
 
-    word_ll *p = phrase;
-    if (p->word == NULL) {
+    char *p = phrase->word;
+    if (p == NULL) {
             printf("Theres nothing there! \n");
         } 
     else{
-        printf("%s ", p->word);
-        p = p->next;
-        printf("%s ", p->word);
+        printf("%s ", p);
+        p = phrase->next->word;
+        if (p != NULL) {
+            printf("%s ", p);
+        }
     }
 }
 
