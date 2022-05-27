@@ -240,6 +240,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
     int *row=edges[rownumber];
     int count=0;
+    int sum;
 
     for(int count=0; count<num_roomspecs; count++){
         sum+=row[count];
