@@ -299,7 +299,7 @@ char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item)
         rc = print_stat_changes(b, PLAYER, item->attributes, stat_changes);
     }
     assert(rc == SUCCESS);
-    return strncat(string,stat_changes, BATTLE_BUFFER_SIZE);;
+    return strdup(strncat(string, stat_changes, BATTLE_BUFFER_SIZE));
 }
 
 /* see battle_print.h */

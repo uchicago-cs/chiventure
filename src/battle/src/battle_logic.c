@@ -103,14 +103,14 @@ int consume_battle_item(combatant_t *c, battle_item_t *item)
 }
 
 /* see battle_logic.h */
-int use_battle_item(combatant_t *c, battle_t *battle, char *name)
+int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item)
 {
     if (c->items == NULL)
     {
         return FAILURE;
     }
     
-    battle_item_t *item = find_battle_item(c->items, name);
+    //battle_item_t *item = find_battle_item(c->items, name);
     
     if (item == NULL || item->quantity == 0)
     {

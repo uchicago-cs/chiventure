@@ -75,11 +75,11 @@ int consume_battle_item(combatant_t *c, battle_item_t *item);
  *  Parameters: 
  *   c - combatant information
  *   battle - battle information   
- *   name - the name of the battle_item
+ *   item - the battle_item to be used
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_battle_item(combatant_t *c, battle_t *battle, char *name);
+int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item);
 
 /* Removes a battle item from a combatant's list of battle items
  *
