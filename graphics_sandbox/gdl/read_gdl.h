@@ -132,7 +132,10 @@ int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera
 
 /*
  * Reads through a gdl file to allocate and initialize a graphics structure
- * 
+ *
+ * At the moment, the GDL does not read in statistics and map specifications
+ * this is something to be completed in future endeavors
+ *
  * Parameters:
  * - the gdl file
  *
@@ -211,16 +214,12 @@ camera_t* new_camera(unsigned int width, unsigned int height);
  * Initializes a camera structure
  *
  * Parameters:
-<<<<<<< HEAD
  * - an uninitialized camera structure
  * - an integer for camera width
  * - an integer for camera height
  *
  * Returns:
  * - an integer value for success
-=======
- * - an uninitialized
->>>>>>> d26175b898a004f623b54b54f8c67cdae0ce0265
  */
 int init_camera(camera_t *camera, unsigned int width, unsigned int height);
 
