@@ -46,7 +46,7 @@ const char* const DEFAULT_CLASS_NAMES[] = {
 };
 
 /* Number of predefined default classes (see above). */
-const int DEFAULT_CLASS_COUNT = 12;
+const int DEFAULT_CLASS_COUNT = 16;
 
 /*
  * Determines the index of name in the DEFAULT_CLASS_NAMES array, for use as an
