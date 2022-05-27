@@ -5,7 +5,14 @@
 #include <math.h>
 #include "quests/quests_cli.h"
 
-// Helper function to convert completion enums to strs
+/* Converts a completion enum into a string
+ *
+ * Parameter:
+ * - completion: A completion status enum
+ * 
+ * Returns:
+ * - A pointer to a string representing the completion status
+*/
 char *completion_to_str(completion_status_t completion) {
     char *str = calloc(1, 11);
     switch (completion) {
