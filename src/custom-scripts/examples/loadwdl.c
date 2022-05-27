@@ -32,7 +32,7 @@ chiventure_ctx_t *create_sample_ctx()
     luaL_openlibs(L);
     luaL_dofile(L, "demo.lua");
 
-    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
+    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/lua/demo-wizard.wdl");
     game_t *game = load_game(obj_store);
 
     /* Create context */

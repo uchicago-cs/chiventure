@@ -32,7 +32,7 @@ chiventure_ctx_t *create_sample_ctx()
     int string_num;
     printf("You receive a premonition... how much gold do you see in your future?\n");
     scanf("%i", &string_num);  
-    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/gold.lua");
+    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/lua/gold.lua");
     ot = obj_add_arg_int(ot, string_num);
     char* custom_string = (char*)malloc(500);
     custom_string = str_t_get(ot);

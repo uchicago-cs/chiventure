@@ -10,7 +10,6 @@
 #include <stdbool.h>
 #include "lua.h"
 #include "lualib.h"
-#include "dark_room.h"
 
 #include <stdio.h>
 #include <custom-scripts/get_custom_type.h>
@@ -24,8 +23,13 @@
 #include <ui/ui_ctx.h>
 #include "libobj/load.h"
 
-
 #include "game-state/mode.h"
+
+typedef struct torch_t torch_t;
+
+struct torch_t {
+    bool state; // false = unlit, true = lit
+} ;
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
@@ -55,7 +59,7 @@ chiventure_ctx_t *create_sample_ctx()
     data_t jack;
     data_t dc;
 
-    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/dynamic_string.lua");
+    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/lua/dynamic_string.lua");
    
 
     /* Create context */
@@ -68,16 +72,7 @@ chiventure_ctx_t *create_sample_ctx()
     data_t temp = arg_t_get(togay);
     custom_string = temp.s;
 
-    obj_t *obj_store;
-
-    char wizard[] = "Wizard Class", warrior[] = "Warrior Class";
-    if(strcmp(wizard,custom_string)== 0){
-        obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
-    }
-    else{
-        obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo-warrior.wdl");
-    }
-
+    obj_t *obj_store = load_obj_store(custom_string);
     game_t *game = load_game(obj_store);
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
@@ -87,16 +82,6 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "room_A", "room_torch", "SOUTH");
 
     /* Create a torch in room1 */
-<<<<<<< HEAD
-    item_t *torch = item_new("TORCH","It is a torch.",
-                   "The torch is nice, and can provide light!");
-    add_item_to_room(room1, torch);
-
-    /* Associate action "LIGHT" and "UNLIGHT" with the torch.
-    * They have no conditions, so they should succeed unconditionally. */
-    add_action(torch, "LIGHT", flip_state(true), "The torch is broken!");
-    add_action(torch, "UNLIGHT", flip_state(false), "The torch is broken!");
-=======
     item_t *torch_item = item_new("TORCH","It is a torch.",
                    "The torch is nice, and can provide light!");
     agent_t torch = (agent_t){.item = torch_item, .npc = NULL};
@@ -106,7 +91,6 @@ chiventure_ctx_t *create_sample_ctx()
     * They have no conditions, so they should succeed unconditionally. */
     add_action(&torch, "LIGHT", flip_state(true), "The torch is broken!");
     add_action(&torch, "UNLIGHT", flip_state(false), "The torch is broken!");
->>>>>>> custom-scripts/demo-sandbox
 
     return ctx;
 }

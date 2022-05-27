@@ -55,9 +55,8 @@ chiventure_ctx_t *create_sample_ctx()
     data_t jack;
     data_t dc;
 
-    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/dynamic_string.lua");
+    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/lua/dynamic_string.lua");
    
-
     /* Create context */
     char string_num;
     printf("Enter either 1 or 2 (1 for wizard class, 2 for warrior class): ");
@@ -68,16 +67,7 @@ chiventure_ctx_t *create_sample_ctx()
     data_t temp = arg_t_get(togay);
     custom_string = temp.s;
 
-    obj_t *obj_store;
-
-    char wizard[] = "Wizard Class", warrior[] = "Warrior Class";
-    if(strcmp(wizard,custom_string)== 0){
-        obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
-    }
-    else{
-        obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo-warrior.wdl");
-    }
-
+    obj_t *obj_store = load_obj_store(custom_string);
     game_t *game = load_game(obj_store);
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
@@ -87,14 +77,15 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "room_A", "room_torch", "SOUTH");
 
     /* Create a torch in room1 */
-    item_t *torch = item_new("TORCH","It is a torch.",
+    item_t *torch_item = item_new("TORCH","It is a torch.",
                    "The torch is nice, and can provide light!");
-    add_item_to_room(room1, torch);
+    agent_t torch = (agent_t){.item = torch_item, .npc = NULL};
+    add_item_to_room(room1, torch_item);
 
     /* Associate action "LIGHT" and "UNLIGHT" with the torch.
     * They have no conditions, so they should succeed unconditionally. */
-    add_action(torch, "LIGHT", flip_state(true), "The torch is broken!");
-    add_action(torch, "UNLIGHT", flip_state(false), "The torch is broken!");
+    add_action(&torch, "LIGHT", flip_state(true), "The torch is broken!");
+    add_action(&torch, "UNLIGHT", flip_state(false), "The torch is broken!");
 
     return ctx;
 }

@@ -47,7 +47,7 @@ chiventure_ctx_t *create_sample_ctx()
     char string_num;
     printf("Enter either 1 or 2 (1 for non-caps, 2 for caps): ");
     scanf("%c", &string_num);  
-    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
+    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/lua/dynamic_string.lua");
     ot = obj_add_arg_char(ot, string_num);
     char* custom_string = (char*)malloc(500);
     custom_string = str_t_get(ot);
