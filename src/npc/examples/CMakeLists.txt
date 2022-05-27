@@ -25,7 +25,7 @@ add_executable(battle_npc_with_time_example_2022
 # Link with chiventure libraries
 foreach(example ${NPC_EXAMPLES})
     foreach(module ${CHIVENTURE_MODULES})
-        target_link_libraries(${example} ${module})
+        target_link_libraries(${example} ${module} pthread)
     endforeach(module)
 endforeach(example)
 
