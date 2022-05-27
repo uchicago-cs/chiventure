@@ -55,15 +55,13 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     # create a list of items and place it in its own entry of the dict
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "attributes"
-    d["attributes"] = [v for k, v in s if k == "attributes"]
+    d["attributes"] = [v for k, v in s if k == "attributes"][0]
 
     # create a list of items and place it in its own entry of the dict
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "attributes"
-    d["base_stats"] = [v for k, v in s if k == "base_stats"]
-
-    print(d)
-
+    d["base_stats"] = [v for k, v in s if k == "base_stats"][0]
+    
     return ('PLAYER_CLASS', (class_name, d))
 
 # s contains several objects of the form ('type', <value>) and
@@ -158,6 +156,8 @@ def transform_attribute_state(self, s: list[tuple[str, str]]) -> tuple[str, dict
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an base_stats and places them
     into a dictionary which is labeled "base_stats" """
+    print()
+    print(s)
     return ('base_stats', dict(s))
 
 def transform_stat_setting(self, s: list[tuple[str, Token]]) -> tuple[str, dict]:

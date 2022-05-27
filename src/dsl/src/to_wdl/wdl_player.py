@@ -31,9 +31,9 @@ class Player_Class:
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
             elif k == "attributes":
-                self.wdl_contents["attributes"] = self.attributes()
+                self.wdl_contents["attributes"] = self.contents["attributes"]
             elif k == "base_stats":
-                self.wdl_contents["base_stats"] = self.base_stats()
+                self.wdl_contents["base_stats"] = self.contents["base_stats"]
             else:
                 self.wdl_contents[k] = v
         return {self.name: self.wdl_contents}
@@ -53,28 +53,7 @@ class Player_Class:
 
         # generate default for long description
         if 'long desc' not in self.wdl_contents:
-            name = self.name
             short_desc = self.wdl_contents.get('short desc', '')
-            default = f"This is a {name}."
+            default = f"This is a {self.name}."
             self.wdl_contents['long desc'] = f"{default}"
-            warn(f'''missing: long description for {name}, generated default: {self.wdl_contents['long desc']}''')
-    
-    def attributes(self):
-        """
-        Assembles a list of an attributes items
-        """
-        if 'attributes' not in self.contents:
-            print("not in contents")
-            return []
-        else:
-            return list(map(lambda i: i.name, self.contents.get('attributes',[])))
-
-    def base_stats(self):
-        """
-        Assembles a list of an attributes items
-        """
-        if 'base_stats' not in self.contents:
-            print("not in contents")
-            return []
-        else:
-            return list(map(lambda i: i.name, self.contents.get('base_stats',[])))
+            warn(f'''missing: long description for {self.name}, generated default: {self.wdl_contents['long desc']}''')

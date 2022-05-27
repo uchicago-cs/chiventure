@@ -4,11 +4,7 @@
     "end": {
       "in_room": "room C"
     },
-    "intro": "Welcome!",
-    "PLAYER_CLASS": [
-      "KNIGHT",
-      {}
-    ]
+    "intro": "Welcome!"
   },
   "ROOMS": {
     "room C": {
@@ -19,7 +15,7 @@
     "room B": {
       "short_desc": "A dungeon room.",
       "items": [
-        "Door"
+        "DOOR"
       ],
       "long_desc": "This is a room B. "
     }
@@ -42,8 +38,28 @@
         }
       ],
       "in": "room B",
-      "long_desc": "This is a Door. A large wooden door"
+      "long_desc": "This is a DOOR. A large wooden door"
     }
   },
-  "PLAYERS": {}
+  "PLAYERS": {
+    "KNIGHT": {
+      "short desc": "KNIGHT",
+      "long desc": "This is a KNIGHT.",
+      "short_desc": "Knight",
+      "long_desc": "This a Knight",
+      "attributes": {
+        "noble": "TRUE",
+        "strong": "TRUE"
+      },
+      "base_stats": {
+        "stat_setting": {
+          "id": "health",
+          "state": {
+            "CURRENT": "20",
+            "MAX": "10"
+          }
+        }
+      }
+    }
+  }
 }

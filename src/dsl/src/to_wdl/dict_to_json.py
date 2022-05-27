@@ -18,12 +18,16 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
 
     rooms = []
     items = []
-    player_class = []
+    players = []
+    print()
+    print("intermediate")
     print(intermediate)
+    print()
     if "rooms" not in intermediate:
         warn("This game has no rooms.")
     else:
         rooms_dict = intermediate.pop("rooms")
+
         for room_name, contents in rooms_dict.items():
             room_items = contents["items"]
             room_items_objs = []
@@ -37,29 +41,26 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents, default))
     
-    if "player_class" not in intermediate:
+    if "players" not in intermediate:
         warn("This game has no players.")
     else:
-        player_class_dict = intermediate.pop("player_class")
-        for p_class, contents in player_class_dict.items():
-            contents["attributes"] = []
-            contents["base_stats"] = []
-        
-            # print("content: ", contents)
-            player_class.append(Player_Class(p_class, contents, default))
+        players_dict = intermediate.pop("players")
+        for player_name, contents in players_dict.items():
+            
+            players.append(Player_Class(player_name, contents, default))
     
     game = Game(intermediate, default)
     
     # acts as a "union" operation on multiple dictionaries
     rooms_wdl = dict(ChainMap(*[r.to_wdl_structure() for r in rooms]))
     items_wdl = dict(ChainMap(*[i.to_wdl_structure() for i in items]))
-    players_wdl = dict(ChainMap(*[p.to_wdl_structure() for p in player_class]))
+    players_wdl = dict(ChainMap(*[p.to_wdl_structure() for p in players]))
 
     out = json.dumps({
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
         "ITEMS": items_wdl,
-        "PLAYER_CLASS": players_wdl
+        "PLAYERS": players_wdl
         }, indent=2)
 
     if debug and "end" in debug_modes:
