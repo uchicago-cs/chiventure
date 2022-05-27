@@ -35,7 +35,6 @@ typedef struct npcs_in_room npcs_in_room_hash_t;
  */
 int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char *room_id);
 
-
 /*
  * Allocates a new npcs_in_room struct in the heap
  *
@@ -46,7 +45,6 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char *room_id);
  *  Pointer to allocated npcs_in_room struct
  */
 npcs_in_room_t *npcs_in_room_new(char* room_id);
-
 
 /*
  * Frees resources associated with an npcs_in_room struct
@@ -60,7 +58,6 @@ npcs_in_room_t *npcs_in_room_new(char* room_id);
  */
 int npcs_in_room_free(npcs_in_room_t *npcs_in_room);
 
-
 /*
  * Returns the number of npcs in a room
  *
@@ -71,7 +68,6 @@ int npcs_in_room_free(npcs_in_room_t *npcs_in_room);
  *  The number of NPCs in the room as an int
  */
 int npcs_in_room_get_number(npcs_in_room_t *npcs_in_room);
-
 
 /* Adds an npc to the given npcs_in_room
  *

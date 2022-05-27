@@ -225,7 +225,7 @@ int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx);
  * - quest ID, 
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was failure, SUCESS if successful 
  */
 int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
 
@@ -236,7 +236,7 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * - pointer to a hash table
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was failure, SUCESS if successful 
  */
 int remove_quest_all(quest_hash_t **hash_table);
 
@@ -247,7 +247,7 @@ int remove_quest_all(quest_hash_t **hash_table);
  * - task ID, 
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was failure, SUCCESS if successful 
  */
 int remove_task_in_hash(task_hash_t *hash_table, char *id);
 
@@ -258,7 +258,7 @@ int remove_task_in_hash(task_hash_t *hash_table, char *id);
  * - pointer to a task hash table
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was failure, SUCCESS if successful 
  */
 int remove_task_all(task_hash_t **hash_table);
 
@@ -269,7 +269,7 @@ int remove_task_all(task_hash_t **hash_table);
  * - quest ID, 
  * 
  * Returns:
- * - 0 if the removal was failure, 1 if successful 
+ * - FAILURE if the removal was failure, SUCESS if successful 
  */
 int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
 
