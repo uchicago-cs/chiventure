@@ -77,35 +77,22 @@ kind1_cmd
   ;
 
 kind1_cmd_keyword
-  : OPEN { $$ = NULL; }
-  | OPEN phrase { $$ = start_phrase($1); }
-  | CLOSE { $$ = NULL; }
-  | CLOSE phrase { $$ = start_phrase($1); }
-  | PUSH { $$ = NULL; }
-  | PUSH phrase { $$ = start_phrase($1); }
-  | PULL { $$ = NULL; }
-  | PULL phrase { $$ = start_phrase($1); }
-  | TURN_ON { $$ = NULL; }
-  | TURN_ON phrase { $$ = start_phrase($1); }
-  | TURN_OFF { $$ = NULL; }
-  | TURN_OFF phrase { $$ = start_phrase($1); }
-  | TAKE { $$ = NULL; }
-  | TAKE phrase { $$ = start_phrase($1); }
-  | PICKUP { $$ = NULL; }
-  | PICKUP phrase { $$ = start_phrase($1); }
-  | DROP { $$ = NULL; }
-  | DROP phrase { $$ = start_phrase($1); }
-  | CONSUME { $$ = NULL; }
-  | CONSUME phrase { $$ = start_phrase($1); }
-  | USE { $$ = NULL; }
-  | USE phrase { $$ = start_phrase($1); }
-  | DRINK { $$ = NULL; }
-  | DRINK phrase { $$ = start_phrase($1); }
-  | EAT { $$ = NULL; }
-  | EAT phrase { $$ = start_phrase($1); }
+  : OPEN { $$ = start_phrase($1); }
+  | CLOSE { $$ = start_phrase($1); }
+  | PUSH { $$ = start_phrase($1); }
+  | PULL { $$ = start_phrase($1); }
+  | TURN_ON { $$ = start_phrase($1); }
+  | TURN_OFF { $$ = start_phrase($1); }
+  | TAKE { $$ = start_phrase($1); }
+  | PICKUP { $$ = start_phrase($1); }
+  | DROP { $$ = start_phrase($1); }
+  | CONSUME { $$ = start_phrase($1); }
+  | USE { $$ = start_phrase($1); }
+  | DRINK { $$ = start_phrase($1); }
+  | EAT { $$ = start_phrase($1); }
   ;
 
-
+/*
 kind2_action
   : kind2_action_keyword { $$ = $1; }
   | kind2_action_keyword THE { $$ = $1; }
@@ -135,7 +122,7 @@ kind4_action_keyword
   : OPEN  { $$ = start_phrase($1); }
   | CLOSE  { $$ = start_phrase($1); }
   ;
-
+*/
 /*
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
