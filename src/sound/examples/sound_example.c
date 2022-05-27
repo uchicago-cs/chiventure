@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include <../cli/operations.h>
-#include "../common/ctx.h"
-#include "../ui/ui.h"
-#include "../sound/sound.h"
+#include "cli/operations.h"
+#include "common/ctx.h"
+#include "ui/ui.h"
+#include "sound/sound.h"
 
 const char *banner = "THIS IS A SOUND EXAMPLE PROGRAM";
 
