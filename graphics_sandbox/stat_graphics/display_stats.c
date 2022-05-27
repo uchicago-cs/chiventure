@@ -11,7 +11,14 @@ int draw_screen_stats(screen_stats_t *screen_stats);
 screen_stats_t* update_screen_stats(player_t *player, screen_stats_t *screen_stats);
 
 /* See display_stats.h for details */
-pop-up_t* set_pop-up(int ulx, int uly, int lrx, int lry, pop-up_type type, player_t player);
+pop-up_t* new_pop-up(int ulx, int uly, int lrx, int lry, pop-up_type type, player_t player);
+
+/* See display_stats.h for details */
+int init_pop_up(pop_up_t *pop_up, int ulx, int uly, int lrx, int lry,
+                pop_up_type type, player_t *player);
+
+/* See display_stats.h for details */
+int free_pop_up(pop_up_t *pop_up); 
 
 /* See display_stats.h for details */
 int open_pop-up(pop-up_t pop-up);
