@@ -24,6 +24,16 @@ void yyerror(char* s);
 %token FIGHT
 %token<word> OPEN
 %token<word> CLOSE
+%token<word> PUSH
+%token<word> PULL
+%token<word> TURN_ON 
+%token<word> TURN_OFF
+%token<word> TAKE 
+%token<word> PICKUP
+%token<word> DROP
+%token<word> CONSUME 
+%token<word> DRINK 
+%token<word> EAT
 %token THE
 %token PUT
 %token USE
