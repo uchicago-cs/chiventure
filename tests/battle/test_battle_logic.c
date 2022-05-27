@@ -401,7 +401,8 @@ Test(battle_logic, use_battle_weapon)
  * 1. Find the battle_item and mark it as found and used
  * 2. make changes to status as seen fit
  */
-Test(battle_logic, consume_an_battle_item)
+ /* SEE ISSUE #1657
+Test(battle_logic, consume_a_battle_item)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
@@ -427,12 +428,13 @@ Test(battle_logic, consume_an_battle_item)
     cr_assert_eq(p->stats->phys_atk, 15, "consume_battle_item() failed for physical attack!");
 
     combatant_free(p);
-}
+} */
 
 /*
  * This is simialr to the test above except there are now two battle_items in
  * the battle_player's inventory that the function has to go through
  */
+ /* SEE ISSUE #1657
 Test(battle_logic, uses_battle_item_correctly)
 {
     battle_item_t *head = NULL;
@@ -479,7 +481,7 @@ Test(battle_logic, uses_battle_item_correctly)
     cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
     cr_assert_eq(p->stats->phys_def, 15, "use_battle_item() failed for physical defense!");
     cr_assert_eq(p->stats->phys_atk, 15, "use_battle_item() failed for physical attack!");
-}
+} */
 
 /*
  * Ensures that nothing is done if the player has an empty inventory
@@ -600,6 +602,7 @@ Test(stat_changes, add_item_node)
     stat_changes_free_all(sc);
 }
 
+/* SEE ISSUE #1657
 Test(battle_logic, remove_single_item)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
@@ -636,8 +639,9 @@ Test(battle_logic, remove_single_item)
     cr_assert_null(p->items, "remove_battle_item() failed");
 
     combatant_free(p);
-}
+} */
 
+/* SEE ISSUE #1657
 Test(battle_logic, remove_item_of_multiple)
 {
     
@@ -694,8 +698,9 @@ Test(battle_logic, remove_item_of_multiple)
     cr_assert_null(p->items, "remove_battle_item() failed");
 
     combatant_free(p);
-}
+} */
 
+/* SEE ISSUE #1657
 Test(battle_logic, remove_last_item_of_multiple)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
@@ -749,4 +754,4 @@ Test(battle_logic, remove_last_item_of_multiple)
     cr_assert_null(p->items, "remove_battle_item() failed");
 
     combatant_free(p);
-}
+} */
