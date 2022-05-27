@@ -16,8 +16,13 @@
 
 #define QUEST_NAME_MAX_LEN 100
 
-/* Forward declaration for skilltrees */
-typedef struct skill skill_t;
+/* An enum representing the possible quest completion statuses currently supportd */
+typedef enum completion_status {
+    Q_FAILED = -1,
+    Q_UNACQUIRED,
+    Q_STARTED,
+    Q_COMPLETED,
+} completion_status_t;
 
 /* A reference to a given quest from game_state that the player has unlocked 
  * 
@@ -150,6 +155,17 @@ int player_quest_init(player_quest_t *pquest, char *quest_id, int completion);
 int player_task_init(player_task_t *ptask, char *task_id, bool completed);
 
 /*
+ * Frees a player_quest
+ * 
+ * Parameters:
+ * - pquest: The player_quest to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_quest_free(player_quest_t *pquest);
+
+/*
  * Frees a player_quest hash table
  * 
  * Parameters:
@@ -159,6 +175,17 @@ int player_task_init(player_task_t *ptask, char *task_id, bool completed);
  * - SUCCESS if freed successfully, FAILURE if an error occured
 */
 int player_quest_hash_free(player_quest_hash_t *player_quests);
+
+/*
+ * Frees a player_task
+ * 
+ * Parameters:
+ * - ptask: The player_task to be freed
+ * 
+ * Returns:
+ * - SUCCESS if freed successfully, FAILURE if an error occured
+*/
+int player_task_free(player_task_t *ptask);
 
 /*
  * Frees a player_task hash table
@@ -483,5 +510,15 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect);
  */
 int add_move(player_t *player, move_t *move);
 
-
+/* 
+ * Adds an item to the player's inventory without checking quests
+ * 
+ * Parameters:
+ * - player: A player. Must be allocated with player_new()
+ * - item: The item to add to the player's inventory
+ * 
+ * Returns:
+ * - SuCCESS on success, FAILURE if an error occurs
+*/
+int add_item_to_player_without_checks(player_t *player, item_t *item);
 #endif

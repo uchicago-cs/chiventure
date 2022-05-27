@@ -12,16 +12,47 @@
 #include "libobj/load.h"
 #include "cli/cmdlist.h"
 #include "cli/util.h"
+#include "battle/battle_logic.h"
+#include "battle/battle_flow.h"
+#include "battle/battle_print.h"
+#include <ctype.h>
 
-#define NUM_ACTIONS 29
+#define NUM_ACTIONS 31
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
-char* actions_for_sug[NUM_ACTIONS] = {"OPEN", "CLOSE", "PUSH", "PULL", "TURNON", "TURNOFF", 
-                        "TAKE", "PICKUP", "DROP","CONSUME","USE","DRINK",
-                        "EAT", "GO", "WALK", "USE_ON", "PUT", "QUIT","HIST", "HELP",
-                        "CREDITS", "LOOK", "INV", "MAP", "SWITCH", "LOAD_WDL", "NAME", 
-                        "PALETTE", "ITEMS"};
+char* actions_for_sug[NUM_ACTIONS] = {
+            "OPEN",
+            "CLOSE",
+            "PUSH",
+            "PULL",
+            "TURNON",
+            "TURNOFF",
+            "TAKE",
+            "PICKUP",
+            "DROP",
+            "CONSUME",
+            "USE",
+            "DRINK",
+            "EAT",
+            "GO",
+            "WALK",
+            "USE_ON",
+            "PUT",
+            "QUIT",
+            "HIST",
+            "HELP",
+            "CREDITS",
+            "LOOK",
+            "INV",
+            "MAP",
+            "SWITCH",
+            "LOAD_WDL",
+            "NAME",
+            "PALETTE",
+            "ITEMS",
+            "VIEW",
+            "FIGHT"};
 
 
 /* 
@@ -49,38 +80,80 @@ int compare(char* word, char* action)
     return current;
 }
 
-/* 
- * This function returns a string which is the suggestion
- * It finds the suggestion by comparing 
- * each possible action to the input
- * using the compare helper function
- * 
- */
-char* suggestions(char *action_input, char** actions)
-{
-    int i = 0;
-    int initial = 0;
-    int temp = 0;
-    int index = -1;
-    
-    for (int i = 0; i < NUM_ACTIONS; i++)
+/* Calculates the minimum between three values, 
+   helper to levenshtein function*/
+int mini (int a, int b, int c) {
+    if (a < b && a < c) 
     {
-        if (action_input != NULL) 
-        {
-            temp = compare(strdup(action_input), strdup(actions[i]));
-            if (temp > initial) 
-            {
-                index = i;
-                initial = temp;
-            }
-        }
+        return a;
     }
-    
-    if (index == -1) 
+    else if (b < a && b < c) 
     {
-        return NULL;
+        return b;
+    } 
+    else
+    {
+        return c;
+    }
+}
+
+/*Calculates the Levenshtein Distance, given two strings.
+  The Levenshtein distance measures the amount of changes needed
+  for the two words to be equal, so the lower the score,
+  the more similar the words are. My source for this formula, also
+  linked below is here:
+  https://en.wikipedia.org/wiki/Levenshtein_distance
+  Helper funtion to suggestions function.*/
+int levenshtein(char *action_input, char* action) 
+{
+    int input_len = strlen(action_input);
+    int action_len = strlen(action);
+    if (action_len == 0) 
+    {
+        return input_len;
+    } 
+    else if (input_len == 0) 
+    {
+        return action_len;
+    // NOTE: tolower converts all uppercase letters to lowercase letters,
+    // and keeps lowercase letters the same.
+    } 
+    else if (tolower(action_input[0]) == tolower(action[0])) 
+    {
+        char* tail_inp = action_input+1;
+        char* tail_act = action+1;
+        int both_tails = levenshtein(tail_inp, tail_act);
+        return both_tails;
+    }
+    else
+    {
+        char* tail_inp = action_input+1;
+        char* tail_act = action+1;
+        int tail_one = levenshtein(tail_inp, action);
+        int tail_two = levenshtein(action_input, tail_act);
+        int tail_both = levenshtein(tail_inp, tail_act);
+        return 1 + mini(tail_one,tail_two,tail_both);
     }
 
+}
+
+// See operations.h
+char* suggestions(char *action_input, char** actions)
+{
+
+    int min = levenshtein(action_input, actions[0]);
+    int index = 0;
+    // Loops over all possible commands, and finds closest word
+    // to input, which it suggests
+    for (int i = 1; i < NUM_ACTIONS; i++) 
+    {
+        int temp = levenshtein(action_input, actions[i]);
+        if (temp < min) 
+        {
+            min = temp;
+            index = i;
+        }
+    }
     return actions[index];
 
 }
@@ -89,7 +162,7 @@ char* suggestions(char *action_input, char** actions)
 
 char *credits_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021";
+    return "Class of CMSC 22000 Spring 2019\n   Class of CMSC 22000 Spring 2020\n   Class of CMSC 22000 Spring 2021\n   Class of CMSC 22000 Spring 2022\n";
 }
 
 char *quit_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -176,23 +249,24 @@ cmd *assign_action(char **ts, lookup_t ** table)
 {
     cmd *output = cmd_new(ts);
     output->func_of_cmd = find_operation(ts[0], table);
-    if(output->func_of_cmd == NULL)
+    if (output->func_of_cmd == NULL)
     {
         output->func_of_cmd = action_error_operation;
     }
     return output;
 }
 
+/* See operation.h */
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         return "Room not found! Error! We need a room to be loaded to LOOK!\n";
     }
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
-        if(game != NULL)
+        if (game != NULL)
         {
             return game->curr_room->long_desc;
         }
@@ -203,7 +277,7 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     item_t *curr_item = NULL;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if(curr_item != NULL)
+    if (curr_item != NULL)
     {
         char *string = malloc(BUFFER_SIZE);
         sprintf(string, "%s", curr_item->long_desc);
@@ -228,24 +302,24 @@ char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return ( "Error! We need a loaded room to do the above action. \n");
     }
     lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must identify an object to act on\n";
     }
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "Sorry, act upon one item \n";
     }
     item_t *curr_item;
     curr_item = get_item_in_room(game->curr_room, tokens[1]);
-    if(curr_item != NULL)
+    if (curr_item != NULL)
     {
         action_type_t *action = find_action(tokens[0], table);
         char *str;
@@ -259,7 +333,7 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             if (rc == SUCCESS)
             {
                 action_success = true;
-                if(strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
+                if (strcmp(tokens[0], "take") == 0 || strcmp(tokens[0], "pickup") == 0)
                 {
                     remove_item_from_room(game->curr_room, curr_item);
                     add_item_to_player(game->curr_player, curr_item, game);
@@ -276,18 +350,18 @@ char *kind1_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
     lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must specify a direction to go \n";
     }
-    if(tokens[2] != NULL)
+    if (tokens[2] != NULL)
     {
         return "Sorry, you can only go one direction \n";
     }
@@ -295,7 +369,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     path_t *curr_path;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
-        if(strcmp(curr_path->direction,tokens[1]) == 0)
+        if (strcmp(curr_path->direction,tokens[1]) == 0)
         {
             action_type_t *action = find_action(tokens[0], table);
 
@@ -311,14 +385,14 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to do the above action. \n";
     }
     lookup_t **table = ctx->cli_ctx->table;
 
-    if(tokens[1] == NULL || tokens[3] == NULL)
+    if (tokens[1] == NULL || tokens[3] == NULL)
     {
         return "You must identify two objects to act on";
     }
@@ -327,7 +401,7 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     item1 = get_item_in_room(game->curr_room, tokens[1]);
     item2 = get_item_in_room(game->curr_room, tokens[3]);
 
-    if(item1 == NULL || item2 == NULL)
+    if (item1 == NULL || item2 == NULL)
     {
         return "The object(s) could not be found";
     }
@@ -356,7 +430,62 @@ char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     return str;
 }
 
+/* See operation.h */
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    char *arg2 = tokens[1];
+    char *arg4 = tokens[3];
+    if (game == NULL)
+    {
+        return "No game found!\n";
+    }
+    if (arg2 == NULL)
+    {
+        //(potential) TODO: add list of possible parameters
+        return "Second argument needed.\n";
+    }
+    /* as of now (5/23/2022) the only self action we have is view, 
+     * which supports a max of two arguments:
+     *  `view quest "quest_id"`
+     *  Thus it should fail if there is a third argument */
+    if (arg4 != NULL)
+    {
+        return "This action only supports two arguments\n";
+    }
 
+    lookup_t **table = ctx->cli_ctx->table;
+
+    /* uses the find_action command to go from string to action,
+     * this table is made using the add_action_entry and lookup_t_init 
+     * in cmd.c*/
+    action_type_t *action = find_action(tokens[0], table);
+
+    /* placeholder for error string that do_self_action will modify */
+    char *str;
+
+    /* this sanitizes the input for do_self_action, because 
+     * action management is expecting all arguments to the self action
+     * but not the actual action in a string array
+     *
+     * Thus we clip off the first term to hand to do_self_action */
+    char **clipped_token_array = &tokens[1];
+
+    /* do_self_action return codes are either:
+     *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
+     *  otherwise, returns SUCCESS */
+
+
+    /*================================================================ 
+     * AS OF 5/23/2022 at 10:35pm
+     * ONCE AM FINISHES THIS VERION OF DO_SELF_ACTION WE CAN UNCOMMENT
+     * THE ACTUAL FUNCTION CALL, 
+     * for now will leave the currently implemented call 
+     *================================================================ */
+    //int rc = do_self_action(ctx, action, clipped_token_array, &str);
+    int rc = do_self_action(ctx, action, tokens[1], &str);
+    return str;
+}
 
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -384,7 +513,7 @@ char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_player == NULL)
+    if (game == NULL || game->curr_player == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded player to check inventory.\n";
@@ -415,7 +544,7 @@ char *inventory_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to check items.\n";
@@ -434,7 +563,7 @@ char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if(game == NULL || game->curr_room == NULL)
+    if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to check NPCs.\n";
@@ -442,10 +571,10 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
 
     npc_t *npc_tmp, *npc_elt;
     int i = 0;
-    HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+    HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
     {   
         i++;
-        if (npc_elt->npc_battle->health > 0) 
+        if ((npc_elt->npc_battle == NULL) || (npc_elt->npc_battle->stats->hp > 0))
         {
             print_to_cli(ctx, npc_elt->npc_id);
         }
@@ -479,11 +608,11 @@ char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     case_insensitize(tokens[1]);
     case_insensitize(tokens[2]);
-    if(find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
+    if (find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
     {
         return "New words must be defined using only words that are already defined!";
     }
-    if(find_entry(tokens[2],(ctx->cli_ctx->table)) != NULL)
+    if (find_entry(tokens[2],(ctx->cli_ctx->table)) != NULL)
     {
         return "You can't change the meaning of a word that's already defined!";
     }
@@ -499,23 +628,23 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return "Please input a theme";
     }
     case_insensitize(tokens[1]);
-    if(strcmp(tokens[1], "default") == 0)
+    if (strcmp(tokens[1], "default") == 0)
     {
         n = 1;
     }
-    if(strcmp(tokens[1], "night") == 0)
+    if (strcmp(tokens[1], "night") == 0)
     {
         n = 2;
     }
-    if(strcmp(tokens[1], "bright") == 0)
+    if (strcmp(tokens[1], "bright") == 0)
     {
         n = 3;
     }
-    if(strcmp(tokens[1], "pain") == 0)
+    if (strcmp(tokens[1], "pain") == 0)
     {
         n = 4;
     }
-    if(n != 0)
+    if (n != 0)
     {
         wbkgd(ctx->ui_ctx->cli_win->w, COLOR_PAIR(n));
         wbkgd(ctx->ui_ctx->displayed_win->w, COLOR_PAIR(n));
@@ -557,4 +686,77 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 
     return str;
+}
+
+/* See operations.h */
+char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    if (tokens[1] == NULL) {
+        return "You must identify an NPC to fight. What are you going to do, fight yourself?";
+    }
+    
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
+    /* note: This assumes that the NPC name 
+     * is only one token long, and that the command is exactly "fight npc_name". */
+    
+    if (npc == NULL) {
+        return "No one by that name want to fight.";
+    }
+
+    if (npc->hostility_level != HOSTILE) {
+        return "%s does not want to fight.", tokens[1];
+    }
+
+    // this is the current player from the chiventure context
+    player_t *player = ctx->game->curr_player;
+    // create a battle player version of the current player
+    battle_player_t *b_player = new_ctx_player(player->player_id, 
+                                               player->player_class, 
+                                               get_random_stat() 
+                                               /* fix: get stats from player 
+                                               struct (currently doesn't 
+                                               support all stats) */, 
+                                               player->moves, 
+                                               NULL 
+                                               /* fix: get a list of battle 
+                                                  items from inventory 
+                                                  (currently no way to do) */,
+                                               NULL, NULL, NULL); // these too
+    // create a battle context
+    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
+    // create a battle game and add it to the battle context
+    battle_game_t *b_game = new_battle_game();
+    battle_ctx->game = b_game;
+    // add the current player from the chiventure context to the game
+    battle_ctx->game->player = b_player;
+    // add the battle context to the chiventure context
+    int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
+    // create a battle struct and initialize its parts (sets up combatants)
+    int rc = start_battle(battle_ctx, npc, 
+                          ENV_GRASS /* eventually this should be stored in 
+                                       the room struct */);
+
+    // prints the beginning of the battle 
+    char *start = print_start_battle(battle_ctx->game->battle);
+    int start_rc = print_to_cli(ctx, start);
+    turn_component_t *current_tc = battle_ctx->tcl->current;
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(legal_items, legal_moves, current_tc, 
+                      ctx->game->battle_ctx->game->battle);
+    char *menu = print_battle_action_menu(legal_items, legal_moves);
+    ctx->game->battle_ctx->game->battle->current_tc = current_tc;
+
+    // leaving in case we want to directly set game mode in the future
+    //set_game_mode(ctx->game, BATTLE, npc->npc_id);
+   
+    assert(npc->npc_battle != NULL);
+
+    if (!rc && !start_rc)
+    {    
+        game_mode_init(ctx->game->mode, BATTLE, 
+                       run_battle_mode, "Goblin");
+    }
+
+    return menu;
 }
