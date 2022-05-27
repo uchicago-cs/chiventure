@@ -282,7 +282,7 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         return string;
     }
 
-    char *item_name;
+    char *item_name = calloc(150, sizeof(char));
     strcpy(item_name, item->name);
 
     int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item->name);
@@ -300,7 +300,6 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         strncat(string, res, 150);
         free(res);
     }
-
     return string;
 }
 

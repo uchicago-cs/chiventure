@@ -140,8 +140,8 @@ battle_item_t *new_battle_item(int id, char *name, char *des,
       battle_item_t *new_item = (battle_item_t *) malloc (sizeof(battle_item_t));
       assert(new_item != NULL);
       new_item->id = id;
-      new_item->name = name;
-      new_item->description = des;
+      new_item->name = strdup(name);
+      new_item->description = strdup(des);
       new_item->attributes = attr;
       new_item->quantity = quant;
       new_item->attack = attack;
