@@ -10,7 +10,7 @@
 %%
 
     /* this takes in start of line and "open" and returns the token OPEN */
-^open { return OPEN; }
+open { return OPEN; }
 
 the { return THE; }
 

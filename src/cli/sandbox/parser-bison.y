@@ -22,8 +22,8 @@ void yyerror(char* s);
 %token GO
 %token TO
 %token FIGHT
-%token OPEN
-%token CLOSE
+%token<word> OPEN
+%token<word> CLOSE
 %token THE
 %token PUT
 %token USE
@@ -31,6 +31,8 @@ void yyerror(char* s);
 %token<word> CREDITS
 %token<word> WORD
 
+%type<word_list> kind1_action
+%type<word_list> kind1_action_keyword
 
 %type<word_list> phrase 
 %type<word_list> go_cmd
@@ -44,6 +46,20 @@ void yyerror(char* s);
 line
   : 
   | line go_cmd EOL { handle_go_cmd($2); }
+  | line kind1_action phrase EOL { printf("handling : kind1\n"); }
+  | line fight_cmd EOL { handle_fight_cmd($2); }
+  | line credits_cmd EOL { handle_credits_cmd($2); }
+  | line phrase EOL { handle_cmd($2); }
+  ;
+
+kind1_action
+  : kind1_action_keyword { $$ = $1; }
+  | kind1_action_keyword THE { $$ = $1; }
+  ;
+
+kind1_action_keyword
+  : OPEN  { $$ = start_phrase($1); }
+  | CLOSE  { $$ = start_phrase($1); }
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
   | line phrase EOL { handle_cmd($2); }
