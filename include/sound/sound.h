@@ -43,7 +43,7 @@ typedef union {
  * Parameters:
  *      type: enum SoundType
  *      name: name of the sound, 
- *            or more specifically, the path to a sound file.
+ *            or more specifically, the path to a sound file, in a string
  * Return:
  *      An allocated sound structure, with name and type
  */
@@ -55,7 +55,7 @@ sound_t *sound_new(SoundType type, char name[]);
  *      sound: struct sound_t, must be already allocated in the heap
  *      type: enum SoundType
  *      name: name of the sound, 
- *            or more specifically, the path to a sound file.
+ *            or more specifically, the path to a sound file, in a string
  * Return:
  *      An allocated sound structure, with name and type
  */
