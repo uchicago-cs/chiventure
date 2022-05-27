@@ -31,5 +31,24 @@
  */
 class_t* multiclass_prefab_new(game_t* game, char* class_name);
 
+/*
+ * Initializes a prefab multiclass's skilltree and active combat and noncombat skill 
+ * lists.
+ *
+ * Parameters:
+ *  -multiclass: the multiclass skilltree and lists should be placed in. The field
+ *    initialized here are assumed to be empty.
+ *
+ * Returns:
+ *  - status code (FAILURE if the given class or skill is NULL, SUCCESS otherwise.)
+ *  - the structs in the class now contain skills.
+ * 
+ * Notes:
+ *  - This function is not fully implemented, as we are waiting for the skill
+ *    effects to be more fully developed. However, the warrior class does work,
+ *    as a proof of concept.
+ */
+int multiclass_prefab_add_skills(class_t* multiclass);
 
-#endif MULTICLASS_PREFABS_H
+
+#endif /* MULTICLASS_PREFABS_H */
