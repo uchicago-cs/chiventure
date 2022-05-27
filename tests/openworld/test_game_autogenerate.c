@@ -131,4 +131,11 @@ Test(autogenerate, game_autogenerate_static_one_roomspec_game){
     int rc=game_autogenerate_static(game, context, 5, "room_name1");
 
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with only one roomspec\n");
+
+    room_hash_t *current, *tmp;
+    int currtag;
+
+    HASH_ITER(hh, game->all_rooms, current, tmp){
+        cr_assert_eq(current->currtag, 0, "failed to autogenerate game with correct roomspecs\n");
+    }
 }
