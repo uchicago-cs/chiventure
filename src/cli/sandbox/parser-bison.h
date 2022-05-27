@@ -19,3 +19,5 @@ char **handle_cmd(word_ll *phrase);
 void handle_put_cmd(word_ll *phrase);
 
 void handle_use_cmd(word_ll *phrase);
+
+void handle_view_cmd(word_ll *phrase);

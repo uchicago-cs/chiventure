@@ -163,4 +163,7 @@ void handle_use_cmd(word_ll *phrase) {
     printf("\n");
 }
 
+void handle_view_cmd(word_ll *phrase){
+    printf("viewing");
+}
 

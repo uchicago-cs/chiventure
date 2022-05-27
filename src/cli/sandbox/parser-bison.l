@@ -24,6 +24,8 @@ TO|to|To|tO   { return TO; }
 
 ^use|USE { return USE; }
 
+^view|VIEW { return VIEW; }
+
 credits { return CREDITS; }
 
 [a-zA-Z0-9]+  { 

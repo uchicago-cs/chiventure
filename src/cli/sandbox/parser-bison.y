@@ -27,6 +27,7 @@ void yyerror(char* s);
 %token THE
 %token PUT
 %token USE
+%token VIEW
 %token<word> CREDITS
 %token<word> WORD
 
@@ -37,6 +38,7 @@ void yyerror(char* s);
 %type<word_list> credits_cmd
 %type<word_list> put_cmd
 %type<word_list> use_cmd
+%type<word_list> view_cmd
 
 %%
 line
@@ -47,6 +49,7 @@ line
   | line phrase EOL { handle_cmd($2); }
   | line put_cmd EOL { handle_put_cmd($2); }
   | line use_cmd EOL { handle_use_cmd($2); }
+  | line view_cmd EOL { handle_view_cmd($2); }
   ;
 
 
@@ -73,6 +76,11 @@ put_cmd
 use_cmd
   : USE { $$ = NULL; }
   | USE phrase { $$ = $2; }
+  ;
+
+view_cmd
+  : VIEW { $$ = NULL; }
+  | VIEW phrase { $$ = $2; }
   ;
 
 phrase
