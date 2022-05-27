@@ -239,7 +239,6 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
 
     specgraph_t *specgraph=context->specgraph;
     roomspec_t **roomspecs=specgraph->roomspecs;
-    roomspec_t *currroomspec=roomspecs[curr->tag];
 
     if(game==NULL){
         return -1;
@@ -250,6 +249,8 @@ int autogenerate_room_in_game(game_t* game, gencontext_t* context){
     }
 
     room_t* curr=random_room_from_game(game);
+    roomspec_t *currroomspec=roomspecs[curr->tag];
+
     char* direction_to_new;
     char* direction_to_curr;
     int rc=pick_random_direction(game, curr, direction_to_curr, direction_to_new);
