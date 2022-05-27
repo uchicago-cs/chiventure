@@ -27,7 +27,6 @@ chiventure_ctx_t *create_sample_ctx()
                    "You shake the chest, but hear no rattle inside... must be empty :(");
     add_item_to_room(room1, chest);
 
-
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
        on what the user enters at the start of the game */
     int string_num;
