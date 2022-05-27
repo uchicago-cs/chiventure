@@ -48,14 +48,6 @@ Test(test, add_quest_test)
     cr_assert_eq(add_quest1, SUCCESS, "Could not sucessfully add quest1"); 
     cr_assert_eq(add_quest2, SUCCESS, "Could not sucessfully add quest2"); 
     cr_assert_eq(add_quest_fail, FAILURE, "Added quest one to the hash twice!"); 
-    
-    // temporary test for show_quests
-    player_t *player = create_sample_player("Steve", 70, 4);
-    quest_ctx_t *qctx = quest_ctx_new(player, test_hash_table);
-    start_quest(quest1, qctx);
-    start_quest(quest2, qctx);
-
-    printf("%s", show_quests(player));
 }
 
 /*test for add task when 2 unique task_ID */ 
