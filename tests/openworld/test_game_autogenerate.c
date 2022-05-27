@@ -24,7 +24,10 @@ Test(autogenerate, game_autogenerate_static_random_first_room){
     roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     spec3->tag=2;
-    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+    roomspec_t **roomspecs=(roomspec**)malloc(3*sizeof(roomspec*));
+    roomspecs[0]=spec1;
+    roomspecs[1]=spec2;
+    roomspecs[2]=spec3;
 
     int *matrix=(int*)malloc(9*sizeof(int));
 
