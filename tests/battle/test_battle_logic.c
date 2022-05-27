@@ -362,7 +362,6 @@ Test(battle_logic, do_not_find_item)
     cr_assert_null(found, "find_battle_item() failed!");
 }
 /* This test will need to be changed to and instead should call get_random_equip_weapon() */
-/*
 Test(battle_logic, use_battle_weapon)
 {
     stat_t *player_stats = calloc(1, sizeof(stat_t));
@@ -393,7 +392,6 @@ Test(battle_logic, use_battle_weapon)
     cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "consume_battle_weapon() does correctly set enemy physical attack after use");
     cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "consume_battle_weapon() does correctly set enemy physical defense after use");
 }
-*/
 
 /*
  * this tests to see if the battle_player tries consuming a battle_item,
