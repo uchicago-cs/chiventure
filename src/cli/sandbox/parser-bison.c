@@ -167,3 +167,18 @@ void handle_view_cmd(word_ll *phrase){
     printf("viewing");
 }
 
+void handle_kind1_cmd(word_ll *phrase){
+
+    word_ll *p = phrase;
+    
+    if (phrase == NULL) {
+            printf("Theres nothing there!");
+        } 
+    else{
+        printf("%s ", p->word);
+        p = p->next;
+        printf("%s ", p->word);
+    }
+}
+
+

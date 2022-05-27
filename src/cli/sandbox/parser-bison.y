@@ -41,8 +41,7 @@ void yyerror(char* s);
 %token<word> CREDITS
 %token<word> WORD
 
-%type<word_list> kind1_action
-%type<word_list> kind1_action_keyword
+%type<word_list> kind1_cmd
 
 %type<word_list> kind2_action
 %type<word_list> kind2_action_keyword
@@ -65,23 +64,50 @@ void yyerror(char* s);
 line
   : 
   | line go_cmd EOL { handle_go_cmd($2); }
-  | line kind1_action phrase EOL { printf("handling : kind1\n"); }
+  | line kind1_cmd phrase EOL { handle_kind1_cmd($2); }
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
   | line phrase EOL { handle_cmd($2); }
   ;
 
-kind1_action
-  : kind1_action_keyword { $$ = $1; }
-  | kind1_action_keyword THE { $$ = $1; }
+kind1_cmd
+  : OPEN { $$ = NULL; }
+  | OPEN phrase { $$ = $2; }
+  | CLOSE { $$ = NULL; }
+  | CLOSE phrase { $$ = $2; }
+  | PUSH { $$ = NULL; }
+  | PUSH phrase { $$ = $2; }
+  | PULL { $$ = NULL; }
+  | PULL phrase { $$ = $2; }
+  | TURN_ON { $$ = NULL; }
+  | TURN_ON phrase { $$ = $2; }
+  | TURN_OFF { $$ = NULL; }
+  | TURN_OFF phrase { $$ = $2; }
+  | TAKE { $$ = NULL; }
+  | TAKE phrase { $$ = $2; }
+  | PICKUP { $$ = NULL; }
+  | PICKUP phrase { $$ = $2; }
+  | DROP { $$ = NULL; }
+  | DROP phrase { $$ = $2; }
+  | CONSUME { $$ = NULL; }
+  | CONSUME phrase { $$ = $2; }
+  | USE { $$ = NULL; }
+  | USE phrase { $$ = $2; }
+  | DRINK { $$ = NULL; }
+  | DRINK phrase { $$ = $2; }
+  | EAT { $$ = NULL; }
+  | EAT phrase { $$ = $2; }
   ;
 
+<<<<<<< HEAD
 kind1_action_keyword
   : OPEN  { $$ = start_phrase($1); }
   | CLOSE  { $$ = start_phrase($1); }
 /*  | line fight_cmd EOL { handle_fight_cmd($2); }
 */
   ;
+=======
+>>>>>>> bd594654127571589b74545440fba03161c88f9c
 
 kind2_action
   : kind2_action_keyword { $$ = $1; }
@@ -89,8 +115,8 @@ kind2_action
   ;
 
 kind2_action_keyword
-  : OPEN  { $$ = start_phrase($2); }
-  | CLOSE  { $$ = start_phrase($2); }
+  : OPEN  { $$ = start_phrase($1); }
+  | CLOSE  { $$ = start_phrase($1); }
   ;
 
 kind3_action
@@ -99,8 +125,8 @@ kind3_action
   ;
 
 kind3_action_keyword
-  : OPEN  { $$ = start_phrase($3); }
-  | CLOSE  { $$ = start_phrase($3); }
+  : OPEN  { $$ = start_phrase($1); }
+  | CLOSE  { $$ = start_phrase($1); }
   ;
 
 kind4_action
@@ -109,8 +135,8 @@ kind4_action
   ;
 
 kind4_action_keyword
-  : OPEN  { $$ = start_phrase($4); }
-  | CLOSE  { $$ = start_phrase($4); }
+  : OPEN  { $$ = start_phrase($1); }
+  | CLOSE  { $$ = start_phrase($1); }
   ;
 
 /*
