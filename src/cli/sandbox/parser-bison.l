@@ -12,6 +12,22 @@
     /* this takes in start of line and "open" and returns the token OPEN */
 open { return OPEN; }
 
+push { return PUSH; }
+
+pull { return PULL; }
+
+turn_on { return TURN_ON; }
+
+turn_off { return TURN_OFF; }
+
+take { return TAKE; }
+
+pickup { return PICKUP; }
+
+drop { return DROP; }
+
+cosume { return CONSUME; }
+
 the { return THE; }
 
 ^GO|go|Go|gO|head|move|walk  { return GO; }
