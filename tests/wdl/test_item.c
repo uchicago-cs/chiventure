@@ -64,16 +64,19 @@ void item_check(char *room, char *item)
     // checking fields were correctly filled
     room_t *r = find_room_from_game(g, room);
     item_t *i = get_item_in_room(r, item);
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = i;
+    agent->npc = NULL;
 
     obj_t *item_obj = obj_get_attr(doc, "ITEMS", false);
     item_obj = obj_get_attr(item_obj, item, false);
 
-    char *s = get_sdesc_item(i);
+    char *s = get_sdesc_item(agent->item);
     char *scmp = obj_get_str(item_obj, "short_desc");
     rc = strncmp(s, scmp, strlen(scmp));
     cr_assert_eq(rc, SUCCESS, "failed to parse item sdesc");
 
-    char *l = get_ldesc_item(i);
+    char *l = get_ldesc_item(agent->item);
     char *lcmp = obj_get_str(item_obj, "long_desc");
     rc = strncmp(l, lcmp, strlen(lcmp));
     cr_assert_eq(rc, SUCCESS, "failed to parse item sdesc");
@@ -83,7 +86,7 @@ void item_check(char *room, char *item)
     obj_t *curr;
     DL_FOREACH(actions->data.lst, curr)
     {
-        rc = possible_action(i, obj_get_str(curr, "action"));
+        rc = possible_action(agent, obj_get_str(curr, "action"));
         cr_assert_eq(rc, 0, "failed to load item action");
     }
 }
