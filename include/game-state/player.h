@@ -27,14 +27,7 @@ typedef enum completion_status {
     Q_COMPLETED,
 } completion_status_t;
 
-/* A reference to a given quest from game_state that the player has unlocked 
- * 
- * Completion functions as follows:
- *   -1: failed quest
- *    0: quest has not been started
- *    1: quest has been started but not completed
- *    2: quest has been completed
-*/
+/* A reference to a given quest from game_state that the player has unlocked */
 typedef struct player_quest {
     char *quest_id;
     completion_status_t completion;
