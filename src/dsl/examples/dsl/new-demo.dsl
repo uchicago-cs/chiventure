@@ -1,45 +1,6 @@
 GAME START computer lab END classroom
 	Intro: “You successfully figured out how to find the DSL file that Professor Borja requested for you to find. You now have to proceed to the classroom to hand deliver the DSL file to Professor Borja. Unfortunately, you are a first-quarter student so you are unfamiliar with the layout of campus. You must now make your way through the treacherous domain that is the University of Chicago campus to find the final boss–TA Jack.”
 
-PLAYER_CLASS STUDENT
-    short desc: "This is a student."
-    long desc: "His goal is to get an A in Professor Borja’s class."
-    attributes:
-        studious set TRUE
-        procrastinator set FALSE
-        inquisitive set TRUE
-    base_stats:
-        health
-            CURRENT 20
-            MAX 100
-        grade
-	        CURRENT 80
-	        MAX 100
-
-NPC TA-JACK IN classroom
-    short desc: "This is TA Jack."
-    long desc: "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success. It is crazy that he is the same age as us, which really helps with his empathy for us. Specifically, his empathy in how he grades us. He knows and wants to give us all A’s in this class. His NPC age is reflective of his wisdom."
-    age: "125"
-    gender: "Male"
-
-    INVENTORY
-        item_id: "Google SWE Internship"
-        item_id: "LARK DOCUMENTATION"
-        item_id: "DSL DOCUMENTATION"
-        item_id: "Omniscience"
-
-NPC PROFESSOR-BORJA IN computer lab
-    short desc: "This is Professor Borja Sotomayor."
-    long desc: "This is the amazing professor who teaches CMSC 22000. His NPC age reflects how youthful he looks."
-    age: "23"
-    gender: "Male"
-
-    INVENTORY
-        item_id: "CPU"
-        item_id: "Shirt Designer"
-        item_id: "Glasses"
-        item_id: "Power Point"
-
 ROOM computer lab 
     short desc: "The computer lab is located in Crerar library"
     long desc: "This is the computer lab located in Crerar Library where you have your weekly team meetings. From here you can go north to the dorm room and south to the quad."
@@ -97,3 +58,37 @@ ROOM classroom
     action: SUBMIT
         SUBMIT success: "You submitted your code!"
         SUBMIT fail: "You failed to submit your code in time and failed the project."
+
+PLAYER_CLASS STUDENT
+    short desc: "This is a student."
+    long desc: "His goal is to get an A in Professor Borja’s class."
+    ATTRIBUTES
+        studious TRUE
+        procrastinator FALSE
+        inquisitive TRUE
+    BASESTATS
+        grade
+	        CURRENT 80
+	        MAX 100
+
+NPC TAJACK IN classroom
+    short desc: "This is TA Jack."
+    long desc: "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success. It is crazy that he is the same age as us, which really helps with his empathy for us. Specifically, his empathy in how he grades us. He knows and wants to give us all A’s in this class. His NPC age is reflective of his wisdom."
+    age: "125"
+    gender: "Male"
+    INVENTORY
+        item_id: "Google SWE Internship"
+        item_id: "LARK DOCUMENTATION"
+        item_id: "DSL DOCUMENTATION"
+        item_id: "Omniscience"
+
+NPC PROFESSORBORJA IN computer lab
+    short desc: "This is Professor Borja Sotomayor."
+    long desc: "This is the amazing professor who teaches CMSC 22000. His NPC age reflects how youthful he looks."
+    age: "23"
+    gender: "Male"
+    INVENTORY
+        item_id: "CPU"
+        item_id: "Shirt Designer"
+        item_id: "Glasses"
+        item_id: "Power Point"
