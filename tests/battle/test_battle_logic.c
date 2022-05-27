@@ -362,7 +362,7 @@ Test(battle_logic, do_not_find_item)
     cr_assert_null(found, "find_battle_item() failed!");
 }
 /* This test will need to be changed to and instead should call get_random_equip_weapon() */
-Test(battle_logic, use_battle_weapon)
+/*Test(battle_logic, use_battle_weapon)
 {
     stat_t *player_stats = calloc(1, sizeof(stat_t));
     player_stats->max_hp= 1000;
@@ -372,9 +372,9 @@ Test(battle_logic, use_battle_weapon)
     enemy_stats->hp = 100;
     enemy_stats->phys_atk = 90;
     enemy_stats->phys_def = 80;
-    battle_item_t *weapon = get_random_offensive_item();
+    battle_item_t *item = get_random_offensive_item();
 
-    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, weapon, 
+    combatant_t *player = combatant_new("warrior", true, NULL, player_stats, NULL, weapon, 
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
 
     combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL, 
@@ -391,15 +391,18 @@ Test(battle_logic, use_battle_weapon)
     cr_assert_eq(battle->enemy->stats->hp, expected_hp, "consume_battle_weapon() does correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
     cr_assert_eq(battle->enemy->stats->phys_atk, expected_strength, "consume_battle_weapon() does correctly set enemy physical attack after use");
     cr_assert_eq(battle->enemy->stats->phys_def, expected_defense, "consume_battle_weapon() does correctly set enemy physical defense after use");
-}
+}*/
 
 /*
  * this tests to see if the battle_player tries consuming a battle_item,
  * then it should do two things:
  * 1. Find the battle_item and mark it as found and used
  * 2. make changes to status as seen fit
+ * 
+ * TODO: this is a test that is specifically tailored to the interaction
+ * between warrior and strength up, but we might want to expand on these tests
  */
- /* SEE ISSUE #1657
+ 
 Test(battle_logic, consume_a_battle_item)
 {
     stat_t *pstats = calloc(1, sizeof(stat_t));
@@ -407,7 +410,7 @@ Test(battle_logic, consume_a_battle_item)
     pstats->max_hp = 20;
     pstats->phys_def = 15;
     pstats->phys_atk = 15;
-    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL, 
+    combatant_t *p = combatant_new("Warrior", true, NULL, pstats, NULL, NULL, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -415,18 +418,20 @@ Test(battle_logic, consume_a_battle_item)
     stat_changes_t *changes = stat_changes_new();
     changes->phys_atk = 0;
     changes->phys_def = 0;
-    changes->hp = 10;
+    changes->hp = 0;
     i1->attributes = changes;
 
     int res = consume_battle_item(p, i1);
 
     cr_assert_eq(res, 0, "consume_battle_item() does not return 0!");
-    cr_assert_eq(p->stats->hp, 20, "consume_battle_item() failed for hp!");
+    cr_assert_eq(p->stats->hp, 10, "consume_battle_item() failed for hp!");
     cr_assert_eq(p->stats->phys_def, 15, "consume_battle_item() failed for physical defense!");
-    cr_assert_eq(p->stats->phys_atk, 15, "consume_battle_item() failed for physical attack!");
+    // note, since the consumable will multiplier the stats by 1.5 for the phys atk (since it is 
+    // Strength Up), we will add 20 * 1.5 to 15, which will be 45
+    cr_assert_eq(p->stats->phys_atk, 45, "consume_battle_item() failed for physical attack!");
 
     combatant_free(p);
-} */
+}
 
 /*
  * This is simialr to the test above except there are now two battle_items in

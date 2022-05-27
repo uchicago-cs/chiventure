@@ -16,6 +16,42 @@ int randnum(int min, int max)
     return rv; 
 }
 
+
+
+// currently this will only be for Strength Up, which "Adds 20 multiplier to Attack!"
+battle_item_t *get_consumable_item(char* item_name, char* desc)
+{
+    battle_item_t *rv_item = calloc(1, sizeof(battle_item_t));
+    assert(rv_item != NULL);
+
+    rv_item->id = 1;
+
+    // sets name
+    int name_len = strlen(item_name);
+    rv_item->name = (char*)calloc(name_len + 1, sizeof(char));
+    strncpy(rv_item->name, item_name, name_len + 1);
+
+    // sets description
+    int description_len = strlen(desc);
+    rv_item->description = (char*)calloc(description_len + 1, sizeof(char));
+    strncpy(rv_item->description, desc, description_len + 1);
+
+    rv_item->attributes = stat_changes_new();
+
+    // TODO: this is currently hard coded for Elixir of Life, 
+    // but we later want to make sure this function is specific
+    rv_item->attributes->phys_atk = 20;
+    rv_item->quantity = randnum(1, 3);
+    rv_item->attack = false;
+
+    rv_item->next = NULL;
+    rv_item->prev = NULL;
+
+    return rv_item;
+}
+
+
+
 /* See battle_default_objects.h */
 battle_item_t *get_random_offensive_item()
 {
