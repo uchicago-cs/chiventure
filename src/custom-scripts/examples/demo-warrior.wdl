@@ -1,7 +1,7 @@
 {
     "GAME": {
         "start": "room_A",
-        "intro": "This is a test game for the Wizard Class. It is based off connected-rooms.wdl",
+        "intro": "This is a test game for the Warrior Class. It is based off connected-rooms.wdl",
         "end": {
             "in_room": "room_C"
         }
@@ -65,25 +65,25 @@
                 }
             ]
         },
-        "STAFF": {
-            "short_desc": "This is a staff",
-            "long_desc": "This is a staff for a wizard",
+        "SWORD": {
+            "short_desc": "This is a sword",
+            "long_desc": "This is a sword for a warrior",
             "in": "room_A",
             "actions": [
                 {
                     "action": "PUSH",
-                    "text_success": "You push the staff",
-                    "text_fail": "You cannot push this staff"
+                    "text_success": "You push the sword",
+                    "text_fail": "You cannot push this sword"
                 },
                 {
                     "action": "PULL",
-                    "text_success": "You pull the staff",
-                    "text_fail": "You cannot pull this staff"
+                    "text_success": "You pull the sword",
+                    "text_fail": "You cannot pull this sword"
                 },
                 {
                     "action": "TAKE",
-                    "text_success": "You're a wizard, Harry",
-                    "text_fail": "You cannot take this staff unless you are a wizard class"
+                    "text_success": "THIS IS SPARTA",
+                    "text_fail": "You cannot take this sword unless you are a warrior class"
                 }
             ]
         },
@@ -103,13 +103,13 @@
                     "text_fail": "You cannot pull this evil king"
                 },
                 {
-                    "action": "FIREBALL",
-                    "text_success": "You defeated BORJA",
-                    "text_fail": "You cannot use this spell without a staff",
+                    "action": "SLASH",
+                    "text_success": "You defeated the evil king BORJA",
+                    "text_fail": "You cannot slash without a sword",
                     "conditions": [
                         {
                             "type": "INVENTORY",
-                            "item_id": "STAFF"
+                            "item_id": "SWORD"
                         }
                     ]
                 }
