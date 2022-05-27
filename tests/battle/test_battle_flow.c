@@ -394,7 +394,7 @@ Test(battle_flow_move, battle_over_by_player)
 
     // note: this hp value relies on player class implementation of move_list 
     cr_assert_eq(player->stats->hp,
-                 200,
+                 40,
                  "battle_flow_move() did not compute damage correctly");
 
     int expected_hp = player->stats->hp -
