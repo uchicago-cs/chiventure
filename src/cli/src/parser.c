@@ -107,7 +107,7 @@ char **parse(char *input)
     char **words;
     words = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
     char **by_quotes;
-    words = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
+    by_quotes = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
 
 
     char *token2 = strtok(input, "\"");
