@@ -385,6 +385,68 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
                     "save anyone in the village that has been injured.";
         set_stats_hashtable(game, &stats, 10, 5, 10, 5, 5, 10, 5, 10);
     }
+    /* Druid stats:
+     * 15 Max Health
+     * 5 Speed
+     * 10 Physical Defense
+     * 10 Physical Attack
+     * 10 Ranged Attack
+     * 30 Magic Defense
+     * 30 Magic Attack
+     * 25 Max Mana */
+
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
+        short_desc = "A Druid.";
+        long_desc = "Members of the high-ranking class in ancient Celtic "
+                    "cultures, Druids were religious leaders as well as "
+                    "adjudicators, and medical professionals.";
+        set_stats_hashtable(game, &stats, 15, 5, 10, 10, 10, 30, 30, 25);
+    }
+    /* Elementalist stats:
+     * 20 Max Health
+     * 5 Speed
+     * 10 Physical Defense
+     * 10 Physical Attack
+     * 10 Ranged Attack
+     * 20 Magic Defense
+     * 20 Magic Attack
+     * 20 Max Mana */
+    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
+        short_desc = "An Elementalist.";
+        long_desc = "Multi faceted spellcasters who channel elemental forces, "
+                    "making fire, air, earth, and water do their bidding.";
+        set_stats_hashtable(game, &stats, 20, 5, 10, 10, 10, 20, 20, 20);
+    }
+    /* Knight stats:
+     * 40 Max Health
+     * 30 Physical Defense
+     * 30 Physical Attack
+     * 10 Ranged Attack
+     * 0 Magic Defense
+     * 0 Magic Attack
+     * 20 Max Mana */
+    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
+        short_desc = "A brave Knight.";
+        long_desc = "Professional cavalry warriors, some of whom were vassals " 
+                    "holding lands as fiefs from the lords in whose armies they" 
+                    " served";
+        set_stats_hashtable(game, &stats, 40, 20, 30, 30, 10, 0, 0, 20);
+    }
+    /* Sorceror stats:
+     * 15 Max Health
+     * 10 Speed
+     * 5 Physical Defense
+     * 10 Physical Attack
+     * 5 Ranged Attack
+     * 25 Magic Defense
+     * 20 Magic Attack
+     * 25 Max Mana */
+    else if (!strncmp(temp_name, "sorceror", MAX_NAME_LEN)) {
+        short_desc = "A slick Sorceror.";
+        long_desc = "Young master of the mystic arts; inherits talent and"
+                    " battle prowess from their family";
+        set_stats_hashtable(game, &stats, 15, 10, 5, 10, 5, 25, 20, 25);
+    }
     else {
         fprintf(stderr, "Could not find class name: \"%s\" "
                         "in class_prefab_new\n", class_name);
