@@ -9,7 +9,7 @@
 
 /* Tests the functions in game_autogenerate.h */
 
-Test(autogenerate, random_first_room){
+Test(randomroom, random_first_room){
 
     game_t *game=game_new("New Game");
 
@@ -51,7 +51,7 @@ Test(autogenerate, random_first_room){
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate a random first room\n");
 }
 
-Test(autogenerate, random_room_from_game){
+Test(randomroom, random_room_from_game){
 
     game_t *game=game_new("New Game");
 
@@ -87,6 +87,7 @@ Test(autogenerate, random_room_from_game){
     int **edges=edges_new(matrix, 3, 3);
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+    cr_assert_eq(rc, SUCCESS, "failed to autogenerate a random first room\n");
 
     int rc=random_first_room(game, specgraph);
 
@@ -99,7 +100,7 @@ Test(autogenerate, random_room_from_game){
     cr_assert_eq((0!=tag) && (1!=tag) && (2!=tag), 0, "failed to autogenerate a random first room\n");    
 }
 
-Test(autogenerate, game_autogenerate_static_random_first_room){
+Test(game_autogenerate, game_autogenerate_static_random_first_room){
 
     game_t *game=game_new("New Game");
 
@@ -143,7 +144,7 @@ Test(autogenerate, game_autogenerate_static_random_first_room){
 }
 
 
-Test(autogenerate, game_autogenerate_static_specific_first_room){
+Test(game_autogenerate, game_autogenerate_static_specific_first_room){
 
     game_t *game=game_new("New Game");
 
@@ -181,7 +182,7 @@ Test(autogenerate, game_autogenerate_static_specific_first_room){
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a specific first room\n");
 }
 
-Test(autogenerate, game_autogenerate_static_one_roomspec_game){
+Test(game_autogenerate, game_autogenerate_static_one_roomspec_game){
 
     game_t *game=game_new("New Game");
 
