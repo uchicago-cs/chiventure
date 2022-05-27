@@ -41,19 +41,21 @@ char* show_quests(player_t *player)
     //int buff_count = get_show_quests_buffer(player);
     //char *buffer = (char*)malloc(sizeof(char) * buff_count);
     //char *first = player->player_quests->quest_id;
-    int cur_len = 1;
+    int cur_len = 2;
     char *prev = malloc(cur_len);
-    prev = "";
-    for (player_quest_hash_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
+    prev = " \0";
+    for (player_quest_t *cur = player->player_quests; cur != NULL; cur->hh.next) {
         char *quest_id = cur->quest_id;
-        char *buf = malloc(30+strlen(quest_id));
         char *completion = completion_to_str(cur->completion);
+        char *buf = malloc(18+strlen(quest_id)+strlen(completion));
         sprintf(buf, "Quest %s: Status: %s\n", quest_id, completion);
         cur_len += strlen(buf);
         prev = realloc(prev, cur_len);
         strcat(prev, buf);
+        free(completion);
         free(buf);
     }
+
     return prev;
 }
 

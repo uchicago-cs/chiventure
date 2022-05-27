@@ -37,7 +37,7 @@ typedef enum completion_status {
 */
 typedef struct player_quest {
     char *quest_id;
-    int completion;
+    completion_status_t completion;
     UT_hash_handle hh;
 } player_quest_t;
 typedef struct player_quest player_quest_hash_t;
