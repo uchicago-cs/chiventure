@@ -179,7 +179,7 @@ int add_all_npcs_to_their_rooms(game_t *game)
 }
 
 
-/* a mokey-patched version of moving from lobby to arena */
+/* a monkey-patched version of moving from lobby to arena */
 char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
@@ -203,6 +203,33 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
     return "You are in the arena now";
 }
 
+
+/* a monkey-patched version of finding an NPC in the game */
+char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    char *npc_id = tokens[1];
+    case_insensitize(npc_id);
+    npc_t *npc;
+    HASH_FIND(hh, game->all_npcs, npc_id, strlen(npc_id), npc);
+    char *str;
+    if (npc == NULL)
+    {
+        sprintf(str, "%s is not an existing NPC", npc_id);
+    }
+    else
+    {
+        if (npc->npc_battle != NULL && get_npc_hp(npc) <= 0)
+        {
+            sprintf(str, "%s's body is in the %s", npc->npc_id, npc->movement->track);
+        }
+        else
+        {
+            sprintf(str, "%s is in the %s", npc->npc_id, npc->movement->track);
+        }
+    }
+    return str;
+}
 
 /* Creates a sample convo for NPC Harry, taken from npc_example.c */
 convo_t *create_sample_convo_harry()
@@ -362,7 +389,6 @@ chiventure_ctx_t *create_sample_ctx()
     move_t *moves1 = create_enemy_moves();
     add_battle_to_npc(friendly_fiona, fiona_stats, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
-    change_npc_hp(friendly_fiona, -100);
 
     /* Add dialogue to friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
@@ -380,10 +406,11 @@ chiventure_ctx_t *create_sample_ctx()
                             "literally dies", class2, movement2, HOSTILE);
     /* Add battle info to hostile npc */
     stat_t *stats2 = create_enemy_stats();
+    stats2->hp = 5;
+    stats2->max_hp = 5;
     move_t *moves2 = create_enemy_moves();
     add_battle_to_npc(hostile_harry, stats2, moves2, BATTLE_AI_GREEDY,
                       HOSTILE, NULL, NULL, NULL, NULL, NULL);
-    change_npc_hp(hostile_harry, -195);
 
     /* Add items to hostile npc */
     item_t *potion = item_new("POTION","This is a health potion.",
@@ -443,7 +470,7 @@ void *time_dependent_functions(void *game)
     game_t *g;
     g = (game_t *) game;
 
-    while (g != NULL && g->mode == NORMAL)
+    while (g != NULL)
     {
         /* This is where you add functions that should be run every second */
         move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
@@ -460,6 +487,7 @@ int main(int argc, char **argv)
     add_entry("ARENA", move_to_arena_operation, NULL, ctx->cli_ctx->table);
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
+    add_entry("FIND", find_npc_operation, NULL, ctx->cli_ctx->table);
 
     pthread_t time_thread;
     int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
