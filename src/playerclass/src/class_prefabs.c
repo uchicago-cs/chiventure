@@ -26,6 +26,7 @@
 const char* const DEFAULT_CLASS_NAMES[] = {
     // Here are Player-specific playerclasses
     "bard",
+    "basic",
     "monk",
     "ranger",
     "rogue",
@@ -197,6 +198,22 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
         long_desc = "The Bard combines their skill as a magician and musician "
                     "to support their allies or vanquish their foes.";
         set_stats_hashtable(game, &stats, 15, 15, 5, 5, 5, 20, 20, 20);
+    }
+
+    /* Basic class stats:
+     * 25 Max Health
+     * 5 Speed
+     * 5 Physical Defense
+     * 5 Physical Attack
+     * 5 Ranged Attack
+     * 5 Magic Defense
+     * 5 Magic Attack
+     * 5 Max Mana 
+     * These stats can be off the scale stupid because why not? This is a placeholder class */ 
+    else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)) {
+        short_desc = "An ordinary person.";
+        long_desc = "This is just an ordinary human being. There's nothing special about this guy.";
+        set_stats_hashtable(game, &stats, 25, 5, 5, 5, 5, 5, 5, 5);
     }
 
     /* Monk stats:
@@ -606,6 +623,13 @@ int class_prefab_add_skills(class_t* class) {
         add_skill(class, skill_0, 0, 25, true, NULL, 0);
         add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
         add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
+    }
+
+
+    else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
+        /* these guys potentially could have a prefabricated, basic skill to match the class
+         * for now we will just have no skills */
+        return SUCCESS;
     }
 
     /* 
