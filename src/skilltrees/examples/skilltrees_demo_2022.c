@@ -667,7 +667,7 @@ void main()
     add_entry("TURN_INTO_ORC_AGAIN", change_class_to_orc_again , NULL, ctx->cli_ctx->table);
     add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
     add_entry("READ_TOME", read_book, NULL, ctx->cli_ctx->table);
-    add_entry("ASK_ABOUT_RANDOM_SKILLS", random_monologue, NULL, ctx->cli_ctx->table);
+    add_entry("RANDOM_SKILLS", random_monologue, NULL, ctx->cli_ctx->table);
     add_entry("READ_WEAKNESS", read_weakness , NULL, ctx->cli_ctx->table);
 
     //Start UI for example chiventure context

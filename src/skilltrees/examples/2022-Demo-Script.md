@@ -47,7 +47,7 @@ Your mentor teaches you about complex skills, classes, and how to read, when he 
 `GO NORTH`
 `LISTEN_TO_LECTURE`
 `READ_TOME`
-`ASK_ABOUT_RANDOM_SKILLS`
+`RANDOM_SKILLS`
 `GO NORTH`
 `READ_WEAKNESS`
 `SMASH_WINDOW!`
