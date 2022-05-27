@@ -159,7 +159,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
             {
                 move_t *legal_moves = NULL;
                 battle_item_t *legal_items = NULL;
-                get_legal_actions(legal_items, legal_moves, buffer->current, 
+                get_legal_actions(&legal_items, &legal_moves, buffer->current, 
                             ctx->game->battle_ctx->game->battle);
                 char *menu = print_battle_action_menu(legal_items, legal_moves);
                 char *output_and_menu = strcat(output, menu);
@@ -178,6 +178,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
         }
         else 
         {
+            /*qu
             if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)
             {
                 char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
@@ -192,7 +193,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
                 free(battle_over);
                 rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
                 return SUCCESS;
-            }
+            }*/
         }
     }
 }
