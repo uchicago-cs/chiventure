@@ -112,9 +112,8 @@ int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
  * - npc: an NPC
  * - g: game (for load_quest_dialogue to build conditions)
  *
- * returns;
- * - SUCCESS for successful parse
- * - FAILURE for unsuccessful parse
+ * returns:
+ * - A convo initialized by the dialogue obj OR NULL if there is an error
  */
 convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
 {
@@ -201,6 +200,10 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
 int load_npc_quests(obj_t *npc_obj, npc_t *npc, game_t *g)
 {
     obj_t *quests_list = obj_get_list(npc_obj, "Quests");
+    if(quests_list == NULL) {
+        fprintf(stderr, "NPC has no quests, but this may not be an error");
+        return SUCCESS;
+    }
     obj_t *cur;
     DL_FOREACH(quests_list, cur) {
         char *id = obj_get_str(cur, "Quest Name");
@@ -225,6 +228,10 @@ int load_npc_quests(obj_t *npc_obj, npc_t *npc, game_t *g)
 int load_npc_tasks(obj_t *npc_obj, npc_t *npc, game_t *g)
 {
     obj_t *tasks_list = obj_get_list(npc_obj, "Tasks");
+    if(tasks_list == NULL) {
+        fprintf(stderr, "NPC has no tasks, but this may not be an error");
+        return SUCCESS;
+    }
     obj_t *cur;
     DL_FOREACH(tasks_list, cur) {
         char *id = obj_get_str(cur, "Task Name");
@@ -298,23 +305,17 @@ int load_npcs(obj_t *doc, game_t *g)
         // to do
 
         // load quests
-        obj_list_t *quests_obj_list;
-        if ((quests_obj_list = obj_get_list(curr, "Quests")) != NULL) {
-            if (load_npc_quests(quests_obj_list, npc, g) != SUCCESS) {
-                fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
-                        id);
-                return FAILURE;
-            }
+        if (load_npc_quests(curr, npc, g) != SUCCESS) {
+            fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
+                    id);
+            return FAILURE;
         }
-
+        
         // load tasks
-        obj_t *tasks_obj_list;
-        if ((tasks_obj_list = obj_get_list(curr, "Tasks")) != NULL) {
-            if (load_npc_tasks(tasks_obj_list, npc, g) != SUCCESS) {
-                fprintf(stderr, "Tasks was not loaded properly. NPC: %s\n",
-                        id);
-                return FAILURE;
-            }
+        if (load_npc_tasks(curr, npc, g) != SUCCESS) {
+            fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
+                    id);
+            return FAILURE;
         }
 
         // add NPC to the game
