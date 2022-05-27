@@ -52,13 +52,13 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     d = dict((k, v) for k, v in s if k != "attributes" and k != 'base_stats')
 
     # create a list of items and place it in its own entry of the dict
-    # the values placed into this entry will correspond to item attributes
+    # the values placed into this entry will correspond to player class attributes
     # since the key is guaranteed to be the string "attributes"
     d["attributes"] = [v for k, v in s if k == "attributes"][0]
 
     # create a list of items and place it in its own entry of the dict
-    # the values placed into this entry will correspond to item attributes
-    # since the key is guaranteed to be the string "attributes"
+    # the values placed into this entry will correspond to player class base stats
+    # since the key is guaranteed to be the string "base_stats"
     d["base_stats"] = [v for k, v in s if k == "base_stats"][0]
     
     return ('PLAYER_CLASS', (class_name, d))
