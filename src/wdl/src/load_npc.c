@@ -431,9 +431,9 @@ int load_npc_quests(obj_list_t *quests_obj_list, npc_t *npc, game_t *g)
         }
 
         // very first quest being added
-        if (quests == NULL)
+        if (quests->head == NULL)
         {
-            quests->head->next = NULL;
+            quests->head = curr_quest;
         } else {
             // add quest to npc_quest_list
             if ((npc_quest_list_add(quests, curr_quest)) != SUCCESS)
@@ -512,9 +512,9 @@ int load_npc_tasks(obj_list_t *tasks_obj_list, npc_t *npc, game_t *g)
         }
 
         // very first task being added
-        if (tasks == NULL)
+        if (tasks->head == NULL)
         {
-            tasks->head->next = NULL;
+            tasks->head = curr_task;
         } else {
             // add task to npc_task_list
             if ((npc_task_list_add(tasks, curr_task)) != SUCCESS)
@@ -595,24 +595,24 @@ int load_npcs(obj_t *doc, game_t *g)
         // to do
 
         // load quests
-        /*obj_list_t *quests_obj_list;
+        obj_list_t *quests_obj_list;
         if ((quests_obj_list = obj_get_list(curr, "Quests")) != NULL) {
             if (load_npc_quests(quests_obj_list, npc, g) != SUCCESS) {
                 fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
             }
-        }*/
+        }
 
         // load tasks
-        /*obj_t *tasks_obj_list;
+        obj_t *tasks_obj_list;
         if ((tasks_obj_list = obj_get_list(curr, "Tasks")) != NULL) {
             if (load_npc_tasks(tasks_obj_list, npc, g) != SUCCESS) {
                 fprintf(stderr, "Tasks was not loaded properly. NPC: %s\n",
                         id);
                 return FAILURE;
             }
-        }*/
+        }
 
         // add NPC to the game
         add_npc_to_game(g, npc);
