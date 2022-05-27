@@ -168,12 +168,12 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
 
     if(room_exists_in_direction(game, curr, "north")){
         adjacentroom=find_room_in_direction(game, curr, "north");
-        if(path_generate(specgraph, curr, adjacent)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtoadjacent=path_new(adjacentroom, "north");
             add_path_to_room(adjacentroom, pathtoadjacent);
         }
 
-        if(path_generate(specgraph, adjacent, curr)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtocurr=path_new(curr, "south");
             add_path_to_room(curr, pathtocurr);            
         }
@@ -181,12 +181,12 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
 
     if(room_exists_in_direction(game, curr, "south")){
         adjacentroom=find_room_in_direction(game, curr, "south");
-        if(path_generate(specgraph, curr, adjacent)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtoadjacent=path_new(adjacentroom, "south");
             add_path_to_room(adjacentroom, pathtoadjacent);
         }
 
-        if(path_generate(specgraph, adjacent, curr)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtocurr=path_new(curr, "north");
             add_path_to_room(curr, pathtocurr);            
         }
@@ -194,12 +194,12 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
 
     if(room_exists_in_direction(game, curr, "east")){
         adjacentroom=find_room_in_direction(game, curr, "east");
-        if(path_generate(specgraph, curr, adjacent)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtoadjacent=path_new(adjacentroom, "east");
             add_path_to_room(adjacentroom, pathtoadjacent);
         }
 
-        if(path_generate(specgraph, adjacent, curr)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtocurr=path_new(curr, "west");
             add_path_to_room(curr, pathtocurr);            
         }
@@ -207,12 +207,12 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
 
     if(room_exists_in_direction(game, curr, "west")){
         adjacentroom=find_room_in_direction(game, curr, "west");
-        if(path_generate(specgraph, curr, adjacent)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtoadjacent=path_new(adjacentroom, "west");
             add_path_to_room(adjacentroom, pathtoadjacent);
         }
 
-        if(path_generate(specgraph, adjacent, curr)){
+        if(path_generate(game, context, curr, adjacentroom)){
             pathtocurr=path_new(curr, "east");
             add_path_to_room(curr, pathtocurr);            
         }
