@@ -2,7 +2,6 @@
 #include "common/utlist.h"
 #include <ctype.h>
 
-
 /* check battle_logic.h */
 combatant_t* check_target(battle_t *b, char *target)
 {
@@ -187,9 +186,8 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     target_stats->mag_def += changes->mag_def;
     target_stats->crit += changes->crit;
     target_stats->accuracy += changes->accuracy;
-    target_stats->hp += changes->hp;
     target_stats->max_hp += changes->max_hp;
-    if ((target_stats->hp += changes->hp) <= target_stats->max_hp)
+    if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
         target_stats->hp += changes->hp;
     }else
@@ -228,19 +226,19 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 /* see battle_logic.h */
 void get_legal_actions(battle_item_t *items, 
                        move_t *moves, 
-                       turn_component_t comp, 
+                       turn_component_t *comp, 
                        battle_t *battle) {
   // this is the combatant who's turn it is (player or enemy)
   combatant_t *current_actor = (battle->turn == PLAYER) ? battle->player : battle->enemy;
 
   // if the current turn component allows the combatant to use an item,
   // add the combatant's items to the return value for possible items
-  if(comp.item) {
+  if(comp->item) {
     items = current_actor->items;
   }
   // if the current turn component allows the combatant to make a move,
   // add the combatant's moves to the return value for possible moves
-  if(comp.move) {
+  if(comp->move) {
     moves = current_actor->moves;
   }
   
@@ -265,4 +263,22 @@ int num_items(battle_item_t *items) {
     count++;
   }
   return count;
+}
+
+battle_player_t *player_to_battle_player(player_t *player, stat_t *b_stats, 
+                                        move_t *b_moves, battle_item_t *items,
+                                        battle_equipment_t *weapon, 
+                                        battle_equipment_t *accessory,
+                                        battle_equipment_t *armor)
+{
+    battle_player_t *bp = (battle_player_t *) malloc (sizeof(battle_player_t));
+    bp->player_id = player->player_id;
+    bp->class_type = player->player_class;
+    bp->stats = b_stats; // battle stats
+    bp->moves = b_moves; // battle moves
+    bp->items = items;
+    bp->weapon = weapon;
+    bp->accessory = accessory;
+    bp->armor = armor;
+    return bp;
 }

@@ -1,10 +1,10 @@
-set(CS_EXAMPLES lost_order)
+set(CS_EXAMPLES loadwdl)
 
-add_executable(lost_order
-               lost_order.c)
+add_executable(loadwdl
+               loadwdl.c)
 
-target_link_libraries(lost_order ${LUA_LIBRARIES})
-target_include_directories(lost_order PRIVATE ${LUA_INCLUDE_DIR})
+target_link_libraries(loadwdl ${LUA_LIBRARIES})
+target_include_directories(loadwdl PRIVATE ${LUA_INCLUDE_DIR})
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
