@@ -515,26 +515,6 @@ Test(specgraph, free)
     cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
 }
 
-/* Tests the free_all_specgraphs function to validate that it can
- * free all of the elements in the doubly linked list. */
-/*Test(specgraph, free_all)
-{
-    specgraph_t *list = specgraph_new(NULL);
-    specgraph_t *list1 = specgraph_new(NULL);
-    specgraph_t *list2 = specgraph_new(NULL);
-    cr_assert_not_null(list, "failed to create new specgraph_t\n");
-    cr_assert_not_null(list1, "failed to create new specgraph_t\n");
-    cr_assert_not_null(list2, "failed to create new specgraph_t\n");
-    specgraph_t *head = NULL;
-    DL_APPEND(head, list);
-    DL_APPEND(head, list1);
-    DL_APPEND(head, list2);
-    int check = specgraph_free_all(list);
-    cr_assert_eq(check, SUCCESS, "failed to free the entire specgraph. \n");
-}*/
-
-
-
 /* Tests the roomlevel_new function to validate that a roomlevel
  * can be made successfully. */
 Test(roomlevel, new)
