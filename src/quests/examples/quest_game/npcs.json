@@ -13,25 +13,25 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "I have an apple. Do you want it?"
+                        "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! His lair is to the South of the city, though maybe you might want to speak to his mother first."
                     },
                     {
                         "id": "2a",
-                        "npc_dialogue": "Here you go."
+                        "npc_dialogue": "Good Luck! Here, take this Search Warrant."
                     },
                     {
                         "id": "2b",
-                        "npc_dialogue": "That's too bad."
+                        "npc_dialogue": "Very well. Here, take this Search Warrant."
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Yes",
+                        "quip": "South I go!",
                         "from_id": "1",
                         "to_id": "2a"
                     },
                     {
-                        "quip": "No",
+                        "quip": "Um, ok...",
                         "from_id": "1",
                         "to_id": "2b"
                     }
@@ -51,25 +51,25 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "I have an apple. Do you want it?"
+                        "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! Information regarding his location might be known to the pirates inhabiting the Pirate Cove to the west."
                     },
                     {
                         "id": "2a",
-                        "npc_dialogue": "Here you go."
+                        "npc_dialogue": "Good Luck! Here, take this Search Warrant."
                     },
                     {
                         "id": "2b",
-                        "npc_dialogue": "That's too bad."
+                        "npc_dialogue": "Show a little more enthusiasm, will you? Here, take this Search Warrant."
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Yes",
+                        "quip": "West I go!",
                         "from_id": "1",
                         "to_id": "2a"
                     },
                     {
-                        "quip": "No",
+                        "quip": "Um, ok...",
                         "from_id": "1",
                         "to_id": "2b"
                     }
@@ -85,25 +85,25 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "I have an apple. Do you want it?"
+                        "npc_dialogue": "Who dares disturb me!"
                     },
                     {
                         "id": "2a",
-                        "npc_dialogue": "Here you go."
+                        "npc_dialogue": "You scare me."
                     },
                     {
                         "id": "2b",
-                        "npc_dialogue": "That's too bad."
+                        "npc_dialogue": "You really scare me."
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Yes",
+                        "quip": "Someone who is stronger than you",
                         "from_id": "1",
                         "to_id": "2a"
                     },
                     {
-                        "quip": "No",
+                        "quip": "Me",
                         "from_id": "1",
                         "to_id": "2b"
                     }
@@ -123,27 +123,27 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "I have an apple. Do you want it?"
+                        "npc_dialogue": "Who are you?"
                     },
                     {
-                        "id": "2a",
-                        "npc_dialogue": "Here you go."
+                        "id": "2",
+                        "npc_dialogue": "*Gasp* Please don't! Steve's such a precious boy! Look, I have all these photos from when he was a baby!"
                     },
                     {
-                        "id": "2b",
-                        "npc_dialogue": "That's too bad."
+                        "id": "3",
+                        "npc_dialogue": "Yes! Oh dear, I seem to have lost them. I'll look around, come back later if you need to see them."
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Yes",
+                        "quip": "I need to kill Steve",
                         "from_id": "1",
-                        "to_id": "2a"
+                        "to_id": "2"
                     },
                     {
-                        "quip": "No",
-                        "from_id": "1",
-                        "to_id": "2b"
+                        "quip": "Baby Photos?",
+                        "from_id": "2",
+                        "to_id": "3"
                     }
                 ]
             }
@@ -161,27 +161,33 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "I have an apple. Do you want it?"
+                        "npc_dialogue": "Let us begin our battle!"
                     },
                     {
                         "id": "2a",
-                        "npc_dialogue": "Here you go."
+                        "npc_dialogue": "Aaaaahhhhh! I surrender! I surrender!"
                     },
                     {
                         "id": "2b",
-                        "npc_dialogue": "That's too bad."
+                        "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrasing baby photos!!! Nooooo!"
                     }
                 ],
                 "edges": [
                     {
-                        "quip": "Yes",
+                        "quip": "En Garde!",
                         "from_id": "1",
                         "to_id": "2a"
                     },
                     {
-                        "quip": "No",
+                        "quip": "I have something much more interesting to show you",
                         "from_id": "1",
-                        "to_id": "2b"
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "Steve's Embarrasing Baby Photos"
+                            }
+                        ]
                     }
                 ]
             }

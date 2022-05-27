@@ -27,7 +27,7 @@
     {
         "id": "Pirate Cove",
         "short_desc": "A cove of pirates",
-        "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be their captain.",
+        "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be their captain. Near your feet is a scrap of parchment that appears to be some sort of map.",
         "items": [],
         "action_on_entry":"",
         "actions":[],
