@@ -76,14 +76,10 @@ int random_first_room(game_t* game, gencontext_t* context){
 * - game_t* game: a pointer to the game struct. Must contain at least one room.
 *
 * returns:
-* SUCCESS - if a random room was successfully chosen
-* FAILURE - if a random room could not be chosen (e.g. if game is null or if game contains no rooms)
+* random_room: A pointer to the randomly chosen room
 */
 
 roomspec_t* random_room_from_game(game_t* game){
-    if(game==NULL){
-        return FAILURE;
-    }
 
     room_hash_t *rooms=game->all_rooms;
     int num_rooms=HASH_COUNT(rooms);
