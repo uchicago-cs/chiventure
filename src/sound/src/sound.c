@@ -93,7 +93,7 @@ int play_sound(sound_t *sound, int delay)
 /* See sound.h for details */
 void stop_sound()
 {
-    int x = Mix_HaltMusic();
+    Mix_HaltMusic();
 }
 
 /* See sound.h for details */
