@@ -151,20 +151,37 @@ chiventure_ctx_t *create_sample_ctx()
 
     // add items to room
     item_t *soap = item_new("Soap   ", "Soap   ", "Soap   ");
-    add_item_to_room(room1, soap); // TODO: change room to whatever new rooms we make
-    add_action(soap, "TAKE", "You take the soap. It has cleansed you.", "You do not take the soap.");
+    add_item_to_room(room4, soap); 
+    add_action(soap, "take", "You take the soap. It has cleansed you.", "You do not take the soap.");
 
     item_t *rolex = item_new("Rolex  ", "Rolex  ", "Rolex  ");
-    add_item_to_room(room1, rolex); // TODO: change room to whatever new rooms we make
+    add_item_to_room(room2, rolex); 
+    add_action(rolex, "take", "You take Borja's watch. It looks better on you.", 
+                              "You're not clean enough to touch Borja's watch. Is there soap around here?");
     
     player->player_class->skilltree = skill_tree;
     
     add_player_to_game(game, player);
     game->curr_player = player;
 
-    //Add action conditions to game
-    path_t* void_path = path_search(room3, "WEST");
+    // Add inventory condition to game (need soap to grab rolex)
+    game_action_t *take_rolex = get_action(rolex, "take");
+    add_action_inventory_condition(take_rolex, player, soap);
+
+    // Add room condition to game (need rolex and soap to enter void)
+    path_t *void_path = path_search(room3, "west");
+
+    action_type_t *soap_cond = action_type_new("take", ITEM);
+    action_type_init_room_dir(soap_cond, room5, "west");
+
+    action_type_t *rolex_cond = action_type_new("take", ITEM);
+    action_type_init_room_dir(rolex_cond, room5, "west");
+
     list_action_type_t *action_conds;
+    list_action_type_t *rolex_cond_ls;
+    action_conds->act = soap_cond;
+    LL_APPEND(action_conds, rolex_cond_ls);
+    
     path_new_conditions(void_path, action_conds);
 
     /* Create context */
