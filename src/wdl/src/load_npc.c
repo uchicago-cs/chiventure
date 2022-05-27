@@ -141,7 +141,7 @@ int load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
     DL_FOREACH(nodes_obj->data.lst, curr)
     {
         id = obj_get_str(curr, "id");
-        npc_dialogue = obj_get_str(curr, "dialogue");
+        npc_dialogue = obj_get_str(curr, "npc_dialogue");
 
         // create node
         if (add_node(convo, id, npc_dialogue) != SUCCESS) {
