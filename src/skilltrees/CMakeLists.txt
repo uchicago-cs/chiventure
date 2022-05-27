@@ -6,6 +6,8 @@ add_library(skilltrees STATIC
             src/effect.c
             src/skill.c
             src/inventory.c
+            src/reader.c
+            src/complex_skills.c
             src/skilltrees_common.c
             src/complex_skills.c
             src/skilltree.c)

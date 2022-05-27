@@ -87,7 +87,7 @@ battle_item_t *make_items(){
     smoke_bomb_stats->phys_def = -10;
     smoke_bomb_stats->mag_def = -10;
     smoke_bomb_stats->accuracy = -15;
-    battle_item_t *smoke_bomb = new_battle_item(1, "Smoke Bomb", 
+    battle_item_t *smoke_bomb = new_battle_item(1, "SmokeBomb", 
     "Prevents the enemy from seeing, decreasing their defense and accuracy", 
     smoke_bomb_stats, 2, TRUE, NULL, NULL);
     stat_changes_t *beserk_potion_stats = stat_changes_new();
@@ -96,15 +96,16 @@ battle_item_t *make_items(){
     beserk_potion_stats->crit = 50;
     beserk_potion_stats->mag_def = -40;
     beserk_potion_stats->phys_def = -40;
-    battle_item_t *beserk_potion = new_battle_item(2, "Beserk Potion", 
+    battle_item_t *beserk_potion = new_battle_item(2, "BerserkPotion", 
     "Makes the user go berserk, losing all sanity. Increases all attack stats but decreases all defense stats", 
     beserk_potion_stats, 1, FALSE, NULL, smoke_bomb);
     stat_changes_t *sp_restore_stats = stat_changes_new();
     sp_restore_stats->sp = 20;
-    battle_item_t *sp_restore = new_battle_item(3, "SP Restore", 
+    battle_item_t *sp_restore = new_battle_item(3, "SPRestore", 
     "Restores the user's SP.", sp_restore_stats, 3, 
     FALSE, NULL, beserk_potion);
     beserk_potion->next = sp_restore;
     smoke_bomb->next = beserk_potion;
+    sp_restore->next = NULL;
     return smoke_bomb;
 }

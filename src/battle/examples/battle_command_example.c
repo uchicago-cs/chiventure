@@ -38,6 +38,7 @@ class_t *make_minion()
  */ 
 int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
 {
+    /*
     char *action_string;
     // everything below allows us to print what just happened
     if (goes_first(ctx->game->battle) == PLAYER)
@@ -66,12 +67,13 @@ int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
         {
             return SUCCESS;
         }
+        
         move_t *enemy_move = give_move(ctx->game->battle->player,
                                        ctx->game->battle->enemy,
                                        ctx->game->battle->enemy->ai);
         action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
         printf("%s\n", action_string);
-    }
+    }*/
     return SUCCESS;
 }
 
@@ -192,7 +194,7 @@ int read_move(char **args, battle_ctx_t *ctx)
     else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
     {
         battle_item_t *item = find_battle_item(ctx->game->battle->player->items, args[1]);
-        printf("Determined command as USE %s\n\n", item->name);
+        
         if (item == NULL)
         {
             printf("Couldn't find the battle item you were looking for!\n");
@@ -203,21 +205,19 @@ int read_move(char **args, battle_ctx_t *ctx)
             printf("Sorry, you don't have any more of that battle item!\n");
             return FAILURE;
         }
-
-        res = use_battle_item(ctx->game->battle->player, ctx->game->battle, args[1]);
-        if (res == FAILURE) 
+        printf("Determined command as USE %s\n\n", item->name);
+        char *res_str = battle_flow_item(ctx, item);
+        if (!strcmp(res_str, "FAILURE\n"))
         {
+            printf("Failure\n");
             return FAILURE;
         } 
         else 
         {
             stat_t *player_stats = ctx->game->battle->player->stats;
-            printf("New HP is %d\n", player_stats->hp);
-            printf("New Defense is %d\n\n", player_stats->phys_def);
+            
+            printf("%s\n", res_str);
         }
-
-        char* str = enemy_make_move(ctx);
-        printf("%s\n", str);
         return SUCCESS;
     }
     else
@@ -276,9 +276,6 @@ int continue_battle(battle_ctx_t *ctx)
         }
         // otherwise, handle input
         res = read_move(args, ctx);
-        printf("read move returned: %d\n", res);
-        printf("PLAYER HP: %d\n", ctx->game->battle->player->stats->hp);
-        printf("ENEMY HP: %d\n", ctx->game->battle->enemy->stats->hp);
     }
     // free statement for string array
     /*

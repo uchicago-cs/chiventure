@@ -44,13 +44,26 @@ class_t *make_minion()
 
 battle_player_t * create_player_one() 
 {
-  // create player one (sorcerer)
-    stat_t *p1_stats = get_random_stat();
+    // create player one (sorcerer)
+    stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
+    p_stats->hp = 100;
+    p_stats->max_hp = 100;
+    p_stats->xp = 10;
+    p_stats->speed = 10;
+    p_stats->level = 3;
+    p_stats->phys_def = 30;
+    p_stats->mag_def = 30;
+    p_stats->phys_atk = 80;
+    p_stats->mag_atk = 80;
+    p_stats->sp = 100;
+    p_stats->max_sp = 100;
+    p_stats->crit = 25;
+    p_stats->accuracy = 100;
     battle_item_t *p1_item = make_items();
     move_t *p1_move = generate_moves_user_one();
     class_t *p1_class = make_sorcerer();
     battle_player_t *p1 = new_ctx_player("Nicholas the Wise", p1_class, 
-                                         p1_stats, p1_move, p1_item, 
+                                         p_stats, p1_move, p1_item, 
                                          NULL, NULL, NULL);
 }
 
@@ -60,6 +73,7 @@ npc_t *create_minion_one()
     stat_t *e_stats = get_random_stat();
     move_t *e_move = generate_moves_enemy_one();
     class_t *e_class = make_minion();
+    battle_item_t *p_item = make_items();
     npc_t *e = npc_new("Minion", "Enemy Minion!", "Enemy Minion!", e_class, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(e_stats, e_move, BATTLE_AI_GREEDY, 
                                           HOSTILE, e_class, p_item, NULL, NULL, NULL);
@@ -80,7 +94,7 @@ room_t *room = setup_battle_one(chiventure_ctx_t *ctx)
     battle_ctx->game = g;
 
     // creates player 1 (sorcerer), and minion 1 (no armor)
-    battle_player_t *p1 = create_player_one() 
+    battle_player_t *p1 = create_player_one();
     npc_t *e1 = create_minion_one();
     
     // create a room and add the npc to it
@@ -91,7 +105,7 @@ room_t *room = setup_battle_one(chiventure_ctx_t *ctx)
 
     //adds battle_player to battle_ctx
     battle_ctx->game->player = p1;
-
+    
     // add battle context to the game
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
 
