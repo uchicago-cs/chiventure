@@ -211,6 +211,8 @@ int npc_quest_list_add(npc_quest_list_t *list, npc_quest_t *quest) {
     npc_quest_t *cur;
     for(cur = head; cur->next != NULL; cur = cur->next);
     cur->next = quest;
+
+    (list->length)++;
     return SUCCESS;
 }
 
@@ -227,6 +229,8 @@ int npc_task_list_add(npc_task_list_t *list, npc_task_t *task) {
     npc_task_t *cur;
     for(cur = head; cur->next != NULL; cur = cur->next);
     cur->next = task;
+
+    (list->length)++;
     return SUCCESS;
 }
 

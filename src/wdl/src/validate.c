@@ -428,7 +428,7 @@ int node_action_type_check(obj_t *obj)
 
 int npc_quest_type_check(obj_t *obj)
 {
-    int id = (obj_get_type(obj, "Quest Name") == TYPE_STR);
+    int id = (obj_get_type(obj, "Quest") == TYPE_STR);
     if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
     {
         return FAILURE;
@@ -438,7 +438,7 @@ int npc_quest_type_check(obj_t *obj)
 
 int npc_task_type_check(obj_t *obj)
 {
-    int id = (obj_get_type(obj, "Task Name") == TYPE_STR);
+    int id = (obj_get_type(obj, "Task") == TYPE_STR);
     if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
     {
         return FAILURE;
@@ -446,7 +446,7 @@ int npc_task_type_check(obj_t *obj)
     return SUCCESS;
 }
 
-int quest_list_type_check(obj_list_t *obj)
+/*int quest_list_type_check(obj_list_t *obj)
 {
     // taken from dialogue_type_check
 
@@ -474,7 +474,7 @@ int task_list_type_check(obj_list_t *obj)
     int check = list_type_check(tasks_list, npc_task_type_check);
 
     return check;
-}
+}*/
 
 
 // The following functions regard condition type checking
