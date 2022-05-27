@@ -613,7 +613,7 @@
                         "conditions": [
                             {
                                 "type": "INVENTORY",
-                                "item_id": "POKEBALL",
+                                "item_id": "POKEBALL"
                             }
                         ]
                     },
