@@ -237,7 +237,7 @@ int path_autogenerate(game_t* game, gencontext_t* context, room_t* curr){
 
 int autogenerate_room_in_game(game_t* game, gencontext_t* context){
 
-    specgraph=context->specgraph;
+    specgraph_t *specgraph=context->specgraph;
     roomspec_t **roomspecs=specgraph->roomspecs;
     roomspec_t *currroomspec=roomspecs[curr->tag];
 
