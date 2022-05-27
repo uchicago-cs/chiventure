@@ -527,6 +527,12 @@ char* change_class_to_orc(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
     return "Mentor: Not sure how you managed to do that, but alright, you're an Orc now.";
 }
 
+char* change_class_to_orc_again(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
+{   
+    ctx->game->curr_player->player_class->name = "Orc";
+    return "You turn into an orc again. It's orcin' time!";
+}
+
 //Change class to something else
 char* read_book(char* tokens[TOKEN_LIST_SIZE], chiventure_ctx_t* ctx)
 {   
@@ -647,6 +653,7 @@ void main()
     add_entry("SMASH_WINDOW!", use_conditional_window_skill, NULL, ctx->cli_ctx->table);
     add_entry("TALK_TO_MENTOR", combined_monologue, NULL, ctx->cli_ctx->table);
     add_entry("TURN_INTO_ORC", change_class_to_orc , NULL, ctx->cli_ctx->table);
+    add_entry("TURN_INTO_ORC_AGAIN", change_class_to_orc_again , NULL, ctx->cli_ctx->table);
     add_entry("LISTEN_TO_LECTURE", mentor_monolouge, NULL, ctx->cli_ctx->table);
     add_entry("READ_TOME", read_book, NULL, ctx->cli_ctx->table);
     add_entry("READ_WEAKNESS", read_weakness , NULL, ctx->cli_ctx->table);
