@@ -140,12 +140,15 @@ Test(room, generate_room_in_game){
 
     int rc=autogenerate_room_in_game(game, specgraph);
     cr_assert_eq(rc, 1, "failed to autogenerate rooms in the game\n");
-}
+
+    }
 
     for(int i=0; i<100; i++){
 
     int rc=autogenerate_room_in_game(game, specgraph);
     cr_assert_eq((rc==0)||(rc==1), 1, "failed to autogenerate rooms in the game\n");
+
+    }
 }
 /*
 Test(game_autogenerate, game_autogenerate_static_random_first_room){
