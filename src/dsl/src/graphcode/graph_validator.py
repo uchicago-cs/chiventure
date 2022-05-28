@@ -1,17 +1,17 @@
 """
 Graph validator algorithm
-Example Input: python src/graph_validator.py
+Example Input: python graph_validator.py
 
 Notes:
 The goal of this graph_validator is to check graphs created in DSL
 files to make sure they are valid and able to be converted into game-readable
 graphs in the WDL/JSON file read by chiventure. While the example graphs
-created that are used to test the functionality of our graph validtor code
+created that are used to test the functionality of our graph validator code
 are general graphs, these graphs in Chiventure are meant to represent 
 NPC dialogue graphs. In the future, we hope to integrate this with the DSL
 parser to check that the game devloper created dialogue graph is valid and
 able to be parsed into a WDL/JSON format. This can be done by taking DSL specifed 
-graph, turn it into a Python readable graph/dictionary, and running it through
+graph, turn it into a Python readable adjacency list/dictionary for dialogues, and running it through
 this graph_validator code (and recieving a TRUE bool if it is valid, FALSE if
 it is not).
 """
