@@ -49,6 +49,8 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "Ryerson 251", "Borja's Office", "north");
     create_connection(game, "Borja's Office", "Crerar 390", "north");
     create_connection(game, "Crerar 390", "Peach's", "east");
+    create_connection(game, "Peach's", "Crerar 390", "west");
+    create_connection(game, "Crerar 390", "Borja's Office", "south");
     create_connection(game, "Crerar 390", "The Void", "west");
 
 
