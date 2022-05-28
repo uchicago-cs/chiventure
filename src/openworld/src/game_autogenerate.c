@@ -90,6 +90,7 @@ room_t* random_room_from_game(game_t* game){
         }
         count ++;
     }
+    return random_room;
 } 
 
 /*
