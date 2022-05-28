@@ -153,13 +153,13 @@ chiventure_ctx_t *create_sample_ctx()
     // add items to room
     item_t *soap = item_new("Soap   ", "Soap   ", "Soap   ");
     add_item_to_room(room4, soap);
-    agent_t *s;
+    agent_t *s = (agent_t*)(malloc(sizeof(agent_t)));
     s->item = soap; 
     add_action(s, "take", "You take the soap. It has cleansed you.", "You do not take the soap.");
 
     item_t *rolex = item_new("Rolex  ", "Rolex  ", "Rolex  ");
     add_item_to_room(room2, rolex); 
-    agent_t *r;
+    agent_t *r = (agent_t*)(malloc(sizeof(agent_t)));
     r->item = rolex; 
     add_action(r, "take", "You take Borja's watch. It looks better on you.", 
                               "You're not clean enough to touch Borja's watch. Is there soap around here?");
@@ -176,14 +176,17 @@ chiventure_ctx_t *create_sample_ctx()
     // Add room condition to game (need rolex and soap to enter void)
     path_t *void_path = path_search(room3, "west");
 
+    list_action_type_t* conditions = (list_action_type_t*)malloc(sizeof(list_action_type_t)); 
+    void_path->conditions = conditions; 
+
     action_type_t *soap_cond = action_type_new("take", ITEM);
     action_type_init_room_dir(soap_cond, room5, "west");
 
     action_type_t *rolex_cond = action_type_new("take", ITEM);
     action_type_init_room_dir(rolex_cond, room5, "west");
 
-    list_action_type_t *action_conds;
-    list_action_type_t *rolex_cond_ls;
+    list_action_type_t *action_conds = (list_action_type_t*)malloc(sizeof(list_action_type_t));
+    list_action_type_t *rolex_cond_ls = (list_action_type_t*)malloc(sizeof(list_action_type_t));
     action_conds->act = soap_cond;
     LL_APPEND(action_conds, rolex_cond_ls);
     
