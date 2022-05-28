@@ -251,7 +251,7 @@ roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, int tag){
         sum+=row[count];
     }
  
-    int randomint=rand() % num_roomspecs;  
+    int randomint=rand() % sum;  
     count=0;
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
