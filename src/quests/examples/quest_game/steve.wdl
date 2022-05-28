@@ -1,4 +1,4 @@
-{
+{ 
     "GAME": {
         "start": "Starting City",
         "intro": "Welcome to 'THE LEGEND OF STEVE'\n \n(HINT: type 'look' to start, and 'talk to <NPC>' to interact with NPCs)",
