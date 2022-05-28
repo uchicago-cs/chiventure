@@ -373,7 +373,7 @@ Test(battle_logic, use_battle_weapon)
     enemy_stats->hp = 100;
     enemy_stats->phys_atk = 90;
     enemy_stats->phys_def = 80;
-    battle_item_t *item = get_random_offensive_item();
+    battle_item_t *weapon = get_random_offensive_item();
 
     combatant_t *player = combatant_new("warrior", true, NULL, player_stats, NULL, weapon, 
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
