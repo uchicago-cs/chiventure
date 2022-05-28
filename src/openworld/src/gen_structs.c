@@ -136,7 +136,7 @@ int roomspec_free(roomspec_t *spec)
 }
 
 /* see gen_structs.h */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag)
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
 {
 
     if (spec == NULL)
@@ -173,7 +173,7 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 }
 
 /* see gen_structs.h */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag)
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
 {
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
