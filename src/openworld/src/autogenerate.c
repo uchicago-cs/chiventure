@@ -232,22 +232,15 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
 }
 
 /* See autogenerate.h */
-roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec){
+roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, int tag){
 
     int num_roomspecs=specgraph->num_roomspecs;
     roomspec_t **roomspecs=specgraph->roomspecs;
     int **edges=specgraph->edges;
 
-    int rownumber=-1;
     int rowcount=0;
 
-    while(rownumber==-1){
-        if(roomspec==roomspecs[rowcount])
-            rownumber=rowcount;
-        rowcount++;
-    }
-
-    int *row=edges[rownumber];
+    int *row=edges[tag];
     int count=0;
     int sum;
 
@@ -271,10 +264,11 @@ roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec){
 
 
 /* See autogenerate.h */
-int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr, roomspec_t *roomspec, 
+int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr,
                       char *direction_to_curr, char *direction_to_new){
 
-    roomspec_t *newroomspec=roomspec_autogenerate(specgraph, roomspec);    
+    int currtag=curr->tag;
+    roomspec_t *newroomspec=roomspec_autogenerate(specgraph, tag);    
     assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new)==SUCCESS);
 
     return SUCCESS;
