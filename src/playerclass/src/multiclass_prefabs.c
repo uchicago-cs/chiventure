@@ -189,13 +189,118 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
     }
 
 
-
-
-
     return multiclass(base_class, second_class, temp_name);
 }
 
 /* some function about adding skills to multiclass trees? */
+/* Skill related functions */
+
+/* 
+ * Skills are in a weird place right now: The skill trees team is interested in
+ * changing the way skill effects are implemented, so everything in here is
+ * subject to change.  
+ * 
+ * Right now, skill effects take in some theoretical number of string arguments,
+ * and return some output to be parsed by the CLI.  However, the CLI doesn't 
+ * actually have the ability to parse this stuff yet.
+ * 
+ * In the future, we would like skill effect functions to do more than simply
+ * return a message describing what to do.  Perhaps they could receive pointers
+ * to chiventure_ctx, or to the player or targets etc.  That way, they could
+ * modify those structs.
+ */
+
+const unsigned int UI_NODE_SIZE = 75;
+
+/*
+ * Initializes skill and skilltree related values for a player class.  Currently
+ * only works for classes that match the name of one of our prefab classes.
+ * 
+ * Parameters:
+ *  - class: a pointer to the class to be initialized.
+ *  - max_skills_in_tree: the maximum number of skills in the class skilltree.
+ *  - max_combat_skills: the maximum number of combat skills the class may have.
+ *  - max_noncombat_skills: the maximum number of noncombat skills the class may
+ *    have.
+ * 
+ * Returns:
+ *  - EXIT_SUCCESS on successful initializtion.
+ *  - EXIT_FAILURE otherwise.
+ */
+int class_allocate_skills(class_t* class, int max_skills_in_tree, 
+                          int max_active_skills, int max_passive_skills) {
+    class->starting_skills = inventory_new(max_active_skills, 
+                                           max_passive_skills);
+    
+    /* tree ID needs to be unique across all chiventure code.  Our team has been
+     * assigned the range 3000-3999.  Default classes start at 3000. There is
+     * currently no support for non-prefab classes. */
+    int class_id = get_class_name_index(class->name);
+    if (class_id == -1) {
+        fprintf(stderr, "Could not find class name: \"%s\" "
+                        "in class_allocate_skills\n", class->name);
+        return EXIT_FAILURE;
+    }
+    int tid = 3000 + class_id;
+    class->skilltree = skill_tree_new(tid, class->name, max_skills_in_tree);
+
+    if (class->skilltree == NULL) {
+        fprintf(stderr, "Could not allocate memory for skill trees "
+                        "in class_allocate_skills\n");
+        return EXIT_FAILURE;
+    }
+    if (class->starting_skills == NULL) {
+        fprintf(stderr, "Could not allocate memory for skill inventory"
+                        "in class_allocate_skills\n");
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
+/*
+ * Safely adds a skill to the class's skilltree, and skill inventory if needed.
+ *
+ * Parameters: 
+ *  - class: A pointer to the class. Must not be NULL.
+ *  - skill: A pointer to the skill being added. Must not be NULL.
+ *  - prereq_count: The number of prereqs the skill has.
+ *  - prereq_level: The pre_req level required to level the skill.
+ *  - is_starting: true if the skill is a starting skill for the class.
+ *  - player_classes: a list of player classes that the skill node belongs to
+ *  - num_classes: number of classes in the player_classes list
+ *  - (...): Indices of the skills that are prereqs to this skill (note that 
+ *           skills are added in order, starting at index 0).
+ *         
+ * Returns:
+ *  - SUCCESS on success.
+ *  - FAILURE on failure.
+ */
+int add_skill(class_t* class, skill_t* skill, int prereq_count, 
+                unsigned int prereq_level, bool is_starting, 
+                char** player_classes, int num_classes, ...) {
+    if (class == NULL || skill == NULL)
+        return FAILURE;
+
+    skill_node_t* node = skill_node_new(skill, prereq_count, prereq_level, 
+                                        player_classes, num_classes, 
+                                        (int) UI_NODE_SIZE);
+
+    /* Citation: (https://jameshfisher.com/2016/11/23/c-varargs/) */
+    va_list prereq_p;
+    va_start(prereq_p, is_starting);
+    for (int i = 0; i < prereq_count; i++) {
+        int index = va_arg(prereq_p, int);
+        node_prereq_add(node, class->skilltree->nodes[index], prereq_level);
+    }
+    va_end(prereq_p);
+
+    skill_tree_node_add(class->skilltree, node);
+
+    if (is_starting)
+        inventory_skill_acquire(class->skilltree, class->starting_skills, skill);
+    return SUCCESS;
+} 
 
 /* See multiclass_prefabs.h */
 int multiclass_prefab_add_skills(class_t* multiclass)
@@ -206,7 +311,26 @@ int multiclass_prefab_add_skills(class_t* multiclass)
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
+        class_allocate_skills(multiclass->base_class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100;
 
+        /* Currently point to null effects */
+        /* Skills */
+        skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
+                                     "You deal damage to your opponent with " 
+                                     "just a word.", 1, 75, NULL, NULL);
+        skill_t* skill_1 = skill_new(skill_id++, ACTIVE, "Poetic Line", 
+                                     "A full line of poetry hits your " 
+                                     "opponent!", 1, 200, NULL, NULL);
+        skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Enchanted Stanza", 
+                                     "The full weight of your stanza strikes "
+                                     "your opponent!", 1, 325, NULL, NULL);
+
+        /* Add skills to tree */
+        add_skill(class, skill_0, 0, 25, true, NULL, 0);
+        add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
+        add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
+    }
     }  
 
     else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)){
