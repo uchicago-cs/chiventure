@@ -34,7 +34,6 @@ def export_dict(file_str, debug=False, debug_modes=[]):
     return intermediate
 
 
-
 class TreeToDict(Transformer):
     # for documentation of these transformations, see transformers.py
     #game = transform_game
@@ -51,8 +50,9 @@ class TreeToDict(Transformer):
 
     misplaced_property = trans.transform_misplaced
 
+    npc = trans.transform_npc
     
-    
+    inventory = trans.transform_inventory
 
     #for documentation of the below transformations, see simple_modifiers.py
 
