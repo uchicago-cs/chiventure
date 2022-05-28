@@ -22,18 +22,7 @@
 
 #define MAX_RAND_ITEMS (100)
 
-/* random_first_room
-* given a specgraph struct, and a game struct, updates the 
-* game struct to include a random first room based on the specgraph
-*
-* parameters:
-* - specgraph: A pointer to a specgraph_t. Should not be NULL.
-* - game_t* game: a pointer to the game struct that needs to be updated. Should not contain any rooms.
-*
-* returns:
-* SUCCESS - if the game was successfully updated
-* FAILURE - if the function failed to update the game struct
-*/
+/*See autogenerate.h*/
 int random_first_room(game_t* game, specgraph_t *specgraph){
 
     if(specgraph==NULL){
@@ -63,15 +52,7 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
     return SUCCESS;
 }
 
-/* random_room_from_game
-* given a game struct, randomly picks a new room from the game 
-* parameters:
-* - game_t* game: a pointer to the game struct. Must contain at least one room.
-*
-* returns:
-* random_room: A pointer to the randomly chosen room
-*/
-
+/*See autogenerate.h*/
 room_t* random_room_from_game(game_t* game){
 
     int num_rooms=HASH_COUNT(game->all_rooms);
@@ -211,22 +192,7 @@ int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
     }
 }
 
-/* autogenerate_room_in_game
-* given a game struct and specgraph struct, generates a random room in the game by 
-* choosing a random room with random_room_in_game and generating a room from that room
-* using the adjacency matrix. ALso generates any new associated paths using 
-* path_autogenerate
-*
-* parameters:
-* - game_t* game: a pointer to the game struct. Must contain at least one room.
-* - specgraph: A pointer to a specgraph_t. Should not be NULL.
-* returns:
-* 1 - if a random room was successfully generated
-* 0 - if a random room could not be generated due to having no empty directions
-* -1 - if a random room could not be generate due to invalid inputs 
-* (e.g. if game is null, if game contains no rooms, etc.)
-*/
-
+/*See autogenerate.h*/
 int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
 
     int num_roomspecs=specgraph->num_roomspecs;
