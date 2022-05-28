@@ -152,7 +152,7 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
      * 20 Magic Defense
      * 20 Magic Attack
      * 20 Max Mana */ 
-    if (!strncmp(temp_name, "enchanter", MAX_NAME_LEN)) {
+    else if (!strncmp(temp_name, "enchanter", MAX_NAME_LEN)) {
         int succ1;
         int succ2;
         base_class = class_prefab_new(game, "bard");
@@ -188,10 +188,6 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
         return NULL;
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 99494edaf37725ea9c3f498b12ba6158b3aa2bdd
     return multiclass(base_class, second_class, temp_name);
 }
 
@@ -213,9 +209,6 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
  * modify those structs.
  */
 
-const unsigned int UI_NODE_SIZE = 75;
-
-
 
 /* See multiclass_prefabs.h */
 int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
@@ -226,14 +219,13 @@ int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
-<<<<<<< HEAD
         class_t* c1 = class_prefab_new(game, "wizard");
         class_t* c2 = class_prefab_new(game, "warrior");
         class_prefab_add_skills(c1);
         class_prefab_add_skills(c2);
 
         multiclass_tree("Hexblade Tree", c1->skilltree, c2->skilltree);
-=======
+        
         /* class_allocate_skills(multiclass->base_class, 3, 3, 0);
         sid_t skill_id = class->skilltree->tid * 100; */
 
@@ -247,7 +239,6 @@ int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
        /* add_skill(multiclass->base_class, skill_0, 0, 25, true, NULL, 0);
         add_skill(multiclass->base_class, skill_1, 1, 50, false, NULL, 0, 0);
         add_skill(multiclass->base_class, skill_2, 1, 34, false, NULL, 0, 1); */
->>>>>>> 99494edaf37725ea9c3f498b12ba6158b3aa2bdd
     }  
 
     else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)){
