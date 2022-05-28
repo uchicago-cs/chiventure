@@ -23,25 +23,31 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
+    agent_t *agent_dir = malloc(sizeof(agent_t));
+    agent_dir->item = direct;
+    agent_dir->npc = NULL;
     item_t *indirect = item_new("indirect", "The indirect item", "The indirectmost object of interest");
-    add_action(direct, allowed_act_name1, "success1", "fail1");
+    agent_t *agent_indir = malloc(sizeof(agent_t));
+    agent_indir->item = indirect;
+    agent_indir->npc = NULL;
+    add_action(agent_dir, allowed_act_name1, "success1", "fail1");
     char *string = malloc(BUFFER_SIZE);
     game_action_t *ga;
     if (strcmp(act_name, allowed_act_name1) == 0)
     {
-        ga = get_action(direct, act_name);
+        ga = get_action(agent_dir, act_name);
     }
     else
     {
-        ga = get_action(direct, allowed_act_name1);
+        ga = get_action(agent_dir, allowed_act_name1);
     }
     int rc;
-    attribute_value_t value;
+    attribute_value_t *value = malloc(sizeof(attribute_value_t));
     attribute_t *attr;
-    set_str_attr(indirect, "DUMMYATTRDEFAULT", 0);
-    attr = get_attribute(indirect, "DUMMYATTRDEFAULT");
-    value.int_val = 1;
-    add_action_effect(ga, indirect, attr, value);
+    set_str_attr(agent_indir->item, "DUMMYATTRDEFAULT", 0);
+    attr = get_attribute(agent_indir->item, "DUMMYATTRDEFAULT");
+    value->int_val = 1;
+    add_action_effect(ga, agent_indir->item, attr, value);
 
 
     player_t *player = player_new("player1");
@@ -50,58 +56,58 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     {
     // Attribute conditional tests
     case 1:
-        set_int_attr(indirect, "DUMMYCONDITON", 0);
-        attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
-        add_action_attribute_condition(ga, indirect, attr, value);
+        set_int_attr(agent_indir->item, "DUMMYCONDITON", 0);
+        attr = get_attribute(agent_indir->item, "DUMMYCONDITON");
+        value->int_val = 0;
+        add_action_attribute_condition(ga, agent_indir->item, attr, value);
         break;
     case 2:
-        set_int_attr(direct, "DUMMYCONDITON", 1);
-        attr = get_attribute(direct, "DUMMYCONDITON");
-        value.int_val = 0;
-        add_action_attribute_condition(ga, direct, attr, value);
+        set_int_attr(agent_dir->item, "DUMMYCONDITON", 1);
+        attr = get_attribute(agent_dir->item, "DUMMYCONDITON");
+        value->int_val = 0;
+        add_action_attribute_condition(ga, agent_dir->item, attr, value);
         break;
     case 3:
-        set_int_attr(indirect, "DUMMYCONDITON", 0);
-        attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
-        add_action_attribute_condition(ga, indirect, attr, value);
+        set_int_attr(agent_indir->item, "DUMMYCONDITON", 0);
+        attr = get_attribute(agent_indir->item, "DUMMYCONDITON");
+        value->int_val = 0;
+        add_action_attribute_condition(ga, agent_indir->item, attr, value);
         break;
     case 4:
-        set_int_attr(indirect, "DUMMYCONDITON", 1);
-        attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
-        add_action_attribute_condition(ga, indirect, attr, value);
+        set_int_attr(agent_indir->item, "DUMMYCONDITON", 1);
+        attr = get_attribute(agent_indir->item, "DUMMYCONDITON");
+        value->int_val = 0;
+        add_action_attribute_condition(ga, agent_indir->item, attr, value);
         break;
     
     // Inventory conditional tests
     case 5:
         // Item (direct) is in player inventory
         add_item_to_player(player, direct, ctx_test->game);
-        add_action_inventory_condition(ga, player, direct);
+        add_action_inventory_condition(ga, player, agent_dir->item);
         break;
     case 6:
         // Item (direct) is not in player inventory
         add_item_to_player(player, direct, ctx_test->game);
-        add_action_inventory_condition(ga, player, indirect);
+        add_action_inventory_condition(ga, player, agent_indir->item);
         break;
 
     // Testing multiple conditions
     case 7:
         add_item_to_player(player, direct, ctx_test->game);
-        add_action_inventory_condition(ga, player, direct);
+        add_action_inventory_condition(ga, player, agent_dir->item);
 
-        set_int_attr(indirect, "DUMMYCONDITON", 0);
-        attr = get_attribute(indirect, "DUMMYCONDITON");
-        value.int_val = 0;
-        add_action_attribute_condition(ga, indirect, attr, value);
+        set_int_attr(agent_indir->item, "DUMMYCONDITON", 0);
+        attr = get_attribute(agent_indir->item, "DUMMYCONDITON");
+        value->int_val = 0;
+        add_action_attribute_condition(ga, agent_indir->item, attr, value);
         break;
     case 8:
-        add_item_to_player(player, direct, ctx_test->game);
-        add_action_inventory_condition(ga, player, direct);
+        add_item_to_player(player, agent_dir->item, ctx_test->game);
+        add_action_inventory_condition(ga, player, agent_dir->item);
 
-        add_item_to_player(player, indirect, ctx_test->game);
-        add_action_inventory_condition(ga, player, indirect);
+        add_item_to_player(player, agent_indir->item, ctx_test->game);
+        add_action_inventory_condition(ga, player, agent_indir->item);
         break;
     default:
         break;
@@ -110,15 +116,15 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     switch (choose_effect)
     {
     case 0:
-        rc = do_item_item_action(ctx_test, a, direct, indirect, &string);
+        rc = do_item_item_action(ctx_test, a, agent_dir->item, agent_indir->item, &string);
         break;
     case 1:
-        set_str_attr(indirect, "DUMMYATTR", "old");
-        attr = get_attribute(indirect, "DUMMYATTR");
-        value.str_val = "new";
-        add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(ctx_test, a, direct, indirect, &string);
-        if (strcmp(get_str_attr(indirect, "DUMMYATTR"), "new") == 0)
+        set_str_attr(agent_indir->item, "DUMMYATTR", "old");
+        attr = get_attribute(agent_indir->item, "DUMMYATTR");
+        value->str_val = "new";
+        add_action_effect(ga, agent_indir->item, attr, value);
+        do_item_item_action(ctx_test, a, agent_dir->item, agent_indir->item, &string);
+        if (strcmp(get_str_attr(agent_indir->item, "DUMMYATTR"), "new") == 0)
         {
             rc = SUCCESS;
         } else {
@@ -126,12 +132,12 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 2:
-        set_int_attr(indirect, "DUMMYATTR", 0);
-        attr = get_attribute(indirect, "DUMMYATTR");
-        value.int_val = 1;
-        add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(ctx_test, a, direct, indirect, &string);
-        if (get_int_attr(indirect, "DUMMYATTR") == 1)
+        set_int_attr(agent_indir->item, "DUMMYATTR", 0);
+        attr = get_attribute(agent_indir->item, "DUMMYATTR");
+        value->int_val = 1;
+        add_action_effect(ga, agent_indir->item, attr, value);
+        do_item_item_action(ctx_test, a, agent_dir->item, agent_indir->item, &string);
+        if (get_int_attr(agent_indir->item, "DUMMYATTR") == 1)
         {
             rc = SUCCESS;
         } else {
@@ -139,12 +145,12 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 3:
-        set_double_attr(indirect, "DUMMYATTR", 0.0);
-        attr = get_attribute(indirect, "DUMMYATTR");
-        value.double_val = 1.0;
-        add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(ctx_test, a, direct, indirect, &string);
-        if (get_double_attr(indirect, "DUMMYATTR") == 1.0)
+        set_double_attr(agent_indir->item, "DUMMYATTR", 0.0);
+        attr = get_attribute(agent_indir->item, "DUMMYATTR");
+        value->double_val = 1.0;
+        add_action_effect(ga, agent_indir->item, attr, value);
+        do_item_item_action(ctx_test, a, agent_dir->item, agent_indir->item, &string);
+        if (get_double_attr(agent_indir->item, "DUMMYATTR") == 1.0)
         {
             rc = SUCCESS;
         } else {
@@ -152,12 +158,12 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 4:
-        set_char_attr(indirect, "DUMMYATTR", 'a');
-        attr = get_attribute(indirect, "DUMMYATTR");
-        value.char_val = 'b';
-        add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(ctx_test, a, direct, indirect, &string);
-        if (get_char_attr(indirect, "DUMMYATTR") == 'b')
+        set_char_attr(agent_indir->item, "DUMMYATTR", 'a');
+        attr = get_attribute(agent_indir->item, "DUMMYATTR");
+        value->char_val = 'b';
+        add_action_effect(ga, agent_indir->item, attr, value);
+        do_item_item_action(ctx_test, a, agent_dir->item, agent_indir->item, &string);
+        if (get_char_attr(agent_indir->item, "DUMMYATTR") == 'b')
         {
             rc = SUCCESS;
         } else {
@@ -165,12 +171,12 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     case 5:
-        set_bool_attr(indirect, "DUMMYATTR", false);
-        attr = get_attribute(indirect, "DUMMYATTR");
-        value.bool_val = true;
-        add_action_effect(ga, indirect, attr, value);
-        do_item_item_action(ctx_test, a, direct, indirect, &string);
-        if (get_bool_attr(indirect, "DUMMYATTR") == true)
+        set_bool_attr(agent_indir->item, "DUMMYATTR", false);
+        attr = get_attribute(agent_indir->item, "DUMMYATTR");
+        value->bool_val = true;
+        add_action_effect(ga, agent_indir->item, attr, value);
+        do_item_item_action(ctx_test, a, agent_dir->item, agent_indir->item, &string);
+        if (get_bool_attr(agent_indir->item, "DUMMYATTR") == true)
         {
             rc = SUCCESS;
         } else {
@@ -178,7 +184,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         }
         break;
     default:
-        rc = do_item_item_action(ctx_test, a, direct, indirect, &string);
+        rc = do_item_item_action(ctx_test, a, agent_dir->item, agent_indir->item, &string);
         break;
     }
 
@@ -188,19 +194,20 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
      * and must be freed separately. The following if statements should
      * free them in this case */
     if (choose_condition <= NOT_ALLOWED_INDIRECT){
-        item_free(direct); //For all tests before test 4 free direct
+        item_free(agent_dir->item); //For all tests before test 4 free direct
     }
 
     if (choose_condition != END_FAIL){
-        item_free(indirect);  //For all tests expect for test 8 free indirect
+        item_free(agent_indir->item);  //For all tests expect for test 8 free indirect
     }
     game_free(ctx_test->game);
     lookup_t_free(ctx_test->cli_ctx->table);
     chiventure_ctx_free(ctx_test);
-
+    free(agent_dir);
+    free(agent_indir);
     action_type_free(a);
-    game_action_free(ga);
     player_free(player);
+    free(value);
 
     return rc;
 }

@@ -624,6 +624,13 @@ int change_npc_hp(npc_t *npc, int change)
     return npc->npc_battle->stats->hp;
 }
 
+/* See npc.h */
+int move_npc(npc_t *npc)
+{
+    return move_npc_mov(npc->movement);
+}
+
+/* See npc.h */
 int delete_all_npcs(npc_hash_t *npcs)
 {
     npc_t *current_npc, *tmp;
