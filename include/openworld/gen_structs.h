@@ -56,7 +56,6 @@ typedef struct itemspec itemspec_hash_t;
 * - UT_hash_handle hh: hash handle for room spec
 */
 typedef struct roomspec {
-    int tag;
     char *room_name;
     char *short_desc;
     char *long_desc;
