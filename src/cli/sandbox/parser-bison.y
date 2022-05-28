@@ -57,6 +57,7 @@ void yyerror(char* s);
 line
   : 
   | line go_cmd EOL { handle_go_cmd($2); }
+  | line kind1_cmd EOL { handle_kind1_cmd($2); }
   | line kind1_cmd phrase EOL { handle_kind1_cmd($2); }
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }
