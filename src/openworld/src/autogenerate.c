@@ -186,9 +186,8 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
                   char *direction_to_curr, char *direction_to_new)
 {
     /* Find coords of new room */
-    coords_t *coords=curr->coords;
-    int x=coords->x;
-    int y=coords->y;
+    int x=curr->coords->x;
+    int y=curr->coords->y;
 
     if (strcmp("north", direction_to_new) == 0){
         y+=1;
@@ -205,6 +204,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     else if (strcmp("west", direction_to_new) == 0){
         x-=1;
     }    
+    
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of specgraph only */
     room_t *new_room = roomspec_to_room(rspec_new, coords);

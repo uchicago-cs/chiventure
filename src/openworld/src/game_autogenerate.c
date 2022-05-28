@@ -212,39 +212,6 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
     roomspec_t *currspec=(roomspec_t*)malloc(sizeof(roomspec_t));
     currspec=roomspecs[curr->tag];
 
-    char* direction_to_new;
-    char* direction_to_curr;
-    int rc=pick_random_direction(game, curr, direction_to_curr, direction_to_new);
-    
-    if(rc==FAILURE){
-        free(roomspecs);
-        return 0;
-    }
-  
-    int x=curr->coords->x;
-    int y=curr->coords->y;
-
-    if(strcmp(direction_to_new, "north")==0){
-        direction_to_curr="south";
-        y+=1;
-    }
-
-    else if(strcmp(direction_to_new, "south")==0){
-        direction_to_curr="north";
-        y-=1;
-    }
-
-    else if(strcmp(direction_to_new, "east")==0){
-        direction_to_curr="west";
-        x+=1;
-    }
-
-    else if(strcmp(direction_to_new, "west")==0){
-        direction_to_curr="east";
-        x-=1;
-    }
-    coords_t *newcoords=coords_new(x, y);
-
     room_autogenerate(game, specgraph, curr, currspec, 
                       direction_to_curr, direction_to_new);
     
