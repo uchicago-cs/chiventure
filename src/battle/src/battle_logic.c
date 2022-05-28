@@ -265,6 +265,8 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
 
     strcpy(warrior, "warrior");
     strcpy(strength_up, "Strength Up");
+
+    char *t = class->name;
     
     if (strncmp(warrior, warrior, 8) == 0) {
         if (strncmp(strength_up, strength_up, 12) == 0) {
