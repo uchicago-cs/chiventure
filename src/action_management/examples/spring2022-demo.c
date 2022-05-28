@@ -9,6 +9,7 @@
 #include "skilltrees/skilltree.h"
 #include "game-state/room.h"
 #include "playerclass/class.h"
+#include "quests/quest.h"
 
 const char* banner =
 " ▄▄▄       ▄████▄  ▄▄▄█████▓ ██▓ ▒█████   ███▄    █     ███▄ ▄███▓ ▄▄▄       ███▄    █  ▄▄▄        ▄████ ▓█████  ███▄ ▄███▓▓█████  ███▄    █ ▄▄▄█████▓\n"
@@ -104,10 +105,30 @@ chiventure_ctx_t *create_sample_ctx()
     quest_t *quest1 = quest_new("Give your first lecture", NULL, NULL);
     quest_t *quest2 = quest_new("Perform vampire shenanigans", NULL, NULL);
     quest_t *quest3 = quest_new("Hold Wednesday Office Hours", NULL, NULL);
+    task_t *task1 = task_new("Polish your teeth", NULL, NULL, NULL);
+    task_t *task2 = task_new("Suck blood", NULL, NULL, NULL);
+    task_t *task3 = task_new("Code", NULL, NULL, NULL);
+    mission_t *mission2 = mission_new("Polish only your sharp teeth for that shine", COLLECT_ITEM);
+    task1->mission = mission2;
+    task_tree_t *task_tree1 = malloc(sizeof(task_tree_t));
+    task_tree_t *task_tree2 = malloc(sizeof(task_tree_t));
+    task_tree_t *task_tree3 = malloc(sizeof(task_tree_t));
+    task_tree1->task = task1;
+    task_tree2->task = task2;
+    task_tree3->task = task3;
+    task_tree1->parent = NULL;
+    task_tree2->parent = task_tree1;
+    task_tree3->parent = task_tree1;
+    task_tree2->rsibling = task_tree3;
+    task_tree3->rsibling = NULL;
+    task_tree1->lmostchild = task_tree2;
+    task_tree2->lmostchild = NULL;
+    task_tree3->lmostchild = NULL;
+    quest2->task_tree = task_tree1;
 
-    HASH_ADD_KEYPTR(hh, player->player_quests, quest1->quest_id, strlen(quest1->quest_id), quest1);
-    HASH_ADD_KEYPTR(hh, player->player_quests, quest2->quest_id, strlen(quest2->quest_id), quest2);
-    HASH_ADD_KEYPTR(hh, player->player_quests, quest3->quest_id, strlen(quest3->quest_id), quest3);
+    HASH_ADD_KEYPTR(hh, game->all_quests, quest1->quest_id, strlen(quest1->quest_id), quest1);
+    HASH_ADD_KEYPTR(hh, game->all_quests, quest2->quest_id, strlen(quest2->quest_id), quest2);
+    HASH_ADD_KEYPTR(hh, game->all_quests, quest3->quest_id, strlen(quest3->quest_id), quest3);
     
 
     // add items to inventory
