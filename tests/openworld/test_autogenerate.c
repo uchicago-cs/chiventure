@@ -449,9 +449,6 @@ Test(autogenerate, room_generate_success_two)
 
     cr_assert_eq(SUCCESS, add_item_to_room(room0,item0), "could not add item to room");
 
-    // Path to room0
-    path_t *path_to_room0 = path_new(room0, "north");
-
     roomspec_t *roomspec1 = random_room_lookup(specgraph);
     cr_assert_not_null(roomspec1,"roomspec1 should not be NULL");
 
@@ -459,9 +456,6 @@ Test(autogenerate, room_generate_success_two)
     cr_assert_not_null(roomspec2,"roomspec2 should not be NULL");
 
     room_t *room1 = room_new("string_1", "string_2", "string_3");
-
-    // Path to room1
-    path_t* path_to_room1 = path_new(room1,"north");
 
     // having 2 roomspec case
     roomspec_t *graph_roomspec1 = make_default_room("school", NULL, NULL);
