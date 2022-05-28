@@ -65,4 +65,23 @@ int sound_free(sound_type_t *soundType, sound_t *sound);
  */
 int play_sound(sound_t* sound, int delay);
 
+<<<<<<< HEAD
+=======
+
+/*
+* simple function which stops any sound that is played
+*/
+void stop_sound();
+
+/*
+* simple function which pauses any sound that is played
+*/
+void pause_sound();
+
+/*
+* simple function which resumes any sound that is played
+*/
+void resume_sound();
+
+>>>>>>> dev
 #endif /* INCLUDE_SOUND_H_ */
