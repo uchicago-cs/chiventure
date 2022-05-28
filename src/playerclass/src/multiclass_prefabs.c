@@ -17,6 +17,7 @@
 #include "skilltrees/inventory.h"
 #include "common/utlist.h"
 #include "playerclass/multiclass.h"
+#include "game-state/game.h"
 
 
 /* Default Multiclasses in alphabetical order. */
@@ -30,6 +31,8 @@ const char* const DEFAULT_MULTICLASS_NAMES[] = {
 
 /* Number of predefined default multiclasses (see above). */
 const int DEFAULT_MULTICLASS_COUNT = 5;
+/* Number of predefined default classes. This is used to index the id for the skills */
+const int DEFAULT_CLASS_INDEX = 17;
 
 /*
  * Determines the index of name in the DEFAULT_MULTICLASS_NAMES array, 
@@ -39,7 +42,7 @@ const int DEFAULT_MULTICLASS_COUNT = 5;
  *  - name: The name of the class.  Case sensitive.
  * 
  * Returns:
- *  - The index of the name in the DEFAULT_CLASS_NAMES array. Returns -1 if the 
+ *  - The index of the name in the DEFAULT_MULTICLASS_NAMES array. Returns -1 if the 
  *    name does not appear or is NULL.
  */
 int get_multiclass_name_index(char* name) {
@@ -179,18 +182,11 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
         set_stats_hashtable(game, &stats, 10, 25, 15, 15, 15, 10, 5, 15);
     }
 
-
-
-
     else {
         fprintf(stderr, "Could not find class name: \"%s\" "
                         "in multiclass_prefab_new\n", temp_name);
         return NULL;
     }
-
-
-
-
 
     return multiclass(base_class, second_class, temp_name);
 }
@@ -198,7 +194,7 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
 /* some function about adding skills to multiclass trees? */
 
 /* See multiclass_prefabs.h */
-int multiclass_prefab_add_skills(class_t* multiclass)
+int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
 {
     char temp_name[MAX_NAME_LEN + 1];
     strncpy(temp_name, multiclass->name, MAX_NAME_LEN);
@@ -206,7 +202,12 @@ int multiclass_prefab_add_skills(class_t* multiclass)
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
+        class_t* c1 = class_prefab_new(game, "wizard");
+        class_t* c2 = class_prefab_new(game, "warrior");
+        class_prefab_add_skills(c1);
+        class_prefab_add_skills(c2);
 
+        multiclass_tree("Hexblade Tree", c1->skilltree, c2->skilltree);
     }  
 
     else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)){

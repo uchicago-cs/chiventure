@@ -758,7 +758,7 @@ int class_prefab_add_skills(class_t* class) {
                                      NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Arcane Explosion", 
                                      "A powerful spell that causes a massive" 
-                                     "explosion with high area damage!", 1, 
+                                     " explosion with high area damage!", 1, 
                                      200, NULL, NULL);
 
         /* Add skills to tree */

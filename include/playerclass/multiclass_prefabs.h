@@ -38,7 +38,7 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name);
  * Parameters:
  *  -multiclass: the multiclass skilltree and lists should be placed in. The field
  *    initialized here are assumed to be empty.
- *
+ *  -game: the game in which chiventure is running
  * Returns:
  *  - status code (FAILURE if the given class or skill is NULL, SUCCESS otherwise.)
  *  - the structs in the class now contain skills.
@@ -48,7 +48,7 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name);
  *    effects to be more fully developed. However, the warrior class does work,
  *    as a proof of concept.
  */
-int multiclass_prefab_add_skills(class_t* multiclass);
+int multiclass_prefab_add_skills(game_t* game, class_t* multiclass);
 
 
 #endif /* MULTICLASS_PREFABS_H */

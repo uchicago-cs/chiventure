@@ -8,9 +8,7 @@
 #include "playerclass/class_prefabs.h"
 #include "playerclass/class_item.h"
 #include "playerclass/multiclass.h"
-//We are aiming to make multiclass skilltrees and multiclass prefabs that go here
-
-
+#include "playerclass/multiclass_prefabs.h"
 #include "skilltrees/skilltree.h"
 #include "zip.h"
 #include "libobj/load.h"
@@ -262,19 +260,20 @@ void demo_prefab_classes() {
 void demo_multiclasses() {
     game_t* game = game_new("The playerclass demo game!");
 
-    prompt("Loading Wizard class, a prefab class...", NULL);
-    class_t* wizard_class = class_prefab_new(game, "Wizard");
-    class_prefab_add_skills(wizard_class);
-    print_class(wizard_class);
 
-    prompt("Loading Warrior class, a prefab class...", NULL);
-    class_t* warrior_class = class_prefab_new(game, "Warrior");
-    class_prefab_add_skills(warrior_class);
-    print_class(warrior_class);
-
-    prompt("Creating a new multiclass called Hexblade from Wizard and Warrior...", NULL);
-    class_t* hexblade_class = multiclass(wizard_class, warrior_class, "Hexblade");
-    print_class(hexblade_class);
+    /* Runs until you input nothing. */
+    char class_name[BUFFER_SIZE];
+    while (true) {
+        prompt("Pick a prefab multiclass:", class_name);
+        if (class_name[0] == '\0') {
+            break;
+        }
+        class_t* class = multiclass_prefab_new(game, class_name);
+        if (class != NULL) {
+            multiclass_prefab_add_skills(game, class);
+        }
+        print_class(class);
+    }
 }
 
 
