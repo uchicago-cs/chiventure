@@ -11,6 +11,9 @@
 /* Forward declaration to make code compatible with playerclass code */
 typedef struct effect effect_t;
 
+typedef struct complex_skill complex_skill_t;
+typedef struct reader_effect reader_effect_t;
+
 /* ============================= */
 /* === SKILL DATA STRUCTURES === */
 /* ============================= */
@@ -71,10 +74,56 @@ typedef struct skill {
     // The minimum number of experience points needed to level up
     unsigned int min_xp;
 
-    // The pointer to the linked list that contains all the effects that a skill can have
+    // The pointer to the linked list that contains all the effects that a skill 
+    // can have
     effect_t* skill_effect;
 
+    //The pointer to information on complex skills
+    complex_skill_t* complex;
+
 } skill_t;
+
+typedef struct attr_reader_effect{
+    char* value;
+
+    int str_len;
+
+    reader_location_t location;
+} attr_reader_effect_t;
+
+typedef struct stat_reader_effect{
+    int value;
+
+    //Might want to switch with enum later
+    stats_type_t stat_type;
+
+    comparison_t comparison;
+
+    reader_location_t location;
+} stat_reader_effect_t;
+
+typedef struct reader_effect{
+    reader_type_t type;
+    
+    attr_reader_effect_t* attr_reader;
+
+    stat_reader_effect_t* stat_reader;
+} reader_effect_t; 
+
+typedef struct complex_skill{
+    //Type of complex skill
+    complex_skill_type_t type;
+
+    //List of sub-skills used in complex skill
+    skill_t** skills;
+
+    //Number of sub-skills in skills list
+    int num_skills;
+
+    //If complex skill is a conditional, this stores its condition
+    reader_effect_t* reader;
+
+} complex_skill_t;
 
 /* ======================== */
 /* === COMMON FUNCTIONS === */

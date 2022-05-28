@@ -426,6 +426,57 @@ int node_action_type_check(obj_t *obj)
     return !(action && action_id);
 }
 
+int npc_quest_type_check(obj_t *obj)
+{
+    int id = (obj_get_type(obj, "Quest") == TYPE_STR);
+    if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
+    {
+        return FAILURE;
+    }
+    return SUCCESS;
+}
+
+int npc_task_type_check(obj_t *obj)
+{
+    int id = (obj_get_type(obj, "Task") == TYPE_STR);
+    if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
+    {
+        return FAILURE;
+    }
+    return SUCCESS;
+}
+
+/*int quest_list_type_check(obj_list_t *obj)
+{
+    // taken from dialogue_type_check
+
+    // verify that the quests attributes exist
+    obj_t *quests_list = obj_get_attr(obj, "Quests", false);
+
+    if (quests_list == NULL) return FAILURE;
+
+    // call npc_quest_type_check on each quest
+    int check = list_type_check(quests_list, npc_task_type_check);
+
+    return check;
+}
+
+int task_list_type_check(obj_list_t *obj)
+{
+    // taken from dialogue_type_check
+
+    // verify that the quests attributes exist
+    obj_t *tasks_list = obj_get_attr(obj, "Tasks", false);
+
+    if (tasks_list == NULL) return FAILURE;
+
+    // call npc_task_type_check on each quest
+    int check = list_type_check(tasks_list, npc_task_type_check);
+
+    return check;
+}*/
+
+
 // The following functions regard condition type checking
 
 int conditions_type_check(obj_t *obj)
@@ -515,6 +566,7 @@ int mission_type_check(obj_t *obj)
 
     return !(target_name && type);
 }
+
 
 // The following are print functions to print out specific fields within a
 // specified object

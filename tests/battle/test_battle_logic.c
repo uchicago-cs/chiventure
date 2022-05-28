@@ -3,14 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "battle/battle_logic.h"
-#include "battle/battle_state.h"
-#include "battle/battle_structs.h"
-#include "battle/battle_flow.h"
-#include "battle/battle_flow_structs.h"
-#include "battle/battle_default_objects.h"
-
-
+#include "../../include/battle/battle_test_utility.h"
 
 /*
  * This tests to ensure that a target exists within a list of targets
@@ -254,7 +247,7 @@ Test(battle_logic, battle_player_goes_first)
 
     combatant_t *phead = NULL;
     combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, NULL, 
-                        NULL, NULL, NULL, BATTLE_AI_NONE);
+                                   NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
     DL_APPEND(phead, p);
 
