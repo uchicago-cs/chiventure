@@ -190,6 +190,7 @@ int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
             add_path_to_room(curr, pathtocurr);            
         }
     }
+    return SUCCESS;
 }
 
 /*See autogenerate.h*/
@@ -221,7 +222,7 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
         free(roomspecs);
         return 0;
     }
-    return 0;  
+
     room_autogenerate(game, specgraph, curr, currspec, 
                       direction_to_curr, direction_to_new);
 
