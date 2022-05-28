@@ -136,3 +136,41 @@ int free_player_inventory(player_inventory_t *player_inventory)
     free(player_inventory);
     return SUCCESS;
 }
+
+
+/* See inventory_graphics.h */
+int add_item_inventory(player_inventory_t *player_inventory, item_t *item)
+{
+    int change = 0;
+    for(unsigned int i = 0; i < player_inventory->display->rows; i++) {
+        for(unsigned int j = 0; j < player_inventory->display->columns; j++) {
+            if (player_inventory->slots[i][j].status == EMPTY) {
+                player_inventory->slots[i][j].item = item;
+                change = 1;
+                break;
+            }
+        }
+        if (change == 1) {
+            break;
+        }
+    }
+    if (change == 0) {
+        fprintf(stderr, "inventory full");
+    }
+    return SUCCESS;
+}
+
+
+
+/* See inventory_graphics.h */
+int remove_item_inventory(player_inventory_t *player_inventory, item_t *item)
+{
+    if (player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].status != EMPTY) {
+        free(player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].item);
+        player_inventory->slots[item->inventory_x_pos][item->inventory_y_pos].status = EMPTY;
+    } 
+    else {
+        fprintf(stderr, "inventory empty at position (%d,%d)\n", item->inventory_x_pos, item->inventory_y_pos);
+    }
+    return SUCCESS;
+}
