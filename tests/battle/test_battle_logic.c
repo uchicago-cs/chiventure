@@ -442,7 +442,7 @@ Test(battle_logic, consume_a_battle_item)
 
 
 /*
- * This is simialr to the test above except there are now two battle_items in
+ * This is similar to the test above except there are now two battle_items in
  * the battle_player's inventory that the function has to go through
  */
 Test(battle_logic, uses_battle_item_correctly)
@@ -450,6 +450,10 @@ Test(battle_logic, uses_battle_item_correctly)
     battle_item_t *head = NULL;
     battle_item_t *i1;
     battle_item_t *i2;
+
+    class_t* warrior = class_new("warrior", "A mighty warrior.",
+                                 "An elite, battle-hardened fighter who excels in physical combat.",
+                                 NULL, NULL, NULL);
 
     i1 = calloc(1, sizeof(battle_item_t));
     stat_changes_t *changes1 = stat_changes_new();
@@ -479,7 +483,7 @@ Test(battle_logic, uses_battle_item_correctly)
     pstats->max_hp = 25;
     pstats->phys_def = 15;
     pstats->phys_atk = 15;
-    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL,head, 
+    combatant_t *p = combatant_new("Player", true, warrior, pstats, NULL,head, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
