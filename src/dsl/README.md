@@ -93,7 +93,7 @@ The dsl module has built in tests to ensure than any new changes and features im
 
 From the `src/dsl` directory, you can run all of the tests in the `tests/dsl_tests` subdirectoy using:
 ```
-python src/test.py
+python src/unit_test.py
 ```
 The testing module also supports flags `--show` and `--file=filename`: 
 
