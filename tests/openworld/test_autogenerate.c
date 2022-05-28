@@ -231,7 +231,7 @@ Test(autogenerate, pick_random_direction){
 
     for(int i=0; i<10; i++){
 
-    rc=pick_random_direction(game, )
+    rc=pick_random_direction(game, room)
     cr_assert_eq(rc, 1, "failed to pick a random direction\n");
 
     }
