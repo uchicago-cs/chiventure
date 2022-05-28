@@ -99,7 +99,7 @@ bool path_generate(game_t* game, specgraph_t *specgraph, room_t* curr, room_t* a
     roomspec_t *currspec=(roomspec_t*)malloc(sizeof(roomspec_t));
     roomspec_t *adjacentspec=(roomspec_t*)malloc(sizeof(roomspec_t));    
     currspec=roomspecs[curr->tag];    
-    radjacentspec=roomspecs[adjacentroom->tag];
+    adjacentspec=roomspecs[adjacentroom->tag];
 
     int correlation=roomspec_correlation(specgraph, currspec, adjacentspec);
 
