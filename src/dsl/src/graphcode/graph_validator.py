@@ -1,19 +1,49 @@
 """
 Graph validator algorithm
+<<<<<<< HEAD
 Example Input: python src/graph_validator.py
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+Example Input: python graph_validator.py
+>>>>>>> 2cdb91db7c55d7ee883d3a6f117e0af2bfab0b89
 
 Notes:
 The goal of this graph_validator is to check graphs created in DSL
 files to make sure they are valid and able to be converted into game-readable
 graphs in the WDL/JSON file read by chiventure. While the example graphs
+<<<<<<< HEAD
 created that are used to test the functionality of our graph validtor code
+=======
+created that are used to test the functionality of our graph validator code
+>>>>>>> 2cdb91db7c55d7ee883d3a6f117e0af2bfab0b89
 are general graphs, these graphs in Chiventure are meant to represent 
 NPC dialogue graphs. In the future, we hope to integrate this with the DSL
 parser to check that the game devloper created dialogue graph is valid and
 able to be parsed into a WDL/JSON format. This can be done by taking DSL specifed 
+<<<<<<< HEAD
 graph, turn it into a Python readable graph/dictionary, and running it through
 this graph_validator code (and recieving a TRUE bool if it is valid, FALSE if
 it is not).
+=======
+graph, turn it into a Python readable adjacency list/dictionary for dialogues, and running it through
+this graph_validator code (and recieving a TRUE bool if it is valid, FALSE if
+it is not).
+=======
+Example Input: python src/graph_validator.py
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+=======
+Example Input: python src/graph_validator.py
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+=======
+Example Input: python src/graph_validator.py
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+=======
+Example Input: python src/graph_validator.py
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+>>>>>>> 2cdb91db7c55d7ee883d3a6f117e0af2bfab0b89
 """
 from doctest import FAIL_FAST
 from example_graphs import *
@@ -111,4 +141,25 @@ def main():
 
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     main()
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    main()
+
+=======
+    main()
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+=======
+    main()
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+=======
+    main()
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+=======
+    main()
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
+>>>>>>> 2cdb91db7c55d7ee883d3a6f117e0af2bfab0b89
