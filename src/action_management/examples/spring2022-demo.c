@@ -100,6 +100,16 @@ chiventure_ctx_t *create_sample_ctx()
     skill_tree_node_add(skill_tree, skill_node4);
     skill_tree_node_add(skill_tree, skill_node5);
 
+    // add quests to player
+    quest_t *quest1 = quest_new("Give your first lecture", NULL, NULL);
+    quest_t *quest2 = quest_new("Perform vampire shenanigans", NULL, NULL);
+    quest_t *quest3 = quest_new("Hold Wednesday Office Hours", NULL, NULL);
+
+    HASH_ADD_KEYPTR(hh, player->player_quests, quest1->quest_id, strlen(quest1->quest_id), quest1);
+    HASH_ADD_KEYPTR(hh, player->player_quests, quest2->quest_id, strlen(quest2->quest_id), quest2);
+    HASH_ADD_KEYPTR(hh, player->player_quests, quest3->quest_id, strlen(quest3->quest_id), quest3);
+    
+
     // add items to inventory
     item_t *sword = item_new("A sword", "A sword", "A sword");
     add_item_to_player(player, sword, game);
@@ -153,13 +163,13 @@ chiventure_ctx_t *create_sample_ctx()
     add_item_to_player(player, iron, game);
 
     // add items to room
-    item_t *soap = item_new("Soap   ", "Soap   ", "Soap   ");
+    item_t *soap = item_new("Soap", "Soap   ", "Soap   ");
     add_item_to_room(room4, soap);
     agent_t *s = (agent_t*)(malloc(sizeof(agent_t)));
     s->item = soap; 
     add_action(s, "take", "You take the soap. It has cleansed you.", "You do not take the soap.");
 
-    item_t *rolex = item_new("Rolex  ", "Rolex  ", "Rolex  ");
+    item_t *rolex = item_new("Rolex", "Rolex  ", "Rolex  ");
     add_item_to_room(room2, rolex); 
     agent_t *r = (agent_t*)(malloc(sizeof(agent_t)));
     r->item = rolex; 
