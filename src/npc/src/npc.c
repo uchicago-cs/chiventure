@@ -235,7 +235,8 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
 {
-    assert((item != NULL) && (npc != NULL));
+    assert(item != NULL);
+    assert(npc != NULL);
     item_t *tmp;
     char *id = case_insensitized_string(item->item_id);
     HASH_FIND(hh, npc->inventory, id, strlen(id), tmp);

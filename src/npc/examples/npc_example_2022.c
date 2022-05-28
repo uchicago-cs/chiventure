@@ -280,6 +280,35 @@ convo_t *create_sample_convo_fiona()
     return c;
 }
 
+/* Creates a sample convo for NPC William 
+ * This also serves as a monkey-patch for trade functionality.
+ * If the PR for Kind 7 actions is merged before the demo is presented
+ * we may change this to implement that code instead. */
+convo_t *create_sample_convo_william()
+{
+    // Starting to build the conversation structure
+    convo_t *c = convo_new();
+
+    // Nodes
+    add_node(c, "1", "William: Hi, do you want to trade for this iron axe?");
+
+    add_node(c, "2", "William: What do you have to offer for it?");
+    add_give_item(c, "2", "IRON AXE");
+    add_node(c, "3a", "Yes, I will accept that. A pleasure doing business with you!");
+    node_t *accept_node = get_node(c->all_nodes, "3a");
+    add_take_item(c, "3a", "POTION");
+
+    add_node(c, "3b", "I don't think that that is enough for me, sorry!");
+
+    // Edges
+    add_edge(c, "Yes, that iron axe looks very nice!", "1", "2", NULL);
+
+    add_edge(c, "I will offer you this healing potion.", "2", "3a", NULL);
+    add_edge(c, "I will offer you this energy boosting elixir.", "2", "3b", NULL);
+
+    return c;
+}
+
 
 /* a mokey-patched version of moving back from arena to lobby */
 char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
@@ -443,9 +472,25 @@ chiventure_ctx_t *create_sample_ctx()
 
     npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
     extend_path_indefinite(movement3, arena->room_id, 5);
+
+    /* Create wandering npc */
     wandering_william = npc_new("william", "wandering william is friendly",
      "wandering william is just a jolly good fellow who likes to wander between"
      "rooms", class2, movement3, FRIENDLY);
+
+    /* Add item to wandering npc */
+    item_t *iron_axe = item_new("IRON AXE","This is an iron axe.",
+                              "You can use this axe to cut down trees"
+                              "or your enemies.");
+    agent_t *iron_axe_ag = malloc(sizeof(agent_t));
+    iron_axe_ag->item = iron_axe;
+    assert(add_action(iron_axe_ag, "take", "You now have an iron axe",
+                      "iron axe could not be taken") == SUCCESS);
+    add_item_to_npc(wandering_william, iron_axe);
+
+    /* Add dialogue to wandering npc */
+    convo_t *c_william = create_sample_convo_william();
+    add_convo_to_npc(wandering_william, c_william);
 
     /* Add the npcs to the game */
     assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
