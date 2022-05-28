@@ -119,7 +119,7 @@ Test(autogenerate, path_exists_in_direction_mid)
     cr_assert_eq(false, path_exists_in_direction(room, "NOT A DIRECTION"), "Expected false but got true");
 }
 
-Test(autogenerate, pick_random_direction_false_2){
+Test(autogenerate, room_exists_in_direction_false2){
 
     game_t *game=game_new("New Game");
 
