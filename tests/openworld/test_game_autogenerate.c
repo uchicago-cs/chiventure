@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "openworld/autogenerate.h"
 #include "openworld/game_autogenerate.h"
-#include "openworld/game_autogenerate.c"
 #include "openworld/default_rooms.h"
 #include "openworld/default_items.h"
 #include "openworld/gen_structs.h"

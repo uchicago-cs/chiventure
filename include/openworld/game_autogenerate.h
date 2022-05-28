@@ -24,7 +24,11 @@
 
 #define MAX_RAND_ITEMS (100)
 
+int random_first_room(game_t* game, specgraph_t *specgraph);
 
+room_t* random_room_from_game(game_t* game);
+
+int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph);
 /*
 * game_autogenerate_static
 * Given a game_t and specgraph_t pointer and number of rooms, statically autogenerates 
