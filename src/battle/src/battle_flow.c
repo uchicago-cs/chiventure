@@ -206,11 +206,6 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     double crit;
     char *string;
 
-    sound_t *sound = sound_new(SOUND_EFFECT, "sound_files/blade_move.wav");
-    sound_type_t *bgm = load_wav(sound);
-    play_sound(sound, 0);
-    sound_free(bgm, sound);
-
     /* Calculates to see if the move will miss */
     if (!calculate_accuracy(b->player->stats->accuracy, move->accuracy))
     {
