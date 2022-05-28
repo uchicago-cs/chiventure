@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "openworld/autogenerate.h"
+#include "openworld/game_autogenerate.h"
 #include "openworld/default_rooms.h"
 #include "openworld/default_items.h"
 #include "openworld/gen_structs.h"
@@ -182,7 +183,59 @@ Test(autogenerate, roomspec_to_room3)
 
 }
 
+Test(autogenerate, pick_random_direction){
 
+    game_t *game=game_new("New Game");
+
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+    spec1->tag=0;
+
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
+    spec2->tag=1;
+
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    spec3->tag=2;
+    roomspec_t **roomspecs=(roomspec_t**)malloc(3*sizeof(roomspec_t*));
+
+    roomspecs[0]=spec1;
+    roomspecs[1]=spec2;
+    roomspecs[2]=spec3;
+
+    int *matrix=(int*)malloc(9*sizeof(int));
+
+    matrix[0]=5;
+    matrix[1]=4;
+    matrix[2]=5; 
+    matrix[3]=0; 
+    matrix[4]=5;  
+    matrix[5]=3;
+    matrix[6]=4; 
+    matrix[7]=3;  
+    matrix[8]=5;
+
+    int **edges=edges_new(matrix, 3, 3);
+
+    specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+
+    coords_t *coords=coords_new(0,0);
+    room_t *room=roomspec_to_room(spec1, coords);
+
+    add_room_to_game(game, room);
+
+    int rc;
+    char *direction_to_curr;
+    char *direction_to_new;
+
+    for(int i=0; i<10; i++){
+
+    rc=pick_random_direction(game, )
+    cr_assert_eq(rc, 1, "failed to pick a random direction\n");
+
+    }
+}
 
 /* Checks that pick_random_direction() returns correct NESW (compass directions)
    forward-reverse direction pairs */
