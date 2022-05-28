@@ -229,7 +229,7 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
     free(roomspecs);
     free(currspec);
 
-    return 1;
+    return SUCCESS;
 }
 
 /*See autogenerate.h*/

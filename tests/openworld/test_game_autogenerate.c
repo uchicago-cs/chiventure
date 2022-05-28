@@ -101,15 +101,15 @@ Test(room, generate_room_in_game){
 
     game_t *game=game_new("New Game");
 
-    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL,0);
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
     cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
     spec1->tag=0;
 
-    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL,1);
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
     cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
     spec2->tag=1;
 
-    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL,2);
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     spec3->tag=2;
     roomspec_t **roomspecs=(roomspec_t**)malloc(3*sizeof(roomspec_t*));
