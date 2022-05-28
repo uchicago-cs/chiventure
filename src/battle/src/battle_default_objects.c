@@ -38,7 +38,7 @@ battle_item_t *get_consumable_item(char* item_name, char* desc)
 
     rv_item->attributes = stat_changes_new();
 
-    // TODO: this is currently hard coded for Elixir of Life, 
+    // TODO: this is currently hard coded for Strength Up.
     // but we later want to make sure this function is specific
     rv_item->attributes->phys_atk = 20;
     rv_item->quantity = randnum(1, 3);
