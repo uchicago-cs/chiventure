@@ -616,7 +616,6 @@ Test(stat_changes, add_item_node)
     stat_changes_free_all(sc);
 }
 
-/* SEE ISSUE #1657
 Test(battle_logic, remove_single_item)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
@@ -635,12 +634,16 @@ Test(battle_logic, remove_single_item)
     i1->name = name;
     i1->description = d;
 
+    class_t* warrior = class_new("warrior", "A mighty warrior.",
+                                 "An elite, battle-hardened fighter who excels in physical combat.",
+                                 NULL, NULL, NULL);
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
     pstats->phys_atk = 15;
     pstats->phys_def = 15;
-    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, 
+    combatant_t *p = combatant_new("Player", true, warrior, pstats, NULL, i1, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -653,9 +656,8 @@ Test(battle_logic, remove_single_item)
     cr_assert_null(p->items, "remove_battle_item() failed");
 
     combatant_free(p);
-} */
+}
 
-/* SEE ISSUE #1657
 Test(battle_logic, remove_item_of_multiple)
 {
     
@@ -690,12 +692,16 @@ Test(battle_logic, remove_item_of_multiple)
     i2->prev = i1;
     i2->next = NULL;
 
+    class_t* warrior = class_new("warrior", "A mighty warrior.",
+                                 "An elite, battle-hardened fighter who excels in physical combat.",
+                                 NULL, NULL, NULL);
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
     pstats->phys_def = 15;
     pstats->phys_atk = 15;
-    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, 
+    combatant_t *p = combatant_new("Player", true, warrior, pstats, NULL, i1, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -712,9 +718,8 @@ Test(battle_logic, remove_item_of_multiple)
     cr_assert_null(p->items, "remove_battle_item() failed");
 
     combatant_free(p);
-} */
+}
 
-/* SEE ISSUE #1657
 Test(battle_logic, remove_last_item_of_multiple)
 {
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
@@ -746,12 +751,16 @@ Test(battle_logic, remove_last_item_of_multiple)
     i1->next = i2;
     i2->prev = i1;
 
+    class_t* warrior = class_new("warrior", "A mighty warrior.",
+                                 "An elite, battle-hardened fighter who excels in physical combat.",
+                                 NULL, NULL, NULL);
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
     pstats->phys_def = 15;
     pstats->phys_atk = 15;
-    combatant_t *p = combatant_new("Player", true, NULL, pstats, NULL, i1, 
+    combatant_t *p = combatant_new("Player", true, warrior, pstats, NULL, i1, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -768,4 +777,4 @@ Test(battle_logic, remove_last_item_of_multiple)
     cr_assert_null(p->items, "remove_battle_item() failed");
 
     combatant_free(p);
-} */
+}
