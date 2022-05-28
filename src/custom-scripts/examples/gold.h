@@ -7,5 +7,5 @@
 
 typedef struct chest
 {
-int coins;
+    int coins;
 } chest_t;

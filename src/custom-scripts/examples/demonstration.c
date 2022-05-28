@@ -74,12 +74,6 @@ int main(int argc, char **argv)
     action_type_t taste_action = {"TASTE", ITEM};
     add_entry(taste_action.c_name, kind1_action_operation, &taste_action, ctx->cli_ctx->table);
 
-    // make key something that can be taken
-    // test if player picked up the key
-    // if yes, then create connections between rooms
-    // how to do that without restarting the whole game
-    // how to check if something has been taken into the itenerary
-
     /* Start chiventure */
     start_ui(ctx, banner);
 
