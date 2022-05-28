@@ -52,7 +52,8 @@ word_ll* append_to_phrase(word_ll *phrase, char *word) {
 
 /* this simply prints the phrase associated with the GO command
  * (which is stored as a linked list of words) */
-void handle_go_cmd(word_ll *phrase) {
+void handle_kind2_cmd(word_ll *phrase) {
+    printf("this is a kind 2 action: ACTION <path>\n");
     printf("going to location:");
 
     if (phrase == NULL) {
@@ -187,4 +188,5 @@ void handle_kind1_cmd(word_ll *action, word_ll *phrase){
     printf("\n\n");
 }
 
-
+void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
+}

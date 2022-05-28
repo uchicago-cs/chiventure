@@ -48,6 +48,9 @@ void yyerror(char* s);
 %type<word_list> kind2_cmd
 %type<word_list> kind2_cmd_keyword
 
+%type<word_list> kind4_cmd
+%type<word_list> kind4_cmd_keyword
+
 %type<word_list> phrase 
 /*%type<word_list> go_cmd
 %type<word_list> fight_cmd
@@ -59,11 +62,12 @@ void yyerror(char* s);
 %%
 line
   : 
-//  | line go_cmd EOL { handle_go_cmd($2); }
   | line kind1_cmd EOL { handle_kind1_cmd($2, NULL); }
   | line kind1_cmd phrase EOL { handle_kind1_cmd($2, $3); }
-  | line kind2_cmd EOL { printf("kind 2\n"); }
-  | line kind2_cmd phrase EOL { printf("kind 2\n"); }
+  | line kind2_cmd EOL { handle_kind2_cmd(NULL); }
+  | line kind2_cmd phrase EOL { handle_kind2_cmd($3); }
+  | line kind4_cmd EOL { printf("kind4\n"); }
+  | line kind4_cmd phrase EOL { printf("kind4\n"); }
 //  | line fight_cmd EOL { handle_fight_cmd($2); }
 //  | line credits_cmd EOL { handle_credits_cmd($2); }
   | line phrase EOL { handle_cmd($2); }
@@ -94,6 +98,7 @@ kind1_cmd_keyword
 kind2_cmd
   : kind2_cmd_keyword { $$ = $1; }
   | kind2_cmd_keyword TO { $$ = $1; }
+  | kind2_cmd_keyword TO THE { $$ = $1; }
   ;
 
 kind2_cmd_keyword
@@ -109,17 +114,17 @@ kind3_action_keyword
   : OPEN  { $$ = start_phrase($1); }
   | CLOSE  { $$ = start_phrase($1); }
   ;
-
-kind4_action
-  : kind4_action_keyword { $$ = $1; }
-  | kind4_action_keyword THE { $$ = $1; }
-  ;
-
-kind4_action_keyword
-  : OPEN  { $$ = start_phrase($1); }
-  | CLOSE  { $$ = start_phrase($1); }
-  ;
 */
+
+kind4_cmd
+  : kind4_cmd_keyword { $$ = $1; }
+  | kind4_cmd_keyword THE { $$ = $1; }
+  ;
+
+kind4_cmd_keyword
+  : VIEW  { $$ = start_phrase("view"); }
+  ;
+
 /*
   | line fight_cmd EOL { handle_fight_cmd($2); }
   | line credits_cmd EOL { handle_credits_cmd($2); }

@@ -8,7 +8,7 @@ word_ll* start_phrase(char *word);
 
 word_ll* append_to_phrase(word_ll *phrase, char *word);
 
-void handle_go_cmd(word_ll *phrase);
+void handle_kind2_cmd(word_ll *phrase);
 
 void handle_fight_cmd(word_ll *phrase);
 
@@ -23,3 +23,5 @@ void handle_use_cmd(word_ll *phrase);
 void handle_view_cmd(word_ll *phrase);
 
 void handle_kind1_cmd(word_ll *action, word_ll *phrase);
+
+void handle_kind4_cmd(word_ll *action, word_ll *phrase);
