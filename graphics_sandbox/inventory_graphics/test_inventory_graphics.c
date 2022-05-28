@@ -1,6 +1,7 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
 #include "../../include/game-state/item.h"
 #include "../../include/game-state/player.h"
@@ -71,10 +72,8 @@ Test(slot, new)
     cr_assert_not_null(slot, "new_slot() failed");
     
     cr_assert_eq(slot->status, FULL, "new_slot() didn't set status");
-    cr_assert_eq(slot->item->short_desc, "Gray Rock",
-                "new_slot() didn't set relation to short item description");
-    cr_assert_eq(slot->item->long_desc, "This is a medium gray rock",
-                "new_slot() didn't set relation to long item description");
+    cr_assert_eq(strcmp(slot->item->short_desc, "Gray Rock"), 0, "new_slot() didn't set relation to short item description");
+    cr_assert_eq(strcmp(slot->item->long_desc, "This is a medium gray rock"), 0, "new_slot() didn't set relation to long item description");
 }
 
 Test(slot, init)
@@ -92,10 +91,8 @@ Test(slot, init)
     cr_assert_eq(rc, SUCCESS, "init_slot() failed");
 
     cr_assert_eq(slot.status, FULL, "init_slot() didn't set status");
-    cr_assert_eq(slot.item->short_desc, "Gray Rock",
-                "init_slot() didn't set relation to short item description");
-    cr_assert_eq(slot.item->long_desc, "This is a medium gray rock",
-                "init_slot() didn't set relation to long item description");
+    cr_assert_eq(strcmp(slot.item->short_desc, "Gray Rock"), 0, "init_slot() didn't set relation to short item description");
+    cr_assert_eq(strcmp(slot.item->long_desc, "This is a medium gray rock"), 0, "init_slot() didn't set relation to long item description");
 }
 
 Test(slot, free)

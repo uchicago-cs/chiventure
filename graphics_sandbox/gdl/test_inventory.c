@@ -3,13 +3,17 @@
 #include <stdbool.h>                                                            
 #include "read_gdl.h" 
 
+
+/* Note 253 is the r in rgb for Yellow */
+
+
 /* Checks that new_inventory_display properly mallocs and inits values for an
  * inventory_display_t struct */
 Test(inventory, new)
 {
     unsigned int rows = 3;
     unsigned int columns = 10;
-    color c = YELLOW;
+    Color c = YELLOW;
 
     inventory_display_t *inventory;
     inventory = new_inventory_display(rows,columns,c);
@@ -18,8 +22,9 @@ Test(inventory, new)
     
     cr_assert_eq(inventory->rows,3,"make_inventory_display() didn't set rows");
     cr_assert_eq(inventory->columns,10,"make_inventory_display() didn't set columns");
-    cr_assert_eq(inventory->color,YELLOW,"make_inventory_display() didn't set color");
+    cr_assert_eq(inventory->color.r ,253, "make_inventory_display() didn't set color");
 }
+
 
 /* Checks that init_inventory_display properly inits values for an 
  * inventory_display_t struct */
@@ -27,7 +32,7 @@ Test(inventory, init)
 {
     unsigned int rows = 3;
     unsigned int columns = 10;
-    color c = YELLOW;
+    Color c = YELLOW;
 
     inventory_display_t inventory;
     int rc;
@@ -40,9 +45,10 @@ Test(inventory, init)
                 "init_inventory_display() didn't set rows");
     cr_assert_eq(inventory.columns, 10,
                 "init_inventory_display() didn't set columns");
-    cr_assert_eq(inventory.color, YELLOW,
+    cr_assert_eq(inventory.color.r, 253,
                 "init_inventory_display() didn't set color");
 }
+
 
 /* Checks that free_inventory_display properly frees memory used for an 
  * inventory_display_t struct */
@@ -50,7 +56,7 @@ Test(inventory, free)
 {
     unsigned int rows = 3;
     unsigned int columns = 10;
-    color c = YELLOW;
+    Color c = YELLOW;
     int rc;
 
     inventory_display_t *inventory;

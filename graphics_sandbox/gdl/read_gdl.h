@@ -12,7 +12,7 @@
  * of just a few rules
  */
 
-
+#include "../raylib_itself/raylib-multiple-contexts-hack/src/raylib.h" 
 #include "../include/game-state/stats.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -31,21 +31,10 @@ typedef struct camera {
     unsigned int height;
 } camera_t;
 
-
-/* The set of background colors availible for the inventory */
-typedef enum color {
-    WHITE,
-    GRAY,
-    BLACK,
-    RED,
-    BLUE,
-    GREEN,
-    YELLOW,
-    ORANGE,
-    PURPLE,
-    PINK
-} color;
-
+/*
+ * The set of background colors availible for the inventory
+ * typedef enum color {WHITE, GRAY, BLACK, RED, BLUE, GREEN, YELLOW, ORANGE, PURPLE, PINK} color;
+ */
 
 /* 
  * This display struct contains the custom inventory 
@@ -55,7 +44,7 @@ typedef enum color {
 typedef struct inventory_display {
     unsigned int rows;
     unsigned int columns;
-    color color;
+    Color color;
 } inventory_display_t;
 
 
@@ -248,7 +237,7 @@ int free_camera(camera_t *camera);
  * - a pointer to the inventory structure on the heap
  */
 inventory_display_t* new_inventory_display(unsigned int rows,
-    unsigned int columns, color color);
+    unsigned int columns, Color color);
 
 
 /* 
@@ -263,7 +252,7 @@ inventory_display_t* new_inventory_display(unsigned int rows,
  * Returns:
  * - an integer indicating success
  */
-int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, color color);
+int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, Color color);
 
 
 /*

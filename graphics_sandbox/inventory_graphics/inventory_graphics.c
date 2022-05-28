@@ -43,6 +43,7 @@ slot_t **populate_items(player_t *p, graphics_t *graphics)
     return inv;
 }
 
+
 /* See inventory_graphics.h */
 slot_t *new_slot(status s, item_t *item)
 {
@@ -66,6 +67,7 @@ slot_t *new_slot(status s, item_t *item)
     return slot;
 }
 
+
 /* See inventory_graphics.h */
 int init_slot(slot_t *slot, status s, item_t *item)
 {
@@ -77,6 +79,7 @@ int init_slot(slot_t *slot, status s, item_t *item)
     return SUCCESS;
 }
 
+
 /* See inventory_graphics.h */
 int free_slot(slot_t *slot)
 {
@@ -85,6 +88,7 @@ int free_slot(slot_t *slot)
 
     return SUCCESS;
 }
+
 
 /* See inventory_graphics.h */
 player_inventory_t *new_player_inventory(graphics_t *graphics, slot_t **slots)

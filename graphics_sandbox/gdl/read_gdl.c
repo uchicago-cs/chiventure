@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 
 graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
@@ -159,7 +160,7 @@ int free_camera(camera_t *camera)
 }
 
 
-inventory_display_t* new_inventory_display(unsigned int rows, unsigned int columns, color color)
+inventory_display_t* new_inventory_display(unsigned int rows, unsigned int columns, Color color)
 {
     inventory_display_t *inventory;   
     int rc;
@@ -184,7 +185,7 @@ inventory_display_t* new_inventory_display(unsigned int rows, unsigned int colum
 }
 
 
-int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, color color)
+int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, Color color)
 {
     assert(inventory != NULL);
 
@@ -269,12 +270,20 @@ int free_statistics_display(statistics_display_t *statistics_display)
  * Returns:
  * - an integer whose value corresponds to the color
  */
-int match_color(char *color)
+Color match_color(char *color)
 {
-    char* colors[] = {"White", "Gray", "Black", "Red", "Blue", "Green", "Yellow", "Orange", "Purple", "Pink"};
-    for(int i = 0; i < 10; i++) {
+    char* colors[] = {"LIGHTGRAY", "GRAY", "DARKGRAY", "LIGHTGREY", "GREY", "DARKGREY", 
+"YELLOW", "GOLD", "ORANGE", "PINK", "RED", "MAROON", "GREEN", "LIME", "DARKGREEN", 
+"SKYBLUE", "BLUE", "DARKBLUE", "PURPLE", "VIOLET", "DARKPURPLE", "BEIGE", "BROWN", 
+"DARKBROWN", "WHITE", "BLACK", "BLANK", "MAGENTA", "RAYWHITE"};
+
+   Color raylib_colors[] = {LIGHTGRAY, GRAY, DARKGRAY, YELLOW, GOLD, ORANGE, PINK, 
+RED, MAROON, GREEN, LIME, DARKGREEN, SKYBLUE, BLUE, DARKBLUE, PURPLE, VIOLET, DARKPURPLE, 
+BEIGE, BROWN, DARKBROWN, WHITE, BLACK, BLANK, MAGENTA, RAYWHITE};  
+
+    for(int i = 0; i < 30; i++) {
         if (strcmp(colors[i], color) == 0) {
-            return i;
+            return raylib_colors[i];
         }
     }
     fprintf(stderr, "invalid input color");
@@ -315,7 +324,7 @@ graphics_t* read_gdl()
     unsigned int height;
     unsigned int rows;
     unsigned int cols;
-    color color;
+    Color color;
     char spec[20];
     display_dimensions_t *display_dimensions;
     camera_t *camera;
@@ -363,7 +372,13 @@ graphics_t* read_gdl()
                         getc(gdl);
                     } else {
                         fscanf(gdl, "%s", spec);
-                        color = match_color(spec);
+                        int len = strlen(spec) + 1;
+                        char capitalize[len];
+                        memset(capitalize, 0, len);
+                        for(int i = 0; i < len; i ++) {
+                            capitalize[i] = toupper(spec[i]);
+                        }
+                        color = match_color(capitalize);
                         getc(gdl);
                     }
                 }

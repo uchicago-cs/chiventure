@@ -3,6 +3,10 @@
 #include <stdbool.h>
 #include "read_gdl.h"
 
+
+/* Note: 230 is the r in rgb value of red */
+
+
 /*Checks that new_graphics() properly mallocs and inits values for a 
  * graphics_t struct */
 Test(graphics, new)
@@ -44,9 +48,10 @@ Test(graphics, new)
                 "new_graphics() didn't set inventory rows");
     cr_assert_eq(graphics->inventory->columns,10,
                 "new_graphics() didn't set inventory columns");
-    cr_assert_eq(graphics->inventory->color, RED,
-                "new_graphics() didn't set inventory color");
+    cr_assert_eq(graphics->inventory->color.r, 230, "new_graphics() didn't set inventory color");
+    // 230 is the r in rgb value of red
 }
+
 
 /*Checks that init_graphics() properly inits values for graphics_t struct */
 Test(graphics, init)
@@ -90,7 +95,7 @@ Test(graphics, init)
                 "init_graphics() didn't set inventory rows");                    
     cr_assert_eq(graphics.inventory->columns,10,                               
                 "init_graphics() didn't set inventory columns");                 
-    cr_assert_eq(graphics.inventory->color, RED,                               
+    cr_assert_eq(graphics.inventory->color.r, 230,                               
                 "init_graphics() didn't set inventory color");                   
 }
 
