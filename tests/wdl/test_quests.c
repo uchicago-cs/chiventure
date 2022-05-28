@@ -103,7 +103,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(enter_lair, "Enter Lair task is NULL!");
     cr_assert_str_eq(enter_lair->id, "Enter Steve's Lair", "Enter Lair task has incorrect id!");
     cr_assert_not_null(enter_lair->mission, "Enter Lair task has no mission!");
-    cr_assert_str_eq(enter_lair->mission->target_name, "Steve's Lair", "Enter Lair task's mission has the wrong target!");
+    cr_assert_str_eq(enter_lair->mission->target_name, "steve's lair", "Enter Lair task's mission has the wrong target!");
     cr_assert_eq(enter_lair->mission->type, VISIT_ROOM, "Enter Lair task's mission has the wrong type!");
     cr_assert_not_null(enter_lair->prereq, "Enter Lair task has no prereq!");
     cr_assert_eq(enter_lair->prereq->hp, 12, "Enter Lair task's prereq has incorrect hp!");
@@ -154,7 +154,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(pirate_cove, "Pirate Cove task is NULL!");
     cr_assert_str_eq(pirate_cove->id, "Find the Pirate Cove", "Pirate Cove task has incorrect id!");
     cr_assert_not_null(pirate_cove->mission, "Pirate Cove task has no mission!");
-    cr_assert_str_eq(pirate_cove->mission->target_name, "Pirate Cove", "Pirate Cove task's mission has the wrong target!");
+    cr_assert_str_eq(pirate_cove->mission->target_name, "pirate cove", "Pirate Cove task's mission has the wrong target!");
     cr_assert_eq(pirate_cove->mission->type, VISIT_ROOM, "Pirate Cove task's mission has the wrong type!");
     cr_assert_not_null(pirate_cove->prereq, "Pirate Cove task has no prereq!");
     cr_assert_eq(pirate_cove->prereq->hp, 15, "Pirate Cove task's prereq has incorrect hp!");
