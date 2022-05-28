@@ -230,11 +230,9 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
 
     /* Path to the generated room */
     path_t* path_to_new = path_new(new_room, direction_to_new);
-    assert(add_path_to_room(curr, path_to_new) == SUCCESS);
 
     /* Path for the opposite direction */
     path_t* path_to_curr = path_new(curr, direction_to_curr);
-    assert(add_path_to_room(new_room, path_to_curr) == SUCCESS);
     
     return SUCCESS;
 }
