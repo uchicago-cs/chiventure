@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
 #include "quests/task.h"
+#define TO_LOWER(p) for ( ; *(p); ++(p)) *(p) = tolower(*(p))
 
 /* Refer to task.h */
 mission_t *mission_new(char *target_name, mission_types_t type)
@@ -28,6 +30,10 @@ int mission_init(mission_t *mission, char *target_name, mission_types_t type)
 
     mission->target_name = target_name;
     mission->type = type;
+
+    if(type == MEET_NPC || type == KILL_NPC) {
+        TO_LOWER(target_name);
+    }
 
     return SUCCESS;
 }

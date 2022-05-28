@@ -183,7 +183,6 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
             return NULL;
         }
     }
-    printf("\nWAAAAAAH: %s\n", convo->all_nodes->node->npc_dialogue);
     return convo;
 }
 
@@ -202,7 +201,7 @@ int load_npc_quests(obj_t *npc_obj, npc_t *npc, game_t *g)
 {
     obj_t *quests_list = obj_get_list(npc_obj, "Quests");
     if(quests_list == NULL) {
-        fprintf(stderr, "NPC has no quests, but this may not be an error");
+        fprintf(stderr, "NPC has no quests, but this may not be an error\n");
         return SUCCESS;
     }
     obj_t *cur;
@@ -212,9 +211,6 @@ int load_npc_quests(obj_t *npc_obj, npc_t *npc, game_t *g)
         convo_t *convo = load_dialogue(quest_dialogue_obj, npc, g);
         npc_quest_t *cur_quest = npc_quest_new(id, convo);
         npc_quest_list_add(npc->quests, cur_quest);
-        if(npc->quests->head != NULL) {
-            printf("HERE: %s\n", npc->quests->head->id);
-        }
 
     }
     return SUCCESS;
@@ -234,7 +230,7 @@ int load_npc_tasks(obj_t *npc_obj, npc_t *npc, game_t *g)
 {
     obj_t *tasks_list = obj_get_list(npc_obj, "Tasks");
     if(tasks_list == NULL) {
-        fprintf(stderr, "NPC has no tasks, but this may not be an error");
+        fprintf(stderr, "NPC has no tasks, but this may not be an error\n");
         return SUCCESS;
     }
     obj_t *cur;

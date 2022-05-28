@@ -82,8 +82,8 @@ Test(npc_quest_list, new)
 {
     npc_quest_list_t *quest_list = npc_quest_list_new();
     cr_assert_not_null(quest_list, "npc_quest_list_new() failed");
-    cr_assert_null(quest_list->head->next, "npc_quest_list_new() failed to make next NULL");
-    cr_assert_eq(quest_list->length, 1, "npc_quest_list_new() failed to make length 1");
+    cr_assert_null(quest_list->head, "npc_quest_list_new() failed to make head NULL");
+    cr_assert_eq(quest_list->length, 0, "npc_quest_list_new() failed to make length 0");
 }
 
 /* Checks that npc_task_list_new() properly creates a npc_task_list struct */
@@ -91,51 +91,43 @@ Test(npc_task_list, new)
 {
     npc_task_list_t *task_list = npc_task_list_new();
     cr_assert_not_null(task_list, "npc_task_list_new() failed");
-    cr_assert_null(task_list->head->next, "npc_task_list_new() failed to make next NULL");
-    cr_assert_eq(task_list->length, 1, "npc_task_list_new() failed to make length 1");
+    cr_assert_null(task_list->head, "npc_task_list_new() failed to make head NULL");
+    cr_assert_eq(task_list->length, 0, "npc_task_list_new() failed to make length 0");
 }
 
-/* Checks that npc_quest_list_init() properly initializes a npc_quest_list struct
+// Checks that npc_quest_list_init() properly initializes a npc_quest_list struct
 Test(npc_quest_list, init)
 {
     npc_quest_list_t *quest_list;
     quest_list = malloc(sizeof(npc_quest_list_t));
 
-    if (!quest_list) {
-        fprintf(stderr, "\nCould not allocate memory for NPC quest list!\n");
-        return NULL;
-    }
     cr_assert_not_null(quest_list, "npc_task_list_new() failed");
 
     int rc = npc_quest_list_init(quest_list);
 
     cr_assert_eq(rc, SUCCESS, "npc_quest_list_init() failed to initialize");
     cr_assert_not_null(quest_list, "npc_quest_list_init() failed");
-    cr_assert_null(quest_list->head->next, "npc_quest_list_init() failed to make next NULL");
-    cr_assert_eq(quest_list->length, 1, "npc_quest_list_init() failed to make length 1");
-}*/
+    cr_assert_null(quest_list->head, "npc_quest_list_init() failed to make head NULL");
+    cr_assert_eq(quest_list->length, 0, "npc_quest_list_init() failed to make length 0");
+}
 
-/* Checks that npc_task_list_init() properly initializes a npc_task_list struct
+// Checks that npc_task_list_init() properly initializes a npc_task_list struct
 Test(npc_task_list, init)
 {
     npc_task_list_t *task_list;
     task_list = malloc(sizeof(npc_task_list_t));
 
-    if (!task_list) {
-        fprintf(stderr, "\nCould not allocate memory for NPC task list!\n");
-        return NULL;
-    }
     cr_assert_not_null(task_list, "npc_task_list_new() failed");
 
     int rc = npc_task_list_init(task_list);
 
     cr_assert_eq(rc, SUCCESS, "npc_task_list_init() failed to initialize");
     cr_assert_not_null(task_list, "npc_task_list_init() failed");
-    cr_assert_null(task_list->head->next, "npc_task_list_init() failed to make next NULL");
-    cr_assert_eq(task_list->length, 1, "npc_task_list_new() failed to make length 1");
-}*/
+    cr_assert_null(task_list->head, "npc_task_list_init() failed to make head NULL");
+    cr_assert_eq(task_list->length, 0, "npc_task_list_new() failed to make length 0");
+}
 
-/* Checks that npc_quest_list_add() properly adds a npc_quest struct to a npc_quest_list_t
+// Checks that npc_quest_list_add() properly adds a npc_quest struct to a npc_quest_list_t
 Test(npc_quest_list, add)
 {
     convo_t *c1 = convo_new();
@@ -154,14 +146,14 @@ Test(npc_quest_list, add)
 
     int add1 = npc_quest_list_add(quest_list, quest1);
     cr_assert_eq(add1, SUCCESS, "npc_quest_list_add() failed to add a quest");
-    cr_assert_cq(quest_list->head->next, quest1, "npc_quest_list_add() failed to set head->next to quest1");
+    cr_assert_eq(quest_list->head, quest1, "npc_quest_list_add() failed to set head->next to quest1");
 
     int add2 = npc_quest_list_add(quest_list, quest2);
     cr_assert_eq(add2, SUCCESS, "npc_quest_list_add() failed to add a second quest");
-    cr_assert_cq(quest_list->head->next->next, quest2, "npc_quest_list_add() failed to set head->next->next to quest2");
-}*/
+    cr_assert_eq(quest_list->head->next, quest2, "npc_quest_list_add() failed to set head->next->next to quest2");
+}
 
-/* Checks that npc_task_list_add() properly adds a npc_task struct to a npc_task_list_t
+// Checks that npc_task_list_add() properly adds a npc_task struct to a npc_task_list_t
 Test(npc_task_list, add)
 {
     convo_t *c1 = convo_new();
@@ -180,14 +172,14 @@ Test(npc_task_list, add)
 
     int add1 = npc_task_list_add(task_list, task1);
     cr_assert_eq(add1, SUCCESS, "npc_task_list_add() failed to add a task");
-    cr_assert_cq(task_list->head->next, task1, "npc_task_list_add() failed to set head->next to task1");
+    cr_assert_eq(task_list->head, task1, "npc_task_list_add() failed to set head->next to task1");
 
     int add2 = npc_task_list_add(task_list, task2);
     cr_assert_eq(add2, SUCCESS, "npc_task_list_add() failed to add a second task");
-    cr_assert_cq(task_list->head->next->next, task2, "npc_task_list_add() failed to set head->next->next to task2");
-}*/
+    cr_assert_eq(task_list->head->next, task2, "npc_task_list_add() failed to set head->next->next to task2");
+}
 
-/* Checks that npc_task_list_add() properly frees a npc_task_list_t
+// Checks that npc_task_list_add() properly frees a npc_task_list_t
 Test(npc_quest_list, free)
 {
     convo_t *c1 = convo_new();
@@ -212,13 +204,9 @@ Test(npc_quest_list, free)
 
     int free = npc_quest_list_free(quest_list);
     cr_assert_eq(free, SUCCESS, "npc_quest_list_free() failed to free the quest list");
-    cr_assert_null(quest_list, "npc_quest_list_free failed to free quest_list");
-    cr_assert_null(quest_list->head, "npc_quest_list_free failed to free the head");
-    cr_assert_null(quest_list->head->next, "npc_quest_list_free failed to free next");
-    cr_assert_null(quest_list->head->next->next, "npc_quest_list_free failed to free next next");
-}*/
+}
 
-/* Checks that npc_task_list_free() properly frees a npc_task_list_t
+// Checks that npc_task_list_free() properly frees a npc_task_list_t
 Test(npc_task_list, free)
 {
     convo_t *c1 = convo_new();
@@ -243,11 +231,7 @@ Test(npc_task_list, free)
 
     int free = npc_task_list_free(task_list);
     cr_assert_eq(free, SUCCESS, "npc_task_list_free() failed to free the task list");
-    cr_assert_null(task_list, "npc_task_list_free failed to free task_list");
-    cr_assert_null(task_list->head, "npc_task_list_free failed to free the head");
-    cr_assert_null(task_list->head->next, "npc_task_list_free failed to free next");
-    cr_assert_null(task_list->head->next->next, "npc_task_list_free failed to free next next");
-}*/
+}
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)

@@ -14,7 +14,7 @@
             },
             "Task Tree": [
                 {
-                    "Task Name":"Talk to Oak"
+                    "Task Name": "Talk to Oak"
                 }
             ],
             "Task List": [
@@ -255,27 +255,42 @@
                         "nodes": [
                             {
                                 "id": "1",
-                                "npc_dialogue": "Oh, since you're heading there, could you do me a favor? I need you to ask the pofessor to stop by and pick up his book now that I'm done borrowing it"
+                                "npc_dialogue": "Hello dearest child, what are you up to?"
                             },
                             {
-                                "id": "2a",
+                                "id": "2",
+                                "npc_dialogue": "Oh, are you heading to see Professor Oak? I need you to give him this book.",
+                                "actions": [
+                                    {
+                                        "action": "GIVE_ITEM",
+                                        "action_id": "ENCYCLOPEDIA"
+                                    }
+                                ]
+                            },
+                            {
+                                "id": "3a",
                                 "npc_dialogue": "Great! Thanks sweetie."
                             },
                             {
-                                "id": "2b",
-                                "npc_dialogue": "Don't be lazy; it won't take long. Now hurry along."
+                                "id": "3b",
+                                "npc_dialogue": "Why did I get stuck with a beast like you as a son? Go run and do your mother's errands!"
                             }
                         ],
                         "edges": [
                             {
-                                "quip": "Sure!",
+                                "quip": "The spirits compel me to go see Professor Oak",
                                 "from_id": "1",
-                                "to_id": "2a"
+                                "to_id": "2"
                             },
                             {
-                                "quip": "Ughh, do I have to?",
-                                "from_id": "1",
-                                "to_id": "2b"
+                                "quip": "Ok",
+                                "from_id": "2",
+                                "to_id": "3a"
+                            },
+                            {
+                                "quip": "No, don't force your burdens on me, mother!",
+                                "from_id": "2",
+                                "to_id": "3b"
                             }
                         ]
                     }
@@ -429,11 +444,11 @@
                             },
                             {
                                 "id": "2a",
-                                "npc_dialogue": "Alright, I'll pick it up tomorrow!"
+                                "npc_dialogue": "Alright, thanks for the book! Talk to me again and I'll actually take it from you"
                             },
                             {
                                 "id": "2b",
-                                "npc_dialogue": "Oh?! I'll head over right away!"
+                                "npc_dialogue": "Oh?! I'll head over right away! Also, I see you have my book! Talk to me again and I'll take that from you."
                             }
                         ],
                         "edges": [
