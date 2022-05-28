@@ -233,7 +233,7 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
     char* direction_to_curr=(char*)malloc(6*sizeof(char));  
 
     int rc=pick_random_direction(game, curr, direction_to_curr, direction_to_new);
-    
+    return 1;
     if(rc==FAILURE){
         free(roomspecs);
         return 0;
