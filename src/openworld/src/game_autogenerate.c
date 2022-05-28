@@ -125,10 +125,13 @@ bool path_generate(game_t* game, specgraph_t *specgraph, room_t* curr, room_t* a
 */
 
 int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
-    
-    roomspec_t **roomspecs=specgraph->roomspecs;
 
-    roomspec_t *currspec=roomspecs[curr->tag];
+    int num_roomspecs=specgraph->num_roomspecs;  
+    roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t*));
+    roomspecs=specgraph->roomspecs;
+
+    roomspec_t *currspec=(roomspec_t**)malloc(sizeof(roomspec_t));
+    currspec=roomspecs[curr->tag];
 
     coords_t *coords=find_coords_of_room(curr);
     int x=coords->x;
