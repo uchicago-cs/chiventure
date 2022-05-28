@@ -253,9 +253,9 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
         free(roomspecs);
         return 0;
     }
-    coords_t *coords=curr->coords;
-    int x=coords->x;
-    int y=coords->y;
+  
+    int x=curr->coords->x;
+    int y=curr->coords->y;
 
     if(strcmp(direction_to_new, "north")==0){
         direction_to_curr="south";
