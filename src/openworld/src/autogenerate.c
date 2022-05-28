@@ -164,7 +164,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
-    char *direction=(char*)malloc(sizeof(char*));
+    char *direction=(char*)malloc(6*sizeof(char*));
     for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++) {
         /* Forwards direction + bump */
         unsigned int forwards = (initial_direction + bump) % NUM_COMPASS_DIRECTIONS;
@@ -180,7 +180,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
         free(direction);
         return SUCCESS; // direction was picked
     }
-    
+
     free(direction);
     return FAILURE; // no open direction
 }
