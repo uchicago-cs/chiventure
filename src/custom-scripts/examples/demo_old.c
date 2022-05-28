@@ -7,7 +7,7 @@
  */
 
 #include <stdio.h>
-#include <custom-scripts/custom_type.h>
+#include <custom-scripts/get_custom_type.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
@@ -36,13 +36,17 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
        on what the user enters at the start of the game */
+    data_t data, d;
     char string_num;
+
     printf("Enter either 1 or 2 (1 for non-caps, 2 for caps): ");
-    scanf("%c", &string_num);  
-    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
-    ot = obj_add_arg_char(ot, string_num);
+    scanf("%c", &string_num);
+    object_t *ot = obj_t_init(data, STR_TYPE, "../../../../src/custom-scripts/examples/dynamic_string.lua");
+    d.c = string_num;
+    ot = obj_add_arg(ot, d, CHAR_TYPE);
     char* custom_string = (char*)malloc(100);
-    custom_string = str_t_get(ot);
+    data_t res = arg_t_get(ot);
+    custom_string = res.s;
 
 
     /* Associate action "TASTE" with the rock.
