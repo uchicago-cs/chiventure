@@ -188,10 +188,34 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
         return NULL;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 99494edaf37725ea9c3f498b12ba6158b3aa2bdd
     return multiclass(base_class, second_class, temp_name);
 }
 
 /* some function about adding skills to multiclass trees? */
+/* Skill related functions */
+
+/* 
+ * Skills are in a weird place right now: The skill trees team is interested in
+ * changing the way skill effects are implemented, so everything in here is
+ * subject to change.  
+ * 
+ * Right now, skill effects take in some theoretical number of string arguments,
+ * and return some output to be parsed by the CLI.  However, the CLI doesn't 
+ * actually have the ability to parse this stuff yet.
+ * 
+ * In the future, we would like skill effect functions to do more than simply
+ * return a message describing what to do.  Perhaps they could receive pointers
+ * to chiventure_ctx, or to the player or targets etc.  That way, they could
+ * modify those structs.
+ */
+
+const unsigned int UI_NODE_SIZE = 75;
+
+
 
 /* See multiclass_prefabs.h */
 int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
@@ -202,12 +226,28 @@ int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
+<<<<<<< HEAD
         class_t* c1 = class_prefab_new(game, "wizard");
         class_t* c2 = class_prefab_new(game, "warrior");
         class_prefab_add_skills(c1);
         class_prefab_add_skills(c2);
 
         multiclass_tree("Hexblade Tree", c1->skilltree, c2->skilltree);
+=======
+        /* class_allocate_skills(multiclass->base_class, 3, 3, 0);
+        sid_t skill_id = class->skilltree->tid * 100; */
+
+        /* Currently point to null effects */
+        /* Skills */
+       /* skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
+                                     "You deal damage to your opponent with " 
+                                     "just a word.", 1, 75, NULL, NULL); */
+
+        /* Add skills to tree */
+       /* add_skill(multiclass->base_class, skill_0, 0, 25, true, NULL, 0);
+        add_skill(multiclass->base_class, skill_1, 1, 50, false, NULL, 0, 0);
+        add_skill(multiclass->base_class, skill_2, 1, 34, false, NULL, 0, 1); */
+>>>>>>> 99494edaf37725ea9c3f498b12ba6158b3aa2bdd
     }  
 
     else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)){
@@ -227,6 +267,5 @@ int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
                         "in multiclass_prefab_add_skills\n");
         return EXIT_FAILURE;
     }
-
     return SUCCESS;
 }
