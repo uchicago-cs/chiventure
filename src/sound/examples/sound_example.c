@@ -25,14 +25,21 @@ void load_audio_demo(SoundType type)
     SDL_Init(SDL_INIT_EVERYTHING | SDL_INIT_VIDEO); 
 
     //Basic Audio Format, future teams may want to experiment with this
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2, 2048);
+    int frequency = 44100;
+    int channels = 2;
+    int chunksize = 2048;
+    Mix_OpenAudio(frequency, MIX_DEFAULT_FORMAT, channels, chunksize);
 
     //This creates a window for music to be plated, the dimensions of the window are set by WIDTH and HEIGHT
     SDL_Window *window = SDL_CreateWindow("This is a music window", SDL_WINDOWPOS_UNDEFINED, 
                                             SDL_WINDOWPOS_UNDEFINED, WIDTH, HEIGHT, SDL_WINDOW_OPENGL); //SDL_WINDOW_HIDDEN HIDES THE WINDOW
 
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    unsigned int r = 255;
+    unsigned int g = 0;
+    unsigned int b = 0;
+    unsigned int alpha = 255;
+    SDL_SetRenderDrawColor(renderer, r, g, b, alpha);
     IMG_Init(IMG_INIT_PNG);
 
     SDL_Texture *texture = IMG_LoadTexture(renderer, "../../../../sound_library/chiventure.png");
