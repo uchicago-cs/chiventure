@@ -153,7 +153,11 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
 int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_curr, char *out_direction_to_new)
 {
     /* 2D array of possible directions */
-    char directions[NUM_COMPASS_DIRECTIONS][MAX_DIRECTION_STRLEN];
+    char** directions=(char**)malloc(NUM_COMPASS_DIRECTIONS*sizeof(char*))
+    for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
+        directions[i]=malloc(MAX_DIRECTION_STRLEN*sizeof(char*))
+    }
+
     strncpy(directions[0], "north", 6);
     strncpy(directions[1], "east", 5);
     strncpy(directions[2], "south", 6);
@@ -164,24 +168,32 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
-    char *direction=(char*)malloc(6*sizeof(char*));
+ 
     for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++) {
         /* Forwards direction + bump */
         unsigned int forwards = (initial_direction + bump) % NUM_COMPASS_DIRECTIONS;
         /* If path in that direction exists in curr, bump. Else, create the path */
-        direction=directions[forwards];
-        if (room_exists_in_direction(game, curr, direction)) {
+        if (room_exists_in_direction(game, curr, directions[forwards])) {
             /* Bump if the room already has a path in the given direction */
             continue;
         }
         unsigned int backwards = (forwards + 2) % NUM_COMPASS_DIRECTIONS;
         strcpy(out_direction_to_curr, directions[backwards]);
         strcpy(out_direction_to_new, directions[forwards]);
-        free(direction);
+
+        for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
+            free(directions[i]);
+        }
+        free(directions);
+
         return SUCCESS; // direction was picked
     }
 
-    free(direction);
+    for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
+        free(directions[i]);
+    }
+    free(directions);
+    
     return FAILURE; // no open direction
 }
 
