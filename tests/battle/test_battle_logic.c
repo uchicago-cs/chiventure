@@ -422,7 +422,7 @@ Test(battle_logic, consume_a_battle_item)
     changes->hp = 0;
     i1->attributes = changes;
 
-    // int res = consume_battle_item(p, i1);
+    int res = consume_battle_item(p, i1);
 
     // cr_assert_eq(res, 0, "consume_battle_item() does not return 0!");
     // cr_assert_eq(p->stats->hp, 10, "consume_battle_item() failed for hp!");

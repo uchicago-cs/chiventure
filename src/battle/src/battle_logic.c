@@ -238,7 +238,7 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
  */
 class_item_stat_multipliers_t* class_item_stat_multipliers_new()
 {
-    class_item_stat_multipliers_t* mults = (class_item_stat_multipliers_t*)calloc(1, sizeof(class_item_stat_multipliers_t));
+    class_item_stat_multipliers_t* mults = (class_item_stat_multipliers_t*)malloc(sizeof(class_item_stat_multipliers_t));
     mults->speed = 1;
     mults->max_sp = 1;
     mults->sp = 1;
