@@ -287,6 +287,10 @@ int get_xp(player_t* player)
 int change_xp(player_t* player, int points)
 {
     player->xp += points;
+    while(player->xp > 10 * player->level) {
+        player->xp -= 10 * player->level;
+        change_level(player, 1);
+    }
     return player->xp;
 }
 

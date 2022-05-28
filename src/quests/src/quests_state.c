@@ -64,7 +64,7 @@ int accept_reward(reward_t *reward, quest_ctx_t *qctx) {
         return FAILURE;
     }
 
-    player->xp += reward->xp;
+    player->xp = change_xp(player, reward->xp);
     add_item_to_player_without_checks(player, reward->item);
     update_player_quests(qctx);
     return SUCCESS;
