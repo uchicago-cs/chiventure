@@ -149,7 +149,6 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
     return res;
 }
 
-
 /* See autogenerate.h */ 
 int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_curr, char *out_direction_to_new)
 {
@@ -165,20 +164,24 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
+    char *direction=(char*)malloc(sizeof(char*));
     for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++) {
         /* Forwards direction + bump */
         unsigned int forwards = (initial_direction + bump) % NUM_COMPASS_DIRECTIONS;
         /* If path in that direction exists in curr, bump. Else, create the path */
-        if (room_exists_in_direction(game, curr, directions[forwards])) {
+        direction=directions[forwards];
+        if (room_exists_in_direction(game, curr, direction)) {
             /* Bump if the room already has a path in the given direction */
             continue;
         }
         unsigned int backwards = (forwards + 2) % NUM_COMPASS_DIRECTIONS;
         strcpy(out_direction_to_curr, directions[backwards]);
         strcpy(out_direction_to_new, directions[forwards]);
+        free(direction);
         return SUCCESS; // direction was picked
     }
-
+    
+    free(direction);
     return FAILURE; // no open direction
 }
 
