@@ -271,6 +271,8 @@ Test(class_prefabs, Sorceror) {
 /* A helper function to test the initialization of item strings */
 void check_item_presence(item_t *item, char *id, char *short_desc, char *long_desc)
 {
+    cr_assert_not_null(item, "failed to initialize item");
+
     cr_assert_str_eq(item->item_id, id, "failed to assign item ID");
     cr_assert_str_eq(item->short_desc, short_desc, 
                      "failed to assign short description");
@@ -278,7 +280,7 @@ void check_item_presence(item_t *item, char *id, char *short_desc, char *long_de
                      "failed to assign long description");
 }
 
-/* Tests the bard class */
+/* Tests the bard item */
 Test(item_prefabs, Bard) {
     chiventure_ctx_t* ctx = init_statless_context();
 
@@ -288,8 +290,147 @@ Test(item_prefabs, Bard) {
     
     item_t *item = class_prefab_add_items(c);
 
-    // Maybe check item not null here too
-
     check_item_presence(item, "songbook", "A magic songbook", 
                         "An enchanted book full of the bard's magic verses.");
+}
+
+/* Tests the basic item */
+Test(item_prefabs, Basic) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t* c = class_prefab_new(ctx->game, "basic");
+    check_field_presence(c);
+
+    /* Items not needed yet for this class */
+}
+
+/* Tests the monk item */
+Test(item_prefabs, Monk) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "monk");
+    check_field_presence(c);
+    
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "staff", "A powerful staff", 
+                        "An old, sturdy staff, powerful on "
+                                  "offense and defense.");
+}
+
+/* Tests the ranger item */
+Test(item_prefabs, Ranger) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "ranger");
+    check_field_presence(c);
+    
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "bow and arrow", "A sturdy bow and arrow", 
+                        "A bow complete with arrows that the ranger "
+                        "shoots with the utmost accuracy.");
+}
+
+/* Tests the rogue item */
+Test(item_prefabs, Rogue) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "rogue");
+    check_field_presence(c);
+    
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "dagger", "A stealthy dagger", 
+                        "A small but formidable blade, capable "
+                        "of sharp damage when wielded properly.");
+}
+
+/* Tests whether the warrior class is initialized as expected. */
+Test(item_prefabs, Warrior) {
+    /* Tests a context were SOME stats were not declared */
+    chiventure_ctx_t* ctx = init_incomplete_context();
+
+    /* Note that the name is always stored lowercase. */
+    class_t *c = class_prefab_new(ctx->game, "Warrior");
+    check_field_presence(c);
+    
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "sword", "A sharp sword", 
+                        "A humble yet mighty blade: a warrior's "
+                        "best friend.");
+}
+
+
+/* Tests the Wizard item */
+Test(item_prefabs, Wizard) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "WIZARD");
+    check_field_presence(c);
+    
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "wand", "A magic wand", 
+                        "A wooden wand, capable of casting the "
+                        "strongest spells.");
+
+}
+
+/* Tests the Druid item */
+Test(item_prefabs, Druid) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "druid");
+    check_field_presence(c);
+
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "ancient texts", "Mysterious ancient texts", 
+                        "Old, worn texts, which allow the druid "
+                        "to cast powerful spells.");
+}
+
+/* Tests the Elementalist item */
+Test(item_prefabs, Elementalist) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "elementalist");
+    check_field_presence(c);
+
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "amulet", "A channeling amulet", 
+                        "An amulet that both guards its wearer "
+                        "and channels spells.");
+}
+
+
+/* Tests the Knight item */
+Test(item_prefabs, Knight) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "knight");
+    check_field_presence(c);
+
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "armor", "Defensive armor", 
+                        "A suit of armor that shields the knight "
+                        "from opponents' blows.");
+} 
+
+/* Tests the Sorceror item */
+Test(item_prefabs, Sorceror) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "sorceror");
+    check_field_presence(c);
+
+    item_t *item = class_prefab_add_items(c);
+
+    check_item_presence(item, "healing stone", "A healing stone", 
+                        "An ancient stone that rejuvenates the "
+                        "sorceror from damage.");
 }
