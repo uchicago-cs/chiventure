@@ -249,6 +249,7 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
     int rc=pick_random_direction(game, curr, direction_to_curr, direction_to_new);
     
     if(rc==FAILURE){
+        free(roomspecs);
         return 0;
     }
     coords_t *coords=curr->coords;
@@ -280,6 +281,8 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
                       direction_to_curr, direction_to_new);
     
     path_autogenerate(game, specgraph, curr);
+
+    free(roomspecs);
 
     return 1;
 }
