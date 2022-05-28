@@ -426,18 +426,5 @@ node_action_t *node_action_new(node_action_type action, char *action_id);
  */
 int free_node_actions(node_action_t *action_lst);
 
-/*
- * When a certain edge is reached in a conversation, the tone_t will change the
- * NPC's hostility level
- * 
- * Parameters:
- * - npc: the npc
- * - edge: the current (chosen) edge
- * 
- * Returns:
- * - SUCCESS if successful, FAILURE if an error occurs
-*/
-int change_npc_hostility(npc_t *npc, edge_t *edge);
-
 
 #endif /* DIALOGUE_H */

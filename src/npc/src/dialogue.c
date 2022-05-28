@@ -383,14 +383,3 @@ int free_node_actions(node_action_t *actions_lst)
     return SUCCESS;
 }
 
-/* See dialogue.h */
-int change_npc_hostility(npc_t *npc, edge_t *edge)
-{
-    switch (edge->tone)
-    {
-        case POSITIVE:
-            npc->
-        case NEGATIVE:
-        break;
-    }
-}

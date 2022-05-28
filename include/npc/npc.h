@@ -422,42 +422,37 @@ int delete_all_npcs(npc_hash_t *npcs);
 
 /*
  * converts an npc's hostility_level to HOSTILE
- * and initializes a npc_battle struct in the npc struct
  * 
  * Parameters:
- *  npc: the npc to change hostility_level and receive the npc_battle struct
- *  stats: a pointer to an existing stat_t struct defining the npc's battle
-           stats (see /include/battle/battle_structs.h)
- *  moves: a pointer to an existing move_t struct defining the npc's battle
-           moves (see /include/battle/battle_structs.h)
- *  ai: the npc's difficulty level (see /include/battle/battle_common.h)
- *  hostility_level: the npc's hostility level
- *  class_type: a pointer to an existing class_t struct defining the npc's class
-           (see /include/playerclass/class_structs.h)
- *  items: An inventory of items that can be used in battle
- *  armor: a pointer to the armor an npc has
- *  accessory: a pointer to the accessory an npc has
- *  weapon: a pointer to the weapon an npc has
+ *  npc: the npc to change hostility_level
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
-int make_npc_hostile(npc_t *npc, stat_t *stats, move_t *moves,
-                     difficulty_t ai, hostility_t hostility_level,
-                     class_t *class_type, battle_item_t *items,
-                     battle_equipment_t *armor,
-                     battle_equipment_t *accessory, battle_equipment_t *weapon);
+int make_npc_hostile(npc_t *npc);
 
 /*
  * converts an npc's hostility_level to CONDITIONAL_FRIENDLY
- * and sets the npc_battle struct to NULL
  * 
  * Parameters:
- *  npc: the npc to change hostility_level and set the npc_battle struct to NULL
+ *  npc: the npc to change hostility_level
  *
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int make_npc_cond_friendly(npc_t *npc);
+
+/*
+ * When a certain edge NEGATIVE tone_t is reached in a conversation,
+ * NPC's hostility level converts to HOSTILE
+ * 
+ * Parameters:
+ * - npc: pointer to the npc whose hostility_level converts
+ * - edge: the current (chosen) edge
+ * 
+ * Returns:
+ * - SUCCESS if successful, FAILURE if an error occurs
+*/
+int change_npc_hostility(npc_t *npc, edge_t *edge);
 
 #endif

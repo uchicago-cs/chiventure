@@ -274,7 +274,7 @@ convo_t *create_sample_convo_fiona()
 }
 
 
-/* a mokey-patched version of moving back from arena to lobby */
+/* a monkey-patched version of moving back from arena to lobby */
 char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
