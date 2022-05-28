@@ -204,25 +204,25 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
 {
     class_item_stat_multipliers_t* mults = class_multipliers(class, item);
     
-    target_stats->speed += item->attributes->speed * mults->speed;
-    target_stats->max_sp += item->attributes->max_sp * mults->max_sp;
-    if ((target_stats->sp + (item->attributes->sp * mults->sp)) <= target_stats->max_sp)
+    target_stats->speed += item->attributes->speed;// * mults->speed;
+    target_stats->max_sp += item->attributes->max_sp;// * mults->max_sp;
+    if ((target_stats->sp + (item->attributes->sp/* * mults->sp*/)) <= target_stats->max_sp)
     {
-        target_stats->sp += item->attributes->sp * mults->sp;
+        target_stats->sp += item->attributes->sp;// * mults->sp;
     } else {
         target_stats->sp = target_stats->max_sp;
     }
-    target_stats->phys_atk += item->attributes->phys_atk * mults->phys_atk;
-    target_stats->mag_atk += item->attributes->mag_atk * mults->mag_atk;
-    target_stats->phys_def += item->attributes->phys_def * mults->phys_def;
-    target_stats->mag_def += item->attributes->mag_def * mults->mag_def;
-    target_stats->crit += item->attributes->crit * mults->crit;
-    target_stats->accuracy += item->attributes->accuracy * mults->accuracy;
-    target_stats->hp += item->attributes->hp * mults->hp;
-    target_stats->max_hp += item->attributes->max_hp * mults->max_hp;
-    if ((target_stats->hp += (item->attributes->hp * mults->hp)) <= target_stats->max_hp)
+    target_stats->phys_atk += item->attributes->phys_atk;// * mults->phys_atk;
+    target_stats->mag_atk += item->attributes->mag_atk;// * mults->mag_atk;
+    target_stats->phys_def += item->attributes->phys_def;// * mults->phys_def;
+    target_stats->mag_def += item->attributes->mag_def;// * mults->mag_def;
+    target_stats->crit += item->attributes->crit;// * mults->crit;
+    target_stats->accuracy += item->attributes->accuracy;// * mults->accuracy;
+    target_stats->hp += item->attributes->hp;// * mults->hp;
+    target_stats->max_hp += item->attributes->max_hp;// * mults->max_hp;
+    if ((target_stats->hp += (item->attributes->hp/* * mults->hp*/)) <= target_stats->max_hp)
     {
-        target_stats->hp += item->attributes->hp * mults->hp;
+        target_stats->hp += item->attributes->hp;// * mults->hp;
     } else {
         target_stats->hp = target_stats->max_hp;
     }
@@ -238,7 +238,7 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
  */
 class_item_stat_multipliers_t* class_item_stat_multipliers_new()
 {
-    class_item_stat_multipliers_t* mults = (class_item_stat_multipliers_t*)calloc(1, sizeof(class_item_stat_multipliers_t));
+    class_item_stat_multipliers_t* mults = (class_item_stat_multipliers_t*)malloc(sizeof(class_item_stat_multipliers_t));
     mults->speed = 1;
     mults->max_sp = 1;
     mults->sp = 1;
@@ -260,14 +260,20 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
 {
     class_item_stat_multipliers_t* mults = class_item_stat_multipliers_new();
 
-    if (strcmp(class->name, "warrior") == 0) {
-        if (strcmp(item->name, "Strength Up") == 0) {
+    char warrior[8];
+    char strength_up[12];
+
+    strcpy(warrior, "warrior");
+    strcpy(strength_up, "Strength Up");
+    
+    if (strncmp(class->name, warrior, 8) == 0) {
+        if (strncmp(strength_up, strength_up, 12) == 0) {
             mults->phys_atk = 1.5; //1.5
-        }
+        }/*
         if (strcmp(item->name, "Defense Up") == 0) {
             mults->phys_def = 1; //1.2
-        }
-    }
+        }*/
+    }/*
     if (strcmp(class->name, "wizard") == 0) {
         if (strcmp(item->name, "Strength Up") == 0) {
             mults->phys_atk = 1; //0.8
@@ -291,7 +297,7 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
         if (strcmp(item->name, "Healing Potion") == 0) {
             mults->hp = 1; //1.2
         }
-    }
+    }*/
 
     return mults;
 }

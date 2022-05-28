@@ -285,7 +285,7 @@ Test(battle_logic, battle_player_goes_first)
  * then the battle_player will go first
  */
 Test(battle_logic, same_speed)
-{
+{    
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
     stat_t *estats = calloc(1, sizeof(stat_t));
@@ -406,12 +406,16 @@ Test(battle_logic, do_not_find_item)
 
 Test(battle_logic, consume_a_battle_item)
 {
+    class_t* warrior = class_new("warrior", "A mighty warrior.",
+                                 "An elite, battle-hardened fighter who excels in physical combat.",
+                                NULL, NULL, NULL);
+    
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
     pstats->phys_def = 15;
     pstats->phys_atk = 15;
-    combatant_t *p = combatant_new("warrior", true, NULL, pstats, NULL, NULL, 
+    combatant_t *p = combatant_new("warrior", true, warrior, pstats, NULL, NULL, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
@@ -422,7 +426,7 @@ Test(battle_logic, consume_a_battle_item)
     changes->hp = 0;
     i1->attributes = changes;
 
-    // int res = consume_battle_item(p, i1);
+    int res = consume_battle_item(p, i1);
 
     // cr_assert_eq(res, 0, "consume_battle_item() does not return 0!");
     // cr_assert_eq(p->stats->hp, 10, "consume_battle_item() failed for hp!");
