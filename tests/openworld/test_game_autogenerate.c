@@ -136,6 +136,12 @@ Test(room, generate_room_in_game){
 
     random_first_room(game, specgraph);
 
+    for(int i=0; i<3; i++){
+
+    int rc=autogenerate_room_in_game(game, specgraph);
+    cr_assert_eq(rc, 1, "failed to autogenerate rooms in the game\n");
+}
+
     for(int i=0; i<100; i++){
 
     int rc=autogenerate_room_in_game(game, specgraph);
