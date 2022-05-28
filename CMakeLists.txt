@@ -36,6 +36,8 @@ if (raylib_FOUND)
     add_compile_definitions(GUI_AVAILABLE)
 endif()
 
+find_package(Espeak)
+
 set(CHIVENTURE_MODULES action_management battle cli common custom-actions game-state libobj quests sound npc openworld playerclass skilltrees ui wdl)
 
 list(APPEND CHIVENTURE_MODULES ${OPTIONAL_MODULES})
