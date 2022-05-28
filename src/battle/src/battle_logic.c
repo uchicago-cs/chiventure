@@ -202,7 +202,7 @@ int apply_movement_stat_changes(stat_t* target_stats, stat_changes_t* changes)
 /* see battle_logic.h */
 int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t* item)  
 {
-    class_item_stat_multipliers_t* mults = class_multipliers(class, item);
+    //class_item_stat_multipliers_t* mults = class_multipliers(class, item);
     
     target_stats->speed += item->attributes->speed;// * mults->speed;
     target_stats->max_sp += item->attributes->max_sp;// * mults->max_sp;
