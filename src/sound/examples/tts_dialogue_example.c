@@ -5,6 +5,7 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "npc/dialogue.h"
+#include "sound/tts.h"
 
 const char *banner = "THIS IS A SOUND EXAMPLE PROGRAM";
 
@@ -58,8 +59,14 @@ chiventure_ctx_t *create_sample_game()
         } else {
             ret_str = run_conversation_step(c1, player_response, &rc, game);
         }
+        
+        printf("%s", ret_str);       
+        // text to speech 
+        tts_t* t1 = init_tts("English", ret_str, 500);
+        speak(t1);
+        free_tts(t1);
 
-        printf("%s", ret_str);
+        
         
         if (rc != 1){
             scanf("%d", &player_response);
@@ -76,11 +83,17 @@ chiventure_ctx_t *create_sample_game()
     {
         if (rc < 0) {
             ret_str = start_conversation(c1, &rc, game);
+
         } else {
             ret_str = run_conversation_step(c1, player_response, &rc, game);
         }
 
         printf("%s", ret_str);
+        
+        // text to speech 
+        tts_t* t2 = init_tts("English", ret_str, 500);
+        speak(t2);
+        free_tts(t2);
 
         if (rc != 1){
             scanf("%d", &player_response);
@@ -100,9 +113,6 @@ chiventure_ctx_t *create_sample_game()
 
 int main() {
     chiventure_ctx_t *ctx = create_sample_ctx();
-
-    // sound operations
-    // this is where sound will be
 
     start_ui(ctx, banner);
 
