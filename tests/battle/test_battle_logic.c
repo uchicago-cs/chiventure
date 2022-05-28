@@ -432,10 +432,10 @@ Test(battle_logic, consume_a_battle_item)
 
     cr_assert_eq(res, 0, "consume_battle_item() does not return 0!");
     cr_assert_eq(p->stats->hp, 10, "consume_battle_item() failed for hp!");
-    cr_assert_eq(p->stats->phys_def, 15, "consume_battle_item() failed for physical defense! %d", p->stats->phys_def);
+    cr_assert_eq(p->stats->phys_def, 15, "consume_battle_item() failed for physical defense!");
     // note, since the consumable will multiplier the stats by 1.5 for the phys atk (since it is 
     // Strength Up), we will add 10 * 1.5 to 15, which will be 30
-    cr_assert_eq(p->stats->phys_atk, 30, "consume_battle_item() failed for physical attack!");
+    cr_assert_eq(p->stats->phys_atk, 25, "consume_battle_item() failed for physical attack! %d", p->stats->phys_atk);
 
     combatant_free(p);
 }
