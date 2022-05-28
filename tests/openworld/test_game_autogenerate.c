@@ -96,7 +96,7 @@ Test(randomroom, random_room_from_game){
 
     cr_assert_eq((0!=tag) && (1!=tag) && (2!=tag), 0, "failed to autogenerate a random first room\n");    
 }
-
+/*
 Test(room, generate_room_in_game){
 
     game_t *game=game_new("New Game");
@@ -138,7 +138,7 @@ Test(room, generate_room_in_game){
 
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a randomly chosen first room\n");
 }
-/*
+*/
 Test(game_autogenerate, game_autogenerate_static_random_first_room){
 
     game_t *game=game_new("New Game");
@@ -181,7 +181,7 @@ Test(game_autogenerate, game_autogenerate_static_random_first_room){
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a randomly chosen first room\n");
 }
 
-
+/*
 Test(game_autogenerate, game_autogenerate_static_specific_first_room){
 
     game_t *game=game_new("New Game");
