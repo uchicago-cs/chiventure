@@ -32,7 +32,8 @@ int randnum(int min, int max);
  * Note: This is HARD CODED right now to only be Strength UP
  * TODO: change this to include more cases that Strength Up
  */
-battle_item_t *get_consumable_item(char* item_name, char* desc)
+// COMMENTING OUT BC IT DOES NOT WORK RIGHT NOW FOR #1657
+// battle_item_t *get_consumable_item(char* item_name, char* desc)
 
 /*
  * Generates a random battle weapon from a list of previously-initialized moves
