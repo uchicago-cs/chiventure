@@ -114,7 +114,6 @@ Test(room, generate_room_in_game){
     spec3->tag=2;
     roomspec_t **roomspecs=(roomspec_t**)malloc(3*sizeof(roomspec_t*));
 
-    /*
     roomspecs[0]=spec1;
     roomspecs[1]=spec2;
     roomspecs[2]=spec3;
@@ -138,7 +137,6 @@ Test(room, generate_room_in_game){
     int rc=autogenerate_room_in_game(game, specgraph);
 
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a randomly chosen first room\n");
-    */
 }
 
 /*
