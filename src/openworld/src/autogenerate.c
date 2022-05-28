@@ -48,9 +48,8 @@ bool path_exists_in_direction(room_t *r, char *direction)
 bool room_exists_in_direction(game_t* game, room_t *r, char *direction)
 {
     /*Find coordinates of current room*/
-    coords_t *coords=r->coords;
-    int x=coords->x;
-    int y=coords->y;
+    int x=r->coords->x;
+    int y=r->coords->y;
 
     if (strcmp("north", direction) == 0){
         y+=1;
@@ -70,13 +69,14 @@ bool room_exists_in_direction(game_t* game, room_t *r, char *direction)
 
     /*Determine whether there is a room in the given direction*/
     room_hash_t *current, *tmp;
+    int currx;
+    int curry;
 
     HASH_ITER(hh, game->all_rooms, current, tmp) {
         /* If the room is adjacent to the current room and in the correct direction, return true */
 
-        coords=current->coords;
-        int currx=coords->x;
-        int curry=coords->y;
+        currx=current->coords->x;
+        curry=current->coords->y;
 
         if(currx==x && curry==y){
             return true;
