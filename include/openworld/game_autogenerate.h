@@ -25,6 +25,10 @@
 #define MAX_RAND_ITEMS (100)
 
 
+
+roomspec_t* random_first_room(game_t* game, gencontext_t* context);
+
+
 /*
 * game_autogenerate_static
 * Given a game_t and specgraph_t pointer and number of rooms, statically autogenerates 

@@ -3,6 +3,7 @@ set(TEST_EXE test-openworld)
 add_executable(${TEST_EXE}
     test_game_autogenerate.c
     test_autogenerate.c
+    test_game_autogenerate.c
     test_items.c
     test_rooms.c
     test_structs.c
