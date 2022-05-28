@@ -205,7 +205,7 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
     class_item_stat_multipliers_t* mults = class_multipliers(class, item);
     
     target_stats->speed += item->attributes->speed;// * mults->speed;
-    target_stats->max_sp += item->attributes->max_spl// * mults->max_sp;
+    target_stats->max_sp += item->attributes->max_sp;// * mults->max_sp;
     if ((target_stats->sp + (item->attributes->sp/* * mults->sp*/)) <= target_stats->max_sp)
     {
         target_stats->sp += item->attributes->sp;// * mults->sp;
