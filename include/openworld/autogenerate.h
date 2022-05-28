@@ -142,14 +142,14 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
  *
  * Parameters:
  * - specgraph: A pointer to a specgraph_t. Should not be NULL.
- * - roomspec: The roomspec of the current room 
+ * - tag: Tag of the roomspec of the roomspec of the current room 
  *
  *
  * returns:
  * - Returns a pointer to the newly generated roomspec
  */
 
-roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec);
+roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, int tag);
 
 /* room_autogenerate
  * Creates a room directly north, south, east, or west of a given room. 
@@ -160,7 +160,6 @@ roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec);
  * - specgraph: A pointer to a specgraph_t. Should not be NULL.
  * - curr: A pointer to the room_t with which the newly generated room will be connected.         
  *         Must be in the game->all_rooms hash. Should not be NULL.
- * - roomspec: The roomspec of the current room 
  * - direction_to_curr: Direction for the path from new -> curr. Should not be NULL.
  * - direction_to_new: Direction for the path from curr -> new. Should not be NULL.
  *   NOTE: MUST BE AN AVAILABLE DIRECTION! (Available as in no path for that direction exists.)
@@ -173,7 +172,7 @@ roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec);
  *   Any internal failure results in crash (by triggering an assert).
  */
 
-int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr, roomspec_t *roomspec, 
+int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr, 
                       char *direction_to_curr, char *direction_to_new);
 
 /*
