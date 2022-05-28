@@ -81,7 +81,7 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
     
-    if (health < prereq->hp || player->level < prereq->level) {
+    if ((health >= 0 && health < prereq->hp) || player->level < prereq->level) {
         return false;
     }
     id_list_t *quest_list = prereq->quest_list;
@@ -246,11 +246,17 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
                 }
             }
             // Remove tasks from other paths from player
-            if(tree->parent != NULL) {
-                for(task_tree_t *cur = tree->parent->lmostchild; cur != NULL; cur = cur->rsibling) {
-                    if(!get_player_task_status(cur->task, player)) {
-                        remove_task_in_player_hash(qctx->player->player_tasks, cur->task->id);
-                    }
+            task_tree_t *lmost_sibling;
+            if(tree->parent == NULL) {
+                lmost_sibling = quest_of_task->task_tree;
+            }
+            else {
+                lmost_sibling = tree->parent->lmostchild;
+            }
+            for(task_tree_t *cur = lmost_sibling; cur != NULL; cur = cur->rsibling) {
+                if(!get_player_task_status(cur->task, player)) {
+                    fprintf(stderr, "Supposedly removed: %s\n", cur->task->id);
+                    remove_task_in_player_hash(qctx->player->player_tasks, cur->task->id);
                 }
             }
         }
@@ -282,6 +288,7 @@ int update_player_quests(quest_ctx_t *qctx) {
     quest_hash_t *quest_hash = qctx->quest_hash;
     assert(player != NULL);
     for(player_task_hash_t *cur = player->player_tasks; cur != NULL; cur = cur->hh.next) {
+        fprintf(stderr, "ID: %s\n", cur->task_id);
         update_task(cur->task_id, qctx);
     }
 }

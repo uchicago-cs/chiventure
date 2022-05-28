@@ -10,11 +10,11 @@
         {
             "Quest Name": "Find Steve",
             "Rewards": {
-                "XP": 50
+                "XP": 500
             },
             "Task Tree": [
                 {
-                    "Task Name": "Talk to Land Scout",
+                    "Task Name": "Talk to Ground Scout",
                     "Task Tree": [
                         {
                             "Task Name": "Enter Steve's Lair"
@@ -46,14 +46,13 @@
             ],
             "Task List": [
                 {
-                    "Task Name": "Talk to Land Scout",
+                    "Task Name": "Talk to Ground Scout",
                     "Mission": {
-                        "Target Name": "Land Scout",
+                        "Target Name": "Ground Scout",
                         "Type": "Meet NPC"
                     },
                     "Prerequisites": {
-                        "Health": 10,
-                        "Level": 2
+                        "Level": 0
                     },
                     "Rewards": {
                         "XP": 100,
@@ -67,9 +66,8 @@
                         "Type": "Visit Room"
                     },
                     "Prerequisites": {
-                        "Health": 12,
-                        "Level": 3,
-                        "Tasks": ["Talk to Land Scout"]
+                        "Level": 0,
+                        "Tasks": ["Talk to Ground Scout"]
                     },
                     "Rewards": {
                         "XP": 100
@@ -82,9 +80,8 @@
                         "Type": "Meet NPC"
                     },
                     "Prerequisites": {
-                        "Health": 10,
-                        "Level": 2,
-                        "Tasks": ["Talk to Land Scout"]
+                        "Level": 0,
+                        "Tasks": ["Talk to Ground Scout"]
                     },
                     "Rewards": {
                         "XP": 50
@@ -95,10 +92,6 @@
                     "Mission": {
                         "Target Name": "Sea Scout",
                         "Type": "Meet NPC"
-                    },
-                    "Prerequisites": {
-                        "Health": 15,
-                        "Level": 4
                     },
                     "Rewards": {
                         "XP": 100,
@@ -112,8 +105,7 @@
                         "Type": "Visit Room"
                     },
                     "Prerequisites": {
-                        "Health": 15,
-                        "Level": 4,
+                        "Level": 2,
                         "Tasks": ["Talk to Sea Scout"]
                     },
                     "Rewards": {
@@ -127,7 +119,6 @@
                         "Type": "Collect Item"
                     },
                     "Prerequisites": {
-                        "Health": 15,
                         "Level": 4,
                         "Tasks": ["Talk to Sea Scout", "Find the Pirate Cove"]
                     },
@@ -143,7 +134,6 @@
                         "Type": "Meet NPC"
                     },
                     "Prerequisites": {
-                        "Health": 20,
                         "Level": 5,
                         "Tasks": ["Talk to Sea Scout", "Find the Pirate Cove"]
                     },
@@ -171,7 +161,6 @@
                 "Item": "Legendary Sword of Steve"
             },
             "Prerequisites": {
-                "Health": 20,
                 "Level": 7,
                 "Quests": ["Find Steve"]
             },
@@ -196,8 +185,7 @@
                         "Type": "Meet NPC"
                     },
                     "Prerequisites": {
-                        "Health": 30,
-                        "Level": 12,
+                        "Level": 8,
                         "Quests": ["Find Steve"],
                         "Tasks": ["Obtain Knife"]
                     },
@@ -371,7 +359,8 @@
                         "id": "1",
                         "npc_dialogue": "We're counting on you!"
                     }
-                ]
+                ],
+                "edges": []
             },
             "Quests": [
                 {
@@ -381,6 +370,18 @@
                             {
                                 "id": "1",
                                 "npc_dialogue": "Hello, adventurer! Please help us fight Steve!"
+                            }
+                        ],
+                        "edges": []
+                    }
+                },
+                {
+                    "Quest Name":"Vanquish Steve",
+                    "Dialogue": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "npc_dialogue": "Well done. Now vanquish that heathen!"
                             }
                         ],
                         "edges": []
@@ -425,8 +426,8 @@
             ]
             
         },
-        "Land Scout": {
-            "short_desc": "This is a Land Scout",
+        "Ground Scout": {
+            "short_desc": "This is a Ground Scout",
             "long_desc": "She wants to talk to you.",
             "in": "Starting City",
             "inventory": [
@@ -445,7 +446,7 @@
             },
             "Tasks": [
                 {
-                    "Task Name": "Talk to Land Scout",
+                    "Task Name": "Talk to Ground Scout",
                     "Dialogue": {
                         "nodes": [
                             {
@@ -645,7 +646,8 @@
                         "id": "1",
                         "npc_dialogue": "*Sniffle*"
                     }
-                ]
+                ],
+                "edges": []
             },
             "Tasks": [
                 {

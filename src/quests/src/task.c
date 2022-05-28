@@ -30,7 +30,7 @@ int mission_init(mission_t *mission, char *target_name, mission_types_t type)
     mission->target_name = strdup(target_name);
     mission->type = type;
 
-    if(type == MEET_NPC || type == KILL_NPC) {
+    if(type == MEET_NPC || type == KILL_NPC || type == VISIT_ROOM) {
         // Make the string lowercase
         for(char *p = mission->target_name; *p; p++) {
             *p = *p > 0x40 && *p < 0x5b ? *p | 0x60 : *p;
