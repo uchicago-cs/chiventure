@@ -260,7 +260,7 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
 {
     class_item_stat_multipliers_t* mults = class_item_stat_multipliers_new();
 
-    /*if (strcmp(class->name, "warrior") == 0) {
+    if (strcmp(class->name, "warrior") == 0) {
         if (strcmp(item->name, "Strength Up") == 0) {
             mults->phys_atk = 1.5; //1.5
         }
@@ -291,7 +291,7 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
         if (strcmp(item->name, "Healing Potion") == 0) {
             mults->hp = 1; //1.2
         }
-    }*/
+    }
 
     return mults;
 }
