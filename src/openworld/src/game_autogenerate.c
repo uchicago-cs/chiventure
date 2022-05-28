@@ -242,7 +242,8 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
     }
 
     room_t* curr=random_room_from_game(game);
-    roomspec_t *currroomspec=roomspecs[curr->tag];
+    roomspec_t *currspec=(roomspec_t*)malloc(sizeof(roomspec_t));
+    currspec=roomspecs[curr->tag];
 
     char* direction_to_new;
     char* direction_to_curr;
@@ -277,12 +278,13 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
     }
     coords_t *newcoords=coords_new(x, y);
 
-    room_autogenerate(game, specgraph, curr, currroomspec, 
+    room_autogenerate(game, specgraph, curr, currspec, 
                       direction_to_curr, direction_to_new);
     
     path_autogenerate(game, specgraph, curr);
 
     free(roomspecs);
+    free(currspec);
 
     return 1;
 }
