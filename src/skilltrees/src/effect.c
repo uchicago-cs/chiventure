@@ -216,10 +216,7 @@ int execute_move_effect(chiventure_ctx_t* ctx, move_effect_t* effect)
 {
     assert(ctx != NULL);
     assert(effect != NULL);
-    /* ctx->game->curr_player->moves currently hasn't been implemented. 
-     * We are working with battles to do so.
-     */
-    //add_move(ctx->game->curr_player->moves, effect->move);
+    add_move(ctx->game->curr_player, effect->move); 
     return SUCCESS;
 }
 

@@ -1,10 +1,10 @@
-set(CS_EXAMPLES dark_room)
+set(CS_EXAMPLES loadwdl)
 
-add_executable(dark_room
-               dark_room.c)
+add_executable(loadwdl
+               loadwdl.c)
 
-target_link_libraries(dark_room ${LUA_LIBRARIES})
-target_include_directories(dark_room PRIVATE ${LUA_INCLUDE_DIR})
+target_link_libraries(loadwdl ${LUA_LIBRARIES})
+target_include_directories(loadwdl PRIVATE ${LUA_INCLUDE_DIR})
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
