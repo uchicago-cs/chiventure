@@ -43,12 +43,11 @@ int stats_init(stats_t *stat, stats_global_t *global_stat, double init)
     if (init > global_stat->max)
     {
         init = global_stat->max;
-        stat->max = init;
     }
 
     stat->key = strdup(global_stat->name);
     stat->val = init;
-    stat->max = global_stat->max;
+    stat->max = init;
     stat->global = global_stat;
     stat->modifier = 1;
     return SUCCESS;
