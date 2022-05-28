@@ -153,9 +153,9 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
 int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_curr, char *out_direction_to_new)
 {
     /* 2D array of possible directions */
-    char** directions=(char**)malloc(NUM_COMPASS_DIRECTIONS*sizeof(char*))
+    char** directions=(char**)malloc(NUM_COMPASS_DIRECTIONS*sizeof(char*));
     for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
-        directions[i]=malloc(MAX_DIRECTION_STRLEN*sizeof(char*))
+        directions[i]=malloc(MAX_DIRECTION_STRLEN*sizeof(char*));
     }
 
     strncpy(directions[0], "north", 6);
@@ -193,7 +193,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
         free(directions[i]);
     }
     free(directions);
-    
+
     return FAILURE; // no open direction
 }
 
