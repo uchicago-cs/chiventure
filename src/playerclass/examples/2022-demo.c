@@ -288,7 +288,7 @@ void demo_multiclasses() {
 /* main function for the 2022-demo executable. */
 int main() {
     /* We broke up the demo into two mini demos */
-    printf("***Entering prefab mini-demo***\n");
+    printf("***Entering prefab mini-demo***\n\n\n");
     demo_prefab_classes();
 
     printf("***Entering multiclass mini-demo***\n");
