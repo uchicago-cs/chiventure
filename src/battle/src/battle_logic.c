@@ -90,13 +90,7 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
 /* see battle_logic.h */
 int consume_battle_item(combatant_t *c, battle_item_t *item)
 {
-<<<<<<< HEAD
     apply_stat_changes(c->stats, item->attributes);
-=======
-    c->stats->hp += item->hp;
-    c->stats->strength += item->attack;
-    c->stats->defense += item->defense;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     return 0;
 }
 
@@ -213,7 +207,6 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     while (sc->next != NULL) {
         sc = sc->next;
     }
-<<<<<<< HEAD
     stat_changes_t *changes = item->attributes;
     sc->max_hp += changes->max_hp;
     sc->hp += changes->hp;    
@@ -226,12 +219,6 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
     sc->accuracy += changes->accuracy;
     sc->max_sp += changes->max_sp;
     sc->sp += changes->sp;
-=======
-
-    sc->hp += item->hp;
-    sc->strength += item->attack;
-    sc->defense += item->defense;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     return SUCCESS;
 }

@@ -93,7 +93,6 @@ typedef struct move_t {
 
 /* stats stub */
 typedef struct stat {
-<<<<<<< HEAD
     int max_sp; //The maximum amount of skill/special points this unit can currently have.
     int sp; //The current amount of skill/special points of the player; magic and skills deplete this resource.
     int speed;
@@ -110,29 +109,5 @@ typedef struct stat {
     int level; //The current level of the unit.
 } stat_t;
 
-=======
-    int speed;
-    int defense;
-    int strength;
-    int dexterity;
-    int hp;
-    int max_hp;
-    int xp;
-    int level;
-} stat_t;
-
-/* stat changes stub */
-typedef struct stat_changes {
-    int speed;
-    int defense;
-    int strength;
-    int dexterity;
-    int hp;
-    int max_hp;
-    int turns_left;
-    struct stat_changes* next;
-    struct stat_changes* prev;
-} stat_changes_t;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
 #endif

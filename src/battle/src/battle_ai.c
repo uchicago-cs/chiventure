@@ -73,7 +73,6 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
     }
     return strongest_move;
 }
-<<<<<<< HEAD
 
 /* See battle_ai.h */
 int damage(combatant_t* target, move_t* move, combatant_t* source)
@@ -113,26 +112,4 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
     dmg = round(dmg);
 
     return (int) dmg;
-=======
-
-/* See battle_ai.h */
-double damage(combatant_t* target, move_t* move, combatant_t* source)
-{
-    double dmg, power, src_strength, tar_defense, src_level;
-    stat_t* src_stats = source->stats;
-    stat_t* tar_stats = target->stats;
-    
-
-    tar_defense = (double) tar_stats->defense;
-    power = (double) move->damage;
-    src_strength = (double) src_stats->strength;
-    src_level = (double) src_stats->level;
-
-    
-    dmg = ((2.0 * src_level) / 5.0);
-    dmg *= ((power * (src_strength / tar_defense)) / 50.0) + 2.0;
-
-    dmg = floor(dmg);
-    return dmg;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 }
