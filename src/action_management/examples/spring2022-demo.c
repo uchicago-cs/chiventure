@@ -10,6 +10,7 @@
 #include "game-state/room.h"
 #include "playerclass/class.h"
 #include "quests/quest.h"
+#include "quests/quests_cli.h"
 
 const char* banner =
 " ▄▄▄       ▄████▄  ▄▄▄█████▓ ██▓ ▒█████   ███▄    █     ███▄ ▄███▓ ▄▄▄       ███▄    █  ▄▄▄        ▄████ ▓█████  ███▄ ▄███▓▓█████  ███▄    █ ▄▄▄█████▓\n"
