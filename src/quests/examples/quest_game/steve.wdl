@@ -1,7 +1,7 @@
 { 
     "GAME": {
         "start": "Starting City",
-        "intro": "Welcome to 'THE LEGEND OF STEVE'\n \n(HINT: type 'look' to start, and 'talk to <NPC>' to interact with NPCs)",
+        "intro": "Welcome to 'THE LEGEND OF STEVE'\n \n(HINT: type 'look' to start, and 'talk to npc <NPC>' to interact with NPCs)",
         "end": {
             "in_room": "Steve's Sanctum"
         }
@@ -10,7 +10,7 @@
         {
             "Quest Name": "Find Steve",
             "Rewards": {
-                "XP": 500
+                "XP": 50
             },
             "Task Tree": [
                 {
@@ -39,6 +39,9 @@
                             ]
                         }
                     ]
+                },
+                {
+                    "Task Name": "Impossible Task"
                 }
             ],
             "Task List": [
@@ -148,6 +151,16 @@
                         "XP": 250,
                         "Item": "Interrogation Handbook"
                     }
+                },
+                {
+                    "Task Name": "Impossible Task",
+                    "Mission": {
+                        "Target Name": "Mayor",
+                        "Type": "Meet NPC"
+                    },
+                    "Prerequisites": {
+                        "Level": 100000
+                    }
                 }
             ]
         },
@@ -167,7 +180,12 @@
                     "Task Name": "Kill Steve"
                 },
                 {
-                    "Task Name": "Show Steve his Embarassing Baby Photos"
+                    "Task Name": "Talk to Mayor",
+                    "Task Tree": [
+                        {
+                            "Task Name": "Show Steve his Embarrassing Baby Photos"
+                        }
+                    ]
                 }
             ],
             "Task List": [
@@ -188,7 +206,17 @@
                     }
                 },
                 {
-                    "Task Name": "Show Steve his Embarassing Baby Photos",
+                    "Task Name": "Talk to Mayor",
+                    "Mission": {
+                        "Target Name": "Mayor",
+                        "Type": "Meet NPC"
+                    },
+                    "Prerequisites": {
+                        "Quests": ["Find Steve"]
+                    }
+                },
+                {
+                    "Task Name": "Show Steve his Embarrassing Baby Photos",
                     "Mission": {
                         "Target Name": "Steve",
                         "Type": "Meet NPC"
@@ -211,46 +239,41 @@
             ]
         }
     ],
-    "ROOMS": [
-        {
-            "id": "Starting City",
+    "ROOMS": {
+        "Starting City": {
             "short_desc": "A city.",
             "long_desc": "A bustling city, whose denizens have pleaded for you to find and vanquish the villainous Steve. Talk to the mayor to get started.",
-            "items": [],
             "connections":[
-                {"direction": "west", "to": "Pirate Cove"},
-                {"direction": "south", "to": "Steve's Lair"}
+                {
+                    "to": "Pirate Cove",
+                    "direction": "WEST"
+                },
+                {"direction": "SOUTH", "to": "Steve's Lair"}
             ]
         },
-        {
-            "id": "Steve's Lair",
+        "Steve's Lair": {
             "short_desc": "Steve's Lair",
             "long_desc": "A dank cave, smelling of odd mosses and other gross substances, inhabited by Steve.",
-            "items": [],
             "connections":[
-                {"direction": "north", "to": "Starting City"},
-                {"direction": "east", "to": "Steve's Sanctum"}
+                {"direction": "NORTH", "to": "Starting City"},
+                {"direction": "EAST", "to": "Steve's Sanctum"}
             ]
         },
-        {
-            "id": "Pirate Cove",
+        "Pirate Cove": {
             "short_desc": "A cove of pirates",
             "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be their captain. Near your feet is a scrap of parchment that appears to be some sort of map.",
-            "items": [],
             "connections":[
-                {"direction": "east", "to": "Starting City"}
+                {"direction": "EAST", "to": "Starting City"}
             ]
         },
-        {
-            "id": "Steve's Sanctum",
+        "Steve's Sanctum": {
             "short_desc": "Steve's hidden sanctum",
             "long_desc": "A richly decorated room containing all of Steve's Treasures.",
-            "items": [],
             "connections":[
-                {"direction": "west", "to": "Steve's Lair"}
+                {"direction": "WEST", "to": "Steve's Lair"}
             ]
         }
-    ],
+    },
     "ITEMS": {
         "Search Warrant": {
             "short_desc": "A search warrant.",
@@ -258,8 +281,8 @@
             "in": "npc",
             "actions": [
                 {
-                    "action": "FLAUNT",
-                    "text_success": "You proudly wave the search warrant, already abusing your authority.",
+                    "action": "PULL",
+                    "text_success": "You pull out and proudly wave the search warrant, already abusing your authority.",
                     "text_fail": "You realize this is a bad idea."
                 }
             ]
@@ -268,14 +291,10 @@
             "short_desc": "A map", 
             "long_desc": "A map owned by the pirates that details the surrounding area. Steve's hideout is marked.",
             "in": "Pirate Cove",
-            "actions": [{
-                    "action": "FLAUNT",
-                    "text_success": "You proudly wave the pirate map, for some reason.",
-                    "text_fail": "You realize this is a bad idea."
-                },
+            "actions": [
                 {
-                    "action": "READ",
-                    "text_success": "You see that Steve's Lair is east of the city",
+                    "action": "PULL",
+                    "text_success": "You pull out the map and see that Steve's Lair is EAST of the city",
                     "text_fail": "You remembered that you are illiterate. Oops!"
                 }
             ]
@@ -283,9 +302,11 @@
         "Sailing Handbook": {
             "short_desc": "A blue handbook.",
             "long_desc": "A somewhat worn handbook that details the basics of sailing.",
-            "actions": [{
-                    "action": "READ",
-                    "text_success": "You learn about sailing.",
+            "in": "npc",
+            "actions": [
+                {
+                    "action": "PULL",
+                    "text_success": "You pull out the book and learn about sailing.",
                     "text_fail": "You remembered that you are illiterate. Oops!"
                 }
             ]
@@ -293,9 +314,11 @@
         "Interrogation Handbook": {
             "short_desc": "A purple handbook.",
             "long_desc": "A pristine handbook that details the basics of interrogation.",
-            "actions": [{
-                    "action": "READ",
-                    "text_success": "You learn about interrogation.",
+            "in": "npc",
+            "actions": [
+                {
+                    "action": "PULL",
+                    "text_success": "You pull out the book and learn about interrogation.",
                     "text_fail": "You remembered that you are illiterate. Oops!"
                 }
             ]
@@ -303,33 +326,45 @@
         "Legendary Sword of Steve": {
             "short_desc": "A gleaming sword",
             "long_desc": "A shining, elegant sword imbued with magic power. Vague runes can be seen on the side, remnants of a lost age.",
-            "actions": [{
-                "action": "SWING",
-                "text_success": "You swing the blade through the air and feel the power of the sword slice the microbes in its path.",
-                "text_fail": "You remember that you don't know how to swing a sword. Oops!"
-            }
-        ]
+            "in": "npc",
+            "actions": [
+                {
+                    "action": "PUSH",
+                    "text_success": "You push the blade through the air and feel the power of the sword slice the microbes in its path.",
+                    "text_fail": "You remember that you don't know how to swing a sword. Oops!"
+                }
+            ]
         },
-        "Steve's Embarassing Baby Photos": {
+        "Steve's Embarrassing Baby Photos": {
             "short_desc": "A photo book.",
             "long_desc": "A photo book containing pictures from Steve's infancy. The shame is sure to wound him more than any blade.",
-            "actions": []
+            "in": "npc",
+            "actions": [
+                {
+                    "action": "PULL",
+                    "text_success": "You pull our the photos and see the most absurd photos known to man. Photos like these would bring great shame to the elite",
+                    "text_fail": "You forgot your glasses at home, but you're sure something interesting is in the photos"
+                }
+            ]
         },
         "Knife": {
             "short_desc": "A knife.",
             "long_desc": "The knife is worn, but of good quality and free of rust.",
-            "in": "Steve's Lair"
+            "in": "Steve's Lair",
+            "actions": [
+                {
+                    "action": "PULL",
+                    "text_success": "About time.",
+                    "text_fail": "LV is too low!"
+                }
+            ]
         }
-
     },
-
     "NPCS": {
         "Mayor": {
             "short_desc": "This is the mayor",
             "long_desc": "He really wants to talk to you.",
             "in": "Starting City",
-            "inventory": [
-            ],
             "dialogue": {
                 "nodes": [
                     {
@@ -346,6 +381,42 @@
                             {
                                 "id": "1",
                                 "npc_dialogue": "Hello, adventurer! Please help us fight Steve!"
+                            }
+                        ],
+                        "edges": []
+                    }
+                }
+            ],
+            "Tasks": [
+                {
+                    "Task Name": "Talk to Mayor",
+                    "Dialogue": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "npc_dialogue": "Woah, are those Steve's baby photos?"
+                            },
+                            {
+                                "id": "2",
+                                "npc_dialogue": "Look at little Stevie Weevie, he's so cute! Wow, if he saw these, it would be a fate worse than death!"
+                            }
+                        ],
+                        "edges": [
+                            {
+                                "quip": "Yup",
+                                "from_id": "1",
+                                "to_id": "2"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Task Name": "Impossible Task",
+                    "Dialogue": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "npc_dialogue": "How are you seeing this, wretched hacker? Get out of the game's files and get a life!"
                             }
                         ],
                         "edges": []
@@ -369,7 +440,8 @@
                         "id": "1",
                         "npc_dialogue": "Well, go on. You have a task to do."
                     }
-                ]
+                ],
+                "edges": []
             },
             "Tasks": [
                 {
@@ -378,7 +450,7 @@
                         "nodes": [
                             {
                                 "id": "1",
-                                "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! His lair is to the South of the city, though maybe you might want to speak to his mother first."
+                                "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! His lair is to the SOUTH of the city, though maybe you might want to speak to his mother first."
                             },
                             {
                                 "id": "2a",
@@ -391,7 +463,7 @@
                         ],
                         "edges": [
                             {
-                                "quip": "South I go!",
+                                "quip": "SOUTH I go!",
                                 "from_id": "1",
                                 "to_id": "2a"
                             },
@@ -421,7 +493,8 @@
                         "id": "1",
                         "npc_dialogue": "Well, go on. You have a task to do."
                     }
-                ]
+                ],
+                "edges": []
             },
             "Tasks": [
                 {
@@ -430,7 +503,7 @@
                         "nodes": [
                             {
                                 "id": "1",
-                                "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! Information regarding his location might be known to the pirates inhabiting the Pirate Cove to the west."
+                                "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! Information regarding his location might be known to the pirates inhabiting the Pirate Cove to the WEST."
                             },
                             {
                                 "id": "2a",
@@ -443,7 +516,7 @@
                         ],
                         "edges": [
                             {
-                                "quip": "West I go!",
+                                "quip": "WEST I go!",
                                 "from_id": "1",
                                 "to_id": "2a"
                             },
@@ -468,7 +541,8 @@
                         "id": "1",
                         "npc_dialogue": "Arrghh!"
                     }
-                ]
+                ],
+                "edges": []
             },
             "Tasks": [
                 {
@@ -510,7 +584,7 @@
             "in": "Starting City",
             "inventory": [
                 {
-                    "item_id": "Steve's Embarrasing Baby Photos"
+                    "item_id": "Steve's Embarrassing Baby Photos"
                 }
             ],
             "dialogue": {
@@ -519,7 +593,8 @@
                         "id": "1",
                         "npc_dialogue": "It ain't ready yet, dearie!"
                     }
-                ]
+                ],
+                "edges": []
             },            
             "Tasks": [
                 {
@@ -587,7 +662,7 @@
                             },
                             {
                                 "id": "2b",
-                                "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrasing baby photos!!! Nooooo!"
+                                "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrassing baby photos!!! Nooooo!"
                             }
                         ],
                         "edges": [
@@ -600,7 +675,7 @@
                     }
                 },
                 {
-                    "Task Name": "Show Steve his Embarassing Baby Photos",
+                    "Task Name": "Show Steve his Embarrassing Baby Photos",
                     "Dialogue": {
                         "nodes": [
                             {
@@ -609,7 +684,7 @@
                             },
                             {
                                 "id": "2b",
-                                "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrasing baby photos!!! Nooooo!"
+                                "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrassing baby photos!!! Nooooo!"
                             }
                         ],
                         "edges": [
@@ -622,458 +697,6 @@
                     }
                 }
             ]
-        }
-    },
-
-    "NPCs To be deleted": {
-        "MOM": {
-            "short_desc": "ASH's mom",
-            "long_desc": "Makes sure you are well fed",
-            "in": "Living Room",
-            "inventory": [
-                {
-                    "item_id": "ENCYCLOPEDIA"
-                }
-            ],
-            "dialogue": {
-                "nodes": [
-                    {
-                        "id": "1",
-                        "npc_dialogue": "Good morning sweetie. What will you be doing today?"
-                    },
-                    {
-                        "id": "2a",
-                        "npc_dialogue": "Sounds fun! Make sure to be safe on your trip over."
-                    },
-                    {
-                        "id": "2b",
-                        "npc_dialogue": "Be safe!"
-                    }
-                ],
-                "edges": [
-                    {
-                        "quip": "I'm heading to Prof. OAK's lab. He says he has something for me.",
-                        "from_id": "1",
-                        "to_id": "2a"
-                    },
-                    {
-                        "quip": "Finding wild pokemon!",
-                        "from_id": "1",
-                        "to_id": "2b"
-                    }
-                ]
-            },
-            "Quests": [
-                {
-                    "Quest Name": "Talk to Oak",
-                    "Dialogue": {
-                        "nodes": [
-                            {
-                                "id": "1",
-                                "npc_dialogue": "Hello dearest child, what are you up to?"
-                            },
-                            {
-                                "id": "2",
-                                "npc_dialogue": "Oh, are you heading to see Professor Oak? I need you to give him this book.",
-                                "actions": [
-                                    {
-                                        "action": "GIVE_ITEM",
-                                        "action_id": "ENCYCLOPEDIA"
-                                    }
-                                ]
-                            },
-                            {
-                                "id": "3a",
-                                "npc_dialogue": "Great! Thanks sweetie."
-                            },
-                            {
-                                "id": "3b",
-                                "npc_dialogue": "Why did I get stuck with a beast like you as a son? Go run and do your mother's errands!"
-                            }
-                        ],
-                        "edges": [
-                            {
-                                "quip": "The spirits compel me to go see Professor Oak",
-                                "from_id": "1",
-                                "to_id": "2"
-                            },
-                            {
-                                "quip": "Ok",
-                                "from_id": "2",
-                                "to_id": "3a"
-                            },
-                            {
-                                "quip": "No, don't force your burdens on me, mother!",
-                                "from_id": "2",
-                                "to_id": "3b"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "OAK": {
-            "short_desc": "Kanto's premier Pokemon expert",
-            "long_desc": "Enjoys exploring human-Pokemon relationships",
-            "in": "Lab",
-            "inventory": [
-                {
-                    "item_id": "CHARMANDER"
-                },
-                {
-                    "item_id": "SQUIRTLE"
-                },
-                {
-                    "item_id": "BULBASAUR"
-                },
-                {
-                    "item_id": "POKEBALL"
-                }
-            ],
-            "dialogue": {
-                "nodes": [
-                    {
-                        "id": "1",
-                        "npc_dialogue": "Hello ASH. How are you?"
-                    },
-                    {
-                        "id": "2",
-                        "npc_dialogue": "Have a nice day!"
-                    },
-                    {
-                        "id": "3",
-                        "npc_dialogue": "Oh! Thank you. By the way, your mother tells me you're going off to explore more of the Kanto region soon.\nShe has asked me to help prepare you to go off on your own. Outside of pallet town, pokemon lurk around every corner.\nIt's dangerous to go alone, please take one of these pokemon. Would you like a Bulbasaur, Squirtle, or Charmander?",
-                        "actions": [
-                            {
-                                "action": "TAKE_ITEM",
-                                "action_id": "ENCYCLOPEDIA"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "4",
-                        "npc_dialogue": "Wonderful, you're on your way to becoming a great Pokemon trainer! Type GO END to complete your journey.",
-                        "actions": [
-                            {
-                                "action": "TAKE_ITEM",
-                                "action_id": "PIDGEY"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "6a",
-                        "npc_dialogue": "Here is your Bulbasaur! You should also learn what to do when confronting pokemon in the wild.\nGo catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
-                        "actions": [
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "BULBASAUR"
-                            },
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "POKEBALL"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "6b",
-                        "npc_dialogue": "Here is your Squirtle! You should also learn what to do when confronting pokemon in the wild.\nGo catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
-                        "actions": [
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "SQUIRTLE"
-                            },
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "POKEBALL"
-                            }
-                        ]
-                    },
-                    {
-                        "id": "6c",
-                        "npc_dialogue": "Here is your Charmander! You should also learn what to do when confronting pokemon in the wild.\nGo catch a Pidgey on Route 1 and bring it back to me. You will need these pokeballs too!.",
-                        "actions": [
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "CHARMANDER"
-                            },
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "POKEBALL"
-                            }
-                        ]
-                    }
-                ],                    
-                "edges": [
-                    {
-                        "quip": "Good.",
-                        "from_id": "1",
-                        "to_id": "2"
-                    },
-                    {
-                        "quip": "I have an ENCYCLOPEDIA that belongs to you.",
-                        "from_id": "1",
-                        "to_id": "3",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "ENCYCLOPEDIA"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "I've caught the PIDGEY you asked for!",
-                        "from_id": "1",
-                        "to_id": "4",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "PIDGEY"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "I'll take Bulbasaur.",
-                        "from_id": "3",
-                        "to_id": "6a"
-                    },
-                    {
-                        "quip": "I'll take Squirtle.",
-                        "from_id": "3",
-                        "to_id": "6b"
-                    },
-                    {
-                        "quip": "I'll take Charmander.",
-                        "from_id": "3",
-                        "to_id": "6c"
-                    }
-                ]
-            },
-            "Tasks": [
-                {
-                    "Task Name": "Talk to Oak",
-                    "Dialogue": {
-                        "nodes": [
-                            {
-                                "id": "1",
-                                "npc_dialogue": "Hello, lad, what seems to be the problem?"
-                            },
-                            {
-                                "id": "2a",
-                                "npc_dialogue": "Alright, thanks for the book! Talk to me again and I'll actually take it from you"
-                            },
-                            {
-                                "id": "2b",
-                                "npc_dialogue": "Oh?! I'll head over right away! Also, I see you have my book! Talk to me again and I'll take that from you."
-                            }
-                        ],
-                        "edges": [
-                            {
-                                "quip": "My mom finished with your book",
-                                "from_id": "1",
-                                "to_id": "2a"
-                            },
-                            {
-                                "quip": "My mom wants to see you ;)",
-                                "from_id": "1",
-                                "to_id": "2b"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        "PIDGEY": {
-            "short_desc": "The tiny bird pokemon",
-            "long_desc": "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
-            "in": "Route 1",
-            "inventory": [
-                {
-                    "item_id": "PIDGEY"
-                }
-            ],
-            "dialogue": {
-                "nodes": [
-                    {
-                        "id": "1",
-                        "npc_dialogue": "The wild Pidgey attacks!"
-                    },
-                    {
-                        "id": "4",
-                        "npc_dialogue": "Got away safely!"
-                    },
-                    {
-                        "id": "2a",
-                        "npc_dialogue": "Pidgey broke free! Pidgey used sand attack!"
-                    },
-                    {
-                        "id": "2b",
-                        "npc_dialogue": "Pidgey looks hurt! Pidgey used gust!"
-                    },
-                    {
-                        "id": "3",
-                        "npc_dialogue": "The wild Pidgey was caught!",
-                        "actions": [
-                            {
-                                "action": "TAKE_ITEM",
-                                "action_id": "POKEBALL"
-                            },
-                            {
-                                "action": "GIVE_ITEM",
-                                "action_id": "PIDGEY"
-                            }
-                        ]
-                    }
-                ],
-                "edges": [
-                    {
-                        "quip": "Run Away!",
-                        "from_id": "1",
-                        "to_id": "4"
-                    },
-                    {
-                        "quip": "Run Away!",
-                        "from_id": "2b",
-                        "to_id": "4"
-                    },
-                    {
-                        "quip": "Run Away!",
-                        "from_id": "2a",
-                        "to_id": "4"
-                    },
-                    {
-                        "quip": "Squirtle, use water gun!",
-                        "from_id": "1",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "SQUIRTLE"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Bulbasaur, use vine whip!",
-                        "from_id": "1",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "BULBASAUR"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Charmander, use ember!",
-                        "from_id": "1",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "CHARMANDER"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Squirtle, use water gun!",
-                        "from_id": "2b",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "SQUIRTLE"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Bulbasaur, use vine whip!",
-                        "from_id": "2b",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "BULBASAUR"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Charmander, use ember!",
-                        "from_id": "2b",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "CHARMANDER"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Squirtle, use water gun!",
-                        "from_id": "2a",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "SQUIRTLE"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Bulbasaur, use vine whip!",
-                        "from_id": "2a",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "BULBASAUR"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "Charmander, use ember!",
-                        "from_id": "2a",
-                        "to_id": "2b",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "CHARMANDER"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "I'll throw a Pokeball!",
-                        "from_id": "1",
-                        "to_id": "2a",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "POKEBALL"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "I'll throw a Pokeball!",
-                        "from_id": "2a",
-                        "to_id": "2a",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "POKEBALL"
-                            }
-                        ]
-                    },
-                    {
-                        "quip": "I'll throw a Pokeball!",
-                        "from_id": "2b",
-                        "to_id": "3",
-                        "conditions": [
-                            {
-                                "type": "INVENTORY",
-                                "item_id": "POKEBALL"
-                            }
-                        ]
-                    }
-                ]
-            }
         }
     }
 }

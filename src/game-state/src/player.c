@@ -3,6 +3,7 @@
 #include "battle/battle_structs.h"
 #include "game-state/stats.h"
 
+#define LEVEL_SCALE 10
 /* See player.h */
 int player_set_race(player_t *player, char *player_race)
 {
@@ -287,8 +288,8 @@ int get_xp(player_t* player)
 int change_xp(player_t* player, int points)
 {
     player->xp += points;
-    while(player->xp > 10 * player->level) {
-        player->xp -= 10 * player->level;
+    while(player->xp > LEVEL_SCALE * player->level) {
+        player->xp -= LEVEL_SCALE * player->level;
         change_level(player, 1);
     }
     return player->xp;
