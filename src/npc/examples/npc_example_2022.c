@@ -257,6 +257,10 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if (tokens[1] == NULL)
+    {
+        return "You need to specify an NPC to find\n";
+    }
     char *npc_id = tokens[1];
     case_insensitize(npc_id);
     npc_t *npc;
@@ -435,12 +439,73 @@ chiventure_ctx_t *create_sample_ctx()
     game_t *game = game_new("Welcome to Chiventure!");
 
     load_normal_mode(game);
-    game->all_rooms = create_crerar();
+
+    room_t *crerar_first = room_new("crerar lib floor 1",
+                                    "The first floor of Crerar Library",
+                                    "The first floor of the John Crerar Library, "
+                                    "head EAST to go outside, "
+                                    "UP is the 2nd floor, where Room 209 is located, "
+                                    "and SOUTH is the Peaches Cafe.");
+    room_t *crerar_second = room_new("crerar lib floor 2",
+                                     "The second floor of Crerar Library",
+                                     "The second floor of the John crerar Library, "
+                                     "to the SOUTH lies Room 209, "
+                                     "and DOWN is the first floor of Crerar");
+    room_t *crerar_209 = room_new("room 209", "This is Room 209 of Crerar Library",
+                                  "This is Room 209 of the John Crerar Library, "
+                                  "better known as Borja's Office. "
+                                  "To the NORTH is the rest of second floor of Crerar.");
+    room_t *peachs_cafe = room_new("peach's cafe", "Peach's Cafe at University",
+                                    "This is Peach's Cafe inside of the John Crerar "
+                                    "Library, to the NORTH is the first floor of "
+                                    "Crerar, and head EAST to go outside.");
+    room_t *outside = room_new("outside", "Outside of the John Crerar Library",
+                               "Outside of the John Crerar Library is a great "
+                               "place for, among other things, settling scores. "
+                               "Go WEST to go back inside the John Crerar Library");
+
+    path_t *crerar_first_path = path_new(outside, "east");
+    assert(add_path_to_room(crerar_first, crerar_first_path) == SUCCESS);
+    crerar_first_path = path_new(crerar_second, "up");
+    assert(add_path_to_room(crerar_first, crerar_first_path) == SUCCESS);
+    crerar_first_path = path_new(peachs_cafe, "south");
+    assert(add_path_to_room(crerar_first, crerar_first_path) == SUCCESS);
+
+    path_t *crerar_second_path = path_new(crerar_first, "down");
+    assert(add_path_to_room(crerar_second, crerar_second_path) == SUCCESS);
+    crerar_second_path = path_new(crerar_209, "south");
+    assert(add_path_to_room(crerar_second, crerar_second_path) == SUCCESS);
+
+    path_t *crerar_209_path = path_new(crerar_second, "north");
+    assert(add_path_to_room(crerar_209, crerar_209_path) == SUCCESS);
+
+    path_t *peachs_path = path_new(crerar_first, "north");
+    assert(add_path_to_room(peachs_cafe, peachs_path) == SUCCESS);
+    peachs_path = path_new(outside, "east");
+    assert(add_path_to_room(peachs_cafe, peachs_path) == SUCCESS);
+    
+    path_t *outside_path = path_new(crerar_first, "west");
+    assert(add_path_to_room(outside, outside_path) == SUCCESS);
+
+    crerar_first->npcs = npcs_in_room_new(crerar_first->room_id);
+    crerar_second->npcs = npcs_in_room_new(crerar_second->room_id);
+    crerar_209->npcs = npcs_in_room_new(crerar_209->room_id);
+    peachs_cafe->npcs = npcs_in_room_new(peachs_cafe->room_id);
+    outside->npcs = npcs_in_room_new(outside->room_id);
+
+    assert(add_room_to_game(game, crerar_first) == SUCCESS);
+    assert(add_room_to_game(game, crerar_second) == SUCCESS);
+    assert(add_room_to_game(game, crerar_209) == SUCCESS);
+    assert(add_room_to_game(game, outside) == SUCCESS);
+    assert(add_room_to_game(game, peachs_cafe) == SUCCESS);
+
+    game->curr_room = crerar_first;
 
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, "Crerar Lib Floor 1", 0);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, crerar_second->room_id, 0);
+    extend_path_definite(movement1, outside->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
                              "Friendly Fiona won't fight you unless you attack "
@@ -464,7 +529,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, "outside", 0);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, peachs_cafe->room_id, 0);
+    extend_path_definite(movement2, outside->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
                             "Harry.", "Hostile Harry will attack you"
@@ -500,11 +566,11 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *c_harry = create_sample_convo_harry();
     add_convo_to_npc(hostile_harry, c_harry);
 
-    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, "outside", 5);
-    extend_path_indefinite(movement3, "Peach's Cafe", 5);
-    extend_path_indefinite(movement3, "Crerar Lib Floor 1", 5);
-    extend_path_indefinite(movement3, "Crerar Lib Floor 2", 5);
-    extend_path_indefinite(movement3, "room 209", 5);
+    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, outside->room_id, 5);
+    extend_path_indefinite(movement3, peachs_cafe->room_id, 5);
+    extend_path_indefinite(movement3, crerar_first->room_id, 5);
+    extend_path_indefinite(movement3, crerar_second->room_id, 5);
+    extend_path_indefinite(movement3, crerar_209->room_id, 5);
 
     wandering_william = npc_new("william", "wandering william is friendly",
      "wandering william is just a jolly good fellow who likes to wander between"
