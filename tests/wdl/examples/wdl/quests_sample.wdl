@@ -160,7 +160,7 @@
                     "Task Name": "Kill Steve"
                 },
                 {
-                    "Task Name": "Steal Steve's Embarassing Baby Photos"
+                    "Task Name": "Show Steve his Embarassing Baby Photos"
                 }
             ],
             "Task List": [
@@ -181,10 +181,10 @@
                     }
                 },
                 {
-                    "Task Name": "Steal Steve's Embarassing Baby Photos",
+                    "Task Name": "Show Steve his Embarassing Baby Photos",
                     "Mission": {
-                        "Target Name": "Steve's Embarassing Baby Photos",
-                        "Type": "Collect Item"
+                        "Target Name": "Steve",
+                        "Type": "Meet NPC"
                     },
                     "Prerequisites": {
                         "Quests": ["Find Steve"],

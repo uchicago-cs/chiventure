@@ -13,30 +13,44 @@
                 "nodes": [
                     {
                         "id": "1",
-                        "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! His lair is to the South of the city, though maybe you might want to speak to his mother first."
-                    },
-                    {
-                        "id": "2a",
-                        "npc_dialogue": "Good Luck! Here, take this Search Warrant."
-                    },
-                    {
-                        "id": "2b",
-                        "npc_dialogue": "Very well. Here, take this Search Warrant."
-                    }
-                ],
-                "edges": [
-                    {
-                        "quip": "South I go!",
-                        "from_id": "1",
-                        "to_id": "2a"
-                    },
-                    {
-                        "quip": "Um, ok...",
-                        "from_id": "1",
-                        "to_id": "2b"
+                        "npc_dialogue": "Well, go on. You have a task to do."
                     }
                 ]
-            }
+            },
+            "Tasks": [
+                {
+                    "Task Name": "Talk to Land Scout",
+                    "Dialogue": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! His lair is to the South of the city, though maybe you might want to speak to his mother first."
+                            },
+                            {
+                                "id": "2a",
+                                "npc_dialogue": "Good Luck! Here, take this Search Warrant."
+                            },
+                            {
+                                "id": "2b",
+                                "npc_dialogue": "Very well. Here, take this Search Warrant."
+                            }
+                        ],
+                        "edges": [
+                            {
+                                "quip": "South I go!",
+                                "from_id": "1",
+                                "to_id": "2a"
+                            },
+                            {
+                                "quip": "Um, ok...",
+                                "from_id": "1",
+                                "to_id": "2b"
+                            }
+                        ]
+                    }
+                }
+            ]
+            
         },
         "Sea Scout": {
             "short_desc": "This is a Sea Scout",

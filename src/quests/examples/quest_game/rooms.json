@@ -1,50 +1,50 @@
 {
-"rooms": [
-    {
-        "id": "Starting City",
-        "short_desc": "A city.",
-        "long_desc": "A bustling city, whose denizens have pleaded for you to find and vanquish the villainous Steve.",
-        "items": [],
-        "action_on_entry":"",
-        "actions":[],
-        "connections":[
-            {"direction": "west", "to": "Pirate Cove"},
-            {"direction": "south", "to": "Steve's Lair"}
-        ]
-    },
-    {
-        "id": "Steve's Lair",
-        "short_desc": "Steve's Lair",
-        "long_desc": "A dank cave, smelling of odd mosses and other gross substances, inhabited by Steve.",
-        "items": [],
-        "action_on_entry":"",
-        "actions":[],
-        "connections":[
-            {"direction": "north", "to": "Starting City"},
-            {"direction": "east", "to": "Steve's Sanctum"}
-        ]
-    },
-    {
-        "id": "Pirate Cove",
-        "short_desc": "A cove of pirates",
-        "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be their captain. Near your feet is a scrap of parchment that appears to be some sort of map.",
-        "items": [],
-        "action_on_entry":"",
-        "actions":[],
-        "connections":[
-            {"direction": "east", "to": "Starting City"}
-        ]
-    },
-    {
-        "id": "Steve's Sanctum",
-        "short_desc": "Steve's hidden sanctum",
-        "long_desc": "A richly decorated room containing all of Steve's Treasures.",
-        "items": [],
-        "action_on_entry":"action_win_game",
-        "actions":[],
-        "connections":[
-            {"direction": "west", "to": "Steve's Lair"}
-        ]
-    }
-]
+    "rooms": [
+        {
+            "id": "Starting City",
+            "short_desc": "A city.",
+            "long_desc": "A bustling city, whose denizens have pleaded for you to find and vanquish the villainous Steve.",
+            "items": [],
+            "action_on_entry":"",
+            "actions":[],
+            "connections":[
+                {"direction": "west", "to": "Pirate Cove"},
+                {"direction": "south", "to": "Steve's Lair"}
+            ]
+        },
+        {
+            "id": "Steve's Lair",
+            "short_desc": "Steve's Lair",
+            "long_desc": "A dank cave, smelling of odd mosses and other gross substances, inhabited by Steve.",
+            "items": [],
+            "action_on_entry":"",
+            "actions":[],
+            "connections":[
+                {"direction": "north", "to": "Starting City"},
+                {"direction": "east", "to": "Steve's Sanctum"}
+            ]
+        },
+        {
+            "id": "Pirate Cove",
+            "short_desc": "A cove of pirates",
+            "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be their captain. Near your feet is a scrap of parchment that appears to be some sort of map.",
+            "items": [],
+            "action_on_entry":"",
+            "actions":[],
+            "connections":[
+                {"direction": "east", "to": "Starting City"}
+            ]
+        },
+        {
+            "id": "Steve's Sanctum",
+            "short_desc": "Steve's hidden sanctum",
+            "long_desc": "A richly decorated room containing all of Steve's Treasures.",
+            "items": [],
+            "action_on_entry":"action_win_game",
+            "actions":[],
+            "connections":[
+                {"direction": "west", "to": "Steve's Lair"}
+            ]
+        }
+    ]
 }
