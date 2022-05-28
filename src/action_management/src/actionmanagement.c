@@ -7,7 +7,7 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 #include "game-state/player.h"
-#include "quests/quest.h"
+#include "quests/quests_cli.h"
 #include "quests/task.h"
 
 
