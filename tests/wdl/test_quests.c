@@ -86,7 +86,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(land_scout, "Land Scout task is NULL!");
     cr_assert_str_eq(land_scout->id, "Talk to Land Scout", "Land Scout task has incorrect id!");
     cr_assert_not_null(land_scout->mission, "Land Scout task has no mission!");
-    cr_assert_str_eq(land_scout->mission->target_name, "Land Scout", "Land Scout task's mission has the wrong target!");
+    cr_assert_str_eq(land_scout->mission->target_name, "land scout", "Land Scout task's mission has the wrong target!");
     cr_assert_eq(land_scout->mission->type, MEET_NPC, "Land Scout task's mission has the wrong type!");
     cr_assert_not_null(land_scout->prereq, "Land Scout task has no prereq!");
     cr_assert_eq(land_scout->prereq->hp, 10, "Land Scout task's prereq has incorrect hp!");
@@ -120,7 +120,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(steves_mom, "Steve's Mom task is NULL!");
     cr_assert_str_eq(steves_mom->id, "Talk to Steve's Mom", "Steve's Mom task has incorrect id!");
     cr_assert_not_null(steves_mom->mission, "Steve's Mom task has no mission!");
-    cr_assert_str_eq(steves_mom->mission->target_name, "Steve's Mom", "Steve's Mom task's mission has the wrong target!");
+    cr_assert_str_eq(steves_mom->mission->target_name, "steve's mom", "Steve's Mom task's mission has the wrong target!");
     cr_assert_eq(steves_mom->mission->type, MEET_NPC, "Steve's Mom task's mission has the wrong type!");
     cr_assert_not_null(steves_mom->prereq, "Steve's Mom task has no prereq!");
     cr_assert_eq(steves_mom->prereq->hp, 10, "Steve's Mom task's prereq has incorrect hp!");
@@ -137,7 +137,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(sea_scout, "Sea Scout task is NULL!");
     cr_assert_str_eq(sea_scout->id, "Talk to Sea Scout", "Sea Scout task has incorrect id!");
     cr_assert_not_null(sea_scout->mission, "Sea Scout task has no mission!");
-    cr_assert_str_eq(sea_scout->mission->target_name, "Sea Scout", "Sea Scout task's mission has the wrong target!");
+    cr_assert_str_eq(sea_scout->mission->target_name, "sea scout", "Sea Scout task's mission has the wrong target!");
     cr_assert_eq(sea_scout->mission->type, MEET_NPC, "Sea Scout task's mission has the wrong type!");
     cr_assert_not_null(sea_scout->prereq, "Sea Scout task has no prereq!");
     cr_assert_eq(sea_scout->prereq->hp, 15, "Sea Scout task's prereq has incorrect hp!");
@@ -191,7 +191,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(pirate_captain, "Pirate Captain task is NULL!");
     cr_assert_str_eq(pirate_captain->id, "Interrogate the Pirate Captain", "Pirate Captain task has incorrect id!");
     cr_assert_not_null(pirate_captain->mission, "Pirate Captain task has no mission!");
-    cr_assert_str_eq(pirate_captain->mission->target_name, "Pirate Captain", "Pirate Captain task's mission has the wrong target!");
+    cr_assert_str_eq(pirate_captain->mission->target_name, "pirate captain", "Pirate Captain task's mission has the wrong target!");
     cr_assert_eq(pirate_captain->mission->type, MEET_NPC, "Pirate Captain task's mission has the wrong type!");
     cr_assert_not_null(pirate_captain->prereq, "Pirate Captain task has no prereq!");
     cr_assert_eq(pirate_captain->prereq->hp, 20, "Pirate Captain task's prereq has incorrect hp!");
@@ -224,7 +224,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(kill_steve, "Kill Steve task is NULL!");
     cr_assert_str_eq(kill_steve->id, "Kill Steve", "Kill Steve task has incorrect id!");
     cr_assert_not_null(kill_steve->mission, "Kill Steve task has no mission!");
-    cr_assert_str_eq(kill_steve->mission->target_name, "Steve", "Kill Steve task's mission has the wrong target!");
+    cr_assert_str_eq(kill_steve->mission->target_name, "steve", "Kill Steve task's mission has the wrong target!");
     cr_assert_eq(kill_steve->mission->type, KILL_NPC, "Kill Steve task's mission has the wrong type!");
     cr_assert_not_null(kill_steve->prereq, "Kill Steve task has no prereq!");
     cr_assert_eq(kill_steve->prereq->hp, 30, "Kill Steve task's prereq has incorrect hp!");
