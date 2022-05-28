@@ -119,6 +119,65 @@ Test(autogenerate, path_exists_in_direction_mid)
     cr_assert_eq(false, path_exists_in_direction(room, "NOT A DIRECTION"), "Expected false but got true");
 }
 
+Test(autogenerate, pick_random_direction_false_2){
+
+    game_t *game=game_new("New Game");
+
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+    spec1->tag=0;
+
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
+    spec2->tag=1;
+
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    spec3->tag=2;
+    roomspec_t **roomspecs=(roomspec_t**)malloc(3*sizeof(roomspec_t*));
+
+    roomspecs[0]=spec1;
+    roomspecs[1]=spec2;
+    roomspecs[2]=spec3;
+
+    int *matrix=(int*)malloc(9*sizeof(int));
+
+    matrix[0]=5;
+    matrix[1]=4;
+    matrix[2]=5; 
+    matrix[3]=0; 
+    matrix[4]=5;  
+    matrix[5]=3;
+    matrix[6]=4; 
+    matrix[7]=3;  
+    matrix[8]=5;
+
+    int **edges=edges_new(matrix, 3, 3);
+
+    specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+
+    coords_t *coords=coords_new(0,0);
+    room_t *room=roomspec_to_room(spec1, coords);
+
+    add_room_to_game(game, room);
+
+    int rc;
+    char* direction_to_new=(char*)malloc(6*sizeof(char));
+    char* direction_to_curr=(char*)malloc(6*sizeof(char));
+
+    rc=path_exists_in_direction(game, room, "north");
+    cr_assert_eq(rc, false, "failed to determine if a room exists north of the current room\n");
+
+    rc=path_exists_in_direction(game, room, "south");
+    cr_assert_eq(rc, false, "failed to determine if a room exists south of the current room\n");
+
+    rc=path_exists_in_direction(game, room, "east");
+    cr_assert_eq(rc, false, "failed to determine if a room exists east of the current room\n");
+
+    rc=path_exists_in_direction(game, room, "west");
+    cr_assert_eq(rc, false, "failed to determine if a room exists west of the current room\n");    
+}
+
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a
 * room pointer with NULL paths and items fields */
 Test(autogenerate, roomspec_to_room1)
