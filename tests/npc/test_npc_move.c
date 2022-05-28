@@ -168,16 +168,28 @@ Test(npc_mov, get_npc_num_rooms_indef)
 }
 
 
+<<<<<<< HEAD
 /* Tests get_npc_curr_room_id and get_next_npc_room_id functions */
 Test(npc_mov, get_npc_room_id)
+=======
+/* Tests track_room function */
+Test(npc_mov, track_room)
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 5);
     cr_assert_eq(extend_path_indefinite(npc_mov, "test2", 10), SUCCESS,
                  "extend_path_indef() failed");
 
+<<<<<<< HEAD
     char* room_id_track = get_npc_curr_room_id(npc_mov);
     cr_assert_str_eq(room_id_track, "test_room", "get_npc_curr_room_id() failed");
+=======
+    char* room_id_track = track_room(npc_mov);
+
+    cr_assert_str_eq(room_id_track, "test_room", "track_room() failed");
+}
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     room_id_track = get_next_npc_room_id(npc_mov);
     cr_assert_str_eq(room_id_track, "test2", "get_next_npc_room_id() failed");
@@ -278,8 +290,8 @@ Test(npc_mov, move_npc_mov_indef)
 }
 
 
-/* Tests flip_npc_path_direction function */
-Test(npc_mov, flip_npc_path_direction)
+/* Tests reverse_path function */
+Test(npc_mov, reverse_path)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
     npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
@@ -295,14 +307,20 @@ Test(npc_mov, flip_npc_path_direction)
     int check2 = move_npc_mov(npc_mov);
     cr_assert_eq(check2, SUCCESS, "move_npc_mov() failed");
 
+<<<<<<< HEAD
     int check3 = flip_npc_path_direction(npc_mov);
     cr_assert_eq(check3, SUCCESS, "flip_npc_path_direction() failed");
     cr_assert_eq(npc_mov->npc_path_direction, NPC_MOV_REVERSED, "flip_npc_path_direction() failed to reverse path");
+=======
+    int check3 = reverse_path(npc_mov);
+
+    cr_assert_eq(check3, SUCCESS, "reverse_path() failed");
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     check2 = move_npc_mov(npc_mov);
 
     cr_assert_str_eq(npc_mov->track,"test_room",
-                     "flip_npc_path_direction() failed to track room");
+                     "reverse_path() failed to track room");
 }
 
 /* Tests auto_gen_movement for definite movement function */

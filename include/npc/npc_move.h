@@ -39,18 +39,24 @@ typedef enum mov_type {
     NPC_MOV_DEFINITE, NPC_MOV_INDEFINITE
 } npc_mov_enum_t;
 
+<<<<<<< HEAD
 /* Enum to define NPC movement direction (along its room path)
  * Original direction is 0, Reversed direction is 1
  */
 typedef enum npc_path_direction {
     NPC_MOV_ORIGINAL, NPC_MOV_REVERSED
 } npc_path_direction_t;
+=======
+typedef enum mov_type npc_mov_enum_t;
+
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
 /*
  * Struct that deals with NPC movement for both types of npc movements
  *
  * Components:
  *  mov_type: Enum type of movement
+<<<<<<< HEAD
  *  npc_path_pos: index of the current location of the npc within
  *      its movement path
  *  npc_path_direction: keeps track of whether the path of the NPC's
@@ -60,12 +66,13 @@ typedef enum npc_path_direction {
  *      the opposite direction
  *  track: tracker variable that returns current room id
  *  path: DLL of room_ids and (for indefinite moving NPCs) room_times
+=======
+ *  track: tracker variable that returns current room id
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  */
 typedef struct npc_mov {
     npc_path_dll_t *path;
     npc_mov_enum_t mov_type;
-    npc_path_direction_t npc_path_direction;
-    unsigned int npc_path_pos;
     char *track;
 } npc_mov_t;
 
@@ -94,11 +101,18 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
  * and NULL if an error occurs
  *
  * Parameters:
+<<<<<<< HEAD
  *  mov_type: The type of movement that the npc will have
  *  room_id: The room_id that the npc will begin in
  *  room_time: For indefinite NPCs: the number of seconds the npc will spend
  *              in its initial room
  *             Definite NPCs: doesn't matter, it won't be used, convention is 0
+=======
+ *  npc_id: The ID of the NPC that is being referred to; must ppint to
+ *          allocated memory
+ *  mov_type: The tpye of movement that the npc will have
+ *  room: The room that the npc will begin in
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  *
  * Returns:
  *  Pointer to the new npc_mov_t struct
@@ -167,6 +181,7 @@ char *get_npc_curr_room_id(npc_mov_t *npc_mov);
  *  The room id of the room that the npc 
  *  will move to next if/when it is called to
  */
+<<<<<<< HEAD
 char *get_next_npc_room_id(npc_mov_t *npc_mov);
 
 /* 
@@ -181,13 +196,26 @@ unsigned int get_npc_path_pos(npc_mov_t *npc_mov);
 
 /*
  * Returns whether an NPCs path is in the original direction or reversed
+=======
+char *track_room(npc_mov_t *npc_mov);
+
+
+/*
+ * Reverses the path, so that the npc goes back to where it started
+ *  (this is only for definite movement paths, because indef will naturally
+ *  move back and forth)
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  *
  * Parameters: npc_mov: the NPC movement struct
  *
  * Returns:
  * 0 if the path is in the original direction, 1 if the path is in the reverse direction
  */
+<<<<<<< HEAD
 unsigned int get_npc_path_direction(npc_mov_t *npc_mov);
+=======
+int reverse_path(npc_mov_t *npc_mov);
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
 /*
  * Gets the number of rooms in an NPC's path
@@ -213,7 +241,25 @@ int get_npc_num_rooms(npc_mov_t *npc_mov);
  *   npc_path_dll_t structs are the same, otherwise it
  *   will return a non-zero number
  */
+<<<<<<< HEAD
 int room_id_cmp(npc_path_dll_t *room1, npc_path_dll_t *room2);
+=======
+int room_id_cmp(room_list_t *room1, room_list_t *room2);
+
+/*
+ * Moves the npc to the next room for npcs with definite movement
+ *
+ * Paramters:
+ * npc_mov: The NPC movement struct
+ *
+ * Returns:
+ * 0 if move in unsuccessful
+ * 1 npc has reached the end of the path, reverse_path is called, but
+ *   the move is not implemented
+ * 2 successful move to the next room
+*/
+int move_npc_definite(npc_mov_t *npc_mov);
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
 // DO SOMETHING FUNCTIONS -----------------------------------------------------
 /*
@@ -225,7 +271,14 @@ int room_id_cmp(npc_path_dll_t *room1, npc_path_dll_t *room2);
  *  npc_mov: The NPC movement struct
  *
  * Returns:
+<<<<<<< HEAD
  *  SUCCESS on success, FAILURE if an error occurs.
+=======
+ * 0 if move in unsuccessful
+ * 1 npc has reached the end of the path, reverse_path is called, but
+ *   the move is not implemented
+ * 2 successful move to the next room
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  */
 int flip_npc_path_direction(npc_mov_t *npc_mov);
 

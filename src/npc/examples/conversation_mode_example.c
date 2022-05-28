@@ -90,10 +90,10 @@ convo_t *create_oak_conversation()
 }
 
 /*
- * This monkey patch talk operation is replaced with the
+ * This monkey patch talk operation is replaced with the 
  * operation now implemented in operations.h
  */
-/* Defines an CLI operation for talking to an npc
+/* Defines an CLI operation for talking to an npc 
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     char *npc_id = "Oak"; //change to "Steve" for conversation with Steve.
@@ -104,7 +104,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     if (!rc)
     {
-        game_mode_init(ctx->game->mode, CONVERSATION,
+        game_mode_init(ctx->game->mode, CONVERSATION, 
                        run_conversation_mode, npc_id);
     }
 
@@ -115,7 +115,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /*
  * Creates a chiventure context with a sample game and npc.
  *
- * Returns: a chiventure context with
+ * Returns: a chiventure context with 
  */
 chiventure_ctx_t *create_sample_ctx()
 {
@@ -127,17 +127,17 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
 
-    /*
-     * To run example with Steve instead of Professor Oak
+    /* 
+     * To run example with Steve instead of Professor Oak 
      * change the npc_id in talk_operation to "Steve"
      */
 
     /* Creating merchant npc */
     char *npc_id = "STEVE";
     npc_t *steve = npc_new(npc_id,
-                           "Steve is a merchant.",
-                           "Steve is the best merchant in town.",
-                           NULL, NULL, 0);
+                         "Steve is a merchant.",
+                         "Steve is the best merchant in town.",
+                         NULL, NULL, 0);
 
     convo_t *c = create_steve_conversation();
 
@@ -148,8 +148,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create Professor oak */
     char *oak_id = "OAK";
     npc_t *oak = npc_new(oak_id, "Oak is a Pokemon Prof!",
-                         "Professor Oak studies Pokemon in Pallet Town",
-                         NULL, NULL, 0);
+                                 "Professor Oak studies Pokemon in Pallet Town",
+                                 NULL, NULL, 0);
 
     convo_t *starting_speech = create_oak_conversation();
     add_convo_to_npc(oak, starting_speech);

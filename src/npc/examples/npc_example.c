@@ -13,7 +13,7 @@
  *             on Root) and return an NPC dialogue to be printed to the CLI.
  *             They utlize the backend of the dialogue module while printing to
  *             chiventure's CLI. For a more thorough example of what dialogue
- *             should eventually look like in chiventure, see dialogue_example.
+ *             should eventually look like in chiventure, see dialogue_example. 
  */
 
 #include <stdio.h>
@@ -94,7 +94,7 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *sample_talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     check_game(tokens, ctx);
-
+   
     convo_t *c;
     c = create_sample_convo();
 
@@ -115,7 +115,7 @@ chiventure_ctx_t *create_sample_ctx()
     load_normal_mode(game);
 
     /* Create the initial room */
-    room_t *room1 = room_new("room1", "This is room 1",
+    room_t *room1 = room_new("room1", "This is room 1", 
                              "The first room in this house is disheveled, "
                              "yet seems to be stacked with valuables. "
                              "You spot a faberge egg and an antique "
@@ -137,8 +137,8 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Create one npc */
     char *npc_id = "jim";
-    npc_t *jim = npc_new(npc_id,
-                         "Jim is a shabby man who lives in a shabby house.",
+    npc_t *jim = npc_new(npc_id, 
+                         "Jim is a shabby man who lives in a shabby house.", 
                          "Jim looks just as suspicious as his house. His "
                          "beard appears to be half shaved, and his eyes "
                          "constantly dart all around.", NULL, NULL, 0);
