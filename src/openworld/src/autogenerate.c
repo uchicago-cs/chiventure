@@ -168,6 +168,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
+    return SUCCESS;
  
     for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++) {
         /* Forwards direction + bump */
