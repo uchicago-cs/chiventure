@@ -16,7 +16,6 @@
  *            at once) probably won't be added to chiventure, it showcases 
  *            how we hope the surrender and dead-npc-looting and dead npc 
  *            looting functionalities can be used in battles in the future.
-<<<<<<< HEAD
  *
  *  - NPC:    This is a CLI operation that prints out all the NPCs in the
  *            current room to the CLI. It utilizes the backend of rooms_npc
@@ -27,18 +26,6 @@
  *
  *  - ARENA:  This is a CLI operation that moves the player from the lobby to
  *            the arena room. Since the main focus of this example is not player
-=======
- * 
- *  - NPC:    This is a CLI operation that prints out all the NPCs in the 
- *            current room to the CLI. It utilizes the backend of rooms-npc
- *            module while printing to chiventure's CLI. Specifically, it uses
- *            a field in the room_t struct called npcs, which contains a list 
- *            of NPCs in the current room and the total number of them. For 
- *            deatils about this field, see rooms-npc.h.
- * 
- *  - ARENA:  This is a CLI operation that moves the player from the lobby to 
- *            the arena room. Since the main focus of this example is not player 
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  *            movement but NPCs movements, there are only two rooms in this example,
  *            which are lobby and arena, and the action of moving between rooms are
  *            simplified with only a call to move_room() under game.h. The process of 
@@ -105,21 +92,6 @@ class_t *generate_sample_class()
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats()
 {
-<<<<<<< HEAD
-    stat_t *test_stats = calloc(1, sizeof(stat_t));
-
-    test_stats->speed = 50;
-    test_stats->phys_def = 20;
-    test_stats->phys_atk = 150;
-    test_stats->accuracy = 100;
-    test_stats->crit = 0;
-    test_stats->hp = 200;
-    test_stats->max_hp = 200;
-    test_stats->xp = 0;
-    test_stats->level = 5;
-
-    return test_stats;
-=======
 	stat_t *test_stats = calloc(1, sizeof(stat_t));
 
 	test_stats->speed = 50;
@@ -149,26 +121,11 @@ int defense)
 	move->defense = defense;
 
 	return move;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 }
 
 /* Creates example moves. Taken from test_battle_ai.c */
 move_t *create_enemy_moves()
 {
-<<<<<<< HEAD
-    move_t *head, *earthquake, *poke, *rock_throw;
-    head = NULL;
-    earthquake = move_new(1, "earthquake", "", PHYS, NO_TARGET, NO_TARGET, 
-                          SINGLE, 0, NULL, 100, 100, NULL, NULL, NULL, NULL);
-    poke = move_new(2, "poke", "", PHYS, NO_TARGET, NO_TARGET,
-                    SINGLE, 0, NULL, 40, 100, NULL, NULL, NULL, NULL);
-    rock_throw = move_new(3, "rock throw", "", PHYS, NO_TARGET, NO_TARGET,
-                          SINGLE, 0, NULL, 90, 100, NULL, NULL, NULL, NULL);
-    DL_APPEND(head, earthquake);
-    DL_APPEND(head, poke);
-    DL_APPEND(head, rock_throw);
-    return head;
-=======
 	move_t *head, *earthquake, *poke, *rock_throw;
 	head = NULL;
 	earthquake = create_move(1, NULL, true, 100, 0);
@@ -178,7 +135,6 @@ move_t *create_enemy_moves()
 	DL_APPEND(head, poke);
 	DL_APPEND(head, rock_throw);
 	return head;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 }
 
 /* Makes sure the game is loaded */
@@ -200,12 +156,7 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-<<<<<<< HEAD
-    if (game == NULL || game->curr_room == NULL)
-    {
-=======
     if(game == NULL || game->curr_room == NULL) {
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to move.\n";
     }
@@ -233,12 +184,17 @@ convo_t *create_sample_convo_harry()
     add_node(c, "1", "Harry: Are your trying to pick a fight with me?", HOSTILE);
     add_node(c, "2a", "Harry: You will regret this. Let's meet in the arena and "
 <<<<<<< HEAD
+<<<<<<< HEAD
              "I will show you no mercy.", HOSTILE);
     add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!", HOSTILE);
 =======
                       "I will show you no mercy.");
     add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!");
 >>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
+=======
+             "I will show you no mercy.", HOSTILE);
+    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!", HOSTILE);
+>>>>>>> 85ea1d400... examples changed
 
     // Edges
     add_edge(c, "Yeah what are you gonna do about it, huh?", "1", "2a", NULL, HOSTILE);
@@ -257,13 +213,8 @@ convo_t *create_sample_convo_fiona()
     // Nodes
     add_node(c, "1", "Fiona: Hey how are you doing?", FRIENDLY);
     add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
-<<<<<<< HEAD
              "some battle skills with you in the arena.", NEUTRAL);
     add_node(c, "2b", "Fiona: I hope you have a good day too!", FRIENDLY);
-=======
-                "some battle skills with you in the arena.");
-    add_node(c, "2b", "Fiona: I hope you have a good day too!");
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     // Edges
     add_edge(c, "Let's have a fight.", "1", "2a", NULL, HOSTILE);
@@ -277,12 +228,9 @@ convo_t *create_sample_convo_fiona()
 char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-<<<<<<< HEAD
+
     if (game == NULL || game->curr_room == NULL)
     {
-=======
-    if(game == NULL || game->curr_room == NULL) {
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to move.\n";
     }
@@ -296,18 +244,15 @@ char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-<<<<<<< HEAD
+
     if (game == NULL || game->curr_room == NULL)
     {
-=======
-    if(game == NULL || game->curr_room == NULL) {
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to attack.\n";
     }
-    if (game->curr_room == arena) {
+    if (game->curr_room == arena) 
+    {
         npc_t *npc_tmp, *npc_elt;
-<<<<<<< HEAD
 
         HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
         {
@@ -318,25 +263,19 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             else if (npc_elt->npc_battle->stats->hp == 1) 
             {
                 change_npc_hp(npc_elt, -1);
-=======
-        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) {
-            if (npc_elt->npc_battle->health == 0) {
-	            continue;
-	        } else if (npc_elt->npc_battle->health == 1) {
-                change_npc_health(npc_elt, -1, 100);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
                 transfer_all_npc_items(npc_elt, game->curr_room);
                 char message1[1000];
                 sprintf(message1, "You killed %s. They've dropped their items, "
                                   "which you can now take.", npc_elt->npc_id);
                 print_to_cli(ctx, message1);
-<<<<<<< HEAD
-            } else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) { 
+            } 
+            else if (npc_elt->npc_battle->stats->hp <= npc_elt->npc_battle->stats->surrender_level) 
+            { 
                 char message2[1000];
                 sprintf(message2, "%s has surrendered. You can no longer attack "
                           "them.", npc_elt->npc_id);
                 print_to_cli(ctx, message2);
-             }
+            }
             else
             {
                 change_npc_hp(npc_elt, -1);
@@ -349,22 +288,6 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     } 
     else 
     {
-=======
-            } else if (npc_elt->npc_battle->health <= npc_elt->npc_battle->surrender_level) { 
-                char message2[1000];
-                sprintf(message2, "%s has surrendered. You can no longer attack "
-                                  "them.", npc_elt->npc_id);
-                print_to_cli(ctx, message2);
-	        } else {
-                change_npc_health(npc_elt, -1, 100);
-                char message3[1000];
-                sprintf(message3, "%s has lost 1 HP. They now have %d HP left", 
-                        npc_elt->npc_id, npc_elt->npc_battle->health);
-                print_to_cli(ctx, message3);
-	        }
-        }   
-    } else {
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
         print_to_cli(ctx, "You can't attack unless you're in the arena.");
     }
 
@@ -403,7 +326,6 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-<<<<<<< HEAD
     npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id, 0);
     extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1,
@@ -417,20 +339,6 @@ chiventure_ctx_t *create_sample_ctx()
     move_t *moves1 = create_enemy_moves();
     add_battle_to_npc(friendly_fiona, stats1, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
-=======
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby);
-    extend_path_definite(movement1, arena);
-    friendly_fiona = npc_new(npc_id1, 
-                             "Friendly Fiona is a friendly woman named Fiona.", 
-			                 "Friendly Fiona won't fight you unless you attack "
-			                 "her first, and she'll surrender quickly", class1,
-			                 movement1, true);
-    /* Add battle info to friendly npc */
-    stat_t *stats1 = create_enemy_stats();
-    move_t *moves1 = create_enemy_moves();
-    add_battle_to_npc(friendly_fiona, 100, stats1, moves1, BATTLE_AI_GREEDY,
-		      CONDITIONAL_FRIENDLY, 98);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     /* Add dialogue to friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();

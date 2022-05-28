@@ -33,7 +33,6 @@ convo_t *create_sample_convo()
     // Nodes
     add_node(c, "1", "NPC: What do you want?", NEUTRAL);
     add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
-<<<<<<< HEAD
              "around and get outta my house. You can't come and go as you wish.", NEUTRAL);
     add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
              "around the place without consulting the owner!! Shouldn't I at "
@@ -46,20 +45,6 @@ convo_t *create_sample_convo()
              "or else I'm gonna force you to.", NEUTRAL);
     add_node(c, "4", "As his arm flashes behind his back, the robber raises "
              "a knife to you.", NEUTRAL);
-=======
-        "around and get outta my house. You can't come and go as you wish.");
-    add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
-        "around the place without consulting the owner!! Shouldn't I at "
-        "least know who you are?!");
-    add_node(c, "2c", "As soon as your eyes glance to the doorway, the man's "
-        "hands are at your back ushering you away. The door snaps shut and "
-        "you hear the distinct click of a lock turning.");
-    add_node(c, "3a", "NPC: Yes, well, just because the door's unlocked and I'm "
-        "a bit messy don't make it public property. Now take off and leave, "
-        "or else I'm gonna force you to.");
-    add_node(c, "4", "As his arm flashes behind his back, the robber raises "
-        "a knife to you.");
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     // Edges
     add_edge(c, "I just want to talk.", "1", "2a", NULL, NEUTRAL);

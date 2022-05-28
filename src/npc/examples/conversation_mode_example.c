@@ -42,17 +42,10 @@ convo_t *create_oak_conversation()
     convo_t *c = convo_new();
 
     add_node(c, "1", "Hello there! Welcome to the world of Pokemon!\n"
-<<<<<<< HEAD
              "My name is Oak! People call me the Pokemon Prof!\n"
              "This world is inhabited by creatures called Pokemon!\n"
              "For some people, Pokemon are pets. Others use them for fights.\n"
              "Myself... I study Pokemon as a profession.", NEUTRAL);
-=======
-                "My name is Oak! People call me the Pokemon Prof!\n"
-                "This world is inhabited by creatures called Pokemon!\n"
-                "For some people, Pokemon are pets. Others use them for fights.\n"
-                "Myself... I study Pokemon as a profession.");
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     add_node(c, "1.5", "First, what is your name?", NEUTRAL);
 
@@ -61,7 +54,6 @@ convo_t *create_oak_conversation()
     add_node(c, "2c", "So your name is Misty?", NEUTRAL);
 
     add_node(c, "3a", "Right! your name is Red! This is my grandson. He's been your\n"
-<<<<<<< HEAD
              "rival since you were a baby. ...Erm, what is his name again?", NEUTRAL);
     add_node(c, "3b", "Right! your name is Ash! This is my grandson. He's been your\n"
              "rival since you were a baby. ...Erm, what is his name again?", NEUTRAL);
@@ -93,39 +85,6 @@ convo_t *create_oak_conversation()
     add_edge(c, "Gary", "3b", "4b", NULL, NEUTRAL);
     add_edge(c, "Blue", "3c", "4a", NULL, NEUTRAL);
     add_edge(c, "Gary", "3c", "4b", NULL, NEUTRAL);
-=======
-                      "rival since you were a baby. ...Erm, what is his name again?");
-    add_node(c, "3b", "Right! your name is Ash! This is my grandson. He's been your\n"
-                      "rival since you were a baby. ...Erm, what is his name again?");
-    add_node(c, "3c", "Right! your name is Misty! This is my grandson. He's been your\n"
-                      "rival since you were a baby. ...Erm, what is his name again?");
-
-    add_node(c, "4a", "That's right! I remember now! His name is Blue! Now, your very\n"
-                      "own Pokemon legend is about to unfold! A world of dreams and\n"
-                      "adventures with Pokemon awaits! Let's go!");
-    add_node(c, "4b", "That's right! I remember now! His name is Gary! Now, your very\n"
-                      "own Pokemon legend is about to unfold! A world of dreams and\n"
-                      "adventures with Pokemon awaits! Let's go!");
-
-    add_edge(c, "I'm excited to play Pokemon!", "1", "1.5", NULL);
-    add_edge(c, "Red", "1.5", "2a", NULL);
-    add_edge(c, "Ash", "1.5", "2b", NULL);
-    add_edge(c, "Misty", "1.5", "2c", NULL);
-
-    add_edge(c, "Yes", "2a", "3a", NULL);
-    add_edge(c, "Yes", "2b", "3b", NULL);
-    add_edge(c, "Yes", "2c", "3c", NULL);
-    add_edge(c, "No", "2a", "1.5", NULL);
-    add_edge(c, "No", "2b", "1.5", NULL);
-    add_edge(c, "No", "2c", "1.5", NULL);
-
-    add_edge(c, "Blue", "3a", "4a", NULL);
-    add_edge(c, "Gary", "3a", "4b", NULL);
-    add_edge(c, "Blue", "3b", "4a", NULL);
-    add_edge(c, "Gary", "3b", "4b", NULL);
-    add_edge(c, "Blue", "3c", "4a", NULL);
-    add_edge(c, "Gary", "3c", "4b", NULL);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     return c;
 }
