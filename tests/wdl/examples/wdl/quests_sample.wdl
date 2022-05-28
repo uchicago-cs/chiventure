@@ -160,7 +160,7 @@
                     "Task Name": "Kill Steve"
                 },
                 {
-                    "Task Name": "Show Steve his Embarassing Baby Photos"
+                    "Task Name": "Show Steve his Embarrassing Baby Photos"
                 }
             ],
             "Task List": [
@@ -181,7 +181,7 @@
                     }
                 },
                 {
-                    "Task Name": "Show Steve his Embarassing Baby Photos",
+                    "Task Name": "Show Steve his Embarrassing Baby Photos",
                     "Mission": {
                         "Target Name": "Steve",
                         "Type": "Meet NPC"
