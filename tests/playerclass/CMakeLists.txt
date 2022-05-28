@@ -3,7 +3,6 @@ set(TEST_EXE test-playerclass)
 add_executable(${TEST_EXE}
         test_class.c
         test_class_item.c
-        test_multiclass.c
         test_class_prefabs.c
         main.c)
 

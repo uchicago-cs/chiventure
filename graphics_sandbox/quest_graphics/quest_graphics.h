@@ -115,20 +115,4 @@ int init_quest_graphics(quest_graphics_t *questGraphics, Vector2 WindowPos,
 int free_quest_graphics(quest_graphics_t *questGraphics);
 
 
-/*
- * Parameters:
- *      quest_graphics:
- *          a pointer to a quest_graphics_t struct, which
- *          contains all information needed for customized quest
- *          graphics dispaly 
- *
- * Returns:
- *      Nothing, and it should not return itself without user command
- * 
- * Function:
- *      Runs the whole questGraphics with given specifications
- */
-void runTaskTreeGraphics(quest_graphics_t* quest_graphics);
-
-
 #endif
