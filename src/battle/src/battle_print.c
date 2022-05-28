@@ -259,7 +259,6 @@ int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string
 }
 
 /* see battle_print.h */
-<<<<<<< HEAD
 char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
 {
     char *move_name = move->name;
@@ -295,8 +294,6 @@ char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item)
 }
 
 /* see battle_print.h */
-=======
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 char *print_battle_winner(battle_status_t status, int xp)
 {
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
@@ -437,7 +434,8 @@ int *print_battle_item_details(battle_item_t *item, char *string)
  * Returns:
  *  The expected length of the menu
  */ 
-int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
+int action_menu_buffer_length(battle_item_t *items, move_t *moves) 
+{
   int buff_len = 2; // leave space for the null terminator and an extra newline between items and moves
   //loop until all moves and all items have been accounted for
   while(moves || items) 

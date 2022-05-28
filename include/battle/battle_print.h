@@ -41,7 +41,6 @@ char *print_start_battle(battle_t *b);
  */
  char *print_battle_move(battle_t *b, turn_t turn, move_t *move);
 
-<<<<<<< HEAD
 /*
  * Stores the message to be printed at the end of an item use in the return
  * string. The message varies based off whether it is the battle_player or enemy move.
@@ -71,8 +70,6 @@ char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item);
  */
  char *print_battle_miss(battle_t *b, turn_t turn, move_t *move);
 
-=======
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  /*
   * Stores a message about a list of the enemy HP to a previously allocated string.
   * Appends this message to the end of any message that might already be in

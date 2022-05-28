@@ -41,11 +41,7 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     char *insensitized_id = case_insensitized_string(npc_id);
 
     int check = npc_init(npc, insensitized_id, short_desc, long_desc,
-<<<<<<< HEAD
                          class, movement, hostility_level);
-=======
-                         class, movement, will_fight); 
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     free(insensitized_id);
 
@@ -92,7 +88,6 @@ bool check_npc_battle(npc_t *npc)
 {
     assert(npc != NULL);
 
-<<<<<<< HEAD
     if (npc->hostility_level == HOSTILE && npc->npc_battle == NULL) 
     {
         return false;
@@ -101,12 +96,6 @@ bool check_npc_battle(npc_t *npc)
     {
         return false;
     }
-=======
-    if (npc->will_fight == true && npc->npc_battle == NULL) 
-    {
-        return false;
-    } 
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     else 
     {
         return true;
@@ -245,7 +234,6 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 /* See npc.h */
 int add_item_to_npc(npc_t *npc, item_t *item)
 {
-<<<<<<< HEAD
     assert((item != NULL) && (npc != NULL));
     item_t *tmp;
     char *id = case_insensitized_string(item->item_id);
@@ -259,19 +247,11 @@ int add_item_to_npc(npc_t *npc, item_t *item)
     {
         return FAILURE; // Hash tables should not contain duplicate items
     }
-=======
-    int rc;
-    
-    rc = add_item_to_hash(&(npc->inventory), item);
-    
-    return rc;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 }
 
 /* See npc.h */
 int remove_item_from_npc(npc_t *npc, item_t *item)
 {
-<<<<<<< HEAD
     HASH_DELETE(hh, npc->inventory, item);
     return SUCCESS;
 }
@@ -281,13 +261,6 @@ int delete_all_items_from_npc(npc_t *npc)
 {
     HASH_CLEAR(hh, npc->inventory);
     return SUCCESS;
-=======
-    int rc;
-    
-    rc = remove_item_from_hash(&(npc->inventory), item);
-    
-    return rc;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 }
 
 /* See npc.h */
@@ -309,16 +282,11 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
 {
     assert(npc != NULL);
 
-<<<<<<< HEAD
     npc_battle_t *npc_battle = npc_battle_new(stats, moves, ai,
                                               hostility_level,
                                               class_type, items,
                                               armor, accessory, weapon);
 
-=======
-    npc_battle_t *npc_battle = npc_battle_new(health, stats, moves, ai,
-                                              hostility_level, surrender_level);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     assert(npc_battle != NULL);
 
     npc->npc_battle = npc_battle;

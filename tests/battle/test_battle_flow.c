@@ -189,18 +189,12 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
     pstats->level = 1;
-<<<<<<< HEAD
     pstats->phys_atk = 200;
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0;
     battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
                                                 NULL, NULL, NULL);
-=======
-    pstats->strength = 200;
-    pstats->defense = 30;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     g->player = ctx_player;
     ctx->game = g;
@@ -209,7 +203,6 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
     estats->level = 5;
-<<<<<<< HEAD
     estats->phys_atk = 150;
     estats->phys_def = 20;
     estats->accuracy = 100;
@@ -232,13 +225,6 @@ Test(battle_flow_move_, return_success_battle_flow_move)
     npc_battle_t *npc_b = npc_battle_new(estats, e_move, BATTLE_AI_GREEDY,
             HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
-=======
-    estats->strength = 150;
-    estats->defense = 20;
-    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
@@ -266,19 +252,13 @@ Test(battle_flow_move, do_damage_battle_flow_move)
 
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 200;
-    pstats->defense = 30;
     pstats->level = 1;
-<<<<<<< HEAD
     pstats->phys_atk = 200;
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0;
     battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL,
                                                 NULL, NULL, NULL);
-=======
-    pstats->strength = 200;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     g->player = ctx_player;
     ctx->game = g;
@@ -286,9 +266,7 @@ Test(battle_flow_move, do_damage_battle_flow_move)
 
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
-    estats->defense = 20;
     estats->level = 5;
-<<<<<<< HEAD
     estats->phys_atk = 150;
     estats->phys_def = 20;
     estats->accuracy = 100;
@@ -309,12 +287,6 @@ Test(battle_flow_move, do_damage_battle_flow_move)
     npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
             HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
-=======
-    estats->strength = 150;
-    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     npc_enemy->npc_battle = npc_b;
 
     environment_t env = ENV_WATER;
@@ -345,17 +317,14 @@ Test(battle_flow_move, do_damage_battle_flow_move)
 
     cr_assert_eq(enemy->stats->hp,
                  expected_enemy_hp, 
-<<<<<<< HEAD
             "battle_flow_move() did not compute damage on enemy correctly, %d",
             enemy->stats->hp);
-=======
-                 "battle_flow_move() did not compute damage on enemy correctly, %d",enemy->stats->hp);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     // note: this hp value relies on player class implementation of move_list()
     cr_assert_eq(player->stats->hp,
                  expected_player_hp,
-                 "battle_flow_move() did not compute damage on player correctly");
+                 "battle_flow_move() did not compute damage on player correctly,"
+                 "Actual: %d, Expected: %d",player->stats->hp, expected_player_hp);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
 }
@@ -371,18 +340,12 @@ Test(battle_flow_move, battle_over_by_player)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 40;
     pstats->level = 1;
-<<<<<<< HEAD
     pstats->phys_atk = 200;
     pstats->phys_def = 30;
     pstats->accuracy = 100;
     pstats->crit = 0; 
     battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
                                                 NULL, NULL, NULL);
-=======
-    pstats->strength = 200;
-    pstats->defense = 30;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     g->player = ctx_player;
     ctx->game = g;
@@ -391,7 +354,6 @@ Test(battle_flow_move, battle_over_by_player)
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 200;
     estats->level = 5;
-<<<<<<< HEAD
     estats->phys_atk = 150;
     estats->phys_def = 20;
     estats->accuracy = 100;
@@ -409,11 +371,6 @@ Test(battle_flow_move, battle_over_by_player)
 
     battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger",
                                 true, dagger_changes);
-=======
-    estats->strength = 150;
-    estats->defense = 20;
-    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
     npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
             HOSTILE, test_class, dagger, NULL, NULL, NULL);
@@ -472,25 +429,18 @@ Test(battle_flow_move, battle_over_by_enemy)
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 150;
     pstats->level = 5;
-<<<<<<< HEAD
     pstats->phys_atk = 150;
     pstats->phys_def = 20;
     pstats->accuracy = 100;
     pstats->crit = 0;
     battle_player_t *ctx_player = new_ctx_player("Player", make_new_wizard_class(), pstats, NULL, NULL, 
                                                 NULL, NULL, NULL);
-=======
-    pstats->strength = 150;
-    pstats->defense = 20;
-    battle_player_t *ctx_player = new_ctx_player("Player", make_wizard(), pstats, NULL, NULL);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     g->player = ctx_player;
     ctx->game = g;
     ctx->status = BATTLE_IN_PROGRESS;
     stat_t *estats = calloc(1, sizeof(stat_t));
     estats->hp = 20;
     estats->level = 1;
-<<<<<<< HEAD
     estats->phys_atk = 200;
     estats->phys_def = 30;
     estats->accuracy = 100;
@@ -511,13 +461,6 @@ Test(battle_flow_move, battle_over_by_enemy)
     npc_battle_t *npc_b = npc_battle_new(estats, emove, BATTLE_AI_GREEDY,
             HOSTILE, test_class, dagger, NULL, NULL, NULL);
 
-=======
-    estats->strength = 200;
-    estats->defense = 30;
-    move_t *emove = move_new("Test", 0, NULL, true, 80, 0);
-    npc_t *npc_enemy = npc_new("enemy", "Enemy!", "Enemy!", NULL, NULL, true);
-    npc_battle_t *npc_b = npc_battle_new(100, estats, emove, BATTLE_AI_GREEDY, HOSTILE, 0);
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     npc_enemy->npc_battle = npc_b;
     environment_t env = ENV_WATER;
 
@@ -536,7 +479,7 @@ Test(battle_flow_move, battle_over_by_enemy)
     combatant_t *enemy = ctx->game->battle->enemy;
 
     int expected_hp = enemy->stats->hp -
-                      2 * damage(enemy, move, player);  
+                      2*damage(enemy, move, player);  
 
     char *res = battle_flow_move(ctx, move, "enemy");
     
@@ -548,7 +491,8 @@ Test(battle_flow_move, battle_over_by_enemy)
 
     cr_assert_eq(ctx->game->battle->enemy->stats->hp,
                  expected_hp,
-                 "battle_flow_move() did not compute damage correctly");
+                 "battle_flow_move() did not compute damage correctly Calculated: %.2f, Expected: %.2f", 
+                 ctx->game->battle->enemy->stats->hp, expected_hp);
     cr_assert_eq(ctx->status, BATTLE_VICTOR_PLAYER, 
             "battle_flow_move() failed: enemy was not declared the winner");
 }

@@ -98,7 +98,7 @@ Test(dialogue, node_new)
 {
     node_t *n;
 
-    n = node_new("ID", "Dialogue");
+    n = node_new("ID", "Dialogue", NEUTRAL);
 
     cr_assert_not_null(n, "node_new() failed");
 
@@ -115,7 +115,7 @@ Test(dialogue, node_init)
     node_t n;
     int rc;
 
-    rc = node_init(&n, "ID", "Dialogue");
+    rc = node_init(&n, "ID", "Dialogue", NEUTRAL);
 
     cr_assert_eq(rc, SUCCESS, "node_init() failed");
 
@@ -132,7 +132,7 @@ Test(dialogue, node_free)
     node_t *n;
     int rc;
 
-    n = node_new("ID", "Dialogue");
+    n = node_new("ID", "Dialogue", NEUTRAL);
 
     cr_assert_not_null(n, "node_new() failed");
 
@@ -150,8 +150,9 @@ Test(dialogue, edge_new)
     edge_t *e;
     condition_t *cond = malloc(sizeof(condition_t));
 
-    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"),
-                 cond);
+    e = edge_new("Quip", node_new("N1", "Dia_1", NEUTRAL), 
+                         node_new("N2", "Dia_2", NEUTRAL),
+                         cond, NEUTRAL);
 
     cr_assert_not_null(e, "edge_new() failed");
 
@@ -170,8 +171,8 @@ Test(dialogue, edge_init)
     int rc;
     condition_t *cond = malloc(sizeof(condition_t));
 
-    rc = edge_init(&e, "Quip", node_new("N1", "Dia_1"),
-                   node_new("N2", "Dia_2"), cond);
+    rc = edge_init(&e, "Quip", node_new("N1", "Dia_1", NEUTRAL),
+                   node_new("N2", "Dia_2", NEUTRAL), cond, NEUTRAL);
 
     cr_assert_eq(rc, SUCCESS, "edge_init() failed");
 
@@ -189,8 +190,9 @@ Test(dialogue, edge_free)
     edge_t *e;
     int rc;
 
-    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"),
-                 NULL);
+    e = edge_new("Quip", node_new("N1", "Dia_1", NEUTRAL), 
+                         node_new("N2", "Dia_2", NEUTRAL),
+                         NULL, NEUTRAL);
 
     cr_assert_not_null(e, "edge_new() failed");
 
@@ -371,13 +373,13 @@ Test(dialogue, add_edge_bidirectional)
     convo_t *c = convo_new();
     int rc;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
 
-    rc = add_edge(c, "Q1", "N1", "N2", NULL);
+    rc = add_edge(c, "Q1", "N1", "N2", NULL, NEUTRAL);
     cr_assert_eq(rc, SUCCESS, "First add_edge() failed");
 
-    rc = add_edge(c, "Q2", "N2", "N1", NULL);
+    rc = add_edge(c, "Q2", "N2", "N1", NULL, NEUTRAL);
     cr_assert_eq(rc, SUCCESS, "Second add_edge() failed");
 
     cr_assert_eq(strcmp(c->all_nodes->node->edges->edge->quip, "Q1"), 0,
@@ -397,7 +399,7 @@ Test(dialogue, start_conversation_one_node_no_edges)
     char *ret_str;
     char *expected = "D1\n";
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", NEUTRAL);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -416,13 +418,13 @@ Test(dialogue, start_conversation_three_nodes_three_edges)
     char *ret_str;
     char *expected = "D1\n1. Q1\n2. Q2\n3. Q3\nEnter your choice: ";
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
+    add_node(c, "N3", "D3", NEUTRAL);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N1", "N3", NULL);
-    add_edge(c, "Q3", "N1", "N3", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, NEUTRAL);
+    add_edge(c, "Q2", "N1", "N3", NULL, NEUTRAL);
+    add_edge(c, "Q3", "N1", "N3", NULL, NEUTRAL);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -442,10 +444,10 @@ Test(dialogue, run_conversation_step_two_nodes_end)
     char *ret_str;
     char *expected = "D2\n";
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, NEUTRAL);
 
     start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
@@ -468,12 +470,12 @@ Test(dialogue, run_conversation_step_three_nodes_end)
     char *ret_str;
     char *expected = "D3\n";
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
+    add_node(c, "N3", "D3", NEUTRAL);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N1", "N3", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, NEUTRAL);
+    add_edge(c, "Q2", "N1", "N3", NULL, NEUTRAL);
 
     start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
@@ -496,14 +498,14 @@ Test(dialogue, run_conversation_step_four_nodes_continue)
     char *ret_str;
     char *expected = "D2\n1. Q2\n2. Q3\nEnter your choice: ";
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
-    add_node(c, "N4", "D4");
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
+    add_node(c, "N3", "D3", NEUTRAL);
+    add_node(c, "N4", "D4", NEUTRAL);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N2", "N3", NULL);
-    add_edge(c, "Q3", "N2", "N4", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, NEUTRAL);
+    add_edge(c, "Q2", "N2", "N3", NULL, NEUTRAL);
+    add_edge(c, "Q3", "N2", "N4", NULL, NEUTRAL);
 
     start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
@@ -532,9 +534,9 @@ Test(dialogue, one_failing_conditional)
     item_t *i = item_new("item", "short_desc", "long_desc");
     condition_t *cond = inventory_condition_new(p, i);
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_edge(c, "Q1", "N1", "N2", cond);
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
+    add_edge(c, "Q1", "N1", "N2", cond, NEUTRAL);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -562,15 +564,15 @@ Test(dialogue, two_conditionals)
     condition_t *cond1 = inventory_condition_new(p, i1);
     condition_t *cond2 = inventory_condition_new(p, i2);
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
-    add_node(c, "N4", "D4");
-    add_node(c, "N5", "D5");
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N1", "N3", cond1);
-    add_edge(c, "Q3", "N1", "N3", cond2);
-    add_edge(c, "Q4", "N1", "N4", NULL);
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
+    add_node(c, "N3", "D3", NEUTRAL);
+    add_node(c, "N4", "D4", NEUTRAL);
+    add_node(c, "N5", "D5", NEUTRAL);
+    add_edge(c, "Q1", "N1", "N2", NULL, NEUTRAL);
+    add_edge(c, "Q2", "N1", "N3", cond1, NEUTRAL);
+    add_edge(c, "Q3", "N1", "N3", cond2, NEUTRAL);
+    add_edge(c, "Q4", "N1", "N4", NULL, NEUTRAL);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -604,7 +606,7 @@ Test(dialogue, give_one_item)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", NEUTRAL);
 
     add_give_item(c, "N1", "item");
 
@@ -639,7 +641,7 @@ Test(dialogue, give_two_items)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", NEUTRAL);
 
     add_give_item(c, "N1", "item1");
     add_give_item(c, "N1", "item2");
@@ -677,9 +679,9 @@ Test(dialogue, give_one_then_one_item)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_node(c, "N1", "D1", NEUTRAL);
+    add_node(c, "N2", "D2", NEUTRAL);
+    add_edge(c, "Q1", "N1", "N2", NULL, NEUTRAL);
 
     add_give_item(c, "N1", "item1");
     add_give_item(c, "N2", "item2");
@@ -719,7 +721,7 @@ Test(dialogue, take_one_item)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", NEUTRAL);
 
     add_take_item(c, "N1", "item");
 

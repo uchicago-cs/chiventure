@@ -6,7 +6,6 @@
 
 int main()
 {
-<<<<<<< HEAD
     // stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
     // p_stats->hp = 100;
     // p_stats->max_hp = 100;
@@ -15,15 +14,6 @@ int main()
     // p_stats->level = 3;
     // p_stats->phys_def = 3;
     // p_stats->accuracy = 80;
-=======
-    stat_t *p_stats = (stat_t*) calloc(1, sizeof(stat_t));
-    p_stats->hp = 100;
-    p_stats->xp = 10;
-    p_stats->speed = 10;
-    p_stats->level = 3;
-    p_stats->defense = 3;
-    p_stats->strength = 80;
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     // battle_player_t *p = new_ctx_player("John", NULL, p_stats, NULL, NULL);
 
@@ -61,7 +51,6 @@ int main()
     // while(ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
     // {
 
-<<<<<<< HEAD
     //     char* res = battle_flow_move(ctx, test_move_bard(), "Goblin");
     //     if(strcmp(res, "FAILURE") == 0)
     //     {
@@ -91,35 +80,4 @@ int main()
     //         fprintf(stderr, "ERROR, battle should not return as no_battle");
     // }
     return 0;
-=======
-        char* res = battle_flow_move(ctx, test_move_bard(), "Goblin");
-        if(strcmp(res, "FAILURE") == 0)
-        {
-            fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
-            ctx = NULL;
-        }
-        else
-        {
-            printf("Turn %d: \n",turn);
-            printf("    p | hp: %d\n", ctx->game->battle->player->stats->hp);
-            printf("    e | hp: %d\n\n", ctx->game->battle->enemy->stats->hp);
-            turn++;
-        }
-    }
-    battle_status_t winner = battle_over(ctx->game->battle);
-    switch (winner) {
-        case BATTLE_IN_PROGRESS:
-            fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
-            break;
-        case BATTLE_VICTOR_PLAYER:
-            fprintf(stderr, "SUCCESS: battle flow loop exited and player won\n");
-            break;
-        case BATTLE_VICTOR_ENEMY:
-            fprintf(stderr, "SUCCESS: battle flow loop exited and enemy won\n");
-            break;
-        case NO_BATTLE:
-            fprintf(stderr, "ERROR, battle should not return as no_battle");
-    }
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 }
-

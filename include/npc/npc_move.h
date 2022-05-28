@@ -64,6 +64,8 @@ typedef enum npc_path_direction {
 typedef struct npc_mov {
     npc_path_dll_t *path;
     npc_mov_enum_t mov_type;
+    npc_path_direction_t npc_path_direction;
+    unsigned int npc_path_pos;
     char *track;
 } npc_mov_t;
 

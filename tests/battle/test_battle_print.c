@@ -101,15 +101,19 @@ Test(battle_print, print_hp_one_enemy)
     // Setting up a battle with set_battle
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     player_stats->hp = 50;
-    player_stats->strength = 20;
-    player_stats->defense = 12;
+    player_stats->phys_atk = 20;
+    player_stats->phys_def = 12;
+    player_stats->crit = 0;
+    player_stats->accuracy = 100;
     player_stats->xp = 100;
     player_stats->level = 5;
     player_stats->speed = 10;
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     enemy_stats->hp = 30;
-    enemy_stats->strength = 14;
-    enemy_stats->defense = 9;
+    enemy_stats->phys_atk = 14;
+    enemy_stats->phys_def = 9;
+    enemy_stats->crit = 0;
+    enemy_stats->accuracy = 100;
     enemy_stats->xp = 100;
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
@@ -155,7 +159,6 @@ Test(battle_print, print_hp_one_enemy)
     free(string);
 } */
 
-<<<<<<< HEAD
 /* Tests print_battle_move() on a player move for crit */
 Test(battle_print, print_player_move_crit)
 {
@@ -295,8 +298,6 @@ Test(battle_print, print_player_move_miss)
 
 // test to be changed - will be resolved by merging with and 
 // accepting changes from the stat_change pull request
-=======
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 /* Tests print_battle_move() on an enemy move */
 /*Test(battle_print, print_enemy_move)
 {
@@ -304,15 +305,19 @@ Test(battle_print, print_player_move_miss)
     stat_t *player_stats = calloc(1,sizeof(stat_t));
     stat_t *enemy_stats = calloc(1,sizeof(stat_t));
     player_stats->hp = 50;
-    player_stats->strength = 20;
-    player_stats->defense = 12;
+    player_stats->phys_atk = 20;
+    player_stats->phys_def = 12;
+    player_stats->crit = 0;
+    player_stats->accuracy = 100;
     player_stats->xp = 100;
     player_stats->level = 5;
     player_stats->speed = 10;
 
     enemy_stats->hp = 30;
-    enemy_stats->strength = 14;
-    enemy_stats->defense = 9;
+    enemy_stats->phys_atk = 14;
+    enemy_stats->phys_def = 9;
+    enemy_stats->crit = 0;
+    enemy_stats->accuracy = 100;
     enemy_stats->xp = 100;
     enemy_stats->level = 5;
     enemy_stats->speed = 9;
