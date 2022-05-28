@@ -45,10 +45,10 @@ chiventure_ctx_t *create_sample_ctx()
     add_room_to_game(game, room4);
     add_room_to_game(game, room5);
     game->curr_room = room1;
-    create_connection(game, "room1", "room2", "NORTH");
-    create_connection(game, "room2", "room3", "NORTH");
-    create_connection(game, "room3", "room4", "EAST");
-    create_connection(game, "room3", "room5", "WEST");
+    create_connection(game, "Ryerson 251", "Borja's Office", "north");
+    create_connection(game, "Borja's Office", "Crerar 390", "north");
+    create_connection(game, "Crerar 390", "Peach's", "east");
+    create_connection(game, "Crerar 390", "The Void", "west");
 
 
     player_t *player = player_new("Borja");
@@ -86,11 +86,13 @@ chiventure_ctx_t *create_sample_ctx()
     skill_t *skill3 = skill_new(1002, ACTIVE, "Code", "Develop a new Heroku App", 10, 100, NULL, NULL);
     skill_t *skill4 = skill_new(1002, ACTIVE, "Hire TA", "Spawn new senior software developers", 10, 100, NULL, NULL);
     skill_t *skill5 = skill_new(1002, ACTIVE, "Tweet", "Call on alums to complain about software developemnt", 10, 100, NULL, NULL);
-    skill_node_t *skill_node1 = skill_node_new(skill1, 0, 0, 0);
-    skill_node_t *skill_node2 = skill_node_new(skill2, 0, 0, 0);
-    skill_node_t *skill_node3 = skill_node_new(skill3, 0, 0, 0);
-    skill_node_t *skill_node4 = skill_node_new(skill4, 0, 0, 0);
-    skill_node_t *skill_node5 = skill_node_new(skill5, 0, 0, 0);
+    char **classes = malloc(sizeof(char*));
+    classes[0] = "Borja";
+    skill_node_t *skill_node1 = skill_node_new(skill1, 0, 0, classes, 0, 0);
+    skill_node_t *skill_node2 = skill_node_new(skill2, 0, 0, classes, 0, 0);
+    skill_node_t *skill_node3 = skill_node_new(skill3, 0, 0, classes, 0, 0);
+    skill_node_t *skill_node4 = skill_node_new(skill4, 0, 0, classes, 0, 0);
+    skill_node_t *skill_node5 = skill_node_new(skill5, 0, 0, classes, 0, 0);
     skill_tree_t *skill_tree = skill_tree_new(1001, "", 5);
     skill_tree_node_add(skill_tree, skill_node1);
     skill_tree_node_add(skill_tree, skill_node2);
