@@ -3,7 +3,7 @@ This file is to give the order of the functions needed to run the Skilltrees Dem
 
 Lore:
 You are a young adventurer, going to skills academy in order to get strong. 
-Your mentor teaches you about complex skills, classes, and how to read, when he turns out to be vampire, and you kill him. 
+Your mentor teaches you about complex skills, classes, and how to read, when he turns out to be a vampire, and you kill him. 
 
 ## Running the Demo Game
 1. Clone the chiventure repo into your folder of choice.

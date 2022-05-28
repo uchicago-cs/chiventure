@@ -30,7 +30,7 @@ const char* banner =
 /* ========================================================================== */
 /* Declare skill tree ======================================================= */
 /* ========================================================================== */
-skill_tree_t* skill_treedemo;
+skill_tree_t* skill_tree_demo;
 
 
 
@@ -60,7 +60,7 @@ chiventure_ctx_t* create_example_ctx() {
 
     room_t* combined_room = room_new("Combined Skill Room", "", "You see your new mentor, in the middle of a large hallway.");
 
-    room_t* sequential_room = room_new("Sequential Skill Room", "", "You enter a room with a training dummy.\nYour mentor begins to train "
+    room_t* sequential_room = room_new("Sequential Skill Room", "", "You enter a room with a training dummy.\nYour mentor begins to teach "
                                                                     "you a powerful combo move, one that stuns your opponent,\nthen summons "
                                                                     "a mighty tornado!");
 
