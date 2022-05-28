@@ -55,8 +55,6 @@
   },
   "PLAYERS": {
     "KNIGHT": {
-      "short desc": "KNIGHT",
-      "long desc": "This is a KNIGHT.",
       "short_desc": "Knight",
       "long_desc": "This a Knight",
       "attributes": {

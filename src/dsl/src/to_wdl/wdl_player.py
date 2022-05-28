@@ -23,10 +23,6 @@ class Player_Class:
             Converts a Game to WDL structure using its properties. Generates 
             default values where they are missing.
         """
-        if self.default == "no-defaults":
-            warn(f'''warning: no default values generated for {self.name}, wdl file may not run''')
-        self.generate_defaults()
-
         for k, v in self.contents.items():
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
@@ -36,6 +32,10 @@ class Player_Class:
                 self.wdl_contents["base_stats"] = self.contents["base_stats"]
             else:
                 self.wdl_contents[k] = v
+
+        if self.default == "no-defaults":
+            warn(f'''warning: no default values generated for {self.name}, wdl file may not run''')
+        self.generate_defaults()
         return {self.name: self.wdl_contents}
 
     def generate_defaults(self):
@@ -46,14 +46,14 @@ class Player_Class:
         """
         
         # generate default for short description
-        if 'short desc' not in self.wdl_contents:
+        if 'short_desc' not in self.wdl_contents:
             default_name = self.name
-            self.wdl_contents['short desc'] = f"{default_name}"
+            self.wdl_contents['short_desc'] = f"{default_name}"
             warn(f'''missing: short description for {default_name}, generated default: {self.wdl_contents['short desc']}''')
 
         # generate default for long description
-        if 'long desc' not in self.wdl_contents:
-            short_desc = self.wdl_contents.get('short desc', '')
+        if 'long_desc' not in self.wdl_contents:
+            short_desc = self.wdl_contents.get('short_desc', '')
             default = f"This is a {self.name}."
-            self.wdl_contents['long desc'] = f"{default}"
+            self.wdl_contents['long_desc'] = f"{default}"
             warn(f'''missing: long description for {self.name}, generated default: {self.wdl_contents['long desc']}''')
