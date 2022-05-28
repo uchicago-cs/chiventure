@@ -156,9 +156,7 @@ Test(quest,is_quest_completed)
     item_t *item = item_new("test_item", "item for testing", "test item");
 	quest_t* quest = create_sample_quest("Cinderella", true, 50, item, false, 0, 0);
 
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
-
-    task_t *task = create_sample_task("Visit ballroom", true, "Grand ballroom", VISIT_ROOM, true, 50, item, false, 0, 0);
+    task_t *task = create_sample_task("Visit ballroom", false, NULL , VISIT_ROOM, true, 50, item, false, 0, 0);
     add_task_to_quest(quest, task, NULL);
 
     quest_ctx_t *qctx = create_sample_ctx();
