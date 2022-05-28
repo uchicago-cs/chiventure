@@ -69,7 +69,7 @@ const char *banner =
 /* Global variables needed for the implementation of this example game */
 npc_t *friendly_fiona;
 npc_t *hostile_harry;
-npc_t *wandering_william;
+npc_t *wandering_wanda;
 npc_t *speedy_sonic;
 npc_t *brainy_borja;
 
@@ -108,6 +108,7 @@ stat_t *create_enemy_stats()
     test_stats->max_hp = 200;
     test_stats->xp = 0;
     test_stats->level = 5;
+    test_stats->surrender_level = 0;
 
     return test_stats;
 }
@@ -247,9 +248,9 @@ convo_t *create_sample_convo_fiona()
              "some battle skills with you outside.");
     node_t *hostile_node = get_node(c->all_nodes, "2a");
     add_action_to_node(hostile_node, MAKE_HOSTILE, "fiona battle");
-    add_action_to_node(hostile_node, MOVE_ROOM, "fiona move to arena");
+    add_action_to_node(hostile_node, MOVE_ROOM, "fiona move outside");
 
-    add_node(c, "2b", "Fiona: I hope you have a good day too!");
+    add_node(c, "2b", "Fiona: I hope you have a good day too! Please take this for good luck");
 
     // Edges
     add_edge(c, "Let's have a fight.", "1", "2a", NULL);
@@ -259,25 +260,33 @@ convo_t *create_sample_convo_fiona()
 }
 
 
-/* Creates a sample convo for NPC William, taken from npc_example.c */
-convo_t *create_sample_convo_william()
+/* Creates a sample convo for NPC wanda, taken from npc_example.c */
+convo_t *create_sample_convo_wanda()
 {
     // Starting to build the conversation structure
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "William: Hi! I'm William");
+    add_node(c, "1", "Wanda: Hi! I'm Wanda");
     node_t *node_1 = get_node(c->all_nodes, "1");
-    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop william");
+    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop wanda");
     
-    add_node(c, "2", "William: Well, I better get moving, bye!");
+    add_node(c, "2", "Wanda: Well, I better get moving, bye!");
     node_t *node_2 = get_node(c->all_nodes, "2");
-    add_action_to_node(node_2, RESUME_MOVEMENT, "let william leave");
+    add_action_to_node(node_2, RESUME_MOVEMENT, "let wanda leave");
 
     // Edges
-    add_edge(c, "Hello William!", "1", "2", NULL);
+    add_edge(c, "Hello Wanda!", "1", "2", NULL);
 
     return c;
+}
+
+/* Creates a sample convo for NPC Borja */
+convo_t *create_sample_convo_borja()
+{
+    convo_t *c = convo_new();
+
+    add_node(c, "1", "");
 }
 
 
@@ -418,7 +427,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, crerar_second->room_id, 0);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
+                                       crerar_second->room_id, 0);
     extend_path_definite(movement1, outside->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
@@ -444,7 +454,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, peachs_cafe->room_id, 0);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
+                                       peachs_cafe->room_id, 0);
     extend_path_definite(movement2, outside->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
@@ -482,37 +493,52 @@ chiventure_ctx_t *create_sample_ctx()
     add_convo_to_npc(hostile_harry, c_harry);
 
 
-    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, outside->room_id, 5);
+    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
+                                       outside->room_id, 5);
     extend_path_indefinite(movement3, peachs_cafe->room_id, 5);
     extend_path_indefinite(movement3, crerar_first->room_id, 5);
     extend_path_indefinite(movement3, crerar_second->room_id, 5);
     extend_path_indefinite(movement3, crerar_209->room_id, 5);
-    wandering_william = npc_new("william", "wandering william is friendly",
-     "wandering william is just a jolly good fellow who likes to wander between"
+    wandering_wanda = npc_new("wanda", "wandering wanda is friendly",
+     "wandering wanda is just a jolly good fellow who likes to wander between"
      "rooms", class2, movement3, FRIENDLY);
-    convo_t *c_william = create_sample_convo_william();
-    assert(add_convo_to_npc(wandering_william, c_william) == SUCCESS);
+    convo_t *c_wanda = create_sample_convo_wanda();
+    assert(add_convo_to_npc(wandering_wanda, c_wanda) == SUCCESS);
     
 
-    npc_mov_t *sonic_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, outside->room_id, 1);
+    npc_mov_t *sonic_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
+                                       outside->room_id, 1);
     extend_path_indefinite(sonic_mov, peachs_cafe->room_id, 2);
     extend_path_indefinite(sonic_mov, crerar_first->room_id, 2);
     extend_path_indefinite(sonic_mov, crerar_second->room_id, 2);
     extend_path_indefinite(sonic_mov, crerar_209->room_id, 1);
-    speedy_sonic = npc_new("sonic", "sonic the hedgehog", "sonic the hedgehog is very fast", class2, sonic_mov, FRIENDLY);
+    speedy_sonic = npc_new("sonic", "sonic the hedgehog",
+                           "sonic the hedgehog is very fast",
+                           class2, sonic_mov, FRIENDLY);
 
 
-    npc_mov_t *borja_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, crerar_209->room_id, 0);
+    npc_mov_t *borja_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
+                                       crerar_209->room_id, 0);
     extend_path_definite(borja_mov, peachs_cafe->room_id);
     extend_path_definite(borja_mov, outside->room_id);
-    brainy_borja = npc_new("borja", "Professor Borja Sotomayor", "Borja Sotomayor is an Associate Senior Instructional Professor in the Department of Computer Science, "
-                           "where he teaches intro CS, software development, computer networks, and distributed systems.", class2, borja_mov, CONDITIONAL_FRIENDLY);
+    brainy_borja = npc_new("borja", "Professor Borja Sotomayor",
+                           "Borja Sotomayor is an Associate Senior "
+                           "Instructional Professor in the Department of "
+                           "Computer Science, where he teaches intro CS, "
+                           "software development, computer networks, and "
+                           "distributed systems.", class2, borja_mov,
+                           CONDITIONAL_FRIENDLY);
+    stat_t *borja_stats = create_enemy_stats();
+    borja_stats->hp = 1000;
+    borja_stats->max_hp = 1000;
+    assert(add_battle_to_npc(brainy_borja, borja_stats, NULL, BATTLE_AI_RANDOM,
+            CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL) == SUCCESS);
 
 
     /* Add the npcs to the game */
     assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
     assert(add_npc_to_game(game, hostile_harry) == SUCCESS);
-    assert(add_npc_to_game(game, wandering_william) == SUCCESS);
+    assert(add_npc_to_game(game, wandering_wanda) == SUCCESS);
     assert(add_npc_to_game(game, speedy_sonic) == SUCCESS);
     assert(add_npc_to_game(game, brainy_borja) == SUCCESS);
 
