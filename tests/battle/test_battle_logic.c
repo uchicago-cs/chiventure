@@ -420,7 +420,7 @@ Test(battle_logic, consume_a_battle_item)
     cr_assert_not_null(p, "combatant_new() failed");
 
     battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
-    i1->name = "Strength Up"
+    i1->name = strncpy("Strength Up", 12);
 
     stat_changes_t *changes = stat_changes_new();
     changes->phys_atk = 10;
