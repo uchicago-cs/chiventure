@@ -9,6 +9,8 @@
 #include "battle/battle_flow.h"
 #include "battle/battle_flow_structs.h"
 #include "battle/battle_default_objects.h"
+#include "game-state/game.h"
+#include "common/ctx.h"
 
 
 
