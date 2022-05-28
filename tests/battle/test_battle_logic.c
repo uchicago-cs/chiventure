@@ -445,7 +445,6 @@ Test(battle_logic, consume_a_battle_item)
  * This is simialr to the test above except there are now two battle_items in
  * the battle_player's inventory that the function has to go through
  */
- /* SEE ISSUE #1657
 Test(battle_logic, uses_battle_item_correctly)
 {
     battle_item_t *head = NULL;
@@ -492,7 +491,7 @@ Test(battle_logic, uses_battle_item_correctly)
     cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
     cr_assert_eq(p->stats->phys_def, 15, "use_battle_item() failed for physical defense!");
     cr_assert_eq(p->stats->phys_atk, 15, "use_battle_item() failed for physical attack!");
-} */
+}
 
 /*
  * Ensures that nothing is done if the player has an empty inventory
