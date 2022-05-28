@@ -47,4 +47,20 @@ class_t* class_prefab_new(game_t* game, char* class_name);
  */
 int class_prefab_add_skills(class_t* class);
 
+
+//code in here is for integration purposes, and does not actually provide use outside of its own module
+//see class_prefabs.c for more information
+int set_stats_hashtable(game_t* game, stats_hash_t** stats,
+                        double max_health, 
+                        double speed,
+                        double physical_defense, 
+                        double physical_attack,
+                        double ranged_attack,
+                        double magic_defense,
+                        double magic_attack,
+                        double max_mana);
+
+int class_allocate_skills(class_t* class, int max_skills_in_tree, 
+                          int max_active_skills, int max_passive_skills);
+
 #endif /* CLASS_PREFABS_H */

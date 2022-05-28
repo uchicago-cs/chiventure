@@ -21,18 +21,15 @@
  * Parameters:
  *  - game: The current game struct (contains the global stat hashtable, which 
  *         can be NULL).
- *  - class_name: The name of the prefab multiclass to be generated. 
+ *  - multiclass_name: The name of the prefab multiclass to be generated. 
  *               Must match one of the multiclasses.
- *  - base_class: first class. helps with the descriptions
- *  - second_class: second class for the multiclass. helps with the descriptions
  * 
  * Note: class_name is case insensitive, but the name stored is always lowercase.
  * 
  * Returns:
  *  - A pointer to the new class on success, NULL on failure.
  */
-class_t* multiclass_prefab_new(game_t* game, class_t* base_class, 
-                            class_t* second_class, char* multiclass_name);
+class_t* multiclass_prefab_new(game_t* game, char* multiclass_name);
 
 /*
  * Initializes a prefab multiclass's skilltree and active combat and noncombat skill 
