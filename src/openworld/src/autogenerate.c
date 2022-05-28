@@ -143,6 +143,9 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
     /* instead of taking all the items, just take a few of them */
     res->items = generate_items(roomspec);
 
+    /* tag to show roomspec position in roomspec list in specgraph */
+    res->tag = roomspec->tag;
+
     res->paths = NULL;
     res->coords=coords;
     res->tag=roomspec->tag;
