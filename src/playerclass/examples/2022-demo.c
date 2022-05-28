@@ -269,6 +269,7 @@ void demo_multiclasses() {
             break;
         }
         class_t* class = multiclass_prefab_new(game, class_name);
+        printf("------------------");
         if (class != NULL) {
             multiclass_prefab_add_skills(game, class);
         }

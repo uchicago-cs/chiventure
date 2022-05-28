@@ -210,6 +210,7 @@ class_t* multiclass_prefab_new(game_t* game, char* multiclass_name)
  */
 
 
+
 /* See multiclass_prefabs.h */
 int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
 {
@@ -223,22 +224,9 @@ int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
         class_t* c2 = class_prefab_new(game, "warrior");
         class_prefab_add_skills(c1);
         class_prefab_add_skills(c2);
-
-        multiclass_tree("Hexblade Tree", c1->skilltree, c2->skilltree);
+ 
+        multiclass->skilltree = multiclass_tree("Hexblade Tree", c1->skilltree, c2->skilltree);
         
-        /* class_allocate_skills(multiclass->base_class, 3, 3, 0);
-        sid_t skill_id = class->skilltree->tid * 100; */
-
-        /* Currently point to null effects */
-        /* Skills */
-       /* skill_t* skill_0 = skill_new(skill_id++, ACTIVE, "Magic Word", 
-                                     "You deal damage to your opponent with " 
-                                     "just a word.", 1, 75, NULL, NULL); */
-
-        /* Add skills to tree */
-       /* add_skill(multiclass->base_class, skill_0, 0, 25, true, NULL, 0);
-        add_skill(multiclass->base_class, skill_1, 1, 50, false, NULL, 0, 0);
-        add_skill(multiclass->base_class, skill_2, 1, 34, false, NULL, 0, 1); */
     }  
 
     else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)){
