@@ -167,20 +167,24 @@ void handle_view_cmd(word_ll *phrase){
     printf("viewing");
 }
 
-void handle_kind1_cmd(word_ll *phrase){
-    printf("phrase->word: %s\n", phrase->word);
-    char *p = phrase->word;
-    printf("p: %s\n", p);
-    if (p == NULL) {
-            printf("Theres nothing there! \n");
-        } 
-    else{
-        printf("%s ", p);
-        p = phrase->next->word;
-        if (p != NULL) {
-            printf("%s ", p);
-        }
+void handle_kind1_cmd(word_ll *action, word_ll *phrase){
+    printf("this is a kind 1 action: ACTION <item>\n");
+    char *a = action->word;
+    word_ll *p = phrase;
+    if (a == NULL) {
+        printf("Theres nothing there! \n");
+    } else {
+        printf("the action is: %s\n", a);
     }
+    if (p != NULL) {
+        printf("the item is: %s", p->word);
+        p = p->next;
+    }
+    while (p != NULL) {
+        printf(" %s", p->word);
+        p = p->next;
+    }    
+    printf("\n\n");
 }
 
 

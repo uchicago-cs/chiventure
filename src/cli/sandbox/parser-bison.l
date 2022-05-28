@@ -10,7 +10,7 @@
 %%
 
     /* this takes in start of line and "open" and returns the token OPEN */
-open { return OPEN; }
+^open { return OPEN; }
 
 close { return CLOSE; }
 
@@ -30,7 +30,7 @@ drop { return DROP; }
 
 consume { return CONSUME; }
 
-the { return THE; }
+the+ { return THE; }
 
 ^GO|go|Go|gO|head|move|walk  { return GO; }
 
