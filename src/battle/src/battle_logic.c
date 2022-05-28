@@ -202,7 +202,7 @@ int apply_movement_stat_changes(stat_t* target_stats, stat_changes_t* changes)
 /* see battle_logic.h */
 int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t* item)  
 {
-    //class_item_stat_multipliers_t* mults = class_multipliers(class, item);
+    class_item_stat_multipliers_t* mults = class_multipliers(class, item);
     
     target_stats->speed += item->attributes->speed;// * mults->speed;
     target_stats->max_sp += item->attributes->max_sp;// * mults->max_sp;
@@ -239,7 +239,7 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
 class_item_stat_multipliers_t* class_item_stat_multipliers_new()
 {
     class_item_stat_multipliers_t* mults = (class_item_stat_multipliers_t*)malloc(sizeof(class_item_stat_multipliers_t));
-    mults->speed = 1;
+    /*mults->speed = 1;
     mults->max_sp = 1;
     mults->sp = 1;
     mults->phys_atk = 1;
@@ -250,7 +250,7 @@ class_item_stat_multipliers_t* class_item_stat_multipliers_new()
     mults->crit = 1;
     mults->accuracy = 1;
     mults->hp = 1;
-    mults->max_hp = 1;
+    mults->max_hp = 1;*/
 
     return mults;
 }
