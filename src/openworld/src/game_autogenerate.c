@@ -20,6 +20,7 @@
 #include "gen_structs.h"
 #include "default_rooms.h"
 #include "autogenerate.h"
+#include "game_autogenerate.h"
 
 #define MAX_RAND_ITEMS (100)
 
