@@ -172,14 +172,14 @@ convo_t *create_sample_convo_harry()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
+    add_node(c, "1", "Harry: Are your trying to pick a fight with me?", HOSTILE);
     add_node(c, "2a", "Harry: You will regret this. Let's meet in the arena and "
-             "I will show you no mercy.");
-    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!");
+             "I will show you no mercy.", HOSTILE);
+    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!", HOSTILE);
 
     // Edges
-    add_edge(c, "Yeah what are you gonna do about it, huh?", "1", "2a", NULL);
-    add_edge(c, "No, I am sorry sir.", "1", "2b", NULL);
+    add_edge(c, "Yeah what are you gonna do about it, huh?", "1", "2a", NULL, HOSTILE);
+    add_edge(c, "No, I am sorry sir.", "1", "2b", NULL, NEUTRAL);
 
     return c;
 }
@@ -192,14 +192,14 @@ convo_t *create_sample_convo_fiona()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Fiona: Hey how are you doing?");
+    add_node(c, "1", "Fiona: Hey how are you doing?", FRIENDLY);
     add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
-             "some battle skills with you in the arena.");
-    add_node(c, "2b", "Fiona: I hope you have a good day too!");
+             "some battle skills with you in the arena.", NEUTRAL);
+    add_node(c, "2b", "Fiona: I hope you have a good day too!", FRIENDLY);
 
     // Edges
-    add_edge(c, "Let's have a fight.", "1", "2a", NULL);
-    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL);
+    add_edge(c, "Let's have a fight.", "1", "2a", NULL, HOSTILE);
+    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL, FRIENDLY);
 
     return c;
 }
