@@ -225,9 +225,9 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
 
     room_autogenerate(game, specgraph, curr, currspec, 
                       direction_to_curr, direction_to_new);
-
-    path_autogenerate(game, specgraph, curr);
     return 1;
+    path_autogenerate(game, specgraph, curr);
+
     free(roomspecs);
     free(currspec);
 
