@@ -298,7 +298,7 @@ int game_autogenerate_static(game_t* g, specgraph_t *specgraph, int num_rooms, c
     roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t));
     roomspecs=specgraph->roomspecs;
 
-    roomspec_t *currspec;
+    roomspec_t *currspec=(roomspec_t*)malloc(sizeof(roomspec_t));
     char* specname;
     coords_t *coords=coords_new(0,0);
 
