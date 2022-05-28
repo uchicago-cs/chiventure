@@ -133,11 +133,13 @@ Test(room, generate_room_in_game){
     int **edges=edges_new(matrix, 3, 3);
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
-    cr_assert_eq(0, 1, "failed to autogenerate game with a randomly chosen first room\n");
+
+    random_first_room(game, specgraph);
+
+    for(int i=0; i<100; i++){
 
     int rc=autogenerate_room_in_game(game, specgraph);
-
-    cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a randomly chosen first room\n");
+    cr_assert_eq((rc==0)||(rc==1), 1, "failed to autogenerate rooms in the game\n");
 }
 /*
 Test(game_autogenerate, game_autogenerate_static_random_first_room){
