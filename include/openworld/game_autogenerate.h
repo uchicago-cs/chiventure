@@ -26,7 +26,7 @@
 
 
 
-roomspec_t* random_first_room(game_t* game, gencontext_t* context);
+roomspec_t* random_first_room(game_t* game, specgraph_t *specgraph);
 
 
 /*
