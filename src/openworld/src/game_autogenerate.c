@@ -85,7 +85,7 @@ room_t* random_room_from_game(game_t* game){
     HASH_ITER(hh, game->all_rooms, current, tmp){
 
         if(count==randomint){
-            random_room=&current;
+            *random_room=current;
             return random_room;
         }
         count ++;
