@@ -108,4 +108,16 @@ npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves,
  */
 int npc_battle_free(npc_battle_t *npc_battle);
 
+/*
+ * Changes the hostility level of an npc_batle struct from 
+ * CONDITIONAL_FRIENDLY to HOSTILE.
+ * 
+ * Parameters:
+ *   npc_battle: the npc_battle struct to be modified
+ * 
+ * Returns:
+ *   SUCCESS if successful, FAILURE if an error occurs
+ */
+int make_npc_hostile(npc_battle_t *npc_battle);
+
 #endif
