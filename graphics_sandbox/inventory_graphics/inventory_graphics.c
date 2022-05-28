@@ -3,7 +3,6 @@
 #include "stdio.h"
 #include "stdlib.h"
 
-
 #define MAX_INVENTORY    21          // Maximum Number of Inventory Items
 
 
