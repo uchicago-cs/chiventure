@@ -70,7 +70,7 @@ bool room_exists_in_direction(game_t* game, room_t *r, char *direction)
 
     /*Determine whether there is a room in the given direction*/
     room_hash_t *current, *tmp;
-    coords_t* coords;
+
     HASH_ITER(hh, game->all_rooms, current, tmp) {
         /* If the room is adjacent to the current room and in the correct direction, return true */
 
