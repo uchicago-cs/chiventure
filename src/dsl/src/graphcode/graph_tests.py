@@ -56,4 +56,8 @@ class TestGraphValidity(unittest.TestCase):
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     unittest.main()
+=======
+    unittest.main()
+>>>>>>> 037f2e2a0821e0e6c33ada1b336dd8642c65961a

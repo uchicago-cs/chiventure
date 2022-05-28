@@ -4,7 +4,7 @@ GAME START lab END room other
 ROOM lab
     short desc: "Oak's lab."
     long desc: "Professor Oak's lab in Pallet Town"
-    connections: EAST TO room house
+    connections: EAST TO house
     
     ITEM COMPUTER IN lab
     short desc: "A computer."
@@ -13,13 +13,13 @@ ROOM lab
 ROOM gym
     short desc: "Brock's Gym"
     long desc: "Gym Leader Brock's gym in Pewter City"
-    connections: SOUTH TO room house
+    connections: SOUTH TO house
 
 ROOM house
     short desc: "Oak's house."
     long desc: "Professor Oak's house in Pallet Town"
-    connections: NORTH TO room gym
-        WEST TO room lab
+    connections: NORTH TO gym
+        WEST TO lab
     
 
 ITEM CHARMANDER IN OAK
