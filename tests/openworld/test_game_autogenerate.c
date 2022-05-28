@@ -134,9 +134,9 @@ Test(room, generate_room_in_game){
     int **edges=edges_new(matrix, 3, 3);
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
-    /*
+    
     int rc=autogenerate_room_in_game(game, specgraph);
-
+    /*
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate game with a randomly chosen first room\n");
     */
 }
