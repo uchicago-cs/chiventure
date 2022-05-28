@@ -419,7 +419,9 @@ Test(battle_logic, consume_a_battle_item)
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
-    battle_item_t *i1 = get_consumable_item("Strength Up", "Adds 5 to your Physical Attack!");
+    battle_item_t *i1 = calloc(1, sizeof(battle_item_t));
+    i1->name = "Strength Up"
+
     stat_changes_t *changes = stat_changes_new();
     changes->phys_atk = 10;
     changes->phys_def = 0;
