@@ -239,7 +239,7 @@ int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t*
 class_item_stat_multipliers_t* class_item_stat_multipliers_new()
 {
     class_item_stat_multipliers_t* mults = (class_item_stat_multipliers_t*)malloc(sizeof(class_item_stat_multipliers_t));
-    /*mults->speed = 1;
+    mults->speed = 1;
     mults->max_sp = 1;
     mults->sp = 1;
     mults->phys_atk = 1;
@@ -250,7 +250,7 @@ class_item_stat_multipliers_t* class_item_stat_multipliers_new()
     mults->crit = 1;
     mults->accuracy = 1;
     mults->hp = 1;
-    mults->max_hp = 1;*/
+    mults->max_hp = 1;
 
     return mults;
 }
@@ -260,7 +260,7 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
 {
     class_item_stat_multipliers_t* mults = class_item_stat_multipliers_new();
 
-    if (strcmp(class->name, "warrior") == 0) {
+    /*if (strcmp(class->name, "warrior") == 0) {
         if (strcmp(item->name, "Strength Up") == 0) {
             mults->phys_atk = 1.5; //1.5
         }
@@ -291,7 +291,7 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
         if (strcmp(item->name, "Healing Potion") == 0) {
             mults->hp = 1; //1.2
         }
-    }
+    }*/
 
     return mults;
 }
