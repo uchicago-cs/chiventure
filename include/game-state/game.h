@@ -5,7 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
-#include "quests/quests_structs.h"
+#include "quests/quests_state.h"
 #include "npc/dialogue.h"
 #include "condition.h"
 #include "game_action.h"
@@ -409,6 +409,18 @@ int delete_room_llist(room_list_t *head);
  *  linked list of pointers to items (the head element)
  */
 item_list_t *get_all_items_in_game(game_t *game);
+
+/* Adds an item to the given player
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
+ *  game struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_item_to_player(player_t *player, item_t *item, game_t *game);
 
 /* add_effect creates a game_action_effect_t struct and adds it to the action pointed to
 * Parameters:
