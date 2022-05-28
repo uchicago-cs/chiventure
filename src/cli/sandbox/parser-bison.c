@@ -188,5 +188,53 @@ void handle_kind1_cmd(word_ll *action, word_ll *phrase){
     printf("\n\n");
 }
 
-void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
+void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2) {
+    printf("this is a kind 3 action: ACTION <item> <item>\n");
+    char *a = action->word;
+    word_ll *p1 = item1;
+    word_ll *p2 = item2;
+    if (a == NULL) {
+        printf("Theres nothing there! \n");
+    } else {
+        printf("the action is: %s\n", a);
+    }
+    if (p1 != NULL) {
+        printf("item 1 is: %s", p1->word);
+        p1 = p1->next;
+    }
+    while (p1 != NULL) {
+        printf(" %s", p1->word);
+        p1 = p1->next;
+    }
+    printf("\n");
+    if (p2 != NULL) {
+        printf("item 2 is: %s", p2->word);
+        p2 = p2->next;
+    }
+    while (p2 != NULL) {
+        printf(" %s", p2->word);
+        p2 = p2->next;
+    }
+    printf("\n\n");
 }
+
+void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
+    printf("this is a kind 4 action: ACTION <self>\n");   
+    char *a = action->word;
+    word_ll *p = phrase;
+    if (a == NULL) {
+        printf("Theres nothing there! \n");
+    } else {
+        printf("the action is: %s\n", a);
+    }
+    if (p != NULL) {
+        printf("the self attribute is: %s", p->word);
+        p = p->next;
+    }
+    while (p != NULL) {
+        printf(" %s", p->word);
+        p = p->next;
+    }    
+    printf("\n\n");
+}
+

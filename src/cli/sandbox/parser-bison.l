@@ -46,6 +46,10 @@ TO|to|To|tO   { return TO; }
 
 credits { return CREDITS; }
 
+my { return MY; }
+
+on { return ON; }
+
 [a-zA-Z0-9]+  { 
     yylval.word = strdup(yytext);
     return WORD; }
