@@ -145,7 +145,6 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
 }
 
-
 /* Adds all of a game's NPCs to the rooms they were initialized to start in.
  * This should be run once a game has been created and all of the NPCs
  * and rooms have been added to the game. */
@@ -199,6 +198,10 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if (tokens[1] == NULL)
+    {
+        return "You need to specify an NPC to find\n";
+    }
     char *npc_id = tokens[1];
     case_insensitize(npc_id);
     npc_t *npc;
@@ -229,8 +232,8 @@ convo_t *create_sample_convo_harry()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Harry: What do you think you're doing here, kid?");
-    add_node(c, "2a", "Harry: You will regret this. Let's meet in the arena and "
+    add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
+    add_node(c, "2a", "Harry: You will regret this. Let's meet outside and "
              "I will show you no mercy.");
     node_t *battle_node1 = get_node(c->all_nodes, "2a");
     add_action_to_node(battle_node1, MOVE_ROOM, "harry move to arena");
@@ -257,7 +260,7 @@ convo_t *create_sample_convo_fiona()
     // Nodes
     add_node(c, "1", "Fiona: Hey how are you doing?");
     add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
-             "some battle skills with you in the arena.");
+             "some battle skills with you outside.");
     node_t *hostile_node = get_node(c->all_nodes, "2a");
     add_action_to_node(hostile_node, MAKE_HOSTILE, "fiona battle");
     add_action_to_node(hostile_node, MOVE_ROOM, "fiona move to arena");
@@ -267,6 +270,28 @@ convo_t *create_sample_convo_fiona()
     // Edges
     add_edge(c, "Let's have a fight.", "1", "2a", NULL);
     add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL);
+
+    return c;
+}
+
+
+/* Creates a sample convo for NPC William, taken from npc_example.c */
+convo_t *create_sample_convo_william()
+{
+    // Starting to build the conversation structure
+    convo_t *c = convo_new();
+
+    // Nodes
+    add_node(c, "1", "William: Hi! I'm William");
+    node_t *node_1 = get_node(c->all_nodes, "1");
+    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop william");
+    
+    add_node(c, "2", "William: Well, I better get moving, bye!");
+    node_t *node_2 = get_node(c->all_nodes, "2");
+    add_action_to_node(node_2, RESUME_MOVEMENT, "let william leave");
+
+    // Edges
+    add_edge(c, "Hello William!", "1", "2", NULL);
 
     return c;
 }
@@ -296,9 +321,9 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         print_to_cli(ctx, tokens[0]);
         return "Error! We need a loaded room to attack.\n";
     }
-    if (game->curr_room != arena)
+    if (strcmp(game->curr_room->room_id, "outside") != 0)
     {
-        return "You can't attack unless you're in the arena.\n";
+        return "It's not a good idea to start a fight in a Library, you should go outside.\n";
     }
     if (tokens[1] == NULL)
     {
@@ -359,31 +384,72 @@ chiventure_ctx_t *create_sample_ctx()
 
     load_normal_mode(game);
 
-    /* Initialize the lobby room */
-    lobby = room_new("lobby", "This is lobby",
-                     "Fiona and Harry are in the lobby, "
-                     "try talk to them.");
+    room_t *crerar_first = room_new("crerar lib floor 1",
+                                    "The first floor of Crerar Library",
+                                    "The first floor of the John Crerar Library, "
+                                    "head EAST to go outside, "
+                                    "UP is the 2nd floor, where Room 209 is located, "
+                                    "and SOUTH is the Peaches Cafe.");
+    room_t *crerar_second = room_new("crerar lib floor 2",
+                                     "The second floor of Crerar Library",
+                                     "The second floor of the John crerar Library, "
+                                     "to the SOUTH lies Room 209, "
+                                     "and DOWN is the first floor of Crerar");
+    room_t *crerar_209 = room_new("room 209", "This is Room 209 of Crerar Library",
+                                  "This is Room 209 of the John Crerar Library, "
+                                  "better known as Borja's Office. "
+                                  "To the NORTH is the rest of second floor of Crerar.");
+    room_t *peachs_cafe = room_new("peach's cafe", "Peach's Cafe at University",
+                                    "This is Peach's Cafe inside of the John Crerar "
+                                    "Library, to the NORTH is the first floor of "
+                                    "Crerar, and head EAST to go outside.");
+    room_t *outside = room_new("outside", "Outside of the John Crerar Library",
+                               "Outside of the John Crerar Library is a great "
+                               "place for, among other things, settling scores. "
+                               "Go WEST to go back inside the John Crerar Library");
 
-    /* Initialize npcs_in_room_t field in room_t */
-    lobby->npcs = npcs_in_room_new("lobby");
-    add_room_to_game(game, lobby);
-    game->curr_room = lobby;
+    path_t *crerar_first_path = path_new(outside, "east");
+    assert(add_path_to_room(crerar_first, crerar_first_path) == SUCCESS);
+    crerar_first_path = path_new(crerar_second, "up");
+    assert(add_path_to_room(crerar_first, crerar_first_path) == SUCCESS);
+    crerar_first_path = path_new(peachs_cafe, "south");
+    assert(add_path_to_room(crerar_first, crerar_first_path) == SUCCESS);
 
-    /* Initialize the arena */
-    arena = room_new("arena", "This is arena",
-                     "Here is the arena, you can engage in "
-                     "battles with NPCs here.");
+    path_t *crerar_second_path = path_new(crerar_first, "down");
+    assert(add_path_to_room(crerar_second, crerar_second_path) == SUCCESS);
+    crerar_second_path = path_new(crerar_209, "south");
+    assert(add_path_to_room(crerar_second, crerar_second_path) == SUCCESS);
 
-    /* Initialize npcs_in_room_t field in room_t */
-    arena->npcs = npcs_in_room_new("arena");
-    add_room_to_game(game, arena);
+    path_t *crerar_209_path = path_new(crerar_second, "north");
+    assert(add_path_to_room(crerar_209, crerar_209_path) == SUCCESS);
 
+    path_t *peachs_path = path_new(crerar_first, "north");
+    assert(add_path_to_room(peachs_cafe, peachs_path) == SUCCESS);
+    peachs_path = path_new(outside, "east");
+    assert(add_path_to_room(peachs_cafe, peachs_path) == SUCCESS);
+    
+    path_t *outside_path = path_new(crerar_first, "west");
+    assert(add_path_to_room(outside, outside_path) == SUCCESS);
+
+    crerar_first->npcs = npcs_in_room_new(crerar_first->room_id);
+    crerar_second->npcs = npcs_in_room_new(crerar_second->room_id);
+    crerar_209->npcs = npcs_in_room_new(crerar_209->room_id);
+    peachs_cafe->npcs = npcs_in_room_new(peachs_cafe->room_id);
+    outside->npcs = npcs_in_room_new(outside->room_id);
+
+    assert(add_room_to_game(game, crerar_first) == SUCCESS);
+    assert(add_room_to_game(game, crerar_second) == SUCCESS);
+    assert(add_room_to_game(game, crerar_209) == SUCCESS);
+    assert(add_room_to_game(game, outside) == SUCCESS);
+    assert(add_room_to_game(game, peachs_cafe) == SUCCESS);
+
+    game->curr_room = crerar_first;
 
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id, 0);
-    extend_path_definite(movement1, arena->room_id);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, crerar_second->room_id, 0);
+    extend_path_definite(movement1, outside->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
                              "Friendly Fiona won't fight you unless you attack "
@@ -400,15 +466,15 @@ chiventure_ctx_t *create_sample_ctx()
     add_battle_to_npc(friendly_fiona, fiona_stats, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
 
-    /* Add dialogue to friendly npc */
+    /* Add dialogue to conditional-friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
     add_convo_to_npc(friendly_fiona, c_fiona);
 
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id, 0);
-    extend_path_definite(movement2, arena->room_id);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, peachs_cafe->room_id, 0);
+    extend_path_definite(movement2, outside->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
                             "Harry.", "Hostile Harry will attack you"
@@ -444,11 +510,19 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *c_harry = create_sample_convo_harry();
     add_convo_to_npc(hostile_harry, c_harry);
 
-    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
-    extend_path_indefinite(movement3, arena->room_id, 5);
+    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, outside->room_id, 5);
+    extend_path_indefinite(movement3, peachs_cafe->room_id, 5);
+    extend_path_indefinite(movement3, crerar_first->room_id, 5);
+    extend_path_indefinite(movement3, crerar_second->room_id, 5);
+    extend_path_indefinite(movement3, crerar_209->room_id, 5);
+
     wandering_william = npc_new("william", "wandering william is friendly",
      "wandering william is just a jolly good fellow who likes to wander between"
      "rooms", class2, movement3, FRIENDLY);
+    
+    /* Add dialogue to friendly npc */
+    convo_t *c_william = create_sample_convo_william();
+    assert(add_convo_to_npc(wandering_william, c_william) == SUCCESS);
 
     /* Add the npcs to the game */
     assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
@@ -494,8 +568,6 @@ int main(int argc, char **argv)
 
     /* Monkeypatch the CLI to add the new operations */
     add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
-    add_entry("ARENA", move_to_arena_operation, NULL, ctx->cli_ctx->table);
-    add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
     add_entry("FIND", find_npc_operation, NULL, ctx->cli_ctx->table);
 

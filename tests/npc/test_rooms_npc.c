@@ -145,7 +145,7 @@ Test(npcs_in_room, npc_one_move_definite)
     npcs_in_room_t *npcs_in_room;
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
-    npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov_t *test_npc1_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
 
 
     int rc_extend = extend_path_definite(test_npc1_mov, test_room2->room_id);
@@ -178,7 +178,7 @@ Test(npcs_in_room, npc_one_move_indefinite)
     npcs_in_room = npcs_in_room_new("test_room");
     char *npc_id1 = "test_npc1";
     npc_mov_t *test_npc1_mov;
-    test_npc1_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 30);
+    test_npc1_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 30);
 
     int rc_extend = extend_path_indefinite(test_npc1_mov, test_room2->room_id, 10);
     cr_assert_eq(rc_extend, SUCCESS, "Could not extend npc mov path");

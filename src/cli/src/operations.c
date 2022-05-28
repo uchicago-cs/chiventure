@@ -469,22 +469,18 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * action management is expecting all arguments to the self action
      * but not the actual action in a string array
      *
-     * Thus we clip off the first term to hand to do_self_action */
-    char **clipped_token_array = &tokens[1];
+     * Thus we clip off the first term to hand to do_self_action 
+     * Allocated to size TOKEN_LIST_SIZE-1 to be as big as normal w/o the action*/
+     char **clipped_token_array = (char**)calloc(TOKEN_LIST_SIZE-1,1);
+     clipped_token_array[0] = tokens[1];
+     clipped_token_array[1] = tokens[2];
+     clipped_token_array[2] = tokens[3];
 
     /* do_self_action return codes are either:
      *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
      *  otherwise, returns SUCCESS */
 
-
-    /*================================================================ 
-     * AS OF 5/23/2022 at 10:35pm
-     * ONCE AM FINISHES THIS VERION OF DO_SELF_ACTION WE CAN UNCOMMENT
-     * THE ACTUAL FUNCTION CALL, 
-     * for now will leave the currently implemented call 
-     *================================================================ */
-    //int rc = do_self_action(ctx, action, clipped_token_array, &str);
-    int rc = do_self_action(ctx, action, tokens[1], &str);
+    int rc = do_self_action(ctx, action, clipped_token_array, &str);
     return str;
 }
 
@@ -703,13 +699,15 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return rt;
     }
 
+    set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+
     char *str = start_conversation(npc->dialogue, &rc, ctx->game);
 
     assert(rc != -1); //checking for conversation error
 
-    if (rc == 0)
+    if (rc != 0)
     {
-        set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+        set_game_mode(ctx->game, NORMAL, npc->npc_id);
     }
 
     return str;

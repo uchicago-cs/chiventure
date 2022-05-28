@@ -4,6 +4,7 @@
 #include "npc/npc_move.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
+
 /* Initializes time_ray_t struct
  * Parameters
  *  - time_ray: pointer to malloc'd time_ray_t
@@ -138,7 +139,7 @@ int npc_path_dll_free(npc_path_dll_t *head)
 }
 
 /* See npc_move.h */
-int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
+int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, npc_mov_permission_t permission, char *room_id,
                  double room_time)
 {
     assert(npc_mov != NULL);
@@ -162,14 +163,14 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
 
 
 /* See npc_move.h */
-npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id, double room_time)
+npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, npc_mov_permission_t permission, char *room_id, double room_time)
 {
     npc_mov_t *npc_mov;
     npc_mov = malloc(sizeof(npc_mov_t));
     memset(npc_mov, 0, sizeof(npc_mov_t));
     npc_mov->track = malloc(MAX_ID_LEN);
 
-    int check = npc_mov_init(npc_mov, mov_type, room_id, room_time);
+    int check = npc_mov_init(npc_mov, mov_type, permission, room_id, room_time);
 
     if (npc_mov == NULL || check != SUCCESS)
     {
@@ -190,6 +191,7 @@ int npc_mov_free(npc_mov_t *npc_mov)
 }
 
 // FUNCTIONS TO EXTEND PATHS --------------------------------------------------
+
 /* See npc_move.h */
 int extend_path_definite(npc_mov_t *npc_mov, char *room_id)
 {
@@ -216,6 +218,7 @@ int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id, double room_time)
 }
 
 // "GET" FUNCTIONS ------------------------------------------------------------
+
 /* See npc_move.h */
 npc_path_dll_t *get_npc_curr_path_step(npc_mov_t *npc_mov)
 {
@@ -290,6 +293,7 @@ int get_npc_num_rooms(npc_mov_t *npc_mov)
 }
 
 // "SET" FUNCTIONS ------------------------------------------------------------
+
 /* See npc_move.h */
 int reset_indefinite_npc_room_start_time(npc_mov_t *npc_mov)
 {
@@ -303,7 +307,22 @@ int reset_indefinite_npc_room_start_time(npc_mov_t *npc_mov)
     return SUCCESS;
 }
 
+/* See npc_move.h */
+int allow_npc_movement(npc_mov_t *npc_mov)
+{
+    npc_mov->permission = NPC_MOV_ALLOWED;
+    return SUCCESS;
+}
+
+/* See npc_move.h */
+int restrict_npc_movement(npc_mov_t *npc_mov)
+{
+    npc_mov->permission = NPC_MOV_RESTRICTED;
+    return SUCCESS;
+}
+
 // COMPARISON FUNCTIONS -------------------------------------------------------
+
 /* See npc_move.h */
 int room_id_cmp(npc_path_dll_t *room1, npc_path_dll_t *room2)
 {
@@ -311,6 +330,20 @@ int room_id_cmp(npc_path_dll_t *room1, npc_path_dll_t *room2)
 }
 
 // CHECKING FUNCTIONS ---------------------------------------------------------
+
+/* See npc_move.h */
+bool check_if_npc_is_allowed_to_move(npc_mov_t *npc_mov)
+{
+    if (npc_mov->permission == NPC_MOV_ALLOWED)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 /* Helper Function for check_if_npc_mov_indefinite_needs_moved()
  * Just returns the number of seconds an NPC has overstayed their current
  * location, with negative values indicating they still have time left
@@ -325,18 +358,20 @@ double seconds_past_room_time(time_ray_t *time_ray)
 bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov)
 {
     assert(npc_mov->mov_type == NPC_MOV_INDEFINITE);
+    bool permission = check_if_npc_is_allowed_to_move(npc_mov);
     npc_path_dll_t *curr_room = get_npc_curr_path_step(npc_mov);
-    if (seconds_past_room_time(curr_room->room_time) >= 0)
+    if ((permission == false) || (seconds_past_room_time(curr_room->room_time) < 0))
     {
-        return true;
+        return false;
     }
     else
     {
-        return false;
+        return true;
     }
 }
 
 // DO SOMETHING FUNCTIONS -----------------------------------------------------
+
 /* See npc_move.h */
 int flip_npc_path_direction(npc_mov_t *npc_mov)
 {
