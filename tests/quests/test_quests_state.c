@@ -15,13 +15,13 @@
 /* Tests the function that adds the contents of a reward struct into a player struct */
 Test(quest, accept_reward) {
     item_t *item = item_new("test item!", "item for testing", "This item is made for testing purposes only and is not intended to give the player any sense of enjoyment.");
-    reward_t *reward = reward_new(40, item);
+    reward_t *reward = reward_new(9, item);
     player_t *player = player_new("Steve");
     quest_hash_t *quest_hash = NULL;
     quest_ctx_t *qctx = quest_ctx_new(player, quest_hash);
 
     accept_reward(reward, qctx);
-    cr_assert_eq(player->xp, 40, "accept_reward() didn't properly give xp!");
+    cr_assert_eq(player->xp, 9, "accept_reward() didn't properly give xp!");
 
     item_t *search_item = get_item_in_hash(player->inventory, item->item_id);
     cr_assert_not_null(search_item, "item not added to player's inventory");
