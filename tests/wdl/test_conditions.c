@@ -25,7 +25,9 @@ void conditions_check(char* item, char* action)
     item_t *i = get_item_from_game(g, item);
     cr_assert_not_null(i, "Issue grabbing item %s from game.", item);
     
-    game_action_t *a = get_action(i, action);
+    agent_t *item_agent;
+    item_agent->item = i;
+    game_action_t *a = get_action(item_agent, action);
     cr_assert_not_null(a, "Issue grabbing action %s from item %s.", action, item);
     condition_list_t *conditions_ls = a->conditions;
 
