@@ -219,6 +219,7 @@ int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
     /* make temp_name lowercase */
     for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
         temp_name[i] = tolower(temp_name[i]);
+
     if (!strncmp(temp_name, "hexblade", MAX_NAME_LEN)) {
         class_t* c1 = class_prefab_new(game, "wizard");
         class_t* c2 = class_prefab_new(game, "warrior");
@@ -230,16 +231,42 @@ int multiclass_prefab_add_skills(game_t* game, class_t* multiclass)
     }  
 
     else if (!strncmp(temp_name, "infernal", MAX_NAME_LEN)){
-
+        class_t* c1 = class_prefab_new(game, "elementalist");
+        class_t* c2 = class_prefab_new(game, "sorceror");
+        class_prefab_add_skills(c1);
+        class_prefab_add_skills(c2);
+ 
+        multiclass->skilltree = multiclass_tree("Infernal Tree", c1->skilltree, c2->skilltree);
     }
 
     else if (!strncmp(temp_name, "paladin", MAX_NAME_LEN)){
-
+        class_t* c1 = class_prefab_new(game, "knight");
+        class_t* c2 = class_prefab_new(game, "monk");
+        class_prefab_add_skills(c1);
+        class_prefab_add_skills(c2);
+ 
+        multiclass->skilltree = multiclass_tree("Paladin Tree", c1->skilltree, c2->skilltree);
     }
 
     else if (!strncmp(temp_name, "enchanter", MAX_NAME_LEN)){
-
+        class_t* c1 = class_prefab_new(game, "bard");
+        class_t* c2 = class_prefab_new(game, "healer");
+        class_prefab_add_skills(c1);
+        class_prefab_add_skills(c2);
+ 
+        multiclass->skilltree = multiclass_tree("Enchanter Tree", c1->skilltree, c2->skilltree);
     }
+
+    else if (!strncmp(temp_name, "assassin", MAX_NAME_LEN)){
+        class_t* c1 = class_prefab_new(game, "rogue");
+        class_t* c2 = class_prefab_new(game, "ranger");
+        class_prefab_add_skills(c1);
+        class_prefab_add_skills(c2);
+ 
+        multiclass->skilltree = multiclass_tree("Assassin Tree", c1->skilltree, c2->skilltree);
+    }
+
+    
     
     else {
         fprintf(stderr, "Could not find class for skill inventories "
