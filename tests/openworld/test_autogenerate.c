@@ -165,16 +165,16 @@ Test(autogenerate, room_exists_in_direction_false2){
     char* direction_to_new=(char*)malloc(6*sizeof(char));
     char* direction_to_curr=(char*)malloc(6*sizeof(char));
 
-    rc=path_exists_in_direction(game, room, "north");
+    rc=room_exists_in_direction(game, room, "north");
     cr_assert_eq(rc, false, "failed to determine if a room exists north of the current room\n");
 
-    rc=path_exists_in_direction(game, room, "south");
+    rc=room_exists_in_direction(game, room, "south");
     cr_assert_eq(rc, false, "failed to determine if a room exists south of the current room\n");
 
-    rc=path_exists_in_direction(game, room, "east");
+    rc=room_exists_in_direction(game, room, "east");
     cr_assert_eq(rc, false, "failed to determine if a room exists east of the current room\n");
 
-    rc=path_exists_in_direction(game, room, "west");
+    rc=room_exists_in_direction(game, room, "west");
     cr_assert_eq(rc, false, "failed to determine if a room exists west of the current room\n");    
 }
 
