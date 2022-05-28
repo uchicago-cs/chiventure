@@ -18,14 +18,14 @@ node_t *get_node(node_list_t *n_lst, char *node_id)
 }
 
 /* See dialogue.h */
-int add_node(convo_t *c, char *node_id, char *npc_dialogue, tone_t tone)
+int add_node(convo_t *c, char *node_id, char *npc_dialogue)
 {
     // Check if a node with the same ID already exists
     if (get_node(c->all_nodes, node_id) != NULL) return FAILURE;
 
     // Create node
     node_t *n;
-    if ((n = node_new(node_id, npc_dialogue, tone)) == NULL) return FAILURE;
+    if ((n = node_new(node_id, npc_dialogue)) == NULL) return FAILURE;
 
     // Create node list element
     node_list_t *elt;
@@ -66,7 +66,7 @@ edge_list_t *create_edge_list_element(edge_t *e)
 
 /* See dialogue.h */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
-             condition_t *conditions, tone_t tone)
+             condition_t *conditions)
 {
     assert(c->num_nodes >= 2);
 
@@ -77,7 +77,7 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
 
     // Create edge
     edge_t *e;
-    if ((e = edge_new(quip, from_node, to_node, conditions, tone)) == NULL)
+    if ((e = edge_new(quip, from_node, to_node, conditions)) == NULL)
         return FAILURE;
 
     edge_list_t *c_elt, *n_elt;
@@ -164,7 +164,7 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id)
 
 /* See dialogue.h */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
-              condition_t *conditions, tone_t tone)
+              condition_t *conditions)
 {
     assert(e != NULL);
     assert(quip != NULL);
@@ -175,19 +175,17 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
     e->from = from;
     e->to = to;
     e->conditions = conditions;
-    e->tone = tone;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions,
-                 tone_t tone)
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions)
 {
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
 
-    if (edge_init(e, quip, from, to, conditions, tone) != SUCCESS)
+    if (edge_init(e, quip, from, to, conditions) != SUCCESS)
     {
         edge_free(e);
         return NULL;
@@ -210,7 +208,7 @@ int edge_free(edge_t *e)
 }
 
 /* See dialogue.h */
-int node_init(node_t *n, char *node_id, char *npc_dialogue, tone_t tone)
+int node_init(node_t *n, char *node_id, char *npc_dialogue)
 {
     assert(n != NULL);
     assert(node_id != NULL);
@@ -224,18 +222,17 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue, tone_t tone)
     n->num_available_edges = 0;
     n->edges = NULL;
     n->actions = NULL;
-    n->tone = tone;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-node_t *node_new(char *node_id, char *npc_dialogue, tone_t tone)
+node_t *node_new(char *node_id, char *npc_dialogue)
 {
     node_t *n;
     if ((n = (node_t *) malloc(sizeof(node_t))) == NULL) return NULL;
 
-    if (node_init(n, node_id, npc_dialogue, tone) != SUCCESS)
+    if (node_init(n, node_id, npc_dialogue) != SUCCESS)
     {
         node_free(n);
         return NULL;
@@ -382,4 +379,3 @@ int free_node_actions(node_action_t *actions_lst)
 
     return SUCCESS;
 }
-
