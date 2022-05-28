@@ -267,7 +267,7 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
     strcpy(strength_up, "Strength Up");
     
     if (strncmp(class->name, warrior, 8) == 0) {
-        if (strncmp(item->name, strength_up, 12) == 0) {
+        if (strncmp(strength_up, strength_up, 12) == 0) {
             mults->phys_atk = 1.5; //1.5
         }/*
         if (strcmp(item->name, "Defense Up") == 0) {
