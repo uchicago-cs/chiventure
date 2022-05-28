@@ -491,7 +491,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
                 return CONDITIONS_NOT_MET;
             }
             // initiates conversation (set_game_mode to CONVERSATION)
-            int switch_mode; // check in examples if this is how a convo is initiated
+            int switch_mode;
             switch_mode = set_game_mode(c->game, CONVERSATION, "NORMAL");
             if (switch_mode == FAILURE)
             {
@@ -522,8 +522,7 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 
             // exits conversation (set_game_mode to NORMAL)
             int switch_mode;
-
-            switch_mode = set_game_mode(c->game, NORMAL, "CONVERSATION");
+            switch_mode = set_game_mode(c->game, NORMAL, NULL);
             if (switch_mode == FAILURE)
             {
                 sprintf(string, "Failed to switch to CONVERSATION mode");
