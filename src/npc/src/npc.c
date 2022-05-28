@@ -336,3 +336,31 @@ int delete_all_npcs(npc_hash_t *npcs)
     }
     return SUCCESS;
 }
+
+// Conversion FUNCTIONS ---------------------------------------------------
+
+/* See npc.h */
+int make_npc_hostile(npc_t *npc, stat_t *stats, move_t *moves,
+                     difficulty_t ai, hostility_t hostility_level,
+                     class_t *class_type, battle_item_t *items,
+                     battle_equipment_t *armor,
+                     battle_equipment_t *accessory, battle_equipment_t *weapon)
+{
+    assert(npc != NULL);
+    npc->hostility_level = HOSTILE;
+    npc->npc_battle = npc_battle_new(stats, moves, ai,
+                      hostility_level, class_type, items,
+                      armor, accessory, weapon);
+
+    return SUCCESS;
+}
+
+/* See npc.h */
+int make_npc_cond_friendly(npc_t *npc)
+{
+    assert(npc != NULL);
+    npc->hostility_level = CONDITIONAL_FRIENDLY;
+    npc->npc_battle = NULL;
+
+    return SUCCESS;
+}
