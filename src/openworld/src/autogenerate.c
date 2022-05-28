@@ -271,7 +271,7 @@ int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr,
                       char *direction_to_curr, char *direction_to_new){
 
     int currtag=curr->tag;
-    roomspec_t *newroomspec=roomspec_autogenerate(specgraph, tag);    
+    roomspec_t *newroomspec=roomspec_autogenerate(specgraph, currtag);    
     assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new)==SUCCESS);
 
     return SUCCESS;
