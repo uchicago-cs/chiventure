@@ -204,6 +204,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
     /* additionally, a check must be performed here to see if player has
        this move, currently not implemented, waiting for player class
        to resolve move_lists() */
+<<<<<<< HEAD
     int dmg, rc;
     double crit;
     char *string;
@@ -239,6 +240,11 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         }
     }
     
+=======
+    int dmg = damage(b->enemy, move, b->player);
+    enemy->stats->hp -= dmg;
+    char *string = print_battle_move(b, b->turn, move);
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
@@ -363,6 +369,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     double crit;
     if(enemy_move != NULL)
     {
+<<<<<<< HEAD
         /* Calculates to see if the move will miss */
         if(!calculate_accuracy(b->enemy->stats->accuracy, enemy_move->accuracy)){
             dmg = 0;
@@ -391,6 +398,11 @@ char *enemy_make_move(battle_ctx_t *ctx)
             }
         }
         
+=======
+        dmg = damage(b->player, enemy_move, b->enemy);
+        b->player->stats->hp -= dmg;
+        string = print_battle_move(b, b->turn, enemy_move);
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     }
     
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)
@@ -404,6 +416,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     return string;
 }
 
+<<<<<<< HEAD
 /* see battle_flow.h */
 char *run_action(char *input, chiventure_ctx_t *ctx)
 {
@@ -512,3 +525,5 @@ double crit_modifier(int crit_chance)
         return 1;
     }
 }
+=======
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock

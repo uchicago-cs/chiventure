@@ -90,7 +90,10 @@ char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     /* start_battle begins the battle by finalizing 
        all finishing touches for a battle to begin */
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     int rc = start_battle(battle_ctx, e, ENV_GRASS);
 
     // prints the beginning of the battle 
@@ -129,7 +132,10 @@ chiventure_ctx_t *create_sample_ctx()
 
 int main(int argc, char **argv)
 {
+<<<<<<< HEAD
     
+=======
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatching in a fight action to support dialogue */

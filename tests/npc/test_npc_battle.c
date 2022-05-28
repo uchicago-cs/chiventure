@@ -3,7 +3,86 @@
 #include <stdbool.h>
 #include "../../include/battle/battle_test_utility.h"
 
+<<<<<<< HEAD
 /* Checks that npc_battle_new() properly mallocs and inits a new npc_battle
+=======
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats1()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->defense = 20;
+    test_stats->strength = 150;
+    test_stats->dexterity = 10;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+
+    return test_stats;
+}
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats2()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 100;
+    test_stats->defense = 20;
+    test_stats->strength = 150;
+    test_stats->dexterity = 10;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+
+    return test_stats;
+}
+
+/* Creates + initializes a move. Taken from test_battle_ai.c */
+move_t *create_move(int id, battle_item_t* item, bool attack, int damage, 
+		    int defense)
+ {
+     move_t *move = (move_t*) calloc(1, sizeof(move_t));
+
+     move->id = id;
+
+     move->item = item;
+
+     move->attack = attack;
+     move->damage = damage;
+     move->defense = defense;
+
+     return move;
+ }
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves1()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = create_move(1, NULL, true, 100, 0);
+    poke = create_move(2, NULL, true, 40, 0);
+    rock_throw = create_move(3, NULL, true, 90, 0);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+    return head;
+}
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves2()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = create_move(1, NULL, true, 100, 0);
+    DL_APPEND(head, earthquake);
+    return head;
+}
+
+/* Checks that npc_battle_new() properly mallocs and inits a new npc_battle 
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  * struct */
 Test(npc_battle, new)
 {

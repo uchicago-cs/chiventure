@@ -34,6 +34,7 @@ battle_item_t *get_random_offensive_item()
 
     int mod_array[] = {-20, -10, -5, -10, -10, -15};
 
+<<<<<<< HEAD
     rv_offitem->id = rand + 1;
     
     /* sets name */
@@ -115,6 +116,23 @@ battle_equipment_t *get_random_equip_weapon()
     }
 
     rv_weapon->type = WEAPON;
+=======
+    // sets name
+    int name_len = strlen(name_array[rand - 1]);
+    rv_weapon->name = (char*)calloc(name_len + 1, sizeof(char));
+    strncpy(rv_weapon->name, name_array[rand - 1], name_len + 1);
+    // sets description
+    int description_len = strlen(description_array[rand - 1]);
+    rv_weapon->description = (char*)calloc(description_len + 1, sizeof(char));
+    strncpy(rv_weapon->description, description_array[rand - 1], description_len + 1);
+    
+    rv_weapon->battle = true;
+    rv_weapon->attack = attack_array[rand - 1];
+    rv_weapon->defense = defense_array[rand - 1];
+    rv_weapon->hp = hp_array[rand - 1];
+    rv_weapon->next = NULL;
+    rv_weapon->prev = NULL;
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     return rv_weapon;
 }
@@ -238,6 +256,7 @@ battle_item_t *get_random_default_consumable()
     int description_len = strlen(description_array[rand - 1]);
     rv_item->description = (char*)calloc(description_len + 1, sizeof(char));
     strncpy(rv_item->description, description_array[rand - 1], description_len + 1);
+<<<<<<< HEAD
 
     rv_item->attributes = stat_changes_new();
     switch(rand){
@@ -258,6 +277,13 @@ battle_item_t *get_random_default_consumable()
     rv_item->quantity = randnum(1, 3);
     rv_item->attack = false;
 
+=======
+    
+    rv_item->battle = true;
+    rv_item->attack = attack_array[rand - 1];
+    rv_item->defense = defense_array[rand - 1];
+    rv_item->hp = hp_array[rand - 1];
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     rv_item->next = NULL;
     rv_item->prev = NULL;
 
@@ -388,6 +414,7 @@ stat_t* get_random_stat()
     stat_t *rv_stat = calloc(1, sizeof(stat_t));
     assert(rv_stat != NULL);
 
+<<<<<<< HEAD
     rv_stat->max_hp = randnum(50, 150);
     rv_stat->hp = rv_stat->max_hp;
     rv_stat->surrender_level = 0;
@@ -401,6 +428,15 @@ stat_t* get_random_stat()
     rv_stat->crit = randnum(5, 15);
     rv_stat->accuracy = randnum(80, 100);
     rv_stat->xp = randnum(100, 500);
+=======
+    rv_stat->speed = randnum(5, 10);
+    rv_stat->defense = randnum(5, 15);
+    rv_stat->strength = randnum(10, 20);
+    rv_stat->dexterity = randnum(10, 20);
+    rv_stat->hp = randnum(30, 70);
+    rv_stat->max_hp = 70;
+    rv_stat->xp  = randnum(50, 100);
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     rv_stat->level = randnum(1, 10);
 
     return rv_stat;

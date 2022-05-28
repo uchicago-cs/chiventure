@@ -9,11 +9,32 @@
 #include "npc/npc.h"
 #include "npc/npc_battle.h"
 #include <time.h>
+<<<<<<< HEAD
+=======
+
+#define MAX_COMMAND_LINE_LENGTH (100)
+#define MAX_COMMAND_LENGTH (100)
+#define MAX_ARGS (5)
+
+/* initializes a dummy wizard class */
+class_t *make_wizard()
+{
+    return class_new("Wizard", "Wise", "Old and wise", NULL, NULL, NULL);
+}
+
+/* initializes a dummy bard class */
+class_t *make_bard()
+{
+    return class_new("Bard", "Cool", "Super Duper and Awesome", NULL, NULL, NULL);
+}
+
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
 // #define MAX_COMMAND_LINE_LENGTH (100)
 // #define MAX_COMMAND_LENGTH (100)
 // #define MAX_ARGS (5)
 
+<<<<<<< HEAD
 // /* initializes a dummy wizard class */
 // class_t *make_wizard()
 // {
@@ -72,6 +93,103 @@
 //     }
 //     return SUCCESS;
 // }
+=======
+/* Helper function to print the result of a turn
+ * Parameters:
+ *  ctx: main structure of the battle
+ *  player_move: the name of the player's move
+ * Returns:
+ *  Always returns SUCCESS
+ */ 
+int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
+{
+    char *action_string;
+    // everything below allows us to print what just happened
+    if (goes_first(ctx->game->battle) == PLAYER)
+    {
+        printf("goes_first determined the player goes first!\n");
+        action_string = print_battle_move(ctx->game->battle,
+                                          PLAYER, player_move);
+        printf("%s\n", action_string);
+        if (ctx->game->battle->enemy->stats->hp <= 0)
+        {
+            return SUCCESS;
+        }
+        move_t *enemy_move = give_move(ctx->game->battle->player,
+                                       ctx->game->battle->enemy,
+                                       ctx->game->battle->enemy->ai);
+        action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+        printf("%s\n", action_string);
+    }
+    else
+    {
+        printf("goes_first determined the enemy goes first!\n");
+        action_string = print_battle_move(ctx->game->battle,
+                                          PLAYER, player_move);
+        printf("%s\n", action_string);
+        if (ctx->game->battle->player->stats->hp <= 0)
+        {
+            return SUCCESS;
+        }
+        move_t *enemy_move = give_move(ctx->game->battle->player,
+                                       ctx->game->battle->enemy,
+                                       ctx->game->battle->enemy->ai);
+        action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+        printf("%s\n", action_string);
+    }
+    return SUCCESS;
+}
+
+/* Prints out the avaliable moves for the player
+ * Parameter:
+ *  ctx: the main structure of the battle
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_moves2(battle_ctx_t *ctx)
+{
+    move_t *temp;
+    printf("\nMOVES LIST:\n");
+    DL_FOREACH(ctx->game->battle->player->moves, temp)
+    {
+        printf("%s\n", temp->info);
+    }
+    return SUCCESS;
+}
+
+/* Prints out the avaliable battle_items for the player
+ * Parameter:
+ *  ctx: the main structure of the battle
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int print_battle_items2(battle_ctx_t *ctx)
+{
+    battle_item_t *temp;
+    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
+    DL_FOREACH(ctx->game->battle->player->items, temp)
+    {
+        printf("Name: %s\n", temp->name);
+        printf("ID: %d\n", temp->id);
+        printf("Description: %s\n", temp->description);
+        printf("Quantity: %d\n", temp->quantity);
+        printf("Attack: %d, Defense: %d, HP: %d\n", 
+                temp->attack, temp->defense, temp->hp);
+    }
+    return SUCCESS;
+}
+
+/* Reads the user's input and converts that into an action
+ * Parameters:
+ *  args: array of strings that display the user's input
+ *  ctx: the main structure of the battle
+ * Returns:
+ *  SUCCESS or FAILURE
+ */
+int read_move(char **args, battle_ctx_t *ctx)
+{
+    int res;
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
 // /* Prints out the avaliable moves for the player
 //  * Parameter:
@@ -283,6 +401,7 @@
 //     return SUCCESS;
 // }
 
+<<<<<<< HEAD
 // where everything is called
 int main()
 {
@@ -298,6 +417,91 @@ int main()
     // printf("Level: %d\n", p_stats->level);
     // printf("Speed: %d\n", p_stats->speed);
     // printf("Accuracy: %d\n", p_stats->accuracy);
+=======
+        char* str = enemy_make_move(ctx);
+        printf("%s\n", str);
+        return SUCCESS;
+    }
+    else
+    {
+        // this only occurs if the user does not input the correct command
+        return FAILURE;
+    }
+    return res;
+}
+
+/* Parses a command into an array of strings
+ * Parameters:
+ *  out: the array of strings
+ *  input: the string containing the whole command
+ * Returns:
+ *  Array of strings with parsed input
+ */ 
+int parse_command(char **out, char *input)
+{
+    for (int i = 0; i < MAX_ARGS; i++)
+    {
+        out[i] = calloc(MAX_COMMAND_LENGTH + 1, sizeof(char));
+    }
+    return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
+}
+
+/* Allows a battle to continue with taking input from the user via command line
+ * Parameter:
+ *  ctx: main structure of the battle
+ * Returns:
+ *  Always SUCCESS
+ */ 
+int continue_battle(battle_ctx_t *ctx)
+{
+    char buf[MAX_COMMAND_LENGTH + 1] = {0};
+    char **args = calloc(MAX_ARGS, sizeof(char *));
+    int num_args;
+    int res;
+    while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
+    {
+        printf("What will you do?\n");
+        // Get the input
+        printf("> ");
+        if (!fgets(buf, MAX_COMMAND_LENGTH, stdin))
+        {
+            break;
+        }
+        // parse the input
+        num_args = parse_command(args, buf);
+        // ignore empty line
+        if (num_args == 0 || buf[0] == '\n')
+        {
+            continue;
+        }
+        // otherwise, handle input
+        res = read_move(args, ctx);
+        printf("read move returned: %d\n", res);
+    }
+    // free statement for string array
+    for (int i = 0; i < MAX_ARGS; i++)
+    {
+        free(args[i]);
+    }
+    free(args);
+    return SUCCESS;
+}
+
+// where everything is called
+int main()
+{
+    srand(time(0)); // sets seed
+    printf("\nbeginning to create the player and enemy...\n");
+    // creates the stats of the player to begin the battle
+    stat_t *p_stats = get_random_stat();
+    printf("\nPlayer stats:\n");
+    printf("HP: %d\n", p_stats->hp);
+    printf("Strength: %d\n", p_stats->strength);
+    printf("Defense: %d\n", p_stats->defense);
+    printf("XP: %d\n", p_stats->xp);
+    printf("Level: %d\n", p_stats->level);
+    printf("Speed: %d\n", p_stats->speed);
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     
     // // creates the stats of the enemy to begin the battle
     // stat_t *e_stats = get_random_stat();
@@ -346,7 +550,23 @@ int main()
     //     printf("=== oh no! the player's moves do not exist!!! ===\n");
     // }
 
+<<<<<<< HEAD
     // printf("\nWelcome to the Battle! Let's get this started!\n\n");
+=======
+    ctx->game->player = p;
+
+    /* start_battle begins the battle by finalizing 
+       all finishing touches for a battle to begin */
+    printf("starting battle...\n\n");
+    start_battle(ctx, e, ENV_GRASS);
+
+    /* this checks to ensure that the user has moves, if not, 
+       the executable will not work since it revolves around moves! */
+    if (ctx->game->battle->player->moves == NULL)
+    {
+        printf("=== oh no! the player's moves do not exist!!! ===\n");
+    }
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 
     // // prints the beginning of the battle 
     // char *start = print_start_battle(ctx->game->battle);
@@ -376,5 +596,24 @@ int main()
     //     fprintf(stderr, "ERROR, battle should not return as no_battle");
     // }
 
+<<<<<<< HEAD
+=======
+    // this confirms with us that the victor should be the player
+    switch(winner)
+    {
+    case BATTLE_IN_PROGRESS:
+        fprintf(stderr, "Uh oh, the battle flow loop had an error\n");
+        break;
+    case BATTLE_VICTOR_PLAYER:
+        fprintf(stderr, "SUCCESS: battle flow loop exited and player won\n");
+        break;
+    case BATTLE_VICTOR_ENEMY:
+        fprintf(stderr, "SUCCESS: battle flow loop exited and enemy won\n");
+        break;
+    case NO_BATTLE:
+        fprintf(stderr, "ERROR, battle should not return as no_battle");
+    }
+    
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
     return 0;
 }

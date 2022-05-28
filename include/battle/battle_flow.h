@@ -77,6 +77,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
                       environment_t env);
 
 /*
+<<<<<<< HEAD
 * Determines whether a move hits based on accuracy stat.
  * Parameters:
  * - user_accuracy : the accuracy of the user using the move
@@ -96,6 +97,8 @@ int calculate_accuracy(int user_accuracy, int move_accuracy);
  double crit_modifier(int crit_chance);
  
 /*
+=======
+>>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
  * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
@@ -111,7 +114,6 @@ int calculate_accuracy(int user_accuracy, int move_accuracy);
  *  - A string consisting of the output from the turn
  */
 char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char *target);
-
 
 /*
  * Carries out one iteration of the battle flow loop when an item is used
