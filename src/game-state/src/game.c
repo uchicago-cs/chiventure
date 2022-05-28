@@ -538,7 +538,8 @@ int do_node_actions(node_t *n, game_t *game)
 
         case MOVE_ROOM:
             npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
-            if (npc_one_move(npc, game->all_rooms) == FAILURE)
+            if (npc->movement->permission == NPC_MOV_RESTRICTED
+                || npc_one_move(npc, game->all_rooms) == FAILURE)
             {
                 return FAILURE;
             }
@@ -546,6 +547,12 @@ int do_node_actions(node_t *n, game_t *game)
 
         case PAUSE_MOVEMENT:
             npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->movement->permission = NPC_MOV_RESTRICTED;
+            break;
+        
+        case RESUME_MOVEMENT:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->movement->permission = NPC_MOV_ALLOWED;
             break;
 
         default:

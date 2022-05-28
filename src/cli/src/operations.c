@@ -703,13 +703,15 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         return rt;
     }
 
+    set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+
     char *str = start_conversation(npc->dialogue, &rc, ctx->game);
 
     assert(rc != -1); //checking for conversation error
 
-    if (rc == 0)
+    if (rc != 0)
     {
-        set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+        set_game_mode(ctx->game, NORMAL, npc->npc_id);
     }
 
     return str;

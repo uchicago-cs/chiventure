@@ -46,7 +46,7 @@ Test (npc_mov, new)
     npc_mov_t *npc_mov;
     room_t *test_room;
     test_room = room_new("test_room", "test", "test test");
-    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
 
     cr_assert_not_null(npc_mov, "npc_mov_new() failed");
 
@@ -66,7 +66,7 @@ Test (npc_mov, init)
     memset(npc_mov, 0, sizeof(npc_mov_t));
     npc_mov->track = malloc(MAX_ID_LEN);
 
-    int check = npc_mov_init(npc_mov, NPC_MOV_DEFINITE, test_room1->room_id, 0);
+    int check = npc_mov_init(npc_mov, NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room1->room_id, 0);
     cr_assert_eq(check, SUCCESS, "npc_mov_init() failed");
 
     cr_assert_eq(npc_mov->mov_type, NPC_MOV_DEFINITE,
@@ -77,7 +77,7 @@ Test (npc_mov, init)
     npc_mov_t *npc_mov2 = malloc(sizeof(npc_mov_t));
     memset(npc_mov2, 0, sizeof(npc_mov_t));
     npc_mov2->track = malloc(MAX_ID_LEN);
-    int check2 = npc_mov_init(npc_mov2, NPC_MOV_INDEFINITE, test_room1->room_id, 10);
+    int check2 = npc_mov_init(npc_mov2, NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, test_room1->room_id, 10);
     cr_assert_eq(npc_mov2->path->room_time->assigned_time, 10,
                  "npc_mov_init() failed to set assigned_time");
 }
@@ -91,7 +91,7 @@ Test (npc_mov, free)
     int check;
 
     test_room = room_new("test_room", "test", "test test");
-    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
 
     check = npc_mov_free(npc_mov);
     cr_assert_eq(check, SUCCESS, "npc_mov_free() failed");
@@ -102,7 +102,7 @@ Test (npc_mov, free)
 Test(npc_mov, extend_path_definite)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
     int check1 = extend_path_definite(npc_mov, room_to_add->room_id);
@@ -118,7 +118,7 @@ Test(npc_mov, extend_path_definite)
 Test(npc_mov, extend_path_indefinite)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 10);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 10);
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
     int check1 = extend_path_indefinite(npc_mov, room_to_add->room_id, 20);
@@ -134,7 +134,7 @@ Test(npc_mov, extend_path_indefinite)
 Test(npc_mov, get_npc_num_rooms_def)
 {
     room_t *test_room = room_new("test room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
     int check = extend_path_definite(npc_mov, room_to_add->room_id);
@@ -153,7 +153,7 @@ Test(npc_mov, get_npc_num_rooms_def)
 Test(npc_mov, get_npc_num_rooms_indef)
 {
     room_t *test_room = room_new("test room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 5);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 5);
     room_t *room_to_add = room_new("room_to_add", "add", "added room");
 
     int check = extend_path_indefinite(npc_mov, room_to_add->room_id, 10);
@@ -172,7 +172,7 @@ Test(npc_mov, get_npc_num_rooms_indef)
 Test(npc_mov, get_npc_room_id)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 5);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 5);
     cr_assert_eq(extend_path_indefinite(npc_mov, "test2", 10), SUCCESS,
                  "extend_path_indef() failed");
 
@@ -190,7 +190,7 @@ Test(npc_mov, get_npc_num_rooms)
     room_t *room2 = room_new("r2", "room2", "room two");
     room_t *room3 = room_new("r3", "room3", "room three");
 
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, room1->room_id, 0);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, room1->room_id, 0);
     cr_assert_eq(extend_path_definite(npc_mov, room2->room_id), SUCCESS,
                  "extend_path_def() failed");
     cr_assert_eq(extend_path_definite(npc_mov, room3->room_id), SUCCESS,
@@ -204,7 +204,7 @@ Test(npc_mov, get_npc_num_rooms)
 Test(npc_mov, move_npc_mov_def)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
     room_t *room_to_add1 = room_new("room_to_add1", "add1", "added room1");
     room_t *room_to_add2 = room_new("room_to_add2", "add2", "added room2");
 
@@ -241,7 +241,7 @@ Test(npc_mov, move_npc_mov_indef)
 {
     int time = 10;
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 5);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 5);
     room_t *room_to_add1 = room_new("room_to_add1", "add1", "added room1");
     room_t *room_to_add2 = room_new("room_to_add2", "add2", "added room2");
 
@@ -282,7 +282,7 @@ Test(npc_mov, move_npc_mov_indef)
 Test(npc_mov, flip_npc_path_direction)
 {
     room_t *test_room = room_new("test_room", "test", "test test");
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
     room_t *room_to_add1 = room_new("room_to_add1", "add1", "added room1");
     room_t *room_to_add2 = room_new("room_to_add2", "add2", "added room2");
 
@@ -325,7 +325,7 @@ Test(npc_mov, auto_gen_movement_definite)
     room_t *test_room = room_new("test_room", "test", "test test");
     add_room_to_game(game, test_room);
 
-    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room->room_id, 0);
+    npc_mov_t* npc_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 0);
     npc_t *npc = npc_new("test", "testnpc", "test npc", c, npc_mov, FRIENDLY);
 
     rc = auto_gen_movement(npc, all_rooms);
@@ -383,7 +383,7 @@ Test(npc_mov, auto_gen_movement_indefinite)
     room_t *test_room = room_new("test_room", "test", "test test");
     add_room_to_game(game, test_room);
 
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, test_room->room_id, 60);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, test_room->room_id, 60);
     npc_t *npc = npc_new("test", "testnpc", "test npc", c, npc_mov, FRIENDLY);
 
     rc = auto_gen_movement(npc, get_all_rooms(game));
@@ -427,7 +427,7 @@ Test(npc_mov, check_if_npc_mov_indefinite_needs_moved)
     int rc;
     bool rb;
 
-    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, room1->room_id, 0.5);
+    npc_mov_t *npc_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, room1->room_id, 0.5);
 
     rc = extend_path_indefinite(npc_mov, room2->room_id, 1);
     cr_assert_eq(rc, SUCCESS, "extend_path_indefinite() failed");

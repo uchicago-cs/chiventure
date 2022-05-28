@@ -269,6 +269,28 @@ convo_t *create_sample_convo_fiona()
 }
 
 
+/* Creates a sample convo for NPC William, taken from npc_example.c */
+convo_t *create_sample_convo_william()
+{
+    // Starting to build the conversation structure
+    convo_t *c = convo_new();
+
+    // Nodes
+    add_node(c, "1", "William: Hi! I'm William");
+    node_t *node_1 = get_node(c->all_nodes, "1");
+    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop william");
+    
+    add_node(c, "2", "William: Well, I better get moving, bye!");
+    node_t *node_2 = get_node(c->all_nodes, "2");
+    add_action_to_node(node_2, RESUME_MOVEMENT, "let william leave");
+
+    // Edges
+    add_edge(c, "Hello William!", "1", "2", NULL);
+
+    return c;
+}
+
+
 /* a mokey-patched version of moving back from arena to lobby */
 char *move_to_lobby_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -379,7 +401,7 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id, 0);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 0);
     extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
@@ -397,14 +419,14 @@ chiventure_ctx_t *create_sample_ctx()
     add_battle_to_npc(friendly_fiona, fiona_stats, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
 
-    /* Add dialogue to friendly npc */
+    /* Add dialogue to conditional-friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
     add_convo_to_npc(friendly_fiona, c_fiona);
 
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id, 0);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 0);
     extend_path_definite(movement2, arena->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
@@ -441,11 +463,15 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *c_harry = create_sample_convo_harry();
     add_convo_to_npc(hostile_harry, c_harry);
 
-    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, lobby->room_id, 5);
+    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 5);
     extend_path_indefinite(movement3, arena->room_id, 5);
     wandering_william = npc_new("william", "wandering william is friendly",
      "wandering william is just a jolly good fellow who likes to wander between"
      "rooms", class2, movement3, FRIENDLY);
+    
+    /* Add dialogue to friendly npc */
+    convo_t *c_william = create_sample_convo_william();
+    assert(add_convo_to_npc(wandering_william, c_william) == SUCCESS);
 
     /* Add the npcs to the game */
     assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);

@@ -120,7 +120,8 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
 /* See npc.h */
 bool check_if_npc_indefinite_needs_moved(npc_t *npc)
 {
-    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
+    if (npc->movement->mov_type == NPC_MOV_INDEFINITE
+        && npc->movement->permission == NPC_MOV_ALLOWED)
     {
         return check_if_npc_mov_indefinite_needs_moved(npc->movement);
     }
