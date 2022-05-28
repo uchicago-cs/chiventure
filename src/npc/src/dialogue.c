@@ -103,8 +103,6 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
     return SUCCESS;
 }
 
-<<<<<<< HEAD
-=======
 
 /**********************************************
  *       DIALOGUE EXECUTION FUNCTIONS         *
@@ -364,7 +362,6 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 }
 
 
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
 /**********************************************
  *             ACTION FUNCTIONS               *
  **********************************************/
@@ -627,3 +624,7 @@ int free_node_actions(node_action_t *actions_lst)
 
     return SUCCESS;
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> cb04e497e... converting hostility function implemented
