@@ -82,7 +82,7 @@ room_t* find_room_in_direction(game_t* game, room_t *r, char *direction);
 * Increments the num_built field of the given roomspec by 1
 *
 * parameters:
-* - roomspec: A pointer to a roomspec_t (type gencontext_t*). Should not be NULL.
+* - roomspec: A pointer to a roomspec_t. Should not be NULL.
 * - coords: The coordinates of the new room.
 *
 * returns:
@@ -141,7 +141,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
  * that quantifies the similarity between different roomspecs.
  *
  * Parameters:
- * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+ * - specgraph: A pointer to a specgraph_t. Should not be NULL.
  * - roomspec: The roomspec of the current room 
  *
  *
@@ -149,15 +149,15 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
  * - Returns a pointer to the newly generated roomspec
  */
 
-roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
+roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec);
 
 /* room_autogenerate
  * Creates a room directly north, south, east, or west of a given room. 
  * The roomspec of the newly created room will be chosen using roomspec_autogenerate
  *
  * Parameters:
- * - game: A pointer to a game struct. Should not be NULL.
- * - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+ * - game: A pointer to a game struct. Should not be NULL. 
+ * - specgraph: A pointer to a specgraph_t. Should not be NULL.
  * - curr: A pointer to the room_t with which the newly generated room will be connected.         
  *         Must be in the game->all_rooms hash. Should not be NULL.
  * - roomspec: The roomspec of the current room 
@@ -173,7 +173,7 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec);
  *   Any internal failure results in crash (by triggering an assert).
  */
 
-int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
+int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr, roomspec_t *roomspec, 
                       char *direction_to_curr, char *direction_to_new);
 
 /*
@@ -302,7 +302,7 @@ specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph,
  *
  * Parameters:
  * - game: pointer to a game struct. Should not be NULL.
- * - context: pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+ * - specgraph: A pointer to a specgraph_t. Should not be NULL.
  * - room_id: a unique room_id string for the to-be-generated room.i
  * - num_rooms: specifies how many new rooms will be generated
  * - levelspec: pointer to a levelspec_t; contains info needed for level-oriented generation
@@ -315,7 +315,7 @@ specgraph_t* filter_specgraph_with_difficulty(specgraph_t *specgraph,
  * - SUCCESS if the new rooms were generated and added (SUCCESS)
  * - FAILURE if the new rooms were not generated/added (FAILURE)
  */
-int multi_room_level_generate(game_t *game, gencontext_t *context, 
+int multi_room_level_generate(game_t *game, specgraph_t *specgraph, 
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec);
                       

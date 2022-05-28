@@ -31,28 +31,28 @@ roomspec_t* random_first_room(game_t* game, gencontext_t* context);
 
 /*
 * game_autogenerate_static
-* Given a game_t and gencontext_t pointer and number of rooms, statically autogenerates 
+* Given a game_t and specgraph_t pointer and number of rooms, statically autogenerates 
 * a new game
 *
 * Parameters:
 * - game_t* game: a pointer to the game struct. Must contain at least one room.
-* - context: A pointer to a gencontext_t (type gencontext_t*). Should not be NULL.
+* - specgraph: A pointer to a specgraph_t. Should not be NULL.
 * - num_rooms: The number of rooms in the newly generate game
 * - first_room: The name of the roomspec of the first room. Enter "pickrandomly" if you would like 
 *               the roomspec to be chosen randomly.
 * returns:
 * Integer to indicate if the generation was successful.
 */
-int game_autogenerate_static(game_t* g, gencontext_t context, int num_rooms, char* first_room);
+int game_autogenerate_static(game_t* g, specgraph_t *specgraph, int num_rooms, char* first_room);
 
 /*
 * game_autogenerate_dynamic
-* Given a game_t and gencontext_t pointer and a string indicating the first room, 
+* Given a game_t and specgraph_t pointer and a string indicating the first room, 
 * dynamically autogenerates a new game
 *
 * returns:
 * Integer to indicate if the generation was successful.
 */
-int game_autogenerate_dynamic(game_t* g, gencontext_t context, char* first_room);
+int game_autogenerate_dynamic(game_t* g, specgraph_t *specgraph, char* first_room);
 
 #endif /* INCLUDE_GAME_AUTOGENERATE_H */

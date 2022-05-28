@@ -144,6 +144,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
 
     res->paths = NULL;
     res->coords=coords;
+    res->tag=roomspec->tag;
     return res;
 }
 
@@ -205,7 +206,7 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
         x-=1;
     }    
     /* create new combination of rooms/items from randomly picked roomspec
-    Adds one generated room from the head of context->specgraph only */
+    Adds one generated room from the head of specgraph only */
     room_t *new_room = roomspec_to_room(rspec_new, coords);
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
@@ -221,9 +222,8 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
 }
 
 /* See autogenerate.h */
-roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
+roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, roomspec_t *roomspec){
 
-    specgraph_t *specgraph=context->specgraph;
     int num_roomspecs=specgraph->num_roomspecs;
     roomspec_t **roomspecs=specgraph->roomspecs;
     int **edges=specgraph->edges;
@@ -238,9 +238,15 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
     }
 
     int *row=edges[rownumber];
+    int count=0;
+    int sum;
+
+    for(int count=0; count<num_roomspecs; count++){
+        sum+=row[count];
+    }
  
     int randomint=rand() % num_roomspecs;  
-    int count=0;
+    count=0;
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
     while(randomint>=0){
@@ -255,10 +261,10 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
 
 /* See autogenerate.h */
-int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
+int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr, roomspec_t *roomspec, 
                       char *direction_to_curr, char *direction_to_new){
 
-    roomspec_t *newroomspec=roomspec_autogenerate(context, roomspec);    
+    roomspec_t *newroomspec=roomspec_autogenerate(specgraph, roomspec);    
     assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new)==SUCCESS);
 
     return SUCCESS;
@@ -448,8 +454,8 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec)
 {
-    // If there are no roomspec_t elements in context->specgraph, then do not autogenerate 
-    if (context->specgraph == NULL) {
+    // If there are no roomspec_t elements in specgraph, then do not autogenerate 
+    if (specgraph == NULL) {
         return FAILURE;
     }
 

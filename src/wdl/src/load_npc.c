@@ -254,6 +254,9 @@ int load_npcs(obj_t *doc, game_t *g)
         // load battle
         // to do
 
+        // load quest
+        // to do
+
         // add NPC to the game
         add_npc_to_game(g, npc);
 
