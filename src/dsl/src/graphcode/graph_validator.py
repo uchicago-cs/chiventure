@@ -2,6 +2,7 @@
 Graph validator algorithm
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 Example Input: python graph_validator.py
 
 Notes:
@@ -16,6 +17,9 @@ able to be parsed into a WDL/JSON format. This can be done by taking DSL specife
 graph, turn it into a Python readable adjacency list/dictionary for dialogues, and running it through
 this graph_validator code (and recieving a TRUE bool if it is valid, FALSE if
 it is not).
+=======
+Example Input: python src/graph_validator.py
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
 =======
 Example Input: python src/graph_validator.py
 >>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
@@ -121,8 +125,12 @@ def main():
 if __name__ == "__main__":
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     main()
 
+=======
+    main()
+>>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
 =======
     main()
 >>>>>>> parent of 500078342... Added lengthy header comment denoting how we hope the graph_validtor will be integrated with the dsl_parser
