@@ -96,8 +96,8 @@ bool path_generate(game_t* game, specgraph_t *specgraph, room_t* curr, room_t* a
     roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t*));
     roomspecs=specgraph->roomspecs;
 
-    roomspec_t *currspec=(roomspec_t**)malloc(sizeof(roomspec_t));
-    roomspec_t *adjacentspec=(roomspec_t**)malloc(sizeof(roomspec_t));    
+    roomspec_t *currspec=(roomspec_t*)malloc(sizeof(roomspec_t));
+    roomspec_t *adjacentspec=(roomspec_t*)malloc(sizeof(roomspec_t));    
     currspec=roomspecs[curr->tag];    
     radjacentspec=roomspecs[adjacentroom->tag];
 
@@ -111,7 +111,7 @@ bool path_generate(game_t* game, specgraph_t *specgraph, room_t* curr, room_t* a
         free(adjacentspec);
         return true;
     }
-    
+
     free(roomspecs);
     free(currspec);
     free(adjacentspec);
@@ -140,7 +140,7 @@ int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
     roomspec_t **roomspecs=(roomspec_t**)malloc(num_roomspecs*sizeof(roomspec_t*));
     roomspecs=specgraph->roomspecs;
 
-    roomspec_t *currspec=(roomspec_t**)malloc(sizeof(roomspec_t));
+    roomspec_t *currspec=(roomspec_t*)malloc(sizeof(roomspec_t));
     currspec=roomspecs[curr->tag];
 
     coords_t *coords=find_coords_of_room(curr);
@@ -203,6 +203,7 @@ int path_autogenerate(game_t* game, specgraph_t *specgraph, room_t* curr){
             add_path_to_room(curr, pathtocurr);            
         }
     }
+
     free(currspec);
     free(roomspecs);
     return SUCCESS;
