@@ -183,18 +183,8 @@ convo_t *create_sample_convo_harry()
     // Nodes
     add_node(c, "1", "Harry: Are your trying to pick a fight with me?", HOSTILE);
     add_node(c, "2a", "Harry: You will regret this. Let's meet in the arena and "
-<<<<<<< HEAD
-<<<<<<< HEAD
-             "I will show you no mercy.", HOSTILE);
+            "I will show you no mercy.", HOSTILE);
     add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!", HOSTILE);
-=======
-                      "I will show you no mercy.");
-    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!");
->>>>>>> parent of 811528446... Merge branch 'dev' into time/1353-designing-and-implementing-a-time-module-for-in-game-clock
-=======
-             "I will show you no mercy.", HOSTILE);
-    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!", HOSTILE);
->>>>>>> 85ea1d400... examples changed
 
     // Edges
     add_edge(c, "Yeah what are you gonna do about it, huh?", "1", "2a", NULL, HOSTILE);
