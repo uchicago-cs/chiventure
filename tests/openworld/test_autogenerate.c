@@ -429,7 +429,7 @@ Test(autogenerate, pick_random_direction){
 /* 2 roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (only if game->curr_room is a dead end) */
-Test(autogenerate, room_generate_success_two)
+/*Test(autogenerate, room_generate_success_two)
 {
     // Initializing specgraph, current room, item
     game_t *g = game_new("start desc");
@@ -483,7 +483,7 @@ Test(autogenerate, room_generate_success_two)
     HASH_ITER(hh, new_room->paths, current, tmp) {
         count++;
     }
-}
+}*/
 
 /* testing random room lookup for school specgraph*/
 Test(specgraph, school_lookup)
