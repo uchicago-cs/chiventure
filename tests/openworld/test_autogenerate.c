@@ -228,7 +228,7 @@ Test(autogenerate, pick_random_direction){
     int rc;
     char *direction_to_curr;
     char *direction_to_new;
-
+    cr_assert_eq(0, 1, "failed to pick a random direction\n");
     for(int i=0; i<10; i++){
 
     rc=pick_random_direction(game, room, direction_to_curr, direction_to_new);
