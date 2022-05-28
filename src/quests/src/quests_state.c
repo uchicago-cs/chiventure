@@ -48,7 +48,10 @@ bool is_task_completed(task_t *task, player_t *player)
 bool get_player_task_status(task_t *task, player_t *player)
 {
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
-    return ptask->completed;
+    if(ptask != NULL) {
+        return ptask->completed;
+    }
+    return false;
 }
 
 /* Refer to quest_state.h */

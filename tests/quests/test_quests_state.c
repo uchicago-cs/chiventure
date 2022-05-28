@@ -10,6 +10,7 @@
 #include "game-state/room.h"
 #include "game-state/player.h"
 #include "game-state/game.h"
+#include "quests/quests_cli.h"
 
 /* Tests the function that adds the contents of a reward struct into a player struct */
 Test(quest, accept_reward) {

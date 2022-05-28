@@ -249,6 +249,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->movement = movement;
     npc->quests = npc_quest_list_new();
     npc->tasks = npc_task_list_new();
+    item_hash_t *items = NULL;
+    npc->inventory = items;
 
     return SUCCESS;
 }
@@ -624,6 +626,13 @@ int change_npc_hp(npc_t *npc, int change)
     return npc->npc_battle->stats->hp;
 }
 
+/* See npc.h */
+int move_npc(npc_t *npc)
+{
+    return move_npc_mov(npc->movement);
+}
+
+/* See npc.h */
 int delete_all_npcs(npc_hash_t *npcs)
 {
     npc_t *current_npc, *tmp;
