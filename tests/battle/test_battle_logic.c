@@ -280,12 +280,34 @@ Test(battle_logic, battle_player_goes_first)
     battle_free(b);
 }
 
+// Taken from test_multiclass.c
+chiventure_ctx_t* init_incomplete_context1() {
+    game_t* game = game_new(“Sample game, incomplete context”);
+    chiventure_ctx_t* ctx = chiventure_ctx_new(game);
+    /* Cook up initial stats */
+    game->curr_stats = NULL;
+    // Weird double pointer to the hash table
+    /* Placeholder global stats */
+    stats_global_t *gs_health = stats_global_new(“max_health”, 100);
+    // Unused stats
+    stats_global_t *gs_wit = stats_global_new(“wit”, 50);
+    stats_global_t *gs_moxie = stats_global_new(“moxie”, 27);
+    HASH_ADD_KEYPTR(hh, game->curr_stats, gs_health->name, strlen(gs_health->name), gs_health);
+    HASH_ADD_KEYPTR(hh, game->curr_stats, gs_wit->name, strlen(gs_wit->name), gs_wit);
+    HASH_ADD_KEYPTR(hh, game->curr_stats, gs_moxie->name, strlen(gs_moxie->name), gs_moxie);
+    // Quick tests of hashtable
+    stats_global_t* test;
+    HASH_FIND_STR(game->curr_stats, “moxie”, test);
+    cr_assert_eq(27, test->max);
+    return ctx;
+}
+
 /*
  * Since the battle_player and enemy can have the same speed,
  * then the battle_player will go first
  */
 Test(battle_logic, same_speed)
-{
+{    
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->speed = 50;
     stat_t *estats = calloc(1, sizeof(stat_t));
@@ -406,12 +428,15 @@ Test(battle_logic, do_not_find_item)
 
 Test(battle_logic, consume_a_battle_item)
 {
+    chiventure_ctx_new = init_incomplete_context1();
+    class_t* warrior = class_prefab_new(ctx->game, "warrior");
+
     stat_t *pstats = calloc(1, sizeof(stat_t));
     pstats->hp = 10;
     pstats->max_hp = 20;
     pstats->phys_def = 15;
     pstats->phys_atk = 15;
-    combatant_t *p = combatant_new("warrior", true, NULL, pstats, NULL, NULL, 
+    combatant_t *p = combatant_new("warrior", true, warrior, pstats, NULL, NULL, 
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     cr_assert_not_null(p, "combatant_new() failed");
 
