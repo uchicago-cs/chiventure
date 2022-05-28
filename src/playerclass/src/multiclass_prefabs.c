@@ -125,6 +125,5 @@ int multiclass_prefab_add_skills(class_t* multiclass)
                         "in multiclass_prefab_add_skills\n");
         return EXIT_FAILURE;
     }
-
     return SUCCESS;
 }
