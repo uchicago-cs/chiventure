@@ -14,7 +14,7 @@
  */
 void conditions_check(char* item, char* action)
 {
-    obj_t *doc = load_obj_store(FILE_PATH_2);
+    obj_t *doc = __get_doc_obj("DEFAULT.json", FILE_PATH_2);
     cr_assert_not_null(doc, "Document obj failed to load correctly.");
 
     game_t *g = load_game(doc);
