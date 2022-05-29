@@ -39,7 +39,7 @@ chiventure_ctx_t *create_sample_ctx()
     room_t *room4 = room_new("Peach's", "This is Peach's Cafe", 
                              "Crerar's very own coffee shop There's a bar of soap in here, for some reason. Also, there is an exit west.");
     room_t *room5 = room_new("The Void", "This is the Void.", 
-                             "A pulsing black hole in Crerar's basement. There is no escape. But there is... a trophy?");
+                             "A pulsing black hole in Crerar's basement. There is an exit east. And... a floating trophy?");
 
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
@@ -61,7 +61,10 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "Crerar 390", "Borja's Office", "south");
 
     //room 4 connections
-    create_connection(game, "Peach's", "Crerar 390", "west");    
+    create_connection(game, "Peach's", "Crerar 390", "west");
+
+    //room 5 connections
+    create_connection(game, "The Void", "Crerar 390", "east");     
 
 
     player_t *player = player_new("Borja");
@@ -214,7 +217,7 @@ chiventure_ctx_t *create_sample_ctx()
     agent_t *ei = (agent_t*)(malloc(sizeof(agent_t)));
     ei->item = end_item; 
     add_action(ei, "take", "You take the trophy. You win the demo!", 
-                              "You do not take the trophy. Loser.");
+                              "The trophy rebukes your touch. 'Too... broke...', it hisses.");
     
     player->player_class->skilltree = skill_tree;
     
