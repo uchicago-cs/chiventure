@@ -50,14 +50,15 @@ typedef struct arg_t
 arg_t *arg_t_new();
 
 /**
- * Creates an argument structure with the specified boolean
- * Helper function for obj_add_arg_bool
+ * Creates an argument structure with the specified data structure 
+ * and coresponding type
+ * Helper function for obj_add_arg
  */
 arg_t *arg_t_init(data_t d, data_type_t t);
 
 /**
  * Adds an argument structure to the end of the argument linked list
- * Helper function for all obj_add_arg_<type> functions
+ * Helper function for all obj_add_arg functions
  */
 arg_t *arg_t_add(arg_t *head, arg_t *add);
 
