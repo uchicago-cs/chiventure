@@ -80,6 +80,35 @@ char *store_list(id_list_node_t *id_list_start)
     return result;
 }
 
+/* Helper function that takes a mission_type and converts to string
+ *
+ * Parameters:
+ * - mission_type: a mission_type_t
+ *
+ * Returns:
+ * - the mission type stored as a string
+ *
+ */
+char *mission_to_str(mission_types_t mission_type)
+{
+    char *str = malloc(13);
+    switch(mission_type) {
+        case MEET_NPC:
+            strncpy(str, "Meet NPC", 8);
+            break;
+        case KILL_NPC:
+            strncpy(str, "Kill NPC", 8);
+            break;
+        case COLLECT_ITEM:
+            strncpy(str, "Collect item", 12);
+            break;
+        case VISIT_ROOM:
+            strncpy(str, "Visit room", 10);
+            break;
+    }
+    return str;
+}
+
 /* See quests_cli.h */
 char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
 {
@@ -97,11 +126,11 @@ char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
     if(task == NULL) {
         return "Error: Player somehow has nonexistant task!";
     }
-    char *mission_name;
+    char mission_name[100];
     if (task->mission != NULL) {
-        mission_name = task->mission->target_name;
+        sprintf(mission_name, "%s (%s)", mission_to_str(task->mission->type), task->mission->target_name);
     } else {
-        mission_name = "None";
+        sprintf(mission_name, "None");
     }
 
     char rewards[200] = "";
