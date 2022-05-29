@@ -4,7 +4,7 @@
 #include "cli/cmd.h"
 #include "cli/operations.h"
 
-char* actions1[31] = {
+char* actions1[32] = {
             "OPEN",
             "CLOSE",
             "PUSH",
@@ -35,7 +35,8 @@ char* actions1[31] = {
             "PALETTE",
             "ITEMS",
             "VIEW",
-            "FIGHT"};
+            "FIGHT",
+            "NPC"};
 
 
 /* Checks if the memory for a lookup table is successfully allocated */
