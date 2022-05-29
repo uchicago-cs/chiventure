@@ -380,8 +380,9 @@ Test(room, room_generate_success_zero){
     int **edges=edges_new(matrix, 3, 3);
 //2
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
-    cr_assert_eq(0, 1, "failed to generate room\n");
+//3
     random_first_room(game, specgraph);
+    cr_assert_eq(0, 1, "failed to generate room\n");
     room_t *room=random_room_from_game(game);
 
     int rc;
