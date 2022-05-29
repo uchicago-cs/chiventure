@@ -14,4 +14,4 @@
 #include "npc/npc.h"
 #include "common/common.h"
 
-#endif
+#endif /* INCLUDE_WDL_COMMON_H */
