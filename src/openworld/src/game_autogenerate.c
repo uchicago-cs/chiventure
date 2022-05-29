@@ -49,7 +49,7 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
     free(new_room);
-        
+
     return SUCCESS;
 }
 
@@ -63,15 +63,18 @@ room_t* random_room_from_game(game_t* game){
     int count=0;
     room_t* random_room=(room_t*)malloc(sizeof(room_t));
 
+    room_t** rooms=(room_t**)malloc(num_rooms*sizeof(room_t*));
+
     room_hash_t *current, *tmp;
     HASH_ITER(hh, game->all_rooms, current, tmp){
 
-        if(count==randomint){
-            random_room=current;
-            return random_room;
-        }
+        rooms[count]=(room_t*)malloc(sizeof(room_t));
+        rooms[count]=current;
         count ++;
     }
+
+    random_room=rooms[randomint];
+
     return random_room;
 } 
 
