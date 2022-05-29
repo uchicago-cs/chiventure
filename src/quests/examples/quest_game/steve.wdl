@@ -39,9 +39,6 @@
                             ]
                         }
                     ]
-                },
-                {
-                    "Task Name": "Impossible Task"
                 }
             ],
             "Task List": [

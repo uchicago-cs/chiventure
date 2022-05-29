@@ -41,7 +41,7 @@ char* show_quests(player_t *player)
     assert(player != NULL);
     int cur_len = 1;
     char *prev = malloc(cur_len);
-    prev = '\0';
+    *prev = '\0';
     for (player_quest_t *cur = player->player_quests; cur != NULL; cur = cur->hh.next) {
         char *quest_id = cur->quest_id;
         char *completion = completion_to_str(cur->completion);
