@@ -47,6 +47,8 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
     room_t *new_room = roomspec_to_room(newroomspec, coords);
 
     assert(add_room_to_game(game, new_room) == SUCCESS);
+
+    free(new_room);
         
     return SUCCESS;
 }
