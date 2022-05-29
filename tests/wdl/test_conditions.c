@@ -25,7 +25,7 @@ void conditions_check(char* item, char* action)
     item_t *i = get_item_from_game(g, item);
     cr_assert_not_null(i, "Issue grabbing item %s from game.", item);
     
-    agent_t *item_agent;
+    agent_t *item_agent = (agent_t*)(malloc(sizeof(agent_t)));
     item_agent->item = i;
     game_action_t *a = get_action(item_agent, action);
     cr_assert_not_null(a, "Issue grabbing action %s from item %s.", action, item);
@@ -113,6 +113,8 @@ void conditions_check(char* item, char* action)
                        "specified in wdl, but action condition list is not NULL",
                        action, item);
     }
+
+    free(item_agent);
 
 }
 
