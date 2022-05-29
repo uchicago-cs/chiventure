@@ -42,9 +42,6 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->quests = npc_quest_list_new();
     npc->tasks = npc_task_list_new();
 
-    npc->quests = NULL;
-    npc->tasks = NULL;
-
     char *insensitized_id = case_insensitized_string(npc_id);
 
     int check = npc_init(npc, insensitized_id, short_desc, long_desc,
