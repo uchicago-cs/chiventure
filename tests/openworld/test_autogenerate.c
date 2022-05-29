@@ -344,7 +344,7 @@ Test(autogenerate, pick_random_direction){
 }*/
 
 
-Test(room, room_generate_success_zero){
+/*Test(room, room_generate_success_zero){
 
     game_t *game=game_new("New Game");
 
@@ -393,7 +393,7 @@ Test(room, room_generate_success_zero){
     rc=room_generate(game, room, spec1, direction_to_curr, direction_to_new);
     
     cr_assert_eq(rc, 1, "failed to generate room\n");
-}
+}*/
 
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
