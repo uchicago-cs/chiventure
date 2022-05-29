@@ -55,9 +55,15 @@ const char *banner =
 /* Global variables needed for the implementation of this example game */
 npc_t *friendly_fiona;
 npc_t *hostile_harry;
-npc_t *wandering_wanda;
+npc_t *wandering_wilma;
 npc_t *speedy_sonic;
 npc_t *brainy_borja;
+npc_t *peachs_barista;
+room_t *crerar_first;
+room_t *crerar_second;
+room_t *crerar_209;
+room_t *peachs_cafe;
+room_t *outside;
 
 
 /* Creates a sample class. Taken from test_class.c */
@@ -184,13 +190,14 @@ char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     else
     {
+        room_t *room = find_room_from_game(game, npc->movement->track);
         if (npc->npc_battle != NULL && get_npc_hp(npc) <= 0)
         {
-            sprintf(str, "%s's body is in the %s", npc->npc_id, npc->movement->track);
+            sprintf(str, "%s's body is %s", npc->npc_id, room->short_desc);
         }
         else
         {
-            sprintf(str, "%s is in the %s", npc->npc_id, npc->movement->track);
+            sprintf(str, "%s is %s", npc->npc_id, room->short_desc);
         }
     }
     return str;
@@ -246,23 +253,23 @@ convo_t *create_sample_convo_fiona()
 }
 
 
-/* Creates a sample convo for NPC wanda, taken from npc_example.c */
-convo_t *create_sample_convo_wanda()
+/* Creates a sample convo for NPC wilma, taken from npc_example.c */
+convo_t *create_sample_convo_wilma()
 {
     // Starting to build the conversation structure
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Wanda: Hi! I'm Wanda");
+    add_node(c, "1", "wilma: Hi! I'm wilma");
     node_t *node_1 = get_node(c->all_nodes, "1");
-    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop wanda");
+    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop wilma");
     
-    add_node(c, "2", "Wanda: Well, I better get moving, bye!");
+    add_node(c, "2", "wilma: Well, I better get moving, bye!");
     node_t *node_2 = get_node(c->all_nodes, "2");
-    add_action_to_node(node_2, RESUME_MOVEMENT, "let wanda leave");
+    add_action_to_node(node_2, RESUME_MOVEMENT, "let wilma leave");
 
     // Edges
-    add_edge(c, "Hello Wanda!", "1", "2", NULL);
+    add_edge(c, "Hello wilma!", "1", "2", NULL);
 
     return c;
 }
@@ -349,26 +356,27 @@ chiventure_ctx_t *create_sample_ctx()
 
     load_normal_mode(game);
 
-    room_t *crerar_first = room_new("crerar lib floor 1",
-                                    "The first floor of Crerar Library",
+    // Let's make (a smol) Crerar!
+    crerar_first = room_new("crerar lib floor 1",
+                                    "on the first floor of Crerar Library",
                                     "The first floor of the John Crerar Library, "
                                     "head EAST to go outside, "
                                     "UP is the 2nd floor, where Room 209 is located, "
                                     "and SOUTH is the Peaches Cafe.");
-    room_t *crerar_second = room_new("crerar lib floor 2",
-                                     "The second floor of Crerar Library",
+    crerar_second = room_new("crerar lib floor 2",
+                                     " on the second floor of Crerar Library",
                                      "The second floor of the John crerar Library, "
                                      "to the SOUTH lies Room 209, "
                                      "and DOWN is the first floor of Crerar");
-    room_t *crerar_209 = room_new("room 209", "This is Room 209 of Crerar Library",
+    crerar_209 = room_new("room 209", "in Room 209 of Crerar Library",
                                   "This is Room 209 of the John Crerar Library, "
                                   "better known as Borja's Office. "
                                   "To the NORTH is the rest of second floor of Crerar.");
-    room_t *peachs_cafe = room_new("peach's cafe", "Peach's Cafe at University",
+    peachs_cafe = room_new("peach's cafe", "in Peach's Cafe at University",
                                     "This is Peach's Cafe inside of the John Crerar "
                                     "Library, to the NORTH is the first floor of "
                                     "Crerar, and head EAST to go outside.");
-    room_t *outside = room_new("outside", "Outside of the John Crerar Library",
+    outside = room_new("outside", "outside of the John Crerar Library",
                                "Outside of the John Crerar Library is a great "
                                "place for, among other things, settling scores. "
                                "Go WEST to go back inside the John Crerar Library");
@@ -408,7 +416,9 @@ chiventure_ctx_t *create_sample_ctx()
     assert(add_room_to_game(game, outside) == SUCCESS);
     assert(add_room_to_game(game, peachs_cafe) == SUCCESS);
 
-    game->curr_room = crerar_first;
+    game->curr_room = outside;
+    game->start_desc = "You are outside of the John Crerar Library, LOOK "
+                       "around for more.";
 
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
@@ -485,11 +495,11 @@ chiventure_ctx_t *create_sample_ctx()
     extend_path_indefinite(movement3, crerar_first->room_id, 5);
     extend_path_indefinite(movement3, crerar_second->room_id, 5);
     extend_path_indefinite(movement3, crerar_209->room_id, 5);
-    wandering_wanda = npc_new("wanda", "wandering wanda is friendly",
-     "wandering wanda is just a jolly good fellow who likes to wander between"
+    wandering_wilma = npc_new("wilma", "wandering wilma is friendly",
+     "wandering wilma is just a jolly good fellow who likes to wander between"
      "rooms", class2, movement3, FRIENDLY);
-    convo_t *c_wanda = create_sample_convo_wanda();
-    assert(add_convo_to_npc(wandering_wanda, c_wanda) == SUCCESS);
+    //convo_t *c_wilma = create_sample_convo_wilma();
+    //assert(add_convo_to_npc(wandering_wilma, c_wilma) == SUCCESS);
     
 
     npc_mov_t *sonic_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
@@ -520,15 +530,23 @@ chiventure_ctx_t *create_sample_ctx()
     assert(add_battle_to_npc(brainy_borja, borja_stats, NULL, BATTLE_AI_RANDOM,
             CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL) == SUCCESS);
 
+    
+    npc_mov_t *peachs_barista_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_RESTRICTED,
+                                                peachs_cafe->room_id, 0);
+    peachs_barista = npc_new("peach's barista", "The barista / cashier at Peach's Cafe",
+                             "This is the barista at Peach's on University inside "
+                             "of the John Crerar Library, you can ",
+                             class2, peachs_barista_mov, FRIENDLY);
+
 
     /* Add the npcs to the game */
     assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
     assert(add_npc_to_game(game, hostile_harry) == SUCCESS);
-    assert(add_npc_to_game(game, wandering_wanda) == SUCCESS);
+    assert(add_npc_to_game(game, wandering_wilma) == SUCCESS);
     assert(add_npc_to_game(game, speedy_sonic) == SUCCESS);
     assert(add_npc_to_game(game, brainy_borja) == SUCCESS);
 
-    /* Add the npcs to lobby */
+    /* Add the npcs to their rooms */
     assert(add_all_npcs_to_their_rooms(game) == SUCCESS);
 
     /* Free default game and replace it with ours */
