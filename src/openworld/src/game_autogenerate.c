@@ -76,9 +76,12 @@ room_t* random_room_from_game(game_t* game){
     }*/
 
     char* room_id=((game->all_rooms)[randomint]).room_id;
+
+    char* random_id=(char*)malloc(strlen(room_id)+1);
+    random_id=room_id;
     
-    room_t* random_room=(room_t*)malloc(sizeof(room_t));
-    random_room=find_room_from_game(game, room_id);
+    //room_t* random_room=(room_t*)malloc(sizeof(room_t));
+    random_room=find_room_from_game(game, random_id);
     return random_room;
 } 
 
