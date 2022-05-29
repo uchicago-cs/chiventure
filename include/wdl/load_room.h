@@ -56,4 +56,4 @@ int add_rooms_to_game(obj_t *obj, game_t *g);
  */
 int add_connections_to_rooms(obj_t *obj, game_t *g);
 
-#endif
+#endif /* INCLUDE_LOAD_ROOMS_H */
