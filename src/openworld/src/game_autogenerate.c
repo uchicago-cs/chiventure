@@ -58,11 +58,9 @@ room_t* random_room_from_game(game_t* game){
 
 //Function seems to be failing right below this line
     int num_rooms=HASH_COUNT(game->all_rooms);
-    room_t *new_room = (room_t*)malloc(sizeof(room_t));
-    return new_room;
 
     // int num_rooms = game->specgraph->num
-    /*
+    
     int randomint=rand() % num_rooms; 
 
     int count=0;
@@ -73,6 +71,10 @@ room_t* random_room_from_game(game_t* game){
 
     room_hash_t *curr, *tmp;
     char* curr_id;
+
+    room_t *new_room = (room_t*)malloc(sizeof(room_t));
+    return new_room;
+    /*
 
     HASH_ITER(hh, game->all_rooms, curr, tmp) {
 
