@@ -388,7 +388,7 @@ Test(room, room_generate_success_zero){
     char *direction_to_curr;
     char *direction_to_new;
 
-    rc=room_generate(game, room, spec1, char *direction_to_curr, char *direction_to_new);
+    rc=room_generate(game, room, spec1, direction_to_curr, direction_to_new);
     
     cr_assert_eq(rc, 1, "failed to generate room %d\n", i);
 }
