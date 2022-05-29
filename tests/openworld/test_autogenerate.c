@@ -382,12 +382,13 @@ Test(room, room_generate_success_zero){
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
     random_first_room(game, specgraph);
+    room_t *room=random_room_from_game(game);
 
     int rc;
     char *direction_to_curr;
     char *direction_to_new;
 
-    rc=room_generate(game, specgraph, spec1, char *direction_to_curr, char *direction_to_new);
+    rc=room_generate(game, room, spec1, char *direction_to_curr, char *direction_to_new);
     
     cr_assert_eq(rc, 1, "failed to generate room %d\n", i);
 }
