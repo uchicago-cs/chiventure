@@ -357,6 +357,12 @@ int make_npc_cond_friendly(npc_t *npc)
 }
 
 /* See npc.h */
+/* note for future implementation:
+ * function calling change_npc_hostility and
+ * changes npc's hostility_level to HOSTILE
+ * should also include add_battle_to_npc such that
+ * the HOSTILE npc has a npc_battle_t struct and can fight
+*/
 int change_npc_hostility(npc_t *npc, edge_t *edge)
 {
     assert(npc != NULL);
