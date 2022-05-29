@@ -377,7 +377,6 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     assert(target);
     
     game_t *game = c->game;
-    target[0] = case_insensitized_string(target[0]);
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
