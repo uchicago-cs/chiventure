@@ -63,8 +63,7 @@ room_t* random_room_from_game(game_t* game){
     
     int randomint=rand() % num_rooms; 
 
-    int *count;
-    *count = 0;
+    int count = 0;
 
     char** keys=(char**)malloc(sizeof(char*)*num_rooms);
 
@@ -79,7 +78,7 @@ room_t* random_room_from_game(game_t* game){
         curr_id=curr->room_id;
 
         keys[*count]=(char*)malloc(strlen(curr_id)+1);
-        *count++;
+        count++;
     }
 
     char* room_id=keys[randomint];
