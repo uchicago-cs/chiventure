@@ -179,7 +179,7 @@ char **get_task_block(task_t *task, player_t *player) {
     int len = strlen(task->id);
     strncpy(block[0], task->id, MIN(len, 22));
     int i = 1;
-    if(strlen(task->id) > 25) {
+    if(strlen(task->id) > 22) {
         strncpy(block[1], task->id + 22, len - 22);
         i = 2;
     }

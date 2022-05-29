@@ -28,15 +28,10 @@
                     "Task Name": "Talk to Sea Scout",
                     "Task Tree": [
                         {
-                            "Task Name": "Find the Pirate Cove",
-                            "Task Tree": [
-                                {
-                                    "Task Name": "Obtain the Pirates' Map"
-                                },
-                                {
-                                    "Task Name": "Interrogate the Pirate Captain"
-                                }
-                            ]
+                            "Task Name": "Obtain the Pirates' Map"
+                        },
+                        {
+                            "Task Name": "Interrogate the Pirate Captain"
                         }
                     ]
                 }
@@ -138,16 +133,6 @@
                         "XP": 250,
                         "Item": "Interrogation Handbook"
                     }
-                },
-                {
-                    "Task Name": "Impossible Task",
-                    "Mission": {
-                        "Target Name": "Mayor",
-                        "Type": "Meet NPC"
-                    },
-                    "Prerequisites": {
-                        "Level": 100000
-                    }
                 }
             ]
         },
@@ -166,7 +151,7 @@
                     "Task Name": "Kill Steve"
                 },
                 {
-                    "Task Name": "Talk to Mayor",
+                    "Task Name": "Get Photos From Mom",
                     "Task Tree": [
                         {
                             "Task Name": "Show Steve his Embarrassing Baby Photos"
@@ -191,13 +176,14 @@
                     }
                 },
                 {
-                    "Task Name": "Talk to Mayor",
+                    "Task Name": "Get Photos From Mom",
                     "Mission": {
-                        "Target Name": "Mayor",
+                        "Target Name": "Steve's Mom",
                         "Type": "Meet NPC"
                     },
                     "Prerequisites": {
-                        "Quests": ["Find Steve"]
+                        "Quests": ["Find Steve"],
+                        "Tasks": ["Talk to Steve's Mom"]
                     }
                 },
                 {
@@ -219,6 +205,29 @@
                     "Mission": {
                         "Target Name": "Knife",
                         "Type": "Collect Item"
+                    }
+                }
+            ]
+        },
+        {
+            "Quest Name": "Become a Wizard",
+            "Rewards": {
+                "XP": 999999
+            },
+            "Task Tree": [
+                {
+                    "Task Name": "Get Into College"
+                }
+            ],
+            "Task List": [
+                {
+                    "Task Name": "Get Into College",
+                    "Mission": {
+                        "Target Name": "Admissions Ally",
+                        "Type": "Meet NPC"
+                    },
+                    "Prerequisites": {
+                        "Level": 10000
                     }
                 }
             ]
@@ -366,10 +375,29 @@
                         "nodes": [
                             {
                                 "id": "1",
-                                "npc_dialogue": "Hello, adventurer! Please help us fight Steve!"
+                                "npc_dialogue": "Hello, adventurer! I'm sure you are aware of the problem that has been plaguing this land."
+                            },
+                            {
+                                "id": "2",
+                                "npc_dialogue": "You don't know? The powerful wizard 'Steve: Destroyer of Worlds, Archmage of Chaos' has been terrorizing the people. If I don't do something about it, it will KILL my reelection campaign!"
+                            },
+                            {
+                                "id": "3",
+                                "npc_dialogue": "I need you to track him down and vanquish him from the land by any means necessary! Report back to me once you find his location."
                             }
                         ],
-                        "edges": []
+                        "edges": [
+                            {
+                                "quip": "What problem",
+                                "from_id": "1",
+                                "to_id": "2"
+                            },
+                            {
+                                "quip": "How can I help?",
+                                "from_id": "2",
+                                "to_id": "3"
+                            }
+                        ]
                     }
                 },
                 {
@@ -379,49 +407,69 @@
                             {
                                 "id": "1",
                                 "npc_dialogue": "Well done. Now vanquish that heathen!"
-                            }
-                        ],
-                        "edges": []
-                    }
-                }
-            ],
-            "Tasks": [
-                {
-                    "Task Name": "Talk to Mayor",
-                    "Dialogue": {
-                        "nodes": [
-                            {
-                                "id": "1",
-                                "npc_dialogue": "Woah, are those Steve's baby photos?"
                             },
                             {
                                 "id": "2",
-                                "npc_dialogue": "Look at little Stevie Weevie, he's so cute! Wow, if he saw these, it would be a fate worse than death!"
+                                "npc_dialogue": "What are you standing there for? Hurry along! I need to go back to embezzeling mon-I mean helping the people!"
                             }
                         ],
                         "edges": [
                             {
-                                "quip": "Yup",
+                                "quip": "** stare blankly **",
                                 "from_id": "1",
                                 "to_id": "2"
                             }
                         ]
                     }
-                },
+                }
+            ]  
+        },
+        "Admissions Ally": {
+            "short_desc": "The admissions representative for Wizard University, the number 1 university for aspiring Wizards",
+            "long_desc": "She wants to talk to you.",
+            "in": "Starting City",
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "Come back when you're the right level!"
+                    }
+                ],
+                "edges": []
+            },
+            "Quests": [
                 {
-                    "Task Name": "Impossible Task",
+                    "Quest Name":"Become a Wizard",
                     "Dialogue": {
                         "nodes": [
                             {
                                 "id": "1",
-                                "npc_dialogue": "How are you seeing this, wretched hacker? Get out of the game's files and get a life!"
+                                "npc_dialogue": "So, you want to join Wizard University and become a Wizard, huh?"
+                            },
+                            {
+                                "id": "2",
+                                "npc_dialogue": "Well it ain't gonna be easy. Before you can hop into the wonderful world of functional spellcraft and learn to prevent the infamous SEGFAULT curses, you need to get the right qualifications."
+                            },
+                            {
+                                "id": "3",
+                                "npc_dialogue": "Come back to me once you are level 10000. Then you can get started!"
                             }
                         ],
-                        "edges": []
+                        "edges": [
+                            {
+                                "quip": "You bet!",
+                                "from_id": "1",
+                                "to_id": "2"
+                            },
+                            {
+                                "quip": "Oh, what do I need to do?",
+                                "from_id": "2",
+                                "to_id": "3"
+                            }
+                        ]
                     }
                 }
             ]
-            
         },
         "Ground Scout": {
             "short_desc": "This is a Ground Scout",
@@ -557,7 +605,7 @@
                             },
                             {
                                 "id": "2b",
-                                "npc_dialogue": "You really scare me."
+                                "npc_dialogue": "You really scare me. Much more than that Steve guy from that cave SOUTH of the city..."
                             }
                         ],
                         "edges": [
@@ -605,21 +653,63 @@
                             },
                             {
                                 "id": "2",
-                                "npc_dialogue": "*Gasp* Please don't! Steve's such a precious boy! Look, I have all these photos from when he was a baby!"
+                                "npc_dialogue": "How lovely! I'm glad he's finally starting to meet new people. I was worried he would never meet anyone after staying locked up in that cave down SOUTH all day!"
                             },
                             {
                                 "id": "3",
-                                "npc_dialogue": "Yes! Oh dear, I seem to have lost them. I'll look around, come back later if you need to see them."
+                                "npc_dialogue": "Oh, while you're here, would you like to see some of little Stevie Weevie's baby photos? He was so cute back then!"
                             }
                         ],
                         "edges": [
                             {
-                                "quip": "I need to kill Steve",
+                                "quip": "I'm a friend of your son, Steve",
                                 "from_id": "1",
                                 "to_id": "2"
                             },
                             {
-                                "quip": "Baby Photos?",
+                                "quip": "Yes, he's a great friend that I've totally met before! I'm not lying to you at all!",
+                                "from_id": "2",
+                                "to_id": "3"
+                            },
+                            {
+                                "quip": "I'd love to!",
+                                "from_id": "3",
+                                "to_id": "4"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Task Name": "Get Photos From Mom",
+                    "Dialogue": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "npc_dialogue": "Oh, you're back!"
+                            },
+                            {
+                                "id": "2",
+                                "npc_dialogue": "You're so charming! By the way, I found the baby photos you asked for before."
+                            },
+                            {
+                                "id": "3",
+                                "npc_dialogue": "Of course! Here you go, make sure not to lose them!",
+                                "actions": [
+                                    {
+                                        "action": "GIVE_ITEM",
+                                        "action_id": "Steve's Embarrassing Baby Photos"
+                                    }
+                                ]
+                            }
+                        ],
+                        "edges": [
+                            {
+                                "quip": "Yes, lovely",
+                                "from_id": "1",
+                                "to_id": "2"
+                            },
+                            {
+                                "quip": "Awesome, can I see them?",
                                 "from_id": "2",
                                 "to_id": "3"
                             }
