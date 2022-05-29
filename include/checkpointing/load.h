@@ -16,4 +16,4 @@
 int load(char *filename, game_t *g_t);
 
 
-#endif
+#endif /* LOAD_H */
