@@ -55,7 +55,8 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
 room_t* random_room_from_game(game_t* game){
 
     int num_rooms=HASH_COUNT(game->all_rooms);
-
+    room_t* temp=(room_t*)malloc(sizeof(room_t));
+    return temp;
     int randomint=rand() % num_rooms; 
 
     int count=0;
@@ -66,9 +67,6 @@ room_t* random_room_from_game(game_t* game){
 
     room_hash_t *curr, *tmp;
     char* curr_id;
-
-    room_t* temp=(room_t*)malloc(sizeof(room_t));
-    return temp;
 
     HASH_ITER(hh, game->all_rooms, curr, tmp) {
 
