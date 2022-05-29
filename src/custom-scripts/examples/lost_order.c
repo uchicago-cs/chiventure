@@ -7,7 +7,7 @@
  */
 
 #include <stdio.h>
-#include <custom-scripts/custom_type.h>
+#include <custom-scripts/get_custom_type.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
@@ -41,17 +41,17 @@ chiventure_ctx_t *create_sample_ctx()
 
 
     /* Create a rock in room1 */
-    item_t *Lost_McDonalds_Order = item_new("McDonalds?","It seems to be an order of McDonalds.",
+    item_t *Lost_McDonalds_Order_item = item_new("McDonalds?","It seems to be an order of McDonalds.",
                    "It seems like someone didn't get their order... Hopefully it can get back to them!");
-    add_item_to_room(room1, Lost_McDonalds_Order);
+    add_item_to_room(room1, Lost_McDonalds_Order_item);
 
-    item_t *Lost_Wingstop_Order = item_new("Wingstop?","It seems to be an order of Wingstop.",
+    item_t *Lost_Wingstop_Order_item = item_new("Wingstop?","It seems to be an order of Wingstop.",
                    "It seems like someone didn't get their order... Hopefully it can get back to them!");
-    add_item_to_room(room2, Lost_Wingstop_Order);
+    add_item_to_room(room2, Lost_Wingstop_Order_item);
 
-    item_t *Lost_Subway_Order = item_new("Subway?","It seems to be an order of Subway.",
+    item_t *Lost_Subway_Order_item = item_new("Subway?","It seems to be an order of Subway.",
                    "It seems like someone didn't get their order... Hopefully it can get back to them!");
-    add_item_to_room(room3, Lost_Subway_Order);
+    add_item_to_room(room3, Lost_Subway_Order_item);
 
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
        on what the user enters at the start of the game */
@@ -77,11 +77,14 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "INSPECT" with each order.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(Lost_McDonalds_Order, "INSPECT", custom_string, "It smells greasy!");
+    agent_t Lost_McDonalds_Order = (agent_t){.item = Lost_McDonalds_Order_item, .npc = NULL};
+    add_action(&Lost_McDonalds_Order, "INSPECT", custom_string1, "It smells greasy!");
 
-    add_action(Lost_Wingstop_Order, "INSPECT", custom_string, "It smells saucy!");
+    agent_t Lost_Wingstop_Order = (agent_t){.item = Lost_Wingstop_Order_item, .npc = NULL};
+    add_action(&Lost_Wingstop_Order, "INSPECT", custom_string2, "It smells saucy!");
 
-    add_action(Lost_Subway_Order, "INSPECT", custom_string, "It smells... fresh?");
+    agent_t Lost_Subway_Order = (agent_t){.item = Lost_Subway_Order_item, .npc = NULL};
+    add_action(&Lost_Subway_Order, "INSPECT", custom_string3, "It smells... fresh?");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
