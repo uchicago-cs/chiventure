@@ -10,6 +10,7 @@
 #include "game-state/room.h"
 #include "playerclass/class.h"
 #include "quests/quest.h"
+#include "quests/quests_cli.h"
 
 const char* banner =
 " ▄▄▄       ▄████▄  ▄▄▄█████▓ ██▓ ▒█████   ███▄    █     ███▄ ▄███▓ ▄▄▄       ███▄    █  ▄▄▄        ▄████ ▓█████  ███▄ ▄███▓▓█████  ███▄    █ ▄▄▄█████▓\n"
@@ -56,6 +57,8 @@ chiventure_ctx_t *create_sample_ctx()
 
     //room 3 connections
     create_connection(game, "Crerar 390", "Peach's", "east");
+    create_connection(game, "Peach's", "Crerar 390", "west");
+    create_connection(game, "Crerar 390", "Borja's Office", "south");
     create_connection(game, "Crerar 390", "The Void", "west");
     create_connection(game, "Crerar 390", "Borja's Office", "south");
 
