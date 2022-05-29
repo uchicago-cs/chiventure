@@ -81,9 +81,6 @@ room_t* random_room_from_game(game_t* game){
         count++;
     }
 
-    room_t *new_room = (room_t*)malloc(sizeof(room_t));
-    return new_room;
-    /*
 
     char* room_id=keys[randomint];
 
