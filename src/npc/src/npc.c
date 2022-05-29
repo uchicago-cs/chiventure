@@ -340,7 +340,7 @@ int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc) {
         quest_head = npc->quests->head;
     }
     for(npc_quest_t *cur = quest_head; cur != NULL; cur = cur->next) {
-        if(npc_can_give_quest(qctx, cur->id)) {
+        if(can_player_start_quest(qctx, cur->id)) {
             npc->active_dialogue = cur->dialogue;
             quest_t *quest = get_quest_from_hash(cur->id, qctx->quest_hash);
             if(quest == NULL) {
@@ -356,7 +356,7 @@ int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc) {
         task_head = npc->tasks->head;
     }
     for(npc_task_t *cur = task_head; cur != NULL; cur = cur->next) {
-        if(npc_can_complete_task(qctx, cur->id)) {
+        if(can_player_complete_task(qctx, cur->id)) {
             npc->active_dialogue = cur->dialogue;
             update_task(cur->id, qctx);
             qctx->player->crnt_npc = "";

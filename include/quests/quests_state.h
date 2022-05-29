@@ -199,7 +199,7 @@ int update_player_quests(quest_ctx_t *qctx);
  * - true: if the player can start the quest
  * - false: if the player cannot start the quest
  */
-bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
+bool can_player_start_quest(quest_ctx_t *qctx, char *quest_id);
 
 /* Checks to see if the player can start a task given by the NPC
  *
@@ -211,6 +211,6 @@ bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
  * - true: if the player can start the quest
  * - false: if the player cannot start the quest
  */
-bool npc_can_complete_task(quest_ctx_t *qctx, char *task_id);
+bool can_player_complete_task(quest_ctx_t *qctx, char *task_id);
 
 #endif /* QUESTS_STATE_H */
