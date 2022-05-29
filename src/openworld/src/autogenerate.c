@@ -141,14 +141,14 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     
     /* instead of taking all the items, just take a few of them */
-    res->items = generate_items(roomspec);
+    //res->items = generate_items(roomspec);
 
     /* tag to show roomspec position in roomspec list in specgraph */
     res->tag = roomspec->tag;
 
     res->paths = NULL;
     res->coords=coords;
-    res->tag=roomspec->tag;
+    res->tag= roomspec->tag;
     return res;
 }
 
@@ -230,7 +230,8 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     Adds one generated room from the head of specgraph only */
     room_t *new_room = roomspec_to_room(rspec_new, coords);
     assert(add_room_to_game(game, new_room) == SUCCESS);
-    
+
+    free(coords);
     return SUCCESS;
 }
 
