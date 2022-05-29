@@ -57,7 +57,7 @@ int random_first_room(game_t* game){
 room_t* random_room_from_game(game_t* game){
 
 //Function seems to be failing right below this line
-    // int num = 5;
+    int num = 5;
     room_t *room = (room_t*)malloc(sizeof(room_t));
     return room;
     // int num_rooms=HASH_COUNT(game->all_rooms);
