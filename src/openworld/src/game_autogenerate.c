@@ -236,7 +236,7 @@ int autogenerate_room_in_game(game_t* game, specgraph_t *specgraph){
         free(roomspecs);
         return 0;
     }
-
+    return 1;
     room_autogenerate(game, specgraph, curr, 
                       direction_to_curr, direction_to_new);
     
