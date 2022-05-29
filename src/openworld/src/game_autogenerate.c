@@ -33,12 +33,13 @@ int random_first_room(game_t* game){
         return FAILURE;
     }
 
+    specgraph_t *specgraph = game->specgraph;
     int num_roomspecs=game->specgraph->num_roomspecs;
     int randomint=rand() % num_roomspecs;  
     int count=0;
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
-    newroomspec=(specgraph->roomspecs)[randomint];
+    newroomspec=(game->specgraph->roomspecs)[randomint];
     newroomspec->tag = randomint;
     // int tag=newroomspec->tag;
 
@@ -56,8 +57,8 @@ int random_first_room(game_t* game){
 room_t* random_room_from_game(game_t* game){
 
 //Function seems to be failing right below this line
-    // int num_rooms=HASH_COUNT(game->all_rooms);
-    int num_rooms = game->specgraph->
+    int num_rooms=HASH_COUNT(game->all_rooms);
+    // int num_rooms = game->specgraph->num
 
     int randomint=rand() % num_rooms; 
 
