@@ -97,7 +97,6 @@ room_t* random_room_from_game(game_t* game){
     free(keys);
 
     return random_room;
-    */
 } 
 
 /*
