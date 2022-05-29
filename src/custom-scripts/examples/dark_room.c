@@ -45,14 +45,15 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
 
     /* Create a torch in room1 */
-    item_t *torch = item_new("TORCH","It is a torch.",
+    item_t *torch_item = item_new("TORCH","It is a torch.",
                    "The torch is nice, and can provide light!");
-    add_item_to_room(room1, torch);
-  
+    agent_t torch = (agent_t){.item = torch_item, .npc = NULL};
+    add_item_to_room(room1, torch_item);
+
     /* Associate action "LIGHT" and "UNLIGHT" with the torch.
-     * They have no conditions, so they should succeed unconditionally. */
-    add_action(torch, "LIGHT", flip_state(false), "The torch is broken!");
-    add_action(torch, "UNLIGHT", flip_state(true), "The torch is broken!");
+    * They have no conditions, so they should succeed unconditionally. */
+    add_action(&torch, "LIGHT", flip_state(true), "The torch is broken!");
+    add_action(&torch, "UNLIGHT", flip_state(false), "The torch is broken!");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
