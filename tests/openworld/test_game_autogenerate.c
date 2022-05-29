@@ -153,7 +153,7 @@ Test(room, generate_room_in_game){
 
     }
 }
-/*
+
 Test(game_autogenerate, game_autogenerate_static_random_first_room){
 
     game_t *game=game_new("New Game");
@@ -283,4 +283,3 @@ Test(game_autogenerate, game_autogenerate_static_one_roomspec_game){
     
     cr_assert_eq(num_rooms, 3, "failed to autogenerate game with correct number of rooms\n");
 }
-*/
