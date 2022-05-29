@@ -16,8 +16,8 @@
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
-typedef struct quest_ctx quest_ctx_t; // a forward declaration
-//typedef struct npc_quest npc_quest_t; // forward declaration
+//typedef struct quest_ctx quest_ctx_t; // a forward declaration
+typedef struct npc_quest npc_quest_t; // forward declaration
 
 /* 
  * A singular quest node for npc_quest_list_t 
@@ -26,7 +26,7 @@ typedef struct quest_ctx quest_ctx_t; // a forward declaration
 typedef struct npc_quest {
    char *id;
    convo_t *dialogue;
-   struct npc_quest_t *next;
+   npc_quest_t *next;
 } npc_quest_t;
 
 /* 
@@ -653,31 +653,20 @@ int delete_all_npcs(npc_hash_t *npcs);
  * If neither --> remain default standard_dialogue
  * 
  * Parameters:
+ * - qctx: the quest context
  * - npc: the npc
- * - player: the player
+ * - quest_id: the quest's id
+ * - task_id: the task's id
  * 
  * Returns: SUCCESS upon success, FAILURE upon failure
  */
 int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc, 
                                  char *quest_id, char *task_id);
 
-/*
- * Called after active quest/task finished 
- * Resets NPC's dialogue to normal dialogue
- * 
- * Parameters:
- * - npc: the npc
- * - player: the player
- * 
- * Returns: SUCCESS upon success, FAILURE upon failure
- */
-int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc_t *npc, 
-                   char *quest_id, char *task_id);
+/* forward declaration */
+//bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
 
 /* forward declaration */
-bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
-
-/* forward declaration */
-bool npc_can_give_task(quest_ctx_t *qctx, char *task_id);
+//bool npc_can_give_task(quest_ctx_t *qctx, char *task_id);
 
 #endif
