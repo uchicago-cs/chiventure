@@ -54,6 +54,7 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
 /*See autogenerate.h*/
 room_t* random_room_from_game(game_t* game){
 
+//Function seems to be failing right below this line
     int num_rooms=HASH_COUNT(game->all_rooms);
 
     int randomint=rand() % num_rooms; 
