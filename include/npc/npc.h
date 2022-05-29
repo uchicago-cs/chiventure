@@ -350,19 +350,6 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
  */
 int npc_free(npc_t *npc);
 
-/* Sets the npc's active dialogue to the proper dialogue
- * - This handles quest interaction, since NPCs can have different
- *   dialogue when giving quests or completing tasks
- * 
- * Parameters:
- * - qctx: A quest context containing a player and a hash of all quests in the game
- * - npc: An npc
- * 
- * Returns:
- * - SUCCESS on success, FAILURE if an error occurs
-*/
-int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
-
 // "CHECK" FUNCTIONS ----------------------------------------------------------
 
 /*
@@ -641,36 +628,18 @@ int move_npc(npc_t *npc);
 int delete_all_npcs(npc_hash_t *npcs);
 
 // QUEST INTEGRATION FUNCTIONS --------------------------------------------
-
-/*
- * Called when NPC is given option to receive quest or task
- * Checks to see if player can receive (based on stats)
- * If activated quest --> active_dialogue updated to that quest's dialogue
- * If activated task --> active_dialogue updated to that tasks's dialogue
- * If both --> default to quest
- * If neither --> remain default standard_dialogue
+/* Sets the npc's active dialogue to the proper dialogue
+ * - This handles quest interaction, since NPCs can have different
+ *   dialogue when giving quests or completing tasks
  * 
  * Parameters:
- * - npc: the npc
- * - player: the player
+ * - qctx: A quest context containing a player and a hash of all quests in the game
+ * - npc: An npc
  * 
- * Returns: SUCCESS upon success, FAILURE upon failure
- */
-int activate_quest_task_dialogue(quest_ctx_t *qctx, npc_t *npc, 
-                                 char *quest_id, char *task_id);
-
-/*
- * Called after active quest/task finished 
- * Resets NPC's dialogue to normal dialogue
- * 
- * Parameters:
- * - npc: the npc
- * - player: the player
- * 
- * Returns: SUCCESS upon success, FAILURE upon failure
- */
-int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc_t *npc, 
-                   char *quest_id, char *task_idk);
+ * Returns:
+ * - SUCCESS on success, FAILURE if an error occurs
+*/
+int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
 
 /* forward declaration */
 bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
