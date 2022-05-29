@@ -601,7 +601,7 @@
                             },
                             {
                                 "id": "2a",
-                                "npc_dialogue": "You scare me."
+                                "npc_dialogue": "You scare me, nut not as much as that Steve guy from that cave SOUTH of the city..."
                             },
                             {
                                 "id": "2b",
@@ -704,7 +704,7 @@
                         ],
                         "edges": [
                             {
-                                "quip": "Yes, lovely",
+                                "quip": "Yes, love",
                                 "from_id": "1",
                                 "to_id": "2"
                             },
