@@ -181,8 +181,22 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
             continue;
         }
         unsigned int backwards = (forwards + 2) % NUM_COMPASS_DIRECTIONS;
-        strcpy(out_direction_to_curr, directions[backwards], strlen(directions[backwards]));
-        strcpy(out_direction_to_new, directions[forwards], strlen(directions[forwards]));
+
+        if(strlen(directions[backwards])==5){
+
+            out_direction_to_new=(char*)malloc(6);
+            out_direction_to_curr=(char*)malloc(6);            
+            strncpy(out_direction_to_curr, directions[backwards], 5);
+            strncpy(out_direction_to_new, directions[forwards], 5);
+        }
+
+        if(strlen(directions[backwards])==4){
+
+            out_direction_to_new=(char*)malloc(5);
+            out_direction_to_curr=(char*)malloc(5);            
+            strncpy(out_direction_to_curr, directions[backwards], 4);
+            strncpy(out_direction_to_new, directions[forwards], 4);
+        }
 
         for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
             free(directions[i]);
