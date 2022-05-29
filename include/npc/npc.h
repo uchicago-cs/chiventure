@@ -31,11 +31,6 @@ typedef struct npc {
     /* long description of the NPC, <301 chars */
     char *long_desc;
 
-    /* the npc's class */
-    //class_t *npc_class;
-
-    //int health;
-
     /* pointer to existing convo struct; changed depending on whetehr
     npc has activated quest or task convo */
 

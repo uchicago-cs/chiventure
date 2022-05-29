@@ -38,9 +38,8 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
-
-    npc->quests = npc_quest_list_new();
-    npc->tasks = npc_task_list_new();
+    npc->quests = NULL;
+    npc->tasks = NULL;
 
     char *insensitized_id = case_insensitized_string(npc_id);
 
