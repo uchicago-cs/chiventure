@@ -29,8 +29,6 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
         return FAILURE;
     }
 
-    roomspec_t** roomspecs=specgraph->roomspecs;
-
     if(roomspecs==NULL){
         return FAILURE;
     }
@@ -40,7 +38,7 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
     int count=0;
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
-    newroomspec=roomspecs[randomint];
+    newroomspec=(specgraph->roomspecs)[randomint];
     int tag=newroomspec->tag;
 
     coords_t *coords=coords_new(0,0);
@@ -71,7 +69,7 @@ room_t* random_room_from_game(game_t* game){
 
     room_t* temp=(room_t*)malloc(sizeof(room_t));
     return temp;
-    
+
     HASH_ITER(hh, game->all_rooms, curr, tmp) {
 
         curr_id=curr->room_id;
