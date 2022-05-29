@@ -81,7 +81,7 @@ room_t* random_room_from_game(game_t* game){
     random_id=room_id;
     
     //room_t* random_room=(room_t*)malloc(sizeof(room_t));
-    random_room=find_room_from_game(game, random_id);
+    room_t* random_room=find_room_from_game(game, random_id);
     return random_room;
 } 
 
