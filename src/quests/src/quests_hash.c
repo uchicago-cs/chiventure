@@ -185,8 +185,9 @@ player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *
 player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table)
 {
     player_task_t *t;
-    HASH_FIND(hh, hash_table, case_insensitized_string(id),  
-            strnlen(id, QUEST_NAME_MAX_LEN), t);
+    // HASH_FIND(hh, hash_table, case_insensitized_string(id),  
+    //         strnlen(id, QUEST_NAME_MAX_LEN), t);
+    HASH_FIND_STR(hash_table, case_insensitized_string(id), t);
 
     return t;
 }
@@ -255,18 +256,18 @@ int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx)
 }
 
 /* refer to quests_hash.h */
-int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id) 
+int remove_quest_in_hash(quest_hash_t **hash_table, char *quest_id) 
 {
     quest_t *check; 
-    check = get_quest_from_hash(quest_id, hash_table);
+    check = get_quest_from_hash(quest_id, *hash_table);
 
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
 
-    HASH_DEL(hash_table, check); 
+    HASH_DEL(*hash_table, check); 
     quest_free(check); 
-    if (get_quest_from_hash(quest_id, hash_table) != NULL){
+    if (get_quest_from_hash(quest_id, *hash_table) != NULL){
         return FAILURE;
     }
     return SUCCESS;
@@ -287,20 +288,20 @@ int remove_quest_all(quest_hash_t **hash_table)
 }
 
 /* refer to quests_hash.h */
-int remove_task_in_hash(task_hash_t *hash_table, char *id) 
+int remove_task_in_hash(task_hash_t **hash_table, char *id) 
 {
     task_hash_t *check; 
-    check = search_task_hash(id, hash_table);
+    check = search_task_hash(id, *hash_table);
 
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
 
-    HASH_DEL(hash_table, check); 
+    HASH_DEL(*hash_table, check); 
     task_free(check->task);
     free(check);
 
-    if (get_task_from_task_hash(id, hash_table) != NULL){
+    if (get_task_from_task_hash(id, *hash_table) != NULL){
         return FAILURE;
     }
     return SUCCESS;
@@ -321,17 +322,17 @@ int remove_task_all(task_hash_t **hash_table)
 }
 
 /* Refer to quests_hash.h */
-int remove_task_in_player_hash(player_task_hash_t *ptasks, char *task_id) {
+int remove_task_in_player_hash(player_task_hash_t **ptasks, char *task_id) {
     player_task_t *check; 
-    check = get_player_task_from_hash(task_id, ptasks);
+    check = get_player_task_from_hash(task_id, *ptasks);
 
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
 
-    HASH_DEL(ptasks, check); 
+    HASH_DEL(*ptasks, check); 
     player_task_free(check); 
-    if (get_player_task_from_hash(task_id, ptasks) != NULL){
+    if (get_player_task_from_hash(task_id, *ptasks) != NULL){
         return FAILURE;
     }
     return SUCCESS;

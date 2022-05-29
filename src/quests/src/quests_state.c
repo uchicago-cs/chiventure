@@ -255,7 +255,7 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
             }
             for(task_tree_t *cur = lmost_sibling; cur != NULL; cur = cur->rsibling) {
                 if(!get_player_task_status(cur->task, player)) {
-                    remove_task_in_player_hash(qctx->player->player_tasks, cur->task->id);
+                    remove_task_in_player_hash(&(qctx->player->player_tasks), cur->task->id);
                 }
             }
         }
