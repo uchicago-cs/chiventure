@@ -62,7 +62,7 @@ room_t* random_room_from_game(game_t* game){
     return room;
     // int num_rooms=HASH_COUNT(game->all_rooms);
     // int num_rooms = game->specgraph->num
-
+    /*
     int randomint=rand() % num_rooms; 
 
     int count=0;
@@ -97,6 +97,7 @@ room_t* random_room_from_game(game_t* game){
     free(keys);
 
     return random_room;
+    */
 } 
 
 /*
