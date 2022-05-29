@@ -30,15 +30,15 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Create five rooms. room1 is the initial room */
     room_t *room1 = room_new("Ryerson 251", "This is Ryerson 251", 
-                             "Ah, Ryerson. There's a CS class here.");
+                             "Ah, Ryerson. There's a CS class here. Only one exit north.");
     room_t *room2 = room_new("Borja's Office", "This is Borja's Office", 
-                             "A neat(?) office for Borja.");
+                             "A neat(?) office for Borja. A rolex watch gleams on his desk. There are exits north and south.");
     room_t *room3 = room_new("Crerar 390", "This is Crerar 390", 
-                             "The famed CS discussion room.");
+                             "The famed CS discussion room. There are exits south, east, and west.");
     room_t *room4 = room_new("Peach's", "This is Peach's Cafe", 
-                             "Crerar's very own coffee shop.");
+                             "Crerar's very own coffee shop There's a bar of soap in here, for some reason. Also, there is an exit west.");
     room_t *room5 = room_new("The Void", "This is the Void.", 
-                             "A pulsing black hole in Crerar's basement.");
+                             "A pulsing black hole in Crerar's basement. There is no escape. This is the end.");
 
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
@@ -46,10 +46,21 @@ chiventure_ctx_t *create_sample_ctx()
     add_room_to_game(game, room4);
     add_room_to_game(game, room5);
     game->curr_room = room1;
+
+    //room 1 connections
     create_connection(game, "Ryerson 251", "Borja's Office", "north");
+
+    //room 2 connections
     create_connection(game, "Borja's Office", "Crerar 390", "north");
+    create_connection(game, "Borja's Office", "Ryerson 251", "south");
+
+    //room 3 connections
     create_connection(game, "Crerar 390", "Peach's", "east");
     create_connection(game, "Crerar 390", "The Void", "west");
+    create_connection(game, "Crerar 390", "Borja's Office", "south");
+
+    //room 4 connections
+    create_connection(game, "Peach's", "Crerar 390", "west");    
 
 
     player_t *player = player_new("Borja");

@@ -219,9 +219,14 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     }
     /* validate existence of path and destination
        third condition checks if conditions have been met */
-    if ((path_found == NULL) || (room_dest == NULL) || (p->conditions != NULL))
+    if ((path_found == NULL) || (room_dest == NULL))
     {
         sprintf(string, "The path or room provided was invalid.");
+        *ret_string = string;
+        return NOT_ALLOWED_PATH;
+    } else if ((p->conditions != NULL))
+    {
+        sprintf(string, "The conditions for accessing this path have not been met.");
         *ret_string = string;
         return NOT_ALLOWED_PATH;
     }
