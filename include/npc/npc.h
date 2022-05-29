@@ -385,4 +385,4 @@ int move_npc(npc_t *npc);
  */
 int delete_all_npcs(npc_hash_t *npcs);
 
-#endif
+#endif /* _NPC_H */

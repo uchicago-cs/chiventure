@@ -220,4 +220,4 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_
  */
 int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item);
 
-#endif
+#endif /* _ACTIONS_H_ */
