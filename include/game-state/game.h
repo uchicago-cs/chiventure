@@ -33,6 +33,7 @@ typedef struct quest quest_t;
 typedef struct quest quest_hash_t;
 typedef struct path path_t;
 typedef struct gencontext gencontext_t;
+typedef struct specgraph specgraph_t;
 typedef struct levelspec levelspec_t;
 
 /* The game struct is built to contain all the relevant information
