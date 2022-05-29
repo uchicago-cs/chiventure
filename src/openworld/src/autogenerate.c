@@ -146,6 +146,7 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
     res->tag = roomspec->tag;
 
     res->paths = NULL;
+    res->coords=(coords_t*)malloc(sizeof(coords_t));
     res->coords=coords;
     res->tag= roomspec->tag;
     return res;

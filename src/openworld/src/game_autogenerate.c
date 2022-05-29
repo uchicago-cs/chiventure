@@ -84,6 +84,13 @@ room_t* random_room_from_game(game_t* game){
     
     //room_t* random_room=(room_t*)malloc(sizeof(room_t));
     room_t* random_room=find_room_from_game(game, random_id);
+
+    for(int i=0; i<num_rooms; i++){
+        free(keys[i]);
+    }
+
+    free(keys);
+
     return random_room;
 } 
 
