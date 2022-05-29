@@ -45,8 +45,9 @@ Test(randomroom, random_first_room){
     int **edges=edges_new(matrix, 3, 3);
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+    game->specgraph = specgraph;
 
-    int rc=random_first_room(game, specgraph);
+    int rc=random_first_room(game);
 
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate a random first room\n");
 }
