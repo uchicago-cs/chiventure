@@ -171,7 +171,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(pirate_map, "Pirate Map task is NULL!");
     cr_assert_str_eq(pirate_map->id, "Obtain the Pirates' Map", "Pirate Map task has incorrect id!");
     cr_assert_not_null(pirate_map->mission, "Pirate Map task has no mission!");
-    cr_assert_str_eq(pirate_map->mission->target_name, "Pirate Map", "Pirate Map task's mission has the wrong target!");
+    cr_assert_str_eq(pirate_map->mission->target_name, "pirate map", "Pirate Map task's mission has the wrong target!");
     cr_assert_eq(pirate_map->mission->type, COLLECT_ITEM, "Pirate Map task's mission has the wrong type!");
     cr_assert_not_null(pirate_map->prereq, "Pirate Map task has no prereq!");
     cr_assert_eq(pirate_map->prereq->hp, 15, "Pirate Map task's prereq has incorrect hp!");
@@ -264,7 +264,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(knife, "Knife Task does not exist!");
     cr_assert_str_eq(knife->id, "Obtain Knife", "Knife Task has incorrect id!");
     cr_assert_not_null(knife->mission, "Knife Task has no mission!");
-    cr_assert_str_eq(knife->mission->target_name, "Knife", "Knife Task's mission has incorrect target name");
+    cr_assert_str_eq(knife->mission->target_name, "knife", "Knife Task's mission has incorrect target name");
     cr_assert_eq(knife->mission->type, COLLECT_ITEM, "Knife Task's mission has incorrect type!");
 
 }

@@ -288,7 +288,7 @@
             "actions": [
                 {
                     "action": "TAKE",
-                    "text_success": "You pick up the map and see that Steve's Lair is EAST of the city",
+                    "text_success": "You pick up the map and see that Steve's Lair is SOUTH of the city",
                     "text_fail": "You remembered that you are illiterate. Oops!"
                 }
             ]
@@ -750,19 +750,24 @@
                                 "npc_dialogue": "Let us begin our battle!"
                             },
                             {
-                                "id": "2a",
+                                "id": "2",
                                 "npc_dialogue": "Aaaaahhhhh! I surrender! I surrender!"
                             },
                             {
-                                "id": "2b",
-                                "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrassing baby photos!!! Nooooo!"
+                                "id": "3",
+                                "npc_dialogue": "Y-y-yes, I'll leave right now. Too bad I have to abandon all of the treasures from my sanctum to the EAST..."
                             }
                         ],
                         "edges": [
                             {
                                 "quip": "En Garde!",
                                 "from_id": "1",
-                                "to_id": "2a"
+                                "to_id": "2"
+                            },
+                            {
+                                "quip": "Then get out of this city! The mayor wants to maintain the current levels of corruption.",
+                                "from_id": "2",
+                                "to_id": "3"
                             }
                         ]
                     }
@@ -776,15 +781,15 @@
                                 "npc_dialogue": "Let us begin our battle!"
                             },
                             {
-                                "id": "2b",
-                                "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrassing baby photos!!! Nooooo!"
+                                "id": "2",
+                                "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrassing baby photos!!! Nooooo!\nNow I have no choice but to leave this land out of shame! Too bad I have to abandon all of the treasures from my sanctum to the EAST..."
                             }
                         ],
                         "edges": [
                             {
                                 "quip": "I have something much more interesting to show you",
                                 "from_id": "1",
-                                "to_id": "2b"
+                                "to_id": "2"
                             }
                         ]
                     }
