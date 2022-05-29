@@ -51,8 +51,6 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     # since the key is guaranteed to be the string "ITEM"
     d["items"] = [v for k, v in s if k == "ITEM"]
 
-    d["npcs"] = [v for k, v in s if k == "NPC"]
-
     
     return ('ROOM', (room_id, d))
 
