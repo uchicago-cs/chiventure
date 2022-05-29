@@ -83,6 +83,10 @@ char *store_list(id_list_node_t *id_list_start)
 /* See quests_cli.h */
 char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
 {
+    assert(player != NULL);
+    assert(task_id != NULL);
+    assert(all_quests != NULL);
+
     char buf[1000] = "";
     
     player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
@@ -90,6 +94,9 @@ char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
         return "Player does not have this task!";
     }
     task_t *task = get_task_from_quest_hash(task_id, all_quests);
+    if(task == NULL) {
+        return "Error: Player somehow has nonexistant task!";
+    }
     char *mission_name;
     if (task->mission != NULL) {
         mission_name = task->mission->target_name;

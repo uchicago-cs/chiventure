@@ -77,8 +77,9 @@ task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
     if(!tree || !id) {
         return NULL;
     }
+    char * low_id = case_insensitized_string(id);
     assert(tree->task != NULL && tree->task->id != NULL);
-    if (strcmp(tree->task->id, id) == 0)
+    if (strcmp(case_insensitized_string(tree->task->id), low_id) == 0)
     {
         return tree;
     }
