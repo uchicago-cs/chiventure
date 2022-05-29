@@ -236,7 +236,7 @@
     "ROOMS": {
         "Starting City": {
             "short_desc": "A city.",
-            "long_desc": "A bustling city, whose denizens have pleaded for you to find and vanquish the villainous Steve. Talk to the MAYOR to get started. \nAround the city, you see the Mayor, a Ground Scout, a Sea Scout, and Admissions Ally",
+            "long_desc": "A bustling city, whose denizens have pleaded for you to find and vanquish the villainous Steve. Talk to the Mayor to get started. \nAround the city, you see the Mayor, a Ground Scout, a Sea Scout, and Admissions Ally",
             "connections":[
                 {
                     "to": "Pirate Cove",
