@@ -427,4 +427,5 @@ node_action_t *node_action_new(node_action_type action, char *action_id);
 int free_node_actions(node_action_t *action_lst);
 
 
-#endif /* DIALOGUE_H */
+
+#endif /* _DIALOGUE_H */
