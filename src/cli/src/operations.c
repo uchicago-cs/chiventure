@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+#include "game-state/game_state_common.h"
 #include "cli/operations.h"
 #include "npc/npc.h"
 #include "npc/dialogue.h"
@@ -582,7 +583,7 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             if (get_npc_hp(npc_elt) == 0) 
             {
                 char *npc_death;
-                sprintf(npc_death, "†%s†", npc_elt->npc_id); 
+                sprintf(npc_death, "†%s†", npc_elt->npc_id);
                 print_to_cli(ctx, npc_death);
             }
             else
