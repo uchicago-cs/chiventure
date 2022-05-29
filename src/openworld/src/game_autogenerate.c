@@ -73,9 +73,9 @@ room_t* random_room_from_game(game_t* game){
         rooms[count]=(room_t*)malloc(sizeof(room_t));
         rooms[count]=current;
         count ++;
-    }
+    }*/
     
-    room_t* random_room=(room_t*)malloc(sizeof(room_t));*/
+    room_t* random_room=(room_t*)malloc(sizeof(room_t));
     random_room=(game->all_rooms)[randomint];
     return random_room;
 } 
