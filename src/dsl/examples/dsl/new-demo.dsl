@@ -77,10 +77,10 @@ NPC JACK IN classroom
     age: "125"
     gender: "Male"
     INVENTORY
-        item_id: "Google SWE Internship"
-        item_id: "LARK DOCUMENTATION"
-        item_id: "DSL DOCUMENTATION"
-        item_id: "Omniscience"
+        item_id1: "Google SWE Internship"
+        item_id2: "LARK DOCUMENTATION"
+        item_id3: "DSL DOCUMENTATION"
+        item_id4: "Omniscience"
 
 NPC BORJA IN computer lab
     short desc: "This is Professor Borja Sotomayor."
@@ -88,7 +88,7 @@ NPC BORJA IN computer lab
     age: "23"
     gender: "Male"
     INVENTORY
-        item_id: "CPU"
-        item_id: "Shirt Designer"
-        item_id: "Glasses"
-        item_id: "Power Point"
+        item_id1: "CPU"
+        item_id2: "Shirt Designer"
+        item_id3: "Glasses"
+        item_id4: "Power Point"
