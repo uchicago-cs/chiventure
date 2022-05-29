@@ -23,30 +23,31 @@
 #define MAX_RAND_ITEMS (100)
 
 /*See autogenerate.h*/
-int random_first_room(game_t* game, specgraph_t *specgraph){
+int random_first_room(game_t* game){
 
-    if(specgraph==NULL){
+    if(game==NULL){
         return FAILURE;
     }
 
-    if(specgraph->roomspecs==NULL){
+    if(game->specgraph==NULL){
         return FAILURE;
     }
 
-    int num_roomspecs=specgraph->num_roomspecs;
+    int num_roomspecs=game->specgraph->num_roomspecs;
     int randomint=rand() % num_roomspecs;  
     int count=0;
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
     newroomspec=(specgraph->roomspecs)[randomint];
-    int tag=newroomspec->tag;
+    newroomspec->tag = randomint;
+    // int tag=newroomspec->tag;
 
     coords_t *coords=coords_new(0,0);
     room_t *new_room = roomspec_to_room(newroomspec, coords);
 
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
-    free(new_room);
+    // free(new_room);
 
     return SUCCESS;
 }
