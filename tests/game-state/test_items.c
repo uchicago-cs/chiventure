@@ -113,16 +113,12 @@ Test(item, add_item_to_hash_duplicate_items)
     cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
                  "item id as another item to hashtable");
     
-    rc = add_item_to_hash(&ht, test_item1);
-    cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
-                 "memory address as non-head item to hashtable");
-    
     HASH_FIND(hh, ht, test_item1->item_id, strnlen(test_item1->item_id, MAX_ID_LEN), check);
     LL_FOREACH(check, iter)
     {
         count++;
     }
-    cr_assert_eq(count, 2, "add_item_to_hash did not add items with same "
+    cr_assert_eq(count, 1, "add_item_to_hash did not add items with same "
                  "item ids correctly.");
     delete_all_items(&ht);
 }
