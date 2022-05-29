@@ -79,8 +79,8 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a torch in room1 */
     item_t *torch_item = item_new("TORCH","It is a torch.",
                    "The torch is nice, and can provide light!");
-    agent_t torch = (agent_t){.item = torch_item, .npc = NULL};
     add_item_to_room(room1, torch_item);
+    agent_t torch = (agent_t){.item = torch_item, .npc = NULL};
 
     /* Associate action "LIGHT" and "UNLIGHT" with the torch.
     * They have no conditions, so they should succeed unconditionally. */
@@ -98,10 +98,13 @@ int main(int argc, char **argv)
      * (i.e., actions that operate on an item) */
     action_type_t fireball_action = {"FIREBALL", ITEM};
     add_entry(fireball_action.c_name, kind1_action_operation, &fireball_action, ctx->cli_ctx->table);
+    
     action_type_t slash_action = {"SLASH", ITEM};
     add_entry(slash_action.c_name, kind1_action_operation, &slash_action, ctx->cli_ctx->table);
+
     action_type_t light_action = {"LIGHT", ITEM};
     add_entry(light_action.c_name, kind1_action_operation, &light_action, ctx->cli_ctx->table);
+    
     action_type_t unlight_action = {"UNLIGHT", ITEM};
     add_entry(unlight_action.c_name, kind1_action_operation, &unlight_action, ctx->cli_ctx->table);
 
