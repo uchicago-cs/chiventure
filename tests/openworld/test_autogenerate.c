@@ -390,7 +390,7 @@ Test(room, room_generate_success_zero){
 
     rc=room_generate(game, room, spec1, direction_to_curr, direction_to_new);
     
-    cr_assert_eq(rc, 1, "failed to generate room %d\n", i);
+    cr_assert_eq(rc, 1, "failed to generate room\n");
 }
 
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
