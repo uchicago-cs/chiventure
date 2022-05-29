@@ -157,14 +157,16 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 {
     /* 2D array of possible directions */
     char** directions=(char**)malloc(NUM_COMPASS_DIRECTIONS*sizeof(char*));
-    for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
-        directions[i]=malloc(MAX_DIRECTION_STRLEN*sizeof(char*));
-    }
+ 
+    directions[0]=malloc(6);
+    directions[1]=malloc(5);
+    directions[2]=malloc(6);
+    directions[3]=malloc(5);    
 
-    strncpy(directions[0], "north", 6);
-    strncpy(directions[1], "east", 5);
-    strncpy(directions[2], "south", 6);
-    strncpy(directions[3], "west", 5);
+    strcpy(directions[0], "north");
+    strcpy(directions[1], "east");
+    strcpy(directions[2], "south");
+    strcpy(directions[3], "west");
 
     /* Random initial direction */
     unsigned int initial_direction = rand() % NUM_COMPASS_DIRECTIONS;
@@ -186,16 +188,16 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 
             out_direction_to_new=(char*)malloc(6);
             out_direction_to_curr=(char*)malloc(6);            
-            strncpy(out_direction_to_curr, directions[backwards], 5);
-            strncpy(out_direction_to_new, directions[forwards], 5);
+            strcpy(out_direction_to_curr, directions[backwards]);
+            strcpy(out_direction_to_new, directions[forwards]);
         }
 
         if(strlen(directions[backwards])==4){
 
             out_direction_to_new=(char*)malloc(5);
             out_direction_to_curr=(char*)malloc(5);            
-            strncpy(out_direction_to_curr, directions[backwards], 4);
-            strncpy(out_direction_to_new, directions[forwards], 4);
+            strcpy(out_direction_to_curr, directions[backwards]);
+            strcpy(out_direction_to_new, directions[forwards]);
         }
 
         for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
