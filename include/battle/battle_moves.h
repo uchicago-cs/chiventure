@@ -86,4 +86,4 @@ move_t *test_move_paladin();
 move_t *test_move_wizard();
 
 
-#endif
+#endif /* BATTLE_MOVES_H */

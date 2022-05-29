@@ -10,19 +10,35 @@
 
 /* See skilltree.h */
 skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
-                             unsigned int prereqlevel,
-                             unsigned int size) {
+                            unsigned int prereq_level, char** player_classes, 
+                            int num_classes, unsigned int size) {
     skill_node_t* node;
     node = (skill_node_t*)malloc(sizeof(skill_node_t));
     if (node == NULL) {
         fprintf(stderr, "skill_node_new: memory allocation failed\n");
         return NULL;
     }
-    node->prereq_level = prereqlevel;
+    node->prereq_level = prereq_level;
 
     // Adjusting initial num_prereq_skills not yet implemented.
     node->num_prereq_skills = 0;
 
+    node->player_classes = (char**) malloc(sizeof(char*)*(num_classes + 1));
+    if (node->player_classes == NULL) {
+        fprintf(stderr, "skill_node_new: memory allocation failed\n");
+        return NULL;
+    }
+
+    for(int i = 0; i < num_classes; i++){
+        node->player_classes[i] = (char*) malloc(sizeof(char)*(strlen(player_classes[i])+1));
+        if (node->player_classes[i] == NULL) {
+            fprintf(stderr, "skill_node_new: memory allocation failed\n");
+            return NULL;
+        }
+        strcpy(node->player_classes[i], player_classes[i]);
+    }
+
+    node->num_classes = num_classes;
     node->skill = skill;
     node->prereqs = NULL;
     node->size = size;
@@ -35,6 +51,11 @@ int skill_node_free(skill_node_t* node) {
     if (node->prereqs) {
         free(node->prereqs);
     }
+
+    for(int i = 0; i < node->num_classes; i++){
+        free(node->player_classes[i]);
+    }
+    free(node->player_classes);
 
     free(node);
 
