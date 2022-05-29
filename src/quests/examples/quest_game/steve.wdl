@@ -236,7 +236,7 @@
     "ROOMS": {
         "Starting City": {
             "short_desc": "A city.",
-            "long_desc": "A bustling city, whose denizens have pleaded for you to find and vanquish the villainous Steve. Talk to the mayor to get started.",
+            "long_desc": "A bustling city, whose denizens have pleaded for you to find and vanquish the villainous Steve. Talk to the MAYOR to get started. \nAround the city, you see the Mayor, a Ground Scout, a Sea Scout, and Admissions Ally",
             "connections":[
                 {
                     "to": "Pirate Cove",
@@ -255,7 +255,7 @@
         },
         "Pirate Cove": {
             "short_desc": "A cove of pirates",
-            "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be their captain. Near your feet is a scrap of parchment that appears to be some sort of PIRATE MAP.",
+            "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be the Pirate Captain Captain. Near your feet is a scrap of parchment that appears to be some sort of PIRATE MAP.",
             "connections":[
                 {"direction": "EAST", "to": "Starting City"}
             ]
