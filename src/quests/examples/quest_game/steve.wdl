@@ -661,7 +661,11 @@
                             },
                             {
                                 "id": "4",
-                                "npc_dialogue": "Shoot, I can't find them right now! Why don't you stop by later to pick them up?"
+                                "npc_dialogue": "Shoot, I can't find them right now! Why don't you stop by later to pick them up?!"
+                            },
+                            {
+                                "id": "5",
+                                "npc_dialogue": "Of course! He's in his lair to the SOUTH like he always is, you silly goose!"
                             }
                         ],
                         "edges": [
@@ -679,6 +683,11 @@
                                 "quip": "I'd love to!",
                                 "from_id": "3",
                                 "to_id": "4"
+                            },
+                            {
+                                "quip": "Sure, I'll come by after I go see Steve. Do you know where I can find him?",
+                                "from_id": "4",
+                                "to_id": "5"
                             }
                         ]
                     }
@@ -781,15 +790,33 @@
                                 "npc_dialogue": "Let us begin our battle!"
                             },
                             {
-                                "id": "2",
+                                "id": "2a",
+                                "npc_dialogue": "Aaaaahhhhh! I surrender! I surrender!"
+                            },
+                            {
+                                "id": "3",
+                                "npc_dialogue": "Y-y-yes, I'll leave right now. Too bad I have to abandon all of the treasures from my sanctum to the EAST..."
+                            },
+                            {
+                                "id": "2b",
                                 "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrassing baby photos!!! Nooooo!\nNow I have no choice but to leave this land out of shame! Too bad I have to abandon all of the treasures from my sanctum to the EAST..."
                             }
                         ],
                         "edges": [
                             {
+                                "quip": "En Garde!",
+                                "from_id": "1",
+                                "to_id": "2a"
+                            },
+                            {
+                                "quip": "Then get out of this city! The mayor wants to maintain the current levels of corruption.",
+                                "from_id": "2a",
+                                "to_id": "3"
+                            },
+                            {
                                 "quip": "I have something much more interesting to show you",
                                 "from_id": "1",
-                                "to_id": "2"
+                                "to_id": "2b"
                             }
                         ]
                     }
