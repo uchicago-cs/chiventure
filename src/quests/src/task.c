@@ -32,7 +32,7 @@ int mission_init(mission_t *mission, char *target_name, mission_types_t type)
     mission->type = type;
 
     if(type == MEET_NPC || type == KILL_NPC) {
-        mission->type = case_insensitized_string(type);
+        mission->target_name = case_insensitized_string(mission->target_name);
     }
 
     return SUCCESS;
