@@ -434,4 +434,4 @@ int delete_all_npcs(npc_hash_t *npcs);
 */
 int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
 
-#endif
+#endif /* _NPC_H */

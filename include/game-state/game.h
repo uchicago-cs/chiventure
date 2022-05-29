@@ -513,4 +513,4 @@ char *start_conversation(convo_t *c, int *rc, game_t *game);
  */
 char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
 
-#endif
+#endif /* _GAME_H */
