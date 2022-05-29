@@ -1,6 +1,6 @@
 /* This file holds enums for skilltrees */
-#ifndef INCLUDE_ENUMS_H_
-#define INCLUDE_ENUMS_H_
+#ifndef SKILLTREES_ENUMS_H_
+#define SKILLTREES_ENUMS_H_
 typedef enum sid {
     // Example 1
     UNLOCK_DOOR = 1000,

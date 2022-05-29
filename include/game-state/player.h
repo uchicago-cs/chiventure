@@ -514,4 +514,5 @@ int add_move(player_t *player, move_t *move);
  * - SuCCESS on success, FAILURE if an error occurs
 */
 int add_item_to_player_without_checks(player_t *player, item_t *item);
-#endif
+
+#endif /* _PLAYER_H */
