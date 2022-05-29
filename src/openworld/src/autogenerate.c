@@ -135,13 +135,12 @@ room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
     /* moved- generate the unique room id here and pass it to the room; don't mess with the roomspec */
     char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
     snprintf(buff, MAX_SDESC_LEN, "%s%d", roomspec->room_name, roomspec->num_built);
-    roomspec->num_built++;
 
     /* we use buff for the room name instead */
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     
     /* instead of taking all the items, just take a few of them */
-    res->items = generate_items(roomspec);
+    //res->items = generate_items(roomspec);
 
     /* tag to show roomspec position in roomspec list in specgraph */
     res->tag = roomspec->tag;
