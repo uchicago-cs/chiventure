@@ -329,7 +329,7 @@
                 }
             ]
         },
-        "Steve's Embarrassing Baby Photos": {
+        "Baby Photos": {
             "short_desc": "A photo book.",
             "long_desc": "A photo book containing pictures from Steve's infancy. The shame is sure to wound him more than any blade.",
             "in": "npc",
@@ -630,7 +630,7 @@
             "in": "Starting City",
             "inventory": [
                 {
-                    "item_id": "Steve's Embarrassing Baby Photos"
+                    "item_id": "Baby Photos"
                 }
             ],
             "dialogue": {
@@ -701,7 +701,7 @@
                                 "actions": [
                                     {
                                         "action": "GIVE_ITEM",
-                                        "action_id": "Steve's Embarrassing Baby Photos"
+                                        "action_id": "Baby Photos"
                                     }
                                 ]
                             }
