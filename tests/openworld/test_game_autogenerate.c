@@ -89,6 +89,7 @@ Test(randomroom, random_room_from_game){
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
     int rc=random_first_room(game, specgraph);
+    cr_assert_eq(rc, SUCCESS, "failed to autogenerate a random first room\n");  
 
     room_t *room=random_room_from_game(game);
 
