@@ -45,8 +45,8 @@ char* show_quests(player_t *player)
     for (player_quest_t *cur = player->player_quests; cur != NULL; cur = cur->hh.next) {
         char *quest_id = cur->quest_id;
         char *completion = completion_to_str(cur->completion);
-        char *buf = malloc(18+strlen(quest_id)+strlen(completion));
-        sprintf(buf, "Quest %s: Status: %s\n", quest_id, completion);
+        char *buf = malloc(25+strlen(quest_id)+strlen(completion));
+        sprintf(buf, "Quest: %s, Status: %s\n", quest_id, completion);
         cur_len += strlen(buf);
         prev = realloc(prev, cur_len);
         strcat(prev, buf);
@@ -83,10 +83,12 @@ char *store_list(id_list_node_t *id_list_start)
 /* See quests_cli.h */
 char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
 {
-    char buf[1000];
+    char buf[1000] = "";
     
     player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
-
+    if(ptask == NULL) {
+        return "Player does not have this task!";
+    }
     task_t *task = get_task_from_quest_hash(task_id, all_quests);
     char *mission_name;
     if (task->mission != NULL) {
@@ -95,7 +97,7 @@ char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
         mission_name = "None";
     }
 
-    char rewards[200];
+    char rewards[200] = "";
     if (task->reward != NULL) {
         int reward_xp = task->reward->xp;
         char *reward_item;
@@ -109,7 +111,7 @@ char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
         sprintf(rewards, "None");
     }
     
-    char prereqs[200];
+    char prereqs[200] = "";
     if (task->prereq != NULL) {
         int prereq_hp = task->prereq->hp;
         int prereq_level = task->prereq->level;
@@ -396,7 +398,7 @@ char *merge_line(task_t ***matrix_row, int **tree_line_matrix_row, player_t *pla
  * - height: The height of the matricies
 */
 char *merge_matrix(task_t ****matrix, int ***tree_line_matrix, player_t *player, int width, int height) {
-    char *start_line = merge_line(&(*matrix)[0], &(*tree_line_matrix)[0], player, width, 0);
+    char *start_line = merge_line(&(*matrix)[0], &(*tree_line_matrix)[0], player, width, height - 1 == 0);
     int cur_len = strlen(start_line) + 1;
     char *line = malloc(cur_len);
     strncpy(line, start_line, cur_len - 1);
@@ -416,6 +418,8 @@ char *merge_matrix(task_t ****matrix, int ***tree_line_matrix, player_t *player,
 /* See quests_cli.h */
 char *show_task_tree(char* quest_id, player_t *player, quest_hash_t *all_quests)
 {
+    assert(quest_id != NULL);
+    assert(player != NULL);
     // Find quest and player quest from quest_id
     quest_t *quest = get_quest_from_hash(quest_id, all_quests);
     player_quest_t *pquest = get_player_quest_from_hash(quest_id, player->player_quests);

@@ -377,7 +377,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     assert(target);
     
     game_t *game = c->game;
-    target = case_insensitized_string(target);
+    target[0] = case_insensitized_string(target[0]);
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -405,10 +405,12 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             // TO BE IMPLEMENTED
         } else if (strcmp(target[0], "quests") == 0) {
             // retrieve quests from game
-            if(target[1] == NULL) {
-                string = show_quests(c->game->curr_player);
-            }
+            string = show_quests(c->game->curr_player);
+        } else if (strcmp(target[0], "quest") == 0) {
             // retrieve the task tree from a specific quest
+            if(target[1] == NULL) {
+                string = "Error: Please provide a quest name";
+            }
             else {
                 string = show_task_tree(target[1], c->game->curr_player,
                                c->game->all_quests);
@@ -423,7 +425,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
                                c->game->all_quests);
             }
         } else {
-            sprintf(string, "%s cannot be viewed", target);
+            sprintf(string, "%s cannot be viewed", target[0]);
         }
     }
     else {
