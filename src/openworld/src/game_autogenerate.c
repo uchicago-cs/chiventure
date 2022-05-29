@@ -83,6 +83,7 @@ room_t* random_room_from_game(game_t* game){
 
 
     char* room_id=keys[randomint];
+    cr_assert_not_null(room_id, "room_id is NULL");
 
     char* random_id=(char*)malloc(strlen(room_id)+1);
     random_id=room_id;
