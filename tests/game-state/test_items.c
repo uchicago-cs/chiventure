@@ -118,8 +118,8 @@ Test(item, add_item_to_hash_duplicate_items)
     {
         count++;
     }
-    cr_assert_eq(count, 1, "add_item_to_hash did not add items with same "
-                 "item ids correctly.");
+    cr_assert_eq(count, 1, "add_item_to_hash added items with same "
+                 "item ids incorrectly.");
     delete_all_items(&ht);
 }
 
