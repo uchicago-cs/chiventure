@@ -141,14 +141,14 @@ Test(room, generate_room_in_game){
     for(int i=0; i<3; i++){
 
         rc=autogenerate_room_in_game(game, specgraph);
-        cr_assert_eq(rc, 1, "failed to autogenerate rooms in the game\n");
+        cr_assert_eq(rc, 1, "failed to autogenerate rooms in the game %d\n", i);
 
     }
 
     for(int i=0; i<3; i++){
 
         rc=autogenerate_room_in_game(game, specgraph);
-        cr_assert_eq((rc==0)||(rc==1), 1, "failed to autogenerate rooms in the game\n");
+        cr_assert_eq((rc==0)||(rc==1), 1, "failed to autogenerate rooms in the game %d\n", i);
 
     }
 }
