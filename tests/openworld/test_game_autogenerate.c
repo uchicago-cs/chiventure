@@ -51,7 +51,7 @@ Test(randomroom, random_first_room){
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate a random first room\n");
 }
 
-Test(randomroom, random_room_from_game){
+/*Test(randomroom, random_room_from_game){
 
     game_t *game=game_new("New Game");
 
