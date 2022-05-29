@@ -45,8 +45,6 @@ Test(item, free)
     int freed = item_free(item_tofree);
 
     cr_assert_eq(freed, SUCCESS, "item_free() test 1 has failed!");
-
-
 }
 
 /* Checks return of short description of item */
@@ -112,7 +110,7 @@ Test(item, add_item_to_hash_duplicate_items)
                  "memory address as head item to hashtable");
     
     rc = add_item_to_hash(&ht, test_item2);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_hash did not add item with same "
+    cr_assert_eq(rc, FAILURE, "add_item_to_hash added item with same "
                  "item id as another item to hashtable");
     
     rc = add_item_to_hash(&ht, test_item1);
@@ -181,7 +179,7 @@ Test(item, get_all_items_in_hash_duplicate_items)
     {
         count++;
     }
-    cr_assert_eq(count, 2, "get_all_items_in_hash did not add duplicate "
+    cr_assert_eq(count, 1, "get_all_items_in_hash added duplicate "
                  "items to linked list");
     
     add_item_to_hash(&ht, test_item3);
@@ -193,7 +191,7 @@ Test(item, get_all_items_in_hash_duplicate_items)
     {
         count++;
     }
-    cr_assert_eq(count, 3, "get_all_items_in_hash did not include all items "
+    cr_assert_eq(count, 2, "get_all_items_in_hash did not include all items "
                  "in returned list");
     delete_all_items(&ht);
     delete_item_llist(list);
@@ -233,134 +231,29 @@ Test(item, remove_item_from_hash)
     item_free(test_item2);
 }
 
-/* Checks that remove_item_from_hash properly removes
- * the head item in a chain of identical id items */
-Test(item, remove_item_from_hash_duplicate_items_head)
+
+Test(item, delete_all_items_in_hash)
 {
     item_hash_t *ht = NULL;
     item_t *head = item_new("item", "short", "long");
-    item_t *last = item_new("item", "short", "long");
+    item_t *second = item_new("item2", "short", "long");
+    item_t *third = item_new("item3", "short", "long");
+    item_t *fourth = item_new("item4", "short", "long");
+    item_t *last = item_new("item5", "short", "long");
+
     item_t *check = NULL;
     int rc;
     
-    add_item_to_hash(&ht, last);
     add_item_to_hash(&ht, head);
-        
-    rc = remove_item_from_hash(&ht, head);
-    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
-                 "remove an item from hashtable");
-
-    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
-    cr_assert_not_null(check, "remove_item_from_hash removed both "
-                       "duplicate items from hashtable");
-    cr_assert_eq(check, last, "remove_item_from_hash removed wrong "
-                 "item from hashtable");
-    cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
-                 "remove a duplicate item id from hashtable");
-    cr_assert_eq(head->next, NULL, "remove_item_from_hash failed to "
-                 "update the removed item");
-    
-    /* Since remove_item_from_hash does not free associated item, manual free */
-    rc = item_free(head);
-    cr_assert_eq(rc, SUCCESS, "item_free failed to free associated item");
-
-    delete_all_items(&ht);
-}
-
-Test(item, delete_all_items_duplicate_item_in_hash)
-{
-    item_hash_t *ht = NULL;
-    item_t *head = item_new("item", "short", "long");
-    item_t *last = item_new("item", "short", "long");
-    item_t *check = NULL;
-    int rc;
-    
+    add_item_to_hash(&ht, second);
+    add_item_to_hash(&ht, thirst);
+    add_item_to_hash(&ht, fourth);
     add_item_to_hash(&ht, last);
-    add_item_to_hash(&ht, head);
 
     rc = delete_all_items(&ht);
     cr_assert_eq(rc, SUCCESS, "delete_all_items failed to free all associated resources");
 }
 
-/* Checks that remove_item_from_hash does not remove
- * an item with identical id but in different memory location
- * than items in hash */
-Test(item, remove_item_from_hash_duplicate_items_nonexistant)
-{
-    item_hash_t *ht = NULL;
-    item_t *head = item_new("item", "short", "long");
-    item_t *last = item_new("item", "short", "long");
-    item_t *check = NULL;
-    int rc;
-    
-    add_item_to_hash(&ht, head);
-    
-    remove_item_from_hash(&ht, last);
-    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
-    cr_assert_not_null(check, "remove_item_from_hash did not properly handle "
-                       "case where duplicate item not in hash was passed to "
-                       "be removed");
-    delete_all_items(&ht);
-    item_free(last);
-}
-
-/* Checks that remove_item_from_hash properly removes
- * the last item in a chain of identical id items */
-Test(item, remove_item_from_hash_duplicate_items_last)
-{
-    item_hash_t *ht = NULL;
-    item_t *head = item_new("item", "short", "long");
-    item_t *last = item_new("item", "short", "long");
-    item_t *check = NULL;
-    int rc;
-    
-    add_item_to_hash(&ht, last);
-    add_item_to_hash(&ht, head);
-
-    rc = remove_item_from_hash(&ht, last);
-    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
-                 "remove an item from hashtable");
-    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
-    cr_assert_not_null(check, "remove_item_from_hash removed both "
-                       "duplicate items from hashtable");
-    cr_assert_eq(check, head, "remove_item_from_hash removed wrong "
-                 "duplicate item from hashtable");
-    cr_assert_eq(check->next, NULL, "remove_item_from_hash failed to "
-                 "remove a duplicate item id from hashtable");
-    delete_all_items(&ht);
-    item_free(last);
-}
-
-/* Checks that remove_item_from_hash properly removes
- * a middle item in a chain of identical id items */
-Test(item, remove_item_from_hash_duplicate_items_middle)
-{
-    item_hash_t *ht = NULL;
-    item_t *head = item_new("item", "short", "long");
-    item_t *middle = item_new("item", "short", "long");
-    item_t *last = item_new("item", "short", "long");
-    item_t *check = NULL;
-    int rc;
-    
-    add_item_to_hash(&ht, last);
-    add_item_to_hash(&ht, middle);
-    add_item_to_hash(&ht, head);
-
-    rc = remove_item_from_hash(&ht, middle);
-    cr_assert_eq(rc, SUCCESS, "remove_item_from_hash failed to "
-                 "remove an item from hashtable");
-    HASH_FIND(hh, ht, head->item_id, strnlen(head->item_id, MAX_ID_LEN), check);
-    cr_assert_not_null(check, "remove_item_from_hash removed all "
-                       "duplicate items from hashtable");
-    cr_assert_eq(check, head, "remove_item_from_hash removed wrong "
-                 "duplicate item from hashtable");
-    cr_assert_eq(check->next, last, "remove_item_from_hash did remove "
-                 "duplicate item from middle of list properly");
-    cr_assert_eq(middle->next, NULL, "remove_item_from_hash failed to "
-                 "update the removed item");
-    delete_all_items(&ht);
-    item_free(middle);
-}
 
 /* Checks that add_effect_to_items() adds a sat effect to an item */
 Test(item, add_effect_to_item)

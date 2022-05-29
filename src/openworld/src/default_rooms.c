@@ -22,7 +22,29 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
 
     }
 
-    add_item_to_hash(dst, new_item);
+    item_t *check, *itr;
+    
+    HASH_FIND(hh, dst, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
+    
+    LL_FOREACH(check, itr)
+    {
+        if (itr == new_item)
+        {
+            /* Same memory address */
+            return FAILURE;
+        }
+    }
+
+    if (check != NULL)
+    {
+        /* Same item id, not same memory address */
+        HASH_DEL(*ht, check);
+        new_item->next = check;
+    }
+    
+    HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
+                    new_item);
+
     return SUCCESS;
 }
 
