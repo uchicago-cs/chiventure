@@ -388,7 +388,7 @@ Test(autogenerate,invalid_multi_room)
 
     cr_assert_eq(SUCCESS, add_item_to_room(sample_room1, sample_item), "Could not add item to room");
 
-    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item);
+    roomspec_t *sample_roomspec = roomspec_new("sample name", "short_desc", "long_desc", sample_item, -1);
     cr_assert_not_null(sample_roomspec, "sample_roomspec should not be NULL");
 
     gencontext_t *sample_gencontext = gencontext_new(path_to_room2, 5, 1, NULL);
@@ -1008,7 +1008,7 @@ Test(roomlevel, one_lvl0_room)
     cr_assert_not_null(tmp);
 
     // creating room_spec and checking that it is not null
-    roomspec_t* rspecA = roomspec_new("A", "shortdesc", "longdesc", NULL);
+    roomspec_t* rspecA = roomspec_new("A", "shortdesc", "longdesc", NULL, 0);
     cr_assert_not_null(rspecA);
 
     int actual, expected;
@@ -1022,7 +1022,7 @@ Test(roomlevel, one_lvl0_room)
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA", 3);
 
     // creating room_spec and checking that it is not null
-    roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL);
+    roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL, 1);
     cr_assert_not_null(rspecB);
 
     actual = roomspec_is_given_difficulty(&roomlevels, rspecB, 3);
@@ -1051,8 +1051,8 @@ Test(roomlevel, lvl0_to_lvl1_roomlevels)
     cr_assert_not_null(tmp);
 
     // creating room_specs and checking that they are not null
-    roomspec_t* rspecA0 = roomspec_new("A0", "shortdesc", "longdesc", NULL);
-    roomspec_t* rspecA1 = roomspec_new("A1", "shortdesc", "longdesc", NULL);
+    roomspec_t* rspecA0 = roomspec_new("A0", "shortdesc", "longdesc", NULL, 0);
+    roomspec_t* rspecA1 = roomspec_new("A1", "shortdesc", "longdesc", NULL, 1);
     cr_assert_not_null(rspecA0);
     cr_assert_not_null(rspecA1);
 
@@ -1075,7 +1075,7 @@ Test(roomlevel, lvl0_to_lvl1_roomlevels)
     TEST_HELPER_roomspec_is_given_difficulty(actual, expected, "rspecA1", 0);
 
     // creating room_spec and checking that it is not null
-    roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL);
+    roomspec_t* rspecB = roomspec_new("B", "shortdesc", "longdesc", NULL, 2);
     cr_assert_not_null(rspecB);
 
     actual = roomspec_is_given_difficulty(&roomlevels, rspecB, 3);
