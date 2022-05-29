@@ -532,8 +532,7 @@ int add_item_to_player_without_checks(player_t *player, item_t *item);
  * - player: A player. Must be allocated with player_new()
  *
  * Returns:
- * - A string that represents the player's entire inventory with new lines
- *   every 8 items
+ * - A string of items in an inventory hash, separated by lines every 8 items
  */
 char *display_inventory(player_t *player);
 

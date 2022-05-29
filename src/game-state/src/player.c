@@ -492,7 +492,7 @@ char *display_inventory(player_t *player) {
 char *display_inventory_item(player_t *player, char *key) {
     item_t *find;
     HASH_FIND_STR(player->inventory, key, find);
-    if(find != NULL){
+    if (find != NULL){
         return find->long_desc;
     }
     return "Error: Item not found in inventory! Try Again.";
