@@ -1,5 +1,5 @@
 GAME START computer lab END classroom
-	intro: “You successfully figured out how to find the DSL file that Professor Borja requested for you to find. You now have to proceed to the classroom to hand deliver the DSL file to Professor Borja. Unfortunately, you are a first-quarter student so you are unfamiliar with the layout of campus. You must now make your way through the treacherous domain that is the University of Chicago campus to find the final boss–TA Jack.”
+	intro: "You successfully figured out how to find the DSL file that Professor Borja requested for you to find. You now have to proceed to the classroom to hand deliver the DSL file to Professor Borja. Unfortunately, you are a first-quarter student so you are unfamiliar with the layout of campus. You must now make your way through the treacherous domain that is the University of Chicago campus to find the final boss–TA Jack."
 
 ROOM computer lab 
     short desc: "The computer lab is located in Crerar library"
@@ -9,10 +9,10 @@ ROOM computer lab
 
 ROOM dorm room 
     short desc: "This is your dorm room"
-    long desc: "This is your dorm room in Campus North Residential Commons. Room 996. From here you can head south to the computer lab.”
+    long desc: "This is your dorm room in Campus North Residential Commons. Room 996. From here you can head south to the computer lab."
     connections: SOUTH TO computer lab
 
-    ITEM desk in dorm room
+    ITEM desk IN dorm room
        short desc: "A desk in the dorm room"
        long desc: "You can use the desk to take notes"
 
@@ -21,7 +21,7 @@ ROOM dorm room
         STUDY fail: "You forgot your pencil. You cannot take notes."
 
 ROOM quad
-    short desc: “University of Chicago Quad."
+    short desc: "University of Chicago Quad."
     long desc: "This is the main quad. This is where all the main classrooms and libraries are centered on. Head west to the storage room, north to the computer lab, and south to the classroom"
     connections: WEST TO storage room
 		         NORTH TO computer lab
@@ -42,7 +42,7 @@ ROOM storage room
                  
     ITEM dsl documentation IN storage room
         short desc: "A dsl documentation caked in dust."
-        long desc: "The dsl documentation gives you everything you need to know about DSL.”
+        long desc: "The dsl documentation gives you everything you need to know about DSL."
     action: CONSUME
         CONSUME success: "You are now a master at DSL like your TA Jack."
         CONSUME fail: "You did not understand the documentation at all."
