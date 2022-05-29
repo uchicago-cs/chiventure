@@ -142,4 +142,4 @@ int complex_skill_level_up(complex_skill_t* complex_skill);
  */
 int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained);
 
-#endif /*INCLUDE_COMPLEX_SKILL_H*/
+#endif /* INCLUDE_COMPLEX_SKILL_H_ */

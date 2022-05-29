@@ -401,4 +401,4 @@ void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms);
  */
 int transfer_all_npc_items(npc_t *npc, room_t *room);
 
-#endif
+#endif /* _ROOM_H */
