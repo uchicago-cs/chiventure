@@ -277,7 +277,7 @@ Test(quest, can_player_start_quest)
 
     int check = can_player_start_quest(qctx, "test");
 
-    cr_assert_eq(check, true, "ca_player_start_quest() failed");
+    cr_assert_eq(check, true, "can_player_start_quest() failed");
 }
 
 /* Tests the function for checking if the player can complete a task*/
