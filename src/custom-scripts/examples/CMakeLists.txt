@@ -1,13 +1,11 @@
-set(CS_EXAMPLES dark_room)
-
-add_executable(dark_room
-               dark_room.c)
-
-target_link_libraries(dark_room ${LUA_LIBRARIES})
-target_include_directories(dark_room PRIVATE ${LUA_INCLUDE_DIR})
+set(CS_EXAMPLES demo_old demonstration)
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
+    add_executable(${example}
+               ${example}.c)
+    target_link_libraries(${example} ${LUA_LIBRARIES})
+    target_include_directories(${example} PRIVATE ${LUA_INCLUDE_DIR})
     foreach(module ${CHIVENTURE_MODULES})
         target_link_libraries(${example} ${module})
     endforeach(module)
