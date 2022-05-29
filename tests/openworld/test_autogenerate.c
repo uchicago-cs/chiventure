@@ -376,16 +376,15 @@ Test(room, room_generate_success_zero){
     matrix[6]=4; 
     matrix[7]=3;  
     matrix[8]=5;
-//1
+
     int **edges=edges_new(matrix, 3, 3);
-//2
+
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
-//3
+
     random_first_room(game, specgraph);
-//4
-    cr_assert_eq(0, 1, "failed to generate room\n");
 
     room_t *room=random_room_from_game(game);
+    cr_assert_eq(0, 1, "failed to generate room\n");
 
     int rc;
     char *direction_to_curr;
