@@ -245,7 +245,6 @@ int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
     /* create new combination of rooms/items from randomly picked roomspec
     Adds one generated room from the head of specgraph only */
     room_t *new_room = roomspec_to_room(rspec_new, coords);
-    return SUCCESS; 
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
     free(coords);
