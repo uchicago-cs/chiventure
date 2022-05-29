@@ -64,9 +64,9 @@ room_t* random_room_from_game(game_t* game){
 
     //room_t** rooms=(room_t**)malloc(num_rooms*sizeof(room_t*));
 
-    //room_hash_t *current, *tmp;
+    /*room_hash_t *current, *tmp;
     
-/*    for(int i=0; i<num_room; i++){
+    for(int i=0; i<num_room; i++){
         (game->all_rooms[i])
     }
 
@@ -74,9 +74,11 @@ room_t* random_room_from_game(game_t* game){
         rooms[count]=current;
         count ++;
     }*/
+
+    char* room_id=((game->all_rooms)[randomint])->room_id;
     
     room_t* random_room=(room_t*)malloc(sizeof(room_t));
-    random_room=(game->all_rooms)[randomint];
+    random_room=find_room_from_game(game, room_id);
     return random_room;
 } 
 
