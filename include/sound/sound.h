@@ -65,7 +65,6 @@ int sound_free(sound_type_t *soundType, sound_t *sound);
  */
 int play_sound(sound_t* sound, int delay);
 
-
 /*
 * simple function which stops any sound that is played
 */

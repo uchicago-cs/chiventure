@@ -309,5 +309,5 @@ int move_npc_mov(npc_mov_t *npc_mov);
 
 bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov);
 
-#endif
+#endif /* _NPC_MOVE_H */
 
