@@ -31,6 +31,9 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name);
 *    -char **sh_desc: optional , unless "bucket" IS NOT default defn, use as a room short_desc.
 *    - char *l_desc: similar purpose to sh_desc but for long_desc
 *
+* NOTE: All default rooms will be created wiht a tag -1. This is because there is no specgraph
+*       so we do not need to reference their position to the list of roomspecs. 
+*
 * Output:
 *    - roomspec_t updated hash
 */
