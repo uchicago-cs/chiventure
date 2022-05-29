@@ -57,9 +57,7 @@ int random_first_room(game_t* game){
 room_t* random_room_from_game(game_t* game){
 
 //Function seems to be failing right below this line
-    int check = 0;
-    room_t *room = NULL;
-    return room;
+    return NULL;
     // int num_rooms=HASH_COUNT(game->all_rooms);
     // int num_rooms = game->specgraph->num
     /*
