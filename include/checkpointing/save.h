@@ -16,4 +16,4 @@
 int save(game_t *g_t, char *filename);
 
 
-#endif
+#endif /* SAVE_h */

@@ -14,10 +14,7 @@
 #include "skilltrees/skilltrees_enums.h"
 #include "stats.h"
 
-#define QUEST_NAME_MAX_LEN 100
-
-/* Forward declaration for skilltrees */
-typedef struct skill skill_t;
+#define QUEST_NAME_MAX_LEN 44
 
 /* An enum representing the possible quest completion statuses currently supportd */
 typedef enum completion_status {
@@ -26,6 +23,7 @@ typedef enum completion_status {
     Q_STARTED,
     Q_COMPLETED,
 } completion_status_t;
+
 
 /* A reference to a given quest from game_state that the player has unlocked
  *
@@ -37,7 +35,7 @@ typedef enum completion_status {
  */
 typedef struct player_quest {
     char *quest_id;
-    int completion;
+    completion_status_t completion;
     UT_hash_handle hh;
 } player_quest_t;
 typedef struct player_quest player_quest_hash_t;
@@ -547,4 +545,4 @@ char *display_inventory(player_t *player);
  * - A string - the long description of an item
  */
 char *display_inventory_item(player_t *player, char *key);
-#endif
+#endif /* _PLAYER_H */
