@@ -73,10 +73,11 @@ char *store_list(id_list_node_t *id_list_start)
     if(id_list_start == NULL) {
         return strdup("\n");
     }
-    char buf[50];
-    snprintf(buf, 50, "%s ", id_list_start->id);
     char *rest = store_list(id_list_start->next);
+    char *buf = malloc(50 + strlen(rest));
+    snprintf(buf, 50, "%s ", id_list_start->id);
     char *result = strcat(buf, rest);
+    free(rest);
     return result;
 }
 
