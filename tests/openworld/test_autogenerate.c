@@ -162,8 +162,8 @@ Test(autogenerate, room_exists_in_direction_false2){
     add_room_to_game(game, room);
 
     int rc;
-    char* direction_to_new=(char*)malloc(6*sizeof(char));
-    char* direction_to_curr=(char*)malloc(6*sizeof(char));
+    char* direction_to_new;
+    char* direction_to_curr;
 
     rc=room_exists_in_direction(game, room, "north");
     cr_assert_eq(rc, false, "failed to determine if a room exists north of the current room\n");
@@ -285,8 +285,8 @@ Test(autogenerate, pick_random_direction){
     add_room_to_game(game, room);
 
     int rc;
-    char* direction_to_new=(char*)malloc(6*sizeof(char));
-    char* direction_to_curr=(char*)malloc(6*sizeof(char));
+    char* direction_to_new;
+    char* direction_to_curr;
 
     for(int i=0; i<10; i++){
 
