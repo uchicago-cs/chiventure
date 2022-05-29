@@ -19,13 +19,50 @@ def transform_game(self, s: list) -> dict:
     # first place all non-room objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value or
     # item and item attributes, etc.
-    game_dictionary = dict((k, v) for k, v in s if k != "ROOM")
+    # game_dictionary = dict((k, v) for k, v in s if k != "ROOM")
+    game_dictionary = dict((k, v) for k, v in s if k != "ROOM" and k != "PLAYER_CLASS")
 
     # now place all rooms into their own dictionary
     # the values placed into this entry will correspond to room attributes
     game_dictionary["rooms"] = dict([value for key_type, value in s if key_type == "ROOM"])
+    # return game_dictionary
+
+    # now place all player_class into their own dictionary
+    # the values placed into this entry will correspond to player_class attributes
+    game_dictionary["players"] = dict([value for key_type, value in s if key_type == "PLAYER_CLASS"])
     return game_dictionary
 
+
+# s contains several objects of the form ('type', <value>) and
+# we want to group all objects with type "attributes" and "base_stats" into their own list
+def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """
+    S contains several objects of the form ('type', <value>), where
+    value is dependent upon the type. This function creates a dictionary
+    based on the key or type, and also places all items into their own list
+    for convenience.
+    """
+    # print("Player class :", s)
+    # print()
+    # gets the player class name.
+    class_name = s.pop(0)[1]
+
+    # first place all non-item objects into a dict
+    # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+    # action and action attributes, etc.
+    d = dict((k, v) for k, v in s if k != "attributes" and k != 'base_stats')
+
+    # create a list of items and place it in its own entry of the dict
+    # the values placed into this entry will correspond to item attributes
+    # since the key is guaranteed to be the string "attributes"
+    d["attributes"] = [v for k, v in s if k == "attributes"][0]
+
+    # create a list of items and place it in its own entry of the dict
+    # the values placed into this entry will correspond to item attributes
+    # since the key is guaranteed to be the string "attributes"
+    d["base_stats"] = [v for k, v in s if k == "base_stats"][0]
+    
+    return ('PLAYER_CLASS', (class_name, d))
 
 # s contains several objects of the form ('type', <value>) and
 # we want to group all objects with type "ITEM" into their own list
@@ -37,7 +74,6 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     for convenience.
     """
     room_id = s.pop(0)[1]
-    
 
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
@@ -53,9 +89,9 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
 
 
 def transform_connections(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
-        """Takes a list of room-direction string pairs and outputs a dictionary
-        labeled as "connections"""
-        return ("connections", dict(s))
+    """Takes a list of room-direction string pairs and outputs a dictionary
+    labeled as "connections"""
+    return ("connections", dict(s))
 
 def transform_item(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an item and places them
@@ -97,7 +133,45 @@ def transform_action(self, s: list) -> tuple[str, tuple[str, dict]]:
             warn(f"Unexpected object under actions will be ignored: {action_property}")
     return ("actions", actions_dictionary)
 
+def transform_attributes(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """Takes a list of key-value pairs which belong to an attributes and places them
+    into a dictionary which is labeled "attributes" """
+    # print("attributes")
+    # print(s)
+    new_dict = {}
+    for val in s:
+        dic = val[1]
+        name = list(dic.keys())[0]
+        new_dict[name] = dic[name]
+    return ('attributes', new_dict)
 
+def transform_attribute_state(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """Takes a list of key-value pairs which belong to an attributes and places them
+    into a dictionary which is labeled "attributes" """
+    new_dict = {}
+    new_dict[s[0]] = s[1]
+    return ('attributes', new_dict)
+
+def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """Takes a list of key-value pairs which belong to an base_stats and places them
+    into a dictionary which is labeled "base_stats" """
+    print()
+    print(s)
+    return ('base_stats', dict(s))
+
+def transform_stat_setting(self, s: list[tuple[str, Token]]) -> tuple[str, dict]:
+    return('stat_setting', dict(s))
+
+def transform_state(self, s: list[tuple[Token]]) -> tuple[str, dict]:
+    count = 1
+    d = {}
+    for t in s:
+        if count == 1:
+            d["CURRENT"] = t[0]+t[1]
+        elif count == 2:
+            d["MAX"] = t[0]+t[1]
+        count += 1
+    return('state', d)
 
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
