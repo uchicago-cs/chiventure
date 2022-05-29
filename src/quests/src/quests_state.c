@@ -322,7 +322,7 @@ bool can_player_complete_task(quest_ctx_t *qctx, char *task_id)
     player_t *player = qctx->player;
 
     player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
-    if(!ptask) {
+    if(ptask == NULL) {
         return false;
     }
     if(ptask->completed) {
