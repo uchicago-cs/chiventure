@@ -77,7 +77,7 @@ room_t* random_room_from_game(game_t* game){
         count++;
     }
 
-    char* room_id=keys[randomint]
+    char* room_id=keys[randomint];
 
     char* random_id=(char*)malloc(strlen(room_id)+1);
     random_id=room_id;
