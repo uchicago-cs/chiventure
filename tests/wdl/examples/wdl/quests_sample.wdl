@@ -7,17 +7,6 @@
             },
             "Task Tree": [
                 {
-                    "Task Name": "Talk to Land Scout",
-                    "Task Tree": [
-                        {
-                            "Task Name": "Enter Steve's Lair"
-                        },
-                        {
-                            "Task Name": "Talk to Steve's Mom"
-                        }
-                    ]
-                },
-                {
                     "Task Name": "Talk to Sea Scout",
                     "Task Tree": [
                         {
@@ -30,6 +19,17 @@
                                     "Task Name": "Interrogate the Pirate Captain"
                                 }
                             ]
+                        }
+                    ]
+                },
+                {
+                    "Task Name": "Talk to Land Scout",
+                    "Task Tree": [
+                        {
+                            "Task Name": "Enter Steve's Lair"
+                        },
+                        {
+                            "Task Name": "Talk to Steve's Mom"
                         }
                     ]
                 }
