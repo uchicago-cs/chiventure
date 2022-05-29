@@ -54,9 +54,6 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
 /*See autogenerate.h*/
 room_t* random_room_from_game(game_t* game){
 
-    room_t* temp=(room_t*)malloc(sizeof(room_t));
-
-    return temp;
 
 //Function seems to be failing right below this line
     int num_rooms=0;
