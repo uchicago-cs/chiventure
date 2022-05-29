@@ -344,6 +344,54 @@ Test(autogenerate, pick_random_direction){
 }*/
 
 
+Test(room, room_generate_success_zero){
+
+    game_t *game=game_new("New Game");
+
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+    spec1->tag=0;
+
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
+    spec2->tag=1;
+
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    spec3->tag=2;
+    roomspec_t **roomspecs=(roomspec_t**)malloc(3*sizeof(roomspec_t*));
+
+    roomspecs[0]=spec1;
+    roomspecs[1]=spec2;
+    roomspecs[2]=spec3;
+
+    int *matrix=(int*)malloc(9*sizeof(int));
+
+    matrix[0]=5;
+    matrix[1]=4;
+    matrix[2]=5; 
+    matrix[3]=0; 
+    matrix[4]=5;  
+    matrix[5]=3;
+    matrix[6]=4; 
+    matrix[7]=3;  
+    matrix[8]=5;
+
+    int **edges=edges_new(matrix, 3, 3);
+
+    specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+
+    random_first_room(game, specgraph);
+
+    int rc;
+    char *direction_to_curr;
+    char *direction_to_new;
+
+    rc=room_generate(game, specgraph, rspec1, char *direction_to_curr, char *direction_to_new);
+    
+    cr_assert_eq(rc, 1, "failed to generate room %d\n", i);
+}
+
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
 * room_generate correctly creates a room from the head of the context
 * and adds it to the game via a path (if game->curr_room has available path directions) */
