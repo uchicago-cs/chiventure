@@ -83,7 +83,7 @@ char *get_ldesc_item(item_t *item)
 /* See item.h */
 int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 {
-    assert(item != NULL);
+    assert(new_item != NULL);
     item_t *tmp;
     char *id = case_insensitized_string(new_item->item_id);
     HASH_FIND(hh, *ht, id, strlen(id), tmp);
