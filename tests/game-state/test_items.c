@@ -246,7 +246,7 @@ Test(item, delete_all_items_in_hash)
     
     add_item_to_hash(&ht, head);
     add_item_to_hash(&ht, second);
-    add_item_to_hash(&ht, thirst);
+    add_item_to_hash(&ht, third);
     add_item_to_hash(&ht, fourth);
     add_item_to_hash(&ht, last);
 
