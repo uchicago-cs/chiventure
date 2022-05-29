@@ -658,6 +658,10 @@
                             {
                                 "id": "3",
                                 "npc_dialogue": "Oh, while you're here, would you like to see some of little Stevie Weevie's baby photos? He was so cute back then!"
+                            },
+                            {
+                                "id": "4",
+                                "npc_dialogue": "Shoot, I can't find them right now! Why don't you stop by later to pick them up?"
                             }
                         ],
                         "edges": [
