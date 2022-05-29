@@ -181,8 +181,8 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
             continue;
         }
         unsigned int backwards = (forwards + 2) % NUM_COMPASS_DIRECTIONS;
-        strcpy(out_direction_to_curr, directions[backwards]);
-        strcpy(out_direction_to_new, directions[forwards]);
+        strcpy(out_direction_to_curr, directions[backwards], strlen(directions[backwards]));
+        strcpy(out_direction_to_new, directions[forwards], strlen(directions[forwards]));
 
         for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
             free(directions[i]);
