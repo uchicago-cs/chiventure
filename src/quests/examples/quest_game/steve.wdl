@@ -287,8 +287,8 @@
             "in": "Pirate Cove",
             "actions": [
                 {
-                    "action": "PULL",
-                    "text_success": "You pull out the map and see that Steve's Lair is EAST of the city",
+                    "action": "TAKE",
+                    "text_success": "You pick up the map and see that Steve's Lair is EAST of the city",
                     "text_fail": "You remembered that you are illiterate. Oops!"
                 }
             ]
@@ -335,7 +335,7 @@
             "in": "npc",
             "actions": [
                 {
-                    "action": "PULL",
+                    "action": "TAKE",
                     "text_success": "You pull our the photos and see the most absurd photos known to man. Photos like these would bring great shame to the elite",
                     "text_fail": "You forgot your glasses at home, but you're sure something interesting is in the photos"
                 }
@@ -347,7 +347,7 @@
             "in": "Steve's Lair",
             "actions": [
                 {
-                    "action": "PULL",
+                    "action": "TAKE",
                     "text_success": "About time.",
                     "text_fail": "LV is too low!"
                 }
