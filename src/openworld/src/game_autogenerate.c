@@ -29,7 +29,7 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
         return FAILURE;
     }
 
-    if(roomspecs==NULL){
+    if(specgraph->roomspecs==NULL){
         return FAILURE;
     }
 
