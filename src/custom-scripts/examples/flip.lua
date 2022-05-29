@@ -1,4 +1,3 @@
-flip = function(a)
-  a = !a;
-  return a
+function foo(st)
+  return !st
 end

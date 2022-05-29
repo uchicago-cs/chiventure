@@ -11,6 +11,8 @@
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
+#include <action_management/action_structs.h>
+#include <action_management/actionmanagement.h>
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
@@ -27,11 +29,17 @@ chiventure_ctx_t *create_sample_ctx()
     add_room_to_game(game, room2);
     game->curr_room = room1;
     create_connection(game, "room1", "room2", "NORTH");
+    create_connection(game, "room2", "room1", "SOUTH");
 
     /* Create a rock in room1 */
     item_t *rock = item_new("ROCK","It is a rock.",
                    "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
     add_item_to_room(room1, rock);
+
+    /* Create a key in room1 */
+    item_t *key = item_new("KEY","It is a key.",
+                   "You have acquired a key. You can now enter a new room!");
+    add_item_to_room(room1, key);
 
 
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
@@ -45,7 +53,6 @@ chiventure_ctx_t *create_sample_ctx()
     ot = obj_add_arg(ot, data, STR_TYPE);
     char* custom_string = (char*)malloc(100);
     custom_string = str_t_get(ot);
-
 
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */

@@ -1,37 +1,81 @@
 #include <stdlib.h> 
+#include <stdbool.h>
 #include "lua.h"
 #include "lualib.h"
 #include "dark_room.h"
 
-int main() {
+#include <stdio.h>
+#include <custom-scripts/get_custom_type.h>
+#include <cli/operations.h>
+#include "common/ctx.h"
+#include "ui/ui.h"
 
-  lua_State *L = luaL_newstate();
-  luaL_openlibs(L);
-  luaL_dofile(L, "sample.lua");
-  lua_settop(L, 0);
+const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
-  torch_t* t = malloc(sizeof(torch_t));
+/* Helper function to dynamically flip torch state using Lua each time flip is called 
+   Variable st is state of torch before fliping */
+char* flip_state(bool st)
+{
+    /* Use of boolean, switching item torch from 
+    true (lit) to false (unlit), and conversely with Lua */
+    object_t *ot = obj_t_bool("", "../../../../src/custom-scripts/examples/flip.lua");
+    ot = obj_add_arg_bool(ot, st);
+    st = bool_t_get(ot);
+    
+    char* str_state = (char*)malloc(20);
+    
+    /* output string depending on flip */
+    if (st == false) {
+      str_state = "The torch is unlit.";
+    } else {
+      str_state = "The torch is lit.";
+    }
+    
+    return str_state;
+}
 
-  t->state = false;
+/* Creates a sample in-memory game */
+chiventure_ctx_t *create_sample_ctx()
+{
+    game_t *game = game_new("Welcome to Chiventure!");
 
-    printf("the torch is currently %s\n", t->state ? "lit" : "unlit")
-      // Push the "flip" function on the top of the lua stack
-    lua_getglobal(L, "flip");
+    /* Create one rooms (room1). room1 is the initial room */
+    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
+    add_room_to_game(game, room1);
+    game->curr_room = room1;
 
-    // Push the argument (the "false" state of the torch) on the stack 
-    lua_pushboolean(L, t->state);
+    /* Create a torch in room1 */
+    item_t *torch_item = item_new("TORCH","It is a torch.",
+                   "The torch is nice, and can provide light!");
+    agent_t torch = (agent_t){.item = torch_item, .npc = NULL};
+    add_item_to_room(room1, torch_item);
 
-    // call the function with 1 argument, returning a single result.  Note that the function actually
-    // returns 2 results -- we just want one of them.  
-    lua_call(L, 1, 1);
+    /* Associate action "LIGHT" and "UNLIGHT" with the torch.
+    * They have no conditions, so they should succeed unconditionally. */
+    add_action(&torch, "LIGHT", flip_state(true), "The torch is broken!");
+    add_action(&torch, "UNLIGHT", flip_state(false), "The torch is broken!");
 
-    // Get the result from the lua stack
-    bool result = (bool)lua_tobool(L, -1);
-    t->state = result;
-    printf ("Observe that after the call to Lua the torch is now %s!\n", t->state ? "lit" : "unlit");
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
-    // Clean up.  If we don't do this last step, we'll leak stack memory.
-    lua_pop(L, 1);
+    return ctx;
+}
 
-  return 0;
+int main(int argc, char **argv)
+{
+    chiventure_ctx_t *ctx = create_sample_ctx();
+
+    /* Monkeypatch the CLI to add a new "kind 1" actions
+     * (i.e., actions that operate on an item) */
+    action_type_t light_action = {"LIGHT", ITEM};
+    add_entry(light_action.c_name, kind1_action_operation, &light_action, ctx->cli_ctx->table);
+    action_type_t unlight_action = {"UNLIGHT", ITEM};
+    add_entry(unlight_action.c_name, kind1_action_operation, &unlight_action, ctx->cli_ctx->table);
+
+    /* Start chiventure */
+    start_ui(ctx, banner);
+
+    game_free(ctx->game);
+
+    return 0;
 }
