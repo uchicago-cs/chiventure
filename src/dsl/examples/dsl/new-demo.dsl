@@ -1,3 +1,8 @@
+# This is our dsl demo file for 2022
+
+# This demonstrates a game around the University of Chicago campus, starting from the computer lab. 
+# The goal is to find the final boss–TA Jack.
+
 GAME START computer lab END classroom
 	intro: "You successfully figured out how to find the DSL file that Professor Borja requested for you to find. You now have to proceed to the classroom to hand deliver the DSL file to Professor Borja. Unfortunately, you are a first-quarter student so you are unfamiliar with the layout of campus. You must now make your way through the treacherous domain that is the University of Chicago campus to find the final boss–TA Jack."
 
