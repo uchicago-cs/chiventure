@@ -668,10 +668,10 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     }
     
     // Initialized on the stack so you don't have to free
-    quest_ctx_t qctx;
-    quest_ctx_init(&qctx, ctx->game->curr_player, ctx->game->all_quests);
-    set_proper_dialogue(&qctx, npc);
-
+    quest_ctx_t *qctx = quest_ctx_new(ctx->game->curr_player, ctx->game->all_quests);
+    set_proper_dialogue(qctx, npc);
+    quest_ctx_free(qctx);
+    
     char *str = start_conversation(npc->active_dialogue, &rc, ctx->game);
     if (npc->active_dialogue == NULL)
     {
