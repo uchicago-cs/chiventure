@@ -16,7 +16,6 @@ bool completed_mission(mission_t *mission, player_t *player) {
             break;
         case COLLECT_ITEM:
             for(item_list_t *cur = get_all_items_in_inventory(player); cur != NULL; cur = cur->next) {
-                fprintf(stderr, "Target: %s, Cur: %s\n", mission->target_name, cur->item->item_id);
                 if(!strcmp(mission->target_name, cur->item->item_id)) {
                     return true;
                 }
