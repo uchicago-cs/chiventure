@@ -87,13 +87,13 @@ room_t* random_room_from_game(game_t* game){
     char* random_id=(char*)malloc(strlen(room_id)+1);
     random_id=room_id;
     
+    //room_t* random_room=(room_t*)malloc(sizeof(room_t));
+    room_t* random_room=find_room_from_game(game, random_id);
+
     room_t *new_room = (room_t*)malloc(sizeof(room_t));
     return new_room;
 
     /*
-    //room_t* random_room=(room_t*)malloc(sizeof(room_t));
-    room_t* random_room=find_room_from_game(game, random_id);
-
     for(int i=0; i<num_rooms; i++){
         free(keys[i]);
     }
