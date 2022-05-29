@@ -39,7 +39,7 @@ chiventure_ctx_t *create_sample_ctx()
     room_t *room4 = room_new("Peach's", "This is Peach's Cafe", 
                              "Crerar's very own coffee shop There's a bar of soap in here, for some reason. Also, there is an exit west.");
     room_t *room5 = room_new("The Void", "This is the Void.", 
-                             "A pulsing black hole in Crerar's basement. There is no escape. This is the end.");
+                             "A pulsing black hole in Crerar's basement. There is no escape. But there is... a trophy?");
 
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
@@ -208,34 +208,25 @@ chiventure_ctx_t *create_sample_ctx()
     r->item = rolex; 
     add_action(r, "take", "You take Borja's watch. It looks better on you.", 
                               "You're not clean enough to touch Borja's watch. Is there soap around here?");
+
+    item_t *end_item = item_new("Trophy", "Trophy ", "Trophy ");
+    add_item_to_room(room5, end_item); 
+    agent_t *ei = (agent_t*)(malloc(sizeof(agent_t)));
+    ei->item = end_item; 
+    add_action(ei, "take", "You take the trophy. You win the demo!", 
+                              "You do not take the trophy. Loser.");
     
     player->player_class->skilltree = skill_tree;
     
     add_player_to_game(game, player);
     game->curr_player = player;
 
-    // Add inventory condition to game (need soap to grab rolex)
+    // Add inventory conditions to game
     game_action_t *take_rolex = get_action(r, "take");
     add_action_inventory_condition(take_rolex, player, soap);
 
-    // Add room condition to game (need rolex and soap to enter void)
-    path_t *void_path = path_search(room3, "west");
-
-    list_action_type_t* conditions = (list_action_type_t*)malloc(sizeof(list_action_type_t)); 
-    void_path->conditions = conditions; 
-
-    action_type_t *soap_cond = action_type_new("take", ITEM);
-    action_type_init_room_dir(soap_cond, room5, "west");
-
-    action_type_t *rolex_cond = action_type_new("take", ITEM);
-    action_type_init_room_dir(rolex_cond, room5, "west");
-
-    list_action_type_t *action_conds = (list_action_type_t*)malloc(sizeof(list_action_type_t));
-    list_action_type_t *rolex_cond_ls = (list_action_type_t*)malloc(sizeof(list_action_type_t));
-    action_conds->act = soap_cond;
-    LL_APPEND(action_conds, rolex_cond_ls);
-    
-    path_new_conditions(void_path, action_conds);
+    game_action_t *take_trophy = get_action(ei, "take");
+    add_action_inventory_condition(take_trophy, player, rolex);
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
