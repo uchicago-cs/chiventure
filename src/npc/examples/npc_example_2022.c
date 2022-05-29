@@ -4,8 +4,8 @@
  * the movement and battle functionalities of the NPC, which unfortunately, we
  * didn't have time to integrate with the UI/CLI.
  *
- *  - ATTACK: This is a CLI operation that allows the player to attack all of
- *            the npcs present in a room at once. It removes 1 point of HP from
+ *  - ATTACK: This is a CLI operation that allows the player to attack one of
+ *            the NPCs present in a room. It removes 1 point of HP from
  *            every npc whose health is greater than their surrender level. If
  *            an npc is killed i.e. it's health is 0, then the player is
  *            informed that they can pick up the npc's items. If an npc
@@ -23,20 +23,6 @@
  *            a field in the room_t struct called npcs, which contains a list
  *            of NPCs in the current room and the total number of them. For
  *            deatils about this field, see rooms_npc.h.
- *
- *  - ARENA:  This is a CLI operation that moves the player from the lobby to
- *            the arena room. Since the main focus of this example is not player
- *            movement but NPCs movements, there are only two rooms in this example,
- *            which are lobby and arena, and the action of moving between rooms are
- *            simplified with only a call to move_room() under game.h. The process of
- *            building a path between rooms is skipped here since it is not curcial to
- *            the example.
- *
- *  - LOBBY:  Similarly, this is a CLI operation that moves the player from the arena
- *            room back to the lobby after the battle. This operation is essentially
- *            a call to move_room() under game.h with a print statement indicating that
- *            the player is back to the lobby. The process of building a path between rooms
- *            is skipped here since it is not curcial to the example.
  */
 
 #include <stdio.h>
