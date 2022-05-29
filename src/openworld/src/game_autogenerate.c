@@ -62,20 +62,22 @@ room_t* random_room_from_game(game_t* game){
 
     int count=0;
 
+    char** keys=(char**)malloc(sizeof(char*)*num_rooms);
+
     //room_t** rooms=(room_t**)malloc(num_rooms*sizeof(room_t*));
 
-    /*room_hash_t *current, *tmp;
-    
-    for(int i=0; i<num_room; i++){
-        (game->all_rooms[i])
+    room_hash_t *current, *tmp;
+    char* curr_id;
+
+    HASH_ITER(hh, rspec->items, curr, tmp) {
+
+        curr_id=curr.room_id;
+
+        keys[count]=(char*)malloc(strlen(curr_id)+1);
+        count++;
     }
 
-        rooms[count]=(room_t*)malloc(sizeof(room_t));
-        rooms[count]=current;
-        count ++;
-    }*/
-
-    char* room_id=((game->all_rooms)[randomint]).room_id;
+    char* room_id=keys[randomint]
 
     char* random_id=(char*)malloc(strlen(room_id)+1);
     random_id=room_id;
