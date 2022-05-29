@@ -36,7 +36,7 @@
 * SUCCESS - if the game was successfully updated
 * FAILURE - if the function failed to update the game struct
 */
-int random_first_room(game_t* game, specgraph_t *specgraph);
+int random_first_room(game_t* game);
 
 /* random_room_from_game
 * given a game struct, randomly picks a new room from the game 
