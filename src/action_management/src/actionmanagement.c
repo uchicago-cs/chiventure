@@ -392,7 +392,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         if (strcmp(target[0], "stats") == 0) {
             // retrieve stats from the player
             string = display_stats(c->game->curr_player->player_stats);
-        else if (strcmp(target[0], "effects") == 0) {
+        } else if (strcmp(target[0], "effects") == 0) {
             // retrieve stat effects from the player
             string = display_stat_effects(c->game->curr_player->player_effects);
         } else if (strcmp(target[0], "inventory") == 0) {
