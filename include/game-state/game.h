@@ -89,7 +89,8 @@ typedef struct game {
     char *start_desc;
 
     /* pointer to gencontext struct used for autogeneration module */
-    gencontext_t *genctx;
+    // gencontext_t *genctx;
+    specgraph_t *specgraph;
 
     /* pointer to levelspec struct used for level-oriented generation */
     levelspec_t *levelspec;
