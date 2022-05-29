@@ -16,7 +16,7 @@
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
 
-typedef struct quest_ctx quest_ctx_t; // a forward declaration
+//typedef struct quest_ctx quest_ctx_t; // a forward declaration
 typedef struct npc_quest npc_quest_t; // forward declaration
 
 /* 
@@ -62,7 +62,7 @@ typedef struct npc {
     char *long_desc;
 
     /* the npc's class */
-    class_t *npc_class;
+    //class_t *npc_class;
 
     //int health;
 
@@ -94,6 +94,7 @@ typedef struct npc {
 
     /* pointer to a task with dialogue */
     npc_task_list_t *tasks;
+
     /* pointer to game_action hashtable */
     game_action_hash_t *actions;
 } npc_t;
@@ -148,13 +149,14 @@ typedef struct npc npc_hash_t;
  * Initializes a npc_quest struct
  * 
  * Parameters:
- * - id: the quest id
+ * - quest_id: the quest id
  * - quest_dialogue: a conversation unique to this quest
  * 
  * Returns:
  * - SUCCESS upon successful initialization, FAILURE upon failed initialization
 */
-int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue);
+int npc_quest_init(npc_quest_t *npc_quest, char *quest_id, 
+                   convo_t *quest_dialogue);
 
 /*
  * Creates a new npc_quest struct (allocated memory)
@@ -166,7 +168,7 @@ int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue);
  * Returns:
  * - a pointer to the npc_quest struct
 */
-npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue);
+npc_quest_t *npc_quest_new(char *quest_id, convo_t *quest_dialogue);
 
 /*
  * Frees an npc_quest struct
@@ -189,7 +191,7 @@ int npc_quest_free(npc_quest_t *npc_quest);
  * Returns:
  * - SUCCESS upon successful initialization, FAILURE upon failed initialization
 */
-int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue);
+int npc_task_init(npc_task_t *npc_task, char *task_id, convo_t *task_dialogue);
 
 /*
  * Creates a new npc_task struct (allocated memory)
@@ -201,7 +203,7 @@ int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue);
  * Returns:
  * - a pointer to the npc_quest struct
 */
-npc_task_t *npc_task_new(char *id, convo_t *task_dialogue);
+npc_task_t *npc_task_new(char *task_id, convo_t *task_dialogue);
 
 /*
  * Frees an npc_task struct
@@ -387,24 +389,24 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id);
  * 
  * Parameters:
  * - npc: the npc
- * - id: the quest's id
+ * - quest_id: the quest's id
  * 
  * Returns:
  * - the quest if present, else NULL
 */
-npc_quest_t *get_npc_quest(npc_t *npc, char *id);
+npc_quest_t *get_npc_quest(npc_t *npc, char *quest_id);
 
 /*
  * Gets a task with a specific id
  * 
  * Parameters:
  * - npc: the npc
- * - id: the task's's id
+ * - task_id: the task's's id
  * 
  * Returns:
  * - the task if present, else NULL
 */
-npc_task_t *get_npc_task(npc_t *npc, char *id);
+npc_task_t *get_npc_task(npc_t *npc, char *task_id);
 
 /* 
  * Gets short description of npc.
@@ -640,11 +642,5 @@ int delete_all_npcs(npc_hash_t *npcs);
  * - SUCCESS on success, FAILURE if an error occurs
 */
 int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
-
-/* forward declaration */
-bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id);
-
-/* forward declaration */
-bool npc_can_give_task(quest_ctx_t *qctx, char *task_id);
 
 #endif

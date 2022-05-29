@@ -4,11 +4,12 @@
 // STRUCT FUNCTIONS -----------------------------------------------------------
 
 /* See npc.h */
-int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue)
+int npc_quest_init(npc_quest_t *npc_quest, char *quest_id, 
+                   convo_t *quest_dialogue)
 {
     assert(npc_quest != NULL);
 
-    npc_quest->id = strndup(id, QUEST_NAME_MAX_LEN);
+    npc_quest->id = strndup(quest_id, QUEST_NAME_MAX_LEN);
     npc_quest->dialogue = quest_dialogue;
     npc_quest->next = NULL;
 
@@ -16,7 +17,7 @@ int npc_quest_init(npc_quest_t *npc_quest, char *id, convo_t *quest_dialogue)
 }
 
 /* See npc.h */
-npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue)
+npc_quest_t *npc_quest_new(char *quest_id, convo_t *quest_dialogue)
 {
     npc_quest_t *npc_quest;
     int rc;
@@ -28,7 +29,7 @@ npc_quest_t *npc_quest_new(char *id, convo_t *quest_dialogue)
         return NULL;
     }
 
-    rc = npc_quest_init(npc_quest, id, quest_dialogue);
+    rc = npc_quest_init(npc_quest, quest_id, quest_dialogue);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize NPC quest struct!\n");
@@ -58,11 +59,11 @@ int npc_quest_free(npc_quest_t *npc_quest)
 }
 
 /* See npc.h */
-int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue)
+int npc_task_init(npc_task_t *npc_task, char *task_id, convo_t *task_dialogue)
 {
     assert(npc_task != NULL);
     
-    npc_task->id = strndup(id, QUEST_NAME_MAX_LEN);
+    npc_task->id = strndup(task_id, QUEST_NAME_MAX_LEN);
     npc_task->dialogue = task_dialogue;
     npc_task->next = NULL;
 
@@ -70,7 +71,7 @@ int npc_task_init(npc_task_t *npc_task, char *id, convo_t *task_dialogue)
 }
 
 /* See npc.h */
-npc_task_t *npc_task_new(char *id, convo_t *task_dialogue)
+npc_task_t *npc_task_new(char *task_id, convo_t *task_dialogue)
 {
     npc_task_t *npc_task;
     int rc;
@@ -82,7 +83,7 @@ npc_task_t *npc_task_new(char *id, convo_t *task_dialogue)
         return NULL;
     }
 
-    rc = npc_task_init(npc_task, id, task_dialogue);
+    rc = npc_task_init(npc_task, task_id, task_dialogue);
     if (rc != SUCCESS)
     {
         fprintf(stderr, "\nCould not initialize NPC task struct!\n");
@@ -405,11 +406,11 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
 
 // "GET" FUNCTIONS ------------------------------------------------------------
 /* See npc.h */
-npc_quest_t *get_npc_quest(npc_t *npc, char *id)
+npc_quest_t *get_npc_quest(npc_t *npc, char *quest_id)
 {
     for (npc_quest_t *cur = npc->quests->head; cur != NULL; cur = cur->next)
     {
-        if(!strcmp(cur->id, id)) {
+        if(!strcmp(cur->id, quest_id)) {
             return cur;
         }
     }
@@ -417,11 +418,11 @@ npc_quest_t *get_npc_quest(npc_t *npc, char *id)
 }
 
 /* See npc.h */
-npc_task_t *get_npc_task(npc_t *npc, char *id)
+npc_task_t *get_npc_task(npc_t *npc, char *task_id)
 {
     for (npc_task_t *cur = npc->tasks->head; cur != NULL; cur = cur->next)
     {
-        if(!strcmp(cur->id, id)) {
+        if(!strcmp(cur->id, task_id)) {
             return cur;
         }
     }
