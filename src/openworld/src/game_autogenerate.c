@@ -55,7 +55,8 @@ int random_first_room(game_t* game, specgraph_t *specgraph){
 room_t* random_room_from_game(game_t* game){
 
 //Function seems to be failing right below this line
-    int num_rooms=HASH_COUNT(game->all_rooms);
+    // int num_rooms=HASH_COUNT(game->all_rooms);
+    int num_rooms = game->specgraph->
 
     int randomint=rand() % num_rooms; 
 
