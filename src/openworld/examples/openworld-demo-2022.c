@@ -29,12 +29,8 @@ add_custom_target(openworld-examples
  * This example program runs a full instance of chiventure with an in-memory game.
  * The CLI is monkey-patched to accept functions that serve to showcase room generation.
  * 
- *  - LEVELGEN: This is a CLI-level operation that triggers level-oriented generation. 
- *              Someday, we hope chiventure will internally use this functionality 
- *              to allow rooms to be automatically generated in a level-oriented way.
- *  - RECURGEN: This is a CLI-level operation that triggers recursive generation. 
- *              Someday, we hope chiventure will internally use this functionality 
- *              to allow rooms within a radius to be generated.
+ *  Functions in demo: EDGES_NEW, SPECGRAPH_NEW, ROOMSPEC_CORRELATION, ROOM_EXISTS_IN_DIRECTION, FIND_ROOM_IN_DIRECTION
+ *  RANDOM_FIRST_ROOM
  */
 
 #include <stdio.h>
