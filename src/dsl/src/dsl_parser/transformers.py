@@ -161,15 +161,14 @@ def transform_stat_state(self, s: list[tuple[str, str]]) -> tuple[str, str]:
     new_dict[s[0]] = s[1]
     return ('base_stats', new_dict)
 
-def transform_stat(self, s: list[tuple[str, str]]) -> tuple[dict]:
-    count = 1
+def transform_stat(self, s: list[tuple[str, int]]) -> tuple[dict]:
     d = {}
+    last = ""
     for t in s:
         if t == "CURRENT" or t == "MAX":
             last = t
         else:
             d[last] = t
-            print("last: ", last, d[last])
     return(d)
 
 def transform_misplaced(self, s: list[Token]) -> str:

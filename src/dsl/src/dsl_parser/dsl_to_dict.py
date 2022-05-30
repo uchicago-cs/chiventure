@@ -65,10 +65,6 @@ class TreeToDict(Transformer):
 
     stat = trans.transform_stat
 
-    # stat_setting = trans.transform_stat_setting
-
-    # state = trans.transform_state
-
     #for documentation of the below transformations, see simple_modifiers.py
 
     ESCAPED_STRING = mod.mod_ESCAPED_STRING

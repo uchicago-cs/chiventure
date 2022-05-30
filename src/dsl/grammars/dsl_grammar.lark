@@ -19,7 +19,7 @@ attribute_state: _NL phrase phrase
 
 base_stats: _NL "BASESTATS" stat_state*
 stat_state: _NL phrase stat*
-stat: _NL phrase NUMBER
+stat: _NL phrase NUMBER _NL phrase NUMBER
 
 action: _NL ("action:"|"actions:") action_ids property*
 action_ids: id ("," id)*
@@ -46,8 +46,6 @@ edge: _NL "EDGE" id "TO" id property
 id: phrase
 
 location: phrase
-
-num: phrase
 
 phrase: (STRING+ | NUMBER)
 
