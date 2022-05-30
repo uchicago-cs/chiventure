@@ -297,26 +297,9 @@ int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_
     int **edges=specgraph->edges;
 
     int currtag=currspec->tag;
-    int tag1=-1;
-
-    while(tag1==-1){
-        if(currtag==(roomspecs[tag1])->tag)
-            tag1=(roomspecs[tag1])->tag;
-        tag1++;
-    }
-
-    int *row=edges[tag1];
-
     int adjacenttag=adjacentspec->tag;
-    int tag2=-1;
 
-    while(tag2==-1){
-        if(adjacenttag==(roomspecs[tag2])->tag)
-            tag2=(roomspecs[tag2])->tag;
-        tag2++;
-    }
-
-    return edges[tag1][tag2];
+    return edges[currtag][adjacenttag];
 }
 
 /* See gen_structs.h */
