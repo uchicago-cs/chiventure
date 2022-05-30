@@ -26,12 +26,16 @@
 int random_first_room(game_t* game){
 
     
-    /*
+    
     if(game==NULL){
         return FAILURE;
     }
 
     if(game->specgraph==NULL){
+        return FAILURE;
+    }
+
+    if(game->specgraph->num_roomspecs==NULL){
         return FAILURE;
     }
 
