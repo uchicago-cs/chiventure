@@ -296,23 +296,23 @@ int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_
     roomspec_t **roomspecs=specgraph->roomspecs;
     int **edges=specgraph->edges;
 
+    int currtag=currspec->tag;
     int tag1=-1;
-    int rowcount=0;
 
     while(tag1==-1){
-        if(currspec->tag==roomspecs[tag1]->tag)
-            tag1=roomspecs[tag1]->tag;
+        if(currtag==(roomspecs[tag1])->tag)
+            tag1=(roomspecs[tag1])->tag;
         tag1++;
     }
 
     int *row=edges[tag1];
 
+    int adjacenttag=adjacentspec->tag;
     int tag2=-1;
-    int columncount=0;
 
     while(tag2==-1){
-        if(adjacentspec==roomspecs[tag2]->tag)
-            tag2=roomspecs[tag2]->tag;
+        if(adjacenttag==(roomspecs[tag2])->tag)
+            tag2=(roomspecs[tag2])->tag;
         tag2++;
     }
 
