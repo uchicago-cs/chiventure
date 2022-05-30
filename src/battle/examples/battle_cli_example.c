@@ -51,8 +51,8 @@ battle_player_t * create_player_one()
     p_stats->xp = 10;
     p_stats->speed = 10;
     p_stats->level = 3;
-    p_stats->phys_def = 30;
-    p_stats->mag_def = 30;
+    p_stats->phys_def = 50;
+    p_stats->mag_def = 50;
     p_stats->phys_atk = 80;
     p_stats->mag_atk = 80;
     p_stats->sp = 100;
@@ -79,7 +79,7 @@ npc_t *create_minion_one()
     e_stats->xp = 10;
     e_stats->speed = 8;
     e_stats->level = 3;
-    e_stats->phys_def = 20;
+    e_stats->phys_def = 40;
     e_stats->mag_def = 20;
     e_stats->phys_atk = 60;
     e_stats->mag_atk = 60;
