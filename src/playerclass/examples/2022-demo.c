@@ -14,8 +14,18 @@
 #include "libobj/load.h"
 #include "wdl/load_game.h"
 
+/* This path expects that we are at the root of the build directory */
+#define CLASSES_WDL_PATH "../tests/wdl/examples/wdl/classes.wdl"
 
-/* A helper function for printing a skilltree. */
+
+/* A helper function for printing a skilltree.
+ *
+ * Parameters:
+ *  - skilltree: the tree to be printed
+ * 
+ * Returns:
+ *  - nothing, just prints information
+*/
 void print_skilltree(skill_tree_t* skilltree) {
 
     /* Skill Tree */
@@ -31,6 +41,7 @@ void print_skilltree(skill_tree_t* skilltree) {
                 printf("    Skill Name: NULL.\n");
             }
 
+            /* Description */
             if (skilltree->nodes[i]->skill->name != NULL) {
                 printf("        Description: %s\n", 
                         skilltree->nodes[i]->skill->desc);
@@ -39,6 +50,7 @@ void print_skilltree(skill_tree_t* skilltree) {
                 printf("        Description: NULL.\n");
             }
 
+            /* Type */
             printf("        Type: ");
             switch (skilltree->nodes[i]->skill->type) {
                 case PLAYER_STATISTIC_MOD:
@@ -55,9 +67,11 @@ void print_skilltree(skill_tree_t* skilltree) {
                     break;
             }
 
+            /* Minimum XP */
             printf("        Minimum XP: %u\n", 
                     skilltree->nodes[i]->skill->min_xp);
 
+            /* Maximum level */
             printf("        Maximum level: %u\n", 
                     skilltree->nodes[i]->skill->max_level);
         }
@@ -69,7 +83,14 @@ void print_skilltree(skill_tree_t* skilltree) {
 }
 
 
-/* A helper function for printing a class. */
+/* A helper function for printing a class.
+ *
+ * Parameters:
+ *  - class: the class to be printed
+ * 
+ * Returns:
+ *  - nothing, just prints information
+*/
 void print_class(class_t* class) {
     printf("------------------------------------------------------------\n");
 
@@ -199,9 +220,6 @@ void prompt(char* message, char* input) {
     }
 }
 
-/* This path expects that we are at the root of the build directory */
-#define CLASSES_WDL_PATH "../tests/wdl/examples/wdl/classes.wdl"
-
 /* Helper function appropriated from WDL tests to load in a file */
 static obj_t *get_doc_obj()
 {
@@ -209,11 +227,11 @@ static obj_t *get_doc_obj()
     strcat(zip_name, "./");
     strcat(zip_name, "zip_default.zip");
 
-    // Create the zip
+    /* Create the zip */
     int error = 0;
     zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
 
-    // Add DEFAULT.json to the zip
+    /* Add DEFAULT.json to the zip */
     char *data_name = "DEFAULT.json";
     char *data_path = CLASSES_WDL_PATH; // Edited to load the example file with classes
 
@@ -222,14 +240,14 @@ static obj_t *get_doc_obj()
 
     zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
 
-    // Write and save to disk
+    /* Write and save to disk */
     int rc = zip_close(zip);
     zip_error_t *close = zip_get_error(zip);
 
     int open_status;
     zip = zip_open(zip_name, 0, &open_status);
 
-    // Read the zip into an obj
+    /* Read the zip into an obj */
     obj_t *obj = obj_new("doc");
     rc = load_obj_store_from_zip(obj, zip);
 

@@ -48,9 +48,11 @@ class_t* class_prefab_new(game_t* game, char* class_name);
 int class_prefab_add_skills(class_t* class);
 
 
-//code in here is for integration purposes with multiclass_prefabs
-//and does not actually provide use outside of its own module 
-//see class_prefabs.c for more information
+/*
+ * The code in here is for integration purposes with multiclass_prefabs
+ * and does not actually provide use outside of its own module, 
+ * see class_prefabs.c for more information.
+ */
 int set_stats_hashtable(game_t* game, stats_hash_t** stats,
                         double max_health, 
                         double speed,
