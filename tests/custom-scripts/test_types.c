@@ -448,7 +448,7 @@ Test(custom_type, lua_three_args_diff_types)
 Test(custom_type, lua_three_args_diff_types_interact)
 {
     data.s = "";
-    data2.c = 'b';
+    data2.c = 'c';
     data3.i = 25;
     data4.b = false;
 
@@ -457,5 +457,5 @@ Test(custom_type, lua_three_args_diff_types_interact)
     ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, INT_TYPE), data4, BOOL_TYPE);
     data_t got = arg_t_get(ot);
     int rv = got.i;
-    cr_assert_eq(rv, 199, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
+    cr_assert_eq(rv, 100, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
 }
