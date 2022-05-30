@@ -57,9 +57,6 @@
     "Knight": {
       "short_desc": "Knight's short description",
       "long_desc": "Knight's long description",
-      "effects": "null",
-      "skill_tree": "null",
-      "starting_skills": "null",
       "attributes": {
         "noble": true,
         "hotheaded": true
@@ -73,7 +70,10 @@
           "current": 20,
           "max": 100
         }
-      }
+      },
+      "effects": "null",
+      "skill_tree": "null",
+      "starting_skills": "null"
     }
   }
 }

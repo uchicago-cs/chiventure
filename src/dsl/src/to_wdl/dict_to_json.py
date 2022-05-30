@@ -37,17 +37,12 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
             contents["items"] = room_items_objs
             rooms.append(Room(room_name, contents, default))
 
-    if "npcs" in intermediate:
-        warn("NPCS are not supported yet.")
     
     if "players" not in intermediate:
         warn("This game has no players.")
     else:
         players_dict = intermediate.pop("players")
         for player_name, contents in players_dict.items():
-            print()
-            print(player_name)
-            print(contents)
             players.append(Player_Class(player_name, contents, default))
     
     game = Game(intermediate, default)

@@ -46,7 +46,7 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
     # action and action attributes, etc.
-    d = dict((k, v) for k, v in s if k != "attributes" and k != 'base_stats')
+    d = dict((k, v) for k, v in s if k != "attributes" and k != "base_stats" and k != "effects" and k != "skill_tree" and k != "starting_skills")
 
     # create a list of items and place it in its own entry of the dict
     # the values placed into this entry will correspond to player class attributes
@@ -57,6 +57,12 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     # the values placed into this entry will correspond to player class base stats
     # since the key is guaranteed to be the string "base_stats"
     d["base_stats"] = [v for k, v in s if k == "base_stats"][0]
+
+    d["effects"] = [v for k, v in s if k == "effects"][0]
+
+    d["skill_tree"] = [v for k, v in s if k == "skill_tree"][0]
+
+    d["starting_skills"] = [v for k, v in s if k == "starting_skills"][0]
     
     return ('PLAYER_CLASS', (class_name, d))
 
@@ -144,7 +150,6 @@ def transform_attribute_state(self, s: list[tuple[str, str]]) -> tuple[str, dict
     into a dictionary which is labeled "attributes" """
     new_dict = {}
     new_dict[s[0]] = bool(s[1])
-    print(type(bool(s[1])))
     return ('attributes', new_dict)
 
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
