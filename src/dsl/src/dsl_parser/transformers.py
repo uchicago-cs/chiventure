@@ -143,7 +143,8 @@ def transform_attribute_state(self, s: list[tuple[str, str]]) -> tuple[str, dict
     """Takes a list of key-value pairs which belong to an attributes and places them
     into a dictionary which is labeled "attributes" """
     new_dict = {}
-    new_dict[s[0]] = s[1]
+    new_dict[s[0]] = bool(s[1])
+    print(type(bool(s[1])))
     return ('attributes', new_dict)
 
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
@@ -166,7 +167,7 @@ def transform_stat(self, s: list[tuple[str, int]]) -> tuple[dict]:
     last = ""
     for t in s:
         if t == "CURRENT" or t == "MAX":
-            last = t
+            last = t.lower()
         else:
             d[last] = int(t)
     return(d)

@@ -58,17 +58,17 @@
       "short_desc": "Knight's short description",
       "long_desc": "Knight's long description",
       "attributes": {
-        "noble": "TRUE",
-        "strong": "TRUE"
+        "noble": true,
+        "hotheaded": true
       },
       "base_stats": {
         "health": {
-          "CURRENT": 100,
-          "MAX": 200
+          "current": 100,
+          "max": 200
         },
         "mana": {
-          "CURRENT": 20,
-          "MAX": 100
+          "current": 20,
+          "max": 100
         }
       }
     }

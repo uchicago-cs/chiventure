@@ -27,7 +27,7 @@ PLAYER_CLASS Knight
     long desc: "Knight's long description"
     ATTRIBUTES 
         noble TRUE
-        strong TRUE
+        hotheaded TRUE
     BASESTATS
         health 
             CURRENT 100
