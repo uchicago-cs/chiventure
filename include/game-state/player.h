@@ -525,6 +525,9 @@ int add_item_to_player_without_checks(player_t *player, item_t *item);
 
 /*
  * Returns a string that represents the player's entire inventory
+ * CLI has an inventory-printing function in operations.c called
+ * inventory_operation that simply prints items line by line. Our function
+ * implements a grid representation of the inventory.
  *
  * Parameters:
  * - player: A player. Must be allocated with player_new()
