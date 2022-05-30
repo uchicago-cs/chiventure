@@ -140,7 +140,7 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
     battle_item_t *temp;
     DL_FOREACH(c->items, temp)
     {
-        if (temp == item)
+        if (temp == item && (temp->quantity <= 0))
         {
             if (temp == c->items) // first item in the list
             {
