@@ -6,6 +6,29 @@
     },
     "intro": "Welcome!"
   },
+  "CLASSES": {
+    "Knight": {
+      "short_desc": "Knight's short description",
+      "long_desc": "Knight's long description",
+      "attributes": {
+        "noble": true,
+        "hotheaded": true
+      },
+      "base_stats": {
+        "health": {
+          "current": 100,
+          "max": 200
+        },
+        "mana": {
+          "current": 20,
+          "max": 100
+        }
+      },
+      "effects": "null",
+      "skill_tree": "null",
+      "starting_skills": "null"
+    }
+  },
   "ROOMS": {
     "room C": {
       "short_desc": "library room.",
@@ -51,29 +74,6 @@
       ],
       "in": "room B",
       "long_desc": "This is a DOOR. A large wooden door"
-    }
-  },
-  "CLASSES": {
-    "Knight": {
-      "short_desc": "Knight's short description",
-      "long_desc": "Knight's long description",
-      "attributes": {
-        "noble": true,
-        "hotheaded": true
-      },
-      "base_stats": {
-        "health": {
-          "current": 100,
-          "max": 200
-        },
-        "mana": {
-          "current": 20,
-          "max": 100
-        }
-      },
-      "effects": "null",
-      "skill_tree": "null",
-      "starting_skills": "null"
     }
   }
 }
