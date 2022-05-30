@@ -1,129 +1,80 @@
 {
   "GAME": {
-    "start": "lab",
+    "start": "room A",
     "end": {
-      "in_room": "room other"
+      "in_room": "room C"
     },
-    "intro": "Welcome!"
+    "intro": "This is the intro"
   },
   "ROOMS": {
-    "house": {
-      "short_desc": "Oak's house.",
-      "long_desc": "Professor Oak's house in Pallet Town",
+    "room C": {
+      "short_desc": "This is room C",
+      "long_desc": "This is room C, the final room in the game",
       "connections": [
         {
           "direction": "NORTH",
-          "to": "room lab"
-        },
-        {
-          "direction": "EAST",
-          "to": "room other"
+          "to": "room A"
         }
       ],
       "items": [
-        "CHARMANDER",
-        "SQUIRTLE",
-        "BULBASAUR",
-        "POKEBALL"
+        "DOOR"
       ]
     },
-    "gym": {
-      "short_desc": "Brock's Gym",
-      "long_desc": "Gym Leader Brock's gym in Pewter City",
+    "room B": {
+      "short_desc": "This is room B",
+      "long_desc": "This is room B. There's a table and an exit to the west.",
       "connections": [
         {
-          "direction": "NORTH",
-          "to": "room house"
-        },
-        {
-          "direction": "EAST",
-          "to": "room lab"
+          "direction": "WEST",
+          "to": "room C"
         }
       ],
       "items": []
     },
-    "lab": {
-      "short_desc": "Oak's lab.",
-      "long_desc": "Professor Oak's lab in Pallet Town",
+    "room A": {
+      "short_desc": "This is room A",
+      "long_desc": "This is room A. There's a chair and an exit to the south.",
       "connections": [
         {
-          "direction": "NORTH",
-          "to": "room other"
-        },
-        {
-          "direction": "EAST",
-          "to": "room house"
+          "direction": "SOUTH",
+          "to": "room B"
         }
       ],
-      "items": [
-        "COMPUTER"
-      ]
+      "items": []
     }
   },
   "ITEMS": {
-    "POKEBALL": {
-      "short_desc": "A pokeball",
-      "long_desc": "A pokeball used to capture pokemon",
+    "DOOR": {
+      "short_desc": "A large wooden door",
+      "long_desc": "It looks very heavy, and it doesn't have a keyhole",
       "actions": [
         {
-          "action": "TAKE",
-          "text_success": "You take the pokeball",
-          "text_fail": "You cannot take the pokeball"
+          "action": "OPEN",
+          "text_success": "You open the door.",
+          "text_fail": "You can't open the door. It seems to be locked."
+        },
+        {
+          "action": "GO",
+          "text_success": "You walk through the door",
+          "text_fail": "You can't do that, the door is closed"
         }
       ],
-      "in": "OAK"
-    },
-    "BULBASAUR": {
-      "short_desc": "A grass Pokemon",
-      "long_desc": "It can go for days without eating a single morsel. In the bulb on its back, it stores energy.",
-      "in": "OAK",
-      "actions": []
-    },
-    "SQUIRTLE": {
-      "short_desc": "A water pokemon",
-      "long_desc": "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth.",
-      "in": "OAK",
-      "actions": []
-    },
-    "CHARMANDER": {
-      "short_desc": "A fire pokemon",
-      "long_desc": "Prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
-      "in": "OAK",
-      "actions": []
-    },
-    "COMPUTER": {
-      "short_desc": "A computer.",
-      "long_desc": "A computer in Oak's lab",
-      "in": "lab",
-      "actions": []
+      "in": "room A"
     }
   },
   "NPCS": {
-    "RED": {
-      "location": "house",
-      "short_desc": "Original player",
-      "long_desc": "Strongest pokemon player of all time",
-      "age": "25",
-      "gender": "Male"
-    },
-    "ASH": {
-      "location": "gym",
-      "short_desc": "Pokemon Master",
-      "long_desc": "ASH Ketchum is THE Pokemon Master",
-      "age": "10",
-      "gender": "Male"
-    },
     "OAK": {
-      "location": "lab",
+      "in": "room B",
       "short_desc": "Kanto's premier Pokemon expert",
       "long_desc": "Enjoys exploring human-Pokemon relationships",
-      "age": "80",
-      "gender": "Male",
-      "INVENTORY": {
-        "item_id1": "CHARMANDER",
-        "item_id2": "SQUIRTLE",
-        "item_id3": "BULBASAUR",
-        "item_id4": "POKEBALL"
+      "inventory": [
+        {
+          "item_id": "DOOR"
+        }
+      ],
+      "dialogue": {
+        "nodes": [],
+        "edges": []
       }
     }
   }

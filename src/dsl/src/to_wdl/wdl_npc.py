@@ -15,6 +15,8 @@ class Npc:
         self.name = name
         self.contents = contents
         self.default = default
+        print()
+        print(self.contents)
 
         # self.wdl_contents stores what will be outputted so we don't lose the
         # original input from the parser
@@ -33,11 +35,13 @@ class Npc:
         for k, v in self.contents.items():
             if k in PROPERTY_ALIASES:
                 self.wdl_contents[PROPERTY_ALIASES[k]] = v
-            elif k == "inventory":
+            elif k == "INVENTORY":
                 self.wdl_contents["inventory"] = self.inventory_list()
             else:
                 self.wdl_contents[k] = v
-
+        self.wdl_contents["dialogue"] = {}
+        self.wdl_contents["dialogue"]["nodes"] = []
+        self.wdl_contents["dialogue"]["edges"] = []
 
         if self.default == "no-defaults":
             warn(f'''warning: no default values generated for {self.name}, wdl file may not run''')
@@ -51,15 +55,13 @@ class Npc:
         if 'INVENTORY' not in self.contents:
             return []
         else:
-            print("making inventory list")
             out = []
             for name, action_dict in self.contents.get('INVENTORY', {}).items():
-                inventory_wdl_dict = {"inventory": name}
-                for k,v in inventory_dict.items():
+                inventory_wdl_dict = {"item_id": action_dict}
+                for k,v in inventory_wdl_dict.items():
                     inventory_wdl_dict[k] = v
                 out.append(inventory_wdl_dict)
 
-        print(out)
         return out
 
 

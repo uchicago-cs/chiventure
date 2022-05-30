@@ -112,9 +112,13 @@ def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     # gets the player class id.
     npc_id = s.pop(0)[1]
 
-    # first place all non-item objects into a dict
-    # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
-    # action and action attributes, etc.
+    # Change location to in
+    s[0] = list(s[0])
+    s[0][0] = "in"
+    s[0] = tuple(s[0])
+
+    temp = s[0]
+    
     d = dict((k, v) for k, v in s)
 
     return ('NPC', (npc_id, d))

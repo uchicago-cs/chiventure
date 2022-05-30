@@ -1,68 +1,39 @@
-GAME START lab END room other
-    intro: "Welcome!"
+GAME START room A END room C
+  intro: "This is the intro"
 
-ROOM lab
-    short desc: "Oak's lab."
-    long desc: "Professor Oak's lab in Pallet Town"
-    connections: EAST TO room house
-    
-    ITEM COMPUTER IN lab
-    short desc: "A computer."
-    long desc: "A computer in Oak's lab"
+  ROOM room A
+    short desc: "This is room A"
+    long desc: "This is room A. There's a chair and an exit to the south."
+    connections: SOUTH TO room B
 
-ROOM gym
-    short desc: "Brock's Gym"
-    long desc: "Gym Leader Brock's gym in Pewter City"
-    connections: SOUTH TO room house
+  ROOM room B
+    short desc: "This is room B"
+    long desc: "This is room B. There's a table and an exit to the west."
+    connections: WEST TO room C
 
-ROOM house
-    short desc: "Oak's house."
-    long desc: "Professor Oak's house in Pallet Town"
-    connections: NORTH TO room gym
-        WEST TO room lab
-    
+  ROOM room C
+    short desc: "This is room C"
+    long desc: "This is room C, the final room in the game"
+    connections: NORTH TO room A
 
-ITEM CHARMANDER IN OAK
-  short desc: "A fire pokemon"
-  long desc: "Prefers hot places. When it rains, steam is said to spout from the tip of its tail." 
+ITEM DOOR IN room A
+  short desc: "A large wooden door"
+  long desc: "It looks very heavy, and it doesn't have a keyhole"
+  actions: OPEN, GO
+    OPEN success: "You open the door."
+    OPEN fail: "You can't open the door. It seems to be locked."
+    GO success: "You walk through the door"
+    GO fail: "You can't do that, the door is closed"
+    property: "value"
 
-ITEM SQUIRTLE IN OAK
-  short desc: "A water pokemon"
-  long desc: "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth." 
-
-ITEM BULBASAUR IN OAK
-  short desc: "A grass Pokemon"
-  long desc: "It can go for days without eating a single morsel. In the bulb on its back, it stores energy."
-
-ITEM POKEBALL IN OAK
-  short desc: "A pokeball"
-  long desc: "A pokeball used to capture pokemon"
-  actions: TAKE
-    TAKE success: "You take the pokeball"
-    TAKE fail: "You cannot take the pokeball"
-
-NPC OAK IN lab
+NPC OAK IN room B
   short desc: "Kanto's premier Pokemon expert"
   long desc: "Enjoys exploring human-Pokemon relationships"
-  age: "80"
-  gender: "Male"
   INVENTORY
-    item_id1: "CHARMANDER"
-    item_id2: "SQUIRTLE"
-    item_id3: "BULBASAUR"
-    item_id4: "POKEBALL"
+    item_id1: "DOOR"
 
-NPC ASH IN gym
-  short desc: "Pokemon Master"
-  long desc: "ASH Ketchum is THE Pokemon Master"
-  age: "10"
-  gender: "Male"
 
-NPC RED IN house
-  short desc: "Original player"
-  long desc: "Strongest pokemon player of all time"
-  age: "25"
-  gender: "Male"
+
 
 
 
