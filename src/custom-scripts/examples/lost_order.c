@@ -20,10 +20,10 @@ chiventure_ctx_t *create_sample_ctx()
     game_t *game = game_new("Welcome to Chiventure!");
 
     /* Create two rooms (room1 and room2). room1 is the initial room */
-    room_t *room0 = room_new("room0", "This is room 0", "Here, our journey begins.");
-    room_t *room1 = room_new("room1", "This is room 1", "Verily, this is the first room.");
-    room_t *room2 = room_new("room2", "This is room 2", "Truly, this is the second room.");
-    room_t *room3 = room_new("room3", "This is room 3", "By definition, this is the third room.");
+    room_t *room0 = room_new("Journey's Other End", "This is room 0", "Here, our journey begins.");
+    room_t *room1 = room_new("McDonalds", "This is room 1", "The greasy smell of fries beckons you closer");
+    room_t *room2 = room_new("Wingstop", "This is room 2", "The saucy smell of wings call to you");
+    room_t *room3 = room_new("Subway", "This is room 3", "The fresh smell of sammies summons.");
     room_t *room5 = room_new("room5", "This is room 5", "Strangely, this is only the fourth room.");
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
@@ -31,16 +31,16 @@ chiventure_ctx_t *create_sample_ctx()
     add_room_to_game(game, room3);
     add_room_to_game(game, room5);
     game->curr_room = room0;
-    create_connection(game, "room0", "room1", "NORTH");
-    create_connection(game, "room1", "room0", "SOUTH");
-    create_connection(game, "room0", "room2", "EAST");
-    create_connection(game, "room2", "room0", "WEST");
-    create_connection(game, "room0", "room3", "SOUTH");
-    create_connection(game, "room3", "room0", "NORTH");
-    create_connection(game, "room0", "room5", "WEST");
-    create_connection(game, "room5", "room0", "EAST");
-    create_connection(game, "room3", "room5", "SOUTH");
-    create_connection(game, "room5", "room3", "NORTH");
+    create_connection(game, "Journey's Other End", "McDonalds", "NORTH");
+    create_connection(game, "McDonalds", "Journey's Other End", "SOUTH");
+    create_connection(game, "Journey's Other End", "Wingstop", "EAST");
+    create_connection(game, "Wingstop", "Journey's Other End", "WEST");
+    create_connection(game, "Journey's Other End", "Subway", "SOUTH");
+    create_connection(game, "Subway", "Journey's Other End", "NORTH");
+    create_connection(game, "Journey's Other End", "room5", "WEST");
+    create_connection(game, "room5", "Journey's Other End", "EAST");
+    create_connection(game, "Subway", "room5", "SOUTH");
+    create_connection(game, "room5", "Subway", "NORTH");
 
 
     /* Create a rock in room1 */
@@ -99,11 +99,14 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "INSPECT" with each order.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(Lost_McDonalds_Order, "INSPECT", custom_string1, "It smells greasy!");
+    agent_t McDonalds = (agent_t){.item = Lost_McDonalds_Order, .npc = NULL};
+    add_action(&McDonalds, "INSPECT", custom_string1, "It smells greasy!");
 
-    add_action(Lost_Wingstop_Order, "INSPECT", custom_string2, "It smells saucy!");
+    agent_t Wingstop = (agent_t){.item = Lost_Wingstop_Order, .npc = NULL};
+    add_action(&Wingstop, "INSPECT", custom_string2, "It smells saucy!");
 
-    add_action(Lost_Subway_Order, "INSPECT", custom_string3, "It smells... fresh?");
+    agent_t Subway = (agent_t){.item = Lost_Subway_Order, .npc = NULL};
+    add_action(&Subway, "INSPECT", custom_string3, "It smells... fresh?");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
