@@ -152,6 +152,7 @@ Test(room_item, get_nonexistent_item)
     cr_assert_null(returned_item, "Item retrieved but should be NULL");
     room_free(new_room);
 }
+
 /* Checks if remove_item_from_room properly removes items */
 Test(room_item, remove_item_from_room)
 {

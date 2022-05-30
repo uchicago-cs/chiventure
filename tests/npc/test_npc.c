@@ -481,3 +481,4 @@ Test(npc, check_npc_battle)
     res = npc_free(npc2);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
 }
+

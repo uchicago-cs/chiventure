@@ -208,6 +208,10 @@ char *who_is_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if (strcasecmp(tokens[0], "FIND"))
+    {
+        action_error_operation(&tokens[0], ctx);
+    }
     if (tokens[1] == NULL)
     {
         return "You need to specify an NPC to find\n";
@@ -327,6 +331,10 @@ convo_t *create_sample_convo_borja()
 char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if (strcasecmp(tokens[0], "ATTACK") || strcasecmp(tokens[0], "FIGHT"))
+    {
+        action_error_operation(&tokens[0], ctx);
+    }
     char *str = malloc(MAX_MSG_LEN);
     if (game == NULL || game->curr_room == NULL)
     {
@@ -612,10 +620,6 @@ chiventure_ctx_t *create_sample_ctx()
     stats_global_t *global_speed = stats_global_new("speed", 10000);
     stats_t *sonic_speed = stats_new(global_speed, 5000);
     HASH_ADD(hh, sonic_class->base_stats, key, strlen(sonic_speed->key), sonic_speed);
-/*    extend_path_indefinite(sonic_mov, peachs_cafe->room_id, 2);
-    extend_path_indefinite(sonic_mov, crerar_first->room_id, 2);
-    extend_path_indefinite(sonic_mov, crerar_second->room_id, 2);
-    extend_path_indefinite(sonic_mov, crerar_209->room_id, 1); */
     speedy_sonic = npc_new("sonic", "sonic the hedgehog",
                            "sonic the hedgehog is very fast",
                            sonic_class, sonic_mov, FRIENDLY);
