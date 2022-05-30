@@ -50,9 +50,6 @@ typedef struct npc {
     /* enum indicating hostility level of the npc */
     hostility_t hostility_level;
 
-    /* enum indicating hostility level of the npc */
-    hostility_t hostility_level;
-
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
 
