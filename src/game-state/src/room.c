@@ -20,6 +20,9 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
     item_hash_t *items = NULL;
     new_room->items = items;
 
+    item_hash_t *head = NULL;
+    new_room->items = head;
+
     new_room->npcs = npcs_in_room_new(room_id);
 
     return SUCCESS;
@@ -379,7 +382,7 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 
     HASH_FIND(hh, all_rooms, old_room_id, strlen(old_room_id), old_room);
     old_room_npcs = old_room->npcs;
-    
+
     HASH_FIND(hh, all_rooms, new_room_id, strlen(new_room_id), new_room);
     new_room_npcs = new_room->npcs;
 
@@ -431,3 +434,4 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     }
     return SUCCESS;
 }
+
