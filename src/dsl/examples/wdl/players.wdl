@@ -53,17 +53,17 @@
       "long_desc": "This is a DOOR. A large wooden door"
     }
   },
-  "PLAYERS": {
-    "KNIGHT": {
-      "short_desc": "Knight",
-      "long_desc": "This a Knight",
+  "CLASSES": {
+    "Knight": {
+      "short_desc": "Knight's short description",
+      "long_desc": "Knight's long description",
       "attributes": {
         "noble": "TRUE",
         "strong": "TRUE"
       },
       "base_stats": {
         "stat_setting": {
-          "id": "health",
+          "id": "mana",
           "state": {
             "CURRENT": "20",
             "MAX": "10"

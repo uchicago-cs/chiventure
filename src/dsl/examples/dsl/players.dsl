@@ -22,13 +22,16 @@ ROOM room C
     
 
 # testing: player class with id of knight. Testing if attributes and base_stats are generated correctly
-PLAYER_CLASS KNIGHT
-    short desc: "Knight"
-    long desc: "This a Knight"
+PLAYER_CLASS Knight
+    short desc: "Knight's short description"
+    long desc: "Knight's long description"
     ATTRIBUTES 
         noble TRUE
         strong TRUE
     BASESTATS
         health 
+            CURRENT 100
+            MAX 200
+        mana
             CURRENT 20
             MAX 100

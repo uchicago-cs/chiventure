@@ -61,7 +61,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
         **game.to_wdl_structure(), 
         "ROOMS": rooms_wdl,
         "ITEMS": items_wdl,
-        "PLAYERS": players_wdl
+        "CLASSES": players_wdl
         }, indent=2)
 
     if debug and "end" in debug_modes:
