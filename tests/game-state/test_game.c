@@ -231,7 +231,7 @@ Test(game_npc, add_and_get_npc)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     npc_t *npc = npc_new("TEST_NPC", "a test npc", "an npc for testing",
-                         NULL, NULL, false);
+                         NULL, NULL, 0);
     add_npc_to_game(game, npc);
 
     cr_assert_not_null(npc, "test_npc not initialized");
@@ -252,10 +252,10 @@ Test(game_end_condition, add_end_condition_to_game)
 {
     game_t *game = game_new("Welcome to Chiventure!");
 
-    attribute_value_t test_value_1;
-    test_value_1.str_val = "Test_Value_1";
-    attribute_value_t test_value_2;
-    test_value_2.str_val = "Test_Value_2";
+    attribute_value_t *test_value_1 = malloc(sizeof(attribute_value_t));
+    test_value_1->str_val = "Test_Value_1";
+    attribute_value_t *test_value_2 = malloc(sizeof(attribute_value_t));
+    test_value_2->str_val = "Test_Value_2";
 
 
 
@@ -292,6 +292,8 @@ Test(game_end_condition, add_end_condition_to_game)
     int add_5 = add_end_condition_to_game(game, condition_4);
     cr_assert_eq(add_5, SUCCESS, "add_end_condition_to_game() did not add condition_2");
     game_free(game);
+    free(test_value_1);
+    free(test_value_2);
 }
 
 /* Checks that end_conditions_met() properly assesses when 
@@ -304,8 +306,8 @@ Test(game_end_condition, end_conditions_met)
     bool test_1 = end_conditions_met(game);
     cr_assert_eq(test_1, false, "end_conditions_met() does not return false when there are no end conditions");
     
-    attribute_value_t expected;
-    expected.str_val = "Valid_Value";
+    attribute_value_t *expected = malloc(sizeof(attribute_value_t));
+    expected->str_val = "Valid_Value";
     
     item_t *test_item_1 = item_new("test_item_1", 
     "test item 1 for end conditions",
@@ -349,6 +351,7 @@ Test(game_end_condition, end_conditions_met)
     bool test_5 = end_conditions_met(game);
     cr_assert_eq(test_5, true, "end_conditions_met() does not return true when all end conditions are met");
     game_free(game);
+    free(expected);
 }
 
 /* Helper function for is_game_over_tests to setup initial game */
@@ -356,14 +359,18 @@ game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
 {
     game_t *game = game_new("Welcome to Chiventure!");
     
-    attribute_value_t expected, unexpected;
-    expected.str_val = "Valid_Value";
-    unexpected.str_val = "Invalid_Value";
+    attribute_value_t *expected = malloc(sizeof(attribute_value_t));
+    attribute_value_t *unexpected = malloc(sizeof(attribute_value_t));
+    
+    expected->str_val = malloc(sizeof(char)*100);
+    memcpy(expected->str_val, "Valid_Value", strlen("Valid_Value"));
+    unexpected->str_val = malloc(sizeof(char)*100);
+    memcpy(unexpected->str_val, "Invalid_Value", strlen("Invalid_Value"));
     
     item_t *test_item = item_new("test_item", 
     "test item for is_game_over",
     "item for testing is_game_over()");
-    set_str_attr(test_item, "Test_Attribute", unexpected.str_val);
+    set_str_attr(test_item, "Test_Attribute", unexpected->str_val);
     add_item_to_game(game, test_item);
     
     room_t *test_room1 = room_new("test_room1", "room1 short", "room1 long long long");
@@ -376,8 +383,7 @@ game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
     
     if (has_end_conditions)
     {
-        condition_t *condition;
-        condition = attribute_condition_new(test_item, "Test_Attribute",
+        condition_t *condition = attribute_condition_new(test_item, "Test_Attribute",
                                   expected);
         add_end_condition_to_game(game, condition);
     }
@@ -386,7 +392,7 @@ game_t* setup_is_game_over_test(bool has_final_room, bool has_end_conditions)
     {
         add_final_room_to_game(game, test_room2);
     }
-    
+
     return game;
 }
 

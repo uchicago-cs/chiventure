@@ -63,6 +63,12 @@ struct skill_node {
     // This is an ADDITIONAL pre_req to the lists of skill_nodes preceding the tree
     unsigned int prereq_level;
 
+    //List of player classes node belongs to.
+    char** player_classes;
+
+    //Num of classes in player_classes.
+    int num_classes;
+
     // The size of the skill node, for the graphics team
     unsigned int size;
 
@@ -92,13 +98,15 @@ typedef struct skill_tree {
  *  - nprepreqs: The number of prerequisite skills to acquire the skill
  *  - size: The size of the skill node, for the graphics team
  *  - prereq_level: The minimum level of the player required to acquire skill
+ *  - player_classes: List of classes node belongs to
+ *  - num_classes: Number of classes node belongs to
  *
  * Returns:
  *  - A pointer to the skill node, or NULL if a skill node cannot be
  *    allocated
  */
  skill_node_t* skill_node_new(skill_t* skill, unsigned int num_prereq_skills,
-                            unsigned int prereq_level,
+                            unsigned int prereq_level, char** player_classes, int num_classes,
                             unsigned int size);
 
 /*
@@ -306,5 +314,46 @@ skill_t** skill_prereqs_missing(skill_tree_t* tree,
  */
 int inventory_skill_acquire(skill_tree_t* tree, skill_inventory_t* inventory,
                             skill_t* skill);
+
+/*
+ * Prints useful, high-level information about a skilltree
+ * Support for integration with action management for view action
+ *
+ * Parameters: 
+ *  - tree: pointer to a skilltree whose info will be printed
+ *  - buffer: an integer which is the maximum size of the resulting string. This 
+ *            ensures that we won't hit the case of an incredibly large tree and 
+ *            have a resultingly too large string.
+ * 
+ * Returns:
+ *  - string to be printed, a high-level overview of each skill, prereq level,
+ *    and current level
+ * 
+ *    For example, for a skilltree with one node containing the skill "Throw 
+ *    Fireball", a current level of 75, and a prereq level of 34, this would 
+ *    return the char *:
+ *      - "Skill Name: Throw Fireball, Prereq Level: 34, Current Level: 75\n"
+ */
+char *display_tree(skill_tree_t* tree, int buffer);
+
+/*
+ * Given a skilltree that the name of a skill in that tree, prints its 
+ * description
+ * Support for integration with action management for view action
+ *
+ * Parameters: 
+ *  - tree: pointer to the tree which contains the skill with the given name
+ *  - skill_name: the name of the skill whose description is desired
+ * 
+ * Returns:
+  *  - string to be printed, the description of the skill with the given name
+ * 
+ *    For example, given a skilltree with one node containing the skill "Throw 
+ *    Fireball" with the associated description "A Powerful Projectile to SCORCH 
+ *    your Enemies", and given the char *name "Throw Fireball", this would
+ *    return the char *:
+ *      - "Skill Description: A Powerful Projectile to SCORCH your Enemies\n"
+ */
+char *display_skill_description(skill_tree_t* tree, char *skill_name);
 
 #endif /* INCLUDE_SKILLTREE_H_ */

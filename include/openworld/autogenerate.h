@@ -343,5 +343,3 @@ int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room,
                        int radius, char **directions, int num_directions, char *direction_to_parent);
                                
 #endif /* INCLUDE_AUTOGENERATE_H */
-
-

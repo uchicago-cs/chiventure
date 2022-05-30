@@ -141,4 +141,5 @@ int run_conversation_mode(char *input, cli_callback callback_func,
  */ 
 int run_battle_mode(char *input, cli_callback callback_func, 
                           void *callback_args, chiventure_ctx_t *ctx);
-#endif
+
+#endif /* _MODE_H */

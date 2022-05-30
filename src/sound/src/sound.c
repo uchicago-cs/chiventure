@@ -2,7 +2,7 @@
 #include "sound/sound.h"
 
 /* See sound.h for details */
-sound_t *sound_new(SoundType type, char *name)
+sound_t *sound_new(SoundType type, char name[])
 {
     sound_t *sound = (sound_t*)malloc(sizeof(sound_t));
     sound->wavBuffer = (uint8_t*)malloc(sizeof(uint8_t));
@@ -11,7 +11,7 @@ sound_t *sound_new(SoundType type, char *name)
 }
 
 /* See sound.h for details */
-int sound_init(sound_t *sound, SoundType type, char *name)
+int sound_init(sound_t *sound, SoundType type, char name[])
 {
     sound->type = type;
     sound->name = name;
@@ -114,4 +114,22 @@ int play_sound(sound_t *sound, int delay)
         return 1;
     }
     return 0;
+}
+
+/* See sound.h for details */
+void stop_sound()
+{
+    Mix_HaltMusic();
+}
+
+/* See sound.h for details */
+void pause_sound()
+{
+    Mix_PauseMusic();
+}
+
+/* See sound.h for details */
+void resume_sound()
+{
+    Mix_ResumeMusic();
 }
