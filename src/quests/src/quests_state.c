@@ -22,8 +22,10 @@ bool completed_mission(mission_t *mission, player_t *player) {
             }
             return false;
             break;
+        case MEET_NPC:
+            return !(strcmp(player->crnt_npc, mission->target_name));
     }
-    return true;
+    return false;
 }
 
 /* Refer to quests_state.h */
@@ -46,7 +48,10 @@ bool is_task_completed(task_t *task, player_t *player)
 bool get_player_task_status(task_t *task, player_t *player)
 {
     player_task_t *ptask = get_player_task_from_hash(task->id, player->player_tasks);
-    return ptask->completed;
+    if(ptask != NULL) {
+        return ptask->completed;
+    }
+    return false;
 }
 
 /* Refer to quest_state.h */
@@ -103,6 +108,8 @@ int add_task_to_quest(quest_t *quest, task_t *task_to_add, char *parent_id)
 
     task_tree_t *tree = malloc(sizeof(task_tree_t));
     tree->task = task_to_add;
+    tree->rsibling = NULL;
+    tree->lmostchild = NULL;
 
     task_tree_t *parent = find_task_tree_of_task_in_tree(quest->task_tree, parent_id);
     tree->parent = parent;
@@ -278,8 +285,49 @@ int update_player_quests(quest_ctx_t *qctx) {
         update_task(cur->task_id, qctx);
     }
 }
-    
+
 /* Refer to quests_state.h */
 void update_task(char *task_id, quest_ctx_t *qctx) {
     accept_reward(complete_task(task_id, qctx), qctx);
+}
+
+/* Refer to quests_state.h */
+bool can_player_start_quest(quest_ctx_t *qctx, char *quest_id)
+{
+    assert(qctx != NULL);
+    quest_t *quest = get_quest_from_hash(quest_id, qctx->quest_hash);
+
+    assert(quest != NULL);
+    
+    prereq_t *prereq = quest->prereq;
+    player_t *player = qctx->player;
+
+    player_quest_t *pquest = get_player_quest_from_hash(quest_id, player->player_quests);
+    if(pquest != NULL) {
+        return false;
+    }
+
+    return (meets_prereqs(player, prereq));
+}
+
+/* Refer to quests_state.h */
+bool can_player_complete_task(quest_ctx_t *qctx, char *task_id)
+{
+    assert(qctx != NULL);
+    task_t *task = get_task_from_quest_hash(task_id, qctx->quest_hash);
+
+    assert(task != NULL);
+    
+    prereq_t *prereq = task->prereq;
+    player_t *player = qctx->player;
+
+    player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
+    if(ptask == NULL) {
+        return false;
+    }
+    if(ptask->completed) {
+        return false;
+    }
+
+    return (meets_prereqs(player, prereq));
 }

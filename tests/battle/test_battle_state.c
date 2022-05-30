@@ -2,10 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "battle/battle_state.h"
-#include "common/utlist.h"
-
-
+#include "../../include/battle/battle_test_utility.h"
 
 /* Tests combatant_new() */
 Test(battle_state, combatant_new)

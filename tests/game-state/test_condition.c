@@ -12,8 +12,8 @@ Test(condition, new_attr_condition)
 {
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value = malloc(sizeof(attribute_value_t));
+    value->int_val = 2;
 
     condition_t *condition = attribute_condition_new(item, "length", value);
 
@@ -28,6 +28,7 @@ Test(condition, new_attr_condition)
     item_free(item);
     free(condition->condition.attribute_type);
     free(condition);
+    free(value);
 }
 
 /* Checks that inventory_condition_new() properly mallocs and inits a new condition struct */
@@ -76,8 +77,8 @@ Test(condition, free_condition_on_attr)
 {
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value = malloc(sizeof(attribute_value_t));
+    value->int_val = 2;
     int check;
 
     condition_t *condition = attribute_condition_new(item, "length", value);
@@ -97,6 +98,7 @@ Test(condition, free_condition_on_attr)
     cr_assert_not_null(item, "free_condition mistakingly freed item as well");
     
     item_free(item);
+    free(value);
 }
 
 /* Tests free_condition on an inventory condition */
@@ -161,8 +163,8 @@ Test(condition, condition_free)
     player_t *player = player_new("test");
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value = malloc(sizeof(attribute_value_t));
+    value->int_val = 2;
 
     condition_t *condition_1 = attribute_condition_new(item, "length", value);
     condition_t *condition_2 = inventory_condition_new(player, item);
@@ -175,6 +177,7 @@ Test(condition, condition_free)
     cr_assert_eq(res, SUCCESS, "delete_condition_llist() failed");
     player_free(player);
     item_free(item);
+    free(value);
 }
 
 /* Checks if valid_condition properly checks if the condition is actually valid */
@@ -185,8 +188,8 @@ Test(condition, valid_condition)
     // ITEM_MODIFY_NULL
     item_t *item = item_new("pen", "applepen", "penpineappleapplepen");
     set_int_attr(item, "length",2);
-    attribute_value_t value;
-    value.int_val = 2;
+    attribute_value_t *value = malloc(sizeof(attribute_value_t));
+    value->int_val = 2;
 
     condition_t *condition_1 = attribute_condition_new(item, "length", value);
 
@@ -238,4 +241,5 @@ Test(condition, valid_condition)
     free(condition_2->condition.inventory_type);
     free(condition_1);
     free(condition_2);
+    free(value);
 }

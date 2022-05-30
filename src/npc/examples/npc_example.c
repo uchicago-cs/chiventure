@@ -13,7 +13,7 @@
  *             on Root) and return an NPC dialogue to be printed to the CLI.
  *             They utlize the backend of the dialogue module while printing to
  *             chiventure's CLI. For a more thorough example of what dialogue
- *             should eventually look like in chiventure, see dialogue_example.
+ *             should eventually look like in chiventure, see dialogue_example. 
  */
 
 #include <stdio.h>
@@ -31,34 +31,34 @@ convo_t *create_sample_convo()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "NPC: What do you want?");
+    add_node(c, "1", "NPC: What do you want?", NEUTRAL);
     add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
-             "around and get outta my house. You can't come and go as you wish.");
+             "around and get outta my house. You can't come and go as you wish.", NEUTRAL);
     add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
              "around the place without consulting the owner!! Shouldn't I at "
-             "least know who you are?!");
+             "least know who you are?!", NEUTRAL);
     add_node(c, "2c", "As soon as your eyes glance to the doorway, the man's "
              "hands are at your back ushering you away. The door snaps shut and "
-             "you hear the distinct click of a lock turning.");
+             "you hear the distinct click of a lock turning.", NEUTRAL);
     add_node(c, "3a", "NPC: Yes, well, just because the door's unlocked and I'm "
              "a bit messy don't make it public property. Now take off and leave, "
-             "or else I'm gonna force you to.");
+             "or else I'm gonna force you to.", NEUTRAL);
     add_node(c, "4", "As his arm flashes behind his back, the robber raises "
-             "a knife to you.");
+             "a knife to you.", NEUTRAL);
 
     // Edges
-    add_edge(c, "I just want to talk.", "1", "2a", NULL);
-    add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL);
-    add_edge(c, "<Leave>", "1", "2c", NULL);
-    add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL);
+    add_edge(c, "I just want to talk.", "1", "2a", NULL, NEUTRAL);
+    add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL, NEUTRAL);
+    add_edge(c, "<Leave>", "1", "2c", NULL, NEUTRAL);
+    add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL, NEUTRAL);
     add_edge(c, "I'm not trying to take your home, I just thought it would be "
-             "a place to rest in some shade for a bit.", "2a", "3a", NULL);
-    add_edge(c, "<Leave>", "2a", "2c", NULL);
-    add_edge(c, "I'm Leo.", "2b", "2a", NULL);
+             "a place to rest in some shade for a bit.", "2a", "3a", NULL, NEUTRAL);
+    add_edge(c, "<Leave>", "2a", "2c", NULL, NEUTRAL);
+    add_edge(c, "I'm Leo.", "2b", "2a", NULL, NEUTRAL);
     add_edge(c, "The owner? With the state of this place, I'd have pegged you "
-             "for more of a burglar, heh.", "2b", "4", NULL);
-    add_edge(c, "<Leave>", "3a", "2c", NULL);
-    add_edge(c, "Give it your best shot.", "3a", "4", NULL);
+             "for more of a burglar, heh.", "2b", "4", NULL, NEUTRAL);
+    add_edge(c, "<Leave>", "3a", "2c", NULL, NEUTRAL);
+    add_edge(c, "Give it your best shot.", "3a", "4", NULL, NEUTRAL);
 
     return c;
 }
@@ -94,7 +94,7 @@ char *observe_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 char *sample_talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     check_game(tokens, ctx);
-
+   
     convo_t *c;
     c = create_sample_convo();
 
@@ -115,7 +115,7 @@ chiventure_ctx_t *create_sample_ctx()
     load_normal_mode(game);
 
     /* Create the initial room */
-    room_t *room1 = room_new("room1", "This is room 1",
+    room_t *room1 = room_new("room1", "This is room 1", 
                              "The first room in this house is disheveled, "
                              "yet seems to be stacked with valuables. "
                              "You spot a faberge egg and an antique "
@@ -137,8 +137,8 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Create one npc */
     char *npc_id = "jim";
-    npc_t *jim = npc_new(npc_id,
-                         "Jim is a shabby man who lives in a shabby house.",
+    npc_t *jim = npc_new(npc_id, 
+                         "Jim is a shabby man who lives in a shabby house.", 
                          "Jim looks just as suspicious as his house. His "
                          "beard appears to be half shaved, and his eyes "
                          "constantly dart all around.", NULL, NULL, 0);

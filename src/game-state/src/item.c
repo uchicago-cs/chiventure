@@ -17,7 +17,13 @@ int item_init(item_t *new_item, char *item_id, char *short_desc,
     case_insensitize(new_item->item_id);
     strcpy(new_item->short_desc, short_desc);
     strcpy(new_item->long_desc, long_desc);
-    new_item->stat_effects = NULL;
+
+    effects_hash_t *stat_effects = NULL;
+    new_item->stat_effects = stat_effects;
+    attribute_hash_t *attributes = NULL;
+    new_item->attributes = attributes;
+    game_action_hash_t *actions = NULL;
+    new_item->actions = actions;
 
     return SUCCESS;
 }
@@ -76,30 +82,19 @@ char *get_ldesc_item(item_t *item)
 /* See item.h */
 int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 {
-    item_t *check, *itr;
-    
-    HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
-    
-    LL_FOREACH(check, itr)
+    assert(new_item != NULL);
+    item_t *tmp;
+    char *id = case_insensitized_string(new_item->item_id);
+    HASH_FIND(hh, *ht, id, strlen(id), tmp);
+    if (tmp == NULL)
     {
-        if (itr == new_item)
-        {
-            /* Same memory address */
-            return FAILURE;
-        }
+        HASH_ADD_KEYPTR(hh, *ht, id, strlen(id), new_item);
+        return SUCCESS;
     }
-
-    if (check != NULL)
+    else
     {
-        /* Same item id, not same memory address */
-        HASH_DEL(*ht, check);
-        new_item->next = check;
+        return FAILURE; // Hash tables should not contain duplicate items
     }
-    
-    HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
-                    new_item);
-
-    return SUCCESS;
 }
 
 /* See item.h */
@@ -129,7 +124,7 @@ item_t *get_item_in_hash(item_hash_t *ht, char *id)
 {
     item_t *item;
 
-    HASH_FIND(hh, ht, id, strnlen(id, MAX_ID_LEN), item);
+    HASH_FIND_STR(ht, id, item);
 
     return item;
 }

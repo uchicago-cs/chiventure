@@ -45,5 +45,15 @@ scene_graphics_t* new_scene_graphics(char* SceneName, char* ImagePath, Vector2 W
  */
 int free_scene_graphics(scene_graphics_t* SceneGraphics);
 
+/*
+ * Produces a visualization of the current scene in the game
+ *
+ * Parameters:
+ * - scene graphics struct
+ *
+ * Returns:
+ * - SUCCESS upon success
+ */
+int draw_scene_graphics(scene_graphics_t* scene_graphics);
 
 #endif

@@ -2,9 +2,8 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "battle/battle_default_objects.h"
+#include "../../include/battle/battle_test_utility.h"
 
-//Battle Item Tests will be updated after the Battle Item Implementation Update.
 Test(battle_default_objects, default_consumables)
 {
     battle_item_t *test_item = get_random_default_consumable();
@@ -253,5 +252,3 @@ Test(battle_default_objects, default_moves)
         cr_assert_fail("get_random_default_move() did not set id correctly");
     }
 }
-
-//A test for get_random_stats with the new specialized stat will be added in the next pull.
