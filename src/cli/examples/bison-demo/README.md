@@ -15,7 +15,7 @@ This will put you into the interactive CLI interface that will communicate with 
 * open door
 * go north
 * go to the north
-* travel north (NEEDS TO BE IMPLEMENTED as of 5/30/2022 5pm)
+* travel north
 
 When trying to find a way to improve the CLI of chiventure, we thought that we couldtake the current in-house parsing and instead use a more robust parsing library.
 We decided on bison, as there aren't many C libraries and of the ones we tested we were actually able to get something working.
