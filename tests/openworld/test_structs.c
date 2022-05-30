@@ -555,17 +555,17 @@ Test(specgraph, correlation)
     cr_assert_eq(correlation2, 4, "failed to calculate correlation between spec1 and spec2\n");
     int correlation3=roomspec_correlation(specgraph, spec1, spec3);
     cr_assert_eq(correlation2, 5, "failed to calculate correlation between spec1 and spec3\n");      
-    int correlation4=roomspec_correlation(specgraph, spec1, spec1);
+    int correlation4=roomspec_correlation(specgraph, spec2, spec1);
     cr_assert_eq(correlation1, 0, "failed to calculate correlation between spec2 and spec1\n");
-    int correlation5=roomspec_correlation(specgraph, spec1, spec2);
+    int correlation5=roomspec_correlation(specgraph, spec2, spec2);
     cr_assert_eq(correlation2, 5, "failed to calculate correlation between spec2 and spec2\n");
-    int correlation6=roomspec_correlation(specgraph, spec1, spec3);
+    int correlation6=roomspec_correlation(specgraph, spec2, spec3);
     cr_assert_eq(correlation2, 3, "failed to calculate correlation between spec2 and spec3\n");      
-    int correlation7=roomspec_correlation(specgraph, spec1, spec1);
+    int correlation7=roomspec_correlation(specgraph, spec3, spec1);
     cr_assert_eq(correlation1, 4, "failed to calculate correlation between spec3 and spec1\n");
-    int correlation8=roomspec_correlation(specgraph, spec1, spec2);
+    int correlation8=roomspec_correlation(specgraph, spec3, spec2);
     cr_assert_eq(correlation2, 3, "failed to calculate correlation between spec3 and spec2\n");
-    int correlation9=roomspec_correlation(specgraph, spec1, spec3);
+    int correlation9=roomspec_correlation(specgraph, spec3, spec3);
     cr_assert_eq(correlation2, 5, "failed to calculate correlation between spec3 and spec3\n");      
 }
 
