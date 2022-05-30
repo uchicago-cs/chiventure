@@ -3,5 +3,5 @@ function foo(arg1, arg2)
     if arg1 == 'X' and arg2 == 'Y' then return 100 end
 
     result = arg1 + arg2
-    return arg1
+    return result
 end
