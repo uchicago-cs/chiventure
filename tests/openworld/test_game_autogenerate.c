@@ -52,7 +52,7 @@ Test(randomroom, random_first_room){
     cr_assert_eq(HASH_COUNT(game->all_rooms), 1, "all_rooms HASH_COUNT not equal to 1");
     cr_assert_eq(rc, SUCCESS, "failed to autogenerate a random first room\n");
 }
-
+/*
 Test(randomroom, random_room_from_game){
     game_t *game=game_new("New Game");
     roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
