@@ -679,7 +679,7 @@ Test(battle_logic, remove_item_of_multiple)
     battle->player = p;
 
     int res1 = use_battle_item(p, battle, i1);
-    remove_battle_item(i1);
+    remove_battle_item(p, i1);
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i2, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
