@@ -9,6 +9,7 @@
 #include "game-state/player.h"
 #include "quests/quests_hash.h"
 #include "quests/samples.h"
+#include "quests/quests_cli.h"
 
 /*see if get_quest_from_hash works with no quests in the hash and with quests in the hash */ 
 Test(quest,get_quest)
