@@ -50,44 +50,44 @@ char* flip_state(bool st)
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
-    data_t jack;
-    data_t dc;
+    /* Where custom_type comes into play, create a dynamic string (hold different values) depending
+    on what the user enters at the start of the game */
+    data_t jack, d1, d2;
+    data_t dc, di1, di2;
 
     object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/lua/demo.lua");
+    object_t *ot = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/examples/lua/gold.lua");
+    object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/lua/weight.lua");
    
+    char class_num;
+    int gold_num;
+
+    /* Read in User Input */
+    printf("Enter either 1 or 2 (1 for wizard class, 2 for warrior class): ");
+    scanf("%c", &class_num); 
+    printf("You receive a premonition... how much gold do you see in your future? ");
+    scanf("%i", &gold_num);  
 
     /* Create context */
-    char string_num;
-    printf("Enter either 1 or 2 (1 for wizard class, 2 for warrior class): ");
-    scanf("%c", &string_num); 
-    dc.c = string_num;
-    togay = obj_add_arg(togay,dc,CHAR_TYPE);
+    dc.c = class_num;
+    togay = obj_add_arg(togay, dc, CHAR_TYPE);
     char* custom_string = (char*)malloc(100);
     data_t temp = arg_t_get(togay);
     custom_string = temp.s;
 
-    /* Where custom_type comes into play, create a dynamic string (hold different values) depending
-    on what the user enters at the start of the game */
-    data_t d1, d2;
-    data_t di1, di2;
-
-    int string_num1;
-    printf("You receive a premonition... how much gold do you see in your future? ");
-    scanf("%i", &string_num1);  
-    object_t *ot = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/examples/lua/gold.lua");
-    di1.i = string_num1;
+    di1.i = gold_num;
     ot = obj_add_arg(ot, di1, INT_TYPE);
-    char* custom_string1 = (char*)malloc(500);
+    char* gold_string = (char*)malloc(500);
     temp = arg_t_get(ot);
-    custom_string1 = temp.s;
+    gold_string = temp.s;
     
-    int rand_weight = (string_num ? rand() % string_num : 0); // The more money you request, the less likely you are to obtain it
-    object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/lua/weight.lua");
+    int rand_weight = (gold_num ? rand() % gold_num : 0); // The more money you request, the less likely you are to obtain it
+    
     di2.i = rand_weight;
     ot2 = obj_add_arg(ot2, di2, INT_TYPE);
     char* custom_string2 = (char*)malloc(500);
-    data_t temp2 = arg_t_get(ot2);
-    custom_string2 = temp2.s; 
+    temp = arg_t_get(ot2);
+    custom_string2 = temp.s; 
 
     obj_t *obj_store = load_obj_store(custom_string);
     game_t *game = load_game(obj_store);
@@ -109,6 +109,7 @@ chiventure_ctx_t *create_sample_ctx()
     add_action(&torch, "LIGHT", flip_state(true), "The torch is broken!");
     add_action(&torch, "UNLIGHT", flip_state(false), "The torch is broken!");
 
+
     room_t *room2 = room_new("room_chest", "This is the chest room", "There is a chest in the middle of this room");
     add_room_to_game(game, room2);
     create_connection(game, "room_A", "room_chest", "WEST");
@@ -122,7 +123,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "SHAKE" with the chest.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(&chest, "SHAKE", custom_string1, "You have already shaken the box!");
+    add_action(&chest, "SHAKE", gold_string, "You have already shaken the box!");
 
     return ctx;
 }
