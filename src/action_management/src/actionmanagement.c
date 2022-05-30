@@ -404,10 +404,12 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             // TO BE IMPLEMENTED
         } else if (strcmp(target[0], "quests") == 0) {
             // retrieve quests from game
-            if(target[1] == NULL) {
                 string = show_quests(c_player);
-            }
+        } else if (strcmp(target[0], "quest") == 0) {
             // retrieve the task tree from a specific quest
+            if(target[1] == NULL) {
+                string = "Error: Please provide quest name";
+            }
             else {
                 string = show_task_tree(target[1], c_player,
                                c->game->all_quests);
