@@ -72,15 +72,8 @@ enum action_kind {
     struct list_action *next;
 } list_action_t;
 
-/* Each enum corresponds to a different object of the self action type.
-   e.g. The STATS in VIEW STATS*/
-typedef enum {
-    STATS = 1
-} self_action_object;
-
 /* Forward room declaration */
 typedef struct room room_t;
-
 
 /* An action struct that contains the following:
  * - c_name: the 'canonical' string that should call the enum
@@ -94,7 +87,6 @@ typedef struct {
     room_t *room;
     char *direction;
 } action_type_t;
-
 
 /* A linked list struct that contains two components
  * - act: the data component
