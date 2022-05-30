@@ -25,8 +25,6 @@
 /*See autogenerate.h*/
 int random_first_room(game_t* game){
 
-    
-    
     if(game==NULL){
         return FAILURE;
     }
@@ -38,16 +36,12 @@ int random_first_room(game_t* game){
     if(game->specgraph->num_roomspecs==NULL){
         return FAILURE;
     }
-
     
     // specgraph_t *specgraph = game->specgraph;
     int num_roomspecs=game->specgraph->num_roomspecs;
     int randomint=rand() % (num_roomspecs-1); 
-    /* 
     int count=0;
 
-
-    /*
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
     // think about value at stuff
@@ -56,13 +50,11 @@ int random_first_room(game_t* game){
     // int tag=newroomspec->tag;
 
     coords_t *coords=coords_new(0,0);
-    /*
     room_t *new_room = roomspec_to_room(newroomspec, coords);
 
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
     // free(new_room);
-    */
 
     return SUCCESS;
 }
