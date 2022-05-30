@@ -1,7 +1,6 @@
 #ifndef _ACTION_STRUCTS_H_
 #define _ACTION_STRUCTS_H_
 
-
 /* File consisting of all action structs created by action management
    =========================================================================== */
 
@@ -75,4 +74,4 @@ typedef struct list_act {
     struct list_act *next;
 } list_action_type_t;
 
-#endif
+#endif /* _ACTION_STRUCTS_H_ */

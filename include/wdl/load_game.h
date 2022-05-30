@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "wdl_common.h"
+#include "wdl/load_quests.h"
 
 /*
  * load_game, when passed libobj objects, will load into a game
@@ -58,8 +59,5 @@ void game_set_start(char *room_id, game_t *game);
  *  - none
  */ 
 void debug_print(game_t *game);
-
-
-
 
 #endif /* INCLUDE_LOAD_GAME_H */

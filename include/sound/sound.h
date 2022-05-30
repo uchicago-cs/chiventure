@@ -43,16 +43,19 @@ typedef union {
  * Parameters:
  *      type: enum SoundType
  *      name: name of the sound, 
- *            or more specifically, the path to a sound file.
+ *            or more specifically, the path to a sound file, in a string
  * Return:
  *      An allocated sound structure, with name and type
  */
 sound_t *sound_new(SoundType type, char name[]);
 
-/* Initializes the 
+/* Initializes the sound_t structure
  * 
  * Parameters:
- *      None
+ *      sound: struct sound_t, must be already allocated in the heap
+ *      type: enum SoundType
+ *      name: name of the sound, 
+ *            or more specifically, the path to a sound file, in a string
  * Return:
  *      An allocated sound structure, with name and type
  */
@@ -85,5 +88,20 @@ int sound_free(sound_type_t *soundType, sound_t *sound);
  *      0 on success 1 on failure
  */
 int play_sound(sound_t* sound, int delay);
+
+/*
+* simple function which stops any sound that is played
+*/
+void stop_sound();
+
+/*
+* simple function which pauses any sound that is played
+*/
+void pause_sound();
+
+/*
+* simple function which resumes any sound that is played
+*/
+void resume_sound();
 
 #endif /* INCLUDE_SOUND_H_ */
