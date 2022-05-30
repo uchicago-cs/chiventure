@@ -420,5 +420,23 @@ Test(custom_type, obj_t_get_str_lua_args)
     data_t got = arg_t_get(ot);
     char *rv = got.s;
     cr_assert_str_eq(rv, "Test passes!", "obj_t_get_int: failed string direct retrieval with %s", rv);
+}
 
-} 
+/**
+ * 
+ * 
+ */
+Test(custom_type, lua_three_args_diff_types)
+{
+    data.s = "";
+    data2.c = 'b';
+    data3.i = 25;
+    data4.b = false;
+
+    object_t *ot = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args.lua");
+
+    ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, INT_TYPE), data4, BOOL_TYPE);
+    data_t got = arg_t_get(ot);
+    int rv = got.i;
+    cr_assert_eq(rv, 199, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
+}
