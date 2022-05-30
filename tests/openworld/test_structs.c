@@ -515,6 +515,8 @@ Test(specgraph, free)
     cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
 }
 
+/* Tests the roomspec_correlation function to validate that it returns
+the correct values from the edges in the specgraph*/
 Test(specgraph, correlation)
 {
     roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
@@ -547,6 +549,7 @@ Test(specgraph, correlation)
     int correlation1=roomspec_correlation(specgraph, spec1, spec1);
     cr_assert_eq(correlation1, 5, "failed to calculate correlation between spec1 and spec1\n");
     int correlation2=roomspec_correlation(specgraph, spec1, spec2);
+    cr_assert_eq(correlation2, 4, "failed to calculate correlation between spec1 and spec2\n");    
 }
 
 /* Tests the roomlevel_new function to validate that a roomlevel
