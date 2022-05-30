@@ -247,7 +247,7 @@
         },
         "Steve's Lair": {
             "short_desc": "Steve's Lair",
-            "long_desc": "A dank cave, smelling of odd mosses and other gross substances, inhabited by Steve. \nYou can see the red glow of a KNIFE in the corner of the room.",
+            "long_desc": "A dark cave, smelling of odd mosses and other gross substances, inhabited by Steve. \nYou can see the red glow of a KNIFE in the corner of the room.",
             "connections":[
                 {"direction": "NORTH", "to": "Starting City"},
                 {"direction": "EAST", "to": "Steve's Sanctum"}
@@ -255,7 +255,7 @@
         },
         "Pirate Cove": {
             "short_desc": "A cove of pirates",
-            "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be the Pirate Captain. \n Near your feet is a scrap of parchment that appears to be some sort of PIRATE MAP.",
+            "long_desc": "The cove is inhabited by all sorts of pirates, lying about drunk. In the back, you can see what appears to be the Pirate Captain. \nNear your feet is a scrap of parchment that appears to be some sort of PIRATE MAP.",
             "connections":[
                 {"direction": "EAST", "to": "Starting City"}
             ]
