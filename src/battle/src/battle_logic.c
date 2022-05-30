@@ -126,11 +126,6 @@ int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item)
         consume_battle_item(c, item);
     }
     item->quantity -= 1;
-    if (item->quantity == 0)
-    {
-        remove_battle_item(c, item);
-    }
-    
     return SUCCESS;
 }
 
@@ -150,6 +145,7 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
             if (temp == c->items) // first item in the list
             {
                 c->items = temp->next;
+                c->items->prev = NULL;
             }
             else
             {

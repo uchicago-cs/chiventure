@@ -290,19 +290,15 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
     int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item);
     string = print_battle_item(ctx->game->battle, PLAYER, item);
     
-    
+    if (item->quantity <= 0)
+    {
+        remove_battle_item(ctx->game->battle->player, item);
+    }
     if (usage == FAILURE) 
     {
         snprintf(string, 150, "That item is Unavailable.\n");
         return string;
-    } 
-    /*
-    if(battle_over(b) == BATTLE_IN_PROGRESS)
-    {
-        char *res = enemy_make_move(ctx);
-        strncat(string, res, 150);
-        free(res);
-    }*/
+    }
     return string;
 }
 
@@ -414,12 +410,17 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
 {
     move_t *temp_move;
     battle_item_t *temp_item;
+<<<<<<< HEAD
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
     get_legal_actions(&legal_items, &legal_moves, 
                       ctx->game->battle_ctx->current_turn_tcl->current, 
                       ctx->game->battle_ctx->game->battle);
     if ((input[0] == 'M' || input[0] == 'm') & (legal_moves != NULL))
+=======
+    char *ret_string = (char*)calloc(1,BATTLE_BUFFER_SIZE*sizeof(char));
+    if (input[0] == 'M' || input[0] == 'm')
+>>>>>>> fd3a72b7ce0589feefbbf5c8da7a7cf6eaf41e2e
     {
         // take the index of the move, under the assumption that the list is less than 10 moves long
         int index = (int) (input[1] - 48);
@@ -429,10 +430,15 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
             //if (ctx->game->battle_ctx->game->player->moves == NULL)
             if (temp_move == NULL)
             {
+<<<<<<< HEAD
                 char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
                 int n;
                 n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "That move does not exist.\n");
                 return temp;
+=======
+                char tempstr[] = "That move does not exist.\n";
+                return strcat(ret_string, tempstr);
+>>>>>>> fd3a72b7ce0589feefbbf5c8da7a7cf6eaf41e2e
             }
             if (k == index-1)
             {
@@ -461,10 +467,15 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
         {
             if (temp_item == NULL)
             {
+<<<<<<< HEAD
                 char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
                 int n;
                 n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "That item does not exist.\n");
                 return temp;
+=======
+                char tempstr[] = "That item does not exist.\n";
+                return strcat(ret_string, tempstr);
+>>>>>>> fd3a72b7ce0589feefbbf5c8da7a7cf6eaf41e2e
             }
             if (k == index-1)
             {
@@ -486,6 +497,7 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
     }
     else if (input[0] == 'D' || input[0] == 'd') 
     {
+<<<<<<< HEAD
         char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
         int n;
         n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "You did nothing.\n");
@@ -495,6 +507,13 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
     int n;
     n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "That action does not exist.\n");
     return temp;
+=======
+        char tempstr[] = "You did nothing.\n";
+        return strcat(ret_string, tempstr);
+    } 
+    char tempstr[] = "That action does not exist.\n";
+    return strcat(ret_string, tempstr);
+>>>>>>> fd3a72b7ce0589feefbbf5c8da7a7cf6eaf41e2e
 }
 
 /* see battle_flow.h */

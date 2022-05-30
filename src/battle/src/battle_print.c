@@ -541,7 +541,7 @@ int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
   return menu;
 }*/
 
-char *print_battle_action_menu(battle_item_t *items, move_t *moves)
+char *print_battle_action_menu(battle_item_t *items, move_t *moves, battle_ctx_t *ctx)
 {
     
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
@@ -568,6 +568,12 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves)
         slen += n;
         menu_num++;
     }
+    if(ctx->current_turn_tcl->current->pass)
+    {
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "D  - Do nothing\n");
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+    }
+
     return string;
 }
     
