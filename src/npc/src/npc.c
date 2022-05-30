@@ -444,15 +444,19 @@ int change_npc_hostility(npc_t *npc, edge_t *edge)
     assert(npc != NULL);
     assert(edge != NULL);
 
-    switch (edge->tone)
+    if (npc->hostility_level != FRIENDLY)
     {
-        case POSITIVE: 
-            break;
-        case NEUTRAL: 
-            break;
-        case NEGATIVE: 
-            make_npc_hostile(npc);
-            break;
+        switch (edge->tone)
+        {
+            case POSITIVE: 
+                make_npc_cond_friendly(npc);
+                break;
+            case NEUTRAL:
+                break;
+            case NEGATIVE: 
+                make_npc_hostile(npc);
+                break;
+        }
     }
 
     return SUCCESS;

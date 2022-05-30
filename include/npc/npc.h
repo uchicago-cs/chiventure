@@ -33,7 +33,6 @@ typedef struct npc {
 
     /* pointer to existing convo struct; changed depending on whetehr
     npc has activated quest or task convo */
-
     convo_t *active_dialogue;
 
     /* pointer to an existing convo struct; for normal dialogue */

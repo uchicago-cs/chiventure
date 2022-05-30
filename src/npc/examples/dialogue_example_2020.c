@@ -26,7 +26,7 @@ int main()
     // Creating the nodes
     add_node(c, "1", "NPC: What do you want?", NEUTRAL);
     add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
-             "around and get outta my house. You can't come and go as you wish.", NEUTRAL);
+             "around and get outta my house. You can't come and go as you wish.", NEGATIVE);
     add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
              "around the place without consulting the owner!! Shouldn't I at "
              "least know who you are?!", NEUTRAL);
@@ -35,17 +35,17 @@ int main()
              "you hear the distinct click of a lock turning.", NEUTRAL);
     add_node(c, "3a", "NPC: Yes, well, just because the door's unlocked and I'm "
              "a bit messy don't make it public property. Now take off and leave, "
-             "or else I'm gonna force you to.", NEUTRAL);
+             "or else I'm gonna force you to.", NEGATIVE);
     add_node(c, "4", "As his arm flashes behind his back, the robber raises "
              "a knife to you.", NEUTRAL);
 
     // Adding the edges
-    add_edge(c, "I just want to talk.", "1", "2a", NULL, NEUTRAL);
+    add_edge(c, "I just want to talk.", "1", "2a", NULL, POSITIVE);
     add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL, NEUTRAL);
     add_edge(c, "<Leave>", "1", "2c", NULL, NEUTRAL);
     add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL, NEUTRAL);
     add_edge(c, "I'm not trying to take your home, I just thought it would be "
-             "a place to rest in some shade for a bit.", "2a", "3a", NULL, NEUTRAL);
+             "a place to rest in some shade for a bit.", "2a", "3a", NULL, POSITIVE);
     add_edge(c, "<Leave>", "2a", "2c", NULL, NEUTRAL);
     add_edge(c, "I'm Leo.", "2b", "2a", NULL, NEUTRAL);
     add_edge(c, "The owner? With the state of this place, I'd have pegged you "
