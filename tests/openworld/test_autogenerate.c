@@ -160,7 +160,7 @@ Test(autogenerate, room_exists_in_direction_false){
     coords_t *coords1=coords_new(0,0);
     coords_t *coords2=coords_new(1,0);    
     room_t *room1=roomspec_to_room(spec1, coords1);
-    room_t *room1=roomspec_to_room(spec2, coords2);
+    room_t *room2=roomspec_to_room(spec2, coords2);
 
     add_room_to_game(game, room1);
     add_room_to_game(game, room2);
