@@ -477,9 +477,9 @@ Test(custom_type, obj_t_get_str_lua_args)
     data2.s = "Testing functionality ";
     data3.s = "with special characters:\n ";
     data4.s = "!@#$^&*(";
-    object_t *ot4 = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args2.lua");
-    ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, STR_TYPE), data3, STR_TYPE), data4, STR_TYPE);
-    data_t got4 = arg_t_get(ot4);
-    char *rv4 = got4.s;
-    cr_assert_str_eq(rv4, "Testing functionality with special characters:\n !@#$^&*(", "obj_t_get_int: failed string direct retrieval with %s", rv4);
+    object_t *ot3 = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args2.lua");
+    ot3 = obj_add_arg(obj_add_arg(obj_add_arg(ot3, data2, STR_TYPE), data3, STR_TYPE), data4, STR_TYPE);
+    data_t got3 = arg_t_get(ot3);
+    char *rv3 = got3.s;
+    cr_assert_str_eq(rv3, "Testing functionality with special characters:\n !@#$^&*(", "obj_t_get_int: failed string direct retrieval with %s", rv3);
 }
