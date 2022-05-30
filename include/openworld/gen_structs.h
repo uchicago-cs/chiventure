@@ -1,3 +1,6 @@
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
+
 /* Team RPG-Openworld
 *
 * Gen-Structs header file
@@ -16,9 +19,6 @@
 #include <stdlib.h>
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
-
-#ifndef GEN_STRUCTS_H
-#define GEN_STRUCTS_H
 
 /* -- STRUCTS -- */
 
@@ -515,5 +515,4 @@ levelspec_t *levelspec_new(int num_thresholds, int *thresholds);
  */
 int levelspec_free(levelspec_t *levelspec);
 
-
-#endif
+#endif /* GEN_STRUCTS_H */

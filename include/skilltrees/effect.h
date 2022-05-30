@@ -191,4 +191,4 @@ int execute_item_attr_effect(item_attr_effect_t* item_attr_effect);
  */
 int execute_item_stat_effect(item_stat_effect_t* item_stat_effect);
 
-#endif /*INCLUDE_EFFECT_H*/
+#endif /* INCLUDE_EFFECT_H */
