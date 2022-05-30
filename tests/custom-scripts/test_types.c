@@ -363,6 +363,13 @@ Test(custom_type, obj_t_get_int_lua_args)
     data_t got3 = arg_t_get(ot3);
     int rv3 = got3.i;
     cr_assert_eq(rv3, 98, "obj_t_get_int 1: failed int direct retrieval with value %u", rv3);
+
+    object_t *ot4 = obj_t_init(data, INT_TYPE,
+        "../../../tests/custom-scripts/Lua_file/int_test_args.lua");
+    ot4 = obj_add_arg(obj_add_arg(ot3, data, INT_TYPE), data4, INT_TYPE);
+    data_t got4 = arg_t_get(ot4);
+    int rv4 = got4.i;
+    cr_assert_eq(rv3, 93, "obj_t_get_int 1: failed int direct retrieval with value %u", rv3);
 }
 
 /** 
