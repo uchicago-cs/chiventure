@@ -1,4 +1,4 @@
-set(CS_EXAMPLES demonstration loadwdl dark_room lost_order)
+set(CS_EXAMPLES demonstration loadwdl dark_room)
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})

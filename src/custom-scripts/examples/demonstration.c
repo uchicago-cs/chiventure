@@ -49,13 +49,6 @@ chiventure_ctx_t *create_sample_ctx()
     char string_num;
 
     printf("Enter either 1 or 2 (1 for non-caps, 2 for caps): ");
-<<<<<<< HEAD
-    scanf("%c", &string_num);  
-    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/dynamic_string.lua");
-    ot = obj_add_arg(ot, data, STR_TYPE);
-    char* custom_string = (char*)malloc(100);
-    custom_string = str_t_get(ot);
-=======
     scanf("%c", &string_num);
     object_t *ot = obj_t_init(data, STR_TYPE, "../../../../src/custom-scripts/examples/dynamic_string.lua");
     d.c = string_num;
@@ -63,7 +56,6 @@ chiventure_ctx_t *create_sample_ctx()
     char* custom_string = (char*)malloc(100);
     data_t res = arg_t_get(ot);
     custom_string = res.s;
->>>>>>> custom-scripts/update-old-demo
 
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */
