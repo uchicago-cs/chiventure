@@ -25,11 +25,10 @@
 #define MAX_RAND_ITEMS (100)
 
 /* random_first_room
-* given a specgraph struct, and a game struct, updates the 
-* game struct to include a random first room based on the specgraph
+* given a game struct, updates the game struct to include a random
+* first room based on the specgraph
 *
 * parameters:
-* - specgraph: A pointer to a specgraph_t. Should not be NULL.
 * - game_t* game: a pointer to the game struct that needs to be updated. Should not contain any rooms.
 *
 * returns:
