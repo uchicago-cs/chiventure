@@ -437,8 +437,8 @@ Test(custom_type, lua_three_args_diff_types)
 
     ot = obj_add_arg(ot, data2, CHAR_TYPE);
     data_t got = arg_t_get(ot);
-    int rv = got.i;
-    cr_assert_eq(rv, 25, "lua_three_args_diff_types: failed integer direct retrieval with %u", rv);
+    int rv = got.c;
+    cr_assert_eq(rv, 'b', "lua_three_args_diff_types: failed integer direct retrieval with %u", rv);
 }
 
 /**
