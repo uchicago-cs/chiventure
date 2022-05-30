@@ -146,9 +146,12 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "SHAKE" with the chest.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(&sword, "TAKE", "THIS IS SPARTA", "You cannot take this sword unless you are a warrior class");
-    add_action(&staff, "TAKE", "You're a wizard, Harry", "You cannot take this staff unless you are a wizard class");
-
+    if (class_num == 1 ){
+      add_action(&staff, "TAKE", "You're a wizard, Harry", "You cannot take this staff unless you are a wizard class");
+    }
+    else {
+      add_action(&sword, "TAKE", "THIS IS SPARTA", "You cannot take this sword unless you are a warrior class");
+    }
 
     return ctx;
 }
