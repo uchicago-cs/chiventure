@@ -484,6 +484,8 @@ Test(room, room_generate_success_zero){
     matrix[8]=5;
     int **edges=edges_new(matrix, 3, 3);
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+    game->specgraph = specgraph;
+
     random_first_room(game);
     
 //Test fails due to this line
