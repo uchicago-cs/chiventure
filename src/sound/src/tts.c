@@ -4,7 +4,7 @@
 
 espeak_AUDIO_OUTPUT output = AUDIO_OUTPUT_SYNCH_PLAYBACK;
 char *path = NULL;
-void* user_data;
+void *user_data;
 unsigned int *identifier;
 
 // malloc and fill a tts_t struct with the necessary data

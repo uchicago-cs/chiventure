@@ -17,13 +17,24 @@ typedef struct {
     int buflength; // The buffer length in ms of sound buffers
 } tts_t;
 
-// malloc and fill a tts_t struct with the necessary data
+/* malloc and fill a tts_t struct with the necessary data
+    Parameters:
+        voicename: the name of the speaker
+            important note: voicename is not arbitrary, pick from espeak --voices.
+        text: the content that will be read aloud
+        buflength: the length of sound buffers in ms
+    Output: a pointer to a tts struct which stores the given data */
 tts_t* init_tts(char* voicename, char* text, int buflength);
 
-// free the malloc'd components of a tts_t struct and the struct itself
+/* free the malloc'd components of a tts_t struct and the struct itself
+    Parameters: a pointer t to a tts_t struct
+    Output: N/A */
 void free_tts(tts_t* t);
 
-// use the espeak library to speak the text content of a tts_t struct
+/* use the espeak library to speak the text content of a tts_t struct
+    Parameters: a pointer t to a tts_t struct
+    Output: N/A */
+
 void speak(tts_t* t);
 
 #endif /* INCLUDE_TTS_H_ */
