@@ -151,6 +151,7 @@ typedef struct convo {
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) input strings are too long (assertion error);
  *    (2) a node with the same ID already exists; (3) memory allocation errors;
+ *  - tone: the tone of the dialogue; influences player hostility_level
  */
 int add_node(convo_t *c, char *node_id, char *npc_dialogue, tone_t tone);
 
@@ -403,6 +404,18 @@ node_action_t *node_action_new(node_action_type action, char *action_id);
  */
 int free_node_actions(node_action_t *action_lst);
 
+/*
+ * When a certain edge is reached in a conversation, the tone_t will change the
+ * NPC's hostility level
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - edge: the current (chosen) edge
+ * 
+ * Returns:
+ * - SUCCESS if successful, FAILURE if an error occurs
+*/
+int change_npc_hostility(npc_t *npc, edge_t *edge);
 
 
 #endif /* _DIALOGUE_H */
