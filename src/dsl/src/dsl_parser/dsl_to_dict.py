@@ -50,8 +50,6 @@ class TreeToDict(Transformer):
     action = trans.transform_action
 
     misplaced_property = trans.transform_misplaced
-
-    
     
     player_class = trans.transform_player_class
 
@@ -70,7 +68,7 @@ class TreeToDict(Transformer):
     skill_tree = trans.transform_skill_tree
     
     starting_skills = trans.transform_starting_skills
-
+    
     #for documentation of the below transformations, see simple_modifiers.py
 
     ESCAPED_STRING = mod.mod_ESCAPED_STRING

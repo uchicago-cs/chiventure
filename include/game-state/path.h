@@ -24,4 +24,4 @@ int add_path_to_hash(path_hash_t* all_paths, char* direction, path_t *path);
  */
 int delete_all_paths(path_hash_t* paths);
 
-#endif
+#endif /* _PATH_H */
