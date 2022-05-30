@@ -75,11 +75,3 @@ int npc_battle_free(npc_battle_t *npc_battle)
 
     return SUCCESS;
 }
-
-/* See npc_battle.h */
-int make_npc_hostile(npc_battle_t *npc_battle)
-{
-    assert(npc_battle != NULL);
-    npc_battle->hostility_level = HOSTILE;
-    return SUCCESS;
-}
