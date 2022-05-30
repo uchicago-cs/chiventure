@@ -149,12 +149,12 @@ Test(player, player_set_class)
   skill_t *wizardry = skill_new(1, ACTIVE, 
                             "wizardry", "wizardry test skill",
                             15, 200,
-                            NULL);
+                            NULL, NULL);
 
   skill_t *sorcery = skill_new(2, ACTIVE, 
                             "sorcery", "sorcery test skill",
                             15, 200,
-                            NULL);
+                            NULL, NULL);
 
 
   skill_inventory_t *skillinv = inventory_new(5, 5);
@@ -307,7 +307,7 @@ Test(player, add_item_to_player)
   player_t *player = player_new("1");
   item_t *new_item = item_new("test_item", "item for player testing",
                               "item for testing add_item_to_player");
-  item_t *dup_item = item_new("test_item", "item for player testing",
+  item_t *newer_item = item_new("newer_item", "item for player testing",
                               "item for testing add_item_to_player");
   add_item_to_player(player, new_item, ctx->game);
 
@@ -316,9 +316,9 @@ Test(player, add_item_to_player)
   cr_assert_not_null(player->inventory,
                       "add_item_to_player() failed to add item");
   
-  int rc = add_item_to_player(player, dup_item, ctx->game);
+  int rc = add_item_to_player(player, newer_item, ctx->game);
   cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to add "
-                "item with identical id");
+                "newer item");
   player_free(player);
 }
 
@@ -328,24 +328,24 @@ Test(player, remove_item_from_player)
   chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
   player_t *player = player_new("player");
   item_t *test_item = item_new("item", "short", "long");
-  item_t *dup_item = item_new("item", "short", "long");
+  item_t *newer_item = item_new("newer_item", "short", "long");
   item_list_t *item_list;
   int rc;
   
   rc = add_item_to_player(player, test_item, ctx->game);
   cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
                 "add an item to player");
-  rc = add_item_to_player(player, dup_item, ctx->game);
+  rc = add_item_to_player(player, newer_item, ctx->game);
   cr_assert_eq(rc, SUCCESS, "add_item_to_player failed to "
-                "add an item to player");
+                "add newer item to player");
   
   rc = remove_item_from_player(player, test_item);
   cr_assert_eq(rc, SUCCESS, "remove_item_from_player failed to "
-                "remove an item from player");
+                "remove test_item from player");
   
   item_list = get_all_items_in_inventory(player);
   cr_assert_not_null(item_list, "remove_item_from_player removed "
-                      "both identical items from player");
+                      "both items from player");
   player_free(player);
   item_free(test_item);
   delete_item_llist(item_list);
@@ -436,7 +436,7 @@ Test(player, add_skill_1)
     skill_t *wizardry = skill_new(1, ACTIVE, 
                                 "wizardry", "wizarding test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(wizardry, "skill_new() failed");
 
@@ -466,7 +466,7 @@ Test(player, add_skill_2)
     skill_t *cooking = skill_new(1, PASSIVE, 
                                 "cooking", "cooking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(cooking, "skill_new() failed");
 
@@ -500,12 +500,12 @@ Test(player, remove_skill_1)
     skill_t *wizardry = skill_new(1, ACTIVE, 
                                  "wizardry", "wizardry test skill",
                                  15, 200,
-                                 NULL);
+                                 NULL, NULL);
 
     skill_t *sorcery = skill_new(2, ACTIVE, 
                                 "sorcery", "sorcery test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(wizardry, "skill_new() failed");
     cr_assert_not_null(sorcery, "skill_new() failed");
@@ -552,11 +552,11 @@ Test(player, remove_skill_2)
     skill_t *cooking = skill_new(1, PASSIVE, 
                                 "cooking", "cooking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
     skill_t *baking = skill_new(2, PASSIVE, 
                                 "baking", "baking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(cooking, "skill_new() failed");
     cr_assert_not_null(baking, "skill_new() failed");
@@ -599,12 +599,12 @@ Test(player, has_skill_1)
     skill_t *wizardry = skill_new(1, ACTIVE, 
                                 "wizardry", "wizardry test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     skill_t *sorcery = skill_new(2, ACTIVE, 
                                 "sorcery", "sorcery test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(wizardry, "skill_new() failed");
     cr_assert_not_null(sorcery, "skill_new() failed");
@@ -652,11 +652,11 @@ Test(player, has_skill_2)
     skill_t *cooking = skill_new(1, PASSIVE, 
                                 "cooking", "cooking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
     skill_t *baking = skill_new(2, PASSIVE, 
                                 "baking", "baking test skill",
                                 15, 200,
-                                NULL);
+                                NULL, NULL);
 
     cr_assert_not_null(cooking, "skill_new() failed");
     cr_assert_not_null(baking, "skill_new() failed");

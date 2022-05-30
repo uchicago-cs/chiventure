@@ -39,6 +39,11 @@ class_t* class_prefab_new(game_t* game, char* class_name);
  * Returns:
  *  - status code (FAILURE if the given class or skill is NULL, SUCCESS otherwise.)
  *  - the structs in the class now contain skills.
+ *
+ * Notes:
+ *  - This function is not fully implemented, as we are waiting for the skill
+ *    effects to be more fully developed. However, the warrior class does work,
+ *    as a proof of concept.
  */
 int class_prefab_add_skills(class_t* class);
 

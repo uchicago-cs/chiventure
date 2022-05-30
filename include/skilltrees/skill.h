@@ -18,14 +18,16 @@
  *  - desc: The description of the skill
  *  - max_level: The maximum level to which the skill can be upgraded
  *  - min_xp: The minimum number of experience points needed to level up
- *  - effect: The skill effect
- *
+ *  - effect: The skill effect; no skill means put NULL
+ *  - complex_skill: designates the type of complex skill the skill is; 
+ *                   if it's not one, then NULL
+ * 
  * Returns:
  *  - A pointer to the skill, or NULL if a skill cannot be allocated
  */
 skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
                    unsigned int max_level, unsigned int min_xp,
-                   effect_t*  skill_effect);
+                   effect_t*  skill_effect, complex_skill_t* complex_skill);
 
 /*
  * Initializes a skill.
@@ -48,7 +50,7 @@ skill_t* skill_new(sid_t sid, skill_type_t type, char* name, char* desc,
 int skill_init(skill_t* skill, sid_t sid, skill_type_t type, char* name,
                char* desc, unsigned int level, unsigned int xp,
                unsigned int max_level, unsigned int min_xp,
-               effect_t* skill_effect);
+               effect_t* skill_effect, complex_skill_t* complex_skill);
 
 /*
  * Frees the resources associated with a skill.
