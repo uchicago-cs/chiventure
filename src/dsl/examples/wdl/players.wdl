@@ -63,12 +63,12 @@
       },
       "base_stats": {
         "health": {
-          "CURRENT": "100",
-          "MAX": "200"
+          "CURRENT": 100,
+          "MAX": 200
         },
         "mana": {
-          "CURRENT": "20",
-          "MAX": "100"
+          "CURRENT": 20,
+          "MAX": 100
         }
       }
     }

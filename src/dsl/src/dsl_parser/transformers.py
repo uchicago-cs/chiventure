@@ -168,7 +168,7 @@ def transform_stat(self, s: list[tuple[str, int]]) -> tuple[dict]:
         if t == "CURRENT" or t == "MAX":
             last = t
         else:
-            d[last] = t
+            d[last] = int(t)
     return(d)
 
 def transform_misplaced(self, s: list[Token]) -> str:
