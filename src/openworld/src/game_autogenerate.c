@@ -39,14 +39,14 @@ int random_first_room(game_t* game){
         return FAILURE;
     }
 
-    /*
+    
     // specgraph_t *specgraph = game->specgraph;
     int num_roomspecs=game->specgraph->num_roomspecs;
     int randomint=rand() % (num_roomspecs-1);  
     int count=0;
 
 
-    
+    /*
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
     // think about value at stuff
