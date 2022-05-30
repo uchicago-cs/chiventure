@@ -5,8 +5,9 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "npc/dialogue.h"
+#include "sound/tts.h"
 
-const char *banner = "THIS IS A SOUND EXAMPLE PROGRAM";
+const char *banner = "CHIVENTURE SOUND";
 
 // load audio
 // this is where the implementation of adding sound will go
@@ -21,19 +22,27 @@ chiventure_ctx_t *create_sample_game()
     npc_t *friend = npc_new("friend", "short", "long", NULL, NULL, 0);
     room_t *convo_room = room_new("convo room", "This is the conversation room","Welcome to the conversation room!");
     
+
     add_room_to_game(game, convo_room);
     add_player_to_game(game, p);
     add_npc_to_game(game, friend);
+    add_npc_to_room(convo_room->npcs, friend);
 
     game->curr_room = convo_room;
     game->curr_player = p;
     game->mode = game_mode_new(NORMAL, NULL, "friend");
 
-    add_npc_to_room(convo_room->npcs, friend);
 
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+
+    return ctx;
+}
+
+char *run_conversation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
     // Creating a conversation between a player and npc, where the npc's responses will be played with tts
     convo_t *c1 = convo_new();
-    add_node(c1, "1", "How are you doing today?");
+    add_node(c1, "1", "Welcome to Chiventure! How are you doing today?");
     add_node(c1, "2a", "Great!. Do you like the chiventure game?");
     add_node(c1, "3a", "Awesome! The sound team wishes you good luck.");
     add_node(c1, "3b", "We hope we can change your mind!");
@@ -49,62 +58,73 @@ chiventure_ctx_t *create_sample_game()
     int rc = -1;
     int player_response;
     char *ret_str;
+    
+    tts_t* t = init_tts("English", 5000);
 
-    printf("Friend:\n");
+    print_to_cli(ctx, "Friend:\n");
     while (rc != 1)
     {
         if (rc < 0) {
-            ret_str = start_conversation(c1, &rc, game);
+            ret_str = start_conversation(c1, &rc, ctx->game);
         } else {
-            ret_str = run_conversation_step(c1, player_response, &rc, game);
+            ret_str = run_conversation_step(c1, player_response, &rc, ctx->game);
         }
+        
+        print_to_cli(ctx, ret_str);       
+        // text to speech 
+        speak(t, ret_str);
 
-        printf("%s", ret_str);
+        
         
         if (rc != 1){
             scanf("%d", &player_response);
         }
         
-        printf("\n");
+        print_to_cli(ctx,"\n");
         free(ret_str);
     }
 
     rc = -1;
 
-    printf("Friend: (again)\n");
+    print_to_cli(ctx, "Friend: (again)\n");
     while (rc != 1)
     {
         if (rc < 0) {
-            ret_str = start_conversation(c1, &rc, game);
+            ret_str = start_conversation(c1, &rc, ctx->game);
+
         } else {
-            ret_str = run_conversation_step(c1, player_response, &rc, game);
+            ret_str = run_conversation_step(c1, player_response, &rc, ctx->game);
         }
 
-        printf("%s", ret_str);
+        print_to_cli(ctx, ret_str);
+        
+        // text to speech
+        speak(t, ret_str);
+        
 
         if (rc != 1){
             scanf("%d", &player_response);
         }
 
-        printf("\n");
+        print_to_cli(ctx, "\n");
         free(ret_str);
     }
     
     convo_free(c1);
-    
-    // create context
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+    free_tts(t);
+    return "end of convo";
 
-    return ctx;
 }
 
-int main() {
-    chiventure_ctx_t *ctx = create_sample_ctx();
 
-    // sound operations
-    // this is where sound will be
+int main() {
+    chiventure_ctx_t *ctx = create_sample_game();
+
+    add_entry("look_at_friend", run_conversation, NULL, ctx->cli_ctx->table);
 
     start_ui(ctx, banner);
+
+    
 
     game_free(ctx->game);
 
