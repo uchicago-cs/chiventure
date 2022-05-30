@@ -244,6 +244,17 @@ char *get_sdesc_npc(npc_t *npc);
  */
 char *get_ldesc_npc(npc_t *npc);
 
+/* Function to return an item in an NPC's inventory given the item_id
+ *
+ * Parameters:
+ *  npc: the npc
+ *  item_id: the item_id of the item that you want to be returned
+ *
+ * Returns:
+ *  a pointer to the item that matches the input item_id, or NULL if nonexistent
+ */
+ item_t *get_item_from_npc(npc_t *npc, char *item_id);
+
 /*
  * Function to get a hashtable (uthash) of all items in the npc's inventory.
  *
@@ -336,6 +347,26 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  *  SUCCESS if successful, FAILURE if an error occurred.
  */
 int remove_item_from_npc(npc_t *npc, item_t *item);
+
+/* Removes/Deletes all items in an NPCs inventory
+ * 
+ * Parameters:
+ *  npc: the npc whose inventory we're deleting
+ *
+ * Returns:
+ * SUCCESS upon completion
+ */
+int delete_all_items_from_npc(npc_t *npc);
+
+/* Deletes and frees all items in an NPC's inventory
+ * 
+ * Parameters:
+ *  npc: the npc whose inventory we're deleting and freeing
+ *
+ * Returns:
+ *  SUCCESS upon completion
+ */
+int free_all_items_from_npc(npc_t *npc);
 
 /*
  * Adds the given convo to the given npc's standard_dialogue
