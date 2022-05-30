@@ -406,6 +406,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             } 
             else {
                  string = display_skill_description(c_player->player_class->skilltree, target[1]); 
+            }
         } else if (strcmp(target[0], "quests") == 0) {
             // retrieve quests from game
                 string = show_quests(c_player);
