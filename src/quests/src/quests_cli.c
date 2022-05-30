@@ -471,6 +471,9 @@ char *show_task_tree(char* quest_id, player_t *player, quest_hash_t *all_quests)
     // Initializes task and tree line matricies
     int height = get_task_tree_height(quest->task_tree);
     int line_width = get_task_tree_line_width(quest->task_tree);
+    if(height == 0 && line_width == 0) {
+        return strdup("Error: This quest has no tasks!");
+    }
     int width = (int) pow(line_width, height);
     task_t ***task_matrix = malloc(height * sizeof(task_t***));
     int **tree_line_matrix = malloc(height * sizeof(int *));
