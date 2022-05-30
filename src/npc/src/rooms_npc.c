@@ -5,11 +5,7 @@ int npcs_in_room_init(npcs_in_room_t *npcs_in_room, char* room_id)
 {
     assert(npcs_in_room != NULL);
     strncpy(npcs_in_room->room_id, room_id, MAX_ID_LEN);
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> dev
     npc_hash_t *npcs = NULL;
     npcs_in_room->npc_list = npcs;
     npcs_in_room->num_of_npcs = 0;
@@ -92,7 +88,4 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 
     return SUCCESS;
 }
-<<<<<<< HEAD
-=======
 
->>>>>>> dev
