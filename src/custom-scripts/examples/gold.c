@@ -28,22 +28,29 @@ chiventure_ctx_t *create_sample_ctx()
     add_item_to_room(room1, chest_item);
     agent_t chest = (agent_t){.item = chest_item, .npc = NULL};
 
+
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
        on what the user enters at the start of the game */
+    data_t d1, d2;
+    data_t di1, di2;
+
     int string_num;
     printf("You receive a premonition... how much gold do you see in your future?\n");
     scanf("%i", &string_num);  
-    object_t *ot = obj_t_str("", "../../../../src/custom-scripts/examples/lua/gold.lua");
-    ot = obj_add_arg_int(ot, string_num);
+    object_t *ot = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/examples/gold.lua");
+    di1.i = string_num;
+    ot = obj_add_arg(ot, di1, INT_TYPE);
     char* custom_string = (char*)malloc(500);
-    custom_string = str_t_get(ot);
+    data_t temp = arg_t_get(ot);
+    custom_string = temp.s;
     
     int rand_weight = (string_num ? rand() % string_num : 0); // The more money you request, the less likely you are to obtain it
     object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/weight.lua");
     di2.i = rand_weight;
     ot2 = obj_add_arg(ot2, di2, INT_TYPE);
     char* custom_string2 = (char*)malloc(500);
-    custom_string2 = str_t_get(ot2); 
+    data_t temp2 = arg_t_get(ot2);
+    custom_string2 = temp2.s; 
 
     if (custom_string2[0] != 'f') {
       custom_string = custom_string2;
