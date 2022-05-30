@@ -42,7 +42,20 @@ char *print_start_battle(battle_t *b);
  char *print_battle_move(battle_t *b, turn_t turn, move_t *move);
 
 /*
- * Stores the message to be printed at the end of a move in the return
+ * Stores the message to be printed at the end of an item use in the return
+ * string. The message varies based off whether it is the battle_player or enemy move.
+ *
+ * Parameters:
+ *  - b = pointer to the battle
+ *  - turn = whose turn it is for this item use
+ *  - item = pointer to the item just used
+ *
+ * Returns:
+ *  - malloced string with the message about the recent item use
+ */
+char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item);
+ 
+ /* Stores the message to be printed at the end of a move in the return
  * string that has missed. The message varies based off whether it is 
  * the battle_player or enemy move.
  *
@@ -109,6 +122,17 @@ char *print_start_turn(battle_t* b);
  */ 
 int *print_battle_items(battle_t *b, char *string);
 
+/* Concatenates a string of a full detail of the given
+ * battle item, including its full stat changes, description,
+ * and quantity.
+ * Parameter:
+ *  - item = pointer to the specific battle item
+ *  - string = the string the list will be concatenated to
+ * Returns:
+ *  SUCCESS if it succeeds
+ */ 
+int *print_battle_item_details(battle_item_t *item, char *string);
+
 /* Returns a string for the avaliable moves for the player
  * Parameter:
  *  - b = pointer to the battle
@@ -126,13 +150,14 @@ char *print_moves(battle_t *b, char* moves);
   *  - b = pointer to the battle
   *  - string = the string to which the hp will be printed to
   *  - turn = the current turn
+  *  - crit = the crit damage modifier
   *  - move = the move that is used
   *
   * Returns:
   *  - SUCCESS if successfully stored message about damage, FAILURE otherwise
   *
   */
-int print_battle_damage(battle_t *b, turn_t turn, move_t *move, char *string);
+int print_battle_damage(battle_t *b, turn_t turn, move_t *move, double crit, char *string);
 
  /*
   * Stores a message about all stat changes to a previously allocated string.
@@ -167,4 +192,17 @@ int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string
   *
   */
 int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char *string);
- #endif
+
+/* Creates a string that shows a labeled menu of the avaliable actions for the player
+ * based on the given moves and items
+ * Parameters:
+ *  - battle: pointer to the battle
+ *  - items: a linked list of available items
+ *  - moves: a linked list of available moves
+ * Returns:
+ *  A string containing the labeled menu items
+ */ 
+char *print_battle_action_menu(battle_item_t *items, move_t *moves);
+
+ #endif /* BATTLE_PRINT_H */
+ 

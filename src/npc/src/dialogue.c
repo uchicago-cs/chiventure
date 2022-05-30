@@ -1,6 +1,5 @@
 #include "npc/dialogue.h"
 
-
 /**********************************************
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
@@ -198,8 +197,13 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
 }
 
 /* See dialogue.h */
+<<<<<<< HEAD
 edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions,
                  tone_t tone)
+=======
+edge_t *edge_new(char *quip, node_t *from, node_t *to, 
+                condition_t *conditions, tone_t tone)
+>>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
 {
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;

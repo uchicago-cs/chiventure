@@ -13,6 +13,12 @@
 #include "common/common.h"
 #include "common/utlist.h"
 #include "npc/npc.h"
+#include "npc/npc_battle.h"
+#include "cli/cli_ctx.h"
+#include "common/ctx.h"
+#include "ui/print_functions.h"
+#include "cli/operations.h"
+#include "ui/ui.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs
@@ -80,6 +86,16 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy,
 int calculate_accuracy(int user_accuracy, int move_accuracy);
 
 /*
+ * Calculates Critical Damage
+ *
+ * Parameters:
+ * - crit_chance : the crit chance of the user using the move
+ *
+ * returns: the critical damage multiplier
+ */
+ double crit_modifier(int crit_chance);
+ 
+/*
  * Carries out one iteration of the battle flow loop when a move is used
  *     This includes:
  *         - receiving battle_player's move
@@ -132,6 +148,19 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item);
 char *battle_flow_list(battle_ctx_t *ctx, char* label);
 
 /*
+ * runs the enemy's turn (each turn component)
+ * for now, the ai only knows how to make moves. if it can't
+ * make a move, it passes.
+ * 
+ * Parameters: 
+ *  - ctx: current chiventure battle context
+ * 
+ * Returns:
+ *  - A string consisting of the output from the enemy's turn
+ */
+char *enemy_run_turn(battle_ctx_t *ctx);
+
+/*
  * Helper function for battle_flow functions
  * Allows the enemy to make their move
  * This includes:
@@ -147,16 +176,33 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label);
  */
 char *enemy_make_move(battle_ctx_t *ctx);
 
-/*
- * Applies stat changes to a target.
+/* Runs a turn component, which includes allowing user to choose their action,
+ * using the action, and reporting results
  * 
- * Parameters: 
- *  - changes: the stat changes
- *  - target_stats: the stats to be changes
+ * Parameters:
+ * - ctx: the current chiventure context
+ * - component: the turn component being run
+ * - callback_func: pointer to a callback function
+ * - callback_args: additional arguments to callback function
+ *
  * Returns:
- *  - Always success
+ * - returns int 1 if everything runs smoothly,
+ *   or calls callback function if invalid input
  */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
+int run_turn_component(chiventure_ctx_t *ctx, turn_component_t *component,
+                        void *callback_args, cli_callback callback_func);
+
+
+/* Runs the action chosen
+ *
+ * Parameters:
+ * - ctx: the current chiventure context
+ * - input: the player's input
+ *
+ * Returns:
+ * - returns the string that is the result of the action
+ */
+char *run_action(char *input, chiventure_ctx_t *ctx);
 
 /*
  * Uses a stat changing move. Works for stat changes
@@ -172,4 +218,4 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
 
 
-#endif
+#endif /* BATTLE_FLOW_H */

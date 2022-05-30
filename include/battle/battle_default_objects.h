@@ -23,6 +23,45 @@
 int randnum(int min, int max);
 
 /*
+ * Generates a random battle weapon from a list of previously-initialized moves
+ *
+ * parameters: none
+ * Returns:
+ * -a pointer to a default battle weapon
+ */
+battle_item_t *get_random_offensive_item();
+
+/* 
+ * Generates a random piece of weapon equipment from a previously-initialized 
+ * list.
+ *
+ * Parameters: None
+ * Returns:
+ *  - a pointer to the weapon
+ */
+battle_equipment_t *get_random_equip_weapon();
+
+/* 
+ * Generates a piece of armor equipment from a previously-initialized 
+ * list.
+ *
+ * Parameters: None
+ * Returns:
+ *  - a pointer to the armor
+ */
+battle_equipment_t *get_random_equip_armor();
+
+/* 
+ * Generates a piece of accessory equipment from a previously-initialized 
+ * list.
+ *
+ * Parameters: None
+ * Returns:
+ *  - a pointer to the accessory
+ */
+battle_equipment_t *get_random_equip_accessory();
+
+/*
  * Generates a random consumable item from a list of previously-initialized consumables
  *
  * Parameters: none
@@ -30,15 +69,6 @@ int randnum(int min, int max);
  * - a pointer to a default item
  */
 battle_item_t *get_random_default_consumable();
-
-/*
- * Generates a random battle weapon from a list of previously-initialized moves
- * 
- * parameters: none
- * Returns:
- * -a pointer to a default battle weapon
- */
-battle_item_t *get_random_default_weapon(); 
 
 /*
  * Generates a random move from a list of previously-initialized moves
@@ -58,4 +88,4 @@ move_t *get_random_default_move();
  */
 stat_t* get_random_stat();
 
-#endif
+#endif /* BATTLE_DEFAULT_OBJECTS_H */

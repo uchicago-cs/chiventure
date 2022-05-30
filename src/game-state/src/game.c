@@ -21,6 +21,22 @@ game_t *game_new(char *desc)
 
     /* read from the file using interface from WDL team */
 
+    room_hash_t *rooms = NULL;
+    item_hash_t *items = NULL;
+    quest_hash_t *quests = NULL;
+    npc_hash_t *npcs = NULL;
+    stats_global_hash_t *stats = NULL;
+    effects_global_hash_t *effects = NULL;
+    class_hash_t *classes = NULL;
+
+    game->all_rooms = rooms;
+    game->all_items = items;
+    game->all_quests = quests;
+    game->all_npcs = npcs;
+    game->curr_stats = stats;
+    game->all_effects = effects;
+    game->all_classes = classes;
+
     return game;
 }
 
@@ -112,7 +128,7 @@ int add_final_room_to_game(game_t *game, room_t *final_room)
 }
 
 /* See game.h */
-quest_t *get_quest(game_t* game, char *quest_id)
+quest_t *get_quest(game_t *game, char *quest_id)
 {
     return get_quest_from_hash(quest_id, game->all_quests);
 }
@@ -219,7 +235,7 @@ bool is_game_over(game_t *game)
 }
 
 /* See game.h */
-int create_connection(game_t *game, char* src_room, char* to_room,
+int create_connection(game_t *game, char *src_room, char *to_room,
                       char* direction)
 {
     room_t *src = find_room_from_game(game, src_room);
@@ -257,7 +273,7 @@ player_t *get_player(game_t *game, char *player_id)
 }
 
 /* See game.h */
-room_t *find_room_from_game(game_t *game, char* room_id)
+room_t *find_room_from_game(game_t *game, char *room_id)
 {
     char *room_id_case = case_insensitized_string(room_id);
     room_t *r;
@@ -305,6 +321,14 @@ int move_room(game_t *game, room_t *new_room)
     {
         return FAILURE;
     }
+
+    // Update quests on room transition
+    for(player_hash_t *cur = game->all_players; cur != NULL; cur = cur->hh.next) {
+        cur->crnt_room = new_room->room_id;
+        quest_ctx_t *qctx = quest_ctx_new(cur, game->all_quests);
+        update_player_quests(qctx);
+    }
+
     if(new_room == game->final_room)
     {
         game->curr_room = new_room;
@@ -323,7 +347,7 @@ int move_room(game_t *game, room_t *new_room)
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
-int delete_all_items_from_game(item_hash_t* all_items)
+int delete_all_items_from_game(item_hash_t *all_items)
 {
     item_t *current_item, *tmp;
     HASH_ITER(hh_all_items, all_items, current_item, tmp)
@@ -385,6 +409,16 @@ int delete_room_llist(room_list_t *head)
 }
 
 /* See game.h */
+int add_item_to_player(player_t *player, item_t *item, game_t *game)
+{
+    int rc = add_item_to_player_without_checks(player, item);
+    quest_ctx_t *qctx = quest_ctx_new(player, game->all_quests);
+    update_player_quests(qctx);
+    quest_ctx_free(qctx);
+    return rc;
+}
+
+/* See game.h */
 item_list_t *get_all_items_in_game(game_t *game)
 {
     item_list_t *head;
@@ -395,11 +429,12 @@ item_list_t *get_all_items_in_game(game_t *game)
 }
 
 /* see game.h */
-int add_effect(game_t *game, char* action_name, char* item_src_name,
-               char* item_modify_name, char* attribute_name, attribute_value_t new_value)
+int add_effect(game_t *game, char *action_name, char *item_src_name,
+               char *item_modify_name, char *attribute_name, attribute_value_t *new_value)
 {
-
     item_t *item_src = get_item_from_game(game, item_src_name);
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = item_src;
     if(item_src == NULL)
     {
         return ITEM_SRC_NULL;
@@ -409,7 +444,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     {
         return ITEM_MODIFY_NULL;
     }
-    game_action_t *action = get_action(item_src, action_name);
+    game_action_t *action = get_action(agent, action_name);
     if(action == NULL)
     {
         return ACTION_NULL;
@@ -419,7 +454,7 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
     {
         return ATTRIBUTE_NULL;
     }
-    int check = add_action_effect(action, item_src, attribute, new_value);
+    int check = add_action_effect(action, agent->item, attribute, new_value);
 
     return check;
 }
@@ -461,23 +496,28 @@ int add_condition(game_t *game, game_action_t *action, condition_t *condition)
 int do_node_actions(node_t *n, game_t *game)
 {
     node_action_t *cur_action = n->actions;
+    npc_t *npc;
+    item_t *item;
 
     while (cur_action != NULL)
     {
-
         switch(cur_action->action)
         {
-
         case GIVE_ITEM:
-            ;
-            npc_t *npc = get_npc_in_room(game->curr_room,
-                                         game->mode->mode_ctx);
-            item_t *item = get_item_in_hash(npc->inventory,
-                                            cur_action->action_id);
-            if (item == NULL) return FAILURE;
-            if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
-            if (add_item_to_player(game->curr_player, item) != SUCCESS)
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            item = get_item_from_npc(npc, cur_action->action_id);
+            if (item == NULL) 
+            {
                 return FAILURE;
+            }
+            if (remove_item_from_npc(npc, item) != SUCCESS)
+            {
+                return FAILURE;
+            }
+            if (add_item_to_player(game->curr_player, item, game) != SUCCESS)
+            {
+                return FAILURE;
+            }
             break;
 
         case TAKE_ITEM:
@@ -719,3 +759,4 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     return ret_str;
 }
+

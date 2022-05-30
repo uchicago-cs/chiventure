@@ -110,7 +110,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     option = atoi(parsed_input[0]);
 
     npc_t *npc = get_npc(ctx->game, ctx->game->mode->mode_ctx);
-    num_options = npc->dialogue->cur_node->num_edges;
+    num_options = npc->active_dialogue->cur_node->num_edges;
 
     if ((option <= 0) || (option > num_options) || 
         parsed_input[1] != NULL) 
@@ -119,7 +119,8 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     }
 
     int end_convo;
-    char *outstring = run_conversation_step(npc->dialogue, option, &end_convo, ctx->game);
+    char *outstring = run_conversation_step(npc->active_dialogue, option,
+                                            &end_convo, ctx->game);
 
     assert(end_convo != -1); //checking for conversation error
 
@@ -146,60 +147,54 @@ int run_battle_mode (char *input, cli_callback callback_func,
     {
         return FAILURE;
     }
-
-    char *string;    
     int rc;
-    battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
-
-    if (strcmp(parsed_input[0], "use") == 0) 
+    turn_component_list_t *buffer;
+    turn_component_list_t *tcl_buffer = ctx->game->battle_ctx->tcl;
+    DL_FOREACH(tcl_buffer, buffer)
     {
-        input += 4;
-        move_t *move = find_player_move(battle_ctx, input);
-
-        if (move == NULL) {
-            return callback_func(ctx, "That Move does not exist.", callback_args);
-        }
-
-        string = battle_flow_move(battle_ctx, move, battle_ctx->game->battle->enemy->name);
-
-    } else if (strcmp(parsed_input[0], "consume") == 0)
-    {
-        char *stringed_input = calloc(100, sizeof(char));
-        for (int i = 1; parsed_input[i] != NULL; i++) 
+        char *output = run_action(input, ctx);
+        buffer = buffer->next;
+        if (buffer != NULL)
         {
-            strncat(stringed_input, parsed_input[i], 100);
-            strncat(stringed_input, " ", 100);
+            if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)
+            {
+                move_t *legal_moves = NULL;
+                battle_item_t *legal_items = NULL;
+                get_legal_actions(legal_items, legal_moves, buffer->current, 
+                            ctx->game->battle_ctx->game->battle);
+                char *menu = print_battle_action_menu(legal_items, legal_moves);
+                char *output_and_menu = strcat(output, menu);
+                ctx->game->battle_ctx->game->battle->current_tc = buffer->current;
+                return callback_func(ctx, output_and_menu, callback_args);
+            }
+            else
+            {
+                char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
+                char *output_and_battle_over = strcat(output, battle_over);
+                callback_func(ctx, battle_over, callback_args);
+                free(battle_over);
+                rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+                return SUCCESS;
+            }
         }
-
-        battle_item_t *item = find_battle_item(battle_ctx->game->player->items, stringed_input);
-        free(stringed_input);
-
-        if (item == NULL) 
+        else 
         {
-            return callback_func(ctx, "That Item does not exist.", callback_args);
+            if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)
+            {
+                char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
+                char *output_and_enemy_turn = strcat(output, enemy_turn);
+                return callback_func(ctx, output_and_enemy_turn, callback_args);
+            }
+            else 
+            {
+                char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
+                char *output_and_battle_over = strcat(output, battle_over);
+                callback_func(ctx, battle_over, callback_args);
+                free(battle_over);
+                rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+                return SUCCESS;
+            }
         }
-        string = battle_flow_item(battle_ctx, item);
-
-    } else if (strcmp(parsed_input[0], "list") == 0)
-    {
-        string = battle_flow_list(battle_ctx, parsed_input[1]);
-
-    } else 
-    {
-        return callback_func(ctx, "Enter a valid battle command.", callback_args);
     }
-
-    callback_func(ctx, string, callback_args);
-    free(string);
-
-    if (battle_ctx->status != BATTLE_IN_PROGRESS) 
-    {
-        char *battle_over = print_battle_winner (battle_ctx->status, 42);
-        callback_func(ctx, battle_over, callback_args);
-        free(battle_over);
-        
-        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
-    }
-
-    return SUCCESS;
 }
+

@@ -1,3 +1,6 @@
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
+
 /* Team RPG-Openworld
 *
 * Gen-Structs header file
@@ -16,9 +19,6 @@
 #include <stdlib.h>
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
-
-#ifndef GEN_STRUCTS_H
-#define GEN_STRUCTS_H
 
 /* -- STRUCTS -- */
 
@@ -51,6 +51,7 @@ typedef struct itemspec itemspec_hash_t;
 * - char *short_desc: short description for room
 * - char *long_desc: long description for room
 * - int num_built: how many rooms of this type have been already built. An identifier.
+* - int tag: reference to the roomspecs positioning in specgraph list of roomspecs
 * - item_hash_t *items: hash table of items in room
 * - UT_hash_handle hh: hash handle for room spec
 */
@@ -59,6 +60,7 @@ typedef struct roomspec {
     char *short_desc;
     char *long_desc;
     int num_built;
+    int tag;
     item_hash_t *items;
     itemspec_hash_t *itemspecs;
     UT_hash_handle hh;
@@ -72,7 +74,8 @@ typedef struct roomspec rspec_hash_t;
  * The struct contains:
  * - int num_roomspecs: The number of different roomspecs available in the game
  * - roomspec_t roomspecs: list of pointers to roomspecs corresponding to each node on specgraph
- * - int **edges: Edges of graph representing the relationship between each roomspec (i.e. the adjacency matrix).
+ * - int **edges: This is a pointer to a 2D array containing the information about the edges of the graph.
+ *                Edges of graph represent the relationship between each roomspec (i.e. the adjacency matrix).
  *                These values will range from 0-5 and will be used to determine, for a room generated using the  
  *                room_autogenerate function, the probability that the roomspec associated with the newly generated 
  *                room will be a given roomspec. Thus, the higher the number, the more likely rooms of those roomspec 
@@ -257,13 +260,15 @@ int itemspec_free(itemspec_t *itemspec);
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Does not affect itemspec hash. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
+* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag);
 
 /* roomspec_new
 * Creates a new roomspec_t* based off the given parameters.
@@ -273,13 +278,15 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
-*
+* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
+* 
 * returns:
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
 */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag);
 
 /* roomspec_free
 * Frees a roomspec_t* and returns whether or not it was succesful.
@@ -293,6 +300,48 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
 */
 int roomspec_free(roomspec_t *spec);
 
+/* edges_init
+* Initializes an edges struct within a specgraph struct based on given parameters
+*
+* parameters:
+* - edges: The pointer to the 2D array of edges to be initialized
+* - inp_array: 1D array of edges that will be used for initialized the 2D array
+* - num_rows: Number of rows in the 2D array
+* - num_cols: Number of columns in the 2D array
+*
+* returns:
+* SUCCESS - for SUCCESS
+* FAILURE - if failed to intialize
+*/
+int edges_init(int** edges, int* inp_array, int num_rows, int num_cols);
+
+/* edges_new
+* Creates a new edges 2D array based off the given parameters.
+*
+* parameters:
+* - inp: 1D array of integers containing the edges (Should be length num_rows * num_cols)
+* - num_rows: Number of rows in the output 2d array of edges
+* - num_cols: Number of columns in the output 2d array of edges
+*
+* returns:
+* roomspec_t *roomspecnew - the new roomspec
+* NULL - if fails to create a new roomspec.
+*/
+int** edges_new(int* inp, int num_rows, int num_cols);
+
+/* edges_free
+* Frees a edges* and returns whether or not it was succesful.
+*
+* parameters:
+* - edges: edges** that we are attempting to free
+* - num_rows: Number of rows in edges 2D array
+*
+* returns:
+* SUCCESS - for SUCCESS
+* FAILURE - if failed to free
+*/
+int edges_free(int** edges, int num_rows);
+
 /* SPECGRAPH */
 
 /* init_specgraph
@@ -303,7 +352,7 @@ int roomspec_free(roomspec_t *spec);
 * - specgraph_t *specgraph: the pointer to the specgraph_t we are initializing
 * - int num_roomspecs: the number of roomspecs in the graph
 * - roomspec_t **roomspecs: An array of pointers to the roomspecs 
-* - int **edges: A 2D array representing the weights in the adjacency matrix
+* - int **edges: A pointer to a 2D array representing the weights in the adjacency matrix
 *
 * returns:
 * SUCCESS - for SUCCESS
@@ -317,7 +366,7 @@ int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **rooms
 * parameters:
 * - int num_roomspecs: the number of roomspecs in the graph
 * - roomspec_t **roomspecs: An array of pointers to the roomspecs 
-* - int **edges: A 2D array representing the weights in the adjacency matrix
+* - int **edges: A pointer to a 2D array representing the weights in the adjacency matrix
 *
 * returns:
 * specgraph_t *specgraph = the new specgraph
@@ -455,5 +504,4 @@ levelspec_t *levelspec_new(int num_thresholds, int *thresholds);
  */
 int levelspec_free(levelspec_t *levelspec);
 
-
-#endif
+#endif /* GEN_STRUCTS_H */
