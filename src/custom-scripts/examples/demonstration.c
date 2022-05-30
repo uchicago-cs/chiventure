@@ -51,7 +51,6 @@ chiventure_ctx_t *create_sample_ctx()
     data_t res = arg_t_get(ot);
     custom_string = res.s;
 
-
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */
     add_action(&rock, "TASTE", custom_string, "It has a gravel-ey bouquet.");
