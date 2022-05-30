@@ -434,3 +434,4 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     }
     return SUCCESS;
 }
+

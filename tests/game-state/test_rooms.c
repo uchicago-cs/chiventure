@@ -172,7 +172,7 @@ Test(room_item, remove_item_from_room)
 
     item_list = get_all_items_in_room(room);
     cr_assert_null(item_list, "there are still items left in room");
-  
+
     room_free(room);
     item_free(test_item);
     delete_item_llist(item_list);

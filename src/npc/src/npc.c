@@ -427,3 +427,4 @@ int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc) {
     npc->active_dialogue = npc->standard_dialogue;
     return SUCCESS;
 }
+

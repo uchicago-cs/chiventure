@@ -695,8 +695,17 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "This person has nothing to say.";
     }
-    char *str = start_conversation(npc->active_dialogue, &rc, ctx->game);
-    
+
+    if (npc->hostility_level != FRIENDLY && get_npc_hp(npc) == 0)
+    {
+        char *rt;
+        sprintf(rt, "You've defeated %s, they aren't really able to talk right now.", npc->npc_id);
+        return rt;
+    }
+
+    set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+
+    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
 
     assert(rc != -1); //checking for conversation error
 
