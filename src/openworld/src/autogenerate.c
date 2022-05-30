@@ -219,7 +219,7 @@ int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_cur
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
                   char *direction_to_curr, char *direction_to_new)
 {
-    return 0;
+    // return 0;
     /* Find coords of new room */
     int x=curr->coords->x;
     int y=curr->coords->y;
