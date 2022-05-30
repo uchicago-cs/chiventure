@@ -543,4 +543,4 @@ int delete_single_global_effect(effects_global_t *effect,
  */
 int delete_all_global_effects(effects_global_hash_t *effects);
 
-#endif /* _STATS_H */
+#endif

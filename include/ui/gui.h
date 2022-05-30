@@ -21,4 +21,4 @@
  */
 void run_gui(chiventure_ctx_t *ctx);
 
-#endif /* GUI_H */
+#endif

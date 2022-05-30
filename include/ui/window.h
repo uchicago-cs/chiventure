@@ -1,3 +1,4 @@
+
 #ifndef WINDOW_H
 #define WINDOW_H
 
@@ -74,4 +75,6 @@ int window_free(window_t *win);
  */
 void window_print(chiventure_ctx_t *ctx, window_t *win, int *retval);
 
-#endif /* WINDOW_H */
+
+
+#endif

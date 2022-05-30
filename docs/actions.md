@@ -79,7 +79,7 @@ have no exceptions.
         - [name of action]:
             - conditions:
             - set:
-                - :
+                - object:
                   attribute:
                   value:
             - text_fail:

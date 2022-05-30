@@ -19,4 +19,4 @@
  */
 int build_moves(combatant_t *c);
 
-#endif /* BATTLE_MOVE_MAKER_H */
+#endif

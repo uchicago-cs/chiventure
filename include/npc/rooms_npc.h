@@ -93,4 +93,4 @@ int add_npc_to_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
  */
 int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc);
 
-#endif /* _ROOMS_NPC_H */
+#endif

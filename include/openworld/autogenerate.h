@@ -319,3 +319,5 @@ int multi_room_level_generate(game_t *game, specgraph_t *specgraph,
                               levelspec_t *levelspec);
                       
 #endif /* INCLUDE_AUTOGENERATE_H */
+
+

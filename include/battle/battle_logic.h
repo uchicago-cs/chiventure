@@ -180,4 +180,5 @@ battle_player_t *player_to_battle_player(player_t *player, stat_t *b_stats,
                                         battle_equipment_t *accessory,
                                         battle_equipment_t *armor);
 
-#endif /* BATTLE_LOGIC_H */
+#endif
+

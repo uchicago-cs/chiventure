@@ -218,4 +218,5 @@ char *run_action(char *input, chiventure_ctx_t *ctx);
 int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source);
 
 
-#endif /* BATTLE_FLOW_H */
+
+#endif

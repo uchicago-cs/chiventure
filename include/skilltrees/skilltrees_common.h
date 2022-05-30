@@ -125,44 +125,6 @@ typedef struct complex_skill{
 
 } complex_skill_t;
 
-/* Random Chance complex type */
-typedef struct random_chance_type {
-    //Complex skills struct, type must be RANDOM_CHANCE
-    complex_skill_t* complex_skill;
-
-    // chance of failure of this skill
-    float chance_failure;
-
-} random_chance_type_t;
-
-/* Random Range complex type */
-typedef struct random_range_type {
-    //Complex skills struct, type must be RANDOM_RANGE
-    complex_skill_t* complex_skill;
-
-    // lower bound of values
-    int lower_bound;
-
-    // upper bound of values
-    int upper_bound;
-
-} random_range_type_t;
-
-/* Random Switch complex type */
-typedef struct random_switch_type {
-    //Complex skills struct, type must be RANDOM_SWITCH
-    complex_skill_t* complex_skill;
-
-    //Array of percentages for each subskill
-    // e.g. if there were three subskills and each had an equal chance of being 
-    //      used, this should be an array with chances 0.33, 0.33, 0.33
-    float* chances;
-
-    // Length of chances array
-    int chances_len;
-
-} random_switch_type_t;
-
 /* ======================== */
 /* === COMMON FUNCTIONS === */
 /* ======================== */
@@ -180,7 +142,7 @@ typedef struct random_switch_type {
 void** array_element_add(void** array, unsigned int array_len, void* element);
 
 /*
- * A helper function. Searches an array of skills for a given skill, by sid_t.
+ * A helper function. Searches a list of skills for a given skill, by sid_t.
  *
  * Parameters:
  *  - list: The skill array

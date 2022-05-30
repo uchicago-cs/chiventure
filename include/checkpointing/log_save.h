@@ -1,6 +1,3 @@
-#ifndef _LOG_SAVE_H
-#define _LOG_SAVE_H
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -66,5 +63,3 @@ Logs *logs_add(Logs *logs, Log *log);
  * Return: 0 if SUCCESS, -1 OTHERWISE
  */
 int checkpointing_log_int(Logs *logs, char *level, char *level_id, char *member, int old_value, int new_value);
-
-#endif /* _LOG_SAVE_H */

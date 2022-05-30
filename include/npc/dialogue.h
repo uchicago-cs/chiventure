@@ -387,4 +387,4 @@ int free_node_actions(node_action_t *action_lst);
 
 
 
-#endif /* _DIALOGUE_H */
+#endif /* DIALOGUE_H */

@@ -21,4 +21,5 @@
  */
 condition_t *build_conditions(obj_t *conditions_obj, game_t *g);
 
+
 #endif /* INCLUDE_LOAD_CONDITION_H */

@@ -41,4 +41,4 @@
 //Macros for quests
 #define QUEST_NAME_MAX_LEN 44
 
-#endif /* _GAME_STATE_COMMON_H */
+#endif

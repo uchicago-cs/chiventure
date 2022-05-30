@@ -76,4 +76,4 @@ void print_map(chiventure_ctx_t *ctx, window_t *win, int *retval);
  */
 int print_to_cli(chiventure_ctx_t *ctx, char *str);
 
-#endif /* PRINT_FUNCTIONS_H */
+#endif

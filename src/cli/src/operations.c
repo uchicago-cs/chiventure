@@ -670,17 +670,13 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "No one by that name wants to talk.";
     }
-    
-    quest_ctx_t *qctx = quest_ctx_new(ctx->game->curr_player, ctx->game->all_quests);
-    set_proper_dialogue(qctx, npc);
-    quest_ctx_free(qctx);
-    
-    if (npc->active_dialogue == NULL)
+
+    if (npc->dialogue == NULL)
     {
         return "This person has nothing to say.";
     }
-    char *str = start_conversation(npc->active_dialogue, &rc, ctx->game);
-    
+
+    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
 
     assert(rc != -1); //checking for conversation error
 

@@ -1,26 +1,6 @@
 #include "common/uthash.h"
 #include "sound/sound.h"
 
-/* See sound.h for details */
-sound_t *sound_new(SoundType type, char name[])
-{
-    sound_t *sound = (sound_t*)malloc(sizeof(sound_t));
-    sound->wavBuffer = (uint8_t*)malloc(sizeof(uint8_t));
-    sound_init(sound, type, name);
-    return sound;
-}
-
-/* See sound.h for details */
-int sound_init(sound_t *sound, SoundType type, char name[])
-{
-    sound->type = type;
-    sound->name = name;
-    if (sound->name == NULL) {
-        printf("the name is not allocated\n");
-        return 1;
-    }
-    return 0;
-}
 
 /* See sound.h for details */
 sound_type_t *load_wav(sound_t *sound)
@@ -72,17 +52,11 @@ int sound_free(sound_type_t *soundType, sound_t *sound)
     else if (sound->type == BACKGROUND)
     {
         Mix_FreeMusic(soundType->backgroundSound); // frees resources assocateed with the music
-        free(sound->name);
-        free(sound->wavBuffer);
-        free(sound);
         return 1;
     }
     else if (sound->type == SOUND_EFFECT)
     {
         Mix_FreeChunk(soundType->soundEffect); // frees resources assocateed with the sound effect
-        free(sound->name);
-        free(sound->wavBuffer);
-        free(sound);
         return 1;
     }
     return 0;

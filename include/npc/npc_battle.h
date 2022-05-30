@@ -108,4 +108,4 @@ npc_battle_t *npc_battle_new(stat_t* stats, move_t* moves,
  */
 int npc_battle_free(npc_battle_t *npc_battle);
 
-#endif /* _NPC_BATTLE_H */
+#endif

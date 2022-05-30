@@ -610,4 +610,4 @@ char list_get_char_attr(attribute_list_t *head, char* attr_name);
  */
 bool list_get_bool_attr(attribute_list_t *head, char* attr_name);
 
-#endif /* _ITEM_H */
+#endif

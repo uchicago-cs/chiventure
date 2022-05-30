@@ -192,6 +192,7 @@ int print_stat_changes_move(battle_t *b, turn_t turn, move_t *move, char *string
   *
   */
 int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char *string);
+ #endif
 
 /* Creates a string that shows a labeled menu of the avaliable actions for the player
  * based on the given moves and items
@@ -203,6 +204,3 @@ int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes , char 
  *  A string containing the labeled menu items
  */ 
 char *print_battle_action_menu(battle_item_t *items, move_t *moves);
-
- #endif /* BATTLE_PRINT_H */
- 

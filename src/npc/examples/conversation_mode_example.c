@@ -100,7 +100,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     int rc;
     npc_t *npc = get_npc(ctx->game, npc_id);
 
-    char* str = start_conversation(npc->active_dialogue, &rc, ctx->game);
+    char* str = start_conversation(npc->dialogue, &rc, ctx->game);
 
     if (!rc)
     {

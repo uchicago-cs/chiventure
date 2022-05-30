@@ -68,4 +68,4 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game);
  */
 int chiventure_ctx_free(chiventure_ctx_t *ctx);
 
-#endif /* CHIVENTURE_CHIVENTURE_H */
+#endif //CHIVENTURE_CHIVENTURE_H

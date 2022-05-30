@@ -155,10 +155,6 @@ int action_type_check(obj_t *obj);
 
 int npc_type_check(obj_t *obj);
 
-int npc_task_type_check(obj_t *obj);
-
-int npc_quest_type_check(obj_t *obj);
-
 int inventory_type_check(obj_t *obj);
 
 int dialogue_type_check(obj_t *obj);

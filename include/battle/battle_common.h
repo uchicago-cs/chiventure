@@ -96,4 +96,4 @@ typedef struct battle
     turn_component_t *current_tc;
 } battle_t;
 
-#endif /* BATTLE_COMMON_H */
+#endif

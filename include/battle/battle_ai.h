@@ -47,4 +47,4 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy);
  *      damage - the damage dealt     */
 int damage(combatant_t* target, move_t* move, combatant_t* source);
 
-#endif /* BATTLE_AI_H */
+#endif

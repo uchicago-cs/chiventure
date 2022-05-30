@@ -74,4 +74,4 @@ int map_refresh(chiventure_ctx_t *ctx, int x, int y, int z);
  */
 int map_center_on(chiventure_ctx_t *ctx, int x, int y, int z);
 
-#endif /* MAP_H */
+#endif

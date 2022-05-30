@@ -246,4 +246,4 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
  */
 int move_npc_mov(npc_mov_t *npc_mov);
 
-#endif /* _NPC_MOVE_H */
+#endif

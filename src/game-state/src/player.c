@@ -96,7 +96,6 @@ player_t* player_new(char *player_id)
     player->inventory = NULL;
 
     player->crnt_room = "";
-    player->crnt_npc = "";
 
     return player;
 }

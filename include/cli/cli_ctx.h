@@ -42,4 +42,7 @@ cli_ctx_t *cli_ctx_new();
  */
 int free_cli_ctx(cli_ctx_t *cli_ctx);
 
-#endif /* CLI_CTX_H */
+
+
+
+#endif
