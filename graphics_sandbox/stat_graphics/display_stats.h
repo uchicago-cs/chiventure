@@ -71,8 +71,33 @@ typedef struct pop_up {
  *   and then a function to translate that information as input
  *   (into an array on on-screen_stats) for graphics purposes
  */
-screen_stats_t* set_screen_stats(int ulx, int uly, int lrx, int lry, int num_stats, on_screen_stat *stats);
+screen_stats_t* new_screen_stats(int ulx, int uly, int lrx, int lry, int num_stats, on_screen_stat *stats);
 
+/* 
+ * Initializes a screen_stats struct
+ *
+ * Parameters:
+ * - Pointer to a screen_stats_t struct
+ * - Screen coordinates of the display (upper left and lower right x, upper 
+ *   left and lower right y
+ * - The stats to be displayed on screen as specified in the WDL file
+ * - the number of stats on screen
+ *
+ * Returns:
+ * - SUCCESS upon SUCCESS
+ */
+int init_screen_stats(screen_stats_t *screen,int ulx, int uly, int lrx, int lry, int num_stats, on_screen_stat *stats);
+
+/*
+ * Frees a screen_stats struct
+ *
+ * Parameters:
+ * - Pointer to a screen_stats_t struct
+ *
+ * Returns:
+ * - SUCCESS upon SUCCESS
+ */
+int free_screen_stats(screen_stats_t *screen);
 
 /*
  * Displays stats on screen
