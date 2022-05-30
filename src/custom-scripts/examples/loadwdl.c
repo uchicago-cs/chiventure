@@ -28,11 +28,7 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 chiventure_ctx_t *create_sample_ctx()
 {
 
-    lua_State *L = luaL_newstate();
-    luaL_openlibs(L);
-    luaL_dofile(L, "demo.lua");
-
-    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/lua/demo-wizard.wdl");
+    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/wdl/demo-wizard.wdl");
     game_t *game = load_game(obj_store);
 
     /* Create context */
