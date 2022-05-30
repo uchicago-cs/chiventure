@@ -57,19 +57,19 @@ chiventure_ctx_t *create_sample_ctx()
        on what the user enters at the start of the game */
     char* name;
     printf("Please enter your name: ");
-    scanf("%s", &name);  
+    scanf("%s", name);  
     
-    object_t *ot1 = obj_t_str("", "../../../../src/custom-scripts/sandbox/lost_order.lua");
+    object_t *ot1 = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/sandbox/lost_order.lua");
     ot1 = obj_add_arg_str(obj_add_arg_str(ot1, name), "McDonalds");
     char* custom_string1 = (char*)malloc(300);
     custom_string1 = str_t_get(ot1);
 
-    object_t *ot2 = obj_t_str("", "../../../../src/custom-scripts/sandbox/lost_order.lua");
+    object_t *ot2 = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/sandbox/lost_order.lua");
     ot2 = obj_add_arg_str(obj_add_arg_str(ot2, name), "Wingstop");
     char* custom_string2 = (char*)malloc(300);
     custom_string2 = str_t_get(ot2);
 
-    object_t *ot3 = obj_t_str("", "../../../../src/custom-scripts/sandbox/lost_order.lua");
+    object_t *ot3 = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/sandbox/lost_order.lua");
     ot3 = obj_add_arg_str(obj_add_arg_str(ot3, name), "Subway");
     char* custom_string3 = (char*)malloc(300);
     custom_string3 = str_t_get(ot3);

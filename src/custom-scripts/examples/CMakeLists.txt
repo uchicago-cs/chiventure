@@ -1,4 +1,4 @@
-set(CS_EXAMPLES loadwdl gold)
+set(CS_EXAMPLES loadwdl gold lost_order)
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
