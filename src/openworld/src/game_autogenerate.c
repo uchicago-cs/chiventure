@@ -32,10 +32,6 @@ int random_first_room(game_t* game){
     if(game->specgraph==NULL){
         return FAILURE;
     }
-
-    if(game->specgraph->num_roomspecs==NULL){
-        return FAILURE;
-    }
     
     // specgraph_t *specgraph = game->specgraph;
     int num_roomspecs=game->specgraph->num_roomspecs;
@@ -100,7 +96,7 @@ room_t* random_room_from_game(game_t* game){
         key_count = 0;
         curr_id = curr->room_id;
         while(curr_id[count] != '\0'){
-            keys[key_count][count] = curr[count];
+            keys[key_count][count] = curr_id[count];
             count++;
         }
         key_count++;
