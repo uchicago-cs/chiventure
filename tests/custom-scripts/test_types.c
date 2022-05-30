@@ -443,4 +443,14 @@ Test(custom_type, obj_t_get_str_lua_args)
     data_t got2 = arg_t_get(ot2);
     char *rv2 = got2.s;
     cr_assert_str_eq(rv2, "One more test!", "obj_t_get_int: failed string direct retrieval with %s", rv2);
+
+    data.s = "";
+    data2.s = "Will it ";
+    data3.s = "work with ";
+    data4.s = "three args?";
+    object_t *ot3 = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args2.lua");
+    ot3 = obj_add_arg(obj_add_arg(obj_add_arg(ot3, data2, STR_TYPE), data3, STR_TYPE), data4, STR_TYPE);
+    data_t got3 = arg_t_get(ot3);
+    char *rv3 = got3.s;
+    cr_assert_str_eq(rv3, "Will it work with three args?", "obj_t_get_int: failed string direct retrieval with %s", rv3);
 }
