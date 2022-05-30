@@ -82,30 +82,19 @@ char *get_ldesc_item(item_t *item)
 /* See item.h */
 int add_item_to_hash(item_hash_t **ht, item_t *new_item)
 {
-    item_t *check, *itr;
-    
-    HASH_FIND(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN), check);
-    
-    LL_FOREACH(check, itr)
+    assert(new_item != NULL);
+    item_t *tmp;
+    char *id = case_insensitized_string(new_item->item_id);
+    HASH_FIND(hh, *ht, id, strlen(id), tmp);
+    if (tmp == NULL)
     {
-        if (itr == new_item)
-        {
-            /* Same memory address */
-            return FAILURE;
-        }
+        HASH_ADD_KEYPTR(hh, *ht, id, strlen(id), new_item);
+        return SUCCESS;
     }
-
-    if (check != NULL)
+    else
     {
-        /* Same item id, not same memory address */
-        HASH_DEL(*ht, check);
-        new_item->next = check;
+        return FAILURE; // Hash tables should not contain duplicate items
     }
-    
-    HASH_ADD_KEYPTR(hh, *ht, new_item->item_id, strnlen(new_item->item_id, MAX_ID_LEN),
-                    new_item);
-
-    return SUCCESS;
 }
 
 /* See item.h */

@@ -500,17 +500,17 @@ int do_node_actions(node_t *n, game_t *game)
     item_t *item;
     while (cur_action != NULL)
     {
-
         switch(cur_action->action)
         {
-
         case GIVE_ITEM:
             npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
             item = get_item_from_npc(npc, cur_action->action_id);
             if (item == NULL) return FAILURE;
             if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
             if (add_item_to_player(game->curr_player, item, game) != SUCCESS)
+            {
                 return FAILURE;
+            }
             break;
 
         case TAKE_ITEM:

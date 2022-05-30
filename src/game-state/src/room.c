@@ -20,6 +20,9 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
     item_hash_t *items = NULL;
     new_room->items = items;
 
+    item_hash_t *head = NULL;
+    new_room->items = head;
+
     new_room->npcs = npcs_in_room_new(room_id);
 
     return SUCCESS;
