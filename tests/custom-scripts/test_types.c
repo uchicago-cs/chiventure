@@ -278,10 +278,10 @@ Test(custom_type, obj_t_get_bool_lua_args)
     cr_assert_eq((rv3 ? 1 : 0), 0, "bool_t_get 3: failed bool Lua retrieval");
 
     object_t *ot4 = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
-    ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data, BOOL_TYPE), data2, BOOL_TYPE), data, BOOL_TYPE);
+    ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, BOOL_TYPE), data2, BOOL_TYPE), data, BOOL_TYPE);
     data_t got4 = arg_t_get(ot4);
     bool rv4 = got4.b;
-    cr_assert_eq((rv4 ? 1 : 0), 0, "bool_t_get 4: failed bool Lua retrieval");
+    cr_assert_eq((rv4 ? 1 : 0), 1, "bool_t_get 4: failed bool Lua retrieval");
 }
 
 /** 
