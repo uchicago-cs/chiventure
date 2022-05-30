@@ -64,29 +64,7 @@
                     "text_fail": "You cannot take this chair"
                 }
             ]
-        },
-        "SWORD": {
-            "short_desc": "This is a sword",
-            "long_desc": "This is a sword for a warrior",
-            "in": "room_A",
-            "actions": [
-                {
-                    "action": "PUSH",
-                    "text_success": "You push the sword",
-                    "text_fail": "You cannot push this sword"
-                },
-                {
-                    "action": "PULL",
-                    "text_success": "You pull the sword",
-                    "text_fail": "You cannot pull this sword"
-                },
-                {
-                    "action": "TAKE",
-                    "text_success": "THIS IS SPARTA",
-                    "text_fail": "You cannot take this sword unless you are a warrior class"
-                }
-            ]
-        },
+        }
         "BORJA": {
             "short_desc": "This is the evil king",
             "long_desc": "This is the evil king Borja",

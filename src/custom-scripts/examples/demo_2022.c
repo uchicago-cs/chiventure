@@ -85,7 +85,7 @@ chiventure_ctx_t *create_sample_ctx()
     gold_string = temp.s;
 
     /* The more money you request, the less likely you are to obtain it */
-    di2.i = rand_weight = (gold_num ? rand() % gold_num : 0); 
+    di2.i = (gold_num ? rand() % gold_num : 0); 
     ot2 = obj_add_arg(ot2, di2, INT_TYPE);
     char* custom_string2 = (char*)malloc(500);
     temp = arg_t_get(ot2);
@@ -127,6 +127,28 @@ chiventure_ctx_t *create_sample_ctx()
     /* Associate action "SHAKE" with the chest.
      * It has no conditions, so it should succeed unconditionally. */
     add_action(&chest, "SHAKE", gold_string, "You have already shaken the box!");
+
+    /* Create the chest room */
+    room_t *room3 = room_new("room_items", "This is the chest room", "There is a sword and a staff in the middle of this room");
+    add_room_to_game(game, room3);
+    create_connection(game, "room_A", "room_items", "EAST");
+    create_connection(game, "room_items", "room_A", "WEST");
+
+    /* Create a sword in the items room */
+    item_t *sword_item = item_new("SWORD", "This is a sword", "This is a sword for a warrior");
+    add_item_to_room(room3, sword_item);
+    agent_t sword = (agent_t){.item = sword_item, .npc = NULL};
+
+    /* Create a staff in the items room */
+    item_t *staff_item = item_new("STAFF","This is a staff", "This is a staff for a wizard");
+    add_item_to_room(room3, staff_item);
+    agent_t staff = (agent_t){.item = staff_item, .npc = NULL};
+
+    /* Associate action "SHAKE" with the chest.
+     * It has no conditions, so it should succeed unconditionally. */
+    add_action(&sword, "TAKE", "THIS IS SPARTA", "You cannot take this sword unless you are a warrior class");
+    add_action(&staff, "TAKE", "You're a wizard, Harry", "You cannot take this staff unless you are a wizard class");
+
 
     return ctx;
 }

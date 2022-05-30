@@ -65,28 +65,6 @@
                 }
             ]
         },
-        "STAFF": {
-            "short_desc": "This is a staff",
-            "long_desc": "This is a staff for a wizard",
-            "in": "room_A",
-            "actions": [
-                {
-                    "action": "PUSH",
-                    "text_success": "You push the staff",
-                    "text_fail": "You cannot push this staff"
-                },
-                {
-                    "action": "PULL",
-                    "text_success": "You pull the staff",
-                    "text_fail": "You cannot pull this staff"
-                },
-                {
-                    "action": "TAKE",
-                    "text_success": "You're a wizard, Harry",
-                    "text_fail": "You cannot take this staff unless you are a wizard class"
-                }
-            ]
-        },
         "BORJA": {
             "short_desc": "This is the evil king",
             "long_desc": "This is the evil king Borja",
