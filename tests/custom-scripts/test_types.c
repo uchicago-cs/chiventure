@@ -328,7 +328,7 @@ Test(custom_type, obj_t_get_char_lua_args)
     cr_assert_eq(rv3, 'e', "obj_t_get_char: failed char direct retrieval");
 
     object_t *ot4 = obj_t_init(data, CHAR_TYPE, 
-        "../../../tests/custom-scripts/Lua_file/char_test_more_args.lua");
+        "../../../tests/custom-scripts/Lua_file/char_test_args.lua");
     ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, CHAR_TYPE), data4, CHAR_TYPE), data3, CHAR_TYPE);
     data_t got4 = arg_t_get(ot4);
     char rv4 = got4.c;
