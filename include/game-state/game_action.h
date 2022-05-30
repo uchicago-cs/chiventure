@@ -224,4 +224,4 @@ int do_effect(game_action_effect_t *effect);
 game_action_effect_t *effect_new(item_t *item_to_modify, 
 				 attribute_t *attribute, attribute_value_t *new_value);
 
-#endif
+#endif /* _GAME_ACTION_H */
