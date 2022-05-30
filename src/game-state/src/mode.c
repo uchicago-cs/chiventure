@@ -110,7 +110,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     option = atoi(parsed_input[0]);
 
     npc_t *npc = get_npc(ctx->game, ctx->game->mode->mode_ctx);
-    num_options = npc->dialogue->cur_node->num_edges;
+    num_options = npc->active_dialogue->cur_node->num_edges;
 
     if ((option <= 0) || (option > num_options) || 
         parsed_input[1] != NULL) 
@@ -119,7 +119,8 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     }
 
     int end_convo;
-    char *outstring = run_conversation_step(npc->dialogue, option, &end_convo, ctx->game);
+    char *outstring = run_conversation_step(npc->active_dialogue, option,
+                                            &end_convo, ctx->game);
 
     assert(end_convo != -1); //checking for conversation error
 
