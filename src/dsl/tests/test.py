@@ -49,7 +49,7 @@ def gen_out(dsl_path: str) -> str:
 
         return out_str
 
-def test(f_dsl, f_wdl: str, show: bool) -> bool:
+def run_test(f_dsl, f_wdl: str, show: bool) -> bool:
     """
         Compares output from gen_out with the expected output
         stored in one of the wdl_expected files
@@ -142,7 +142,7 @@ def main():
 
     # test all files that we want to test
     for file in files_to_test:
-        rv = test(f_dsl = file, f_wdl = os.path.splitext(file)[0] + "_expected.wdl", show = show)
+        rv = run_test(f_dsl = file, f_wdl = os.path.splitext(file)[0] + "_expected.wdl", show = show)
         tests_run += 1
         if rv:
             passed += 1
