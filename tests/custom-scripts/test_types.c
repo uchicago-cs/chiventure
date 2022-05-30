@@ -314,6 +314,13 @@ Test(custom_type, obj_t_get_char_lua_args)
     data_t got3 = arg_t_get(ot3);
     char rv3 = got3.c;
     cr_assert_eq(rv3, 'e', "obj_t_get_char: failed char direct retrieval");
+
+    object_t *ot4 = obj_t_init(data, CHAR_TYPE, 
+        "../../../tests/custom-scripts/Lua_file/char_test_args.lua");
+    ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, CHAR_TYPE), data4, CHAR_TYPE), data3, CHAR_TYPE);
+    data_t got4 = arg_t_get(ot4);
+    char rv4 = got4.c;
+    cr_assert_eq(rv4, '!', "obj_t_get_char: failed char direct retrieval");
 }
 
 /** 
@@ -453,4 +460,14 @@ Test(custom_type, obj_t_get_str_lua_args)
     data_t got3 = arg_t_get(ot3);
     char *rv3 = got3.s;
     cr_assert_str_eq(rv3, "Will it work with three args?", "obj_t_get_int: failed string direct retrieval with %s", rv3);
+
+    data.s = "";
+    data2.s = "Testing functionality ";
+    data3.s = "with special characters:\n ";
+    data4.s = "!@#$^&*(";
+    object_t *ot3 = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args2.lua");
+    ot3 = obj_add_arg(obj_add_arg(obj_add_arg(ot3, data2, STR_TYPE), data3, STR_TYPE), data4, STR_TYPE);
+    data_t got3 = arg_t_get(ot3);
+    char *rv3 = got3.s;
+    cr_assert_str_eq(rv3, "Testing functionality with special characters:\n !@#$^&*(", "obj_t_get_int: failed string direct retrieval with %s", rv3);
 }
