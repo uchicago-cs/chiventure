@@ -24,9 +24,9 @@
           "max": 100
         }
       },
-      "effects": "null",
-      "skill_tree": "null",
-      "starting_skills": "null"
+      "effects": null,
+      "skill_tree": null,
+      "starting_skills": null
     }
   },
   "ROOMS": {
