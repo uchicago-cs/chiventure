@@ -120,7 +120,7 @@ Test(autogenerate, path_exists_in_direction_mid)
 }
 
 /* Checks that room_exists_in_direction outputs true when a room does exist in a given direction */
-Test(autogenerate, room_exists_in_direction_false){
+Test(autogenerate, room_exists_in_direction_true){
 
     game_t *game=game_new("New Game");
 
