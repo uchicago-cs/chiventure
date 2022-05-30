@@ -111,7 +111,7 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
  **********************************************/
 
 /* See dialogue.h */
-int add_action_to_node(node_t *n, node_action_type action, char *action_id)
+int add_action_to_node(node_t *n, node_action_type_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = node_action_new(action, action_id)) == NULL) return FAILURE;
@@ -329,7 +329,7 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
 }
 
 /* See dialogue.h */
-int node_action_init(node_action_t *n_a, node_action_type action,
+int node_action_init(node_action_t *n_a, node_action_type_t action,
                      char *action_id)
 {
     assert(n_a != NULL);
@@ -346,7 +346,7 @@ int node_action_init(node_action_t *n_a, node_action_type action,
 }
 
 /* See dialogue.h */
-node_action_t *node_action_new(node_action_type action, char *action_id)
+node_action_t *node_action_new(node_action_type_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;

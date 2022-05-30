@@ -187,8 +187,8 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id);
  *  - npc: The NPC struct
  * 
  * Returns:
- *  - true if the npc does need moved
- *  - false if the npc does not need moved,
+ *  - true if the npc does need to be moved
+ *  - false if the npc does not need to be moved,
  *      or the npc has a definite movement path
  */
 bool check_if_npc_indefinite_needs_moved(npc_t *npc);

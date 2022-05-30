@@ -86,7 +86,7 @@ typedef struct npc_mov {
  * Parameters:
  *  npc_mov: The id of the npc that is being addressed; must point to already
  *          allocated memory
- *  mov_type: The tpye of movement that the npc will have
+ *  mov_type: The type of movement that the npc will have
  *  permission: whether or not an NPC can (or is allowed to) move
  *  room_id: The room id of the room that the npc will start in
  *  room_time: For indefinite NPCs: the number of seconds the npc will spend
@@ -307,6 +307,17 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
  */
 int move_npc_mov(npc_mov_t *npc_mov);
 
+/* Checks if an indefinite-moving NPC needs to be moved, based on how much
+ * time has passed ever since it first entered the room
+ *
+ * Parameters
+ *  - npc_mov: The NPC movement struct
+ * 
+ * Returns
+ *  - true: if the NPC should be moved
+ *  - false: if the NPC shouldn't be moved, including if the input
+ *          npc_mov struct is NPC_MOV_DEFINITE
+ */
 bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov);
 
 #endif /* _NPC_MOVE_H */

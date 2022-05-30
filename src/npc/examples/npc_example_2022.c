@@ -85,7 +85,6 @@ class_t *generate_sample_class()
     c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
 }
 
-
 /* Creates example stats. Taken from test_battle_ai.c */
 stat_t *create_enemy_stats()
 {
@@ -171,6 +170,40 @@ int add_all_npcs_to_their_rooms(game_t *game)
     return rt;
 }
 
+/* a monkey-patched version of getting an NPC's long description */
+char *who_is_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    game_t *game = ctx->game;
+    char *str = malloc(MAX_MSG_LEN);
+    if (tokens[1] == NULL)
+    {
+        sprintf(str, "The (case-independent) WHO command is formatted as: "
+                     "WHO *IS* *insert_NPC_name_here*");
+    }
+    else if (tokens[2] == NULL)
+    {
+        sprintf(str, "You need to specify an NPC to ask about");
+    }
+    else
+    {
+        char *npc_id = tokens[2];
+        npc_t *npc;
+        HASH_FIND(hh, game->all_npcs, npc_id, strlen(npc_id), npc);
+        if (npc == NULL)
+        {
+            sprintf(str, "%s is not an existing NPC", npc_id);
+        }
+        else if (npc->long_desc == NULL)
+        {
+            sprintf(str, "%s does not have a description", npc_id);
+        }
+        else
+        {
+            sprintf(str, "%s", npc->long_desc);
+        }
+    }
+    return str;
+}
 /* a monkey-patched version of finding an NPC in the game */
 char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -214,12 +247,12 @@ convo_t *create_sample_convo_harry()
     add_node(c, "2a", "Harry: You will regret this. Let's meet outside and "
              "I will show you no mercy.");
     node_t *battle_node1 = get_node(c->all_nodes, "2a");
-    add_action_to_node(battle_node1, MOVE_ROOM, "harry move to arena");
+    add_action_to_node(battle_node1, MOVE_ROOM, "harry move to outside");
 
-    add_node(c, "2b", "Well, you are not welcome here. Let's meet in the arena and "
+    add_node(c, "2b", "Well, you are not welcome here. Catch me outside and "
              "I will show you no mercy.");
     node_t *battle_node2 = get_node(c->all_nodes, "2b");
-    add_action_to_node(battle_node2, MOVE_ROOM, "harry move to arena");
+    add_action_to_node(battle_node2, MOVE_ROOM, "harry move outside");
 
     // Edges
     add_edge(c, "What does it matter to you, old man?", "1", "2a", NULL);
@@ -243,7 +276,9 @@ convo_t *create_sample_convo_fiona()
     add_action_to_node(hostile_node, MAKE_HOSTILE, "fiona battle");
     add_action_to_node(hostile_node, MOVE_ROOM, "fiona move outside");
 
-    add_node(c, "2b", "Fiona: I hope you have a good day too! Please take this for good luck");
+    add_node(c, "2b", "Fiona: I hope you have a good day too! Please, take my mace for good luck!");
+    node_t *mace_node = get_node(c->all_nodes, "2b");
+    add_action_to_node(mace_node, GIVE_ITEM, "mace");
 
     // Edges
     add_edge(c, "Let's have a fight.", "1", "2a", NULL);
@@ -260,11 +295,14 @@ convo_t *create_sample_convo_wilma()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "wilma: Hi! I'm wilma");
+    add_node(c, "1", "Wilma: Oh! hi! I'm Wilma!");
     node_t *node_1 = get_node(c->all_nodes, "1");
     add_action_to_node(node_1, PAUSE_MOVEMENT, "stop wilma");
     
-    add_node(c, "2", "wilma: Well, I better get moving, bye!");
+    add_node(c, "2", "Wilma: Listen! I've had way way WAY too many coffees "
+                      "today, so I insist you take this one I've just bought.");
+    
+    //add_node(c, "3", "Wilma: ");
     node_t *node_2 = get_node(c->all_nodes, "2");
     add_action_to_node(node_2, RESUME_MOVEMENT, "let wilma leave");
 
@@ -283,79 +321,98 @@ convo_t *create_sample_convo_borja()
 }
 
 
+
 /* Defines a new CLI operation that removes 1 HP from the specified npc if they
  * are in the room, and their health is greater than their surrender_level */
 char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    char *str = malloc(MAX_MSG_LEN);
     if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
-        return "Error! We need a loaded room to attack.\n";
+        sprintf(str, "Error! We need a loaded room to attack.");
     }
-    if (strcmp(game->curr_room->room_id, "outside") != 0)
+    else if (strcmp(game->curr_room->room_id, "outside") != 0)
     {
-        return "It's not a good idea to start a fight in a Library, you should go outside.\n";
+        sprintf(str, "It's not a good idea to start a fight in a Library, you should go outside.");
     }
-    if (tokens[1] == NULL)
+    else if (tokens[1] == NULL)
     {
-        return "You must identify someone to attack\n";
+        sprintf(str, "You must identify someone to attack");
     }
     else
     {
-        char *str = malloc(MAX_MSG_LEN);
         char *npc_id = tokens[1];
         case_insensitize(npc_id);
         npc_t *npc = get_npc_in_room(ctx->game->curr_room, npc_id);
         if (npc == NULL) 
         {
-            return "No one by that name wants to fight here.\n";
+            sprintf(str, "No one by that name wants to fight here.");
         }
-        if (npc->hostility_level != HOSTILE || npc->npc_battle == NULL) 
+        else if (npc->hostility_level != HOSTILE || npc->npc_battle == NULL) 
         {
             sprintf(str, "%s does not want to fight", npc_id);
             return str;
         }
         else if (get_npc_hp(npc) <= 0)
         {
-            return "There's no point in beating a dead horse.\n";
+            sprintf(str, "There's no point in beating a dead horse.");
+        }
+        else if (npc->npc_battle->stats->hp <= npc->npc_battle->stats->surrender_level) 
+        { 
+            sprintf(str, "%s has surrendered. You can no longer attack them.",
+                    npc->npc_id);
         }
         else
         {
-            if (npc->npc_battle->stats->hp == 1)
+            char *weapon_id = NULL;
+            item_t *weapon = NULL;
+            attribute_t *attack_att = NULL;
+            int multiplier = 1;
+            if (tokens[3] != NULL)
             {
-                change_npc_hp(npc, -1);
+                weapon_id = case_insensitized_string(tokens[3]);
+                HASH_FIND(hh, game->curr_player->inventory, weapon_id, strlen(weapon_id), weapon);
+                if (weapon != NULL)
+                {
+                    attack_att = get_attribute(weapon, "attack");
+                    if ((attack_att != NULL) && (attack_att->attribute_tag == INTEGER))
+                    {
+                        multiplier = attack_att->attribute_value.int_val;
+                    }
+                    else
+                    {
+                        sprintf(str, "You cannot attack with this item");
+                        return str;
+                    }
+                }
+                else
+                {
+                    sprintf(str, "You do not have this item: %s", weapon_id);
+                    return str;
+                }
+            }
+            if (npc->npc_battle->stats->hp <= multiplier)
+            {
+                change_npc_hp(npc, (-1) * (npc->npc_battle->stats->hp));
                 assert(transfer_all_npc_items(npc, game->curr_room) == SUCCESS);
                 sprintf(str, "You killed %s. They've dropped their items, "
                         "which you can now take.", npc->npc_id);
-                return str;
-            }
-            else if (npc->npc_battle->stats->hp <= npc->npc_battle->stats->surrender_level) 
-            { 
-                sprintf(str, "%s has surrendered. You can no longer attack "
-                          "them.", npc->npc_id);
-                return str;
             }
             else
             {
-                change_npc_hp(npc, -1);
-                sprintf(str, "%s has lost 1 HP. They now have %d HP left", 
-                        npc->npc_id, npc->npc_battle->stats->hp);
-                return str;
+                change_npc_hp(npc, (-1) * multiplier);
+                sprintf(str, "%s has lost %d HP. They now have %d HP left", 
+                        npc->npc_id, multiplier, npc->npc_battle->stats->hp);
             }
         }
     }
+    return str;
 }
 
-/* Creates a sample in-memory game */
-chiventure_ctx_t *create_sample_ctx()
+int create_crerar()
 {
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
-
-    game_t *game = game_new("Welcome to Chiventure!");
-
-    load_normal_mode(game);
-
     // Let's make (a smol) Crerar!
     crerar_first = room_new("crerar lib floor 1",
                                     "on the first floor of Crerar Library",
@@ -410,6 +467,43 @@ chiventure_ctx_t *create_sample_ctx()
     peachs_cafe->npcs = npcs_in_room_new(peachs_cafe->room_id);
     outside->npcs = npcs_in_room_new(outside->room_id);
 
+    return SUCCESS;
+}
+
+/* Runs all (included) time-dependent functions every second
+*
+* Parameters:
+*   - game: Pointer to the game being run
+*
+* Returns
+*   - nothing
+*/
+void *time_dependent_functions(void *game)
+{
+    pthread_detach(pthread_self());
+
+    game_t *g;
+    g = (game_t *) game;
+
+    while (g != NULL)
+    {
+        /* This is where you add functions that should be run every second */
+        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
+        sleep(1);
+    }
+}
+
+/* Creates a sample in-memory game */
+chiventure_ctx_t *create_sample_ctx()
+{
+    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+
+    game_t *game = game_new("Welcome to Chiventure!");
+
+    load_normal_mode(game);
+
+    assert(create_crerar() == SUCCESS);
+
     assert(add_room_to_game(game, crerar_first) == SUCCESS);
     assert(add_room_to_game(game, crerar_second) == SUCCESS);
     assert(add_room_to_game(game, crerar_209) == SUCCESS);
@@ -441,6 +535,15 @@ chiventure_ctx_t *create_sample_ctx()
     move_t *moves1 = create_enemy_moves();
     add_battle_to_npc(friendly_fiona, fiona_stats, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
+
+    item_t *mace = item_new("MACE", "This is mace.",
+                              "This is mace, it does damage.");
+    assert(add_attribute_to_hash(mace, int_attr_new("attack", 5)) == SUCCESS);
+    agent_t *mace_ag = malloc(sizeof(agent_t));
+    mace_ag->item = mace;
+    assert(add_action(mace_ag, "take", "You now have some mace, use it wisely",
+                      "the MACE could not be taken") == SUCCESS);
+    add_item_to_npc(friendly_fiona, mace);
 
     /* Add dialogue to conditional-friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
@@ -498,20 +601,25 @@ chiventure_ctx_t *create_sample_ctx()
     wandering_wilma = npc_new("wilma", "wandering wilma is friendly",
      "wandering wilma is just a jolly good fellow who likes to wander between"
      "rooms", class2, movement3, FRIENDLY);
-    //convo_t *c_wilma = create_sample_convo_wilma();
-    //assert(add_convo_to_npc(wandering_wilma, c_wilma) == SUCCESS);
+    convo_t *c_wilma = create_sample_convo_wilma();
+    assert(add_convo_to_npc(wandering_wilma, c_wilma) == SUCCESS);
     
 
     npc_mov_t *sonic_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
                                        outside->room_id, 1);
-    extend_path_indefinite(sonic_mov, peachs_cafe->room_id, 2);
+    class_t *sonic_class = generate_sample_class();
+    sonic_class->base_stats = NULL;
+    stats_global_t *global_speed = stats_global_new("speed", 10000);
+    stats_t *sonic_speed = stats_new(global_speed, 5000);
+    HASH_ADD(hh, sonic_class->base_stats, key, strlen(sonic_speed->key), sonic_speed);
+/*    extend_path_indefinite(sonic_mov, peachs_cafe->room_id, 2);
     extend_path_indefinite(sonic_mov, crerar_first->room_id, 2);
     extend_path_indefinite(sonic_mov, crerar_second->room_id, 2);
-    extend_path_indefinite(sonic_mov, crerar_209->room_id, 1);
+    extend_path_indefinite(sonic_mov, crerar_209->room_id, 1); */
     speedy_sonic = npc_new("sonic", "sonic the hedgehog",
                            "sonic the hedgehog is very fast",
-                           class2, sonic_mov, FRIENDLY);
-
+                           sonic_class, sonic_mov, FRIENDLY);
+    assert(auto_gen_movement(speedy_sonic, get_all_rooms(game)) == SUCCESS);
 
     npc_mov_t *borja_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
                                        crerar_209->room_id, 0);
@@ -556,29 +664,6 @@ chiventure_ctx_t *create_sample_ctx()
     return ctx;
 }
 
-/* Runs all (included) time-dependent functions every second
-*
-* Parameters:
-*   - game: Pointer to the game being run
-*
-* Returns
-*   - nothing
-*/
-void *time_dependent_functions(void *game)
-{
-    pthread_detach(pthread_self());
-
-    game_t *g;
-    g = (game_t *) game;
-
-    while (g != NULL)
-    {
-        /* This is where you add functions that should be run every second */
-        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
-        sleep(1);
-    }
-}
-
 int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
@@ -587,6 +672,7 @@ int main(int argc, char **argv)
     add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
     add_entry("FIND", find_npc_operation, NULL, ctx->cli_ctx->table);
+    add_entry("WHO", who_is_npc_operation, NULL, ctx->cli_ctx->table);
 
     pthread_t time_thread;
     int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
