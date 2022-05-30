@@ -274,10 +274,13 @@ Test(autogenerate, find_room_in_direction){
 
     specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
 
-    coords_t *coords=coords_new(0,0);
-    room_t *room=roomspec_to_room(spec1, coords);
+    coords_t *coords1=coords_new(0,0);
+    coords_t *coords2=coords_new(1,0);    
+    room_t *room1=roomspec_to_room(spec1, coords1);
+    room_t *room2=roomspec_to_room(spec2, coords2);
 
-    add_room_to_game(game, room);
+    add_room_to_game(game, room1);
+    add_room_to_game(game, room2);
 
     int rc;
     char* direction_to_new;
