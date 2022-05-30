@@ -450,7 +450,7 @@ Test(custom_type, lua_three_args_diff_types)
     ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, INT_TYPE), data4, BOOL_TYPE);
     data_t got = arg_t_get(ot);
     int rv = got.i;
-    cr_assert_eq(rv, -1695127648, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
+    cr_assert_eq(rv, 1237940128, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
 }
 
 /**
@@ -468,5 +468,5 @@ Test(custom_type, lua_three_args_diff_types_interact)
     ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, INT_TYPE), data4, BOOL_TYPE);
     data_t got = arg_t_get(ot);
     int rv = got.i;
-    cr_assert_eq(rv, 1600456608, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
+    cr_assert_eq(rv, 1890158496, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
 }
