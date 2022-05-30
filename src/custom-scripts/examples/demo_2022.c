@@ -76,6 +76,7 @@ chiventure_ctx_t *create_sample_ctx()
     char* custom_string = (char*)malloc(100);
     data_t temp = arg_t_get(togay);
     custom_string = temp.s;
+    char wizard[] = "../../../../src/custom-scripts/examples/wdl/demo-wizard.wdl", warrior[] = "../../../../src/custom-scripts/examples/wdl/demo-warrior.wdl";
 
     /* The amount of money you requested */
     di1.i = gold_num;
@@ -146,11 +147,11 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "SHAKE" with the chest.
      * It has no conditions, so it should succeed unconditionally. */
-    if (class_num == 1 ){
-      add_action(&sword, "TAKE", "THIS IS SPARTA", "You cannot take this sword unless you are a warrior class");
+    if (strcmp(wizard,custom_string)== 0){
+      add_action(&staff, "TAKE", "You're a wizard, Harry", "You cannot take this staff unless you are a wizard class");
     }
     else {
-      add_action(&staff, "TAKE", "You're a wizard, Harry", "You cannot take this staff unless you are a wizard class");
+      add_action(&sword, "TAKE", "THIS IS SPARTA", "You cannot take this sword unless you are a warrior class");
     }
 
     return ctx;

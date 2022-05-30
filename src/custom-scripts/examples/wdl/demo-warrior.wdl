@@ -64,7 +64,7 @@
                     "text_fail": "You cannot take this chair"
                 }
             ]
-        }
+        },
         "BORJA": {
             "short_desc": "This is the evil king",
             "long_desc": "This is the evil king Borja",
@@ -81,13 +81,13 @@
                     "text_fail": "You cannot pull this evil king"
                 },
                 {
-                    "action": "SLASH",
-                    "text_success": "You defeated the evil king BORJA",
-                    "text_fail": "You cannot slash without a sword",
+                    "action": "FIREBALL",
+                    "text_success": "You defeated BORJA",
+                    "text_fail": "You cannot use this spell without a staff",
                     "conditions": [
                         {
                             "type": "INVENTORY",
-                            "item_id": "SWORD"
+                            "item_id": "STAFF"
                         }
                     ]
                 }
