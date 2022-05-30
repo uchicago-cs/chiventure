@@ -452,6 +452,19 @@ int move_npc(npc_t *npc);
  */
 int delete_all_npcs(npc_hash_t *npcs);
 
+/* Sets the npc's active dialogue to the proper dialogue
+ * - This handles quest interaction, since NPCs can have different
+ *   dialogue when giving quests or completing tasks
+ * 
+ * Parameters:
+ * - qctx: A quest context containing a player and a hash of all quests in the game
+ * - npc: An npc
+ * 
+ * Returns:
+ * - SUCCESS on success, FAILURE if an error occurs
+*/
+int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
+
 // Conversion FUNCTIONS ---------------------------------------------------
 
 /*
@@ -501,20 +514,5 @@ int make_npc_cond_friendly(npc_t *npc);
  */
 int change_npc_hostility(npc_t *npc, edge_t *edge);
 
-
-// ------------------------------------------------------------------------
-
-/* Sets the npc's active dialogue to the proper dialogue
- * - This handles quest interaction, since NPCs can have different
- *   dialogue when giving quests or completing tasks
- * 
- * Parameters:
- * - qctx: A quest context containing a player and a hash of all quests in the game
- * - npc: An npc
- * 
- * Returns:
- * - SUCCESS on success, FAILURE if an error occurs
-*/
-int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
 
 #endif /* _NPC_H */

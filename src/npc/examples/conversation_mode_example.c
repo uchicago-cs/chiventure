@@ -69,7 +69,7 @@ convo_t *create_oak_conversation()
              "adventures with Pokemon awaits! Let's go!", NEUTRAL);
 
     add_edge(c, "I'm excited to play Pokemon!", "1", "1.5", NULL, NEUTRAL);
-    add_edge(c, "Red", "1.5", "2a", NULL, NEUTRAL;
+    add_edge(c, "Red", "1.5", "2a", NULL, NEUTRAL);
     add_edge(c, "Ash", "1.5", "2b", NULL, NEUTRAL);
     add_edge(c, "Misty", "1.5", "2c", NULL, NEUTRAL);
 
