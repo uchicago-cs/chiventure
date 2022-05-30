@@ -49,7 +49,7 @@ typedef enum npc_path_direction {
 /* Enum to define whether or not an NPC is allowed to move along its path
  */
 typedef enum npc_mov_permission {
-    NPC_MOV_ALLOWED, NPC_MOV_RESTRICTED
+    NPC_MOV_ALLOWED, NPC_MOV_NOT_ALLOWED
 } npc_mov_permission_t;
 
 /*
@@ -260,7 +260,7 @@ int room_id_cmp(npc_path_dll_t *room1, npc_path_dll_t *room2);
  * 
  * Returns:
  *  - true if npc_mov->permission is NPC_MOV_ALLOWED
- *  - false if npc_mov->permission is NPC_MOV_RESTRICTED
+ *  - false if npc_mov->permission is NPC_MOV_NOT_ALLOWED
  */
 bool check_if_npc_is_allowed_to_move(npc_mov_t *npc_mov);
 

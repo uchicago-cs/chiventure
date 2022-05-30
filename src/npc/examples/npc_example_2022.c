@@ -478,51 +478,9 @@ int create_crerar()
     return SUCCESS;
 }
 
-/* Runs all (included) time-dependent functions every second
-*
-* Parameters:
-*   - game: Pointer to the game being run
-*
-* Returns
-*   - nothing
-*/
-void *time_dependent_functions(void *game)
+/* Initialize the conditionally-friendly NPC Fiona */
+int npc_fiona_init()
 {
-    pthread_detach(pthread_self());
-
-    game_t *g;
-    g = (game_t *) game;
-
-    while (g != NULL)
-    {
-        /* This is where you add functions that should be run every second */
-        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
-        sleep(1);
-    }
-}
-
-/* Creates a sample in-memory game */
-chiventure_ctx_t *create_sample_ctx()
-{
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
-
-    game_t *game = game_new("Welcome to Chiventure!");
-
-    load_normal_mode(game);
-
-    assert(create_crerar() == SUCCESS);
-
-    assert(add_room_to_game(game, crerar_first) == SUCCESS);
-    assert(add_room_to_game(game, crerar_second) == SUCCESS);
-    assert(add_room_to_game(game, crerar_209) == SUCCESS);
-    assert(add_room_to_game(game, outside) == SUCCESS);
-    assert(add_room_to_game(game, peachs_cafe) == SUCCESS);
-
-    game->curr_room = outside;
-    game->start_desc = "You are outside of the John Crerar Library, LOOK "
-                       "around for more.";
-
-    /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
     npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
@@ -556,8 +514,13 @@ chiventure_ctx_t *create_sample_ctx()
     /* Add dialogue to conditional-friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
     add_convo_to_npc(friendly_fiona, c_fiona);
+    
+    return SUCCESS;
+}
 
-
+/* Initialize Harry, the hostile NPC */
+int npc_harry_init()
+{
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
@@ -599,7 +562,13 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *c_harry = create_sample_convo_harry();
     add_convo_to_npc(hostile_harry, c_harry);
 
+    return SUCCESS;
+}
 
+/* Initialize Wilma, the friendly wandering NPC */
+int npc_wilma_init()
+{
+    class_t *wilma_class = generate_sample_class();
     npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
                                        outside->room_id, 5);
     extend_path_indefinite(movement3, peachs_cafe->room_id, 5);
@@ -608,11 +577,16 @@ chiventure_ctx_t *create_sample_ctx()
     extend_path_indefinite(movement3, crerar_209->room_id, 5);
     wandering_wilma = npc_new("wilma", "wandering wilma is friendly",
      "wandering wilma is just a jolly good fellow who likes to wander between"
-     "rooms", class2, movement3, FRIENDLY);
+     "rooms", wilma_class, movement3, FRIENDLY);
     convo_t *c_wilma = create_sample_convo_wilma();
     assert(add_convo_to_npc(wandering_wilma, c_wilma) == SUCCESS);
-    
 
+    return SUCCESS;
+}
+
+/* Initialize Sonic, the friendly & speedy NPC */
+int npc_sonic_init()
+{
     npc_mov_t *sonic_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
                                        outside->room_id, 1);
     class_t *sonic_class = generate_sample_class();
@@ -623,8 +597,14 @@ chiventure_ctx_t *create_sample_ctx()
     speedy_sonic = npc_new("sonic", "sonic the hedgehog",
                            "sonic the hedgehog is very fast",
                            sonic_class, sonic_mov, FRIENDLY);
-    assert(auto_gen_movement(speedy_sonic, get_all_rooms(game)) == SUCCESS);
 
+    return SUCCESS;
+}
+
+/* Initialize Borja, the conditionally friendly NPC */
+int npc_borja_init()
+{
+    class_t *borja_class = generate_sample_class();
     npc_mov_t *borja_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
                                        crerar_209->room_id, 0);
     extend_path_definite(borja_mov, peachs_cafe->room_id);
@@ -634,22 +614,79 @@ chiventure_ctx_t *create_sample_ctx()
                            "Instructional Professor in the Department of "
                            "Computer Science, where he teaches intro CS, "
                            "software development, computer networks, and "
-                           "distributed systems.", class2, borja_mov,
+                           "distributed systems.", borja_class, borja_mov,
                            CONDITIONAL_FRIENDLY);
     stat_t *borja_stats = create_enemy_stats();
     borja_stats->hp = 1000;
     borja_stats->max_hp = 1000;
     assert(add_battle_to_npc(brainy_borja, borja_stats, NULL, BATTLE_AI_RANDOM,
             CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL) == SUCCESS);
-
     
-    npc_mov_t *peachs_barista_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_RESTRICTED,
+    return SUCCESS;
+}
+
+/* Initializes Peach's Barista, the barista NPC */
+int npc_barista_init()
+{
+    class_t *barista_class = generate_sample_class();
+    npc_mov_t *peachs_barista_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_NOT_ALLOWED,
                                                 peachs_cafe->room_id, 0);
     peachs_barista = npc_new("peach's barista", "The barista / cashier at Peach's Cafe",
                              "This is the barista at Peach's on University inside "
                              "of the John Crerar Library, you can ",
-                             class2, peachs_barista_mov, FRIENDLY);
+                             barista_class, peachs_barista_mov, FRIENDLY);
+    
+    return SUCCESS;
+}
 
+/* Runs all (included) time-dependent functions every second
+*
+* Parameters:
+*   - game: Pointer to the game being run
+*
+* Returns
+*   - nothing
+*/
+void *time_dependent_functions(void *game)
+{
+    pthread_detach(pthread_self());
+
+    game_t *g;
+    g = (game_t *) game;
+
+    while (g != NULL)
+    {
+        /* This is where you add functions that should be run every second */
+        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
+        sleep(1);
+    }
+}
+
+/* Creates a sample in-memory game */
+chiventure_ctx_t *create_sample_ctx()
+{
+    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+
+    game_t *game = game_new("Welcome to Chiventure! You are outside of the "
+                            "John Crerar Library, LOOK around for more.");
+
+    load_normal_mode(game);
+
+    assert(create_crerar() == SUCCESS);
+    assert(add_room_to_game(game, crerar_first) == SUCCESS);
+    assert(add_room_to_game(game, crerar_second) == SUCCESS);
+    assert(add_room_to_game(game, crerar_209) == SUCCESS);
+    assert(add_room_to_game(game, outside) == SUCCESS);
+    assert(add_room_to_game(game, peachs_cafe) == SUCCESS);
+
+    game->curr_room = outside;
+    
+    assert(npc_fiona_init() == SUCCESS);
+    assert(npc_harry_init() == SUCCESS);
+    assert(npc_wilma_init() == SUCCESS);
+    assert(npc_sonic_init() == SUCCESS);
+    assert(auto_gen_movement(speedy_sonic, get_all_rooms(game)) == SUCCESS);
+    assert(npc_borja_init() == SUCCESS);
 
     /* Add the npcs to the game */
     assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
