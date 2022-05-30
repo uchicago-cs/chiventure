@@ -434,39 +434,13 @@ Test(custom_type, obj_t_get_str_lua_args)
     data_t got = arg_t_get(ot);
     char *rv = got.s;
     cr_assert_str_eq(rv, "Test passes!", "obj_t_get_int: failed string direct retrieval with %s", rv);
-}
 
-/**
- * Checks that the Lua script can return the correct object_t value after being
- * passed three inputs of different data_types
- */
-Test(custom_type, lua_three_args_diff_types)
-{
     data.s = "";
-    data2.c = 'b';
-    data3.i = 25;
-    data4.b = false;
-    object_t *ot = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/int_test.lua");
-    ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, INT_TYPE), data4, BOOL_TYPE);
-    data_t got = arg_t_get(ot);
-    int rv = got.i;
-    cr_assert_eq(rv, 15, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
-}
-
-/**
- * 
- * 
- */
-Test(custom_type, lua_three_args_diff_types_interact)
-{
-    data.s = "";
-    data2.c = 'b';
-    data3.i = 25;
-    data4.b = false;
-
-    object_t *ot = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/int_test.lua");
-    ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, INT_TYPE), data4, BOOL_TYPE);
-    data_t got = arg_t_get(ot);
-    int rv = got.i;
-    cr_assert_eq(rv, 15, "lua_three_args_diff_types: failed integer direct retrieval with %i", rv);
+    data2.s = "One more ";
+    data3.s = "test!";
+    object_t *ot2 = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args.lua");
+    ot2 = obj_add_arg(obj_add_arg(ot2, data2, STR_TYPE), data3, STR_TYPE);
+    data_t got2 = arg_t_get(ot2);
+    char *rv2 = got2.s;
+    cr_assert_str_eq(rv2, "One more test!", "obj_t_get_int: failed string direct retrieval with %s", rv2);
 }
