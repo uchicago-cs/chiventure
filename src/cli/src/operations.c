@@ -705,7 +705,7 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
 
-    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
+    char *str = start_conversation(npc->active_dialogue, &rc, ctx->game);
 
     assert(rc != -1); //checking for conversation error
 
