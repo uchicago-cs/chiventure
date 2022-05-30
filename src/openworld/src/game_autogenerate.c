@@ -73,15 +73,13 @@ room_t* random_room_from_game(game_t* game){
     char* curr_id;
     int i;
     
-
     HASH_ITER(hh, game->all_rooms, curr, tmp) {
 
         curr_id=curr->room_id;
         i=*count;
-
         keys[i]=(char*)malloc(strlen(curr_id)+1);
         keys[i]=curr_id;
-        count++;
+        (*count)++;
     }
 
     char* room_id=keys[randomint];
