@@ -158,8 +158,8 @@ int run_battle_mode (char *input, cli_callback callback_func,
     if (ctx->game->battle_ctx->status != BATTLE_IN_PROGRESS)
     {
         char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
-        char *output_and_battle_over = strcat(output, battle_over);
-        callback_func(ctx, battle_over, callback_args);
+        char *output_and_battle_over = strncat(output, battle_over, BATTLE_BUFFER_SIZE);
+        callback_func(ctx, output_and_battle_over, callback_args);
         free(battle_over);
         rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
         return SUCCESS;
@@ -175,7 +175,8 @@ int run_battle_mode (char *input, cli_callback callback_func,
         battle_ctx->game->battle->turn = ENEMY;
         battle_ctx->current_turn_tcl = battle_ctx->tcl;
         char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
-        output = strcat(output, enemy_turn);
+        //output = strcat(output, enemy_turn);
+        output = strncat(output, enemy_turn, BATTLE_BUFFER_SIZE);
         ctx->game->battle_ctx->game->battle->turn = PLAYER;
         battle_ctx->current_turn_tcl = battle_ctx->tcl;
     }
