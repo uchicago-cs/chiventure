@@ -333,6 +333,23 @@ int create_connection(game_t *game, char *src_room, char *dest_room,
 int set_curr_player(game_t *game, player_t *player);
 
 /*
+ * Called after active quest/task finished 
+ * Resets NPC's dialogue to normal dialogue
+ * 
+ * Parameters:
+ * - game: the game
+ * - qctx: the quest context
+ * - player: the player
+ * - npc: the npc
+ * - quest_id: the quest's id
+ * - task_id: the task's id
+ * 
+ * Returns: SUCCESS upon success, FAILURE upon failure
+ */
+int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+                   char *quest_id, char *task_id);
+
+/*
 * Function to find player given game and player id
 * Parameters:
 *  pointer to game
