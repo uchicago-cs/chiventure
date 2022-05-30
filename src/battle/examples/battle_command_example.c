@@ -159,6 +159,12 @@ int read_move(char **args, battle_ctx_t *ctx)
         printf("%s", rs);
         // prints result of attacks
         int battle_res = print_battle_result(ctx, player_move);
+        if (ctx->game->battle->enemy->stats->hp > 0) 
+        {
+            char *enemy_rs = enemy_make_move(ctx);
+            printf("%s",enemy_rs);
+        }
+        
         return battle_res;
     }
     // handles the command MOVE LIST
@@ -217,7 +223,13 @@ int read_move(char **args, battle_ctx_t *ctx)
             stat_t *player_stats = ctx->game->battle->player->stats;
             
             printf("%s\n", res_str);
+            if (ctx->game->battle->enemy->stats->hp > 0) 
+            {
+                char *enemy_rs = enemy_make_move(ctx);
+                printf("%s",enemy_rs);
+            }
         }
+
         return SUCCESS;
     }
     else
@@ -276,8 +288,6 @@ int continue_battle(battle_ctx_t *ctx)
         }
         // otherwise, handle input
         res = read_move(args, ctx);
-        char *enemy_rs = enemy_make_move(ctx);
-        printf("%s",enemy_rs);
     }
     // free statement for string array
     /*
