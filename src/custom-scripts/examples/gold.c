@@ -23,9 +23,10 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
 
     /* Create a chest in room1 */
-    item_t *chest = item_new("CHEST","It is a chest.",
+    item_t *chest_item = item_new("CHEST","It is a chest.",
                    "You shake the chest, but hear no rattle inside... must be empty :(");
-    add_item_to_room(room1, chest);
+    add_item_to_room(room1, chest_item);
+    agent_t chest = (agent_t){.item = chest_item, .npc = NULL};
 
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
        on what the user enters at the start of the game */
@@ -37,9 +38,10 @@ chiventure_ctx_t *create_sample_ctx()
     char* custom_string = (char*)malloc(500);
     custom_string = str_t_get(ot);
     
-    int rand_weight = rand() % string_num; // The more money you request, the less likely you are to obtain it
-    object_t *ot2 = obj_t_str("", "../../../../src/custom-scripts/examples/weight.lua");
-    ot2 = obj_add_arg_int(ot2, rand_weight);
+    int rand_weight = (string_num ? rand() % string_num : 0); // The more money you request, the less likely you are to obtain it
+    object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/weight.lua");
+    di2.i = rand_weight;
+    ot2 = obj_add_arg(ot2, di2, INT_TYPE);
     char* custom_string2 = (char*)malloc(500);
     custom_string2 = str_t_get(ot2); 
 
@@ -49,7 +51,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "SHAKE" with the chest.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(chest, "SHAKE", custom_string, "You have already shaken the box!");
+    add_action(&chest, "SHAKE", custom_string, "You have already shaken the box!");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
