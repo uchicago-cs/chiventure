@@ -38,14 +38,6 @@ move_t* find_random(combatant_t* player, combatant_t* enemy);
  *      move_t - the move to be used        */
 move_t* find_greedy(combatant_t* player, combatant_t* enemy);
 
-/* Calculates Critical Damage
- * Inputes:
- *      crit_chance : the crit chance of the user using the move
- * Outputs: 
- *      the critical damage multiplier
- */
-double crit_modifier(int crit_chance);
-
 /* Function returns the damage dealt to a target
  * Inputs:
  *      target - the target the damage is going to be dealt to
