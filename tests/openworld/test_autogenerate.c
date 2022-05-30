@@ -488,9 +488,12 @@ Test(room, room_generate_success_zero){
 
     random_first_room(game);
     
+    coords_t *room_coords = coords_new(0,0);
+    room_t *room = roomspec_to_room(spec1,room_coords);
+
 //Test fails due to this line
-    room_t *room=random_room_from_game(game);
-    /*
+    // room_t *room=random_room_from_game(game);
+    
     cr_assert_eq(0, 1, "failed to generate room\n");
     int rc;
     char *direction_to_curr;
@@ -498,7 +501,6 @@ Test(room, room_generate_success_zero){
     rc=room_generate(game, room, spec1, direction_to_curr, direction_to_new);
     
     cr_assert_eq(rc, 1, "failed to generate room\n");
-    */
 }
 
 /* One roomspec case: Checks that, given a game, context (gencontext_t), and room_id,
