@@ -88,12 +88,13 @@ room_t* random_room_from_game(game_t* game){
         (*count)++;
     }
 
+    /*
     HASH_ITER(hh, game->all_rooms, curr, tmp) {
 
         while(key[])
 
     }
-
+    */
 
     char* room_id=keys[randomint];
     assert(room_id!="");
