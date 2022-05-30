@@ -175,6 +175,10 @@ int add_all_npcs_to_their_rooms(game_t *game)
 char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if (strcasecmp(tokens[0], "FIND"))
+    {
+        action_error_operation(&tokens[0], ctx);
+    }
     if (tokens[1] == NULL)
     {
         return "You need to specify an NPC to find\n";
@@ -288,6 +292,10 @@ convo_t *create_sample_convo_borja()
 char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
+    if (strcasecmp(tokens[0], "ATTACK") || strcasecmp(tokens[0], "FIGHT"))
+    {
+        action_error_operation(&tokens[0], ctx);
+    }
     if (game == NULL || game->curr_room == NULL)
     {
         print_to_cli(ctx, tokens[0]);
