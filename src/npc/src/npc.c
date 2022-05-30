@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "npc/npc.h"
+#include "npc/npc_quests.h"
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
 

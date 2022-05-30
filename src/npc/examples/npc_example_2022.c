@@ -331,7 +331,6 @@ convo_t *create_sample_convo_borja()
 char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-<<<<<<< HEAD
     if (strcasecmp(tokens[0], "ATTACK") || strcasecmp(tokens[0], "FIGHT"))
     {
         action_error_operation(&tokens[0], ctx);

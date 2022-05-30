@@ -8,6 +8,7 @@ add_library(npc
 
 target_include_directories(npc PRIVATE src/)
 target_link_libraries(npc battle)
+target_link_libraries(npc quests)
 
 # EXAMPLES
 add_subdirectory(examples
