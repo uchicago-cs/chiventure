@@ -433,7 +433,7 @@ Test(custom_type, lua_three_args_diff_types)
     data3.i = 25;
     data4.b = false;
 
-    object_t *ot = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/string_test_args.lua");
+    object_t *ot = obj_t_init(data, STR_TYPE, "../../../tests/custom-scripts/Lua_file/3_arg_lua.lua");
 
     ot = obj_add_arg(obj_add_arg(obj_add_arg(ot, data2, CHAR_TYPE), data3, INT_TYPE), data4, BOOL_TYPE);
     data_t got = arg_t_get(ot);
