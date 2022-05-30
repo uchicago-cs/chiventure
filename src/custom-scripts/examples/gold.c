@@ -23,9 +23,10 @@ chiventure_ctx_t *create_sample_ctx()
     game->curr_room = room1;
 
     /* Create a chest in room1 */
-    item_t *chest = item_new("CHEST","It is a chest.",
+    item_t *chest_item = item_new("CHEST","It is a chest.",
                    "You shake the chest, but hear no rattle inside... must be empty :(");
-    add_item_to_room(room1, chest);
+    add_item_to_room(room1, chest_item);
+    agent_t chest = (agent_t){.item = chest_item, .npc = NULL};
 
 
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
@@ -57,7 +58,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "SHAKE" with the chest.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(chest, "SHAKE", custom_string, "You have already shaken the box!");
+    add_action(&chest, "SHAKE", custom_string, "You have already shaken the box!");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
