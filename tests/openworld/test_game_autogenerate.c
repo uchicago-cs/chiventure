@@ -9,7 +9,36 @@
 
 /* Tests the functions in game_autogenerate.h */
 
-Test(randomroom, random_first_room){
+/* Checks that random_first_room successfully generates a random first room in a game given a sepcgraph with 1 spec*/
+Test(randomroom, random_first_room_1spec){
+
+    game_t *game=game_new("New Game");
+
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+    spec1->tag=0;
+
+    roomspec_t **roomspecs=(roomspec_t**)malloc(sizeof(roomspec_t*));
+
+    roomspecs[0]=spec1;
+
+    int *matrix=(int*)malloc(9*sizeof(int));
+
+    matrix[0]=5;
+
+    int **edges=edges_new(matrix, 1, 1);
+
+    specgraph_t *specgraph = specgraph_new(1, roomspecs, edges);
+    game->specgraph = specgraph;
+
+    int rc=random_first_room(game);
+    cr_assert_not_null(game->all_rooms, "all_rooms is NULL");
+    cr_assert_eq(HASH_COUNT(game->all_rooms), 1, "all_rooms HASH_COUNT not equal to 1");
+    cr_assert_eq(rc, SUCCESS, "failed to autogenerate a random first room\n");
+}
+
+/* Checks that random_first_room successfully generates a random first room in a game given a sepcgraph with 3 specs*/
+Test(randomroom, random_first_room_3specs){
 
     game_t *game=game_new("New Game");
 
