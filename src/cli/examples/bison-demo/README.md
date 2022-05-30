@@ -6,7 +6,7 @@ mkdir out
 make
 ./parser-bison
 ```
-This will put you into the interactive CLI interface that will communicate with and be      parsed by Bison
+This will put you into the interactive CLI interface that will communicate with and beparsed by Bison
 
 ## Cool Examples
 
@@ -17,14 +17,14 @@ This will put you into the interactive CLI interface that will communicate with 
 * go to the north
 * travel north (NEEDS TO BE IMPLEMENTED as of 5/30/2022 5pm)
 
-When trying to find a way to improve the CLI of chiventure, we thought that we could        take the current in-house parsing and instead use a more robust parsing library.
-We decided on bison, as there aren't many C libraries and of the ones we tested we were     actually able to get something working.
+When trying to find a way to improve the CLI of chiventure, we thought that we couldtake the current in-house parsing and instead use a more robust parsing library.
+We decided on bison, as there aren't many C libraries and of the ones we tested we were actually able to get something working.
 
 preamble about what bison/flex actually is and how it is relevant to chiventure.
-This would involve talking about the current implementation of parsing, along with some     of the limitations.
+This would involve talking about the current implementation of parsing, along with some of the limitations.
 
-So then, we decided that bison would then directly replace the current parsing              mechanisms. This specifically involves taking the command line input and parsing it         into an array of strings.
-For example, when the user types "go north", this get's put into a list of strings          called of:
+So then, we decided that bison would then directly replace the current parsingmechanisms. This specifically involves taking the command line input and parsing it into an array of strings.
+For example, when the user types "go north", this get's put into a list of stringscalled of:
 [0] = "go"
 [1] = "north"
 
@@ -34,12 +34,12 @@ for examplee:
 start with normal chiventure commands
 eg: view stats
 
-using bison has incredible potential for EASILY making commands more versatile and      complex
+using bison has incredible potential for EASILY making commands more versatile andcomplex
 
 for example, with bison is no longer a hard cap on 4 word limit per action
-(WE SHOULD EITHER IMPLEMENT PARSING ON AND or just say we haven't gotten it working yet     and put in backlog)
+(WE SHOULD EITHER IMPLEMENT PARSING ON AND or just say we haven't gotten it working yet and put in backlog)
 
-also, as you can see, the lack of a hard cap means we can support ignoring                  peropositions, articlees and pronouns
+also, as you can see, the lack of a hard cap means we can support ignoringperopositions, articlees and pronouns
 eg: go to the north
 
 go north
