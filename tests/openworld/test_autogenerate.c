@@ -223,14 +223,17 @@ Test(autogenerate, room_exists_in_direction_false){
     char* direction_to_new;
     char* direction_to_curr;
 
-    room_t *res1;
-    room_t *res2;
+    rc=room_exists_in_direction(game, room, "north");
+    cr_assert_eq(rc, false, "failed to determine if a room exists north of the current room\n");
 
-    rc=room_exists_in_direction(game, room1, "east");
-    cr_assert_eq(strcmp(res1->room_id, room2->room_id), 0, "failed to output correct room\n");
+    rc=room_exists_in_direction(game, room, "south");
+    cr_assert_eq(rc, false, "failed to determine if a room exists south of the current room\n");
 
-    rc=room_exists_in_direction(game, room2, "west");
-    cr_assert_eq(strcmp(res2->room_id, room1->room_id), 0, "failed to output correct room\n");
+    rc=room_exists_in_direction(game, room, "east");
+    cr_assert_eq(rc, false, "failed to determine if a room exists east of the current room\n");
+
+    rc=room_exists_in_direction(game, room, "west");
+    cr_assert_eq(rc, false, "failed to determine if a room exists west of the current room\n");    
 }
 
 /* Checks that find_room_in_direction outputs the correct room */
@@ -280,17 +283,14 @@ Test(autogenerate, find_room_in_direction){
     char* direction_to_new;
     char* direction_to_curr;
 
-    rc=room_exists_in_direction(game, room, "north");
-    cr_assert_eq(rc, false, "failed to determine if a room exists north of the current room\n");
+    room_t *res1;
+    room_t *res2;
 
-    rc=room_exists_in_direction(game, room, "south");
-    cr_assert_eq(rc, false, "failed to determine if a room exists south of the current room\n");
+    rc=room_exists_in_direction(game, room1, "east");
+    cr_assert_eq(strcmp(res1->room_id, room2->room_id), 0, "failed to output correct room\n");
 
-    rc=room_exists_in_direction(game, room, "east");
-    cr_assert_eq(rc, false, "failed to determine if a room exists east of the current room\n");
-
-    rc=room_exists_in_direction(game, room, "west");
-    cr_assert_eq(rc, false, "failed to determine if a room exists west of the current room\n");    
+    rc=room_exists_in_direction(game, room2, "west");
+    cr_assert_eq(strcmp(res2->room_id, room1->room_id), 0, "failed to output correct room\n");
 }
 
 /* Checks that, given a roomspec pointer, roomspec_to_room correctly returns a
