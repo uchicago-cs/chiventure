@@ -113,13 +113,9 @@ int stat_changes_free(stat_changes_t *changes)
 
 battle_equipment_t *new_battle_equipment(int id, char *name, char *des, 
                                           stat_changes_t *attr, equipment_type_t type){
-      battle_equipment_t *new_equip = (battle_equipment_t *) malloc (sizeof(battle_equipment_t));
+      battle_equipment_t *new_equip = calloc (1, sizeof(battle_equipment_t));
       assert(new_equip != NULL);
-      new_equip->id = id;
-      new_equip->name = name;
-      new_equip->description = des;
-      new_equip->attributes = attr;
-      new_equip->type = type;
+      init_battle_equipment(new_equip, id, strdup(name), strdup(des), attr, type);
       return new_equip;
 }
 
@@ -137,16 +133,10 @@ int init_battle_equipment(battle_equipment_t *equip, int id, char *name, char *d
 battle_item_t *new_battle_item(int id, char *name, char *des, 
                               stat_changes_t *attr, int quant, bool attack,
                               battle_item_t *next, battle_item_t *prev){
-      battle_item_t *new_item = (battle_item_t *) malloc (sizeof(battle_item_t));
+      battle_item_t *new_item = calloc (1, sizeof(battle_item_t));
       assert(new_item != NULL);
-      new_item->id = id;
-      new_item->name = strdup(name);
-      new_item->description = strdup(des);
-      new_item->attributes = attr;
-      new_item->quantity = quant;
-      new_item->attack = attack;
-      new_item->next = next;
-      new_item->prev = prev;
+      init_battle_item(new_item, id, strdup(name), strdup(des), attr, 
+                        quant, attack, next, prev);
       return new_item;
 }
 
