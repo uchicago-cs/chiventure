@@ -35,16 +35,10 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
 char* flip_state(bool st)
 {
-    /* Use of boolean, switching item torch from 
-    true (lit) to false (unlit), and conversely with Lua */
-    //object_t *ot = obj_t_int("", "../../../../src/custom-scripts/examples/flip.lua");
-    //ot = obj_add_arg_int(ot, st);
-    //st = int_t_get(ot);
-    
     char* str_state = (char*)malloc(20);
     
     /* output string depending on flip */
-    if (st == false) {
+    if (!st) {
       str_state = "The torch is unlit.";
     } else {
       str_state = "The torch is lit.";
@@ -59,7 +53,7 @@ chiventure_ctx_t *create_sample_ctx()
     data_t jack;
     data_t dc;
 
-    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/lua/dynamic_string.lua");
+    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/demo.lua");
    
 
     /* Create context */

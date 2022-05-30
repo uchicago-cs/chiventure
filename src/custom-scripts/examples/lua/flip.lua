@@ -1,4 +1,7 @@
-function foo(st)
-  if st == false then return true
-  else return false end
+function foo(a)
+    if a then
+        a = true
+    elseif not a then
+        a = false
+    return a
 end
