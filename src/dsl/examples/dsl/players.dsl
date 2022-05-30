@@ -35,3 +35,6 @@ PLAYER_CLASS Knight
         mana
             CURRENT 20
             MAX 100
+    effects: null
+    skill_tree: null
+    starting_skills: null

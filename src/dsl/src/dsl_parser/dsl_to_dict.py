@@ -65,6 +65,12 @@ class TreeToDict(Transformer):
 
     stat = trans.transform_stat
 
+    effects = trans.transform_effects
+
+    skill_tree = trans.transform_skill_tree
+    
+    starting_skills = trans.transform_starting_skills
+
     #for documentation of the below transformations, see simple_modifiers.py
 
     ESCAPED_STRING = mod.mod_ESCAPED_STRING

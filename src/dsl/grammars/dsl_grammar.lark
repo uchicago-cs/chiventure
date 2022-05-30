@@ -12,7 +12,7 @@ item: _NL "ITEM" id "IN" location property* action*
     | _NL "ITEM" id property* action*
 
 
-player_class: _NL "PLAYER_CLASS" id (property | attributes | base_stats)*
+player_class: _NL "PLAYER_CLASS" id (property | attributes | base_stats | effects | skill_tree | starting_skills)*
 
 attributes: _NL "ATTRIBUTES" attribute_state*
 attribute_state: _NL phrase phrase
@@ -20,6 +20,12 @@ attribute_state: _NL phrase phrase
 base_stats: _NL "BASESTATS" stat_state*
 stat_state: _NL phrase stat*
 stat: _NL phrase NUMBER _NL phrase NUMBER
+
+effects: _NL "effects:" phrase
+
+skill_tree: _NL "skill_tree:" phrase
+
+starting_skills: _NL "starting_skills:" phrase
 
 action: _NL ("action:"|"actions:") action_ids property*
 action_ids: id ("," id)*

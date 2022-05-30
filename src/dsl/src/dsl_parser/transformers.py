@@ -172,6 +172,18 @@ def transform_stat(self, s: list[tuple[str, int]]) -> tuple[dict]:
             d[last] = int(t)
     return(d)
 
+def transform_effects(self, s: list[tuple[str, str]]) -> tuple[str, str]:
+    #TODO
+    return ('effects', s[0])
+    
+def transform_skill_tree(self, s: list[tuple[str, str]]) -> tuple[str, str]:
+    #TODO
+    return ('skill_tree', s[0])
+
+def transform_starting_skills(self, s: list[tuple[str, str]]) -> tuple[str, str]:
+    #TODO
+    return ('starting_skills', s[0])
+
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
 
