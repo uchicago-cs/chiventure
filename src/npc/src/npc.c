@@ -23,9 +23,6 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     item_hash_t *items = NULL;
     npc->inventory = items;
 
-    item_hash_t *head = NULL;
-    npc->inventory = head;
-
     return SUCCESS;
 }
 

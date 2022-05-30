@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "game-state/game_state_common.h"
 #include "cli/operations.h"
 #include "npc/npc.h"
 #include "npc/dialogue.h"
