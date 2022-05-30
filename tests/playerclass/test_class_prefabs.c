@@ -326,7 +326,4 @@ Test(class_prefabs, Sorceror) {
     check_skill_pressence(c, 3, skill_list);
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "dark magic", "failed to initialize skill inventory");
-}  
-
-
-
+}
