@@ -150,6 +150,7 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
             {
                 temp->prev->next = temp->next;
             }
+
             if (temp->next != NULL)
             {
                 temp->next->prev = temp->prev;
