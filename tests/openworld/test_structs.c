@@ -515,6 +515,40 @@ Test(specgraph, free)
     cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
 }
 
+Test(specgraph, correlation)
+{
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
+    cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
+    cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
+
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
+    cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
+    roomspec_t *roomspecs[3]={spec1, spec2, spec3};
+
+    int **edges=(int**)malloc(3*sizeof(int*));
+    for(int i=0; i<3; i++){
+        edges[i]=(int*)malloc(3*sizeof(int));
+    } 
+    edges[0][0]=5;
+    edges[0][1]=4;
+    edges[0][2]=5; 
+    edges[1][0]=0; 
+    edges[1][1]=5;  
+    edges[1][2]=3;
+    edges[2][0]=4; 
+    edges[2][1]=3;  
+    edges[2][2]=5;
+
+    specgraph_t *specgraph = specgraph_new(3, roomspecs, edges);
+    cr_assert_not_null(specgraph, "failed to create new specgraph_t\n");
+
+    int correlation1=roomspec_correlation(specgraph, spec1, spec1);
+    cr_assert_eq(correlation1, 5, "failed to calculate correlation between spec1 and spec1\n");
+    int correlation2=roomspec_correlation(specgraph, spec1, spec2);
+}
+
 /* Tests the roomlevel_new function to validate that a roomlevel
  * can be made successfully. */
 Test(roomlevel, new)
