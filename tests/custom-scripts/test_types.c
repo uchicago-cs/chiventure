@@ -445,7 +445,7 @@ Test(custom_type, lua_three_args_diff_types)
  * 
  * 
  */
-Test(custom_type, lua_three_args_diff_types)
+Test(custom_type, lua_three_args_diff_types_interact)
 {
     data.s = "";
     data2.c = 'b';
