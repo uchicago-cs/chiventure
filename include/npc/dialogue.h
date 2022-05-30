@@ -13,19 +13,11 @@
  *       DIALOGUE STRUCTURE DEFINITIONS       *
  **********************************************/
 
-<<<<<<< HEAD
-/* Defines an enum for NPC and player tone in conversation options */
-typedef enum {
-    POSITIVE,
-    NEGATIVE,
-    NEUTRAL
-=======
 /* Tones */
 typedef enum {
     POSITIVE,
     NEUTRAL,
     NEGATIVE
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
 } tone_t;
 
 /* Actions */
@@ -69,11 +61,7 @@ typedef struct node node_t;
  *  - to: destination node
  *  - conditions: conditions determining an edge's availability, NULL if none
  *    Note: conditions come from game-state/condition.h
-<<<<<<< HEAD
- *  - tone: the tone of the dialogue at the current edge
-=======
  *  - tone: tone of the dialogue at the current edge
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
  */
 typedef struct edge {
     char *quip;
@@ -104,11 +92,7 @@ typedef struct edge_list {
  *  - num_available_edges: number of accessible edges
  *  - edges: possible responses
  *  - actions: actions associated with the node (item, quest, battle, etc.)
-<<<<<<< HEAD
- *  - tone: the tone of the dialogue at the current node
-=======
  *  - tone: tone of the dialogue at the current node
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
  */
 typedef struct node {
     char *node_id;
@@ -179,11 +163,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue, tone_t tone);
  *  - from_id: source node's ID
  *  - to_id: destination node's ID
  *  - conditions: conditions determining the edge's availability, NULL if none
-<<<<<<< HEAD
- *  - tone: the tone of the dialogue; influences NPC hostility_level
-=======
  *  - tone: enum representing player's tone at the edge
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -264,11 +244,7 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id);
  *  - to: destination node
  *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
-<<<<<<< HEAD
- *  - tone: the tone of the dialogue; influences NPC hostility_level
-=======
  *  - tone: enum representing player's tone at the edge
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -284,22 +260,13 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
  *  - to: destination node
  *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
-<<<<<<< HEAD
- *  - tone: the tone of the dialogue; influences NPC hostility_level
-=======
  *  - tone: enum representing player's tone at the edge
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
  *
  * Returns:
  *  - pointer to the new edge
  */
-<<<<<<< HEAD
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions,
-                 tone_t tone);
-=======
 edge_t *edge_new(char *quip, node_t *from, node_t *to, 
                 condition_t *conditions, tone_t tone);
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
 
 /* Frees resources associated with an edge.
  *
@@ -317,11 +284,7 @@ int edge_free(edge_t *e);
  *  - n: a node; must point to already allocated memory
  *  - node_id: the node's "name"
  *  - npc_dialogue: a string representing the NPC's speech at the node
-<<<<<<< HEAD
- *  - tone: the tone of the dialogue; influences player hostility_level
-=======
  *  - tone: enum representing NPC's tone at the node
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -333,11 +296,7 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue, tone_t tone);
  * Parameters:
  *  - node_id: the node's "name"
  *  - npc_dialogue: a string representing the NPC's speech at the node
-<<<<<<< HEAD
- *  - tone: the tone of the dialogue; influences player hostility_level
-=======
  *  - tone: enum representing NPC's tone at the node
->>>>>>> 79d4048cb2791d6a44ab75ea56a31ddb529e15f9
  * 
  * Returns:
  *  - pointer to the new node
