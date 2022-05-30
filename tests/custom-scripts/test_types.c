@@ -314,6 +314,16 @@ Test(custom_type, obj_t_get_char_lua_args)
     data_t got3 = arg_t_get(ot3);
     char rv3 = got3.c;
     cr_assert_eq(rv3, 'e', "obj_t_get_char: failed char direct retrieval");
+<<<<<<< HEAD
+=======
+
+    object_t *ot4 = obj_t_init(data, CHAR_TYPE, 
+        "../../../tests/custom-scripts/Lua_file/char_test_args.lua");
+    ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, CHAR_TYPE), data4, CHAR_TYPE), data3, CHAR_TYPE);
+    data_t got4 = arg_t_get(ot4);
+    char rv4 = got4.c;
+    cr_assert_eq(rv4, '!', "obj_t_get_char: failed char direct retrieval");
+>>>>>>> parent of 92c0993d8... adding more complex logic to bool tests
 }
 
 /** 
