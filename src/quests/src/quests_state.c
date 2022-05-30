@@ -22,8 +22,10 @@ bool completed_mission(mission_t *mission, player_t *player) {
             }
             return false;
             break;
+        case MEET_NPC:
+            return !(strcmp(player->crnt_npc, mission->target_name));
     }
-    return true;
+    return false;
 }
 
 /* Refer to quests_state.h */
@@ -290,7 +292,7 @@ void update_task(char *task_id, quest_ctx_t *qctx) {
 }
 
 /* Refer to quests_state.h */
-bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
+bool can_player_start_quest(quest_ctx_t *qctx, char *quest_id)
 {
     assert(qctx != NULL);
     quest_t *quest = get_quest_from_hash(quest_id, qctx->quest_hash);
@@ -300,11 +302,16 @@ bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
     prereq_t *prereq = quest->prereq;
     player_t *player = qctx->player;
 
+    player_quest_t *pquest = get_player_quest_from_hash(quest_id, player->player_quests);
+    if(pquest != NULL) {
+        return false;
+    }
+
     return (meets_prereqs(player, prereq));
 }
 
 /* Refer to quests_state.h */
-bool npc_can_give_task(quest_ctx_t *qctx, char *task_id)
+bool can_player_complete_task(quest_ctx_t *qctx, char *task_id)
 {
     assert(qctx != NULL);
     task_t *task = get_task_from_quest_hash(task_id, qctx->quest_hash);
@@ -313,6 +320,14 @@ bool npc_can_give_task(quest_ctx_t *qctx, char *task_id)
     
     prereq_t *prereq = task->prereq;
     player_t *player = qctx->player;
+
+    player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
+    if(ptask == NULL) {
+        return false;
+    }
+    if(ptask->completed) {
+        return false;
+    }
 
     return (meets_prereqs(player, prereq));
 }
