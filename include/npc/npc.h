@@ -11,8 +11,6 @@
 #include "npc/npc_move.h"
 #include "npc/npc_quests.h"
 #include "cli/util.h"
-#include "quests/quests_hash.h"
-#include "quests/quests_state.h"
 
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------

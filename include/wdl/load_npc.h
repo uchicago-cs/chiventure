@@ -9,7 +9,6 @@
 #include "validate.h"
 #include "load_condition.h"
 #include "npc/rooms_npc.h"
-#include "npc/npc_quests.h"
 
 /* load_npcs
  * accesses the document object and obtain list of NPCs to parse into the

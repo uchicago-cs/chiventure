@@ -207,4 +207,4 @@ int add_convo_to_quest(npc_quest_t *quest, convo_t *c);
  */
 int add_convo_to_task(npc_task_t *task, convo_t *c);
 
-#endif /* NPC_QUESTS_H */
+#endif /* _NPC_QUESTS_H */
