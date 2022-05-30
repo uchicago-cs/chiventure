@@ -4,7 +4,7 @@
 #include "gold.h"
 
 #include <stdio.h>
-#include <custom-scripts/custom_type.h>
+#include <custom-scripts/get_custom_type.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
