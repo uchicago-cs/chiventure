@@ -1,4 +1,4 @@
-set(CS_EXAMPLES demo_2022 dark_room)
+set(CS_EXAMPLES demonstration)
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
