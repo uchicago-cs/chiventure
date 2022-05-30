@@ -8,13 +8,16 @@
   },
   "ROOMS": {
     "room C": {
-      "items": []
+      "items": [],
+      "short_desc": "room C",
+      "long_desc": "This is a room C. "
     },
     "room B": {
       "short_desc": "A dungeon room.",
       "items": [
         "Door"
-      ]
+      ],
+      "long_desc": "This is a room B. "
     }
   },
   "ITEMS": {
@@ -34,7 +37,8 @@
           "text_fail": "You can't break the door."
         }
       ],
-      "in": "room B"
+      "in": "room B",
+      "long_desc": "This is a Door. A large wooden door"
     }
   }
 }
