@@ -39,16 +39,19 @@ int random_first_room(game_t* game){
     int count=0;
     roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
-    newroomspec=*(game->specgraph->roomspecs)[randomint];
+    // think about value at stuff
+    newroomspec=(game->specgraph->roomspecs)[randomint];
     newroomspec->tag = randomint;
     // int tag=newroomspec->tag;
 
     coords_t *coords=coords_new(0,0);
+    /*
     room_t *new_room = roomspec_to_room(newroomspec, coords);
 
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
     // free(new_room);
+    */
 
     return SUCCESS;
 }
