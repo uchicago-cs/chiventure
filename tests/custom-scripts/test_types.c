@@ -253,13 +253,13 @@ Test(custom_type, obj_t_get_bool_lua_args)
     ot3 = obj_add_arg(obj_add_arg(obj_add_arg(ot3, data, BOOL_TYPE), data2, BOOL_TYPE), data, BOOL_TYPE);
     data_t got3 = arg_t_get(ot3);
     bool rv3 = got3.b;
-    cr_assert_eq((rv3 ? 1 : 0), 0, "bool_t_get 3: failed bool Lua retrieval");
+    cr_assert_eq((rv3 ? 1 : 0), 0, "bool_t_get 2: failed bool Lua retrieval");
 
     object_t *ot4 = obj_t_init(data, BOOL_TYPE, "../../../tests/custom-scripts/Lua_file/bool_test_args.lua");
-    ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, BOOL_TYPE), data2, BOOL_TYPE), data, BOOL_TYPE);
+    ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data, BOOL_TYPE), data2, BOOL_TYPE), data, BOOL_TYPE);
     data_t got4 = arg_t_get(ot4);
     bool rv4 = got4.b;
-    cr_assert_eq((rv4 ? 1 : 0), 1, "bool_t_get 4: failed bool Lua retrieval");
+    cr_assert_eq((rv4 ? 1 : 0), 0, "bool_t_get 2: failed bool Lua retrieval");
 }
 
 /** 
@@ -303,7 +303,7 @@ Test(custom_type, obj_t_get_char_lua_args)
     cr_assert_eq(rv3, 'e', "obj_t_get_char: failed char direct retrieval");
 
     object_t *ot4 = obj_t_init(data, CHAR_TYPE, 
-        "../../../tests/custom-scripts/Lua_file/char_test_args.lua");
+        "../../../tests/custom-scripts/Lua_file/char_test_more_args.lua");
     ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, CHAR_TYPE), data4, CHAR_TYPE), data3, CHAR_TYPE);
     data_t got4 = arg_t_get(ot4);
     char rv4 = got4.c;
@@ -441,5 +441,5 @@ Test(custom_type, obj_t_get_str_lua_args)
     ot4 = obj_add_arg(obj_add_arg(obj_add_arg(ot4, data2, STR_TYPE), data3, STR_TYPE), data4, STR_TYPE);
     data_t got4 = arg_t_get(ot4);
     char *rv4 = got4.s;
-    cr_assert_str_eq(rv4, "Testing functionality with special characters:\n !@#$^&*(", "obj_t_get_int: failed string direct retrieval with %s", rv3);
+    cr_assert_str_eq(rv4, "Testing functionality with special characters:\n !@#$^&*(", "obj_t_get_int: failed string direct retrieval with %s", rv4);
 }
