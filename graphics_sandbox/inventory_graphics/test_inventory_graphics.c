@@ -7,7 +7,7 @@
 #include "../../include/game-state/player.h"
 #include "inventory_graphics.h"  
 
-/*
+
 player_t *synthesize_player(char *player_id)
 {
     chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
@@ -29,13 +29,13 @@ player_t *synthesize_player(char *player_id)
     return pt;
 }
 
-graphics_t *synthesize_graphics()
+graphics_t *synthesize_graphics(char *stat)
 {
     display_dimensions_t dd;
     inventory_display_t td;
     statistics_display_t sd;
 
-    stats_global_t *statg = stats_global_new("health", 100);
+    stats_global_t *statg = stats_global_new(stat, 100);
     stats_t *stat = stats_new(statg, 1);
     
     graphics_t g;
@@ -57,8 +57,10 @@ graphics_t *synthesize_graphics()
 
     return g;
 } 
-*/
 
+
+/* Checks that space is allocated and values are initialized for 
+ * slot_t struct */
 Test(slot, new)
 {
     status s = FULL;
@@ -76,6 +78,7 @@ Test(slot, new)
     cr_assert_eq(strcmp(slot->item->long_desc, "This is a medium gray rock"), 0, "new_slot() didn't set relation to long item description");
 }
 
+/* Checks that values for slot_t struct are properly initialized */
 Test(slot, init)
 {
     status s = FULL;
@@ -95,6 +98,7 @@ Test(slot, init)
     cr_assert_eq(strcmp(slot.item->long_desc, "This is a medium gray rock"), 0, "init_slot() didn't set relation to long item description");
 }
 
+/* Checks that memory allocated for slot_t struct frees properly */
 Test(slot, free)
 {
     status s = FULL;
@@ -113,4 +117,67 @@ Test(slot, free)
     cr_assert_eq(rc, SUCCESS, "free_slot() failed");
 }
 
+/* Checks that memory and values are properly allocated/initialized for
+ * player_inventory_t struct */
+Test(inventory, new)
+{
+    player_t *p = synthesize_player("1");
+    graphics_t *g = synthesize_graphics("health");
+    
+    slot_t **slot = populate_items(p,g);
 
+    player_inventory_t *inventory;
+    
+    inventory = new_player_inventory(g,slot);
+
+    cr_assert_not_null(inventory, "new_player_inventory() failed");
+    
+    cr_assert_eq(inventory->display->rows,3,"new_player_inventory() didn't set rows");
+    cr_assert_eq(inventory->display->columns,5,"new_palyer_inventory() didn't set columns");
+    cr_assert_eq(inventory->slots[0][0]->status, FULL, "new_player_inventory() didn't set status");
+}
+
+/* Checks that values are properly initialized for player_inventory_t struct */
+Test(inventory, init)
+{  
+    player_t *p = synthesize_player("1");
+    graphics_t *g = synthesize_graphics("health");
+
+    slot_t **slot = populate_items(p,g);
+
+    player_inventory_t inventory;
+    int rc;
+
+    rc = init_player_inventory(&inventory, g, slot);
+
+    cr_assert_eq(rc, SUCCESS, "init_player_inventory_failed");
+
+    cr_assert_eq(inventory.display->rows,3,"init_player_inventory() didn't set rows");
+    cr_assert_eq(inventory.display->columns,5,"init_player_inventory() didn't set columns");
+    cr_assert_eq(inventory.dlots[0][0]->status, FULL,"init_player_inventory() didn't set status");
+}
+
+/* Checks that memory allocated for player_inventory_t struct is freed */
+Test(inventory, free)
+{
+    player_t *p = synthesize_player("1");
+    graphics_t *g = synthesize_graphics("health");
+
+    slot_t **slot = populate_items(p,g);
+
+    player_inventory_t *inventory;
+    inventory = new_player_inventory(p,slot);
+    
+    cr_assert_not_null(inventory, "new_player_inventory() failed");    
+
+    int rc;
+
+    rc= free_player_inventory(inventory);
+
+    cr_assert_eq(rc, SUCCESS, "free_player_inventory() failed");
+}
+
+    
+    
+
+     
