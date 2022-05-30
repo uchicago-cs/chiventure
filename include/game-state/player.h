@@ -82,16 +82,16 @@ typedef struct player {
     item_hash_t *inventory;
 
     /* The current quests associated with the player */
-    player_quest_hash_t* player_quests;
+    player_quest_hash_t *player_quests;
 
     /* The current tasks associated with the player */
-    player_task_hash_t* player_tasks;
+    player_task_hash_t *player_tasks;
 
     /* The current moves available to the player */
     move_t *moves;
 
     /* The current NPC the player is talking to. NULL if not talking to an NPC */
-    char * crnt_npc;
+    char *crnt_npc;
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are 
@@ -517,4 +517,5 @@ int add_move(player_t *player, move_t *move);
  * - SuCCESS on success, FAILURE if an error occurs
 */
 int add_item_to_player_without_checks(player_t *player, item_t *item);
-#endif
+
+#endif /* _PLAYER_H */

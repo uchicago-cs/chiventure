@@ -3,7 +3,6 @@
 
 #include "game-state/condition.h"
 #include "cli/util.h"
-//#include "quests/quests_state.h"
 
 #define MAX_DIA_LEN 500
 #define MAX_QUIP_LEN 250
@@ -388,4 +387,4 @@ int free_node_actions(node_action_t *action_lst);
 
 
 
-#endif /* DIALOGUE_H */
+#endif /* _DIALOGUE_H */

@@ -1,18 +1,7 @@
-#include <criterion/criterion.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libobj/load.h"
-#include "../tests/wdl/test_wdl.h"
-#include "wdl/load_quests.h"
-#include "wdl/load_game.h"
-#include "quests/quests_state.h"
+#include "test_wdl.h"
 
-#define QUESTS_PATH "../../../src/npc/examples/pokemon_plus.wdl"
-/*
- * helper function for parsing a YAML file into an object
- * shamelessly stolen from test_game.c
- */
-static obj_t *__get_doc_obj()
+/* See test_wdl.h*/
+obj_t *__get_doc_obj(char* name, char* file_path)
 {
     char zip_name[10 * (MAXLEN_ID + 1)] = {0};
     strcat(zip_name, TEST_OUT_PATH);
@@ -24,9 +13,9 @@ static obj_t *__get_doc_obj()
     cr_assert_eq(error, ZIP_ET_NONE, 
         "Could not create zip file; code: %d", error);
 
-    // Add DEFAULT.json to the zip
-    char *data_name = "DEFAULT.json";
-    char *data_path = QUESTS_PATH;
+    // Add specified file to the zip
+    char *data_name = name;
+    char *data_path = file_path;
 
     zip_error_t err = {0};
     zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
@@ -50,11 +39,4 @@ static obj_t *__get_doc_obj()
     rc = load_obj_store_from_zip(obj, zip);
 
     return obj;
-}
-
-/* Verifies that the example file, which covers every parsing possibility, is parsed correctly */
-Test(quests_wdl, all_encompassing_example) {
-    obj_t *doc = __get_doc_obj();
-
-    game_t *game = load_game(doc);
 }

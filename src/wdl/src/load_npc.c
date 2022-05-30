@@ -313,7 +313,7 @@ int load_npcs(obj_t *doc, game_t *g)
 
         // load tasks
         if (load_npc_tasks(curr, npc, g) != SUCCESS) {
-            fprintf(stderr, "Quests were not loaded properly. NPC: %s\n",
+            fprintf(stderr, "Tasks were not loaded properly. NPC: %s\n",
                     id);
             return FAILURE;
         }

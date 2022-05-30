@@ -297,7 +297,7 @@ void update_task(char *task_id, quest_ctx_t *qctx) {
 }
 
 /* Refer to quests_state.h */
-bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
+bool can_player_start_quest(quest_ctx_t *qctx, char *quest_id)
 {
     assert(qctx != NULL);
     quest_t *quest = get_quest_from_hash(quest_id, qctx->quest_hash);
@@ -316,7 +316,7 @@ bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
 }
 
 /* Refer to quests_state.h */
-bool npc_can_complete_task(quest_ctx_t *qctx, char *task_id)
+bool can_player_complete_task(quest_ctx_t *qctx, char *task_id)
 {
     assert(qctx != NULL);
     task_t *task = get_task_from_quest_hash(task_id, qctx->quest_hash);
@@ -327,7 +327,7 @@ bool npc_can_complete_task(quest_ctx_t *qctx, char *task_id)
     player_t *player = qctx->player;
 
     player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
-    if(!ptask) {
+    if(ptask == NULL) {
         return false;
     }
     if(ptask->completed) {
