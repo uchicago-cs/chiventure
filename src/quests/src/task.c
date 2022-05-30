@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
 #include "quests/task.h"
+#include "cli/util.h"
 
 /* Refer to task.h */
 mission_t *mission_new(char *target_name, mission_types_t type)
@@ -26,8 +28,12 @@ int mission_init(mission_t *mission, char *target_name, mission_types_t type)
     assert(mission != NULL);
     assert(target_name != NULL);
 
-    mission->target_name = target_name;
+    mission->target_name = strdup(target_name);
     mission->type = type;
+
+    if(type == MEET_NPC || type == KILL_NPC) {
+        mission->target_name = case_insensitized_string(mission->target_name);
+    }
 
     return SUCCESS;
 }
