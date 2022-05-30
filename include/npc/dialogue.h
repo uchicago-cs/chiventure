@@ -13,6 +13,13 @@
  *       DIALOGUE STRUCTURE DEFINITIONS       *
  **********************************************/
 
+/* Tones */
+typedef enum {
+    POSITIVE,
+    NEUTRAL,
+    NEGATIVE
+} tone_t;
+
 /* Actions */
 typedef enum {
     GIVE_ITEM,
@@ -54,11 +61,13 @@ typedef struct node node_t;
  *  - to: destination node
  *  - conditions: conditions determining an edge's availability, NULL if none
  *    Note: conditions come from game-state/condition.h
+ *  - tone: tone of the dialogue at the current edge
  */
 typedef struct edge {
     char *quip;
     node_t *from, *to;
     condition_t *conditions;
+    tone_t tone;
 } edge_t;
 
 /* A doubly-linked list containing edges and their "availabilities."
@@ -83,6 +92,7 @@ typedef struct edge_list {
  *  - num_available_edges: number of accessible edges
  *  - edges: possible responses
  *  - actions: actions associated with the node (item, quest, battle, etc.)
+ *  - tone: tone of the dialogue at the current node
  */
 typedef struct node {
     char *node_id;
@@ -91,6 +101,7 @@ typedef struct node {
     int num_available_edges;
     edge_list_t *edges;
     node_action_t *actions;
+    tone_t tone;
 } node_t;
 
 /* A doubly-linked list containing nodes.
@@ -134,13 +145,14 @@ typedef struct convo {
  *  - node_id: a string (max. 50 chars) representing the node's "name"
  *  - dialogue: a string (max. 500 chars) representing the NPC's speech at the
  *    node
+ *  - tone: enum representing NPC's tone at the node
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  *  - Possible errors: (1) input strings are too long (assertion error);
  *    (2) a node with the same ID already exists; (3) memory allocation errors;
  */
-int add_node(convo_t *c, char *node_id, char *npc_dialogue);
+int add_node(convo_t *c, char *node_id, char *npc_dialogue, tone_t tone);
 
 /* Adds a new edge to a conversation.
  *
@@ -150,6 +162,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  *  - from_id: source node's ID
  *  - to_id: destination node's ID
  *  - conditions: conditions determining the edge's availability, NULL if none
+ *  - tone: enum representing player's tone at the edge
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
@@ -157,7 +170,7 @@ int add_node(convo_t *c, char *node_id, char *npc_dialogue);
  *    to_id could not be found; (3) memory allocation errors;
  */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
-             condition_t *conditions);
+             condition_t *conditions, tone_t tone);
 
 
 /**********************************************
@@ -230,12 +243,13 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id);
  *  - to: destination node
  *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
+ *  - tone: enum representing player's tone at the edge
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
-              condition_t *conditions);
+              condition_t *conditions, tone_t tone);
 
 /* Allocates a new edge on the heap.
  * 
@@ -245,11 +259,13 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
  *  - to: destination node
  *  - conditions: conditions determining the edge's availability, NULL if none
  *    Note: There can be multiple conditions (see condition.h)
+ *  - tone: enum representing player's tone at the edge
  *
  * Returns:
  *  - pointer to the new edge
  */
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions);
+edge_t *edge_new(char *quip, node_t *from, node_t *to, 
+                condition_t *conditions, tone_t tone);
 
 /* Frees resources associated with an edge.
  *
@@ -267,22 +283,24 @@ int edge_free(edge_t *e);
  *  - n: a node; must point to already allocated memory
  *  - node_id: the node's "name"
  *  - npc_dialogue: a string representing the NPC's speech at the node
+ *  - tone: enum representing NPC's tone at the node
  *
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int node_init(node_t *n, char *node_id, char *npc_dialogue);
+int node_init(node_t *n, char *node_id, char *npc_dialogue, tone_t tone);
 
 /* Allocates a new node on the heap.
  * 
  * Parameters:
  *  - node_id: the node's "name"
  *  - npc_dialogue: a string representing the NPC's speech at the node
+ *  - tone: enum representing NPC's tone at the node
  * 
  * Returns:
  *  - pointer to the new node
  */
-node_t *node_new(char *node_id, char *npc_dialogue);
+node_t *node_new(char *node_id, char *npc_dialogue, tone_t tone);
 
 /* Frees resources associated with a node.
  *

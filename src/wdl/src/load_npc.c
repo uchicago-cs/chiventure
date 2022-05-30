@@ -62,7 +62,7 @@ int load_npc_inventory(obj_t *inventory_lst_obj, npc_t *npc, game_t *g)
  * - FAILURE for unsuccessful parse
  */
 int load_node_actions(obj_t *actions_obj, convo_t *convo, char *node_id,
-                      npc_t *npc)
+                      npc_t *npc, tone_t tone)
 {
     char *action, *action_id;
     obj_t *curr;
@@ -135,6 +135,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
     obj_t *actions_obj;
     obj_t *conditions_obj;
     condition_t *conditions;
+    tone_t tone;
 
     // build nodes
     DL_FOREACH(nodes_obj->data.lst, curr)
@@ -143,7 +144,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
         npc_dialogue = obj_get_str(curr, "npc_dialogue");
 
         // create node
-        if (add_node(convo, id, npc_dialogue) != SUCCESS) {
+        if (add_node(convo, id, npc_dialogue, tone) != SUCCESS) {
             fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
                     npc->npc_id);
             return NULL;
@@ -151,7 +152,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
 
         // load node actions, if any
         if ((actions_obj = obj_get(curr, "actions")) != NULL) {
-            if (load_node_actions(actions_obj, convo, id, npc) != SUCCESS) {
+            if (load_node_actions(actions_obj, convo, id, npc, tone) != SUCCESS) {
                 fprintf(stderr, "Could not add actions to node with ID: %s. "
                         "NPC: %s\n", id, npc->npc_id);
                 return NULL;
@@ -177,7 +178,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
             }
         }
         // create edge
-        if (add_edge(convo, quip, from_id, to_id, conditions) != SUCCESS) {
+        if (add_edge(convo, quip, from_id, to_id, conditions, tone) != SUCCESS) {
             fprintf(stderr, "Could not add edge with quip: %s. NPC: %s\n",
                     quip, npc->npc_id);
             return NULL;
