@@ -300,7 +300,7 @@ int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_
     int rowcount=0;
 
     while(rownumber==-1){
-        if(currspec==roomspecs[rowcount])
+        if(currspec->tag==roomspecs[rowcount]->tag)
             rownumber=rowcount;
         rowcount++;
     }
