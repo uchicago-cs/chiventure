@@ -61,7 +61,7 @@ Test(gencontext, free)
 Test(roomspec, new1)
 {
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL, 0);
+    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 }
@@ -77,7 +77,7 @@ Test(roomspec, init1)
         fprintf(stderr, "failed to calloc for spec. \n");
     }
 
-    int check = init_roomspec(spec, "room_name", "short desc", "long desc", NULL, 0);
+    int check = init_roomspec(spec, "room_name", "short desc", "long desc", NULL);
 
     cr_assert_eq(check, SUCCESS, "failed to initialize a roomspec_t\n");
 }
@@ -87,7 +87,7 @@ Test(roomspec, init1)
 Test(roomspec, free1)
 {
 
-    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL, 0);
+    roomspec_t *spec = roomspec_new("room_name", "short desc", "long desc", NULL);
 
     cr_assert_not_null(spec, "failed to create new roomspec_t\n");
 
@@ -410,13 +410,13 @@ Test(edges, free4)
  * be initialized successfully. */
 Test(specgraph, init)
 {
-    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL, 0);
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
     cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
 
-    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL, 1);
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
     cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
 
-    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL, 2);
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     roomspec_t *roomspecs[3]={spec1, spec2, spec3};
 
@@ -445,13 +445,14 @@ Test(specgraph, init)
  * be made successfully. */
 Test(specgraph, new)
 {
-    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL, 0);
+
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
     cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
 
-    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL, 1);
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
     cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
 
-    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL, 2);
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     roomspec_t *roomspecs[3]={spec1, spec2, spec3};
 
@@ -481,13 +482,13 @@ Test(specgraph, new)
  * be freed successfully. */
 Test(specgraph, free)
 {
-    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL, 0);
+    roomspec_t *spec1 = roomspec_new("room_name1", "short desc1", "long desc1", NULL);
     cr_assert_not_null(spec1, "failed to create new roomspec_t\n");
 
-    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL, 1);
+    roomspec_t *spec2 = roomspec_new("room_name2", "short desc2", "long desc2", NULL);
     cr_assert_not_null(spec2, "failed to create new roomspec_t\n");
 
-    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL, 2);
+    roomspec_t *spec3 = roomspec_new("room_name3", "short desc3", "long desc3", NULL);
     cr_assert_not_null(spec3, "failed to create new roomspec_t\n");
     roomspec_t *roomspecs[3]={spec1, spec2, spec3};
 
@@ -513,32 +514,6 @@ Test(specgraph, free)
 
     cr_assert_eq(check, SUCCESS, "failed to free a specgraph_t\n");
 }
-
-/* Tests the free_all_specgraphs function to validate that it can
- * free all of the elements in the doubly linked list. */
-/*Test(specgraph, free_all)
-{
-
-    specgraph_t *list = specgraph_new(NULL);
-    specgraph_t *list1 = specgraph_new(NULL);
-    specgraph_t *list2 = specgraph_new(NULL);
-
-    cr_assert_not_null(list, "failed to create new specgraph_t\n");
-    cr_assert_not_null(list1, "failed to create new specgraph_t\n");
-    cr_assert_not_null(list2, "failed to create new specgraph_t\n");
-
-    specgraph_t *head = NULL;
-
-    DL_APPEND(head, list);
-    DL_APPEND(head, list1);
-    DL_APPEND(head, list2);
-
-    int check = specgraph_free_all(list);
-
-    cr_assert_eq(check, SUCCESS, "failed to free the entire specgraph. \n");
-}*/
-
-
 
 /* Tests the roomlevel_new function to validate that a roomlevel
  * can be made successfully. */
@@ -761,4 +736,3 @@ Test(itemspec, free)
 
     cr_assert_eq(check, SUCCESS, "failed to free an itemspec_t\n");
 }
-
