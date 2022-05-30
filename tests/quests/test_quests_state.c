@@ -264,8 +264,8 @@ Test(quest,complete_quest)
     cr_assert_str_eq(res->item->item_id, "test_item", "complete_quest failed to reward the item");
 }
 
-/* Tests the function for if an npc gives quest */
-Test(quest, npc_can_give_quest)
+/* Tests the function for checking if the player can start a quest */
+Test(quest, can_player_start_quest)
 {
     item_t *item = item_new("test_item", "item for testing", "test item");
 	quest_t *quest = create_sample_quest("test", true, 50, item, true, 50, 5);
@@ -275,27 +275,25 @@ Test(quest, npc_can_give_quest)
     player_t *player = create_sample_player("player", 60, 6);
     qctx->player = player;
 
-    int check = npc_can_give_quest(qctx, "test");
+    int check = can_player_start_quest(qctx, "test");
 
-    cr_assert_eq(check, true, "npc_can_give_quest() failed");
+    cr_assert_eq(check, true, "can_player_start_quest() failed");
 }
 
-/* Tests the function if an npc gives tasks */
-Test(quest, npc_can_give_task)
+/* Tests the function for checking if the player can complete a task*/
+Test(quest, can_player_complete_task)
 {
     item_t *item = item_new("test_item", "item for testing", "test item");
-	quest_t *quest = create_sample_quest("test", true, 50, item, true, 50, 5);
-    task_t *task = create_sample_task("test", false, NULL, KILL_NPC, false, 0, NULL, true, 50, 5);
+	quest_t *quest = create_sample_quest("test", true, 50, item, true, 40, 4);
+    task_t *task = create_sample_task("test", true, "Steve", KILL_NPC, false, 0, NULL, true, 40, 4);
     add_task_to_quest(quest, task, NULL);
     quest_ctx_t *qctx = create_sample_ctx();
     add_quest_to_hash(quest, &qctx->quest_hash);
+    start_quest(quest, qctx);
 
-    player_t *player = create_sample_player("player", 60, 6);
-    qctx->player = player;
+    int check = can_player_complete_task(qctx, "test");
 
-    int check = npc_can_give_task(qctx, "test");
-
-    cr_assert_eq(check, true, "npc_can_give_task() failed");
+    cr_assert_eq(check, true, "can_player_complete_task() failed");
 }
 
 Test(task_tree, free)

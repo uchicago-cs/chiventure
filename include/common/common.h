@@ -4,4 +4,4 @@
 #define SUCCESS (0)
 #define FAILURE (1)
 
-#endif
+#endif /* _COMMON_H_ */
