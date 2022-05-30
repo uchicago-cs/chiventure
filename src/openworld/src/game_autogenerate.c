@@ -41,10 +41,9 @@ int random_first_room(game_t* game){
 
     
     // specgraph_t *specgraph = game->specgraph;
-    cr_assert_not_null(game->specgraph->num_roomspecs,"num_roomspecs is NULL");
     int num_roomspecs=game->specgraph->num_roomspecs;
-    /*
-    int randomint=rand() % (num_roomspecs-1);  
+    int randomint=rand() % (num_roomspecs-1); 
+    /* 
     int count=0;
 
 
