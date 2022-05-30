@@ -475,6 +475,8 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
     agent->npc = npc;
     agent->item = NULL;
 
+    player_t *c_player = c->game->curr_player;
+
     // checks if the action type is the correct kind
     if (a->kind != NPC)
     {
@@ -567,9 +569,16 @@ int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_
 int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
                        npc_t *npc, char **ret_string)
 {
+    assert(c);
+    assert(c->game);
+    assert(a);
+    assert(npc);
+
     agent_t *agent = malloc(sizeof(agent_t));
     agent->npc = npc;
     agent->item = NULL;
+    
+    player_t *c_player = c->game->curr_player;
 
     if(a->kind != NPC_ITEM) return WRONG_KIND;
     
@@ -585,7 +594,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
         *ret_string = string;
         return CONDITIONS_NOT_MET;
     } 
-    if(item_in_npc_inventory(agent->npc, item->item_id) || item_in_inventory(c->game->curr_player, item))
+    if(item_in_npc_inventory(agent->npc, item->item_id) || item_in_inventory(c_player, item))
     {
         *ret_string = "Items Allocated";
         return SUCCESS;
@@ -606,7 +615,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
             *ret_string = string;
             return CONDITIONS_NOT_MET;
         }
-        if(remove_item_from_player(c->game->curr_player, item) != SUCCESS)
+        if(remove_item_from_player(c_player, item) != SUCCESS)
         {   
             return FAILURE;
         }
@@ -630,7 +639,7 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
         {
             return FAILURE;
         }
-        if(add_item_to_player(c->game->curr_player, item, c->game) != SUCCESS)
+        if(add_item_to_player(c_player, item, c->game) != SUCCESS)
         {
             return FAILURE;
         }
@@ -649,9 +658,16 @@ int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item,
  * See action_management.h */
 int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item)
 {
+    assert(c);
+    assert(c->game);
+    assert(a);
+    assert(npc);
+
     agent_t *agent = malloc(sizeof(agent_t));
     agent->npc = npc;
     agent->item = NULL;
+
+    player_t *c_player = c->game->curr_player;
 
     if(a->kind != NPC_ITEM_ITEM)
     {
@@ -687,11 +703,11 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
             }
             unsigned int cost = item->price;
             item_list_t *player_inventory;
-            player_inventory = get_all_items_in_hash(&c->game->curr_player->inventory);
+            player_inventory = get_all_items_in_hash(&(c_player->inventory));
             while(player_inventory != NULL){
                 if(player_inventory->item->price >= cost){
                     ret_item = player_inventory->item;
-                    if(remove_item_from_player(c->game->curr_player, ret_item) != SUCCESS)
+                    if(remove_item_from_player(c_player, ret_item) != SUCCESS)
                     {   
                         return FAILURE;
                     }
@@ -703,7 +719,7 @@ int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, 
                     {   
                         return FAILURE;
                     }
-                    if(add_item_to_player(c->game->curr_player, item, c->game) != SUCCESS)
+                    if(add_item_to_player(c_player, item, c->game) != SUCCESS)
                     {
                         return FAILURE;
                     }
