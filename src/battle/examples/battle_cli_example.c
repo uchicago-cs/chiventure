@@ -81,8 +81,8 @@ npc_t *create_minion_one()
     e_stats->level = 3;
     e_stats->phys_def = 20;
     e_stats->mag_def = 20;
-    e_stats->phys_atk = 80;
-    e_stats->mag_atk = 80;
+    e_stats->phys_atk = 60;
+    e_stats->mag_atk = 60;
     e_stats->sp = 100;
     e_stats->max_sp = 100;
     e_stats->crit = 25;
@@ -105,10 +105,10 @@ npc_t *create_ninja()
     e_stats->xp = 10;
     e_stats->speed = 8;
     e_stats->level = 3;
-    e_stats->phys_def = 20;
+    e_stats->phys_def = 40;
     e_stats->mag_def = 20;
-    e_stats->phys_atk = 80;
-    e_stats->mag_atk = 80;
+    e_stats->phys_atk = 60;
+    e_stats->mag_atk = 60;
     e_stats->sp = 100;
     e_stats->max_sp = 100;
     e_stats->crit = 25;

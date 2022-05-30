@@ -35,7 +35,7 @@ move_t *generate_moves_user_two()
     stat_changes_t *opponent_stat_changes1 = stat_changes_new();
     opponent_stat_changes1->phys_def = -10;
     move_t *move_two = move_new(2, "PiercingJab", "The user lunges towards the enemy, piercing their flesh, decreasing their defense", 
-                                PHYS, TARGET, NO_TARGET, SINGLE, 0, NULL, 60, 100, NULL, opponent_stat_changes1, 
+                                PHYS, TARGET, NO_TARGET, SINGLE, 0, NULL, 80, 100, NULL, opponent_stat_changes1, 
                                 move_one, NULL); 
     move_one->next = move_two;
     return move_one;
