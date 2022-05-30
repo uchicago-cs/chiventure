@@ -290,19 +290,15 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
     int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item);
     string = print_battle_item(ctx->game->battle, PLAYER, item);
     
-    
+    if (item->quantity <= 0)
+    {
+        remove_battle_item(ctx->game->battle->player, item);
+    }
     if (usage == FAILURE) 
     {
         snprintf(string, 150, "That item is Unavailable.\n");
         return string;
-    } 
-    /*
-    if(battle_over(b) == BATTLE_IN_PROGRESS)
-    {
-        char *res = enemy_make_move(ctx);
-        strncat(string, res, 150);
-        free(res);
-    }*/
+    }
     return string;
 }
 
