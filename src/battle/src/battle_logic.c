@@ -187,7 +187,14 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
         target_stats->speed += changes->speed;
     }
     
-    target_stats->max_sp += changes->max_sp;
+    if ((target_stats->max_sp + changes->max_sp) <= 0 )
+    {
+        target_stats->max_sp = 0;
+    }
+    else
+    {
+        target_stats->max_sp += changes->max_sp;
+    }
 
     if ((target_stats->sp + changes->sp) <= target_stats->max_sp)
     {
@@ -252,7 +259,15 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
         target_stats->accuracy += changes->accuracy;
     }
 
-    target_stats->max_hp += changes->max_hp;
+    if (target_stats->max_hp + changes->max_hp <= 0)
+    {
+        target_stats->max_hp = 0;
+    }
+    else
+    {
+        target_stats->max_hp += changes->max_hp;
+    }
+    
     
     if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
