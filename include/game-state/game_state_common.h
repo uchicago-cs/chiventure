@@ -7,6 +7,8 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
+#include <time.h>
+#include <unistd.h>
 
 #include "common/uthash.h"
 #include "common/utlist.h"
@@ -36,4 +38,7 @@
 #define ROOM_SRC_NULL 2
 #define ROOM_DEST_NULL 3
 
-#endif
+//Macros for quests
+#define QUEST_NAME_MAX_LEN 44
+
+#endif /* _GAME_STATE_COMMON_H */

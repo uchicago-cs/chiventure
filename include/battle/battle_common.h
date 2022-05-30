@@ -3,6 +3,7 @@
 
 #include "battle/battle_structs.h"
 
+typedef struct turn_component turn_component_t;
 
 /* AI move strategy options */
 typedef enum difficulty
@@ -44,6 +45,7 @@ typedef enum battle_status
     BATTLE_IN_PROGRESS,
     BATTLE_VICTOR_PLAYER,
     BATTLE_VICTOR_ENEMY,
+    BATTLE_ENEMY_SURRENDER,
     NO_BATTLE
 } battle_status_t;
 
@@ -55,6 +57,9 @@ typedef enum battle_status
  * moves: pointer to moves module (stub)
  * items: pointer to battle items module (stub)
  * ai: combatant's ai move strategy
+ * weapon: the weapon the combatant is holding
+ * accessory: the accessory the combatant is holding
+ * armor: the armor the combatant is holding
  * next: allows for combatant lists using utlist.h
  * prev: allows for combatant lists using utlist.h
  */
@@ -67,6 +72,9 @@ typedef struct combatant
     move_t *moves;
     battle_item_t *items;
     difficulty_t ai;
+    battle_equipment_t *weapon;
+    battle_equipment_t *accessory;
+    battle_equipment_t *armor;
     struct combatant *next;
     struct combatant *prev;
 } combatant_t;
@@ -76,13 +84,16 @@ typedef struct combatant
  * - enemy: a combatant pointer, storing the enemy/enemies
  * - environment: stores battle environment
  * - turn: a turn_t enum storing the current turn
+ * - current_tc: the turn component that the battle is currently running
  */
+
 typedef struct battle
 {
     combatant_t *player;
     combatant_t *enemy;
     environment_t environment;
     turn_t turn;
+    turn_component_t *current_tc;
 } battle_t;
 
-#endif
+#endif /* BATTLE_COMMON_H */

@@ -8,7 +8,7 @@
 #include "wdl_common.h"
 #include "validate.h"
 #include "load_condition.h"
-#include "npc/rooms-npc.h"
+#include "npc/rooms_npc.h"
 
 /* load_npcs
  * accesses the document object and obtain list of NPCs to parse into the
@@ -26,6 +26,5 @@
  * - FAILURE for unsuccessful parse
  */
 int load_npcs(obj_t *doc, game_t *g);
-
 
 #endif /* INCLUDE_LOAD_NPC_H */

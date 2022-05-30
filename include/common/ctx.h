@@ -7,8 +7,8 @@
 
 
 #include "common.h"
-#include "game-state/game.h"
 #include "cli/cli_ctx.h"
+#include "game-state/game.h"
 
 
 // Forward declaration
@@ -68,4 +68,4 @@ int chiventure_ctx_init(chiventure_ctx_t *ctx, game_t *game);
  */
 int chiventure_ctx_free(chiventure_ctx_t *ctx);
 
-#endif //CHIVENTURE_CHIVENTURE_H
+#endif /* CHIVENTURE_CHIVENTURE_H */

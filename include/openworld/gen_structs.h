@@ -1,3 +1,6 @@
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
+
 /* Team RPG-Openworld
 *
 * Gen-Structs header file
@@ -16,9 +19,6 @@
 #include <stdlib.h>
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
-
-#ifndef GEN_STRUCTS_H
-#define GEN_STRUCTS_H
 
 /* -- STRUCTS -- */
 
@@ -51,6 +51,7 @@ typedef struct itemspec itemspec_hash_t;
 * - char *short_desc: short description for room
 * - char *long_desc: long description for room
 * - int num_built: how many rooms of this type have been already built. An identifier.
+* - int tag: reference to the roomspecs positioning in specgraph list of roomspecs
 * - item_hash_t *items: hash table of items in room
 * - UT_hash_handle hh: hash handle for room spec
 */
@@ -59,6 +60,7 @@ typedef struct roomspec {
     char *short_desc;
     char *long_desc;
     int num_built;
+    int tag;
     item_hash_t *items;
     itemspec_hash_t *itemspecs;
     UT_hash_handle hh;
@@ -67,17 +69,24 @@ typedef struct roomspec {
 /* to differentiate between pointers to structs (above) and hash tables (below) */
 typedef struct roomspec rspec_hash_t; 
 
-/* speclist_t struct
-* This struct functions as a llist of all the roomspec_t's
-* The struct contains:
-* - roomspec_t *spec: pointer to some room specification
-* - speclist_t *next: pointer to the next part of the list.
-*/
-typedef struct speclist {
-    roomspec_t *spec;
-    struct speclist *prev;
-    struct speclist *next;
-} speclist_t;
+/* specgraph_t struct
+ * This struct functions as an adjacency matrix for the relationships between roomspec_t's
+ * The struct contains:
+ * - int num_roomspecs: The number of different roomspecs available in the game
+ * - roomspec_t roomspecs: list of pointers to roomspecs corresponding to each node on specgraph
+ * - int **edges: This is a pointer to a 2D array containing the information about the edges of the graph.
+ *                Edges of graph represent the relationship between each roomspec (i.e. the adjacency matrix).
+ *                These values will range from 0-5 and will be used to determine, for a room generated using the  
+ *                room_autogenerate function, the probability that the roomspec associated with the newly generated 
+ *                room will be a given roomspec. Thus, the higher the number, the more likely rooms of those roomspec 
+ *                will appear next to each other.
+ */
+
+typedef struct specgraph {
+    int num_roomspecs;
+    roomspec_t **roomspecs;
+    int **edges;
+} specgraph_t;
 
 /* gencontext_t struct
 * This struct will carry the info for the generation algorithm
@@ -85,13 +94,13 @@ typedef struct speclist {
 * - path_t *open_paths: the open path we are connecting the room to;
 * - int level: this is the players current level
 * - int num_open_paths: the number of openpaths that need to be generated in the room.
-* - speclist_t *speclist: the llist of roomspect_t that each hold the room info.
+* - specgraph_t *specgraph: the llist of roomspect_t that each hold the room info.
 */
 typedef struct gencontext {
     path_t *open_paths;
     int num_open_paths;
     int level;
-    speclist_t *speclist;
+    specgraph_t *specgraph;
 } gencontext_t;
 
 
@@ -148,13 +157,13 @@ typedef struct levelspec {
 * - level: stores the players level.
 * - openpaths: number of open paths to generate in the room
 * - numnpcs: the number of npcs to generate in the room
-* - speclist: the speclist we are choosing our roomspec from
+* - specgraph: the specgraph we are choosing our roomspec from
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, speclist_t *speclist);
+int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int num_open_paths, specgraph_t *specgraph);
 
 /* gencontext_new
 * Creates a new gencontext_t* based off the given parameters.
@@ -163,13 +172,13 @@ int init_gencontext(gencontext_t *context, path_t *open_paths, int level, int nu
 * - level: stores the players level.
 * - openpaths: number of open paths to generate in the room
 * - numnpcs: the number of npcs to generate in the room
-* - speclist: the speclist we are choosing our roomspec from
+* - specgraph: the specgraph we are choosing our roomspec from
 *
 * returns:
 * gencontext_t *contextnew - the new gencontext
 * NULL - if fails to create a new gencontext.
 */
-gencontext_t* gencontext_new(path_t *open_paths, int level, int num_openpaths, speclist_t *speclist);
+gencontext_t* gencontext_new(path_t *open_paths, int level, int num_openpaths, specgraph_t *specgraph);
 
 /* gencontext_free
 * Frees a gencontext_t* and returns whether or not it was successful
@@ -251,13 +260,15 @@ int itemspec_free(itemspec_t *itemspec);
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Does not affect itemspec hash. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
+* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag);
 
 /* roomspec_new
 * Creates a new roomspec_t* based off the given parameters.
@@ -267,13 +278,15 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
+* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
-*
+* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
+* 
 * returns:
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
 */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag);
 
 /* roomspec_free
 * Frees a roomspec_t* and returns whether or not it was succesful.
@@ -287,61 +300,91 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
 */
 int roomspec_free(roomspec_t *spec);
 
-/* SPECLIST */
+/* edges_init
+* Initializes an edges struct within a specgraph struct based on given parameters
+*
+* parameters:
+* - edges: The pointer to the 2D array of edges to be initialized
+* - inp_array: 1D array of edges that will be used for initialized the 2D array
+* - num_rows: Number of rows in the 2D array
+* - num_cols: Number of columns in the 2D array
+*
+* returns:
+* SUCCESS - for SUCCESS
+* FAILURE - if failed to intialize
+*/
+int edges_init(int** edges, int* inp_array, int num_rows, int num_cols);
 
-/* init_speclist
-* Initializes a speclist_t struct with the given paramaters. The speclist
+/* edges_new
+* Creates a new edges 2D array based off the given parameters.
+*
+* parameters:
+* - inp: 1D array of integers containing the edges (Should be length num_rows * num_cols)
+* - num_rows: Number of rows in the output 2d array of edges
+* - num_cols: Number of columns in the output 2d array of edges
+*
+* returns:
+* roomspec_t *roomspecnew - the new roomspec
+* NULL - if fails to create a new roomspec.
+*/
+int** edges_new(int* inp, int num_rows, int num_cols);
+
+/* edges_free
+* Frees a edges* and returns whether or not it was succesful.
+*
+* parameters:
+* - edges: edges** that we are attempting to free
+* - num_rows: Number of rows in edges 2D array
+*
+* returns:
+* SUCCESS - for SUCCESS
+* FAILURE - if failed to free
+*/
+int edges_free(int** edges, int num_rows);
+
+/* SPECGRAPH */
+
+/* init_specgraph
+* Initializes a specgraph_t struct with the given paramaters. The specgraph
 * must be pointing to some valid memory.
 *
 * parameters:
-* - list: the pointer to the speclist_t we are initializing
-* - spec: the pointer to the roomspec_t
+* - specgraph_t *specgraph: the pointer to the specgraph_t we are initializing
+* - int num_roomspecs: the number of roomspecs in the graph
+* - roomspec_t **roomspecs: An array of pointers to the roomspecs 
+* - int **edges: A pointer to a 2D array representing the weights in the adjacency matrix
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_speclist(speclist_t *list, roomspec_t *spec);
+int specgraph_init(specgraph_t *specgraph, int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
-
-/* speclist_new
-* Creates a speclist_t struct with the given paramaters.
+/* specgraph_new
+* Creates a new heap-allocated specgraph_t struct with the given paramaters.
 *
 * parameters:
-* - spec: the pointer to the roomspec_t
+* - int num_roomspecs: the number of roomspecs in the graph
+* - roomspec_t **roomspecs: An array of pointers to the roomspecs 
+* - int **edges: A pointer to a 2D array representing the weights in the adjacency matrix
 *
 * returns:
-* speclist_t *listnew = the new speclist
-* NULL - if failed to create a speclist
+* specgraph_t *specgraph = the new specgraph
+* NULL - if failed to create a specgraph
 */
-speclist_t* speclist_new(roomspec_t *spec);
+specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edges);
 
-/* speclist_free
-* Frees a speclist_t struct and returns whether or not it was successful
+/* specgraph_free
+* Frees a specgraph_t struct and all associated memory and returns whether or not it was successful
 *
 * parameters:
-* - list: the pointer to the speclist_t we are freeing
-*
-* returns:
-* SUCCESS - for SUCCESS
-* FAILURE - if failed to free
-*/
-int speclist_free(speclist_t *list);
-
-/* speclist_free_all
-* Frees all speclist's from the given list
-* However, this function will not free the roomspec's inside of speclist
-*
-* parameters:
-* - list: the speclist we are freeing from and onward.
+* - specgraph: the pointer to the specgraph_t we are freeing
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to free
 */
-int speclist_free_all(speclist_t *list);
-
-
+int specgraph_free(specgraph_t *specgraph);
 
 /* roomlevel */
 
@@ -461,5 +504,4 @@ levelspec_t *levelspec_new(int num_thresholds, int *thresholds);
  */
 int levelspec_free(levelspec_t *levelspec);
 
-
-#endif
+#endif /* GEN_STRUCTS_H */

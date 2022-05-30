@@ -6,6 +6,7 @@
             "in_room": "End Room"
         }
     },
+    "QUESTS": "NULL",
     "ROOMS": {
         "Bedroom": {
             "short_desc": "ASH's bedroom",
@@ -215,7 +216,7 @@
                     },
                     {
                         "id": "2b",
-                        "npc_dialogue": "Be safe!",
+                        "npc_dialogue": "Be safe!"
                     }
                 ],
                 "edges": [
@@ -533,7 +534,7 @@
                         "conditions": [
                             {
                                 "type": "INVENTORY",
-                                "item_id": "POKEBALL",
+                                "item_id": "POKEBALL"
                             }
                         ]
                     },

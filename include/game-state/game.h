@@ -6,8 +6,7 @@
 #include "room.h"
 #include "item.h"
 #include "quests/quests_state.h"
-#include "quests/quests_structs.h"
-#include "npc/npc.h"
+#include "npc/dialogue.h"
 #include "condition.h"
 #include "game_action.h"
 #include "stats.h"
@@ -32,6 +31,9 @@ typedef struct npc npc_t;
 typedef struct npc npc_hash_t;
 typedef struct quest quest_t;
 typedef struct quest quest_hash_t;
+typedef struct path path_t;
+typedef struct gencontext gencontext_t;
+typedef struct levelspec levelspec_t;
 
 /* The game struct is built to contain all the relevant information
  * for anyone who needs to work the game
@@ -85,6 +87,12 @@ typedef struct game {
 
     /* starting string description to be presented at beginning of game */
     char *start_desc;
+
+    /* pointer to gencontext struct used for autogeneration module */
+    gencontext_t *genctx;
+
+    /* pointer to levelspec struct used for level-oriented generation */
+    levelspec_t *levelspec;
 
     /* time when game started */
     //int time_start;
@@ -308,8 +316,8 @@ bool is_game_over(game_t *game);
 * WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
-int create_connection(game_t *game, char* src_room, char* dest_room,
-    			char* direction);
+int create_connection(game_t *game, char *src_room, char *dest_room,
+    			char *direction);
 
 /*
 *
@@ -323,6 +331,23 @@ int create_connection(game_t *game, char* src_room, char* dest_room,
 *  SUCCESS if the game->curr_player != NULL, FAILURE if NULL
 */
 int set_curr_player(game_t *game, player_t *player);
+
+/*
+ * Called after active quest/task finished 
+ * Resets NPC's dialogue to normal dialogue
+ * 
+ * Parameters:
+ * - game: the game
+ * - qctx: the quest context
+ * - player: the player
+ * - npc: the npc
+ * - quest_id: the quest's id
+ * - task_id: the task's id
+ * 
+ * Returns: SUCCESS upon success, FAILURE upon failure
+ */
+int reset_active_dialogue(game_t *game, quest_ctx_t *qctx, player_t *player, npc_t *npc, 
+                   char *quest_id, char *task_id);
 
 /*
 * Function to find player given game and player id
@@ -402,6 +427,18 @@ int delete_room_llist(room_list_t *head);
  */
 item_list_t *get_all_items_in_game(game_t *game);
 
+/* Adds an item to the given player
+ *
+ * Parameters:
+ *  player struct
+ *  item struct
+ *  game struct
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_item_to_player(player_t *player, item_t *item, game_t *game);
+
 /* add_effect creates a game_action_effect_t struct and adds it to the action pointed to
 * Parameters:
 * - game_t *game
@@ -419,8 +456,8 @@ item_list_t *get_all_items_in_game(game_t *game);
 * - ACTION_NULL if action is null
 * - ATTRIBUTE_NULL if attribute is null
 */
-int add_effect(game_t *game, char* action_name, char* item_src_name,
-           char* item_modify_name, char* attribute_name, attribute_value_t new_value);
+int add_effect(game_t *game, char *action_name, char *item_src_name,
+           char *item_modify_name, char *attribute_name, attribute_value_t *new_value);
 
 /* add_condition adds the given condition struct to the action pointed to
  * Parameters:
@@ -439,5 +476,41 @@ int add_effect(game_t *game, char* action_name, char* item_src_name,
  */
 int add_condition(game_t *game, game_action_t *action, condition_t *condition);
 
-#endif
+/**********************************************
+ *       DIALOGUE EXECUTION FUNCTIONS         *
+ **********************************************/
 
+/* Starts a conversation.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - rc: return code
+ *  - game: the Chiventure game being run
+ *
+ * Returns:
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
+ */
+char *start_conversation(convo_t *c, int *rc, game_t *game);
+
+/* Runs a step of the conversation.
+ *
+ * Parameters:
+ *  - c: pointer to a convo
+ *  - input: integer (1, 2, ..., c->cur_node->num_available_edges)
+ *  - rc: return code
+ *  - game: the Chiventure game being run
+ *
+ * Returns:
+ *  - A string of NPC dialogue and dialogue options that can be directly
+ *    printed by the CLI.
+ *  - An RC of: 1 if the conversation has ended (i.e. we have arrived at a
+ *    leaf node), 0 if the conversation is still ongoing, and -1 if an error
+ *    occured.
+ */
+char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game);
+
+#endif /* _GAME_H */

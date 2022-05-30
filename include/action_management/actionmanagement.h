@@ -154,5 +154,24 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
 int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
                         item_t *indirect, char **ret_string);
 
+/* A function that executes KIND 4 actions (ACTION <player>)
+ *
+ * Parameters:
+ * - c: A context struct encapsulating the shared state in chiventure
+ * - a: An action type struct
+ * - target: An array of strings describing what self-related object
+ *           (quests, etc), and secondary-level object ("quest-id", etc)
+ *           needs to be acted on. The second element in the array, if it
+ *           exists, represents a more specific item (for instance viewing
+ *           a specific quest's descriptions vs. just seeing a list of quests)
+ * - ret_string: A pointer to a string describing the result of the function
+ *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ */
+int do_self_action(chiventure_ctx_t *c, action_type_t *a,
+                  char **target, char **ret_string);
 
-#endif
+#endif /* _ACTIONS_H_ */
