@@ -10,3 +10,5 @@ target_link_libraries(openworld wdl)
 target_link_libraries(openworld game-state)
 target_link_libraries(openworld common)
 
+add_subdirectory(examples
+                 EXCLUDE_FROM_ALL)
