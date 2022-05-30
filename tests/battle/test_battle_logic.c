@@ -624,6 +624,7 @@ Test(battle_logic, remove_single_item)
     battle->player = p;
 
     int res = use_battle_item(p, battle, i1);
+    remove_battle_item(i1);
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
@@ -678,11 +679,13 @@ Test(battle_logic, remove_item_of_multiple)
     battle->player = p;
 
     int res1 = use_battle_item(p, battle, i1);
+    remove_battle_item(i1);
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i2, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
     int res2 = use_battle_item(p, battle, i2);
+    remove_battle_item(i2);
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
@@ -733,11 +736,13 @@ Test(battle_logic, remove_last_item_of_multiple)
     battle->player = p;
 
     int res2 = use_battle_item(p, battle, i2);
+    remove_battle_item(i2);
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i1, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
     int res1 = use_battle_item(p, battle, i1);
+    remove_battle_item(i1);
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
