@@ -25,6 +25,8 @@
 /*See autogenerate.h*/
 int random_first_room(game_t* game){
 
+    
+    /*
     if(game==NULL){
         return FAILURE;
     }
