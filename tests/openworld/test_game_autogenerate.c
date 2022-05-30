@@ -7,7 +7,7 @@
 #include "openworld/default_items.h"
 #include "openworld/gen_structs.h"
 
-/* Tests the functions in game_autogenerate.h */
+/* Tests the functions in game_autogenerate.h a*/
 
 /* Checks that random_first_room successfully generates a random first room in a game given a sepcgraph with 1 spec*/
 Test(randomroom, random_first_room_1spec){
