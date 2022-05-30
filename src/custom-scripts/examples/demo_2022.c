@@ -55,7 +55,7 @@ chiventure_ctx_t *create_sample_ctx()
     data_t jack;
     data_t dc;
 
-    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/dynamic_string.lua");
+    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/demo.lua");
    
 
     /* Create context */
