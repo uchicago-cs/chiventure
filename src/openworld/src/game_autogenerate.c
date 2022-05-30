@@ -99,7 +99,7 @@ room_t* random_room_from_game(game_t* game){
         count = 0;
         key_count = 0;
         curr_id = curr->room_id;
-        while(curr[count] != '\0'){
+        while(curr_id[count] != '\0'){
             keys[key_count][count] = curr[count];
             count++;
         }
