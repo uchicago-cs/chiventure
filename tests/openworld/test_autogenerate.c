@@ -119,7 +119,7 @@ Test(autogenerate, path_exists_in_direction_mid)
     cr_assert_eq(false, path_exists_in_direction(room, "NOT A DIRECTION"), "Expected false but got true");
 }
 
-/* Checks that room_exists_in_direction outputs false when a room does not exist in a given direction */
+/* Checks that room_exists_in_direction outputs true when a room does exist in a given direction */
 Test(autogenerate, room_exists_in_direction_false){
 
     game_t *game=game_new("New Game");
@@ -170,13 +170,13 @@ Test(autogenerate, room_exists_in_direction_false){
     char* direction_to_curr;
 
     rc=room_exists_in_direction(game, room1, "east");
-    cr_assert_eq(rc, false, "failed to determine if a room exists north of the current room\n");
+    cr_assert_eq(rc, true, "failed to determine if a room exists north of the current room\n");
 
     rc=room_exists_in_direction(game, room2, "west");
-    cr_assert_eq(rc, false, "failed to determine if a room exists south of the current room\n");
+    cr_assert_eq(rc, true, "failed to determine if a room exists south of the current room\n");
 }
 
-/* Checks that room_exists_in_direction outputs true when a room does exist in a given direction */
+/* Checks that room_exists_in_direction outputs false when a room does not exist in a given direction */
 Test(autogenerate, room_exists_in_direction_false){
 
     game_t *game=game_new("New Game");
