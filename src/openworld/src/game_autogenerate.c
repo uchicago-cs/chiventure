@@ -68,8 +68,13 @@ room_t* random_room_from_game(game_t* game){
     
     int randomint=rand() % num_rooms; 
 
+    /*
     int *count;
     *count = 0;
+    */
+
+    int count = 0;
+    int key_count = 0;
 
     char** keys=(char**)malloc(sizeof(char*)*num_rooms);
 
@@ -79,6 +84,7 @@ room_t* random_room_from_game(game_t* game){
     char* curr_id;
     int i;
     
+    /*
     HASH_ITER(hh, game->all_rooms, curr, tmp) {
         
         curr_id=curr->room_id;
@@ -87,14 +93,17 @@ room_t* random_room_from_game(game_t* game){
         keys[i]=curr_id;
         (*count)++;
     }
-
-    /*
-    HASH_ITER(hh, game->all_rooms, curr, tmp) {
-
-        while(key[])
-
-    }
     */
+    
+    HASH_ITER(hh, game->all_rooms, curr, tmp) {
+        count = 0;
+        key_count = 0;
+        while(curr[count] != '\0'){
+            keys[key_count][count] = curr[count];
+            count++;
+        }
+        key_count++;
+    }
 
     char* room_id=keys[randomint];
     assert(room_id!="");
