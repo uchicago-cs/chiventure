@@ -1,31 +1,4 @@
 /*
-Main CMAKE file lines 14-15:
-
-# EXAMPLES
-add_subdirectory(examples
-                 EXCLUDE_FROM_ALL)
-
-/*
-Openworld 2021 demo makefile
-
-set(OPENWORLD_EXAMPLES openworld-demo-2022)
-
-add_executable(openworld-demo-2022
-               openworld-demo-2022.c)
-
-# Link with chiventure libraries
-foreach(example ${OPENWORLD_EXAMPLES})
-    foreach(module ${CHIVENTURE_MODULES})
-        target_link_libraries(${example} ${module})
-    endforeach(module)
-endforeach(example)
-
-add_custom_target(openworld-examples
-        DEPENDS ${OPENWORLD_EXAMPLES})
-*/        
-
-
-/*
  * This example program runs a full instance of chiventure with an in-memory game.
  * The CLI is monkey-patched to accept functions that serve to showcase room generation.
  * 
@@ -43,10 +16,34 @@ add_custom_target(openworld-examples
 
 #define OUTPUT_BUFFER_SIZE 100
 
+chiventure_ctx_t *create_sample_ctx()
+{
+    game_t *game = game_new("Welcome to Chiventure!");
+
+    load_normal_mode(game);
+
+    /* Create room1, the initial room */
+    room_t *room1 = room_new("room1", "This is room 1", "This is the first room.");
+    add_room_to_game(game, room1);
+    game->curr_room = room1;
+
+    /* Create context */
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
+
+    return ctx;
+}
+
 
 const char *banner = "THIS IS AN OPENWORLD EXAMPLE PROGRAM";
 
 int main(int argc, char **argv)
 {   
+    chiventure_ctx_t *ctx = create_sample_ctx();
+    
+    /* Start chiventure */
+    start_ui(ctx, banner);
+
+    game_free(ctx->game);
+
     return 0;
 }
