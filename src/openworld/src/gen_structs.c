@@ -136,7 +136,7 @@ int roomspec_free(roomspec_t *spec)
 }
 
 /* see gen_structs.h */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag)
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
 {
 
     if (spec == NULL)
@@ -169,12 +169,11 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
     strncpy(spec->long_desc, long_desc, MAX_LDESC_LEN);
     spec->items = items;
     spec->num_built = 0;
-    spec->tag = tag;
     return SUCCESS;
 }
 
 /* see gen_structs.h */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag)
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items)
 {
 
     roomspec_t *roomspecnew = calloc(1, sizeof(roomspec_t));
@@ -184,11 +183,12 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
         return NULL;
     }
 
-    int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items, tag);
+    int check = init_roomspec(roomspecnew, room_name, short_desc, long_desc, items);
     if (check == FAILURE) {
         return NULL;
     }
     roomspecnew->itemspecs = NULL;
+    roomspecnew->tag=-1;
     return roomspecnew;
 }
 
@@ -290,6 +290,35 @@ int specgraph_free(specgraph_t *specgraph)
     return SUCCESS;
 }
 
+int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec){
+
+    int num_roomspecs=specgraph->num_roomspecs;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    int **edges=specgraph->edges;
+
+    int rownumber=-1;
+    int rowcount=0;
+
+    while(rownumber==-1){
+        if(currspec==roomspecs[rowcount])
+            rownumber=rowcount;
+        rowcount++;
+    }
+
+    int *row=edges[rownumber];
+
+    int columnnumber=-1;
+    int columncount=0;
+
+    while(columnnumber==-1){
+        if(adjacentspec==roomspecs[rowcount])
+            columnnumber=columncount;
+        columncount++;
+    }
+
+    return edges[rownumber][columnnumber];
+}
+
 /* See gen_structs.h */
 int init_roomlevel(roomlevel_t *roomlevel, char *room_name, int difficulty_level)
 {
@@ -349,6 +378,9 @@ int add_roomlevel_to_hash(roomlevel_hash_t **roomlevels, char *name, int difficu
     }
     return FAILURE;
 }
+
+
+
 
 /* See gen_structs.h */
 int init_levelspec(levelspec_t *levelspec, int num_thresholds, int *thresholds)
