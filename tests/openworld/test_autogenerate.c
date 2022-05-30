@@ -289,10 +289,10 @@ Test(autogenerate, find_room_in_direction){
     room_t *res1;
     room_t *res2;
 
-    rc=room_exists_in_direction(game, room1, "east");
+    res1=find_room_in_direction(game, room1, "east");
     cr_assert_eq(strcmp(res1->room_id, room2->room_id), 0, "failed to output correct room\n");
 
-    rc=room_exists_in_direction(game, room2, "west");
+    res2=find_room_in_direction(game, room2, "west");
     cr_assert_eq(strcmp(res2->room_id, room1->room_id), 0, "failed to output correct room\n");
 }
 
