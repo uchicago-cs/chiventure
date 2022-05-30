@@ -16,6 +16,8 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
     npc->hostility_level = hostility_level;
     npc->npc_battle = NULL;
     npc->movement = movement;
+    npc->quests = npc_quest_list_new();
+    npc->tasks = npc_task_list_new();
     item_hash_t *items = NULL;
     npc->inventory = items;
 
@@ -37,6 +39,8 @@ npc_t *npc_new(char *npc_id, char *short_desc, char *long_desc,
     npc->long_desc = malloc(MAX_LDESC_LEN);
     npc->class = malloc(sizeof(class_t));
     npc->movement = malloc(sizeof(npc_mov_t));
+    npc->quests = NULL;
+    npc->tasks = NULL;
 
     char *insensitized_id = case_insensitized_string(npc_id);
 
@@ -61,7 +65,11 @@ int npc_free(npc_t *npc)
     
     if (npc->dialogue != NULL)
     {
-        convo_free(npc->dialogue);
+        convo_free(npc->active_dialogue);
+    }
+    if (npc->standard_dialogue != NULL)
+    {
+        convo_free(npc->standard_dialogue);
     }
     if (npc->movement != NULL)
     {
@@ -70,6 +78,14 @@ int npc_free(npc_t *npc)
     if (npc->npc_battle != NULL)
     {
         npc_battle_free(npc->npc_battle);
+    }
+    if (npc->quests != NULL)
+    {
+        npc_quest_list_free(npc->quests);
+    }
+    if (npc->tasks != NULL)
+    {
+        npc_task_list_free(npc->tasks);
     }
     free(npc->npc_id);
     free(npc->short_desc);
@@ -268,7 +284,7 @@ int add_convo_to_npc(npc_t *npc, convo_t *c)
 {
     assert(npc != NULL && c != NULL);
 
-    npc->dialogue = c;
+    npc->standard_dialogue = c;
 
     return SUCCESS;
 }
