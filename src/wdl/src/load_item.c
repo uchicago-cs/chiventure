@@ -39,7 +39,7 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 }
 
 /* See load_item.h */
-int load_actions(obj_t *item_obj, item_t *i)
+int load_actions(obj_t *item_obj, agent_t *agent)
 {
     // getting a list of actions from item
     obj_t *action_ls = obj_get_attr(item_obj, "actions", false);
@@ -68,15 +68,15 @@ int load_actions(obj_t *item_obj, item_t *i)
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
         {
-            add_action(i, action, obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
+            add_action(agent, action, obj_get_str(curr, "text_success"), obj_get_str(curr, "text_fail"));
         }
         else if(obj_get_str(curr, "text_success") != NULL)
         {
-            add_action(i, action, obj_get_str(curr, "text_success"), "Action failed");
+            add_action(agent, action, obj_get_str(curr, "text_success"), "Action failed");
         }
         else
         {
-            add_action(i, action, "Action succeeded", obj_get_str(curr, "text_fail"));
+            add_action(agent, action, "Action succeeded", obj_get_str(curr, "text_fail"));
         }
 
         free(action);
@@ -113,6 +113,9 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
     }
 
     obj_t *curr;
+    agent_t *agent = malloc(sizeof(agent_t));
+    agent->item = item;
+    agent->npc = NULL;
     DL_FOREACH(action_ls->data.lst, curr)
     {
         char *action = case_insensitized_string(obj_get_str(curr, "action"));
@@ -121,7 +124,7 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
         /* Adds conditions to the current action, if conditions object exists */
         if (conditions_obj != NULL) 
         {
-           game_action_t* act = get_action(item, action);
+           game_action_t* act = get_action(agent, action);
            condition_t* conditions_ls = build_conditions(conditions_obj, g);
 
            while(conditions_ls != NULL)
@@ -132,7 +135,7 @@ int load_conditions(obj_t *item_obj, game_t *g, item_t *item) {
            
         }
     }
-
+    free(agent);
     return SUCCESS;
 }
 
@@ -168,15 +171,18 @@ int load_items(obj_t *doc, game_t *g)
         item_t *item = item_new(id, short_desc, long_desc);
         /* in parameter yet to implemented by game-state
         item_t *item = item_new(id, short_desc, long_desc, in); */
+        agent_t *agent = malloc(sizeof(agent_t));
+        agent->item = item;
+        agent->npc = NULL;
 
         // load actions into item
-        if (load_actions(curr, item) == FAILURE)
+        if(load_actions(curr, agent) == FAILURE)
         {
             fprintf(stderr, "actions have not been loaded properly");
             return FAILURE;
         }
 
-        add_item_to_game(g, item);
+        add_item_to_game(g, agent->item);
         
         // load conditions into item
         if (load_conditions(curr, g, item) == FAILURE)
@@ -188,7 +194,7 @@ int load_items(obj_t *doc, game_t *g)
         // add item to its room, unless it is meant to be an NPC-held item
         if (strcmp(in, "npc") != 0) {
             room_t *item_room = find_room_from_game(g, in);
-            add_item_to_room(item_room, item);
+            add_item_to_room(item_room, agent->item);
         }
     }
     return SUCCESS;

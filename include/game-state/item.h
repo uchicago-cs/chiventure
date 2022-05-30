@@ -49,7 +49,9 @@ typedef struct attribute_wrapped_for_llist {
 * UTHASH macros as specified in src/common/include */
 typedef struct attribute attribute_hash_t;
 
+/* Forward declarations. Full typedef can be found in actionmanagement.h */
 typedef struct game_action game_action_hash_t;
+typedef struct game_action game_action_t;
 
 typedef struct item {
     UT_hash_handle hh; // makes this struct hashable for the room struct (objects in rooms) and player struct (inventory)
@@ -67,8 +69,8 @@ typedef struct item {
     effects_hash_t *stat_effects; // hashtable of effects item can have (set to NULL if no effects)
     struct item *next; // points to item w/ identical id, if it exists
     char *item_image; // a file path to an image of an item
-    unsigned int *inventory_x_pos; // a x-coordinate for an item's position in an inventory
-    unsigned int *inventory_y_pos; // a y-coordinate for an item's position in an inventory
+    unsigned int inventory_x_pos; // a x-coordinate for an item's position in an inventory
+    unsigned int inventory_y_pos; // a y-coordinate for an item's position in an inventory
 } item_t;
 
 /* This typedef is to distinguish between item_t pointers which are
@@ -212,32 +214,6 @@ int remove_item_from_all_items_hash(item_hash_t **all_items, item_t *item);
  *  SUCCESS if successful, FAILURE if failed
  */ 
 int add_effect_to_item(item_t *item, stat_effect_t *effect);
-
-
-// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
-typedef struct game_action_effect{
-    item_t *item;
-    attribute_t* attribute_to_modify;
-    attribute_value_t new_value;
-    struct game_action_effect *next; //mandatory for utlist macros
-} game_action_effect_t;
-
-/* This typedef is to distinguish between game_action_effect_t
-* pointers which are used to point to the game_action_effect_t structs
-* in the traditional sense, and those which are used to enable UTLIST functionality
-* on the game_action_effect_t structs as specified in src/common/include
-*/
-typedef struct game_action_effect action_effect_list_t;
-
-
-typedef struct game_action {
-    UT_hash_handle hh;
-    char* action_name;
-    condition_list_t *conditions; //must be initialized to NULL
-    action_effect_list_t *effects; //must be initialized to NULL
-    char* success_str;
-    char* fail_str;
-} game_action_t;
 
 
 // ATTRIBUTE FUNCTIONS (FOR ITEMS) --------------------------------------------
@@ -634,4 +610,4 @@ char list_get_char_attr(attribute_list_t *head, char* attr_name);
  */
 bool list_get_bool_attr(attribute_list_t *head, char* attr_name);
 
-#endif
+#endif /* _ITEM_H */

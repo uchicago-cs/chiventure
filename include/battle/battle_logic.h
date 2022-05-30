@@ -7,6 +7,7 @@
 #include "battle/battle_structs.h"
 #include "battle/battle_common.h"
 #include "battle/battle_flow_structs.h"
+#include "game-state/player.h"
 
 /*
  * Checks the targets of a move to see if they exist and are targetable
@@ -161,7 +162,7 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
  */
 void get_legal_actions(battle_item_t *items, 
                        move_t *moves, 
-                       turn_component_t comp, 
+                       turn_component_t *comp, 
                        battle_t *battle);
 
 /* gives the number of moves in the given linked list of moves
@@ -184,5 +185,23 @@ int num_moves(move_t *moves);
  */
 int num_items(battle_item_t *items);
 
-#endif
+/* Converts a player into a battle player
+ *
+ * Parameters:
+ * - player: the player
+ * - b_stats: the battle stats
+ * - b_moves: the battle moves
+ * - weapon: the weapon equiped
+ * - accessory: the accessory equiped
+ * - armor: the armor equiped
+ * 
+ * Returns:
+ * - the number of items in the linked list 
+ */
+battle_player_t *player_to_battle_player(player_t *player, stat_t *b_stats, 
+                                        move_t *b_moves, battle_item_t *items,
+                                        battle_equipment_t *weapon, 
+                                        battle_equipment_t *accessory,
+                                        battle_equipment_t *armor);
 
+#endif /* BATTLE_LOGIC_H */
