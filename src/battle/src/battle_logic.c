@@ -266,34 +266,34 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
     
     if (strncmp(class->name, warrior, 8) == 0) {
         if (strncmp(item->name, strength_up, 12) == 0) {
-            mults->phys_atk = 1.5; //1.5
+            mults->phys_atk = 1.5; 
         }
         if (strcmp(item->name, "Defense Up") == 0) {
-            mults->phys_def = 1; //1.2
+            mults->phys_def = 1.2; 
         }
     }
     if (strcmp(class->name, "wizard") == 0) {
         if (strcmp(item->name, "Strength Up") == 0) {
-            mults->phys_atk = 1; //0.8
+            mults->phys_atk = 0.8; 
         }
         if (strcmp(item->name, "Defense Up") == 0) {
-            mults->phys_def = 1; //1.2
+            mults->phys_def = 1.2;
         }
         if (strcmp(item->name, "Healing Potion") == 0) {
-            mults->hp = 1; // 1.5
+            mults->hp = 1.5;
         }
     } 
     if (strcmp(class->name, "bard") == 0) {
         if (strcmp(item->name, "Elixir of Life") == 0) {
-            mults->hp = 1; //1.2
+            mults->hp = 1.2;
         }
     }
     if (strcmp(class->name, "rogue") == 0) {
         if (strcmp(item->name, "Elixir of Life") == 0) {
-            mults->hp = 1; //0.8
+            mults->hp = 0.8; 
         }
         if (strcmp(item->name, "Healing Potion") == 0) {
-            mults->hp = 1; //1.2
+            mults->hp = 1.2;
         }
     }
 
