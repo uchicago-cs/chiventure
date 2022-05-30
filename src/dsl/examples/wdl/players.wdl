@@ -62,12 +62,11 @@
         "strong": "TRUE"
       },
       "base_stats": {
-        "stat_setting": {
-          "id": "mana",
-          "state": {
-            "CURRENT": "20",
-            "MAX": "10"
-          }
+        "health": {
+          "CURRENT": "100"
+        },
+        "mana": {
+          "CURRENT": "20"
         }
       }
     }

@@ -61,9 +61,13 @@ class TreeToDict(Transformer):
 
     base_stats = trans.transform_base_stats
 
-    stat_setting = trans.transform_stat_setting
+    stat_state = trans.transform_stat_state
 
-    state = trans.transform_state
+    stat = trans.transform_stat
+
+    # stat_setting = trans.transform_stat_setting
+
+    # state = trans.transform_state
 
     #for documentation of the below transformations, see simple_modifiers.py
 

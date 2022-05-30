@@ -17,10 +17,9 @@ player_class: _NL "PLAYER_CLASS" id (property | attributes | base_stats)*
 attributes: _NL "ATTRIBUTES" attribute_state*
 attribute_state: _NL phrase phrase
 
-
-base_stats: _NL "BASESTATS" stat_setting*
-stat_setting: _NL id state*
-state: _NL "CURRENT" NUMBER _NL "MAX" NUMBER
+base_stats: _NL "BASESTATS" stat_state*
+stat_state: _NL phrase stat*
+stat: _NL phrase NUMBER
 
 action: _NL ("action:"|"actions:") action_ids property*
 action_ids: id ("," id)*

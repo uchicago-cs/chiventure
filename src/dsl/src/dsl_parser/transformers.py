@@ -149,21 +149,28 @@ def transform_attribute_state(self, s: list[tuple[str, str]]) -> tuple[str, dict
 def transform_base_stats(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     """Takes a list of key-value pairs which belong to an base_stats and places them
     into a dictionary which is labeled "base_stats" """
-    return ('base_stats', dict(s))
+    new_dict = {}
+    for val in s:
+        dic = val[1]
+        name = list(dic.keys())[0]
+        new_dict[name] = dic[name]
+    return ('base_stats', new_dict)
 
-def transform_stat_setting(self, s: list[tuple[str, Token]]) -> tuple[str, dict]:
-    return('stat_setting', dict(s))
+def transform_stat_state(self, s: list[tuple[str, str]]) -> tuple[str, str]:
+    new_dict = {}
+    new_dict[s[0]] = s[1]
+    return ('base_stats', new_dict)
 
-def transform_state(self, s: list[tuple[Token]]) -> tuple[str, dict]:
+def transform_stat(self, s: list[tuple[str, str]]) -> tuple[dict]:
     count = 1
     d = {}
     for t in s:
-        if count == 1:
-            d["CURRENT"] = t[0]+t[1]
-        elif count == 2:
-            d["MAX"] = t[0]+t[1]
-        count += 1
-    return('state', d)
+        if t == "CURRENT" or t == "MAX":
+            last = t
+        else:
+            d[last] = t
+            print("last: ", last, d[last])
+    return(d)
 
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
