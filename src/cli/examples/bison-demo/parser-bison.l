@@ -32,7 +32,7 @@ consume { return CONSUME; }
 
 the+ { return THE; }
 
-^GO|go|Go|gO|head|move|walk  { return GO; }
+^GO|go|Go|gO|head|move|walk|travel  { return GO; }
 
 TO|to|To|tO   { return TO; }
 
