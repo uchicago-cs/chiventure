@@ -16,10 +16,21 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
    Variable st is state of torch before fliping */
 char* flip_state(bool st)
 {
+    data_t data, data2;
+    data.s = "";
+    data2.b = st;
+
+    /* Use of boolean, switching item torch from 
+    true (lit) to false (unlit), and conversely with Lua */
+    object_t *ot = obj_t_init(data, STR_TYPE, "../../../../src/custom-scripts/examples/flip.lua");
+    ot = obj_add_arg(ot, data2, BOOL_TYPE);
+    data_t got = arg_t_get(ot);
+    st = got.b;
+    
     char* str_state = (char*)malloc(20);
     
     /* output string depending on flip */
-    if (!st) {
+    if (st == false) {
       str_state = "The torch is unlit.";
     } else {
       str_state = "The torch is lit.";
