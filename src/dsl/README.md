@@ -89,7 +89,7 @@ If it only contains supported features, you can then run your newly created game
 ```
 
 ### Running tests
-The dsl module has built in tests to ensure than any new changes and features implemented do not affect the output of previously implemented features. These tests can be found in the `tests` subdirectory.
+The dsl module has built in tests to ensure that any new changes and features implemented do not affect the output of previously implemented features. These tests can be found in the `tests` subdirectory.
 
 From the `src/dsl` directory, you can run all of the tests in the `tests/dsl_tests` subdirectoy using:
 ```
