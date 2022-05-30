@@ -758,7 +758,7 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     battle_item_t *legal_items = NULL;
     get_legal_actions(&legal_items, &legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
-    char *menu = print_battle_action_menu(legal_items, legal_moves);
+    char *menu = print_battle_action_menu(legal_items, legal_moves, ctx->game->battle_ctx);
 
     // leaving in case we want to directly set game mode in the future:
     //set_game_mode(ctx->game, BATTLE, npc->npc_id);

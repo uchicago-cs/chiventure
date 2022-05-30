@@ -184,7 +184,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
     get_legal_actions(&legal_items, &legal_moves, 
                       battle_ctx->current_turn_tcl->current, 
                       ctx->game->battle_ctx->game->battle);
-    char *menu = print_battle_action_menu(legal_items, legal_moves);
+    char *menu = print_battle_action_menu(legal_items, legal_moves, ctx->game->battle_ctx);
     char *output_and_menu = strcat(output, menu);
     return callback_func(ctx, output_and_menu, callback_args);
 }
