@@ -55,10 +55,12 @@ chiventure_ctx_t *create_sample_ctx()
     data_t jack, d1, d2;
     data_t dc, di1, di2;
 
+    /* Load Lua files*/
     object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/lua/demo.lua");
     object_t *ot = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/examples/lua/gold.lua");
     object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/lua/weight.lua");
    
+    /* Initalize varaibles */
     char class_num;
     int gold_num;
 
@@ -68,38 +70,39 @@ chiventure_ctx_t *create_sample_ctx()
     printf("You receive a premonition... how much gold do you see in your future? ");
     scanf("%i", &gold_num);  
 
-    /* Create context */
+    /* The class you selected */
     dc.c = class_num;
     togay = obj_add_arg(togay, dc, CHAR_TYPE);
     char* custom_string = (char*)malloc(100);
     data_t temp = arg_t_get(togay);
     custom_string = temp.s;
 
+    /* The amount of money you requested */
     di1.i = gold_num;
     ot = obj_add_arg(ot, di1, INT_TYPE);
     char* gold_string = (char*)malloc(500);
     temp = arg_t_get(ot);
     gold_string = temp.s;
-    
-    int rand_weight = (gold_num ? rand() % gold_num : 0); // The more money you request, the less likely you are to obtain it
-    
-    di2.i = rand_weight;
+
+    /* The more money you request, the less likely you are to obtain it */
+    di2.i = rand_weight = (gold_num ? rand() % gold_num : 0); 
     ot2 = obj_add_arg(ot2, di2, INT_TYPE);
     char* custom_string2 = (char*)malloc(500);
     temp = arg_t_get(ot2);
     custom_string2 = temp.s; 
 
+    /* Create context */
     obj_t *obj_store = load_obj_store(custom_string);
     game_t *game = load_game(obj_store);
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
-    /* Create one rooms (room1). room1 is the initial room */
+    /* Create the torch room */
     room_t *room1 = room_new("room_torch", "This is the torch room", "This is a room with a torch in the corner");
     add_room_to_game(game, room1);
     create_connection(game, "room_A", "room_torch", "SOUTH");
     create_connection(game, "room_torch", "room_A", "NORTH");
 
-    /* Create a torch in room1 */
+    /* Create a torch in the torch room */
     item_t *torch_item = item_new("TORCH","It is a torch.", "The torch is nice, and can provide light!");
     add_item_to_room(room1, torch_item);
     agent_t torch = (agent_t){.item = torch_item, .npc = NULL};
@@ -109,13 +112,13 @@ chiventure_ctx_t *create_sample_ctx()
     add_action(&torch, "LIGHT", flip_state(true), "The torch is broken!");
     add_action(&torch, "UNLIGHT", flip_state(false), "The torch is broken!");
 
-
+    /* Create the chest room */
     room_t *room2 = room_new("room_chest", "This is the chest room", "There is a chest in the middle of this room");
     add_room_to_game(game, room2);
     create_connection(game, "room_A", "room_chest", "WEST");
     create_connection(game, "room_chest", "room_A", "EAST");
 
-    /* Create a chest in room1 */
+    /* Create a chest in the chest room */
     item_t *chest_item = item_new("CHEST","It is a chest.",
                    "You shake the chest, but hear no rattle inside... must be empty :(");
     add_item_to_room(room2, chest_item);
