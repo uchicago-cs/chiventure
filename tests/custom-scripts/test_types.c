@@ -460,5 +460,5 @@ Test(custom_type, lua_three_args_diff_types_interact)
     ot = obj_add_arg(obj_add_arg(ot, data4, INT_TYPE), data3, INT_TYPE);
     data_t got = arg_t_get(ot);
     int rv = got.i;
-    cr_assert_eq(rv, 15, "obj_t_get_int 1: failed int direct retrieval with value %u", rv);
+    cr_assert_eq(rv, 5, "obj_t_get_int 1: failed int direct retrieval with value %u", rv);
 }
