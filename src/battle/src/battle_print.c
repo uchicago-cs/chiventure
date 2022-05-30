@@ -568,6 +568,10 @@ char *print_battle_action_menu(battle_item_t *items, move_t *moves)
         slen += n;
         menu_num++;
     }
+
+    n = snprintf(temp, BATTLE_BUFFER_SIZE, "D  - Do nothing\n");
+    strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+
     return string;
 }
     

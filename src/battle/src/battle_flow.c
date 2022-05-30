@@ -414,6 +414,7 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
 {
     move_t *temp_move;
     battle_item_t *temp_item;
+    char *ret_string = (char*)calloc(1,BATTLE_BUFFER_SIZE*sizeof(char));
     if (input[0] == 'M' || input[0] == 'm')
     {
         // take the index of the move, under the assumption that the list is less than 10 moves long
@@ -424,7 +425,8 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
             //if (ctx->game->battle_ctx->game->player->moves == NULL)
             if (temp_move == NULL)
             {
-                return "That move does not exist.";
+                char tempstr[] = "That move does not exist.\n";
+                return strcat(ret_string, tempstr);
             }
             if (k == index-1)
             {
@@ -446,7 +448,8 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
         {
             if (temp_item == NULL)
             {
-                return "That item does not exist.";
+                char tempstr[] = "That item does not exist.\n";
+                return strcat(ret_string, tempstr);
             }
             if (k == index-1)
             {
@@ -461,9 +464,11 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
     } 
     else if (input[0] == 'D' || input[0] == 'd') 
     {
-        return "You did nothing.";
+        char tempstr[] = "You did nothing.\n";
+        return strcat(ret_string, tempstr);
     } 
-    return "That action does not exist.";
+    char tempstr[] = "That action does not exist.\n";
+    return strcat(ret_string, tempstr);
 }
 
 /* see battle_flow.h */
