@@ -17,7 +17,12 @@ We will first cover the improvements we made to the existing infrastructure!
 
 ## EXISTING CHANGES
 *perhaps having stuff hear about the current parser, potentially actions kinds*
-***[include more stuff here]***
+*CMDS:
+- elp (Suggestions)
+- look look look look look and go south (and multiple commands conditionality)
+- look look look look look; go south (; multiple commands conditionality)
+- go to the north (prepositions)
+- go to the "Dungeon of Dragons" (quotes)*
 
 
 ## BISON
