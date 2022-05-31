@@ -76,24 +76,26 @@ PLAYER_CLASS STUDENT
 	        CURRENT 80
 	        MAX 100
 
+ITEM Shirt Designer
+        long desc: "You are a master shirt designer."
+        actions: DESIGN
+            DESIGN success: "You design the shirt."
+            DESIGN failure: "You failed to design the shirt."
+
+ITEM Google swe Internship
+        long desc: "You have a deck of cards. It's a full deck, if you're willing to forget the fact that it was missing the 7♣ when you got it and also that your former cellmate tore the J♦ in half as part of a 'magic trick' that didn't work at all."
+        actions: CODE
+            CODE success: "You code the program."
+            CODE failure: "You failed to code."
+
 NPC JACK IN classroom
     short desc: "This is TA Jack."
-    long desc: "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success. His NPC age is reflective of his wisdom."
-    age: "125"
-    gender: "Male"
+    long desc: "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success."
     INVENTORY
-        item_id1: "Google SWE Internship"
-        item_id2: "LARK DOCUMENTATION"
-        item_id3: "DSL DOCUMENTATION"
-        item_id4: "Omniscience"
+        item_id1: "Google swe Internship"
 
 NPC BORJA IN computer lab
     short desc: "This is Professor Borja Sotomayor."
     long desc: "This is the amazing professor who teaches CMSC 22000."
-    age: "23"
-    gender: "Male"
     INVENTORY
-        item_id1: "CPU"
-        item_id2: "Shirt Designer"
-        item_id3: "Glasses"
-        item_id4: "Power Point"
+        item_id1: "Shirt Designer"
