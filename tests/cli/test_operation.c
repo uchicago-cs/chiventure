@@ -60,7 +60,6 @@ Test(operation, kind4_game_null)
 Test(operation, kind4_missing_arg)
 {
     chiventure_ctx_t *ctx = maketest_ctx();
-    printf("\n\nGETTING PAST MAKETEST FINAL FINAL FINAL\n\n");
     char **tokens = (char**)calloc(TOKEN_LIST_SIZE,sizeof(char*));
     tokens[0] = "VIEW";
     tokens[1] = NULL;
