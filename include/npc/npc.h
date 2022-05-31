@@ -59,7 +59,7 @@ typedef struct npc {
 
     /* pointer to a task with dialogue */
     npc_task_list_t *tasks;
-
+    
     /* pointer to game_action hashtable */
     game_action_hash_t *actions;
 } npc_t;
