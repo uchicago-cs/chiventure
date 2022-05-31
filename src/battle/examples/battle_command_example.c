@@ -109,7 +109,7 @@ int read_move(char **args, battle_ctx_t *ctx)
         char *rs = battle_flow_move(ctx, player_move, args[4]);
         printf("%s", rs);
         // prints result of attacks
-        int battle_res = print_battle_result(ctx, player_move);
+        int battle_res = "";
         if (ctx->game->battle->enemy->stats->hp > 0) 
         {
             char *enemy_rs = enemy_make_move(ctx);
