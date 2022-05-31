@@ -8,6 +8,9 @@ make
 ```
 This will put you into the interactive CLI interface that will communicate with and beparsed by Bison
 
+# How Bison works
+Bison is a general purpose parser library. Its main advantage is that you can directly state your language grammar through a .l and .y file, allowing far more flexibility and ease of adjustment than the current parsing implementation in Chiventure.
+
 
 # What this demo is meant to show:
 this demo it meant to show the parsing capabilities of bison relevant to our project.
