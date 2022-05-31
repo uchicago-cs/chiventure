@@ -50,6 +50,28 @@ class TreeToDict(Transformer):
     action = trans.transform_action
 
     misplaced_property = trans.transform_misplaced
+    
+    player_class = trans.transform_player_class
+
+    attributes = trans.transform_attributes
+
+    attribute_state = trans.transform_attribute_state
+
+    base_stats = trans.transform_base_stats
+
+    stat_state = trans.transform_stat_state
+
+    stat = trans.transform_stat
+
+    effects = trans.transform_effects
+
+    skill_tree = trans.transform_skill_tree
+    
+    starting_skills = trans.transform_starting_skills
+    
+    npc = trans.transform_npc
+    
+    inventory = trans.transform_inventory
 
     #for documentation of the below transformations, see simple_modifiers.py
 

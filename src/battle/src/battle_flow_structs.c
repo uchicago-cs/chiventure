@@ -111,7 +111,50 @@ int stat_changes_free(stat_changes_t *changes)
       return 0;
 }
 
-/* Stub for the player_new function in player.h game-state module */
+battle_equipment_t *new_battle_equipment(int id, char *name, char *des, 
+                                          stat_changes_t *attr, equipment_type_t type){
+      battle_equipment_t *new_equip = calloc (1, sizeof(battle_equipment_t));
+      assert(new_equip != NULL);
+      init_battle_equipment(new_equip, id, strdup(name), strdup(des), attr, type);
+      return new_equip;
+}
+
+int init_battle_equipment(battle_equipment_t *equip, int id, char *name, char *des, 
+                                          stat_changes_t *attr, equipment_type_t type){
+      assert(equip != NULL);
+      equip->id = id;
+      equip->name = name;
+      equip->description = des;
+      equip->attributes = attr;
+      equip->type = type;
+      return SUCCESS;
+}
+
+battle_item_t *new_battle_item(int id, char *name, char *des, 
+                              stat_changes_t *attr, int quant, bool attack,
+                              battle_item_t *next, battle_item_t *prev){
+      battle_item_t *new_item = calloc (1, sizeof(battle_item_t));
+      assert(new_item != NULL);
+      init_battle_item(new_item, id, strdup(name), strdup(des), attr, 
+                        quant, attack, next, prev);
+      return new_item;
+}
+
+int init_battle_item(battle_item_t *item, int id, char *name, char *des, 
+                              stat_changes_t *attr, int quant, bool attack,
+                              battle_item_t *next, battle_item_t *prev){
+      assert(item != NULL);
+      item->id = id;
+      item->name = name;
+      item->description = des;
+      item->attributes = attr;
+      item->quantity = quant;
+      item->attack = attack;
+      item->next = next;
+      item->prev = prev;
+      return SUCCESS;
+}
+
 battle_player_t *new_ctx_player(char* p_id, class_t *c_type, stat_t *stats, move_t *moves, 
                               battle_item_t* items, battle_equipment_t *weapon, 
                               battle_equipment_t *accessory, battle_equipment_t *armor)
@@ -143,12 +186,13 @@ battle_game_t *new_battle_game()
 }
 
 /* see battle_flow_structs.h */
-turn_component_t *init_turn_component(turn_component_t tc, int m, int i, int p)
+turn_component_t *new_turn_component(int m, int i, int p)
 {
-      tc.move = m;
-      tc.item = i;
-      tc.pass = p;
-      return SUCCESS;
+    turn_component_t *tc = (turn_component_t*)malloc(sizeof(turn_component_t));
+    tc->move = m;
+    tc->item = i;
+    tc->pass = p;
+    return tc;
 }
 
 /* see battle_flow_structs.h */
