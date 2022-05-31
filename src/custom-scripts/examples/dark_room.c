@@ -63,6 +63,7 @@ int main(int argc, char **argv)
      * (i.e., actions that operate on an item) */
     action_type_t light_action = {"LIGHT", ITEM};
     add_entry(light_action.c_name, kind1_action_operation, &light_action, ctx->cli_ctx->table);
+    
     action_type_t unlight_action = {"UNLIGHT", ITEM};
     add_entry(unlight_action.c_name, kind1_action_operation, &unlight_action, ctx->cli_ctx->table);
 

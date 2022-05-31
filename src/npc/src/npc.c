@@ -86,11 +86,17 @@ int npc_free(npc_t *npc)
     {
         npc_task_list_free(npc->tasks);
     }
+    if (npc->inventory != NULL)
+    {
+        free_all_items_from_npc(npc);
+    }
+    if (npc->class != NULL)
+    {
+        class_free(npc->class);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    free_all_items_from_npc(npc);
-    class_free(npc->class);
     free(npc);
 
     return SUCCESS;
@@ -130,6 +136,20 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
         return true;
     }
     return false;
+}
+
+/* See npc.h */
+bool check_if_npc_indefinite_needs_moved(npc_t *npc)
+{
+    if (npc->movement->mov_type == NPC_MOV_INDEFINITE
+        && npc->movement->permission == NPC_MOV_ALLOWED)
+    {
+        return check_if_npc_mov_indefinite_needs_moved(npc->movement);
+    }
+    else
+    {
+        return false;
+    }
 }
 
 // "GET" FUNCTIONS ------------------------------------------------------------
@@ -255,6 +275,7 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 
     return npc->movement;
 }
+
 // "SET" FUNCTIONS ------------------------------------------------------------
 
 /* See npc.h */
@@ -359,6 +380,8 @@ int move_npc(npc_t *npc)
 {
     return move_npc_mov(npc->movement);
 }
+
+// HASH TABLE FUNCTIONS ---------------------------------------------------
 
 /* See npc.h */
 int delete_all_npcs(npc_hash_t *npcs)
