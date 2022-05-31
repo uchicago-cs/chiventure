@@ -139,8 +139,6 @@
       "in": "computer lab",
       "short_desc": "This is Professor Borja Sotomayor.",
       "long_desc": "This is the amazing professor who teaches CMSC 22000.",
-      "age": "23",
-      "gender": "Male",
       "inventory": [
         {
           "item_id": "SHIRT DESIGNER"
@@ -155,8 +153,6 @@
       "in": "quad",
       "short_desc": "This is TA Jack.",
       "long_desc": "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success. His NPC age is reflective of his wisdom.",
-      "age": "125",
-      "gender": "Male",
       "inventory": [
         {
           "item_id": "Google SWE Internship"

@@ -54,16 +54,12 @@ ITEM Google SWE Internship
 NPC JACK IN quad
     short desc: "This is TA Jack."
     long desc: "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success. His NPC age is reflective of his wisdom."
-    age: "125"
-    gender: "Male"
     INVENTORY
         item_id1: "Google SWE Internship"
 
 NPC BORJA IN computer lab
     short desc: "This is Professor Borja Sotomayor."
     long desc: "This is the amazing professor who teaches CMSC 22000."
-    age: "23"
-    gender: "Male"
     INVENTORY
         item_id1: "SHIRT DESIGNER"
 
