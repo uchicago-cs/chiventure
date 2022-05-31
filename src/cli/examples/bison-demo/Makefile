@@ -1,18 +1,18 @@
-BIN = parser-bison
+BIN = bison-demo
 CC = gcc
 BISON = bison
 CFLAGS = -Wall -I../../../../include -I.
 FLEX = flex
 RM = rm -f
 
-parser-bison: parser-bison_parse parser-bison_lex
-	$(CC) $(LDFLAGS) $(CFLAGS) -o parser-bison ../../src/parser.c ../../src/util.c parser-bison.c out/parser-bison.tab.c out/parser-bison.yy.c -lm
+bison-demo: bison-demo_parse bison-demo_lex
+	$(CC) $(LDFLAGS) $(CFLAGS) -o bison-demo bison-demo.c out/bison-demo.tab.c out/bison-demo.yy.c -lm
 
-parser-bison_parse: parser-bison.y
-	$(BISON) -d -o out/parser-bison.tab.c parser-bison.y
+bison-demo_parse: bison-demo.y
+	$(BISON) -d -o out/bison-demo.tab.c bison-demo.y
 
-parser-bison_lex: parser-bison.l
-	$(FLEX) -o out/parser-bison.yy.c parser-bison.l
+bison-demo_lex: bison-demo.l
+	$(FLEX) -o out/bison-demo.yy.c bison-demo.l
 
 clean:
 	$(RM) out/* $(BIN)
