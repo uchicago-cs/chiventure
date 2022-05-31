@@ -24,11 +24,23 @@ roomspec_t *rspec_lvl1 = NULL;
 roomspec_t *rspec_lvl2 = NULL;
 roomspec_t *rspec_lvl3 = NULL;
 
+roomspec_t** roomspecs = NULL;
+
+int** edges;
+
+specgraph_t* specgraph;
+
 void initialize_sample_structs() {
     rspec_lvl0 = roomspec_new("Library", "JCL", "John Crerar Library", NULL, 1);
     rspec_lvl1 = roomspec_new("Dungeon", "Ryerson 251", "Where CS students switch majors to bizcon", NULL, 2);
-    rspec_lvl2 = roomspec_new("Bar", "Jimmy's", "Formally known as woodlawn tap", NULL, 3);
+    rspec_lvl2 = roomspec_new("Bar", "Jimmy's", "Formally known as Woodlawn Tap", NULL, 3);
     rspec_lvl3 = roomspec_new("Beach", "57th St. Beach", "Not a real beach ", NULL, 4);
+
+    roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*) * 4);
+    roomspecs[0] = rspec_lvl0;
+    roomspecs[1] = rspec_lvl1;
+    roomspecs[2] = rspec_lvl2;
+    roomspecs[3] = rspec_lvl3;
 }
 
 chiventure_ctx_t *create_sample_ctx()
