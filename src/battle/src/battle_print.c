@@ -106,21 +106,19 @@ int print_battle_damage(battle_t *b, turn_t turn, move_t *move, double crit, cha
         strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
-    int rc = print_hp(b, string);
-    assert(rc == SUCCESS);
     return SUCCESS;
 }
 
 /* see battle_print.h */
 int print_stat_changes(battle_t *b, turn_t turn, stat_changes_t* changes, char *string)
 {
-    char* combatant_name;
+    char combatant_name[50];
     if (turn == PLAYER)
     {
-        combatant_name = "Your";
+        snprintf(combatant_name, 50, "Your");
     } else
     {
-        combatant_name = strcat(b->enemy->name, "\'s");
+        snprintf(combatant_name, 50, "%s\'s", b->enemy->name);
     }
 
     int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
@@ -288,9 +286,20 @@ char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
 /* see battle_print.h */
 char *print_battle_item(battle_t *b, turn_t turn, battle_item_t *item)
 {
-  char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
-  snprintf(string, BATTLE_BUFFER_SIZE, "you used %s", item->name);
-  return string;
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    snprintf(string, BATTLE_BUFFER_SIZE, "You used %s\n", item->name);
+    int rc;
+    char *stat_changes = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    if (item->attack)
+    {
+        rc = print_stat_changes(b, ENEMY, item->attributes, stat_changes);
+    }
+    else
+    {
+        rc = print_stat_changes(b, PLAYER, item->attributes, stat_changes);
+    }
+    assert(rc == SUCCESS);
+    return strdup(strncat(string, stat_changes, BATTLE_BUFFER_SIZE));
 }
 
 /* see battle_print.h */
@@ -348,7 +357,7 @@ char *print_moves(battle_t *b, char* moves)
     {
         
         int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name: %s\nDamage: %d\n",
-        temp->info, temp->damage);
+        temp->name, temp->damage);
         strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
@@ -414,7 +423,7 @@ int *print_battle_item_details(battle_item_t *item, char *string)
                 "\tPhysical Attack: %d\n\tMagical Attack: %d\n"
                 "\tPhysical Defense: %d\n\tMagical Defense: %d\n"
                 "\tMax_SP: %d\n\tSP: %d\n"
-                "\tMax_HP: %d\n\tSP: %d\n"
+                "\tMax_HP: %d\n\tHP: %d\n"
                 "\tCritical Rate: %d\n\tAccuracy: %d\n"
                 "\nQuantity: %d\n", 
                 name, description, phys_atk, mag_atk, phys_def, mag_def,
@@ -456,78 +465,40 @@ int action_menu_buffer_length(battle_item_t *items, move_t *moves) {
   }
 }
 
-/* see battle_print.h */
-char *print_battle_action_menu(battle_item_t *items, move_t *moves)
+char *print_battle_action_menu(battle_item_t *items, move_t *moves, battle_ctx_t *ctx)
 {
-  
-  // get the number of moves and number of items
-  int moves_count = num_moves(moves);
-  int items_count = num_items(items);
-
-  // get the length of the full menu string
-  int buff_len = action_menu_buffer_length(items, moves);
-  // allocate the empty string
-  char *menu = malloc(buff_len);
-
-  // int to keep track of the size of the string as it is built
-  int index = 0;
-  // int representing the length of each move name
-  int name_len;
-  // string representing the menu label for each item
-  char move_label[] = "M0 - ";
-  
-  // loop through each move and add an entry to the menu string for each one
-  int i;
-  for(i = 1; i <= moves_count; i++)
-  {
-    // set label number (the character '0' corrisponds to the int 30 in ascii)
-    move_label[1] = (char)(30+i);
-    // add label to the string and account for its length in index
-    memcpy(menu+index, move_label, 6);
-    index += 5;
     
-    // get the length of the move name
-    name_len = strlen(moves->name);
-    // add the move name to the menu and account for its length in index
-    memcpy(menu+index, moves->name, name_len);
-    index += name_len;
-    // add a newline character to the string
-    *(menu+index) = '\n';
-    index++;
-    // go to the next move
-    moves = moves->next;
-  }
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    int slen = strnlen(string, BATTLE_BUFFER_SIZE + 1);
+    int n;
+    char temp[BATTLE_BUFFER_SIZE + 1];
+    int menu_num = 1;
+    move_t *m_buffer;
+    move_t *moves_buf = moves;
+    DL_FOREACH(moves_buf, m_buffer){
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "M%d - %s\n",menu_num,m_buffer->name);
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
+        menu_num++;
+    }
 
-  // add a newline character between moves and items
-    *(menu+index) = '\n';
-    index++;
+    battle_item_t *i_buffer;
+    battle_item_t *items_buf = items;
+    menu_num = 1;
 
-  // loop through each item and add an entry to the menu string for each one
-  char item_label[] = "I0 - ";
-  for(i = 1; i <= moves_count; i++)
-  {
-    // set label number 
-    item_label[1] = (char)(30+i);
-    // add label to the string and account for its length in index
-    memcpy(menu+index, item_label, 6);
-    index += 5;
-    
-    // get the length of the item name
-    name_len = strlen(items->name);
-    // add the item name to the menu and account for its length in index
-    memcpy(menu+index, items->name, name_len);
-    index += name_len+1;
-    // add a newline character to the string
-    *(menu+index) = '\n';
-    index++;
+    DL_FOREACH(items_buf, i_buffer){
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "I%d - %s\n",menu_num,i_buffer->name);
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+        slen += n;
+        menu_num++;
+    }
+    if(ctx->current_turn_tcl->current->pass)
+    {
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "D  - Do nothing\n");
+        strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
+    }
 
-    // go to the next item
-    items = items->next;
-  }
-
-  // add do nothing option (including null terminator)
-  char do_nothing_option[] = "D - Do nothing";
-  memcpy(menu+index, do_nothing_option, 15);
-
-  return menu;
+    return string;
 }
+    
+

@@ -62,7 +62,7 @@ move_t *find_player_move(battle_ctx_t *ctx, char *move_name)
 
     DL_FOREACH(ctx->game->battle->player->moves, temp)
     {
-        if (strncmp(temp->info, move_name, MAX_MOVE_INFO_LEN) == 0)
+        if (strncmp(temp->name, move_name, MAX_MOVE_INFO_LEN) == 0)
         {
             player_move = temp;
             return player_move;
@@ -95,14 +95,13 @@ int consume_battle_item(combatant_t *c, battle_item_t *item)
 }
 
 /* see battle_logic.h */
-int use_battle_item(combatant_t *c, battle_t *battle, char *name)
+int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item)
 {
     if (c->items == NULL)
     {
         return FAILURE;
     }
     
-    battle_item_t *item = find_battle_item(c->items, name);
     
     if (item == NULL || item->quantity == 0)
     {
@@ -118,11 +117,6 @@ int use_battle_item(combatant_t *c, battle_t *battle, char *name)
         consume_battle_item(c, item);
     }
     item->quantity -= 1;
-    if (item->quantity == 0)
-    {
-        remove_battle_item(c, item);
-    }
-    
     return SUCCESS;
 }
 
@@ -137,7 +131,7 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
     battle_item_t *temp;
     DL_FOREACH(c->items, temp)
     {
-        if (temp == item)
+        if (temp == item && (temp->quantity <= 0))
         {
             if (temp == c->items) // first item in the list
             {
@@ -170,8 +164,24 @@ int award_xp(stat_t *stats, double xp)
 /* see battle_logic.h */
 int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)  
 {
-    target_stats->speed += changes->speed;
-    target_stats->max_sp += changes->max_sp;
+    if (target_stats->speed + changes->speed < 0)
+    {
+        target_stats->speed = 0;
+    }
+    else
+    {
+        target_stats->speed += changes->speed;
+    }
+    
+    if ((target_stats->max_sp + changes->max_sp) <= 0 )
+    {
+        target_stats->max_sp = 0;
+    }
+    else
+    {
+        target_stats->max_sp += changes->max_sp;
+    }
+
     if ((target_stats->sp + changes->sp) <= target_stats->max_sp)
     {
         target_stats->sp += changes->sp;
@@ -180,17 +190,80 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     {
         target_stats->sp = target_stats->max_sp;
     }
-    target_stats->phys_atk += changes->phys_atk;
-    target_stats->mag_atk += changes->mag_atk;
-    target_stats->phys_def += changes->phys_def;
-    target_stats->mag_def += changes->mag_def;
-    target_stats->crit += changes->crit;
-    target_stats->accuracy += changes->accuracy;
-    target_stats->max_hp += changes->max_hp;
+
+    if (target_stats->phys_atk + changes->phys_atk < 0)
+    {
+        target_stats->phys_atk = 0;
+    }
+    else
+    {
+        target_stats->phys_atk += changes->phys_atk;
+    }
+
+    if (target_stats->mag_atk + changes->mag_atk < 0)
+    {
+        target_stats->mag_atk = 0;
+    }
+    else
+    {
+        target_stats->mag_atk += changes->mag_atk;
+    }
+
+    if (target_stats->phys_def + changes->phys_def < 0)
+    {
+        target_stats->phys_def = 0;
+    }
+    else
+    {
+        target_stats->phys_def += changes->phys_def;
+    }
+
+    if (target_stats->mag_def + changes->mag_def < 0)
+    {
+        target_stats->mag_def = 0;
+    }
+    else
+    {
+        target_stats->mag_def += changes->mag_def;
+    }
+
+    if (target_stats->crit + changes->crit < 0)
+    {
+        target_stats->crit = 0;
+    }
+    else
+    {
+        target_stats->crit += changes->crit;
+    }
+
+    if (target_stats->accuracy + changes->accuracy < 0)
+    {
+        target_stats->accuracy = 0;
+    }
+    else
+    {
+        target_stats->accuracy += changes->accuracy;
+    }
+
+    if (target_stats->max_hp + changes->max_hp <= 0)
+    {
+        target_stats->max_hp = 0;
+    }
+    else
+    {
+        target_stats->max_hp += changes->max_hp;
+    }
+    
+    
     if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
         target_stats->hp += changes->hp;
-    }else
+    }
+    else if ((target_stats->hp + changes->hp) <= 0)
+    {
+        target_stats->hp = 0;
+    }
+    else
     {
         target_stats->hp = target_stats->max_hp;
     }
@@ -224,8 +297,8 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 }
 
 /* see battle_logic.h */
-void get_legal_actions(battle_item_t *items, 
-                       move_t *moves, 
+void get_legal_actions(battle_item_t **items, 
+                       move_t **moves, 
                        turn_component_t *comp, 
                        battle_t *battle) {
   // this is the combatant who's turn it is (player or enemy)
@@ -234,14 +307,13 @@ void get_legal_actions(battle_item_t *items,
   // if the current turn component allows the combatant to use an item,
   // add the combatant's items to the return value for possible items
   if(comp->item) {
-    items = current_actor->items;
+    *items = current_actor->items;
   }
   // if the current turn component allows the combatant to make a move,
   // add the combatant's moves to the return value for possible moves
   if(comp->move) {
-    moves = current_actor->moves;
+    *moves = current_actor->moves;
   }
-  
   return;
 }
 
