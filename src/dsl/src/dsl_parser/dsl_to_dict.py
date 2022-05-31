@@ -53,6 +53,17 @@ class TreeToDict(Transformer):
 
     
     
+    player_class = trans.transform_player_class
+
+    attributes = trans.transform_attributes
+
+    attribute_state = trans.transform_attribute_state
+
+    base_stats = trans.transform_base_stats
+
+    stat_setting = trans.transform_stat_setting
+
+    state = trans.transform_state
 
     #for documentation of the below transformations, see simple_modifiers.py
 
