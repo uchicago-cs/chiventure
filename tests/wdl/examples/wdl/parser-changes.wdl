@@ -19,7 +19,7 @@
         },
         "Home_base": {
             "short_desc": "This is Home Base",
-            "long_desc": "This is Home Base. It's empty, but there is an escape to the north.",
+            "long_desc": "This is Home Base. It's empty, but there is an escape to the west.",
             "connections": [
                 {
                     "to": "The_Tavern",
