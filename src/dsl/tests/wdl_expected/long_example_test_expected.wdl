@@ -81,5 +81,6 @@
       "in": "alcatraz cell",
       "short_desc": "deck of cards"
     }
-  }
+  },
+  "NPCS": {}
 }

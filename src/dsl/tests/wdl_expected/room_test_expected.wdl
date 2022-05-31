@@ -49,5 +49,6 @@
       "long_desc": "This is a room A. "
     }
   },
-  "ITEMS": {}
+  "ITEMS": {},
+  "NPCS": {}
 }

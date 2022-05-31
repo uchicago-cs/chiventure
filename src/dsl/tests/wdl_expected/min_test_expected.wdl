@@ -78,5 +78,6 @@
       "long_desc": "This is a item_A. ",
       "short_desc": "item_A"
     }
-  }
+  },
+  "NPCS": {}
 }

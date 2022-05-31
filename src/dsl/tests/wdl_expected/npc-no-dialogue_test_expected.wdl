@@ -62,5 +62,20 @@
       "in": "room A"
     }
   },
-  "NPCS": {}
+  "NPCS": {
+    "OAK": {
+      "in": "room B",
+      "short_desc": "Kanto's premier Pokemon expert",
+      "long_desc": "Enjoys exploring human-Pokemon relationships",
+      "inventory": [
+        {
+          "item_id": "DOOR"
+        }
+      ],
+      "dialogue": {
+        "nodes": [],
+        "edges": []
+      }
+    }
+  }
 }
