@@ -91,7 +91,7 @@ void handle_kind2_cmd(word_ll *phrase) {
 
 /* see demo-bison.h */
 void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2) {
-    printf("this is a kind 3 action: ACTION <item> <item>\n");
+    printf("\nthis is a kind 3 action: ACTION <item> <item>\n");
     char *a = action->word;
     word_ll *p1 = item1;
     word_ll *p2 = item2;
