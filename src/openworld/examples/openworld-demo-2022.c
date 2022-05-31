@@ -16,6 +16,21 @@
 
 #define OUTPUT_BUFFER_SIZE 100
 
+/* ROOMSPECS
+   Pre-declaring roomspecs like this is important as we need to preserve 
+   num_built between function calls in order to generate unique rooms. */
+roomspec_t *rspec_lvl0 = NULL;
+roomspec_t *rspec_lvl1 = NULL;
+roomspec_t *rspec_lvl2 = NULL;
+roomspec_t *rspec_lvl3 = NULL;
+
+void initialize_sample_structs() {
+    rspec_lvl0 = roomspec_new("Library", "JCL", "John Crerar Library", NULL, 1);
+    rspec_lvl1 = roomspec_new("Dungeon", "Ryerson 251", "Where CS students switch majors to bizcon", NULL, 2);
+    rspec_lvl2 = roomspec_new("Bar", "Jimmy's", "Formally known as woodlawn tap", NULL, 3);
+    rspec_lvl3 = roomspec_new("Beach", "57th St. Beach", "Not a real beach ", NULL, 4);
+}
+
 chiventure_ctx_t *create_sample_ctx()
 {
     game_t *game = game_new("Welcome to Chiventure!");
