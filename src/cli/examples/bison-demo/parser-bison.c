@@ -35,7 +35,7 @@ void handle_kind2_cmd(word_ll *phrase) {
         printf(" %s", p->word);
     }
 
-    printf("\n");
+    printf("\n\n");
 }
 
 void handle_fight_cmd(word_ll *phrase) {
@@ -216,12 +216,12 @@ void handle_misc_cmd(word_ll *action, word_ll *phrase) {
     if (a == NULL) {
         printf("There's nothing there! \n");
     } else {
-        printf("the action is: %s\n", a);
+        printf("the action is: %s", a);
     }
     if (p != NULL) {
-        printf("the target is: %s", p->word);
+        printf("\nthe target is: %s", p->word);
         p = p->next;
-    } 
+    }
     while (p != NULL) {
         printf(" %s", p->word);
         p = p->next;
