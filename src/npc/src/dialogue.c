@@ -4,15 +4,7 @@
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
-/* Returns the node corresponding to a given ID.
- *
- * Parameters:
- *  - n_lst: node list
- *  - node_id: node ID
- *
- * Returns:
- *  - a pointer to the corresponding node, or NULL if it does not exist
- */
+/* See dialogue.h */
 node_t *get_node(node_list_t *n_lst, char *node_id)
 {
     while (n_lst != NULL)
@@ -117,17 +109,8 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
  *             ACTION FUNCTIONS               *
  **********************************************/
 
-/* Create a new action, and append it to the node's action list.
- *
- * Parameters:
- *  - n: node
- *  - action: type of action
- *  - action_id: ID associated with that action, if any
- *
- * Returns:
- *  - SUCCESS if the operation suceeded, FAILURE otherwise
- */
-int add_action_to_node(node_t *n, node_action_type action, char *action_id)
+/* See dialogue.h */
+int add_action_to_node(node_t *n, node_action_type_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = node_action_new(action, action_id)) == NULL) return FAILURE;
@@ -325,8 +308,14 @@ int free_edge_list(edge_list_t *e_lst, bool free_edges)
     DL_FOREACH_SAFE(e_lst, elt, tmp)
     {
         DL_DELETE(e_lst, elt);
-        if (free_edges) edge_free(elt->edge);
-        free(elt);
+        if (elt->edge != NULL)
+        {
+            edge_free(elt->edge);
+        }
+        if (elt != NULL)
+        {
+            free(elt);
+        }
     }
 
     return SUCCESS;
@@ -348,7 +337,7 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
 }
 
 /* See dialogue.h */
-int node_action_init(node_action_t *n_a, node_action_type action,
+int node_action_init(node_action_t *n_a, node_action_type_t action,
                      char *action_id)
 {
     assert(n_a != NULL);
@@ -365,7 +354,7 @@ int node_action_init(node_action_t *n_a, node_action_type action,
 }
 
 /* See dialogue.h */
-node_action_t *node_action_new(node_action_type action, char *action_id)
+node_action_t *node_action_new(node_action_type_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;
