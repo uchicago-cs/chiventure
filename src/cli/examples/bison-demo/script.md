@@ -21,8 +21,7 @@ We will first cover the improvements we made to the existing infrastructure!
 
 
 ## BISON
-For our external parsing library, we decided on bison/flex, as there aren't many C libraries to pick from in the first place and of the ones we tested, we were actually able to get it working.
-Bison/flex.
+For our external parsing library, at our TA's recommendation decided on bison/flex, as there aren't many C libraries to pick from in the first place and of the ones we tested, we were actually able to get it working.
 
 Flex is a lexer generator, a program which takes in input and turns it into tokens based on user defined grammar. 
 
