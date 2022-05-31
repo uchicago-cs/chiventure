@@ -381,7 +381,17 @@ int flip_npc_path_direction(npc_mov_t *npc_mov)
     }
     else if (npc_mov->npc_path_direction == NPC_MOV_REVERSED)
     {
-        npc_mov->npc_path_direction = NPC_MOV_ORIGINAL;
+        room_t *next_room = current_room->next->room;
+        npc_mov->track = next_room->room_id;
+        if (direction == NPC_MOV_ORIGINAL)
+        {
+            npc_mov->npc_path_pos++;
+        }
+        else
+        {
+            npc_mov->npc_path_pos--;
+        }
+        return 2;
     }
     else
     {
@@ -414,11 +424,11 @@ int move_npc_mov(npc_mov_t *npc_mov)
     if (((direction == NPC_MOV_REVERSED) && (pos == 0))
             || ((direction == NPC_MOV_ORIGINAL) && (pos == (num_steps - 1))))
     {
-        if (mov_type == NPC_MOV_INDEFINITE)
+        room_t *next_room = current_room->next->room;
+        npc_mov->track = next_room->room_id;
+        if (direction == NPC_MOV_ORIGINAL)
         {
-            assert(flip_npc_path_direction(npc_mov) == SUCCESS);
-            assert(reset_indefinite_npc_room_start_time(npc_mov) == SUCCESS);
-            return SUCCESS;
+            npc_mov->npc_path_pos++;
         }
         else
         {

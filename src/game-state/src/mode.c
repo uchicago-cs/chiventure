@@ -11,7 +11,7 @@
 
 
 /* see mode.h */
-int game_mode_init(game_mode_t *mode, mode_type_t curr_mode, 
+int game_mode_init(game_mode_t *mode, mode_type_t curr_mode,
                    mode_operation run_mode, char *mode_ctx)
 {
     assert(mode != NULL);
@@ -23,7 +23,7 @@ int game_mode_init(game_mode_t *mode, mode_type_t curr_mode,
 }
 
 /* see mode.h */
-game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode, 
+game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode,
                            char *mode_ctx)
 {
     game_mode_t *mode;
@@ -73,31 +73,31 @@ int load_normal_mode(game_t *g)
 int set_game_mode(game_t *g, mode_type_t curr_mode, char *mode_ctx)
 {
     int rc;
-    switch (curr_mode) 
+    switch (curr_mode)
     {
-        case NORMAL:
-            rc = game_mode_init(g->mode, NORMAL, NULL, "normal");
-            break;
+    case NORMAL:
+        rc = game_mode_init(g->mode, NORMAL, NULL, "normal");
+        break;
 
-        case CONVERSATION:
-            if (mode_ctx == NULL)
-            {
-                return FAILURE;
-            }
-
-            rc = game_mode_init(g->mode, CONVERSATION,
-                                run_conversation_mode, mode_ctx);
-            break;
-
-        default:
+    case CONVERSATION:
+        if (mode_ctx == NULL)
+        {
             return FAILURE;
+        }
+
+        rc = game_mode_init(g->mode, CONVERSATION,
+                            run_conversation_mode, mode_ctx);
+        break;
+
+    default:
+        return FAILURE;
     }
-    
+
     return rc;
 }
 
 /* see mode.h */
-int run_conversation_mode(char *input, cli_callback callback_func, 
+int run_conversation_mode(char *input, cli_callback callback_func,
                           void *callback_args, chiventure_ctx_t *ctx)
 {
     char **parsed_input = parse(input);
@@ -105,15 +105,15 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     {
         return FAILURE;
     }
-    
+
     int option, num_options, rc;
     option = atoi(parsed_input[0]);
 
     npc_t *npc = get_npc(ctx->game, ctx->game->mode->mode_ctx);
     num_options = npc->active_dialogue->cur_node->num_edges;
 
-    if ((option <= 0) || (option > num_options) || 
-        parsed_input[1] != NULL) 
+    if ((option <= 0) || (option > num_options) ||
+            parsed_input[1] != NULL)
     {
         return callback_func(ctx, "Enter a valid dialogue option.", callback_args);
     }
@@ -139,24 +139,59 @@ int run_conversation_mode(char *input, cli_callback callback_func,
 }
 
 /* see mode.h */
-int run_battle_mode (char *input, cli_callback callback_func, 
-                          void *callback_args, chiventure_ctx_t *ctx)
+int run_battle_mode (char *input, cli_callback callback_func,
+                     void *callback_args, chiventure_ctx_t *ctx)
 {
     // parse the input (tokenize by word) and make sure that there was an input
     char **parsed_input = parse(input);
-    if (parsed_input == NULL) 
+    if (parsed_input == NULL)
     {
         // this will cause the cli to request input again
         return FAILURE;
     }
-    
-    // for returning errors
-    int rc;
-    // run the corrisponding action and get the result string
-    char *output = run_action(input, ctx);
 
-    // end the battle if someone has won
-    if (ctx->game->battle_ctx->status != BATTLE_IN_PROGRESS)
+    char *string;
+    int rc;
+    battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
+
+    if (strcmp(parsed_input[0], "use") == 0)
+    {
+        input += 4;
+        move_t *move = find_player_move(battle_ctx, input);
+
+        if (move == NULL)
+        {
+            return callback_func(ctx, "That Move does not exist.", callback_args);
+        }
+
+        string = battle_flow_move(battle_ctx, move, battle_ctx->game->battle->enemy->name);
+
+    }
+    else if (strcmp(parsed_input[0], "consume") == 0)
+    {
+        char *stringed_input = calloc(100, sizeof(char));
+        for (int i = 1; parsed_input[i] != NULL; i++)
+        {
+            strncat(stringed_input, parsed_input[i], 100);
+            strncat(stringed_input, " ", 100);
+        }
+
+        battle_item_t *item = find_battle_item(battle_ctx->game->player->items, stringed_input);
+        free(stringed_input);
+
+        if (item == NULL)
+        {
+            return callback_func(ctx, "That Item does not exist.", callback_args);
+        }
+        string = battle_flow_item(battle_ctx, item);
+
+    }
+    else if (strcmp(parsed_input[0], "list") == 0)
+    {
+        string = battle_flow_list(battle_ctx, parsed_input[1]);
+
+    }
+    else
     {
         char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
         char *output_and_battle_over = strncat(output, battle_over, BATTLE_BUFFER_SIZE);
@@ -166,19 +201,16 @@ int run_battle_mode (char *input, cli_callback callback_func,
         return SUCCESS;
     }
 
-    // iterate to the next turn component
-    battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
-    battle_ctx->current_turn_tcl = battle_ctx->current_turn_tcl->next;
-    
-    // if the turn is over, run enemy turn then print turn summary and next menu to cli
-    if (battle_ctx->current_turn_tcl == NULL)
+    callback_func(ctx, string, callback_args);
+    free(string);
+
+    if (battle_ctx->status != BATTLE_IN_PROGRESS)
     {
-        battle_ctx->game->battle->turn = ENEMY;
-        battle_ctx->current_turn_tcl = battle_ctx->tcl;
-        char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
-        output = strncat(output, enemy_turn, BATTLE_BUFFER_SIZE);
-        ctx->game->battle_ctx->game->battle->turn = PLAYER;
-        battle_ctx->current_turn_tcl = battle_ctx->tcl;
+        char *battle_over = print_battle_winner (battle_ctx->status, 42);
+        callback_func(ctx, battle_over, callback_args);
+        free(battle_over);
+
+        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
     }
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;

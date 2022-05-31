@@ -18,8 +18,7 @@ Test(custom_actions_cond, equals_fail) {
 
     rc = check_eq(a1, a2);
 
-    cr_assert_eq(rc, FAILS,
-                 "check_eq() failed to recognize conflicting "
+    cr_assert_eq(rc, FAILS, "check_eq() failed to recognize conflicting "
                  "types");
 
     attribute_free(a1);
@@ -134,14 +133,11 @@ Test(custom_actions_cond, num_comp_fail) {
     rc2 = check_lt(a2, a3);
     rc3 = check_lt(a4, a5);
 
-    cr_assert_eq(rc1, FAILS,
-                 "numerical comparisons fail to recognize "
+    cr_assert_eq(rc1, FAILS, "numerical comparisons fail to recognize "
                  "conflicting types %d, rc1");
-    cr_assert_eq(rc2, FAILS,
-                 "numerical comparisons fail to recognize "
+    cr_assert_eq(rc2, FAILS, "numerical comparisons fail to recognize "
                  "invalid string type");
-    cr_assert_eq(rc3, FAILS,
-                 "numerical comparisons fail to recognize "
+    cr_assert_eq(rc3, FAILS, "numerical comparisons fail to recognize "
                  "invalid boolean type");
 
     attribute_free(a0);
@@ -178,27 +174,30 @@ void test_comp(double d1, double d2, int exp1, char c1, char c2, int exp2,
     a4 = int_attr_new(temp_attr_name, i1);
     a5 = int_attr_new(temp_attr_name, i2);
 
-    switch (op) {
-        case LT:
-            rc1 = check_lt(a0, a1);
-            rc2 = check_lt(a2, a3);
-            rc3 = check_lt(a4, a5);
-            break;
-        case GT:
-            rc1 = check_gt(a0, a1);
-            rc2 = check_gt(a2, a3);
-            rc3 = check_gt(a4, a5);
-            break;
-        case LTE:
-            rc1 = check_lte(a0, a1);
-            rc2 = check_lte(a2, a3);
-            rc3 = check_lte(a4, a5);
-            break;
-        default:
-            rc1 = check_gte(a0, a1);
-            rc2 = check_gte(a2, a3);
-            rc3 = check_gte(a4, a5);
+    switch (op)
+    {
+
+    case LT:
+        rc1 = check_lt(a0, a1);
+        rc2 = check_lt(a2, a3);
+        rc3 = check_lt(a4, a5);
+        break;
+    case GT:
+        rc1 = check_gt(a0, a1);
+        rc2 = check_gt(a2, a3);
+        rc3 = check_gt(a4, a5);
+        break;
+    case LTE:
+        rc1 = check_lte(a0, a1);
+        rc2 = check_lte(a2, a3);
+        rc3 = check_lte(a4, a5);
+        break;
+    default:
+        rc1 = check_gte(a0, a1);
+        rc2 = check_gte(a2, a3);
+        rc3 = check_gte(a4, a5);
     }
+
 
     cr_assert_eq(rc1, exp1, "expected %s but check_eq() returned %s",
                  ret[exp1], ret[rc1]);

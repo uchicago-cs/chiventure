@@ -60,9 +60,9 @@ int main()
     npc_battle_t *npc_b = npc_battle_new(e_stats, e_moves, BATTLE_AI_GREEDY, HOSTILE, make_minion(), 
                                         make_items(), NULL, NULL, NULL);
     e->npc_battle = npc_b;
-    npc_b->moves = generate_moves_enemy_one();
-    
-    battle_ctx_t *ctx = (battle_ctx_t*) calloc(1, sizeof(battle_ctx_t));
+
+    battle_ctx_t *ctx =
+        (battle_ctx_t*) calloc(1, sizeof(battle_ctx_t));
 
     battle_game_t *g = new_battle_game();
     ctx->game = g;

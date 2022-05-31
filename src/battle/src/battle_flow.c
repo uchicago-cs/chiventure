@@ -76,9 +76,8 @@ combatant_t *set_battle_player(battle_player_t *ctx_player)
         with_equipment->max_hp+=armor->attributes->max_hp;
     }                                              
     // Allocating new combatant_t for the player in memory
-    combatant_t *comb_player = combatant_new(name, is_friendly, c_type, with_equipment,
-                                             moves, items, weapon, accessory,
-                                             armor, BATTLE_AI_NONE);
+    combatant_t *comb_player = combatant_new(name, is_friendly, c_type, stats,
+                               moves, items, BATTLE_AI_NONE);
 
     assert(comb_player != NULL);
 
@@ -102,53 +101,8 @@ combatant_t *set_enemy(npc_t *npc_enemy)
     move_t *moves = npc_enemy->npc_battle->moves;
     battle_item_t *items = NULL; // TODO: extract battle_item_t from npc's inventory
     difficulty_t ai = npc_enemy->npc_battle->ai;
-    battle_equipment_t *weapon = npc_enemy->npc_battle->weapon; 
-    battle_equipment_t *accessory = npc_enemy->npc_battle->accessory; 
-    battle_equipment_t *armor = npc_enemy->npc_battle->armor;
-    // we will need to update npc_battle_t after npc is done with their merge
-    stat_t *with_equipment = (stat_t *) calloc (1, sizeof(stat_t *));
-    with_equipment = stats;
-    if (weapon != NULL)
-    {
-        with_equipment->max_sp+=weapon->attributes->max_sp;
-        with_equipment->sp+=weapon->attributes->sp;
-        with_equipment->phys_atk+=weapon->attributes->phys_atk;
-        with_equipment->mag_atk+=weapon->attributes->mag_atk;
-        with_equipment->phys_def+=weapon->attributes->phys_def;
-        with_equipment->mag_def+=weapon->attributes->mag_def;
-        with_equipment->crit+=weapon->attributes->crit;
-        with_equipment->accuracy+=weapon->attributes->accuracy;
-        with_equipment->hp+=weapon->attributes->hp;
-        with_equipment->max_hp+=weapon->attributes->max_hp;
-    }
-    if (accessory !=NULL)
-    {
-        with_equipment->max_sp+=accessory->attributes->max_sp;
-        with_equipment->sp+=accessory->attributes->sp;
-        with_equipment->phys_atk+=accessory->attributes->phys_atk;
-        with_equipment->mag_atk+=accessory->attributes->mag_atk;
-        with_equipment->phys_def+=accessory->attributes->phys_def;
-        with_equipment->mag_def+=accessory->attributes->mag_def;
-        with_equipment->crit+=accessory->attributes->crit;
-        with_equipment->accuracy+=accessory->attributes->accuracy;
-        with_equipment->hp+=accessory->attributes->hp;
-        with_equipment->max_hp+=accessory->attributes->max_hp;
-    }
-    if (armor != NULL)
-    {
-        with_equipment->max_sp+=armor->attributes->max_sp;
-        with_equipment->sp+=armor->attributes->sp;
-        with_equipment->phys_atk+=armor->attributes->phys_atk;
-        with_equipment->mag_atk+=armor->attributes->mag_atk;
-        with_equipment->phys_def+=armor->attributes->phys_def;
-        with_equipment->mag_def+=armor->attributes->mag_def;
-        with_equipment->crit+=armor->attributes->crit;
-        with_equipment->accuracy+=armor->attributes->accuracy;
-        with_equipment->hp+=armor->attributes->hp;
-        with_equipment->max_hp+=armor->attributes->max_hp;
-    }
-    comb_enemy = combatant_new(name, is_friendly, c_type, with_equipment,
-                            moves, items, weapon, accessory, armor, ai);
+
+    comb_enemy = combatant_new(name, is_friendly, c_type, stats, moves, items, ai);
     assert(comb_enemy != NULL);
 
     return comb_enemy;
@@ -169,6 +123,7 @@ battle_t *set_battle(battle_player_t *ctx_player, npc_t *npc_enemy, environment_
     {
         build_moves(comb_enemies); // This will have to be updated if multiple enemies are added
     }
+
     turn_t turn = PLAYER;
 
     battle_t *b = battle_new(comb_player, comb_enemies, env, turn);
@@ -190,7 +145,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         return "FAILURE";
     }
     combatant_t *enemy = check_target(b, target);
-    
+
     if(enemy == NULL)
     {
         /* print stub: should tell player that their target was invalid
@@ -198,7 +153,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
            for the next move */
         return "Non-valid enemy chosen";
     }
-    
+
     /* move stub, battle_flow should call either a custom action block or a
        function that works with a move_t struct */
     /* additionally, a check must be performed here to see if player has
@@ -240,7 +195,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         assert(rc == SUCCESS);
         rc = print_hp(b, string);
     }
-    
+
 
     if(battle_over(b) == BATTLE_VICTOR_PLAYER)
     {
@@ -248,7 +203,8 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_VICTOR_PLAYER;
     }
-    if(battle_over(b) == BATTLE_ENEMY_SURRENDER)
+
+    if(battle_over(b) == BATTLE_IN_PROGRESS)
     {
         /* print stub: should tel player they won */
         award_xp(b->player->stats, 2.0);
@@ -272,18 +228,29 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         snprintf(string, 150, "FAILURE\n");
         return string;
     }
-    if (item->quantity <= 0){
-       snprintf(string, 150, "FAILURE\n");
+    if (item->quantity <= 0)
+    {
+        snprintf(string, 150, "FAILURE\n");
         return string;
     }
 
-    int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item);
-    string = print_battle_item(ctx->game->battle, PLAYER, item);
-    remove_battle_item(ctx->game->battle->player, item);
-    if (usage == FAILURE) 
+    char *item_name;
+    strcpy(item_name, item->name);
+
+    int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item->name);
+    snprintf(string, 150, "You used the %s\n", item_name);
+
+    if (usage == FAILURE)
     {
         snprintf(string, 150, "That item is Unavailable.\n");
         return string;
+    }
+
+    if(battle_over(b) == BATTLE_IN_PROGRESS)
+    {
+        char *res = enemy_make_move(ctx);
+        strncat(string, res, 150);
+        free(res);
     }
     return string;
 }
@@ -291,7 +258,7 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 /* see battle_flow.h */
 char *battle_flow_list(battle_ctx_t *ctx, char* label)
 {
-    if (strcmp(label, "items") == 0) 
+    if (strcmp(label, "items") == 0)
     {
         battle_t *b = ctx->game->battle;
 
@@ -299,7 +266,8 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
         print_battle_items(b, string);
 
         return string;
-    } if (strcmp(label, "moves") == 0) 
+    }
+    if (strcmp(label, "moves") == 0)
     {
         battle_t *b = ctx->game->battle;
 
@@ -307,12 +275,13 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
         print_moves(b, string);
 
         return string;
-    } else 
+    }
+    else
     {
-             
+
         char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
         snprintf(string, BATTLE_BUFFER_SIZE, "Please enter a valid battle command!");
-        
+
         return string;
     }
 }
@@ -335,7 +304,7 @@ char *enemy_run_turn(battle_ctx_t *ctx)
 }
 
 /* see battle_flow.h */
-char *enemy_make_move(battle_ctx_t *ctx) 
+char *enemy_make_move(battle_ctx_t *ctx)
 {
     battle_t *b = ctx->game->battle;
     b->turn = ENEMY;
@@ -349,11 +318,16 @@ char *enemy_make_move(battle_ctx_t *ctx)
     if(enemy_move != NULL)
     {
         /* Calculates to see if the move will miss */
-        if(!calculate_accuracy(b->enemy->stats->accuracy, enemy_move->accuracy)){
+        if(!calculate_accuracy(b->enemy->stats->accuracy))
+        {
             dmg = 0;
             b->player->stats->hp -= dmg;
             string = print_battle_miss(b, b->turn, enemy_move);
-        }else{
+        }
+        else
+        {
+            dmg = damage(b->player, enemy_move, b->enemy);
+            b->player->stats->hp -= dmg;
             string = print_battle_move(b, b->turn, enemy_move);
             if (enemy_move->dmg_type != NO_DAMAGE)
             {
@@ -379,7 +353,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
         }
         
     }
-    
+
     if(battle_over(b) == BATTLE_VICTOR_ENEMY)
     {
         /* print stub: should tell player they lost */
@@ -519,9 +493,12 @@ int calculate_accuracy(int user_accuracy, int move_accuracy)
 {
     /* Picks a random number from 0 to 100 */
     int chance = randnum(0, 100);
-    if(chance <= ((user_accuracy * move_accuracy) / 100)){
+    if(chance <= accuracy)
+    {
         return 1;
-    }else{
+    }
+    else
+    {
         return 0;
     }
 }

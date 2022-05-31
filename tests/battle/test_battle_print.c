@@ -87,8 +87,57 @@ Test(battle_print, print_hp_one_enemy)
     char *expected_string = "-- Your HP: 89\n"
                             "-- bob's HP: 64\n";
 
-    cr_expect_str_eq(string, expected_string, 
-                    "print_hp() failed to set string %s", string);
+    cr_expect_str_eq(string, expected_string, "print_hp() failed to set string %s", string);
+
+    free(string);
+}
+
+/* Tests print_battle_move() on a player move */
+Test(battle_print, print_player_move)
+{
+    // Setting up a battle with set_battle
+    stat_t *player_stats = calloc(1,sizeof(stat_t));
+    player_stats->hp = 50;
+    player_stats->phys_atk = 20;
+    player_stats->phys_def = 12;
+    player_stats->crit = 0;
+    player_stats->accuracy = 100;
+    player_stats->xp = 100;
+    player_stats->level = 5;
+    player_stats->speed = 10;
+    stat_t *enemy_stats = calloc(1,sizeof(stat_t));
+    enemy_stats->hp = 30;
+    enemy_stats->phys_atk = 14;
+    enemy_stats->phys_def = 9;
+    enemy_stats->crit = 0;
+    enemy_stats->accuracy = 100;
+    enemy_stats->xp = 100;
+    enemy_stats->level = 5;
+    enemy_stats->speed = 9;
+
+    battle_player_t *ctx_player = new_ctx_player("player_name", NULL, player_stats, NULL, NULL);
+    move_t *e_move = move_new("Test", 0, NULL, true, 80, 0);
+    npc_t *npc_enemy = npc_new("Bob", "Enemy!", "Enemy!", NULL, NULL, true);
+    npc_battle_t *npc_b = npc_battle_new(100, enemy_stats, e_move, BATTLE_AI_GREEDY, HOSTILE, 0);
+    npc_enemy->npc_battle = npc_b;
+    environment_t env = ENV_DESERT;
+    battle_t *b = set_battle(ctx_player, npc_enemy, env);
+    cr_assert_not_null(b, "set_battle() failed");
+    // Set up a move
+    move_t *move = calloc(1,sizeof(move_t));
+    move->damage = 60;
+    move->info = "Punch";
+    b->player->moves = move;
+    b->enemy->stats->hp = 21;
+
+    char* string = print_battle_move(b, PLAYER, move);
+    cr_assert_not_null(string, "print_start_battle() failed");
+
+    char *expected_string = "You used Punch! It did 9 damage.\n"
+                            "-- Your HP: 50\n"
+                            "-- bob's HP: 21\n";
+
+    cr_expect_str_eq(string, expected_string, "print_player_move() failed to set string %s", string);
 
     free(string);
 }
@@ -151,8 +200,10 @@ Test(battle_print, print_player_move_crit)
 
     char* string = print_battle_move(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    
-    char *expected_string = "You used Punch! ";
+
+    char *expected_string = "You used Punch! It did 14 damage.\n"
+                            "-- Your HP: 50\n"
+                            "-- bob's HP: 16\n";
 
     cr_expect_str_eq(string, expected_string, 
                      "print_player_move_crit() failed to set string %s\n. We got %s", 
@@ -220,7 +271,7 @@ Test(battle_print, print_player_move_miss)
 
     char* string = print_battle_miss(b, PLAYER, move);
     cr_assert_not_null(string, "print_start_battle() failed");
-    
+
     char *expected_string = "You used Punch, but it missed!\n"
                             "-- Your HP: 50\n"
                             "-- bob's HP: 30\n";

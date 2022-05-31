@@ -13,15 +13,18 @@
 #define MAX_BYTES 4096
 
 /* Helper function: to print debugging statements only when debugging */
-int my_print(char *string) {
-    if (DEBUG) {
+int my_print(char *string)
+{
+    if (DEBUG)
+    {
         printf("%s\n",string);
     }
     return 0;
 }
 
 
-int add_rooms_to_game(json_object *rooms, game_t *g) {
+int add_rooms_to_game(json_object *rooms, game_t *g)
+{
 
     //initializes json_objects for use in making room_t
     int arr_len = json_object_array_length(rooms);
@@ -31,19 +34,21 @@ int add_rooms_to_game(json_object *rooms, game_t *g) {
     struct json_object *short_desc_obj;
 
     /*if room list is empty, return 1*/
-    if(rooms == NULL) {
+    if(rooms == NULL)
+    {
         fprintf(stderr, "rooms list is empty\n");
         return FAILURE;
     }
 
     /*for loops list of rooms, creates a new game_struct room, add room to game*/
-    for (int i = 0; i < arr_len; i++) {
+    for (int i = 0; i < arr_len; i++)
+    {
 
         room_obj = json_object_array_get_idx(rooms, i);
 
         json_object_object_get_ex(room_obj, "id", &id_obj);
         char *id = (char *) json_object_get_string(id_obj);
-        
+
         json_object_object_get_ex(room_obj, "short_desc", &short_desc_obj);
         char *short_desc = (char *) json_object_get_string(short_desc_obj);
 
@@ -60,32 +65,34 @@ int add_rooms_to_game(json_object *rooms, game_t *g) {
 
 }
 
-game_t *parse_wdl(char* filename) {
+game_t *parse_wdl(char* filename)
+{
     FILE *fp;
     char buffer[MAX_BYTES];
-    
+
     /* The main json_objects for storing top level information*/
     struct json_object *game_document;
     struct json_object *game_obj;
     struct json_object *rooms_obj;
     struct json_object *items_obj;
     struct json_object *intro_obj;
-    
+
     /* reads the input file */
     fp = fopen(filename, "r");
     assert(fp);
     int bytesparsed = fread(buffer, 1, MAX_BYTES, fp);
 
-    if (bytesparsed == 0){
+    if (bytesparsed == 0)
+    {
         printf("File is empty");
     }
 
     fclose(fp);
 
     game_document = json_tokener_parse(buffer);
-    
+
     assert(game_document);
- 
+
     json_object_object_get_ex(game_document, "GAME", &game_obj);
     json_object_object_get_ex(game_document, "ROOMS", &rooms_obj);
     json_object_object_get_ex(game_document, "ITEMS", &items_obj);
@@ -106,14 +113,18 @@ game_t *parse_wdl(char* filename) {
 
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
 
     game_t *game;
 
-    if(argc > 1) {
+    if(argc > 1)
+    {
 
-         game = parse_wdl(argv[1]);
-    } else {
+        game = parse_wdl(argv[1]);
+    }
+    else
+    {
         printf("Need arguments to parse\n");
         return 1;
     }

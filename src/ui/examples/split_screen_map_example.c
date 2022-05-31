@@ -27,9 +27,10 @@ chiventure_ctx_t *create_sample_ctx()
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return ctx;
-} 
+}
 
-int main() {
+int main()
+{
 
     chiventure_ctx_t *ctx = create_sample_ctx();
 
@@ -64,8 +65,8 @@ int main() {
     SetTargetFPS(10);
 
     /* This begins the visual of the map portion */
-    
-        const int mapWidth = WindowWidth/10;
+
+    const int mapWidth = WindowWidth/10;
     const int mapHeight = WindowHeight/10;
     const int roomHeight = mapHeight/5;
     const int roomWidth = mapWidth/5;
@@ -77,14 +78,14 @@ int main() {
     /* This is for initialization of a movable ball that could later function as a pointer/cursor for the player. */
     Vector2 cursorBallPosition = {(float) mapWidth/ 2, (float) ((mapHeight / 2) - roomHeight)};
     Color cursorBallColor = WHITE;
-    
+
     /* This value corresponds to the sensitivity of the cursor. Increasing move_unit increases the distance it covers
      * while keys are pressed.
      */
     float move_unit = 5.0;
-    
+
     float cursorBallRadius = 2;
-    
+
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -113,18 +114,21 @@ int main() {
     create_connection(game, "room3", "room5", "SOUTH");
 
     //loop to produce window of image and text box
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose())
+    {
         if (CheckCollisionPointRec(GetMousePosition(), window))
             mouseOnText = true;
         else
             mouseOnText = false;
 
-        if (mouseOnText) {
-        // Get pressed key (character) on the queue
+        if (mouseOnText)
+        {
+            // Get pressed key (character) on the queue
             int key = GetKeyPressed();
 
             // Check if more characters have been pressed on the same frame
-            while (key > 0) {
+            while (key > 0)
+            {
                 // NOTE: Only allow keys in range [32..125]
                 if ((key >= 32) && (key <= 125) && (letterCount < MAX_INPUT_CHARS))
                 {
@@ -135,7 +139,8 @@ int main() {
                 key = GetKeyPressed();  // Check next character in the queue
             }
 
-            if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (IsKeyPressed(KEY_BACKSPACE))
+            {
                 letterCount--;
                 name[letterCount] = '\0';
 
@@ -145,8 +150,9 @@ int main() {
 
         if (mouseOnText) framesCounter++;
         else framesCounter = 0;
-        
-        if (IsKeyPressed(KEY_ENTER)) {
+
+        if (IsKeyPressed(KEY_ENTER))
+        {
             // use the command to string function to turn name into a command
             cmd *c = cmd_from_string(name, ctx);
             // the output text is taken from the command structs and game context
@@ -154,7 +160,8 @@ int main() {
 
             // erases text in the text input, clearing the screen
             int length = letterCount;
-            for(int i = 0; i < length; i++) {
+            for(int i = 0; i < length; i++)
+            {
                 letterCount--;
                 name[letterCount] = '\0';
             }
@@ -173,12 +180,12 @@ int main() {
         // Drawing the Color Rectangles for each room
         if (!(strcmp(ctx->game->curr_room->room_id, "room1")))
             DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBLUE);
-        else if (!(strcmp(ctx->game->curr_room->room_id, "room2"))) 
+        else if (!(strcmp(ctx->game->curr_room->room_id, "room2")))
             DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, MAROON);
-        else if (!(strcmp(ctx->game->curr_room->room_id, "room3"))) 
+        else if (!(strcmp(ctx->game->curr_room->room_id, "room3")))
             DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKGREEN);
-        else 
-            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBROWN); 
+        else
+            DrawRectangle (ScreenWidth/4, ScreenHeight/10, ScreenWidth/2, ScreenHeight/2, DARKBROWN);
 
         DrawRectangleRec(textBox, WHITE);
         DrawRectangle(POS_ZERO, ScreenHeight - heightbuf2, ScreenWidth, rectHeight, WHITE);
@@ -191,7 +198,8 @@ int main() {
         int fontSize = 20;
         int fontSpacing = 5;
 
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
             if (((framesCounter / 5)%2) == 0)
@@ -218,7 +226,7 @@ int main() {
         ClearBackground(BLACK);
 
         posY = 17; //starting map Y position
-            
+
         if (game->curr_room != NULL)
         {
             centerXPos = mapWidth/4*2;
@@ -230,7 +238,7 @@ int main() {
         }
 
         /*starting at a room, draw a room that either exists near it in any direction */
-        if (find_room_from_dir(room1 , "WEST") != NULL)
+        if (find_room_from_dir(room1, "WEST") != NULL)
         {
             posX = mapWidth/4;
 
@@ -241,21 +249,21 @@ int main() {
 
         if (find_room_from_dir(game->curr_room, "EAST") != NULL)
         {
-            DrawRectangle(posX, posY, roomWidth, roomHeight, GREEN);       
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GREEN);
         }
-            
+
         if (find_room_from_dir(room3, "NORTH") != NULL)
         {
             posY = 4;
 
-            DrawRectangle(posX, posY, roomWidth, roomHeight, GOLD);       
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GOLD);
         }
 
         if (find_room_from_dir(room3, "SOUTH") != NULL)
         {
             posY = 30;
 
-            DrawRectangle(posX, posY, roomWidth, roomHeight, GRAY);       
+            DrawRectangle(posX, posY, roomWidth, roomHeight, GRAY);
         }
 
         /* Draws the ball cursor in the current position according to user input */
@@ -264,7 +272,7 @@ int main() {
 
         EndDrawing();
     }
-    
+
     CloseWindow();
 
     return 0;

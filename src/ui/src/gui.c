@@ -35,18 +35,21 @@ void run_gui(chiventure_ctx_t *ctx)
     SetTargetFPS(10);
 
     /* loop to produce window of image and text box */
-    while (!WindowShouldClose()) {
+    while (!WindowShouldClose())
+    {
         if (CheckCollisionPointRec(GetMousePosition(), window))
             mouseOnText = true;
         else
             mouseOnText = false;
 
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             /* Get pressed key (character) on the queue */
             int key = GetKeyPressed();
 
             /* Check if more characters have been pressed on the same frame */
-            while (key > 0) {
+            while (key > 0)
+            {
                 /* NOTE: Only allow keys in range [32..125}
                 as these are the printable characters */
                 if ((key >= 0) && (key <= 127) && (letterCount < MAX_INPUT_CHARS))
@@ -58,15 +61,17 @@ void run_gui(chiventure_ctx_t *ctx)
                 key = GetKeyPressed();  // Check next character in the queue
             }
 
-            if (IsKeyPressed(KEY_BACKSPACE)) {
+            if (IsKeyPressed(KEY_BACKSPACE))
+            {
                 letterCount--;
                 name[letterCount] = '\0';
 
-                if (letterCount < 0) 
+                if (letterCount < 0)
                     letterCount = 0;
             }
             /* Close the window if ctrl+d keys are pressed */
-            if ((IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL)) && IsKeyDown(KEY_D)){
+            if ((IsKeyDown(KEY_LEFT_CONTROL) || IsKeyDown(KEY_RIGHT_CONTROL)) && IsKeyDown(KEY_D))
+            {
                 CloseWindow();
                 exit(1);
             }
@@ -75,8 +80,9 @@ void run_gui(chiventure_ctx_t *ctx)
         if (mouseOnText)
             framesCounter++;
         else framesCounter = 0;
-        
-        if (IsKeyPressed(KEY_ENTER)) {
+
+        if (IsKeyPressed(KEY_ENTER))
+        {
             /* use the command to string function to turn name into a command */
             cmd *c = cmd_from_string(name, ctx);
             /* the output text is taken from the command structs and game context */
@@ -84,21 +90,22 @@ void run_gui(chiventure_ctx_t *ctx)
 
             /* erases text in the text input, clearing the screen */
             int length = letterCount;
-            for(int i = 0; i < length; i++) {
+            for(int i = 0; i < length; i++)
+            {
                 letterCount--;
                 name[letterCount] = '\0';
             }
-	        name[letterCount] = (char) 32;
-	        letterCount++;
+            name[letterCount] = (char) 32;
+            letterCount++;
 
             if (letterCount < 0)
                 letterCount = 0;
-      	}
+        }
 
         int heightbuf2 = 150;
         int rectHeight = 120;
 
-	    BeginDrawing();
+        BeginDrawing();
 
         ClearBackground(RAYWHITE);
 
@@ -108,20 +115,20 @@ void run_gui(chiventure_ctx_t *ctx)
         int height = SCREEN_HEIGHT/2;
         int pos_x = SCREEN_WIDTH/4;
         int pos_y = SCREEN_HEIGHT/10;
-        
+
         /* Loading just one image is a temporary solution
          In the future, we will use a more generic path so that we can load
          game-specific images */
-        Image room = LoadImage("../src/ui/src/chiventure.png");   
-            
+        Image room = LoadImage("../src/ui/src/chiventure.png");
+
         ImageResize(&room, width, height);
-            
-        /* Image converted to texture, uploaded to GPU memory (VRAM) */    
+
+        /* Image converted to texture, uploaded to GPU memory (VRAM) */
         Texture2D texture = LoadTextureFromImage(room);
-        
+
         /* Once image has been converted to texture and uploaded to VRAM, it can be unloaded from RAM */
-        UnloadImage(room);   
-        
+        UnloadImage(room);
+
         DrawTexture(texture, pos_x, pos_y, WHITE);
 
         DrawRectangleRec(textBox, WHITE);
@@ -137,20 +144,21 @@ void run_gui(chiventure_ctx_t *ctx)
         int fontSpacing = 5;
 
         /* Input text and text-box displayed on lower half of split-screen */
-        if (mouseOnText) {
+        if (mouseOnText)
+        {
             DrawRectangleLines(textBox.x, textBox.y, textBox.width, textBox.height, DARKGRAY);
 
             if (((framesCounter / 5)%2) == 0)
                 DrawText("_", lineIndictorX, lineIndictorY, fontSize, DARKGRAY);
         }
-            
+
         DrawText(name, textBox.x + xbuf, textBox.y + ybuf, fontSize, BLACK);
         Font test = GetFontDefault();
         DrawTextRec(test, output_text, output, fontSize, fontSpacing, true, BLACK);
 
         EndDrawing();
     }
-    
+
     CloseWindow();
 
 }

@@ -20,7 +20,7 @@
 int execute_do_item_item_action(char *act_name, enum action_kind kind, char *allowed_act_name1, int choose_condition, int choose_effect)
 {
     chiventure_ctx_t *ctx_test = chiventure_ctx_new(NULL);
-    
+
     action_type_t *a = action_type_new(act_name, kind);
     item_t *direct = item_new("direct", "The direct item", "The directmost object of interest");
     agent_t *agent_dir = malloc(sizeof(agent_t));
@@ -79,7 +79,7 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         value->int_val = 0;
         add_action_attribute_condition(ga, agent_indir->item, attr, value);
         break;
-    
+
     // Inventory conditional tests
     case 5:
         // Item (direct) is in player inventory
@@ -127,7 +127,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         if (strcmp(get_str_attr(agent_indir->item, "DUMMYATTR"), "new") == 0)
         {
             rc = SUCCESS;
-        } else {
+        }
+        else
+        {
             rc = FAILURE;
         }
         break;
@@ -140,7 +142,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         if (get_int_attr(agent_indir->item, "DUMMYATTR") == 1)
         {
             rc = SUCCESS;
-        } else {
+        }
+        else
+        {
             rc = FAILURE;
         }
         break;
@@ -153,7 +157,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         if (get_double_attr(agent_indir->item, "DUMMYATTR") == 1.0)
         {
             rc = SUCCESS;
-        } else {
+        }
+        else
+        {
             rc = FAILURE;
         }
         break;
@@ -166,7 +172,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         if (get_char_attr(agent_indir->item, "DUMMYATTR") == 'b')
         {
             rc = SUCCESS;
-        } else {
+        }
+        else
+        {
             rc = FAILURE;
         }
         break;
@@ -179,7 +187,9 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
         if (get_bool_attr(agent_indir->item, "DUMMYATTR") == true)
         {
             rc = SUCCESS;
-        } else {
+        }
+        else
+        {
             rc = FAILURE;
         }
         break;
@@ -193,12 +203,14 @@ int execute_do_item_item_action(char *act_name, enum action_kind kind, char *all
     /*sometimes the direct and indirect items are not added to a player
      * and must be freed separately. The following if statements should
      * free them in this case */
-    if (choose_condition <= NOT_ALLOWED_INDIRECT){
-        item_free(agent_dir->item); //For all tests before test 4 free direct
+    if (choose_condition <= NOT_ALLOWED_INDIRECT)
+    {
+        item_free(direct); //For all tests before test 4 free direct
     }
 
-    if (choose_condition != END_FAIL){
-        item_free(agent_indir->item);  //For all tests expect for test 8 free indirect
+    if (choose_condition != END_FAIL)
+    {
+        item_free(indirect);  //For all tests expect for test 8 free indirect
     }
     game_free(ctx_test->game);
     lookup_t_free(ctx_test->cli_ctx->table);

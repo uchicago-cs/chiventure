@@ -1,9 +1,86 @@
 #include <criterion/criterion.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../../include/battle/battle_test_utility.h"
-#include "../../include/npc/npc_battle.h"
-#include "../../include/npc/dialogue.h"
+#include "npc/npc.h"
+#include "game-state/item.h"
+#include "playerclass/class.h"
+
+
+/* Creates a sample class. Taken from test_class.c */
+class_t *generate_test_class()
+{
+    class_t *c;
+    char *name, *shortdesc, *longdesc;
+
+    name = "Warrior";
+    shortdesc = "Mechanically, the warrior focuses on up-close physical "
+                "damage with weapons and survives enemy attacks "
+                "using heavy armor.\n";
+    longdesc = "The warrior is the ultimate armor and weapons expert,"
+               " relying on physical strength and years of training to "
+               "deal with any obstacle. Mechanically, the warrior focuses "
+               "on up-close physical damage with weapons and survives enemy "
+               "attacks using heavy armor.\n";
+
+    c = class_new(name, shortdesc, longdesc, NULL, NULL, NULL);
+
+}
+
+/* Creates a sample npc_mov struct. Taken from test_npc_move.c */
+npc_mov_t *generate_test_npc_mov()
+{
+    npc_mov_t *npc_mov;
+    room_t *test_room;
+    test_room = room_new("test_room", "test", "test test");
+    npc_mov = npc_mov_new(NPC_MOV_DEFINITE, test_room);
+}
+
+/* Creates example stats. Taken from test_battle_ai.c */
+stat_t *create_enemy_stats()
+{
+    stat_t *test_stats = calloc(1, sizeof(stat_t));
+
+    test_stats->speed = 50;
+    test_stats->phys_def = 20;
+    test_stats->phys_atk = 150;
+    test_stats->hp = 200;
+    test_stats->max_hp = 200;
+    test_stats->xp = 0;
+    test_stats->level = 5;
+
+    return test_stats;
+}
+
+/* Creates + initializes a move. Taken from test_battle_ai.c */
+move_t *create_move_(int id, battle_item_t* item, bool attack, int damage,
+                     int defense)
+{
+    move_t *move = (move_t*) calloc(1, sizeof(move_t));
+
+    move->id = id;
+
+    move->item = item;
+
+    move->attack = attack;
+    move->damage = damage;
+    move->defense = defense;
+
+    return move;
+}
+
+/* Creates example moves. Taken from test_battle_ai.c */
+move_t *create_enemy_moves()
+{
+    move_t *head, *earthquake, *poke, *rock_throw;
+    head = NULL;
+    earthquake = create_move_(1, NULL, true, 100, 0);
+    poke = create_move_(2, NULL, true, 40, 0);
+    rock_throw = create_move_(3, NULL, true, 90, 0);
+    DL_APPEND(head, earthquake);
+    DL_APPEND(head, poke);
+    DL_APPEND(head, rock_throw);
+    return head;
+}
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)
@@ -31,10 +108,11 @@ Test(npc, new)
                      c->shortdesc, "npc_new didn't set short description for class");
     cr_assert_str_eq(npc->movement->track, movement->track,
                      "npc_new didn't set current room id");
-    cr_assert_str_eq(npc->movement->path->room_id, movement->path->room_id,
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
                      "npc_new didn't set npc_path");
-    cr_assert_eq(npc->hostility_level, FRIENDLY,
-                 "npc_new didn't set hostility_level");
+    cr_assert_eq(npc->will_fight, false,
+                 "npc_new didn't set will_fight");
 }
 
 
@@ -48,14 +126,14 @@ Test(npc, init)
 
     char *npc_id2 = "test";
 
-    npc = npc_new(npc_id2, "woman", "short woman", NULL, movement, FRIENDLY);
+    npc = npc_new(npc_id2, "woman", "short woman", NULL, movement, false);
 
-    c = make_new_warrior_class();
+    c = generate_test_class();
     movement = generate_test_npc_mov();
 
     char *npc_id = "npc_22";
 
-    res = npc_init(npc, npc_id, "man", "tall man", c, movement, FRIENDLY);
+    res = npc_init(npc, npc_id, "man", "tall man", c, movement, false);
 
     cr_assert_eq(res, SUCCESS, "npc_init() failed");
 
@@ -69,11 +147,11 @@ Test(npc, init)
                      c->shortdesc, "npc_init didn't set short description for class");
     cr_assert_str_eq(npc->movement->track, movement->track,
                      "npc_new didn't set current room id");
-    cr_assert_str_eq(npc->movement->path->room_id,
-                     movement->path->room_id,
+    cr_assert_str_eq(npc->movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
+                     movement->npc_mov_type.npc_mov_definite->npc_path->room->room_id,
                      "npc_new didn't set npc_path");
-    cr_assert_eq(npc->hostility_level, FRIENDLY,
-                 "npc_init didn't set hostility_level");
+    cr_assert_eq(npc->will_fight, false,
+                 "npc_init didn't set will_fight");
 }
 
 
@@ -222,6 +300,9 @@ Test(npc, remove_item_from_npc)
     rc = add_item_to_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
                  "add an item to npc");
+    rc = add_item_to_npc(npc, dup_item);
+    cr_assert_eq(rc, SUCCESS, "add_item_to_npc failed to "
+                 "add an item to npc");
 
     rc = remove_item_from_npc(npc, test_item);
     cr_assert_eq(rc, SUCCESS, "remove_item_from_npc failed to "
@@ -255,9 +336,13 @@ Test(npc, add_battle_to_npc)
 		                HOSTILE, make_new_warrior_class(), dagger, NULL, NULL, NULL);
 
 
+    int res = add_battle_to_npc(npc, 100, stats, moves, BATTLE_AI_GREEDY,
+                                HOSTILE, 25);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
     cr_assert_not_null(npc->npc_battle,
                        "add_battle_to_npc() didn't set npc_battle");
+    cr_assert_eq(npc->npc_battle->health, 100,
+                 "add_battle_to_npc() didn't set health in npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -276,17 +361,6 @@ Test(npc, get_npc_battle)
                    "get_npc_battle() didn't return NULL given npc with NULL"
                    "npc_battle");
 
-    stat_t *stats = create_enemy_stats_v1();
-    move_t *moves = create_enemy_moves_v1();
-
-
-    stat_changes_t *dagger_changes = stat_changes_new();
-    dagger_changes->phys_atk = 20;
-    dagger_changes->phys_def = 5;
-    dagger_changes->hp = 0;                        
-    battle_item_t *dagger = create_battle_item(1, 20, "A hearty dagger sure to take your breath away... for good", "Dagger", true, 
-		    dagger_changes);
-
     int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
                                 HOSTILE, make_new_warrior_class(), dagger,
 
@@ -297,6 +371,8 @@ Test(npc, get_npc_battle)
     cr_assert_not_null(npc_battle,
                        "get_npc_battle() returned NULL given NPC with non-NULL"
                        "npc_battle");
+    cr_assert_eq(npc_battle->health, 100,
+                 "get_npc_battle() returned a struct with the wrong health");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -304,63 +380,7 @@ Test(npc, get_npc_battle)
 
 /* Checks that an npc's health is changed by change_npc_health()
    both positively and negatively with a set maximum */
-Test (npc, change_npc_hp)
-{
-    char *npc_id = "npc";
-    npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
-    cr_assert_not_null(npc, "npc_new() failed");
-
-    stat_t *stats = create_enemy_stats_v1();
-    move_t *moves = create_enemy_moves_v1();
-
-    battle_item_t *dagger = create_battle_item(1, 1,
-                            "A hearty dagger sure to take your breath away... for good",
-                            "dagger", true, NULL);
-
-    int res = add_battle_to_npc(npc, stats, moves, BATTLE_AI_GREEDY,
-                                HOSTILE, make_new_warrior_class(), dagger,
-                                NULL, NULL, NULL);
-    cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
-
-    /* current hp level set in create_enemy_stats() is 200 */
-    int hp1 = change_npc_hp(npc, -30);
-    cr_assert_eq(hp1, 170,
-                 "change_npc_hp() didn't decrease hp correctly");
-    cr_assert_eq(npc->npc_battle->stats->hp, 170,
-                 "change_npc_hp() didn't change hp in npc_battle struct");
-
-    /* current max_hp level set in create_enemy_stats() is 200 */
-    int hp2 = change_npc_hp(npc, 40);
-    cr_assert_eq(hp2, 200,
-                 "change_npc_hp() increased hp past max_hp");
-    cr_assert_eq(npc->npc_battle->stats->hp, 200,
-                 "change_npc_hp() didn't change hp in npc_battle struct");
-
-    int hp3 = change_npc_hp(npc, -90);
-    cr_assert_eq(hp3, 110,
-                 "change_npc_hp() didn't decrease health correctly");
-    cr_assert_eq(npc->npc_battle->stats->hp, 110,
-                 "change_npc_hp() didn't change hp in npc_battle struct");
-
-    int hp4 = change_npc_hp(npc, 5);
-    cr_assert_eq(hp4, 115,
-                 "change_npc_hp() didn't increase health correctly");
-    cr_assert_eq(npc->npc_battle->stats->hp, 115,
-                 "change_npc_hp() didn't change hp in npc_battle struct");
-
-    int hp5 = change_npc_hp(npc, -120);
-    cr_assert_eq(hp5, 0,
-                 "change_npc_hp() set a negative hp");
-    cr_assert_eq(npc->npc_battle->stats->hp, 0,
-                 "change_npc_hp() didn't change hp in npc_battle struct");
-
-    res = npc_free(npc);
-    cr_assert_eq(res, SUCCESS, "npc_free() failed");
-}
-
-/* Checks that get_npc_hp returns an npc's hp if its npc_battle struct
- * is initialized and otherwise returns -1 */
-Test(npc, get_npc_hp)
+Test (npc, change_npc_health)
 {
     char *npc_id = "npc";
     npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
@@ -383,9 +403,29 @@ Test(npc, get_npc_hp)
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
-    int hp = get_npc_hp(npc);
-    cr_assert_eq(hp, 200,
-                 "get_npc_hp() failed for npc with non-NULL npc_battle");
+    int health1 = change_npc_health(npc, 30, 100);
+    cr_assert_eq(health1, 100,
+                 "change_npc_health() increased health past max");
+    cr_assert_eq(npc->npc_battle->health, 100,
+                 "change_npc_health didn't change health in npc_battle struct");
+
+    int health2 = change_npc_health(npc, -20, 100);
+    cr_assert_eq(health2, 80,
+                 "change_npc_health() didn't decrease health correctly");
+    cr_assert_eq(npc->npc_battle->health, 80,
+                 "change_npc_health didn't change health in npc_battle struct");
+
+    int health3 = change_npc_health(npc, 3, 100);
+    cr_assert_eq(health3, 83,
+                 "change_npc_health() didn't increase health correctly");
+    cr_assert_eq(npc->npc_battle->health, 83,
+                 "change_npc_health didn't change health in npc_battle struct");
+
+    int health4 = change_npc_health(npc, -90, 100);
+    cr_assert_eq(health4, 0,
+                 "change_npc_health() set a negative health");
+    cr_assert_eq(npc->npc_battle->health, 0,
+                 "change_npc_health didn't change health in npc_battle struct");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -399,13 +439,9 @@ Test(npc, get_npc_max_hp)
     npc_t *npc = npc_new(npc_id, "short", "long", NULL, NULL, HOSTILE);
     cr_assert_not_null(npc, "npc_new() failed");
 
-    int max_hp = get_npc_max_hp(npc);
-    cr_assert_eq(max_hp, -1,
-                 "get_npc_max_hp() failed for npc with NULL npc_battle");
-
-    stat_t *stats = create_enemy_stats_v1();
-    move_t *moves = create_enemy_moves_v1();
-
+    int health = get_npc_health(npc);
+    cr_assert_eq(health, -1,
+                 "get_npc_health() failed for npc with NULL npc_battle");
 
     stat_changes_t *dagger_changes = stat_changes_new();
     dagger_changes->phys_atk = 20;
@@ -420,9 +456,9 @@ Test(npc, get_npc_max_hp)
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
-    max_hp = get_npc_max_hp(npc);
-    cr_assert_eq(max_hp, 200,
-                 "get_npc_max_hp() failed for npc with non-NULL npc_battle");
+    health = get_npc_health(npc);
+    cr_assert_eq(health, 80,
+                 "get_npc_health() failed for npc with non-NULL npc_battle");
 
     res = npc_free(npc);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
@@ -439,7 +475,7 @@ Test(npc, check_npc_battle)
     cr_assert_not_null(npc2, "npc_new() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true,
-                 "check_npc_battle failed; hostility_level=CONDITIONAL_FRIENDLY, npc_battle=NULL");
+                 "check_npc_battle failed; will_fight=false, npc_battle=NULL");
     cr_assert_eq(check_npc_battle(npc2), false,
                  "check_npc_battle failed; hostility_level=HOSTILE, npc_battle=NULL");
 
@@ -467,10 +503,8 @@ Test(npc, check_npc_battle)
                                 HOSTILE, make_new_warrior_class(), dagger1,
                                 NULL, NULL, NULL);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
-    res = add_battle_to_npc(npc2, stats2, moves2, BATTLE_AI_GREEDY,
-                                HOSTILE, make_new_warrior_class(), dagger2,
-                                NULL, NULL, NULL);
-
+    res = add_battle_to_npc(npc2, 80, stats2, moves2, BATTLE_AI_GREEDY,
+                            HOSTILE, 25);
     cr_assert_eq(res, SUCCESS, "add_battle_to_npc() failed");
 
     cr_assert_eq(check_npc_battle(npc1), true,

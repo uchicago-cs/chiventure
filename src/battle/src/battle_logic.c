@@ -77,7 +77,7 @@ battle_item_t *find_battle_item(battle_item_t *inventory, char *input)
     battle_item_t *temp;
 
     DL_FOREACH(inventory, temp)
-    {        
+    {
         if (strncmp(temp->name, input, 100) == 0)
         {
             return temp;
@@ -101,8 +101,9 @@ int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item)
     {
         return FAILURE;
     }
-    
-    
+
+    battle_item_t *item = find_battle_item(c->items, name);
+
     if (item == NULL || item->quantity == 0)
     {
         return FAILURE;
@@ -111,12 +112,18 @@ int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item)
     if (item->attack)
     {
         consume_battle_item(battle->enemy, item);
+        item->durability -= 10;
+    }
+    else
+    {
+        consume_battle_item(c, item);
+        item->quantity -= 1;
     }
     else
     {
         consume_battle_item(c, item);
     }
-    item->quantity -= 1;
+
     return SUCCESS;
 }
 
@@ -374,21 +381,28 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item)
 
     stat_changes_t *current = sc;
 
-    while (sc->next != NULL) {
+    while (sc->next != NULL)
+    {
         sc = sc->next;
     }
-    stat_changes_t *changes = item->attributes;
-    sc->max_hp += changes->max_hp;
-    sc->hp += changes->hp;    
-    sc->phys_atk += changes->phys_atk;
-    sc->phys_def += changes->phys_def; 
-    sc->mag_atk += changes->mag_atk;
-    sc->mag_def += changes->mag_def;
-    sc->speed += changes->speed;
-    sc->crit += changes->crit;
-    sc->accuracy += changes->accuracy;
-    sc->max_sp += changes->max_sp;
-    sc->sp += changes->sp;
+
+    sc->hp += item->hp;
+    sc->phys_atk += item->attack;
+    sc->phys_def += item->defense;
+    /* Will be implemented once battle_item_t is updated
+    sc->phys_atk += item->phys_atk;
+    sc->phys_def += item->phys_def;
+    sc->mag_atk += item->mag_atk;
+    sc->mag_def += item->mag_def;
+    sc->speed += item->speed;
+    if((sc->sp + item->sp) > sc->max_sp){
+        sc->sp = sc->max_sp;
+    }else{
+        sc->sp += item->sp;
+    }
+    sc->crit += item->crit;
+    sc->accuracy += item->accuracy;
+    */
 
     return SUCCESS;
 }

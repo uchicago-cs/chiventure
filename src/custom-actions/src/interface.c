@@ -1,7 +1,7 @@
-/* 
- * Basic functions for custom-actions interface. 
- * 
- * Please see "interface.h" for function documentation. 
+/*
+ * Basic functions for custom-actions interface.
+ *
+ * Please see "interface.h" for function documentation.
  */
 
 #include <string.h>
@@ -37,7 +37,7 @@ custom_action_t *search_for_custom_action(char *action_name)
 
 /*
  * See interface.h.
- * 
+ *
  * This depends on translate_custom_action having been written
  * (see backlog issue #796). Also needs tests.
  */
@@ -59,10 +59,10 @@ custom_action_t *compile_custom_action(obj_t *action)
     return translated;
 }
 
-/* 
+/*
  * See interface.h.
- * 
- * NOTE: This would normally be a private helper function for 
+ *
+ * NOTE: This would normally be a private helper function for
  * compile_custom_action, but it is currently public for sandbox code use.
  */
 int add_custom_action_to_game(custom_action_t *action)
@@ -78,13 +78,13 @@ int add_custom_action_to_game(custom_action_t *action)
     return SUCCESS;
 }
 
-/* 
+/*
  * See interface.h.
- * 
+ *
  * To be implemented in the future - see backlog issue #796.
  * Also needs tests.
- * 
- * NOTE: This would normally be a private helper function for 
+ *
+ * NOTE: This would normally be a private helper function for
  * compile_custom_action, but it is currently public for sandbox code use.
  */
 custom_action_t *translate_custom_action(obj_t *action)

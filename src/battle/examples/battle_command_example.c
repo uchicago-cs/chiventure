@@ -22,10 +22,52 @@ class_t *make_sorcerer()
     return class_new("Sorcerer", "Wise", "Old and wise with crazy magecraft ability", NULL, NULL, NULL);
 }
 
-/* Makes a dumby minion class */
-class_t *make_minion()
+
+/* Helper function to print the result of a turn
+ * Parameters:
+ *  ctx: main structure of the battle
+ *  player_move: the name of the player's move
+ * Returns:
+ *  Always returns SUCCESS
+ */
+/*
+int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
 {
-    return class_new("Minion", "Stupid", "Unintelligent, but very strong", NULL, NULL, NULL);
+   char *action_string;
+   // everything below allows us to print what just happened
+   if (goes_first(ctx->game->battle) == PLAYER)
+   {
+       printf("goes_first determined the player goes first!\n");
+       action_string = print_battle_move(ctx->game->battle,
+                                         PLAYER, player_move);
+       printf("%s\n", action_string);
+       if (ctx->game->battle->enemy->stats->hp <= 0)
+       {
+           return SUCCESS;
+       }
+       move_t *enemy_move = give_move(ctx->game->battle->player,
+                                      ctx->game->battle->enemy,
+                                      ctx->game->battle->enemy->ai);
+       action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+       printf("%s\n", action_string);
+   }
+   else
+   {
+       printf("goes_first determined the enemy goes first!\n");
+       action_string = print_battle_move(ctx->game->battle,
+                                         PLAYER, player_move);
+       printf("%s\n", action_string);
+       if (ctx->game->battle->player->stats->hp <= 0)
+       {
+           return SUCCESS;
+       }
+       move_t *enemy_move = give_move(ctx->game->battle->player,
+                                      ctx->game->battle->enemy,
+                                      ctx->game->battle->enemy->ai);
+       action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
+       printf("%s\n", action_string);
+   }
+   return SUCCESS;
 }
 
 /* Prints out the avaliable moves for the player
@@ -34,15 +76,16 @@ class_t *make_minion()
  * Returns:
  *  Always SUCCESS
  */
+/*
 int print_moves2(battle_ctx_t *ctx)
 {
-    move_t *temp;
-    printf("\nMOVES LIST:\n");
-    DL_FOREACH(ctx->game->battle->player->moves, temp)
-    {
-        printf("%s\n", temp->name);
-    }
-    return SUCCESS;
+   move_t *temp;
+   printf("\nMOVES LIST:\n");
+   DL_FOREACH(ctx->game->battle->player->moves, temp)
+   {
+       printf("%s\n", temp->info);
+   }
+   return SUCCESS;
 }
 
 /* Prints out the avaliable battle_items for the player
@@ -50,19 +93,22 @@ int print_moves2(battle_ctx_t *ctx)
  *  ctx: the main structure of the battle
  * Returns:
  *  Always SUCCESS
- */ 
+ */
+/*
 int print_battle_items2(battle_ctx_t *ctx)
 {
-    battle_item_t *temp;
-    printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
-    DL_FOREACH(ctx->game->battle->player->items, temp)
-    {
-        printf("Name: %s\n", temp->name);
-        printf("ID: %d\n", temp->id);
-        printf("Description: %s\n", temp->description);
-        printf("Quantity: %d\n", temp->quantity);
-    }
-    return SUCCESS;
+   battle_item_t *temp;
+   printf("\nAVAILABLE BATTLE ITEMS LIST:\n");
+   DL_FOREACH(ctx->game->battle->player->items, temp)
+   {
+       printf("Name: %s\n", temp->name);
+       printf("ID: %d\n", temp->id);
+       printf("Description: %s\n", temp->description);
+       printf("Quantity: %d\n", temp->quantity);
+       printf("Attack: %d, Defense: %d, HP: %d\n",
+               temp->attack, temp->defense, temp->hp);
+   }
+   return SUCCESS;
 }
 
 /* Reads the user's input and converts that into an action
@@ -72,123 +118,113 @@ int print_battle_items2(battle_ctx_t *ctx)
  * Returns:
  *  SUCCESS or FAILURE
  */
+/*
 int read_move(char **args, battle_ctx_t *ctx)
 {
-    int res;
+   int res;
 
-    // this handles the command MOVE USE <move> ON <enemy_name>
-    if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0) 
-        && (strncmp(args[1], "USE", MAX_COMMAND_LENGTH) == 0) 
-        && (strncmp(args[3], "ON", MAX_COMMAND_LENGTH) == 0))
-    {
-        printf("Determined command as MOVE USE, and using the move %s\n\n",
-                args[2]);
-        
-        move_t *player_move = find_player_move(ctx, args[2]);
+   // this handles the command MOVE USE <move> ON <enemy_name>
+   if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0)
+       && (strncmp(args[1], "USE", MAX_COMMAND_LENGTH) == 0)
+       && (strncmp(args[3], "ON", MAX_COMMAND_LENGTH) == 0))
+   {
+       printf("Determined command as MOVE USE, and it using the %s move\n\n",
+               args[2]);
 
-        // checks if the player's move is NULL, if so, return FAILURE
-        if (player_move == NULL)
-        {
-            printf("Couldn't find the move you were looking for!\n");
-            return FAILURE;
-        }
+       move_t *player_move = find_player_move(ctx, args[2]);
 
-        // call to check_target to ensure that the target exists
-        printf("Calling check_target...\n");
-        if(check_target(ctx->game->battle, args[4]) == NULL)
-        {
-            printf("%s\n", ctx->game->battle->enemy->name);
-            printf("%s\n", args[4]);
-            printf("Enemy not found!\n");
-            return FAILURE;
-        }
-        printf("target exists!\n");
+       // checks if the player's move is NULL, if so, return FAILURE
+       if (player_move == NULL)
+       {
+           printf("Couldn't find the move you were looking for!\n");
+           return FAILURE;
+       }
 
-        printf("\nBeginning call to battle_flow() function\n");
-        // calling the function which is the heart of the battle
-        char *rs = battle_flow_move(ctx, player_move, args[4]);
-        printf("%s", rs);
-        // prints result of attacks
-        int battle_res = "";
-        if (ctx->game->battle->enemy->stats->hp > 0) 
-        {
-            char *enemy_rs = enemy_make_move(ctx);
-            printf("%s",enemy_rs);
-        }
-        
-        return battle_res;
-    }
-    // handles the command MOVE LIST
-    else if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0) 
-            && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
-    {
-        printf("Determined command as MOVE LIST\n\n");
-        res = print_moves2(ctx);
-        printf("\n");
-        return res;
-    }
-    // handles the command ITEM LIST
-    else if ((strncmp(args[0], "ITEM", MAX_COMMAND_LENGTH) == 0) 
-            && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
-    {
-        printf("Determined command as ITEM LIST\n\n");
-        res = print_battle_items2(ctx);
-        printf("\n");
-        return res;
-    }
-    // handles the command HELP
-    else if (strncmp(args[0], "HELP", MAX_COMMAND_LENGTH) == 0)
-    {
-        // prints out possible commands for the user to use
-        printf("Here are the possible commands!\n");
-        printf("MOVE USE <move_name> ON <enemy_name>\n");
-        printf("MOVE LIST\n");
-        printf("ITEM LIST\n");
-        printf("USE <item_id>\n\n");
-        return SUCCESS;
-    }
-    // handles the command USE <battle_item>
-    else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0) 
-    {
-        battle_item_t *item = find_battle_item(ctx->game->battle->player->items, args[1]);
-        
-        if (item == NULL)
-        {
-            printf("Couldn't find the battle item you were looking for!\n");
-            return FAILURE;
-        }
-        if (item->quantity <= 0)
-        {
-            printf("Sorry, you don't have any more of that battle item!\n");
-            return FAILURE;
-        }
-        printf("Determined command as USE %s\n\n", item->name);
-        char *res_str = battle_flow_item(ctx, item);
-        if (!strcmp(res_str, "FAILURE\n"))
-        {
-            printf("Failure\n");
-            return FAILURE;
-        } 
-        else 
-        {
-            stat_t *player_stats = ctx->game->battle->player->stats;
-            
-            printf("%s\n", res_str);
-            if (ctx->game->battle->enemy->stats->hp > 0) 
-            {
-                char *enemy_rs = enemy_make_move(ctx);
-                printf("%s",enemy_rs);
-            }
-        }
+       // call to check_target to ensure that the target exists
+       printf("calling check_target...\n");
+       if(check_target(ctx->game->battle, args[4]) == NULL)
+       {
+           printf("Enemy not found!\n");
+           return FAILURE;
+       }
+       printf("target exists!\n");
 
-        return SUCCESS;
-    }
-    else
-    {
-        // this only occurs if the user does not input the correct command
-        return FAILURE;
-    }
-    return res;
+       printf("\nBeginning call to battle_flow() function\n");
+       // calling the function which is the heart of the battle
+       battle_flow_move(ctx, player_move, args[4]);
+
+       // prints result of attacks
+       int battle_res = print_battle_result(ctx, player_move);
+       return battle_res;
+   }
+   // handles the command MOVE LIST
+   else if ((strncmp(args[0], "MOVE", MAX_COMMAND_LENGTH) == 0)
+           && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
+   {
+       printf("Determined command as MOVE LIST\n\n");
+       res = print_moves2(ctx);
+       printf("\n");
+       return res;
+   }
+   // handles the command ITEM LIST
+   else if ((strncmp(args[0], "ITEM", MAX_COMMAND_LENGTH) == 0)
+           && (strncmp(args[1], "LIST", MAX_COMMAND_LENGTH) == 0))
+   {
+       printf("Determined command as ITEM LIST\n\n");
+       res = print_battle_items2(ctx);
+       printf("\n");
+       return res;
+   }
+   // handles the command HELP
+   else if (strncmp(args[0], "HELP", MAX_COMMAND_LENGTH) == 0)
+   {
+       // prints out possible commands for the user to use
+       printf("Here are the possible commands!\n");
+       printf("MOVE USE <move_name> ON <enemy_name>\n");
+       printf("MOVE LIST\n");
+       printf("ITEM LIST\n");
+       printf("USE <item_id>\n\n");
+       return SUCCESS;
+   }
+   // handles the command USE <battle_item>
+   else if (strncmp(args[0], "USE", MAX_COMMAND_LENGTH) == 0)
+   {
+       battle_item_t *item = find_battle_item(ctx->game->battle->player->items, args[1]);
+       printf("Determined command as USE %s\n\n", item->name);
+       if (item == NULL)
+       {
+           printf("Couldn't find the battle item you were looking for!\n");
+           return FAILURE;
+       }
+       if (item->quantity <= 0)
+       {
+           printf("Sorry, you don't have any more of that battle item!\n");
+           return FAILURE;
+       }
+
+       res = use_battle_item(ctx->game->battle->player, ctx->game->battle, args[1]);
+       if (res == FAILURE)
+       {
+           return FAILURE;
+       }
+       else
+       {
+           stat_t *player_stats = ctx->game->battle->player->stats;
+           printf("New HP is %d\n", player_stats->hp);
+           printf("New Strength is %d\n", player_stats->strength);
+           printf("New Defense is %d\n\n", player_stats->defense);
+       }
+
+       char* str = enemy_make_move(ctx);
+       printf("%s\n", str);
+       return SUCCESS;
+   }
+   else
+   {
+       // this only occurs if the user does not input the correct command
+       return FAILURE;
+   }
+   return res;
 }
 
 /* Parses a command into an array of strings
@@ -197,14 +233,15 @@ int read_move(char **args, battle_ctx_t *ctx)
  *  input: the string containing the whole command
  * Returns:
  *  Array of strings with parsed input
- */ 
+ */
+/*
 int parse_command(char **out, char *input)
 {
-    for (int i = 0; i < MAX_ARGS; i++)
-    {
-        out[i] = calloc(MAX_COMMAND_LENGTH + 1, sizeof(char));
-    }
-    return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
+   for (int i = 0; i < MAX_ARGS; i++)
+   {
+       out[i] = calloc(MAX_COMMAND_LENGTH + 1, sizeof(char));
+   }
+   return sscanf(input, " %s %s %s %s %s ", out[0], out[1], out[2], out[3], out[4]);
 }
 
 /* Allows a battle to continue with taking input from the user via command line
@@ -212,33 +249,41 @@ int parse_command(char **out, char *input)
  *  ctx: main structure of the battle
  * Returns:
  *  Always SUCCESS
- */ 
+ */
+/*
 int continue_battle(battle_ctx_t *ctx)
 {
-    char buf[MAX_COMMAND_LENGTH + 1] = {0};
-    char **args = calloc(MAX_ARGS, sizeof(char *));
-    int num_args;
-    int res;
-    while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
-    {
-        printf("What will you do?\n");
-        // Get the input
-        printf("> ");
-        char **args = calloc(MAX_ARGS, sizeof(char *));
-        if (!fgets(buf, MAX_COMMAND_LENGTH, stdin))
-        {
-            break;
-        }
-        // parse the input
-        num_args = parse_command(args, buf);
-        // ignore empty line
-        if (num_args == 0 || buf[0] == '\n')
-        {
-            printf("Num args is 0\n");
-            continue;
-        }
-    }
-    return SUCCESS;
+   char buf[MAX_COMMAND_LENGTH + 1] = {0};
+   char **args = calloc(MAX_ARGS, sizeof(char *));
+   int num_args;
+   int res;
+   while (ctx != NULL && ctx->status == BATTLE_IN_PROGRESS)
+   {
+       printf("What will you do?\n");
+       // Get the input
+       printf("> ");
+       if (!fgets(buf, MAX_COMMAND_LENGTH, stdin))
+       {
+           break;
+       }
+       // parse the input
+       num_args = parse_command(args, buf);
+       // ignore empty line
+       if (num_args == 0 || buf[0] == '\n')
+       {
+           continue;
+       }
+       // otherwise, handle input
+       res = read_move(args, ctx);
+       printf("read move returned: %d\n", res);
+   }
+   // free statement for string array
+   for (int i = 0; i < MAX_ARGS; i++)
+   {
+       free(args[i]);
+   }
+   free(args);
+   return SUCCESS;
 }
 
 //where everything is called
@@ -275,9 +320,6 @@ int main()
     printf("XP: %d\n", p_stats->xp);
     printf("Level: %d\n", p_stats->level);
     printf("Speed: %d\n", p_stats->speed);
-    printf("Accuracy: %d\n", p_stats->accuracy);
-    printf("Crit: %d\n", p_stats->crit);
-    
 
     // creates the stats of the enemy to begin the battle
     stat_t *e_stats = (stat_t*) calloc(1, sizeof(stat_t));
@@ -324,13 +366,13 @@ int main()
     ctx->game = g;
 
     ctx->game->player = p;
-
-    /* start_battle begins the battle by finalizing 
+    */
+    /* start_battle begins the battle by finalizing
        all finishing touches for a battle to begin */
     printf("starting battle...\n\n");
     start_battle(ctx, e, ENV_GRASS);
-
-    /* this checks to ensure that the user has moves, if not, 
+    */
+    /* this checks to ensure that the user has moves, if not,
        the executable will not work since it revolves around moves! */
     if (ctx->game->battle->player->moves == NULL)
     {
@@ -339,7 +381,7 @@ int main()
 
     printf("\nWelcome to the Battle! Let's get this started!\n\n");
 
-    // prints the beginning of the battle 
+    // prints the beginning of the battle
     char *start = print_start_battle(ctx->game->battle);
     printf("%s\n", start);
     // begins call to loop battle

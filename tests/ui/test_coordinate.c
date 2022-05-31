@@ -19,22 +19,25 @@ Test(coordinate, new)
 }
 
 
-/*This is a helper function used in check_find_coord to check 
-whether the coord_record_t given by find_coord is the same 
+/*This is a helper function used in check_find_coord to check
+whether the coord_record_t given by find_coord is the same
 as the expected coord_record_t*/
 int check_equal(coord_record_t *one, coord_record_t *two)
 {
-    //returns success when a room associated with the coordinates 
-    //does not exist and find_coord returns NULL 
-    if (one == NULL && two == NULL) {
+    //returns success when a room associated with the coordinates
+    //does not exist and find_coord returns NULL
+    if (one == NULL && two == NULL)
+    {
         return SUCCESS;
     }
-    //returns failure when a room associated with the coordinates 
-    //does exist and find_coord returns NULL 
-    if (one == NULL || two == NULL) {
+    //returns failure when a room associated with the coordinates
+    //does exist and find_coord returns NULL
+    if (one == NULL || two == NULL)
+    {
         return FAILURE;
     }
-    if (one->r->room_id == NULL && two->r->room_id == NULL) {
+    if (one->r->room_id == NULL && two->r->room_id == NULL)
+    {
         return SUCCESS;
     }
 
@@ -49,10 +52,12 @@ int check_equal(coord_record_t *one, coord_record_t *two)
     char *one_id = one->r->room_id;
     char *two_id = two->r->room_id;
 
-    if (one_x == two_x && one_y == two_y && one_z == two_z && strcmp(one_id, two_id) == 0) {
+    if (one_x == two_x && one_y == two_y && one_z == two_z && strcmp(one_id, two_id) == 0)
+    {
         return SUCCESS;
     }
-    else {
+    else
+    {
         return FAILURE;
     }
 
@@ -75,14 +80,15 @@ int check_equal(coord_record_t *one, coord_record_t *two)
  * - returns NULL if key not in hash
  */
 void check_find_coord(coord_record_t *coordmap, int x, int y, int z,
-                    coord_record_t *rd_expected, int expected)
+                      coord_record_t *rd_expected, int expected)
 {
     coord_record_t *rd = find_coord(coordmap, x, y, z);
 
     int equal = check_equal(rd, rd_expected);
 
 
-    if (rd_expected != NULL) {
+    if (rd_expected != NULL)
+    {
         cr_assert_eq(equal, expected,
                      " Coordinate record %d is %s but"
                      " find_room returned %s",
@@ -90,7 +96,8 @@ void check_find_coord(coord_record_t *coordmap, int x, int y, int z,
                      expected? "not present":"present",
                      equal? "false":"true");
     }
-    else {
+    else
+    {
         cr_assert_eq(equal, expected,
                      " Coordinate record NULL is %s but"
                      " find_room returned %s",
@@ -143,7 +150,7 @@ Test(coordinate, found)
  * - x, y, z are the respective coordinates. They will be bundled
  *           into a coordinate key for hashing
  * - r is a pointer to the room to assign the coords to
- * - expected denotes whether it should or should not be added 
+ * - expected denotes whether it should or should not be added
  *
  * Return value:
  * - returns SUCCESS if:

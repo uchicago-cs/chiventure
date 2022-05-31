@@ -34,7 +34,7 @@ action_type_t *get_game_action(char *action, list_action_type_t *valid)
 
     if (curr == NULL)
         return NULL;
-  
+
     return curr->act;
 }
 
@@ -63,7 +63,7 @@ int load_actions(obj_t *item_obj, agent_t *agent)
     DL_FOREACH(action_ls->data.lst, curr)
     {
         char *action = case_insensitized_string(obj_get_str(curr, "action"));
-        
+
         temp = get_game_action(action, val_actions);
 
         if (obj_get_str(curr, "text_success") != NULL && obj_get_str(curr, "text_fail") != NULL)
@@ -192,7 +192,8 @@ int load_items(obj_t *doc, game_t *g)
         }
 
         // add item to its room, unless it is meant to be an NPC-held item
-        if (strcmp(in, "npc") != 0) {
+        if (strcmp(in, "npc") != 0)
+        {
             room_t *item_room = find_room_from_game(g, in);
             add_item_to_room(item_room, agent->item);
         }

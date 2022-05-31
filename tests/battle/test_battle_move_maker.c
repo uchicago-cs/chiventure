@@ -10,32 +10,25 @@ Test(class_moves, bard)
     class_t* test_class = class_new("Bard", "Music boi",
                                     "Charismatic, always has a joke or song ready",
                                     NULL, NULL, NULL);
-    
+
     battle_player_t *player = new_ctx_player("name", test_class,
-                                          NULL, NULL, NULL, NULL, NULL, NULL);
+                              NULL, NULL, NULL);
     combatant_t *ret_player = set_battle_player(player);
 
     int rc = build_moves(ret_player);
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
 
-    cr_assert_eq(ret_player->moves->id, 0, "move_new() didn't set move id");
+    cr_assert_null(ret_player->moves->item,
+                   "add_class_move() didn't set battle_item to NULL");
 
-    cr_assert_str_eq(ret_player->moves->name, "Diss Track",
-                     "move_new() didn't set move name");
+    cr_assert_eq(ret_player->moves->id, 0, "add_class_move() didn't set id");
 
-    cr_assert_str_eq(ret_player->moves->info, "No Description.",
-                     "move_new() didn't set move info");
+    cr_assert_str_eq(ret_player->moves->info, "Diss Track",
+                     "add_class_move() didn't set move/spell info");
 
-    cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
-
-    cr_assert_eq(ret_player->moves->stat_mods, NO_TARGET, "move_new() didn't set move id");
-
-    cr_assert_eq(ret_player->moves->effects, NO_TARGET, "move_new() didn't set move id");
-
-    cr_assert_eq(ret_player->moves->count, 0, "move_new() didn't set move id");
-
-    cr_assert_eq(ret_player->moves->sp_cost, 10, "move_new() didn't set move id");
+    cr_assert(ret_player->moves->attack,
+              "add_class_move() didn't set attack to true");
 
     cr_assert_null(ret_player->moves->req_item, "move_new() didn't set battle_item to NULL");
 
@@ -56,7 +49,7 @@ Test(class_moves, wizard)
                                     NULL, NULL, NULL);
 
     battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL, NULL, NULL, NULL);
+                              NULL, NULL, NULL);
 
     combatant_t *ret_player = set_battle_player(player);
 
@@ -76,9 +69,11 @@ Test(class_moves, wizard)
 
     cr_assert_eq(ret_player->moves->stat_mods, NO_TARGET, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->effects, NO_TARGET, "move_new() didn't set move id");
+    cr_assert_str_eq(ret_player->moves->info, "Fireball",
+                     "add_class_move() didn't set move/spell info");
 
-    cr_assert_eq(ret_player->moves->count, 0, "move_new() didn't set move id");
+    cr_assert(ret_player->moves->attack,
+              "add_class_move() didn't set attack to true");
 
     cr_assert_eq(ret_player->moves->sp_cost, 10, "move_new() didn't set move id");
 
@@ -101,10 +96,10 @@ Test(class_moves, knight)
                                     NULL, NULL, NULL);
 
     battle_player_t *player = new_ctx_player("new_ctx_player_Name", test_class,
-                                          NULL, NULL, NULL, NULL, NULL, NULL);
+                              NULL, NULL, NULL);
 
     combatant_t *ret_player = set_battle_player(player);
-    
+
     int rc = build_moves(ret_player);
 
     cr_assert_eq(rc, SUCCESS, "build_moves() failed");
@@ -119,9 +114,11 @@ Test(class_moves, knight)
 
     cr_assert_eq(ret_player->moves->dmg_type, MAG, "move_new() didn't set move id");
 
-    cr_assert_eq(ret_player->moves->stat_mods, NO_TARGET, "move_new() didn't set move id");
+    cr_assert_str_eq(ret_player->moves->info, "Sword Slash",
+                     "add_class_move() didn't set move/spell info");
 
-    cr_assert_eq(ret_player->moves->effects, NO_TARGET, "move_new() didn't set move id");
+    cr_assert(ret_player->moves->attack,
+              "add_class_move() didn't set attack to true");
 
     cr_assert_eq(ret_player->moves->count, 0, "move_new() didn't set move id");
 

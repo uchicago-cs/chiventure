@@ -3,7 +3,7 @@
 /* build_item_condition
  * converts a item condition object into an item-specific condition struct,
  * which it returns
- * 
+ *
  * parameters:
  * - item_cond_obj: the item condition object
  * - g: the game
@@ -14,7 +14,8 @@
  */
 condition_t *build_item_condition(obj_t *item_cond_obj, game_t *g)
 {
-    if (obj_get_type(item_cond_obj, "item_id") != TYPE_STR) {
+    if (obj_get_type(item_cond_obj, "item_id") != TYPE_STR)
+    {
         fprintf(stderr, "Attribute \"item_id\" is either missing or has the "
                 "incorrect value type.\n");
         return NULL;
@@ -29,7 +30,8 @@ condition_t *build_item_condition(obj_t *item_cond_obj, game_t *g)
 condition_t *build_conditions(obj_t *conditions_obj, game_t *g)
 {
     // verify the condition list's attributes
-    if (list_type_check(conditions_obj, conditions_type_check) != SUCCESS) {
+    if (list_type_check(conditions_obj, conditions_type_check) != SUCCESS)
+    {
         fprintf(stderr, "Conditions list fails type checking.\n");
         return NULL;
     }
@@ -43,14 +45,17 @@ condition_t *build_conditions(obj_t *conditions_obj, game_t *g)
     {
         type = obj_get_str(curr, "type");
 
-        if (strcmp(type, "INVENTORY") == 0) {
-            if ((cond = build_item_condition(curr, g)) == NULL) {
+        if (strcmp(type, "INVENTORY") == 0)
+        {
+            if ((cond = build_item_condition(curr, g)) == NULL)
+            {
                 fprintf(stderr, "Could not create item condition.\n");
                 return NULL;
             }
             LL_APPEND(conditions, cond);
         }
-        else {
+        else
+        {
             fprintf(stderr, "Specified condition type (%s) not currently "
                     "supported.\n", type);
             return NULL;

@@ -247,30 +247,20 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 cmd **cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
 
-    char* currcmd;
-    cmd** actions;
-    int count = 0;
-    // arbitrary big number of commands allowed at once
-    actions = (cmd**)malloc(sizeof(cmd*) * MAX_MULTIPLE_CMDS);
-    
-    // Tokenizes input by "and" string
-    for (char *result = strtokstr_r(s, "AND", &s); result != NULL; result = strtokstr_r(s, "AND", &s)) {  
-        if (s != NULL) 
-        {
-            command_list_t *new_command = new_command_list(result);
-            LL_APPEND(ctx->cli_ctx->command_history, new_command);
-        }
-        
-        char **parsed_input = parse(result);
-        if (parsed_input == NULL)
-        {
-            return NULL;
-        }
-        lookup_t **table = ctx->cli_ctx->table;
-        actions[count] = cmd_from_tokens(parsed_input, table);
-        count++;
+    if (s != NULL)
+    {
+        command_list_t *new_command = new_command_list(s);
+        LL_APPEND(ctx->cli_ctx->command_history, new_command);
     }
-    return actions;
+
+    char **parsed_input = parse(s);
+    if (parsed_input == NULL)
+    {
+        return NULL;
+    }
+
+    lookup_t **table = ctx->cli_ctx->table;
+    return cmd_from_tokens(parsed_input, table);
 }
 
 /* =================================== */
@@ -299,7 +289,8 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
             if (outstring != NULL)
             {
                 return callback_func(ctx, outstring, callback_args);
-            } else
+            }
+            else
             {
                 return CLI_CMD_SUCCESS_NOOUTPUT;
             }

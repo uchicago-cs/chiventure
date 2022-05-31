@@ -14,8 +14,8 @@ char *print_start_battle(battle_t *b)
     char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     snprintf(string, BATTLE_BUFFER_SIZE, "You have encountered %s!\n\n"
-                    "Let the battle begin!\n",
-                    enemy_name);
+             "Let the battle begin!\n",
+             enemy_name);
 
     return string;
 }
@@ -62,7 +62,9 @@ char *print_battle_move(battle_t *b, turn_t turn, move_t *move)
     if (turn == PLAYER)
     {
         combatant_name = "You";
-    } else
+        dmg = damage(b->enemy, move, b->player);
+    }
+    else
     {
         combatant_name = enemy_name;
     }
@@ -266,7 +268,7 @@ char *print_battle_miss(battle_t *b, turn_t turn, move_t *move)
     if (turn == PLAYER)
     {
         combatant_name = "You";
-    } 
+    }
     else
     {
         combatant_name = enemy_name;
@@ -310,7 +312,8 @@ char *print_battle_winner(battle_status_t status, int xp)
     if (status == BATTLE_VICTOR_PLAYER)
     {
         snprintf(string, BATTLE_BUFFER_SIZE, "You've won! You gain %d XP!\n",xp);
-    } else if (status == BATTLE_VICTOR_ENEMY)
+    }
+    else if (status == BATTLE_VICTOR_ENEMY)
     {
         snprintf(string, BATTLE_BUFFER_SIZE, "You have been defeated!\n");
     } else if (status == BATTLE_ENEMY_SURRENDER)
@@ -333,9 +336,9 @@ char *print_start_turn(battle_t *b)
 
 
     snprintf(string, BATTLE_BUFFER_SIZE, "\nTo use a Move, type 'Use [insert move name here]'\n\n"
-                                         "To use an Item, type 'Consume [insert item name here]'\n\n"
-                                         "To see the list available moves, type 'List Moves'\n\n"
-                                         "To see the list available items, type 'List Items'\n");
+             "To use an Item, type 'Consume [insert item name here]'\n\n"
+             "To see the list available moves, type 'List Moves'\n\n"
+             "To see the list available items, type 'List Items'\n");
 
     return string;
 }
@@ -346,7 +349,7 @@ char *print_moves(battle_t *b, char* moves)
     move_t *temp;
     int slen = strnlen(moves, BATTLE_BUFFER_SIZE + 1);
     int n;
-    
+
     char temp2[BATTLE_BUFFER_SIZE + 1];
 
     n = snprintf(temp2,BATTLE_BUFFER_SIZE,"\nAVAILABLE MOVES:\n");
@@ -355,9 +358,9 @@ char *print_moves(battle_t *b, char* moves)
 
     DL_FOREACH(b->player->moves, temp)
     {
-        
-        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name: %s\nDamage: %d\n",
-        temp->name, temp->damage);
+
+        int n = snprintf(temp2, BATTLE_BUFFER_SIZE, "Move Name: %s\nDamage: %d\nDefense: %d\n\n",
+                         temp->info, temp->damage, temp->defense);
         strncat(moves, temp2, BATTLE_BUFFER_SIZE - slen);
         slen += n;
     }
@@ -373,12 +376,12 @@ int *print_battle_items(battle_t *b, char *string)
     int n;
 
     char temp[BATTLE_BUFFER_SIZE + 1];
-    
+
 
     n = snprintf(temp,BATTLE_BUFFER_SIZE,"\nAVAILABLE ITEMS:\n");
     strncat(string, temp, BATTLE_BUFFER_SIZE - slen);
     slen += n;
-    
+
     battle_item_t *item;
     DL_FOREACH(player_items, item)
     {
@@ -391,7 +394,7 @@ int *print_battle_items(battle_t *b, char *string)
     }
 
     return SUCCESS;
-   
+
 }
 /* THIS PR NEEDS TO ACCOUNT FOR THE print_battle_action_menu()
     from a non merged PR.  */

@@ -70,19 +70,11 @@ int room_free(room_t *room)
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item)
 {
-    assert(item != NULL);
-    item_t *tmp;
-    char *id = case_insensitized_string(item->item_id);
-    HASH_FIND(hh, room->items, id, strlen(id), tmp);
-    if (tmp == NULL)
-    {
-        HASH_ADD_KEYPTR(hh, room->items, id, strlen(id), item);
-        return SUCCESS;
-    }
-    else
-    {
-        return FAILURE; // Hash tables should not contain duplicate items
-    }
+    int rc;
+
+    rc = add_item_to_hash(&(room->items), item);
+
+    return rc;
 }
 
 /* See room.h */
@@ -197,6 +189,7 @@ path_t *list_paths(room_t *room)
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
     char *item_id_case = case_insensitized_string(item_id);
+
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id_case, strlen(item_id_case), return_value);
     return return_value;

@@ -62,7 +62,7 @@
 
 //     add_action(POTION, "SIP", "[You sip the Potion] Suddenly you realize how you got here.",
 //                 "You can't drink the POTION.");
-    
+
 //     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
 //     return ctx;
@@ -322,7 +322,7 @@
 //                                                                                             |
 //                                                                                             v
 //                                                                                             negotiate with wolf and wolf takes potion -> npc gives xp instead  */
-    
+
 
 
 //     add_entry("QUEST", start_quest_operation, NULL, ctx->cli_ctx->table);
@@ -343,6 +343,7 @@
 //     return 0;
 // }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     return 0;
 }

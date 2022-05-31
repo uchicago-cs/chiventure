@@ -45,7 +45,7 @@ move_t* find_random(combatant_t* player, combatant_t* enemy)
         {
             random_move = temp;
         }
-        
+
     }
     return random_move;
 }
@@ -59,7 +59,7 @@ move_t* find_greedy(combatant_t* player, combatant_t* enemy)
 
     DL_FOREACH(enemy->moves, temp)
     {
-        
+
         double cur_damage = damage(player, temp, enemy);
         if (temp == NULL)
         {
@@ -110,9 +110,15 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
     {
         tgt_def = 1;
     }
-    dmg = ((2.0 * src_lvl) / 5.0);
-    dmg *= (((base_dmg * (src_atk / tgt_def)) / 50.0) + 2.0);
-    dmg = round(dmg);
+
+
+
+    crit_boost = calculate_crit(src_stats->crit);
+
+    dmg = ((2.0 * src_level) / 5.0);
+    dmg *= ((power * (src_strength / tar_defense)) / 50.0) + 2.0;
+    dmg *= crit_boost;
+    dmg = floor(dmg);
 
     return (int) dmg;
 }

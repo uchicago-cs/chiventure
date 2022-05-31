@@ -13,7 +13,7 @@ int player_set_race(player_t *player, char *player_race)
     }
 
     player->player_race = malloc(MAX_ID_LEN);
-    
+
     if (player->player_race == NULL)
     {
         return FAILURE;
@@ -60,13 +60,13 @@ int player_set_class(player_t *player, class_t *player_class)
 
     if (player_class->starting_skills != NULL)
     {
-        skill_inventory_t *to_add = 
-        copy_inventory(player_class->starting_skills);
+        skill_inventory_t *to_add =
+            copy_inventory(player_class->starting_skills);
 
         player->player_skills = to_add;
     }
 
-  
+
     return SUCCESS;
 }
 
@@ -142,7 +142,7 @@ int player_free(player_t* player)
     }
 
     free(player);
-    
+
     return SUCCESS;
 }
 
@@ -303,12 +303,42 @@ item_hash_t* get_inventory(player_t* player)
 }
 
 /* See player.h */
+int add_item_to_player(player_t *player, item_t *item)
+{
+    int rc;
+
+    if (item->stat_effects != NULL)
+    {
+        stat_effect_t *current, *tmp, *e;
+        stat_mod_t *elt, *search;
+        stats_t *s;
+        HASH_ITER(hh, item->stat_effects, current, tmp)
+        {
+            LL_FOREACH(current->stat_list, elt)
+            {
+                HASH_FIND(hh, player->player_class->base_stats, elt->stat->key,
+                          strlen(elt->stat->key), s);
+                if (s != NULL)
+                {
+                    apply_effect(&player->player_class->effects, current, &s,
+                                 &elt->modifier, &elt->duration, 1);
+                }
+            }
+        }
+    }
+
+    rc = add_item_to_hash(&(player->inventory), item);
+
+    return rc;
+}
+
+/* See player.h */
 int remove_item_from_player(player_t *player, item_t *item)
 {
     int rc;
-    
+
     rc = remove_item_from_hash(&(player->inventory), item);
-    
+
     return rc;
 }
 
@@ -316,9 +346,9 @@ int remove_item_from_player(player_t *player, item_t *item)
 item_list_t *get_all_items_in_inventory(player_t *player)
 {
     item_list_t *head;
-    
+
     head = get_all_items_in_hash(&(player->inventory));
-    
+
     return head;
 }
 
@@ -328,7 +358,8 @@ bool item_in_inventory(player_t *player, item_t *item)
     item_t *check;
     HASH_FIND(hh, player->inventory, item->item_id, strlen(item->item_id),
               check);
-    if(check != NULL){
+    if(check != NULL)
+    {
         return true;
     }
     return false;
@@ -415,18 +446,21 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect)
 }
 
 /* see player.h */
-int add_move(player_t *player, move_t *move) {
+int add_move(player_t *player, move_t *move)
+{
     assert(player != NULL);
     assert(move != NULL);
 
     move_t *last_move = player->moves;
-    
-    if (player->moves == NULL){
+
+    if (player->moves == NULL)
+    {
         player->moves = move;
         return SUCCESS;
     }
 
-    while (last_move->next != NULL) {
+    while (last_move->next != NULL)
+    {
         last_move = last_move->next;
     }
     last_move->next = move;

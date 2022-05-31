@@ -235,7 +235,7 @@ bool is_game_over(game_t *game)
 }
 
 /* See game.h */
-int create_connection(game_t *game, char *src_room, char *to_room,
+int create_connection(game_t *game, char* src_room, char* to_room,
                       char* direction)
 {
     room_t *src = find_room_from_game(game, src_room);
@@ -321,14 +321,6 @@ int move_room(game_t *game, room_t *new_room)
     {
         return FAILURE;
     }
-
-    // Update quests on room transition
-    for(player_hash_t *cur = game->all_players; cur != NULL; cur = cur->hh.next) {
-        cur->crnt_room = new_room->room_id;
-        quest_ctx_t *qctx = quest_ctx_new(cur, game->all_quests);
-        update_player_quests(qctx);
-    }
-
     if(new_room == game->final_room)
     {
         game->curr_room = new_room;

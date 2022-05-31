@@ -12,12 +12,14 @@ int copy_item_to_hash(item_hash_t **dst, item_hash_t *src, char *name)
 {
     item_t *old_item;
     HASH_FIND_STR(src, name, old_item);
-    if (old_item == NULL) {
+    if (old_item == NULL)
+    {
         return FAILURE;
     }
 
     item_t *new_item = item_new(old_item->item_id, old_item->short_desc, old_item->long_desc);
-    if (new_item == NULL) {
+    if (new_item == NULL)
+    {
         return FAILURE;
 
     }
@@ -59,11 +61,14 @@ roomspec_t *make_default_room(char *bucket,
     assert(bucket != NULL);
 
     if ((!!strcmp(bucket, "school")) && (!!strcmp(bucket, "farmhouse"))
-            && (!!strcmp(bucket, "castle"))) {
+            && (!!strcmp(bucket, "castle")))
+    {
         roomspec_t *room = roomspec_new(bucket, sh_desc, l_desc, NULL);
         //now add to hash
         HASH_ADD_STR(hash, room_name, room);
-    } else {
+    }
+    else
+    {
 
         item_hash_t *def = get_default_items();
 
@@ -101,7 +106,8 @@ roomspec_t *make_default_room(char *bucket,
         copy_item_to_hash(&library->items, def, "video");
         copy_item_to_hash(&library->items, def, "mirror");
 
-        if (!strcmp(bucket, "school")) {
+        if (!strcmp(bucket, "school"))
+        {
             //CAFETERIA
             roomspec_t *cafeteria = roomspec_new("cafeteria",
                                                  "A grungy cafeteria",
@@ -133,7 +139,9 @@ roomspec_t *make_default_room(char *bucket,
             HASH_ADD_STR(hash, room_name, hallway);
             HASH_ADD_STR(hash, room_name, cafeteria);
             HASH_ADD_STR(hash, room_name, classroom);
-        } else if (!strcmp(bucket, "farmhouse")) {
+        }
+        else if (!strcmp(bucket, "farmhouse"))
+        {
             //BARN
             roomspec_t *barn = roomspec_new("barn", "A red barn",
                                             "A red barn with stables inside",
@@ -185,7 +193,9 @@ roomspec_t *make_default_room(char *bucket,
             HASH_ADD_STR(hash, room_name, field);
             HASH_ADD_STR(hash, room_name, kitchen);
             HASH_ADD_STR(hash, room_name, living);
-        } else {
+        }
+        else
+        {
             //DUNGEON
             roomspec_t *dungeon = roomspec_new("dungeon",
                                                "A dark dungeon",
@@ -220,7 +230,8 @@ roomspec_t *make_default_room(char *bucket,
         }
 
         item_hash_t *elem, *tmp;
-        HASH_ITER(hh, def, elem, tmp) {
+        HASH_ITER(hh, def, elem, tmp)
+        {
             HASH_DELETE(hh, def, elem); // remove from hashtable
             item_free(elem); // free the item
         }

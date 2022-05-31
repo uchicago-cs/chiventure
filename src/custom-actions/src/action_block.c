@@ -14,8 +14,8 @@
 #include "game-state/game.h"
 
 /* See action_block.h */
-action_block_t *action_block_new(action_enum_t action_type, int num_args,
-                                 action_param_t *action_params)
+action_block_t* action_block_new(action_enum_t action_type, int num_args,
+                                 attribute_t** args)
 {
     action_block_t *action;
     int new_action;
@@ -29,7 +29,7 @@ action_block_t *action_block_new(action_enum_t action_type, int num_args,
         return NULL;
     }
 
-    new_action = action_block_init(action, action_type, num_args, action_params);
+    new_action = action_block_init(action, action_type, num_args, args);
     if (new_action != SUCCESS)
     {
         fprintf(stderr, "Error: Could not initialize action_block_t\n");
@@ -40,8 +40,8 @@ action_block_t *action_block_new(action_enum_t action_type, int num_args,
 }
 
 /* See action_block.h */
-AST_block_t *AST_action_block_new(action_enum_t action_type, int num_args,
-                                  action_param_t *action_params)
+AST_block_t* AST_action_block_new(action_enum_t action_type, int num_args,
+                                  attribute_t** args)
 {
     AST_block_t *ast;
     action_block_t *action;
@@ -57,27 +57,14 @@ AST_block_t *AST_action_block_new(action_enum_t action_type, int num_args,
         return NULL;
     }
 
-    if (ast == NULL)
-    {
-        fprintf(stderr, "Error: Could not allocate memory\n");
-        return NULL;
-    }
-
-    new_action = action_block_init(action, action_type, num_args, action_params);
+    new_action = action_block_init(action, action_type, num_args, args);
     if (new_action != SUCCESS)
     {
         fprintf(stderr, "Error: Could not initialize action_block_t\n");
         return NULL;
     }
 
-    block_t *block = malloc(sizeof(block));
-
-    if (block == NULL)
-    {
-        fprintf(stderr, "Error: Could not allocate memory\n");
-        return NULL;
-    }
-
+    block_t* block = malloc(sizeof(block));
     block->action_block = action;
     ast = AST_block_new(block, block_type);
     return ast;
@@ -85,7 +72,7 @@ AST_block_t *AST_action_block_new(action_enum_t action_type, int num_args,
 
 /* See action_block.h */
 int action_block_init(action_block_t *action, action_enum_t action_type,
-                      int num_args, action_param_t *action_params)
+                      int num_args, attribute_t** args)
 {
     assert(action != NULL);
     assert(num_args > 0);
@@ -117,7 +104,6 @@ int exec_action_block(action_block_t *a)
     switch (a->action_type)
     {
 
-    case TELEPORT:
     case SET:
         n = 2;
         break;
@@ -141,33 +127,29 @@ int exec_action_block(action_block_t *a)
     {
 
     case SET:
-        rc = set_attr(a->action_params->args[0], a->action_params->args[1]);
+        rc = set_attr(a->args[0], a->args[1]);
         break;
     case ADDITION:
-        rc = add_attr(a->action_params->args[0], a->action_params->args[1], a->action_params->args[2]);
+        rc = add_attr(a->args[0], a->args[1], a->args[2]);
         break;
     case SUBTRACT:
-        rc = sub_attr(a->action_params->args[0], a->action_params->args[1], a->action_params->args[2]);
+        rc = sub_attr(a->args[0], a->args[1], a->args[2]);
         break;
     case MULTIPLY:
-        rc = mult_attr(a->action_params->args[0], a->action_params->args[1], a->action_params->args[2]);
+        rc = mult_attr(a->args[0], a->args[1], a->args[2]);
         break;
     case DIVIDE:
-        rc = div_attr(a->action_params->args[0], a->action_params->args[1], a->action_params->args[2]);
+        rc = div_attr(a->args[0], a->args[1], a->args[2]);
         break;
-    case TELEPORT:
-        rc = move_room(a->action_params->game, a->action_params->room);
-        rc = (rc == SUCCESS) ? SUCCEEDS : FAILS;
-        break; 
     case GEN:
-        if (a->action_params->args[0]->attribute_tag != INTEGER ||
-            a->action_params->args[1]->attribute_tag != INTEGER)
+        if (a->args[0]->attribute_tag != INTEGER ||
+                a->args[1]->attribute_tag != INTEGER)
         {
             return FAILURE;
         }
-        rc = gen_attrval(a->action_params->args[0]->attribute_value.int_val,
-                         a->action_params->args[1]->attribute_value.int_val,
-                         a->action_params->args[2]);
+        rc = gen_attrval(a->args[0]->attribute_value.int_val,
+                         a->args[1]->attribute_value.int_val,
+                         a->args[2]);
         break;
     default:
         return FAILURE;

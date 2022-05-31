@@ -36,6 +36,23 @@ class_t *make_sorcerer()
 {
     return class_new("Sorcerer", "Wise", "Old and wise with crazy magecraft ability", NULL, NULL, NULL);
 }
+*/
+/* Defines an CLI operation for starting a fight */
+/*
+char *fight_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
+{
+    //int rc;
+
+    srand(time(0)); // sets seed
+    // creates the stats of the player to begin the battle
+    stat_t *p_stats = get_random_stat();
+
+    // creates the stats of the enemy to begin the battle
+    stat_t *e_stats = get_random_stat();
+
+    // creates consumable for the player
+    battle_item_t *p_item = get_random_default_consumable();
+    battle_item_t *p_item2 = get_random_default_consumable();
 
 class_t *make_minion()
 {
@@ -161,20 +178,54 @@ room_t *setup_battle_one(chiventure_ctx_t *ctx)
     
     // add battle context to the game
     int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
+*/
+/* start_battle begins the battle by finalizing
+   all finishing touches for a battle to begin */
+/*
+    int rc = start_battle(battle_ctx, e, ENV_GRASS);
+
+    // prints the beginning of the battle
+    char *start = print_start_battle(battle_ctx->game->battle);
+    int start_rc = print_to_cli(ctx, start);
+    char *turn_start = print_start_turn(battle_ctx->game->battle);
+    int turn_start_rc = print_to_cli(ctx, turn_start);
+
+    if (!rc)
+    {
+
+        game_mode_init(ctx->game->mode, BATTLE,
+                       run_battle_mode, "Goblin");
+    }
+
+    return start;
+}
+*/
+/*
+ * Creates a chiventure context with a sample game.
+ *
+ * Returns: a chiventure context with
+ */
+/*
+chiventure_ctx_t *create_sample_ctx()
+{
+   game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
+   room_t *room1 = room_new("room1", "This is The Room", "You are in The Room. You'll will fight a Goblin in The Room.");
+   add_room_to_game(game, room1);
+   game->curr_room = room1;
+*/
+/* Create context */
+/*
+    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
 
     return room;
 }
 
 int main(int argc, char **argv)
-{ 
-
-    // create an empty game
-    game_t *game = game_new("Welcome to the Battle CLI Integration Demo for Chiventure!");
-    // create a chiventure_ctx and add the game to it
-    chiventure_ctx_t *ctx = chiventure_ctx_new(game);
-    
-    // set up the battle_ctx and the room
-    room_t *room = setup_battle_one(ctx);
+{
+    /*
+    chiventure_ctx_t *ctx = create_sample_ctx();
+    */
+    /* Monkeypatching in a fight action to support dialogue */
 
     // add the room to the game in the chiventure_ctx
     add_room_to_game(game, room);
