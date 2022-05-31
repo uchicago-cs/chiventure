@@ -41,6 +41,16 @@ def collect_flags(flags: list) -> dict:
             flags_dict[name] = [option]
     return flags_dict
 
+
+def convert_to_wdl(file_str, debug, debug_modes, default):
+    """ all conversion is run here"""
+    
+    vars_evaluated = evalVars(file_str, debug=debug, debug_modes=debug_modes)
+    intermediate = export_dict(vars_evaluated, debug=debug, debug_modes=debug_modes)
+    rv = parsed_dict_to_json(intermediate, debug=debug, debug_modes=debug_modes, default=default)
+    return rv
+
+
 def main():
     """The main function. The first cli argument is the dsl file. The second
     (optional) argument is the output wdl file. If no output file is provided, 
@@ -111,10 +121,8 @@ def main():
             default = "some-defaults"
 
         
-
-        vars_evaluated = evalVars(file_str, debug=debug, debug_modes=debug_modes)
-        intermediate = export_dict(vars_evaluated, debug=debug, debug_modes=debug_modes)
-        out_str = parsed_dict_to_json(intermediate, debug=debug, debug_modes=debug_modes, default=default)
+        out_str = convert_to_wdl(file_str = file_str, debug = debug, debug_modes = debug_modes, default = default)
+        
         
         if not no_write:
             file_out.write(out_str)
@@ -123,3 +131,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
