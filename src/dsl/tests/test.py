@@ -1,5 +1,9 @@
 """This module runs tests on dsl test files (in dsl_tests), and checks 
-for discrepancies from their expected outputs (in wdl_expected)
+for discrepancies from their expected outputs (in wdl_expected).
+
+For instructions on running tests, see the README.md, as well as the DSL tutorial 
+on the Chiventure Wiki page.
+
 """
 
 # for compatibility with python 3.7 and 3.8
@@ -20,32 +24,17 @@ from to_wdl.dict_to_json import parsed_dict_to_json
 # export_dict parses the dsl file and transforms it to an intermediate stage
 from dsl_parser.dsl_to_dict import export_dict
 from vars_parser import evalVars
+from parse import convert_to_wdl
 
 
 def gen_out(dsl_path: str) -> str:
     """
-    Runs the DSL parsing and conversion algorithm. 
+    Runs the DSL parsing and conversion algorithm on a single file.
     Instead of outputting to a file, we output everything as a string.
     All debug flags are turned off.
     """
-    file_out = None
-
     with open(dsl_path) as f:
-        file_str = f.read()
-
-        # boolean debug
-        debug =  False
-        
-        # replace None with "intermediate" and "all" with all options
-        debug_modes = []
-           
-        # Check Defaults code
-        default = ""
-
-
-        vars_evaluated = evalVars(file_str, debug=debug, debug_modes=debug_modes)
-        intermediate = export_dict(vars_evaluated, debug=debug, debug_modes=debug_modes)
-        out_str = parsed_dict_to_json(intermediate, debug=debug, debug_modes=debug_modes, default=default)
+        out_str = convert_to_wdl(file_str = f.read(), debug = False, debug_modes = [], default = "")
 
         return out_str
 
@@ -53,6 +42,10 @@ def run_test(f_dsl, f_wdl: str, show: bool) -> bool:
     """
         Compares output from gen_out with the expected output
         stored in one of the wdl_expected files
+        f_dsl : the name of the dsl file we are running. Must be stored in tests/dsl_tests
+        f_wdl : the name of the wdl file we are comparing to. Must be stored in tests/wdl_expected
+        show  : main function will pass the show flag to determine if we want to print discrepancies
+                between expected and actual output.
     """
     rv = True
     dsl_path = "tests/dsl_tests/" + f_dsl
@@ -68,9 +61,13 @@ def run_test(f_dsl, f_wdl: str, show: bool) -> bool:
         if out[i] != expected[i]:
             
             if show:
-                """ compute beginning and end indexes to slice our substring
+                """ 
+                if '--show' is passed from the command line, we will print out the 
+                first discrepancy between actual and expected outputs, as well as the surrounding
+                100 characters to provide the user more context as to where the error is occuring.
                 """
-                beginning = max(0, i - 50)
+
+                beginning = max(0, i - 50) # We need to compute beginning and end indexes to slice our substring.
                 end = min(len_expected, len_out, i + 50)
 
                 broken = out[beginning : end]
