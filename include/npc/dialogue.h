@@ -219,6 +219,11 @@ int add_start_quest(convo_t *c, char *node_id, long quest_id);
 
 /* Adds a start battle flag to a node.
  *
+ * Note for future implementation:
+ * Call change_npc_hostility() in npc.c
+ * such that if tone is negative and NPC becomes hostile,
+ * battle is initiated
+ *
  * Parameters:
  *  - c: pointer to a convo
  *  - node_id: ID of the target node
