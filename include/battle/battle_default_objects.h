@@ -88,4 +88,4 @@ move_t *get_random_default_move();
  */
 stat_t* get_random_stat();
 
-#endif
+#endif /* BATTLE_DEFAULT_OBJECTS_H */

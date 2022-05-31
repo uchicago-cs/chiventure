@@ -189,4 +189,28 @@ reward_t *complete_quest(quest_t *quest, player_t *player);
 */
 int update_player_quests(quest_ctx_t *qctx);
 
+/* Checks to see if the player can start a quest given by the NPC
+ *
+ * Parameter:
+ * - qctx: a quest context struct which includes the player and a list of all quests
+ * - quest_id: a quest id given by the npc
+ *
+ * Returns:
+ * - true: if the player can start the quest
+ * - false: if the player cannot start the quest
+ */
+bool can_player_start_quest(quest_ctx_t *qctx, char *quest_id);
+
+/* Checks to see if the player can start a task given by the NPC
+ *
+ * Parameter:
+ * - qctx: a quest context struct which includes the player and a list of all quests
+ * - task_id: a quest id given by the npc
+ *
+ * Returns:
+ * - true: if the player can start the quest
+ * - false: if the player cannot start the quest
+ */
+bool can_player_complete_task(quest_ctx_t *qctx, char *task_id);
+
 #endif /* QUESTS_STATE_H */
