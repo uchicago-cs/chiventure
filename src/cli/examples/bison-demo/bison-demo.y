@@ -256,7 +256,7 @@ int main(int argc, char **argv)
 
 void yyerror(char *s)
 {
-    fprintf(stderr, "parse error: %s\n", s);
+printf("\n");
 }
 
 
