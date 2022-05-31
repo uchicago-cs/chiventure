@@ -10,17 +10,18 @@
 #include "game-state/room.h"
 #include "game-state/player.h"
 #include "game-state/game.h"
+#include "quests/quests_cli.h"
 
 /* Tests the function that adds the contents of a reward struct into a player struct */
 Test(quest, accept_reward) {
     item_t *item = item_new("test item!", "item for testing", "This item is made for testing purposes only and is not intended to give the player any sense of enjoyment.");
-    reward_t *reward = reward_new(40, item);
+    reward_t *reward = reward_new(9, item);
     player_t *player = player_new("Steve");
     quest_hash_t *quest_hash = NULL;
     quest_ctx_t *qctx = quest_ctx_new(player, quest_hash);
 
     accept_reward(reward, qctx);
-    cr_assert_eq(player->xp, 40, "accept_reward() didn't properly give xp!");
+    cr_assert_eq(player->xp, 9, "accept_reward() didn't properly give xp!");
 
     item_t *search_item = get_item_in_hash(player->inventory, item->item_id);
     cr_assert_not_null(search_item, "item not added to player's inventory");
@@ -155,9 +156,7 @@ Test(quest,is_quest_completed)
     item_t *item = item_new("test_item", "item for testing", "test item");
 	quest_t* quest = create_sample_quest("Cinderella", true, 50, item, false, 0, 0);
 
-    room_t* room_to_visit = room_new("Grand ballroom", "A room", "A test room");
-
-    task_t *task = create_sample_task("Visit ballroom", true, "Grand ballroom", VISIT_ROOM, true, 50, item, false, 0, 0);
+    task_t *task = create_sample_task("Visit ballroom", false, NULL , VISIT_ROOM, true, 50, item, false, 0, 0);
     add_task_to_quest(quest, task, NULL);
 
     quest_ctx_t *qctx = create_sample_ctx();
@@ -263,6 +262,37 @@ Test(quest,complete_quest)
     cr_assert_str_eq(res->item->item_id, "test_item", "complete_quest failed to reward the item");
 }
 
+/* Tests the function for checking if the player can start a quest */
+Test(quest, can_player_start_quest)
+{
+    item_t *item = item_new("test_item", "item for testing", "test item");
+	quest_t *quest = create_sample_quest("test", true, 50, item, true, 50, 5);
+    quest_ctx_t *qctx = create_sample_ctx();
+    add_quest_to_hash(quest, &qctx->quest_hash);
+
+    player_t *player = create_sample_player("player", 60, 6);
+    qctx->player = player;
+
+    int check = can_player_start_quest(qctx, "test");
+
+    cr_assert_eq(check, true, "can_player_start_quest() failed");
+}
+
+/* Tests the function for checking if the player can complete a task*/
+Test(quest, can_player_complete_task)
+{
+    item_t *item = item_new("test_item", "item for testing", "test item");
+	quest_t *quest = create_sample_quest("test", true, 50, item, true, 40, 4);
+    task_t *task = create_sample_task("test", true, "Steve", KILL_NPC, false, 0, NULL, true, 40, 4);
+    add_task_to_quest(quest, task, NULL);
+    quest_ctx_t *qctx = create_sample_ctx();
+    add_quest_to_hash(quest, &qctx->quest_hash);
+    start_quest(quest, qctx);
+
+    int check = can_player_complete_task(qctx, "test");
+
+    cr_assert_eq(check, true, "can_player_complete_task() failed");
+}
 
 Test(task_tree, free)
 {

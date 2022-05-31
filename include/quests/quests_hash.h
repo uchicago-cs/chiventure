@@ -13,6 +13,18 @@
  */
 typedef struct quest quest_hash_t;
 
+/*
+ * A task hash table. Uses a wrapper instead of adding the hash
+ * handle to the task struct as with quests since for some reason,
+ * adding the hash handle to the task struct causes crashes and odd
+ * behavior.
+ */
+typedef struct task_hash {
+    task_t *task;
+    char *id;
+    UT_hash_handle hh;
+} task_hash_t;
+
 /* Stores important information necessary for the majority of quest functions */
 typedef struct quest_ctx {
     player_t *player;
@@ -104,7 +116,7 @@ quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table);
  */
 task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table);
 
-/* Gets a task from the given hash table
+/* Gets a task from the given quest hash table
  *
  * Parameters:
  *  id: the task's id string
@@ -113,7 +125,31 @@ task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table);
  * Returns:
  *  task struct if successful, NULL if task is not found
  */
-task_t *get_task_from_hash(char *id, quest_hash_t *hash_table);
+
+
+task_t *get_task_from_quest_hash(char *id, quest_hash_t *hash_table);
+
+/* Finds the element with the given id in the task hash
+ *
+ * Parameters:
+ *  id: the id string searching for
+ *  hash_table: a hashtable of tasks
+ *
+ * Returns:
+ *  task hash struct if successful, NULL if id is not found
+ */
+task_hash_t *search_task_hash(char *id, task_hash_t *hash_table);
+
+/* Gets a task from the given task hash table
+ *
+ * Parameters:
+ *  id: the task's id string
+ *  hash_table: a hashtable of tasks
+ *
+ * Returns:
+ *  task struct if successful, NULL if task is not found
+ */
+task_t *get_task_from_task_hash(char *id, task_hash_t *hash_table);
 
 /* Adds a quest to the given hash table
  *
@@ -125,6 +161,17 @@ task_t *get_task_from_hash(char *id, quest_hash_t *hash_table);
  *  SUCCESS if successful, FAILURE if failed
  */
 int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table);
+
+/* Adds a task to the given task hash table
+ *
+ * Parameters:
+ *  task: pointer to task struct
+ *  hash_table: pointer to a hashtable of tasks
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if failed
+ */
+int add_task_to_hash(task_t *task, task_hash_t **hash_table);
 
 /* Gets a player quest from the given hash table
  *
@@ -180,10 +227,10 @@ int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx);
  * Returns:
  * - FAILURE if the removal was failure, SUCESS if successful 
  */
-int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
+int remove_quest_in_hash(quest_hash_t **hash_table, char *quest_id);
 
-
-/* Returns the hash after deleting one or all quest.
+/* Returns the (now NULL) hash table after deleting and freeing
+ *  all quests
  *
  * Parameter:
  * - pointer to a hash table
@@ -192,6 +239,28 @@ int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
  * - FAILURE if the removal was failure, SUCESS if successful 
  */
 int remove_quest_all(quest_hash_t **hash_table);
+
+/* Removes a task from a task hash table
+ *
+ * Parameter:
+ * - pointer to a task hash table
+ * - task ID, 
+ * 
+ * Returns:
+ * - FAILURE if the removal was failure, SUCCESS if successful 
+ */
+int remove_task_in_hash(task_hash_t **hash_table, char *id);
+
+/* Returns the (now NULL) hash after deleteting and freeing
+ * all tasks
+ *
+ * Parameter:
+ * - pointer to a task hash table
+ * 
+ * Returns:
+ * - FAILURE if the removal was failure, SUCCESS if successful 
+ */
+int remove_task_all(task_hash_t **hash_table);
 
 /* Removes a task from a player hash table
  *
@@ -202,6 +271,6 @@ int remove_quest_all(quest_hash_t **hash_table);
  * Returns:
  * - FAILURE if the removal was failure, SUCESS if successful 
  */
-int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
+int remove_task_in_player_hash(player_task_hash_t **ptasks, char *quest_id);
 
 #endif /* QUEST_HASH_H */

@@ -8,7 +8,8 @@ add_library(quests STATIC
             src/quests_state.c
             src/quest.c
             src/task.c
-            src/samples.c)
+            src/samples.c
+            src/quests_cli.c)
 
 add_subdirectory(examples
                  EXCLUDE_FROM_ALL)

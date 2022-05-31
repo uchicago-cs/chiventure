@@ -1,5 +1,7 @@
+
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
+
 #include "cmd.h"
 #include "game-state/game.h"
 #include "game-state/mode.h"
@@ -187,6 +189,23 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* 
+ * This function returns a string which is a suggestion 
+ * obtained from comparing the input command with a list
+ * of actual commands. This is found by using the Levenshtein's Distance formula, 
+ * a fuzzy search mechanism to evaluate word similarity. More details linked here:
+ * https://en.wikipedia.org/wiki/Levenshtein_distance
+ *
+ * Parameters:
+ *  - action_input: parsed input command (a string)
+ *  - actions: the actions_for_sug array that is globally defined 
+ *    here is what the suggestions function is called with currently
+ *    but any array of words to suggest would do.
+ *
+ * Returns:
+ *  - a string suggestion, which is a word from the actions array
+ */
+char* suggestions(char *action_input, char** actions);
 
 /* Validates an item is in a room, passes an action struct on to
  * action management's function that handles ACTION ITEM
