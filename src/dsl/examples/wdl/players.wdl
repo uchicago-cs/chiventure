@@ -75,5 +75,6 @@
       "in": "room B",
       "long_desc": "This is a DOOR. A large wooden door"
     }
-  }
+  },
+  "NPCS": {}
 }

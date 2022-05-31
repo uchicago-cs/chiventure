@@ -49,7 +49,7 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
             players.append(Player_Class(player_name, contents, default))
         
     # NPCs processing
-    if "npcs" not in intermediate:
+    if "npc" not in intermediate:
         warn("This game has no NPCs.")
     else:
         npc_dict = intermediate.pop("npc")
