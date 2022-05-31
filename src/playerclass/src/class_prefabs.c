@@ -765,7 +765,9 @@ int class_prefab_add_skills(class_t* class) {
         add_skill(class, skill_0, 0, 25, true, NULL, 0);
         add_skill(class, skill_1, 1, 50, false, NULL, 0, 0);
         add_skill(class, skill_2, 1, 34, false, NULL, 0, 1);
-    } /*
+    } 
+    
+    /*
     * A simple linear tree for a ranger class
     *
     * starting skill: close_shot
@@ -936,4 +938,166 @@ int class_prefab_add_skills(class_t* class) {
     }
 
     return SUCCESS;
+}
+
+/* See class_prefabs.h */
+item_t* class_prefab_add_items(class_t* class) {
+    char temp_name[MAX_NAME_LEN + 1];
+    strncpy(temp_name, class->name, MAX_NAME_LEN);
+    /* make temp_name lowercase */
+    for (int i = 0; i < MAX_NAME_LEN + 1; i++) 
+        temp_name[i] = tolower(temp_name[i]);
+
+    /* 
+    *  These currently only have titles and descriptions. Could later
+    *  be updated with additional item features.
+    */
+
+    /* 
+    * A starting item for the bard class.
+    *
+    * starting item: songbook
+    */
+    if (!strncmp(temp_name, "bard", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("songbook", "A magic songbook", 
+                                  "An enchanted book full of the bard's "
+                                  "magic verses.");
+
+        return item_0;
+    }
+
+    else if (!strncmp(temp_name, "basic", MAX_NAME_LEN)){
+        /* These potentially could have a prefab item but will not currently */
+    }   
+
+    /* 
+     * A starting item for the monk class
+     *
+     * starting item: staff
+     */
+    else if (!strncmp(temp_name, "monk", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("staff", "A powerful staff", 
+                                  "An old, sturdy staff, powerful on "
+                                  "offense and defense.");
+
+        return item_0;
+    }
+    
+    /* 
+     * A starting item for the rogue class.
+     *
+     * starting item: dagger
+     */
+    else if (!strncmp(temp_name, "rogue", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("dagger", "A stealthy dagger", 
+                                  "A small but formidable blade, capable "
+                                  "of sharp damage when wielded properly.");
+
+        return item_0;
+    }
+
+    /* 
+     * A starting item for the warrior class.
+     *
+     * starting item: sword
+     */
+    else if (!strncmp(temp_name, "warrior", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("sword", "A sharp sword", 
+                                  "A humble yet mighty blade: a warrior's "
+                                  "best friend.");
+
+        return item_0;
+    }
+    /* 
+     * A starting item for the wizard class
+     *
+     * starting item: wand
+     */
+    else if (!strncmp(temp_name, "wizard", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("wand", "A magic wand", 
+                                  "A wooden wand, capable of casting the "
+                                  "strongest spells.");
+
+        return item_0;
+    } 
+    
+    /*
+    * A starting item for the ranger class
+    *
+    * starting item: bow and arrow
+    */
+    else if (!strncmp(temp_name, "ranger", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("bow and arrow", "A sturdy bow and arrow", 
+                                  "A bow complete with arrows that the ranger "
+                                  "shoots with the utmost accuracy.");
+
+        return item_0;
+    } 
+
+    /*
+    * A starting item for the druid class
+    *
+    * starting item: ancient texts
+    */
+    else if (!strncmp(temp_name, "druid", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("ancient texts", "Mysterious ancient texts", 
+                                  "Old, worn texts, which allow the druid "
+                                  "to cast powerful spells.");
+
+        return item_0; 
+    }
+
+    /*
+    * A starting item for the elementalist class
+    *
+    * starting item: amulet
+    */
+    else if (!strncmp(temp_name, "elementalist", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("amulet", "A channeling amulet", 
+                                  "An amulet that both guards its wearer "
+                                  "and channels spells.");
+
+        return item_0;
+    } 
+    
+
+   /*
+    * A starting item for the class
+    *
+    * starting item: armor
+    */
+    else if (!strncmp(temp_name, "knight", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("armor", "Defensive armor", 
+                                  "A suit of armor that shields the knight "
+                                  "from opponents' blows.");
+
+        return item_0;
+    }
+
+    /*
+    * A starting item for the sorcerorclass
+    *
+    * starting item: healing stone
+    */
+    else if (!strncmp(temp_name, "sorceror", MAX_NAME_LEN)) {
+        /* Create item */
+        item_t* item_0 = item_new("healing stone", "A healing stone", 
+                                  "An ancient stone that rejuvenates the "
+                                  "sorceror from damage.");
+
+        return item_0;
+    }
+
+    /* Class is not found */
+    return NULL;
+ 
 }
