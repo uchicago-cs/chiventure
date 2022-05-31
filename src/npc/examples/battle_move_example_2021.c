@@ -303,7 +303,7 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id, 0);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 0);
     extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
@@ -324,7 +324,7 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id, 0);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 0);
     extend_path_definite(movement2, arena->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
@@ -372,7 +372,6 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatch the CLI to add the new operations */
-    add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
     add_entry("ARENA", move_to_arena_operation, NULL, ctx->cli_ctx->table);
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);

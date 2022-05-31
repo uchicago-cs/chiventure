@@ -21,12 +21,17 @@ typedef enum {
 } tone_t;
 
 /* Actions */
-typedef enum {
+typedef enum node_action_type 
+{
     GIVE_ITEM,
     TAKE_ITEM,
     START_QUEST,
-    START_BATTLE
-} node_action_type;
+    START_BATTLE,
+    MAKE_HOSTILE,
+    MOVE_ROOM,
+    PAUSE_MOVEMENT,
+    RESUME_MOVEMENT
+} node_action_type_t;
 
 /* An action flag. This allows designers to integrate actions into their
  * dialogue. NOTE: This is a linked list, allowing for multiple actions.
@@ -37,7 +42,7 @@ typedef enum {
  *  - next, prev: next and previous list elements
  */
 typedef struct node_action {
-    node_action_type action;
+    node_action_type_t action;
     char *action_id;
     struct node_action *next, *prev;
 } node_action_t;
@@ -135,6 +140,17 @@ typedef struct convo {
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
+/* Returns the node corresponding to a given ID.
+ *
+ * Parameters:
+ *  - n_lst: node list
+ *  - node_id: node ID
+ *
+ * Returns:
+ *  - a pointer to the corresponding node, or NULL if it does not exist
+ */
+node_t *get_node(node_list_t *n_lst, char *node_id);
+
 /* To create a new convo, use: convo_new()
  */
 
@@ -177,6 +193,18 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
 /**********************************************
  *             ACTION FUNCTIONS               *
  **********************************************/
+
+/* Create a new action, and append it to the node's action list.
+ *
+ * Parameters:
+ *  - n: node
+ *  - action: type of action
+ *  - action_id: ID associated with that action, if any
+ *
+ * Returns:
+ *  - SUCCESS if the operation suceeded, FAILURE otherwise
+ */
+int add_action_to_node(node_t *n, node_action_type_t action, char *action_id);
 
 /* Adds a give item flag to a node.
  *
@@ -385,7 +413,7 @@ int free_node_list(node_list_t *n_lst, bool free_nodes);
  * Returns:
  *  - SUCCESS on success, FAILURE if an error occurs
  */
-int node_action_init(node_action_t *n_a, node_action_type action,
+int node_action_init(node_action_t *n_a, node_action_type_t action,
                      char *action_id);
 
 /* Allocates a new node action on the heap.
@@ -397,7 +425,7 @@ int node_action_init(node_action_t *n_a, node_action_type action,
  * Returns:
  *  - pointer to the new node action
  */
-node_action_t *node_action_new(node_action_type action, char *action_id);
+node_action_t *node_action_new(node_action_type_t action, char *action_id);
 
 /* Frees an action list (using macros from common/utlist.h).
  *
