@@ -120,7 +120,9 @@ chiventure_ctx_t *create_sample_ctx()
     player_quest_t *pquest1 = player_quest_new("wake up in the morning feeling like p diddy", 0);
     player_quest_t *pquest2 = player_quest_new("perform vampire shenanigans", 0);
     player_quest_t *pquest3 = player_quest_new("achieve retirement (finally)", 0);
-    player_task_t *ptask1 = player_task_new("polish your teeth", true);
+    player_task_t *ptask1 = player_task_new("polish your teeth", false);
+    player_task_t *ptask2 = player_task_new("give your first lecture", false);
+    player_task_t *ptask3 = player_task_new("hold wednesday office hours", false);
     quest_t *quest1 = quest_new("wake up in the morning feeling like p diddy", NULL, NULL);
     quest_t *quest2 = quest_new("perform vampire shenanigans", NULL, NULL);
     quest_t *quest3 = quest_new("achieve retirement (finally)", NULL, NULL);
@@ -149,6 +151,9 @@ chiventure_ctx_t *create_sample_ctx()
     task_tree3->lmostchild = NULL;
     quest2->task_tree = task_tree1;
 
+    HASH_ADD_KEYPTR(hh, player->player_tasks, ptask1->task_id, strlen(ptask1->task_id), ptask1);
+    HASH_ADD_KEYPTR(hh, player->player_tasks, ptask2->task_id, strlen(ptask2->task_id), ptask2);
+    HASH_ADD_KEYPTR(hh, player->player_tasks, ptask3->task_id, strlen(ptask3->task_id), ptask3);
     HASH_ADD_KEYPTR(hh, player->player_quests, pquest1->quest_id, strlen(pquest1->quest_id), pquest1);
     HASH_ADD_KEYPTR(hh, player->player_quests, pquest2->quest_id, strlen(pquest2->quest_id), pquest2);
     HASH_ADD_KEYPTR(hh, player->player_quests, pquest3->quest_id, strlen(pquest3->quest_id), pquest3);
