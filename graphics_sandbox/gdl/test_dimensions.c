@@ -14,7 +14,7 @@ Test(display_dimensions, new)
     dimensions =  new_display_dimensions(width,height);
 
     cr_assert_not_null(dimensions, "make_display_dimensions() failed");
-    
+  
     cr_assert_eq(dimensions->width,500,"make_display_dimensions() didn't set width");
     cr_assert_eq(dimensions->height,400,"make_display_dimensions() didn't set height");
 }
@@ -30,7 +30,7 @@ Test(display_dimensions, init)
     display_dimensions_t dimensions;
 
     rc = init_display_dimensions(&dimensions,width,height);
-    
+
     cr_assert_eq(rc, SUCCESS, "init_display_dimensions() failed");
 
     cr_assert_eq(dimensions.width,500,
@@ -57,6 +57,3 @@ Test(display_dimensions, free)
     
     cr_assert_eq(rc,SUCCESS,"free_display_dimensions() failed");
 }
-
-
-

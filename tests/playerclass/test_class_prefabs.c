@@ -102,7 +102,7 @@ Test(class_prefabs, Basic) {
     chiventure_ctx_t* ctx = init_statless_context();
 
     class_t* c = class_prefab_new(ctx->game, "basic");
-    check_field_presence(c);
+    check_field_pressence(c);
 
     cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 25, "failed to initialize stat");
     cr_assert_eq(get_stat_current(c->base_stats, "speed"), 5, "failed to initalize stat");
@@ -201,6 +201,64 @@ Test(class_prefabs, Wizard) {
     cr_assert_str_eq(c->starting_skills->active[0]->name, "Blinding Charm", "failed to initialize skill inventory");
 }
 
+
+/* below are npc-specific prefab class testing */
+/* all npc-specific prefab classses max health are 10 */
+
+
+/* Tests the alchemist class */
+Test(class_prefabs, Alchemist) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "ALCHEMIST");
+    check_field_presence(c);
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
+}
+
+/* Tests the chef class */
+Test(class_prefabs, Chef) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "CHEF");
+    check_field_presence(c);
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
+}
+
+/* Tests the shopkeeper class */
+Test(class_prefabs, Shopkeeper) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "SHOPKEEPER");
+    check_field_presence(c);
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
+}
+
+/* Tests the fisherman class */
+Test(class_prefabs, Fisherman) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "FISHERMAN");
+    check_field_presence(c);
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
+}
+
+/* Tests the lord class */
+Test(class_prefabs, Lord) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "LORD");
+    check_field_presence(c);
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
+}
+
+/* Tests the healer class */
+Test(class_prefabs, Healer) {
+    chiventure_ctx_t* ctx = init_statless_context();
+
+    class_t *c = class_prefab_new(ctx->game, "HEALER");
+    check_field_presence(c);
+    cr_assert_eq(get_stat_current(c->base_stats, "max_health"), 10, "failed to initialize stat");
+}
 /* Tests the Druid class */
 Test(class_prefabs, Druid) {
     chiventure_ctx_t* ctx = init_statless_context();
@@ -268,7 +326,4 @@ Test(class_prefabs, Sorceror) {
     check_skill_pressence(c, 3, skill_list);
 
     cr_assert_str_eq(c->starting_skills->active[0]->name, "dark magic", "failed to initialize skill inventory");
-}  
-
-
-
+}

@@ -51,8 +51,9 @@ class TreeToDict(Transformer):
 
     misplaced_property = trans.transform_misplaced
 
+    npc = trans.transform_npc
     
-    
+    inventory = trans.transform_inventory
 
     #for documentation of the below transformations, see simple_modifiers.py
 
