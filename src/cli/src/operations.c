@@ -468,22 +468,18 @@ char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
      * action management is expecting all arguments to the self action
      * but not the actual action in a string array
      *
-     * Thus we clip off the first term to hand to do_self_action */
-    char **clipped_token_array = &tokens[1];
+     * Thus we clip off the first term to hand to do_self_action 
+     * Allocated to size TOKEN_LIST_SIZE-1 to be as big as normal w/o the action*/
+     char **clipped_token_array = (char**)calloc(TOKEN_LIST_SIZE-1,1);
+     clipped_token_array[0] = tokens[1];
+     clipped_token_array[1] = tokens[2];
+     clipped_token_array[2] = tokens[3];
 
     /* do_self_action return codes are either:
      *  WRONG_KIND if a non-kind4 action is given to do_self_action, 
      *  otherwise, returns SUCCESS */
 
-
-    /*================================================================ 
-     * AS OF 5/23/2022 at 10:35pm
-     * ONCE AM FINISHES THIS VERION OF DO_SELF_ACTION WE CAN UNCOMMENT
-     * THE ACTUAL FUNCTION CALL, 
-     * for now will leave the currently implemented call 
-     *================================================================ */
-    //int rc = do_self_action(ctx, action, clipped_token_array, &str);
-    int rc = do_self_action(ctx, action, tokens[1], &str);
+    int rc = do_self_action(ctx, action, clipped_token_array, &str);
     return str;
 }
 
@@ -670,13 +666,17 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "No one by that name wants to talk.";
     }
-
-    if (npc->dialogue == NULL)
+    
+    quest_ctx_t *qctx = quest_ctx_new(ctx->game->curr_player, ctx->game->all_quests);
+    set_proper_dialogue(qctx, npc);
+    quest_ctx_free(qctx);
+    
+    if (npc->active_dialogue == NULL)
     {
         return "This person has nothing to say.";
     }
-
-    char *str = start_conversation(npc->dialogue, &rc, ctx->game);
+    char *str = start_conversation(npc->active_dialogue, &rc, ctx->game);
+    
 
     assert(rc != -1); //checking for conversation error
 
@@ -710,41 +710,6 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // this is the current player from the chiventure context
     player_t *player = ctx->game->curr_player;
-    // Since we are only having one player for the demo, here are their stats
-    /*stat_t *p1_stats = (stat_t*) calloc(1, sizeof(stat_t));
-    p_stats->hp = 100;
-    p_stats->max_hp = 100;
-    p_stats->xp = 10;
-    p_stats->speed = 10;
-    p_stats->level = 3;
-    p_stats->phys_def = 30;
-    p_stats->mag_def = 30;
-    p_stats->phys_atk = 80;
-    p_stats->mag_atk = 80;
-    p_stats->sp = 100;
-    p_stats->max_sp = 100;
-    p_stats->crit = 25;
-    p_stats->accuracy = 100;*/
-    // get the items the player is using
-    //battle_item_t *p1_items = make_items();
-    // create a battle player version of the current player
-    /*battle_player_t *b_player = new_ctx_player(player->player_id, 
-                                               player->player_class, 
-                                               p1_stats, 
-                                               player->moves, 
-                                               p1_items,
-                                               NULL, NULL, NULL); // these too*///I dont think this is necessary
-    // since everyting 
-    // create a battle context
-    //battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
-    // create a battle game and add it to the battle context
-    //battle_game_t *b_game = new_battle_game();
-    //battle_ctx->game = b_game;
-    // add the current player from the chiventure context to the game (already added to the thing from setup_battle_one?)
-    // battle_ctx->game->player = b_player;
-    // add the battle context to the chiventure context
-    //int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
-    // create a battle struct and initialize its parts (sets up combatants)
     int rc = start_battle(ctx->game->battle_ctx, npc, 
                           ENV_GRASS /* eventually this should be stored in 
                                        the room struct */);

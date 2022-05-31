@@ -1,5 +1,7 @@
+
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
+
 #include "cmd.h"
 #include "game-state/game.h"
 #include "game-state/mode.h"

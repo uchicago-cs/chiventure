@@ -110,7 +110,7 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     option = atoi(parsed_input[0]);
 
     npc_t *npc = get_npc(ctx->game, ctx->game->mode->mode_ctx);
-    num_options = npc->dialogue->cur_node->num_edges;
+    num_options = npc->active_dialogue->cur_node->num_edges;
 
     if ((option <= 0) || (option > num_options) || 
         parsed_input[1] != NULL) 
@@ -119,7 +119,8 @@ int run_conversation_mode(char *input, cli_callback callback_func,
     }
 
     int end_convo;
-    char *outstring = run_conversation_step(npc->dialogue, option, &end_convo, ctx->game);
+    char *outstring = run_conversation_step(npc->active_dialogue, option,
+                                            &end_convo, ctx->game);
 
     assert(end_convo != -1); //checking for conversation error
 
@@ -158,8 +159,8 @@ int run_battle_mode (char *input, cli_callback callback_func,
     if (ctx->game->battle_ctx->status != BATTLE_IN_PROGRESS)
     {
         char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
-        char *output_and_battle_over = strcat(output, battle_over);
-        callback_func(ctx, battle_over, callback_args);
+        char *output_and_battle_over = strncat(output, battle_over, BATTLE_BUFFER_SIZE);
+        callback_func(ctx, output_and_battle_over, callback_args);
         free(battle_over);
         rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
         return SUCCESS;
@@ -175,7 +176,7 @@ int run_battle_mode (char *input, cli_callback callback_func,
         battle_ctx->game->battle->turn = ENEMY;
         battle_ctx->current_turn_tcl = battle_ctx->tcl;
         char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
-        output = strcat(output, enemy_turn);
+        output = strncat(output, enemy_turn, BATTLE_BUFFER_SIZE);
         ctx->game->battle_ctx->game->battle->turn = PLAYER;
         battle_ctx->current_turn_tcl = battle_ctx->tcl;
     }

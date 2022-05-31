@@ -1,7 +1,7 @@
 {
     "GAME": {
         "start": "room_A",
-        "intro": "This is a test game to see what the inventory condition feature is currently like. It is based off connected-rooms.wdl",
+        "intro": "This is a test game for the Wizard Class. It is based off connected-rooms.wdl",
         "end": {
             "in_room": "room_C"
         }
@@ -83,11 +83,33 @@
                 {
                     "action": "TAKE",
                     "text_success": "You're a wizard, Harry",
-                    "text_fail": "You cannot take this staff unless you are a wizard class",
+                    "text_fail": "You cannot take this staff unless you are a wizard class"
+                }
+            ]
+        },
+        "BORJA": {
+            "short_desc": "This is the evil king",
+            "long_desc": "This is the evil king Borja",
+            "in": "room_B",
+            "actions": [
+                {
+                    "action": "PUSH",
+                    "text_success": "You push the evil king",
+                    "text_fail": "You cannot push this evil king"
+                },
+                {
+                    "action": "PULL",
+                    "text_success": "You pull the evil king",
+                    "text_fail": "You cannot pull this evil king"
+                },
+                {
+                    "action": "FIREBALL",
+                    "text_success": "You defeated BORJA",
+                    "text_fail": "You cannot use this spell without a staff",
                     "conditions": [
                         {
                             "type": "INVENTORY",
-                            "item_id": "CHAIR"
+                            "item_id": "STAFF"
                         }
                     ]
                 }

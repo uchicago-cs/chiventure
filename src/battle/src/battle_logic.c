@@ -57,19 +57,11 @@ turn_t goes_first(battle_t *b)
 /* see battle_logic.h */
 move_t *find_player_move(battle_ctx_t *ctx, char *move_name)
 {
-    //printf("place 1\n");
-    move_t *temp;// = (move_t *) malloc (sizeof(move_t));
+    move_t *temp;
     move_t *player_move = NULL;
 
     DL_FOREACH(ctx->game->battle->player->moves, temp)
     {
-        /*for(int i = 0; temp->name[i] != '\0'; i++)
-        {
-            printf("place 2\n");
-            printf("temp name %d", temp->name);
-            temp->name[i] = tolower(temp->name[i]);
-            printf("place 3\n");
-        }*/
         if (strncmp(temp->name, move_name, MAX_MOVE_INFO_LEN) == 0)
         {
             player_move = temp;
@@ -110,7 +102,6 @@ int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item)
         return FAILURE;
     }
     
-    //battle_item_t *item = find_battle_item(c->items, name);
     
     if (item == NULL || item->quantity == 0)
     {
@@ -140,12 +131,11 @@ int remove_battle_item(combatant_t *c, battle_item_t *item)
     battle_item_t *temp;
     DL_FOREACH(c->items, temp)
     {
-        if (temp == item)
+        if (temp == item && (temp->quantity <= 0))
         {
             if (temp == c->items) // first item in the list
             {
                 c->items = temp->next;
-                c->items->prev = NULL;
             }
             else
             {
@@ -268,7 +258,12 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
         target_stats->hp += changes->hp;
-    }else
+    }
+    else if ((target_stats->hp + changes->hp) <= 0)
+    {
+        target_stats->hp = 0;
+    }
+    else
     {
         target_stats->hp = target_stats->max_hp;
     }

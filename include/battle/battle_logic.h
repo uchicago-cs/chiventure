@@ -124,11 +124,11 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
 int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
 
 /* Finds the actions (items and moves) that are available to the player to use
- * in a given turn component
+ * in a given turn component, doing this through out parameters.
  *
  * Parameters:
- * - items: an initially empty (NULL) linked list of battle_item_ts that can be used
- * - moves: an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - items: a pointer to an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - moves: a pointer to an initially empty (NULL) linked list of battle_item_ts that can be used
  * - comp: the current turn_component_t struct
  * - battle: the current battle_t struct
  * 
@@ -180,5 +180,4 @@ battle_player_t *player_to_battle_player(player_t *player, stat_t *b_stats,
                                         battle_equipment_t *accessory,
                                         battle_equipment_t *armor);
 
-#endif
-
+#endif /* BATTLE_LOGIC_H */

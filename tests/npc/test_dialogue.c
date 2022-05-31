@@ -14,6 +14,7 @@ void check_add_node(int num_nodes)
     char npc_dialogue[3];
     node_list_t *cur;
     int rc;
+    tone_t tone = NEUTRAL;
 
     strcpy(node_id, "N_");
     strcpy(npc_dialogue, "D_");
@@ -23,7 +24,7 @@ void check_add_node(int num_nodes)
         node_id[1] = '0' + i;
         npc_dialogue[1] = '0' + i;
 
-        rc = add_node(c, node_id, npc_dialogue);
+        rc = add_node(c, node_id, npc_dialogue, tone);
 
         cr_assert_eq(rc, SUCCESS, "add_node() failed for Node %d", i);
 
@@ -49,9 +50,10 @@ void check_add_edge(int num_edges)
     char quip[3];
     edge_list_t *convo_lst_ptr, *node_lst_ptr;
     int rc;
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
 
     strcpy(quip, "Q_");
 
@@ -59,7 +61,7 @@ void check_add_edge(int num_edges)
     {
         quip[1] = '0' + i;
 
-        rc = add_edge(c, quip, "N1", "N2", NULL);
+        rc = add_edge(c, quip, "N1", "N2", NULL, tone);
 
         cr_assert_eq(rc, SUCCESS, "add_edge() failed for Edge %d", i);
 
@@ -95,8 +97,9 @@ void check_add_edge(int num_edges)
 Test(dialogue, node_new)
 {
     node_t *n;
+    tone_t tone = NEUTRAL;
 
-    n = node_new("ID", "Dialogue");
+    n = node_new("ID", "Dialogue", tone);
 
     cr_assert_not_null(n, "node_new() failed");
 
@@ -112,8 +115,9 @@ Test(dialogue, node_init)
 {
     node_t n;
     int rc;
+    tone_t tone = NEUTRAL;
 
-    rc = node_init(&n, "ID", "Dialogue");
+    rc = node_init(&n, "ID", "Dialogue", tone);
 
     cr_assert_eq(rc, SUCCESS, "node_init() failed");
 
@@ -129,8 +133,9 @@ Test(dialogue, node_free)
 {
     node_t *n;
     int rc;
+    tone_t tone = NEUTRAL;
 
-    n = node_new("ID", "Dialogue");
+    n = node_new("ID", "Dialogue", tone);
 
     cr_assert_not_null(n, "node_new() failed");
 
@@ -147,9 +152,10 @@ Test(dialogue, edge_new)
 {
     edge_t *e;
     condition_t *cond = malloc(sizeof(condition_t));
-
-    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"),
-                 cond);
+    tone_t tone = NEUTRAL;
+    
+    e = edge_new("Quip", node_new("N1", "Dia_1", tone), node_new("N2", "Dia_2", tone),
+                 cond, tone);
 
     cr_assert_not_null(e, "edge_new() failed");
 
@@ -167,9 +173,10 @@ Test(dialogue, edge_init)
     edge_t e;
     int rc;
     condition_t *cond = malloc(sizeof(condition_t));
+    tone_t tone = NEUTRAL;
 
-    rc = edge_init(&e, "Quip", node_new("N1", "Dia_1"),
-                   node_new("N2", "Dia_2"), cond);
+    rc = edge_init(&e, "Quip", node_new("N1", "Dia_1", tone),
+                   node_new("N2", "Dia_2", tone), cond, tone);
 
     cr_assert_eq(rc, SUCCESS, "edge_init() failed");
 
@@ -186,9 +193,10 @@ Test(dialogue, edge_free)
 {
     edge_t *e;
     int rc;
+    tone_t tone = NEUTRAL;
 
-    e = edge_new("Quip", node_new("N1", "Dia_1"), node_new("N2", "Dia_2"),
-                 NULL);
+    e = edge_new("Quip", node_new("N1", "Dia_1", tone), node_new("N2", "Dia_2", tone),
+                 NULL, tone);
 
     cr_assert_not_null(e, "edge_new() failed");
 
@@ -283,14 +291,15 @@ Test(dialogue, add_edge_bidirectional)
 {
     convo_t *c = convo_new();
     int rc;
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
 
-    rc = add_edge(c, "Q1", "N1", "N2", NULL);
+    rc = add_edge(c, "Q1", "N1", "N2", NULL, tone);
     cr_assert_eq(rc, SUCCESS, "First add_edge() failed");
 
-    rc = add_edge(c, "Q2", "N2", "N1", NULL);
+    rc = add_edge(c, "Q2", "N2", "N1", NULL, tone);
     cr_assert_eq(rc, SUCCESS, "Second add_edge() failed");
 
     cr_assert_eq(strcmp(c->all_nodes->node->edges->edge->quip, "Q1"), 0,
@@ -309,8 +318,9 @@ Test(dialogue, start_conversation_one_node_no_edges)
     int rc;
     char *ret_str;
     char *expected = "D1\n";
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", tone);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -328,14 +338,15 @@ Test(dialogue, start_conversation_three_nodes_three_edges)
     int rc;
     char *ret_str;
     char *expected = "D1\n1. Q1\n2. Q2\n3. Q3\nEnter your choice: ";
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
+    add_node(c, "N3", "D3", tone);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N1", "N3", NULL);
-    add_edge(c, "Q3", "N1", "N3", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, tone);
+    add_edge(c, "Q2", "N1", "N3", NULL, tone);
+    add_edge(c, "Q3", "N1", "N3", NULL, tone);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -354,11 +365,12 @@ Test(dialogue, run_conversation_step_two_nodes_end)
     int rc;
     char *ret_str;
     char *expected = "D2\n";
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, tone);
 
     start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
@@ -380,13 +392,14 @@ Test(dialogue, run_conversation_step_three_nodes_end)
     int rc;
     char *ret_str;
     char *expected = "D3\n";
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
+    add_node(c, "N3", "D3", tone);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N1", "N3", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, tone);
+    add_edge(c, "Q2", "N1", "N3", NULL, tone);
 
     start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
@@ -408,15 +421,16 @@ Test(dialogue, run_conversation_step_four_nodes_continue)
     int rc;
     char *ret_str;
     char *expected = "D2\n1. Q2\n2. Q3\nEnter your choice: ";
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
-    add_node(c, "N4", "D4");
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
+    add_node(c, "N3", "D3", tone);
+    add_node(c, "N4", "D4", tone);
 
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N2", "N3", NULL);
-    add_edge(c, "Q3", "N2", "N4", NULL);
+    add_edge(c, "Q1", "N1", "N2", NULL, tone);
+    add_edge(c, "Q2", "N2", "N3", NULL, tone);
+    add_edge(c, "Q3", "N2", "N4", NULL, tone);
 
     start_conversation(c, &rc, NULL);
     cr_assert_eq(rc, 0, "start_conversation() set the wrong Return Code");
@@ -444,10 +458,11 @@ Test(dialogue, one_failing_conditional)
     player_t *p = player_new("player");
     item_t *i = item_new("item", "short_desc", "long_desc");
     condition_t *cond = inventory_condition_new(p, i);
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_edge(c, "Q1", "N1", "N2", cond);
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
+    add_edge(c, "Q1", "N1", "N2", cond, tone);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -474,16 +489,17 @@ Test(dialogue, two_conditionals)
     add_item_to_player(p, i1, ctx->game);
     condition_t *cond1 = inventory_condition_new(p, i1);
     condition_t *cond2 = inventory_condition_new(p, i2);
+    tone_t tone = NEUTRAL;
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_node(c, "N3", "D3");
-    add_node(c, "N4", "D4");
-    add_node(c, "N5", "D5");
-    add_edge(c, "Q1", "N1", "N2", NULL);
-    add_edge(c, "Q2", "N1", "N3", cond1);
-    add_edge(c, "Q3", "N1", "N3", cond2);
-    add_edge(c, "Q4", "N1", "N4", NULL);
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
+    add_node(c, "N3", "D3", tone);
+    add_node(c, "N4", "D4", tone);
+    add_node(c, "N5", "D5", tone);
+    add_edge(c, "Q1", "N1", "N2", NULL, tone);
+    add_edge(c, "Q2", "N1", "N3", cond1, tone);
+    add_edge(c, "Q3", "N1", "N3", cond2, tone);
+    add_edge(c, "Q4", "N1", "N4", NULL, tone);
 
     ret_str = start_conversation(c, &rc, NULL);
 
@@ -501,6 +517,7 @@ Test(dialogue, give_one_item)
 {
     convo_t *c = convo_new();
     int rc;
+    tone_t tone = NEUTRAL;
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
@@ -517,7 +534,7 @@ Test(dialogue, give_one_item)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", tone);
 
     add_give_item(c, "N1", "item");
 
@@ -534,6 +551,7 @@ Test(dialogue, give_two_items)
 {
     convo_t *c = convo_new();
     int rc;
+    tone_t tone = NEUTRAL;
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
@@ -552,7 +570,7 @@ Test(dialogue, give_two_items)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", tone);
 
     add_give_item(c, "N1", "item1");
     add_give_item(c, "N1", "item2");
@@ -572,6 +590,7 @@ Test(dialogue, give_one_then_one_item)
 {
     convo_t *c = convo_new();
     int rc;
+    tone_t tone = NEUTRAL;
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
@@ -590,9 +609,9 @@ Test(dialogue, give_one_then_one_item)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
-    add_node(c, "N2", "D2");
-    add_edge(c, "Q1", "N1", "N2", NULL);
+    add_node(c, "N1", "D1", tone);
+    add_node(c, "N2", "D2", tone);
+    add_edge(c, "Q1", "N1", "N2", NULL, tone);
 
     add_give_item(c, "N1", "item1");
     add_give_item(c, "N2", "item2");
@@ -616,6 +635,7 @@ Test(dialogue, take_one_item)
 {
     convo_t *c = convo_new();
     int rc;
+    tone_t tone = NEUTRAL;
 
     game_t *g = game_new("game");
     player_t *p = player_new("player");
@@ -632,7 +652,7 @@ Test(dialogue, take_one_item)
     add_npc_to_room(r->npcs, npc);
     add_npc_to_game(g, npc);
 
-    add_node(c, "N1", "D1");
+    add_node(c, "N1", "D1", tone);
 
     add_take_item(c, "N1", "item");
 
@@ -642,6 +662,6 @@ Test(dialogue, take_one_item)
                  "%d when it should have been 1", rc);
     cr_assert_eq(item_in_inventory(p, i), false, "The item was not taken from "
                  "the player's inventory");
-    cr_assert_not_null(get_item_in_hash(npc->inventory, "item"), "The item "
+    cr_assert_not_null(get_item_from_npc(npc, "item"), "The item "
                        "was not given to the NPC");
 }

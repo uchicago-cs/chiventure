@@ -28,55 +28,6 @@ class_t *make_minion()
     return class_new("Minion", "Stupid", "Unintelligent, but very strong", NULL, NULL, NULL);
 }
 
-
-/* Helper function to print the result of a turn
- * Parameters:
- *  ctx: main structure of the battle
- *  player_move: the name of the player's move
- * Returns:
- *  Always returns SUCCESS
- */ 
-int print_battle_result(battle_ctx_t *ctx, move_t *player_move)
-{
-    /*
-    char *action_string;
-    // everything below allows us to print what just happened
-    if (goes_first(ctx->game->battle) == PLAYER)
-    {
-        printf("goes_first determined the player goes first!\n");
-        action_string = print_battle_move(ctx->game->battle,
-                                          PLAYER, player_move);
-        printf("%s\n", action_string);
-        if (ctx->game->battle->enemy->stats->hp <= 0)
-        {
-            return SUCCESS;
-        }
-        move_t *enemy_move = give_move(ctx->game->battle->player,
-                                       ctx->game->battle->enemy,
-                                       ctx->game->battle->enemy->ai);
-        action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
-        printf("%s\n", action_string);
-    }
-    else
-    {
-        printf("goes_first determined the enemy goes first!\n");
-        action_string = print_battle_move(ctx->game->battle,
-                                          PLAYER, player_move);
-        printf("%s\n", action_string);
-        if (ctx->game->battle->player->stats->hp <= 0)
-        {
-            return SUCCESS;
-        }
-        
-        move_t *enemy_move = give_move(ctx->game->battle->player,
-                                       ctx->game->battle->enemy,
-                                       ctx->game->battle->enemy->ai);
-        action_string = print_battle_move(ctx->game->battle, ENEMY, enemy_move);
-        printf("%s\n", action_string);
-    }*/
-    return SUCCESS;
-}
-
 /* Prints out the avaliable moves for the player
  * Parameter:
  *  ctx: the main structure of the battle
@@ -130,7 +81,7 @@ int read_move(char **args, battle_ctx_t *ctx)
         && (strncmp(args[1], "USE", MAX_COMMAND_LENGTH) == 0) 
         && (strncmp(args[3], "ON", MAX_COMMAND_LENGTH) == 0))
     {
-        printf("Determined command as MOVE USE, and it using the %s move\n\n",
+        printf("Determined command as MOVE USE, and using the move %s\n\n",
                 args[2]);
         
         move_t *player_move = find_player_move(ctx, args[2]);
@@ -143,7 +94,7 @@ int read_move(char **args, battle_ctx_t *ctx)
         }
 
         // call to check_target to ensure that the target exists
-        printf("calling check_target...\n");
+        printf("Calling check_target...\n");
         if(check_target(ctx->game->battle, args[4]) == NULL)
         {
             printf("%s\n", ctx->game->battle->enemy->name);
@@ -158,7 +109,7 @@ int read_move(char **args, battle_ctx_t *ctx)
         char *rs = battle_flow_move(ctx, player_move, args[4]);
         printf("%s", rs);
         // prints result of attacks
-        int battle_res = print_battle_result(ctx, player_move);
+        int battle_res = "";
         if (ctx->game->battle->enemy->stats->hp > 0) 
         {
             char *enemy_rs = enemy_make_move(ctx);
@@ -286,16 +237,7 @@ int continue_battle(battle_ctx_t *ctx)
             printf("Num args is 0\n");
             continue;
         }
-        // otherwise, handle input
-        res = read_move(args, ctx);
     }
-    // free statement for string array
-    /*
-    for (int i = 0; i < MAX_ARGS; i++)
-    {
-        free(args[i]);
-    }
-    free(args);*/
     return SUCCESS;
 }
 
