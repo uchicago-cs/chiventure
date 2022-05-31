@@ -90,6 +90,7 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "ITEM"
     d["items"] = [v for k, v in s if k == "ITEM"]
+
     
     return ('ROOM', (room_id, d))
 
@@ -210,6 +211,30 @@ def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     d = dict((k, v) for k, v in s)
 
     return ('NPC', (npc_id, d))
+
+
+def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """
+    S contains several objects of the form ('type', <value>), where
+    value is dependent upon the type. This function creates a dictionary
+    based on the key or type, and also places all items into their own list
+    for convenience.
+    """
+
+    # gets the player class id.
+    npc_id = s.pop(0)[1]
+
+    # Change location to in
+    s[0] = list(s[0])
+    s[0][0] = "in"
+    s[0] = tuple(s[0])
+
+    temp = s[0]
+    
+    d = dict((k, v) for k, v in s)
+
+    return ('NPC', (npc_id, d))
+
 
 def transform_inventory(self, s: list[tuple[str, str]]) -> tuple[str, str]:
         """Takes a list of key-values pairs which belong to inventory, places them
