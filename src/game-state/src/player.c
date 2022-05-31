@@ -462,7 +462,7 @@ char *display_inventory(player_t *player) {
     char *spacer = " | ";
     char *newline = "\n";
     unsigned int column_number = 1;
-    char *return_string;
+    char *return_string = malloc(300);
 
     // loop through items in the linked list
     LL_FOREACH(head, curr_item) {
@@ -491,7 +491,7 @@ char *display_inventory(player_t *player) {
 /* See player.h */
 char *display_inventory_item(player_t *player, char *key) {
     item_t *find;
-    HASH_FIND_STR(player->inventory, key, find);
+    HASH_FIND(hh, player->inventory, key, strlen(key), find);
     if (find != NULL){
         return find->long_desc;
     }
