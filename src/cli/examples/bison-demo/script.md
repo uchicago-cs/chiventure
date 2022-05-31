@@ -36,6 +36,7 @@ To start with, we needed bison to replicate the current chiventure parsing.
 This involves recognizing different "kinds" of actions. 
 Currently there are 4 "kinds" of actions, which are general formats for actions,
 
+#### basic
 For example, `take sword` is a kind1 action, parsed into `take` and `sword`
 `go north` is kind2
 `use sword on borja` is kind 3
@@ -43,6 +44,45 @@ For example, `take sword` is a kind1 action, parsed into `take` and `sword`
 `look`
 
 All of these are parsed into the same output as current chiventure, however bison is capable of much more. 
+#### synonyms
+currently, there is a mechanism to add synonyms in chiventure, but it requires a good amount of work.
+In bison, adding synonyms is super easy.
+We can have
+`go north`
+`move north`
+`travel north`
+and 
+`walk north`
+all have the same output with about one extra line of code
+
+#### prepositions
+We can also have bison ignore filler words, 
+so I can now say:
+`take the pset`
+`go to the south`
+
+but not just "to" and "the", we can also do...
+
+`use my sword on borja`
+or
+`view my stats`
+
+and we can define these on a per command or kind basis!
+
+#### longer names
+Another great thing is we can have long noun names be recognized
+While we were able to get this to work with quote association in current chiventure, it is quite a large amount of work whereas it is handled automatically by Bison!
+So I can say
+
+`take sword of power`
+`go to the castle of fire`
+
+###putting it all together
+putting it all together we can have commands like:
+
+take my sword of power
+use the sword of power on the evil clone of borja
+
 
 
 
