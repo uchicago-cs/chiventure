@@ -6,6 +6,7 @@
     },
     "intro": "This is the intro"
   },
+  "CLASSES": {},
   "ROOMS": {
     "room C": {
       "short_desc": "This is room C",

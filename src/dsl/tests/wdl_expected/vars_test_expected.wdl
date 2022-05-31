@@ -6,6 +6,7 @@
     },
     "intro": "hello John Smith"
   },
+  "CLASSES": {},
   "ROOMS": {
     "room A": {
       "items": [

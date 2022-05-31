@@ -6,6 +6,7 @@
     },
     "intro": "Welcome! You're in a room A"
   },
+  "CLASSES": {},
   "ROOMS": {
     "room C": {
       "connections": [
