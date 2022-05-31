@@ -790,7 +790,7 @@ Test(battle_logic, use_battle_item)
     int expected_def = (battle->enemy->stats->phys_def) + (offensive_item->attributes->phys_def);
 
 
-    int res = use_battle_item(player, battle, "Spikes");
+    int res = use_battle_item(player, battle, player->items);
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
  

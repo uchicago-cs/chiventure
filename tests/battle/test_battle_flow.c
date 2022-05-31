@@ -387,9 +387,6 @@ Test(battle_flow_move, do_magdamage_battle_flow_move)
 
     int expected_enemy_hp = enemy->stats->hp - 
                       damage(enemy, move, player);
-    int expected_player_hp = player->stats->hp -
-                      damage(player, give_move(player, enemy, enemy->ai), 
-                      enemy);
 
     char *res = battle_flow_move(ctx, move, "enemy");
     
@@ -398,9 +395,9 @@ Test(battle_flow_move, do_magdamage_battle_flow_move)
 
     // note: this hp value relies on player class implementation of move_list()
     cr_assert_eq(player->stats->hp,
-                 expected_player_hp,
+                 200,
                  "battle_flow_move() did not compute damage on player correctly,"
-                 "Actual: %d, Expected: %d",player->stats->hp, expected_player_hp);
+                 "Actual: %d, Expected: %d",player->stats->hp, 200);
     cr_assert_eq(ctx->status, BATTLE_IN_PROGRESS,
                  "battle_flow_move() failed: battle is not in progress");
 }
