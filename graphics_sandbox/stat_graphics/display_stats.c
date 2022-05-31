@@ -1,4 +1,4 @@
-#include "ui/display_stats.h"
+#include "display_stats.h"
 #include "raylib.h"
 
 /* See display_stats.h for details */
@@ -44,7 +44,13 @@ int init_screen_stats(screen_stats_t *screen, int ulx, int uly, int lrx,
 
 
 /* See display_stats.h for details */
-int free_screen_stats(screen_stats_t *screen);
+int free_screen_stats(screen_stats_t *screen)
+{
+    free screen->(screen_stats);
+    free(screen);
+
+    return SUCCESS;
+}
 
 /* See display_stats.h for details */
 int draw_screen_stats(screen_stats_t *screen_stats);
@@ -53,7 +59,7 @@ int draw_screen_stats(screen_stats_t *screen_stats);
 screen_stats_t* update_screen_stats(player_t *player, screen_stats_t *screen_stats);
 
 /* See display_stats.h for details */
-pop-up_t* new_pop-up(int ulx, int uly, int lrx, int lry,
+pop-up_t* new_pop_up(int ulx, int uly, int lrx, int lry,
                       pop-up_type type, player_t *player)
 {
     pop_up_t *pop_up;
