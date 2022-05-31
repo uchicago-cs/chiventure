@@ -399,7 +399,13 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             string = display_stat_effects(c_player->player_effects);
         } else if (strcmp(target[0], "inventory") == 0) {
             // retrieve inventory from the player
-            // TO BE IMPLEMENTED
+            if (target[1] == NULL) {
+                string = display_inventory(c_player->inventory);
+            }
+            else {
+                string = display_inventory_item(
+                    c_player->inventory, target[1]);
+            }
         } else if (strcmp(target[0], "skills") == 0) {
             if (target[1] == NULL) {
                 string = display_tree(c_player->player_class->skilltree, BUFFER_SIZE); 
