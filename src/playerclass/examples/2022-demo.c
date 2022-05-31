@@ -14,9 +14,6 @@
 #include "libobj/load.h"
 #include "wdl/load_game.h"
 
-/* This path expects that we are at the root of the build directory */
-#define CLASSES_WDL_PATH "../tests/wdl/examples/wdl/classes.wdl"
-
 
 /* A helper function for printing a skilltree.
  *
@@ -220,40 +217,6 @@ void prompt(char* message, char* input) {
     }
 }
 
-/* Helper function appropriated from WDL tests to load in a file */
-static obj_t *get_doc_obj()
-{
-    char zip_name[10 * (MAXLEN_ID + 1)] = {0};
-    strcat(zip_name, "./");
-    strcat(zip_name, "zip_default.zip");
-
-    /* Create the zip */
-    int error = 0;
-    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
-
-    /* Add DEFAULT.json to the zip */
-    char *data_name = "DEFAULT.json";
-    char *data_path = CLASSES_WDL_PATH; // Edited to load the example file with classes
-
-    zip_error_t err = {0};
-    zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
-
-    zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
-
-    /* Write and save to disk */
-    int rc = zip_close(zip);
-    zip_error_t *close = zip_get_error(zip);
-
-    int open_status;
-    zip = zip_open(zip_name, 0, &open_status);
-
-    /* Read the zip into an obj */
-    obj_t *obj = obj_new("doc");
-    rc = load_obj_store_from_zip(obj, zip);
-
-    return obj;
-}
-
 /* The following functions are demo functions.  Feel free to loop and prompt for 
  * input, just remember to make it possible to escape these functions. */
 
@@ -296,11 +259,7 @@ void demo_multiclasses() {
 }
 
 
-/* Due to having to locate the example WDL file, it is critical that this executable 
- * is run from from a specific location: the root of the build/ directory. Running it anywhere else will cause 
- * it to fail to find the WDL file, leading to segfaults. 
- * 
- * I prefer to use the command: 
+/* In the build directory, use the command: 
  * $ make examples && src/playerclass/examples/2022-demo */
 
 /* main function for the 2022-demo executable. */
