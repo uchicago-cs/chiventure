@@ -607,7 +607,7 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     } 
     else 
     {
-        return "There is no NPC in the room";
+        return "There are no NPCs in the room";
     }
 }
 
