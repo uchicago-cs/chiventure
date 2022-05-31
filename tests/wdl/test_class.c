@@ -111,6 +111,7 @@ Test(class, load_prefab_class) {
                  "Monk's max_health stat was loaded incorrectly.\n");
 }
 
+
 /* Checks to see if a partially overwritten prefab class is loaded */
 Test(class, load_overwritten_prefab_class) {
     game_t *game = load_game(__get_doc_obj("DEFAULT.json", CLASSES_WDL_PATH));
