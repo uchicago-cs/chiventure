@@ -35,6 +35,7 @@ void free_tts(tts_t* t);
         t: a pointer t to a tts_t struct
         text: the content that will be read aloud
     Output: N/A */
+
 void speak(tts_t* t, char* text);
 
 #endif /* INCLUDE_TTS_H_ */

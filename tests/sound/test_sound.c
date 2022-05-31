@@ -20,5 +20,5 @@ Test(sound, new_sound_effect)
 {
     char song_name[] = "wav_example.wav";
     sound_t *sound = sound_new(SOUND_EFFECT, song_name);
-    cr_assert_not_null(sound, "sound_new failed");
+     cr_assert_not_null(sound, "sound_new failed");
 }
