@@ -5,9 +5,9 @@ function foo(name, order)
 
     name2 = string.lower(name)
 
-    if (order and name and name2) then
-        if (order == "McDonalds") then
-            if (name2 >= "aaaaaaaa" and name2 <= "hhhhhhhh") then 
+    if order and name and name2 then
+        if order == "McDonalds" then
+            if name2 >= "aaaaaaaa" and name2 <= "hhhhhhhh" then 
                 return string_success
             else return string_failure end
         else return string_confused end
