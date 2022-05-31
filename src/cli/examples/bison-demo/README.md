@@ -8,19 +8,8 @@ make
 ```
 This will put you into the interactive CLI interface that will communicate with and beparsed by Bison
 
-## Cool Examples
-* use my sword on the big rock
-* open door
-* go north
-* go to the north
-<<<<<<< HEAD
-* travel north 
 
 ### Flow of Presentation:
-=======
-* travel north
->>>>>>> 5f8ff9c1f646f32997578b07a12246523416296d
-
 **Opening about what we were trying to do as the new CLI team**
 When trying to find a way to improve the CLI of chiventure, we thought that we couldtake the current in-house parsing and instead use a more robust parsing library.
 We decided on bison, as there aren't many C libraries and of the ones we tested we were actually able to get something working.
