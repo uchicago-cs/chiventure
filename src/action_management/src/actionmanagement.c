@@ -7,6 +7,7 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 #include "game-state/player.h"
+#include "skilltrees/skilltree.h"
 #include "quests/quests_cli.h"
 #include "quests/task.h"
 
@@ -393,7 +394,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         *ret_string = string;
         return WRONG_KIND;
     }
-
+  
     if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
         if (strcmp(target[0], "stats") == 0) {
             // retrieve stats from the player
@@ -403,16 +404,26 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             string = display_stat_effects(c_player->player_effects);
         } else if (strcmp(target[0], "inventory") == 0) {
             // retrieve inventory from the player
-            // TO BE IMPLEMENTED
+            if (target[1] == NULL) {
+                string = display_inventory(c_player->inventory);
+            }
+            else {
+                string = display_inventory_item(
+                    c_player->inventory, target[1]);
+            }
         } else if (strcmp(target[0], "skills") == 0) {
-            // retrieve skill tree from the player
-            // TO BE IMPLEMENTED
+            if (target[1] == NULL) {
+                string = display_tree(c_player->player_class->skilltree, BUFFER_SIZE); 
+            } 
+            else {
+                 string = display_skill_description(c_player->player_class->skilltree, target[1]); 
+            }
         } else if (strcmp(target[0], "quests") == 0) {
             // retrieve quests from game
                 string = show_quests(c_player);
         } else if (strcmp(target[0], "quest") == 0) {
             // retrieve the task tree from a specific quest
-            if(target[1] == NULL) {
+            if (target[1] == NULL) {
                 string = "Error: Please provide quest name";
             }
             else {
@@ -421,7 +432,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
             }
         } else if (strcmp(target[0], "task") == 0) {
             // display the description of a specified task from a quest
-            if(target[1] == NULL) {
+            if (target[1] == NULL) {
                 string = "Error: Please provide task name";
             }
             else {
