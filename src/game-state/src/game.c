@@ -352,16 +352,8 @@ int delete_all_items_from_game(item_hash_t *all_items)
     item_t *current_item, *tmp;
     HASH_ITER(hh_all_items, all_items, current_item, tmp)
     {
-        item_t *iter = current_item;
-
-        while(iter != NULL)
-        {
-            current_item = iter;
-            iter = current_item->next;
-
-            remove_item_from_all_items_hash(&(all_items), current_item);
-            item_free(current_item);
-        }
+        HASH_DELETE(hh_all_items, all_items, current_item);
+        item_free(current_item);
     }
     all_items = NULL;
     return SUCCESS;
@@ -536,6 +528,30 @@ int do_node_actions(node_t *n, game_t *game)
 
         case START_BATTLE:
             // to do
+            break;
+
+        case MAKE_HOSTILE:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->hostility_level = HOSTILE;
+            break;
+
+        case MOVE_ROOM:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            if (npc->movement->permission == NPC_MOV_NOT_ALLOWED
+                || npc_one_move(npc, game->all_rooms) == FAILURE)
+            {
+                return FAILURE;
+            }
+            break;
+
+        case PAUSE_MOVEMENT:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->movement->permission = NPC_MOV_NOT_ALLOWED;
+            break;
+        
+        case RESUME_MOVEMENT:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->movement->permission = NPC_MOV_ALLOWED;
             break;
 
         default:
@@ -759,4 +775,3 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     return ret_str;
 }
-
