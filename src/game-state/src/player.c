@@ -459,3 +459,47 @@ int add_item_to_player_without_checks(player_t *player, item_t *item) {
     rc = add_item_to_hash(&(player->inventory), item);
     return rc;
 }
+
+/* See player.h */
+char *display_inventory(player_t *player) {
+    // get linked list of items in inventory
+    item_list_t *head = get_all_items_in_inventory(player);
+    item_list_t *curr_item;
+    char *spacer = " | ";
+    char *newline = "\n";
+    unsigned int column_number = 1;
+    char *return_string = malloc(300);
+
+    // loop through items in the linked list
+    LL_FOREACH(head, curr_item) {
+        // add item_id to return_string
+        strncat(return_string, curr_item->item->item_id, strlen(curr_item->item->item_id));
+        
+        if (column_number < 8) {
+            // if there are less than 8 items in a row, add a spacer
+            if(curr_item->next == NULL) {
+                strncat(return_string, newline, strlen(newline));
+            }
+            else {
+                strncat(return_string, spacer, strlen(spacer));
+            }
+            column_number++;
+        } else {
+            // else add a newline
+            strncat(return_string, newline, strlen(newline));
+            column_number = 1;
+        }
+    };
+
+    return return_string;
+}
+
+/* See player.h */
+char *display_inventory_item(player_t *player, char *key) {
+    item_t *find;
+    HASH_FIND(hh, player->inventory, key, strlen(key), find);
+    if (find != NULL){
+        return find->long_desc;
+    }
+    return "Error: Item not found in inventory! Try Again.";
+}
