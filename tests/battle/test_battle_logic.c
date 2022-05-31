@@ -783,14 +783,18 @@ Test(battle_logic, use_battle_item)
     offensive_item->name = "Spikes";
     offensive_item->quantity = 2;
 
-    class_t* warrior = class_new("warrior", "A mighty warrior.",
+    class_t* warrior1 = class_new("warrior1", "A mighty warrior.",
                                   "An elite, battle-hardened fighter who excels in physical combat.",
                                  NULL, NULL, NULL);
 
-    combatant_t *player = combatant_new("warrior", true, warrior, player_stats, NULL, offensive_item,
+    class_t* warrior2 = class_new("warrior2", "A mighty warrior.",
+                                  "An elite, battle-hardened fighter who excels in physical combat.",
+                                 NULL, NULL, NULL);                             
+
+    combatant_t *player = combatant_new("warrior1", true, warrior1, player_stats, NULL, offensive_item,
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
 
-    combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL,
+    combatant_t *enemy = combatant_new("warrior2", false, warrior2, enemy_stats, NULL, NULL,
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
 
     battle_t *battle = calloc(1, sizeof(battle_t));
