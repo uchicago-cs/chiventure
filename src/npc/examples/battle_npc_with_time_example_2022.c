@@ -42,10 +42,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <unistd.h>
+#include <pthread.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "npc/npc.h"
+#include "game-state/game.h"
 
 const char *banner =
     "    ________________________________________________________________________________________\n"
@@ -59,7 +63,7 @@ const char *banner =
     "     |     ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝  ╚══════╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝  |\n"
     "     |     _________________________________________________________________________________|_____\n"
     "     |    /                                                                                      /\n"
-    "     |   /                         EXAMPLE PROGRAM - NPC_1 TEAM 2021                            /\n"
+    "     |   /      EXAMPLE PROGRAM - NPC_1 TEAM 2021 - Time Implementation by NPC TEAM 2022        /\n"
     "     \\_/______________________________________________________________________________________/\n";
 
 /* Global variables needed for the implementation of this example game */
@@ -67,6 +71,7 @@ room_t *lobby;
 room_t *arena;
 npc_t *friendly_fiona;
 npc_t *hostile_harry;
+npc_t *wandering_william;
 
 
 /* Creates a sample class. Taken from test_class.c */
@@ -141,6 +146,39 @@ char *check_game(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 }
 
 
+/* Adds all of a game's NPCs to the rooms they were initialized to start in.
+ * This should be run once a game has been created and all of the NPCs
+ * and rooms have been added to the game. */
+int add_all_npcs_to_their_rooms(game_t *game)
+{
+    npc_t *elt, *tmp;
+    room_t *room;
+    char *npc_room_id;
+    int rt = SUCCESS;
+    HASH_ITER(hh, game->all_npcs, elt, tmp)
+    {
+        if (elt->movement != NULL)
+        {
+            npc_room_id = elt->movement->track;
+            HASH_FIND(hh, game->all_rooms, npc_room_id, strlen(npc_room_id), room);
+            if (room != NULL)
+            {
+                assert(add_npc_to_room(room->npcs, elt) == SUCCESS);
+            }
+            else
+            {
+                rt++;
+            }
+        }
+        else
+        {
+            rt++;
+        }
+    }
+    return rt;
+}
+
+
 /* a mokey-patched version of moving from lobby to arena */
 char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
@@ -153,13 +191,8 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 
     move_room(game, arena);
 
-    if (lobby->npcs->num_of_npcs > 0)
-    {
-        add_npc_to_room(arena->npcs, friendly_fiona);
-        add_npc_to_room(arena->npcs, hostile_harry);
-        delete_npc_from_room(lobby->npcs, friendly_fiona);
-        delete_npc_from_room(lobby->npcs, hostile_harry);
-    }
+    assert(npc_one_move(friendly_fiona, game->all_rooms) == SUCCESS);
+    assert(npc_one_move(hostile_harry, game->all_rooms) == SUCCESS);
 
     return "You are in the arena now";
 }
@@ -233,16 +266,16 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         npc_t *npc_tmp, *npc_elt;
 
-        HASH_ITER(hh, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
+        HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
         {
-            if (npc_elt->npc_battle->stats->hp == 0) 
+            if ((npc_elt->hostility_level == FRIENDLY) || (get_npc_hp(npc_elt) <= 0))
             {
 	            continue;
 	        } 
             else if (npc_elt->npc_battle->stats->hp == 1) 
             {
                 change_npc_hp(npc_elt, -1);
-                transfer_all_npc_items(npc_elt, game->curr_room);
+                assert(transfer_all_npc_items(npc_elt, game->curr_room) == SUCCESS);
                 char message1[1000];
                 sprintf(message1, "You killed %s. They've dropped their items, "
                         "which you can now take.", npc_elt->npc_id);
@@ -316,6 +349,7 @@ chiventure_ctx_t *create_sample_ctx()
     move_t *moves1 = create_enemy_moves();
     add_battle_to_npc(friendly_fiona, stats1, moves1, BATTLE_AI_GREEDY,
 		              CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL);
+    change_npc_hp(friendly_fiona, -100);
 
     /* Add dialogue to friendly npc */
     convo_t *c_fiona = create_sample_convo_fiona();
@@ -336,28 +370,43 @@ chiventure_ctx_t *create_sample_ctx()
     move_t *moves2 = create_enemy_moves();
     add_battle_to_npc(hostile_harry, stats2, moves2, BATTLE_AI_GREEDY,
                       HOSTILE, NULL, NULL, NULL, NULL, NULL);
+    change_npc_hp(hostile_harry, -195);
 
     /* Add items to hostile npc */
     item_t *potion = item_new("POTION","This is a health potion.",
                               "This potion will increase your health. Feel "
                               "free to take it.");
+    agent_t *potion_ag = malloc(sizeof(agent_t));
+    potion_ag->item = potion;
+    assert(add_action(potion_ag, "take", "You now have a potion",
+                      "potion could not be taken") == SUCCESS);
     add_item_to_npc(hostile_harry, potion);
+
     item_t *elixir = item_new("ELIXIR","This is an elixir.",
                               "This is an elixir. Effects: energize and stun.");
+    agent_t *elixir_ag = malloc(sizeof(agent_t));
+    elixir_ag->item = elixir;
+    assert(add_action(elixir_ag, "take", "You now have an elixir",
+                      "elixir could not be taken") == SUCCESS);
     add_item_to_npc(hostile_harry, elixir);
 
     /* Add dialogue to hostile npc */
     convo_t *c_harry = create_sample_convo_harry();
     add_convo_to_npc(hostile_harry, c_harry);
 
+    npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 5);
+    extend_path_indefinite(movement3, arena->room_id, 5);
+    wandering_william = npc_new("william", "wandering william is friendly",
+     "wandering william is just a jolly good fellow who likes to wander between"
+     "rooms", class2, movement3, FRIENDLY);
 
     /* Add the npcs to the game */
-    add_npc_to_game(game, friendly_fiona);
-    add_npc_to_game(game, hostile_harry);
+    assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
+    assert(add_npc_to_game(game, hostile_harry) == SUCCESS);
+    assert(add_npc_to_game(game, wandering_william) == SUCCESS);
 
     /* Add the npcs to lobby */
-    add_npc_to_room(lobby->npcs, friendly_fiona);
-    add_npc_to_room(lobby->npcs, hostile_harry);
+    assert(add_all_npcs_to_their_rooms(game) == SUCCESS);
 
     /* Free default game and replace it with ours */
     game_free(ctx->game);
@@ -366,6 +415,28 @@ chiventure_ctx_t *create_sample_ctx()
     return ctx;
 }
 
+/* Runs all (included) time-dependent functions every second
+*
+* Parameters:
+*   - game: Pointer to the game being run
+*
+* Returns
+*   - nothing
+*/
+void *time_dependent_functions(void *game)
+{
+    pthread_detach(pthread_self());
+
+    game_t *g;
+    g = (game_t *) game;
+
+    while (g != NULL)
+    {
+        /* This is where you add functions that should be run every second */
+        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
+        sleep(1);
+    }
+}
 
 int main(int argc, char **argv)
 {
@@ -375,6 +446,14 @@ int main(int argc, char **argv)
     add_entry("ARENA", move_to_arena_operation, NULL, ctx->cli_ctx->table);
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
+
+    pthread_t time_thread;
+    int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
+    if (rc)
+    {
+		printf("\n ERROR: return code from pthread_create is %d \n", rc);
+        exit(1);
+    }
 
     /* Start chiventure */
     start_ui(ctx, banner);

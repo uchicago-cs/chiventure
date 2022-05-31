@@ -35,19 +35,45 @@ enum actions {
 
     /* KIND 4 ACTIONS - ACTION <self> */ 
     VIEW,
-};
+
+    // NPC ACTIONS
+    /* KIND 5 ACTIONS */
+    ATTACK,
+    TALK_TO,
+    IGNORE,
+    
+    /* KIND 6 ACTIONS */
+    GIVE,
+    STEAL,
+
+    /* KIND 7 ACTIONS */
+    TRADE,
+    BUY
+} actions_t;
 
 // Each enum corresponds to a different "KIND" of action
 enum action_kind {
     ITEM = 1, // ACTION <item> i.e. Action Type 1
     PATH = 2, // ACTION <path i.e. Action Type 2
     ITEM_ITEM = 3, // ACTION <item> <item> i.e. Action Type 3
-    SELF = 4 //// ACTION <self> i.e. Action Type 4
+    SELF = 4, //// ACTION <self> i.e. Action Type 4
+    // NPC ACTIONS
+    NPC = 5,
+    NPC_ITEM = 6,
+    NPC_ITEM_ITEM = 7
 };
+
+/* A linked list struct that contains the following:
+ * - action: the action at the head of the list
+ * - next: the next item in the linked list
+ */
+ typedef struct list_action {
+    enum actions *npc_action;
+    struct list_action *next;
+} list_action_t;
 
 /* Forward room declaration */
 typedef struct room room_t;
-
 
 /* An action struct that contains the following:
  * - c_name: the 'canonical' string that should call the enum
@@ -61,7 +87,6 @@ typedef struct {
     room_t *room;
     char *direction;
 } action_type_t;
-
 
 /* A linked list struct that contains two components
  * - act: the data component
