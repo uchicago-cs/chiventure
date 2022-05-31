@@ -166,7 +166,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
     if (skill_node == NULL) 
     {
-        print_to_cli(ctx, "Skills not made yet !");
+        print_to_cli(ctx, "Skills not made yet!");
         return FAILURE;
     }
     skill_t* skill = skill_node->skill;
