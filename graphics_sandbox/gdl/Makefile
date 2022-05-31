@@ -1,5 +1,3 @@
-
-   
 all: read_gdl test_camera test_dimensions test_graphics test_inventory test_stats
 
 read_gdl: read_gdl.c
@@ -21,4 +19,4 @@ test_stats: test_stats.c read_gdl.c
 	cc -fPIC -g -Wall -Wextra -O2 -I../../include/ -L../ -Wl,-rpath,. test_stats.c read_gdl.c ../../src/game-state/src/stats.c -o test_stats -lcriterion
 
 clean:
-	rm -f read_gdl test_camera test_dimensions test_graphics test_inventory test_stats
+	rm -f read_gdl test_camera test_dimensions test_graphics test_inventory test_stat

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
-
+/* See read_gdl.h for documentation */ 
 graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics)
 {
@@ -31,7 +31,7 @@ graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
     return graphics;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera_t *camera,
     inventory_display_t *inventory, statistics_display_t *statistics)
 {
@@ -45,7 +45,7 @@ int init_graphics(graphics_t *graphics, display_dimensions_t *dimensions, camera
     return SUCCESS;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int free_graphics(graphics_t* graphics)
 {
 
@@ -65,7 +65,7 @@ int free_graphics(graphics_t* graphics)
     return SUCCESS;
 }
 
-
+/* See read_gdl.h for documentation */ 
 display_dimensions_t* new_display_dimensions(unsigned int width, unsigned int height)
 {
     display_dimensions_t *dimensions;   
@@ -90,7 +90,7 @@ display_dimensions_t* new_display_dimensions(unsigned int width, unsigned int he
     return dimensions;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width, unsigned int height)
 {
     assert(dimensions != NULL);
@@ -101,7 +101,7 @@ int init_display_dimensions(display_dimensions_t *dimensions, unsigned int width
     return SUCCESS;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int free_display_dimensions(display_dimensions_t *dimensions)
 {
 
@@ -112,7 +112,7 @@ int free_display_dimensions(display_dimensions_t *dimensions)
     return SUCCESS;
 }
 
-
+/* See read_gdl.h for documentation */ 
 camera_t* new_camera(unsigned int width, unsigned int height)
 {
     camera_t *camera;   
@@ -137,7 +137,7 @@ camera_t* new_camera(unsigned int width, unsigned int height)
     return camera;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int init_camera(camera_t *camera, unsigned int width, unsigned int height)
 {
     assert(camera != NULL);
@@ -148,7 +148,7 @@ int init_camera(camera_t *camera, unsigned int width, unsigned int height)
     return SUCCESS;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int free_camera(camera_t *camera)
 {
 
@@ -159,8 +159,8 @@ int free_camera(camera_t *camera)
     return SUCCESS;
 }
 
-
-inventory_display_t* new_inventory_display(unsigned int rows, unsigned int columns, Color color)
+/* See read_gdl.h for documentation */ 
+inventory_display_t* new_inventory_display(unsigned int rows, unsigned int columns, color color)
 {
     inventory_display_t *inventory;   
     int rc;
@@ -185,7 +185,8 @@ inventory_display_t* new_inventory_display(unsigned int rows, unsigned int colum
 }
 
 
-int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, Color color)
+/* See read_gdl.h for documentation */ 
+int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, color color)
 {
     assert(inventory != NULL);
 
@@ -196,7 +197,7 @@ int init_inventory_display(inventory_display_t* inventory, unsigned int rows, un
     return SUCCESS;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int free_inventory_display(inventory_display_t *inventory)
 {
 
@@ -207,9 +208,9 @@ int free_inventory_display(inventory_display_t *inventory)
     return SUCCESS;
 }
 
-
-statistics_display_t* new_statistics_display(corner corner, stats_t *statistics, unsigned int num_statistics, mode mode)
-
+/* See read_gdl.h for documentation */ 
+statistics_display_t* new_statistics_display(corner corner, stats_t *statistics,
+    unsigned int num_statistics, mode mode)
 {
     statistics_display_t *statistics_display;   
     int rc;
@@ -222,7 +223,8 @@ statistics_display_t* new_statistics_display(corner corner, stats_t *statistics,
         return NULL;
     }
 
-    rc = init_statistics_display(statistics_display, corner, statistics, num_statistics, mode);
+    rc = init_statistics_display(statistics_display, corner, statistics,
+        num_statistics, mode);
 
     if(rc != SUCCESS)
     {
@@ -233,7 +235,7 @@ statistics_display_t* new_statistics_display(corner corner, stats_t *statistics,
     return statistics_display;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int init_statistics_display(statistics_display_t* statistics_display, corner corner,
     stats_t *statistics,unsigned int num_statistics, mode mode)
 {
@@ -247,7 +249,7 @@ int init_statistics_display(statistics_display_t* statistics_display, corner cor
     return SUCCESS;
 }
 
-
+/* See read_gdl.h for documentation */ 
 int free_statistics_display(statistics_display_t *statistics_display)
 {
 
@@ -259,7 +261,6 @@ int free_statistics_display(statistics_display_t *statistics_display)
 
     return SUCCESS;
 }
-
 
 /*
  * Matches a string of a color to a background color implementable in Raylib
@@ -313,6 +314,7 @@ int match_corner(char *corner)
 } 
 
 
+/* See read_gdl.h for documentation */ 
 graphics_t* read_gdl()
 {
     // Open the GDL

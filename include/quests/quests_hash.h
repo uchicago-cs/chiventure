@@ -125,6 +125,8 @@ task_tree_t *get_task_tree_from_hash(char *id, quest_hash_t *hash_table);
  * Returns:
  *  task struct if successful, NULL if task is not found
  */
+
+
 task_t *get_task_from_quest_hash(char *id, quest_hash_t *hash_table);
 
 /* Finds the element with the given id in the task hash
@@ -225,7 +227,7 @@ int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx);
  * Returns:
  * - FAILURE if the removal was failure, SUCESS if successful 
  */
-int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id);
+int remove_quest_in_hash(quest_hash_t **hash_table, char *quest_id);
 
 /* Returns the (now NULL) hash table after deleting and freeing
  *  all quests
@@ -247,7 +249,7 @@ int remove_quest_all(quest_hash_t **hash_table);
  * Returns:
  * - FAILURE if the removal was failure, SUCCESS if successful 
  */
-int remove_task_in_hash(task_hash_t *hash_table, char *id);
+int remove_task_in_hash(task_hash_t **hash_table, char *id);
 
 /* Returns the (now NULL) hash after deleteting and freeing
  * all tasks
@@ -269,6 +271,6 @@ int remove_task_all(task_hash_t **hash_table);
  * Returns:
  * - FAILURE if the removal was failure, SUCESS if successful 
  */
-int remove_task_in_player_hash(player_task_hash_t *ptasks, char *quest_id);
+int remove_task_in_player_hash(player_task_hash_t **ptasks, char *quest_id);
 
 #endif /* QUEST_HASH_H */

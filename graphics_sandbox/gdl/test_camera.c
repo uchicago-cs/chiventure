@@ -8,12 +8,12 @@ Test(camera, new)
 {
     unsigned int width = 300;
     unsigned int height = 300;
-
+    
     camera_t *camera;
     camera = new_camera(width,height);
-
+    
     cr_assert_not_null(camera, "make_camera() failed");
-
+   
     cr_assert_eq(camera->width, 300, "make_camera() didn't set width");
     cr_assert_eq(camera->height, 300, "make_camera() didn't set height");
 }

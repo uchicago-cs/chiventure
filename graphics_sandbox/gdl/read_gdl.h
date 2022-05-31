@@ -213,16 +213,12 @@ camera_t* new_camera(unsigned int width, unsigned int height);
  * Initializes a camera structure
  *
  * Parameters:
-<<<<<<< HEAD
  * - an uninitialized camera structure
  * - an integer for camera width
  * - an integer for camera height
  *
  * Returns:
  * - an integer value for success
-=======
- * - an uninitialized
->>>>>>> d26175b898a004f623b54b54f8c67cdae0ce0265
  */
 int init_camera(camera_t *camera, unsigned int width, unsigned int height);
 
