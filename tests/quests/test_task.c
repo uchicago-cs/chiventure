@@ -15,7 +15,7 @@ Test(mission, init)
     int check = mission_init(&mission, "Poseidon", KILL_NPC);
 
     cr_assert_eq(check,SUCCESS,"mission_init() failed");
-    cr_assert_eq(mission.target_name, "Poseidon", "mission_init() failed to set target name!");
+    cr_assert_str_eq(mission.target_name, "poseidon", "mission_init() failed to set target name!");
     cr_assert_eq(mission.type, KILL_NPC, "mission_init() failed to set type!");
 }
 
@@ -25,7 +25,7 @@ Test(mission, new)
     mission_t *mission = mission_new("Poseidon", KILL_NPC);
 
     cr_assert_not_null(mission, "mission_new() failed");
-    cr_assert_eq(mission->target_name, "Poseidon", "mission_init() failed to set target name!");
+    cr_assert_str_eq(mission->target_name, "poseidon", "mission_init() failed to set target name!");
     cr_assert_eq(mission->type, KILL_NPC, "mission_init() failed to set type!");
 }
 
