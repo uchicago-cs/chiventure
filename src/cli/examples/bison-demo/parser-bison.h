@@ -27,3 +27,5 @@ void handle_kind1_cmd(word_ll *action, word_ll *phrase);
 void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2);
 
 void handle_kind4_cmd(word_ll *action, word_ll *phrase);
+
+void handle_misc_cmd(word_ll *action, word_ll *phrase);

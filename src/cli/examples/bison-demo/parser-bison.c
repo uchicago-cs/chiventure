@@ -209,3 +209,23 @@ void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
     printf("\n\n");
 }
 
+void handle_misc_cmd(word_ll *action, word_ll *phrase) {
+    printf("this is an action that is not of the 4 action kinds\n");
+    char *a = action->word;
+    word_ll *p = phrase;
+    if (a == NULL) {
+        printf("There's nothing there! \n");
+    } else {
+        printf("the action is: %s\n", a);
+    }
+    if (p != NULL) {
+        printf("the target is: %s", p->word);
+        p = p->next;
+    } 
+    while (p != NULL) {
+        printf(" %s", p->word);
+        p = p->next;
+    }
+    printf("\n\n");
+}
+

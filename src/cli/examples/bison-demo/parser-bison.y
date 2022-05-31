@@ -99,8 +99,8 @@ line
   | line kind3_cmd kind3_item ON kind3_item EOL { handle_kind3_cmd($2, $3, $5); }
   | line kind4_cmd EOL { handle_kind4_cmd($2, NULL); }
   | line kind4_cmd phrase EOL { handle_kind4_cmd($2, $3); }
-  | line misc_cmd EOL { printf("misc\n"); }
-  | line misc_cmd phrase EOL { printf("misc\n"); }
+  | line misc_cmd EOL { handle_misc_cmd($2, NULL); }
+  | line misc_cmd phrase EOL { handle_misc_cmd($2, $3); }
   | line phrase EOL { handle_cmd($2); }
   ;
 
