@@ -35,16 +35,6 @@ chiventure_ctx_t *create_sample_ctx()
     agent_t rock = (agent_t){.item = rock_item, .npc = NULL};
 
 
-<<<<<<< HEAD
-/* Creates a sample in-memory game */
-chiventure_ctx_t *create_sample_ctx()
-{
-    data_t jack;
-    data_t dc;
-
-    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/dynamic_string.lua");
-   
-=======
     /* Where custom_type comes into play, create a dynamic string (hold different values) depending
        on what the user enters at the start of the game */
     data_t data, d;
@@ -63,7 +53,6 @@ chiventure_ctx_t *create_sample_ctx()
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */
     add_action(&rock, "TASTE", custom_string, "It has a gravel-ey bouquet.");
->>>>>>> dev
 
     /* Create context */
     char string_num;
@@ -94,10 +83,17 @@ int main(int argc, char **argv)
 {
     chiventure_ctx_t *ctx = create_sample_ctx();
 
+<<<<<<< HEAD
+    action_type_t fireball_action = {"FIREBALL", ITEM};
+    add_entry(fireball_action.c_name, kind1_action_operation, &fireball_action, ctx->cli_ctx->table);
+    action_type_t slash_action = {"SLASH", ITEM};
+    add_entry(slash_action.c_name, kind1_action_operation, &slash_action, ctx->cli_ctx->table);
+=======
     /* Monkeypatch the CLI to add a new "kind 1" action
      * (i.e., an action that operates on an item) */
     action_type_t taste_action = {"TASTE", ITEM};
     add_entry(taste_action.c_name, kind1_action_operation, &taste_action, ctx->cli_ctx->table);
+>>>>>>> dev
 
     /* Start chiventure */
     start_ui(ctx, banner);
