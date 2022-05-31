@@ -33,6 +33,7 @@ typedef struct quest quest_t;
 typedef struct quest quest_hash_t;
 typedef struct path path_t;
 typedef struct gencontext gencontext_t;
+typedef struct specgraph specgraph_t;
 typedef struct levelspec levelspec_t;
 
 /* The game struct is built to contain all the relevant information
@@ -89,7 +90,8 @@ typedef struct game {
     char *start_desc;
 
     /* pointer to gencontext struct used for autogeneration module */
-    gencontext_t *genctx;
+    // gencontext_t *genctx;
+    specgraph_t *specgraph;
 
     /* pointer to levelspec struct used for level-oriented generation */
     levelspec_t *levelspec;
