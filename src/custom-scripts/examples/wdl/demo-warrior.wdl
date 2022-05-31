@@ -81,13 +81,13 @@
                     "text_fail": "You cannot pull this evil king"
                 },
                 {
-                    "action": "FIREBALL",
+                    "action": "SLASH",
                     "text_success": "You defeated BORJA",
-                    "text_fail": "You cannot use this spell without a staff",
+                    "text_fail": "You cannot use this spell without a sword",
                     "conditions": [
                         {
                             "type": "INVENTORY",
-                            "item_id": "STAFF"
+                            "item_id": "SWORD"
                         }
                     ]
                 }
