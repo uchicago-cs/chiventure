@@ -15,7 +15,7 @@
  * Initializes values for a player class,
  * created by combining two existing classes to form a multiclass.
  * 
- * Requires btoh classes to be already implemented.
+ * Requires both classes to be already implemented.
  * Can be used multiple times to create more complicated multiclasses.
  *
  * Paramaters:
@@ -52,5 +52,8 @@ int has_component_class(class_t* class, char* name);
    if you are viewing this module to learn about the code */
 char* multiclass_shortdesc(class_t* base_class, class_t* second_class, int *succ);
 char* multiclass_longdesc(class_t* base_class, class_t* second_class, int *succ);
+
+//this is for prefab integration. Ignore it
+skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t* second_tree);
 
 #endif /* MULTICLASS_H */

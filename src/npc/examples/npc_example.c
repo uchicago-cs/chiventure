@@ -31,34 +31,34 @@ convo_t *create_sample_convo()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "NPC: What do you want?");
+    add_node(c, "1", "NPC: What do you want?", NEUTRAL);
     add_node(c, "2a", "NPC: Mhm fine, that's wonderful, now go ahead and turn "
-             "around and get outta my house. You can't come and go as you wish.");
+             "around and get outta my house. You can't come and go as you wish.", NEGATIVE);
     add_node(c, "2b", "NPC: Woah, hey, y-you can't just walk in here and poke "
              "around the place without consulting the owner!! Shouldn't I at "
-             "least know who you are?!");
+             "least know who you are?!", NEUTRAL);
     add_node(c, "2c", "As soon as your eyes glance to the doorway, the man's "
              "hands are at your back ushering you away. The door snaps shut and "
-             "you hear the distinct click of a lock turning.");
+             "you hear the distinct click of a lock turning.", NEUTRAL);
     add_node(c, "3a", "NPC: Yes, well, just because the door's unlocked and I'm "
              "a bit messy don't make it public property. Now take off and leave, "
-             "or else I'm gonna force you to.");
+             "or else I'm gonna force you to.", NEGATIVE);
     add_node(c, "4", "As his arm flashes behind his back, the robber raises "
-             "a knife to you.");
+             "a knife to you.", NEUTRAL);
 
     // Edges
-    add_edge(c, "I just want to talk.", "1", "2a", NULL);
-    add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL);
-    add_edge(c, "<Leave>", "1", "2c", NULL);
-    add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL);
+    add_edge(c, "I just want to talk.", "1", "2a", NULL, POSITIVE);
+    add_edge(c, "I think I'll have a quick look around.", "1", "2b", NULL, NEUTRAL);
+    add_edge(c, "<Leave>", "1", "2c", NULL, NEUTRAL);
+    add_edge(c, "Seemed abandoned to me.", "2a", "3a", NULL, NEUTRAL);
     add_edge(c, "I'm not trying to take your home, I just thought it would be "
-             "a place to rest in some shade for a bit.", "2a", "3a", NULL);
-    add_edge(c, "<Leave>", "2a", "2c", NULL);
-    add_edge(c, "I'm Leo.", "2b", "2a", NULL);
+             "a place to rest in some shade for a bit.", "2a", "3a", NULL, POSITIVE);
+    add_edge(c, "<Leave>", "2a", "2c", NULL, NEUTRAL);
+    add_edge(c, "I'm Leo.", "2b", "2a", NULL, NEUTRAL);
     add_edge(c, "The owner? With the state of this place, I'd have pegged you "
-             "for more of a burglar, heh.", "2b", "4", NULL);
-    add_edge(c, "<Leave>", "3a", "2c", NULL);
-    add_edge(c, "Give it your best shot.", "3a", "4", NULL);
+             "for more of a burglar, heh.", "2b", "4", NULL, NEUTRAL);
+    add_edge(c, "<Leave>", "3a", "2c", NULL, NEUTRAL);
+    add_edge(c, "Give it your best shot.", "3a", "4", NULL, NEUTRAL);
 
     return c;
 }

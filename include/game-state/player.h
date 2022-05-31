@@ -6,13 +6,13 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
+#include "battle/battle_structs.h"
 #include "game_state_common.h"
-#include "stats.h"
 #include "item.h"
 #include "playerclass/class.h"
-#include "skilltrees/skilltrees_enums.h"
 #include "skilltrees/inventory.h"
-#include "battle/battle_structs.h"
+#include "skilltrees/skilltrees_enums.h"
+#include "stats.h"
 
 #define QUEST_NAME_MAX_LEN 44
 
@@ -24,7 +24,9 @@ typedef enum completion_status {
     Q_COMPLETED,
 } completion_status_t;
 
-/* A reference to a given quest from game_state that the player has unlocked */
+
+/* A reference to a given quest from game_state that the player has
+unlocked */
 typedef struct player_quest {
     char *quest_id;
     completion_status_t completion;
@@ -56,15 +58,15 @@ typedef struct player {
 
     /* A string containing the player's race */
     char *player_race;
-    
-    /* A string containing the name of current room of the player. Right now, every player 
-       must be in the same room, which is stored in the game struct, but this may change at 
+
+    /* A string containing the name of current room of the player. Right now, every player
+       must be in the same room, which is stored in the game struct, but this may change at
        some point to allow players to explore at different paces. For now, this is necessary
        to allow certain modules to access the current room without causing circular dependencies. */
     char *crnt_room;
 
     /* The player's current class. class_t contains the base stats, and skills for that class at
-    the beginning of a game. These may change throughout the game, so their current states are stored 
+    the beginning of a game. These may change throughout the game, so their current states are stored
     in the health, player_stats, player_skills fields in this player struct */
     class_t *player_class;
 
@@ -94,109 +96,109 @@ typedef struct player {
     char *crnt_npc;
 } player_t;
 
-/* This typedef is to distinguish between player_t pointers which are 
-* used to point to the player_t structs themselves, and those which are used
-* to hash player_t structs with the UTHASH macros as specified
-* in src/common/include */
+/* This typedef is to distinguish between player_t pointers which are
+ * used to point to the player_t structs themselves, and those which are used
+ * to hash player_t structs with the UTHASH macros as specified
+ * in src/common/include */
 typedef struct player player_hash_t;
 
-/* 
+/*
  * Creates and initializes a new player_quest
  *
  * Parameters:
  * - quest_id: The quest id this player_quest is referencing
  * - completion: The current completion status of the quest
- * 
+ *
  * Returns:
  * - A pointer to the new player_quest or NULL if there was an error
-*/
+ */
 player_quest_t *player_quest_new(char *quest_id, int completion);
 
-/* 
+/*
  * Creates and initializes a new player_task
  *
  * Parameters:
  * - task_id: The task id this player_task is referencing
  * - completed: Whether this task is already completed
- * 
+ *
  * Returns:
  * - A pointer to the new player_task or NULL if there was an error
-*/
+ */
 player_task_t *player_task_new(char *task_id, bool completed);
 
 /*
  * Initializes a player quest
- * 
+ *
  * Parameters:
  * - pquest: The player_quest getting initialized
  * - quest_id: The quest_id this quest is referencing
  * - completion: The current completion status of the quest
- * 
+ *
  * Returns:
  * - SUCCESS if initialized successfully, FAILURE if an error occured
-*/
+ */
 int player_quest_init(player_quest_t *pquest, char *quest_id, int completion);
 
 /*
  * Initializes a player task
- * 
+ *
  * Parameters:
  * - ptask: The player_task getting initialized
  * - task_id: The task_id this task is referencing
  * - completed: Whether this task is already completed
- * 
+ *
  * Returns:
  * - SUCCESS if initialized successfully, FAILURE if an error occured
-*/
+ */
 int player_task_init(player_task_t *ptask, char *task_id, bool completed);
 
 /*
  * Frees a player_quest
- * 
+ *
  * Parameters:
  * - pquest: The player_quest to be freed
- * 
+ *
  * Returns:
  * - SUCCESS if freed successfully, FAILURE if an error occured
-*/
+ */
 int player_quest_free(player_quest_t *pquest);
 
 /*
  * Frees a player_quest hash table
- * 
+ *
  * Parameters:
  * - player_quests: The player_quest table to be freed
- * 
+ *
  * Returns:
  * - SUCCESS if freed successfully, FAILURE if an error occured
-*/
+ */
 int player_quest_hash_free(player_quest_hash_t *player_quests);
 
 /*
  * Frees a player_task
- * 
+ *
  * Parameters:
  * - ptask: The player_task to be freed
- * 
+ *
  * Returns:
  * - SUCCESS if freed successfully, FAILURE if an error occured
-*/
+ */
 int player_task_free(player_task_t *ptask);
 
 /*
  * Frees a player_task hash table
- * 
+ *
  * Parameters:
  * - player_tasks: The player_task table to be freed
- * 
+ *
  * Returns:
  * - SUCCESS if freed successfully, FAILURE if an error occured
-*/
+ */
 int player_task_hash_free(player_task_hash_t *player_tasks);
 
 /*
  * Allocates and creates a new player with given ID, starting at level
- *  1 with 0 xp. 
+ *  1 with 0 xp.
  *
  * Parameters:
  *  player_id: the unique string ID of the player
@@ -226,7 +228,7 @@ int player_free(player_t *player);
  * Returns:
  *  SUCCESS if successful
  */
-int delete_all_players(player_hash_t* players);
+int delete_all_players(player_hash_t *players);
 
 /*
  * Sets an allocated player_t object's player_class field to given class_t class
@@ -311,15 +313,15 @@ int change_xp(player_t *player, int points);
  * Returns:
  *  hashtable of items, the inventory
  */
-item_hash_t* get_inventory(player_t *player);
+item_hash_t *get_inventory(player_t *player);
 
 /* Removes an item from the given player
  * Note that the memory associated with this item is not freed
- * 
+ *
  * Parameters:
  *  player struct
  *  item struct
- * 
+ *
  * Returns:
  *  SUCCESS if successful, FAILURE if failed
  */
@@ -367,10 +369,10 @@ int assign_stats_player(player_t *player, stats_hash_t *sh);
  *  player: A player. Must be allocated with player_new()
  *  skill: pointer to an already existing skill that is being added to the
  *         player's skill inventory
- * 
+ *
  * Returns:
  *  SUCCESS on successful addition of skill, FAILURE if an error occurs
- * 
+ *
  * Note: Same return value as inventory_skill_add()
  */
 int player_add_skill(player_t *player, skill_t *skill);
@@ -382,10 +384,10 @@ int player_add_skill(player_t *player, skill_t *skill);
  *  player: A player. Must be allocated with player_new()
  *  skill: pointer to an already existing skill that is being removed from the
  *         player's skill inventory
- * 
+ *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs
- * 
+ *
  * Note: Same return value as inventory_skill_remove()
  */
 int player_remove_skill(player_t *player, skill_t *skill);
@@ -397,40 +399,40 @@ int player_remove_skill(player_t *player, skill_t *skill);
  *  player: A player. Must be allocated with player_new()
  *  sid: The skill ID that uniquely identifies the skill
  *  type: The skill type, either active or passive
- * 
+ *
  * Returns:
- *  The position of the skill in the skill inventory, -1 if the 
+ *  The position of the skill in the skill inventory, -1 if the
  *  skill is not in the skill inventory.
- *  
+ *
  *  Note: Same return value as inventory_has_skill()
  */
 int player_has_skill(player_t *player, sid_t sid, skill_type_t type);
 
 /*
  * Changes the base value of a given player's stat by the specified amount
- * 
+ *
  * Parameters:
  *  player: A player. Must be allocated with player_new()
  *  quest_id: the id of the quest
- * 
+ *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
- * 
+ *
  */
 int player_add_quest(player_t *player, char *quest_id);
 
 /*
  * Changes the base value of a given player's stat by the specified amount
- * 
+ *
  * Parameters:
  *  player: A player. Must be allocated with player_new()
  *  stat: the name/key of the stat
- *  change: the value to add to the stat. 
+ *  change: the value to add to the stat.
  *  If the value is greater than the local max, the value is set to the local max
- * 
+ *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
- * 
+ *
  * Note: Same return value as change_stat()
  */
 int player_change_stat(player_t *player, char *stat, double change);
@@ -442,25 +444,25 @@ int player_change_stat(player_t *player, char *stat, double change);
  *  player: A player. Must be allocated with player_new()
  *  stat: the name/key of the stat
  *  change: the value to add to the stats max
- * 
+ *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
- *  
+ *
  * Note: Same return value as change_stat_max()
  */
 int player_change_stat_max(player_t *player, char *stat, double change);
 
-/* 
+/*
  * Gets the specified player stat from a player's stats hash table
- * 
+ *
  * Parameters:
  *  player: A player. Must be allocated with player_new()
  *  stat: the name/key of the stat
- * 
+ *
  * Returns:
  *  double value of the player's stat. It the value is greater than the global
  *  max, the value is the global max
- * 
+ *
  * Note: Same return value as get_stat_current()
  */
 double player_get_stat_current(player_t *player, char *stat);
@@ -471,10 +473,10 @@ double player_get_stat_current(player_t *player, char *stat);
  * Parameters:
  *  player: A player. Must be allocated with player_new()
  *  s: Pointer to the stat to be added
- * 
+ *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
- * 
+ *
  * Note: Same return value as add_stat()
  */
 int player_add_stat(player_t *player, stats_t *s);
@@ -485,16 +487,16 @@ int player_add_stat(player_t *player, stats_t *s);
  * Parameters:
  *  player: A player. Must be allocated with player_new()
  *  effect: Pointer to the effect to be added
- * 
+ *
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
- * 
+ *
  * Note: Same return value as add_stat_effect()
  */
 int player_add_stat_effect(player_t *player, stat_effect_t *effect);
 
 /*
- * Adds a move to the player's list of moves 
+ * Adds a move to the player's list of moves
  *
  * Parameters:
  *  - player: A player. Must be allocated with player_new()
@@ -506,16 +508,41 @@ int player_add_stat_effect(player_t *player, stat_effect_t *effect);
  */
 int add_move(player_t *player, move_t *move);
 
-/* 
+/*
  * Adds an item to the player's inventory without checking quests
- * 
+ *
  * Parameters:
  * - player: A player. Must be allocated with player_new()
  * - item: The item to add to the player's inventory
- * 
+ *
  * Returns:
  * - SuCCESS on success, FAILURE if an error occurs
-*/
+ */
 int add_item_to_player_without_checks(player_t *player, item_t *item);
 
+/*
+ * Returns a string that represents the player's entire inventory
+ * CLI has an inventory-printing function in operations.c called
+ * inventory_operation that simply prints items line by line. Our function
+ * implements a grid representation of the inventory.
+ *
+ * Parameters:
+ * - player: A player. Must be allocated with player_new()
+ *
+ * Returns:
+ * - A string of items in an inventory hash, separated by lines every 8 items
+ */
+char *display_inventory(player_t *player);
+
+/*
+ * Returns a particular item's description from the player's inventory
+ *
+ * Parameters:
+ * - player: A player. Must be allocated with player_new()
+ * - key: A string. The item's id, acting as a key for the inventory hash table
+ *
+ * Returns:
+ * - A string - the long description of an item
+ */
+char *display_inventory_item(player_t *player, char *key);
 #endif /* _PLAYER_H */

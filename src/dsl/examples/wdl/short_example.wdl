@@ -40,5 +40,6 @@
       "in": "room B",
       "long_desc": "This is a Door. A large wooden door"
     }
-  }
+  },
+  "PLAYERS": {}
 }

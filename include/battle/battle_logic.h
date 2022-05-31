@@ -75,11 +75,11 @@ int consume_battle_item(combatant_t *c, battle_item_t *item);
  *  Parameters: 
  *   c - combatant information
  *   battle - battle information   
- *   name - the name of the battle_item
+ *   item - the battle_item to be used
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_battle_item(combatant_t *c, battle_t *battle, char *name);
+int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item);
 
 /* Removes a battle item from a combatant's list of battle items
  *
@@ -148,11 +148,11 @@ class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* 
 int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
 
 /* Finds the actions (items and moves) that are available to the player to use
- * in a given turn component
+ * in a given turn component, doing this through out parameters.
  *
  * Parameters:
- * - items: an initially empty (NULL) linked list of battle_item_ts that can be used
- * - moves: an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - items: a pointer to an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - moves: a pointer to an initially empty (NULL) linked list of battle_item_ts that can be used
  * - comp: the current turn_component_t struct
  * - battle: the current battle_t struct
  * 
@@ -160,8 +160,8 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
  * - populates the linked lists of moves and items with the available moves and items
  *   leaves the lists NULL if there are no available moves or items respectively
  */
-void get_legal_actions(battle_item_t *items, 
-                       move_t *moves, 
+void get_legal_actions(battle_item_t **items, 
+                       move_t **moves, 
                        turn_component_t *comp, 
                        battle_t *battle);
 
