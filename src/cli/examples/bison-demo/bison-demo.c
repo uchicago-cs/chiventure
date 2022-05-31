@@ -125,23 +125,23 @@ void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2) {
 }
 
 void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
-    printf("this is a kind 4 action: ACTION <self>\n");   
+    printf("\nkind 4    : ACTION <self>\n");   
     char *a = action->word;
     word_ll *p = phrase;
     if (a == NULL) {
         printf("There's nothing there! \n");
     } else {
-        printf("the action is: %s\n", a);
+        printf("action    : [%s]\n", a);
     }
     if (p != NULL) {
-        printf("the self attribute is: %s", p->word);
+        printf("attribute : [%s", p->word);
         p = p->next;
     }
     while (p != NULL) {
         printf(" %s", p->word);
         p = p->next;
     }    
-    printf("\n\n");
+    printf("]\n\n");
 }
 
 void handle_misc_cmd(word_ll *action, word_ll *phrase) {
