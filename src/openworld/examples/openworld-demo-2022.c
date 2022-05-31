@@ -2,11 +2,11 @@
  * This example program runs a full instance of chiventure with an in-memory game.
  * The CLI is monkey-patched to accept functions that serve to showcase room generation.
  * 
- *  Functions in demo: EDGES_NEW, SPECGRAPH_NEW, ROOMSPEC_CORRELATION, ROOM_EXISTS_IN_DIRECTION, FIND_ROOM_IN_DIRECTION
- *  RANDOM_FIRST_ROOM
+ *  Purpose of demo: Display versatility and efficiency of new specgraph_t struct
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
@@ -31,10 +31,10 @@ int** edges;
 specgraph_t* specgraph;
 
 void initialize_sample_structs() {
-    rspec_lvl0 = roomspec_new("Library", "JCL", "John Crerar Library", NULL, 1);
-    rspec_lvl1 = roomspec_new("Dungeon", "Ryerson 251", "Where CS students switch majors to bizcon", NULL, 2);
-    rspec_lvl2 = roomspec_new("Bar", "Jimmy's", "Formally known as Woodlawn Tap", NULL, 3);
-    rspec_lvl3 = roomspec_new("Beach", "57th St. Beach", "Not a real beach ", NULL, 4);
+    rspec_lvl0 = roomspec_new("library", "JCL", "John Crerar Library", NULL, 1);
+    rspec_lvl1 = roomspec_new("dungeon", "Ryerson 251", "Where CS students switch majors to bizcon", NULL, 2);
+    rspec_lvl2 = roomspec_new("bar", "Jimmy's", "Formally known as Woodlawn Tap", NULL, 3);
+    rspec_lvl3 = roomspec_new("beach", "57th St. Beach", "Not a real beach ", NULL, 4);
 
     roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*) * 4);
     roomspecs[0] = rspec_lvl0;
@@ -119,6 +119,44 @@ char *room_info(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx) {
     return buffer;
 }
 
+char *relation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx) {
+    if (tokens[3] != NULL) {
+        return "Please speak english! So uncivilized...";
+    }
+    if (tokens[1] == NULL) {
+        return "Please specify two rooms";
+    }
+    if (tokens[2] == NULL) {
+        return "Please specify a second room";
+    }
+
+    int index1 = -1;
+    int index2 = -1;
+
+    for (unsigned int i = 0; i < 4; i++)
+    {
+        if (strcmp(tokens[1], roomspecs[i]->room_name) == 0)
+        {
+            index1 = roomspecs[i]->tag - 1;
+        }
+        else if (strcmp(tokens[2], roomspecs[i]->room_name) == 0)
+        {
+            index2 = roomspecs[i]->tag - 1;
+        }
+    }
+
+
+    if (index1 == -1  || index2 == -1) {
+        return "Not a valid input";
+    }
+
+
+    int prob = edges[index1][index2];
+    static char buffer[OUTPUT_BUFFER_SIZE];
+    snprintf(buffer, OUTPUT_BUFFER_SIZE, "The chances of a %s and a %s spawning next to each other is %d out of 5", tokens[1], tokens[2], prob);
+    return buffer;
+}
+
 int main(int argc, char **argv)
 {   
 
@@ -129,6 +167,7 @@ int main(int argc, char **argv)
     add_entry("COUNT", count_rooms, NULL, ctx->cli_ctx->table);
     add_entry("ROOMS", list_roomspecs, NULL, ctx->cli_ctx->table);
     add_entry("ROOMINFO", room_info, NULL, ctx->cli_ctx->table);
+    add_entry("RELATION", relation, NULL, ctx->cli_ctx->table);
     
     /* Start chiventure */
     start_ui(ctx, banner);
@@ -140,6 +179,17 @@ int main(int argc, char **argv)
     }
 
     printf("%s\n", roomspecs[1]->short_desc);
+
+    for (unsigned int i = 0; i < 4; i++) {
+        printf("%s\n", roomspecs[i]->room_name);
+    }
+
+    printf("%d\n", roomspecs[0]->tag - 1);
+
+    int a = strcmp("Beach", roomspecs[3]->room_name);
+    printf("Equal??: %d\n", a);
+
+    //printf("%d", "Beach" == roomspecs[3]->room_name);
 
     return 0;
 }
