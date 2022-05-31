@@ -3,6 +3,7 @@
 #include <string.h>
 #include <assert.h>
 #include "quests/quests_hash.h"
+#include "cli/util.h"
 
 /* Refer to quests_state.h */
 quest_ctx_t *quest_ctx_new(player_t *player, quest_hash_t *quest_hash) {
@@ -76,8 +77,9 @@ task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
     if(!tree || !id) {
         return NULL;
     }
+    char * low_id = case_insensitized_string(id);
     assert(tree->task != NULL && tree->task->id != NULL);
-    if (strcmp(tree->task->id, id) == 0)
+    if (strcmp(case_insensitized_string(tree->task->id), low_id) == 0)
     {
         return tree;
     }
@@ -90,7 +92,7 @@ task_tree_t *find_task_tree_of_task_in_tree(task_tree_t *tree, char *id)
 quest_t *get_quest_from_hash(char *quest_id, quest_hash_t *hash_table)
 {
     quest_t *q;
-    HASH_FIND_STR(hash_table, quest_id, q);
+    HASH_FIND_STR(hash_table, case_insensitized_string(quest_id), q);
     return q;
 }
 
@@ -116,7 +118,7 @@ task_t *get_task_from_quest_hash(char *id, quest_hash_t *hash_table) {
 task_hash_t *search_task_hash(char *id, task_hash_t *hash_table)
 {
     task_hash_t *t;
-    HASH_FIND_STR(hash_table, id, t);
+    HASH_FIND_STR(hash_table, case_insensitized_string(id), t);
     return t;
 }
 
@@ -141,7 +143,7 @@ int add_quest_to_hash(quest_t *quest, quest_hash_t **hash_table)
     {
         return FAILURE; //quest id is already in the hash table
     }
-    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
+    HASH_ADD_KEYPTR(hh, *hash_table, case_insensitized_string(quest->quest_id),
                     strnlen(quest->quest_id, MAX_ID_LEN), quest);
     return SUCCESS;
 }
@@ -166,7 +168,7 @@ int add_task_to_hash(task_t *task, task_hash_t **hash_table)
     thash->task = task;
     thash->id = task->id;
 
-    HASH_ADD_KEYPTR(hh, *hash_table, task->id,
+    HASH_ADD_KEYPTR(hh, *hash_table, case_insensitized_string(task->id),
                     strnlen(task->id, QUEST_NAME_MAX_LEN), thash);
     return SUCCESS;
 }
@@ -175,7 +177,7 @@ int add_task_to_hash(task_t *task, task_hash_t **hash_table)
 player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *hash_table)
 {
     player_quest_t *q;
-    HASH_FIND_STR(hash_table, quest_id, q);
+    HASH_FIND_STR(hash_table, case_insensitized_string(quest_id), q);
     return q;
 }
 
@@ -183,8 +185,9 @@ player_quest_t *get_player_quest_from_hash(char *quest_id, player_quest_hash_t *
 player_task_t *get_player_task_from_hash(char *id, player_task_hash_t *hash_table)
 {
     player_task_t *t;
-    HASH_FIND(hh, hash_table, id,  
-            strnlen(id, QUEST_NAME_MAX_LEN), t);
+    // HASH_FIND(hh, hash_table, case_insensitized_string(id),  
+    //         strnlen(id, QUEST_NAME_MAX_LEN), t);
+    HASH_FIND_STR(hash_table, case_insensitized_string(id), t);
 
     return t;
 }
@@ -205,7 +208,7 @@ int add_quest_to_player(quest_t *quest, quest_ctx_t *qctx, int completion)
     }
     player_quest_t *player_quest = player_quest_new(quest->quest_id, completion);
 
-    HASH_ADD_KEYPTR(hh, *hash_table, quest->quest_id,
+    HASH_ADD_KEYPTR(hh, *hash_table, case_insensitized_string(quest->quest_id),
                     strnlen(quest->quest_id, QUEST_NAME_MAX_LEN), player_quest);
 
     player_task_hash_t **task_hash = &player->player_tasks;
@@ -237,7 +240,7 @@ int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx)
     }
     player_task_t *player_task = player_task_new(task->id, false);
 
-    HASH_ADD_KEYPTR(hh, *hash_table, task->id,
+    HASH_ADD_KEYPTR(hh, *hash_table, case_insensitized_string(task->id),
                     strnlen(task->id, QUEST_NAME_MAX_LEN), player_task);
 
     if(task->prereq) {
@@ -253,18 +256,18 @@ int add_task_to_player_hash(task_t *task, quest_ctx_t *qctx)
 }
 
 /* refer to quests_hash.h */
-int remove_quest_in_hash(quest_hash_t *hash_table, char *quest_id) 
+int remove_quest_in_hash(quest_hash_t **hash_table, char *quest_id) 
 {
     quest_t *check; 
-    check = get_quest_from_hash(quest_id, hash_table);
+    check = get_quest_from_hash(quest_id, *hash_table);
 
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
 
-    HASH_DEL(hash_table, check); 
+    HASH_DEL(*hash_table, check); 
     quest_free(check); 
-    if (get_quest_from_hash(quest_id, hash_table) != NULL){
+    if (get_quest_from_hash(quest_id, *hash_table) != NULL){
         return FAILURE;
     }
     return SUCCESS;
@@ -285,20 +288,20 @@ int remove_quest_all(quest_hash_t **hash_table)
 }
 
 /* refer to quests_hash.h */
-int remove_task_in_hash(task_hash_t *hash_table, char *id) 
+int remove_task_in_hash(task_hash_t **hash_table, char *id) 
 {
     task_hash_t *check; 
-    check = search_task_hash(id, hash_table);
+    check = search_task_hash(id, *hash_table);
 
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
 
-    HASH_DEL(hash_table, check); 
+    HASH_DEL(*hash_table, check); 
     task_free(check->task);
     free(check);
 
-    if (get_task_from_task_hash(id, hash_table) != NULL){
+    if (get_task_from_task_hash(id, *hash_table) != NULL){
         return FAILURE;
     }
     return SUCCESS;
@@ -319,17 +322,17 @@ int remove_task_all(task_hash_t **hash_table)
 }
 
 /* Refer to quests_hash.h */
-int remove_task_in_player_hash(player_task_hash_t *ptasks, char *task_id) {
+int remove_task_in_player_hash(player_task_hash_t **ptasks, char *task_id) {
     player_task_t *check; 
-    check = get_player_task_from_hash(task_id, ptasks);
+    check = get_player_task_from_hash(task_id, *ptasks);
 
     if (check == NULL){ 
         return FAILURE; /* quest is not in hash_table) */
     } 
 
-    HASH_DEL(ptasks, check); 
+    HASH_DEL(*ptasks, check); 
     player_task_free(check); 
-    if (get_player_task_from_hash(task_id, ptasks) != NULL){
+    if (get_player_task_from_hash(task_id, *ptasks) != NULL){
         return FAILURE;
     }
     return SUCCESS;
