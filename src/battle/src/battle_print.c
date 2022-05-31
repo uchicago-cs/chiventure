@@ -423,7 +423,7 @@ int *print_battle_item_details(battle_item_t *item, char *string)
                 "\tPhysical Attack: %d\n\tMagical Attack: %d\n"
                 "\tPhysical Defense: %d\n\tMagical Defense: %d\n"
                 "\tMax_SP: %d\n\tSP: %d\n"
-                "\tMax_HP: %d\n\tSP: %d\n"
+                "\tMax_HP: %d\n\tHP: %d\n"
                 "\tCritical Rate: %d\n\tAccuracy: %d\n"
                 "\nQuantity: %d\n", 
                 name, description, phys_atk, mag_atk, phys_def, mag_def,

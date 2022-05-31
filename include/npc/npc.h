@@ -33,7 +33,6 @@ typedef struct npc {
 
     /* pointer to existing convo struct; changed depending on whetehr
     npc has activated quest or task convo */
-
     convo_t *active_dialogue;
 
     /* pointer to an existing convo struct; for normal dialogue */
@@ -59,7 +58,7 @@ typedef struct npc {
 
     /* pointer to a task with dialogue */
     npc_task_list_t *tasks;
-
+    
     /* pointer to game_action hashtable */
     game_action_hash_t *actions;
 } npc_t;
@@ -464,5 +463,55 @@ int delete_all_npcs(npc_hash_t *npcs);
  * - SUCCESS on success, FAILURE if an error occurs
 */
 int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
+
+// Conversion FUNCTIONS ---------------------------------------------------
+
+/*
+ * converts hostility_level of an NPC to HOSTILE
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level becomes HOSTILE
+ *       (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int make_npc_hostile(npc_t *npc);
+
+/*
+ * converts hostility_level of an NPC to CONDITIONAL_FRIENDLY
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level becomes CONDITIONAL_FRIENDLY
+ *       (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int make_npc_cond_friendly(npc_t *npc);
+
+/*
+ * changes an NPC's hostility_level based on player's
+ * tone at a conversation edge
+ * ex. NEGATIVE tone makes NPC HOSTILE
+ * 
+ * NOTE FOR FUTURE IMPLEMENTATION:
+ * when this function is called to make NPC HOSTILE,
+ * it should call add_battle_to_npc() as well to
+ * initialize the npc_battle_t struct in npc_t
+ * and allow NPC to participate in battle
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level changes
+ *       (must point to already allocated memory)
+ *  edge: the edge containing the tone_t struct that determines
+ *        an NPC's hostility_level
+ *        (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int change_npc_hostility(npc_t *npc, edge_t *edge);
+
 
 #endif /* _NPC_H */
