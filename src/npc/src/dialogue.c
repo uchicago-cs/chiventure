@@ -4,15 +4,7 @@
  *        DIALOGUE BUILDING FUNCTIONS         *
  **********************************************/
 
-/* Returns the node corresponding to a given ID.
- *
- * Parameters:
- *  - n_lst: node list
- *  - node_id: node ID
- *
- * Returns:
- *  - a pointer to the corresponding node, or NULL if it does not exist
- */
+/* See dialogue.h */
 node_t *get_node(node_list_t *n_lst, char *node_id)
 {
     while (n_lst != NULL)
@@ -25,14 +17,14 @@ node_t *get_node(node_list_t *n_lst, char *node_id)
 }
 
 /* See dialogue.h */
-int add_node(convo_t *c, char *node_id, char *npc_dialogue)
+int add_node(convo_t *c, char *node_id, char *npc_dialogue, tone_t tone)
 {
     // Check if a node with the same ID already exists
     if (get_node(c->all_nodes, node_id) != NULL) return FAILURE;
 
     // Create node
     node_t *n;
-    if ((n = node_new(node_id, npc_dialogue)) == NULL) return FAILURE;
+    if ((n = node_new(node_id, npc_dialogue, tone)) == NULL) return FAILURE;
 
     // Create node list element
     node_list_t *elt;
@@ -73,7 +65,7 @@ edge_list_t *create_edge_list_element(edge_t *e)
 
 /* See dialogue.h */
 int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
-             condition_t *conditions)
+             condition_t *conditions, tone_t tone)
 {
     assert(c->num_nodes >= 2);
 
@@ -84,7 +76,7 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
 
     // Create edge
     edge_t *e;
-    if ((e = edge_new(quip, from_node, to_node, conditions)) == NULL)
+    if ((e = edge_new(quip, from_node, to_node, conditions, tone)) == NULL)
         return FAILURE;
 
     edge_list_t *c_elt, *n_elt;
@@ -117,17 +109,8 @@ int add_edge(convo_t *c, char *quip, char *from_id, char *to_id,
  *             ACTION FUNCTIONS               *
  **********************************************/
 
-/* Create a new action, and append it to the node's action list.
- *
- * Parameters:
- *  - n: node
- *  - action: type of action
- *  - action_id: ID associated with that action, if any
- *
- * Returns:
- *  - SUCCESS if the operation suceeded, FAILURE otherwise
- */
-int add_action_to_node(node_t *n, node_action_type action, char *action_id)
+/* See dialogue.h */
+int add_action_to_node(node_t *n, node_action_type_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = node_action_new(action, action_id)) == NULL) return FAILURE;
@@ -180,7 +163,7 @@ int add_start_battle(convo_t *c, char *node_id, char *battle_id)
 
 /* See dialogue.h */
 int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
-              condition_t *conditions)
+              condition_t *conditions, tone_t tone)
 {
     assert(e != NULL);
     assert(quip != NULL);
@@ -191,17 +174,19 @@ int edge_init(edge_t *e, char *quip, node_t *from, node_t *to,
     e->from = from;
     e->to = to;
     e->conditions = conditions;
+    e->tone = tone;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions)
+edge_t *edge_new(char *quip, node_t *from, node_t *to, condition_t *conditions,
+                 tone_t tone)
 {
     edge_t *e;
     if ((e = (edge_t *) malloc(sizeof(edge_t))) == NULL) return NULL;
 
-    if (edge_init(e, quip, from, to, conditions) != SUCCESS)
+    if (edge_init(e, quip, from, to, conditions, tone) != SUCCESS)
     {
         edge_free(e);
         return NULL;
@@ -224,7 +209,7 @@ int edge_free(edge_t *e)
 }
 
 /* See dialogue.h */
-int node_init(node_t *n, char *node_id, char *npc_dialogue)
+int node_init(node_t *n, char *node_id, char *npc_dialogue, tone_t tone)
 {
     assert(n != NULL);
     assert(node_id != NULL);
@@ -238,17 +223,18 @@ int node_init(node_t *n, char *node_id, char *npc_dialogue)
     n->num_available_edges = 0;
     n->edges = NULL;
     n->actions = NULL;
+    n->tone = tone;
 
     return SUCCESS;
 }
 
 /* See dialogue.h */
-node_t *node_new(char *node_id, char *npc_dialogue)
+node_t *node_new(char *node_id, char *npc_dialogue, tone_t tone)
 {
     node_t *n;
     if ((n = (node_t *) malloc(sizeof(node_t))) == NULL) return NULL;
 
-    if (node_init(n, node_id, npc_dialogue) != SUCCESS)
+    if (node_init(n, node_id, npc_dialogue, tone) != SUCCESS)
     {
         node_free(n);
         return NULL;
@@ -322,8 +308,14 @@ int free_edge_list(edge_list_t *e_lst, bool free_edges)
     DL_FOREACH_SAFE(e_lst, elt, tmp)
     {
         DL_DELETE(e_lst, elt);
-        if (free_edges) edge_free(elt->edge);
-        free(elt);
+        if (elt->edge != NULL)
+        {
+            edge_free(elt->edge);
+        }
+        if (elt != NULL)
+        {
+            free(elt);
+        }
     }
 
     return SUCCESS;
@@ -345,7 +337,7 @@ int free_node_list(node_list_t *n_lst, bool free_nodes)
 }
 
 /* See dialogue.h */
-int node_action_init(node_action_t *n_a, node_action_type action,
+int node_action_init(node_action_t *n_a, node_action_type_t action,
                      char *action_id)
 {
     assert(n_a != NULL);
@@ -362,7 +354,7 @@ int node_action_init(node_action_t *n_a, node_action_type action,
 }
 
 /* See dialogue.h */
-node_action_t *node_action_new(node_action_type action, char *action_id)
+node_action_t *node_action_new(node_action_type_t action, char *action_id)
 {
     node_action_t *n_a;
     if ((n_a = malloc(sizeof(node_action_t))) == NULL) return NULL;

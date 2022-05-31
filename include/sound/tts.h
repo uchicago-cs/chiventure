@@ -34,6 +34,7 @@ void free_tts(tts_t* t);
 /* use the espeak library to speak the text content of a tts_t struct
     Parameters: a pointer t to a tts_t struct
     Output: N/A */
+
 void speak(tts_t* t);
 
 #endif /* INCLUDE_TTS_H_ */

@@ -86,11 +86,17 @@ int npc_free(npc_t *npc)
     {
         npc_task_list_free(npc->tasks);
     }
+    if (npc->inventory != NULL)
+    {
+        free_all_items_from_npc(npc);
+    }
+    if (npc->class != NULL)
+    {
+        class_free(npc->class);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    free_all_items_from_npc(npc);
-    class_free(npc->class);
     free(npc);
 
     return SUCCESS;
@@ -130,6 +136,20 @@ bool item_in_npc_inventory(npc_t *npc, char *item_id)
         return true;
     }
     return false;
+}
+
+/* See npc.h */
+bool check_if_npc_indefinite_needs_moved(npc_t *npc)
+{
+    if (npc->movement->mov_type == NPC_MOV_INDEFINITE
+        && npc->movement->permission == NPC_MOV_ALLOWED)
+    {
+        return check_if_npc_mov_indefinite_needs_moved(npc->movement);
+    }
+    else
+    {
+        return false;
+    }
 }
 
 // "GET" FUNCTIONS ------------------------------------------------------------
@@ -255,6 +275,7 @@ npc_mov_t *get_npc_mov(npc_t *npc)
 
     return npc->movement;
 }
+
 // "SET" FUNCTIONS ------------------------------------------------------------
 
 /* See npc.h */
@@ -360,6 +381,8 @@ int move_npc(npc_t *npc)
     return move_npc_mov(npc->movement);
 }
 
+// HASH TABLE FUNCTIONS ---------------------------------------------------
+
 /* See npc.h */
 int delete_all_npcs(npc_hash_t *npcs)
 {
@@ -373,19 +396,24 @@ int delete_all_npcs(npc_hash_t *npcs)
 }
 
 /* See npc.h */
-int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc) {
+int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc) 
+{
     assert(qctx != NULL);
     assert(npc != NULL);
     qctx->player->crnt_npc = npc->npc_id;
     npc_quest_t *quest_head = NULL;
-    if(npc->quests != NULL) {
+    if (npc->quests != NULL) 
+    {
         quest_head = npc->quests->head;
     }
-    for(npc_quest_t *cur = quest_head; cur != NULL; cur = cur->next) {
-        if(can_player_start_quest(qctx, cur->id)) {
+    for (npc_quest_t *cur = quest_head; cur != NULL; cur = cur->next) 
+    {
+        if (can_player_start_quest(qctx, cur->id)) 
+        {
             npc->active_dialogue = cur->dialogue;
             quest_t *quest = get_quest_from_hash(cur->id, qctx->quest_hash);
-            if(quest == NULL) {
+            if (quest == NULL) 
+            {
                 return FAILURE;
             }
             start_quest(quest, qctx);
@@ -394,11 +422,14 @@ int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc) {
         }
     }
     npc_task_t *task_head = NULL;
-    if(npc->tasks != NULL) {
+    if (npc->tasks != NULL) 
+    {
         task_head = npc->tasks->head;
     }
-    for(npc_task_t *cur = task_head; cur != NULL; cur = cur->next) {
-        if(can_player_complete_task(qctx, cur->id)) {
+    for (npc_task_t *cur = task_head; cur != NULL; cur = cur->next) 
+    {
+        if (can_player_complete_task(qctx, cur->id)) 
+        {
             npc->active_dialogue = cur->dialogue;
             update_task(cur->id, qctx);
             qctx->player->crnt_npc = "";
@@ -407,5 +438,49 @@ int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc) {
     }
     qctx->player->crnt_npc = "";
     npc->active_dialogue = npc->standard_dialogue;
+    return SUCCESS;
+}
+
+// Conversion FUNCTIONS ---------------------------------------------------
+
+/* See npc.h */
+int make_npc_hostile(npc_t *npc)
+{
+    assert(npc != NULL);
+    npc->hostility_level = HOSTILE;
+
+    return SUCCESS;
+}
+
+/* See npc.h */
+int make_npc_cond_friendly(npc_t *npc)
+{
+    assert(npc != NULL);
+    npc->hostility_level = CONDITIONAL_FRIENDLY;
+
+    return SUCCESS;
+}
+
+/* See npc.h */
+int change_npc_hostility(npc_t *npc, edge_t *edge)
+{
+    assert(npc != NULL);
+    assert(edge != NULL);
+
+    if (npc->hostility_level != FRIENDLY)
+    {
+        switch (edge->tone)
+        {
+            case POSITIVE: 
+                make_npc_cond_friendly(npc);
+                break;
+            case NEUTRAL:
+                break;
+            case NEGATIVE: 
+                make_npc_hostile(npc);
+                break;
+        }
+    }
+
     return SUCCESS;
 }
