@@ -160,7 +160,7 @@
                     "Task Name": "Kill Steve"
                 },
                 {
-                    "Task Name": "Steal Steve's Embarassing Baby Photos"
+                    "Task Name": "Show Steve his Embarrassing Baby Photos"
                 }
             ],
             "Task List": [
@@ -168,7 +168,7 @@
                     "Task Name": "Kill Steve",
                     "Mission": {
                         "Target Name": "Steve",
-                        "Type": "Kill NPC"
+                        "Type": "Meet NPC"
                     },
                     "Prerequisites": {
                         "Health": 30,
@@ -181,14 +181,14 @@
                     }
                 },
                 {
-                    "Task Name": "Steal Steve's Embarassing Baby Photos",
+                    "Task Name": "Show Steve his Embarrassing Baby Photos",
                     "Mission": {
-                        "Target Name": "Steve's Embarassing Baby Photos",
-                        "Type": "Collect Item"
+                        "Target Name": "Steve",
+                        "Type": "Meet NPC"
                     },
                     "Prerequisites": {
                         "Quests": ["Find Steve"],
-                        "Tasks": ["Interrogate the Pirate Captain"]
+                        "Tasks": ["Talk to Steve's Mom"]
                     },
                     "Rewards": {
                         "XP": 100
