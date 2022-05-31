@@ -38,7 +38,6 @@ ITEM Shirt Designer
     OPEN fail: "You're software breaks"
     GO success: "You print out the sick shirt."
     GO fail: "You run out of material to print shirts."
-    property: "value"
 
 ITEM Google SWE Internship
   short desc: "The most coveted off all internships."
@@ -48,7 +47,6 @@ ITEM Google SWE Internship
     OPEN fail: "You can't finish the program."
     GO success: "You push your code."
     GO fail: "You have merge conflicts"
-    property: "value"
 
 
 NPC JACK IN quad
