@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 set(CS_EXAMPLES demonstration loadwdl loadwdl2 gold dark_room lost_order demo_2022)
-=======
-set(CS_EXAMPLES loadwdl loadwdl2 gold dark_room lost_order demonstration)
->>>>>>> dev
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
