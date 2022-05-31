@@ -317,7 +317,7 @@ int allow_npc_movement(npc_mov_t *npc_mov)
 /* See npc_move.h */
 int restrict_npc_movement(npc_mov_t *npc_mov)
 {
-    npc_mov->permission = NPC_MOV_RESTRICTED;
+    npc_mov->permission = NPC_MOV_NOT_ALLOWED;
     return SUCCESS;
 }
 

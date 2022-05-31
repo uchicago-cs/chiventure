@@ -86,11 +86,17 @@ int npc_free(npc_t *npc)
     {
         npc_task_list_free(npc->tasks);
     }
+    if (npc->inventory != NULL)
+    {
+        free_all_items_from_npc(npc);
+    }
+    if (npc->class != NULL)
+    {
+        class_free(npc->class);
+    }
     free(npc->npc_id);
     free(npc->short_desc);
     free(npc->long_desc);
-    free_all_items_from_npc(npc);
-    class_free(npc->class);
     free(npc);
 
     return SUCCESS;

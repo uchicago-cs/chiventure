@@ -368,9 +368,13 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     }
 
     path_t *curr_path;
+    item_t *through_item;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
-        if (strcmp(curr_path->direction,tokens[1]) == 0)
+        through_item = curr_path->through;
+        if ((strcmp(curr_path->direction,tokens[1]) == 0)
+             && ((through_item == NULL)
+             || (item_in_inventory(game->curr_player, through_item))))
         {
             action_type_t *action = find_action(tokens[0], table);
 
@@ -378,6 +382,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             do_path_action(ctx, action, curr_path, &str);
             return str;
         }
+        through_item = NULL;
     }
     return "You cannot go in this direction\n";
 }
@@ -622,6 +627,10 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
+    if (tokens[1] == NULL || tokens[2] == NULL)
+    {
+        return "Incorrect NAME operation format";
+    }
     case_insensitize(tokens[1]);
     case_insensitize(tokens[2]);
     if (find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)

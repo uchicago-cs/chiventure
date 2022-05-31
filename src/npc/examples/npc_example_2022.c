@@ -58,12 +58,13 @@ npc_t *hostile_harry;
 npc_t *wandering_wilma;
 npc_t *speedy_sonic;
 npc_t *brainy_borja;
-npc_t *peachs_barista;
 room_t *crerar_first;
 room_t *crerar_second;
 room_t *crerar_209;
+room_t *borjas_chair;
 room_t *peachs_cafe;
 room_t *outside;
+item_t *glasses;
 
 
 /* Creates a sample class. Taken from test_class.c */
@@ -240,98 +241,12 @@ char *find_npc_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return str;
 }
 
-/* Creates a sample convo for NPC Harry, taken from npc_example.c */
-convo_t *create_sample_convo_harry()
-{
-    // Starting to build the conversation structure
-    convo_t *c = convo_new();
-
-    // Nodes
-    add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
-    add_node(c, "2a", "Harry: You will regret this. Let's meet outside and "
-             "I will show you no mercy.");
-    node_t *battle_node1 = get_node(c->all_nodes, "2a");
-    add_action_to_node(battle_node1, MOVE_ROOM, "harry move to outside");
-
-    add_node(c, "2b", "Well, you are not welcome here. Catch me outside and "
-             "I will show you no mercy.");
-    node_t *battle_node2 = get_node(c->all_nodes, "2b");
-    add_action_to_node(battle_node2, MOVE_ROOM, "harry move outside");
-
-    // Edges
-    add_edge(c, "What does it matter to you, old man?", "1", "2a", NULL);
-    add_edge(c, "I am just passing through, I don't want any trouble.", "1", "2b", NULL);
-
-    return c;
-}
-
-
-/* Creates a sample convo for NPC Fiona, taken from npc_example.c */
-convo_t *create_sample_convo_fiona()
-{
-    // Starting to build the conversation structure
-    convo_t *c = convo_new();
-
-    // Nodes
-    add_node(c, "1", "Fiona: Hey how are you doing?");
-    add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
-             "some battle skills with you outside.");
-    node_t *hostile_node = get_node(c->all_nodes, "2a");
-    add_action_to_node(hostile_node, MAKE_HOSTILE, "fiona battle");
-    add_action_to_node(hostile_node, MOVE_ROOM, "fiona move outside");
-
-    add_node(c, "2b", "Fiona: I hope you have a good day too! Please, take my mace for good luck!");
-    node_t *mace_node = get_node(c->all_nodes, "2b");
-    add_action_to_node(mace_node, GIVE_ITEM, "mace");
-
-    // Edges
-    add_edge(c, "Let's have a fight.", "1", "2a", NULL);
-    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL);
-
-    return c;
-}
-
-
-/* Creates a sample convo for NPC wilma, taken from npc_example.c */
-convo_t *create_sample_convo_wilma()
-{
-    // Starting to build the conversation structure
-    convo_t *c = convo_new();
-
-    // Nodes
-    add_node(c, "1", "Wilma: Oh! hi! I'm Wilma!");
-    node_t *node_1 = get_node(c->all_nodes, "1");
-    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop wilma");
-    
-    add_node(c, "2", "Wilma: Listen! I've had way way WAY too many coffees "
-                      "today, so I insist you take this one I've just bought.");
-    
-    //add_node(c, "3", "Wilma: ");
-    node_t *node_2 = get_node(c->all_nodes, "2");
-    add_action_to_node(node_2, RESUME_MOVEMENT, "let wilma leave");
-
-    // Edges
-    add_edge(c, "Hello wilma!", "1", "2", NULL);
-
-    return c;
-}
-
-/* Creates a sample convo for NPC Borja */
-convo_t *create_sample_convo_borja()
-{
-    convo_t *c = convo_new();
-
-    add_node(c, "1", "");
-}
-
-
-
 /* Defines a new CLI operation that removes 1 HP from the specified npc if they
  * are in the room, and their health is greater than their surrender_level */
 char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
     game_t *game = ctx->game;
-    if (strcasecmp(tokens[0], "ATTACK") || strcasecmp(tokens[0], "FIGHT"))
+    if (strcasecmp(tokens[0], "ATTACK") && strcasecmp(tokens[0], "FIGHT"))
     {
         action_error_operation(&tokens[0], ctx);
     }
@@ -419,32 +334,38 @@ char *attack_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     return str;
 }
 
-int create_crerar()
+/* Creates the rooms for the game, which teakes place in and directly outside
+ * of the John Crerar Library
+ */
+int create_crerar(game_t *game)
 {
-    // Let's make (a smol) Crerar!
     crerar_first = room_new("crerar lib floor 1",
                                     "on the first floor of Crerar Library",
                                     "The first floor of the John Crerar Library, "
                                     "head EAST to go outside, "
                                     "UP is the 2nd floor, where Room 209 is located, "
-                                    "and SOUTH is the Peaches Cafe.");
+                                    "and SOUTH is the Peaches Cafe.\n");
     crerar_second = room_new("crerar lib floor 2",
                                      " on the second floor of Crerar Library",
                                      "The second floor of the John crerar Library, "
                                      "to the SOUTH lies Room 209, "
-                                     "and DOWN is the first floor of Crerar");
+                                     "and DOWN is the first floor of Crerar\n");
     crerar_209 = room_new("room 209", "in Room 209 of Crerar Library",
                                   "This is Room 209 of the John Crerar Library, "
-                                  "better known as Borja's Office. "
-                                  "To the NORTH is the rest of second floor of Crerar.");
+                                  "better known as Borja's Office, which has a comfy chair. "
+                                  "To the NORTH is the rest of second floor of Crerar.\n");
     peachs_cafe = room_new("peach's cafe", "in Peach's Cafe at University",
                                     "This is Peach's Cafe inside of the John Crerar "
                                     "Library, to the NORTH is the first floor of "
-                                    "Crerar, and head EAST to go outside.");
+                                    "Crerar, and head EAST to go outside.\n");
     outside = room_new("outside", "outside of the John Crerar Library",
                                "Outside of the John Crerar Library is a great "
                                "place for, among other things, settling scores. "
-                               "Go WEST to go back inside the John Crerar Library");
+                               "Go WEST to go back inside the John Crerar Library\n");
+
+    borjas_chair = room_new("Borja's Chair", "This is Professor Borja's Chair",
+                            "You are sitting in Borja's chair, it is very "
+                            "comfortable.\n");
 
     path_t *crerar_first_path = path_new(outside, "east");
     assert(add_path_to_room(crerar_first, crerar_first_path) == SUCCESS);
@@ -460,6 +381,9 @@ int create_crerar()
 
     path_t *crerar_209_path = path_new(crerar_second, "north");
     assert(add_path_to_room(crerar_209, crerar_209_path) == SUCCESS);
+    crerar_209_path = path_new(borjas_chair, "sit");
+    crerar_209_path->through = glasses;
+    assert(add_path_to_room(crerar_209, crerar_209_path) == SUCCESS);
 
     path_t *peachs_path = path_new(crerar_first, "north");
     assert(add_path_to_room(peachs_cafe, peachs_path) == SUCCESS);
@@ -469,64 +393,124 @@ int create_crerar()
     path_t *outside_path = path_new(crerar_first, "west");
     assert(add_path_to_room(outside, outside_path) == SUCCESS);
 
+    path_t *borjas_chair_path = path_new(crerar_209, "north");
+    borjas_chair_path->through = glasses;
+    assert(add_path_to_room(borjas_chair, borjas_chair_path) == SUCCESS);
+
     crerar_first->npcs = npcs_in_room_new(crerar_first->room_id);
     crerar_second->npcs = npcs_in_room_new(crerar_second->room_id);
     crerar_209->npcs = npcs_in_room_new(crerar_209->room_id);
     peachs_cafe->npcs = npcs_in_room_new(peachs_cafe->room_id);
     outside->npcs = npcs_in_room_new(outside->room_id);
 
-    return SUCCESS;
-}
-
-/* Runs all (included) time-dependent functions every second
-*
-* Parameters:
-*   - game: Pointer to the game being run
-*
-* Returns
-*   - nothing
-*/
-void *time_dependent_functions(void *game)
-{
-    pthread_detach(pthread_self());
-
-    game_t *g;
-    g = (game_t *) game;
-
-    while (g != NULL)
-    {
-        /* This is where you add functions that should be run every second */
-        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
-        sleep(1);
-    }
-}
-
-/* Creates a sample in-memory game */
-chiventure_ctx_t *create_sample_ctx()
-{
-    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
-
-    game_t *game = game_new("Welcome to Chiventure!");
-
-    load_normal_mode(game);
-
-    assert(create_crerar() == SUCCESS);
-
     assert(add_room_to_game(game, crerar_first) == SUCCESS);
     assert(add_room_to_game(game, crerar_second) == SUCCESS);
     assert(add_room_to_game(game, crerar_209) == SUCCESS);
     assert(add_room_to_game(game, outside) == SUCCESS);
     assert(add_room_to_game(game, peachs_cafe) == SUCCESS);
+    assert(add_room_to_game(game, borjas_chair) == SUCCESS);
 
-    game->curr_room = outside;
-    game->start_desc = "You are outside of the John Crerar Library, LOOK "
-                       "around for more.";
+    return SUCCESS;
+}
 
-    /* Create a friendly npc */
+/* Creates a sample convo for NPC Harry, taken from npc_example.c */
+convo_t *create_sample_convo_harry()
+{
+    // Starting to build the conversation structure
+    convo_t *c = convo_new();
+
+    // Nodes
+    add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
+    add_node(c, "2a", "Harry: You will regret this. Let's meet outside and "
+             "I will show you no mercy.");
+    node_t *battle_node1 = get_node(c->all_nodes, "2a");
+    add_action_to_node(battle_node1, MOVE_ROOM, "harry move to outside");
+
+    add_node(c, "2b", "Well, you are not welcome here. Catch me outside and "
+             "I will show you no mercy.");
+    node_t *battle_node2 = get_node(c->all_nodes, "2b");
+    add_action_to_node(battle_node2, MOVE_ROOM, "harry move outside");
+
+    // Edges
+    add_edge(c, "What does it matter to you, old man?", "1", "2a", NULL);
+    add_edge(c, "I am just passing through, I don't want any trouble.", "1", "2b", NULL);
+
+    return c;
+}
+
+/* Initialize Harry, the hostile NPC */
+int npc_harry_init(game_t *game)
+{
+    /* Create a hostile npc */
+    char *npc_id2 = "HARRY";
+    class_t *class2 = generate_sample_class();
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
+                                       crerar_second->room_id, 0);
+    extend_path_definite(movement2, outside->room_id);
+    hostile_harry = npc_new(npc_id2,
+                            "Hostile Harry is a hostile man named"
+                            "Harry.", "Hostile Harry will attack you"
+                            "first, and he won't surrender until he"
+                            "literally dies", class2, movement2, HOSTILE);
+    /* Add battle info to hostile npc */
+    stat_t *stats2 = create_enemy_stats();
+    stats2->hp = 10;
+    stats2->max_hp = 10;
+    move_t *moves2 = create_enemy_moves();
+    add_battle_to_npc(hostile_harry, stats2, moves2, BATTLE_AI_GREEDY,
+                      HOSTILE, NULL, NULL, NULL, NULL, NULL);
+
+    /* Add items to hostile npc */
+    item_t *taser = item_new("TASER","This is a taser.",
+                              "This is a taser, it does a lot of damage.");
+    agent_t *taser_ag = malloc(sizeof(agent_t));
+    taser_ag->item = taser;
+    assert(add_attribute_to_hash(taser, int_attr_new("attack", 25)) == SUCCESS);
+    assert(add_action(taser_ag, "take", "You now have a taser, it could do a lot of damage",
+                      "taser could not be taken") == SUCCESS);
+    add_item_to_npc(hostile_harry, taser);
+
+    /* Add dialogue to hostile npc */
+    convo_t *c_harry = create_sample_convo_harry();
+    add_convo_to_npc(hostile_harry, c_harry);
+
+    assert(add_npc_to_game(game, hostile_harry) == SUCCESS);
+
+    return SUCCESS;
+}
+
+/* Creates a sample convo for NPC Fiona, taken from npc_example.c */
+convo_t *create_sample_convo_fiona()
+{
+    // Starting to build the conversation structure
+    convo_t *c = convo_new();
+
+    // Nodes
+    add_node(c, "1", "Fiona: Hey how are you doing?");
+    add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
+             "some battle skills with you outside.");
+    node_t *hostile_node = get_node(c->all_nodes, "2a");
+    add_action_to_node(hostile_node, MAKE_HOSTILE, "fiona battle");
+    add_action_to_node(hostile_node, MOVE_ROOM, "fiona move outside");
+
+    add_node(c, "2b", "Fiona: I hope you have a good day too! Please, take my mace for good luck!");
+    node_t *mace_node = get_node(c->all_nodes, "2b");
+    add_action_to_node(mace_node, GIVE_ITEM, "mace");
+
+    // Edges
+    add_edge(c, "Let's have a fight.", "1", "2a", NULL);
+    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL);
+
+    return c;
+}
+
+/* Initialize the conditionally-friendly NPC Fiona */
+int npc_fiona_init(game_t *game)
+{
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
     npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
-                                       crerar_second->room_id, 0);
+                                       peachs_cafe->room_id, 0);
     extend_path_definite(movement1, outside->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
@@ -557,49 +541,49 @@ chiventure_ctx_t *create_sample_ctx()
     convo_t *c_fiona = create_sample_convo_fiona();
     add_convo_to_npc(friendly_fiona, c_fiona);
 
+    assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
+    
+    return SUCCESS;
+}
 
-    /* Create a hostile npc */
-    char *npc_id2 = "HARRY";
-    class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
-                                       peachs_cafe->room_id, 0);
-    extend_path_definite(movement2, outside->room_id);
-    hostile_harry = npc_new(npc_id2,
-                            "Hostile Harry is a hostile man named"
-                            "Harry.", "Hostile Harry will attack you"
-                            "first, and he won't surrender until he"
-                            "literally dies", class2, movement2, HOSTILE);
-    /* Add battle info to hostile npc */
-    stat_t *stats2 = create_enemy_stats();
-    stats2->hp = 5;
-    stats2->max_hp = 5;
-    move_t *moves2 = create_enemy_moves();
-    add_battle_to_npc(hostile_harry, stats2, moves2, BATTLE_AI_GREEDY,
-                      HOSTILE, NULL, NULL, NULL, NULL, NULL);
+/* Creates a sample convo for NPC wilma, taken from npc_example.c */
+convo_t *create_sample_convo_wilma()
+{
+    // Starting to build the conversation structure
+    convo_t *c = convo_new();
 
-    /* Add items to hostile npc */
-    item_t *potion = item_new("POTION","This is a health potion.",
-                              "This potion will increase your health. Feel "
-                              "free to take it.");
-    agent_t *potion_ag = malloc(sizeof(agent_t));
-    potion_ag->item = potion;
-    assert(add_action(potion_ag, "take", "You now have a potion",
-                      "potion could not be taken") == SUCCESS);
-    add_item_to_npc(hostile_harry, potion);
+    // Nodes
+    add_node(c, "1", "Wilma: Oh! hi! I'm Wilma!");
+    node_t *node_1 = get_node(c->all_nodes, "1");
+    add_action_to_node(node_1, PAUSE_MOVEMENT, "stop wilma");
+    
+    add_node(c, "2", "Wilma: Listen! I'm in a rush, but I was going to "
+                     "deliver this coffee to Borja as a gift, I don't "
+                     "suppose you would want to?");
 
-    item_t *elixir = item_new("ELIXIR","This is an elixir.",
-                              "This is an elixir. Effects: energize and stun.");
-    agent_t *elixir_ag = malloc(sizeof(agent_t));
-    elixir_ag->item = elixir;
-    assert(add_action(elixir_ag, "take", "You now have an elixir",
-                      "elixir could not be taken") == SUCCESS);
-    add_item_to_npc(hostile_harry, elixir);
+    add_node(c, "3a", "Wilma: Thank you! I've gotta run, bye!");
+    node_t *coffee_node = get_node(c->all_nodes, "3a");
+    add_action_to_node(coffee_node, GIVE_ITEM, "coffee");
+    node_t *node_3 = get_node(c->all_nodes, "3a");
+    add_action_to_node(node_3, RESUME_MOVEMENT, "let wilma leave");
 
-    /* Add dialogue to hostile npc */
-    convo_t *c_harry = create_sample_convo_harry();
-    add_convo_to_npc(hostile_harry, c_harry);
+    add_node(c, "3b", "Wilma: Oh no I don't want it, I'm going to throw it away if "
+                      "you don't take it, you wouldn't waste good coffee "
+                      "would you?\n");
 
+    // Edges
+    add_edge(c, "Hello wilma!", "1", "2", NULL);
+    add_edge(c, "Yeah! Sure thing!", "2", "3a", NULL);
+    add_edge(c, "Ummm, no that's okay, you can have it", "2", "3b", NULL);
+    add_edge(c, "Oh no I couldn't do that, I'll take it to him.", "3b", "3a", NULL);
 
+    return c;
+}
+
+/* Initialize Wilma, the friendly wandering NPC */
+int npc_wilma_init(game_t *game)
+{
+    class_t *wilma_class = generate_sample_class();
     npc_mov_t *movement3 = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
                                        outside->room_id, 5);
     extend_path_indefinite(movement3, peachs_cafe->room_id, 5);
@@ -608,11 +592,99 @@ chiventure_ctx_t *create_sample_ctx()
     extend_path_indefinite(movement3, crerar_209->room_id, 5);
     wandering_wilma = npc_new("wilma", "wandering wilma is friendly",
      "wandering wilma is just a jolly good fellow who likes to wander between"
-     "rooms", class2, movement3, FRIENDLY);
+     "rooms\n", wilma_class, movement3, FRIENDLY);
+    
+    item_t *coffee = item_new("COFFEE", "This is coffee.",
+                              "This is coffee, drip coffe...");
+    agent_t *coffee_ag = malloc(sizeof(agent_t));
+    coffee_ag->item = coffee;
+    add_item_to_npc(wandering_wilma, coffee);
+    add_item_to_game(game, coffee);
+
     convo_t *c_wilma = create_sample_convo_wilma();
     assert(add_convo_to_npc(wandering_wilma, c_wilma) == SUCCESS);
-    
 
+    assert(add_npc_to_game(game, wandering_wilma) == SUCCESS);
+
+    return SUCCESS;
+}
+
+/* Creates a sample convo for NPC Borja */
+convo_t *create_sample_convo_borja(game_t *game)
+{
+    convo_t *c = convo_new();
+
+    add_node(c, "1", "");
+    add_node(c, "2", "Oh thank you! Of course! *takes sip*");
+    node_t *coffee_node = get_node(c->all_nodes, "2");
+    add_action_to_node(coffee_node, TAKE_ITEM, "coffee");
+
+    add_node(c, "3", "Borja: Wait, is this... DRIP coffee??");
+    add_node(c, "4a", "Borja: (ノಠ益ಠ)ノ彡┻━┻ Don't you know that I HATE drip coffee? "
+                      "You should be ashamed, meet me outside so I can "
+                      "teach you a lesson\n");
+    node_t *foura_node = get_node(c->all_nodes, "4a");
+    add_action_to_node(foura_node, MAKE_HOSTILE, "borja hostile");
+    add_action_to_node(foura_node, MOVE_ROOM, "borja move outside");
+    
+    add_node(c, "4b", "Borja: (ノಠ益ಠ)ノ彡┻━┻ THAT IS DRIP COFFEE. "
+                      "You should be ashamed, meet me outside so I can "
+                      "teach you a lesson\n");
+    node_t *fourb_node = get_node(c->all_nodes, "4b");
+    add_action_to_node(fourb_node, MAKE_HOSTILE, "borja hostile");
+    add_action_to_node(fourb_node, MOVE_ROOM, "borja move outside");
+
+    item_t *coffee = get_item_from_game(game, "coffee");
+    // Edges
+    add_edge(c, "Hi Borja, I got this coffee for you if you'd like it.", "1", "2",
+             inventory_condition_new(game->curr_player, coffee));
+    add_edge(c, "No problem!", "2", "3", NULL);
+    add_edge(c, "Why yes it is!", "3", "4a", NULL);
+    add_edge(c, "No, it's a pourover!", "3", "4b", NULL);
+    add_edge(c, "Oh I'm not sure", "3", "4a", NULL);
+
+    return c;
+}
+
+/* Initialize Borja, the conditionally friendly NPC */
+int npc_borja_init(game_t *game)
+{
+    class_t *borja_class = generate_sample_class();
+    npc_mov_t *borja_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
+                                       crerar_209->room_id, 0);
+    extend_path_definite(borja_mov, outside->room_id);
+    brainy_borja = npc_new("borja", "Professor Borja Sotomayor",
+                           "Borja Sotomayor is an Associate Senior "
+                           "Instructional Professor in the Department of "
+                           "Computer Science, where he teaches intro CS, "
+                           "software development, computer networks, and "
+                           "distributed systems.\n", borja_class, borja_mov,
+                           CONDITIONAL_FRIENDLY);
+    stat_t *borja_stats = create_enemy_stats();
+    borja_stats->hp = 100;
+    borja_stats->max_hp = 100;
+    assert(add_battle_to_npc(brainy_borja, borja_stats, NULL, BATTLE_AI_RANDOM,
+            CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL) == SUCCESS);
+            
+    agent_t *glasses_ag = malloc(sizeof(agent_t));
+    glasses_ag->item = glasses;
+    assert(add_action(glasses_ag, "take", "You now have Borja's glasses, "
+                                  "I wonder if these grant you access to "
+                                  "anything else of Borja's",
+                      "glasses could not be taken\n") == SUCCESS);
+    add_item_to_npc(brainy_borja, glasses);
+
+    convo_t *c_borja = create_sample_convo_borja(game);
+    assert(add_convo_to_npc(brainy_borja, c_borja) == SUCCESS);
+
+    assert(add_npc_to_game(game, brainy_borja) == SUCCESS);
+    
+    return SUCCESS;
+}
+
+/* Initialize Sonic, the friendly & speedy NPC */
+int npc_sonic_init(game_t *game)
+{
     npc_mov_t *sonic_mov = npc_mov_new(NPC_MOV_INDEFINITE, NPC_MOV_ALLOWED,
                                        outside->room_id, 1);
     class_t *sonic_class = generate_sample_class();
@@ -623,43 +695,70 @@ chiventure_ctx_t *create_sample_ctx()
     speedy_sonic = npc_new("sonic", "sonic the hedgehog",
                            "sonic the hedgehog is very fast",
                            sonic_class, sonic_mov, FRIENDLY);
-    assert(auto_gen_movement(speedy_sonic, get_all_rooms(game)) == SUCCESS);
 
-    npc_mov_t *borja_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED,
-                                       crerar_209->room_id, 0);
-    extend_path_definite(borja_mov, peachs_cafe->room_id);
-    extend_path_definite(borja_mov, outside->room_id);
-    brainy_borja = npc_new("borja", "Professor Borja Sotomayor",
-                           "Borja Sotomayor is an Associate Senior "
-                           "Instructional Professor in the Department of "
-                           "Computer Science, where he teaches intro CS, "
-                           "software development, computer networks, and "
-                           "distributed systems.", class2, borja_mov,
-                           CONDITIONAL_FRIENDLY);
-    stat_t *borja_stats = create_enemy_stats();
-    borja_stats->hp = 1000;
-    borja_stats->max_hp = 1000;
-    assert(add_battle_to_npc(brainy_borja, borja_stats, NULL, BATTLE_AI_RANDOM,
-            CONDITIONAL_FRIENDLY, NULL, NULL, NULL, NULL, NULL) == SUCCESS);
-
-    
-    npc_mov_t *peachs_barista_mov = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_RESTRICTED,
-                                                peachs_cafe->room_id, 0);
-    peachs_barista = npc_new("peach's barista", "The barista / cashier at Peach's Cafe",
-                             "This is the barista at Peach's on University inside "
-                             "of the John Crerar Library, you can ",
-                             class2, peachs_barista_mov, FRIENDLY);
-
-
-    /* Add the npcs to the game */
-    assert(add_npc_to_game(game, friendly_fiona) == SUCCESS);
-    assert(add_npc_to_game(game, hostile_harry) == SUCCESS);
-    assert(add_npc_to_game(game, wandering_wilma) == SUCCESS);
     assert(add_npc_to_game(game, speedy_sonic) == SUCCESS);
-    assert(add_npc_to_game(game, brainy_borja) == SUCCESS);
+
+    return SUCCESS;
+}
+
+/* Runs all (included) time-dependent functions every second
+*
+* Parameters:
+*   - game: Pointer to the game being run
+*
+* Returns
+*   - nothing
+*/
+void *time_dependent_functions(void *ctx)
+{
+    pthread_detach(pthread_self());
+
+    chiventure_ctx_t *c = (chiventure_ctx_t *) ctx;
+    game_t *g;
+    g = (game_t *) (c->game);
+
+    while (g != NULL)
+    {
+        /* This is where you add functions that should be run every second */
+        if (is_game_over(g))
+        {
+            print_to_cli((chiventure_ctx_t *) ctx, "CONGRATS! You've won!!!");
+            break;
+        }
+        move_indefinite_npcs_if_needed(g->all_npcs, g->all_rooms);
+        sleep(1);
+    }
+    pthread_exit(NULL);
+}
+
+/* Creates a sample in-memory game */
+chiventure_ctx_t *create_sample_ctx()
+{
+    chiventure_ctx_t *ctx = chiventure_ctx_new(NULL);
+
+    game_t *game = game_new("Welcome to Chiventure! You are outside of the "
+                            "John Crerar Library, LOOK around for more.\n");
+
+    load_normal_mode(game);
+
+    glasses = item_new("Borja's Glasses", "These are Borja's glasses",
+                              "Borja uses these glasses to see");
+
+    assert(create_crerar(game) == SUCCESS);
+    
+    assert(npc_fiona_init(game) == SUCCESS);
+    assert(npc_harry_init(game) == SUCCESS);
+    assert(npc_wilma_init(game) == SUCCESS);
+    assert(npc_sonic_init(game) == SUCCESS);
+    assert(auto_gen_movement(speedy_sonic, get_all_rooms(game)) == SUCCESS);
+    assert(npc_borja_init(game) == SUCCESS);
 
     /* Add the npcs to their rooms */
     assert(add_all_npcs_to_their_rooms(game) == SUCCESS);
+
+    game->curr_room = outside;
+    game->final_room = borjas_chair;
+    game->end_conditions = inventory_condition_new(game->curr_player, glasses);
 
     /* Free default game and replace it with ours */
     game_free(ctx->game);
@@ -679,7 +778,7 @@ int main(int argc, char **argv)
     add_entry("WHO", who_is_npc_operation, NULL, ctx->cli_ctx->table);
 
     pthread_t time_thread;
-    int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx->game);
+    int rc = pthread_create(&time_thread, NULL, time_dependent_functions, (void *) ctx);
     if (rc)
     {
 		printf("\nERROR: return code from pthread_create is %d\n", rc);
