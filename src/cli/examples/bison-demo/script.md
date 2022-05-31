@@ -1,8 +1,43 @@
 # SCRIPT
+Hello! We are the command-line-interface (or CLI) team. 
+Our role in chiventure is to process user input; to take it from a raw string and parse into something meaningful for the plethora of functions you all have written.
+It is through us and action-management that you implement new user actions.
+
+As a core feature, we weren't left with a codebase that neccesarily needed a lot of adjustment or fixes. 
+So this quarter, when decided to find ways to improve chiventure's CLI. 
+Our biggest idea was to take the current in-house parsing and in its place use a more robust parsing library.
+
+This is because, while functional, our handmade cli is limiting, and offloading the majority of parsing work to an outside library would allow future teams to worry about higher level features as opposed to grammar and parsing.
+
+As a result of this decision, our focus this quarter was split in two categories.
+First, improving the functionality of the current CLI along with addressing requests from other teams
+and Second, understanding, documenting, and using an external parsing library.
+
+We will first cover the improvements we made to the existing infrastructure!
+
+## EXISTING CHANGES
+*perhaps having stuff hear about the current parser, potentially actions kinds*
+***[include more stuff here]***
+
+
+## BISON
+For our external parsing library, we decided on bison/flex, as there aren't many C libraries to pick from in the first place and of the ones we tested, we were actually able to get it working.
+Bison/flex.
+
+Flex is a lexer generator, a program which takes in input and turns it into tokens based on user defined grammar. 
+
+Flex then gives these tokens to bison, which is a parser generator.
+A program which, with a user defined grammar, can match series of tokens to different rules and execute C code based of that, exactly what we want to do in chiventure!
+
+
+
+
 ### Flow of Presentation:
 **Opening about what we were trying to do as the new CLI team**
 When trying to find a way to improve the CLI of chiventure, we thought that we couldtake the current in-house parsing and instead use a more robust parsing library.
-We decided on bison, as there aren't many C libraries and of the ones we tested we were actually able to get something working.
+We decided on bison/flex, as there aren't many C libraries to pick from in the first place and of the ones we tested, we were actually able to get it working.
+
+
 
 
 **preamble about what bison/flex actually is and how it is relevant to chiventure.**
@@ -15,6 +50,8 @@ Old implementation bad:
  harder to debug errurs resulting from the language
  rules)
 -way less cool and harder to work with
+
+
 
 Bison is a general purpose parser generator which solves the limitations above by allowing a grammar to be stated directly, meaning filler wors are removed automatically, multi-word objects can be treated as one token, new synonyms can be added easily and debugging errors specifically due to language is easier. 
 

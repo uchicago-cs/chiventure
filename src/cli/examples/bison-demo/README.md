@@ -1,4 +1,7 @@
 # README
+simple slideshow going over how bison and flex work along with some grammar examples!
+https://www.capsl.udel.edu/courses/cpeg421/2012/slides/Tutorial-Flex_Bison.pdf
+
 ## To Compile and Run
 from the working directory, (`examples/bison-demo`) run the following:
 ```
