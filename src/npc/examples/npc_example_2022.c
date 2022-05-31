@@ -772,7 +772,6 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatch the CLI to add the new operations */
-    add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
     add_entry("FIND", find_npc_operation, NULL, ctx->cli_ctx->table);
     add_entry("WHO", who_is_npc_operation, NULL, ctx->cli_ctx->table);
