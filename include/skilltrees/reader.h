@@ -1,4 +1,3 @@
-
 #ifndef INCLUDE_READER_H_
 #define INCLUDE_READER_H_
 
@@ -162,4 +161,4 @@ int execute_attr_reader_effect(attr_reader_effect_t* reader, chiventure_ctx_t* c
  */
 int execute_stat_reader_effect(stat_reader_effect_t* reader, chiventure_ctx_t* ctx);
 
-#endif /*INCLUDE_READER_/home/nkbilaver/CS220/chiventure/src/skilltrees/CMakeLists.txt*/
+#endif /* INCLUDE_READER_H_ */

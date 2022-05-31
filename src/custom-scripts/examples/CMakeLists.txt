@@ -1,4 +1,4 @@
-set(CS_EXAMPLES demo_old demonstration)
+set(CS_EXAMPLES demonstration loadwdl)
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})
