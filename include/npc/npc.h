@@ -1,6 +1,7 @@
 #ifndef _NPC_H
 #define _NPC_H
 
+#include "action_management/action_structs.h"
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "game-state/player.h"
@@ -11,8 +12,6 @@
 #include "npc/npc_move.h"
 #include "npc/npc_quests.h"
 #include "cli/util.h"
-#include "quests/quests_hash.h"
-#include "quests/quests_state.h"
 
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
@@ -31,9 +30,8 @@ typedef struct npc {
     /* long description of the NPC, <301 chars */
     char *long_desc;
 
-    /* pointer to existing convo struct; changed depending on whetehr
+    /* pointer to existing convo struct; changed depending on whether
     npc has activated quest or task convo */
-
     convo_t *active_dialogue;
 
     /* pointer to an existing convo struct; for normal dialogue */
@@ -54,12 +52,15 @@ typedef struct npc {
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
 
+    /* linked list of all possible actions the player can initiate with the npc */
+    list_action_t *npc_actions;
+
     /* pointer to a quest with dialogue */
     npc_quest_list_t *quests;
 
     /* pointer to a task with dialogue */
     npc_task_list_t *tasks;
-
+    
     /* pointer to game_action hashtable */
     game_action_hash_t *actions;
 } npc_t;
@@ -196,6 +197,19 @@ bool check_npc_battle(npc_t *npc);
  *  true if the item is in the NPC's inventory, false otherwise
  */
 bool item_in_npc_inventory(npc_t *npc, char *item_id);
+
+/* Checks if an indefinite npc needs moved based on how long it's been in its
+ * current room
+ *
+ * Parameters:
+ *  - npc: The NPC struct
+ * 
+ * Returns:
+ *  - true if the npc does need to be moved
+ *  - false if the npc does not need to be moved,
+ *      or the npc has a definite movement path
+ */
+bool check_if_npc_indefinite_needs_moved(npc_t *npc);
 
 // "GET" FUNCTIONS ------------------------------------------------------------
 /*
@@ -421,15 +435,14 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
  */
 int change_npc_hp(npc_t *npc, int change);
 
-/*
- * Moves an npc to the next room in their movement path
+/* Moves an npc to the next room in their movement path
  *
  * Parameters:
  * npc: The NPC struct
  *
  * Returns:
- * FAILURE: if a move does not occur, 
- * SUCCESS: if successful move to the next room, with the only exception
+ *  FAILURE: if a move does not occur, 
+ *  SUCCESS: if successful move to the next room, with the only exception
  * being if an indefinite NPC has more than one room in its path, and then
  * reaches the end of its path, in which case its path direction is flipped,
  * and its time_ray for the current step in its path is reset, but it does not
@@ -464,5 +477,55 @@ int delete_all_npcs(npc_hash_t *npcs);
  * - SUCCESS on success, FAILURE if an error occurs
 */
 int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
+
+// Conversion FUNCTIONS ---------------------------------------------------
+
+/*
+ * converts hostility_level of an NPC to HOSTILE
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level becomes HOSTILE
+ *       (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int make_npc_hostile(npc_t *npc);
+
+/*
+ * converts hostility_level of an NPC to CONDITIONAL_FRIENDLY
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level becomes CONDITIONAL_FRIENDLY
+ *       (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int make_npc_cond_friendly(npc_t *npc);
+
+/*
+ * changes an NPC's hostility_level based on player's
+ * tone at a conversation edge
+ * ex. NEGATIVE tone makes NPC HOSTILE
+ * 
+ * NOTE FOR FUTURE IMPLEMENTATION:
+ * when this function is called to make NPC HOSTILE,
+ * it should call add_battle_to_npc() as well to
+ * initialize the npc_battle_t struct in npc_t
+ * and allow NPC to participate in battle
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level changes
+ *       (must point to already allocated memory)
+ *  edge: the edge containing the tone_t struct that determines
+ *        an NPC's hostility_level
+ *        (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int change_npc_hostility(npc_t *npc, edge_t *edge);
+
 
 #endif /* _NPC_H */

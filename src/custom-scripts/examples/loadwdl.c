@@ -7,7 +7,7 @@
  */
 
 #include <stdio.h>
-#include "custom-scripts/custom_type.h"
+#include "custom-scripts/get_custom_type.h"
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
@@ -28,11 +28,7 @@ const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 chiventure_ctx_t *create_sample_ctx()
 {
 
-    lua_State *L = luaL_newstate();
-    luaL_openlibs(L);
-    luaL_dofile(L, "demo.lua");
-
-    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
+    obj_t *obj_store = load_obj_store("../../../../src/custom-scripts/examples/wdl/demo-wizard.wdl");
     game_t *game = load_game(obj_store);
 
     /* Create context */
