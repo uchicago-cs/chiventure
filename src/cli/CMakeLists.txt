@@ -6,7 +6,7 @@ add_library(cli
             src/operations.c
             src/parser.c
             src/shell.c
-            examples/bison-demo/parser-bison.c)
+            examples/bison-demo/bison-demo.c)
 
 target_include_directories(cli PRIVATE src/)
 
