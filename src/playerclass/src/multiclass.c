@@ -215,6 +215,9 @@ skill_tree_t* multiclass_tree(char* name, skill_tree_t* base_tree, skill_tree_t*
     else if (second_tree == NULL) {
         int num_nodes = base_tree->num_nodes;
     }
+    else{
+        int num_nodes = base_tree->num_nodes + second_tree->num_nodes;
+    }
     tid_t tid = 1000; // TID is placeholder
     skill_tree_t* new_tree = skill_tree_new(tid, name, num_nodes);
     if (base_tree != NULL) {
