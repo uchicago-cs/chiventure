@@ -18,8 +18,7 @@
       ],
       "items": [
         "DOOR"
-      ],
-      "npcs": []
+      ]
     },
     "room B": {
       "short_desc": "This is room B",
@@ -30,8 +29,7 @@
           "to": "room C"
         }
       ],
-      "items": [],
-      "npcs": []
+      "items": []
     },
     "room A": {
       "short_desc": "This is room A",
@@ -42,8 +40,7 @@
           "to": "room B"
         }
       ],
-      "items": [],
-      "npcs": []
+      "items": []
     }
   },
   "ITEMS": {
@@ -64,6 +61,5 @@
       ],
       "in": "room A"
     }
-  },
-  "NPCS": {}
+  }
 }
