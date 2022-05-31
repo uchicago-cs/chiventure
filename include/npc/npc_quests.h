@@ -1,14 +1,8 @@
-#ifndef _NPC_QUEST_H
-#define _NPC_QUEST_H
+#ifndef _NPC_QUESTS_H
+#define _NPC_QUESTS_H
 
 #include "game-state/game_state_common.h"
-#include "game-state/item.h"
-#include "game-state/player.h"
-#include "playerclass/class_structs.h"
-#include "playerclass/class.h"
 #include "npc/dialogue.h"
-#include "npc/npc_battle.h"
-#include "npc/npc_move.h"
 #include "cli/util.h"
 #include "quests/quests_hash.h"
 #include "quests/quests_state.h"
@@ -213,4 +207,4 @@ int add_convo_to_quest(npc_quest_t *quest, convo_t *c);
  */
 int add_convo_to_task(npc_task_t *task, convo_t *c);
 
-#endif
+#endif /* _NPC_QUESTS_H */

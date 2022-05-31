@@ -27,8 +27,8 @@ game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode,
                            char *mode_ctx)
 {
     game_mode_t *mode;
-    mode = malloc(sizeof(mode_t));
-    memset(mode, 0, sizeof(mode_t));
+    mode = malloc(sizeof(game_mode_t));
+    memset(mode, 0, sizeof(game_mode_t));
     mode->mode_ctx = malloc(MAX_ID_LEN * sizeof(char));
 
     int check = game_mode_init(mode, curr_mode, run_mode, mode_ctx);
