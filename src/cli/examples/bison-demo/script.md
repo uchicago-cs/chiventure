@@ -16,13 +16,12 @@ and Second, understanding, documenting, and using an external parsing library.
 We will first cover the improvements we made to the existing infrastructure!
 
 ## EXISTING CHANGES
-*perhaps having stuff hear about the current parser, potentially actions kinds*
-*CMDS:
+CMDS:
 - elp (Suggestions)
 - look look look look look and go south (and multiple commands conditionality)
 - look look look look look; go south (; multiple commands conditionality)
 - go to the north (prepositions)
-- go to the "Dungeon of Dragons" (quotes)*
+- go to the "Dungeon of Dragons" (quotes)
 
 
 ## BISON
@@ -87,7 +86,7 @@ putting it all together we can have commands like:
 
 
 `use the sword of power on the evil clone of borja`
-`use my sword of power on the evil clone of associate instructional professor borja`
+`use my sword of power on the evil clone of associate senior instructional professor borja`
 
 ### Flow of Presentation:
 **Opening about what we were trying to do as the new CLI team**
