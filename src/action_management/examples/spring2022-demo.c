@@ -158,38 +158,38 @@ chiventure_ctx_t *create_sample_ctx()
     
 
     // add items to inventory
-    item_t *sword = item_new("sword", "A sword", "A sword");
+    item_t *sword = item_new("sword", "A sword", "Why would Borja need something this sharp?");
     add_item_to_player(player, sword, game);
 
-    item_t *laptop = item_new("laptop", "Laptop ", "Laptop ");
+    item_t *laptop = item_new("laptop", "Laptop ", "Every coder's best friend (even more than dogs)");
     add_item_to_player(player, laptop, game);
 
     item_t *glasses = item_new("glasses", "Glasses",
                       "Jinkies Borja can't see without these");
     add_item_to_player(player, glasses, game);
 
-    item_t *ring = item_new("ring", "Ring   ", "Ring   ");
+    item_t *ring = item_new("ring", "Ring   ", "Just fits your pinky finger");
     add_item_to_player(player, ring, game);
 
-    item_t *tape = item_new("tape", "Tape   ", "Tape   ");
+    item_t *tape = item_new("tape", "Tape   ", "Sticky paper");
     add_item_to_player(player, tape, game);
 
-    item_t *clock = item_new("clock", "Clock  ", "Clock  ");
+    item_t *clock = item_new("clock", "Clock  ", "Only correct twice a day");
     add_item_to_player(player, clock, game);
 
-    item_t *compass = item_new("compass", "Compass", "Compass");
+    item_t *compass = item_new("compass", "Compass", "Where am I?");
     add_item_to_player(player, compass, game);
 
-    item_t *gum = item_new("gum", "Gum    ", "Gum    ");
+    item_t *gum = item_new("gum", "Gum    ", "Dangerous to swallow");
     add_item_to_player(player, gum, game);
     
-    item_t *gas = item_new("gas", "Gas    ", "Gas    ");
+    item_t *gas = item_new("gas", "Gas    ", "For your car? How?");
     add_item_to_player(player, gas, game);
 
-    item_t *milk = item_new("milk", "Milk   ", "Milk   ");
+    item_t *milk = item_new("milk", "Milk   ", "Great for bone health");
     add_item_to_player(player, milk, game);
 
-    item_t *banana = item_new("banana", "Banana ", "Banana ");
+    item_t *banana = item_new("banana", "Banana ", "The perfect breakfast fruit");
     add_item_to_player(player, banana, game);
 
     item_t *pp_up = item_new("pp up", "PP Up  ",
@@ -197,33 +197,33 @@ chiventure_ctx_t *create_sample_ctx()
                     "of the move's base PP");
     add_item_to_player(player, pp_up, game);
 
-    item_t *pp_max = item_new("pp max", "PP Max ", "PP Max ");
+    item_t *pp_max = item_new("pp max", "PP Max ", "I have no idea what this is (ask Kendrick)");
     add_item_to_player(player, pp_max, game);
 
-    item_t *bands = item_new("bands", "Bands  ", "Bands  ");
+    item_t *bands = item_new("bands", "Bands  ", "For patching students up");
     add_item_to_player(player, bands, game);
 
-    item_t *candy = item_new("candy", "Candy  ", "Candy  ");
+    item_t *candy = item_new("candy", "Candy  ", "Nice");
     add_item_to_player(player, candy, game);
     
-    item_t *iron = item_new("iron", "Iron   ", "Iron   ");
+    item_t *iron = item_new("iron", "Iron   ", "Something I am deficient in");
     add_item_to_player(player, iron, game);
 
     // add items to room
-    item_t *soap = item_new("soap", "Soap   ", "Soap   ");
+    item_t *soap = item_new("soap", "Soap   ", "This better be environmentally friendly");
     add_item_to_room(room4, soap);
     agent_t *s = (agent_t*)(malloc(sizeof(agent_t)));
     s->item = soap; 
     add_action(s, "take", "You take the soap. It has cleansed you.", "You do not take the soap.");
 
-    item_t *rolex = item_new("rolex", "Rolex  ", "Rolex  ");
+    item_t *rolex = item_new("rolex", "Rolex  ", "Borja must be getting paid very well by the CS department");
     add_item_to_room(room2, rolex); 
     agent_t *r = (agent_t*)(malloc(sizeof(agent_t)));
     r->item = rolex; 
     add_action(r, "take", "You take Borja's watch. It looks better on you.", 
                               "You're not clean enough to touch Borja's watch. Is there soap around here?");
 
-    item_t *end_item = item_new("trophy", "Trophy ", "Trophy ");
+    item_t *end_item = item_new("trophy", "Trophy ", "Winner winner");
     add_item_to_room(room5, end_item); 
     agent_t *ei = (agent_t*)(malloc(sizeof(agent_t)));
     ei->item = end_item; 
