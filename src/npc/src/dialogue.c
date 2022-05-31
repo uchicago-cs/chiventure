@@ -305,8 +305,14 @@ int free_edge_list(edge_list_t *e_lst, bool free_edges)
     DL_FOREACH_SAFE(e_lst, elt, tmp)
     {
         DL_DELETE(e_lst, elt);
-        if (free_edges) edge_free(elt->edge);
-        free(elt);
+        if (elt->edge != NULL)
+        {
+            edge_free(elt->edge);
+        }
+        if (elt != NULL)
+        {
+            free(elt);
+        }
     }
 
     return SUCCESS;
