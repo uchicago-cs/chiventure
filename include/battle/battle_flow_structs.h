@@ -315,6 +315,4 @@ int init_battle_item(battle_item_t *item, int id, char *name, char *des,
                               stat_changes_t *attr, int quant, bool attack,
                               battle_item_t *next, battle_item_t *prev);
 #endif
-=======
-#endif /* BATTLE_FLOW_STRUCTS_H */
 
