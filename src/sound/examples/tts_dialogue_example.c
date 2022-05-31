@@ -98,9 +98,10 @@ char *run_conversation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             ret_str = run_conversation_step(npc->standard_dialogue, player_response, &rc, ctx->game);
         }
         
-        print_to_cli(ctx, ret_str);   
         // text to speech 
-        speak(t, ret_str);    
+        speak(t, ret_str);
+        print_to_cli(ctx, ret_str);   
+    
       
         if (rc != 1){
             scanf("%d", &player_response);
@@ -122,11 +123,11 @@ char *run_conversation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
             ret_str = run_conversation_step(npc->standard_dialogue, player_response, &rc, ctx->game);
         }
 
-        print_to_cli(ctx, ret_str);
         // text to speech 
         speak(t, ret_str);
-        
+        print_to_cli(ctx, ret_str);
 
+        
         if (rc != 1){
             scanf("%d", &player_response);
         }

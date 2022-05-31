@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <math.h>
-#include "../../src/sound/sandbox/espeak-ng/speak_lib.h"
+#include <espeak-ng/speak_lib.h>
 
 /* This represents a text-to-speech object */ 
 typedef struct {
