@@ -26,7 +26,7 @@ Sample DSL files can be found in the `examples/dsl` directory, and their corresp
 
 ###### While all example `.dsl` files compile to `.wdl`, files incompatible with Chiventure are either not complete games, contain features not supported by WDL/Chiventure, or both.
 
-## Installing Lark
+## Installing Lark 
 
 **The parser needs to be run on a Python distribution with the Lark module
 installed. The parser runs on Python versions 3.7 and greater, but we recommend Python 3.9.** 
