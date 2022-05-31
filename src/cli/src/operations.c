@@ -710,41 +710,6 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // this is the current player from the chiventure context
     player_t *player = ctx->game->curr_player;
-    // Since we are only having one player for the demo, here are their stats
-    /*stat_t *p1_stats = (stat_t*) calloc(1, sizeof(stat_t));
-    p_stats->hp = 100;
-    p_stats->max_hp = 100;
-    p_stats->xp = 10;
-    p_stats->speed = 10;
-    p_stats->level = 3;
-    p_stats->phys_def = 30;
-    p_stats->mag_def = 30;
-    p_stats->phys_atk = 80;
-    p_stats->mag_atk = 80;
-    p_stats->sp = 100;
-    p_stats->max_sp = 100;
-    p_stats->crit = 25;
-    p_stats->accuracy = 100;*/
-    // get the items the player is using
-    //battle_item_t *p1_items = make_items();
-    // create a battle player version of the current player
-    /*battle_player_t *b_player = new_ctx_player(player->player_id, 
-                                               player->player_class, 
-                                               p1_stats, 
-                                               player->moves, 
-                                               p1_items,
-                                               NULL, NULL, NULL); // these too*///I dont think this is necessary
-    // since everyting 
-    // create a battle context
-    //battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
-    // create a battle game and add it to the battle context
-    //battle_game_t *b_game = new_battle_game();
-    //battle_ctx->game = b_game;
-    // add the current player from the chiventure context to the game (already added to the thing from setup_battle_one?)
-    // battle_ctx->game->player = b_player;
-    // add the battle context to the chiventure context
-    //int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
-    // create a battle struct and initialize its parts (sets up combatants)
     int rc = start_battle(ctx->game->battle_ctx, npc, 
                           ENV_GRASS /* eventually this should be stored in 
                                        the room struct */);

@@ -175,7 +175,6 @@ int run_battle_mode (char *input, cli_callback callback_func,
         battle_ctx->game->battle->turn = ENEMY;
         battle_ctx->current_turn_tcl = battle_ctx->tcl;
         char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
-        //output = strcat(output, enemy_turn);
         output = strncat(output, enemy_turn, BATTLE_BUFFER_SIZE);
         ctx->game->battle_ctx->game->battle->turn = PLAYER;
         battle_ctx->current_turn_tcl = battle_ctx->tcl;

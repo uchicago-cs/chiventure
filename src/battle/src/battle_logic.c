@@ -57,19 +57,11 @@ turn_t goes_first(battle_t *b)
 /* see battle_logic.h */
 move_t *find_player_move(battle_ctx_t *ctx, char *move_name)
 {
-    //printf("place 1\n");
-    move_t *temp;// = (move_t *) malloc (sizeof(move_t));
+    move_t *temp;
     move_t *player_move = NULL;
 
     DL_FOREACH(ctx->game->battle->player->moves, temp)
     {
-        /*for(int i = 0; temp->name[i] != '\0'; i++)
-        {
-            printf("place 2\n");
-            printf("temp name %d", temp->name);
-            temp->name[i] = tolower(temp->name[i]);
-            printf("place 3\n");
-        }*/
         if (strncmp(temp->name, move_name, MAX_MOVE_INFO_LEN) == 0)
         {
             player_move = temp;
@@ -110,7 +102,6 @@ int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item)
         return FAILURE;
     }
     
-    //battle_item_t *item = find_battle_item(c->items, name);
     
     if (item == NULL || item->quantity == 0)
     {

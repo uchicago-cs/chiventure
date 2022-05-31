@@ -254,13 +254,6 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_ENEMY_SURRENDER;
     }
-    /*if(battle_over(b) == BATTLE_IN_PROGRESS)
-    {
-        char *res = enemy_make_move(ctx);
-        strncat(string, res, 150);
-        free(res);
-    }*/
-
     return string;
 }
 
@@ -283,9 +276,6 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
        snprintf(string, 150, "FAILURE\n");
         return string;
     }
-
-    /*char *item_name = calloc(150, sizeof(char));
-    strcpy(item_name, item->name);*/
 
     int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item);
     string = print_battle_item(ctx->game->battle, PLAYER, item);
@@ -411,7 +401,6 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
     get_legal_actions(&legal_items, &legal_moves, 
                       ctx->game->battle_ctx->current_turn_tcl->current, 
                       ctx->game->battle_ctx->game->battle);
-    // char *ret_string = (char*)calloc(1,BATTLE_BUFFER_SIZE*sizeof(char));
     if ((input[0] == 'M' || input[0] == 'm') && (legal_moves != NULL))
     {
         // take the index of the move, under the assumption that the list is less than 10 moves long
@@ -419,7 +408,6 @@ char *run_action(char *input, chiventure_ctx_t *ctx)
         temp_move = ctx->game->battle_ctx->game->player->moves;
         for (int k = 0; k < index; k++)
         {
-            //if (ctx->game->battle_ctx->game->player->moves == NULL)
             if (temp_move == NULL)
             {
                 char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
