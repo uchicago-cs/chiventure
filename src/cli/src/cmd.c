@@ -131,12 +131,7 @@ int lookup_t_init(lookup_t **t)
     add_entry("PALETTE", palette_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
     add_entry("TALK", talk_operation, NULL, t);
-<<<<<<< HEAD
     add_entry("FIGHT", battle_operation, NULL, t);
-
-=======
-    
->>>>>>> 796ddf6c7c0bdfd3c52fd7412d03f9981cf20686
     add_action_entries(t);
 
     return SUCCESS;
