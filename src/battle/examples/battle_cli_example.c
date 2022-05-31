@@ -152,7 +152,9 @@ room_t *setup_battle_one(chiventure_ctx_t *ctx)
     // create a room and add the npc to it
     room_t *room = room_new("room1", 
                             "This is The Room", 
-                            "You are in a torchlit hallway. a minion blocks your path.");
+                            "You are in a torchlit hallway. 
+                            a minion blocks your path 
+                            and a ninja crouches in the shadows beyond");
     add_npc_to_room(room->npcs, e1);
     add_npc_to_room(room->npcs, e2);
 
