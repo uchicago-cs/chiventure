@@ -25,7 +25,6 @@ void print_ll(word_ll *phrase)
 {
     for(int i = 0; phrase!=NULL;phrase=phrase->next,i++) {
         printf("%d'th term = [%s]\n",i,phrase->word);
-		
 	} 
 }
 
@@ -33,7 +32,7 @@ void print_ll(word_ll *phrase)
 
 char **handle_cmd(word_ll *p) {
     int LL_MAX_SIZE = 100;
-    print_ll(p);
+    //print_ll(p);
     if (p == NULL) {
         return NULL;
     }
@@ -51,9 +50,12 @@ char **handle_cmd(word_ll *p) {
         return NULL;
     }
     */
+    printf("\nInput did not match any command\n");
+    printf("input : [");
     for(int j = 0; j<LL_MAX_SIZE && words[j] != NULL; j++) {
-	    printf("%d'th term in array = [%s]\n",j,words[j]);	
+        printf("%s%s", words[j],words[j+1]? " " : "]" );
 	}
+    printf("\n\n");
     
     return words;
 }
@@ -145,20 +147,21 @@ void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
 }
 
 void handle_misc_cmd(word_ll *action, word_ll *phrase) {
-    printf("this is an action that is not of the 4 action kinds\n");
+    printf("\nNon-kind Action \n");
     char *a = action->word;
     word_ll *p = phrase;
     if (a == NULL) {
         printf("There's nothing there! \n");
     } else {
-        printf("the action is: %s", a);
+        printf("action : [%s]\n", a);
     }
     if (p != NULL) {
-        printf("\nthe target is: %s", p->word);
+        printf("target : [%s", p->word);
+        printf("%s",p->next ? " " : "]" );
         p = p->next;
     }
     while (p != NULL) {
-        printf(" %s", p->word);
+        printf("%s%s", p->word,p->next ? " " : "]" );
         p = p->next;
     }
     printf("\n\n");
