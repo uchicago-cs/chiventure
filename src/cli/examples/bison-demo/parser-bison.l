@@ -10,25 +10,25 @@
 %%
 
     /* this takes in start of line and "open" and returns the token OPEN */
-^open { return OPEN; }
+^open|OPEN { return OPEN; }
 
-close { return CLOSE; }
+close|CLOSE|shut|SHUT { return CLOSE; }
 
-push { return PUSH; }
+push|PUSH { return PUSH; }
 
-pull { return PULL; }
+pull|PULL { return PULL; }
 
 turn_on { return TURN_ON; }
 
 turn_off { return TURN_OFF; }
 
-take { return TAKE; }
+take|TAKE|grab|GRAB { return TAKE; }
 
-pickup { return PICKUP; }
+pickup|PICKUP { return PICKUP; }
 
-drop { return DROP; }
+drop|DROP { return DROP; }
 
-consume { return CONSUME; }
+consume|CONSUME { return CONSUME; }
 
 the+ { return THE; }
 
@@ -44,7 +44,7 @@ TO|to|To|tO   { return TO; }
 
 ^credits|CREDITS { return CREDITS; }
 
-^look|LOOK { return LOOK; }
+^look|LOOK|where|WHERE { return LOOK; }
 
 ^inv|INV { return INV; }
 
@@ -64,7 +64,7 @@ TO|to|To|tO   { return TO; }
 
 ^fight|FIGHT|battle|BATTLE { return FIGHT; }
 
-^put|PUT { return PUT; }
+^put|PUT|place|PLACE { return PUT; }
 
 ^use|USE { return USE; }
 
