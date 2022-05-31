@@ -426,6 +426,26 @@ int node_action_type_check(obj_t *obj)
     return !(action && action_id);
 }
 
+int npc_quest_type_check(obj_t *obj)
+{
+    int id = (obj_get_type(obj, "Quest") == TYPE_STR);
+    if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
+    {
+        return FAILURE;
+    }
+    return SUCCESS;
+}
+
+int npc_task_type_check(obj_t *obj)
+{
+    int id = (obj_get_type(obj, "Task") == TYPE_STR);
+    if (dialogue_type_check(obj_get(obj, "Dialogue")) != SUCCESS)
+    {
+        return FAILURE;
+    }
+    return SUCCESS;
+}
+
 // The following functions regard condition type checking
 
 int conditions_type_check(obj_t *obj)
@@ -515,6 +535,7 @@ int mission_type_check(obj_t *obj)
 
     return !(target_name && type);
 }
+
 
 // The following are print functions to print out specific fields within a
 // specified object
