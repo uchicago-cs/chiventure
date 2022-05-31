@@ -188,6 +188,7 @@ roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, ite
         return NULL;
     }
     roomspecnew->itemspecs = NULL;
+    roomspecnew->tag=-1;
     return roomspecnew;
 }
 
@@ -287,6 +288,18 @@ int specgraph_free(specgraph_t *specgraph)
     free(specgraph);
 
     return SUCCESS;
+}
+
+int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec){
+
+    int num_roomspecs=specgraph->num_roomspecs;
+    roomspec_t **roomspecs=specgraph->roomspecs;
+    int **edges=specgraph->edges;
+
+    int currtag=currspec->tag;
+    int adjacenttag=adjacentspec->tag;
+
+    return edges[currtag][adjacenttag];
 }
 
 /* See gen_structs.h */

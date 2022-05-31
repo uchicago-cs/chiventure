@@ -9,6 +9,7 @@
 #include "lauxlib.h"
 #include "lua.h"
 #include "lualib.h"
+#include "common/utlist.h"
 
 /* File consisting of the custom pseudo-type created by Custom Scripts (inspired by libobj)
    =========================================================================== */

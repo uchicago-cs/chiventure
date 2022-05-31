@@ -119,4 +119,4 @@ bool is_restricted(item_t* item, class_t* class);
 int remove_item_restriction(item_t* item, class_t* class);
 
 
-#endif /* CLASS_ITEM_H */
+#endif /* _CLASS_ITEM_H */

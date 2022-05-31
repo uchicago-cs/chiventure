@@ -22,8 +22,10 @@ bool completed_mission(mission_t *mission, player_t *player) {
             }
             return false;
             break;
+        case MEET_NPC:
+            return !(strcmp(player->crnt_npc, mission->target_name));
     }
-    return true;
+    return false;
 }
 
 /* Refer to quests_state.h */
@@ -62,7 +64,7 @@ int accept_reward(reward_t *reward, quest_ctx_t *qctx) {
         return FAILURE;
     }
 
-    player->xp += reward->xp;
+    player->xp = change_xp(player, reward->xp);
     add_item_to_player_without_checks(player, reward->item);
     update_player_quests(qctx);
     return SUCCESS;
@@ -79,7 +81,7 @@ bool meets_prereqs(player_t *player, prereq_t *prereq) {
     stats_hash_t *stats_hash = player->player_stats;
     double health = get_stat_current(stats_hash, "health");
     
-    if (health < prereq->hp || player->level < prereq->level) {
+    if ((health >= 0 && health < prereq->hp) || player->level < prereq->level) {
         return false;
     }
     id_list_t *quest_list = prereq->quest_list;
@@ -244,11 +246,16 @@ reward_t *complete_task(char *task_id, quest_ctx_t *qctx)
                 }
             }
             // Remove tasks from other paths from player
-            if(tree->parent != NULL) {
-                for(task_tree_t *cur = tree->parent->lmostchild; cur != NULL; cur = cur->rsibling) {
-                    if(!get_player_task_status(cur->task, player)) {
-                        remove_task_in_player_hash(qctx->player->player_tasks, cur->task->id);
-                    }
+            task_tree_t *lmost_sibling;
+            if(tree->parent == NULL) {
+                lmost_sibling = quest_of_task->task_tree;
+            }
+            else {
+                lmost_sibling = tree->parent->lmostchild;
+            }
+            for(task_tree_t *cur = lmost_sibling; cur != NULL; cur = cur->rsibling) {
+                if(!get_player_task_status(cur->task, player)) {
+                    remove_task_in_player_hash(&(qctx->player->player_tasks), cur->task->id);
                 }
             }
         }
@@ -290,7 +297,7 @@ void update_task(char *task_id, quest_ctx_t *qctx) {
 }
 
 /* Refer to quests_state.h */
-bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
+bool can_player_start_quest(quest_ctx_t *qctx, char *quest_id)
 {
     assert(qctx != NULL);
     quest_t *quest = get_quest_from_hash(quest_id, qctx->quest_hash);
@@ -300,11 +307,16 @@ bool npc_can_give_quest(quest_ctx_t *qctx, char *quest_id)
     prereq_t *prereq = quest->prereq;
     player_t *player = qctx->player;
 
+    player_quest_t *pquest = get_player_quest_from_hash(quest_id, player->player_quests);
+    if(pquest != NULL) {
+        return false;
+    }
+
     return (meets_prereqs(player, prereq));
 }
 
 /* Refer to quests_state.h */
-bool npc_can_give_task(quest_ctx_t *qctx, char *task_id)
+bool can_player_complete_task(quest_ctx_t *qctx, char *task_id)
 {
     assert(qctx != NULL);
     task_t *task = get_task_from_quest_hash(task_id, qctx->quest_hash);
@@ -313,6 +325,14 @@ bool npc_can_give_task(quest_ctx_t *qctx, char *task_id)
     
     prereq_t *prereq = task->prereq;
     player_t *player = qctx->player;
+
+    player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
+    if(ptask == NULL) {
+        return false;
+    }
+    if(ptask->completed) {
+        return false;
+    }
 
     return (meets_prereqs(player, prereq));
 }
