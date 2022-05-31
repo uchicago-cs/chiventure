@@ -15,15 +15,22 @@ Sample DSL files can be found in the `examples/dsl` directory, and their corresp
 - **`connected-vars.dsl`**, a stripped-down version of the `connected-rooms` example written in 11 lines using variables
 - **`distaff.dsl`**, a DSL implementation of the `distaff.yaml` game (the game has since been removed from the `dev` branch)
 - **`min.dsl`**, essentially the minimum possible DSL file
+- **`players.dsl`**, Example file that contains class parsing.
+- **`npc-no-dialogue.dsl`**, example output given from the npc parsing without dialogue support in game. Cannot interact with NPCs properly with this file.
+- **`npc-with-dialogue.wdl`**, This is a wdl file based off `npc-no-dialogue.wdl` that has hardcoded dialogue within. Can properly interact with NPCs here.
+- **`demo-2022.dsl`**, Demo file containing rooms, items, classes, and npcs (no dialogue)
+- **`demo-2022-dialogue.wdl`**, Demo file containing rooms, items, classes, and npcs (dialogue hardcoded)
+
 
 #### Chiventure-invalid
 - `long-example.dsl`, a, well, *long* example DSL file designed to showcase the DSL parser's flexibility and versatility
 - `short_example.dsl`, a short, itemless DSL example
 - `vars.dsl`, an example that showcases the DSL's variable features
+- `npc.dsl`, sample npc as a base example
 
 ###### While all example `.dsl` files compile to `.wdl`, files incompatible with Chiventure are either not complete games, contain features not supported by WDL/Chiventure, or both.
 
-## Installing Lark
+## Installing Lark 
 
 **The parser needs to be run on a Python distribution with the Lark module
 installed. The parser runs on Python versions 3.7 and greater, but we recommend Python 3.9.** 

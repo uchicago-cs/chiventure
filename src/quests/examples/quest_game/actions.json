@@ -1,0 +1,18 @@
+{
+"actions": [
+    {
+        "id": "action_interrogate_pirate",
+        "sequence":[
+            {"block":"say", "params":"'The Pirate lies whimpering on the ground from the severity of your interrogation...'"},
+            {"block":"endif", "params":""}
+        ]
+    },
+    {
+        "id": "action_win_game",
+        "sequence":[
+            {"block":"say", "params":"'You have entered Steve's Sanctum. You win!'"},
+            {"block":"wingame", "params":""}
+        ]
+    }
+]
+}
