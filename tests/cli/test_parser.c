@@ -218,6 +218,7 @@ Test(parse, many_spaces)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
+
 Test(parse, rm_multiple_filler_words)
 {
     char str[] = "go to the South";
@@ -311,6 +312,7 @@ Test(parse, lower)
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
 
+
 /*Tests the parsing of input which is just and.*/
 Test(parse, and)
 {
@@ -318,6 +320,7 @@ Test(parse, and)
     char **words = parse(str);
     cr_assert_str_eq(words[0],"and", "parse() did not create first token");
 }
+
 
 /*Tests the parsing of input with spaces at the end.*/
 Test(parse, end_spaces)
@@ -431,6 +434,7 @@ Test(parse, all_fillers_with_spaces_diff_sizing)
     cr_assert_null(words[2],"parse() should point to NULL for empty tokens");
     cr_assert_null(words[3],"parse() should point to NULL for empty tokens");
 }
+
 
 
 
