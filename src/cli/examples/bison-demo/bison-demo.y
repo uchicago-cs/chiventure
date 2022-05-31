@@ -139,7 +139,7 @@ kind1_cmd_keyword
   ;
 
 
-/* See misc_cmd_keyword, except for kind 2 action commands.
+/* See misc_cmd, except for kind 2 action commands.
  * Passed to line. */
 kind2_cmd
   : kind2_cmd_keyword { $$ = $1; }
@@ -154,15 +154,25 @@ kind2_cmd_keyword
   ;
 
 
+/* This is just like misc_cmd, but the filtering of words that modify the items
+ * is done in kind3_item. This exists for cases where words modifying the action
+ * or other filler words need to be filtered.
+ * Passed to line. */ 
 kind3_cmd
   : kind3_cmd_keyword { $$ = $1; }
   ;
 
+/* See misc_cmd_keyword, except for kind 3 action commands. 
+ * Passed to kind3_cmd. */
 kind3_cmd_keyword
   : USE { $$ = start_phrase("use"); }
   | PUT { $$ = start_phrase("put"); }
   ;
 
+/* Similar to misc_cmd, in that it filters out the tokens that modify the items
+ * in the input. This is done separately from kind3_cmd since there are two items
+ * in kind 3 actions.
+ * Passed to line. */
 kind3_item
   : THE phrase { $$ = $2; }
   | phrase
