@@ -420,20 +420,20 @@ convo_t *create_sample_convo_harry()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
+    add_node(c, "1", "Harry: Are your trying to pick a fight with me?", NEGATIVE);
     add_node(c, "2a", "Harry: You will regret this. Let's meet outside and "
-             "I will show you no mercy.");
+             "I will show you no mercy.", NEGATIVE);
     node_t *battle_node1 = get_node(c->all_nodes, "2a");
     add_action_to_node(battle_node1, MOVE_ROOM, "harry move to outside");
 
     add_node(c, "2b", "Well, you are not welcome here. Catch me outside and "
-             "I will show you no mercy.");
+             "I will show you no mercy.", NEGATIVE);
     node_t *battle_node2 = get_node(c->all_nodes, "2b");
     add_action_to_node(battle_node2, MOVE_ROOM, "harry move outside");
 
     // Edges
-    add_edge(c, "What does it matter to you, old man?", "1", "2a", NULL);
-    add_edge(c, "I am just passing through, I don't want any trouble.", "1", "2b", NULL);
+    add_edge(c, "What does it matter to you, old man?", "1", "2a", NULL, NEGATIVE);
+    add_edge(c, "I am just passing through, I don't want any trouble.", "1", "2b", NULL, NEUTRAL);
 
     return c;
 }
@@ -486,20 +486,20 @@ convo_t *create_sample_convo_fiona()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Fiona: Hey how are you doing?");
+    add_node(c, "1", "Fiona: Hey how are you doing?", POSITIVE);
     add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
-             "some battle skills with you outside.");
+             "some battle skills with you outside.", NEUTRAL);
     node_t *hostile_node = get_node(c->all_nodes, "2a");
     add_action_to_node(hostile_node, MAKE_HOSTILE, "fiona battle");
     add_action_to_node(hostile_node, MOVE_ROOM, "fiona move outside");
 
-    add_node(c, "2b", "Fiona: I hope you have a good day too! Please, take my mace for good luck!");
+    add_node(c, "2b", "Fiona: I hope you have a good day too! Please, take my mace for good luck!", POSITIVE);
     node_t *mace_node = get_node(c->all_nodes, "2b");
     add_action_to_node(mace_node, GIVE_ITEM, "mace");
 
     // Edges
-    add_edge(c, "Let's have a fight.", "1", "2a", NULL);
-    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL);
+    add_edge(c, "Let's have a fight.", "1", "2a", NULL, NEGATIVE);
+    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL, POSITIVE);
 
     return c;
 }
@@ -553,15 +553,15 @@ convo_t *create_sample_convo_wilma()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Wilma: Oh! hi! I'm Wilma!");
+    add_node(c, "1", "Wilma: Oh! hi! I'm Wilma!", POSITIVE);
     node_t *node_1 = get_node(c->all_nodes, "1");
     add_action_to_node(node_1, PAUSE_MOVEMENT, "stop wilma");
     
     add_node(c, "2", "Wilma: Listen! I'm in a rush, but I was going to "
                      "deliver this coffee to Borja as a gift, I don't "
-                     "suppose you would want to?");
+                     "suppose you would want to?", POSITIVE);
 
-    add_node(c, "3a", "Wilma: Thank you! I've gotta run, bye!");
+    add_node(c, "3a", "Wilma: Thank you! I've gotta run, bye!", POSITIVE);
     node_t *coffee_node = get_node(c->all_nodes, "3a");
     add_action_to_node(coffee_node, GIVE_ITEM, "coffee");
     node_t *node_3 = get_node(c->all_nodes, "3a");
@@ -569,13 +569,13 @@ convo_t *create_sample_convo_wilma()
 
     add_node(c, "3b", "Wilma: Oh no I don't want it, I'm going to throw it away if "
                       "you don't take it, you wouldn't waste good coffee "
-                      "would you?\n");
+                      "would you?\n", POSITIVE);
 
     // Edges
-    add_edge(c, "Hello wilma!", "1", "2", NULL);
-    add_edge(c, "Yeah! Sure thing!", "2", "3a", NULL);
-    add_edge(c, "Ummm, no that's okay, you can have it", "2", "3b", NULL);
-    add_edge(c, "Oh no I couldn't do that, I'll take it to him.", "3b", "3a", NULL);
+    add_edge(c, "Hello wilma!", "1", "2", NULL, POSITIVE);
+    add_edge(c, "Yeah! Sure thing!", "2", "3a", NULL, POSITIVE);
+    add_edge(c, "Ummm, no that's okay, you can have it", "2", "3b", NULL, POSITIVE);
+    add_edge(c, "Oh no I couldn't do that, I'll take it to him.", "3b", "3a", NULL, POSITIVE);
 
     return c;
 }
@@ -614,22 +614,22 @@ convo_t *create_sample_convo_borja(game_t *game)
 {
     convo_t *c = convo_new();
 
-    add_node(c, "1", "");
-    add_node(c, "2", "Oh thank you! Of course! *takes sip*");
+    add_node(c, "1", "", NEUTRAL);
+    add_node(c, "2", "Oh thank you! Of course! *takes sip*", POSITIVE);
     node_t *coffee_node = get_node(c->all_nodes, "2");
     add_action_to_node(coffee_node, TAKE_ITEM, "coffee");
 
-    add_node(c, "3", "Borja: Wait, is this... DRIP coffee??");
+    add_node(c, "3", "Borja: Wait, is this... DRIP coffee??", NEGATIVE);
     add_node(c, "4a", "Borja: (ノಠ益ಠ)ノ彡┻━┻ Don't you know that I HATE drip coffee? "
                       "You should be ashamed, meet me outside so I can "
-                      "teach you a lesson\n");
+                      "teach you a lesson\n", NEGATIVE);
     node_t *foura_node = get_node(c->all_nodes, "4a");
     add_action_to_node(foura_node, MAKE_HOSTILE, "borja hostile");
     add_action_to_node(foura_node, MOVE_ROOM, "borja move outside");
     
     add_node(c, "4b", "Borja: (ノಠ益ಠ)ノ彡┻━┻ THAT IS DRIP COFFEE. "
                       "You should be ashamed, meet me outside so I can "
-                      "teach you a lesson\n");
+                      "teach you a lesson\n", NEGATIVE);
     node_t *fourb_node = get_node(c->all_nodes, "4b");
     add_action_to_node(fourb_node, MAKE_HOSTILE, "borja hostile");
     add_action_to_node(fourb_node, MOVE_ROOM, "borja move outside");
@@ -637,11 +637,11 @@ convo_t *create_sample_convo_borja(game_t *game)
     item_t *coffee = get_item_from_game(game, "coffee");
     // Edges
     add_edge(c, "Hi Borja, I got this coffee for you if you'd like it.", "1", "2",
-             inventory_condition_new(game->curr_player, coffee));
-    add_edge(c, "No problem!", "2", "3", NULL);
-    add_edge(c, "Why yes it is!", "3", "4a", NULL);
-    add_edge(c, "No, it's a pourover!", "3", "4b", NULL);
-    add_edge(c, "Oh I'm not sure", "3", "4a", NULL);
+             inventory_condition_new(game->curr_player, coffee), POSITIVE);
+    add_edge(c, "No problem!", "2", "3", NULL, POSITIVE);
+    add_edge(c, "Why yes it is!", "3", "4a", NULL, POSITIVE);
+    add_edge(c, "No, it's a pourover!", "3", "4b", NULL, POSITIVE);
+    add_edge(c, "Oh I'm not sure", "3", "4a", NULL, NEUTRAL);
 
     return c;
 }
