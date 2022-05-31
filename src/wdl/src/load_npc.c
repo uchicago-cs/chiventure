@@ -135,6 +135,8 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
     obj_t *actions_obj;
     obj_t *conditions_obj;
     condition_t *conditions;
+    tone_t node_tone = convo->all_nodes->node->tone;
+    tone_t edge_tone = convo->all_edges->edge->tone;
 
     // build nodes
     DL_FOREACH(nodes_obj->data.lst, curr)
@@ -143,7 +145,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
         npc_dialogue = obj_get_str(curr, "npc_dialogue");
 
         // create node
-        if (add_node(convo, id, npc_dialogue) != SUCCESS) {
+        if (add_node(convo, id, npc_dialogue, node_tone) != SUCCESS) {
             fprintf(stderr, "Could not add node with ID: %s. NPC: %s\n", id,
                     npc->npc_id);
             return NULL;
@@ -177,7 +179,7 @@ convo_t *load_dialogue(obj_t *dialogue_obj, npc_t *npc, game_t *g)
             }
         }
         // create edge
-        if (add_edge(convo, quip, from_id, to_id, conditions) != SUCCESS) {
+        if (add_edge(convo, quip, from_id, to_id, conditions, edge_tone) != SUCCESS) {
             fprintf(stderr, "Could not add edge with quip: %s. NPC: %s\n",
                     quip, npc->npc_id);
             return NULL;

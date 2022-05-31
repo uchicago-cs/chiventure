@@ -249,15 +249,14 @@ phrase
 /* yyparse is the mechanism for prompting for input, found in the Bison library */
 int main(int argc, char **argv)
 {
-    yyparse();   
+    while(1) { yyparse(); }
     return 0;
 }
 
 
 void yyerror(char *s)
 {
-    fprintf(stderr, "parse error: %s\n", s);
-    exit(1);
+printf("\n");
 }
 
 

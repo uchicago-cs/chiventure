@@ -1,6 +1,3 @@
-#ifndef GEN_STRUCTS_H
-#define GEN_STRUCTS_H
-
 /* Team RPG-Openworld
 *
 * Gen-Structs header file
@@ -19,6 +16,9 @@
 #include <stdlib.h>
 #include "game-state/game.h"
 #include "game-state/game_state_common.h"
+
+#ifndef GEN_STRUCTS_H
+#define GEN_STRUCTS_H
 
 /* -- STRUCTS -- */
 
@@ -260,15 +260,13 @@ int itemspec_free(itemspec_t *itemspec);
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
-* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Does not affect itemspec hash. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
-* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
 *
 * returns:
 * SUCCESS - for SUCCESS
 * FAILURE - if failed to initialize
 */
-int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag);
+int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
 
 /* roomspec_new
 * Creates a new roomspec_t* based off the given parameters.
@@ -278,15 +276,13 @@ int init_roomspec(roomspec_t *spec, char *room_name, char *short_desc, char *lon
 * - short_desc: the short description
 * - long_desc: the long description
 * - items: ptr to the hash table of the items
-* - tag: reference to roomspec's positioning in list of roomspecs in specgraph
 * NOTE: Initializes itemspec hash to NULL. Must manually add itemspecs to hash using HASH_ADD_KEYPTR.
-* NOTE: If not used with specgraph, there will not be a correspondoing tag. 
-* 
+*
 * returns:
 * roomspec_t *roomspecnew - the new roomspec
 * NULL - if fails to create a new roomspec.
 */
-roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items, int tag);
+roomspec_t* roomspec_new(char *room_name, char *short_desc, char *long_desc, item_hash_t *items);
 
 /* roomspec_free
 * Frees a roomspec_t* and returns whether or not it was succesful.
@@ -385,6 +381,21 @@ specgraph_t* specgraph_new(int num_roomspecs, roomspec_t **roomspecs, int **edge
 * FAILURE - if failed to free
 */
 int specgraph_free(specgraph_t *specgraph);
+
+/* roomspec_correlation
+ * Given a 2 roomspecs, determines their correlation from the adjacency matrix. 
+ * Note that order matters-currspec will specify the row in edges and adjacentspec will specify the column in edges
+ *
+ * Parameters:
+ * - specgraph: The specgraph containing the adjacency matrix information.
+ * - currspec: The roomspec of the current room (the row in the adjacency matrix)
+ * - adjacentspec: The roomspec of the adjacent roomspec (the column in the adjacency matrix)
+ *
+ *
+ * returns:
+ * - Returns an integer (0-5) representing the correlation based on the adjacency matrix
+ */
+int roomspec_correlation(specgraph_t *specgraph, roomspec_t *currspec, roomspec_t *adjacentspec);
 
 /* roomlevel */
 
@@ -504,4 +515,5 @@ levelspec_t *levelspec_new(int num_thresholds, int *thresholds);
  */
 int levelspec_free(levelspec_t *levelspec);
 
-#endif /* GEN_STRUCTS_H */
+
+#endif
