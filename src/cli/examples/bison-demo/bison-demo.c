@@ -4,7 +4,7 @@
 #include "cli/operations.h"
 #include "cli/cmd.h"
 
-/* create an linked list item of a phrase */
+/* see demo-bison.h */
 word_ll* start_phrase(char *word) {
     word_ll *head = malloc(sizeof(word_ll));
     head->word = word;
@@ -12,10 +12,10 @@ word_ll* start_phrase(char *word) {
     return head;
 }
 
-/* append a word to an existing phrase */
+/* see demo-bison.h */
 word_ll* append_to_phrase(word_ll *phrase, char *word) {
     word_ll *next = start_phrase(word); // create the linked list item to be appended
-    LL_APPEND(phrase, next);
+    LL_APPEND(phrase, next); //from utlist library in common directory
     return phrase;
 }
 
@@ -29,8 +29,7 @@ void print_ll(word_ll *phrase)
 	} 
 }
 
-
-
+/* see demo-bison.h */
 char **handle_cmd(word_ll *p) {
     int LL_MAX_SIZE = 100;
     print_ll(p);
@@ -53,6 +52,7 @@ char **handle_cmd(word_ll *p) {
     return words;
 }
 
+/* see demo-bison.h */
 void handle_kind1_cmd(word_ll *action, word_ll *phrase){
     printf("this is a kind 1 action: ACTION <item>\n");
     char *a = action->word;
@@ -73,6 +73,7 @@ void handle_kind1_cmd(word_ll *action, word_ll *phrase){
     printf("\n\n");
 }
 
+/* see demo-bison.h */
 void handle_kind2_cmd(word_ll *phrase) {
     printf("this is a kind 2 action: ACTION <path>\n");
     printf("going to location:");
@@ -88,6 +89,7 @@ void handle_kind2_cmd(word_ll *phrase) {
     printf("\n\n");
 }
 
+/* see demo-bison.h */
 void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2) {
     printf("this is a kind 3 action: ACTION <item> <item>\n");
     char *a = action->word;
@@ -118,6 +120,7 @@ void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2) {
     printf("\n\n");
 }
 
+/* see demo-bison.h */
 void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
     printf("this is a kind 4 action: ACTION <self>\n");   
     char *a = action->word;
@@ -138,6 +141,7 @@ void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
     printf("\n\n");
 }
 
+/* see demo-bison.h */
 void handle_misc_cmd(word_ll *action, word_ll *phrase) {
     printf("this is an action that is not of the 4 action kinds\n");
     char *a = action->word;
