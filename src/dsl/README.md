@@ -18,6 +18,8 @@ Sample DSL files can be found in the `examples/dsl` directory, and their corresp
 - **`players.dsl`**, Example file that contains class parsing.
 - **`npc-no-dialogue.dsl`**, example output given from the npc parsing without dialogue support in game. Cannot interact with NPCs properly with this file.
 - **`npc-with-dialogue.wdl`**, This is a wdl file based off `npc-no-dialogue.wdl` that has hardcoded dialogue within. Can properly interact with NPCs here.
+- **`demo-2022.dsl`**, Demo file containing rooms, items, classes, and npcs (no dialogue)
+- **`demo-2022-dialogue.wdl`**, Demo file containing rooms, items, classes, and npcs (dialogue hardcoded)
 
 
 #### Chiventure-invalid
