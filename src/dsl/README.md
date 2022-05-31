@@ -15,8 +15,10 @@ Sample DSL files can be found in the `examples/dsl` directory, and their corresp
 - **`connected-vars.dsl`**, a stripped-down version of the `connected-rooms` example written in 11 lines using variables
 - **`distaff.dsl`**, a DSL implementation of the `distaff.yaml` game (the game has since been removed from the `dev` branch)
 - **`min.dsl`**, essentially the minimum possible DSL file
+- **`players.dsl`**, Example file that contains class parsing.
 - **`npc-no-dialogue.dsl`**, example output given from the npc parsing without dialogue support in game. Cannot interact with NPCs properly with this file.
 - **`npc-with-dialogue.wdl`**, This is a wdl file based off `npc-no-dialogue.wdl` that has hardcoded dialogue within. Can properly interact with NPCs here.
+
 
 #### Chiventure-invalid
 - `long-example.dsl`, a, well, *long* example DSL file designed to showcase the DSL parser's flexibility and versatility
