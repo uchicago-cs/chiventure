@@ -21,6 +21,7 @@ We will first cover the improvements we made to the existing infrastructure!
 
 
 ## BISON
+### Bison intro
 For our external parsing library, at our TA's recommendation decided on bison/flex, as there aren't many C libraries to pick from in the first place and of the ones we tested, we were actually able to get it working.
 
 Flex is a lexer generator, a program which takes in input and turns it into tokens based on user defined grammar. 
@@ -28,6 +29,20 @@ Flex is a lexer generator, a program which takes in input and turns it into toke
 Flex then gives these tokens to bison, which is a parser generator.
 A program which, with a user defined grammar, can match series of tokens to different rules and execute C code based of that, exactly what we want to do in chiventure!
 
+We decided that bison would replace the parsing function in chiventure, maintaing the same output as the current parser so all existing operations and functions will work.
+
+### Bison demo 
+To start with, we needed bison to replicate the current chiventure parsing. 
+This involves recognizing different "kinds" of actions. 
+Currently there are 4 "kinds" of actions, which are general formats for actions,
+
+For example, `take sword` is a kind1 action, parsed into `take` and `sword`
+`go north` is kind2
+`use sword on borja` is kind 3
+`view stats` 
+`look`
+
+All of these are parsed into the same output as current chiventure, however bison is capable of much more. 
 
 
 
