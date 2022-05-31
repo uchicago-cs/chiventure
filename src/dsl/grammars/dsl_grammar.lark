@@ -25,6 +25,9 @@ stat: _NL phrase NUMBER _NL phrase NUMBER
 effects: _NL "effects:" phrase
 
 skill_tree: _NL "skill_tree:" phrase
+attribute: _NL "attributes:" attribute_ids*
+attribute_ids: _NL id "set" bool
+ 
 
 starting_skills: _NL "starting_skills:" phrase
 
