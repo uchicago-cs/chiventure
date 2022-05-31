@@ -3,7 +3,7 @@
         "start": "room_A",
         "intro": "This is the intro",
         "end": {
-            "in_room": "room_D"
+            "in_room": "room_C"
         }
     },
     "ROOMS": {
@@ -19,27 +19,17 @@
         },
         "room_B": {
             "short_desc": "This is room B",
-            "long_desc": "This is room B. It's empty, but there is an escape to the north.",
+            "long_desc": "This is room B. There's a table and an exit to the west.",
             "connections": [
                 {
                     "to": "room_C",
-                    "direction": "NORTH"
+                    "direction": "WEST"
                 }
             ]
         },
         "room_C": {
             "short_desc": "This is room C",
-            "long_desc": "This is room C. There's a table and an exit to the west. Some even call it the Dungeon of Death...",
-            "connections": [
-                {
-                    "to": "room_D",
-                    "direction": "DUNGEON OF DEATH"
-                }
-            ]
-        },
-        "room_D": {
-            "short_desc": "This is the Dungeon of Death",
-            "long_desc": "This is the Dungeon of Death, the final room in the game",
+            "long_desc": "This is room C, the final room in the game",
             "connections": [
                 {
                     "to": "room_A",
