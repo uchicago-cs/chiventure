@@ -15,6 +15,9 @@ find_package(Curses REQUIRED)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
 # Optional dependencies
 
 set(OPTIONAL_MODULES "")
@@ -32,6 +35,8 @@ if (raylib_FOUND)
     message(STATUS "Found raylib: ${raylib_LIBRARY}")
     add_compile_definitions(GUI_AVAILABLE)
 endif()
+
+find_package(Espeak)
 
 set(CHIVENTURE_MODULES action_management battle cli common custom-actions game-state libobj quests sound npc openworld playerclass skilltrees ui wdl)
 

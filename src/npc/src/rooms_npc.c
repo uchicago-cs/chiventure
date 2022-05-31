@@ -87,3 +87,4 @@ int delete_npc_from_room(npcs_in_room_t *npcs_in_room, npc_t *npc)
 
     return SUCCESS;
 }
+

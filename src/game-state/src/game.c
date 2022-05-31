@@ -21,6 +21,22 @@ game_t *game_new(char *desc)
 
     /* read from the file using interface from WDL team */
 
+    room_hash_t *rooms = NULL;
+    item_hash_t *items = NULL;
+    quest_hash_t *quests = NULL;
+    npc_hash_t *npcs = NULL;
+    stats_global_hash_t *stats = NULL;
+    effects_global_hash_t *effects = NULL;
+    class_hash_t *classes = NULL;
+
+    game->all_rooms = rooms;
+    game->all_items = items;
+    game->all_quests = quests;
+    game->all_npcs = npcs;
+    game->curr_stats = stats;
+    game->all_effects = effects;
+    game->all_classes = classes;
+
     return game;
 }
 
@@ -336,16 +352,8 @@ int delete_all_items_from_game(item_hash_t *all_items)
     item_t *current_item, *tmp;
     HASH_ITER(hh_all_items, all_items, current_item, tmp)
     {
-        item_t *iter = current_item;
-
-        while(iter != NULL)
-        {
-            current_item = iter;
-            iter = current_item->next;
-
-            remove_item_from_all_items_hash(&(all_items), current_item);
-            item_free(current_item);
-        }
+        HASH_DELETE(hh_all_items, all_items, current_item);
+        item_free(current_item);
     }
     all_items = NULL;
     return SUCCESS;
@@ -480,23 +488,28 @@ int add_condition(game_t *game, game_action_t *action, condition_t *condition)
 int do_node_actions(node_t *n, game_t *game)
 {
     node_action_t *cur_action = n->actions;
+    npc_t *npc;
+    item_t *item;
 
     while (cur_action != NULL)
     {
-
         switch(cur_action->action)
         {
-
         case GIVE_ITEM:
-            ;
-            npc_t *npc = get_npc_in_room(game->curr_room,
-                                         game->mode->mode_ctx);
-            item_t *item = get_item_in_hash(npc->inventory,
-                                            cur_action->action_id);
-            if (item == NULL) return FAILURE;
-            if (remove_item_from_npc(npc, item) != SUCCESS) return FAILURE;
-            if (add_item_to_player(game->curr_player, item, game) != SUCCESS)
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            item = get_item_from_npc(npc, cur_action->action_id);
+            if (item == NULL) 
+            {
                 return FAILURE;
+            }
+            if (remove_item_from_npc(npc, item) != SUCCESS)
+            {
+                return FAILURE;
+            }
+            if (add_item_to_player(game->curr_player, item, game) != SUCCESS)
+            {
+                return FAILURE;
+            }
             break;
 
         case TAKE_ITEM:
@@ -515,6 +528,30 @@ int do_node_actions(node_t *n, game_t *game)
 
         case START_BATTLE:
             // to do
+            break;
+
+        case MAKE_HOSTILE:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->hostility_level = HOSTILE;
+            break;
+
+        case MOVE_ROOM:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            if (npc->movement->permission == NPC_MOV_NOT_ALLOWED
+                || npc_one_move(npc, game->all_rooms) == FAILURE)
+            {
+                return FAILURE;
+            }
+            break;
+
+        case PAUSE_MOVEMENT:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->movement->permission = NPC_MOV_NOT_ALLOWED;
+            break;
+        
+        case RESUME_MOVEMENT:
+            npc = get_npc_in_room(game->curr_room, game->mode->mode_ctx);
+            npc->movement->permission = NPC_MOV_ALLOWED;
             break;
 
         default:
@@ -738,4 +775,3 @@ char *run_conversation_step(convo_t *c, int input, int *rc, game_t *game)
 
     return ret_str;
 }
-

@@ -120,11 +120,8 @@ Test(room_item, add_duplicate_item_to_room)
     cr_assert_eq(rv, SUCCESS, "item not added to room correctly");
 
     int check = add_item_to_room(new_room, test_item2);
-    cr_assert_eq(check, SUCCESS, "duplicate item not added to room correctly");
+    cr_assert_eq(check, FAILURE, "duplicate item added to room incorrectly");
 
-    check = add_item_to_room(new_room, test_item2);
-    cr_assert_eq(check, FAILURE, "item at same memory address as item "
-                 "already in room added again to room");
     room_free(new_room);
 }
 
@@ -155,6 +152,7 @@ Test(room_item, get_nonexistent_item)
     cr_assert_null(returned_item, "Item retrieved but should be NULL");
     room_free(new_room);
 }
+
 /* Checks if remove_item_from_room properly removes items */
 Test(room_item, remove_item_from_room)
 {
@@ -167,20 +165,42 @@ Test(room_item, remove_item_from_room)
     rc = add_item_to_room(room, test_item);
     cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
                  "add an item to room");
-    rc = add_item_to_room(room, dup_item);
-    cr_assert_eq(rc, SUCCESS, "add_item_to_room failed to "
-                 "add an item to room");
 
     rc = remove_item_from_room(room, test_item);
-    cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to "
+    cr_assert_eq(rc, SUCCESS, "remove_item_from_room failed to " 
                  "remove an item from room");
 
     item_list = get_all_items_in_room(room);
-    cr_assert_not_null(item_list, "remove_item_from_room removed "
-                       "both identical items from room");
+    cr_assert_null(item_list, "there are still items left in room");
+
     room_free(room);
     item_free(test_item);
     delete_item_llist(item_list);
+}
+
+/* Checks transfer_all_npc_items and related functions */
+Test(room_item, transfer_all_npc_items)
+{
+    room_t *room = room_new("test_room", "room for testing",
+                            "testing if memory is correctly allocated for new rooms");
+    item_t *test_item = item_new("item", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
+    npc_t *test_npc = npc_new("npcid", "test npc", "npcid is the NPC for this test",
+                              NULL, NULL, FRIENDLY);
+    assert(add_item_to_npc(test_npc, test_item) == SUCCESS);
+    assert(add_item_to_npc(test_npc, test_item2) == SUCCESS);
+    assert(add_item_to_npc(test_npc, test_item3) == SUCCESS);
+
+    cr_assert_null(room->items, "there are items in the room");
+
+    assert(transfer_all_npc_items(test_npc, room) == SUCCESS);
+
+    cr_assert_null(test_npc->inventory, "the npc still has items");
+
+    cr_assert_not_null(get_item_in_room(room, "item"), "test item 1 is not in room");
+    cr_assert_not_null(get_item_in_room(room, "item2"), "test item 2 is not in room");
+    cr_assert_not_null(get_item_in_room(room, "item3"), "test item 3 is not in room");
 }
 
 /* Checks if sdesc is correctly returned
