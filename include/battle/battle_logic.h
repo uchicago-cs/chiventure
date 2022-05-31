@@ -101,15 +101,39 @@ int remove_battle_item(combatant_t *c, battle_item_t *item);
 int award_xp(stat_t *stats, double xp);
 
 /*
- * Applies stat changes to a target.
+ * Applies movement stat changes to a target.
  * 
  * Parameters: 
+ *  - target_stats: the stats to be changed
  *  - changes: the stat changes
- *  - target_stats: the stats to be changes
  * Returns:
  *  - Always success
  */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
+int apply_movement_stat_changes(stat_t* target_stats, stat_changes_t* changes);
+
+/*
+ * Applies item stat changes to a target.
+ * 
+ * Parameters: 
+ *  - class: the class of the combatant
+ *  - target_stats: the stats to be changed
+ *  - item: the item changing the stats
+ * Returns:
+ *  - Always success
+ */
+int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t* item);
+
+/*
+ * Creates a struct representing the multipliers on each skill from a
+ * class-dependent item stat change
+ *
+ * Parameters:
+ *  - class: the class of the combatant
+ *  - item: the item changing the stats
+ * Returns:
+ *  - a struct representing the stat multipliers
+ */
+class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* item);
 
 /* Adds new temporary status changes from an item. Note: Does
  *     not yet change the number of turns left, because items

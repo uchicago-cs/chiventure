@@ -497,14 +497,14 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
     switch(move->stat_mods)
     {
         case USER:
-            apply_stat_changes(user_stats, move->user_mods);
+            apply_movement_stat_changes(user_stats, move->user_mods);
             break;
         case TARGET:
-            apply_stat_changes(target_stats, move->opponent_mods);
+            apply_movement_stat_changes(target_stats, move->opponent_mods);
             break;
         case BOTH:
-            apply_stat_changes(user_stats, move->user_mods);
-            apply_stat_changes(target_stats, move->opponent_mods);
+            apply_movement_stat_changes(user_stats, move->user_mods);
+            apply_movement_stat_changes(target_stats, move->opponent_mods);
             break;
         default:
             return FAILURE;
