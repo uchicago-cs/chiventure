@@ -52,3 +52,45 @@ go north
 walk north
 travel north - all recognized in current grammar
 
+
+# ACTUAL COMMANDS:
+### OG
+take sword
+go north
+use sword on Borja
+view stats
+look
+
+## Bison is Cool! 
+### look at it handle prepositions and pronouns!
+take the sword
+go to the north
+use my sword on borja
+view my stats
+### look at it handle synonyms!
+walk north
+move north
+travel north
+
+close door 
+shut door
+
+take ENSU 
+grab ENSU
+
+look 
+where
+
+put 
+place
+
+
+### look at it handle more interesting names!
+"so instead of just going to the north, we can go to specific places!"
+So I could say...:
+go to Ryerson 251
+take the sword of power
+go to the castle of fire
+use the sword of power on the evil borja
+
+
