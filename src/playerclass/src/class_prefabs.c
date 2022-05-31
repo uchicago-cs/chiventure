@@ -467,6 +467,7 @@ class_t* class_prefab_new(game_t* game, char* class_name) {
     else {
         fprintf(stderr, "Could not find class name: \"%s\" "
                         "in class_prefab_new\n", class_name);
+        return NULL;
     }
 
     return class_new(class_name, short_desc, long_desc, attributes, stats, 
@@ -757,7 +758,7 @@ int class_prefab_add_skills(class_t* class) {
                                      NULL, NULL);
         skill_t* skill_2 = skill_new(skill_id++, ACTIVE, "Arcane Explosion", 
                                      "A powerful spell that causes a massive" 
-                                     "explosion with high area damage!", 1, 
+                                     " explosion with high area damage!", 1, 
                                      200, NULL, NULL);
 
         /* Add skills to tree */
