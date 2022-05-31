@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 
 /* See read_gdl.h for documentation */ 
 graphics_t* new_graphics(display_dimensions_t *dimensions, camera_t *camera,
@@ -183,6 +184,7 @@ inventory_display_t* new_inventory_display(unsigned int rows, unsigned int colum
     return inventory;
 }
 
+
 /* See read_gdl.h for documentation */ 
 int init_inventory_display(inventory_display_t* inventory, unsigned int rows, unsigned int columns, color color)
 {
@@ -258,4 +260,146 @@ int free_statistics_display(statistics_display_t *statistics_display)
     free(statistics_display);
 
     return SUCCESS;
+}
+
+/*
+ * Matches a string of a color to a background color implementable in Raylib
+ *
+ * Parameters:
+ * - the string name for the color
+ *
+ * Returns:
+ * - an integer whose value corresponds to the color
+ */
+Color match_color(char *color)
+{
+    char* colors[] = {"LIGHTGRAY", "GRAY", "DARKGRAY", "LIGHTGREY", "GREY", "DARKGREY", 
+"YELLOW", "GOLD", "ORANGE", "PINK", "RED", "MAROON", "GREEN", "LIME", "DARKGREEN", 
+"SKYBLUE", "BLUE", "DARKBLUE", "PURPLE", "VIOLET", "DARKPURPLE", "BEIGE", "BROWN", 
+"DARKBROWN", "WHITE", "BLACK", "BLANK", "MAGENTA", "RAYWHITE"};
+
+   Color raylib_colors[] = {LIGHTGRAY, GRAY, DARKGRAY, YELLOW, GOLD, ORANGE, PINK, 
+RED, MAROON, GREEN, LIME, DARKGREEN, SKYBLUE, BLUE, DARKBLUE, PURPLE, VIOLET, DARKPURPLE, 
+BEIGE, BROWN, DARKBROWN, WHITE, BLACK, BLANK, MAGENTA, RAYWHITE};  
+
+    for(int i = 0; i < 30; i++) {
+        if (strcmp(colors[i], color) == 0) {
+            return raylib_colors[i];
+        }
+    }
+    fprintf(stderr, "invalid input color");
+    exit(1);
+}
+
+
+/*
+ * Matches a string for a corner to an implementable value
+ *
+ * Paramters:
+ * - the string name of the corner
+ *
+ * Returns:
+ * - an integer with the value of the corner
+ */
+int match_corner(char *corner)
+{
+    char* corners[] = {"Top Left", "Top Right", "Bottom Left", "Bottom Right"};
+    for(int i = 0; i < 4; i ++) {
+        if (strcmp(corners[i], corner) == 0) {
+            return i;
+        }
+    }
+    fprintf(stderr, "invalid input corner");
+    exit(1);
+} 
+
+
+/* See read_gdl.h for documentation */ 
+graphics_t* read_gdl()
+{
+    // Open the GDL
+    FILE *gdl;
+    gdl = fopen("gdl.txt","r"); // could read from any specific location
+
+    // Define useful variables for the reading function
+    unsigned int width;
+    unsigned int height;
+    unsigned int rows;
+    unsigned int cols;
+    Color color;
+    char spec[20];
+    display_dimensions_t *display_dimensions;
+    camera_t *camera;
+    inventory_display_t *inventory_display;
+
+    // Skip over top "{"
+    getc(gdl);
+
+    // read through the file
+    int at_end = 0;
+    while (!at_end) {
+
+        // pull title
+        char title[100];
+        if (fscanf(gdl, "%s", title) != EOF) {
+
+            // map title to structure 
+            if (strcmp(title, "\"Display_Dimensions\":") == 0 || strcmp(title,"\"Camera\":") == 0) {
+                getc(gdl);
+                fscanf(gdl, "%s", spec);
+                if (strcmp(spec, "\"width\"") == 0) {
+                    fscanf(gdl, "%u", &width);
+                    getc(gdl);
+                    fscanf(gdl, "%*s %d", &height);
+                } else {
+                    fscanf(gdl, "%u", &height);
+                    getc(gdl);
+                    fscanf(gdl, "%*s %d", &width); 
+                }
+                if (strcmp(title, "\"Display_Dimensions\":") == 0) {
+                    display_dimensions = new_display_dimensions(width, height);
+                } else {
+                    camera = new_camera(width, height);
+                }
+                getc(gdl);
+            } else {
+                getc(gdl);
+                for(int i = 0; i < 3; i++) {
+                    fscanf(gdl, "%s", spec);
+                    if (strcmp(spec, "rows") == 0) {
+                       fscanf(gdl, "%u", &rows);
+                       getc(gdl);
+                    } else if (strcmp(spec, "columns") == 0) {
+                        fscanf(gdl, "%u", &cols);
+                        getc(gdl);
+                    } else {
+                        fscanf(gdl, "%s", spec);
+                        int len = strlen(spec) + 1;
+                        char capitalize[len];
+                        memset(capitalize, 0, len);
+                        for(int i = 0; i < len; i ++) {
+                            capitalize[i] = toupper(spec[i]);
+                        }
+                        color = match_color(capitalize);
+                        getc(gdl);
+                    }
+                }
+                inventory_display = new_inventory_display(rows, cols, color);
+            }
+    
+            // to pass over the closing brace "}"
+            getc(gdl);
+        } else {
+            at_end = 1;
+        }
+    }
+    
+    graphics_t *graphics;
+    graphics = (graphics_t*)malloc(sizeof(graphics_t));
+    
+    graphics->statistics = NULL;
+    graphics->dimensions = display_dimensions;
+    graphics->camera = camera;
+    graphics->inventory = inventory_display;
+    return graphics;
 }
