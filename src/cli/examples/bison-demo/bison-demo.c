@@ -45,6 +45,11 @@ char **handle_cmd(word_ll *p) {
         i++;
     }
 
+    /*
+    if (p != NULL && i == LL_MAX_SIZE) {
+        return NULL;
+    }
+    */
     for(int j = 0; j<LL_MAX_SIZE && words[j] != NULL; j++) {
 	    printf("%d'th term in array = [%s]\n",j,words[j]);	
 	}
@@ -54,36 +59,37 @@ char **handle_cmd(word_ll *p) {
 
 /* see demo-bison.h */
 void handle_kind1_cmd(word_ll *action, word_ll *phrase){
-    printf("this is a kind 1 action: ACTION <item>\n");
+    printf("\nkind 1 : ACTION <item>\n");
     char *a = action->word;
     word_ll *p = phrase;
     if (a == NULL) {
-        printf("Theres nothing there! \n");
+        printf("There's nothing there! \n");
     } else {
-        printf("the action is: %s\n", a);
+        printf("action : [%s]\n", a);
     }
     if (p != NULL) {
-        printf("the item is: %s", p->word);
+        printf("item   : [%s", p->word);
         p = p->next;
     }
     while (p != NULL) {
         printf(" %s", p->word);
         p = p->next;
     }    
-    printf("\n\n");
+    printf("]\n\n");
 }
 
 /* see demo-bison.h */
 void handle_kind2_cmd(word_ll *phrase) {
-    printf("this is a kind 2 action: ACTION <path>\n");
-    printf("going to location:");
+    printf("\nkind 2 : ACTION <path>\n");
+    printf("action : [go]\n");
+    printf("path   : [");
 
     if (phrase == NULL) {
         printf(" NULL");
     }
     for (word_ll *p = phrase; p != NULL; p = p->next) {
         /* iterate through list of words */
-        printf(" %s", p->word);
+        printf("%s%s", p->word,p->next ? " " : "]" );
     }
 
     printf("\n\n");
@@ -96,49 +102,49 @@ void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2) {
     word_ll *p1 = item1;
     word_ll *p2 = item2;
     if (a == NULL) {
-        printf("Theres nothing there! \n");
+        printf("There's nothing there! \n");
     } else {
-        printf("the action is: %s\n", a);
+        printf("action : [%s]\n", a);
     }
     if (p1 != NULL) {
-        printf("item 1 is: %s", p1->word);
+        printf("item 1 : [%s", p1->word);
         p1 = p1->next;
     }
     while (p1 != NULL) {
         printf(" %s", p1->word);
         p1 = p1->next;
     }
-    printf("\n");
+    printf("]\n");
     if (p2 != NULL) {
-        printf("item 2 is: %s", p2->word);
+        printf("item 2 : [%s", p2->word);
         p2 = p2->next;
     }
     while (p2 != NULL) {
         printf(" %s", p2->word);
         p2 = p2->next;
     }
-    printf("\n\n");
+    printf("]\n\n");
 }
 
 /* see demo-bison.h */
 void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
-    printf("this is a kind 4 action: ACTION <self>\n");   
+    printf("\nkind 4    : ACTION <self>\n");   
     char *a = action->word;
     word_ll *p = phrase;
     if (a == NULL) {
-        printf("Theres nothing there! \n");
+        printf("There's nothing there! \n");
     } else {
-        printf("the action is: %s\n", a);
+        printf("action    : [%s]\n", a);
     }
     if (p != NULL) {
-        printf("the self attribute is: %s", p->word);
+        printf("attribute : [%s", p->word);
         p = p->next;
     }
     while (p != NULL) {
         printf(" %s", p->word);
         p = p->next;
     }    
-    printf("\n\n");
+    printf("]\n\n");
 }
 
 /* see demo-bison.h */
