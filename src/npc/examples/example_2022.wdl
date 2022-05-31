@@ -21,7 +21,7 @@
                 }
             ]
         },
-        "Mansuetto": {
+        "Mansueto": {
             "short_desc": "The bubble library",
             "long_desc": "This is Mansuetto. Downstairs is the way back to The Reg.",
             "connections": [
@@ -33,7 +33,7 @@
         },
         "The Quad": {
             "short_desc": "The center of campus",
-            "long_desc": "This is the quad. The Reg is to the North and Crear is to the West.",
+            "long_desc": "This is the quad. The Reg is to the North and Crerar is to the West.",
             "connections": [
                 {
                     "to": "The Reg",

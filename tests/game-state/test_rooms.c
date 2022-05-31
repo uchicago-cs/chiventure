@@ -181,8 +181,28 @@ Test(room_item, remove_item_from_room)
 /* Checks transfer_all_npc_items and related functions */
 Test(room_item, transfer_all_npc_items)
 {
-    
+    room_t *room = room_new("test_room", "room for testing",
+                            "testing if memory is correctly allocated for new rooms");
+    item_t *test_item = item_new("item", "short", "long");
+    item_t *test_item2 = item_new("item2", "short", "long");
+    item_t *test_item3 = item_new("item3", "short", "long");
+    npc_t *test_npc = npc_new("npcid", "test npc", "npcid is the NPC for this test",
+                              NULL, NULL, FRIENDLY);
+    assert(add_item_to_npc(test_npc, test_item) == SUCCESS);
+    assert(add_item_to_npc(test_npc, test_item2) == SUCCESS);
+    assert(add_item_to_npc(test_npc, test_item3) == SUCCESS);
+
+    cr_assert_null(room->items, "there are items in the room");
+
+    assert(transfer_all_npc_items(test_npc, room) == SUCCESS);
+
+    cr_assert_null(test_npc->inventory, "the npc still has items");
+
+    cr_assert_not_null(get_item_in_room(room, "item"), "test item 1 is not in room");
+    cr_assert_not_null(get_item_in_room(room, "item2"), "test item 2 is not in room");
+    cr_assert_not_null(get_item_in_room(room, "item3"), "test item 3 is not in room");
 }
+
 /* Checks if sdesc is correctly returned
 * Runs two small tests
 * Tests same sdesc and different sdesc
