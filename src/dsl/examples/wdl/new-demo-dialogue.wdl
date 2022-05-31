@@ -147,9 +147,28 @@
         }
       ],
       "dialogue": {
-        "nodes": [],
-        "edges": []
-      }
+            "nodes": [
+                {
+                    "id": "1",
+                    "npc_dialogue": "Hi Student, How are you?"
+                },
+                {
+                    "id": "2",
+                    "npc_dialogue": "Have a nice day!"
+                },
+                {
+                    "id": "3",
+                    "npc_dialogue": "Oh! I already gave you the file. Go find JACK."
+                }
+            ],                    
+            "edges": [
+                {
+                    "quip": "Can I have the DSL file?",
+                    "from_id": "1",
+                    "to_id": "3"
+                }
+            ]
+        }
     },
     "JACK": {
       "in": "quad",
@@ -163,9 +182,28 @@
         }
       ],
       "dialogue": {
-        "nodes": [],
-        "edges": []
-      }
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "Hi Student, How are you?"
+                    },
+                    {
+                        "id": "2",
+                        "npc_dialogue": "Have a nice day!"
+                    },
+                    {
+                        "id": "3",
+                        "npc_dialogue": "Oh! Thank you. You've completed your task. Head to finish!"
+                    }
+                ],                    
+                "edges": [
+                    {
+                        "quip": "I have the DSL File Professor Borja Wanted",
+                        "from_id": "1",
+                        "to_id": "3"
+                    }
+                ]
+            }
+        }
     }
-  }
 }

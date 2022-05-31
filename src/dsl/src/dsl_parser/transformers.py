@@ -62,11 +62,11 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     # since the key is guaranteed to be the string "base_stats"
     d["base_stats"] = [v for k, v in s if k == "base_stats"][0]
 
-    d["effects"] = [v for k, v in s if k == "effects"]
+    d["effects"] = [v for k, v in s if k == "effects"][0]
 
-    d["skill_tree"] = [v for k, v in s if k == "skill_tree"]
+    d["skill_tree"] = [v for k, v in s if k == "skill_tree"][0]
 
-    d["starting_skills"] = [v for k, v in s if k == "starting_skills"]
+    d["starting_skills"] = [v for k, v in s if k == "starting_skills"][0]
     
     return ('PLAYER_CLASS', (class_name, d))
 
