@@ -46,6 +46,11 @@ char **handle_cmd(word_ll *p) {
         i++;
     }
 
+    /*
+    if (p != NULL && i == LL_MAX_SIZE) {
+        return NULL;
+    }
+    */
     for(int j = 0; j<LL_MAX_SIZE && words[j] != NULL; j++) {
 	    printf("%d'th term in array = [%s]\n",j,words[j]);	
 	}
@@ -58,7 +63,7 @@ void handle_kind1_cmd(word_ll *action, word_ll *phrase){
     char *a = action->word;
     word_ll *p = phrase;
     if (a == NULL) {
-        printf("Theres nothing there! \n");
+        printf("There's nothing there! \n");
     } else {
         printf("action : [%s]\n", a);
     }
@@ -74,7 +79,7 @@ void handle_kind1_cmd(word_ll *action, word_ll *phrase){
 }
 
 void handle_kind2_cmd(word_ll *phrase) {
-    printf("\nkind 2   : ACTION <path>\n");
+    printf("\nkind 2 : ACTION <path>\n");
     printf("action : [go]\n");
     printf("path   : [");
 
@@ -95,28 +100,28 @@ void handle_kind3_cmd(word_ll *action, word_ll *item1, word_ll *item2) {
     word_ll *p1 = item1;
     word_ll *p2 = item2;
     if (a == NULL) {
-        printf("Theres nothing there! \n");
+        printf("There's nothing there! \n");
     } else {
-        printf("the action is: %s\n", a);
+        printf("action : [%s]\n", a);
     }
     if (p1 != NULL) {
-        printf("item 1 is: %s", p1->word);
+        printf("item 1 : [%s", p1->word);
         p1 = p1->next;
     }
     while (p1 != NULL) {
         printf(" %s", p1->word);
         p1 = p1->next;
     }
-    printf("\n");
+    printf("]\n");
     if (p2 != NULL) {
-        printf("item 2 is: %s", p2->word);
+        printf("item 2 : [%s", p2->word);
         p2 = p2->next;
     }
     while (p2 != NULL) {
         printf(" %s", p2->word);
         p2 = p2->next;
     }
-    printf("\n\n");
+    printf("]\n\n");
 }
 
 void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
@@ -124,7 +129,7 @@ void handle_kind4_cmd(word_ll *action, word_ll *phrase) {
     char *a = action->word;
     word_ll *p = phrase;
     if (a == NULL) {
-        printf("Theres nothing there! \n");
+        printf("There's nothing there! \n");
     } else {
         printf("the action is: %s\n", a);
     }
