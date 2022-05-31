@@ -14,3 +14,4 @@ endforeach(module)
 
 add_test(NAME ${TEST_EXE}
          COMMAND ${TEST_EXE})
+

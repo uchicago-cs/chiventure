@@ -79,19 +79,19 @@ chiventure_ctx_t *create_sample_ctx()
     strcpy(d2.s, name);
     strcpy(d3.s, name);
 
-    object_t *ot1 = obj_t_init(d1init, STR_TYPE, "../../../../src/custom-scripts/examples/lost_order.lua");
+    object_t *ot1 = obj_t_init(d1init, STR_TYPE, "../../../../src/custom-scripts/examples/lua/lost_order.lua");
     ot1 = obj_add_arg(obj_add_arg(ot1, d1, STR_TYPE), mcd, STR_TYPE);
     char* custom_string1 = (char*)malloc(sizeof(char*) * 500);
     data_t rv1 = arg_t_get(ot1);
     custom_string1 = rv1.s;
 
-    object_t *ot2 = obj_t_init(d2init, STR_TYPE, "../../../../src/custom-scripts/examples/lost_order2.lua");
+    object_t *ot2 = obj_t_init(d2init, STR_TYPE, "../../../../src/custom-scripts/examples/lua/lost_order2.lua");
     ot2 = obj_add_arg(obj_add_arg(ot2, d2, STR_TYPE), wng, STR_TYPE);
     char* custom_string2 = (char*)malloc(sizeof(char*) * 500);
     rv2 = arg_t_get(ot2);
     custom_string2 = rv2.s;
 
-    object_t *ot3 = obj_t_init(d3init, STR_TYPE, "../../../../src/custom-scripts/examples/lost_order3.lua");
+    object_t *ot3 = obj_t_init(d3init, STR_TYPE, "../../../../src/custom-scripts/examples/lua/lost_order3.lua");
     ot3 = obj_add_arg(obj_add_arg(ot3, d3, STR_TYPE), sub, STR_TYPE);
     char* custom_string3 = (char*)malloc(sizeof(char*) * 500);
     rv3 = arg_t_get(ot3);
