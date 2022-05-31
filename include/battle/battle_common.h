@@ -95,4 +95,4 @@ typedef struct battle
     turn_t turn;
 } battle_t;
 
-#endif
+#endif /* BATTLE_COMMON_H */

@@ -1,0 +1,210 @@
+{
+    "NPCS": {
+        "Land Scout": {
+            "short_desc": "This is a Land Scout",
+            "long_desc": "She wants to talk to you.",
+            "in": "Starting City",
+            "inventory": [
+                {
+                    "item_id": "Search Warrant"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "Well, go on. You have a task to do."
+                    }
+                ]
+            },
+            "Tasks": [
+                {
+                    "Task Name": "Talk to Land Scout",
+                    "Dialogue": {
+                        "nodes": [
+                            {
+                                "id": "1",
+                                "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! His lair is to the South of the city, though maybe you might want to speak to his mother first."
+                            },
+                            {
+                                "id": "2a",
+                                "npc_dialogue": "Good Luck! Here, take this Search Warrant."
+                            },
+                            {
+                                "id": "2b",
+                                "npc_dialogue": "Very well. Here, take this Search Warrant."
+                            }
+                        ],
+                        "edges": [
+                            {
+                                "quip": "South I go!",
+                                "from_id": "1",
+                                "to_id": "2a"
+                            },
+                            {
+                                "quip": "Um, ok...",
+                                "from_id": "1",
+                                "to_id": "2b"
+                            }
+                        ]
+                    }
+                }
+            ]
+            
+        },
+        "Sea Scout": {
+            "short_desc": "This is a Sea Scout",
+            "long_desc": "He wants to talk to you.",
+            "in": "Starting City",
+            "inventory": [
+                {
+                    "item_id": "Search Warrant"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "Hello, adventurer! I see you have come to help us fight the dastardly STEVE! Information regarding his location might be known to the pirates inhabiting the Pirate Cove to the west."
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Good Luck! Here, take this Search Warrant."
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "Show a little more enthusiasm, will you? Here, take this Search Warrant."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "West I go!",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "Um, ok...",
+                        "from_id": "1",
+                        "to_id": "2b"
+                    }
+                ]
+            }
+        },
+        "Pirate Captain": {
+            "short_desc": "This is a Pirate Captain",
+            "long_desc": "He does not want to talk to you.",
+            "in": "Pirate Cove",
+            "inventory": [],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "Who dares disturb me!"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "You scare me."
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "You really scare me."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "Someone who is stronger than you",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "Me",
+                        "from_id": "1",
+                        "to_id": "2b"
+                    }
+                ]
+            }
+        },
+        "Steve's Mom": {
+            "short_desc": "This is Steve's Mom",
+            "long_desc": "She is slightly reluctant to talk to you.",
+            "in": "Starting City",
+            "inventory": [
+                {
+                    "item_id": "Steve's Embarrasing Baby Photos"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "Who are you?"
+                    },
+                    {
+                        "id": "2",
+                        "npc_dialogue": "*Gasp* Please don't! Steve's such a precious boy! Look, I have all these photos from when he was a baby!"
+                    },
+                    {
+                        "id": "3",
+                        "npc_dialogue": "Yes! Oh dear, I seem to have lost them. I'll look around, come back later if you need to see them."
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "I need to kill Steve",
+                        "from_id": "1",
+                        "to_id": "2"
+                    },
+                    {
+                        "quip": "Baby Photos?",
+                        "from_id": "2",
+                        "to_id": "3"
+                    }
+                ]
+            }
+        },
+        "Steve": {
+            "short_desc": "This is Steve",
+            "long_desc": "The vanquisher of the heavens, Steve is a legendary warrior with an equally renowned blade.",
+            "in": "Steve's Lair",
+            "inventory": [
+                {
+                    "item_id": "Legendary Sword of Steve"
+                }
+            ],
+            "dialogue": {
+                "nodes": [
+                    {
+                        "id": "1",
+                        "npc_dialogue": "Let us begin our battle!"
+                    },
+                    {
+                        "id": "2a",
+                        "npc_dialogue": "Aaaaahhhhh! I surrender! I surrender!"
+                    },
+                    {
+                        "id": "2b",
+                        "npc_dialogue": "Aaaaaaaahhhhhhhhhhh! Not my embarrasing baby photos!!! Nooooo!"
+                    }
+                ],
+                "edges": [
+                    {
+                        "quip": "En Garde!",
+                        "from_id": "1",
+                        "to_id": "2a"
+                    },
+                    {
+                        "quip": "I have something much more interesting to show you",
+                        "from_id": "1",
+                        "to_id": "2b",
+                        "conditions": [
+                            {
+                                "type": "INVENTORY",
+                                "item_id": "Steve's Embarrasing Baby Photos"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

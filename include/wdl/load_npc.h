@@ -27,5 +27,4 @@
  */
 int load_npcs(obj_t *doc, game_t *g);
 
-
 #endif /* INCLUDE_LOAD_NPC_H */

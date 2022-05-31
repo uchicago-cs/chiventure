@@ -1,61 +1,18 @@
-#include <criterion/criterion.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include "libobj/load.h"
 #include "test_wdl.h"
 #include "wdl/load_quests.h"
 #include "wdl/load_game.h"
 #include "quests/quests_state.h"
 
 #define QUESTS_PATH "../../../tests/wdl/examples/wdl/quests_sample.wdl"
-/*
- * helper function for parsing a YAML file into an object
- * shamelessly stolen from test_game.c
- */
-static obj_t *__get_doc_obj()
-{
-    char zip_name[10 * (MAXLEN_ID + 1)] = {0};
-    strcat(zip_name, TEST_OUT_PATH);
-    strcat(zip_name, "zip_default.zip");
-
-    // Create the zip
-    int error = 0;
-    zip_t *zip = zip_open(zip_name, ZIP_CREATE | ZIP_TRUNCATE, &error);
-    cr_assert_eq(error, ZIP_ET_NONE, 
-        "Could not create zip file; code: %d", error);
-
-    // Add DEFAULT.json to the zip
-    char *data_name = "DEFAULT.json";
-    char *data_path = QUESTS_PATH;
-
-    zip_error_t err = {0};
-    zip_source_t *zip_src = zip_source_file_create(data_path, 0, 0, &err);
-    cr_assert_not_null(zip_src, "Could not create zip source; code: %d", zip_error_system_type(&err));
-
-    zip_int64_t idx = zip_file_add(zip, data_name, zip_src, ZIP_FL_ENC_UTF_8);
-    cr_assert_neq(idx, -1, 
-        "Could not add file to zip file; check archive code");
-
-    // Write and save to disk
-    int rc = zip_close(zip);
-    zip_error_t *close = zip_get_error(zip);
-    cr_assert_neq(rc, -1, 
-        "Could not close zip file; check archive code: %s", zip_error_strerror(close));
-
-    int open_status;
-    zip = zip_open(zip_name, 0, &open_status);
-
-    // Read the zip into an obj
-    obj_t *obj = obj_new("doc");
-    rc = load_obj_store_from_zip(obj, zip);
-
-    return obj;
-}
 
 /* Verifies that the example file, which covers every parsing possibility, is parsed correctly */
 Test(quests_wdl, all_encompassing_example) {
     game_t *game = game_new("Quest Test!");
-    obj_t *doc = __get_doc_obj();
+    obj_t *doc = __get_doc_obj("DEFAULT.json", QUESTS_PATH); 
+    cr_assert_not_null(doc, "doc obj failed to load");
+    
+    obj_t *quests = obj_get_attr(doc, "QUESTS", false);
+    cr_assert_not_null(quests, "No quest loaded from wdl!");
 
     // Add items to game
     item_t *search_warrant = item_new("Search Warrant", "A warrant for searching", "A warrant that permits the searching of certain locations");
@@ -86,7 +43,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(land_scout, "Land Scout task is NULL!");
     cr_assert_str_eq(land_scout->id, "Talk to Land Scout", "Land Scout task has incorrect id!");
     cr_assert_not_null(land_scout->mission, "Land Scout task has no mission!");
-    cr_assert_str_eq(land_scout->mission->target_name, "Land Scout", "Land Scout task's mission has the wrong target!");
+    cr_assert_str_eq(land_scout->mission->target_name, "land scout", "Land Scout task's mission has the wrong target!");
     cr_assert_eq(land_scout->mission->type, MEET_NPC, "Land Scout task's mission has the wrong type!");
     cr_assert_not_null(land_scout->prereq, "Land Scout task has no prereq!");
     cr_assert_eq(land_scout->prereq->hp, 10, "Land Scout task's prereq has incorrect hp!");
@@ -103,7 +60,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(enter_lair, "Enter Lair task is NULL!");
     cr_assert_str_eq(enter_lair->id, "Enter Steve's Lair", "Enter Lair task has incorrect id!");
     cr_assert_not_null(enter_lair->mission, "Enter Lair task has no mission!");
-    cr_assert_str_eq(enter_lair->mission->target_name, "Steve's Lair", "Enter Lair task's mission has the wrong target!");
+    cr_assert_str_eq(enter_lair->mission->target_name, "steve's lair", "Enter Lair task's mission has the wrong target!");
     cr_assert_eq(enter_lair->mission->type, VISIT_ROOM, "Enter Lair task's mission has the wrong type!");
     cr_assert_not_null(enter_lair->prereq, "Enter Lair task has no prereq!");
     cr_assert_eq(enter_lair->prereq->hp, 12, "Enter Lair task's prereq has incorrect hp!");
@@ -120,7 +77,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(steves_mom, "Steve's Mom task is NULL!");
     cr_assert_str_eq(steves_mom->id, "Talk to Steve's Mom", "Steve's Mom task has incorrect id!");
     cr_assert_not_null(steves_mom->mission, "Steve's Mom task has no mission!");
-    cr_assert_str_eq(steves_mom->mission->target_name, "Steve's Mom", "Steve's Mom task's mission has the wrong target!");
+    cr_assert_str_eq(steves_mom->mission->target_name, "steve's mom", "Steve's Mom task's mission has the wrong target!");
     cr_assert_eq(steves_mom->mission->type, MEET_NPC, "Steve's Mom task's mission has the wrong type!");
     cr_assert_not_null(steves_mom->prereq, "Steve's Mom task has no prereq!");
     cr_assert_eq(steves_mom->prereq->hp, 10, "Steve's Mom task's prereq has incorrect hp!");
@@ -137,7 +94,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(sea_scout, "Sea Scout task is NULL!");
     cr_assert_str_eq(sea_scout->id, "Talk to Sea Scout", "Sea Scout task has incorrect id!");
     cr_assert_not_null(sea_scout->mission, "Sea Scout task has no mission!");
-    cr_assert_str_eq(sea_scout->mission->target_name, "Sea Scout", "Sea Scout task's mission has the wrong target!");
+    cr_assert_str_eq(sea_scout->mission->target_name, "sea scout", "Sea Scout task's mission has the wrong target!");
     cr_assert_eq(sea_scout->mission->type, MEET_NPC, "Sea Scout task's mission has the wrong type!");
     cr_assert_not_null(sea_scout->prereq, "Sea Scout task has no prereq!");
     cr_assert_eq(sea_scout->prereq->hp, 15, "Sea Scout task's prereq has incorrect hp!");
@@ -154,7 +111,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(pirate_cove, "Pirate Cove task is NULL!");
     cr_assert_str_eq(pirate_cove->id, "Find the Pirate Cove", "Pirate Cove task has incorrect id!");
     cr_assert_not_null(pirate_cove->mission, "Pirate Cove task has no mission!");
-    cr_assert_str_eq(pirate_cove->mission->target_name, "Pirate Cove", "Pirate Cove task's mission has the wrong target!");
+    cr_assert_str_eq(pirate_cove->mission->target_name, "pirate cove", "Pirate Cove task's mission has the wrong target!");
     cr_assert_eq(pirate_cove->mission->type, VISIT_ROOM, "Pirate Cove task's mission has the wrong type!");
     cr_assert_not_null(pirate_cove->prereq, "Pirate Cove task has no prereq!");
     cr_assert_eq(pirate_cove->prereq->hp, 15, "Pirate Cove task's prereq has incorrect hp!");
@@ -171,7 +128,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(pirate_map, "Pirate Map task is NULL!");
     cr_assert_str_eq(pirate_map->id, "Obtain the Pirates' Map", "Pirate Map task has incorrect id!");
     cr_assert_not_null(pirate_map->mission, "Pirate Map task has no mission!");
-    cr_assert_str_eq(pirate_map->mission->target_name, "Pirate Map", "Pirate Map task's mission has the wrong target!");
+    cr_assert_str_eq(pirate_map->mission->target_name, "pirate map", "Pirate Map task's mission has the wrong target!");
     cr_assert_eq(pirate_map->mission->type, COLLECT_ITEM, "Pirate Map task's mission has the wrong type!");
     cr_assert_not_null(pirate_map->prereq, "Pirate Map task has no prereq!");
     cr_assert_eq(pirate_map->prereq->hp, 15, "Pirate Map task's prereq has incorrect hp!");
@@ -191,7 +148,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(pirate_captain, "Pirate Captain task is NULL!");
     cr_assert_str_eq(pirate_captain->id, "Interrogate the Pirate Captain", "Pirate Captain task has incorrect id!");
     cr_assert_not_null(pirate_captain->mission, "Pirate Captain task has no mission!");
-    cr_assert_str_eq(pirate_captain->mission->target_name, "Pirate Captain", "Pirate Captain task's mission has the wrong target!");
+    cr_assert_str_eq(pirate_captain->mission->target_name, "pirate captain", "Pirate Captain task's mission has the wrong target!");
     cr_assert_eq(pirate_captain->mission->type, MEET_NPC, "Pirate Captain task's mission has the wrong type!");
     cr_assert_not_null(pirate_captain->prereq, "Pirate Captain task has no prereq!");
     cr_assert_eq(pirate_captain->prereq->hp, 20, "Pirate Captain task's prereq has incorrect hp!");
@@ -224,8 +181,8 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(kill_steve, "Kill Steve task is NULL!");
     cr_assert_str_eq(kill_steve->id, "Kill Steve", "Kill Steve task has incorrect id!");
     cr_assert_not_null(kill_steve->mission, "Kill Steve task has no mission!");
-    cr_assert_str_eq(kill_steve->mission->target_name, "Steve", "Kill Steve task's mission has the wrong target!");
-    cr_assert_eq(kill_steve->mission->type, KILL_NPC, "Kill Steve task's mission has the wrong type!");
+    cr_assert_str_eq(kill_steve->mission->target_name, "steve", "Kill Steve task's mission has the wrong target!");
+    cr_assert_eq(kill_steve->mission->type, MEET_NPC, "Kill Steve task's mission has the wrong type!");
     cr_assert_not_null(kill_steve->prereq, "Kill Steve task has no prereq!");
     cr_assert_eq(kill_steve->prereq->hp, 30, "Kill Steve task's prereq has incorrect hp!");
     cr_assert_eq(kill_steve->prereq->level, 12, "Kill Steve task's prereq has incorrect level!");
@@ -241,15 +198,16 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(baby_photo_tree, "Kill Steve task tree has no right sibling!");
     task_t *baby_photo = baby_photo_tree->task;
     cr_assert_not_null(baby_photo, "Baby Photo task is NULL!");
-    cr_assert_str_eq(baby_photo->id, "Steal Steve's Embarassing Baby Photos", "Baby Photo task has incorrect id!");
+    printf("%s\n", baby_photo->id);
+    cr_assert_str_eq(baby_photo->id, "Show Steve his Embarrassing Baby Photos", "Baby Photo task has incorrect id!");
     cr_assert_not_null(baby_photo->mission, "Baby Photo task has no mission!");
-    cr_assert_str_eq(baby_photo->mission->target_name, "Steve's Embarassing Baby Photos", "Baby Photo task's mission has the wrong target!");
-    cr_assert_eq(baby_photo->mission->type, COLLECT_ITEM, "Baby Photo task's mission has the wrong type!");
+    cr_assert_str_eq(baby_photo->mission->target_name, "steve", "Baby Photo task's mission has the wrong target!");
+    cr_assert_eq(baby_photo->mission->type, MEET_NPC, "Baby Photo task's mission has the wrong type!");
     cr_assert_not_null(baby_photo->prereq, "Baby Photo task has no prereq!");
     cr_assert_not_null(baby_photo->prereq->quest_list, "Baby Photo task's prereq has no quest list!");
     cr_assert_str_eq(baby_photo->prereq->quest_list->head->id, "Find Steve", "Baby Photo task's prereq has an incorrect quest in its quest list");
     cr_assert_not_null(baby_photo->prereq->task_list, "Baby Photo task's prereq has no task list!");
-    cr_assert_str_eq(baby_photo->prereq->task_list->head->id, "Interrogate the Pirate Captain", "Baby Photo task's prereq has an incorrect task in its task list");
+    cr_assert_str_eq(baby_photo->prereq->task_list->head->id, "Talk to Steve's Mom", "Baby Photo task's prereq has an incorrect task in its task list");
     cr_assert_not_null(baby_photo->reward, "Baby Photo task has no reward!");
     cr_assert_eq(baby_photo->reward->xp, 100, "Baby Photo task's reward has incorrect xp!");
 
@@ -263,7 +221,7 @@ Test(quests_wdl, all_encompassing_example) {
     cr_assert_not_null(knife, "Knife Task does not exist!");
     cr_assert_str_eq(knife->id, "Obtain Knife", "Knife Task has incorrect id!");
     cr_assert_not_null(knife->mission, "Knife Task has no mission!");
-    cr_assert_str_eq(knife->mission->target_name, "Knife", "Knife Task's mission has incorrect target name");
+    cr_assert_str_eq(knife->mission->target_name, "knife", "Knife Task's mission has incorrect target name");
     cr_assert_eq(knife->mission->type, COLLECT_ITEM, "Knife Task's mission has incorrect type!");
 
 }

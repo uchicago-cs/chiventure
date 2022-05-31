@@ -258,7 +258,12 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes)
     if ((target_stats->hp + changes->hp) <= target_stats->max_hp)
     {
         target_stats->hp += changes->hp;
-    }else
+    }
+    else if ((target_stats->hp + changes->hp) <= 0)
+    {
+        target_stats->hp = 0;
+    }
+    else
     {
         target_stats->hp = target_stats->max_hp;
     }

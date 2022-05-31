@@ -7,6 +7,9 @@
 #include "game-state/game_action.h"
 #include "game-state/room.h"
 #include "game-state/player.h"
+#include "skilltrees/skilltree.h"
+#include "quests/quests_cli.h"
+#include "quests/task.h"
 
 
 #define BUFFER_SIZE (300)
@@ -367,15 +370,14 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
 /* KIND 4
  * See actionmanagement.h */
 int do_self_action(chiventure_ctx_t *c, action_type_t *a,
-                   char *target, char **ret_string)
+                   char **target, char **ret_string)
 {
     assert(c);
     assert(c->game);
     assert(a);
     assert(target);
-    
-    game_t *game = c->game;
-    target = case_insensitized_string(target);
+
+    player_t *c_player = c->game->curr_player;
 
     char *string = malloc(BUFFER_SIZE);
     memset(string, 0, BUFFER_SIZE);
@@ -387,22 +389,47 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         *ret_string = string;
         return WRONG_KIND;
     }
-
+  
     if (strncmp(a->c_name, "view", BUFFER_SIZE) == 0) {
-        if (strcmp(target, "stats") == 0) {
+        if (strcmp(target[0], "stats") == 0) {
             // retrieve stats from the player
-            string = display_stats(c->game->curr_player->player_stats);
-        } else if (strcmp(target, "effects") == 0) {
+            string = display_stats(c_player->player_stats);
+        } else if (strcmp(target[0], "effects") == 0) {
             // retrieve stat effects from the player
-            string = display_stat_effects(c->game->curr_player->player_effects);
-        } else if (strcmp(target, "inventory") == 0) {
+            string = display_stat_effects(c_player->player_effects);
+        } else if (strcmp(target[0], "inventory") == 0) {
             // retrieve inventory from the player
             // TO BE IMPLEMENTED
-        } else if (strcmp(target, "skills") == 0) {
-            // retrieve skill tree from the player
-            // TO BE IMPLEMENTED
+        } else if (strcmp(target[0], "skills") == 0) {
+            if (target[1] == NULL) {
+                string = display_tree(c_player->player_class->skilltree, BUFFER_SIZE); 
+            } 
+            else {
+                 string = display_skill_description(c_player->player_class->skilltree, target[1]); 
+            }
+        } else if (strcmp(target[0], "quests") == 0) {
+            // retrieve quests from game
+                string = show_quests(c_player);
+        } else if (strcmp(target[0], "quest") == 0) {
+            // retrieve the task tree from a specific quest
+            if (target[1] == NULL) {
+                string = "Error: Please provide quest name";
+            }
+            else {
+                string = show_task_tree(target[1], c_player,
+                               c->game->all_quests);
+            }
+        } else if (strcmp(target[0], "task") == 0) {
+            // display the description of a specified task from a quest
+            if (target[1] == NULL) {
+                string = "Error: Please provide task name";
+            }
+            else {
+                string = show_task(target[1], c_player,
+                               c->game->all_quests);
+            }
         } else {
-            sprintf(string, "%s cannot be viewed", target);
+            sprintf(string, "%s cannot be viewed", target[0]);
         }
     }
     else {

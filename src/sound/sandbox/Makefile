@@ -16,3 +16,6 @@ new: clean all
 main: 
 	gcc -o main $(CFLAGS) -L/usr/lib/ main.c -Wl,--allow-shlib-undefined -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lrt
 
+tts:
+	gcc test-tts.c ../src/tts.c -lespeak-ng -o test-tts -I ../../../include/
+
