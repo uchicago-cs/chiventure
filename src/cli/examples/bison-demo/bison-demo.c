@@ -44,12 +44,6 @@ char **handle_cmd(word_ll *p) {
         p = p->next;
         i++;
     }
-
-    /*
-    if (p != NULL && i == LL_MAX_SIZE) {
-        return NULL;
-    }
-    */
     for(int j = 0; j<LL_MAX_SIZE && words[j] != NULL; j++) {
 	    printf("%d'th term in array = [%s]\n",j,words[j]);	
 	}
