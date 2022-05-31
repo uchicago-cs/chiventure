@@ -1,6 +1,7 @@
 #ifndef _NPC_H
 #define _NPC_H
 
+#include "action_management/action_structs.h"
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
 #include "game-state/player.h"
@@ -29,7 +30,7 @@ typedef struct npc {
     /* long description of the NPC, <301 chars */
     char *long_desc;
 
-    /* pointer to existing convo struct; changed depending on whetehr
+    /* pointer to existing convo struct; changed depending on whether
     npc has activated quest or task convo */
     convo_t *active_dialogue;
 
@@ -50,6 +51,9 @@ typedef struct npc {
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
+
+    /* linked list of all possible actions the player can initiate with the npc */
+    list_action_t *npc_actions;
 
     /* pointer to a quest with dialogue */
     npc_quest_list_t *quests;
