@@ -12,6 +12,7 @@
 #include "common/ctx.h"
 #include "ui/ui.h"
 #include "openworld/autogenerate.h"
+#include "openworld/game_autogenerate.h"
 #include "game-state/path.h"
 
 
@@ -34,17 +35,20 @@ int** edges;
 //SPECGRAPH: This will be the main specgraph struct that is used throughout the demo
 specgraph_t* specgraph;
 
+//Game used for demo
+game_t* game;
+
 /* Initializes the sample, "in-memory", gencontext and other component structs. 
    Uses placeholder variables declared above. */
 void initialize_sample_structs() {
     rspec_lvl0 = roomspec_new("library", "JCL", "John Crerar Library", NULL);
-    rspec_lvl0->tag = 1;
-    rspec_lvl1 = roomspec_new("dungeon", "Ryerson 251", "Where CS students switch majors to bizcon", NULL);
-    rspec_lvl1->tag = 2;
+    rspec_lvl0->tag = 0;
+    rspec_lvl1 = roomspec_new("dungeon", "Ryerson 251", "Where CS students' dreams go to die", NULL);
+    rspec_lvl1->tag = 1;
     rspec_lvl2 = roomspec_new("bar", "Jimmy's", "Formally known as Woodlawn Tap", NULL);
-    rspec_lvl2->tag = 3;
+    rspec_lvl2->tag = 2;
     rspec_lvl3 = roomspec_new("beach", "57th St. Beach", "Not a real beach ", NULL);
-    rspec_lvl3->tag = 4;
+    rspec_lvl3->tag = 3;
 
     roomspecs = (roomspec_t**)malloc(sizeof(roomspec_t*) * 4);
     roomspecs[0] = rspec_lvl0;
@@ -59,6 +63,10 @@ void initialize_sample_structs() {
     }
 
     edges = edges_new(array, 4, 4);
+    edges[0][1] = 0;
+    edges[1][0] = 0;
+    edges[3][2] = 4;
+    edges[2][3] = 4;
 
     specgraph = specgraph_new(4, roomspecs, edges);
 }
@@ -66,7 +74,8 @@ void initialize_sample_structs() {
 /* Creates a sample in-memory game */
 chiventure_ctx_t *create_sample_ctx()
 {
-    game_t *game = game_new("Welcome to Chiventure!");
+    game = game_new("Welcome to Chiventure!");
+    game->specgraph = specgraph;
 
     load_normal_mode(game);
 
@@ -125,7 +134,7 @@ char *room_info(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx) {
     }
 
     static char buffer[OUTPUT_BUFFER_SIZE];
-    snprintf(buffer, OUTPUT_BUFFER_SIZE, "Room Name: %s || Short Description: %s || Long Description: %s", 
+    snprintf(buffer, OUTPUT_BUFFER_SIZE, "Room Spec Name: %s || Short Description: %s || Long Description: %s", 
         roomspecs[index]->room_name, roomspecs[index]->short_desc, roomspecs[index]->long_desc);
     return buffer;
 }
@@ -150,11 +159,11 @@ char *relation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx) {
     {
         if (strcmp(tokens[1], roomspecs[i]->room_name) == 0)
         {
-            index1 = roomspecs[i]->tag - 1;
+            index1 = roomspecs[i]->tag;
         }
         else if (strcmp(tokens[2], roomspecs[i]->room_name) == 0)
         {
-            index2 = roomspecs[i]->tag - 1;
+            index2 = roomspecs[i]->tag;
         }
     }
 
@@ -170,6 +179,25 @@ char *relation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx) {
     return buffer;
 }
 
+/* Defines a new CLI operation that: 
+   Randomly generates a first room and outputs the room name. */
+char *first_room(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx) {
+    random_first_room(game);
+
+    room_list_t* rooms = NULL;
+    rooms = get_all_rooms(game);
+
+    room_t* first = rooms->room;
+    
+    static char buffer[OUTPUT_BUFFER_SIZE];
+    snprintf(buffer, OUTPUT_BUFFER_SIZE, "The first room generated is the %s at coordinates (%d, %d)", 
+                first->room_id, first->coords->x, first->coords->y);
+    return buffer;
+
+    return "No first room";
+
+}
+
 int main(int argc, char **argv)
 {   
 
@@ -181,6 +209,7 @@ int main(int argc, char **argv)
     add_entry("ROOMS", list_roomspecs, NULL, ctx->cli_ctx->table);
     add_entry("ROOMINFO", room_info, NULL, ctx->cli_ctx->table);
     add_entry("RELATION", relation, NULL, ctx->cli_ctx->table);
+    add_entry("FIRST", first_room, NULL, ctx->cli_ctx->table);
     
     /* Start chiventure */
     start_ui(ctx, banner);
