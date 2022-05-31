@@ -15,6 +15,9 @@ find_package(Curses REQUIRED)
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
 
+set(THREADS_PREFER_PTHREAD_FLAG TRUE)
+find_package(Threads REQUIRED)
+
 # Optional dependencies
 
 set(OPTIONAL_MODULES "")
