@@ -131,7 +131,7 @@ int room_free(room_t *room);
  *  item struct
  *
  * Returns:
- *  SUCCESS if successful, FAILURE if failed
+ *  SUCCESS if successful, FAILURE if failed or item is a duplicate
  */
 int add_item_to_room(room_t *room, item_t *item);
 
@@ -370,11 +370,24 @@ int auto_gen_movement(npc_t *npc, room_list_t *all_rooms);
  *
  * Parameters:
  *  - npc_t: Pointer to NPC
+ *  - all_rooms: Pointer to a game's room hash table
  *
- *  Returns:
- *   - SUCCESS on success, FAILURE if error or NPC cannot be moved
+ * Returns:
+ *  - SUCCESS on success, FAILURE if error or NPC cannot be moved
  */
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms);
+
+/* Checks if an indefinite npc has been in its current room longer than it is
+ * supposed to, and moves it if so.
+ *
+ * Parameters:
+ *  - npcs: Pointer to NPC hash table
+ *  - all_rooms: Pointer to a game's room hash table
+ *
+ * Returns:
+ *  - nothing
+ */
+void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms);
 
 /*
  * Deletes all items from npc inventory and adds them to the room struct.

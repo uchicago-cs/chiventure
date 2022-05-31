@@ -3,6 +3,7 @@ add_library(playerclass
         src/class_item.c
         src/class_prefabs.c
         src/multiclass.c
+        src/multiclass_prefabs.c
         )
 
 target_include_directories(playerclass PRIVATE src/)
