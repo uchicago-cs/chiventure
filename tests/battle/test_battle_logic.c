@@ -843,7 +843,7 @@ Test(battle_logic, apply_stat_changes)
     int expected_atk = battle->enemy->stats->phys_atk + offensive_item->attributes->phys_atk;
     int expected_def = battle->enemy->stats->phys_def + offensive_item->attributes->phys_def;
 
-    apply_stat_changes(battle->enemy->stats, offensive_item->attributes);
+    apply_movement_stat_changes(battle->enemy->stats, offensive_item->attributes);
 
     cr_assert_eq(battle->enemy->stats->hp, expected_hp, "apply_stat_changes() doesn't correctly set enemy hp after use. Actual: %d, Expected: %d", battle->enemy->stats->hp,expected_hp);
     cr_assert_eq(battle->enemy->stats->phys_atk, expected_atk, "apply_stat_changes() doesn't correctly set enemy physical attack after use");
