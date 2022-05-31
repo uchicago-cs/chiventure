@@ -79,8 +79,9 @@ void handle_kind1_cmd(word_ll *action, word_ll *phrase){
 }
 
 void handle_kind2_cmd(word_ll *phrase) {
-    printf("\nkind 2 : ACTION <path>\n");
-    printf("going to : [");
+    printf("\nkind 2   : ACTION <path>\n");
+    printf("action : [go]\n");
+    printf("path   : [");
 
     if (phrase == NULL) {
         printf(" NULL");
