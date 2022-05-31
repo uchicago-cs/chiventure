@@ -82,7 +82,7 @@ Test(quest, remove_quest_one)
     add_quest_to_hash(quest2, &test_hash_table);
 
     // only removing one quest
-    int res = remove_quest_in_hash(test_hash_table, quest1->quest_id);
+    int res = remove_quest_in_hash(&test_hash_table, quest1->quest_id);
     cr_assert_eq(res, SUCCESS, "failed to remove");
     cr_assert_null(get_quest_from_hash("remove quest", test_hash_table), "Quest 1 not removed properly!");
     cr_assert_not_null(get_quest_from_hash("keep quest", test_hash_table), "Quest 2 removed even though it's not supposed to be!");

@@ -50,15 +50,15 @@ int main()
     // Step 3: Conversation 1
     convo_t *c1 = convo_new();
 
-    add_node(c1, "1", "Do you want a scimitar blade?");
-    add_node(c1, "2a", "Here you go. Do you want a scimitar handle?");
-    add_node(c1, "3a", "Here you go.");
-    add_node(c1, "3b", "Your loss.");
-    add_node(c1, "2b", "Your loss.");
-    add_edge(c1, "Yes", "1", "2a", NULL);
-    add_edge(c1, "No", "1", "2b", NULL);
-    add_edge(c1, "Yes", "2a", "3a", NULL);
-    add_edge(c1, "No", "2a", "3b", NULL);
+    add_node(c1, "1", "Do you want a scimitar blade?", NEUTRAL);
+    add_node(c1, "2a", "Here you go. Do you want a scimitar handle?", NEUTRAL);
+    add_node(c1, "3a", "Here you go.", NEUTRAL);
+    add_node(c1, "3b", "Your loss.", NEUTRAL);
+    add_node(c1, "2b", "Your loss.", NEUTRAL);
+    add_edge(c1, "Yes", "1", "2a", NULL, NEUTRAL);
+    add_edge(c1, "No", "1", "2b", NULL, NEUTRAL);
+    add_edge(c1, "Yes", "2a", "3a", NULL, NEUTRAL);
+    add_edge(c1, "No", "2a", "3b", NULL, NEUTRAL);
 
     add_give_item(c1, "2a", "scimitar_blade");
     add_give_item(c1, "3a", "scimitar_handle");
@@ -66,22 +66,22 @@ int main()
     // Step 4: Conversation 2
     convo_t *c2 = convo_new();
 
-    add_node(c2, "1", "Pick an item: a sword or a shield?");
+    add_node(c2, "1", "Pick an item: a sword or a shield?", NEUTRAL);
     add_node(c2, "2a", "I see you prefer the path of offence. What weapon "
-             "did you want? Or do you change your mind?");
-    add_node(c2, "2b", "Ah, I see you prefer the path of defence. Clever choice.");
-    add_node(c2, "2c", "A quest? I have one right here.");
-    add_node(c2, "3a", "One longsword coming up.");
-    add_node(c2, "3b", "If you have a blade and handle, I can make one for you.");
-    add_node(c2, "4", "Wonderful. Here's your scimitar.");
-    add_edge(c2, "Sword", "1", "2a", NULL);
-    add_edge(c2, "Shield", "1", "2b", NULL);
-    add_edge(c2, "Do you have a quest?", "1", "2c", NULL);
-    add_edge(c2, "A longsword", "2a", "3a", NULL);
-    add_edge(c2, "Can you make me a scimitar?", "2a", "3b", NULL);
-    add_edge(c2, "I change my mind: I want a shield", "2a", "2b", NULL);
-    add_edge(c2, "I have them right here!", "3b", "4", cond);
-    add_edge(c2, "Nevermind..", "3b", "2a", NULL);
+             "did you want? Or do you change your mind?", NEUTRAL);
+    add_node(c2, "2b", "Ah, I see you prefer the path of defence. Clever choice.", NEUTRAL);
+    add_node(c2, "2c", "A quest? I have one right here.", NEUTRAL);
+    add_node(c2, "3a", "One longsword coming up.", NEUTRAL);
+    add_node(c2, "3b", "If you have a blade and handle, I can make one for you.", NEUTRAL);
+    add_node(c2, "4", "Wonderful. Here's your scimitar.", NEUTRAL);
+    add_edge(c2, "Sword", "1", "2a", NULL, NEUTRAL);
+    add_edge(c2, "Shield", "1", "2b", NULL, NEUTRAL);
+    add_edge(c2, "Do you have a quest?", "1", "2c", NULL, NEUTRAL);
+    add_edge(c2, "A longsword", "2a", "3a", NULL, NEUTRAL);
+    add_edge(c2, "Can you make me a scimitar?", "2a", "3b", NULL, NEUTRAL);
+    add_edge(c2, "I change my mind: I want a shield", "2a", "2b", NULL, NEUTRAL);
+    add_edge(c2, "I have them right here!", "3b", "4", cond, NEUTRAL);
+    add_edge(c2, "Nevermind..", "3b", "2a", NULL, NEUTRAL);
 
     add_start_quest(c2, "2c", 1234);
     add_take_item(c2, "4", "scimitar_blade");
