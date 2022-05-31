@@ -174,22 +174,5 @@ int main(int argc, char **argv)
 
     game_free(ctx->game);
 
-    if (rspec_lvl0 == NULL) {
-        printf("Failed\n");
-    }
-
-    printf("%s\n", roomspecs[1]->short_desc);
-
-    for (unsigned int i = 0; i < 4; i++) {
-        printf("%s\n", roomspecs[i]->room_name);
-    }
-
-    printf("%d\n", roomspecs[0]->tag - 1);
-
-    int a = strcmp("Beach", roomspecs[3]->room_name);
-    printf("Equal??: %d\n", a);
-
-    //printf("%d", "Beach" == roomspecs[3]->room_name);
-
     return 0;
 }
