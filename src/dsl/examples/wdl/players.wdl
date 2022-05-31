@@ -6,16 +6,51 @@
     },
     "intro": "Welcome!"
   },
+  "CLASSES": {
+    "Knight": {
+      "short_desc": "Knight's short description",
+      "long_desc": "Knight's long description",
+      "attributes": {
+        "noble": true,
+        "hotheaded": true
+      },
+      "base_stats": {
+        "health": {
+          "current": 100,
+          "max": 200
+        },
+        "mana": {
+          "current": 20,
+          "max": 100
+        }
+      },
+      "effects": null,
+      "skill_tree": null,
+      "starting_skills": null
+    }
+  },
   "ROOMS": {
     "room C": {
+      "short_desc": "library room.",
+      "connections": [
+        {
+          "direction": "EAST",
+          "to": "room B"
+        }
+      ],
       "items": [],
-      "short_desc": "room C",
       "long_desc": "This is a room C. "
     },
     "room B": {
       "short_desc": "A dungeon room.",
+      "connections": [
+        {
+          "direction": "WEST",
+          "to": "room C"
+        }
+      ],
       "items": [
-        "Door"
+        "DOOR"
       ],
       "long_desc": "This is a room B. "
     }
@@ -38,8 +73,8 @@
         }
       ],
       "in": "room B",
-      "long_desc": "This is a Door. A large wooden door"
+      "long_desc": "This is a DOOR. A large wooden door"
     }
   },
-  "PLAYERS": {}
+  "NPCS": {}
 }
