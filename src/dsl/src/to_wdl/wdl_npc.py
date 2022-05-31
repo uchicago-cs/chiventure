@@ -15,8 +15,6 @@ class Npc:
         self.name = name
         self.contents = contents
         self.default = default
-        print()
-        print(self.contents)
 
         # self.wdl_contents stores what will be outputted so we don't lose the
         # original input from the parser
