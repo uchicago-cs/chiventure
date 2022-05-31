@@ -17,7 +17,7 @@
 #include "battle/battle_print.h"
 #include <ctype.h>
 
-#define NUM_ACTIONS 31
+#define NUM_ACTIONS 32
 #define BUFFER_SIZE (100)
 #define min(x,y) (((x) <= (y)) ? (x) : (y))
 
@@ -52,7 +52,8 @@ char* actions_for_sug[NUM_ACTIONS] = {
             "PALETTE",
             "ITEMS",
             "VIEW",
-            "FIGHT"};
+            "FIGHT",
+            "NPCS"};
 
 
 /* 
@@ -367,9 +368,21 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     }
 
     path_t *curr_path;
+    item_t *through_item;
     ITER_ALL_PATHS(game->curr_room, curr_path)
     {
-        if (strcmp(curr_path->direction,tokens[1]) == 0)
+        /* curr_path->through is an item that must be possessed by the player
+         * in order for them to access the path, so this if this member of the
+         * path struct isn't NULL, then the player must have it within their
+         * inventory to go through the path. If the player does not have the
+         * item, then the path will get skipped over just like any other path
+         * that doesn't match tokens[1], and "You cannot go in this direction"
+         * will print out
+         */
+        through_item = curr_path->through;
+        if ((strcmp(curr_path->direction,tokens[1]) == 0)
+             && ((through_item == NULL)
+             || (item_in_inventory(game->curr_player, through_item))))
         {
             action_type_t *action = find_action(tokens[0], table);
 
@@ -377,6 +390,7 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
             do_path_action(ctx, action, curr_path, &str);
             return str;
         }
+        through_item = NULL;
     }
     return "You cannot go in this direction\n";
 }
@@ -552,6 +566,12 @@ char *items_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
         i++;
         print_to_cli(ctx, t->item->item_id);
     }
+
+    if (i == 0)
+    {
+        return "There are no items in the room";
+    }
+
     return "These are the items in the room";
 }
 
@@ -570,7 +590,22 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     HASH_ITER(hh_room, game->curr_room->npcs->npc_list, npc_elt, npc_tmp) 
     {   
         i++;
-        if ((npc_elt->npc_battle == NULL) || (npc_elt->npc_battle->stats->hp > 0))
+        // If their hostility level isn't FRIENDLY, they can be attacked (and killed)
+        if (npc_elt->hostility_level != FRIENDLY)
+        {
+            // if the npc is dead
+            if (get_npc_hp(npc_elt) == 0) 
+            {
+                char *npc_death;
+                sprintf(npc_death, "†%s†", npc_elt->npc_id);
+                print_to_cli(ctx, npc_death);
+            }
+            else
+            {
+                print_to_cli(ctx, npc_elt->npc_id);
+            }
+        }
+        else
         {
             print_to_cli(ctx, npc_elt->npc_id);
         }
@@ -582,7 +617,7 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
     } 
     else 
     {
-        return "There is no NPC in the room";
+        return "There are no NPCs in the room";
     }
 }
 
@@ -602,6 +637,11 @@ char *switch_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
 char *name_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
+    // checking that tokens 1 & 2 actually exist
+    if (tokens[1] == NULL || tokens[2] == NULL)
+    {
+        return "Incorrect NAME operation format";
+    }
     case_insensitize(tokens[1]);
     case_insensitize(tokens[2]);
     if (find_entry(tokens[1], (ctx->cli_ctx->table)) == NULL)
@@ -653,14 +693,14 @@ char *palette_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 /* See cmd.h */
 char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 {
-    if (tokens[1] == NULL || tokens[2] == NULL)
+    if (tokens[1] == NULL)
     {
         return "You must identify an NPC to talk to.";
     }
 
     int rc;
 
-    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[2]);
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
 
     if (npc == NULL)
     {
@@ -675,14 +715,24 @@ char *talk_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     {
         return "This person has nothing to say.";
     }
-    char *str = start_conversation(npc->active_dialogue, &rc, ctx->game);
     
+    // to make sure the player can't start a conversation with a dead NPC
+    if (npc->hostility_level != FRIENDLY && get_npc_hp(npc) == 0)
+    {
+        char *rt;
+        sprintf(rt, "You've defeated %s, they aren't really able to talk right now.", npc->npc_id);
+        return rt;
+    }
+
+    set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+
+    char *str = start_conversation(npc->active_dialogue, &rc, ctx->game);
 
     assert(rc != -1); //checking for conversation error
 
-    if (rc == 0)
+    if (rc != 0)
     {
-        set_game_mode(ctx->game, CONVERSATION, npc->npc_id);
+        set_game_mode(ctx->game, NORMAL, npc->npc_id);
     }
 
     return str;
@@ -694,8 +744,11 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (tokens[1] == NULL) {
         return "You must identify an NPC to fight. What are you going to do, fight yourself?";
     }
+
+    char *npc_id = tokens[1];
+    case_insensitize(npc_id);
     
-    npc_t *npc = get_npc_in_room(ctx->game->curr_room, tokens[1]);
+    npc_t *npc = get_npc_in_room(ctx->game->curr_room, npc_id);
     /* note: This assumes that the NPC name 
      * is only one token long, and that the command is exactly "fight npc_name". */
     
@@ -709,45 +762,22 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
 
     // this is the current player from the chiventure context
     player_t *player = ctx->game->curr_player;
-    // create a battle player version of the current player
-    battle_player_t *b_player = new_ctx_player(player->player_id, 
-                                               player->player_class, 
-                                               get_random_stat() 
-                                               /* fix: get stats from player 
-                                               struct (currently doesn't 
-                                               support all stats) */, 
-                                               player->moves, 
-                                               NULL 
-                                               /* fix: get a list of battle 
-                                                  items from inventory 
-                                                  (currently no way to do) */,
-                                               NULL, NULL, NULL); // these too
-    // create a battle context
-    battle_ctx_t *battle_ctx = (battle_ctx_t *)calloc(1, sizeof(battle_ctx_t));
-    // create a battle game and add it to the battle context
-    battle_game_t *b_game = new_battle_game();
-    battle_ctx->game = b_game;
-    // add the current player from the chiventure context to the game
-    battle_ctx->game->player = b_player;
-    // add the battle context to the chiventure context
-    int add_battle_ctx = add_battle_ctx_to_game(ctx->game, battle_ctx);
-    // create a battle struct and initialize its parts (sets up combatants)
-    int rc = start_battle(battle_ctx, npc, 
+    int rc = start_battle(ctx->game->battle_ctx, npc, 
                           ENV_GRASS /* eventually this should be stored in 
                                        the room struct */);
-
     // prints the beginning of the battle 
-    char *start = print_start_battle(battle_ctx->game->battle);
+    char *start = print_start_battle(ctx->game->battle_ctx->game->battle);
     int start_rc = print_to_cli(ctx, start);
-    turn_component_t *current_tc = battle_ctx->tcl->current;
+
+
+    turn_component_t *current_tc = ctx->game->battle_ctx->tcl->current;
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
-    get_legal_actions(legal_items, legal_moves, current_tc, 
+    get_legal_actions(&legal_items, &legal_moves, current_tc, 
                       ctx->game->battle_ctx->game->battle);
-    char *menu = print_battle_action_menu(legal_items, legal_moves);
-    ctx->game->battle_ctx->game->battle->current_tc = current_tc;
+    char *menu = print_battle_action_menu(legal_items, legal_moves, ctx->game->battle_ctx);
 
-    // leaving in case we want to directly set game mode in the future
+    // leaving in case we want to directly set game mode in the future:
     //set_game_mode(ctx->game, BATTLE, npc->npc_id);
    
     assert(npc->npc_battle != NULL);
@@ -755,7 +785,7 @@ char* battle_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
     if (!rc && !start_rc)
     {    
         game_mode_init(ctx->game->mode, BATTLE, 
-                       run_battle_mode, "Goblin");
+                       run_battle_mode, "Minion");
     }
 
     return menu;

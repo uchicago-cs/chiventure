@@ -27,8 +27,8 @@ game_mode_t *game_mode_new(mode_type_t curr_mode, mode_operation run_mode,
                            char *mode_ctx)
 {
     game_mode_t *mode;
-    mode = malloc(sizeof(mode_t));
-    memset(mode, 0, sizeof(mode_t));
+    mode = malloc(sizeof(game_mode_t));
+    memset(mode, 0, sizeof(game_mode_t));
     mode->mode_ctx = malloc(MAX_ID_LEN * sizeof(char));
 
     int check = game_mode_init(mode, curr_mode, run_mode, mode_ctx);
@@ -142,59 +142,51 @@ int run_conversation_mode(char *input, cli_callback callback_func,
 int run_battle_mode (char *input, cli_callback callback_func, 
                           void *callback_args, chiventure_ctx_t *ctx)
 {
+    // parse the input (tokenize by word) and make sure that there was an input
     char **parsed_input = parse(input);
     if (parsed_input == NULL) 
     {
+        // this will cause the cli to request input again
         return FAILURE;
     }
+    
+    // for returning errors
     int rc;
-    turn_component_list_t *buffer;
-    turn_component_list_t *tcl_buffer = ctx->game->battle_ctx->tcl;
-    DL_FOREACH(tcl_buffer, buffer)
+    // run the corrisponding action and get the result string
+    char *output = run_action(input, ctx);
+
+    // end the battle if someone has won
+    if (ctx->game->battle_ctx->status != BATTLE_IN_PROGRESS)
     {
-        char *output = run_action(input, ctx);
-        buffer = buffer->next;
-        if (buffer != NULL)
-        {
-            if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)
-            {
-                move_t *legal_moves = NULL;
-                battle_item_t *legal_items = NULL;
-                get_legal_actions(legal_items, legal_moves, buffer->current, 
-                            ctx->game->battle_ctx->game->battle);
-                char *menu = print_battle_action_menu(legal_items, legal_moves);
-                char *output_and_menu = strcat(output, menu);
-                ctx->game->battle_ctx->game->battle->current_tc = buffer->current;
-                return callback_func(ctx, output_and_menu, callback_args);
-            }
-            else
-            {
-                char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
-                char *output_and_battle_over = strcat(output, battle_over);
-                callback_func(ctx, battle_over, callback_args);
-                free(battle_over);
-                rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
-                return SUCCESS;
-            }
-        }
-        else 
-        {
-            if (ctx->game->battle_ctx->status == BATTLE_IN_PROGRESS)
-            {
-                char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
-                char *output_and_enemy_turn = strcat(output, enemy_turn);
-                return callback_func(ctx, output_and_enemy_turn, callback_args);
-            }
-            else 
-            {
-                char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
-                char *output_and_battle_over = strcat(output, battle_over);
-                callback_func(ctx, battle_over, callback_args);
-                free(battle_over);
-                rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
-                return SUCCESS;
-            }
-        }
+        char *battle_over = print_battle_winner (ctx->game->battle_ctx->status, 42);
+        char *output_and_battle_over = strncat(output, battle_over, BATTLE_BUFFER_SIZE);
+        callback_func(ctx, output_and_battle_over, callback_args);
+        free(battle_over);
+        rc = game_mode_init(ctx->game->mode, NORMAL, NULL, "normal");
+        return SUCCESS;
     }
+
+    // iterate to the next turn component
+    battle_ctx_t *battle_ctx = ctx->game->battle_ctx;
+    battle_ctx->current_turn_tcl = battle_ctx->current_turn_tcl->next;
+    
+    // if the turn is over, run enemy turn then print turn summary and next menu to cli
+    if (battle_ctx->current_turn_tcl == NULL)
+    {
+        battle_ctx->game->battle->turn = ENEMY;
+        battle_ctx->current_turn_tcl = battle_ctx->tcl;
+        char *enemy_turn = enemy_run_turn(ctx->game->battle_ctx); 
+        output = strncat(output, enemy_turn, BATTLE_BUFFER_SIZE);
+        ctx->game->battle_ctx->game->battle->turn = PLAYER;
+        battle_ctx->current_turn_tcl = battle_ctx->tcl;
+    }
+    move_t *legal_moves = NULL;
+    battle_item_t *legal_items = NULL;
+    get_legal_actions(&legal_items, &legal_moves, 
+                      battle_ctx->current_turn_tcl->current, 
+                      ctx->game->battle_ctx->game->battle);
+    char *menu = print_battle_action_menu(legal_items, legal_moves, ctx->game->battle_ctx);
+    char *output_and_menu = strcat(output, menu);
+    return callback_func(ctx, output_and_menu, callback_args);
 }
 

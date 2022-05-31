@@ -130,8 +130,10 @@ int lookup_t_init(lookup_t **t)
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
+    add_entry("NPCS", npcs_in_room_operation, NULL, t);
     add_entry("TALK", talk_operation, NULL, t);
-    
+    add_entry("FIGHT", battle_operation, NULL, t);
+  
     add_action_entries(t);
 
     return SUCCESS;

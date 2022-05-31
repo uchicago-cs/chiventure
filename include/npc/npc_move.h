@@ -46,24 +46,32 @@ typedef enum npc_path_direction {
     NPC_MOV_ORIGINAL, NPC_MOV_REVERSED
 } npc_path_direction_t;
 
+/* Enum to define whether or not an NPC is allowed to move along its path
+ */
+typedef enum npc_mov_permission {
+    NPC_MOV_ALLOWED, NPC_MOV_NOT_ALLOWED
+} npc_mov_permission_t;
+
 /*
  * Struct that deals with NPC movement for both types of npc movements
  *
  * Components:
+ *  path: Doubly-linked list (DLL) of room_ids and (for indefinite moving NPCs) room_times
  *  mov_type: Enum type of movement
- *  npc_path_pos: index of the current location of the npc within
- *      its movement path
+ *  permission: whether or not an NPC can be moved
  *  npc_path_direction: keeps track of whether the path of the NPC's
  *      movement is in the original direction or reversed.
  *      0 or NPC_MOV_ORIGINAL indicates original direction, 
  *      1 or NPC_MOV_REVERSED indicates the path is in
  *      the opposite direction
+ *  npc_path_pos: index of the current location of the npc within
+ *      its movement path
  *  track: tracker variable that returns current room id
- *  path: DLL of room_ids and (for indefinite moving NPCs) room_times
  */
 typedef struct npc_mov {
     npc_path_dll_t *path;
     npc_mov_enum_t mov_type;
+    npc_mov_permission_t permission;
     npc_path_direction_t npc_path_direction;
     unsigned int npc_path_pos;
     char *track;
@@ -71,13 +79,15 @@ typedef struct npc_mov {
 
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
+
 /*
  * Initializes the struct that handles the movement of an npc
  *
  * Parameters:
  *  npc_mov: The id of the npc that is being addressed; must point to already
  *          allocated memory
- *  mov_type: The tpye of movement that the npc will have
+ *  mov_type: The type of movement that the npc will have
+ *  permission: whether or not an NPC can (or is allowed to) move
  *  room_id: The room id of the room that the npc will start in
  *  room_time: For indefinite NPCs: the number of seconds the npc will spend
  *              in its initial room
@@ -86,7 +96,7 @@ typedef struct npc_mov {
  * Returns:
  *  SUCCESS on success, FAILURE if an error occurs.
  */
-int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
+int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, npc_mov_permission_t permission, char *room_id,
                  double room_time);
 
 /*
@@ -95,6 +105,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
  *
  * Parameters:
  *  mov_type: The type of movement that the npc will have
+ *  permission: whether or not an NPC can (or is allowed to) move
  *  room_id: The room_id that the npc will begin in
  *  room_time: For indefinite NPCs: the number of seconds the npc will spend
  *              in its initial room
@@ -103,7 +114,7 @@ int npc_mov_init(npc_mov_t *npc_mov, npc_mov_enum_t mov_type, char *room_id,
  * Returns:
  *  Pointer to the new npc_mov_t struct
  */
-npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id, double room_time);
+npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, npc_mov_permission_t permission, char *room_id, double room_time);
 
 /*
  * Frees resources associated with an npc_mov struct
@@ -117,6 +128,7 @@ npc_mov_t *npc_mov_new(npc_mov_enum_t mov_type, char *room_id, double room_time)
 int npc_mov_free(npc_mov_t *npc_mov);
 
 // FUNCTIONS TO EXTEND PATHS --------------------------------------------------
+
 /*
  * Adds a room to the path of definite NPC movement - changes destination of the NPC
  *
@@ -145,6 +157,7 @@ int extend_path_definite(npc_mov_t *npc_mov, char *room_id_to_add);
 int extend_path_indefinite(npc_mov_t *npc_mov, char *room_id_to_add, double room_time);
 
 // "GET" FUNCTIONS ------------------------------------------------------------
+
 /*
  * Returns the room that the npc is currently in
  *
@@ -200,7 +213,30 @@ unsigned int get_npc_path_direction(npc_mov_t *npc_mov);
  */
 int get_npc_num_rooms(npc_mov_t *npc_mov);
 
+// "SET" FUNCTIONS ------------------------------------------------------------
+
+/* Function that sets the npc_mov->permission member to allow the NPC to be moved
+ *
+ * Parameters:
+ *  - npc_mov: The NPC movement struct
+ *
+ * Returns:
+ *  - SUCCESS upon success
+ */
+int allow_npc_movement(npc_mov_t *npc_mov);
+
+/* Function that sets the npc_mov->permission member to restrict the NPC from moving
+ *
+ * Parameters:
+ *  - npc_mov: The NPC movement struct
+ *
+ * Returns:
+ *  - SUCCESS upon success
+ */
+int restrict_npc_movement(npc_mov_t *npc_mov);
+
 // COMPARISON FUNCTIONS -------------------------------------------------------
+
 /* Compares the room_id of the current rooms between two
  *   npc_path_dll_t structs
  *
@@ -215,7 +251,32 @@ int get_npc_num_rooms(npc_mov_t *npc_mov);
  */
 int room_id_cmp(npc_path_dll_t *room1, npc_path_dll_t *room2);
 
+// CHECKING FUNCTIONS ---------------------------------------------------------
+
+/* Checks if the NPC is allowed to move based on its npc_mov_permission member
+ *
+ * Parameters:
+ *  - npc_mov: The NPC movement struct
+ * 
+ * Returns:
+ *  - true if npc_mov->permission is NPC_MOV_ALLOWED
+ *  - false if npc_mov->permission is NPC_MOV_NOT_ALLOWED
+ */
+bool check_if_npc_is_allowed_to_move(npc_mov_t *npc_mov);
+
+/* Checks if an indefinite NPC needs to be moved, base on how long it's
+ * been in its current room
+ *
+ * Parameters:
+ *  - npc_mov: The NPC movement struct
+ * 
+ * Returns:
+ *  - true if yes, false if no
+ */
+bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov);
+
 // DO SOMETHING FUNCTIONS -----------------------------------------------------
+
 /*
  * Reverses the path, so that the npc goes back to where it started
  *  (this is only for definite movement paths, because indef will naturally
@@ -246,4 +307,18 @@ int flip_npc_path_direction(npc_mov_t *npc_mov);
  */
 int move_npc_mov(npc_mov_t *npc_mov);
 
+/* Checks if an indefinite-moving NPC needs to be moved, based on how much
+ * time has passed ever since it first entered the room
+ *
+ * Parameters
+ *  - npc_mov: The NPC movement struct
+ * 
+ * Returns
+ *  - true: if the NPC should be moved
+ *  - false: if the NPC shouldn't be moved, including if the input
+ *          npc_mov struct is NPC_MOV_DEFINITE
+ */
+bool check_if_npc_mov_indefinite_needs_moved(npc_mov_t *npc_mov);
+
 #endif /* _NPC_MOVE_H */
+

@@ -249,14 +249,14 @@ Test(battle_print, print_battle_damage)
     print_battle_damage(b, PLAYER, move, 1, string);
     cr_assert_not_null(string, "print_start_battle() failed");
     
-    char *expected_string = "It did 9 damage.\n-- Your HP: 50\n-- bob's HP: 30\n";
+    char *expected_string = "It did 9 damage.\n";
 
     
     cr_expect_str_eq(string, expected_string, "print_battle_damage() failed to set string \n%s vs. %s", string, expected_string);
 
     char *string_crit = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
     print_battle_damage(b, PLAYER, move, 1.5, string_crit);
-    char *expected_string_crit = "It was a critical hit! It did 13 damage.\n-- Your HP: 50\n-- bob's HP: 30\n";
+    char *expected_string_crit = "It was a critical hit! It did 13 damage.\n";
     cr_expect_str_eq(string_crit, expected_string_crit, "print_battle_damage() failed to set string %s", string_crit);
 
     free(string);
