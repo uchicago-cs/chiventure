@@ -11,7 +11,6 @@ Test(sound, new_background)
 {
     char song_name[] = "../../src/sound/sandbox/c'est_la_vie_khaled.mp3";
     sound_t *sound = sound_new(BACKGROUND, song_name);
-
      cr_assert_not_null(sound, "sound_new failed");
 }
 
