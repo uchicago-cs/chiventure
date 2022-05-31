@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../../include/battle/battle_test_utility.h"
+#include "../../include/npc/npc_battle.h"
+#include "../../include/npc/dialogue.h"
 
 /* Checks that npc_new() properly mallocs and inits a new npc struct */
 Test(npc, new)
@@ -480,4 +482,91 @@ Test(npc, check_npc_battle)
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
     res = npc_free(npc2);
     cr_assert_eq(res, SUCCESS, "npc_free() failed");
+}
+
+/* Create an NPC and change it's hostility level from conditional friendly
+ * to hostile. */
+Test(dialogue, make_npc_hostile)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, CONDITIONAL_FRIENDLY);
+
+    make_npc_hostile(npc);
+
+    cr_assert_eq(npc->hostility_level, HOSTILE, 
+    "The hostility level is %d (0=friendly, 1=cond_friendly, 2=hostile)"
+    "when it should be 2 (hostile).", npc->hostility_level);
+}
+
+/* Create an NPC and change it's hostility level from hostile
+* to conditional_friendly. */
+Test(dialogue, make_npc_cond_friendly_from_hostile)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, HOSTILE);
+
+    make_npc_cond_friendly(npc);
+
+    cr_assert_eq(npc->hostility_level, CONDITIONAL_FRIENDLY, 
+    "The hostility level is %d (0=friendly, 1=cond_friendly, 2=hostile)"
+    "when it should be 1 (cond_friendly).", npc->hostility_level);
+}
+
+/* Create an NPC and change it's hostility level from hostile
+* to conditional_friendly. */
+Test(dialogue, make_npc_cond_friendly_from_friendly)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, FRIENDLY);
+
+    make_npc_cond_friendly(npc);
+
+    cr_assert_eq(npc->hostility_level, CONDITIONAL_FRIENDLY, 
+    "The hostility level is %d (0=friendly, 1=cond_friendly, 2=hostile)"
+    "when it should be 1 (cond_friendly).", npc->hostility_level);
+}
+
+/* Create an NPC and change its hostility to hostile based on edge tone */
+Test(dialogue, change_npc_hostility_hostile)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, NEUTRAL);
+
+    convo_t *convo = convo_new();
+    cr_assert_eq(convo_init(convo), SUCCESS, "convo was not initialized properly");
+
+    cr_assert_eq(add_node(convo, "1",
+                          "NPC: How do I look today?", NEUTRAL), SUCCESS,
+                          "node was not added properly");
+
+    cr_assert_eq(add_node(convo, "1A",
+                          "Ugh, so rude.", NEGATIVE), SUCCESS,
+                          "node was not added properly");
+
+    cr_assert_eq(add_edge(convo, "Player: Your hair looks ugly today", "1",
+                          "1A", NULL, NEGATIVE), SUCCESS, 
+                          "edge was not added properly");
+
+    cr_assert_eq(change_npc_hostility(npc, convo->all_edges->edge), SUCCESS, 
+                 "NPC hostility was not changed to hostile");
+}
+
+/* Create an NPC and change its hostility to hostile based on edge tone */
+Test(dialogue, change_npc_hostility_friendly)
+{
+    npc_t *npc = npc_new("npc", "short", "long", NULL, NULL, NEUTRAL);
+
+    convo_t *convo = convo_new();
+    cr_assert_eq(convo_init(convo), SUCCESS, "convo was not initialized properly");
+
+    cr_assert_eq(add_node(convo, "1",
+                          "NPC: How do I look today?", NEUTRAL), SUCCESS,
+                          "node was not added properly");
+
+    cr_assert_eq(add_node(convo, "1B",
+                          "Thank you!", POSITIVE), SUCCESS,
+                          "node was not added properly");
+
+    cr_assert_eq(add_edge(convo, "Player: Your hair looks nice today", "1",
+                          "1B", NULL, POSITIVE), SUCCESS, 
+                          "edge was not added properly");
+
+    cr_assert_eq(change_npc_hostility(npc, convo->all_edges->edge), SUCCESS, 
+                 "NPC hostility was not changed to friendly");
 }
