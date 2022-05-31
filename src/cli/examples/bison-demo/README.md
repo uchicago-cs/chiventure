@@ -9,21 +9,23 @@ make
 This will put you into the interactive CLI interface that will communicate with and beparsed by Bison
 
 ## Cool Examples
-
-### Categories:
 * use my sword on the big rock
 * open door
 * go north
 * go to the north
-* travel north (NEEDS TO BE IMPLEMENTED as of 5/30/2022 5pm)
+* travel north 
 
+### Flow of Presentation:
+
+**Opening about what we were trying to do as the new CLI team**
 When trying to find a way to improve the CLI of chiventure, we thought that we couldtake the current in-house parsing and instead use a more robust parsing library.
 We decided on bison, as there aren't many C libraries and of the ones we tested we were actually able to get something working.
 
-preamble about what bison/flex actually is and how it is relevant to chiventure.
+
+**preamble about what bison/flex actually is and how it is relevant to chiventure.**
 This would involve talking about the current implementation of parsing, along with some of the limitations.
 
-So then, we decided that bison would then directly replace the current parsingmechanisms. This specifically involves taking the command line input and parsing it into an array of strings.
+So then, we decided that bison would then directly replace the current parsing mechanisms. This specifically involves taking the command line input and parsing it into an array of strings.
 For example, when the user types "go north", this get's put into a list of stringscalled of:
 [0] = "go"
 [1] = "north"
