@@ -65,7 +65,7 @@ chiventure_ctx_t *create_sample_ctx()
     obj_t *obj_store;
 
     char wizard[] = "Wizard Class", warrior[] = "Warrior Class";
-    if(strcmp(wizard,custom_string)== 0){
+    if (strcmp(wizard,custom_string)== 0) {
         obj_store = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
     }
     else{
