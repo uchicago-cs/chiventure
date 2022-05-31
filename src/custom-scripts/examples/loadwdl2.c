@@ -30,7 +30,7 @@ chiventure_ctx_t *create_sample_ctx()
     data_t jack;
     data_t dc;
 
-    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/dynamic_string.lua");
+    object_t *togay = obj_t_init(jack, STR_TYPE,"../../../../src/custom-scripts/examples/lua/demo.lua");
    
 
     /* Create context */
@@ -43,14 +43,14 @@ chiventure_ctx_t *create_sample_ctx()
     data_t temp = arg_t_get(togay);
     custom_string = temp.s;
     char wizard[] = "Wizard Class", warrior[] = "Warrior Class";
-    if (strcmp(wizard,custom_string)== 0) {
-        obj_t *obj_store1 = load_obj_store("../../../../src/custom-scripts/examples/demo.wdl");
+    if(strcmp(wizard,custom_string)== 0){
+        obj_t *obj_store1 = load_obj_store("../../../../src/custom-scripts/examples/wdl/demo-warrior.wdl");
         game_t *game1 = load_game(obj_store1);
         chiventure_ctx_t *ctx1 = chiventure_ctx_new(game1);
         return ctx1;
     }
     else{
-        obj_t *obj_store2 = load_obj_store("../../../../src/custom-scripts/examples/demo-warrior.wdl");
+        obj_t *obj_store2 = load_obj_store("../../../../src/custom-scripts/examples/wdl/demo-warrior.wdl");
         game_t *game2 = load_game(obj_store2);
         chiventure_ctx_t *ctx2 = chiventure_ctx_new(game2);
         return ctx2;
