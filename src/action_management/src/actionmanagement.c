@@ -224,9 +224,14 @@ int do_path_action(chiventure_ctx_t *c, action_type_t *a, path_t *p, char **ret_
     }
     /* validate existence of path and destination
        third condition checks if conditions have been met */
-    if ((path_found == NULL) || (room_dest == NULL) || (p->conditions != NULL))
+    if ((path_found == NULL) || (room_dest == NULL))
     {
         sprintf(string, "The path or room provided was invalid.");
+        *ret_string = string;
+        return NOT_ALLOWED_PATH;
+    } else if ((p->conditions != NULL))
+    {
+        sprintf(string, "The conditions for accessing this path have not been met.");
         *ret_string = string;
         return NOT_ALLOWED_PATH;
     }
@@ -378,7 +383,7 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
     assert(c->game);
     assert(a);
     assert(target);
-
+  
     player_t *c_player = c->game->curr_player;
 
     char *string = malloc(BUFFER_SIZE);
@@ -402,11 +407,11 @@ int do_self_action(chiventure_ctx_t *c, action_type_t *a,
         } else if (strcmp(target[0], "inventory") == 0) {
             // retrieve inventory from the player
             if (target[1] == NULL) {
-                string = display_inventory(c_player->inventory);
+                string = display_inventory(c_player);
             }
             else {
                 string = display_inventory_item(
-                    c_player->inventory, target[1]);
+                    c_player, target[1]);
             }
         } else if (strcmp(target[0], "skills") == 0) {
             if (target[1] == NULL) {

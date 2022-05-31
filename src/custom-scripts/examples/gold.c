@@ -37,15 +37,15 @@ chiventure_ctx_t *create_sample_ctx()
     int string_num;
     printf("You receive a premonition... how much gold do you see in your future?\n");
     scanf("%i", &string_num);  
-    object_t *ot = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/examples/gold.lua");
+    object_t *ot = obj_t_init(d1, STR_TYPE, "../../../../src/custom-scripts/examples/lua/gold.lua");
     di1.i = string_num;
     ot = obj_add_arg(ot, di1, INT_TYPE);
-    char* custom_string = (char*)malloc(500);
+    char* custom_string1 = (char*)malloc(500);
     data_t temp = arg_t_get(ot);
-    custom_string = temp.s;
+    custom_string1 = temp.s;
     
     int rand_weight = (string_num ? rand() % string_num : 0); // The more money you request, the less likely you are to obtain it
-    object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/weight.lua");
+    object_t *ot2 = obj_t_init(d2, STR_TYPE, "../../../../src/custom-scripts/examples/lua/weight.lua");
     di2.i = rand_weight;
     ot2 = obj_add_arg(ot2, di2, INT_TYPE);
     char* custom_string2 = (char*)malloc(500);
@@ -53,12 +53,12 @@ chiventure_ctx_t *create_sample_ctx()
     custom_string2 = temp2.s; 
 
     if (custom_string2[0] != 'f') {
-      custom_string = custom_string2;
+      custom_string1 = custom_string2;
     }
 
     /* Associate action "SHAKE" with the chest.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(&chest, "SHAKE", custom_string, "You have already shaken the box!");
+    add_action(&chest, "SHAKE", custom_string1, "You have already shaken the box!");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
