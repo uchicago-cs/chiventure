@@ -783,7 +783,11 @@ Test(battle_logic, use_battle_item)
     offensive_item->name = "Spikes";
     offensive_item->quantity = 2;
 
-    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, offensive_item,
+    class_t* warrior = class_new("warrior", "A mighty warrior.",
+                                  "An elite, battle-hardened fighter who excels in physical combat.",
+                                 NULL, NULL, NULL);
+
+    combatant_t *player = combatant_new("warrior", true, warrior, player_stats, NULL, offensive_item,
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
 
     combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL,
@@ -829,10 +833,14 @@ Test(battle_logic, apply_stat_changes)
     offensive_changes->phys_atk= -50;
     offensive_changes->phys_def= -50;
 
+    class_t* warrior = class_new("warrior", "A mighty warrior.",
+                                  "An elite, battle-hardened fighter who excels in physical combat.",
+                                 NULL, NULL, NULL);
+
     battle_item_t *offensive_item = create_battle_item(1, 1, "spiky spikes", "Spikes", true,
                     offensive_changes);
 
-    combatant_t *player = combatant_new("player", true, NULL, player_stats, NULL, offensive_item,
+    combatant_t *player = combatant_new("warrior", true, warrior, player_stats, NULL, offensive_item,
                                         NULL, NULL, NULL, BATTLE_AI_NONE);
 
     combatant_t *enemy = combatant_new("enemy", false, NULL, enemy_stats, NULL, NULL,
