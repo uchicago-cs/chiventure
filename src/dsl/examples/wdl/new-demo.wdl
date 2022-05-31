@@ -1,182 +1,216 @@
 {
   "GAME": {
-    "start": "computer lab",
+    "start": "lobby",
     "end": {
-      "in_room": "classroom"
+      "in_room": "computer lab"
     },
-    "intro": "You successfully figured out how to find the DSL file that Professor Borja requested for you to find. You now have to proceed to the classroom to hand deliver the DSL file to Professor Borja. Unfortunately, you are a first-quarter student so you are unfamiliar with the layout of campus. You must now make your way through the treacherous domain that is the University of Chicago campus to find the final boss\u00e2\u0080\u0093TA Jack."
+    "intro": "Welcome \"cs student\"! You find yourself in the lobby of an unfamiliar tower. Your CS homework is due tonight, and you need to find the DSL file before the deadline to complete the assignment. Late assignments are not accepted, so you need to go through the rooms hastily in order to get a satisfactory grade. Professor Borja has informed you that the DSL file is within one of the rooms near the top of the tower. Good luck on your search!"
   },
   "CLASSES": {
-    "STUDENT": {
-      "short_desc": "This is a student.",
-      "long_desc": "His goal is to get an A in Professor Borja\u00e2\u0080\u0099s class.",
+    "Knight": {
+      "short_desc": "Knight's short description",
+      "long_desc": "Knight's long description",
       "attributes": {
-        "studious": true,
-        "procrastinator": true,
-        "inquisitive": true
+        "noble": true,
+        "hotheaded": true
       },
       "base_stats": {
-        "grade": {
-          "current": 80,
+        "health": {
+          "current": 100,
+          "max": 200
+        },
+        "mana": {
+          "current": 20,
           "max": 100
         }
       },
-      "effects": [],
-      "skill_tree": [],
-      "starting_skills": []
+      "effects": [
+        null
+      ],
+      "skill_tree": [
+        null
+      ],
+      "starting_skills": [
+        null
+      ]
     }
   },
   "ROOMS": {
-    "classroom": {
+    "computer lab": {
       "short_desc": "A computer lab.",
       "long_desc": "A computer lab with only one computer. It has been turned off.",
       "connections": [
         {
-          "direction": "NORTH",
-          "to": "quad"
+          "direction": "EAST",
+          "to": "storage room"
         }
       ],
       "items": [
         "computer",
-        "SHIRT DESIGNER",
-        "GOOGLE SWE"
+        "Google swe Internship",
+        "Shirt Designer"
       ]
     },
     "storage room": {
-      "short_desc": "This is a storage room.",
-      "long_desc": "The storage room has many things in it but only one thing seems to be useful: the dsl documentation. From the storage room, head east to the quad.",
-      "connections": [
-        {
-          "direction": "EAST",
-          "to": "quad"
-        }
-      ],
-      "items": [
-        "dsl documentation"
-      ]
-    },
-    "quad": {
-      "short_desc": "University of Chicago Quad.",
-      "long_desc": "This is the main quad. This is where all the main classrooms and libraries are centered on. Head west to the storage room, north to the computer lab, and south to the classroom",
+      "short_desc": "A storage room.",
+      "long_desc": "There are various items, including a toolbox, all caked with dust. The door on the west is locked but looks like the lock can be picked.",
       "connections": [
         {
           "direction": "WEST",
+          "to": "computer lab"
+        },
+        {
+          "direction": "DOWN",
+          "to": "kitchen"
+        }
+      ],
+      "items": [
+        "toolbox"
+      ]
+    },
+    "movie theatre": {
+      "short_desc": "A small movie theatre.",
+      "long_desc": "There's something playing on the screen. You can't see from this far away, but you don't care because you're running out of time. Go back to the kitchen.",
+      "connections": [
+        {
+          "direction": "SOUTH",
+          "to": "kitchen"
+        }
+      ],
+      "items": []
+    },
+    "kitchen": {
+      "short_desc": "A kitchen.",
+      "long_desc": "This is a kitchen south of the movie theatre. You can go up to the storage room from here. There are some apples in the kitchen; they look delicious.",
+      "connections": [
+        {
+          "direction": "UP",
           "to": "storage room"
         },
         {
           "direction": "NORTH",
-          "to": "computer lab"
+          "to": "movie theatre"
         },
         {
-          "direction": "SOUTH",
-          "to": "classroom"
+          "direction": "DOWN",
+          "to": "lobby"
         }
       ],
       "items": [
-        "tree"
+        "apples"
       ]
     },
-    "dorm room": {
-      "short_desc": "This is your dorm room",
-      "long_desc": "This is your dorm room in Campus North Residential Commons. Room 996. From here you can head south to the computer lab.",
-      "connections": [
-        {
-          "direction": "SOUTH",
-          "to": "computer lab"
-        }
-      ],
-      "items": [
-        "desk"
-      ]
-    },
-    "computer lab": {
-      "short_desc": "The computer lab is located in Crerar library",
-      "long_desc": "This is the computer lab located in Crerar Library where you have your weekly team meetings. From here you can go north to the dorm room and south to the quad.",
+    "bathroom": {
+      "short_desc": "This is the bathroom",
+      "long_desc": "The toilet is broken. You can only use the faucet to wash your hands in this bathroom.",
       "connections": [
         {
           "direction": "NORTH",
-          "to": "dorm room"
-        },
+          "to": "lobby"
+        }
+      ],
+      "items": [
+        "faucet"
+      ]
+    },
+    "lobby": {
+      "short_desc": "The main lobby in this tower.",
+      "long_desc": "Start your search here. Go up to the kitchen. Go south to the bathroom.",
+      "connections": [
         {
           "direction": "SOUTH",
-          "to": "quad"
+          "to": "bathroom"
+        },
+        {
+          "direction": "UP",
+          "to": "kitchen"
         }
       ],
       "items": []
     }
   },
   "ITEMS": {
-    "GOOGLE SWE": {
-      "long_desc": "You have a deck of cards. It's a full deck, if you're willing to forget the fact that it was missing the 7\u00e2\u0099\u00a3 when you got it and also that your former cellmate tore the J\u00e2\u0099\u00a6 in half as part of a 'magic trick' that didn't work at all.",
-      "actions": [
-        {
-          "action": "CODE",
-          "text_success": "You code the program.",
-          "text_fail": "You failed to code."
-        }
-      ],
-      "in": "TERNSHIP",
-      "short_desc": "GOOGLE SWE"
-    },
     "SHIRT DESIGNER": {
-      "long_desc": "You are a master shirt designer.",
+      "short_desc": "A large wooden door",
+      "long_desc": "It looks very heavy, and it doesn't have a keyhole",
       "actions": [
         {
-          "action": "DESIGN",
-          "text_success": "You design the shirt.",
-          "text_fail": "You failed to design the shirt."
+          "action": "OPEN",
+          "text_success": "You open the door.",
+          "text_fail": "You can't open the door. It seems to be locked."
+        },
+        {
+          "action": "GO",
+          "text_success": "You walk through the door",
+          "text_fail": "You can't do that, the door is closed"
         }
       ],
-      "in": "classroom",
-      "short_desc": "SHIRT DESIGNER"
+      "in": "computer lab"
+    },
+    "GOOGLE SWE INTERNSHIP": {
+      "short_desc": "A large wooden door",
+      "long_desc": "It looks very heavy, and it doesn't have a keyhole",
+      "actions": [
+        {
+          "action": "OPEN",
+          "text_success": "You open the door.",
+          "text_fail": "You can't open the door. It seems to be locked."
+        },
+        {
+          "action": "GO",
+          "text_success": "You walk through the door",
+          "text_fail": "You can't do that, the door is closed"
+        }
+      ],
+      "in": "computer lab"
     },
     "COMPUTER": {
       "short_desc": "A computer.",
       "long_desc": "Turn on to see the screen that shows an opened directory with multiple files opened.",
       "actions": [
         {
-          "action": "SUBMIT",
-          "text_success": "You submitted your code!",
-          "text_fail": "You failed to submit your code in time and failed the project."
+          "action": "TURNON",
+          "text_success": "You found the DSL file!",
+          "text_fail": "You\u00e2\u0080\u0099re not interested in the contents of the files. It looks boring anyways."
         }
       ],
       "in": "computer lab"
     },
-    "DSL DOCUMENTATION": {
-      "short_desc": "A dsl documentation caked in dust.",
-      "long_desc": "The dsl documentation gives you everything you need to know about DSL.",
+    "TOOLBOX": {
+      "short_desc": "A toolbox caked in dust.",
+      "long_desc": "The toolbox contains a very rusty hammer and screwdriver. There are a lot of tools missing.",
       "actions": [
         {
           "action": "CONSUME",
-          "text_success": "You are now a master at DSL like your TA Jack.",
-          "text_fail": "You did not understand the documentation at all."
+          "text_success": "The screwdriver looks like a good tool to pick the lock with.",
+          "text_fail": "You can't pick it up."
         }
       ],
       "in": "storage room"
     },
-    "TREE": {
-      "short_desc": "This is Flora",
-      "long_desc": "A tree provides great shade in the blistering Chicago summer heat, as you happily code and grind out leetcode.",
+    "APPLES": {
+      "short_desc": "Some fresh apples",
+      "long_desc": "An apple a day keeps the doctor away. You can eat the apples if you want.",
       "actions": [
         {
-          "action": "SIT",
-          "text_success": "I just finished 50 leetcode questions.",
-          "text_fail": "You realize you haven\u00e2\u0080\u0099t taken Algorithms and can\u00e2\u0080\u0099t do leetcode yet."
+          "action": "CONSUME",
+          "text_success": "Those were some delicious apples.",
+          "text_fail": "You realize you\u00e2\u0080\u0099re not hungry and do not want to eat anything."
         }
       ],
-      "in": "quad"
+      "in": "kitchen"
     },
-    "DESK": {
-      "short_desc": "A desk in the dorm room",
-      "long_desc": "You can use the desk to take notes",
+    "FAUCET": {
+      "short_desc": "A faucet in the bathroom",
+      "long_desc": "Use the faucet to wash your hands",
       "actions": [
         {
-          "action": "STUDY",
-          "text_success": "You successfully taken notes for CS220 class.",
-          "text_fail": "You forgot your pencil. You cannot take notes."
+          "action": "CONSUME",
+          "text_success": "Your hands are clean.",
+          "text_fail": "You broke the faucet. You cannot wash your hands"
         }
       ],
-      "in": "dorm room"
+      "in": "bathroom"
     }
   },
   "NPCS": {
@@ -195,7 +229,7 @@
       }
     },
     "JACK": {
-      "in": "classroom",
+      "in": "lobby",
       "short_desc": "This is TA Jack.",
       "long_desc": "TA Jack is the best TA in the game. He is so helpful with everything and has been leading us to success.",
       "inventory": [
