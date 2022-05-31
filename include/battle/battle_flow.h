@@ -19,6 +19,7 @@
 #include "ui/print_functions.h"
 #include "cli/operations.h"
 #include "ui/ui.h"
+#include "sound/sound.h"
 
 /*
  * Starts the battle, sets up battle struct including any associated structs

@@ -16,6 +16,8 @@ add_library(battle
 target_include_directories(battle PRIVATE src/)
 
 target_link_libraries(battle m)
+target_link_libraries(battle sound)
+
 
 # EXAMPLES
 add_subdirectory(examples
