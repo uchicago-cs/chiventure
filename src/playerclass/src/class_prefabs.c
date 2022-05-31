@@ -1096,10 +1096,7 @@ item_t* class_prefab_add_items(class_t* class) {
         return item_0;
     }
 
-    else {
-        fprintf(stderr, "Could not find class for item inventories "
-                        "in class_prefab_add_items\n");
-        return NULL;
-    }
+    /* Class is not found */
+    return NULL;
  
 }
