@@ -464,7 +464,7 @@ Test(battle_logic, uses_battle_item_correctly)
 
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
-    int res = use_battle_item(p, battle, "ITEM1");
+    int res = use_battle_item(p, battle, i1);
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->stats->hp, 25, "use_battle_item() failed for hp!");
@@ -481,7 +481,7 @@ Test(battle_logic, inventory_empty)
                                     NULL, NULL, NULL, BATTLE_AI_NONE);
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
-    int res = use_battle_item(p, battle, "item1");
+    int res = use_battle_item(p, battle, NULL);
     cr_assert_eq(res, FAILURE, "use_battle_item() has failed!");
 }
 
@@ -525,7 +525,7 @@ Test(battle_logic, no_more_battle_items)
     battle->player = p;
     cr_assert_not_null(p, "combatant_new() failed");
 
-    int res = use_battle_item(p, battle, "item1");
+    int res = use_battle_item(p, battle, i1);
 
     cr_assert_eq(res, FAILURE, "use_battle_item() has failed!");
 }
@@ -621,7 +621,8 @@ Test(battle_logic, remove_single_item)
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
 
-    int res = use_battle_item(p, battle, "item");
+    int res = use_battle_item(p, battle, i1);
+    remove_battle_item(p, i1);
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
@@ -675,12 +676,14 @@ Test(battle_logic, remove_item_of_multiple)
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
 
-    int res1 = use_battle_item(p, battle, "item1");
+    int res1 = use_battle_item(p, battle, i1);
+    remove_battle_item(p, i1);
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i2, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
-    int res2 = use_battle_item(p, battle, "item2");
+    int res2 = use_battle_item(p, battle, i2);
+    remove_battle_item(p, i2);
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
@@ -730,12 +733,14 @@ Test(battle_logic, remove_last_item_of_multiple)
     battle_t *battle = calloc(1, sizeof(battle_t));
     battle->player = p;
 
-    int res2 = use_battle_item(p, battle, "item2");
+    int res2 = use_battle_item(p, battle, i2);
+    remove_battle_item(p, i2);
     cr_assert_eq(res2, SUCCESS, "use_battle_item() failed!");
     cr_assert_eq(p->items, i1, "remove_battle_item() failed");
     cr_assert_null(p->items->next, "remove_battle_item() failed");
 
-    int res1 = use_battle_item(p, battle, "item1");
+    int res1 = use_battle_item(p, battle, i1);
+    remove_battle_item(p, i1);
     cr_assert_eq(res1, SUCCESS, "use_battle_item() failed!");
     cr_assert_null(p->items, "remove_battle_item() failed");
 
@@ -785,7 +790,7 @@ Test(battle_logic, use_battle_item)
     int expected_def = (battle->enemy->stats->phys_def) + (offensive_item->attributes->phys_def);
 
 
-    int res = use_battle_item(player, battle, "Spikes");
+    int res = use_battle_item(player, battle, player->items);
 
     cr_assert_eq(res, SUCCESS, "use_battle_item() failed!");
  
