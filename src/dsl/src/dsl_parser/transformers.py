@@ -178,15 +178,21 @@ def transform_stat(self, s: list[tuple[str, int]]) -> tuple[dict]:
     return(d)
 
 def transform_effects(self, s: list[tuple[str, str]]) -> tuple[str, str]:
-    #TODO
+    """
+    Still need to implement parsing for when effects are implemented by player_class group
+    """
     return ('effects', None)
     
 def transform_skill_tree(self, s: list[tuple[str, str]]) -> tuple[str, str]:
-    #TODO
+     """
+    Still need to implement parsing for when skill tree is implemented by player_class group
+    """
     return ('skill_tree', None)
 
 def transform_starting_skills(self, s: list[tuple[str, str]]) -> tuple[str, str]:
-    #TODO
+     """
+    Still need to implement parsing for when starting skills are implemented by player_class group
+    """
     return ('starting_skills', None)
 
 def transform_misplaced(self, s: list[Token]) -> str:
