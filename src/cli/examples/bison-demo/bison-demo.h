@@ -30,6 +30,7 @@ word_ll* append_to_phrase(word_ll *phrase, char *word);
 
 
 /* Takes user input and converts it to an array of strings, like parser.c
+ * Also prints each word of input list and each word of output array
  *
  * Parameters:
  *  - phrase: a word_ll struct of strings from input
