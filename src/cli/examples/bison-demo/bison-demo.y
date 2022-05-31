@@ -120,7 +120,6 @@ kind1_cmd_keyword
   | PICKUP { $$ = start_phrase("pickup"); }
   | DROP { $$ = start_phrase("drop"); }
   | CONSUME { $$ = start_phrase("consume"); }
-//  | USE { $$ = start_phrase("use"); }
   | DRINK { $$ = start_phrase("drink"); }
   | EAT { $$ = start_phrase("eat"); }
   ;

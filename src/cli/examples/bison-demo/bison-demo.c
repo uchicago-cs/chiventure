@@ -3,8 +3,6 @@
 #include "bison-demo.h"
 #include "cli/operations.h"
 #include "cli/cmd.h"
-#include "cli/parser.h"
-#include "common/utlist.h"
 
 /* create an linked list item of a phrase */
 word_ll* start_phrase(char *word) {
