@@ -7,6 +7,7 @@ target_link_libraries(${TEST_EXE} ${CRITERION_LIBRARY})
 
 foreach(module ${CHIVENTURE_MODULES})
     target_link_libraries(${TEST_EXE} ${module})
+
     target_link_libraries(${TEST_EXE} common)
     target_link_libraries(${TEST_EXE} SDL2)
     target_link_libraries(${TEST_EXE} SDL2_mixer)
