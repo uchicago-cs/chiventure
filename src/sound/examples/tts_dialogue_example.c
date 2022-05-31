@@ -99,8 +99,8 @@ char *run_conversation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         }
         
         // text to speech 
-        speak(t, ret_str);
         print_to_cli(ctx, ret_str);   
+        speak(t, ret_str;)
     
       
         if (rc != 1){
@@ -124,8 +124,8 @@ char *run_conversation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         }
 
         // text to speech 
-        speak(t, ret_str);
         print_to_cli(ctx, ret_str);
+        speak(t, ret_str);
 
         
         if (rc != 1){
