@@ -19,9 +19,30 @@ void yyerror(char* s);
 
 /* tokens defined in the .l file! */
 %token EOL /* end of line, newline char */
-%token<word> GO
+
+/* prepositions, pronouns, articles to filter out */
 %token TO
-%token FIGHT
+%token THE
+%token MY
+%token ON
+
+/* actions that aren't kinds1-4 */
+%token<word> QUIT
+%token<word> HELP
+%token<word> HIST
+%token<word> CREDITS
+%token<word> LOOK
+%token<word> INV
+%token<word> MAP
+%token<word> SWITCH
+%token<word> LOAD
+%token<word> NAME
+%token<word> PALETTE
+%token<word> ITEMS
+%token<word> TALK
+%token<word> FIGHT
+
+/* kind 1 */
 %token<word> OPEN
 %token<word> CLOSE
 %token<word> PUSH
@@ -34,13 +55,17 @@ void yyerror(char* s);
 %token<word> CONSUME 
 %token<word> DRINK 
 %token<word> EAT
-%token THE
-%token MY
-%token ON
+
+/* kind 2 */
+%token<word> GO
+
+/* kind 3 */
 %token<word>PUT
 %token<word> USE
+
+/* kind 4 */
 %token<word> VIEW
-%token CREDITS
+
 %token<word> WORD
 
 
@@ -57,6 +82,9 @@ void yyerror(char* s);
 %type<word_list> kind4_cmd
 %type<word_list> kind4_cmd_keyword
 
+%type<word_list> misc_cmd
+%type<word_list> misc_cmd_keyword
+
 %type<word_list> phrase 
 
 %%
@@ -66,11 +94,13 @@ line
   | line kind1_cmd phrase EOL { handle_kind1_cmd($2, $3); }
   | line kind2_cmd EOL { handle_kind2_cmd(NULL); }
   | line kind2_cmd phrase EOL { handle_kind2_cmd($3); }
-  | line kind3_cmd EOL { printf("kind3\n"); }
+  | line kind3_cmd EOL { handle_kind3_cmd($2, NULL, NULL); }
   | line kind3_cmd kind3_item EOL { handle_kind1_cmd($2, $3); } //for special case "use"
   | line kind3_cmd kind3_item ON kind3_item EOL { handle_kind3_cmd($2, $3, $5); }
   | line kind4_cmd EOL { handle_kind4_cmd($2, NULL); }
   | line kind4_cmd phrase EOL { handle_kind4_cmd($2, $3); }
+  | line misc_cmd EOL { printf("misc\n"); }
+  | line misc_cmd phrase EOL { printf("misc\n"); }
   | line phrase EOL { handle_cmd($2); }
   ;
 
@@ -128,6 +158,30 @@ kind4_cmd
 
 kind4_cmd_keyword
   : VIEW { $$ = start_phrase("view"); }
+  ;
+
+misc_cmd
+  : misc_cmd_keyword { $$ = $1; }
+  | misc_cmd_keyword THE { $$ = $1; }
+  | misc_cmd_keyword TO { $$ = $1; }
+  | misc_cmd_keyword TO THE { $$ = $1; }
+  ;
+
+misc_cmd_keyword
+  : QUIT { $$ = start_phrase("quit"); }
+  | HELP { $$ = start_phrase("help"); }
+  | HIST { $$ = start_phrase("hist"); }
+  | CREDITS { $$ = start_phrase("credits"); }
+  | LOOK { $$ = start_phrase("look"); }
+  | INV  { $$ = start_phrase("inv"); }
+  | MAP { $$ = start_phrase("map"); }
+  | SWITCH { $$ = start_phrase("switch"); }
+  | LOAD { $$ = start_phrase("load"); }
+  | NAME  { $$ = start_phrase("name"); }
+  | PALETTE { $$ = start_phrase("palette"); }
+  | ITEMS { $$ = start_phrase("items"); } 
+  | TALK { $$ = start_phrase("talk"); }
+  | FIGHT { $$ = start_phrase("fight"); }
   ;
 
 phrase

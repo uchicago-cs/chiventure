@@ -36,15 +36,39 @@ the+ { return THE; }
 
 TO|to|To|tO   { return TO; }
 
-^fight|battle { return FIGHT; }
+^quit|QUIT { return QUIT; }
+
+^help|HELP { return HELP; }
+
+^hist|HIST { return HIST; }
+
+^credits|CREDITS { return CREDITS; }
+
+^look|LOOK { return LOOK; }
+
+^inv|INV { return INV; }
+
+^map|MAP { return MAP; }
+
+^switch|SWITCH { return SWITCH; }
+
+^load|LOAD { return LOAD; }
+
+^name|NAME { return NAME; }
+
+^palette|PALETTE { return PALETTE; }
+
+^items|ITEMS { return ITEMS; }
+
+^talk|TALK|speak|SPEAK { return TALK; }
+
+^fight|FIGHT|battle|BATTLE { return FIGHT; }
 
 ^put|PUT { return PUT; }
 
 ^use|USE { return USE; }
 
 ^view|VIEW { return VIEW; }
-
-credits { return CREDITS; }
 
 my { return MY; }
 
