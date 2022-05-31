@@ -91,6 +91,9 @@ typedef struct player {
 
     /* The current moves available to the player */
     move_t *moves;
+
+    /* The current NPC the player is talking to. NULL if not talking to an NPC */
+    char *crnt_npc;
 } player_t;
 
 /* This typedef is to distinguish between player_t pointers which are
