@@ -98,7 +98,7 @@ If it only contains supported features, you can then run your newly created game
 ### Running tests
 The dsl module has built in tests to ensure that any new changes and features implemented do not affect the output of previously implemented features. These tests can be found in the `tests` subdirectory.
 
-From the `src/dsl` directory, you can run all of the tests in the `tests/dsl_tests` subdirectoy using:
+From the `src/dsl` directory, you can run all of the tests in the `tests/dsl_tests` subdirectory using:
 ```
 python src/unit_test.py
 ```
@@ -108,3 +108,8 @@ The testing module also supports flags `--show` and `--file=filename`:
 python src/test.py --show --file=room_test.dsl --file=min_test.dsl
 ```
 The `--show` flag will print out the first discrepancy between expected and actual output for each test that fails. The `--file=filename.dsl` flag will test just one file located in the `tests/dsl_tests` subdirectory. This flag can be used multiple times in order to run multiple files at once. 
+
+Note that as of now, the testing module only runs tests located in the 'tests/dsl_tests' directory. Furthermore, expected outputs must be saved in the `wdl_expected` directory. 
+For implementing additional tests, use the naming convention
+- dsl: `tests/dsl_tests/filename_test.dsl`
+- wdl: `tests/wdl_expected/filename_test_expected.wdl`
