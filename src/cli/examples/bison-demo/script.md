@@ -16,8 +16,9 @@ Old implementation bad:
  rules)
 -way less cool and harder to work with
 
+Bison is a general purpose parser generator which solves the limitations above by allowing a grammar to be stated directly, meaning filler wors are removed automatically, multi-word objects can be treated as one token, new synonyms can be added easily and debugging errors specifically due to language is easier. 
 
-So then, we decided that bison would then directly replace the current parsing mechanisms. This specifically involves taking the command line input and parsing it into an array of strings.
+Therefore, we decided that bison would then directly replace the current parsing mechanisms. This specifically involves taking the command line input and parsing it into an array of strings.
 For example, when the user types "go north", this get's put into a list of stringscalled of:
 [0] = "go"
 [1] = "north"
