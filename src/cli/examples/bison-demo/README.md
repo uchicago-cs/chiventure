@@ -1,11 +1,10 @@
 # README
-Lex operators reference: https://docs.oracle.com/cd/E19504-01/802-5880/6i9k05dgk/index.html#lex-36741
 ## To Compile and Run
 from the working directory, (`examples/bison-demo`) run the following:
 ```
 mkdir out
 make
-./parser-bison
+./bison-demo
 ```
 This will put you into the interactive CLI interface that will communicate with and beparsed by Bison
 
