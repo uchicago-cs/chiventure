@@ -62,11 +62,11 @@ def transform_player_class(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
     # since the key is guaranteed to be the string "base_stats"
     d["base_stats"] = [v for k, v in s if k == "base_stats"][0]
 
-    d["effects"] = [v for k, v in s if k == "effects"][0]
+    d["effects"] = [v for k, v in s if k == "effects"]
 
-    d["skill_tree"] = [v for k, v in s if k == "skill_tree"][0]
+    d["skill_tree"] = [v for k, v in s if k == "skill_tree"]
 
-    d["starting_skills"] = [v for k, v in s if k == "starting_skills"][0]
+    d["starting_skills"] = [v for k, v in s if k == "starting_skills"]
     
     return ('PLAYER_CLASS', (class_name, d))
 
@@ -81,6 +81,7 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     """
     room_id = s.pop(0)[1]
 
+    
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
     # action and action attributes, etc.
@@ -243,4 +244,3 @@ def transform_inventory(self, s: list[tuple[str, str]]) -> tuple[str, str]:
 
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
-

@@ -16,7 +16,6 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
         Main outward-facing function. Transforms the intermediate data 
         structure outputted by the parser into valid WDL/JSON format.
     """
-
     rooms = []
     items = []
     players = []
@@ -49,6 +48,8 @@ def parsed_dict_to_json(intermediate: dict, debug=False, debug_modes=[], default
         players_dict = intermediate.pop("players")
         for player_name, contents in players_dict.items():
             players.append(Player_Class(player_name, contents, default))
+        for npc_name, val in npc_dict.items():
+            npcs.append(Npc(npc_name, val, default))
     
     game = Game(intermediate, default)
     

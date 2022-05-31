@@ -64,6 +64,19 @@ ROOM classroom
         SUBMIT success: "You submitted your code!"
         SUBMIT fail: "You failed to submit your code in time and failed the project."
 
+
+ITEM SHIRT DESIGNER
+        long desc: "You are a master shirt designer."
+        actions: DESIGN
+            DESIGN success: "You design the shirt."
+            DESIGN failure: "You failed to design the shirt."
+
+ITEM GOOGLE SWE INTERNSHIP
+        long desc: "You have a deck of cards. It's a full deck, if you're willing to forget the fact that it was missing the 7♣ when you got it and also that your former cellmate tore the J♦ in half as part of a 'magic trick' that didn't work at all."
+        actions: CODE
+            CODE success: "You code the program."
+            CODE failure: "You failed to code."
+
 PLAYER_CLASS STUDENT
     short desc: "This is a student."
     long desc: "His goal is to get an A in Professor Borja’s class."
@@ -75,18 +88,6 @@ PLAYER_CLASS STUDENT
         grade
 	        CURRENT 80
 	        MAX 100
-
-ITEM Shirt Designer
-        long desc: "You are a master shirt designer."
-        actions: DESIGN
-            DESIGN success: "You design the shirt."
-            DESIGN failure: "You failed to design the shirt."
-
-ITEM Google swe Internship
-        long desc: "You have a deck of cards. It's a full deck, if you're willing to forget the fact that it was missing the 7♣ when you got it and also that your former cellmate tore the J♦ in half as part of a 'magic trick' that didn't work at all."
-        actions: CODE
-            CODE success: "You code the program."
-            CODE failure: "You failed to code."
 
 NPC JACK IN classroom
     short desc: "This is TA Jack."
