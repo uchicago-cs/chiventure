@@ -106,7 +106,10 @@ int damage(combatant_t* target, move_t* move, combatant_t* source)
         src_atk = (double) source->stats->mag_atk;
         tgt_def = (double) target->stats->mag_def;
     }
-
+    if (tgt_def == 0)
+    {
+        tgt_def = 1;
+    }
     dmg = ((2.0 * src_lvl) / 5.0);
     dmg *= (((base_dmg * (src_atk / tgt_def)) / 50.0) + 2.0);
     dmg = round(dmg);

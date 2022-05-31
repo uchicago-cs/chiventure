@@ -252,8 +252,8 @@ Test(player, change_xp)
 
   cr_assert_not_null(player, "player_new() failed");
 
-  cr_assert_eq(xp, 20, "change_xp() failed to add to player experience");
-  cr_assert_eq(xp2, 15,
+  cr_assert_eq(xp, 10, "change_xp() failed to add to player experience and increase level");
+  cr_assert_eq(xp2, 5,
       "change_xp() failed to subtract from player experience");
   player_free(player);
 
