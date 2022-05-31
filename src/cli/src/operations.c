@@ -53,7 +53,7 @@ char* actions_for_sug[NUM_ACTIONS] = {
             "ITEMS",
             "VIEW",
             "FIGHT",
-            "NPC"};
+            "NPCS"};
 
 
 /* 

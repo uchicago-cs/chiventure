@@ -372,7 +372,6 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatch the CLI to add the new operations */
-    add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
     add_entry("ARENA", move_to_arena_operation, NULL, ctx->cli_ctx->table);
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);
