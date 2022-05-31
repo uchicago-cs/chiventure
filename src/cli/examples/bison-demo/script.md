@@ -77,14 +77,12 @@ So I can say
 `take sword of power`
 `go to the castle of fire`
 
-###putting it all together
+### putting it all together
 putting it all together we can have commands like:
 
-take my sword of power
-use the sword of power on the evil clone of borja
 
-
-
+`use the sword of power on the evil clone of borja`
+`use my sword of power on the evil clone of associate instructional professor borja`
 
 ### Flow of Presentation:
 **Opening about what we were trying to do as the new CLI team**
