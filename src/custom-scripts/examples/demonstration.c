@@ -11,8 +11,6 @@
 #include <cli/operations.h>
 #include "common/ctx.h"
 #include "ui/ui.h"
-#include <action_management/action_structs.h>
-#include <action_management/actionmanagement.h>
 
 const char *banner = "THIS IS AN EXAMPLE PROGRAM";
 
@@ -60,9 +58,6 @@ chiventure_ctx_t *create_sample_ctx()
 
     return ctx;
 }
-
-
-
 
 int main(int argc, char **argv)
 {
