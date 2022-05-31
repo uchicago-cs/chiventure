@@ -1,0 +1,46 @@
+{
+"items": [
+    {
+        "id": "Search Warrant",
+        "short_desc": "A search warrant.",
+        "long_desc": "An official document that grants one the ability to call upon law enforcement",
+        "actions": []
+    },
+    {
+        "id": "Pirate Map",
+        "short_desc": "A map.",
+        "long_desc": "A map owned by the pirates that details the surrounding area. Steve's hideout is marked.",
+        "actions": []
+    },
+    {
+        "id": "Sailing Handbook",
+        "short_desc": "A blue handbook.",
+        "long_desc": "A somewhat worn handbook that details the basics of sailing.",
+        "actions":[]
+    },
+    {
+        "id": "Interrogation Handbook",
+        "short_desc": "A purple handbook.",
+        "long_desc": "A pristine handbook that details the basics of interrogation.",
+        "actions": []
+    },
+    {
+        "id": "Legendary Sword of Steve",
+        "short_desc": "A gleaming sword",
+        "long_desc": "A shining, elegant sword imbued with magic power. Vague runes can be seen on the side, remnants of a lost age.",
+        "actions": []
+    },
+    {
+        "id": "Steve's Embarassing Baby Photos",
+        "short_desc": "A photo book.",
+        "long_desc": "A photo book containing pictures from Steve's infancy. The shame is sure to wound him more than any blade.",
+        "actions": []
+    },
+    {
+        "id": "Knife",
+        "short_desc": "A knife.",
+        "long_desc": "The knife is worn, but of good quality and free of rust.",
+        "actions": []
+    }
+]
+}

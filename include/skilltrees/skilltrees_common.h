@@ -83,6 +83,33 @@ typedef struct skill {
 
 } skill_t;
 
+typedef struct attr_reader_effect{
+    char* value;
+
+    int str_len;
+
+    reader_location_t location;
+} attr_reader_effect_t;
+
+typedef struct stat_reader_effect{
+    int value;
+
+    //Might want to switch with enum later
+    stats_type_t stat_type;
+
+    comparison_t comparison;
+
+    reader_location_t location;
+} stat_reader_effect_t;
+
+typedef struct reader_effect{
+    reader_type_t type;
+    
+    attr_reader_effect_t* attr_reader;
+
+    stat_reader_effect_t* stat_reader;
+} reader_effect_t; 
+
 typedef struct complex_skill{
     //Type of complex skill
     complex_skill_type_t type;
@@ -98,19 +125,43 @@ typedef struct complex_skill{
 
 } complex_skill_t;
 
-/* Currently only supports for 1 binary condition
-*  Later on this may be changed to support more complex contions
-*/
-typedef struct reader_effect{
-    //String of the condition being 
-    char* condition;
+/* Random Chance complex type */
+typedef struct random_chance_type {
+    //Complex skills struct, type must be RANDOM_CHANCE
+    complex_skill_t* complex_skill;
 
-    //Length of string
-    int str_len;
+    // chance of failure of this skill
+    float chance_failure;
 
-    //Location of condition (player, enemy, world, etc.)
-    reader_type_t type;
-} reader_effect_t;
+} random_chance_type_t;
+
+/* Random Range complex type */
+typedef struct random_range_type {
+    //Complex skills struct, type must be RANDOM_RANGE
+    complex_skill_t* complex_skill;
+
+    // lower bound of values
+    int lower_bound;
+
+    // upper bound of values
+    int upper_bound;
+
+} random_range_type_t;
+
+/* Random Switch complex type */
+typedef struct random_switch_type {
+    //Complex skills struct, type must be RANDOM_SWITCH
+    complex_skill_t* complex_skill;
+
+    //Array of percentages for each subskill
+    // e.g. if there were three subskills and each had an equal chance of being 
+    //      used, this should be an array with chances 0.33, 0.33, 0.33
+    float* chances;
+
+    // Length of chances array
+    int chances_len;
+
+} random_switch_type_t;
 
 /* ======================== */
 /* === COMMON FUNCTIONS === */
@@ -129,7 +180,7 @@ typedef struct reader_effect{
 void** array_element_add(void** array, unsigned int array_len, void* element);
 
 /*
- * A helper function. Searches a list of skills for a given skill, by sid_t.
+ * A helper function. Searches an array of skills for a given skill, by sid_t.
  *
  * Parameters:
  *  - list: The skill array

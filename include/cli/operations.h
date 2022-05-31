@@ -1,5 +1,7 @@
+
 #ifndef _CLI_INCLUDE_OPERATIONS_H
 #define _CLI_INCLUDE_OPERATIONS_H
+
 #include "cmd.h"
 #include "game-state/game.h"
 #include "game-state/mode.h"
@@ -138,7 +140,6 @@ cmd *assign_action(char *ts[TOKEN_LIST_SIZE], lookup_t **table);
  */
 char *look_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
-
 /*Returns a description of the player inventory contents
  *
  * Parameters:
@@ -188,6 +189,23 @@ char *npcs_in_room_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  */
 char *action_error_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* 
+ * This function returns a string which is a suggestion 
+ * obtained from comparing the input command with a list
+ * of actual commands. This is found by using the Levenshtein's Distance formula, 
+ * a fuzzy search mechanism to evaluate word similarity. More details linked here:
+ * https://en.wikipedia.org/wiki/Levenshtein_distance
+ *
+ * Parameters:
+ *  - action_input: parsed input command (a string)
+ *  - actions: the actions_for_sug array that is globally defined 
+ *    here is what the suggestions function is called with currently
+ *    but any array of words to suggest would do.
+ *
+ * Returns:
+ *  - a string suggestion, which is a word from the actions array
+ */
+char* suggestions(char *action_input, char** actions);
 
 /* Validates an item is in a room, passes an action struct on to
  * action management's function that handles ACTION ITEM
@@ -227,6 +245,19 @@ char *kind2_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ct
  */
 char *kind3_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
+/* Validates game state and passes action struct to 
+ * action management's function that handles ACTION SELF_ATTRIBUTE
+ *
+ * eg: VIEW stats
+ *
+ * Parameters:
+ *  - tokens: parsed input string (validated)
+ *  - ctx: pointer to a chiventure context struct
+ *
+ * Returns:
+ *  - Status message based on control flow.
+ */
+char *kind4_action_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx);
 
 /* Toggles the map by calling the toggle_map function in ui_ctx.c. Essentially a
  * wrapper, passing on the context struct only.

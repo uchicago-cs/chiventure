@@ -101,14 +101,14 @@ typedef struct room_wrapped_for_llist {
 room_t *room_new(char *room_id, char *short_desc, char *long_desc);
 
 /* room_init() initializes a room struct with given values
-  Parameters:
-    a memory allocated new room pointer
-    a unique room id
-    a short description of the room
-    a long description of the room
-  Returns:
-    FAILURE for failure, SUCCESS for success
-*/
+ * Parameters:
+ *   a memory allocated new room pointer
+ *   a unique room id
+ *   a short description of the room
+ *   a long description of the room
+ * Returns:
+ *   FAILURE for failure, SUCCESS for success
+ */
 
 int room_init(room_t *new_room, char *room_id, char *short_desc,
     char *long_desc);
@@ -212,7 +212,6 @@ int path_free(path_t *path);
  */
 int path_new_conditions(path_t *path, list_action_type_t *act);
 
-
 /* Returns path given room and direction
  *
  * Parameters:
@@ -224,31 +223,31 @@ int path_new_conditions(path_t *path, list_action_type_t *act);
 path_t *path_search(room_t *room, char* direction);
 
 /* Returns pointer to room given path
-* Parameters:
-* ptr to path
-*
-* Returns:
-* ptr to room or NULL if not found
-*/
+ * Parameters:
+ * ptr to path
+ *
+ * Returns:
+ * ptr to room or NULL if not found
+ */
 room_t *find_room_from_path(path_t *path);
 
 /* Returns ptr to adjacent room given direction
-* Parameters:
-* ptr to room, char* direction (must follow initialized direction characters)
-*
-* Returns:
-* ptr to room or NULL if not found
-*/
+ * Parameters:
+ * ptr to room, char* direction (must follow initialized direction characters)
+ *
+ * Returns:
+ * ptr to room or NULL if not found
+ */
 room_t *find_room_from_dir(room_t *curr, char* direction);
 
 /* Retrieves the pointer to an item contained within a room
-* Parameters:
-*   pointer to room
-*   string of item's id
-*
-* Returns:
-*   pointer to item, NULL if not found
-*/
+ * Parameters:
+ *   pointer to room
+ *   string of item's id
+ *
+ * Returns:
+ *   pointer to item, NULL if not found
+ */
 item_t* get_item_in_room(room_t* room, char* item_id);
 
 /*
@@ -356,15 +355,16 @@ coords_t *find_coords_of_room(room_t *room);
  * the map and a given npc_mov_t struct.
  *
  * Parameters:
- *  - npc_mov: npc_mov_t struct with a known npc_mov_type
- *  - game: current game, this is necessary for determining the current rooms in the map
+ *  - npc: Pointer to the npc_t struct
+ *  - all_rooms: all rooms in the current game,
+ *  -   this is necessary for determining the current rooms in the map
  *
  * Returns:
  *  - returns SUCCESS on success, returns FAILURE on failure
  *  - Updates npc_mov to have a new, randomly generated movement path.
  *    Maintains the same type of movement (indefinite / definite)
  */
-int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms);
+int auto_gen_movement(npc_t *npc, room_list_t *all_rooms);
 
 /* Moves an npc one step down its path
  *
@@ -388,4 +388,4 @@ int npc_one_move(npc_t *npc, room_hash_t *all_rooms);
  */
 int transfer_all_npc_items(npc_t *npc, room_t *room);
 
-#endif
+#endif /* _ROOM_H */

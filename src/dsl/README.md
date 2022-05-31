@@ -15,15 +15,20 @@ Sample DSL files can be found in the `examples/dsl` directory, and their corresp
 - **`connected-vars.dsl`**, a stripped-down version of the `connected-rooms` example written in 11 lines using variables
 - **`distaff.dsl`**, a DSL implementation of the `distaff.yaml` game (the game has since been removed from the `dev` branch)
 - **`min.dsl`**, essentially the minimum possible DSL file
+- **`players.dsl`**, Example file that contains class parsing.
+- **`npc-no-dialogue.dsl`**, example output given from the npc parsing without dialogue support in game. Cannot interact with NPCs properly with this file.
+- **`npc-with-dialogue.wdl`**, This is a wdl file based off `npc-no-dialogue.wdl` that has hardcoded dialogue within. Can properly interact with NPCs here.
+
 
 #### Chiventure-invalid
 - `long-example.dsl`, a, well, *long* example DSL file designed to showcase the DSL parser's flexibility and versatility
 - `short_example.dsl`, a short, itemless DSL example
 - `vars.dsl`, an example that showcases the DSL's variable features
+- `npc.dsl`, sample npc as a base example
 
 ###### While all example `.dsl` files compile to `.wdl`, files incompatible with Chiventure are either not complete games, contain features not supported by WDL/Chiventure, or both.
 
-## Installing Lark
+## Installing Lark 
 
 **The parser needs to be run on a Python distribution with the Lark module
 installed. The parser runs on Python versions 3.7 and greater, but we recommend Python 3.9.** 
@@ -85,5 +90,19 @@ python src/parse.py <dsl file> <optional destination> --debug
 If it only contains supported features, you can then run your newly created game in Chiventure. From the `src/dsl` directory, assuming you've built Chiventure: 
 
 ```
-../../build/chiventure examples/wdl/<filename>.wdl
+../../build/chiventure examples/wdl/<filename>.wdl 
 ```
+
+### Running tests
+The dsl module has built in tests to ensure that any new changes and features implemented do not affect the output of previously implemented features. These tests can be found in the `tests` subdirectory.
+
+From the `src/dsl` directory, you can run all of the tests in the `tests/dsl_tests` subdirectoy using:
+```
+python src/unit_test.py
+```
+The testing module also supports flags `--show` and `--file=filename`: 
+
+```
+python src/test.py --show --file=room_test.dsl --file=min_test.dsl
+```
+The `--show` flag will print out the first discrepancy between expected and actual output for each test that fails. The `--file=filename.dsl` flag will test just one file located in the `tests/dsl_tests` subdirectory. This flag can be used multiple times in order to run multiple files at once. 

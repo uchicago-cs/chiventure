@@ -3,15 +3,19 @@
 
 #include "game-state/game_state_common.h"
 #include "game-state/item.h"
+#include "game-state/player.h"
 #include "playerclass/class_structs.h"
 #include "playerclass/class.h"
 #include "npc/dialogue.h"
 #include "npc/npc_battle.h"
 #include "npc/npc_move.h"
+#include "npc/npc_quests.h"
 #include "cli/util.h"
+#include "quests/quests_hash.h"
+#include "quests/quests_state.h"
+
 
 // NPC STRUCTURE DEFINITION ---------------------------------------------------
-
 /* A non-playable character in game */
 typedef struct npc {
     /* hh is used for hashtable, as provided in uthash.h */
@@ -27,8 +31,12 @@ typedef struct npc {
     /* long description of the NPC, <301 chars */
     char *long_desc;
 
-    /* pointer to an existing convo struct */
-    convo_t *dialogue;
+    /* pointer to existing convo struct; changed depending on whetehr
+    npc has activated quest or task convo */
+    convo_t *active_dialogue;
+
+    /* pointer to an existing convo struct; for normal dialogue */
+    convo_t *standard_dialogue;
 
     /* pointer to inventory hashtable */
     item_hash_t *inventory;
@@ -44,7 +52,53 @@ typedef struct npc {
 
     /* either NULL or a pointer to an existing npc_battle struct */
     npc_battle_t *npc_battle;
+
+    /* pointer to a quest with dialogue */
+    npc_quest_list_t *quests;
+
+    /* pointer to a task with dialogue */
+    npc_task_list_t *tasks;
+    
+    /* pointer to game_action hashtable */
+    game_action_hash_t *actions;
 } npc_t;
+
+/* Agent: a struct of things that you can perform actions upon
+ * - item: an item
+ * - npc: an NPC
+ */
+typedef struct agent
+{
+   item_t *item;
+   npc_t *npc;
+} agent_t;
+
+enum agent_tag {ITEMS, NPCS};
+
+// ACTION STRUCTURE DEFINITION + BASIC FUNCTIONS ------------------------------
+typedef struct game_action_effect{
+    enum agent_tag agent_tag;
+    agent_t *agent;
+    attribute_t *attribute_to_modify;
+    attribute_value_t *new_value;
+    struct game_action_effect *next; //mandatory for utlist macros
+} game_action_effect_t;
+
+/* This typedef is to distinguish between game_action_effect_t
+ * pointers which are used to point to the game_action_effect_t structs
+ * in the traditional sense, and those which are used to enable UTLIST functionality
+ * on the game_action_effect_t structs as specified in src/common/include */
+typedef struct game_action_effect action_effect_list_t;
+
+
+typedef struct game_action {
+    UT_hash_handle hh;
+    char* action_name;
+    condition_list_t *conditions; //must be initialized to NULL
+    action_effect_list_t *effects; //must be initialized to NULL
+    char* success_str;
+    char* fail_str;
+} game_action_t;
 
 /* This typedef is to distinguish between npc_t pointers which are
  * used to point to the npc_t structs in the traditional sense,
@@ -54,7 +108,6 @@ typedef struct npc npc_hash_t;
 
 
 // STRUCT FUNCTIONS -----------------------------------------------------------
-
 /*
  * Initializes an npc with the given parameters.
  *
@@ -63,8 +116,9 @@ typedef struct npc npc_hash_t;
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  dialogue: a pointer to an existing convo_t struct defining the npc's
-              conversations (see /include/npc/dialogue.h)
+ *  standard_dialogue: a pointer to an existing convo_t struct defining the
+                       npc's conversations (non quest/task-related)
+                       (see /include/npc/dialogue.h)
  *  inventory: a pointer to an existing item_hash_t struct defining the npc's
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
@@ -85,8 +139,9 @@ int npc_init(npc_t *npc, char *npc_id, char *short_desc, char *long_desc,
  *  npc_id: unique string ID of npc
  *  short_desc: description of npc <51 chars
  *  long_desc: description of npc <301 chars
- *  dialogue: a pointer to an existing convo_t struct defining the npc's 
-              conversations (see /include/npc/dialogue.h)
+ *  standard_dialogue: a pointer to an existing convo_t struct defining the
+ *                     npc's conversations (non-quest/task-related) 
+ *                     (see /include/npc/dialogue.h)
  *  inventory: a pointer to an existing item_hash_t struct defining the npc's
  *             inventory (see /include/game-state/item.h)
  *  class: a pointer to an existing class_t struct defining the npc's class
@@ -142,6 +197,29 @@ bool check_npc_battle(npc_t *npc);
 bool item_in_npc_inventory(npc_t *npc, char *item_id);
 
 // "GET" FUNCTIONS ------------------------------------------------------------
+/*
+ * Gets a quest with a specific id
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - quest_id: the quest's id
+ * 
+ * Returns:
+ * - the quest if present, else NULL
+*/
+npc_quest_t *get_npc_quest(npc_t *npc, char *quest_id);
+
+/*
+ * Gets a task with a specific id
+ * 
+ * Parameters:
+ * - npc: the npc
+ * - task_id: the task's's id
+ * 
+ * Returns:
+ * - the task if present, else NULL
+*/
+npc_task_t *get_npc_task(npc_t *npc, char *task_id);
 
 /* 
  * Gets short description of npc.
@@ -164,6 +242,17 @@ char *get_sdesc_npc(npc_t *npc);
  *  long description string, NULL if npc is NULL
  */
 char *get_ldesc_npc(npc_t *npc);
+
+/* Function to return an item in an NPC's inventory given the item_id
+ *
+ * Parameters:
+ *  npc: the npc
+ *  item_id: the item_id of the item that you want to be returned
+ *
+ * Returns:
+ *  a pointer to the item that matches the input item_id, or NULL if nonexistent
+ */
+ item_t *get_item_from_npc(npc_t *npc, char *item_id);
 
 /*
  * Function to get a hashtable (uthash) of all items in the npc's inventory.
@@ -258,12 +347,32 @@ int add_item_to_npc(npc_t *npc, item_t *item);
  */
 int remove_item_from_npc(npc_t *npc, item_t *item);
 
+/* Removes/Deletes all items in an NPCs inventory
+ * 
+ * Parameters:
+ *  npc: the npc whose inventory we're deleting
+ *
+ * Returns:
+ * SUCCESS upon completion
+ */
+int delete_all_items_from_npc(npc_t *npc);
+
+/* Deletes and frees all items in an NPC's inventory
+ * 
+ * Parameters:
+ *  npc: the npc whose inventory we're deleting and freeing
+ *
+ * Returns:
+ *  SUCCESS upon completion
+ */
+int free_all_items_from_npc(npc_t *npc);
+
 /*
- * Adds the given convo to the given npc.
+ * Adds the given convo to the given npc's standard_dialogue
  * 
  * Parameters:
  *  npc: the npc to receive the convo
- *  convo: the convo
+ *  c: the convo
  * 
  * Returns:
  *  SUCCESS if successful, FAILURE if an error occurred.
@@ -311,6 +420,23 @@ int add_battle_to_npc(npc_t *npc, stat_t *stats, move_t *moves,
  */
 int change_npc_hp(npc_t *npc, int change);
 
+/*
+ * Moves an npc to the next room in their movement path
+ *
+ * Parameters:
+ * npc: The NPC struct
+ *
+ * Returns:
+ * FAILURE: if a move does not occur, 
+ * SUCCESS: if successful move to the next room, with the only exception
+ * being if an indefinite NPC has more than one room in its path, and then
+ * reaches the end of its path, in which case its path direction is flipped,
+ * and its time_ray for the current step in its path is reset, but it does not
+ * technically change rooms.
+ *
+ */
+int move_npc(npc_t *npc);
+
 // HASH TABLE FUNCTIONS ---------------------------------------------------
 
 /*
@@ -325,4 +451,67 @@ int change_npc_hp(npc_t *npc, int change);
  */
 int delete_all_npcs(npc_hash_t *npcs);
 
-#endif
+/* Sets the npc's active dialogue to the proper dialogue
+ * - This handles quest interaction, since NPCs can have different
+ *   dialogue when giving quests or completing tasks
+ * 
+ * Parameters:
+ * - qctx: A quest context containing a player and a hash of all quests in the game
+ * - npc: An npc
+ * 
+ * Returns:
+ * - SUCCESS on success, FAILURE if an error occurs
+*/
+int set_proper_dialogue(quest_ctx_t *qctx, npc_t *npc);
+
+// Conversion FUNCTIONS ---------------------------------------------------
+
+/*
+ * converts hostility_level of an NPC to HOSTILE
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level becomes HOSTILE
+ *       (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int make_npc_hostile(npc_t *npc);
+
+/*
+ * converts hostility_level of an NPC to CONDITIONAL_FRIENDLY
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level becomes CONDITIONAL_FRIENDLY
+ *       (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int make_npc_cond_friendly(npc_t *npc);
+
+/*
+ * changes an NPC's hostility_level based on player's
+ * tone at a conversation edge
+ * ex. NEGATIVE tone makes NPC HOSTILE
+ * 
+ * NOTE FOR FUTURE IMPLEMENTATION:
+ * when this function is called to make NPC HOSTILE,
+ * it should call add_battle_to_npc() as well to
+ * initialize the npc_battle_t struct in npc_t
+ * and allow NPC to participate in battle
+ * 
+ * Parameters:
+ *  npc: the NPC whose hostility_level changes
+ *       (must point to already allocated memory)
+ *  edge: the edge containing the tone_t struct that determines
+ *        an NPC's hostility_level
+ *        (must point to already allocated memory)
+ *
+ * Returns:
+ *  SUCCESS if successful, FAILURE if an error occurred.
+ */
+int change_npc_hostility(npc_t *npc, edge_t *edge);
+
+
+#endif /* _NPC_H */

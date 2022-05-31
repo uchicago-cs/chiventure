@@ -5,7 +5,7 @@
 #include "player.h"
 #include "room.h"
 #include "item.h"
-#include "quests/quests_structs.h"
+#include "quests/quests_state.h"
 #include "npc/dialogue.h"
 #include "condition.h"
 #include "game_action.h"
@@ -33,6 +33,7 @@ typedef struct quest quest_t;
 typedef struct quest quest_hash_t;
 typedef struct path path_t;
 typedef struct gencontext gencontext_t;
+typedef struct specgraph specgraph_t;
 typedef struct levelspec levelspec_t;
 
 /* The game struct is built to contain all the relevant information
@@ -89,7 +90,8 @@ typedef struct game {
     char *start_desc;
 
     /* pointer to gencontext struct used for autogeneration module */
-    gencontext_t *genctx;
+    // gencontext_t *genctx;
+    specgraph_t *specgraph;
 
     /* pointer to levelspec struct used for level-oriented generation */
     levelspec_t *levelspec;
@@ -316,8 +318,8 @@ bool is_game_over(game_t *game);
 * WARNING: CREATES PATH BUT DOES NOT FILL PATH CONDITIONS
 * AT THE MOMENT AS PARAMETERS NOT GIVEN
 */
-int create_connection(game_t *game, char* src_room, char* dest_room,
-    			char* direction);
+int create_connection(game_t *game, char *src_room, char *dest_room,
+    			char *direction);
 
 /*
 *
@@ -439,8 +441,8 @@ int add_item_to_player(player_t *player, item_t *item, game_t *game);
 * - ACTION_NULL if action is null
 * - ATTRIBUTE_NULL if attribute is null
 */
-int add_effect(game_t *game, char* action_name, char* item_src_name,
-           char* item_modify_name, char* attribute_name, attribute_value_t new_value);
+int add_effect(game_t *game, char *action_name, char *item_src_name,
+           char *item_modify_name, char *attribute_name, attribute_value_t *new_value);
 
 /* add_condition adds the given condition struct to the action pointed to
  * Parameters:

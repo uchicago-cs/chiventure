@@ -25,11 +25,11 @@ complex_skill_t* complex_skill_new(complex_skill_type_t type, skill_t** skills, 
         return NULL;
     }
 
-    skill_t** list = (skill_t**)malloc(sizeof(skill_t*)*num_skills);
-    complex->skills = list; 
+    skill_t** skills_array = (skill_t**)malloc(sizeof(skill_t*)*num_skills);
+    complex->skills = skills_array; 
 
-    if (list == NULL) {
-        fprintf(stderr, "complex_skill_new: memory allocation for skills failed\n");
+    if (skills_array == NULL) {
+        fprintf(stderr, "complex_skill_new: memory allocation for skills array failed\n");
         return NULL;
     }
 
@@ -58,12 +58,17 @@ int complex_skill_init(complex_skill_t* complex_skill, complex_skill_type_t type
 
 /*See complex_skills.h */
 int complex_skill_free(complex_skill_t* complex_skill){
-
     for(int i = 0; i < complex_skill->num_skills; i++){
         free(complex_skill->skills[i]);
     }
     free(complex_skill->skills);
-    reader_effect_free(complex_skill->reader);
+
+    //If statement is present to prevent crash from reading NULL reader, which is often
+    //used for non-conditional skills
+    if(complex_skill->reader != NULL){
+        reader_effect_free(complex_skill->reader);
+    }
+    
     free(complex_skill);
 
     return SUCCESS;
@@ -71,10 +76,10 @@ int complex_skill_free(complex_skill_t* complex_skill){
 
 /*See complex_skills.h */
 int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx){
-    if(complex_skill->type == COMBINED){
+    if (complex_skill->type == COMBINED){
         return combined_complex_skill_execute(complex_skill, ctx);
     }
-    if(complex_skill->type == SEQUENTIAL){
+    if (complex_skill->type == SEQUENTIAL){
         return sequential_complex_skill_execute(complex_skill, ctx);
     }
     if(complex_skill->type == COMPLEX_CONDITIONAL){
@@ -83,56 +88,6 @@ int complex_skill_execute(complex_skill_t* complex_skill, chiventure_ctx_t* ctx)
     return FAILURE;
 }
 
-/*See complex_skills.h */
-reader_effect_t* reader_effect_new(char* condition, int str_len, reader_type_t type)
-{
-
-    reader_effect_t* reader;
-    int rc;
-
-    if (condition == NULL)
-    {
-        fprintf(stderr, "reader_effect_new: condition invalid");
-        return NULL;
-    }
-
-    if (str_len == 0)
-    {
-        fprintf(stderr, "reader_effect_new: condition invalid");
-        return NULL;
-    }
-
-    reader = (reader_effect_t*)malloc(sizeof(reader_effect_t));
-    rc = reader_effect_init(reader, condition, str_len, type);
-
-    if (rc)
-    {
-        fprintf(stderr, "reader_effect_new: initialization failed");
-        return NULL;
-    }
-
-    return reader;
-}
-
-/* See complex_hills.h */
-int reader_effect_init(reader_effect_t* reader, char* condition, int str_len, reader_type_t type)
-{
-
-    assert (reader != NULL);
-
-    reader->condition = condition;
-    reader->str_len = str_len;
-    reader->type = type;
-
-    return SUCCESS;
-}
-
-/* See complex_skills.h */
-int reader_effect_free(reader_effect_t* reader)
-{
-    free(reader);
-    return 0;
-}
 
 /* See complex_skills.h */
 int conditional_skill_execute(complex_skill_t* skill, chiventure_ctx_t* ctx){
@@ -210,5 +165,267 @@ int complex_skill_xp_up(complex_skill_t* complex_skill, unsigned int xp_gained){
             return FAILURE;
         }
     }
+    return SUCCESS;
+}
+
+// RANDOM SKILL CODE
+
+/*See complex_skills.h */
+random_chance_type_t* random_chance_new(complex_skill_t* complex_skill, float chance_failure)
+{
+    random_chance_type_t* random_chance;
+
+    if (chance_failure < 0 || chance_failure > 1)
+    {
+        fprintf(stderr, "random_chance_new: chance_failure invalid, must be between 0 and 1, inclusive\n");
+        return NULL;
+    }
+
+    if (complex_skill == NULL)
+    {
+        fprintf(stderr, "random_chance_new: complex_skill invalid");
+        return NULL;
+    }
+
+    random_chance = (random_chance_type_t*)malloc(sizeof(random_chance_type_t));
+
+    if (random_chance == NULL) 
+    {
+        fprintf(stderr, "random_chance_new: memory allocation failed\n");
+        return NULL;
+    }
+
+    int rc = random_chance_init(random_chance, complex_skill, chance_failure);
+
+    if (rc)
+    {
+        fprintf(stderr, "random_chance_new: initialization failed\n");
+        return NULL;
+    }
+
+    return random_chance;
+}
+
+/*See complex_skills.h */
+int random_chance_init(random_chance_type_t* random_chance_skill, complex_skill_t* complex_skill, float chance_failure)
+{
+    assert (random_chance_skill != NULL);
+
+    random_chance_skill->complex_skill = complex_skill;
+    random_chance_skill->chance_failure = chance_failure;
+
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int random_chance_free(random_chance_type_t* random_chance_skill){
+    
+    complex_skill_free(random_chance_skill->complex_skill);
+
+    free(random_chance_skill);
+
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+random_range_type_t* random_range_new(complex_skill_t* complex_skill, int lower_bound, int upper_bound){
+    random_range_type_t* random;
+
+    random = (random_range_type_t*)malloc(sizeof(random_range_type_t));
+
+    if (random == NULL) {
+        fprintf(stderr, "random_range_new: memory allocation failed\n");
+        return NULL;
+    }
+
+    int rc = random_range_init(random, complex_skill, lower_bound, upper_bound);
+
+    if (rc) {
+        fprintf(stderr, "random_range_new: initialization failed\n");
+        return NULL;
+    }
+
+    return random;
+}
+
+/*See complex_skills.h */
+int random_range_init(random_range_type_t* random_range_skill, complex_skill_t* complex_skill, int lower_bound, int upper_bound){
+    assert(random_range_skill != NULL);
+    assert(complex_skill != NULL);
+
+    random_range_skill->complex_skill = complex_skill;
+    random_range_skill->lower_bound = lower_bound;   
+    random_range_skill->upper_bound = upper_bound;
+
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int random_range_free(random_range_type_t* random_range_skill){
+    int x = complex_skill_free(random_range_skill->complex_skill);
+    if (x != 0){
+        fprintf(stderr, "random_range_free: Complex skill freeing failed\n");
+        return FAILURE;
+    }
+
+    free(random_range_skill);
+
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+random_switch_type_t* random_switch_new(complex_skill_t* complex_skill, float* chances, int chances_len){
+    random_switch_type_t* random;
+
+   random = (random_switch_type_t*)malloc(sizeof(random_switch_type_t));
+
+    if (random == NULL) {
+        fprintf(stderr, "random_switch_new: memory allocation failed for random\n");
+        return NULL;
+    }
+
+    float* chances_array = (float*)malloc(sizeof(float)*complex_skill->num_skills);
+    if (chances_array == NULL) {
+        fprintf(stderr, "random_switch_new: memory allocation for chances failed\n");
+        return NULL;
+    }
+    chances_array = chances;
+    random->chances = chances_array; 
+
+    int rc = random_switch_init(random, complex_skill, chances_array, chances_len);
+
+    if (rc != 0) {
+        fprintf(stderr, "random_switch_new: initialization failed\n");
+        return NULL;
+    }
+
+    return random;
+}
+
+/*See complex_skills.h */
+int random_switch_init(random_switch_type_t* random_switch_skill, complex_skill_t* complex_skill, float* chances, int chances_len){
+    assert(random_switch_skill != NULL);
+    assert(complex_skill != NULL);
+    assert(chances != NULL);
+    assert(chances_len == complex_skill->num_skills);
+
+    random_switch_skill->complex_skill = complex_skill;
+    random_switch_skill->chances = chances;   
+    random_switch_skill->chances_len = chances_len;
+
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int random_switch_free(random_switch_type_t* random_switch_skill){
+    free(random_switch_skill->chances);
+
+    int x = complex_skill_free(random_switch_skill->complex_skill);
+    if (x != 0){
+        fprintf(stderr, "random_switch_free: Complex skill freeing failed\n");
+        return FAILURE;
+    }
+
+    free(random_switch_skill);
+
+    return SUCCESS;
+}
+
+/* Takes in a lower and upper value and generates random number within that 
+*  range, helper function for the range execution function
+*  Written with help of https://www.geeksforgeeks.org/generating-random-number-range-c/
+*  
+*  Please note that while the rand() function will work for now, this function 
+*  could be improved in the future by using a third-party library for random 
+*  number generation
+*
+*  Parameters:
+* - lower_bound: the lower bound of the possible generated value
+* - upper_bound: the upper bound of the possible generated value
+*
+* Returns;
+* - int: the number randomly generated between the given bounds.
+*        must be an integer since it is used to execute skill a certain amount 
+*        of times.
+*/
+int random_int_generator(int lower_bound, int upper_bound){
+    return ((rand() % (upper_bound - lower_bound + 1)) + lower_bound);
+}
+
+/* Takes in an upper value and generates random float within the range of 0 to 
+*  the upper value, helper function for the chance and switch execution functions
+*  Written with help of https://stackoverflow.com/questions/13408990/how-to-generate-random-float-number-in-c
+*  
+*  Please note that while the rand() function will work for now, this function 
+*  could be improved in the future by using a third-party library for random 
+*  number generation
+*
+*  Parameters:
+* - upper_bound: the upper bound of the possible generated value
+*
+* Returns;
+* - float: the float randomly generated between 0 and the given bound inclusive
+*/
+float random_float_generator(float upper_bound){
+    return (float)rand()/(float)(RAND_MAX/upper_bound);
+}
+
+/*See complex_skills.h */
+int execute_random_chance_complex_skill(random_chance_type_t* chance_skill, chiventure_ctx_t* ctx){
+    if (chance_skill->complex_skill->type != RANDOM_CHANCE){
+        return FAILURE;
+    }
+
+    int value = random_float_generator(100.0);
+    if (value < (chance_skill->chance_failure * 100)){
+        for (int i = 0; i < chance_skill->complex_skill->num_skills; i++){
+            skill_execute(chance_skill->complex_skill->skills[i], ctx);
+        }
+    }
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int execute_random_range_complex_skill(random_range_type_t* range_skill, chiventure_ctx_t* ctx){
+    if (range_skill->complex_skill->type != RANDOM_RANGE){
+        return FAILURE;
+    }
+
+    int value = random_int_generator(range_skill->lower_bound, range_skill->upper_bound);
+    for (int j = 0; j < value; j++){
+        for (int i = 0; i < range_skill->complex_skill->num_skills; i++){
+            skill_execute(range_skill->complex_skill->skills[i], ctx);
+        }
+    }
+
+    return SUCCESS;
+}
+
+/*See complex_skills.h */
+int execute_random_switch_complex_skill(random_switch_type_t* switch_skill, chiventure_ctx_t* ctx){
+    if (switch_skill->complex_skill->type != RANDOM_SWITCH){
+        return FAILURE;
+    }
+
+    if (switch_skill->chances == NULL){
+        return FAILURE;
+    }
+
+    float total = 0;
+    for (int i = 0; i < switch_skill->complex_skill->num_skills; i++){
+        total += switch_skill->chances[i];
+    }
+
+    int value = random_float_generator(total);
+
+    float running_total = 0;
+    for (int i = 0; i < switch_skill->complex_skill->num_skills; i++){
+        if ((value >= running_total) && (value < (running_total + switch_skill->chances[i]))){
+            skill_execute(switch_skill->complex_skill->skills[i], ctx);
+            return SUCCESS;
+        }
+        running_total += switch_skill->chances[i];
+    }
+
     return SUCCESS;
 }
