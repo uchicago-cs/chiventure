@@ -32,9 +32,10 @@ chiventure_ctx_t *create_sample_ctx()
     create_connection(game, "room2", "room1", "SOUTH");
 
     /* Create a rock in room1 */
-    item_t *rock = item_new("ROCK","It is a rock.",
+    item_t *rock_item = item_new("ROCK","It is a rock.",
                    "You were hoping this was The Rock but, alas, it is just a plain and ordinary rock");
-    add_item_to_room(room1, rock);
+    add_item_to_room(room1, rock_item);
+    agent_t rock = (agent_t){.item = rock_item, .npc = NULL};
 
     /* Create a key in room1 */
     item_t *key = item_new("KEY","It is a key.",
@@ -58,7 +59,7 @@ chiventure_ctx_t *create_sample_ctx()
 
     /* Associate action "TASTE" with the rock.
      * It has no conditions, so it should succeed unconditionally. */
-    add_action(rock, "TASTE", custom_string, "It has a gravel-ey bouquet.");
+    add_action(&rock, "TASTE", custom_string, "It has a gravel-ey bouquet.");
 
     /* Create context */
     chiventure_ctx_t *ctx = chiventure_ctx_new(game);
