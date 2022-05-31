@@ -15,12 +15,13 @@ def transform_game(self, s: list) -> dict:
     based on the type, and also places all rooms into their own 
     dictionary for convenience.
     """
-
+    
     # first place all non-room objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value or
     # item and item attributes, etc.
     # game_dictionary = dict((k, v) for k, v in s if k != "ROOM")
     game_dictionary = dict((k, v) for k, v in s if k != "ROOM" and k != "PLAYER_CLASS")
+    game_dictionary = dict((k, v) for k, v in s if k != "ROOM" and k != "NPC")
 
     # now place all rooms into their own dictionary
     # the values placed into this entry will correspond to room attributes
@@ -30,6 +31,9 @@ def transform_game(self, s: list) -> dict:
     # now place all player_class into their own dictionary
     # the values placed into this entry will correspond to player_class attributes
     game_dictionary["players"] = dict([value for key_type, value in s if key_type == "PLAYER_CLASS"])
+    game_dictionary["npc"] = dict([value for key_type, value in s if key_type == "NPC"])
+
+
     return game_dictionary
 
 
@@ -75,6 +79,7 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     """
     room_id = s.pop(0)[1]
 
+    
     # first place all non-item objects into a dict
     # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
     # action and action attributes, etc.
@@ -84,6 +89,9 @@ def transform_room(self, s: list) -> tuple[str, tuple[str, dict]]:
     # the values placed into this entry will correspond to item attributes
     # since the key is guaranteed to be the string "ITEM"
     d["items"] = [v for k, v in s if k == "ITEM"]
+
+    d["npcs"] = [v for k, v in s if k == "NPC"]
+
     
     return ('ROOM', (room_id, d))
 
@@ -172,6 +180,29 @@ def transform_state(self, s: list[tuple[Token]]) -> tuple[str, dict]:
             d["MAX"] = t[0]+t[1]
         count += 1
     return('state', d)
+
+def transform_npc(self, s: list[tuple[str, str]]) -> tuple[str, dict]:
+    """
+    S contains several objects of the form ('type', <value>), where
+    value is dependent upon the type. This function creates a dictionary
+    based on the key or type, and also places all items into their own list
+    for convenience.
+    """
+
+    # gets the player class id.
+    npc_id = s.pop(0)[1]
+
+    # first place all non-item objects into a dict
+    # k (a string) and v represent key-value pairs of any kind such as property-value pairs or
+    # action and action attributes, etc.
+    d = dict((k, v) for k, v in s)
+
+    return ('NPC', (npc_id, d))
+
+def transform_inventory(self, s: list[tuple[str, str]]) -> tuple[str, str]:
+        """Takes a list of key-values pairs which belong to inventory, places them
+        into a dictionary which is labeled "INVENTORY" """
+        return ('INVENTORY', dict(s))
 
 def transform_misplaced(self, s: list[Token]) -> str:
     raise Exception('"property FOR object" syntax is not yet supported')
