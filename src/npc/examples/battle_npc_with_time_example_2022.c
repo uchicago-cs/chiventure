@@ -193,13 +193,6 @@ char *move_to_arena_operation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *c
 
     assert(npc_one_move(friendly_fiona, game->all_rooms) == SUCCESS);
     assert(npc_one_move(hostile_harry, game->all_rooms) == SUCCESS);
-    /* if (lobby->npcs->num_of_npcs > 0)
-    {
-        add_npc_to_room(arena->npcs, friendly_fiona);
-        add_npc_to_room(arena->npcs, hostile_harry);
-        delete_npc_from_room(lobby->npcs, friendly_fiona);
-        delete_npc_from_room(lobby->npcs, hostile_harry); 
-    } */
 
     return "You are in the arena now";
 }
