@@ -1,4 +1,4 @@
-set(CS_EXAMPLES demonstration loadwdl loadwdl2 dark_room demo_2022)
+set(CS_EXAMPLES demonstration loadwdl loadwdl2 gold dark_room demo_2022)
 
 # Link with chiventure libraries
 foreach(example ${CS_EXAMPLES})

@@ -45,55 +45,173 @@ bool path_exists_in_direction(room_t *r, char *direction)
 }
 
 /* See autogenerate.h */
-room_t* roomspec_to_room(roomspec_t *roomspec)
+bool room_exists_in_direction(game_t* game, room_t *r, char *direction)
+{
+    /*Find coordinates of current room*/
+    int x=r->coords->x;
+    int y=r->coords->y;
+
+    if (strcmp("north", direction) == 0){
+        y+=1;
+    }
+
+    else if (strcmp("south", direction) == 0){
+        y-=1;
+    }
+
+    else if (strcmp("east", direction) == 0){
+        x+=1;
+    }
+
+    else if (strcmp("west", direction) == 0){
+        x-=1;
+    }
+
+    /*Determine whether there is a room in the given direction*/
+    room_hash_t *current, *tmp;
+    int currx;
+    int curry;
+
+    HASH_ITER(hh, game->all_rooms, current, tmp) {
+        /* If the room is adjacent to the current room and in the correct direction, return true */
+
+        currx=current->coords->x;
+        curry=current->coords->y;
+
+        if(currx==x && curry==y){
+            return true;
+        }
+    }
+    return false;
+}
+
+room_t* find_room_in_direction(game_t* game, room_t *r, char *direction)
+{
+    /*Find coordinates of current room*/
+    coords_t *coords=r->coords;
+    int x=coords->x;
+    int y=coords->y;
+
+    room_t* adjacentroom=(room_t*)malloc(sizeof(room_t));
+
+    if (strcmp("north", direction) == 0){
+        y+=1;
+    }
+
+    else if (strcmp("south", direction) == 0){
+        y-=1;
+    }
+
+    else if (strcmp("east", direction) == 0){
+        x+=1;
+    }
+
+    else if (strcmp("west", direction) == 0){
+        x-=1;
+    }
+
+    /*Determine whether there is a room in the given direction*/
+    room_hash_t *current, *tmp;
+    HASH_ITER(hh, game->all_rooms, current, tmp) {
+        /* If the room is adjacent to the current room and in the correct direction, return a pointer to it */
+
+        coords_t *coords=current->coords;
+        int currx=coords->x;
+        int curry=coords->y;
+
+        if(currx==x && curry==y){
+            adjacentroom=current;
+            return adjacentroom;
+        }
+    }
+    free(adjacentroom);
+    fprintf(stderr, "A room does not exist in the given direction. Use exists_room_in_direction first to confirm a room in the given direction exists");
+    exit(1);
+}
+
+/* See autogenerate.h */
+room_t* roomspec_to_room(roomspec_t *roomspec, coords_t* coords)
 {
     /* moved- generate the unique room id here and pass it to the room; don't mess with the roomspec */
     char buff[MAX_SDESC_LEN + 1] = { 0 }; // Will hold unique room_id
     snprintf(buff, MAX_SDESC_LEN, "%s%d", roomspec->room_name, roomspec->num_built);
-    roomspec->num_built++;
 
     /* we use buff for the room name instead */
     room_t *res = room_new(buff, roomspec->short_desc, roomspec->long_desc);
     
     /* instead of taking all the items, just take a few of them */
-    res->items = generate_items(roomspec);
+    //res->items = generate_items(roomspec);
 
     /* tag to show roomspec position in roomspec list in specgraph */
     res->tag = roomspec->tag;
 
     res->paths = NULL;
+    res->coords=(coords_t*)malloc(sizeof(coords_t));
+    res->coords=coords;
+    res->tag= roomspec->tag;
     return res;
 }
 
-
 /* See autogenerate.h */ 
-int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_direction_to_new)
+int pick_random_direction(game_t *game, room_t *curr, char *out_direction_to_curr, char *out_direction_to_new)
 {
     /* 2D array of possible directions */
-    char directions[NUM_COMPASS_DIRECTIONS][MAX_DIRECTION_STRLEN];
-    strncpy(directions[0], "north", 6);
-    strncpy(directions[1], "east", 5);
-    strncpy(directions[2], "south", 6);
-    strncpy(directions[3], "west", 5);
+    char** directions=(char**)malloc(NUM_COMPASS_DIRECTIONS*sizeof(char*));
+ 
+    directions[0]=malloc(6);
+    directions[1]=malloc(5);
+    directions[2]=malloc(6);
+    directions[3]=malloc(5);    
+
+    strcpy(directions[0], "north");
+    strcpy(directions[1], "east");
+    strcpy(directions[2], "south");
+    strcpy(directions[3], "west");
 
     /* Random initial direction */
     unsigned int initial_direction = rand() % NUM_COMPASS_DIRECTIONS;
 
     /* Bump directions index by 1 if a path with that direction already exists */
     unsigned int bump;
+ 
     for (bump = 0; bump < NUM_COMPASS_DIRECTIONS; bump++) {
         /* Forwards direction + bump */
         unsigned int forwards = (initial_direction + bump) % NUM_COMPASS_DIRECTIONS;
         /* If path in that direction exists in curr, bump. Else, create the path */
-        if (path_exists_in_direction(curr, directions[forwards])) {
+        if (room_exists_in_direction(game, curr, directions[forwards])) {
             /* Bump if the room already has a path in the given direction */
             continue;
         }
         unsigned int backwards = (forwards + 2) % NUM_COMPASS_DIRECTIONS;
-        strcpy(out_direction_to_curr, directions[backwards]);
-        strcpy(out_direction_to_new, directions[forwards]);
+
+        if(strlen(directions[backwards])==5){
+
+            out_direction_to_new=(char*)malloc(6);
+            out_direction_to_curr=(char*)malloc(6);            
+            strcpy(out_direction_to_curr, directions[backwards]);
+            strcpy(out_direction_to_new, directions[forwards]);
+        }
+
+        if(strlen(directions[backwards])==4){
+
+            out_direction_to_new=(char*)malloc(5);
+            out_direction_to_curr=(char*)malloc(5);            
+            strcpy(out_direction_to_curr, directions[backwards]);
+            strcpy(out_direction_to_new, directions[forwards]);
+        }
+
+        for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
+            free(directions[i]);
+        }
+        free(directions);
+
         return SUCCESS; // direction was picked
     }
+
+    for(int i=0; i<NUM_COMPASS_DIRECTIONS; i++){
+        free(directions[i]);
+    }
+    free(directions);
 
     return FAILURE; // no open direction
 }
@@ -102,46 +220,59 @@ int pick_random_direction(room_t *curr, char *out_direction_to_curr, char *out_d
 int room_generate(game_t *game, room_t *curr, roomspec_t *rspec_new,
                   char *direction_to_curr, char *direction_to_new)
 {
+    return 0;
+    /* Find coords of new room */
+    int x=curr->coords->x;
+    int y=curr->coords->y;
+
+    if (strcmp("north", direction_to_new) == 0){
+        y+=1;
+    }
+
+    else if (strcmp("south", direction_to_new) == 0){
+        y-=1;
+    }
+
+    else if (strcmp("east", direction_to_new) == 0){
+        x+=1;
+    }
+
+    else if (strcmp("west", direction_to_new) == 0){
+        x-=1;
+    }
+
+    coords_t *coords=coords_new(x, y);    
+
     /* create new combination of rooms/items from randomly picked roomspec
-    Adds one generated room from the head of context->specgraph only */
-    room_t *new_room = roomspec_to_room(rspec_new);
+    Adds one generated room from the head of specgraph only */
+
+    room_t *new_room = roomspec_to_room(rspec_new, coords);
     assert(add_room_to_game(game, new_room) == SUCCESS);
 
-    /* Path to the generated room */
-    path_t* path_to_new = path_new(new_room, direction_to_new);
-    assert(add_path_to_room(curr, path_to_new) == SUCCESS);
-
-    /* Path for the opposite direction */
-    path_t* path_to_curr = path_new(curr, direction_to_curr);
-    assert(add_path_to_room(new_room, path_to_curr) == SUCCESS);
-    
+    free(coords);
     return SUCCESS;
 }
 
 /* See autogenerate.h */
-roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
+roomspec_t* roomspec_autogenerate(specgraph_t *specgraph, int tag){
 
-    specgraph_t *specgraph=context->specgraph;
     int num_roomspecs=specgraph->num_roomspecs;
     roomspec_t **roomspecs=specgraph->roomspecs;
     int **edges=specgraph->edges;
-    int tag = roomspec->tag;
 
-    int rownumber=-1;
     int rowcount=0;
 
-    while(rownumber==-1){
-        if(roomspec==roomspecs[rowcount])
-            rownumber=rowcount;
-        rowcount++;
-    }
-
-    int *row=edges[rownumber];
- 
-    int randomint=rand() % num_roomspecs;  
+    int *row=edges[tag];
     int count=0;
-    
-    roomspec_t *newroomspec;
+    int sum;
+
+    for(int count=0; count<num_roomspecs; count++){
+        sum+=row[count];
+    }
+ 
+    int randomint=rand() % sum;  
+    count=0;
+    roomspec_t *newroomspec=(roomspec_t*)malloc(sizeof(roomspec_t));
 
     while(randomint>=0){
         if(randomint<row[count])
@@ -155,36 +286,13 @@ roomspec_t* roomspec_autogenerate(gencontext_t *context, roomspec_t *roomspec){
 
 
 /* See autogenerate.h */
-int room_autogenerate(game_t *game, gencontext_t *context, room_t *curr, roomspec_t *roomspec, 
+int room_autogenerate(game_t *game, specgraph_t *specgraph, room_t *curr,
                       char *direction_to_curr, char *direction_to_new){
 
-    roomspec_t *newroomspec=roomspec_autogenerate(context, roomspec);    
+    int currtag=curr->tag;
+    roomspec_t *newroomspec=roomspec_autogenerate(specgraph, currtag);    
     assert(room_generate(game, curr, newroomspec, direction_to_curr, direction_to_new)==SUCCESS);
 
-    return SUCCESS;
-}
-
-/* See autogenerate.h */
-int multi_room_generate(game_t *game, gencontext_t *context, char *room_id, int num_rooms)
-{
-    /* If game->curr_room is not a dead end or there are no roomspec_t elements
-    * in context->specgraph, then do not autogenerate */
-    if (context->specgraph == NULL) {
-        return FAILURE;
-    }
-
-    /* Iterate through the specgraph field, generating and adding rooms for each */
-    for (int i = 0; i < num_rooms; i++) {
-        roomspec_t *rspec = random_room_lookup(context->specgraph);
-        /* Increments tmp->spec->num_built */
-
-        char direction_to_curr[MAX_DIRECTION_STRLEN], direction_to_new[MAX_DIRECTION_STRLEN];
-
-        if (pick_random_direction(game->curr_room, direction_to_curr, direction_to_new) == FAILURE) 
-            return FAILURE; // failed to generate at least one room
-        
-        room_generate(game, game->curr_room, rspec, direction_to_curr, direction_to_new);
-    }
     return SUCCESS;
 }
 
@@ -350,7 +458,6 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
 {    
     specgraph_t *curr, *tmp;
     specgraph_t *filtered_specgraph = NULL;
-
     DL_FOREACH_SAFE(specgraph, curr, tmp) { 
         int is_given_difficulty = roomspec_is_given_difficulty(roomlevels, 
                                                                curr->spec, 
@@ -363,7 +470,6 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
             DL_APPEND(filtered_specgraph, curr_copy);    
         }
     }
-
     return filtered_specgraph;
 }*/
 
@@ -372,104 +478,24 @@ int roomspec_is_given_difficulty(roomlevel_hash_t **roomlevels,
                               char *room_id, int num_rooms,
                               levelspec_t *levelspec)
 {
-    // If there are no roomspec_t elements in context->specgraph, then do not autogenerate 
-    if (context->specgraph == NULL) {
+    // If there are no roomspec_t elements in specgraph, then do not autogenerate 
+    if (specgraph == NULL) {
         return FAILURE;
     }
-
     // compute the difficulty corresponding to player level 
     int difficulty_level = map_level_to_difficulty(levelspec->num_thresholds,
                                                    levelspec->thresholds,
                                                    context->level);
-
     // filter the given specgraph according to difficulty 
     specgraph_t *filtered_specgraph = filter_specgraph_with_difficulty(context->specgraph,
                                                                     &(levelspec->roomlevels), 
                                                                     difficulty_level);
-
     // filtered gencontext 
     gencontext_t* filtered_context = gencontext_new(context->open_paths,
                                                     context->level,
                                                     context->num_open_paths,
                                                     filtered_specgraph);
-
     int result = multi_room_generate(game, filtered_context, room_id, num_rooms); 
     specgraph_free(filtered_specgraph);
-
     return result;
 }*/
-
-
-/* See autogenerate.h */
-int recursive_generate(game_t *game, gencontext_t *context, room_t *curr_room, 
-                       int radius, char **directions, int num_directions, char *direction_to_parent) 
-{
-    /* base case */
-    if (radius <= 0) 
-    {
-        return SUCCESS;
-    }
-
-    /* 2D array of possible directions */
-    char all_directions[NUM_DIRECTIONS][MAX_DIRECTION_STRLEN];
-    strncpy(all_directions[0], "north", 6);
-    strncpy(all_directions[1], "east", 5);
-    strncpy(all_directions[2], "up", 3);
-    strncpy(all_directions[3], "south", 6);
-    strncpy(all_directions[4], "west", 5);
-    strncpy(all_directions[5], "down", 5);
-
-    /* map directions to index */
-    int direction_index[num_directions];
-    for (int i = 0; i < num_directions; i++) 
-    {
-        for (int j = 0; j < NUM_DIRECTIONS; j++)
-        {
-            if (strcmp(all_directions[j], directions[i]) == 0)
-            {
-                direction_index[i] = j;
-            }
-        }
-    } 
-
-    /* map direction_to_parent to index */
-    int direction_to_parent_index = -1;
-    for (int i = 0; i < num_directions; i++) 
-    {
-        if(strcmp(directions[i], direction_to_parent) == 0) {
-            direction_to_parent_index = direction_index[i];
-        }
-    } 
-
-    int rc; // return code
-    for (int i = 0; i < num_directions; i++) 
-    {
-        /* if direction is to parent, skip */
-        if (direction_index[i] == direction_to_parent_index) {
-            continue;
-        }
-
-        room_t *next_room;
-        /* opposite direction */
-        int forwards = direction_index[i];
-        int backwards = (forwards + 3) % NUM_DIRECTIONS;
-
-        /* create room in direction if it doesn't exist yet */
-        if (!path_exists_in_direction(curr_room, all_directions[forwards])) {        
-            roomspec_t *rspec = random_room_lookup(context->specgraph);
-            int rc_callback = room_generate(game, curr_room, rspec,
-                                            all_directions[backwards], all_directions[forwards]);
-
-            assert(rc_callback == SUCCESS);
-        }
-        /* note that next_room is either a preexisting room, or a room that was newly generated
-           by room_generate in the if statement above */
-        next_room = find_room_from_dir(curr_room, all_directions[forwards]);
-
-        /* recursive case, decrement radius by 1 */
-        rc = recursive_generate(game, context, next_room, 
-                                radius - 1, directions, 
-                                num_directions, all_directions[backwards]);
-    }
-    return rc; 
-}
