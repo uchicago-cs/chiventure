@@ -41,12 +41,12 @@ char* show_quests(player_t *player)
     assert(player != NULL);
     int cur_len = 1;
     char *prev = malloc(cur_len);
-    prev = '\0';
+    *prev = '\0';
     for (player_quest_t *cur = player->player_quests; cur != NULL; cur = cur->hh.next) {
         char *quest_id = cur->quest_id;
         char *completion = completion_to_str(cur->completion);
-        char *buf = malloc(18+strlen(quest_id)+strlen(completion));
-        sprintf(buf, "Quest %s: Status: %s\n", quest_id, completion);
+        char *buf = malloc(25+strlen(quest_id)+strlen(completion));
+        sprintf(buf, "Quest: %s, Status: %s\n", quest_id, completion);
         cur_len += strlen(buf);
         prev = realloc(prev, cur_len);
         strcat(prev, buf);
@@ -73,29 +73,68 @@ char *store_list(id_list_node_t *id_list_start)
     if(id_list_start == NULL) {
         return strdup("\n");
     }
-    char buf[50];
-    snprintf(buf, 50, "%s ", id_list_start->id);
     char *rest = store_list(id_list_start->next);
+    char *buf = malloc(50 + strlen(rest));
+    snprintf(buf, 50, "%s ", id_list_start->id);
     char *result = strcat(buf, rest);
+    free(rest);
     return result;
+}
+
+/* Helper function that takes a mission_type and converts to string
+ *
+ * Parameters:
+ * - mission_type: a mission_type_t
+ *
+ * Returns:
+ * - the mission type stored as a string
+ *
+ */
+char *mission_to_str(mission_types_t mission_type)
+{
+    char *str = malloc(13);
+    switch(mission_type) {
+        case MEET_NPC:
+            strncpy(str, "Meet NPC", 8);
+            break;
+        case KILL_NPC:
+            strncpy(str, "Kill NPC", 8);
+            break;
+        case COLLECT_ITEM:
+            strncpy(str, "Collect item", 12);
+            break;
+        case VISIT_ROOM:
+            strncpy(str, "Visit room", 10);
+            break;
+    }
+    return str;
 }
 
 /* See quests_cli.h */
 char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
 {
-    char buf[1000];
+    assert(player != NULL);
+    assert(task_id != NULL);
+    assert(all_quests != NULL);
+
+    char buf[1000] = "";
     
     player_task_t *ptask = get_player_task_from_hash(task_id, player->player_tasks);
-
+    if(ptask == NULL) {
+        return "Player does not have this task!";
+    }
     task_t *task = get_task_from_quest_hash(task_id, all_quests);
-    char *mission_name;
+    if(task == NULL) {
+        return "Error: Player somehow has nonexistant task!";
+    }
+    char mission_name[100];
     if (task->mission != NULL) {
-        mission_name = task->mission->target_name;
+        sprintf(mission_name, "%s (%s)", mission_to_str(task->mission->type), task->mission->target_name);
     } else {
-        mission_name = "None";
+        sprintf(mission_name, "None");
     }
 
-    char rewards[200];
+    char rewards[200] = "";
     if (task->reward != NULL) {
         int reward_xp = task->reward->xp;
         char *reward_item;
@@ -109,7 +148,7 @@ char* show_task(char* task_id, player_t *player, quest_hash_t *all_quests)
         sprintf(rewards, "None");
     }
     
-    char prereqs[200];
+    char prereqs[200] = "";
     if (task->prereq != NULL) {
         int prereq_hp = task->prereq->hp;
         int prereq_level = task->prereq->level;
@@ -170,7 +209,7 @@ char **get_task_block(task_t *task, player_t *player) {
     int len = strlen(task->id);
     strncpy(block[0], task->id, MIN(len, 22));
     int i = 1;
-    if(strlen(task->id) > 25) {
+    if(strlen(task->id) > 22) {
         strncpy(block[1], task->id + 22, len - 22);
         i = 2;
     }
@@ -396,7 +435,7 @@ char *merge_line(task_t ***matrix_row, int **tree_line_matrix_row, player_t *pla
  * - height: The height of the matricies
 */
 char *merge_matrix(task_t ****matrix, int ***tree_line_matrix, player_t *player, int width, int height) {
-    char *start_line = merge_line(&(*matrix)[0], &(*tree_line_matrix)[0], player, width, 0);
+    char *start_line = merge_line(&(*matrix)[0], &(*tree_line_matrix)[0], player, width, height - 1 == 0);
     int cur_len = strlen(start_line) + 1;
     char *line = malloc(cur_len);
     strncpy(line, start_line, cur_len - 1);
@@ -416,6 +455,8 @@ char *merge_matrix(task_t ****matrix, int ***tree_line_matrix, player_t *player,
 /* See quests_cli.h */
 char *show_task_tree(char* quest_id, player_t *player, quest_hash_t *all_quests)
 {
+    assert(quest_id != NULL);
+    assert(player != NULL);
     // Find quest and player quest from quest_id
     quest_t *quest = get_quest_from_hash(quest_id, all_quests);
     player_quest_t *pquest = get_player_quest_from_hash(quest_id, player->player_quests);
@@ -430,6 +471,9 @@ char *show_task_tree(char* quest_id, player_t *player, quest_hash_t *all_quests)
     // Initializes task and tree line matricies
     int height = get_task_tree_height(quest->task_tree);
     int line_width = get_task_tree_line_width(quest->task_tree);
+    if(height == 0 && line_width == 0) {
+        return strdup("Error: This quest has no tasks!");
+    }
     int width = (int) pow(line_width, height);
     task_t ***task_matrix = malloc(height * sizeof(task_t***));
     int **tree_line_matrix = malloc(height * sizeof(int *));
