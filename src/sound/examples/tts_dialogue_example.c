@@ -13,33 +13,34 @@ const char *banner = "CHIVENTURE SOUND";
 
 convo_t *create_friend_conversation()
 {
+    tone_t tone = POSITIVE;
     convo_t *c1 = convo_new();
     add_node(c1, "1", "Welcome to Chiventure! My name is friend. My voice"
     " was created by the sound team from Spring of 2022 in their software"
     " development class. It is so nice to finally meet you. How are you "
-    " doing today?");
+    " doing today?", tone);
     add_node(c1, "2a", "Great! I am glad that you are having a nice day."
-    "What can I do for you? Are you enjoying the chiventure game?");
+    "What can I do for you? Are you enjoying the chiventure game?", tone);
     add_node(c1, "3a", "Yay! That makes me so happy. We worked soooooooo"
     " hard on this, so it's really awesome that you enjoy it. Can I read"
-    "you some of my favorite poetry to celebrate?");
+    "you some of my favorite poetry to celebrate?", tone);
     add_node(c1, "4a", "Here is my favorite poem by Nicki Minaj. It goes like this:"
     " This one is for the boys with the booming system. Top down AC with the cooling system."
     " When he coming to the club he be blazing up. Got stacks on deck like he saving up."
-    " Hope you enjoyed that, it was great speaking with you today!");
-    add_node(c1, "4b", "Oh, that fine. Maybe another time! Have a great day!");
+    " Hope you enjoyed that, it was great speaking with you today!", tone);
+    add_node(c1, "4b", "Oh, that fine. Maybe another time! Have a great day!", tone);
     add_node(c1, "3b", "Really? That sucqks. I think I'm pretty cool... "
-    "We hope we can change your mind!");
+    "We hope we can change your mind!", tone);
     add_node(c1, "2b", "Awwwwww, I'm sorry, feel better. Finals will be over soon."
-    " School is temporary, code is forever. <3");
+    " School is temporary, code is forever. <3", tone);
 
 
-    add_edge(c1, "Good", "1", "2a", NULL);
-    add_edge(c1, "Bad", "1", "2b", NULL);
-    add_edge(c1, "Yes, I love it!", "2a", "3a", NULL);
-    add_edge(c1, "No, leave me alone.", "2a", "3b", NULL);
-    add_edge(c1, "Duh.", "3a", "4a", NULL);
-    add_edge(c1, "I'll pass...", "3a", "4b", NULL);
+    add_edge(c1, "Good", "1", "2a", NULL, tone);
+    add_edge(c1, "Bad", "1", "2b", NULL, tone);
+    add_edge(c1, "Yes, I love it!", "2a", "3a", NULL, tone);
+    add_edge(c1, "No, leave me alone.", "2a", "3b", NULL, tone);
+    add_edge(c1, "Duh.", "3a", "4a", NULL, tone);
+    add_edge(c1, "I'll pass...", "3a", "4b", NULL, tone);
 
     return c1;
     
@@ -100,7 +101,7 @@ char *run_conversation(char *tokens[TOKEN_LIST_SIZE], chiventure_ctx_t *ctx)
         
         // text to speech 
         print_to_cli(ctx, ret_str);   
-        speak(t, ret_str;)
+        speak(t, ret_str);
     
       
         if (rc != 1){
