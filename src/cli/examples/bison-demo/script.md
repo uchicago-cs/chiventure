@@ -17,6 +17,10 @@ and Second, understanding, documenting, and using an external parsing library.
 We will first cover the improvements we made to the existing infrastructure!
 
 ## EXISTING CHANGES
+The existing parser module works mainly via one large function that parses the command line and outputs tokens using functions from the Standard C Library.  
+
+Prior to making the changes we did, the parser was incredibly simple and only allowed for hyper-specific commands.  First and foremost, we wanted to allow for more liberal commands for the user.  
+
 CMDS:
 - elp (Suggestions)
 - look look look look look and go south (and multiple commands conditionality)
