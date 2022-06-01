@@ -19,6 +19,8 @@ We will first cover the improvements we made to the existing infrastructure!
 ## EXISTING CHANGES
 The existing parser module works mainly via one large function that parses the command line and outputs tokens using functions from the Standard C Library.  
 
+The array of tokens that is output by the parse function is then passed along to other teams, who can execute functions based off of what tokens they receive.
+
 Prior to making the changes we did, the parser was incredibly simple and only allowed for hyper-specific commands.  First and foremost, we wanted to allow for more liberal commands for the user.  
 
 CMDS:
