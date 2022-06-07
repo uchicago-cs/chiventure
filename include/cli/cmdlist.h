@@ -19,4 +19,4 @@ typedef struct command_list
  */
 command_list_t *new_command_list(char *command);
 
-#endif
+#endif /* _CMDLIST_H */

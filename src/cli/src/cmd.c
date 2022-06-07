@@ -4,11 +4,14 @@
 #include "cli/cmd.h"
 #include "cli/cmdlist.h"
 #include "cli/operations.h"
+#include "cli/parser.h"
 #include "common/utlist.h"
 #include "ui/ui_ctx.h"
 #include "ui/print_functions.h"
 #include "action_management/actionmanagement.h"
 #include "cli/util.h"
+
+#define MAX_MULTIPLE_CMDS (6)
 
 /* === hashtable helper constructors === */
 void add_entry(char *command_name, operation *associated_operation, action_type_t *action, lookup_t **table)
@@ -127,9 +130,10 @@ int lookup_t_init(lookup_t **t)
     add_entry("NAME", name_operation, NULL, t);
     add_entry("PALETTE", palette_operation, NULL, t);
     add_entry("ITEMS", items_in_room_operation, NULL, t);
+    add_entry("NPCS", npcs_in_room_operation, NULL, t);
     add_entry("TALK", talk_operation, NULL, t);
     add_entry("FIGHT", battle_operation, NULL, t);
-
+  
     add_action_entries(t);
 
     return SUCCESS;
@@ -240,23 +244,33 @@ cmd *cmd_from_tokens(char **ts, lookup_t **table)
 }
 
 /* See cmd.h */
-cmd *cmd_from_string(char *s, chiventure_ctx_t *ctx)
+cmd **cmd_from_string(char *s, chiventure_ctx_t *ctx)
 {
 
-    if (s != NULL) 
-    {
-        command_list_t *new_command = new_command_list(s);
-        LL_APPEND(ctx->cli_ctx->command_history, new_command);
-    }
+    char* currcmd;
+    cmd** actions;
+    int count = 0;
+    // arbitrary big number of commands allowed at once
+    actions = (cmd**)malloc(sizeof(cmd*) * MAX_MULTIPLE_CMDS);
     
-    char **parsed_input = parse(s);
-    if (parsed_input == NULL)
-    {
-        return NULL;
+    // Tokenizes input by "and" string
+    for (char *result = strtokstr_r(s, "AND", &s); result != NULL; result = strtokstr_r(s, "AND", &s)) {  
+        if (s != NULL) 
+        {
+            command_list_t *new_command = new_command_list(result);
+            LL_APPEND(ctx->cli_ctx->command_history, new_command);
+        }
+        
+        char **parsed_input = parse(result);
+        if (parsed_input == NULL)
+        {
+            return NULL;
+        }
+        lookup_t **table = ctx->cli_ctx->table;
+        actions[count] = cmd_from_tokens(parsed_input, table);
+        count++;
     }
-    
-    lookup_t **table = ctx->cli_ctx->table;
-    return cmd_from_tokens(parsed_input, table);
+    return actions;
 }
 
 /* =================================== */
@@ -296,3 +310,4 @@ int do_cmd(cmd *c, cli_callback callback_func, void *callback_args, chiventure_c
         }
     }
 }
+

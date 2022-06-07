@@ -16,6 +16,12 @@ int room_init(room_t *new_room, char *room_id, char *short_desc,
     case_insensitize(new_room->room_id);
     strncpy(new_room->short_desc, short_desc, strlen(short_desc)+1);
     strncpy(new_room->long_desc, long_desc, strlen(long_desc)+1);
+    
+    item_hash_t *items = NULL;
+    new_room->items = items;
+
+    item_hash_t *head = NULL;
+    new_room->items = head;
 
     new_room->npcs = npcs_in_room_new(room_id);
 
@@ -46,7 +52,6 @@ room_t *room_new(char *room_id, char *short_desc, char *long_desc)
 }
 
 
-
 /* See room.h */
 int room_free(room_t *room)
 {
@@ -65,11 +70,19 @@ int room_free(room_t *room)
 /* See room.h */
 int add_item_to_room(room_t *room, item_t *item)
 {
-    int rc;
-
-    rc = add_item_to_hash(&(room->items), item);
-
-    return rc;
+    assert(item != NULL);
+    item_t *tmp;
+    char *id = case_insensitized_string(item->item_id);
+    HASH_FIND(hh, room->items, id, strlen(id), tmp);
+    if (tmp == NULL)
+    {
+        HASH_ADD_KEYPTR(hh, room->items, id, strlen(id), item);
+        return SUCCESS;
+    }
+    else
+    {
+        return FAILURE; // Hash tables should not contain duplicate items
+    }
 }
 
 /* See room.h */
@@ -184,7 +197,6 @@ path_t *list_paths(room_t *room)
 item_t* get_item_in_room(room_t* room, char* item_id)
 {
     char *item_id_case = case_insensitized_string(item_id);
-
     item_t* return_value;
     HASH_FIND(hh, room->items, item_id_case, strlen(item_id_case), return_value);
     return return_value;
@@ -296,106 +308,103 @@ int get_num_rooms(room_list_t *all_rooms)
 }
 
 /* See room.h */
-int auto_gen_movement(npc_mov_t *npc_mov, room_list_t *all_rooms)
+int auto_gen_movement(npc_t *npc, room_list_t *all_rooms)
 {
     room_list_t *head = all_rooms;
     int rc = SUCCESS;
     int num_rooms, num_rooms_to_add;
+    npc_mov_t *npc_mov = npc->movement;
 
     if(npc_mov == NULL || head == NULL)
     {
         return FAILURE;
     }
-
     num_rooms = get_num_rooms(all_rooms);
     num_rooms_to_add = (rand() % num_rooms) + 1;
-
     for (int i = 0; i < num_rooms_to_add; i++)
     {
-        room_t *room_to_add = malloc(sizeof(room_t));
-
-        room_to_add = head->room;
-        head = head->next;
         if(npc_mov->mov_type == NPC_MOV_DEFINITE)
         {
-            rc = extend_path_definite(npc_mov, room_to_add->room_id);
+            rc = extend_path_definite(npc_mov, head->room->room_id);
         }
         else if(npc_mov->mov_type == NPC_MOV_INDEFINITE)
         {
-            int mintime_in_room = 30000; // min time in room in ms, 30000 ms = 30 s
-            int maxtime_in_room = 90000; // max time in room in ms, 90000 ms = 90 s
-            int time_in_room = (rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room;
-            rc = extend_path_indefinite(npc_mov, room_to_add->room_id, time_in_room);
+            int mintime_in_room;
+            int maxtime_in_room;
+            if (npc->class != NULL && npc->class->base_stats != NULL)
+            {
+                double speed = get_stat_current(npc->class->base_stats, "speed");
+                double multiplier = sqrt(100/speed);
+                mintime_in_room = 30 * multiplier; // min time in room in seconds
+                maxtime_in_room = 90 * multiplier; // max time in room in seconds
+            }
+            else
+            {
+                mintime_in_room = 30; // min time in room in seconds
+                maxtime_in_room = 90; // max time in room in seconds
+            }
+            double time_in_room;
+            time_in_room = (double) ((rand() % (maxtime_in_room - mintime_in_room + 1)) + mintime_in_room);
+            rc = extend_path_indefinite(npc_mov, head->room->room_id, time_in_room);
         }
+
+        head = head->next;
 
         if(rc == FAILURE)
         {
             return rc;
         }
     }
-
     return rc;
 }
 
-/* Moves an npc one step down its definite/indefinite path,
- * deletes it from it's old room, and adds it to its new one
- *
- * Parameters:
- *  npc_t: Pointer to an NPC
- *  npcs_in_room_t: Pointers to the old and new npcs_in_room structs
- *
- * Returns:
- *  SUCCESS on success, FAILURE if an error occurs or if NPC is cannot be moved
- *
- *  NOTE:
- *   - This is a helper function for npc_one_move, it is only useful if
- *     the npcs_in_room structs for the current and next rooms are already known.
- */
-int npc_one_move_helper(npc_t *npc, npcs_in_room_t *old_npc_room,
-                        npcs_in_room_t *new_npc_room)
-{
-    assert(npc->movement->mov_type == NPC_MOV_INDEFINITE ||
-           npc->movement->mov_type == NPC_MOV_DEFINITE );
-
-    if (npc->movement->mov_type == NPC_MOV_INDEFINITE)
-        move_npc_indefinite(npc->movement);
-    else
-        move_npc_definite(npc->movement);
-
-    add_npc_to_room(new_npc_room,npc);
-    delete_npc_from_room(old_npc_room,npc);
-} 
-
+/* See room.h */
 int npc_one_move(npc_t *npc, room_hash_t *all_rooms)
 {
-
-    if(npc->movement == NULL)
+    if (npc->movement == NULL)
     {
         return FAILURE;
     }
 
-    room_t *current_room;
-    room_t *next_room;
-    npcs_in_room_t *current_npcs_in_room;
-    npcs_in_room_t *next_npcs_in_room;
+    char *old_room_id = npc->movement->track;
+    assert(move_npc(npc) != FAILURE);
+    char *new_room_id = npc->movement->track;
 
-    /*
-     * This adaptation will obtain the list of rooms in an npc's path
-     * which will be stored in *current_room_list
-     * Thus, we will be able to obtain the current and next room structs
-     */
+    if (strcmp(old_room_id, new_room_id) == 0)
+    {
+        return SUCCESS;
+    }
 
-    HASH_FIND(hh, all_rooms, npc->movement->track,
-              strnlen(npc->movement->track, MAX_ID_LEN), current_room);
+    room_t *old_room;
+    room_t *new_room;
+    npcs_in_room_t *old_room_npcs;
+    npcs_in_room_t *new_room_npcs;
 
-    HASH_FIND(hh, all_rooms, get_next_npc_room_id(npc->movement),
-              strnlen(npc->movement->track, MAX_ID_LEN), next_room);
+    HASH_FIND(hh, all_rooms, old_room_id, strlen(old_room_id), old_room);
+    old_room_npcs = old_room->npcs;
 
-    current_npcs_in_room = current_room->npcs;
-    next_npcs_in_room = next_room->npcs;
+    HASH_FIND(hh, all_rooms, new_room_id, strlen(new_room_id), new_room);
+    new_room_npcs = new_room->npcs;
 
-    // this call does all of the moving
-    return npc_one_move_helper(npc, current_npcs_in_room, next_npcs_in_room);
+    if ((delete_npc_from_room(old_room_npcs, npc) == FAILURE) ||
+        (add_npc_to_room(new_room_npcs, npc) == FAILURE))
+    {
+        return FAILURE;
+    }
+    return SUCCESS;
+}
+
+/* See room.h */
+void move_indefinite_npcs_if_needed(npc_hash_t *npcs, room_hash_t *all_rooms)
+{
+    npc_t *current_npc, *tmp;
+    HASH_ITER(hh, npcs, current_npc, tmp)
+    {
+        if (check_if_npc_indefinite_needs_moved(current_npc))
+        {
+            assert(npc_one_move(current_npc, all_rooms) != FAILURE);
+        }
+    }
 }
 
 /* See room.h  */
@@ -410,17 +419,19 @@ int transfer_all_npc_items(npc_t *npc, room_t *room)
     {
         return SUCCESS;
     }
-
+    int rc;
     item_t *current_item, *tmp;
-    HASH_ITER(hh, npc->inventory, current_item, tmp)
-    {
-        add_item_to_room(room, current_item);
-    }
+    item_hash_t *head = npc->inventory;
+    assert(delete_all_items_from_npc(npc) == SUCCESS);
 
-    HASH_ITER(hh, npc->inventory, current_item, tmp)
+    HASH_ITER(hh, head, current_item, tmp)
     {
-        remove_item_from_npc(npc, current_item);
+        rc = add_item_to_room(room, current_item);
+        if (rc == FAILURE)
+        {
+            return rc;
+        }
     }
-
     return SUCCESS;
 }
+

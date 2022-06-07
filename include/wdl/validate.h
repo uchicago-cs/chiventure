@@ -155,6 +155,10 @@ int action_type_check(obj_t *obj);
 
 int npc_type_check(obj_t *obj);
 
+int npc_task_type_check(obj_t *obj);
+
+int npc_quest_type_check(obj_t *obj);
+
 int inventory_type_check(obj_t *obj);
 
 int dialogue_type_check(obj_t *obj);
@@ -162,5 +166,15 @@ int dialogue_type_check(obj_t *obj);
 int node_action_type_check(obj_t *obj);
 
 int conditions_type_check(obj_t *obj);
+
+int quest_type_check(obj_t *obj);
+
+int task_type_check(obj_t *obj);
+
+int prereq_type_check(obj_t *obj);
+
+int rewards_type_check(obj_t *obj);
+
+int mission_type_check(obj_t *obj);
 
 #endif /* INCLUDE_VALIDATE_H */

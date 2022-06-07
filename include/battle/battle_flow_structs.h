@@ -8,6 +8,8 @@
 #include "battle/battle_structs.h"
 #include "common/common.h"
 #include "common/utlist.h"
+#include "common/utlist.h"
+#include "playerclass/class.h"
 
 /* Stub for the player struct in game-state */
 typedef struct battle_player {
@@ -43,8 +45,8 @@ typedef struct turn_component {
 
 /* A linked list of turn_components. Is a full turn */
 typedef struct turn_component_list {
-    turn_component_t current;
-    struct turn_component_list *rest;
+    turn_component_t *current;
+    struct turn_component_list *next;
 } turn_component_list_t;
 
 /* Stub, similar to chiventure_ctx_t except adding status, which
@@ -56,7 +58,103 @@ typedef struct battle_ctx {
     battle_game_t *game;
     // would have lookup table here
     battle_status_t status;
+    // turn component list that the game designer creates
+    turn_component_list_t *tcl;
+    // tcl marking the point in the current turn
+    turn_component_list_t *current_turn_tcl;
 } battle_ctx_t;
+
+/* Allocates a new battle ctx in the heap
+ *
+ * Parameters:
+ *     - game: the battle game
+ *     - status: status of the battle
+ *     - tcl: turn component list that makes up a turn
+ *
+ * Returns: a newly allocated battle_ctx_t with game, status, tcl
+ * or NULL if it cannot be allocated
+ */
+battle_ctx_t *new_battle_ctx(battle_game_t *game, battle_status_t status, 
+                            turn_component_list_t *tcl);
+
+/* Initializes a battle ctx struct
+ *
+ * Parameters:
+ *     - ctx: the battle ctx, should already be allocated in heap
+ *     - game: the battle game
+ *     - status: status of the battle
+ *     - tcl: turn component list that makes up a turn
+ *
+ * Returns: 0 on success, 1 if an error occurs
+ */
+int battle_ctx_init(battle_ctx_t *ctx, battle_game_t *game, battle_status_t status,
+                    turn_component_list_t *tcl);
+
+/*
+ * Frees the resources associated with a battle ctx
+ *
+ * Parameters:
+ *  - ctx: A battle ctx. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_ctx_free(battle_ctx_t *ctx);
+
+/*
+ * Frees the resources associated with a battle game
+ *
+ * Parameters:
+ *  - game: A battle game. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_game_free(battle_game_t *game);
+
+/*
+ * Frees the resources associated with a battle player
+ *
+ * Parameters:
+ *  - player: A battle player. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_player_free(battle_player_t *player);
+
+/*
+ * Frees the resources associated with a battle equipment
+ *
+ * Parameters:
+ *  - equip: A battle equipment. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_equipment_free(battle_equipment_t *equip);
+
+/*
+ * Frees the resources associated with a battle item
+ *
+ * Parameters:
+ *  - item: A battle item. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int battle_item_free(battle_item_t *item);
+
+/*
+ * Frees the resources associated with a struct change
+ *
+ * Parameters:
+ *  - changes: A stat change struct. Must point to already allocated memory.
+ *
+ * Returns:
+ *  - Always returns 0.
+ */
+int stat_changes_free(stat_changes_t *changes);
 
 /* Stub for the player_new function in player.h game-state module
  *
@@ -87,18 +185,17 @@ battle_player_t *new_ctx_player(char* p_id, class_t *class, stat_t *stats,
 battle_game_t *new_battle_game();
 
 /*
- * Initializes a turn_component
+ * Creates a turn_component
  *
  * Parameters:
- *  - tc: A turn component.
  *  - move: determines whether a move can be used or not. Will be 1 or 0.
  *  - item: determines whether an item can be used or not. Will be 1 or 0.
  *  - pass: determines whether a pass can be used or not. Will be 1 or 0.
  *
  * Returns:
- *  - 0 on success, 1 if an error occurs
+ *  - pointer to the new turn component
  */
-turn_component_t *init_turn_component(turn_component_t tc, int move, int item, int pass);
+turn_component_t *new_turn_component(int move, int item, int pass);
 
 /*
  * Allocates a new turn component list in the heap.
@@ -111,7 +208,7 @@ turn_component_t *init_turn_component(turn_component_t tc, int move, int item, i
  *  - A pointer to the turn, or NULL if a turn
  *    cannot be allocated
  */
-turn_component_list_t *new_turn_component_list(turn_component_t t, turn_component_list_t *r);
+turn_component_list_t *new_turn_component_list(turn_component_t *t, turn_component_list_t *r);
 
 /*
  * Initializes the current and next turn components of a turn of a list
@@ -139,4 +236,83 @@ turn_component_list_t *init_turn_component_list(turn_component_list_t *turn,
  */
 int turn_component_list_free(turn_component_list_t *turn);
 
+/*
+ * Allocates a new battle equipment in the heap.
+ *
+ * Parameters:
+ *  - id: the id of the battle equipment
+ *  - name: name of the equipment
+ *  - des: description of the equipment
+ *  - attr: attributes of the equipment
+ *  - type: equipment type
+ *
+ * Returns:
+ *  - A pointer to the battle equipment, or NULL if equipment
+ *    cannot be allocated
+ */
+battle_equipment_t *new_battle_equipment(int id, char *name, char *des, 
+                                          stat_changes_t *attr, equipment_type_t type);
+
+
+/*
+ * Initializes the given battle equipment
+ *
+ * Parameters:
+ *  - equip: the heap allocated battle equipment to be initalized
+ *  - id: the id of the battle equipment
+ *  - name: name of the equipment
+ *  - des: description of the equipment
+ *  - attr: attributes of the equipment
+ *  - type: equipment type
+ *
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int init_battle_equipment(battle_equipment_t *equip, int id, 
+                                        char *name, char *des, stat_changes_t *attr,
+                                        equipment_type_t type);
+
+/*
+ * Allocates a new battle item in the heap.
+ *
+ * Parameters:
+ *  - id: the id of the battle equipment
+ *  - name: name of the equipment
+ *  - des: description of the equipment
+ *  - attr: attributes of the equipment
+ *  - quant: item quantity
+ *  - attack: bool for whether the item is offensive
+ *  - next: the next battle item
+ *  - prev: the previous battle item
+ *
+ * Returns:
+ *  - A pointer to the battle equipment, or NULL if item
+ *    cannot be allocated
+ */
+battle_item_t *new_battle_item(int id, char *name, char *des, 
+                              stat_changes_t *attr, int quant, bool attack,
+                              battle_item_t *next, battle_item_t *prev);
+
+
+/*
+ * Initializes the given battle item
+ *
+ * Parameters:
+ *  - item: the heap allocated battle item to be initalized
+ *  - id: the id of the battle equipment
+ *  - name: name of the equipment
+ *  - des: description of the equipment
+ *  - attr: attributes of the equipment
+ *  - quant: item quantity
+ *  - attack: bool for whether the item is offensive
+ *  - next: the next battle item
+ *  - prev: the previous battle item
+ *
+ * Returns:
+ *  - 0 on success, 1 if an error occurs
+ */
+int init_battle_item(battle_item_t *item, int id, char *name, char *des, 
+                              stat_changes_t *attr, int quant, bool attack,
+                              battle_item_t *next, battle_item_t *prev);
 #endif
+

@@ -9,7 +9,9 @@
 /* see battle_flow.h */
 int start_battle(battle_ctx_t *ctx, npc_t *npc_enemy, environment_t env)
 {
+    // battle game from the given battle context
     battle_game_t *g = ctx->game;
+    // battle player from the given battle game
     battle_player_t *player = g->player;
     // Set battle_player, enemies, and battle structs for a new battle
     battle_t *b = set_battle(player, npc_enemy, env);
@@ -203,6 +205,7 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
        this move, currently not implemented, waiting for player class
        to resolve move_lists() */
     int dmg, rc;
+    double crit;
     char *string;
 
     /* Calculates to see if the move will miss */
@@ -216,9 +219,11 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         if (move->dmg_type != NO_DAMAGE)
         {
             dmg = damage(b->enemy, move, b->player);
+            crit = crit_modifier(b->player->stats->crit);
+            dmg *= crit;
             enemy->stats->hp -= dmg;
             //print_battle_move needs to be changed
-            rc = print_battle_damage(b, b->turn, move, string);
+            rc = print_battle_damage(b, b->turn, move, crit, string);
             assert(rc == SUCCESS);
         }
         if (move->stat_mods != NO_TARGET)
@@ -232,6 +237,8 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         {
             //to be implemented in the future
         }
+        assert(rc == SUCCESS);
+        rc = print_hp(b, string);
     }
     
 
@@ -247,20 +254,13 @@ char *battle_flow_move(battle_ctx_t *ctx, move_t *move, char* target)
         award_xp(b->player->stats, 2.0);
         ctx->status = BATTLE_ENEMY_SURRENDER;
     }
-    if(battle_over(b) == BATTLE_IN_PROGRESS)
-    {
-        char *res = enemy_make_move(ctx);
-        strncat(string, res, 150);
-        free(res);
-    }
-
     return string;
 }
 
 char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
 {
     battle_t *b = ctx->game->battle;
-    char *string = calloc(150, sizeof(char));
+    char *string = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
 
     if (ctx == NULL)
     {
@@ -277,25 +277,14 @@ char *battle_flow_item(battle_ctx_t *ctx, battle_item_t *item)
         return string;
     }
 
-    char *item_name;
-    strcpy(item_name, item->name);
-
-    int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item->name);
-    snprintf(string, 150, "You used the %s\n", item_name);
-
+    int usage = use_battle_item(ctx->game->battle->player, ctx->game->battle, item);
+    string = print_battle_item(ctx->game->battle, PLAYER, item);
+    remove_battle_item(ctx->game->battle->player, item);
     if (usage == FAILURE) 
     {
         snprintf(string, 150, "That item is Unavailable.\n");
         return string;
-    } 
-
-    if(battle_over(b) == BATTLE_IN_PROGRESS)
-    {
-        char *res = enemy_make_move(ctx);
-        strncat(string, res, 150);
-        free(res);
     }
-
     return string;
 }
 
@@ -328,6 +317,23 @@ char *battle_flow_list(battle_ctx_t *ctx, char* label)
     }
 }
 
+/* see battle_flow.h*/
+char *enemy_run_turn(battle_ctx_t *ctx) 
+{
+    char *res_string = (char*)calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    while (ctx->current_turn_tcl)
+    {
+        if(ctx->current_turn_tcl->current->move) 
+        {
+            char *enemy_move_report = enemy_make_move(ctx);
+            strcat(res_string, enemy_move_report);
+        }
+        // iterate to the next turn component
+        ctx->current_turn_tcl = ctx->current_turn_tcl->next;
+    }
+    return res_string;
+}
+
 /* see battle_flow.h */
 char *enemy_make_move(battle_ctx_t *ctx) 
 {
@@ -339,7 +345,7 @@ char *enemy_make_move(battle_ctx_t *ctx)
     move_t *enemy_move = give_move(b->player, b->enemy, b->enemy->ai);
     int dmg, rc;
     char *string = calloc(100, sizeof(char));
-
+    double crit;
     if(enemy_move != NULL)
     {
         /* Calculates to see if the move will miss */
@@ -352,8 +358,10 @@ char *enemy_make_move(battle_ctx_t *ctx)
             if (enemy_move->dmg_type != NO_DAMAGE)
             {
                 dmg = damage(b->player, enemy_move, b->enemy);
+                crit = crit_modifier(b->enemy->stats->crit);
+                dmg *= crit;
                 b->player->stats->hp -= dmg;
-                rc = print_battle_damage(b, b->turn, enemy_move, string);
+                rc = print_battle_damage(b, b->turn, enemy_move, crit, string);
                 assert(rc == SUCCESS);
             }
             if (enemy_move->stat_mods != NO_TARGET)
@@ -366,6 +374,8 @@ char *enemy_make_move(battle_ctx_t *ctx)
             {
                 //to be implemented in the future
             }
+            assert(rc == SUCCESS);
+            rc = print_hp(b, string);
         }
         
     }
@@ -381,95 +391,98 @@ char *enemy_make_move(battle_ctx_t *ctx)
     return string;
 }
 
-
 /* see battle_flow.h */
-int run_turn_component(chiventure_ctx_t *ctx, turn_component_t component,
-                        void *callback_args, cli_callback callback_func)
+char *run_action(char *input, chiventure_ctx_t *ctx)
 {
+    move_t *temp_move;
+    battle_item_t *temp_item;
     move_t *legal_moves = NULL;
     battle_item_t *legal_items = NULL;
-    get_legal_actions(legal_items, legal_moves, component, 
-                        ctx->game->battle_ctx->game->battle);
-    if (ctx->game->battle_ctx->game->battle->turn == ENEMY)
-    {
-        battle_flow_move(ctx->game->battle_ctx, 
-                        ctx->game->battle_ctx->game->player->moves, 
-                        ctx->game->battle_ctx->game->battle->player->name);
-        char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
-                                ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->battle->enemy->moves);
-        callback_func(ctx, movestr, callback_args);
-    }
-    char *strg = print_battle_action_menu(legal_items, legal_moves);
-    // print to cli
-    callback_func(ctx, strg, callback_args);
-    // take in user input
-    char *input;
-    scanf("%s", input);
-    if (input[0] == 'M' || input[0] == 'm')
+    get_legal_actions(&legal_items, &legal_moves, 
+                      ctx->game->battle_ctx->current_turn_tcl->current, 
+                      ctx->game->battle_ctx->game->battle);
+    if ((input[0] == 'M' || input[0] == 'm') && (legal_moves != NULL))
     {
         // take the index of the move, under the assumption that the list is less than 10 moves long
         int index = (int) (input[1] - 48);
+        temp_move = ctx->game->battle_ctx->game->player->moves;
         for (int k = 0; k < index; k++)
         {
-            if (ctx->game->battle_ctx->game->player->moves == NULL)
+            if (temp_move == NULL)
             {
-                return callback_func(ctx, "That move does not exist.", callback_args);
+                char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+                int n;
+                n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "That move does not exist.\n");
+                return temp;
             }
             if (k == index-1)
             {
-                    battle_flow_move(ctx->game->battle_ctx, 
-                                ctx->game->battle_ctx->game->player->moves, 
+                    return battle_flow_move(ctx->game->battle_ctx, 
+                                temp_move, 
                                 ctx->game->battle_ctx->game->battle->enemy->name);
-                    char *movestr = print_battle_move(ctx->game->battle_ctx->game->battle,
-                                ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->player->moves);
-                    callback_func(ctx, movestr, callback_args);
             }
             else
             {
-                ctx->game->battle_ctx->game->player->moves = 
-                ctx->game->battle_ctx->game->player->moves->next;
+                temp_move = temp_move->next;
             }
         }
     } 
-    else if (input[0] == 'I' || input[0] == 'i')
+    else if ((input[0] == 'M' || input[0] == 'm') && (legal_moves == NULL))
+    {
+        char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        int n;
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "You can't use a move here.\n");
+        return temp;
+    }
+    else if ((input[0] == 'I' || input[0] == 'i') && (legal_items != NULL))
     {
         int index = (int) (input[1] - 48);
+        temp_item = ctx->game->battle_ctx->game->player->items;
         for (int k = 0; k < index; k++)
         {
-            if (ctx->game->battle_ctx->game->player->items == NULL)
+            if (temp_item == NULL)
             {
-                return callback_func(ctx, "That item does not exist.", callback_args);
+                char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+                int n;
+                n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "That item does not exist.\n");
+                return temp;
             }
             if (k == index-1)
             {
-                battle_flow_item(ctx->game->battle_ctx, 
-                                ctx->game->battle_ctx->game->player->items);
-                char *itemstr = print_battle_move(ctx->game->battle_ctx->game->battle,
-                                ctx->game->battle_ctx->game->battle->turn,
-                                ctx->game->battle_ctx->game->player->moves);
-                callback_func(ctx, itemstr, callback_args);
+                return battle_flow_item(ctx->game->battle_ctx, 
+                                temp_item);
             }
             else 
             {
-                ctx->game->battle_ctx->game->player->items = 
-                ctx->game->battle_ctx->game->player->items->next;
+                temp_item = temp_item->next;
             }
         }
     } 
-    else if (input[0] == 'D' || input[0] == 'd') 
+    else if ((input[0] == 'I' || input[0] == 'i') && (legal_items == NULL))
     {
-        char *str = (char *) malloc (sizeof(char) * 17);
-        str = "You did nothing.";
-        callback_func(ctx, "You did nothing.", callback_args);
-        return 1;
-    } 
-    else 
-    {
-        return callback_func(ctx, "That action does not exist.", callback_args);
+        char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        int n;
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "You can't use an item here.\n");
+        return temp;
     }
-    return 1;
+    else if ((input[0] == 'D' || input[0] == 'd') && (ctx->game->battle_ctx->current_turn_tcl->current->pass == 1))
+    {
+        char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        int n;
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "You did nothing.\n");
+        return temp;
+    } 
+    else if ((input[0] == 'D' || input[0] == 'd') && (ctx->game->battle_ctx->current_turn_tcl->current->pass == 0))
+    {
+        char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+        int n;
+        n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "You must perform an action.\n");
+        return temp;
+    } 
+    char *temp = calloc(BATTLE_BUFFER_SIZE + 1, sizeof(char));
+    int n;
+    n = snprintf(temp, BATTLE_BUFFER_SIZE, "%s", "That action does not exist.\n");
+    return temp;
 }
 
 /* see battle_flow.h */
@@ -477,21 +490,21 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 {
     stat_t* user_stats = source->stats;
     stat_t* target_stats = target->stats;
-    if ((move->user_mods == NULL) || (move->opponent_mods == NULL))
+    if ((move->user_mods == NULL) && (move->opponent_mods == NULL))
     {
         return FAILURE;
     }
     switch(move->stat_mods)
     {
         case USER:
-            apply_stat_changes(user_stats, move->user_mods);
+            apply_movement_stat_changes(user_stats, move->user_mods);
             break;
         case TARGET:
-            apply_stat_changes(target_stats, move->opponent_mods);
+            apply_movement_stat_changes(target_stats, move->opponent_mods);
             break;
         case BOTH:
-            apply_stat_changes(user_stats, move->user_mods);
-            apply_stat_changes(target_stats, move->opponent_mods);
+            apply_movement_stat_changes(user_stats, move->user_mods);
+            apply_movement_stat_changes(target_stats, move->opponent_mods);
             break;
         default:
             return FAILURE;
@@ -504,10 +517,26 @@ int use_stat_change_move(combatant_t* target, move_t* move, combatant_t* source)
 /* see battle_flow.h */
 int calculate_accuracy(int user_accuracy, int move_accuracy)
 {
+    /* Picks a random number from 0 to 100 */
     int chance = randnum(0, 100);
     if(chance <= ((user_accuracy * move_accuracy) / 100)){
         return 1;
     }else{
         return 0;
+    }
+}
+
+/* see battle_flow.h */
+double crit_modifier(int crit_chance)
+{
+    int chance = randnum(1, 100);
+
+    if (chance <= crit_chance)
+    {
+        return 1.5;
+    }
+    else
+    {
+        return 1;
     }
 }

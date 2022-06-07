@@ -172,14 +172,14 @@ convo_t *create_sample_convo_harry()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Harry: Are your trying to pick a fight with me?");
+    add_node(c, "1", "Harry: Are your trying to pick a fight with me?", NEGATIVE);
     add_node(c, "2a", "Harry: You will regret this. Let's meet in the arena and "
-             "I will show you no mercy.");
-    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!");
+             "I will show you no mercy.", NEGATIVE);
+    add_node(c, "2b", "Harry: Then you better disappear RIGHT NOW!", NEGATIVE);
 
     // Edges
-    add_edge(c, "Yeah what are you gonna do about it, huh?", "1", "2a", NULL);
-    add_edge(c, "No, I am sorry sir.", "1", "2b", NULL);
+    add_edge(c, "Yeah what are you gonna do about it, huh?", "1", "2a", NULL, NEGATIVE);
+    add_edge(c, "No, I am sorry sir.", "1", "2b", NULL, NEUTRAL);
 
     return c;
 }
@@ -192,14 +192,14 @@ convo_t *create_sample_convo_fiona()
     convo_t *c = convo_new();
 
     // Nodes
-    add_node(c, "1", "Fiona: Hey how are you doing?");
+    add_node(c, "1", "Fiona: Hey how are you doing?", POSITIVE);
     add_node(c, "2a", "Fiona: I prefer peace, but I am happy to practice "
-             "some battle skills with you in the arena.");
-    add_node(c, "2b", "Fiona: I hope you have a good day too!");
+             "some battle skills with you in the arena.", NEUTRAL);
+    add_node(c, "2b", "Fiona: I hope you have a good day too!", POSITIVE);
 
     // Edges
-    add_edge(c, "Let's have a fight.", "1", "2a", NULL);
-    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL);
+    add_edge(c, "Let's have a fight.", "1", "2a", NULL, NEGATIVE);
+    add_edge(c, "I am doing well, I hope you have a good day!", "1", "2b", NULL, POSITIVE);
 
     return c;
 }
@@ -303,7 +303,7 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a friendly npc */
     char *npc_id1 = "FIONA";
     class_t *class1 = generate_sample_class();
-    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    npc_mov_t *movement1 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 0);
     extend_path_definite(movement1, arena->room_id);
     friendly_fiona = npc_new(npc_id1,
                              "Friendly Fiona is a friendly woman named Fiona.",
@@ -324,7 +324,7 @@ chiventure_ctx_t *create_sample_ctx()
     /* Create a hostile npc */
     char *npc_id2 = "HARRY";
     class_t *class2 = generate_sample_class();
-    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, lobby->room_id);
+    npc_mov_t *movement2 = npc_mov_new(NPC_MOV_DEFINITE, NPC_MOV_ALLOWED, lobby->room_id, 0);
     extend_path_definite(movement2, arena->room_id);
     hostile_harry = npc_new(npc_id2,
                             "Hostile Harry is a hostile man named"
@@ -372,7 +372,6 @@ int main(int argc, char **argv)
     chiventure_ctx_t *ctx = create_sample_ctx();
 
     /* Monkeypatch the CLI to add the new operations */
-    add_entry("NPC", npcs_in_room_operation, NULL, ctx->cli_ctx->table);
     add_entry("ARENA", move_to_arena_operation, NULL, ctx->cli_ctx->table);
     add_entry("LOBBY", move_to_lobby_operation, NULL, ctx->cli_ctx->table);
     add_entry("ATTACK", attack_operation, NULL, ctx->cli_ctx->table);

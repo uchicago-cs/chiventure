@@ -3,6 +3,7 @@
 
 #include "battle/battle_structs.h"
 
+typedef struct turn_component turn_component_t;
 
 /* AI move strategy options */
 typedef enum difficulty
@@ -83,7 +84,9 @@ typedef struct combatant
  * - enemy: a combatant pointer, storing the enemy/enemies
  * - environment: stores battle environment
  * - turn: a turn_t enum storing the current turn
+ * - current_tc: the turn component that the battle is currently running
  */
+
 typedef struct battle
 {
     combatant_t *player;
@@ -92,4 +95,4 @@ typedef struct battle
     turn_t turn;
 } battle_t;
 
-#endif
+#endif /* BATTLE_COMMON_H */

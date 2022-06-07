@@ -7,6 +7,7 @@
 #include "battle/battle_structs.h"
 #include "battle/battle_common.h"
 #include "battle/battle_flow_structs.h"
+#include "game-state/player.h"
 
 /*
  * Checks the targets of a move to see if they exist and are targetable
@@ -74,11 +75,11 @@ int consume_battle_item(combatant_t *c, battle_item_t *item);
  *  Parameters: 
  *   c - combatant information
  *   battle - battle information   
- *   name - the name of the battle_item
+ *   item - the battle_item to be used
  *  Returns:
  *   SUCCESS or FAILURE
  */
-int use_battle_item(combatant_t *c, battle_t *battle, char *name);
+int use_battle_item(combatant_t *c, battle_t *battle, battle_item_t *item);
 
 /* Removes a battle item from a combatant's list of battle items
  *
@@ -100,15 +101,39 @@ int remove_battle_item(combatant_t *c, battle_item_t *item);
 int award_xp(stat_t *stats, double xp);
 
 /*
- * Applies stat changes to a target.
+ * Applies movement stat changes to a target.
  * 
  * Parameters: 
+ *  - target_stats: the stats to be changed
  *  - changes: the stat changes
- *  - target_stats: the stats to be changes
  * Returns:
  *  - Always success
  */
-int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
+int apply_movement_stat_changes(stat_t* target_stats, stat_changes_t* changes);
+
+/*
+ * Applies item stat changes to a target.
+ * 
+ * Parameters: 
+ *  - class: the class of the combatant
+ *  - target_stats: the stats to be changed
+ *  - item: the item changing the stats
+ * Returns:
+ *  - Always success
+ */
+int apply_item_stat_changes(class_t* class, stat_t* target_stats, battle_item_t* item);
+
+/*
+ * Creates a struct representing the multipliers on each skill from a
+ * class-dependent item stat change
+ *
+ * Parameters:
+ *  - class: the class of the combatant
+ *  - item: the item changing the stats
+ * Returns:
+ *  - a struct representing the stat multipliers
+ */
+class_item_stat_multipliers_t* class_multipliers(class_t* class, battle_item_t* item);
 
 /* Adds new temporary status changes from an item. Note: Does
  *     not yet change the number of turns left, because items
@@ -123,11 +148,11 @@ int apply_stat_changes(stat_t* target_stats, stat_changes_t* changes);
 int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
 
 /* Finds the actions (items and moves) that are available to the player to use
- * in a given turn component
+ * in a given turn component, doing this through out parameters.
  *
  * Parameters:
- * - items: an initially empty (NULL) linked list of battle_item_ts that can be used
- * - moves: an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - items: a pointer to an initially empty (NULL) linked list of battle_item_ts that can be used
+ * - moves: a pointer to an initially empty (NULL) linked list of battle_item_ts that can be used
  * - comp: the current turn_component_t struct
  * - battle: the current battle_t struct
  * 
@@ -135,9 +160,9 @@ int stat_changes_add_item_node(stat_changes_t *sc, battle_item_t *item);
  * - populates the linked lists of moves and items with the available moves and items
  *   leaves the lists NULL if there are no available moves or items respectively
  */
-void get_legal_actions(battle_item_t *items, 
-                       move_t *moves, 
-                       turn_component_t comp, 
+void get_legal_actions(battle_item_t **items, 
+                       move_t **moves, 
+                       turn_component_t *comp, 
                        battle_t *battle);
 
 /* gives the number of moves in the given linked list of moves
@@ -160,5 +185,23 @@ int num_moves(move_t *moves);
  */
 int num_items(battle_item_t *items);
 
-#endif
+/* Converts a player into a battle player
+ *
+ * Parameters:
+ * - player: the player
+ * - b_stats: the battle stats
+ * - b_moves: the battle moves
+ * - weapon: the weapon equiped
+ * - accessory: the accessory equiped
+ * - armor: the armor equiped
+ * 
+ * Returns:
+ * - the number of items in the linked list 
+ */
+battle_player_t *player_to_battle_player(player_t *player, stat_t *b_stats, 
+                                        move_t *b_moves, battle_item_t *items,
+                                        battle_equipment_t *weapon, 
+                                        battle_equipment_t *accessory,
+                                        battle_equipment_t *armor);
 
+#endif /* BATTLE_LOGIC_H */

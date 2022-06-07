@@ -147,7 +147,7 @@ void create_player_skill(chiventure_ctx_t* ctx)
     }
     effect_t* stat_effect = make_player_stat_effect(health_boost);
     /* Making a skill */
-    skill_t* stat_skill = skill_new(0, PASSIVE, "Stat Skill", "Modifies statistics", 10, 5, stat_effect);
+    skill_t* stat_skill = skill_new(0, PASSIVE, "Stat Skill", "Modifies statistics", 10, 5, stat_effect, NULL);
     
     /* Showcase leveling functionality */
     skill_node_t* stat_node = skill_node_new(stat_skill, 0, 2, 0); 
@@ -166,7 +166,7 @@ int add_skill_to_player(chiventure_ctx_t* ctx, int sid)
     skill_node_t* skill_node = player->player_class->skilltree->nodes[0];
     if (skill_node == NULL) 
     {
-        print_to_cli(ctx, "Skills not made yet !");
+        print_to_cli(ctx, "Skills not made yet!");
         return FAILURE;
     }
     skill_t* skill = skill_node->skill;
@@ -241,7 +241,7 @@ void create_attr_skill(chiventure_ctx_t* ctx)
     }
     item_attr_effect_t* slay_dragon = define_item_attr_effect(dragon, "ALIVE", att_tag, mod);
     effect_t* attribute_effect = make_item_attr_effect(slay_dragon);
-    skill_t*  attribute_skill = skill_new(1, ACTIVE, "Attribute Skill", "Slays Dragon", 10, 10, attribute_effect);
+    skill_t*  attribute_skill = skill_new(1, ACTIVE, "Attribute Skill", "Slays Dragon", 10, 10, attribute_effect, NULL);
     
     /* Showcase leveling functionality */
     skill_node_t* attr_node = skill_node_new(attribute_skill, 0, 3, 0); 

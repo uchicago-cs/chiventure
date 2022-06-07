@@ -4,10 +4,11 @@
 from __future__ import annotations
 
 # export_dict parses the dsl file and transforms it to an intermediate stage
-from dsl_parser import export_dict
+from dsl_parser.dsl_to_dict import export_dict
 
-# parsed_dict_to_json transforms the inttermediate stage to the wdl json output
-from to_wdl import parsed_dict_to_json
+# parsed_dict_to_json transforms the intermediate stage to the wdl json output
+from to_wdl.dict_to_json import parsed_dict_to_json
+
 
 import sys
 from pathlib import Path
@@ -39,6 +40,16 @@ def collect_flags(flags: list) -> dict:
         else:
             flags_dict[name] = [option]
     return flags_dict
+
+
+def convert_to_wdl(file_str, debug, debug_modes, default):
+    """ all conversion is run here"""
+    
+    vars_evaluated = evalVars(file_str, debug=debug, debug_modes=debug_modes)
+    intermediate = export_dict(vars_evaluated, debug=debug, debug_modes=debug_modes)
+    rv = parsed_dict_to_json(intermediate, debug=debug, debug_modes=debug_modes, default=default)
+    return rv
+
 
 def main():
     """The main function. The first cli argument is the dsl file. The second
@@ -110,10 +121,8 @@ def main():
             default = "some-defaults"
 
         
-
-        vars_evaluated = evalVars(file_str, debug=debug, debug_modes=debug_modes)
-        intermediate = export_dict(vars_evaluated, debug=debug, debug_modes=debug_modes)
-        out_str = parsed_dict_to_json(intermediate, debug=debug, debug_modes=debug_modes, default=default)
+        out_str = convert_to_wdl(file_str = file_str, debug = debug, debug_modes = debug_modes, default = default)
+        
         
         if not no_write:
             file_out.write(out_str)
@@ -122,3 +131,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

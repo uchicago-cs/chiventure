@@ -10,11 +10,14 @@ add_library(battle
             ../playerclass/examples/class-list.c
             src/battle_print.c
             src/battle_state.c
-            src/battle_default_objects.c)
+            src/battle_default_objects.c
+	    src/battle_test_utility.c)
 
 target_include_directories(battle PRIVATE src/)
 
 target_link_libraries(battle m)
+target_link_libraries(battle sound)
+
 
 # EXAMPLES
 add_subdirectory(examples

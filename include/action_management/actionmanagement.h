@@ -6,6 +6,7 @@
 #include "game-state/room.h"
 #include "game-state/game.h"
 #include "common/ctx.h"
+#include "npc/npc.h"
 
 // forward declaration
 typedef struct chiventure_ctx chiventure_ctx_t;
@@ -159,17 +160,67 @@ int do_item_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *direct,
  * Parameters:
  * - c: A context struct encapsulating the shared state in chiventure
  * - a: An action type struct
- * - target: An enum describing what self-related object (STATS, etc)
- *           needs to be acted on
+ * - target: An array of strings describing what self-related object
+ *           (quests, etc), and secondary-level object ("quest-id", etc)
+ *           needs to be acted on. The second element in the array, if it
+ *           exists, represents a more specific item (for instance viewing
+ *           a specific quest's descriptions vs. just seeing a list of quests)
  * - ret_string: A pointer to a string describing the result of the function
  *   - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
  *
  * Returns:
  * - 0 upon success, success string as an out parameter
  * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
- * - 6 if conditions for the action haven't been met, failure string as an out parameter
  */
 int do_self_action(chiventure_ctx_t *c, action_type_t *a,
-                  char* target, char **ret_string);
+                  char **target, char **ret_string);
 
-#endif
+/* A function that executes KIND 5 actions (ACTION <npc>)
+ * * Parameters:
+ *  - c: A context struct encapsulating the shared state in chiventure
+ *  - a: An NPC action type struct
+ *  - npc: An npc struct
+ *  - ret_string: A pointer to a string describing the result of the function
+ *    - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ * - CONDITIONS_NOT_MET if the action can't be done on the NPC, failure string as an out parameter
+ */
+int do_npc_action(chiventure_ctx_t *c, action_type_t *a, npc_t *npc, char **ret_string);
+
+/* A function that executes KIND 6 actions (ACTION <npc> <item>)
+ *
+ * Parameters:
+ *  - c: A context struct encapsulating the shared state in chiventure
+ *  - a: An NPC action type struct
+ *  - npc: An npc struct
+ *  - item: the item to exchange hands
+ *  - ret_string: A pointer to a string describing the result of the function
+ *    - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ * - CONDITIONS_NOT_MET if the action can't be done on the NPC, failure string as an out parameter
+ */
+int do_npc_item_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string);
+
+/* 
+ * A function that executes KIND 7 actions (ACTION <npc> <item> <item>)
+ * 
+ * Parameters:
+ *  - c: A context struct encapsulating the shared state in chiventure
+ *  - a: An NPC action type struct
+ *  - npc: An npc struct
+ *  - item: the item in the npc's inventory
+ *  - ret_string: A pointer to a string describing the result of the function
+ *    - NOTE: THIS STRING IS MALLOCED AND MUST BE FREED BY USERS OF THIS FUNCTION
+ *  - ret_item: returns an item of the player's of equal or greater value than the desired item
+ * Returns:
+ * - 0 upon success, success string as an out parameter
+ * - WRONG_KIND if the action type has the wrong kind, failure string as an out parameter
+ * - CONDITIONS_NOT_MET if the action can't be done on the NPC, failure string as an out parameter
+ */
+int do_npc_exchange_action(chiventure_ctx_t *c, action_type_t *a, item_t *item, npc_t *npc, char **ret_string, item_t* ret_item);
+
+#endif /* _ACTIONS_H_ */
