@@ -6,7 +6,7 @@ if (raylib_FOUND)
     add_executable(split_screen_example
                    split_screen_example.c)
     add_executable(split_screen_map_example
-                   split_screen_map_example.c)
+                   split_screen_map_example.c)              
     add_executable(gui_sample_game
                    gui_sample_game.c)               
 
